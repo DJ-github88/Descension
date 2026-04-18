@@ -161,7 +161,17 @@ const useCharacterStore = create((set, get) => ({
         organizations: '',
         notes: '',
         characterImage: null,
-        imageTransformations: null
+        imageTransformations: null,
+        characterIcon: null,
+        iconBackgroundColor: '#f8f5eb',
+        iconBorderColor: '#d4af37',
+        iconBackgroundImage: null,
+        iconScale: 1,
+        iconOffsetX: 0,
+        iconOffsetY: 0,
+        iconBackgroundScale: 2.5,
+        iconBackgroundOffsetX: 0,
+        iconBackgroundOffsetY: 0
     },
 
     // Token appearance settings

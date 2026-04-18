@@ -109,7 +109,16 @@ const CharacterCreationPage = ({ user, isEditing = false }) => {
             ...(characterData.lore || {}),
             characterImage: characterData.characterImage || null,
             imageTransformations: characterData.imageTransformations || null,
-            characterIcon: characterData.characterIcon || null
+            characterIcon: characterData.characterIcon || null,
+            iconBackgroundColor: characterData.iconBackgroundColor || '#f8f5eb',
+            iconBorderColor: characterData.iconBorderColor || '#d4af37',
+            iconBackgroundImage: characterData.iconBackgroundImage || null,
+            iconScale: characterData.iconScale || 1,
+            iconOffsetX: characterData.iconOffsetX || 0,
+            iconOffsetY: characterData.iconOffsetY || 0,
+            iconBackgroundScale: characterData.iconBackgroundScale || 2.5,
+            iconBackgroundOffsetX: characterData.iconBackgroundOffsetX || 0,
+            iconBackgroundOffsetY: characterData.iconBackgroundOffsetY || 0
           },
           // Add inventory with selected equipment and remaining currency
           inventory: {

@@ -8,22 +8,22 @@
   color: #d5cbb0;
 }
 
-/* Header */
+/* Header - Same rustic red as spellcard wizard headers */
 .character-view-header {
-  background: linear-gradient(180deg, rgba(213, 203, 176, 0.15) 0%, rgba(213, 203, 176, 0.05) 100%);
-  border-bottom: 2px solid #7a3b2e;
+  background: linear-gradient(135deg, #5a1e12 0%, #8B4513 50%, #2d1810 100%);
+  border-bottom: 3px solid #3a1e12;
   padding: 20px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .back-button {
-  background: rgba(122, 59, 46, 0.3);
-  border: 1px solid #7a3b2e;
-  color: #d5cbb0;
+  background: rgba(240, 234, 214, 0.15);
+  border: 1px solid rgba(240, 234, 214, 0.3);
+  color: #f0ead6;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
@@ -35,8 +35,8 @@
 }
 
 .back-button:hover {
-  background: rgba(122, 59, 46, 0.5);
-  border-color: #a04d3a;
+  background: rgba(240, 234, 214, 0.25);
+  border-color: rgba(240, 234, 214, 0.5);
   transform: translateX(-2px);
 }
 
@@ -52,8 +52,8 @@
 .character-view-title h1 {
   margin: 0;
   font-size: 32px;
-  color: #f4e4c1;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: #f0ead6;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.3);
   font-family: 'Cinzel', serif;
 }
 
@@ -64,13 +64,13 @@
   gap: 12px;
   margin-top: 10px;
   font-size: 15px;
-  color: #b8a888;
+  color: #d5cbb0;
 }
 
 .character-view-subtitle span {
   padding: 6px 14px;
-  background: rgba(122, 59, 46, 0.25);
-  border: 1px solid rgba(122, 59, 46, 0.5);
+  background: rgba(240, 234, 214, 0.1);
+  border: 1px solid rgba(240, 234, 214, 0.2);
   border-radius: 4px;
   font-family: 'Cinzel', serif;
   font-weight: 600;
@@ -80,7 +80,7 @@
 }
 
 .character-view-subtitle span:hover {
-  background: rgba(122, 59, 46, 0.35);
+  background: rgba(240, 234, 214, 0.2);
   transform: translateY(-1px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
@@ -171,8 +171,8 @@
 /* Tab Navigation */
 .character-view-tabs {
   display: flex;
-  background: rgba(213, 203, 176, 0.1);
-  border-bottom: 2px solid #7a3b2e;
+  background: linear-gradient(180deg, rgba(45, 24, 16, 0.95) 0%, rgba(26, 15, 10, 1) 100%);
+  border-bottom: 2px solid #3a1e12;
   padding: 0 40px;
   gap: 5px;
 }
@@ -180,7 +180,7 @@
 .character-view-tab {
   background: transparent;
   border: none;
-  color: #b8a888;
+  color: rgba(213, 203, 176, 0.6);
   padding: 15px 30px;
   cursor: pointer;
   font-size: 15px;
@@ -193,14 +193,14 @@
 }
 
 .character-view-tab:hover {
-  background: rgba(213, 203, 176, 0.1);
+  background: rgba(240, 234, 214, 0.05);
   color: #d5cbb0;
 }
 
 .character-view-tab.active {
-  background: rgba(122, 59, 46, 0.2);
-  color: #f4e4c1;
-  border-bottom-color: #a04d3a;
+  background: rgba(240, 234, 214, 0.1);
+  color: #f0ead6;
+  border-bottom-color: #8B4513;
 }
 
 .character-view-tab i {
@@ -221,7 +221,7 @@
   flex: 1;
   max-width: 100%;
   margin: 0;
-  background: #d5cbb0;
+  background: transparent;
   border: none;
   border-radius: 0;
   padding: 0;
@@ -236,7 +236,7 @@
 .character-view-content .stats-container,
 .character-view-content .skills-container,
 .character-view-content .lore-container {
-  background: #d5cbb0;
+  background: transparent;
   border: none;
   box-shadow: none;
   padding: 0;
@@ -250,15 +250,16 @@
 
 /* Make inventory window fit the full-page layout */
 .character-view-content .inventory-container {
-  background: #d5cbb0;
+  background: transparent;
   border: none;
   height: 100%;
   flex: 1;
-  padding: 15px 20px;
+  padding: 10px 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
+  box-shadow: none;
 }
 
 /* Inventory grid styling for full-page view */
@@ -271,6 +272,9 @@
   min-height: 0;
   overflow: hidden;
   box-sizing: border-box;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 /* Section headers - proportional to grid columns */
@@ -354,11 +358,12 @@
   pointer-events: none;
 }
 
-/* Ensure item icons scale properly */
+/* Ensure item icons scale properly - contain and center instead of cover */
 .character-view-content .inventory-cell .item-icon {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 
 /* Center multi-cell item icons and add proper borders */
@@ -366,6 +371,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
 }
 
 .character-view-content .inventory-item.multi-cell {
@@ -381,6 +387,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  background: transparent;
 }
 
 .character-view-content .multi-cell .item-icon {
@@ -439,6 +446,8 @@
   background: rgba(213, 203, 176, 0.3);
   border: 1px solid #7a3b2e;
   color: #5a3825;
+  width: 100%;
+  min-height: 60px;
 }
 
 .character-view-content .character-nav-button.active,
@@ -461,27 +470,90 @@
 .character-view-content .stats-content-area,
 .character-view-content .skills-content,
 .character-view-content .lore-content {
-  background: #d5cbb0;
+  background: transparent;
   padding: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Don't override backdrop images */
-.character-view-content .character-content-area.character-backdrop,
-.character-view-content .character-content-area.equipment-backdrop,
-.character-view-content .character-content-area.passives-backdrop,
-.character-view-content .character-content-area.languages-backdrop,
-.character-view-content .character-content-area.resources-backdrop,
-.character-view-content .character-content-area.lore-background-backdrop,
-.character-view-content .character-content-area.lore-personality-backdrop,
-.character-view-content .character-content-area.lore-appearance-backdrop,
-.character-view-content .character-content-area.lore-relationships-backdrop,
-.character-view-content .character-content-area.lore-goals-backdrop,
-.character-view-content .character-content-area.lore-notes-backdrop,
-.character-view-content .character-content-area.lore-heritage-backdrop {
-  background: transparent;
+/* Don't override backdrop images - these need their backgrounds */
+.character-view-content .character-content-area.character-backdrop {
+  background-image: url('https://img.itch.zone/aW1hZ2UvNTI0MTI1LzI3MzQ1MDMucG5n/original/ljCPHz.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.character-view-content .character-content-area.equipment-backdrop {
+  background-image: url('https://img.itch.zone/aW1nLzE4NTY1MTExLmpwZw==/original/LFD1XZ.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.character-view-content .character-content-area.passives-backdrop {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.character-view-content .character-content-area.languages-backdrop {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.character-view-content .character-content-area.resources-backdrop {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Backdrop header overlays - ensure readability */
+.character-view-content .character-content-area.character-backdrop .character-section-header,
+.character-view-content .character-content-area.equipment-backdrop .character-section-header,
+.character-view-content .character-content-area.passives-backdrop .character-section-header,
+.character-view-content .character-content-area.languages-backdrop .character-section-header,
+.character-view-content .character-content-area.resources-backdrop .character-section-header {
+  background: linear-gradient(135deg,
+      rgba(240, 230, 210, 0.98) 0%,
+      rgba(230, 220, 200, 0.95) 50%,
+      rgba(213, 203, 176, 0.92) 100%);
+  backdrop-filter: blur(2px);
+  border-radius: 0;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.character-view-content .character-content-area.character-backdrop .character-identity-section,
+.character-view-content .character-content-area.equipment-backdrop .character-identity-section,
+.character-view-content .character-content-area.passives-backdrop .character-identity-section,
+.character-view-content .character-content-area.languages-backdrop .character-identity-section,
+.character-view-content .character-content-area.resources-backdrop .character-identity-section {
+  position: relative;
+  z-index: 1;
+}
+
+.character-view-content .character-content-area.character-backdrop .character-fields,
+.character-view-content .character-content-area.equipment-backdrop .character-fields,
+.character-view-content .character-content-area.passives-backdrop .character-fields,
+.character-view-content .character-content-area.languages-backdrop .character-fields,
+.character-view-content .character-content-area.resources-backdrop .character-fields {
+  position: relative;
+  z-index: 1;
 }
 
 /* Section headers */
@@ -491,6 +563,7 @@
 .character-view-content .lore-section-header {
   background: rgba(122, 59, 46, 0.15);
   border-bottom: 2px solid #7a3b2e;
+  border-radius: 0;
   padding: 12px 20px;
   margin: 0;
 }
@@ -515,7 +588,7 @@
 /* Equipment and character info backgrounds */
 .character-view-content .equipment-content,
 .character-view-content .character-info-content {
-  background: #d5cbb0;
+  background: transparent;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -525,7 +598,7 @@
 }
 
 .character-view-content .equipment-layout {
-  background: #d5cbb0;
+  background: transparent;
   flex: 1;
   display: flex;
   align-items: center;
@@ -534,8 +607,23 @@
   gap: 30px;
 }
 
+/* Make stats-container inside character-summary transparent in full-page view */
+.character-view-content .character-summary-stats .stats-container {
+  background: transparent !important;
+}
+
+.character-view-content .character-summary-stats .stats-navigation {
+  background: linear-gradient(135deg,
+      rgba(213, 203, 176, 0.9) 0%,
+      rgba(203, 193, 166, 0.8) 100%) !important;
+}
+
+.character-view-content .character-summary-stats .stats-content-area {
+  background: transparent !important;
+}
+
 .character-view-content .character-summary-layout {
-  background: #d5cbb0;
+  background: transparent;
   flex: 1;
   display: flex;
   align-items: flex-start;
@@ -560,6 +648,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+  background: transparent;
 }
 
 /* Character fields */
@@ -653,6 +742,172 @@
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
   padding: 30px;
+}
+
+/* Skills container overrides for full-page view */
+.character-view-content .skills-container {
+  background: transparent;
+}
+
+.character-view-content .skills-sidebar {
+  width: 260px !important;
+  background: linear-gradient(135deg,
+      rgba(213, 203, 176, 0.98) 0%,
+      rgba(200, 190, 160, 0.95) 100%) !important;
+  border-right: 3px solid #8b7355;
+  box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.character-view-content .skills-sidebar.collapsed {
+  width: 80px !important;
+}
+
+.character-view-content .skills-content {
+  background: transparent !important;
+  padding: 20px;
+}
+
+.character-view-content .skill-detail-view {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.character-view-content .skill-detail-header {
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(250, 245, 235, 0.95) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.character-view-content .quest-section {
+  padding: 20px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(250, 245, 235, 0.95) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.character-view-content .table-section {
+  padding: 20px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(250, 245, 235, 0.95) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.character-view-content .skills-search-container {
+  position: relative;
+  padding: 12px;
+  background: linear-gradient(135deg,
+      rgba(240, 230, 210, 0.95) 0%,
+      rgba(230, 220, 200, 0.9) 100%);
+  border-bottom: 2px solid #8b7355;
+}
+
+.character-view-content .skill-category-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg,
+      rgba(200, 190, 160, 0.9) 0%,
+      rgba(190, 180, 150, 0.85) 100%);
+  border-bottom: 2px solid #8b7355;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #5a1e12;
+}
+
+.character-view-content .skill-list-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.character-view-content .skill-list-item:hover {
+  background: linear-gradient(90deg,
+      rgba(240, 230, 210, 0.8) 0%,
+      rgba(230, 220, 200, 0.6) 100%);
+  border-left: 2px solid #8b7355;
+}
+
+.character-view-content .skill-list-item.selected {
+  background: linear-gradient(90deg,
+      rgba(122, 59, 46, 0.2) 0%,
+      rgba(139, 115, 85, 0.15) 100%);
+  border-left: 4px solid #7a3b2e;
+}
+
+.character-view-content .skills-sidebar-toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px;
+  background: linear-gradient(135deg,
+      rgba(200, 190, 160, 0.9) 0%,
+      rgba(190, 180, 150, 0.85) 100%);
+  border: none;
+  border-bottom: 2px solid #8b7355;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.character-view-content .die-selector-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: linear-gradient(135deg,
+      rgba(240, 230, 210, 0.6) 0%,
+      rgba(230, 220, 200, 0.5) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 8px;
+}
+
+/* Inventory item-content background fix - remove brown backdrop */
+.character-view-content .item-content {
+  background: transparent !important;
+  overflow: hidden;
+}
+
+.character-view-content .item-content.item-icon-magical-bg {
+  background:
+      radial-gradient(ellipse at 20% 20%, rgba(255, 255, 255, 0.3) 0%, rgba(250, 250, 250, 0.2) 25%, rgba(245, 245, 245, 0.1) 40%, transparent 65%),
+      radial-gradient(ellipse at 80% 80%, rgba(255, 255, 255, 0.25) 0%, rgba(250, 250, 250, 0.15) 30%, rgba(245, 245, 245, 0.08) 45%, transparent 60%),
+      linear-gradient(135deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(250, 250, 250, 0.15) 50%,
+          rgba(255, 255, 255, 0.2) 100%
+      ) !important;
+}
+
+.character-view-content .item-icon {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  object-fit: contain;
+  object-position: center;
 }
 
 /* Sync Indicator */

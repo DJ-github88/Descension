@@ -704,6 +704,18 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         const borderColor = member.character?.tokenSettings?.borderColor;
                         const hasImage = !!(customIcon || charImage || charIcon);
 
+                        const iconBg = member.character?.lore?.iconBackgroundImage;
+                        const iconBgColor = member.character?.lore?.iconBackgroundColor;
+                        const iconBorderColor = member.character?.lore?.iconBorderColor;
+                        const iconScale = member.character?.lore?.iconScale || 1;
+                        const iconOffsetX = member.character?.lore?.iconOffsetX || 0;
+                        const iconOffsetY = member.character?.lore?.iconOffsetY || 0;
+                        const iconBgScale = member.character?.lore?.iconBackgroundScale || 2.5;
+                        const iconBgOffsetX = member.character?.lore?.iconBackgroundOffsetX || 0;
+                        const iconBgOffsetY = member.character?.lore?.iconBackgroundOffsetY || 0;
+
+                        const hasCustomStyling = !!(iconBg || iconBgColor || iconBorderColor);
+
                         let bgImage = 'none';
                         if (customIcon) {
                             bgImage = `url(${customIcon})`;
@@ -713,22 +725,34 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             bgImage = `url(${getIconUrl(charIcon, 'items')})`;
                         }
 
+                        const portraitStyle = charIcon && !charImage && !customIcon
+                            ? {
+                                backgroundImage: bgImage,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center center',
+                                backgroundRepeat: 'no-repeat',
+                                transform: `scale(${iconScale}) translate(${iconOffsetX}px, ${iconOffsetY}px)`
+                            }
+                            : {
+                                backgroundImage: bgImage,
+                                backgroundSize: transformations
+                                    ? `${(transformations.scale || 1) * 150}%`
+                                    : 'cover',
+                                backgroundPosition: transformations
+                                    ? `${50 + (transformations.positionX || 0) / 2}% ${50 - (transformations.positionY || 0) / 2}%`
+                                    : 'center center',
+                                backgroundRepeat: 'no-repeat',
+                                transform: transformations
+                                    ? `rotate(${transformations.rotation || 0}deg)`
+                                    : 'none'
+                            };
+
                         return (
                             <div
                                 className={`portrait-image ${!hasImage ? 'portrait-placeholder' : ''}`}
                                 style={{
-                                    backgroundImage: bgImage,
-                                    backgroundSize: transformations
-                                        ? `${(transformations.scale || 1) * 150}%`
-                                        : 'cover',
-                                    backgroundPosition: transformations
-                                        ? `${50 + (transformations.positionX || 0) / 2}% ${50 - (transformations.positionY || 0) / 2}%`
-                                        : 'center center',
-                                    backgroundRepeat: 'no-repeat',
-                                    transform: transformations
-                                        ? `rotate(${transformations.rotation || 0}deg)`
-                                        : 'none',
-                                    borderColor: hasImage && borderColor ? borderColor : undefined
+                                    ...portraitStyle,
+                                    ...(hasCustomStyling ? {} : { borderColor: hasImage && borderColor ? borderColor : undefined })
                                 }}
                             >
                                 {!hasImage && (
@@ -737,6 +761,35 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     </div>
                                 )}
                             </div>
+                        );
+                    })()}
+                    {(() => {
+                        const iconBg = member.character?.lore?.iconBackgroundImage;
+                        const iconBgColor = member.character?.lore?.iconBackgroundColor;
+                        const iconBorderColor = member.character?.lore?.iconBorderColor;
+                        const iconBgScale = member.character?.lore?.iconBackgroundScale || 2.5;
+                        const iconBgOffsetX = member.character?.lore?.iconBackgroundOffsetX || 0;
+                        const iconBgOffsetY = member.character?.lore?.iconBackgroundOffsetY || 0;
+                        const hasCustomStyling = !!(iconBg || iconBgColor || iconBorderColor);
+                        if (!hasCustomStyling) return null;
+                        return (
+                            <div
+                                className="portrait-backdrop-ring"
+                                style={{
+                                    backgroundColor: iconBgColor || '#f8f5eb',
+                                    borderColor: iconBorderColor || '#d4af37',
+                                    backgroundImage: iconBg
+                                        ? `url(/assets/backgrounds/${encodeURIComponent(iconBg)})`
+                                        : 'none',
+                                    backgroundSize: iconBg
+                                        ? `${iconBgScale * 100}%`
+                                        : 'cover',
+                                    backgroundPosition: iconBg
+                                        ? `calc(50% + ${iconBgOffsetX}px) calc(50% + ${iconBgOffsetY}px)`
+                                        : 'center',
+                                    backgroundRepeat: 'no-repeat'
+                                }}
+                            />
                         );
                     })()}
                     {/* GM/Leader Crown */}

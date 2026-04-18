@@ -5,7 +5,7 @@ import { useInspectionCharacter } from '../../contexts/InspectionContext';
 import { getFullRaceData, getSubraceData, getRaceData } from '../../data/raceData';
 import { ENHANCED_PATHS } from '../../data/enhancedPathData';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
-import CreatureIconSelector from '../creature-wizard/components/common/CreatureIconSelector';
+import CharacterAppearanceModal from '../character-creation-wizard/components/CharacterAppearanceModal';
 
 // Helper function to format ability icon paths correctly
 // Folders are capitalized (Utility, Social, etc.) and files use proper names
@@ -56,7 +56,7 @@ export default function Lore() {
     const [activeSection, setActiveSection] = useState('background');
     const [showLabels, setShowLabels] = useState(false); // Start with icons only
     const [showImageControls, setShowImageControls] = useState(false);
-    const [showIconSelector, setShowIconSelector] = useState(false);
+    const [showAppearanceModal, setShowAppearanceModal] = useState(false);
 
     // Apply default transformations if image exists but no transformations are set
     useEffect(() => {
@@ -336,62 +336,89 @@ export default function Lore() {
                 </div>
             );
         } else if (field.type === 'image') {
+            const hasPortrait = !!(lore.characterImage || lore.characterIcon);
+            const portraitPreviewStyle = {
+                backgroundColor: lore.iconBackgroundColor || '#f8f5eb',
+                borderColor: lore.iconBorderColor || '#d4af37',
+                backgroundImage: lore.iconBackgroundImage
+                    ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})`
+                    : 'none',
+                backgroundSize: lore.iconBackgroundImage
+                    ? `${(lore.iconBackgroundScale || 2.5) * 100}%`
+                    : 'cover',
+                backgroundPosition: lore.iconBackgroundImage
+                    ? `calc(50% + ${lore.iconBackgroundOffsetX || 0}px) calc(50% + ${lore.iconBackgroundOffsetY || 0}px)`
+                    : 'center',
+                backgroundRepeat: 'no-repeat'
+            };
+
+            const portraitContentStyle = lore.characterIcon && !lore.characterImage
+                ? {
+                    transform: `scale(${lore.iconScale || 1}) translate(${lore.iconOffsetX || 0}px, ${lore.iconOffsetY || 0}px)`
+                }
+                : {
+                    transform: `scale(${lore.imageTransformations?.scale || 1}) rotate(${lore.imageTransformations?.rotation || 0}deg) translate(${lore.imageTransformations?.positionX || 0}px, ${lore.imageTransformations?.positionY || 0}px)`
+                };
+
             return (
                 <div key={field.key} className="lore-field">
                     <label className="lore-field-label">{field.label}</label>
                     <div className="character-image-section">
-                        {/* Icon Selection Option */}
                         <div className="portrait-options">
-                            <div className="portrait-option-label">Choose a portrait icon or paste an image URL:</div>
-                            <div className="portrait-icon-selector">
-                                <div 
-                                    className={`portrait-icon-preview ${lore.characterIcon ? 'has-icon' : ''}`}
-                                    onClick={() => !inspectionData && setShowIconSelector(true)}
-                                    title="Click to select icon"
-                                >
-                                    {lore.characterIcon ? (
-                                        <img 
-                                            src={getCustomIconUrl(lore.characterIcon, 'creatures')} 
-                                            alt="Character Icon"
+                            <div className="portrait-option-label">Customize your portrait or paste an image URL:</div>
+                            <div
+                                className="portrait-appearance-preview"
+                                onClick={() => !inspectionData && setShowAppearanceModal(true)}
+                                style={portraitPreviewStyle}
+                                title="Click to open Portrait Workshop"
+                            >
+                                {hasPortrait ? (
+                                    lore.characterImage ? (
+                                        <img
+                                            src={lore.characterImage}
+                                            alt="Portrait"
+                                            className="portrait-preview-img"
+                                            style={portraitContentStyle}
+                                            draggable={false}
+                                        />
+                                    ) : (
+                                        <img
+                                            src={getCustomIconUrl(lore.characterIcon, 'creatures')}
+                                            alt="Icon"
+                                            className="portrait-preview-img"
+                                            style={portraitContentStyle}
                                             onError={(e) => {
+                                                e.target.onerror = null;
                                                 e.target.src = getCustomIconUrl('Human/Icon1', 'creatures');
                                             }}
                                         />
-                                    ) : (
-                                        <i className="fas fa-user-circle"></i>
-                                    )}
-                                    {!inspectionData && (
-                                        <div className="icon-overlay">
-                                            <i className="fas fa-edit"></i>
-                                        </div>
-                                    )}
-                                </div>
-                                {lore.characterIcon && !inspectionData && (
-                                    <button 
-                                        className="clear-icon-btn"
-                                        onClick={() => updateLore('characterIcon', null)}
-                                        title="Clear icon"
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
+                                    )
+                                ) : (
+                                    <div className="portrait-preview-empty">
+                                        <i className="fas fa-user-plus"></i>
+                                        <span>Click to customize</span>
+                                    </div>
+                                )}
+                                {!inspectionData && (
+                                    <div className="icon-overlay">
+                                        <i className="fas fa-edit"></i>
+                                    </div>
                                 )}
                             </div>
-                            <div className="portrait-divider">
-                                <span>or</span>
-                            </div>
                         </div>
-                        
-                        <input
-                            type="text"
-                            className="lore-image-input"
-                            value={lore[field.key] || ''}
-                            onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                            placeholder={field.placeholder}
-                        />
+
+                        {!inspectionData && (
+                            <input
+                                type="text"
+                                className="lore-image-input"
+                                value={lore[field.key] || ''}
+                                onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                                placeholder={field.placeholder}
+                            />
+                        )}
 
                         {lore[field.key] && (
                             <div className="character-image-preview-large">
-                                {/* Draggable Image Preview */}
                                 <div className="inline-image-editor-preview">
                                     <div className="inline-image-preview-container">
                                         <img
@@ -429,7 +456,6 @@ export default function Lore() {
 
                                     {showImageControls && (
                                         <div className="inline-image-controls">
-                                            {/* Scale Control */}
                                             <div className="control-group">
                                                 <label className="control-label">Size</label>
                                                 <div className="control-row">
@@ -448,7 +474,6 @@ export default function Lore() {
                                                 </div>
                                             </div>
 
-                                            {/* Rotation Control */}
                                             <div className="control-group">
                                                 <label className="control-label">Rotation</label>
                                                 <div className="control-row">
@@ -467,7 +492,6 @@ export default function Lore() {
                                                 </div>
                                             </div>
 
-                                            {/* Position Controls */}
                                             <div className="control-group">
                                                 <label className="control-label">Position</label>
                                                 <div className="center-control">
@@ -483,7 +507,6 @@ export default function Lore() {
                                                 </div>
                                             </div>
 
-                                            {/* Action Buttons */}
                                             <div className="control-actions">
                                                 <button
                                                     type="button"
@@ -641,14 +664,52 @@ export default function Lore() {
             </div>
 
             {/* Icon Selector Modal */}
-            <CreatureIconSelector
-                isOpen={showIconSelector}
-                onClose={() => setShowIconSelector(false)}
-                onSelect={(iconPath) => {
-                    updateLore('characterIcon', iconPath);
-                    setShowIconSelector(false);
+            <CharacterAppearanceModal
+                isOpen={showAppearanceModal}
+                onClose={() => setShowAppearanceModal(false)}
+                characterData={{
+                    characterImage: lore.characterImage,
+                    characterIcon: lore.characterIcon,
+                    iconBackgroundColor: lore.iconBackgroundColor,
+                    iconBorderColor: lore.iconBorderColor,
+                    iconBackgroundImage: lore.iconBackgroundImage,
+                    iconScale: lore.iconScale,
+                    iconOffsetX: lore.iconOffsetX,
+                    iconOffsetY: lore.iconOffsetY,
+                    iconBackgroundScale: lore.iconBackgroundScale,
+                    iconBackgroundOffsetX: lore.iconBackgroundOffsetX,
+                    iconBackgroundOffsetY: lore.iconBackgroundOffsetY
                 }}
-                currentIcon={lore.characterIcon}
+                onUpdate={(updates) => {
+                    Object.entries(updates).forEach(([key, value]) => {
+                        updateLore(key, value);
+                    });
+                }}
+                imagePreview={lore.characterImage}
+                onImageUpload={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (!file.type.startsWith('image/')) return;
+                        if (file.size > 5 * 1024 * 1024) return;
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            updateLore('characterImage', event.target.result);
+                            updateLore('imageTransformations', {
+                                scale: 1.2,
+                                rotation: 0,
+                                positionX: 0,
+                                positionY: 0
+                            });
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }}
+                onRemoveImage={() => {
+                    updateLore('characterImage', null);
+                    updateLore('imageTransformations', null);
+                }}
+                imageTransformations={lore.imageTransformations}
+                onApplyTransformations={(t) => updateLore('imageTransformations', t)}
             />
         </div>
     );
