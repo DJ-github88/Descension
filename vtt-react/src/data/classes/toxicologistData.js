@@ -17,6 +17,19 @@ export const TOXICOLOGIST_DATA = {
     title: 'The Toxicologist',
     subtitle: 'Master of Poisons, Concoctions, and Contraptions',
 
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: Toxicologists wield a dual-resource alchemy system—spending Toxin Vials to craft deadly poisons and mid-combat concoctions, while deploying Contraption Parts as battlefield devices that control enemy movement and create tactical advantages.
+
+**Core Mechanic**: Manage Toxin Vials → Craft Poisons & Concoctions Mid-Combat → Deploy Contraption Parts → Stack Debuffs and Control the Battlefield
+
+**Resource**: Toxin Vials (INT mod + 3, min 4) & Contraption Parts (max 5)
+
+**Playstyle**: Tactical alchemical preparation and adaptation
+
+**Best For**: Players who love pre-combat planning, mid-fight crafting, and weaving poisons with gadgets into lethal synergies`
+    },
+
     description: `The Toxicologist is a master of poisons, concoctions, and minor contraptions, combining their knowledge of alchemy with deadly combat skills. Through the dual-resource system of Toxin Vials and Contraption Parts, they control the battlefield with strategic poison application and tactical device deployment, weakening enemies and creating devastating synergies.`,
 
     roleplayIdentity: {

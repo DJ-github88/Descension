@@ -3,7 +3,103 @@ import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedS
 import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import ClassResourceBar from '../hud/ClassResourceBar';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
+import { getClassResourceConfig } from '../../data/classResources';
 import './ClassDetailDisplay.css';
+
+/**
+ * Build a sensible demo classResource prop for the rules page preview.
+ * Reads directly from classResources.js so every class automatically works.
+ */
+const buildDemoClassResource = (className) => {
+  const cfg = getClassResourceConfig(className);
+  if (!cfg) return { current: 0, max: 10, spheres: [] };
+
+  const m = cfg.mechanics;
+
+  // Bladedancer: momentum + flourish + stance
+  if (cfg.type === 'dual-resource' && m.momentum && m.flourish) {
+    return {
+      current: 8,
+      max: m.momentum.max || 20,
+      momentum: 8,
+      flourish: 3,
+      stance: m.stance?.current || 'Flowing Water',
+      spheres: []
+    };
+  }
+
+  // Chronarch: timeShards + temporalStrain
+  if (m.timeShards && m.temporalStrain) {
+    return {
+      current: 3,
+      max: m.timeShards.max || 10,
+      timeShards: { current: 3, max: m.timeShards.max || 10 },
+      temporalStrain: { current: 2, max: m.temporalStrain.max || 10 },
+      spheres: []
+    };
+  }
+
+  // Toxicologist: toxinVials + contraptionParts
+  if (m.toxinVials && m.contraptionParts) {
+    return {
+      current: 3,
+      max: 6, // INT mod + 3 demo value
+      spheres: []
+    };
+  }
+
+  // Minstrel: musical notes
+  if (m.maxPerNote && m.totalNotes) {
+    return {
+      current: 3,
+      max: m.totalNotes || 7,
+      notes: [3, 1, 2, 0, 2, 1, 0],
+      maxPerNote: m.maxPerNote,
+      totalNotes: m.totalNotes,
+      spheres: []
+    };
+  }
+
+  // Inscriptor: runes + inscriptions
+  if (m.runes && m.inscriptions) {
+    return {
+      current: 3,
+      max: m.runes.max || 8,
+      current2: 1,
+      max2: m.inscriptions.max || 3,
+      spheres: []
+    };
+  }
+
+  // Arcanoneer: elemental spheres (uses max = 4 to avoid 0 block)
+  if (cfg.visual?.type === 'elemental-spheres') {
+    return {
+      current: 4,
+      max: 4,
+      spheres: ['fire', 'ice', 'arcane', 'nature']
+    };
+  }
+
+  // Plaguebringer: corruption uses maxCorruption
+  if (m.maxCorruption !== undefined) {
+    return { current: 65, max: m.maxCorruption || 100, spheres: [] };
+  }
+
+  // Gambler: varies by spec - use 21 (High Roller) as demo
+  if (cfg.id === 'fortunePoints') {
+    return { current: 5, max: 21, spheres: [] };
+  }
+
+  // Lichborne: phylactery HP
+  if (m.phylactery) {
+    return { current: 25, max: m.phylactery.max || 50, spheres: [] };
+  }
+
+  // Standard current/max
+  const max = (typeof m.max === 'number' && m.max > 0) ? m.max : 10;
+  const current = Math.round(max * 0.45); // ~45% filled for a nice demo look
+  return { current, max, spheres: [] };
+};
 
 /**
  * ClassDetailDisplay Component
@@ -19,6 +115,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const [selectedSpell, setSelectedSpell] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [loadedImages, setLoadedImages] = useState(new Set());
+  const [combatExampleOpen, setCombatExampleOpen] = useState(false);
   const contentContainerRef = useRef(null);
 
   // Handle click for spell details - show popup
@@ -40,36 +137,198 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     );
   }
 
-  // Render overview tab
+  const renderContent = (content) => {
+    if (!content) return null;
+    if (typeof content !== 'string') return null;
+    return content.split('\n\n').map((paragraph, i) => (
+      <p key={i} dangerouslySetInnerHTML={{
+        __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      }} />
+    ));
+  };
+
+  const renderStructuredContent = (content) => {
+    if (!content) return null;
+    if (typeof content !== 'string') return null;
+
+    const lines = content.split('\n');
+    const blocks = [];
+    let currentItems = [];
+    let currentHeader = null;
+    let currentHeaderText = null;
+
+    const flushItems = () => {
+      if (currentItems.length > 0) {
+        blocks.push({ type: 'list', items: [...currentItems], header: currentHeaderText });
+        currentItems = [];
+        currentHeaderText = null;
+      }
+    };
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) {
+        flushItems();
+        continue;
+      }
+
+      const isBullet = line.startsWith('- ') || line.startsWith('• ');
+      const isNumbered = /^\d+\.\s/.test(line);
+      const boldOnlyMatch = line.match(/^\*\*(.*?)\*\*$/);
+      const boldColonMatch = line.match(/^\*\*(.*?)\*\*:\s*(.*)/);
+
+      if (isBullet) {
+        const text = line.replace(/^[-•]\s*/, '');
+        currentItems.push({ text, style: 'bullet' });
+      } else if (isNumbered) {
+        const numMatch = line.match(/^(\d+)\.\s*(.*)/);
+        currentItems.push({ text: numMatch[2], num: numMatch[1], style: 'numbered' });
+      } else if (boldOnlyMatch) {
+        flushItems();
+        currentHeaderText = boldOnlyMatch[1];
+      } else if (boldColonMatch) {
+        flushItems();
+        blocks.push({
+          type: 'kv',
+          key: boldColonMatch[1],
+          value: boldColonMatch[2]
+        });
+      } else {
+        flushItems();
+        blocks.push({ type: 'text', content: line });
+      }
+    }
+    flushItems();
+
+    return (
+      <div className="mech-blocks">
+        {blocks.map((block, idx) => {
+          if (block.type === 'kv') {
+            return (
+              <div className="mech-kv" key={idx}>
+                <span className="mech-kv-key" dangerouslySetInnerHTML={{ __html: block.key }} />
+                <span className="mech-kv-val" dangerouslySetInnerHTML={{
+                  __html: block.value.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }} />
+              </div>
+            );
+          }
+
+          if (block.type === 'list') {
+            return (
+              <div className="mech-list-block" key={idx}>
+                {block.header && (
+                  <div className="mech-list-title" dangerouslySetInnerHTML={{
+                    __html: block.header.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }} />
+                )}
+                <ul className={`mech-list ${block.items.some(it => it.style === 'numbered') ? 'mech-list-numbered' : ''}`}>
+                  {block.items.map((item, j) => (
+                    <li key={j}>
+                      {item.style === 'numbered' && <span className="mech-num">{item.num}.</span>}
+                      <span dangerouslySetInnerHTML={{
+                        __html: item.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                      }} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          }
+
+          return (
+            <p className="mech-text" key={idx} dangerouslySetInnerHTML={{
+              __html: block.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            }} />
+          );
+        })}
+      </div>
+    );
+  };
+
   const renderOverview = () => {
     const { overview } = classData;
-    
+
     return (
-      <div className="class-detail-section">
-        <div className="class-intro">
+      <div className="class-detail-section parchment-content">
+        <div className="guide-badge-header">
+          <span className="guide-badge">
+            <i className="fas fa-book-open"></i> CLASS OVERVIEW
+          </span>
           <h3>{overview.title}</h3>
-          <p className="class-subtitle">{overview.subtitle}</p>
-          <p className="class-description">{overview.description}</p>
         </div>
 
+        {overview.subtitle && (
+          <div className="guide-subtitle">{overview.subtitle}</div>
+        )}
+
+        <div className="guide-description">
+          {renderContent(overview.description)}
+        </div>
+
+        <div className="overview-meta-row">
+          <span className="overview-meta-badge">
+            <span className="meta-label">Role</span>
+            <span className="meta-value"><i className="fas fa-shield-alt"></i> {classData.role}</span>
+          </span>
+          {classData.damageTypes && classData.damageTypes.length > 0 && (
+            <span className="overview-meta-badge">
+              <span className="meta-label">Damage Types</span>
+              <span className="meta-value">{classData.damageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}</span>
+            </span>
+          )}
+          {classData.resourceSystem && (
+            <span className="overview-meta-badge">
+              <span className="meta-label">Resource</span>
+              <span className="meta-value"><i className="fas fa-bolt"></i> {classData.resourceSystem.title}</span>
+            </span>
+          )}
+        </div>
+
+        {overview.immersiveCombatExample && (
+          <div className={`guide-flavor-box collapsible ${combatExampleOpen ? 'open' : 'closed'}`}>
+            <div className="flavor-box-header" onClick={() => setCombatExampleOpen(!combatExampleOpen)}>
+              <div className="flavor-box-tag">
+                <i className="fas fa-scroll"></i> {overview.immersiveCombatExample.title || 'COMBAT EXAMPLE'}
+              </div>
+              <button className="flavor-box-toggle" aria-label={combatExampleOpen ? 'Collapse' : 'Expand'}>
+                <i className={`fas fa-chevron-${combatExampleOpen ? 'up' : 'down'}`}></i>
+              </button>
+            </div>
+            {combatExampleOpen && (
+              <div className="flavor-box-content">
+                {renderContent(overview.immersiveCombatExample.content || overview.immersiveCombatExample)}
+              </div>
+            )}
+          </div>
+        )}
+
         {overview.roleplayIdentity && (
-          <div className="class-subsection">
+          <div className="guide-subsection identity-box">
             <h4><i className="fas fa-theater-masks"></i> {overview.roleplayIdentity.title}</h4>
-            <div className="subsection-content" dangerouslySetInnerHTML={{ __html: overview.roleplayIdentity.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+            <div className="subsection-content">
+              {renderContent(overview.roleplayIdentity.content)}
+            </div>
           </div>
         )}
 
         {overview.combatRole && (
-          <div className="class-subsection">
-            <h4><i className="fas fa-crossed-swords"></i> {overview.combatRole.title}</h4>
-            <div className="subsection-content" dangerouslySetInnerHTML={{ __html: overview.combatRole.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+          <div className="guide-subsection combat-box">
+            <h4><i className="fas fa-swords"></i> {overview.combatRole.title}</h4>
+            <div className="subsection-content">
+              {renderContent(overview.combatRole.content)}
+            </div>
           </div>
         )}
 
         {overview.playstyle && (
-          <div className="class-subsection">
-            <h4><i className="fas fa-chess-knight"></i> {overview.playstyle.title}</h4>
-            <div className="subsection-content" dangerouslySetInnerHTML={{ __html: overview.playstyle.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+          <div className="guide-master-box">
+            <div className="master-tag">
+              <i className="fas fa-crown"></i> MASTER GUIDE
+            </div>
+            <div className="master-content">
+              {renderContent(overview.playstyle.content)}
+            </div>
           </div>
         )}
       </div>
@@ -81,10 +340,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     if (!tableData) return null;
 
     return (
-      <div className="class-subsection" key={tableKey}>
-        <h4><i className="fas fa-table"></i> {tableData.title}</h4>
-        <div className="rules-table-container">
-          <table className="rules-table class-resource-table">
+      <div className="guide-table-container" key={tableKey}>
+        <div className="guide-table-title">
+          <i className="fas fa-scroll"></i> {tableData.title}
+        </div>
+        <div className="guide-table-wrapper">
+          <table className="guide-table class-resource-table">
             <thead>
               <tr>
                 {tableData.headers.map((header, idx) => (
@@ -94,7 +355,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             </thead>
             <tbody>
               {tableData.rows.map((row, rowIdx) => (
-                <tr key={rowIdx} className={rowIdx === 0 ? 'level-safe' : rowIdx <= 3 ? 'level-low' : rowIdx <= 6 ? 'level-mid' : 'level-high'}>
+                <tr key={rowIdx} className={rowIdx % 2 === 0 ? 'row-even' : 'row-odd'}>
                   {row.map((cell, cellIdx) => (
                     <td key={cellIdx}>{cell}</td>
                   ))}
@@ -300,117 +561,106 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const renderResourceSystem = () => {
     const { resourceSystem } = classData;
 
-    // Safety check - return early if resourceSystem is missing
     if (!resourceSystem) {
       return (
-        <div className="class-detail-section">
-          <p>Resource system information not available for this class.</p>
+        <div className="class-detail-section parchment-content">
+          <p className="guide-empty-text">Resource system information not available for this class.</p>
         </div>
       );
     }
 
     return (
-      <div className="class-detail-section">
-        <div className="class-intro">
-          <h3>{resourceSystem.title}</h3>
-          {resourceSystem.subtitle && <p className="class-subtitle">{resourceSystem.subtitle}</p>}
-          {resourceSystem.description && <p className="class-description">{resourceSystem.description}</p>}
+      <div className="class-detail-section parchment-content">
+        <div className="guide-section main-resource">
+          <div className="guide-badge-header">
+            <span className="guide-badge">
+              <i className="fas fa-bolt"></i> CORE RESOURCE
+            </span>
+            <h3>{resourceSystem.title}</h3>
+          </div>
+
+          {resourceSystem.subtitle && (
+            <div className="guide-subtitle">{resourceSystem.subtitle}</div>
+          )}
+
+          <div className="guide-description">
+            {renderContent(resourceSystem.description)}
+          </div>
+
+          {resourceSystem.mechanics && (
+            <div className="guide-subsection mechanics-box">
+              <h4><i className="fas fa-cogs"></i> {resourceSystem.mechanics.title || 'Mechanics'}</h4>
+              {renderStructuredContent(resourceSystem.mechanics.content)}
+            </div>
+          )}
         </div>
 
-        {resourceSystem.mechanics && (
-          <div className="class-subsection">
-            <h4><i className="fas fa-cogs"></i> {resourceSystem.mechanics.title}</h4>
-            <div className="subsection-content" dangerouslySetInnerHTML={{ __html: resourceSystem.mechanics.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-          </div>
-        )}
-
-        {/* Render key abilities if present */}
         {resourceSystem.keyAbilities && (
-          <div className="class-subsection">
+          <div className="guide-subsection abilities-box">
             <h4><i className="fas fa-bolt"></i> {resourceSystem.keyAbilities.title || 'Key Abilities'}</h4>
-            <ul>
+            <div className="key-abilities-list">
               {(Array.isArray(resourceSystem.keyAbilities) ? resourceSystem.keyAbilities : resourceSystem.keyAbilities.abilities || []).map((ability, i) => (
-                <li key={i}>
-                  {typeof ability === 'string' ? ability : (
+                <div key={i} className="key-ability-card">
+                  {typeof ability === 'string' ? (
+                    <span>{ability}</span>
+                  ) : (
                     <>
                       <strong>{ability.name}</strong>
-                      {ability.type && <span> ({ability.type})</span>}
-                      {ability.cost && <span> - {ability.cost}</span>}
-                      {ability.description && <span>: {ability.description}</span>}
+                      {ability.type && <span className="ability-type"> ({ability.type})</span>}
+                      {ability.cost && <span className="ability-cost"> - {ability.cost}</span>}
+                      {ability.description && <span className="ability-desc">: {ability.description}</span>}
                     </>
                   )}
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         )}
 
-        {/* Render Pyrofiend-style single table (infernoLevelsTable) */}
         {resourceSystem.infernoLevelsTable && renderResourceTable(resourceSystem.infernoLevelsTable, 'infernoLevelsTable')}
-
-        {/* Render Berserker-style Rage States table */}
         {resourceSystem.rageStatesTable && renderResourceTable(resourceSystem.rageStatesTable, 'rageStatesTable')}
-
-        {/* Render Dreadnaught-style DRP tables */}
         {resourceSystem.drpAbilitiesTable && renderResourceTable(resourceSystem.drpAbilitiesTable, 'drpAbilitiesTable')}
         {resourceSystem.passiveEffectsTable && renderResourceTable(resourceSystem.passiveEffectsTable, 'passiveEffectsTable')}
-
-        {/* Render Titan-style Celestial Devotions table */}
         {resourceSystem.celestialDevotionsTable && renderResourceTable(resourceSystem.celestialDevotionsTable, 'celestialDevotionsTable')}
-
-        {/* Render Chronomancer-style multiple tables */}
         {resourceSystem.timeShardTable && renderResourceTable(resourceSystem.timeShardTable, 'timeShardTable')}
         {resourceSystem.temporalStrainTable && renderResourceTable(resourceSystem.temporalStrainTable, 'temporalStrainTable')}
         {resourceSystem.temporalFluxTable && renderResourceTable(resourceSystem.temporalFluxTable, 'temporalFluxTable')}
-
-        {/* Render Minstrel-style tables if they exist */}
         {resourceSystem.chordProgressionTable && renderResourceTable(resourceSystem.chordProgressionTable, 'chordProgressionTable')}
         {resourceSystem.musicalNotesTable && renderResourceTable(resourceSystem.musicalNotesTable, 'musicalNotesTable')}
-
-        {/* Render Inscriptor-style tables if they exist */}
         {resourceSystem.runicWrappingTable && renderResourceTable(resourceSystem.runicWrappingTable, 'runicWrappingTable')}
         {resourceSystem.inscriptionPlacementTable && renderResourceTable(resourceSystem.inscriptionPlacementTable, 'inscriptionPlacementTable')}
-
-        {/* Render Arcanoneer-style tables if they exist */}
         {resourceSystem.sphereGenerationTable && renderResourceTable(resourceSystem.sphereGenerationTable, 'sphereGenerationTable')}
-
-        {/* Render Witch Doctor-style tables if they exist */}
         {resourceSystem.essenceGenerationTable && renderResourceTable(resourceSystem.essenceGenerationTable, 'essenceGenerationTable')}
         {resourceSystem.loaInvocationTable && renderResourceTable(resourceSystem.loaInvocationTable, 'loaInvocationTable')}
-
-        {/* Render Formbender-style tables if they exist */}
         {resourceSystem.wildInstinctGenerationTable && renderResourceTable(resourceSystem.wildInstinctGenerationTable, 'wildInstinctGenerationTable')}
         {resourceSystem.formAbilitiesTable && renderResourceTable(resourceSystem.formAbilitiesTable, 'formAbilitiesTable')}
-
-        {/* Render Primalist-style tables if they exist */}
         {resourceSystem.totemTypesTable && renderResourceTable(resourceSystem.totemTypesTable, 'totemTypesTable')}
         {resourceSystem.synergyEffectsTable && renderResourceTable(resourceSystem.synergyEffectsTable, 'synergyEffectsTable')}
-
-        {/* Render Bladedancer-style tables if they exist */}
         {resourceSystem.stanceNetworkTable && renderResourceTable(resourceSystem.stanceNetworkTable, 'stanceNetworkTable')}
         {resourceSystem.stanceAbilitiesTable && renderResourceTable(resourceSystem.stanceAbilitiesTable, 'stanceAbilitiesTable')}
         {resourceSystem.flourishAbilitiesTable && renderResourceTable(resourceSystem.flourishAbilitiesTable, 'flourishAbilitiesTable')}
-
-        {/* Render Toxicologist-style tables if they exist */}
         {resourceSystem.toxinVialRecipesTable && renderResourceTable(resourceSystem.toxinVialRecipesTable, 'toxinVialRecipesTable')}
         {resourceSystem.contraptionTypesTable && renderResourceTable(resourceSystem.contraptionTypesTable, 'contraptionTypesTable')}
         {resourceSystem.poisonWeaponEffectsTable && renderResourceTable(resourceSystem.poisonWeaponEffectsTable, 'poisonWeaponEffectsTable')}
-
-        {/* Render Covenbane-style tables if they exist */}
         {resourceSystem.hexbreakerChargesTable && renderResourceTable(resourceSystem.hexbreakerChargesTable, 'hexbreakerChargesTable')}
         {resourceSystem.hexbreakerAbilitiesTable && renderResourceTable(resourceSystem.hexbreakerAbilitiesTable, 'hexbreakerAbilitiesTable')}
         {resourceSystem.detectionTrackingTable && renderResourceTable(resourceSystem.detectionTrackingTable, 'detectionTrackingTable')}
 
         {resourceSystem.strategicConsiderations && (
-          <div className="class-subsection">
-            <h4><i className="fas fa-lightbulb"></i> {resourceSystem.strategicConsiderations.title}</h4>
-            <div className="subsection-content" dangerouslySetInnerHTML={{ __html: resourceSystem.strategicConsiderations.content.replace(/\n\n/g, '</p><p>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+          <div className="guide-subsection strategy-box">
+            <h4><i className="fas fa-lightbulb"></i> {resourceSystem.strategicConsiderations.title || 'Strategic Considerations'}</h4>
+            {renderStructuredContent(resourceSystem.strategicConsiderations.content)}
           </div>
         )}
 
         {resourceSystem.playingInPerson && (
-          <div className="class-subsection playing-in-person">
-            <h4><i className="fas fa-dice-d20"></i> {resourceSystem.playingInPerson.title}</h4>
+          <div className="guide-subsection playing-in-person-box">
+            <div className="pip-section-header">
+              <span className="pip-section-badge">
+                <i className="fas fa-dice-d20"></i> PLAYING IN PERSON
+              </span>
+              <h4>{resourceSystem.playingInPerson.title}</h4>
+            </div>
             {renderPlayingInPersonContent(resourceSystem.playingInPerson.content)}
           </div>
         )}
@@ -422,40 +672,47 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   const renderSpecializations = () => {
     const { specializations } = classData;
 
-    // Safety check
     if (!specializations || !specializations.specs) {
       return (
-        <div className="class-detail-section">
-          <p>No specialization data available for this class.</p>
+        <div className="class-detail-section parchment-content">
+          <p className="guide-empty-text">No specialization data available for this class.</p>
         </div>
       );
     }
 
     return (
-      <div className="class-detail-section">
-        <div className="class-intro">
+      <div className="class-detail-section parchment-content">
+        <div className="guide-badge-header">
+          <span className="guide-badge">
+            <i className="fas fa-medal"></i> SPECIALIZATIONS
+          </span>
           <h3>{specializations.title}</h3>
-          <p className="class-subtitle">{specializations.subtitle}</p>
-          <p className="class-description">{specializations.description}</p>
-
-          {/* Render shared passive ability if it exists */}
-          {specializations.passiveAbility && (
-            <div className="class-subsection">
-              <h4><i className="fas fa-star"></i> Shared Passive Ability</h4>
-              <div className="passive-ability shared">
-                <div className="passive-header">
-                  <strong>{specializations.passiveAbility.name}</strong>
-                </div>
-                <p className="passive-description">{specializations.passiveAbility.description}</p>
-              </div>
-            </div>
-          )}
         </div>
 
-        <div className="specializations-grid">
+        {specializations.subtitle && (
+          <div className="guide-subtitle">{specializations.subtitle}</div>
+        )}
+
+        <div className="guide-description">
+          {renderContent(specializations.description)}
+        </div>
+
+        {specializations.passiveAbility && (
+          <div className="shared-passive-card">
+            <div className="shared-passive-badge">
+              <i className="fas fa-star"></i> SHARED PASSIVE
+            </div>
+            <div className="shared-passive-content">
+              <strong>{specializations.passiveAbility.name}</strong>
+              <p>{specializations.passiveAbility.description}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="specializations-grid premium-grid">
           {specializations.specs.map((spec, idx) => (
-            <div key={spec.id} className="specialization-card" style={{ borderColor: spec.color }}>
-              <div className="spec-header" style={{ backgroundColor: spec.color }}>
+            <div key={spec.id} className="specialization-card premium-card" style={{ '--spec-color': spec.color }}>
+              <div className="spec-header premium-header" style={{ backgroundColor: spec.color }}>
                 <div className="spec-icon">
                   <img
                     src={getIconUrl(spec.icon, 'abilities')}
@@ -472,7 +729,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                 </div>
               </div>
 
-              <div className="spec-body">
+              <div className="spec-body premium-body">
                 <p className="spec-description">{spec.description}</p>
 
                 <div className="spec-playstyle">
@@ -501,7 +758,6 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   </div>
                 )}
 
-                {/* Render key abilities if present */}
                 {spec.keyAbilities && (
                   <div className="spec-key-abilities">
                     <h5><i className="fas fa-bolt"></i> Key Abilities</h5>
@@ -522,12 +778,10 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                   </div>
                 )}
 
-                {/* Render passive abilities - support both old and new formats */}
                 {(spec.passiveAbilities || spec.passiveAbility || spec.specPassive) && (
                   <div className="spec-passives">
                     <h5><i className="fas fa-star"></i> Passive Abilities</h5>
 
-                    {/* Old format: passiveAbilities array */}
                     {spec.passiveAbilities && spec.passiveAbilities.map((passive, i) => (
                       <div key={i} className={`passive-ability ${passive.tier === 'Path Passive' ? 'shared' : 'unique'}`}>
                         <div className="passive-header">
@@ -544,7 +798,6 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                       </div>
                     ))}
 
-                    {/* New format: passiveAbility and specPassive objects */}
                     {spec.passiveAbility && (
                       <div className="passive-ability shared">
                         <div className="passive-header">
@@ -569,7 +822,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
 
                 {spec.recommendedFor && (
                   <div className="spec-recommendation">
-                    <strong>Recommended for:</strong> {spec.recommendedFor}
+                    <i className="fas fa-thumbs-up"></i> <strong>Recommended for:</strong> {spec.recommendedFor}
                   </div>
                 )}
               </div>
@@ -1054,101 +1307,65 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
   };
 
   return (
-    <div className="class-detail-display">
-      {/* Class Header */}
-      <div className="class-detail-header">
-        <div className="class-header-icon">
-          <i className={classData.icon}></i>
-        </div>
-        <div className="class-header-info">
-          <h2>{classData.name}</h2>
-          <div className="class-header-meta">
-            <span className="class-role"><i className="fas fa-shield-alt"></i> {classData.role}</span>
+    <div className="class-detail-display premium-theme">
+      <div className="class-detail-header premium-header">
+        <div className="class-header-left">
+          <div className="class-header-icon">
+            <i className={classData.icon}></i>
+          </div>
+          <div className="class-header-info">
+            <h2>{classData.name}</h2>
+            <div className="class-header-meta">
+              <span className="class-role-badge">
+                <i className="fas fa-shield-alt"></i> {classData.role}
+              </span>
+              {classData.damageTypes && classData.damageTypes.length > 0 && (
+                <span className="class-damage-badge">
+                  <i className="fas fa-fire"></i> {classData.damageTypes.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-        {/* Resource Bar in Header */}
         <div className="class-header-resource">
           <ClassResourceBar
             characterClass={classData.name}
-            classResource={{
-              current: classData.name === 'Berserker' ? 65 :
-                       classData.name === 'Chaos Weaver' ? 12 :
-                       classData.name === 'Covenbane' ? 4 :
-                       classData.name === 'Dreadnaught' ? 30 :
-                       classData.name === 'Exorcist' ? 10 :
-                       classData.name === 'False Prophet' ? 8 :
-                       classData.name === 'Fate Weaver' ? 7 :
-                       classData.name === 'Formbender' ? 8 :
-                       classData.name === 'Gambler' ? 5 :
-                       classData.name === 'Inscriptor' ? 5 :
-                       classData.name === 'Lichborne' ? 35 :
-                       classData.name === 'Lunarch' ? 0 :
-                       classData.name === 'Plaguebringer' ? 65 :
-                       classData.name === 'Primalist' ? 45 :
-                       classData.name === 'Pyrofiend' ? 5 :
-                       classData.name === 'Spellguard' ? 45 :
-                       classData.name === 'Titan' ? 60 :
-                       classData.name === 'Warden' ? 7 :
-                       classData.name === 'Witch Doctor' ? 8 : 0,
-              max: classData.name === 'Berserker' ? 100 :
-                   classData.name === 'Chaos Weaver' ? 20 :
-                   classData.name === 'Covenbane' ? 6 :
-                   classData.name === 'Dreadnaught' ? 50 :
-                   classData.name === 'Exorcist' ? 12 :
-                   classData.name === 'False Prophet' ? 20 :
-                   classData.name === 'Fate Weaver' ? 13 :
-                   classData.name === 'Formbender' ? 15 :
-                   classData.name === 'Gambler' ? 21 :
-                   classData.name === 'Inscriptor' ? 8 :
-                   classData.name === 'Lichborne' ? 50 :
-                   classData.name === 'Lunarch' ? 0 :
-                   classData.name === 'Plaguebringer' ? 100 :
-                   classData.name === 'Primalist' ? 100 :
-                   classData.name === 'Pyrofiend' ? 9 :
-                   classData.name === 'Spellguard' ? 100 :
-                   classData.name === 'Titan' ? 100 :
-                   classData.name === 'Warden' ? 10 :
-                   classData.name === 'Witch Doctor' ? 15 : 0,
-              current2: classData.name === 'Inscriptor' ? 2 : undefined,
-              max2: classData.name === 'Inscriptor' ? 3 : undefined,
-              spheres: []
-            }}
+            classResource={buildDemoClassResource(classData.name)}
             size="large"
             context="rules"
             isGMMode={false}
           />
         </div>
+        <div className="class-header-right"></div>
       </div>
 
-      {/* Tabs */}
-      <div className="class-detail-tabs">
+      <div className="class-detail-tabs premium-tabs">
         <button
           className={`class-tab ${activeTab === 'overview' ? 'active' : ''}`}
-          onClick={() => setActiveTab('overview')}
+          onClick={() => { setActiveTab('overview'); setCurrentPage(0); }}
         >
           <i className="fas fa-book-open"></i> Overview
         </button>
         <button
           className={`class-tab ${activeTab === 'resource' ? 'active' : ''}`}
-          onClick={() => setActiveTab('resource')}
+          onClick={() => { setActiveTab('resource'); setCurrentPage(0); }}
         >
-          <i className="fas fa-battery-three-quarters"></i> Resource System
+          <i className="fas fa-bolt"></i> Resource System
         </button>
         <button
           className={`class-tab ${activeTab === 'specializations' ? 'active' : ''}`}
-          onClick={() => setActiveTab('specializations')}
+          onClick={() => { setActiveTab('specializations'); setCurrentPage(0); }}
         >
           <i className="fas fa-sitemap"></i> Specializations
         </button>
         <button
           className={`class-tab ${activeTab === 'spells' ? 'active' : ''}`}
-          onClick={() => setActiveTab('spells')}
+          onClick={() => { setActiveTab('spells'); setCurrentPage(0); }}
         >
           <i className="fas fa-magic"></i> Spells
         </button>
       </div>
 
-      {/* Tab Content */}
       <div className="class-detail-content">
         {activeTab === 'overview' && renderOverview()}
         {activeTab === 'resource' && renderResourceSystem()}

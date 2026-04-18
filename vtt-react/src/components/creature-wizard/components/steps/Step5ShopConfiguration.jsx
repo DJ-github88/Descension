@@ -296,14 +296,15 @@ const Step5ShopConfiguration = () => {
                   placeholder="e.g., Thorin's Armory"
                 />
               </div>
-              <div className="form-group">
-                <label>
+              <div className="form-group" style={{ display: 'flex', alignItems: 'center' }}>
+                <label className="checkbox-label" style={{ fontSize: '15px', fontWeight: '500', color: '#6b5b47', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
                     checked={wizardState.shopInventory.restockOnLongRest}
                     onChange={(e) => handleShopInfoChange('restockOnLongRest', e.target.checked)}
+                    style={{ width: '16px', height: '16px', accentColor: '#7a3b2e', cursor: 'pointer', flexShrink: 0 }}
                   />
-                  Restock on Long Rest
+                  <span>Restock on Long Rest</span>
                 </label>
               </div>
             </div>

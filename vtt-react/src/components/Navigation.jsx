@@ -216,7 +216,12 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                             <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
                                 <CreatureLibrary onEdit={handleEditCreature} />
                             </div>
-                            <div style={{ display: activeView === 'wizard' ? 'block' : 'none' }}>
+                            <div style={{
+                                display: activeView === 'wizard' ? 'flex' : 'none',
+                                flex: 1,
+                                minHeight: 0,
+                                flexDirection: 'column'
+                            }}>
                                 <CreatureWizardApp
                                     editMode={!!editingCreatureId}
                                     creatureId={editingCreatureId}

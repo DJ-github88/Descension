@@ -924,32 +924,197 @@ const SimpleCreatureTooltip = ({ creature }) => {
         {/* Enhanced Loot Section */}
         {lootPreview && (
           <div style={{ marginBottom: '10px' }}>
-            {/* Section Header */}
             <div style={{
-              fontSize: '13px',
+              fontSize: '12px',
               fontWeight: '700',
               color: '#8B4513',
-              marginBottom: '8px',
               textAlign: 'center',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               borderBottom: '2px solid #8B4513',
               paddingBottom: '4px',
-              lineHeight: '1.3'
+              lineHeight: '1.3',
+              letterSpacing: '1.5px',
+              textTransform: 'uppercase'
             }}>
-              LOOT
+              &#9876; Spoils of Victory &#9876;
             </div>
 
             <div style={{
-              background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(245, 158, 11, 0.25) 100%)',
+              background: 'linear-gradient(180deg, rgba(251, 191, 36, 0.2) 0%, rgba(139, 69, 19, 0.15) 100%)',
               border: '2px solid #8B4513',
               borderRadius: '8px',
               padding: '10px 12px',
-              fontSize: '12px',
               color: '#2d1810',
-              lineHeight: '1.4',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)'
+              marginTop: '8px'
             }}>
-              {lootPreview.slice(0, 3).join(', ')}
+              {(() => {
+                const lootItems = creature.lootTable?.items || [];
+                const currency = creature.lootTable?.currency;
+                const hasGold = currency?.gold?.max > 0;
+                const hasSilver = currency?.silver?.max > 0;
+                const hasCopper = currency?.copper?.max > 0;
+                const hasAnyCurrency = hasGold || hasSilver || hasCopper;
+
+                const sortedLoot = lootItems
+                  .filter(item => item.dropChance > 0)
+                  .sort((a, b) => {
+                    const qualityOrder = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1, poor: 0 };
+                    const qualityDiff = (qualityOrder[b.quality] || 0) - (qualityOrder[a.quality] || 0);
+                    if (qualityDiff !== 0) return qualityDiff;
+                    return b.dropChance - a.dropChance;
+                  })
+                  .slice(0, 5);
+
+                const totalItems = lootItems.filter(i => i.dropChance > 0).length;
+
+                const getQualityColor = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return '#6b6b6b';
+                    case 'common': return '#1a0f08';
+                    case 'uncommon': return '#1eff00';
+                    case 'rare': return '#0070dd';
+                    case 'epic': return '#a335ee';
+                    case 'legendary': return '#ff8000';
+                    default: return '#1a0f08';
+                  }
+                };
+
+                const getQualityDot = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return '#9d9d9d';
+                    case 'common': return '#c4b89a';
+                    case 'uncommon': return '#1eff00';
+                    case 'rare': return '#0070dd';
+                    case 'epic': return '#a335ee';
+                    case 'legendary': return '#ff8000';
+                    default: return '#c4b89a';
+                  }
+                };
+
+                const getQualityLabel = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return { text: 'Trash', color: '#8a8276', bg: '#e8e4de' };
+                    case 'common': return { text: 'Common', color: '#5a4a3a', bg: '#f5f0e5' };
+                    case 'uncommon': return { text: 'Uncommon', color: '#1eff00', bg: 'rgba(30, 255, 0, 0.12)' };
+                    case 'rare': return { text: 'Rare', color: '#0070dd', bg: 'rgba(0, 112, 221, 0.12)' };
+                    case 'epic': return { text: 'Epic', color: '#a335ee', bg: 'rgba(163, 53, 238, 0.12)' };
+                    case 'legendary': return { text: 'Legendary', color: '#ff8000', bg: 'rgba(255, 128, 0, 0.15)' };
+                    default: return { text: 'Common', color: '#5a4a3a', bg: '#f5f0e5' };
+                  }
+                };
+
+                const getDropChanceStyle = (chance) => {
+                  if (chance >= 100) return { label: 'Guaranteed', color: '#2d6a2e', bg: 'rgba(45, 106, 46, 0.12)' };
+                  if (chance >= 50) return { label: `${chance}%`, color: '#5a4a3a', bg: 'rgba(139, 115, 85, 0.15)' };
+                  if (chance >= 20) return { label: `${chance}%`, color: '#8b6914', bg: 'rgba(184, 134, 11, 0.15)' };
+                  return { label: `${chance}%`, color: '#8b2635', bg: 'rgba(139, 38, 53, 0.12)' };
+                };
+
+                return (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {/* Currency Section */}
+                    {hasAnyCurrency && (
+                      <>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '6px 8px',
+                          background: 'linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%)',
+                          border: '1px solid rgba(184, 134, 11, 0.4)',
+                          borderRadius: '5px'
+                        }}>
+                          <span style={{ fontSize: '14px' }}>&#176;</span>
+                          <span style={{ fontSize: '11px', color: '#5a4a3a', fontWeight: '600', fontStyle: 'italic' }}>Coin Purse</span>
+                          <span style={{ marginLeft: 'auto', fontSize: '12px', fontWeight: '700', color: '#8b6914' }}>
+                            {hasGold && <span>{currency.gold.min}-{currency.gold.max}g </span>}
+                            {hasSilver && <span>{currency.silver.min}-{currency.silver.max}s </span>}
+                            {hasCopper && <span>{currency.copper.min}-{currency.copper.max}c</span>}
+                          </span>
+                        </div>
+                        {sortedLoot.length > 0 && (
+                          <div style={{ borderBottom: '1px dashed rgba(139, 115, 85, 0.35)', margin: '2px 0' }} />
+                        )}
+                      </>
+                    )}
+
+                    {/* Item Drops */}
+                    {sortedLoot.map((item, index) => {
+                      const quality = item.quality || 'common';
+                      const color = getQualityColor(quality);
+                      const dotColor = getQualityDot(quality);
+                      const qlabel = getQualityLabel(quality);
+                      const isLowQuality = quality === 'common' || quality === 'poor';
+                      const drop = getDropChanceStyle(item.dropChance);
+
+                      return (
+                        <div key={index} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '5px 7px',
+                          background: qlabel.bg,
+                          borderLeft: `3px solid ${dotColor}`,
+                          borderRadius: '0 4px 4px 0',
+                          fontSize: '12px',
+                          lineHeight: '1.3'
+                        }}>
+                          {/* Quality dot */}
+                          <span style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            background: dotColor,
+                            flexShrink: 0,
+                            boxShadow: quality === 'legendary' || quality === 'epic'
+                              ? `0 0 4px ${dotColor}`
+                              : 'none'
+                          }} />
+
+                          {/* Item name */}
+                          <span style={{
+                            color: color,
+                            fontWeight: '700',
+                            textShadow: isLowQuality ? 'none' : '1px 1px 2px rgba(0, 0, 0, 0.4)',
+                            flex: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            {item.name || 'Unknown Item'}
+                          </span>
+
+                          {/* Drop chance */}
+                          <span style={{
+                            fontSize: '9px',
+                            fontWeight: '700',
+                            color: drop.color,
+                            background: drop.bg,
+                            padding: '2px 5px',
+                            borderRadius: '3px',
+                            whiteSpace: 'nowrap',
+                            letterSpacing: '0.3px',
+                            textTransform: drop.label === 'Guaranteed' ? 'uppercase' : 'none'
+                          }}>
+                            {drop.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+
+                    {totalItems > 5 && (
+                      <div style={{
+                        fontSize: '10px',
+                        color: '#6b5b47',
+                        fontStyle: 'italic',
+                        textAlign: 'center',
+                        marginTop: '2px'
+                      }}>
+                        ...and {totalItems - 5} more treasures to discover
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -957,122 +1122,151 @@ const SimpleCreatureTooltip = ({ creature }) => {
         {/* Shopkeeper Info */}
         {creature.isShopkeeper && (
           <div style={{ marginBottom: '10px' }}>
-            {/* Section Header */}
             <div style={{
               fontSize: '13px',
               fontWeight: '700',
               color: '#8B4513',
-              marginBottom: '8px',
+              marginBottom: '4px',
               textAlign: 'center',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               borderBottom: '2px solid #8B4513',
               paddingBottom: '4px',
               lineHeight: '1.3'
             }}>
               MERCHANT
             </div>
+            <div style={{
+              fontSize: '11px',
+              color: '#5a4a3a',
+              textAlign: 'center',
+              fontStyle: 'italic',
+              marginBottom: '8px'
+            }}>
+              Wares available for trade:
+            </div>
 
             <div style={{
               background: 'linear-gradient(135deg, rgba(184, 134, 11, 0.15) 0%, rgba(139, 69, 19, 0.2) 50%, rgba(160, 82, 45, 0.15) 100%)',
               border: '2px solid #daa520',
               borderRadius: '8px',
-              padding: '12px 14px',
-              fontSize: '12px',
+              padding: '10px 12px',
               color: '#2d1810',
-              boxShadow: 'inset 0 1px 0 rgba(255, 215, 0, 0.1), 0 2px 8px rgba(139, 69, 19, 0.3)',
-              position: 'relative',
-              lineHeight: '1.4',
-              textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)'
+              boxShadow: 'inset 0 1px 0 rgba(255, 215, 0, 0.1), 0 2px 8px rgba(139, 69, 19, 0.3)'
             }}>
               {creature.shopInventory?.shopName && (
-                <div style={{ fontWeight: '600', marginBottom: '4px', fontSize: '13px' }}>
+                <div style={{ fontWeight: '600', marginBottom: '4px', fontSize: '13px', textAlign: 'center' }}>
                   {creature.shopInventory.shopName}
                 </div>
               )}
               {creature.shopInventory?.shopDescription && (
-                <div style={{ fontSize: '11px', opacity: 0.9 }}>
-                  {creature.shopInventory.shopDescription.length > 50
-                    ? creature.shopInventory.shopDescription.substring(0, 50) + '...'
+                <div style={{
+                  fontSize: '11px',
+                  color: '#5a4a3a',
+                  fontStyle: 'italic',
+                  textAlign: 'center',
+                  marginBottom: creature.shopInventory?.items?.length > 0 ? '8px' : '0',
+                  paddingBottom: creature.shopInventory?.items?.length > 0 ? '8px' : '0',
+                  borderBottom: creature.shopInventory?.items?.length > 0 ? '1px solid rgba(139, 115, 85, 0.3)' : 'none'
+                }}>
+                  {creature.shopInventory.shopDescription.length > 80
+                    ? creature.shopInventory.shopDescription.substring(0, 80) + '...'
                     : creature.shopInventory.shopDescription}
                 </div>
               )}
-              {creature.shopInventory?.items?.length > 0 && (
-                <div style={{ fontSize: '11px', marginTop: '6px', opacity: 0.9 }}>
-                  {(() => {
-                    const shopItems = creature.shopInventory.items;
-                    const maxDisplay = 3;
-                    const displayedItems = shopItems.slice(0, maxDisplay);
-                    const remainingCount = shopItems.length - maxDisplay;
+              {creature.shopInventory?.items?.length > 0 && (() => {
+                const shopItems = creature.shopInventory.items;
+                const maxDisplay = 5;
 
-                    // Get item names with quality colors
-                    const itemElements = displayedItems.map(shopItem => {
-                      const item = itemLibrary.find(i => i.id === shopItem.itemId);
-                      if (!item) return null;
+                const getMerchantQualityColor = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return '#6b6b6b';
+                    case 'common': return '#1a0f08';
+                    case 'uncommon': return '#1eff00';
+                    case 'rare': return '#0070dd';
+                    case 'epic': return '#a335ee';
+                    case 'legendary': return '#ff8000';
+                    default: return '#1a0f08';
+                  }
+                };
 
-                      const qualityColor = (() => {
-                        const quality = item.quality || 'common';
-                        switch (quality.toLowerCase()) {
-                          case 'poor': return '#9d9d9d';
-                          case 'common': return '#ffffff';
-                          case 'uncommon': return '#1eff00';
-                          case 'rare': return '#0070dd';
-                          case 'epic': return '#a335ee';
-                          case 'legendary': return '#ff8000';
-                          default: return '#ffffff';
-                        }
-                      })();
+                const getMerchantQualityBg = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return '#e8e4de';
+                    case 'common': return '#fffdf7';
+                    case 'uncommon': return 'rgba(30, 255, 0, 0.08)';
+                    case 'rare': return 'rgba(0, 112, 221, 0.1)';
+                    case 'epic': return 'rgba(163, 53, 238, 0.1)';
+                    case 'legendary': return 'rgba(255, 128, 0, 0.12)';
+                    default: return '#fffdf7';
+                  }
+                };
+
+                const getMerchantQualityBorder = (quality) => {
+                  switch ((quality || 'common').toLowerCase()) {
+                    case 'poor': return '#b0a89c';
+                    case 'common': return '#9c8b74';
+                    case 'uncommon': return 'rgba(30, 255, 0, 0.35)';
+                    case 'rare': return 'rgba(0, 112, 221, 0.4)';
+                    case 'epic': return 'rgba(163, 53, 238, 0.4)';
+                    case 'legendary': return 'rgba(255, 128, 0, 0.5)';
+                    default: return '#9c8b74';
+                  }
+                };
+
+                const resolvedItems = shopItems
+                  .map(si => {
+                    const item = itemLibrary.find(i => i.id === si.itemId);
+                    return item ? { ...si, name: item.name, quality: item.quality || 'common' } : null;
+                  })
+                  .filter(Boolean);
+
+                const displayItems = resolvedItems.slice(0, maxDisplay);
+                const remainingCount = resolvedItems.length - maxDisplay;
+
+                if (displayItems.length === 0) {
+                  return <div style={{ fontSize: '11px', fontStyle: 'italic', textAlign: 'center' }}>{shopItems.length} wares for sale</div>;
+                }
+
+                return (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {displayItems.map((item, index) => {
+                      const quality = item.quality || 'common';
+                      const isLowQuality = quality === 'common' || quality === 'poor';
 
                       return (
-                        <span
-                          key={shopItem.itemId}
-                          style={{
-                            color: qualityColor,
-                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                            fontWeight: '600',
-                            WebkitTextStroke: '0.25px #000000',
-                            textStroke: '0.25px #000000'
-                          }}
-                        >
-                          [{item.name}]
-                        </span>
+                        <div key={item.itemId || index} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          padding: '4px 8px',
+                          background: getMerchantQualityBg(quality),
+                          border: `1px solid ${getMerchantQualityBorder(quality)}`,
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          lineHeight: '1.3'
+                        }}>
+                          <span style={{
+                            color: getMerchantQualityColor(quality),
+                            fontWeight: '700',
+                            textShadow: isLowQuality ? 'none' : '1px 1px 2px rgba(0, 0, 0, 0.4)',
+                          }}>
+                            {item.name}
+                          </span>
+                        </div>
                       );
-                    }).filter(Boolean);
-
-                    if (itemElements.length === 0) {
-                      return `${shopItems.length} wares for sale`;
-                    }
-
-                    // Create display with commas between items
-                    const displayElements = [];
-                    itemElements.forEach((element, index) => {
-                      if (index > 0) {
-                        displayElements.push(<span key={`comma-${index}`}> </span>);
-                      }
-                      displayElements.push(element);
-                    });
-
-                    if (remainingCount > 0) {
-                      displayElements.push(
-                        <span
-                          key="more"
-                          style={{
-                            color: '#daa520',
-                            fontStyle: 'italic',
-                            fontWeight: '500',
-                            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-                            WebkitTextStroke: '0.25px #000000',
-                            textStroke: '0.25px #000000'
-                          }}
-                        >
-                          ... and {remainingCount} more treasures
-                        </span>
-                      );
-                    }
-
-                    return displayElements;
-                  })()}
-                </div>
-              )}
+                    })}
+                    {remainingCount > 0 && (
+                      <div style={{
+                        fontSize: '10px',
+                        color: '#6b5b47',
+                        fontStyle: 'italic',
+                        textAlign: 'center',
+                        marginTop: '2px'
+                      }}>
+                        +{remainingCount} more wares
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}

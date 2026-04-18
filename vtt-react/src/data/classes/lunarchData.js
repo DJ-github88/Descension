@@ -16,7 +16,20 @@ export const LUNARCH_DATA = {
   overview: {
     title: 'The Lunarch',
     subtitle: 'Celestial Archer and Lunar Mage',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Lunarch channels power from four moon phases, each granting distinct bonuses that cycle naturally or can be shifted manually for mana.
+
+**Core Mechanic**: New Moon (defense/recovery) → Waxing Moon (support/healing) → Full Moon (offense/damage) → Waning Moon (control/efficiency)
+
+**Resource**: Mana (8 per Phase Shift), 4-phase cycle (auto-advances every 3 rounds)
+
+**Playstyle**: Adaptive ranged combat with phase-based versatility
+
+**Best For**: Players who enjoy flexible role-shifting, celestial themes, and timing-based resource management`,
+    },
+
     description: `The Lunarch is a master of celestial magic who draws power from the phases of the moon. Inspired by ancient lunar priestesses and celestial guardians, Lunarchs channel the ever-changing energy of the moon to adapt their combat style. Through the Phase Shift system, they flow between four distinct lunar phases, each granting unique bonuses and altering their spell effects. This dynamic resource system rewards tactical thinking and phase management, allowing Lunarchs to excel as versatile ranged combatants who can shift between offense, defense, and support as the battle demands.`,
 
     roleplayIdentity: {
@@ -410,16 +423,21 @@ When you use Lunar Eclipse ultimate (gain New Moon + Full Moon benefits):
 - **Starting Phase**: All Lunarchs begin combat in New Moon phase
 - **Natural Cycling**: Phases automatically advance every 3 rounds (New Moon → Waxing Moon → Full Moon → Waning Moon → New Moon)
 - **Manual Shifting**: Spend 8 mana to immediately shift to any phase of your choice
-- **Phase Tracking**: Your current phase is displayed on your character sheet and affects all applicable spells and abilities
+- **Phase Tracking**: Current phase is displayed on your character sheet and affects all applicable spells and abilities
 
 **Phase Duration**:
-Each phase lasts for 3 rounds when cycling naturally. Manual shifts reset the 3-round timer, meaning if you manually shift on round 2, the new phase will last for 3 full rounds from that point.
+- Each phase lasts 3 rounds when cycling naturally
+- Manual shifts reset the 3-round timer (new phase lasts 3 full rounds from that point)
 
 **Mana Management**:
-Manual phase shifting is a significant mana investment (8 mana). Consider whether the tactical advantage of shifting immediately is worth the cost, or if you can wait for the natural cycle. In longer combats, natural cycling is more efficient. In burst situations, manual shifting can be game-changing.
+- Manual phase shifting costs 8 mana—a significant investment
+- Natural cycling is more efficient in longer combats
+- Manual shifting can be game-changing in burst situations
+- Consider whether the tactical advantage of shifting immediately is worth the cost
 
 **Phase Stacking**:
-You can only be in one phase at a time. However, certain ultimate abilities (like Lunar Eclipse) can temporarily grant benefits from multiple phases simultaneously.`
+- You can only be in one phase at a time
+- Certain ultimate abilities (like Lunar Eclipse) can temporarily grant benefits from multiple phases simultaneously`
     },
 
     resourceTables: [

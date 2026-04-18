@@ -16,11 +16,24 @@ export const ORACLE_DATA = {
   overview: {
     title: 'The Oracle',
     subtitle: 'Seer of Truths and Weaver of Destiny',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: Oracles peer through the veil of time, declaring predictions about combat events and rewarded with Prophetic Visions when proven right—visions they then spend to twist fate itself.
+
+**Core Mechanic**: Declare Prediction → Correct Outcome → Gain Prophetic Visions → Spend Visions to Force Rerolls, Buff Allies, or Unleash Divination Magic
+
+**Resource**: Prophetic Visions (0–10 scale, gained from accurate predictions and witnessing fate)
+
+**Playstyle**: Tactical prediction-based support
+
+**Best For**: Players who love reading the battlefield, making bold calls, and turning foresight into devastating tactical advantage`
+    },
+
     description: `Oracles are mystics who pierce the veil between past, present, and future. Through prophetic visions, they glimpse hidden truths, foresee coming events, and manipulate the threads of fate itself. Unlike the Gambler who relies on luck, or the Chronarch who manipulates time, Oracles see the tapestry of destiny and can subtly alter its weave. Their power grows when their predictions prove true, rewarding insight and foresight.`,
     
-    rpIdentity: {
-      title: 'Roleplaying Identity',
+    roleplayIdentity: {
+      title: 'Roleplay Identity',
       content: `Oracles are enigmatic seers who speak in riddles and prophecies. They see connections others miss, perceive hidden motives, and sense the weight of destiny on individuals and events. Some are blessed by divine visions, others cursed with unwanted foresight. They might be:
 
 **The Blind Seer**: Physical blindness traded for supernatural sight
@@ -389,23 +402,23 @@ When you have high Visions (7+):
       content: `**Generating Visions**
 You gain Prophetic Visions through:
 
-• **Correct Predictions**: Declare a prediction before an event (e.g., "The next attack will miss"). If correct, gain 1-3 Visions based on specificity
-• **Revealing Truths**: Use divination abilities to uncover hidden information (traps, lies, weaknesses) - gain 1 Vision per revelation
-• **Fulfilling Prophecies**: At the start of each session, make 3 prophecies about what will happen. Each that comes true grants 2 Visions
-• **Witnessing Fate**: When a critical hit or critical miss occurs within 30 feet, gain 1 Vision
+- **Correct Predictions**: Declare a prediction before an event (e.g., "The next attack will miss"). If correct, gain 1-3 Visions based on specificity
+- **Revealing Truths**: Use divination abilities to uncover hidden information (traps, lies, weaknesses) — gain 1 Vision per revelation
+- **Fulfilling Prophecies**: At the start of each session, make 3 prophecies about what will happen. Each that comes true grants 2 Visions
+- **Witnessing Fate**: When a critical hit or critical miss occurs within 30 feet, gain 1 Vision
 
 **Spending Visions**
 Visions can be spent to:
 
-• **Alter Fate** (1-3 Visions): Force a reroll, grant advantage/disadvantage, or add/subtract from a roll
-• **Cast Divination Spells**: Many Oracle spells cost Visions instead of or in addition to mana
-• **Activate Prophecies**: Trigger powerful effects by spending accumulated Visions
-• **Weave Destiny**: Manipulate the threads of fate to create specific outcomes
+- **Alter Fate** (1-3 Visions): Force a reroll, grant advantage/disadvantage, or add/subtract from a roll
+- **Cast Divination Spells**: Many Oracle spells cost Visions instead of or in addition to mana
+- **Activate Prophecies**: Trigger powerful effects by spending accumulated Visions
+- **Weave Destiny**: Manipulate the threads of fate to create specific outcomes
 
 **Vision Storage**
-• Maximum Visions: 10
-• Visions persist between combats
-• Visions reset to 3 at the start of each long rest (representing baseline prophetic insight)`
+- **Maximum Visions**: 10
+- **Persistence**: Visions persist between combats
+- **Long Rest**: Visions reset to 3 at the start of each long rest (baseline prophetic insight)`
     },
     
     predictionMechanics: {
@@ -435,21 +448,21 @@ Predictions must be made before the event occurs and are resolved immediately wh
     strategicConsiderations: {
       title: 'Strategic Considerations',
       content: `**Vision Economy**
-• Start each session with 3 Visions from your long rest
-• Make session prophecies early to potentially gain 6 more Visions (3 prophecies × 2 Visions each)
-• Balance between making predictions (risky but rewarding) and spending Visions (immediate power)
-• Save Visions for critical moments when altering fate could turn the tide
+- Start each session with 3 Visions from your long rest
+- Make session prophecies early to potentially gain 6 more Visions (3 prophecies × 2 Visions each)
+- Balance between making predictions (risky but rewarding) and spending Visions (immediate power)
+- Save Visions for critical moments when altering fate could turn the tide
 
 **Prediction Strategy**
-• Make simple predictions frequently to build Visions steadily
-• Save specific/precise predictions for when you have strong information
-• Use divination spells to gather information that makes predictions easier
-• Coordinate with allies to set up predictable scenarios
+- Make simple predictions frequently to build Visions steadily
+- Save specific/precise predictions for when you have strong information
+- Use divination spells to gather information that makes predictions easier
+- Coordinate with allies to set up predictable scenarios
 
 **Specialization Synergy**
-• **Seers** excel at future predictions and gain bonus Visions from correct forecasts
-• **Truthseekers** focus on revealing hidden information and past events
-• **Fateweavers** spend Visions aggressively to manipulate outcomes directly`
+- **Seers** excel at future predictions and gain bonus Visions from correct forecasts
+- **Truthseekers** focus on revealing hidden information and past events
+- **Fateweavers** spend Visions aggressively to manipulate outcomes directly`
     },
 
     playingInPerson: {

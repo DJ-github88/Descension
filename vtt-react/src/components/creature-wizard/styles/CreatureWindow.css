@@ -97,6 +97,23 @@
   padding: 0;
   background-color: #f0e6d2;
   min-height: 0; /* critical for flex children to respect parent height */
+  display: flex;
+  flex-direction: column;
+}
+
+/* When the wizard is active, disable parent scrolling so the wizard's internal scroll works */
+.creature-window-content:has(.creature-wizard-layout),
+.creature-window-content.has-wizard {
+  overflow: hidden !important;
+}
+
+/* Fallback for browsers without :has() support or when wrapped in Suspense – ensures wizard fills height */
+.creature-window-content .creature-wizard-layout {
+  flex: 1 1 0%;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ─── Loading / Auth Required ────────────────────────────────── */

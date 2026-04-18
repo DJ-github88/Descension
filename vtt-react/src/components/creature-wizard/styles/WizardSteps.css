@@ -1,15 +1,9 @@
 /* D&D/Pathfinder Themed Wizard Steps */
 .wizard-step {
-  padding: 30px;
-  background: linear-gradient(135deg,
-    rgba(240, 230, 210, 0.95) 0%,
-    rgba(230, 220, 200, 0.9) 50%,
-    rgba(213, 203, 176, 0.85) 100%);
+  padding: 10px 0 30px 0;
+  background: transparent;
   color: #3a3a3a;
   font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin: 10px;
 }
 
 /* Step Header */
@@ -179,10 +173,23 @@
 
 /* Removed duplicate .form-group label - using consolidated styles */
 
-.form-group label::before {
+/* ◆ decoration only on regular field labels, NOT on checkbox/radio labels */
+.form-group label:not(:has(input[type="checkbox"]))::before,
+.form-group > label:not(.checkbox-label)::before {
   content: '◆';
   color: #8b7355;
-  font-size: 12px;
+  font-size: 10px;
+  margin-right: 8px; /* Added spacing */
+  vertical-align: middle;
+}
+
+/* Explicitly suppress ◆ on labels that wrap checkboxes or radios */
+.form-group label:has(input[type="checkbox"])::before,
+.form-group label:has(input[type="radio"])::before,
+.form-group .checkbox-label::before,
+.form-group label input[type="checkbox"] ~ *::before {
+  content: none !important;
+  display: none !important;
 }
 
 /* Enhanced Labels */
@@ -1595,15 +1602,30 @@
 }
 
 .classification-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(15px, 2vw, 20px);
+  display: flex; /* Changed from grid to flex for better wrapping behavior */
+  flex-wrap: wrap; 
+  gap: 15px;
   width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.classification-row .form-group {
+  flex: 1;
+  min-width: 200px; /* Force wrap if less than 200px */
+  overflow: hidden;
+}
+
+.classification-row .form-group select,
+.classification-row .form-group input {
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
 }
 
 .form-group.half-width {
   margin-bottom: 0;
+  min-width: 0;
 }
 
 .token-appearance-section {
@@ -1912,6 +1934,24 @@
   font-size: 18px;
   font-weight: bold;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Dark checkmark for light background colors */
+.color-option-large[style*="background-color: #ffffff"] .checkmark,
+.color-option-large[style*="background-color: rgb(255, 255, 255)"] .checkmark,
+.color-option-large[style*="background-color: #ffffff"] .checkmark,
+.color-option-large[style*="background-color: #e6dcc6"] .checkmark,
+.color-option-large[style*="background-color: rgb(230, 220, 198)"] .checkmark,
+.color-option-large[style*="background-color: #dddddd"] .checkmark {
+  color: #4a2b1f;
+  text-shadow: none;
+}
+
+/* Specifically target the white one if style attribute exact match varies */
+.color-option-large[title="#ffffff"] .checkmark,
+.color-option-large[title="white"] .checkmark {
+  color: #4a2b1f;
+  text-shadow: none;
 }
 
 /* Responsive Design */

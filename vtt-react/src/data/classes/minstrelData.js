@@ -16,7 +16,20 @@ export const MINSTREL_DATA = {
   overview: {
     title: 'The Minstrel',
     subtitle: 'Master of Musical Magic',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Minstrel weaves magic through music theory, building musical notes with spells and resolving them into powerful chord progressions called cadences.
+
+**Core Mechanic**: Cast builder spells → Generate musical notes (I–VII) → Combine notes into cadences → Unleash powerful effects based on chord progression
+
+**Resource**: Musical Notes (7 types, stack up to 5 each), Mana
+
+**Playstyle**: Combo-building support with sustained power escalation
+
+**Best For**: Players who enjoy combo systems, musical themes, and orchestrating group buffs and battlefield control`,
+    },
+
     description: `The Minstrel is a master of musical magic, weaving spells through intricate chord progressions and harmonic resonance. By combining spells with specific musical functions, the Minstrel creates harmonious effects that support allies, hinder foes, and manipulate the battlefield through the power of song. Their unique mechanic revolves around building musical notes and resolving them into powerful cadences.`,
     
     roleplayIdentity: {

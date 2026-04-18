@@ -16,7 +16,20 @@ export const TITAN_DATA = {
   overview: {
     title: 'The Titan',
     subtitle: 'Celestial Warrior',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: Titans attune each day to one of five celestial beings—Solara, Lunara, Astraeus, Terranox, or Zephyra—gaining their divine powers and a devastating once-per-day ability, but also inheriting their sacred restrictions that demand strategic adaptation.
+
+**Core Mechanic**: Choose Daily Celestial Devotion → Gain Divine Benefits + Once-Per-Day Ultimate → Play Around Meaningful Restrictions
+
+**Resource**: Celestial Devotion (5 beings, chosen at long rest, lasts until next rest)
+
+**Playstyle**: Adaptive devotion-based melee combat
+
+**Best For**: Players who enjoy daily strategic planning, thematic roleplaying, and reshaping their combat role to meet each day's challenges`
+    },
+
     description: `The Titan class draws its power from attuning to celestial beings, harnessing their divine attributes and abilities. Each day, the Titan can choose to attune to a different celestial deity, gaining their powers and unique abilities while also adhering to their restrictions. This system brings a high level of flavor and depth, making the Titan a versatile and thematic melee warrior.`,
     
     roleplayIdentity: {

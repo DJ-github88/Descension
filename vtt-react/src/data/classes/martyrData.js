@@ -16,7 +16,20 @@ export const MARTYR_DATA = {
   overview: {
     title: 'The Martyr',
     subtitle: 'Selfless Protector and Sacred Sacrifice',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Martyr grows stronger through suffering, building Devotion Levels by taking damage and sacrificing their own vitality to protect and heal allies.
+
+**Core Mechanic**: Take damage → Cross damage thresholds → Unlock Devotion Levels → Spend Devotion to amplify spells or gain passive power
+
+**Resource**: Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken)
+
+**Playstyle**: Sacrificial tank-healer hybrid with scaling power
+
+**Best For**: Players who enjoy protective gameplay, martyrdom fantasy, and turning suffering into divine strength`,
+    },
+
     description: `The Martyr is a devoted protector who draws strength from unwavering faith and willingness to endure suffering for their allies. Through the Devotion Gauge mechanic, Martyrs transform pain into power, unlocking increasingly potent abilities as they take damage and perform sacrificial acts. Each wound they bear becomes a blessing for their companions.`,
     
     roleplayIdentity: {
@@ -439,15 +452,21 @@ When considering amplified spell:
 - **Self-Sacrifice Spells**: Some spells inflict self-damage to build Devotion while providing benefits
 - **Damage Tracking**: Total damage taken persists through combat to track Devotion Level
 
-**Devotion Levels**: Six levels (1-6), each with unique passive effects
-**Level Persistence**: Devotion Levels persist between combats until you rest or are fully healed
-**Maximum Level**: Devotion Level 6 is the maximum
+**Devotion Levels**:
+- Six levels (1-6), each with unique passive effects
+- Persist between combats until you rest or are fully healed
+- Devotion Level 6 is the maximum
 
-**Passive Effects**: Each Devotion Level grants a permanent passive benefit while at that level
-**Amplified Spells**: Spend Devotion Levels to cast enhanced versions of spells
-**Spending Devotion**: Using amplified abilities reduces your Devotion Level by the cost (1-5 levels)
+**Passive Effects**:
+- Each Devotion Level grants a permanent passive benefit while at that level
+- Higher levels provide stronger passives (AC auras, resistance, radiant damage)
 
-**Martyr's Intervene**: 
+**Amplified Spells**:
+- Spend Devotion Levels to cast enhanced versions of spells
+- Using amplified abilities reduces your Devotion Level by the cost (1-5 levels)
+- Some amplified effects are worth more than passive benefits in critical moments
+
+**Martyr's Intervene**:
 As a reaction, rush in front of an ally within 10 feet who is about to take damage, taking the damage instead. This action increases the Devotion Gauge by 1 level each time it is used, regardless of damage amount.`
     },
     

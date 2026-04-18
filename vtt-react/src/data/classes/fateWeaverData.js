@@ -27,6 +27,19 @@ export const FATE_WEAVER_DATA = {
     title: 'The Fate Weaver',
     subtitle: 'Master of Destiny and Cards',
     
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Fate Weaver draws from a 52-card mystical deck to cast spells, using poker hands, blackjack scoring, and other card game mechanics to determine spell effects. Failed draws and negative outcomes generate Threads of Destiny (0-13), which can be spent to call specific cards from the deck—turning bad luck into strategic dominance. Every failure is fuel; every thread is a weapon.
+
+**Core Mechanic**: Draw cards for spell effects → Failures and negative outcomes generate Threads of Destiny → Spend 2 Threads to call any specific card → Stack the deck in your favor → Transform randomness into calculated strategy
+
+**Resource**: Threads of Destiny (0-13 scale, mirroring 13 cards per suit)
+
+**Playstyle**: Strategic card-based support and control with calculated manipulation
+
+**Best For**: Players who love card game mechanics, tactical decision-making, and the satisfaction of turning failure into a decisive advantage`
+    },
+    
     description: `The Fate Weaver manipulates the threads of destiny using their unique connection to cosmic forces. They draw power from cards, utilizing "Threads of Destiny" to influence the outcomes of their spells and actions. This mechanic allows Fate Weavers to predict, alter, and control the course of events in battle, making their actions as strategic as they are mystical.`,
     
     roleplayIdentity: {
@@ -344,12 +357,14 @@ When a spell fails or produces negative outcome:
 
     mechanics: {
       title: 'How It Works',
-      content: `**Thread Generation**: Fate Weavers generate Threads of Destiny whenever their spells fail or produce negative outcomes:
-- **Spell Failure** (+1 Thread): When a spell fails to achieve its intended effect or produces no outcome
-- **Minor Negative Outcome** (+1 Thread): When a spell produces a minor negative effect (e.g., drawing a heart in Heart's Gamble)
-- **Major Negative Outcome** (+2 Threads): When a spell produces a severe negative effect (e.g., going far over 21 in Draw of the Damned)
+      content: `**Thread Generation**:
+Fate Weavers generate Threads of Destiny whenever spells fail or produce negative outcomes:
+- **Spell Failure** (+1 Thread): Spell fails to achieve its intended effect or produces no outcome
+- **Minor Negative Outcome** (+1 Thread): Spell produces a minor negative effect (e.g., drawing a heart in Heart's Gamble)
+- **Major Negative Outcome** (+2 Threads): Spell produces a severe negative effect (e.g., going far over 21 in Draw of the Damned)
 
-**Thread Usage**: Spend Threads to manipulate your deck and control fate:
+**Thread Usage**:
+Spend Threads to manipulate your deck and control fate:
 - **Call Specific Card** (2 Threads): Search the deck for a specific card and add it to your hand (once per turn)
 - **Reweave Fate** (Passive): Automatically gain Threads when spells fail or backfire—failures are never wasted
 
@@ -358,7 +373,11 @@ When a spell fails or produces negative outcome:
 - **Starting**: 0 Threads
 - **Persistence**: Threads persist between combats and can be stockpiled for crucial encounters
 
-**Strategic Principle**: The Fate Weaver thrives on turning failures into opportunities. Early in combat, accept some failures to build Thread reserves. Later, spend Threads to guarantee success when it matters most.`
+**Strategic Principle**:
+- **Early Combat**: Accept some failures to build Thread reserves
+- **Mid Combat**: Spend Threads to guarantee success on critical spells
+- **Late Combat**: Use remaining Threads for finishing moves
+- **Core Philosophy**: Every failure fuels your next success`
     },
 
     tables: [

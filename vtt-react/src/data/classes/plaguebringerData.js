@@ -17,6 +17,19 @@ export const PLAGUEBRINGER_DATA = {
     title: 'The Plaguebringer',
     subtitle: 'Master of Pestilence and Decay',
 
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: Plaguebringers plant base afflictions on enemies like seeds in soil, then cultivate them through category spells—Weaken, Torment, Fester, and more—until they bloom into devastating final-form plagues that cripple entire groups.
+
+**Core Mechanic**: Apply Base Affliction → Cultivate with Category Spells (Weaken/Torment/Fester/etc.) → Evolve into Devastating Final Affliction
+
+**Resource**: Affliction Cultivation (base → staged evolution through 8 category paths)
+
+**Playstyle**: Methodical disease-stacking damage over time
+
+**Best For**: Players who enjoy patient setup, tracking multiple debuffs, and watching their carefully nurtured plagues consume the battlefield`
+    },
+
     description: `The Plaguebringer is a master of pestilence and decay, weaving intricate webs of curses, toxins, and afflictions to bring their enemies to a slow, agonizing end. Unlike brute force warriors, the Plaguebringer thrives on the delicate art of nurturing and evolving their sinister creations. Each affliction begins as a seed, carefully planted on the target, and through meticulous cultivation, grows into a devastating plague that cripples and consumes.`,
 
     roleplayIdentity: {

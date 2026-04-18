@@ -17,6 +17,19 @@ export const FALSE_PROPHET_DATA = {
     title: 'The False Prophet',
     subtitle: 'Herald of Madness and Eldritch Truth',
     
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by channeling eldritch void energy, with each point granting +1 shadow damage to all spells. The temptation is relentless—push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
+
+**Core Mechanic**: Cast void spells → Roll dice for random Madness gains → Shadow damage scales with Madness (+1 per point) → Unlock thresholds at 6, 9, 12 Madness → Reach 20 and trigger Insanity Convulsion → Reset to 0
+
+**Resource**: Madness Points (0-20 scale, random generation and spending)
+
+**Playstyle**: Chaotic caster dancing on the razor's edge of insanity
+
+**Best For**: Players who relish randomness, embrace chaos, and love the thrill of pushing their luck one spell too far`
+    },
+    
     description: `The False Prophet channels chaotic energies from the eldritch void, accumulating Madness Points through their reality-bending spells. This madness empowers their shadow damage but threatens to consume them entirely. Walking the razor's edge between power and insanity, False Prophets tempt fate with forbidden knowledge and risk catastrophic consequences.`,
     
     roleplayIdentity: {
@@ -240,20 +253,20 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       content: `**Generating Madness Points**:
 - Certain spells generate Madness by rolling dice (1d4, 1d6, or 1d8)
 - The result is added to your current Madness Points
-- Generation is random—you can't predict exact amounts
+- Generation is random—you cannot predict exact amounts
 - Higher-tier spells typically generate more Madness
 
 **Spending Madness Points**:
 - Other spells spend Madness by rolling dice (1d4, 1d6, or 1d8)
 - The rolled amount is subtracted from your current Madness Points
-- If you don't have enough Madness, the spell fails or has reduced effect
+- **Insufficient Madness**: Spell fails or has reduced effect
 - Spending is also random—strategic risk management required
 
 **Shadow Damage Scaling**:
-- Each Madness Point increases shadow damage by +1
-- At 10 Madness: +10 shadow damage to all shadow spells
-- At 19 Madness: +19 shadow damage (maximum safe level)
-- This bonus applies to all shadow damage you deal
+- **Per Point**: Each Madness Point increases shadow damage by +1
+- **At 10 Madness**: +10 shadow damage to all shadow spells
+- **At 19 Madness**: +19 shadow damage (maximum safe level)
+- **Scope**: Bonus applies to all shadow damage you deal
 
 **Madness Thresholds**:
 - **6 Madness**: Unlock Veil of Shadows (invisibility, adds 1d4 Madness)
@@ -262,7 +275,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
 - **20 Madness**: Automatic Insanity Convulsion
 
 **Insanity Convulsion**:
-When you reach 20 Madness Points, you immediately experience an Insanity Convulsion. Roll 1d6 on the Insanity Convulsion Table:
+At 20 Madness Points, roll 1d6 on the Insanity Convulsion Table. After the Convulsion, Madness resets to 0.
 
 1. **Shadow Burst**: Deal 5d6 necrotic damage to yourself and all creatures within 20 ft
 2. **Mind Shatter**: Stunned for 2 rounds
@@ -271,10 +284,9 @@ When you reach 20 Madness Points, you immediately experience an Insanity Convuls
 5. **Psychic Scream**: All creatures within 30 ft make Wisdom save or frightened for 3 rounds
 6. **Nightmare Echoes**: Take 6d6 psychic damage, gain Short-Term Madness for 1d4 rounds
 
-After the Convulsion, your Madness Points reset to 0.
+**Short-Term Madness Effects**:
+If triggered by Nightmare Echoes, roll 1d6:
 
-**Short-Term Madness Effects** (if triggered):
-Roll 1d6 for the specific effect:
 1. **Paranoia**: Attack nearest ally
 2. **Delirium**: Disadvantage on all skill checks and saves
 3. **Fearful**: Flee from combat for 1 round

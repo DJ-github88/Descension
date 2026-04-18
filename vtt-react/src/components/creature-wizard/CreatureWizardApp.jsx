@@ -206,55 +206,44 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
   return (
     <>
       <div className={`creature-wizard-layout ${wizardSizeClass}`}>
-        {/* Main content area */}
-        <div className="creature-wizard-main-content">
-          {renderStep()}
-        </div>
+        {/* Step Navigation Header (persistent at top) */}
+        <div className="creature-wizard-header">
+          {/* Back button or placeholder if needed */}
+          <div className="header-left-actions">
+             {/* Can add a 'back' or 'cancel' here if desired */}
+          </div>
 
-        {/* Progress Bar - sticky at bottom of wizard layout */}
-        <div className="creature-wizard-progress-overlay">
-          <div className="creature-wizard-progress-bar">
-            <div
-              className="creature-wizard-progress-fill"
-              style={{
-                width: `${(wizardState.currentStep / wizardState.totalSteps) * 100}%`
-              }}
-            />
-            <div className="creature-wizard-progress-segments">
-              {Array.from({ length: wizardState.totalSteps }, (_, index) => (
-                <div
-                  key={index + 1}
-                  className={`creature-wizard-progress-segment ${getStepStatus(index)} ${
-                    wizardState.currentStep === index + 1 ? 'active' : ''
-                  }`}
+          <div className="wizard-step-rail">
+            {stepNames.map((step, index) => (
+              <React.Fragment key={index}>
+                <div 
+                  className={`wizard-step-indicator ${getStepStatus(index)}`}
                   onClick={() => wizardDispatch(wizardActionCreators.goToStep(index + 1))}
+                  title={step.description}
                 >
-                  <span className="creature-step-number">{index + 1}</span>
-                  <div className="creature-step-tooltip">
-                    <div className="creature-tooltip-header">
-                      <span className="creature-tooltip-title">Step {index + 1}</span>
-                    </div>
-                    <div className="creature-tooltip-content">
-                      <div className="creature-tooltip-name">{stepNames[index]?.name}</div>
-                      {stepNames[index]?.description && (
-                        <div className="creature-tooltip-description">{stepNames[index].description}</div>
-                      )}
-                    </div>
+                  <div className="step-point">
+                    <span className="step-num">{index + 1}</span>
+                  </div>
+                  <div className="step-label-container">
+                    <span className="step-nav-name">{step.name}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-            </div>
+                {index < stepNames.length - 1 && (
+                  <div className={`wizard-step-connector ${index + 1 < wizardState.currentStep ? 'completed' : ''}`} />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
 
-          {/* Only Next/Save button */}
-          <div className="creature-wizard-buttons">
+          {/* Navigation Buttons in Header */}
+          <div className="header-right-actions">
             {wizardState.currentStep < wizardState.totalSteps ? (
               <button
                 className="creature-wizard-button primary"
                 onClick={handleNextStep}
                 disabled={isSubmitting}
               >
-                Next
+                Next Step <i className="fas fa-arrow-right"></i>
               </button>
             ) : (
               <button
@@ -262,10 +251,15 @@ const CreatureWizardApp = ({ editMode = false, creatureId = null, onSave, onCanc
                 onClick={handleSave}
                 disabled={isSubmitting || !wizardState.isValid}
               >
-                {isSubmitting ? 'Saving...' : 'Save Creature'}
+                {isSubmitting ? 'Saving...' : 'Save Creature'} <i className="fas fa-check"></i>
               </button>
             )}
           </div>
+        </div>
+
+        {/* Main content area */}
+        <div className="creature-wizard-main-content">
+          {renderStep()}
         </div>
       </div>
 

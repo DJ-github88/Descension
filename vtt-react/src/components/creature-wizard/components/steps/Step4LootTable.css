@@ -695,11 +695,12 @@
 /* Item subtype */
 .item-subtype {
   display: block;
-  font-size: 12px;
-  color: #7a3b2e;
+  font-size: 11px;
+  color: #5a1e12; /* Darker brown for better readability */
   margin-top: 3px;
   font-style: italic;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-weight: 600;
 }
 
 /* Rarity badge */
@@ -723,10 +724,10 @@
 }
 
 .rarity-common {
-  color: #1a1a1a;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-color: #c0c0c0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #2d1810; /* Dark brown text for common items on white/light background */
+  background-color: #ffffff;
+  border-color: #a08c70;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .rarity-uncommon {
@@ -770,7 +771,7 @@
 }
 
 .quality-common {
-  color: #ffffff !important;
+  color: #4a2b1f !important; /* Dark brown instead of white for readability */
 }
 
 .quality-uncommon {

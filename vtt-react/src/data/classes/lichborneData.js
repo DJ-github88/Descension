@@ -16,7 +16,20 @@ export const LICHBORNE_DATA = {
   overview: {
     title: 'The Lichborne',
     subtitle: 'Eternal Frost and Undying Will',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Lichborne channels an Eternal Frost Aura that amplifies frost magic at the cost of their own health, balanced by a Phylactery that stores HP and grants resurrection.
+
+**Core Mechanic**: Toggle Eternal Frost Aura → Enhanced frost damage + chill effects → Drains 1d6 HP/turn → Phylactery stores HP for resurrection
+
+**Resource**: HP (drained by aura), Phylactery HP storage, Mana
+
+**Playstyle**: High-risk, high-reward frost damage and control
+
+**Best For**: Players who enjoy risk-reward management, undead fantasy, and self-sustaining aggressive play`,
+    },
+
     description: `The Lichborne harnesses the power of frost through their Eternal Frost Aura, a powerful but taxing ability that amplifies their frost magic at the cost of their own vitality. This mechanic is complemented by the Lichborne's Phylactery, an ancient artifact that anchors their soul and provides a lifeline in dire situations. Together, these systems create a dynamic, high-risk, high-reward playstyle that emphasizes strategic decision-making and careful management of resources.`,
     
     roleplayIdentity: {

@@ -17,6 +17,19 @@ export const FORMBENDER_DATA = {
     title: 'The Formbender',
     subtitle: 'Master of Wild Instinct and Primal Transformation',
     
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Formbender channels primal energy through four distinct animal forms—Nightstalker (stealth/burst), Ironhide (tank/durability), Skyhunter (mobility/aerial), and Frostfang (pack tactics)—gathering Wild Instinct (0-15) through form-specific actions. Switch forms mid-combat to adapt to any situation, spending Wild Instinct on devastating abilities or transformation costs. Your first transformation is free; everything after has a price.
+
+**Core Mechanic**: Choose opening form (free) → Perform form-specific actions → Generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight → Escalate from Tier 1 to Tier 5 ultimate abilities
+
+**Resource**: Wild Instinct (0-15 scale, generated through form-aligned combat actions)
+
+**Playstyle**: Adaptive shapeshifter with fluid role-switching mid-combat
+
+**Best For**: Players who enjoy tactical flexibility, mastering multiple combat styles, and the satisfaction of transforming to perfectly counter any battlefield situation`
+    },
+    
     description: `The Formbender is a versatile shapeshifter who channels primal energy through four distinct wild forms. By gathering Wild Instinct through form-specific actions, Formbenders can unleash devastating abilities, adapt to any combat situation, and embody the raw power of nature itself. Each form offers unique strengths and playstyles, from the stealthy Nightstalker to the resilient Ironhide, the aerial Skyhunter, and the pack-focused Frostfang.`,
     
     roleplayIdentity: {
@@ -289,13 +302,19 @@ Below the Wild Instinct bar, ability buttons show:
 
     mechanics: {
       title: 'Core Mechanics',
-      content: `**Wild Instinct Capacity**: Maximum Wild Instinct is 15 points. Wild Instinct does not decay between combats, allowing strategic resource banking.
+      content: `**Wild Instinct Capacity**:
+- **Maximum**: 15 points
+- **Persistence**: Does not decay between combats—can be banked for later encounters
 
-**Free Initial Transformation**: At the start of combat, enter any form for free. This allows you to begin generating Wild Instinct immediately.
+**Form Transformation**:
+- **First Transformation**: Free at the start of combat—begin generating Wild Instinct immediately
+- **Subsequent Switches**: Each costs 1 Wild Instinct—plan transformations carefully
 
-**Form Switching Cost**: Each subsequent form switch during combat costs 1 Wild Instinct. Plan your transformations carefully to maintain resource efficiency.
-
-**Wild Instinct Generation**: Generate Wild Instinct through form-specific actions: Sneaking (Nightstalker), Taunting (Ironhide), Scouting (Skyhunter), Tracking (Frostfang). Form-specific abilities generate 2 Wild Instinct.`
+**Wild Instinct Generation**:
+- **Nightstalker**: Sneaking and stealth actions (+1 WI), ambush from stealth (+2 WI)
+- **Ironhide**: Taunting enemies (+1 WI per enemy), taking damage for allies (+2 WI)
+- **Skyhunter**: Scouting and enhanced vision (+1 WI), dive attacks (+2 WI)
+- **Frostfang**: Tracking targets (+1 WI), pack tactics with allies (+2 WI)`
     },
     
     wildInstinctGenerationTable: {

@@ -1,4 +1,4 @@
-/* Class Detail Display Styles */
+/* Class Detail Display Styles - Premium Pathfinder Theme */
 
 .class-detail-display {
   width: 100%;
@@ -14,13 +14,1482 @@
   position: relative;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  font-family: 'Crimson Text', serif;
+  color: #433422;
 }
 
-/* Prevent any scrollbars on class-detail-display itself */
 .class-detail-display::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
+}
+
+/* ===== Parchment Content Wrapper ===== */
+.parchment-content {
+  font-family: 'Crimson Text', serif;
+  padding: 2.5rem;
+  background: linear-gradient(to bottom, #fdf6e3 0%, #eee8d5 100%);
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.2);
+  color: #433422;
+  overflow-y: auto;
+  max-height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 #fdf6e3;
+}
+
+.parchment-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.parchment-content::-webkit-scrollbar-track {
+  background: #fdf6e3;
+}
+
+.parchment-content::-webkit-scrollbar-thumb {
+  background-color: #d4af37;
+  border-radius: 10px;
+}
+
+/* ===== Badge Header System (from ClassGuideTab) ===== */
+.guide-badge-header {
+  margin-bottom: 16px;
+  border-bottom: 2px solid #5a1e12;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.guide-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #5a1e12;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guide-badge i {
+  color: #d4af37;
+  font-size: 0.85rem;
+}
+
+.guide-badge-header h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  color: #5a1e12;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.guide-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-style: italic;
+  color: #8b4513;
+  margin-bottom: 18px;
+  font-size: 1.15rem;
+}
+
+.guide-description {
+  margin-bottom: 25px;
+}
+
+.guide-description p {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  margin-bottom: 15px;
+  text-align: justify;
+  color: #433422;
+}
+
+.guide-description strong {
+  color: #5a1e12;
+}
+
+.guide-empty-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  color: #8b4513;
+  font-style: italic;
+  text-align: center;
+  padding: 40px;
+}
+
+/* ===== Guide Section ===== */
+.guide-section {
+  margin-bottom: 25px;
+}
+
+/* ===== Overview Meta Row ===== */
+.overview-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.overview-meta-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  min-width: 160px;
+}
+
+.overview-meta-badge .meta-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #8b4513;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.overview-meta-badge .meta-value {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #5a1e12;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.overview-meta-badge .meta-value i {
+  color: #d4af37;
+  font-size: 0.9rem;
+}
+
+/* ===== Flavor Box (Immersive Combat Example) ===== */
+.guide-flavor-box {
+  margin: 25px 0;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(139, 69, 19, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-left: 4px solid #d4af37;
+  border-radius: 4px;
+  padding: 20px 24px;
+  position: relative;
+}
+
+.flavor-box-tag {
+  background: #d4af37;
+  color: #5a1e12;
+  padding: 2px 12px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.flavor-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.flavor-box-toggle {
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 4px;
+  color: #5a1e12;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.flavor-box-toggle:hover {
+  background: rgba(212, 175, 55, 0.4);
+  border-color: #d4af37;
+}
+
+.guide-flavor-box.collapsed .flavor-box-header {
+  margin-bottom: 0;
+}
+
+.guide-flavor-box.open .flavor-box-content {
+  animation: flavorSlideIn 0.25s ease-out;
+}
+
+@keyframes flavorSlideIn {
+  from {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 2000px;
+    margin-top: 8px;
+  }
+}
+
+.flavor-box-content {
+  margin-top: 8px;
+}
+
+.flavor-box-content p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: #433422;
+}
+
+.flavor-box-content strong {
+  color: #5a1e12;
+}
+
+/* ===== Guide Subsections ===== */
+.guide-subsection {
+  margin-bottom: 28px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  border-radius: 4px;
+}
+
+.guide-subsection.identity-box {
+  border-left: 4px solid #8b4513;
+}
+
+.guide-subsection.combat-box {
+  border-left: 4px solid #dc143c;
+  background: rgba(220, 20, 60, 0.03);
+}
+
+.guide-subsection.mechanics-box {
+  border-left: 4px solid #d4af37;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.guide-subsection.abilities-box {
+  border-left: 4px solid #4169e1;
+  background: rgba(65, 105, 225, 0.03);
+}
+
+.guide-subsection.strategy-box {
+  border-left: 4px solid #228b22;
+  background: rgba(34, 139, 34, 0.03);
+  margin-top: 30px;
+}
+
+.guide-subsection.playing-in-person-box {
+  border-left: 4px solid #9b59b6;
+  background: linear-gradient(135deg, rgba(155, 89, 182, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 2px solid rgba(155, 89, 182, 0.2);
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 30px;
+}
+
+.guide-subsection h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #8b4513;
+  margin: 0 0 12px 0;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+  padding-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.5px;
+}
+
+.guide-subsection h4 i {
+  color: #d4af37;
+  margin-right: 4px;
+  font-size: 1rem;
+}
+
+/* ===== Structured Mechanics Renderer ===== */
+.mech-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mech-text {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #433422;
+  margin: 0;
+}
+
+.mech-text strong {
+  color: #5a1e12;
+}
+
+/* Key-Value rows: **Bold**: description */
+.mech-kv {
+  display: flex;
+  gap: 6px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #433422;
+  padding: 2px 0;
+}
+
+.mech-kv-key {
+  font-weight: 700;
+  color: #5a1e12;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mech-kv-key::after {
+  content: ':';
+  margin-right: 2px;
+}
+
+.mech-kv-val {
+  flex: 1;
+}
+
+.mech-kv-val strong {
+  color: #5a1e12;
+}
+
+/* List blocks with optional header */
+.mech-list-block {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 6px;
+}
+
+.mech-list-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.12);
+}
+
+.mech-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.mech-list li {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #433422;
+  padding-left: 18px;
+  position: relative;
+}
+
+.mech-list li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  background: #d4af37;
+  border-radius: 50%;
+}
+
+.mech-list-numbered li::before {
+  display: none;
+}
+
+.mech-num {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #8b4513;
+  margin-right: 6px;
+}
+
+.mech-list li strong {
+  color: #5a1e12;
+}
+
+.subsection-content {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #433422;
+}
+
+.subsection-content p {
+  margin: 0 0 12px 0;
+}
+
+.subsection-content strong {
+  color: #5a1e12;
+  font-weight: 600;
+}
+
+/* ===== Playing in Person Section Header ===== */
+.pip-section-header {
+  margin-bottom: 16px;
+}
+
+.pip-section-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #9b59b6;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.pip-section-badge i {
+  font-size: 0.85rem;
+}
+
+.pip-section-header h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: #5a1e12;
+  margin: 0;
+  border: none;
+  padding: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* ===== Key Abilities Cards ===== */
+.key-abilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.key-ability-card {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(65, 105, 225, 0.15);
+  border-radius: 4px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #433422;
+  line-height: 1.5;
+}
+
+.key-ability-card strong {
+  color: #5a1e12;
+}
+
+.key-ability-card .ability-type {
+  color: #8b4513;
+  font-style: italic;
+}
+
+.key-ability-card .ability-cost {
+  color: #dc143c;
+  font-weight: 600;
+}
+
+.key-ability-card .ability-desc {
+  color: #433422;
+}
+
+/* ===== Premium Tables (from ClassGuideTab) ===== */
+.guide-table-container {
+  margin: 25px 0;
+}
+
+.guide-table-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  color: #5a1e12;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guide-table-title i {
+  color: #d4af37;
+}
+
+.guide-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #d4af37;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.guide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-family: 'Crimson Text', serif;
+}
+
+.guide-table th {
+  background: #5a1e12;
+  color: #fdf6e3;
+  text-align: left;
+  padding: 10px 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
+}
+
+.guide-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: #433422;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.guide-table .row-even {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.guide-table .row-odd {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.guide-table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* ===== Master Guide Box (from ClassGuideTab) ===== */
+.guide-master-box {
+  margin-top: 35px;
+  background: #5a1e12;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  padding: 24px;
+  color: #fdf6e3;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.master-tag {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: #d4af37;
+  color: #5a1e12;
+  padding: 3px 14px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.master-content {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  font-style: italic;
+  font-family: 'Crimson Text', serif;
+}
+
+.master-content p {
+  margin: 0 0 12px 0;
+}
+
+.master-content strong {
+  color: #d4af37;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+/* ===== Shared Passive Card ===== */
+.shared-passive-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 25px 0;
+  position: relative;
+}
+
+.shared-passive-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #8b4513;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.shared-passive-badge i {
+  color: #d4af37;
+  font-size: 0.9rem;
+}
+
+.shared-passive-content strong {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  color: #5a1e12;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.shared-passive-content p {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #433422;
+  margin: 0;
+}
+
+/* ===== Premium Header ===== */
+.class-detail-display.premium-theme .class-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 18px 28px;
+  background: linear-gradient(160deg, #f5ead0 0%, #ede0c0 50%, #f5ead0 100%);
+  border-bottom: 2px solid #8b5e2a;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: inset 0 -1px 0 rgba(212, 175, 55, 0.5), 0 2px 8px rgba(0,0,0,0.12);
+  min-height: 96px;
+}
+
+/* Decorative corner ornaments */
+.class-detail-display.premium-theme .class-detail-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.6) 20%, #d4af37 50%, rgba(212,175,55,0.6) 80%, transparent 100%);
+}
+
+.class-detail-display.premium-theme .class-detail-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+}
+
+/* ===== Left column: icon + info ===== */
+.class-detail-display.premium-theme .class-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+  flex: 0 0 auto;
+  max-width: 28%;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.class-detail-display.premium-theme .class-header-icon {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5) 0%, rgba(212, 175, 55, 0.18) 40%, transparent 70%);
+  border: 2px solid #c9a227;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  color: #c9a227;
+  box-shadow:
+    0 0 0 4px rgba(212, 175, 55, 0.15),
+    0 0 0 6px rgba(139, 69, 19, 0.08),
+    inset 0 1px 2px rgba(255,255,255,0.6),
+    0 4px 12px rgba(0,0,0,0.18);
+  transition: box-shadow 0.3s ease;
+  position: relative;
+}
+
+.class-detail-display.premium-theme .class-header-icon::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(212, 175, 55, 0.35);
+  animation: headerIconRotate 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes headerIconRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.class-detail-display.premium-theme .class-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.class-detail-display.premium-theme .class-header-info h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #3a1a08;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.8), 1px 1px 3px rgba(0,0,0,0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.class-detail-display.premium-theme .class-header-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.class-role-badge,
+.class-damage-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.class-role-badge {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.08) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.55);
+  color: #5a2e08;
+}
+
+.class-role-badge i {
+  color: #c9a227;
+  font-size: 0.75rem;
+}
+
+.class-damage-badge {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.12) 0%, rgba(139, 69, 19, 0.05) 100%);
+  border: 1px solid rgba(139, 69, 19, 0.35);
+  color: #7a3510;
+}
+
+.class-damage-badge i {
+  color: #c0392b;
+  font-size: 0.75rem;
+}
+
+/* ===== Center column: resource bar (absolutely centered) ===== */
+.class-detail-display.premium-theme .class-header-resource {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36%;
+  max-width: 460px;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.class-detail-display.premium-theme .class-header-resource > * {
+  pointer-events: auto;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin-bottom: 0 !important;
+  flex: 1 1 auto;
+}
+
+/* ===== Right balancing column ===== */
+.class-detail-display.premium-theme .class-header-right {
+  flex: 0 0 auto;
+  max-width: 28%;
+  min-width: 0;
+}
+
+/* ===== Premium Tabs ===== */
+.class-detail-display.premium-theme .class-detail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #5a1e12;
+  padding: 0;
+  background: linear-gradient(180deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.03) 100%);
+  margin-top: 0;
+}
+
+.class-detail-display.premium-theme .class-tab {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.class-detail-display.premium-theme .class-tab:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #3a0e08;
+}
+
+.class-detail-display.premium-theme .class-tab.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-bottom-color: #d4af37;
+  color: #3a0e08;
+}
+
+.class-detail-display.premium-theme .class-tab i {
+  color: #d4af37;
+  font-size: 1rem;
+}
+
+/* ===== Premium Content Area ===== */
+.class-detail-display.premium-theme .class-detail-content {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  padding: 20px;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  flex: 0 0 auto;
+  display: block;
+  position: relative;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  contain: none !important;
+  box-sizing: border-box;
+}
+
+.class-detail-display.premium-theme .class-detail-content::-webkit-scrollbar,
+div.class-detail-content::-webkit-scrollbar,
+.class-detail-display .class-detail-content::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* ===== Premium Specialization Cards ===== */
+.specializations-grid.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 25px;
+}
+
+.specialization-card.premium-card {
+  background: linear-gradient(to bottom, #f8f4e6 0%, #f0ead8 100%);
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.specialization-card.premium-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--spec-color, #d4af37);
+}
+
+.specialization-card.premium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--spec-color, #d4af37);
+}
+
+.specialization-card.premium-card .spec-header.premium-header {
+  padding: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.specialization-card.premium-card .spec-body.premium-body {
+  padding: 20px;
+}
+
+.specialization-card.premium-card .spec-recommendation {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.specialization-card.premium-card .spec-recommendation i {
+  color: #d4af37;
+}
+
+/* ===== Legacy class-subsection (kept for backward compat) ===== */
+.class-subsection {
+  margin-bottom: 40px;
+  padding: 20px;
+  background: rgba(248, 244, 230, 0.5);
+  border-left: 4px solid #d4af37;
+  border-radius: 4px;
+}
+
+.class-subsection h4 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.5rem;
+  color: #5a1e12;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.class-subsection h4 i {
+  color: #d4af37;
+  font-size: 1.3rem;
+}
+
+.class-intro {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.class-intro:has(~ .class-subsection),
+.class-detail-section:has(.class-subsection) .class-intro {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+.class-intro h3 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.8rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+}
+
+.class-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.2rem;
+  color: #8b4513;
+  font-style: italic;
+  margin: 0 0 15px 0;
+}
+
+.class-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #5a1e12;
+}
+
+/* ===== Passive Abilities ===== */
+.spec-passives {
+  margin-bottom: 15px;
+}
+
+.spec-passives h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-passives h5 i {
+  color: #d4af37;
+}
+
+.passive-ability {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  border-left: 3px solid #8b4513;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.passive-ability.shared {
+  background: rgba(212, 175, 55, 0.08);
+  border-left-color: #d4af37;
+}
+
+.passive-ability.unique {
+  background: rgba(139, 69, 19, 0.06);
+  border-left-color: #8b4513;
+}
+
+.passive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.passive-header strong {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: #3a0e08;
+}
+
+.passive-tier {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #8b4513;
+  font-style: italic;
+  background: rgba(139, 69, 19, 0.08);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.passive-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #433422;
+  margin: 0 0 5px 0;
+  line-height: 1.5;
+}
+
+.passive-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  color: #8b4513;
+  margin: 0;
+}
+
+/* ===== Spec Section Styles ===== */
+.spec-description {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #433422;
+  margin-bottom: 15px;
+}
+
+.spec-playstyle {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #433422;
+  margin-bottom: 15px;
+  padding: 10px 14px;
+  background: rgba(212, 175, 55, 0.08);
+  border-left: 3px solid #d4af37;
+  border-radius: 0 4px 4px 0;
+}
+
+.spec-playstyle strong {
+  color: #5a1e12;
+}
+
+.spec-strengths,
+.spec-weaknesses,
+.spec-key-abilities {
+  margin-bottom: 15px;
+}
+
+.spec-strengths h5,
+.spec-weaknesses h5,
+.spec-key-abilities h5 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #5a1e12;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-strengths h5 i { color: #228b22; }
+.spec-weaknesses h5 i { color: #dc143c; }
+.spec-key-abilities h5 i { color: #4169e1; }
+
+.spec-strengths ul,
+.spec-weaknesses ul,
+.spec-key-abilities ul {
+  margin: 0;
+  padding-left: 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #433422;
+}
+
+.spec-strengths li,
+.spec-weaknesses li,
+.spec-key-abilities li {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+/* ===== Spec Header & Icon (shared) ===== */
+.spec-header {
+  padding: 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.spec-icon {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.spec-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spec-title h4 {
+  margin: 0 0 5px 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.spec-theme {
+  margin: 0;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.spec-body {
+  padding: 20px;
+}
+
+/* ===== Resource Bar Sizing — Rules Page Header ===== */
+.class-header-resource .class-resource-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  margin-bottom: 0 !important;
+}
+
+/* Force all inner bar containers to fill width */
+.class-header-resource .class-resource-bar,
+.class-header-resource .rage-bar-container,
+.class-header-resource .rage-bar-wrapper,
+.class-header-resource .progress-bar-container,
+.class-header-resource [class*="-bar-container"],
+.class-header-resource [class*="-bar-wrapper"],
+.class-header-resource [class*="resource-bar"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Taller bars at large size */
+.class-header-resource .class-resource-bar.large,
+.class-header-resource .rage-bar-fill,
+.class-header-resource [class*="bar-fill"] {
+  min-height: 28px !important;
+}
+
+.class-header-resource .elemental-spheres-container.large {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  padding: 10px !important;
+  margin: 0 !important;
+}
+
+.class-header-resource .elemental-spheres-display.large {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  padding: 8px 12px !important;
+}
+
+.class-header-resource .spheres-grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  justify-items: center;
+}
+
+.class-header-resource .sphere-bar-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  justify-content: center;
+}
+
+/* ===== Old Class Detail Styles (kept for non-premium compat) ===== */
+.class-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
+  border-bottom: 2px solid #8b4513;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.class-header-icon {
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+  border: 3px solid #d4af37;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  color: #d4af37;
+}
+
+.class-header-info {
+  flex: 0 0 auto;
+}
+
+.class-header-info h2 {
+  font-family: 'Crimson Text', serif;
+  font-size: 2rem;
+  color: #5a1e12;
+  margin: 0 0 10px 0;
+}
+
+.class-header-meta {
+  display: flex;
+  gap: 20px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+}
+
+.class-header-resource {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  min-width: 0;
+  width: 100%;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  max-width: 700px;
+}
+
+.class-header-resource > * {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0;
+}
+
+.class-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8b4513;
+}
+
+.class-role i {
+  color: #d4af37;
+}
+
+.class-detail-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #8b4513;
+  padding: 0;
+  background: rgba(139, 69, 19, 0.05);
+  margin-top: 0;
+}
+
+.class-tab {
+  flex: 1;
+  padding: 15px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #5a1e12;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.class-tab:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #3a0e08;
+}
+
+.class-tab.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-bottom-color: #d4af37;
+  color: #3a0e08;
+}
+
+.class-tab i {
+  font-size: 1rem;
+}
+
+.class-detail-content {
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  padding: 30px 20px;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  flex: 0 0 auto;
+  display: block;
+  position: relative;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  contain: none !important;
+  box-sizing: border-box;
+}
+
+.class-detail-content::-webkit-scrollbar,
+div.class-detail-content::-webkit-scrollbar,
+.class-detail-display .class-detail-content::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.class-detail-content::-webkit-scrollbar-track,
+div.class-detail-content::-webkit-scrollbar-track,
+.class-detail-display .class-detail-content::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+.class-detail-content::-webkit-scrollbar-thumb,
+div.class-detail-content::-webkit-scrollbar-thumb,
+.class-detail-display .class-detail-content::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+.class-detail-section {
+  width: 100%;
+  max-width: none;
+}
+
+/* Old table styles for backward compat */
+.class-resource-table {
+  width: 100%;
+  margin-top: 0;
+}
+
+/* Old specialization grid */
+.specializations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.specialization-card {
+  background: #f8f4e6;
+  border: 2px solid #8b4513;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.specialization-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.spec-recommendation {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  color: #5a1e12;
+  padding: 10px;
+  background: rgba(139, 69, 19, 0.05);
+  border-radius: 4px;
+  font-style: italic;
 }
 
 /* Playing in Person Styles - Visual Design */
@@ -296,607 +1765,8 @@
   }
 }
 
-/* Header */
-.class-detail-header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1) 0%, rgba(160, 82, 45, 0.05) 100%);
-  border-bottom: 2px solid #8b4513;
-  position: relative;
-  margin-top: 0;
-  margin-bottom: 0;
-}
 
-.class-header-icon {
-  width: 80px;
-  height: 80px;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
-  border: 3px solid #d4af37;
-  border-radius: 50%;
-  font-size: 2.5rem;
-  color: #d4af37;
-}
-
-.class-header-info {
-  flex: 0 0 auto;
-}
-
-.class-header-info h2 {
-  font-family: 'Crimson Text', serif;
-  font-size: 2rem;
-  color: #5a1e12;
-  margin: 0 0 10px 0;
-}
-
-.class-header-meta {
-  display: flex;
-  gap: 20px;
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-}
-
-.class-header-resource {
-  flex: 1 1 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  min-width: 0;
-  width: 100%;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  max-width: 700px;
-}
-
-.class-header-resource > * {
-  pointer-events: auto;
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 0;
-}
-
-/* Resource bar sizing for rules page context */
-.class-header-resource .class-resource-wrapper {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-/* Arcanoneer spheres display in rules page */
-.class-header-resource .elemental-spheres-container.large {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 12px;
-  margin: 0;
-}
-
-.class-header-resource .elemental-spheres-display.large {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 10px 14px;
-}
-
-.class-header-resource .spheres-grid {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-/* Ensure all resource bars fit properly in rules header */
-.class-header-resource .class-resource-bar {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-}
-
-.class-header-resource .class-resource-bar.large {
-  height: auto;
-  min-height: 60px;
-}
-
-/* Rules context specific styling for resource bars */
-.class-header-resource .class-resource-wrapper {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  margin-bottom: 0;
-}
-
-/* Arcanoneer specific rules page styling */
-.class-header-resource .elemental-spheres-container.large {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 10px;
-  margin: 0;
-}
-
-.class-header-resource .elemental-spheres-display.large {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding: 8px 12px;
-}
-
-.class-header-resource .spheres-grid {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  justify-items: center;
-}
-
-.class-header-resource .sphere-bar-wrapper {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  justify-content: center;
-}
-
-.class-role {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #8b4513;
-}
-
-.class-role i {
-  color: #d4af37;
-}
-
-/* Tabs */
-.class-detail-tabs {
-  display: flex;
-  gap: 0;
-  border-bottom: 2px solid #8b4513;
-  padding: 0;
-  background: rgba(139, 69, 19, 0.05);
-  margin-top: 0;
-}
-
-.class-tab {
-  flex: 1;
-  padding: 15px 20px;
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: #5a1e12;
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.class-tab:hover {
-  background: rgba(212, 175, 55, 0.1);
-  color: #3a0e08;
-}
-
-.class-tab.active {
-  background: rgba(212, 175, 55, 0.15);
-  border-bottom-color: #d4af37;
-  color: #3a0e08;
-}
-
-.class-tab i {
-  font-size: 1rem;
-}
-
-/* Content */
-.class-detail-content {
-  overflow: visible !important;
-  overflow-x: visible !important;
-  overflow-y: visible !important;
-  padding: 30px 20px;
-  height: auto !important;
-  max-height: none !important;
-  min-height: 0 !important;
-  flex: 0 0 auto;
-  display: block;
-  position: relative;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  contain: none !important;
-  box-sizing: border-box;
-}
-
-/* Prevent any scrollbars on class-detail-content - multiple selectors for maximum coverage */
-.class-detail-content::-webkit-scrollbar,
-div.class-detail-content::-webkit-scrollbar,
-.class-detail-display .class-detail-content::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  background: transparent !important;
-}
-
-.class-detail-content::-webkit-scrollbar-track,
-div.class-detail-content::-webkit-scrollbar-track,
-.class-detail-display .class-detail-content::-webkit-scrollbar-track {
-  display: none !important;
-  background: transparent !important;
-}
-
-.class-detail-content::-webkit-scrollbar-thumb,
-div.class-detail-content::-webkit-scrollbar-thumb,
-.class-detail-display .class-detail-content::-webkit-scrollbar-thumb {
-  display: none !important;
-  background: transparent !important;
-}
-
-.class-detail-section {
-  width: 100%;
-  max-width: none;
-}
-
-.class-intro {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-/* Only add spacing/border when there's content after the intro */
-.class-intro:has(~ .class-subsection),
-.class-detail-section:has(.class-subsection) .class-intro {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
-}
-
-.class-intro h3 {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.8rem;
-  color: #5a1e12;
-  margin: 0 0 10px 0;
-}
-
-.class-subtitle {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.2rem;
-  color: #8b4513;
-  font-style: italic;
-  margin: 0 0 15px 0;
-}
-
-.class-description {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: #5a1e12;
-}
-
-/* Subsections */
-.class-subsection {
-  margin-bottom: 40px;
-  padding: 20px;
-  background: rgba(248, 244, 230, 0.5);
-  border-left: 4px solid #d4af37;
-  border-radius: 4px;
-}
-
-/* Special styling for shared passive ability section in specializations */
-.class-intro .class-subsection {
-  margin-top: 25px;
-  padding: 15px 20px;
-  background: rgba(212, 175, 55, 0.08);
-  border-left: 4px solid #d4af37;
-}
-
-.class-subsection h4 {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.5rem;
-  color: #5a1e12;
-  margin: 0 0 15px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Smaller heading for shared passive in intro */
-.class-intro .class-subsection h4 {
-  font-size: 1.3rem;
-  margin: 0 0 12px 0;
-}
-
-.class-subsection h4 i {
-  color: #d4af37;
-  font-size: 1.3rem;
-}
-
-.class-intro .class-subsection h4 i {
-  font-size: 1.1rem;
-}
-
-.subsection-content {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: #5a1e12;
-}
-
-.subsection-content p {
-  margin: 0 0 15px 0;
-}
-
-.subsection-content strong {
-  color: #3a0e08;
-  font-weight: 600;
-}
-
-/* Resource Table */
-.class-resource-table {
-  width: 100%;
-  margin-top: 15px;
-}
-
-.class-resource-table tbody tr.level-safe {
-  background: rgba(144, 238, 144, 0.1);
-}
-
-.class-resource-table tbody tr.level-low {
-  background: rgba(255, 255, 0, 0.05);
-}
-
-.class-resource-table tbody tr.level-mid {
-  background: rgba(255, 165, 0, 0.1);
-}
-
-.class-resource-table tbody tr.level-high {
-  background: rgba(255, 0, 0, 0.1);
-}
-
-/* Specializations Grid */
-.specializations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 24px;
-  margin-top: 30px;
-}
-
-.specialization-card {
-  background: #f8f4e6;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.specialization-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.spec-header {
-  padding: 15px;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.spec-icon {
-  width: 60px;
-  height: 60px;
-  border: 3px solid rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.spec-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.spec-title h4 {
-  margin: 0 0 5px 0;
-  font-family: 'Crimson Text', serif;
-  font-size: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.spec-theme {
-  margin: 0;
-  font-family: 'Crimson Text', serif;
-  font-size: 1rem;
-  font-style: italic;
-  opacity: 0.9;
-}
-
-.spec-body {
-  padding: 20px;
-}
-
-.spec-description {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: #5a1e12;
-  margin-bottom: 15px;
-}
-
-.spec-playstyle {
-  font-family: 'Crimson Text', serif;
-  font-size: 1rem;
-  color: #5a1e12;
-  margin-bottom: 15px;
-  padding: 10px;
-  background: rgba(212, 175, 55, 0.1);
-  border-left: 3px solid #d4af37;
-}
-
-.spec-strengths,
-.spec-weaknesses,
-.spec-key-abilities {
-  margin-bottom: 15px;
-}
-
-.spec-strengths h5,
-.spec-weaknesses h5,
-.spec-key-abilities h5 {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  color: #5a1e12;
-  margin: 0 0 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.spec-strengths h5 i {
-  color: #228b22;
-}
-
-.spec-weaknesses h5 i {
-  color: #dc143c;
-}
-
-.spec-key-abilities h5 i {
-  color: #4169e1;
-}
-
-.spec-strengths ul,
-.spec-weaknesses ul,
-.spec-key-abilities ul {
-  margin: 0;
-  padding-left: 20px;
-  font-family: 'Crimson Text', serif;
-  font-size: 1rem;
-  color: #5a1e12;
-}
-
-.spec-strengths li,
-.spec-weaknesses li,
-.spec-key-abilities li {
-  margin-bottom: 5px;
-}
-
-/* Passive Abilities */
-.spec-passives {
-  margin-bottom: 15px;
-}
-
-.spec-passives h5 {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.1rem;
-  color: #5a1e12;
-  margin: 0 0 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.spec-passives h5 i {
-  color: #d4af37;
-}
-
-.passive-ability {
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border-left: 3px solid #8b4513;
-}
-
-.passive-ability.shared {
-  background: rgba(212, 175, 55, 0.1);
-  border-left-color: #d4af37;
-}
-
-/* Cleaner styling for shared passive in intro section */
-.class-intro .passive-ability.shared {
-  background: transparent;
-  border-left: none;
-  padding: 0;
-  margin: 0;
-}
-
-.passive-ability.unique {
-  background: rgba(139, 69, 19, 0.1);
-  border-left-color: #8b4513;
-}
-
-.passive-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.passive-header strong {
-  font-family: 'Crimson Text', serif;
-  font-size: 1.05rem;
-  color: #3a0e08;
-}
-
-/* Larger font for shared passive name in intro */
-.class-intro .passive-header strong {
-  font-size: 1.15rem;
-  color: #5a1e12;
-}
-
-.passive-tier {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.9rem;
-  color: #8b4513;
-  font-style: italic;
-}
-
-.passive-description {
-  font-family: 'Crimson Text', serif;
-  font-size: 1rem;
-  color: #5a1e12;
-  margin: 0 0 5px 0;
-}
-
-/* Larger font for shared passive description in intro */
-.class-intro .passive-description {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.passive-note {
-  font-family: 'Crimson Text', serif;
-  font-size: 0.9rem;
-  color: #8b4513;
-  margin: 0;
-}
-
-.spec-recommendation {
-  font-family: 'Crimson Text', serif;
-  font-size: 1rem;
-  color: #5a1e12;
-  padding: 10px;
-  background: rgba(139, 69, 19, 0.05);
-  border-radius: 4px;
-  font-style: italic;
-}
-
-/* Spellbook Layout - Book-like Format */
+/* ===== Spellbook Layout - Book-like Format ===== */
 .spellbook-section {
   padding: 0;
   background: transparent;

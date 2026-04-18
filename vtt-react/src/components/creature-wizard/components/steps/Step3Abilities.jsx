@@ -1380,7 +1380,7 @@ const Step3Abilities = () => {
   return (
     <SpellLibraryProvider>
       <div className="wizard-step">
-        <div className="creature-window-content">
+        <div className="abilities-inner-content">
           <div className="abilities-header-section">
             <h2>Abilities & Spells</h2>
             <div className="abilities-header-buttons">

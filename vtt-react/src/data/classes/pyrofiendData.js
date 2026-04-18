@@ -16,6 +16,19 @@ export const PYROFIEND_DATA = {
   overview: {
     title: 'The Pyrofiend',
     subtitle: 'Demonic Fire Wielder',
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Pyrofiend ascends through 10 levels of demonic corruption (Inferno Veil 0-9), gaining escalating fire damage bonuses at the cost of increasingly catastrophic drawbacks inspired by the circles of Hell. Climb too high and the corruption will kill you—descend too fast and you waste your power.
+
+**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +10) → Suffer escalating drawbacks (self-damage, movement loss, suffocation) → Use Cooling Ember to descend and heal
+
+**Resource**: Inferno Veil (0-9 scale, tracked with a single d10 die)
+
+**Playstyle**: Risk-reward demonic escalation with catastrophic consequences
+
+**Best For**: Players who thrive on living dangerously, managing escalating self-harm for devastating firepower, and making split-second tactical decisions about when to push harder or pull back`
+    },
     
     description: `The Pyrofiend is a master of demonic fire magic, channeling infernal power through the dangerous Inferno Veil mechanic. As they cast fire spells, they ascend through increasingly powerful—and perilous—stages of demonic corruption. Each stage amplifies their fire damage but inflicts severe drawbacks inspired by the circles of Dante's Inferno and the seven deadly sins.`,
     

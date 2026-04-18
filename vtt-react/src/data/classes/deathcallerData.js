@@ -325,8 +325,9 @@ You're not a mage—you're a BLOOD SACRIFICE ENGINE. Every spell is paid in life
       title: 'Detailed Mechanics',
       content: `**Health as Resource (Primary Mechanic)**
 
-**How Spells Cost Health**:
-Every Deathcaller spell costs BOTH mana AND health. The health cost is rolled using dice:
+Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with dice, creating variable sacrifice each cast.
+
+**Health Cost by Spell Tier**:
 - **Minor Spells**: 1d4 HP or 1d6 HP
 - **Moderate Spells**: 1d8 HP or 2d6 HP
 - **Major Spells**: 2d8 HP or 3d8 HP
@@ -337,41 +338,40 @@ Every Deathcaller spell costs BOTH mana AND health. The health cost is rolled us
 - "Death's Embrace" (12 mana, 2d8 HP): Roll 2d8 → [6, 5] = Sacrifice 11 HP
 - "Soul Rend" (15 mana, 3d8 HP): Roll 3d8 → [7, 8, 6] = Sacrifice 21 HP
 
-**Why Dice?**: The randomness creates tension. You never know EXACTLY how much HP you'll sacrifice. Sometimes you roll low (lucky!), sometimes you roll high (ouch!).
-
 **Blood Tokens (Secondary Mechanic)**
 
-**Requires**: Crimson Pact Ascension Path (unlocked at level 3)
+**Prerequisite**: Crimson Pact Ascension Path (unlocked at level 3)
 
-**Generation**: 1 HP sacrificed = 1 Blood Token
-- Example: Sacrifice 11 HP → Generate 11 Blood Tokens
+**Generation**:
+- **Ratio**: 1 HP sacrificed = 1 Blood Token
+- **Example**: Sacrifice 11 HP → Generate 11 Blood Tokens
+
+**Spending**:
+- **Cost**: 1 token = +1d6 necrotic damage to a spell
+- **Example**: Spend 10 tokens on "Necrotic Bolt" = +10d6 damage (~35 bonus damage)
 
 **Maximum**: No hard limit, but risk increases exponentially
 - 20+ tokens = 20d10 burst damage (~110 damage if they explode!)
 
-**Usage**: Spend tokens to enhance necrotic damage spells
-- **Cost**: 1 token = +1d6 necrotic damage
-- **Example**: Spend 10 tokens on "Necrotic Bolt" = +10d6 damage (~35 bonus damage!)
-
 **Burst Mechanic**:
 - **Timer**: 10 minutes (15 minutes with Crimson Pact active)
-- **Trigger**: Timer expires, tokens haven't been spent
+- **Trigger**: Timer expires before tokens are spent
 - **Effect**: 1d10 necrotic damage per token (cannot be prevented or reduced)
 - **Example**: 8 tokens burst → 8d10 → [7, 9, 6, 8, 5, 9, 7, 8] = 59 damage to yourself!
 
-**Strategic Timing**:
-- **Immediate Spend**: Use tokens on next spell (safe, but less flexibility)
-- **Bank Tokens**: Save for big spell (risky, might burst)
-- **Partial Spend**: Use some, save some (balanced approach)
+**Token Management Strategies**:
+- **Immediate Spend**: Use tokens on next spell — safe, less flexibility
+- **Bank Tokens**: Save for a big spell — risky, might burst
+- **Partial Spend**: Use some, save some — balanced approach
 
 **Necrotic Ascension Paths (Permanent Progression)**
 
-**Unlocking**: Paths unlock at specific levels (1, 3, 5, 7, 9, 11, 13)
+**Unlocking**: Paths unlock at levels 1, 3, 5, 7, 9, 11, 13
 
-**Activation**: Once unlocked, you can activate a path for 1 AP
+**Activation Rules**:
+- **Cost**: 1 AP to activate a path once unlocked
 - **Permanent**: Cannot be deactivated or removed
-- **Irreversible**: Once activated, you're changed forever
-- **Sequential**: Must activate in order (can't skip paths)
+- **Sequential**: Must activate in order — cannot skip paths
 
 **The Seven Paths**:
 
@@ -412,7 +412,7 @@ Every Deathcaller spell costs BOTH mana AND health. The health cost is rolled us
 - **Mid Game**: Activate paths 3-5 (power spike, moderate risk)
 - **Late Game**: Activate paths 6-7 (maximum power, extreme fragility)
 
-**The Point of No Return**: Each path is a PERMANENT decision. Once activated, you can never go back. Choose carefully—your character will be forever changed.`
+**Important**: Each path is a PERMANENT decision. Once activated, you can never go back. Choose carefully — your character will be forever changed.`
     },
     
     ascensionPathsTable: {

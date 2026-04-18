@@ -16,7 +16,20 @@ export const INSCRIPTOR_DATA = {
   overview: {
     title: 'The Inscriptor',
     subtitle: 'Master of Runes and Inscriptions',
-    
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Inscriptor is a tactical battlefield controller who places runes to create zones of power and inscribes equipment to enhance allies.
+
+**Core Mechanic**: Place 3+ runes → Create runic zones → Inscribe ally equipment → Detonate zones for lingering effects
+
+**Resource**: Mana (for rune placement and inscriptions), Rune count (3–8 per zone)
+
+**Playstyle**: Pre-combat preparation and zone control specialist
+
+**Best For**: Players who enjoy planning ahead, battlefield manipulation, and strategic support`,
+    },
+
     description: `The Inscriptor is a tactical master, capable of harnessing runes and inscriptions to control the battlefield and empower their spells. Through Runic Wrapping and Inscription Placement, the Inscriptor creates zones of influence, enhances equipment, and strategically controls the pace of combat. This class rewards careful planning and foresight, turning the battlefield itself into a weapon.`,
     
     roleplayIdentity: {
@@ -353,10 +366,17 @@ When you're in combat:
     mechanics: {
       title: 'How It Works',
       content: `**Runic Wrapping**:
-Place runes around an area to create zones of influence. Each rune costs mana and takes 1 action to place. Minimum 3 runes required, maximum 8 runes. When 3+ runes are placed, they form a zone that enhances spells cast within it. Runes can be detonated (DC 15 save) to erase them but cause their effect to linger for 1 minute.
+- **Cost**: Mana per rune, 1 action to place
+- **Minimum**: 3 runes required to form a zone
+- **Maximum**: 8 runes
+- **Zone Effect**: 3+ runes form a zone that enhances spells cast within it
+- **Detonation**: DC 15 save, erases rune but causes its effect to linger for 1 minute
 
 **Inscription Placement**:
-At the start of combat, inscribe up to 3 items from your equipment. Each inscription costs mana and provides specific benefits. Inscriptions cannot be stacked on the same item, but different items can have different inscriptions. Available inscription slots: Weapon, Armor, Boots, Cape, Belt, Pants.
+At the start of combat, inscribe up to 3 items from your equipment.
+- **Cost**: Mana per inscription
+- **Stacking**: Cannot stack inscriptions on the same item
+- **Available Slots**: Weapon, Armor, Boots, Cape, Belt, Pants
 
 **Zone Effects**:
 - Individual runes provide minor effects within 5 ft
@@ -365,7 +385,9 @@ At the start of combat, inscribe up to 3 items from your equipment. Each inscrip
 - Detonation trades permanence for lingering power
 
 **Strategic Depth**:
-Inscriptors must balance mana between runes, inscriptions, and spells. Pre-combat preparation is crucial, as placing runes during combat consumes valuable actions.`
+- Balance mana between runes, inscriptions, and spells
+- Pre-combat preparation is crucial
+- Placing runes during combat consumes valuable actions`
     },
     
     runicWrappingTable: {

@@ -17,6 +17,19 @@ export const WITCH_DOCTOR_DATA = {
   overview: {
     title: 'The Witch Doctor',
     subtitle: 'Voodoo Invoker & Loa Channeler',
+
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Witch Doctor channels ancient voodoo loa (gods) by accumulating Voodoo Essence through curses, totems, poisons, and rituals, then spends it to invoke devastating divine interventions—each requiring specific battlefield precursors to unlock.
+
+**Core Mechanic**: Cast curses, place totems, apply poisons, perform rituals → Build Voodoo Essence (0-15) → Meet loa precursor conditions → Invoke powerful loa for game-changing effects
+
+**Resource**: Voodoo Essence (0-15) spent to invoke loa; each loa also requires precursor conditions (cursed enemies, rituals completed, ally positioning, etc.)
+
+**Playstyle**: Strategic resource planner with setup-and-payoff divine invocations
+
+**Best For**: Players who enjoy methodical preparation, tracking multiple conditions, and unleashing dramatic divine interventions at the perfect moment`
+    },
     
     description: `The Witch Doctor is a mystical practitioner of voodoo magic who channels the power of ancient loa (voodoo gods) through accumulated Voodoo Essence. By performing rituals, casting curses, placing totems, and applying poisons, the Witch Doctor gathers spiritual energy that can be spent to invoke powerful deities. Each loa requires specific precursors to be met before their divine power can be called upon, rewarding strategic planning and careful resource management.`,
     

@@ -17,6 +17,19 @@ export const EXORCIST_DATA = {
     title: 'The Exorcist',
     subtitle: 'Master of Demon Binding and Divine Control',
     
+    quickOverview: {
+      title: 'Quick Overview',
+      content: `**What You Need to Know**: The Exorcist binds demons through elaborate rituals and commands them in battle using a Dominance Die system (d12 → d10 → d8 → d6 → 0). Every command weakens your hold—let the die reach zero and your demon may break free and turn hostile. Balance aggressive orders with Dominance replenishment spells or lose control of your most powerful weapons.
+
+**Core Mechanic**: Perform binding rituals → Command demons in battle → Dominance Die decreases with each action → Cast Reassert Dominance or Chain of Command to restore control → Risk demons escaping if control is lost
+
+**Resource**: Dominance Dice (d12 down to d6 per bound demon, up to 4 demons simultaneously)
+
+**Playstyle**: Preparation-heavy summoner balancing power against rebellion
+
+**Best For**: Players who enjoy pet management, pre-combat preparation, and the constant tension of wielding dangerous allies that could turn at any moment`
+    },
+    
     description: `The Exorcist walks the dangerous line between holy power and demonic corruption, binding demons to their will through complex rituals and unwavering dominance. Through the Dominance system, Exorcists maintain control over bound demons, commanding them in battle while constantly asserting their willpower to prevent the demons from breaking free.`,
     
     roleplayIdentity: {
@@ -266,8 +279,8 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
       title: 'Core Mechanics',
       content: `**Dominance Die (DD)**:
 - Each bound demon has a Dominance Die ranging from d6 to d12
-- Higher die size = more submissive/easier to control
-- Lower die size = more rebellious/harder to control
+- **Higher die size**: More submissive, easier to control
+- **Lower die size**: More rebellious, harder to control
 - Die size decreases by one step with each demon action or hit taken
 
 **Dominance Die Progression**:
@@ -285,32 +298,22 @@ The demon must make a Dominance Saving Throw specific to its type:
 - **Success**: Dominance Die restored to d6 (demon remains bound but weakened)
 - **Failure**: Demon escapes control and may turn hostile
 
-**Dominance Replenishment**:
-Exorcists have three primary spells to restore Dominance:
-
-1. **Reassert Dominance** (5 mana)
-   - Restores DD to maximum size for one demon
-   - Use when a demon is close to escaping
-
-2. **Chain of Command** (4 mana)
-   - Increases DD by one size for next 3 actions
-   - Use before commanding demon to perform multiple actions
-
-3. **Divine Bond** (6 mana)
-   - Restores DD by 2 steps (e.g., d6 → d10)
-   - Most powerful restoration, highest cost
+**Dominance Replenishment Spells**:
+- **Reassert Dominance** (5 mana): Restores DD to maximum size for one demon. Use when a demon is close to escaping
+- **Chain of Command** (4 mana): Increases DD by one size for next 3 actions. Use before commanding multiple demon actions
+- **Divine Bond** (6 mana): Restores DD by 2 steps (e.g., d6 → d10). Most powerful restoration, highest cost
 
 **Binding Capacity**:
-- Base: Can bind up to 2 demons simultaneously
-- Demonologist spec: Can bind up to 4 demons
-- Demon Lord spec: Can bind up to 1 demon (but more powerful)
-- Possessed spec: No external demons (channels internally)
+- **Base**: Can bind up to 2 demons simultaneously
+- **Demonologist spec**: Can bind up to 4 demons
+- **Demon Lord spec**: Can bind up to 1 demon (but more powerful)
+- **Possessed spec**: No external demons (channels internally)
 
 **Demon Types and Starting Dominance**:
-- **Tier 1 (Weak)**: Imp - d12 DD
-- **Tier 2 (Moderate)**: Shadow Hound, Wraith - d10 DD
-- **Tier 3 (Strong)**: Abyssal Brute, Banshee - d8 DD
-- **Tier 4 (Powerful)**: Greater Demons - d6 DD (spec-locked)
+- **Tier 1 (Weak)**: Imp — d12 DD
+- **Tier 2 (Moderate)**: Shadow Hound, Wraith — d10 DD
+- **Tier 3 (Strong)**: Abyssal Brute, Banshee — d8 DD
+- **Tier 4 (Powerful)**: Greater Demons — d6 DD (spec-locked)
 
 **Action Economy**:
 - Demons act on the Exorcist's turn but have their own action pool
