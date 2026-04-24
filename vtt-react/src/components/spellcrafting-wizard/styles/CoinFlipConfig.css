@@ -439,12 +439,7 @@
   }
 }
 
-/* These rules don't belong in CoinFlipConfig.css - they should be in their respective component files */
-  height: 32px;
-  border-radius: 4px;
-  margin-right: 12px;
-  border: 1px solid #3a3a5c;
-}
+
 
 .damage-type-options .effect-option-title {
   color: #e6ccff;

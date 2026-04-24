@@ -263,7 +263,7 @@
   display: flex !important;
   flex-direction: column !important;
   padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
   position: relative !important;
   gap: var(--pf-space-2, 8px) !important;

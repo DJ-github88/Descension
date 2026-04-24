@@ -4,10 +4,7 @@ import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import DiceFormulaExamples from '../../components/tooltips/DiceFormulaExamples';
 import SpellSelector from '../../components/common/SpellSelector';
 
-import './progressive-buff.css';
-import '../../styles/buff-config-options.css';
-import '../../styles/effects/unified-effects.css';
-import './BuffEffects.css';
+// Pathfinder styles imported via main.css
 
 // Import data from utility files
 import {

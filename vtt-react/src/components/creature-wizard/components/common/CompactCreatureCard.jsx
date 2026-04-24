@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { getCreatureSizeMapping } from '../../../../store/creatureStore';
 import { getCreatureTokenIconUrl } from '../../../../utils/assetManager';
-import '../../styles/CompactCreatureCard.css';
+// Styles imported via main.css or creature wizard root
 
 // Helper function to format type name
 const formatTypeName = (type) => {

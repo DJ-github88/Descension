@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaDice, FaClone, FaCoins } from 'react-icons/fa6';
-import '../../styles/ResolutionSelector.css';
+
 
 /**
  * ResolutionSelector component

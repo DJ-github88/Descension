@@ -568,6 +568,7 @@
   display: flex;
   flex-direction: column;
   font-family: 'Bookman Old Style', 'Garamond', serif;
+  overflow: visible;
 }
 
 .modal-header {
@@ -607,11 +608,11 @@
 
 .filter-row {
   display: flex;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 12px;
+  margin-bottom: 8px;
   align-items: center;
   flex-wrap: wrap;
-  width: 100%; /* Ensure full width */
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -622,32 +623,37 @@
 .filter-group {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  min-width: 0; /* Allow flex items to shrink below their content size */
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .filter-group label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: #5a1e12;
   white-space: nowrap;
-  flex-shrink: 0; /* Prevent label from shrinking */
-  margin: 0; /* Remove any default margins */
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .filter-select {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: 1px solid #a08c70;
   border-radius: 4px;
   background-color: #ffffff;
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-size: 14px;
-  min-width: 120px;
-  max-width: 200px;
+  font-size: 13px;
+  min-width: 100px;
+  max-width: none;
+  flex: 1 1 auto;
   cursor: pointer;
-  display: block; /* Ensure select is displayed as block */
-  box-sizing: border-box; /* Include padding and border in width calculation */
+  display: block;
+  box-sizing: border-box;
+  height: 32px;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .filter-select:focus {
@@ -657,7 +663,7 @@
 }
 
 .item-count {
-  font-size: 14px;
+  font-size: 13px;
   color: #5a1e12;
   font-weight: 500;
   white-space: nowrap;

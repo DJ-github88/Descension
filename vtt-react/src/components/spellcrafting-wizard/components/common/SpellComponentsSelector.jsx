@@ -4,7 +4,7 @@ import { faHandSparkles, faComment, faFlask, faSearch, faTimes, faEdit, faBookOp
 import { createPortal } from 'react-dom';
 import useItemStore from '../../../../store/itemStore';
 import ItemSelectionModal from '../../../quest-log/ItemSelectionModal';
-import '../../styles/SpellComponents.css';
+
 
 const SpellComponentsSelector = ({ components, materialComponents, onChange, verbalText, somaticText }) => {
   const [showItemLibrary, setShowItemLibrary] = useState(false);

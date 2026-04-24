@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ResourceThresholdSlider from '../common/ResourceThresholdSlider';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
-import '../../styles/triggers.css';
-import '../../styles/pathfinder/steps/triggers.css';
-import '../../styles/buff-config.css';
-import '../../styles/conditional-effects.css';
-import '../../styles/trigger-role.css';
+// Pathfinder styles imported via main.css
 // Import trigger-related utilities
 import { getTriggerIconUrl } from '../../core/data/triggerIcons';
 import { getIconUrl } from '../../utils/iconUtils';

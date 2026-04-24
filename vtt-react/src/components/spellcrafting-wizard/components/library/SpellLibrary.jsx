@@ -15,8 +15,7 @@ import { GENERAL_CATEGORIES } from '../../../../data/generalSpellsData';
 import { getRacialSpells, getDisciplineSpells, isPassiveStatModifier } from '../../../../utils/raceDisciplineSpellUtils';
 import SpellCardWithProcs from '../common/SpellCardWithProcs';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
-import '../../styles/pathfinder/main.css';
-import '../../styles/pathfinder/components/wow-spellbook.css';
+// Pathfinder styles imported via main.css
 
 import SpellContextMenu from './SpellContextMenu';
 import ConfirmationDialog from '../../../item-generation/ConfirmationDialog';

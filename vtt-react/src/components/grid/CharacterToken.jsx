@@ -15,6 +15,7 @@ import CharacterTooltip from '../tooltips/CharacterTooltip';
 import ConditionsWindow from '../conditions/ConditionsWindow';
 import BuffDebuffCreatorModal from '../modals/BuffDebuffCreatorModal';
 import MovementConfirmationDialog from '../combat/MovementConfirmationDialog';
+import Button from '../common/Button';
 import '../../styles/unified-context-menu.css';
 import '../../styles/creature-token.css';
 import useLongPressContextMenu from '../../hooks/useLongPressContextMenu';
@@ -2873,83 +2874,74 @@ const CharacterToken = ({
                         className="overheal-modal"
                         style={{
                             backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: 'black',
-                            minWidth: '350px',
-                            maxWidth: '450px',
-                            textAlign: 'center'
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#8e2424' }}>
-                            <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+                        <h3 style={{ 
+                            margin: '0 0 20px 0', 
+                            fontSize: '22px', 
+                            color: '#7a3b2e',
+                            borderBottom: '2px solid #8b4513',
+                            paddingBottom: '10px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
                             Overheal Detected
                         </h3>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '14px', lineHeight: '1.5' }}>
-                            {characterData.name} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum of <strong>{overhealData.maxValue}</strong>.
-                            <br /><br />
-                            Excess: <strong>{overhealData.overhealAmount}</strong> points.
+                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
+                            {characterData.name} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum.
+                            <br />
+                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
                         </p>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <button
-                                style={{
-                                    padding: '10px',
-                                    border: '1px solid #7a3b2e',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#7a3b2e',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontWeight: 'bold'
-                                }}
-                                onClick={() => {
-                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Add excess as Temporary {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
-                            </button>
-                            <button
-                                style={{
-                                    padding: '10px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '14px'
-                                }}
-                                onClick={() => {
-                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cap at Maximum {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px',
-                                    border: 'none',
-                                    backgroundColor: 'transparent',
-                                    color: '#7a3b2e',
-                                    textDecoration: 'underline',
-                                    cursor: 'pointer',
-                                    fontSize: '12px',
-                                    marginTop: '5px'
-                                }}
+                        
+                        <div style={{ 
+                            display: 'flex', 
+                            gap: '12px', 
+                            justifyContent: 'center', 
+                            marginTop: '25px',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                        }}>
+                            <Button
+                                variant="game-secondary"
                                 onClick={() => {
                                     setShowOverhealModal(false);
                                     setOverhealData(null);
                                 }}
                             >
                                 Cancel
-                            </button>
+                            </Button>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => {
+                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Max
+                            </Button>
+                            <Button
+                                variant="game-primary"
+                                onClick={() => {
+                                    handleResourceUpdate(overhealData.resourceType, overhealData.maxValue, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add Temporary
+                            </Button>
                         </div>
                     </div>
                 </div>,

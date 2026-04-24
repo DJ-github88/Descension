@@ -1,0 +1,112 @@
+/* ===== CONSOLIDATED SPELLWIZARD STYLES ===== */
+/* This file imports all step-specific, effect-specific, and common UI CSS files */
+/* to ensure they are loaded statically at app startup and not removed on re-entry. */
+
+/* Core Pathfinder Styles */
+@import './core/variables.css';
+@import './core/base.css';
+@import '../../../../styles/item-tooltip.css';
+
+/* Step-Specific Styles */
+@import '../../styles/Step4Targeting.css';
+@import '../../styles/Step5ClassMechanics.css';
+@import '../../styles/Step8Channeling.css';
+@import '../../styles/triggers.css';
+@import '../../styles/resources.css';
+@import '../../styles/selectioncard.css';
+@import '../../styles/IconSelector.css';
+@import '../../styles/MechanicThresholds.css';
+@import '../../styles/formulaHelp.css';
+@import '../../styles/TargetingVisualization.css';
+@import '../../styles/TagBasedTargeting.css';
+@import '../../styles/SpellLibraryPopup.css';
+@import '../../styles/SpellLibraryButton.css';
+@import '../../styles/SpellSelector.css';
+@import '../../styles/ProcEffectConfig.css';
+@import '../../styles/DiceCalculator.css';
+@import '../../styles/SpellComponents.css';
+@import '../../styles/effect-preview.css';
+@import '../../styles/ProcEffectDisplay.css';
+@import '../../styles/ResourceThresholdSlider.css';
+@import '../../styles/RollableTableStep.css';
+@import '../../styles/SpellCardWithProcs.css';
+@import '../../styles/buff-config-options.css';
+@import '../../styles/saving-throw-config.css';
+@import '../../styles/pathfinder/wizard-enhancements.css';
+@import '../../styles/pathfinder/steps/cooldown.css';
+@import '../../styles/ResolutionTypeSelector.css';
+@import '../../styles/ResolutionSelector.css';
+@import '../../styles/FormulaEditor.css';
+@import '../../styles/FormRequirementsConfig.css';
+@import '../../styles/DiceRollVisualizer.css';
+@import '../../styles/CoinFlipVisualizer.css';
+@import '../../styles/CoinFlipConfig.css';
+@import '../../styles/CardDrawVisualizer.css';
+@import '../../styles/CollectionMaps.css';
+@import '../../styles/GraduatedRecipeEffects.css';
+@import '../../styles/ChanceOnHitConfig.css';
+
+/* Common Component Styles (from components/common) */
+@import '../../components/common/MathHelpModal.css';
+@import '../../components/common/IconSelectionCard.css';
+@import '../../components/common/MechanicsPopup.css';
+@import '../../components/common/RollableTableSummary.css';
+
+/* Creature Selection */
+@import './creature-selection.css';
+@import '../../../creature-wizard/styles/CompactCreatureCard.css';
+
+/* Effect-Specific Styles */
+@import '../../styles/effects/unified-effects.css';
+@import '../../styles/effects/ProgressiveEffects.css';
+
+/* Data/Effects Styles */
+@import '../../data/effects/damage-effects.css';
+@import '../../data/effects/healing-effects.css';
+@import '../../data/effects/restoration-effects.css';
+@import '../../data/effects/purification-effects.css';
+@import '../../data/effects/summoning-effects.css';
+@import '../../data/effects/BuffEffects.css';
+@import '../../data/effects/DebuffEffects.css';
+@import '../../data/effects/lifelink-styles.css';
+@import '../../data/effects/progressive-buff.css';
+@import '../../data/effects/CleanStatusEffectConfigPopup.css';
+
+/* Ensure all .spellbook-layout rules have high specificity */
+.spellbook-layout {
+  --pf-gradient-header: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
+}
+
+/* Fix for the unstyled buttons in Damage/Healing effects */
+.spellbook-layout .variable-button,
+.spellbook-layout .stat-button,
+.spellbook-layout .resolution-option,
+.spellbook-layout .resolution-method-btn {
+  background: var(--pf-gradient-gold) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  color: var(--pf-brown-darkest) !important;
+  font-family: var(--pf-font-ui) !important;
+  font-weight: var(--pf-font-bold) !important;
+  box-shadow: var(--pf-shadow-sm) !important;
+  transition: all var(--pf-transition-normal) !important;
+}
+
+.spellbook-layout .variable-button:hover,
+.spellbook-layout .stat-button:hover,
+.spellbook-layout .resolution-option:hover,
+.spellbook-layout .resolution-method-btn:hover {
+  background: var(--pf-gold-light) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: var(--pf-shadow-md) !important;
+}
+
+.spellbook-layout .variable-button.active,
+.spellbook-layout .stat-button.active,
+.spellbook-layout .resolution-option.active,
+.spellbook-layout .resolution-method-btn.active {
+  background: var(--pf-brown-dark) !important;
+  color: var(--pf-text-on-dark) !important;
+  border-color: var(--pf-brown-darkest) !important;
+  box-shadow: var(--pf-shadow-inset) !important;
+  transform: translateY(1px) !important;
+}

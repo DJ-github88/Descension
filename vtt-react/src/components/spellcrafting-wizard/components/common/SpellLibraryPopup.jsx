@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { transformSpellForCard, getSpellRollableTable } from '../../core/utils/spellCardTransformer';
 import UnifiedSpellCard from './UnifiedSpellCard';
-import '../../styles/SpellLibraryPopup.css';
+// Pathfinder styles imported via main.css
 
 /**
  * SpellLibraryPopup component

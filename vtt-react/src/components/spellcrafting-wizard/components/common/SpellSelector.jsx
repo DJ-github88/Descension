@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
-import '../../styles/SpellSelector.css';
+// Pathfinder styles imported via main.css
 import SpellDetailPopup from './SpellDetailPopup';
 
 /**

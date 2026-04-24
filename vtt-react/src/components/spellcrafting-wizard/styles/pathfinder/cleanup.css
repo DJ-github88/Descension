@@ -507,7 +507,7 @@
 /* Override spell card headers - with fallback values to prevent styling failures */
 .spellbook-layout .spell-card-header,
 .spell-library-tab .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513) !important;
   color: var(--pf-text-primary, #2d1810) !important;
   padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
@@ -519,7 +519,7 @@
 .spellbook-layout .unified-spell-card .spell-card-header,
 .spell-library-tab .unified-spell-card .unified-spell-card-header,
 .spell-library-tab .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -821,7 +821,7 @@
 /* Force spell card headers to use Pathfinder styling - with fallback values */
 .spellbook-layout .spell-card-header,
 .spellbook-layout .wow-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513) !important;
   color: var(--pf-text-primary, #2d1810) !important;
   padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
@@ -831,7 +831,7 @@
 /* Additional protection for unified spell card headers */
 .spellbook-layout .unified-spell-card .unified-spell-card-header,
 .spellbook-layout .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -1708,7 +1708,7 @@ body .pf-spell-card .spell-card-header,
 body .wow-spell-card .spell-card-header,
 html .unified-spell-card .unified-spell-card-header,
 html .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
   padding: 12px 16px !important;
@@ -1721,7 +1721,7 @@ html .unified-spell-card .spell-card-header {
 .spellbook-tab-headers + * .unified-spell-card-header,
 .spellbook-tab ~ * .unified-spell-card-header,
 .spellbook-tab + * .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 2px solid #8B4513 !important;
   color: #2d1810 !important;
 }

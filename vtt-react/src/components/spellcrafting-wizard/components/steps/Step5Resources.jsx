@@ -37,7 +37,7 @@ import {
 import SimpleFormulaHelp from '../common/SimpleFormulaHelp';
 import { Form, Card, Alert, Row, Col, Button, Badge } from 'react-bootstrap';
 import SpellComponentsSelector from '../common/SpellComponentsSelector';
-import '../../styles/resources.css';
+
 
 const Step5Resources = () => {
   const state = useSpellWizardState();

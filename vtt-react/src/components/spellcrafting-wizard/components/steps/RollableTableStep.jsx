@@ -3,7 +3,7 @@ import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../
 import { RESOLUTION_TYPES } from '../../core/mechanics/resolutionMechanics';
 import ResolutionTypeSelector from '../mechanics/ResolutionTypeSelector';
 import TableEntryEditor from '../mechanics/TableEntryEditor';
-import '../../styles/RollableTableStepWoW.css';
+// Pathfinder styles imported via main.css
 
 const RollableTableStep = () => {
   const state = useSpellWizardState();

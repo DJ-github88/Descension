@@ -693,7 +693,7 @@ const useGridItemStore = create((set, get) => ({
             // Show a popup notification for the item
             if (typeof window !== 'undefined') {
               const itemQuality = (itemToUse.quality || itemToUse.rarity || 'common').toLowerCase();
-              const itemName = itemToUse.customName || itemToUse.name || 'Unknown Item';
+              const itemName = String(itemToUse.customName || itemToUse.name || 'Unknown Item');
               const itemQuantity = quantity > 1 ? ` x${quantity}` : '';
 
               // Helper function to get icon based on item type and subtype (same as GridItem)

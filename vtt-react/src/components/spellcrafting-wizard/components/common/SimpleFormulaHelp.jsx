@@ -11,7 +11,7 @@ import {
   faInfoCircle,
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
-import '../../styles/formulaHelp.css';
+
 
 const SimpleFormulaHelp = ({ show, onClose, resourceType }) => {
   if (!show) return null;

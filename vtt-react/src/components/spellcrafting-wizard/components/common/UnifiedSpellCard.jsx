@@ -16,7 +16,7 @@ import { calculateManaCost } from '../../core/mechanics/resourceManager';
 import { normalizeSpell } from '../../core/utils/spellNormalizer';
 import useCharacterStore from '../../../../store/characterStore';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
-import '../../../../styles/item-tooltip.css';
+// Pathfinder styles imported via main.css
 
 /**
  * TRUE Unified Spell Card Component

@@ -34,8 +34,7 @@ import ToxicSystemEffects from './ToxicSystemEffects';
 
 
 // Import Pathfinder styles
-import '../../styles/MechanicThresholds.css';
-import '../../styles/GraduatedRecipeEffects.css';
+
 // Pathfinder styles imported via main.css
 
 // Step mechanics systems - Simplified to only include the most relevant ones

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, ACTION_TYPES, validateStepCompletion } from '../../context/spellWizardContext';
 import WizardStep from '../common/WizardStep';
-import '../../styles/pathfinder/steps/cooldown.css';
+
 
 const Step6Cooldown = ({ stepNumber, totalSteps, onNext, onPrevious }) => {
   const state = useSpellWizardState();

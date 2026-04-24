@@ -1,24 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // Pathfinder styles imported via main.css
-import '../../styles/effects/ProgressiveEffects.css';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators, ACTION_TYPES, determineWizardFlow } from '../../context/spellWizardContext';
-import IconSelectionCard from '../../components/common/IconSelectionCard';
+import { IconSelectionCard, SpellLibraryButton, MechanicsPopup, MathHelpModal } from '../../components/common';
 import CriticalHitConfig from '../../components/mechanics/CriticalHitConfig';
 import ChanceOnHitConfig from '../../components/mechanics/ChanceOnHitConfig';
-import SpellLibraryButton from '../../components/common/SpellLibraryButton';
+
 import { useUnifiedTooltip } from '../../../common/useUnifiedTooltip';
 import UnifiedTooltip from '../../../common/UnifiedTooltip';
-import MechanicsPopup from '../../components/common/MechanicsPopup';
-import MathHelpModal from '../../components/common/MathHelpModal';
+
 import { FaCog } from 'react-icons/fa';
 
 
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 // Pathfinder styles imported via main.css
-import '../../styles/effects/unified-effects.css';
-import './healing-effects.css';
-import './damage-effects.css'; // Reuse damage effects styling
-import './progressive-buff.css'; // Progressive effects styling
 import VisualCardSelector from '../../components/mechanics/VisualCardSelector';
 import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
 

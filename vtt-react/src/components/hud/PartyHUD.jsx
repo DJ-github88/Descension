@@ -17,9 +17,10 @@ import ClassResourceBar from './ClassResourceBar';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
+import Button from '../common/Button';
 import { getCustomBackgroundData } from '../../data/customBackgroundData';
 import { getEnhancedPathData } from '../../data/enhancedPathData';
-import { getIconUrl } from '../../utils/assetManager';
+import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 // REMOVED: import 'react-resizable/css/styles.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import './styles/ClassResourceBar.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -181,46 +182,71 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
     };
 
 
-    // Format buff effects for display
+    const STAT_DISPLAY_MAP = {
+        'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+        'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+        'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+        'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+        'armor': 'Armor', 'damage': 'Damage', 'spelldamage': 'Spell Damage',
+        'maxhp': 'Max Health', 'maxhealth': 'Max Health', 'max_hp': 'Max Health', 'max_health': 'Max Health',
+        'maxmana': 'Max Mana', 'max_mana': 'Max Mana', 'maxmp': 'Max Mana', 'max_mp': 'Max Mana',
+        'maxap': 'Max Action Points', 'maxactionpoints': 'Max Action Points', 'max_ap': 'Max Action Points', 'max_action_points': 'Max Action Points',
+        'healingpower': 'Healing Power', 'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
+        'movespeed': 'Movement Speed', 'move_speed': 'Movement Speed', 'movementspeed': 'Movement Speed', 'speed': 'Movement Speed',
+        'actionpoints': 'Action Points', 'action_points': 'Action Points',
+        'firespellpower': 'Fire Power', 'frostspellpower': 'Frost Power', 'arcanespellpower': 'Arcane Power',
+        'shadowspellpower': 'Shadow Power', 'holyspellpower': 'Holy Power', 'naturespellpower': 'Nature Power',
+        'lightningspellpower': 'Lightning Power', 'coldspellpower': 'Cold Power', 'acidspellpower': 'Acid Power',
+        'forcespellpower': 'Force Power', 'thunderspellpower': 'Thunder Power', 'chaosspellpower': 'Chaos Power',
+        'necroticspellpower': 'Necrotic Power', 'radiantspellpower': 'Radiant Power'
+    };
+
+    const resolveStatName = (stat) => {
+        let statName = STAT_DISPLAY_MAP[stat.toLowerCase()];
+        if (!statName) {
+            statName = stat
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ')
+                .trim();
+        }
+        return statName;
+    };
+
+    const UNIT_STATS = new Set(['movespeed', 'move_speed', 'movementspeed', 'speed', 'movement speed']);
+
     const formatBuffEffects = (effects) => {
         if (!effects || typeof effects !== 'object') return null;
-
-        const statMap = {
-            'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
-            'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
-            'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
-            'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-            'armor': 'Armor', 'damage': 'Damage', 'spellDamage': 'Spell Damage',
-            'healingPower': 'Healing Power', 'healthRegen': 'Health Regen', 'manaRegen': 'Mana Regen',
-            'moveSpeed': 'Movement Speed', 'movementSpeed': 'Movement Speed',
-            'actionPoints': 'Action Points', 'action_points': 'Action Points',
-            // Spell Power types
-            'fireSpellPower': 'Fire Power', 'frostSpellPower': 'Frost Power', 'arcaneSpellPower': 'Arcane Power',
-            'shadowSpellPower': 'Shadow Power', 'holySpellPower': 'Holy Power', 'natureSpellPower': 'Nature Power',
-            'lightningSpellPower': 'Lightning Power', 'coldSpellPower': 'Cold Power', 'acidSpellPower': 'Acid Power',
-            'forceSpellPower': 'Force Power', 'thunderSpellPower': 'Thunder Power', 'chaosSpellPower': 'Chaos Power',
-            'necroticSpellPower': 'Necrotic Power', 'radiantSpellPower': 'Radiant Power'
-        };
 
         const effectLines = [];
         Object.entries(effects).forEach(([stat, value]) => {
             if (value !== 0 && value !== null && value !== undefined) {
-                let statName = statMap[stat.toLowerCase()];
-
-                // If not found in map, try to format it properly
-                if (!statName) {
-                    // Handle camelCase like "arcaneSpellPower" -> "Arcane Spell Power"
-                    statName = stat
-                        .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-                        .replace(/_/g, ' ') // Replace underscores with spaces
-                        .split(' ')
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-                        .join(' ')
-                        .trim();
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                if (value > 0) {
+                    effectLines.push(`Increases ${statName} by ${absVal}${unitSuffix}`);
+                } else {
+                    effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
                 }
+            }
+        });
 
-                const sign = value > 0 ? '+' : '';
-                effectLines.push(`${sign}${value} ${statName}`);
+        return effectLines.length > 0 ? effectLines.join(', ') : null;
+    };
+
+    const formatDebuffEffects = (effects) => {
+        if (!effects || typeof effects !== 'object') return null;
+
+        const effectLines = [];
+        Object.entries(effects).forEach(([stat, value]) => {
+            if (value !== 0 && value !== null && value !== undefined) {
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
             }
         });
 
@@ -403,10 +429,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
             return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         };
 
-        // Format effects for display (debuffs should show negative values)
-        const formattedEffects = formatBuffEffects(debuff.effects ?
-            Object.fromEntries(Object.entries(debuff.effects).map(([k, v]) => [k, -Math.abs(v)])) :
-            null);
+        const formattedEffects = formatDebuffEffects(debuff.effects);
         const effectSummary = formattedEffects || debuff.effectSummary;
 
         setTooltipData({
@@ -714,50 +737,60 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         const iconBgOffsetX = member.character?.lore?.iconBackgroundOffsetX || 0;
                         const iconBgOffsetY = member.character?.lore?.iconBackgroundOffsetY || 0;
 
-                        const hasCustomStyling = !!(iconBg || iconBgColor || iconBorderColor);
+                        const hasCustomStyling = !!(member.character?.lore?.iconBackgroundImage || member.character?.lore?.iconBackgroundColor || member.character?.lore?.iconBorderColor);
 
-                        let bgImage = 'none';
+                        let imageUrl = null;
+                        
                         if (customIcon) {
-                            bgImage = `url(${customIcon})`;
+                            imageUrl = customIcon;
                         } else if (charImage) {
-                            bgImage = `url(${charImage})`;
+                            imageUrl = charImage;
                         } else if (charIcon) {
-                            bgImage = `url(${getIconUrl(charIcon, 'items')})`;
+                            // Workshop icons are in 'creatures' folder
+                            imageUrl = getIconUrl(charIcon, charIcon.includes('/') ? 'creatures' : 'items');
                         }
 
-                        const portraitStyle = charIcon && !charImage && !customIcon
-                            ? {
-                                backgroundImage: bgImage,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center center',
-                                backgroundRepeat: 'no-repeat',
-                                transform: `scale(${iconScale}) translate(${iconOffsetX}px, ${iconOffsetY}px)`
-                            }
-                            : {
-                                backgroundImage: bgImage,
-                                backgroundSize: transformations
-                                    ? `${(transformations.scale || 1) * 150}%`
-                                    : 'cover',
-                                backgroundPosition: transformations
-                                    ? `${50 + (transformations.positionX || 0) / 2}% ${50 - (transformations.positionY || 0) / 2}%`
-                                    : 'center center',
-                                backgroundRepeat: 'no-repeat',
-                                transform: transformations
-                                    ? `rotate(${transformations.rotation || 0}deg)`
-                                    : 'none'
-                            };
+                        // Use consistent transformation logic from Lore.jsx/Workshop
+                        const portraitImageStyle = {
+                            width: '100%',
+                            height: '100%',
+                            display: 'block',
+                            objectFit: 'cover',
+                            transform: `scale(${(transformations?.scale || (charImage ? 1.2 : 1)) * (member.character?.lore?.iconScale || 1)}) rotate(${transformations?.rotation || 0}deg) translate(${(transformations?.positionX || 0) + (iconOffsetX)}px, ${(transformations?.positionY || 0) + (iconOffsetY)}px)`,
+                            transition: 'transform 0.2s ease-out'
+                        };
 
                         return (
                             <div
                                 className={`portrait-image ${!hasImage ? 'portrait-placeholder' : ''}`}
                                 style={{
-                                    ...portraitStyle,
-                                    ...(hasCustomStyling ? {} : { borderColor: hasImage && borderColor ? borderColor : undefined })
+                                    ...(hasCustomStyling ? { 
+                                        background: 'none', 
+                                        backgroundColor: 'transparent',
+                                        borderColor: iconBorderColor || '#d4af37',
+                                        borderRadius: '8px'
+                                    } : { 
+                                        borderColor: hasImage && borderColor ? borderColor : undefined 
+                                    }),
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    zIndex: 1
                                 }}
                             >
-                                {!hasImage && (
+                                {hasImage ? (
+                                    <img 
+                                        src={imageUrl} 
+                                        alt="Portrait" 
+                                        style={portraitImageStyle}
+                                        draggable={false}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            if (charIcon) e.target.src = getIconUrl('Human/Icon1', 'creatures');
+                                        }}
+                                    />
+                                ) : (
                                     <div className="portrait-placeholder-icon">
-                                        <i className="fas fa-user-slash"></i>
+                                        <i className="fas fa-user" />
                                     </div>
                                 )}
                             </div>
@@ -776,8 +809,15 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             <div
                                 className="portrait-backdrop-ring"
                                 style={{
+                                    position: 'absolute',
+                                    top: '0',
+                                    left: '0',
+                                    right: '0',
+                                    bottom: '0',
+                                    borderRadius: '8px',
                                     backgroundColor: iconBgColor || '#f8f5eb',
-                                    borderColor: iconBorderColor || '#d4af37',
+                                    borderColor: 'transparent',
+                                    borderWidth: '0',
                                     backgroundImage: iconBg
                                         ? `url(/assets/backgrounds/${encodeURIComponent(iconBg)})`
                                         : 'none',
@@ -787,7 +827,8 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                     backgroundPosition: iconBg
                                         ? `calc(50% + ${iconBgOffsetX}px) calc(50% + ${iconBgOffsetY}px)`
                                         : 'center',
-                                    backgroundRepeat: 'no-repeat'
+                                    backgroundRepeat: 'no-repeat',
+                                    zIndex: 0
                                 }}
                             />
                         );
@@ -1089,31 +1130,34 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 // CONSOLIDATION & DEDUPLICATION LOGIC (Same as TargetHUD)
                 const finalBuffs = [];
                 const finalDebuffs = [];
-                const seenNames = new Set();
+                const seenBuffNames = new Set();
+                const seenDebuffNames = new Set();
                 const seenIds = new Set();
 
                 // 1. Process store buffs
                 rawBuffs.forEach(b => {
-                    if (seenIds.has(b.id) || seenNames.has(b.name.toLowerCase())) return;
+                    if (seenIds.has(b.id) || seenBuffNames.has(b.name.toLowerCase())) return;
                     finalBuffs.push(b);
                     seenIds.add(b.id);
-                    seenNames.add(b.name.toLowerCase());
+                    seenBuffNames.add(b.name.toLowerCase());
                 });
 
-                // 2. Process store debuffs
+                // 2. Process store debuffs (independent dedup from buffs)
                 rawDebuffs.forEach(d => {
-                    if (seenIds.has(d.id) || seenNames.has(d.name.toLowerCase())) return;
+                    if (seenIds.has(d.id) || seenDebuffNames.has(d.name.toLowerCase())) return;
                     finalDebuffs.push(d);
                     seenIds.add(d.id);
-                    seenNames.add(d.name.toLowerCase());
+                    seenDebuffNames.add(d.name.toLowerCase());
                 });
 
                 // 3. Process token conditions
                 rawConditions.forEach(c => {
                     const name = (c.name || c.id || '').toLowerCase();
-                    if (seenNames.has(name)) return;
-
                     const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
+                    const condType = conditionData.type || c.type || 'debuff';
+
+                    if (condType === 'buff' && seenBuffNames.has(name)) return;
+                    if (condType !== 'buff' && seenDebuffNames.has(name)) return;
 
                     const mergedCondition = {
                         ...c,
@@ -1122,15 +1166,20 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         icon: c.icon || conditionData.icon,
                         color: c.color || conditionData.color,
                         description: c.description || conditionData.description,
-                        type: conditionData.type || 'debuff'
+                        type: condType
                     };
 
                     if (mergedCondition.type === 'buff') {
-                        finalBuffs.push(mergedCondition);
+                        if (!seenBuffNames.has(name)) {
+                            finalBuffs.push(mergedCondition);
+                            seenBuffNames.add(name);
+                        }
                     } else {
-                        finalDebuffs.push(mergedCondition);
+                        if (!seenDebuffNames.has(name)) {
+                            finalDebuffs.push(mergedCondition);
+                            seenDebuffNames.add(name);
+                        }
                     }
-                    seenNames.add(name);
                 });
 
                 const playerBuffs = finalBuffs;
@@ -1153,10 +1202,10 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                 };
 
                 return (
-                    <div className="character-buffs-debuffs">
+                    <div className="character-buffs-debuffs" style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginTop: '4px' }}>
                         {/* Buffs Row */}
                         {playerBuffs.length > 0 && (
-                            <div className="character-buffs" style={{ display: 'flex', gap: '4px' }}>
+                            <div className="character-buffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                 {playerBuffs.map((buff) => {
                                     const remainingTime = getRemainingTime(buff.id);
 
@@ -1266,7 +1315,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
 
                         {/* Debuffs Row */}
                         {playerDebuffs.length > 0 && (
-                            <div className="character-debuffs" style={{ display: 'flex', gap: '4px' }}>
+                            <div className="character-debuffs" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                 {playerDebuffs.map((debuff) => {
                                     const remainingTime = getDebuffRemainingTime(debuff.id);
 
@@ -3074,7 +3123,7 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                             scale={1} // Fixed scale to prevent transform calculations
                             cancel=".resource-bar, .buff-icon, .debuff-icon, button, input, select, textarea"
                         >
-                            <div ref={memberNodeRef} className={`party-frame-${member.id}`}>
+                            <div ref={memberNodeRef} className={`party-frame-${member.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
                                 <PartyMemberFrame
                                     member={member}
                                     isCurrentPlayer={
@@ -3874,84 +3923,75 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                         className="overheal-modal"
                         style={{
                             backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
-                            minWidth: '350px',
-                            textAlign: 'center'
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                        <h3 style={{ 
+                            margin: '0 0 20px 0', 
+                            fontSize: '22px', 
+                            color: '#7a3b2e',
+                            borderBottom: '2px solid #8b4513',
+                            paddingBottom: '10px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
                             Overheal Detected
                         </h3>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
-                            This would restore {overhealData.adjustment} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
+                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
+                            This would restore <strong>{overhealData.adjustment}</strong> {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'},
                             but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
                             <br />
-                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
                         </p>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
-                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
-                        </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => {
-                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.adjustment, true);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Add as Temporary
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => {
-                                    // Just cap at max, don't add temporary
-                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.maxValue - overhealData.currentValue, false);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cap at Maximum
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#e8dcc0',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
+                        
+                        <div style={{ 
+                            display: 'flex', 
+                            gap: '12px', 
+                            justifyContent: 'center', 
+                            marginTop: '25px',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                        }}>
+                            <Button
+                                variant="game-secondary"
                                 onClick={() => {
                                     setShowOverhealModal(false);
                                     setOverhealData(null);
                                 }}
                             >
                                 Cancel
-                            </button>
+                            </Button>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.maxValue - overhealData.currentValue, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Max
+                            </Button>
+                            <Button
+                                variant="game-primary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.memberId, overhealData.resourceType, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add Temporary
+                            </Button>
                         </div>
                     </div>
                 </div>

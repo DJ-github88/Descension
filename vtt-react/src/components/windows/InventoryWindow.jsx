@@ -18,6 +18,7 @@ import EquipmentContextMenu from '../equipment/EquipmentContextMenu';
 import { RARITY_COLORS } from '../../constants/itemConstants';
 import { getCompatibleSlots } from '../../utils/equipmentUtils';
 import { getInventoryGridDimensions } from '../../utils/characterUtils';
+import Button from '../common/Button';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
 import { getIconUrl } from '../../utils/assetManager';
 import { WOW_ICON_BASE_URL } from '../item-generation/wowIcons';
@@ -210,7 +211,6 @@ const InventoryWindow = memo(() => {
 
 
     // Refs
-    const contextMenuRef = useRef(null);
 
     // Removed excessive re-rendering logic for better performance
 
@@ -244,20 +244,6 @@ const InventoryWindow = memo(() => {
         // Container state changed - no debug logging needed
     }, [localOpenContainers]);
 
-    // Close context menu when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (contextMenuRef.current && !contextMenuRef.current.contains(event.target)) {
-                setContextMenu({ visible: false });
-                setEquipmentContextMenu({ visible: false });
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     // Add keyboard shortcut for Escape key to close context menu
     useEffect(() => {
@@ -2293,77 +2279,68 @@ const InventoryWindow = memo(() => {
                         className="overheal-modal"
                         style={{
                             backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: 'black',
-                            minWidth: '350px',
-                            textAlign: 'center'
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>
+                        <h3 style={{ 
+                            margin: '0 0 20px 0', 
+                            fontSize: '22px', 
+                            color: '#7a3b2e',
+                            borderBottom: '2px solid #8b4513',
+                            paddingBottom: '10px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
                             Overheal Detected
                         </h3>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '14px' }}>
-                            <strong>{overhealData.item?.name || 'Item'}</strong>
+                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
+                            <strong style={{ fontSize: '18px' }}>{overhealData.item?.name || 'Item'}</strong>
                             <br />
-                            This would restore {overhealData.amount} {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
+                            This would restore <strong>{overhealData.amount}</strong> {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}, 
                             but the current value is {overhealData.currentValue}/{overhealData.maxValue}.
                             <br />
-                            <strong>{overhealData.overhealAmount}</strong> would exceed the maximum.
+                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
                         </p>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '13px', fontStyle: 'italic' }}>
-                            Would you like to add the excess as temporary {overhealData.resourceType === 'health' ? 'HP' : overhealData.resourceType === 'mana' ? 'Mana' : 'AP'}?
-                        </p>
-                        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => applyResourceWithTemporary(true)}
-                            >
-                                Add as Temporary
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
-                                onClick={() => applyResourceWithTemporary(false)}
-                            >
-                                Cap at Maximum
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px 16px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#e8dcc0',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '12px'
-                                }}
+                        <div style={{ 
+                            display: 'flex', 
+                            gap: '12px', 
+                            justifyContent: 'center', 
+                            marginTop: '25px',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                        }}>
+                            <Button
+                                variant="game-secondary"
                                 onClick={() => {
                                     setShowOverhealModal(false);
                                     setOverhealData(null);
                                 }}
                             >
                                 Cancel
-                            </button>
+                            </Button>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => applyResourceWithTemporary(false)}
+                            >
+                                Cap at Max
+                            </Button>
+                            <Button
+                                variant="game-primary"
+                                onClick={() => applyResourceWithTemporary(true)}
+                            >
+                                Add Temporary
+                            </Button>
                         </div>
                     </div>
                 </div>,

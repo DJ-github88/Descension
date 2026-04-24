@@ -2563,7 +2563,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             {/* Input Modal */}
             {showInputModal && (
                 <div
-                    className="modal-overlay"
+                    className="campaign-modal-overlay"
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -2574,7 +2574,9 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        zIndex: 100000
+                        zIndex: 100000,
+                        backdropFilter: 'blur(6px)',
+                        WebkitBackdropFilter: 'blur(6px)'
                     }}
                     onClick={() => {
                         setShowInputModal(false);
@@ -2660,7 +2662,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
             {/* Confirm Modal */}
             {isConfirmModalOpen && (
                 <div
-                    className="modal-overlay"
+                    className="campaign-modal-overlay"
                     style={{
                         position: 'fixed',
                         top: 0,
@@ -2671,7 +2673,9 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        zIndex: 100000
+                        zIndex: 100000,
+                        backdropFilter: 'blur(6px)',
+                        WebkitBackdropFilter: 'blur(6px)'
                     }}
                     onClick={() => {
                         setIsConfirmModalOpen(false);

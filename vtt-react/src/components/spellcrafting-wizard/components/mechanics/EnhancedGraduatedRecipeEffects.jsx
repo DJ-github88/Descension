@@ -4,7 +4,7 @@ import { faPlus, faMinus, faTrash, faInfoCircle } from '@fortawesome/free-solid-
 import { FaFire, FaHeart, FaWandMagic, FaSkull, FaGauge, FaHandSparkles, FaDragon, FaVirus } from 'react-icons/fa6';
 import { useSpellWizardState } from '../../context/spellWizardContext';
 import { getIconUrl } from '../../utils/iconUtils';
-import '../../styles/GraduatedRecipeEffects.css';
+
 
 /**
  * Enhanced component for configuring graduated effects based on partial recipe matches

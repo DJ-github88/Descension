@@ -91,6 +91,11 @@ import './styles/item-wizard.css';
 import './components/spellcrafting-wizard/styles/pathfinder/main.css';
 import 'react-resizable/css/styles.css';
 
+// Spell Library & Community styles (consolidated to prevent shredding on game re-entry)
+import './components/spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
+import './components/spellcrafting-wizard/components/library/CommunitySpellsTab.css';
+import './components/creature-wizard/components/library/CommunityCreaturesTab.css';
+
 // Lazy load heavy components to reduce initial bundle size
 const Grid = lazy(() => import("./components/Grid"));
 const Navigation = lazy(() => import("./components/Navigation"));
@@ -123,10 +128,6 @@ let gameStyleObserver = null;
 // Lazy load game-specific styles with cleanup tracking
 const loadGameStyles = () => {
     // Start observing head for new style injections
-    // Core game styles (Inventory, Combat, etc.) have been moved to static imports
-    // to prevent being caught by cleanupGameStyles and failing to re-inject properly on re-entry.
-
-    // Start observing head for new style injections
     if (typeof window !== 'undefined' && !gameStyleObserver) {
         gameStyleObserver = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
@@ -154,16 +155,15 @@ const cleanupGameStyles = () => {
         gameStyleObserver = null;
     }
 
-    // CRITICAL: Remove ONLY stylesheets tagged as game styles
-    const gameStyles = document.querySelectorAll('[data-game-style="true"]');
-    if (gameStyles.length > 0) {
-        console.log(`🧹 Removing ${gameStyles.length} game stylesheets...`);
-        gameStyles.forEach(sheet => {
-            if (sheet && sheet.parentNode) {
-                sheet.parentNode.removeChild(sheet);
-            }
-        });
-    }
+    // IMPORTANT: Do NOT remove Webpack-injected <style> tags.
+    // Webpack caches lazy chunks and will NOT re-evaluate modules on re-entry,
+    // so any CSS injected via static imports in lazy-loaded components (Navigation,
+    // Grid, etc.) will be permanently lost if removed here.
+    //
+    // The body class switch from 'game-mode' to 'landing-mode' is sufficient to
+    // scope game-specific CSS rules (most use .game-mode selectors).
+    // CSS that doesn't use body class scoping is harmless to leave in the DOM
+    // since it uses specific class selectors that won't match account/landing pages.
 
     // Reset any inline box-sizing that might have been globally applied
     document.documentElement.style.boxSizing = '';

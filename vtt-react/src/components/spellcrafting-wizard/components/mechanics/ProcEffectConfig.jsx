@@ -8,7 +8,7 @@ import {
   getProcChanceType
 } from '../../core/mechanics/procSystem';
 import { FaPlus, FaTrash, FaInfoCircle, FaDice, FaPercentage, FaBolt, FaRandom } from 'react-icons/fa';
-import '../../styles/ProcEffectConfig.css';
+
 
 const ProcEffectConfig = ({ procConfig, onChange }) => {
   const [selectedTrigger, setSelectedTrigger] = useState('');

@@ -380,6 +380,23 @@ export default function CharacterStats() {
             
             // Apply condition modifiers using the utility function
             totalStats.movementSpeed = calculateEffectiveMovementSpeed(baseMovementSpeed, conditions);
+
+            // Apply buff/debuff effects to movement speed (not included in calculateDerivedStats call)
+            const movementKeys = ['moveSpeed', 'movementSpeed', 'speed'];
+            movementKeys.forEach(key => {
+                if (buffEffects[key]) {
+                    buffEffects[key].forEach(effect => {
+                        totalStats.movementSpeed += effect.value;
+                    });
+                }
+                if (debuffEffects[key]) {
+                    debuffEffects[key].forEach(effect => {
+                        totalStats.movementSpeed += effect.value;
+                    });
+                }
+            });
+            totalStats.movementSpeed = Math.max(0, Math.floor(totalStats.movementSpeed));
+
             totalStats.swimSpeed = calculatedDerivedStats.swimSpeed || 0;
             totalStats.climbSpeed = calculatedDerivedStats.climbSpeed || 0;
 
@@ -551,7 +568,7 @@ export default function CharacterStats() {
         // For derived stats like Max Health and Max Mana, encumbrance affects them indirectly
         // through changes to the underlying stats (constitution/intelligence)
 
-        if (statLabel.toLowerCase().includes('health') && statLabel.toLowerCase().includes('max')) {
+        if ((statLabel.toLowerCase().includes('health') && statLabel.toLowerCase().includes('max')) || statLabel.toLowerCase() === 'health') {
             // Max Health is based on constitution
             const baseStat = stats.constitution || 10;
             let encumbranceMultiplier = 1.0;
@@ -575,7 +592,7 @@ export default function CharacterStats() {
                 description: description
             };
 
-        } else if (statLabel.toLowerCase().includes('mana') && statLabel.toLowerCase().includes('max')) {
+        } else if ((statLabel.toLowerCase().includes('mana') && statLabel.toLowerCase().includes('max')) || statLabel.toLowerCase() === 'mana') {
             // Max Mana is based on intelligence
             const baseStat = stats.intelligence || 10;
             let encumbranceMultiplier = 1.0;
@@ -655,10 +672,12 @@ export default function CharacterStats() {
     const getEquipmentBonusForStat = (statLabel) => {
         const equipmentBonuses = calculateEquipmentBonuses(equipment);
 
-        if (statLabel.toLowerCase().includes('health') && statLabel.toLowerCase().includes('max')) {
+        if ((statLabel.toLowerCase().includes('health') && statLabel.toLowerCase().includes('max')) || statLabel.toLowerCase() === 'health') {
             return equipmentBonuses.maxHealth || 0;
-        } else if (statLabel.toLowerCase().includes('mana') && statLabel.toLowerCase().includes('max')) {
+        } else if ((statLabel.toLowerCase().includes('mana') && statLabel.toLowerCase().includes('max')) || statLabel.toLowerCase() === 'mana') {
             return equipmentBonuses.maxMana || 0;
+        } else if (statLabel.toLowerCase() === 'action points') {
+            return equipmentBonuses.actionPoints || 0;
         } else if (statLabel.toLowerCase().includes('movement') && statLabel.toLowerCase().includes('speed')) {
             return equipmentBonuses.moveSpeed || 0;
         } else if (statLabel.toLowerCase() === 'armor') {
@@ -743,16 +762,36 @@ export default function CharacterStats() {
             }
         }
         
+        const camelCaseAliases = {
+            'movement speed': ['moveSpeed', 'movementSpeed'],
+            'max health': ['maxHealth', 'maxHp', 'max_hp'],
+            'max mana': ['maxMana', 'maxMp', 'max_mp'],
+            'action points': ['actionPoints', 'maxAP', 'ap'],
+            'health regeneration': ['healthRegen', 'health_regen', 'regen_hp'],
+            'mana regeneration': ['manaRegen', 'mana_regen', 'regen_mana'],
+            'healing power': ['healingPower', 'healing_power'],
+            'healing received': ['healingReceived'],
+            'passive dr': ['passiveDR'],
+            'vision range': ['visionRange'],
+            'darkvision': ['darkvision'],
+            'swim speed': ['swimSpeed'],
+            'climb speed': ['climbSpeed'],
+            'fly speed': ['flySpeed'],
+            'initiative': ['initiative'],
+            'dodge rating': ['dodgeRating'],
+            'carrying capacity': ['carryingCapacity'],
+        };
+
         const alternativeKeys = [
             statLabel.toLowerCase(),
             statKey,
             statLabel.toLowerCase().replace(' ', ''),
             statLabel.toLowerCase().replace(/\s+/g, '_'),
-            // For spell power: "Arcane Power" -> "arcaneSpellPower"
             spellType ? `${spellType}SpellPower` : null,
             spellType ? `${spellType}spellpower` : null,
-            spellType ? `${spellType}_spell_power` : null
-        ].filter(Boolean); // Remove null values
+            spellType ? `${spellType}_spell_power` : null,
+            ...(camelCaseAliases[statLabel.toLowerCase()] || [])
+        ].filter(Boolean);
 
         let buffEffect = 0;
         let debuffEffect = 0;
@@ -797,33 +836,33 @@ export default function CharacterStats() {
             const conditions = playerToken?.state?.conditions || [];
             
             if (conditions.length > 0) {
-                // Get the base speed before conditions (after equipment and encumbrance)
                 const equipmentBonuses = calculateEquipmentBonuses(equipment);
                 const currentEncumbranceState = encumbranceState || 'normal';
-                const baseSpeed = 30; // Base movement speed
+
+                let racialSpeed = 30;
+                try {
+                    const { getRacialBaseStats } = require('../../data/raceData');
+                    const racialBaseStats = getRacialBaseStats(race, subrace);
+                    if (racialBaseStats.speed) racialSpeed = racialBaseStats.speed;
+                } catch (e) {}
+
                 const equipmentSpeed = equipmentBonuses.moveSpeed || 0;
-                const speedAfterEquipment = baseSpeed + equipmentSpeed;
-                
-                // Calculate speed after encumbrance
-                let speedAfterEncumbrance = speedAfterEquipment;
+                const speedAfterFlatEffects = racialSpeed + equipmentSpeed + buffEffect + debuffEffect;
+
+                let speedAfterEncumbrance = speedAfterFlatEffects;
                 if (currentEncumbranceState === 'encumbered') {
-                    speedAfterEncumbrance = Math.floor(speedAfterEquipment * 0.75);
+                    speedAfterEncumbrance = Math.floor(speedAfterFlatEffects * 0.75);
                 } else if (currentEncumbranceState === 'overencumbered') {
-                    speedAfterEncumbrance = Math.floor(speedAfterEquipment * 0.25);
+                    speedAfterEncumbrance = Math.floor(speedAfterFlatEffects * 0.25);
                 }
-                
-                // Calculate speed after conditions
+
                 const speedAfterConditions = calculateEffectiveMovementSpeed(speedAfterEncumbrance, conditions);
-                
-                // Calculate the condition effect (difference from speed after encumbrance)
                 const conditionEffect = speedAfterConditions - speedAfterEncumbrance;
-                
-                // Add condition effect to buff or debuff based on whether it's positive or negative
-                // This represents the net effect of all conditions (hasted, slowed, restrained, etc.)
+
                 if (conditionEffect > 0) {
                     buffEffect += conditionEffect;
                 } else if (conditionEffect < 0) {
-                    debuffEffect += conditionEffect; // Already negative
+                    debuffEffect += conditionEffect;
                 }
             }
         }
@@ -901,14 +940,25 @@ export default function CharacterStats() {
     // Note: calculateDerivedStats actually calculates baseArmor using totalAgility (base + equipment),
     // but for display we want to show what base contributes separately
     let racialBaseArmor = 0;
+    let racialBaseSpeed = 30;
+    let racialBaseHP = 25;
+    let racialBaseMana = 15;
+    let racialBaseAP = 3;
     if (race && subrace) {
         try {
             const { getRacialBaseStats } = require('../../data/raceData');
-            const racialBaseStats = getRacialBaseStats(race, subrace);
-            racialBaseArmor = racialBaseStats.armor || 0;
+            const racialStats = getRacialBaseStats(race, subrace);
+            racialBaseArmor = racialStats.armor || 0;
+            racialBaseSpeed = racialStats.speed || 30;
+            racialBaseHP = racialStats.hp !== undefined ? racialStats.hp : 25;
+            racialBaseMana = racialStats.mana !== undefined ? racialStats.mana : 15;
+            racialBaseAP = racialStats.ap !== undefined ? racialStats.ap : 3;
         } catch (e) {
-            // If we can't load racial stats, default to 0
             racialBaseArmor = 0;
+            racialBaseSpeed = 30;
+            racialBaseHP = 25;
+            racialBaseMana = 15;
+            racialBaseAP = 3;
         }
     }
     // Base agility modifier from base agility stat (without equipment bonuses)
@@ -966,7 +1016,8 @@ export default function CharacterStats() {
                 {
                     label: 'Health',
                     value: `${health.current}/${health.max}`,
-                    baseValue: health.max,
+                    tooltipValue: health.max,
+                    baseValue: Math.round((stats.constitution || 10) * 5) + racialBaseHP,
                     tooltip: true,
                     icon: getCustomIconUrl('Healing/Red Heart', 'abilities'),
                     color: '#ff4444',
@@ -975,7 +1026,8 @@ export default function CharacterStats() {
                 {
                     label: 'Mana',
                     value: `${mana.current}/${mana.max}`,
-                    baseValue: mana.max,
+                    tooltipValue: mana.max,
+                    baseValue: Math.round((stats.intelligence || 10) * 5) + racialBaseMana,
                     tooltip: true,
                     icon: getCustomIconUrl('Utility/Glowing Orb', 'abilities'),
                     color: '#4444ff',
@@ -984,7 +1036,8 @@ export default function CharacterStats() {
                 {
                     label: 'Action Points',
                     value: `${actionPoints.current}/${actionPoints.max}`,
-                    baseValue: actionPoints.max,
+                    tooltipValue: actionPoints.max,
+                    baseValue: racialBaseAP,
                     tooltip: true,
                     icon: getCustomIconUrl('Arcane/Enchanted Sword 2', 'abilities'),
                     color: '#b8860b',
@@ -1011,7 +1064,7 @@ export default function CharacterStats() {
                 {
                     label: 'Movement Speed',
                     value: Math.round(totalStats.movementSpeed ?? 30),
-                    baseValue: 30,
+                    baseValue: racialBaseSpeed,
                     tooltip: true,
                     icon: getCustomIconUrl('Arcane/Swift Boot', 'abilities'),
                     color: '#44ff44',
@@ -1205,8 +1258,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Max Health',
-                    value: Math.round(totalStats.maxHealth || health.max),
-                    baseValue: Math.round((stats.constitution || 10) * 5), // Use original stats for base value
+                    value: health.max,
+                    baseValue: Math.round((stats.constitution || 10) * 5) + racialBaseHP,
                     tooltip: true,
                     icon: getCustomIconUrl('Healing/Red Heart', 'abilities'),
                     color: '#ff4444',
@@ -1214,8 +1267,8 @@ export default function CharacterStats() {
                 },
                 {
                     label: 'Max Mana',
-                    value: Math.round(totalStats.maxMana || mana.max),
-                    baseValue: Math.round((stats.intelligence || 10) * 5), // Use original stats for base value
+                    value: mana.max,
+                    baseValue: Math.round((stats.intelligence || 10) * 5) + racialBaseMana,
                     tooltip: true,
                     icon: getCustomIconUrl('Utility/Glowing Orb', 'abilities'),
                     color: '#4444ff',
@@ -1286,7 +1339,7 @@ export default function CharacterStats() {
                 {
                     label: 'Movement Speed',
                     value: Math.round(totalStats.movementSpeed ?? 30),
-                    baseValue: 30,
+                    baseValue: racialBaseSpeed,
                     tooltip: true,
                     icon: getCustomIconUrl('Arcane/Swift Boot', 'abilities'),
                     color: '#44ff44',
@@ -2520,13 +2573,16 @@ export default function CharacterStats() {
                                         />
                                     ) : (
                                         (() => {
-                                            const encumbranceInfo = getEncumbranceEffectForStat(stat.label, stat.value, stat.baseValue);
+                                            const numericValue = stat.tooltipValue ?? (typeof stat.value === 'number' ? stat.value : undefined);
+                                            const displayValue = typeof stat.value === 'string' ? stat.value : undefined;
+                                            const encumbranceInfo = getEncumbranceEffectForStat(stat.label, numericValue ?? stat.baseValue, stat.baseValue);
                                             const buffDebuffInfo = getBuffDebuffEffectsForStat(stat.label);
                                             const equipmentBonus = getEquipmentBonusForStat(stat.label);
                                             return (
                                                 <GeneralStatTooltip
                                                     stat={stat.label}
-                                                    value={stat.value}
+                                                    value={numericValue}
+                                                    displayValue={displayValue}
                                                     baseValue={stat.baseValue}
                                                     equipmentBonus={equipmentBonus}
                                                     encumbranceEffect={encumbranceInfo.effect}

@@ -611,27 +611,26 @@ const useCharacterStore = create((set, get) => ({
             const encumbranceState = getEncumbranceState();
             const derivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, state.exhaustionLevel || 0, state.health, state.race, state.subrace, combinedModifiers);
 
-            // Update health and mana max values when constitution or intelligence change
+            // Update health and mana max values from derivedStats
             let newHealth = { ...state.health };
             let newMana = { ...state.mana };
 
-            if (statName === 'constitution') {
-                const newMaxHealth = Math.round(derivedStats.maxHealth);
-                newHealth.max = newMaxHealth;
-                // Ensure current health doesn't exceed new max
-                newHealth.current = Math.min(newHealth.current, newMaxHealth);
+            // ALWAYS update health and mana max values from derivedStats to ensure 
+            // buffs and equipment changes are reflected immediately
+            const newMaxHealth = Math.round(derivedStats.maxHealth);
+            newHealth.max = newMaxHealth;
+            // Ensure current health doesn't exceed new max
+            newHealth.current = Math.min(newHealth.current, newMaxHealth);
 
+            const newMaxMana = Math.round(derivedStats.maxMana);
+            newMana.max = newMaxMana;
+            // Ensure current mana doesn't exceed new max
+            newMana.current = Math.min(newMana.current, newMaxMana);
 
-            }
-
-            if (statName === 'intelligence') {
-                const newMaxMana = Math.round(derivedStats.maxMana);
-                newMana.max = newMaxMana;
-                // Ensure current mana doesn't exceed new max
-                newMana.current = Math.min(newMana.current, newMaxMana);
-
-
-            }
+            let newActionPoints = { ...state.actionPoints };
+            const newMaxAP = Math.round(derivedStats.actionPoints);
+            newActionPoints.max = newMaxAP;
+            newActionPoints.current = Math.min(newActionPoints.current, newMaxAP);
 
             // Update class resource max if it depends on stats
             let newClassResource = state.classResource;
@@ -649,6 +648,7 @@ const useCharacterStore = create((set, get) => ({
                 derivedStats,
                 health: newHealth,
                 mana: newMana,
+                actionPoints: newActionPoints,
                 classResource: newClassResource
             };
         });
@@ -731,50 +731,31 @@ const useCharacterStore = create((set, get) => ({
                     stats: {
                         equipmentBonuses,
                         derivedStats,
-                        health: state.health,
-                        mana: state.mana,
-                        actionPoints: state.actionPoints,
+                        health: newHealth,
+                        mana: newMana,
+                        actionPoints: newActionPoints,
                         classResource: state.classResource
                     }
                 });
             }
 
-            // Check if any health/mana affecting bonuses changed
-            const oldConBonus = oldEquipmentBonuses.con || 0;
-            const newConBonus = equipmentBonuses.con || 0;
-            const oldIntBonus = oldEquipmentBonuses.int || 0;
-            const newIntBonus = equipmentBonuses.int || 0;
-            const oldMaxHealthBonus = oldEquipmentBonuses.maxHealth || 0;
-            const newMaxHealthBonus = equipmentBonuses.maxHealth || 0;
-            const oldMaxHealthPercent = oldEquipmentBonuses.maxHealthPercent || 0;
-            const newMaxHealthPercent = equipmentBonuses.maxHealthPercent || 0;
-            const oldMaxManaBonus = oldEquipmentBonuses.maxMana || 0;
-            const newMaxManaBonus = equipmentBonuses.maxMana || 0;
-            const oldMaxManaPercent = oldEquipmentBonuses.maxManaPercent || 0;
-            const newMaxManaPercent = equipmentBonuses.maxManaPercent || 0;
-
             let newHealth = { ...state.health };
             let newMana = { ...state.mana };
 
-            // Update health if any health-affecting bonus changed
-            if (oldConBonus !== newConBonus || oldMaxHealthBonus !== newMaxHealthBonus || oldMaxHealthPercent !== newMaxHealthPercent) {
-                const newMaxHealth = Math.round(derivedStats.maxHealth);
-                newHealth.max = newMaxHealth;
-                // Ensure current health doesn't exceed new max
-                newHealth.current = Math.min(newHealth.current, newMaxHealth);
+            // Update health and mana max values from derivedStats to ensure 
+            // equipment changes are reflected immediately regardless of which slot changed
+            const newMaxHealth = Math.round(derivedStats.maxHealth);
+            newHealth.max = newMaxHealth;
+            newHealth.current = Math.min(newHealth.current, newMaxHealth);
 
+            const newMaxMana = Math.round(derivedStats.maxMana);
+            newMana.max = newMaxMana;
+            newMana.current = Math.min(newMana.current, newMaxMana);
 
-            }
-
-            // Update mana if any mana-affecting bonus changed
-            if (oldIntBonus !== newIntBonus || oldMaxManaBonus !== newMaxManaBonus || oldMaxManaPercent !== newMaxManaPercent) {
-                const newMaxMana = Math.round(derivedStats.maxMana);
-                newMana.max = newMaxMana;
-                // Ensure current mana doesn't exceed new max
-                newMana.current = Math.min(newMana.current, newMaxMana);
-
-
-            }
+            let newActionPoints = { ...state.actionPoints };
+            const newMaxAP = Math.round(derivedStats.actionPoints);
+            newActionPoints.max = newMaxAP;
+            newActionPoints.current = Math.min(newActionPoints.current, newMaxAP);
 
             // Update resistances from equipment
             let newResistances = { ...state.resistances };
@@ -805,13 +786,14 @@ const useCharacterStore = create((set, get) => ({
                 derivedStats,
                 health: newHealth,
                 mana: newMana,
+                actionPoints: newActionPoints,
                 resistances: newResistances
             };
         });
 
         // CRITICAL: Sync with multiplayer after state is fully updated
         get().syncWithMultiplayer();
-        get().syncResourcesWithMultiplayer(['health', 'mana']);
+        get().syncResourcesWithMultiplayer({ health: 0, mana: 0, actionPoints: 0 });
     },
 
     // Equip an item from inventory to a specific slot

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import './MathHelpModal.css';
+// Pathfinder styles imported via main.css
 
 const MathHelpModal = ({ show, onHide }) => {
   const mathOperators = [

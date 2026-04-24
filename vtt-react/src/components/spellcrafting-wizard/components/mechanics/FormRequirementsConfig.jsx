@@ -6,7 +6,7 @@ import {
   applyFormModifiersToSpell
 } from '../../core/mechanics/stanceFormSystem';
 import { FaInfoCircle, FaCheck, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
-import '../../styles/FormRequirementsConfig.css';
+
 
 const FormRequirementsConfig = ({ formRequirements, onChange, spellConfig }) => {
   const [selectedClass, setSelectedClass] = useState('DRUID');

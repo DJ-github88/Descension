@@ -141,6 +141,24 @@ export const collectBuffEffects = (item) => {
         hasBuffs = true;
     }
 
+    if (baseStats.maxHealth) {
+        const value = typeof baseStats.maxHealth === 'object' ? baseStats.maxHealth.value : baseStats.maxHealth;
+        if (value > 0) {
+            console.log('[consumableUtils] Found positive baseStats maxHealth:', value);
+            buffEffects.maxHealth = (buffEffects.maxHealth || 0) + value;
+            hasBuffs = true;
+        }
+    }
+
+    if (baseStats.moveSpeed) {
+        const value = typeof baseStats.moveSpeed === 'object' ? baseStats.moveSpeed.value : baseStats.moveSpeed;
+        if (value > 0) {
+            console.log('[consumableUtils] Found positive baseStats moveSpeed:', value);
+            buffEffects.moveSpeed = (buffEffects.moveSpeed || 0) + value;
+            hasBuffs = true;
+        }
+    }
+
     if (combatStats.spellDamage && combatStats.spellDamage.types) {
         Object.entries(combatStats.spellDamage.types).forEach(([spellType, spellData]) => {
             const value = typeof spellData === 'object' ? spellData.value : spellData;
@@ -241,6 +259,30 @@ export const collectDebuffEffects = (item) => {
     if (combatStats.maxHealth && combatStats.maxHealth.value < 0) {
         debuffEffects.maxHealth = Math.abs(combatStats.maxHealth.value);
         hasDebuffs = true;
+    }
+
+    if (baseStats.maxHealth) {
+        const value = typeof baseStats.maxHealth === 'object' ? baseStats.maxHealth.value : baseStats.maxHealth;
+        if (value < 0) {
+            debuffEffects.maxHealth = (debuffEffects.maxHealth || 0) + Math.abs(value);
+            hasDebuffs = true;
+        }
+    }
+
+    if (baseStats.moveSpeed) {
+        const value = typeof baseStats.moveSpeed === 'object' ? baseStats.moveSpeed.value : baseStats.moveSpeed;
+        if (value < 0) {
+            debuffEffects.moveSpeed = (debuffEffects.moveSpeed || 0) + Math.abs(value);
+            hasDebuffs = true;
+        }
+    }
+
+    if (baseStats.movementSpeed) {
+        const value = typeof baseStats.movementSpeed === 'object' ? baseStats.movementSpeed.value : baseStats.movementSpeed;
+        if (value < 0) {
+            debuffEffects.moveSpeed = (debuffEffects.moveSpeed || 0) + Math.abs(value);
+            hasDebuffs = true;
+        }
     }
 
     if (combatStats.spellDamage && combatStats.spellDamage.types) {
@@ -402,6 +444,64 @@ export const syncResourceToAll = ({ resourceType, characterStore, partyStore, ga
     }
 };
 
+const EFFECT_STAT_NAMES = {
+    'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+    'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+    'armor': 'Armor', 'damage': 'Damage', 'healingpower': 'Healing Power',
+    'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
+    'maxhealth': 'Max Health', 'maxmana': 'Max Mana',
+    'movespeed': 'Movement Speed',
+    'carryingcapacity': 'Carrying Capacity'
+};
+
+const UNIT_STATS_SET = new Set(['movespeed', 'movement speed', 'speed']);
+
+const resolveEffectStatName = (stat) => {
+    let name = EFFECT_STAT_NAMES[stat.toLowerCase()];
+    if (!name) {
+        name = stat
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/_/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ')
+            .trim();
+    }
+    return name;
+};
+
+export const generateBuffEffectSummary = (effects) => {
+    if (!effects || typeof effects !== 'object') return '';
+    const lines = [];
+    Object.entries(effects).forEach(([stat, value]) => {
+        if (value !== 0 && value !== null && value !== undefined) {
+            const statName = resolveEffectStatName(stat);
+            const absVal = Math.abs(value);
+            const unitSuffix = UNIT_STATS_SET.has(stat.toLowerCase()) ? ' units' : '';
+            if (value > 0) {
+                lines.push(`Increases ${statName} by ${absVal}${unitSuffix}`);
+            } else {
+                lines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+            }
+        }
+    });
+    return lines.join(', ');
+};
+
+export const generateDebuffEffectSummary = (effects) => {
+    if (!effects || typeof effects !== 'object') return '';
+    const lines = [];
+    Object.entries(effects).forEach(([stat, value]) => {
+        if (value !== 0 && value !== null && value !== undefined) {
+            const statName = resolveEffectStatName(stat);
+            const absVal = Math.abs(value);
+            const unitSuffix = UNIT_STATS_SET.has(stat.toLowerCase()) ? ' units' : '';
+            lines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+        }
+    });
+    return lines.join(', ');
+};
+
 /**
  * Apply buff effects from consumable
  * @param {Object} params - Parameters object
@@ -417,10 +517,12 @@ export const applyBuffEffects = ({ item, buffStore, effects = null, targetId = '
     
     if (hasBuffs) {
         const duration = extractConsumableDuration(item);
+        const effectSummary = generateBuffEffectSummary(buffEffects);
         buffStore.getState().addBuff({
             name: item.name,
             icon: getIconUrl(item.iconId, 'items'),
             description: item.description || `Temporary enhancement from ${item.name}`,
+            effectSummary: effectSummary,
             effects: buffEffects,
             duration: duration,
             source: 'consumable',
@@ -448,10 +550,12 @@ export const applyDebuffEffects = ({ item, debuffStore, effects = null, targetId
     
     if (hasDebuffs) {
         const duration = extractConsumableDuration(item);
+        const effectSummary = generateDebuffEffectSummary(debuffEffects);
         debuffStore.getState().addDebuff({
             name: item.name,
             icon: getIconUrl(item.iconId, 'items'),
             description: item.description || `Temporary negative effect from ${item.name}`,
+            effectSummary: effectSummary,
             effects: debuffEffects,
             duration: duration,
             source: 'consumable',
@@ -674,6 +778,8 @@ export default {
     extractConsumableDuration,
     collectBuffEffects,
     collectDebuffEffects,
+    generateBuffEffectSummary,
+    generateDebuffEffectSummary,
     applyResourceChange,
     syncResourceToAll,
     applyBuffEffects,

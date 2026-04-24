@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaDiceD20, FaCoins, FaClone } from 'react-icons/fa';
-import '../../styles/ResolutionTypeSelector.css';
+
 
 const ResolutionTypeSelector = ({
   selectedType,

@@ -5,7 +5,7 @@ import SpellLibraryButton from '../common/SpellLibraryButton';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import { LIBRARY_SPELLS } from '../../../../data/spellLibraryData';
 import { useSpellWizardState } from '../../context/spellWizardContext';
-import '../../styles/ChanceOnHitConfig.css';
+
 
 const CriticalHitConfig = ({ config, onConfigChange }) => {
   // Get the spell library context

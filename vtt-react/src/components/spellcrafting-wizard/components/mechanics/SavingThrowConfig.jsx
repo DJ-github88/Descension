@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { FaShieldAlt, FaDiceD20, FaClone, FaCoins } from 'react-icons/fa';
 import IconSelectionCard from '../common/IconSelectionCard';
-import '../../styles/ChanceOnHitConfig.css';
-import '../../styles/saving-throw-config.css';
+
 
 const SAVING_THROW_TYPES = [
   { id: 'strength', name: 'Strength' },

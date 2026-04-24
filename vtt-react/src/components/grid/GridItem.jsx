@@ -365,6 +365,28 @@ const GridItem = ({ gridItem }) => {
             ?
           </div>
         )}
+
+        {/* Quantity Badge */}
+        {gridItem.quantity > 1 && (
+          <div style={{
+            position: 'absolute',
+            bottom: '-2px',
+            right: '-2px',
+            backgroundColor: 'rgba(20, 20, 20, 0.95)',
+            border: `1px solid ${qualityColor}`,
+            borderRadius: '4px',
+            padding: '1px 4px',
+            fontSize: `${Math.max(10, itemSize * 0.3)}px`,
+            fontWeight: 'bold',
+            color: '#ffd100',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.5)',
+            pointerEvents: 'none',
+            zIndex: 100,
+            whiteSpace: 'nowrap'
+          }}>
+            x{gridItem.quantity}
+          </div>
+        )}
       </div>
 
       {showTooltip && (

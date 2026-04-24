@@ -556,6 +556,30 @@ const GridContainer = ({ gridItem }) => {
               </svg>
             </div>
           )}
+
+          {/* Quantity Badge */}
+          {displayItem.quantity > 1 && (
+            <div 
+              style={{
+                position: 'absolute',
+                bottom: '-4px',
+                right: '-4px',
+                background: '#8b4513',
+                color: '#f4eee0',
+                borderRadius: '4px',
+                padding: '1px 4px',
+                fontSize: `${Math.max(10, gridSize * effectiveZoom * 0.2)}px`,
+                fontWeight: 'bold',
+                border: '1px solid #5a1e12',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                zIndex: 10,
+                pointerEvents: 'none',
+                fontFamily: "'Cinzel', serif"
+              }}
+            >
+              {displayItem.quantity}x
+            </div>
+          )}
         
         {/* Container icon is now a background image */}
       </div>

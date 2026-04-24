@@ -159,7 +159,7 @@ const ChatWindow = () => {
             <div className="friend-status online"></div>
             <div className="friend-name">
               <span style={{ color: getQualityColor(notification.item.quality) }}>
-                {notification.item.name}
+                {String(notification.item.name || 'Unknown Item')}
               </span>
               {notification.quantity > 1 && <span style={{ color: '#666', fontWeight: 'normal' }}> x{notification.quantity}</span>}
             </div>

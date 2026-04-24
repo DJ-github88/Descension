@@ -1,33 +1,25 @@
 .draggable-window {
     box-sizing: border-box;
-    /* Remove properties that cause blurry text */
     transform-origin: top left;
-    /* Ensure crisp text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     pointer-events: auto;
 
-    /* Add smooth transition when not dragging - shorter for better responsiveness */
     transition: transform 0.08s cubic-bezier(0.2, 0, 0.2, 1);
 
-    /* Performance optimizations */
     will-change: transform;
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    /* Optimize for animations */
-    contain: layout style paint;
+    contain: layout style;
 }
 
 /* Disable transition during dragging for performance */
 .draggable-window.dragging {
     transition: none !important;
-    /* Additional performance optimizations during drag */
     will-change: transform;
-    pointer-events: none; /* Prevent hover effects during drag */
-    /* Optimize rendering during drag */
-    contain: layout style paint;
-    /* Maintain transform origin for scaling */
+    pointer-events: none;
+    contain: layout style;
     transform-origin: top left !important;
 }
 
@@ -38,10 +30,8 @@
 }
 
 .draggable-window.resizing {
-    /* Performance optimizations during resize */
     will-change: width, height, transform;
     contain: layout style;
-    /* Maintain transform origin for scaling */
     transform-origin: top left !important;
 }
 

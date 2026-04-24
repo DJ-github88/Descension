@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus, faTrash, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import '../../styles/GraduatedRecipeEffects.css';
+
 
 /**
  * Component for configuring graduated effects based on partial recipe matches

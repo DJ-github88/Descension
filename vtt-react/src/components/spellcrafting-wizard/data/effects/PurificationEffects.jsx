@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import './purification-effects.css';
+
 import IconSelectionCard from '../../components/common/IconSelectionCard';
 import {
   FaTrashCan,

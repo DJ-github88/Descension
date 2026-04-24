@@ -1,7 +1,7 @@
 import React from 'react';
 import UnifiedSpellCard from './UnifiedSpellCard';
 import ProcEffectDisplay from './ProcEffectDisplay';
-import '../../styles/SpellCardWithProcs.css';
+
 
 /**
  * SpellCardWithProcs Component

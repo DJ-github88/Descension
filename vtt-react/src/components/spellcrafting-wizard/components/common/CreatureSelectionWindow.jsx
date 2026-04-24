@@ -4,7 +4,7 @@ import { useCreatureLibrary } from '../../../creature-wizard/context/CreatureLib
 import useCreatureStore from '../../../../store/creatureStore';
 import CompactCreatureCard from '../../../creature-wizard/components/common/CompactCreatureCard';
 import { FaSearch, FaTimes, FaCheck } from 'react-icons/fa';
-import '../../styles/pathfinder/creature-selection.css';
+// Pathfinder styles imported via main.css
 
 // Helper function to filter creatures based on filters
 const filterCreatures = (creatures, filters) => {

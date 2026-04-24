@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaDiceD20, FaDiceD6, FaDice, FaDiceFive, FaDiceFour, FaDiceOne, FaDiceSix, FaDiceThree, FaDiceTwo } from 'react-icons/fa';
-import '../../styles/DiceRollVisualizer.css';
+
 
 const DiceRollVisualizer = ({ diceType = 'd20', onRoll, specialThreshold = 20, specialRange = 1 }) => {
   const [result, setResult] = useState(null);

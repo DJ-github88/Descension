@@ -339,10 +339,16 @@ const useDebuffStore = create(
                 const { activeDebuffs } = get();
                 const effects = {};
 
-                // IMPROVED: When looking for 'player', also include 'current-player' debuffs
-                const targetIds = targetId === 'player' 
-                    ? ['player', 'current-player'] 
-                    : [targetId];
+                const targetIds = [targetId];
+                if (targetId === 'player') {
+                    targetIds.push('current-player');
+                    try {
+                        const gameStore = require('./gameStore').default;
+                        const charStore = require('./characterStore').default;
+                        const playerId = gameStore.getState()?.currentPlayer?.id || charStore.getState()?.currentCharacterId || charStore.getState()?.id;
+                        if (playerId && playerId !== 'player') targetIds.push(playerId);
+                    } catch (e) {}
+                }
 
                 activeDebuffs
                     .filter(debuff => targetIds.includes(debuff.targetId))
@@ -352,7 +358,6 @@ const useDebuffStore = create(
                                 if (!effects[effectType]) {
                                     effects[effectType] = [];
                                 }
-                                // Debuffs should have negative values to reduce stats
                                 const effectValue = debuff.effects[effectType];
                                 const negativeValue = effectValue > 0 ? -effectValue : effectValue;
                                 effects[effectType].push({

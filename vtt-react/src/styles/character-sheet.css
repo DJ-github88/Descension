@@ -4,15 +4,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    /* COMPLETE ISOLATION FROM ALL EXTERNAL STYLES */
     isolation: isolate;
-    contain: layout style paint;
+    contain: layout style;
 
-    /* FORCE CHARACTER SHEET STYLES - NO VARIABLES */
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     color: #5a1e12 !important;
 
-    /* OVERRIDE ALL POSSIBLE INTERFERING VARIABLES */
     --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     --pf-text-primary: #5a1e12 !important;
     --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
@@ -33,7 +30,7 @@
 
     /* COMPLETE ISOLATION */
     isolation: isolate;
-    contain: layout style paint;
+    contain: layout style;
     background-image: linear-gradient(135deg, rgba(240, 230, 210, 0.95) 0%, rgba(230, 220, 200, 0.9) 50%, rgba(213, 203, 176, 0.85) 100%);
 }
 
@@ -3941,9 +3938,8 @@
 
     /* COMPLETE ISOLATION */
     isolation: isolate;
-    contain: layout style paint;
+    contain: layout style;
 
-    /* OVERRIDE ALL POSSIBLE INTERFERING VARIABLES */
     --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     --pf-text-primary: #5a1e12 !important;
     --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
@@ -3969,13 +3965,16 @@
     box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.1);
     transition: width 0.3s ease;
 
-    /* COMPLETE ISOLATION */
     isolation: isolate;
-    contain: layout style paint;
+    contain: layout style;
 
-    /* HARDCODED STYLES - NO VARIABLES */
     font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
     color: #5a1e12 !important;
+
+    --pf-font-body: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --pf-text-primary: #5a1e12 !important;
+    --pf-font-ui: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
+    --pf-font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif !important;
 }
 
 .character-navigation.icons-only {

@@ -401,12 +401,21 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
     baseManaRegen += (equipmentBonuses.manaRegen || 0);
     baseHealingPower += (equipmentBonuses.healingPower || 0);
 
+    // Helper to get modifier value from multiple possible keys
+    const getMod = (mods, keys) => {
+        let total = 0;
+        keys.forEach(key => {
+            if (mods[key] !== undefined) total += mods[key];
+        });
+        return total;
+    };
+
     // Apply buff/debuff modifiers
-    baseMaxHealth += (buffModifiers.maxHealth || 0);
-    baseMaxMana += (buffModifiers.maxMana || 0);
-    baseHealthRegen += (buffModifiers.healthRegen || 0);
-    baseManaRegen += (buffModifiers.manaRegen || 0);
-    baseHealingPower += (buffModifiers.healingPower || 0);
+    baseMaxHealth += getMod(buffModifiers, ['maxHealth', 'max_hp', 'max_health', 'maxhp']);
+    baseMaxMana += getMod(buffModifiers, ['maxMana', 'max_mana', 'maxmp', 'max_mp', 'maxmana']);
+    baseHealthRegen += getMod(buffModifiers, ['healthRegen', 'health_regen', 'regen_hp']);
+    baseManaRegen += getMod(buffModifiers, ['manaRegen', 'mana_regen', 'regen_mana']);
+    baseHealingPower += getMod(buffModifiers, ['healingPower', 'healing_power']);
 
     // Apply percentage bonuses
     if (equipmentBonuses.maxHealthPercent) {
@@ -461,23 +470,23 @@ export function calculateDerivedStats(totalStats, equipmentBonuses = {}, skillBo
         maxMana: baseMaxMana + racialBaseStats.mana, // Add racial base mana to calculated mana
         healthRegen: baseHealthRegen,
         manaRegen: baseManaRegen,
-        damage: 0 + (equipmentBonuses.damage || 0), // Base damage is 0, only equipment bonuses
-        spellDamage: 0 + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0), // Base spell damage is 0
-        healingPower: 0, // Base healing power is 0
-        rangedDamage: 0 + (equipmentBonuses.rangedDamage || 0), // Base ranged damage is 0, only equipment bonuses
-        slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0), // Base slashing damage is 0
-        bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0), // Base bludgeoning damage is 0
-        piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0), // Base piercing damage is 0
-        armor: baseArmor + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0),
-        moveSpeed: baseMoveSpeed,
-        swimSpeed: racialBaseStats.swimSpeed, // Start with racial base, will be calculated from moveSpeed if 0
-        climbSpeed: racialBaseStats.climbSpeed, // Start with racial base, will be calculated from moveSpeed if 0
-        passivePerception: racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0),
-        visionRange: racialBaseStats.visionRange + (equipmentBonuses.visionRange || 0) + (skillBonuses.visionRange || 0),
-        darkvision: racialBaseStats.darkvision + (equipmentBonuses.darkvision || 0) + (skillBonuses.darkvision || 0),
-        initiative: racialBaseStats.initiative + (equipmentBonuses.initiative || 0) + (skillBonuses.initiative || 0),
-        actionPoints: racialBaseStats.ap + (equipmentBonuses.actionPoints || 0) + (skillBonuses.actionPoints || 0),
-        carryingCapacity: calculateCarryingCapacity(modifiedStats.strength, equipmentBonuses.carryingCapacity || 0),
+        damage: 0 + (equipmentBonuses.damage || 0) + getMod(buffModifiers, ['damage', 'physDamage']), // Include buffs
+        spellDamage: 0 + (equipmentBonuses.spellDamage || 0) + (skillBonuses.spellPower || 0) + getMod(buffModifiers, ['spellDamage', 'spellPower']), // Include buffs
+        healingPower: baseHealingPower,
+        rangedDamage: 0 + (equipmentBonuses.rangedDamage || 0) + getMod(buffModifiers, ['rangedDamage']), // Include buffs
+        slashingDamage: 0 + (equipmentBonuses.slashingDamage || 0) + getMod(buffModifiers, ['slashingDamage']), // Include buffs
+        bludgeoningDamage: 0 + (equipmentBonuses.bludgeoningDamage || 0) + getMod(buffModifiers, ['bludgeoningDamage']), // Include buffs
+        piercingDamage: 0 + (equipmentBonuses.piercingDamage || 0) + getMod(buffModifiers, ['piercingDamage']), // Include buffs
+        armor: baseArmor + (equipmentBonuses.armor || 0) + (skillBonuses.armor || 0) + getMod(buffModifiers, ['armor', 'armorClass', 'ac']), // Include buffs
+        moveSpeed: baseMoveSpeed + getMod(buffModifiers, ['moveSpeed', 'movementSpeed', 'speed']), // Include buffs
+        swimSpeed: racialBaseStats.swimSpeed + getMod(buffModifiers, ['swimSpeed']), // Include buffs
+        climbSpeed: racialBaseStats.climbSpeed + getMod(buffModifiers, ['climbSpeed']), // Include buffs
+        passivePerception: racialBaseStats.passivePerception + (equipmentBonuses.passivePerception || 0) + (skillBonuses.passivePerception || 0) + getMod(buffModifiers, ['passivePerception']),
+        visionRange: racialBaseStats.visionRange + (equipmentBonuses.visionRange || 0) + (skillBonuses.visionRange || 0) + getMod(buffModifiers, ['visionRange']),
+        darkvision: racialBaseStats.darkvision + (equipmentBonuses.darkvision || 0) + (skillBonuses.darkvision || 0) + getMod(buffModifiers, ['darkvision']),
+        initiative: racialBaseStats.initiative + (equipmentBonuses.initiative || 0) + (skillBonuses.initiative || 0) + getMod(buffModifiers, ['initiative']),
+        actionPoints: racialBaseStats.ap + (equipmentBonuses.actionPoints || 0) + (skillBonuses.actionPoints || 0) + getMod(buffModifiers, ['actionPoints', 'maxAP', 'max_ap', 'ap']), // Include buffs
+        carryingCapacity: calculateCarryingCapacity(modifiedStats.strength, (equipmentBonuses.carryingCapacity || 0) + (buffModifiers.carryingCapacity || 0)),
         encumbranceEffects: encumbranceEffects
     };
 

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import CleanStatusEffectConfigPopup from './CleanStatusEffectConfigPopup';
 import DiceFormulaExamples from '../../components/tooltips/DiceFormulaExamples';
-import './DebuffEffects.css'; // Import dedicated debuff styling
+
 
 import DebuffTriggerConfig from '../../components/effects/DebuffTriggerConfig';
 import SpellSelector from '../../components/common/SpellSelector';
-import './progressive-buff.css'; // Reuse the same CSS for progressive debuffs
+
 // Pathfinder styles imported via main.css
-import '../../styles/buff-config-options.css'; // Import the shared configuration styles
+
 
 // Import debuff types and status effects
 import {

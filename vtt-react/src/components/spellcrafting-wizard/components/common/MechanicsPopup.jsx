@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import './MechanicsPopup.css';
+// Pathfinder styles imported via main.css
 
 const MechanicsPopup = ({ show, onHide, title, children, size = 'medium' }) => {
   if (!show) return null;

@@ -1870,6 +1870,20 @@ function ItemTooltip({ item }) {
                 </div>
             )}
 
+            {/* Quantity Display */}
+            {item.quantity > 1 && (
+                <div style={{
+                    color: '#ffd100',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    margin: '2px 0 6px 0',
+                    textShadow: '1px 1px 1px rgba(0,0,0,0.5)',
+                    display: 'block'
+                }}>
+                    Quantity: {item.quantity}
+                </div>
+            )}
+
             {/* Item Type and Subtype */}
             {item.type === 'miscellaneous' ? (
                 <div className="item-type" style={{

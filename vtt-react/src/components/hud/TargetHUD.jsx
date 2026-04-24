@@ -18,6 +18,7 @@ import { getBackgroundData } from '../../data/backgroundData';
 import { getCustomBackgroundData } from '../../data/customBackgroundData';
 import { getEnhancedPathData } from '../../data/enhancedPathData';
 import { getIconUrl, getCreatureTokenIconUrl } from '../../utils/assetManager';
+import Button from '../common/Button';
 import { getTokenResources, getStateKeyForResource, getTempFieldName } from '../../utils/tokenStateUtils';
 // REMOVED: import '../../styles/party-hud.css'; // CAUSES CSS POLLUTION - loaded centrally
 // REMOVED: import '../../styles/buff-container.css'; // CAUSES CSS POLLUTION - loaded centrally
@@ -385,14 +386,16 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                 }
                 // Check for characterIcon and convert to URL
                 if (characterState.lore?.characterIcon) {
-                    return `getIconUrl('${characterState.lore.characterIcon}', 'items')`;
+                    return getIconUrl(characterState.lore.characterIcon, characterState.lore.characterIcon.includes('/') ? 'creatures' : 'items');
                 }
                 // Default character icon
                 return getIconUrl('inv_misc_head_human_01', 'items');
             } else {
                 // Get party member's character image
                 const partyState = usePartyStore.getState();
-                const member = partyState.partyMembers.find(m => m.id === currentTarget.id);
+                const member = partyState.partyMembers.find(m => 
+                    m.id === currentTarget.id || m.userId === currentTarget.id || m.socketId === currentTarget.id
+                );
                 if (member?.character) {
                     if (member.character.tokenSettings?.customIcon) {
                         return member.character.tokenSettings.customIcon;
@@ -402,7 +405,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                     }
                     // Check for characterIcon and convert to URL
                     if (member.character.lore?.characterIcon) {
-                        return `getIconUrl('${member.character.lore.characterIcon}', 'items')`;
+                        return getIconUrl(member.character.lore.characterIcon, member.character.lore.characterIcon.includes('/') ? 'creatures' : 'items');
                     }
                 }
                 // Default character icon
@@ -438,11 +441,25 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         if (targetType === 'party_member' || targetType === 'player') {
             if (currentTarget.id === 'current-player') {
                 const characterState = useCharacterStore.getState();
-                return characterState.lore?.imageTransformations;
+                return {
+                    ...characterState.lore?.imageTransformations,
+                    iconScale: characterState.lore?.iconScale || 1,
+                    iconOffsetX: characterState.lore?.iconOffsetX || 0,
+                    iconOffsetY: characterState.lore?.iconOffsetY || 0,
+                    isCharacterImage: !!characterState.lore?.characterImage
+                };
             } else {
                 const partyState = usePartyStore.getState();
-                const member = partyState.partyMembers.find(m => m.id === currentTarget.id);
-                return member?.character?.lore?.imageTransformations;
+                const member = partyState.partyMembers.find(m => 
+                    m.id === currentTarget.id || m.userId === currentTarget.id || m.socketId === currentTarget.id
+                );
+                return {
+                    ...member?.character?.lore?.imageTransformations,
+                    iconScale: member?.character?.lore?.iconScale || 1,
+                    iconOffsetX: member?.character?.lore?.iconOffsetX || 0,
+                    iconOffsetY: member?.character?.lore?.iconOffsetY || 0,
+                    isCharacterImage: !!member?.character?.lore?.characterImage
+                };
             }
         } else if (targetType === 'creature') {
             // Creatures use token-level transformations
@@ -1674,6 +1691,77 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
         return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
 
+    const STAT_DISPLAY_MAP = {
+        'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+        'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+        'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+        'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+        'armor': 'Armor', 'damage': 'Damage', 'spelldamage': 'Spell Damage',
+        'maxhp': 'Max Health', 'maxhealth': 'Max Health', 'max_hp': 'Max Health', 'max_health': 'Max Health',
+        'maxmana': 'Max Mana', 'max_mana': 'Max Mana', 'maxmp': 'Max Mana', 'max_mp': 'Max Mana',
+        'maxap': 'Max Action Points', 'maxactionpoints': 'Max Action Points', 'max_ap': 'Max Action Points', 'max_action_points': 'Max Action Points',
+        'healingpower': 'Healing Power', 'healthregen': 'Health Regen', 'manaregen': 'Mana Regen',
+        'movespeed': 'Movement Speed', 'move_speed': 'Movement Speed', 'movementspeed': 'Movement Speed', 'speed': 'Movement Speed',
+        'actionpoints': 'Action Points', 'action_points': 'Action Points',
+        'firespellpower': 'Fire Power', 'frostspellpower': 'Frost Power', 'arcanespellpower': 'Arcane Power',
+        'shadowspellpower': 'Shadow Power', 'holyspellpower': 'Holy Power', 'naturespellpower': 'Nature Power',
+        'lightningspellpower': 'Lightning Power', 'coldspellpower': 'Cold Power', 'acidspellpower': 'Acid Power',
+        'forcespellpower': 'Force Power', 'thunderspellpower': 'Thunder Power', 'chaosspellpower': 'Chaos Power',
+        'necroticspellpower': 'Necrotic Power', 'radiantspellpower': 'Radiant Power'
+    };
+
+    const UNIT_STATS = new Set(['movespeed', 'move_speed', 'movementspeed', 'speed', 'movement speed']);
+
+    const resolveStatName = (stat) => {
+        let statName = STAT_DISPLAY_MAP[stat.toLowerCase()];
+        if (!statName) {
+            statName = stat
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ')
+                .trim();
+        }
+        return statName;
+    };
+
+    const formatBuffEffects = (effects) => {
+        if (!effects || typeof effects !== 'object') return null;
+
+        const effectLines = [];
+        Object.entries(effects).forEach(([stat, value]) => {
+            if (value !== 0 && value !== null && value !== undefined) {
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                if (value > 0) {
+                    effectLines.push(`Increases ${statName} by ${absVal}${unitSuffix}`);
+                } else {
+                    effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+                }
+            }
+        });
+
+        return effectLines.length > 0 ? effectLines.join(', ') : null;
+    };
+
+    const formatDebuffEffects = (effects) => {
+        if (!effects || typeof effects !== 'object') return null;
+
+        const effectLines = [];
+        Object.entries(effects).forEach(([stat, value]) => {
+            if (value !== 0 && value !== null && value !== undefined) {
+                const statName = resolveStatName(stat);
+                const absVal = Math.abs(value);
+                const unitSuffix = UNIT_STATS.has(stat.toLowerCase()) ? ' units' : '';
+                effectLines.push(`Decreases ${statName} by ${absVal}${unitSuffix}`);
+            }
+        });
+
+        return effectLines.length > 0 ? effectLines.join(', ') : null;
+    };
+
     // Condition context menu handlers
     const handleConditionRightClick = (e, condition, type) => {
         e.preventDefault();
@@ -1932,31 +2020,81 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         >
                             {/* Portrait */}
                             <div className="party-portrait">
-                                <div className="portrait-image">
-                                    {getTargetImage() ? (
-                                        <div
-                                            className="target-token-image"
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                borderRadius: '8px',
-                                                backgroundImage: `url(${getTargetImage()})`,
-                                                backgroundSize: getImageTransformations()
-                                                    ? `${(getImageTransformations().scale || 1) * 120}%`
-                                                    : 'cover',
-                                                backgroundPosition: getImageTransformations()
-                                                    ? `${50 + (getImageTransformations().positionX || 0) / 2}% ${50 - (getImageTransformations().positionY || 0) / 2}%`
-                                                    : 'center center',
-                                                backgroundRepeat: 'no-repeat',
-                                                transform: getImageTransformations()
-                                                    ? `rotate(${getImageTransformations().rotation || 0}deg)`
-                                                    : 'none'
-                                            }}
-                                        />
-                                    ) : (
-                                        <i className="fas fa-crosshairs"></i>
-                                    )}
-                                </div>
+                                {(() => {
+                                    const lore = (targetType === 'party_member' || targetType === 'player') ? (
+                                        currentTarget.id === 'current-player' 
+                                            ? characterState.lore 
+                                            : partyMembers.find(m => m.id === currentTarget.id || m.userId === currentTarget.id || m.socketId === currentTarget.id)?.character?.lore
+                                    ) : null;
+                                    
+                                    const hasCustomStyling = !!(lore?.iconBackgroundImage || lore?.iconBackgroundColor || lore?.iconBorderColor);
+                                    const transformations = getImageTransformations();
+                                    const imageUrl = getTargetImage();
+                                    
+                                    return (
+                                        <>
+                                            {/* Backdrop Ring Layer */}
+                                            {hasCustomStyling && (
+                                                <div 
+                                                    className="portrait-backdrop-ring"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '0',
+                                                        left: '0',
+                                                        right: '0',
+                                                        bottom: '0',
+                                                        borderRadius: '8px',
+                                                        backgroundColor: lore?.iconBackgroundColor || '#f8f5eb',
+                                                        borderColor: 'transparent',
+                                                        borderWidth: '0',
+                                                        backgroundImage: lore?.iconBackgroundImage ? `url(/assets/backgrounds/${encodeURIComponent(lore.iconBackgroundImage)})` : 'none',
+                                                        backgroundSize: lore?.iconBackgroundImage ? `${(lore?.iconBackgroundScale || 2.5) * 100}%` : 'cover',
+                                                        backgroundPosition: lore?.iconBackgroundImage ? `calc(50% + ${lore?.iconBackgroundOffsetX || 0}px) calc(50% + ${lore?.iconBackgroundOffsetY || 0}px)` : 'center',
+                                                        backgroundRepeat: 'no-repeat',
+                                                        zIndex: 0
+                                                    }}
+                                                />
+                                            )}
+                                            
+                                            <div 
+                                                className="portrait-image"
+                                                style={{
+                                                    ...(hasCustomStyling ? { 
+                                                        background: 'none', 
+                                                        backgroundColor: 'transparent', 
+                                                        borderColor: 'transparent', 
+                                                        borderRadius: '8px' 
+                                                    } : {}),
+                                                    overflow: 'hidden',
+                                                    position: 'relative',
+                                                    zIndex: 1
+                                                }}
+                                            >
+                                                {imageUrl ? (
+                                                    <img 
+                                                        src={imageUrl} 
+                                                        alt="Target Portrait" 
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            display: 'block',
+                                                            objectFit: 'cover',
+                                                            transform: transformations ? 
+                                                                `scale(${(transformations.scale || (transformations.isCharacterImage ? 1.2 : 1)) * (transformations.iconScale || 1)}) rotate(${transformations.rotation || 0}deg) translate(${(transformations.positionX || 0) + (transformations.iconOffsetX || 0)}px, ${(transformations.positionY || 0) + (transformations.iconOffsetY || 0)}px)` : 
+                                                                'scale(1.2)',
+                                                            transition: 'transform 0.2s ease-out'
+                                                        }}
+                                                        draggable={false}
+                                                    />
+                                                ) : (
+                                                    <div className="portrait-placeholder-icon">
+                                                        <i className="fas fa-crosshairs"></i>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </>
+                                    );
+                                })()}
                             </div>
 
                             {/* Info Section */}
@@ -2189,7 +2327,7 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                         marginTop: '4px',
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        gap: '4px',
+                                        gap: '8px',
                                         pointerEvents: 'none'
                                     }}
                                 >
@@ -2198,9 +2336,14 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                         <div className="target-buffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetBuffs.map((buff) => {
                                                 const remainingTime = buff.__isTokenDerived ? getFallbackConditionRemainingSeconds(buff, currentTime) : getRemainingTime(buff.id);
+                                                
+                                                // Dynamic effect summary from effects object
+                                                const formattedEffects = formatBuffEffects(buff.effects);
+                                                const effectSummary = formattedEffects || buff.effectSummary;
+
                                                 const tooltipContent = {
                                                     title: buff.name,
-                                                    effectSummary: buff.effectSummary,
+                                                    effectSummary: effectSummary,
                                                     description: buff.description,
                                                     duration: formatTime(remainingTime, buff.durationType)
                                                 };
@@ -2256,9 +2399,13 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                                         <div className="target-debuffs" style={{ display: 'flex', gap: '4px' }}>
                                             {targetDebuffs.map((debuff) => {
                                                 const remainingTime = debuff.__isTokenDerived ? getFallbackConditionRemainingSeconds(debuff, currentTime) : getDebuffRemainingTime(debuff.id);
+                                                
+                                                const formattedEffects = formatDebuffEffects(debuff.effects);
+                                                const effectSummary = formattedEffects || debuff.effectSummary;
+
                                                 const tooltipContent = {
                                                     title: debuff.name,
-                                                    effectSummary: debuff.effectSummary,
+                                                    effectSummary: effectSummary,
                                                     description: debuff.description,
                                                     duration: formatTime(remainingTime, debuff.durationType)
                                                 };
@@ -2932,83 +3079,74 @@ const TargetHUD = ({ position, onOpenCharacterSheet }) => {
                         className="overheal-modal"
                         style={{
                             backgroundColor: '#f0e6d2',
-                            border: '2px solid #a08c70',
-                            borderRadius: '8px',
-                            padding: '20px',
-                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                            fontFamily: "'Bookman Old Style', 'Garamond', serif",
-                            color: '#7a3b2e',
-                            minWidth: '350px',
-                            maxWidth: '450px',
-                            textAlign: 'center'
+                            backgroundImage: 'url("https://www.transparenttextures.com/patterns/parchment.png")',
+                            border: '3px solid #8b4513',
+                            borderRadius: '12px',
+                            padding: '24px',
+                            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(139, 69, 19, 0.1)',
+                            fontFamily: "'Cinzel', serif",
+                            color: '#1a0f08',
+                            minWidth: '400px',
+                            maxWidth: '500px',
+                            textAlign: 'center',
+                            position: 'relative'
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#8e2424' }}>
-                            <i className="fas fa-exclamation-triangle" style={{ marginRight: '10px' }}></i>
+                        <h3 style={{ 
+                            margin: '0 0 20px 0', 
+                            fontSize: '22px', 
+                            color: '#7a3b2e',
+                            borderBottom: '2px solid #8b4513',
+                            paddingBottom: '10px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}>
                             Overheal Detected
                         </h3>
-                        <p style={{ margin: '0 0 20px 0', fontSize: '14px', lineHeight: '1.5' }}>
-                            {getTargetName()} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum of <strong>{overhealData.maxValue}</strong>.
-                            <br /><br />
-                            Excess: <strong>{overhealData.overhealAmount}</strong> points.
+                        <p style={{ margin: '0 0 15px 0', fontSize: '16px', color: '#4a3728' }}>
+                            {getTargetName()} is being healed for <strong>{overhealData.adjustment}</strong> points of {overhealData.resourceType}, which exceeds their maximum.
+                            <br />
+                            <strong style={{ color: '#7a3b2e' }}>{overhealData.overhealAmount}</strong> would exceed the maximum.
                         </p>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <button
-                                style={{
-                                    padding: '10px',
-                                    border: '1px solid #7a3b2e',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#7a3b2e',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    fontSize: '14px',
-                                    fontWeight: 'bold'
-                                }}
-                                onClick={() => {
-                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, true);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Add excess as Temporary {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
-                            </button>
-                            <button
-                                style={{
-                                    padding: '10px',
-                                    border: '1px solid #a08c70',
-                                    borderRadius: '4px',
-                                    backgroundColor: '#d4c4a8',
-                                    color: '#7a3b2e',
-                                    cursor: 'pointer',
-                                    fontSize: '14px'
-                                }}
-                                onClick={() => {
-                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, false);
-                                    setShowOverhealModal(false);
-                                    setOverhealData(null);
-                                }}
-                            >
-                                Cap at Maximum {overhealData.resourceType.charAt(0).toUpperCase() + overhealData.resourceType.slice(1)}
-                            </button>
-                            <button
-                                style={{
-                                    padding: '8px',
-                                    border: 'none',
-                                    backgroundColor: 'transparent',
-                                    color: '#7a3b2e',
-                                    textDecoration: 'underline',
-                                    cursor: 'pointer',
-                                    fontSize: '12px',
-                                    marginTop: '5px'
-                                }}
+                        
+                        <div style={{ 
+                            display: 'flex', 
+                            gap: '12px', 
+                            justifyContent: 'center', 
+                            marginTop: '25px',
+                            paddingTop: '20px',
+                            borderTop: '1px solid rgba(139, 69, 19, 0.2)'
+                        }}>
+                            <Button
+                                variant="game-secondary"
                                 onClick={() => {
                                     setShowOverhealModal(false);
                                     setOverhealData(null);
                                 }}
                             >
                                 Cancel
-                            </button>
+                            </Button>
+                            <Button
+                                variant="game-secondary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, false);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Cap at Max
+                            </Button>
+                            <Button
+                                variant="game-primary"
+                                onClick={() => {
+                                    applyResourceAdjustment(overhealData.resourceType, overhealData.adjustment, true);
+                                    setShowOverhealModal(false);
+                                    setOverhealData(null);
+                                }}
+                            >
+                                Add Temporary
+                            </Button>
                         </div>
                     </div>
                 </div>,

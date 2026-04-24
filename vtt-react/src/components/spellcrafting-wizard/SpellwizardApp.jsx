@@ -593,7 +593,7 @@ const AppContent = ({ hideHeader = false }) => {
   };
 
   return (
-    <div className={`app-container pf-spellbook ${isMobile ? 'mobile' : 'desktop'} ${isLandscape ? 'landscape' : 'portrait'}`}>
+    <div className={`app-container pf-spellbook spellbook-layout ${isMobile ? 'mobile' : 'desktop'} ${isLandscape ? 'landscape' : 'portrait'}`}>
       {/* Load sample spells if library is empty */}
       <SampleSpellsLoader />
       {/* Manage spell library - load clean spells and remove invalid ones */}

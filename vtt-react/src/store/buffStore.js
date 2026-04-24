@@ -341,10 +341,16 @@ const useBuffStore = create(
                 const { activeBuffs } = get();
                 const effects = {};
 
-                // IMPROVED: When looking for 'player', also include 'current-player' buffs
-                const targetIds = targetId === 'player' 
-                    ? ['player', 'current-player'] 
-                    : [targetId];
+                const targetIds = [targetId];
+                if (targetId === 'player') {
+                    targetIds.push('current-player');
+                    try {
+                        const gameStore = require('./gameStore').default;
+                        const charStore = require('./characterStore').default;
+                        const playerId = gameStore.getState()?.currentPlayer?.id || charStore.getState()?.currentCharacterId || charStore.getState()?.id;
+                        if (playerId && playerId !== 'player') targetIds.push(playerId);
+                    } catch (e) {}
+                }
 
                 activeBuffs
                     .filter(buff => targetIds.includes(buff.targetId))

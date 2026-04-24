@@ -12,7 +12,7 @@ import {
   faInfoCircle,
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
-import '../../styles/formulaHelp.css';
+
 
 const FormulaHelpPopup = ({ show, onHide, resourceType }) => {
   // Common variables available for all resource types

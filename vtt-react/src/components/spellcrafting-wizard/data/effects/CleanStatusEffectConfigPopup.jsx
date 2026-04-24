@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import '../../styles/saving-throw-config.css';
-import './CleanStatusEffectConfigPopup.css';
+// Pathfinder styles imported via main.css
 
 const CleanStatusEffectConfigPopup = ({
   isOpen,

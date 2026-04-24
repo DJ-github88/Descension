@@ -135,7 +135,16 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
   // Get item from library
   const getItemById = (itemId) => {
-    return itemLibrary.find(item => item.id === itemId);
+    const libraryItem = itemLibrary.find(item => item.id === itemId);
+    if (libraryItem) return libraryItem;
+
+    // Check if the item is in the shop inventory as a full item (for custom/sold items)
+    const shopItem = shopItems.find(si => si.itemId === itemId);
+    if (shopItem?.fullItem) return shopItem.fullItem;
+
+    // Also check player inventory as a fallback (for selling context)
+    const playerItem = inventoryItems.find(item => item.id === itemId);
+    return playerItem;
   };
 
   // Combined filter options for both inventories
@@ -198,25 +207,50 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     };
   };
 
+  // Helper to format currency to string for notifications
+  const formatCurrencyToString = (price) => {
+    if (!price) return '0c';
+    if (typeof price !== 'object') return '0c'; // Safety check
+    const parts = [];
+    if (price.platinum > 0) parts.push(`${price.platinum}p`);
+    if (price.gold > 0) parts.push(`${price.gold}g`);
+    if (price.silver > 0) parts.push(`${price.silver}s`);
+    if (price.copper > 0) parts.push(`${price.copper}c`);
+    return parts.length > 0 ? parts.join(' ') : '0c';
+  };
+
+  // Helper to convert copper back to price object
+  const copperToPrice = (totalCopper) => {
+    return {
+      platinum: Math.floor(totalCopper / 1000000),
+      gold: Math.floor((totalCopper % 1000000) / 10000),
+      silver: Math.floor((totalCopper % 10000) / 100),
+      copper: totalCopper % 100
+    };
+  };
+
   // Handle item selection for shopping cart
   const handleItemSelection = (shopItemIndex) => {
     const shopItem = shopItems[shopItemIndex];
     if (!shopItem) return;
 
-    const newSelectedItems = { ...selectedItems };
     const currentQuantity = merchantQuantities[shopItemIndex] || 1;
     const availableQuantity = shopItem.quantity;
 
     if (currentQuantity <= availableQuantity) {
-      newSelectedItems[shopItemIndex] = currentQuantity;
-      setSelectedItems(newSelectedItems);
+      setSelectedItems(prev => ({
+        ...prev,
+        [shopItemIndex]: currentQuantity
+      }));
     } else {
       // Show notification when trying to select more than available
       showNotification(`Only ${availableQuantity} available!`, 'error');
       // Adjust quantity to maximum available
       setMerchantQuantities(prev => ({ ...prev, [shopItemIndex]: availableQuantity }));
-      newSelectedItems[shopItemIndex] = availableQuantity;
-      setSelectedItems(newSelectedItems);
+      setSelectedItems(prev => ({
+        ...prev,
+        [shopItemIndex]: availableQuantity
+      }));
     }
   };
 
@@ -231,22 +265,26 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     setMerchantQuantities(prev => ({ ...prev, [shopItemIndex]: clampedQuantity }));
 
     // Update selected items if this item is already selected
-    if (selectedItems[shopItemIndex]) {
-      setSelectedItems(prev => ({ ...prev, [shopItemIndex]: clampedQuantity }));
-    }
+    // Using functional update to ensure we use the most recent state
+    setSelectedItems(prev => {
+      if (prev[shopItemIndex]) {
+        return { ...prev, [shopItemIndex]: clampedQuantity };
+      }
+      return prev;
+    });
   };
 
   // Remove item from selection or decrease quantity
   const handleItemDeselection = (shopItemIndex) => {
-    const newSelectedItems = { ...selectedItems };
-
-    if (newSelectedItems[shopItemIndex] > 1) {
-      newSelectedItems[shopItemIndex]--;
-    } else {
-      delete newSelectedItems[shopItemIndex];
-    }
-
-    setSelectedItems(newSelectedItems);
+    setSelectedItems(prev => {
+      const newSelectedItems = { ...prev };
+      if (newSelectedItems[shopItemIndex] > 1) {
+        newSelectedItems[shopItemIndex]--;
+      } else {
+        delete newSelectedItems[shopItemIndex];
+      }
+      return newSelectedItems;
+    });
   };
 
   // Calculate total cost of selected items
@@ -276,20 +314,23 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
   // Handle sell item selection
   const handleSellItemSelection = (item) => {
-    const newSelectedSellItems = { ...selectedSellItems };
     const currentQuantity = playerQuantities[item.id] || 1;
     const availableQuantity = item.quantity || 1;
 
     if (currentQuantity <= availableQuantity) {
-      newSelectedSellItems[item.id] = currentQuantity;
-      setSelectedSellItems(newSelectedSellItems);
+      setSelectedSellItems(prev => ({
+        ...prev,
+        [item.id]: currentQuantity
+      }));
     } else {
       // Show notification when trying to select more than available
       showNotification(`Only ${availableQuantity} available!`, 'error');
       // Adjust quantity to maximum available
       setPlayerQuantities(prev => ({ ...prev, [item.id]: availableQuantity }));
-      newSelectedSellItems[item.id] = availableQuantity;
-      setSelectedSellItems(newSelectedSellItems);
+      setSelectedSellItems(prev => ({
+        ...prev,
+        [item.id]: availableQuantity
+      }));
     }
   };
 
@@ -304,22 +345,27 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     setPlayerQuantities(prev => ({ ...prev, [itemId]: clampedQuantity }));
 
     // Update selected items if this item is already selected
-    if (selectedSellItems[itemId]) {
-      setSelectedSellItems(prev => ({ ...prev, [itemId]: clampedQuantity }));
-    }
+    // Using functional update to ensure we use the most recent state
+    setSelectedSellItems(prev => {
+      const newSelected = { ...prev };
+      if (newSelected[itemId] !== undefined) {
+        newSelected[itemId] = clampedQuantity;
+      }
+      return newSelected;
+    });
   };
 
   // Remove item from sell selection or decrease quantity
   const handleSellItemDeselection = (item) => {
-    const newSelectedSellItems = { ...selectedSellItems };
-
-    if (newSelectedSellItems[item.id] > 1) {
-      newSelectedSellItems[item.id]--;
-    } else {
-      delete newSelectedSellItems[item.id];
-    }
-
-    setSelectedSellItems(newSelectedSellItems);
+    setSelectedSellItems(prev => {
+      const newSelectedSellItems = { ...prev };
+      if (newSelectedSellItems[item.id] > 1) {
+        newSelectedSellItems[item.id]--;
+      } else {
+        delete newSelectedSellItems[item.id];
+      }
+      return newSelectedSellItems;
+    });
   };
 
   // Calculate total sell value of selected items
@@ -411,7 +457,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       updateCreature(creature.id, { shopInventory: updatedShopInventory });
     }
 
-    showNotification(`Purchased ${quantity}x ${item.name}!`, 'success');
+    const itemName = String(item.name || 'Unknown Item');
+    showNotification(`Purchased ${quantity}x ${itemName} for ${formatCurrencyToString(copperToPrice(totalCost))}!`, 'success');
     setPurchaseQuantity(1);
   };
 
@@ -486,8 +533,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     };
     updateCreature(creature.id, { shopInventory: updatedShopInventory });
 
-    showNotification(`Purchased: ${purchasedItems.join(', ')} for ${formatCurrency(totalCost)}!`, 'success');
+    // 9. Show notification
+    showNotification(`Purchased ${purchasedItems.length} items for ${formatCurrencyToString(totalCost)}!`, 'success');
     setSelectedItems({});
+    setMerchantQuantities({});
   };
 
   // Handle selling an item from inventory
@@ -514,19 +563,23 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
 
     // Add item to merchant's inventory
     const updatedShopItems = [...(creature.shopInventory?.items || [])];
-    // Use the original library item ID, not the inventory item's UUID
-    // If originalItemId is not available, try to find the item in the library by name and type
-    let libraryItemId = inventoryItem.originalItemId || inventoryItem.id;
+    
+    // Try to find the original library item ID to ensure it appears in the merchant's grid
+    let libraryItemId = inventoryItem.originalItemId || 
+                       inventoryItem.itemId || 
+                       inventoryItem.itemLibraryId;
 
-    // If we don't have originalItemId, try to find the matching library item
-    if (!inventoryItem.originalItemId) {
+    // If not found, try to match by name and type in the library
+    if (!libraryItemId) {
       const matchingLibraryItem = itemLibrary.find(libItem =>
-        libItem.name === inventoryItem.name &&
-        libItem.type === inventoryItem.type &&
-        libItem.iconId === inventoryItem.iconId
+        libItem.name.toLowerCase() === inventoryItem.name.toLowerCase() &&
+        libItem.type === inventoryItem.type
       );
       if (matchingLibraryItem) {
         libraryItemId = matchingLibraryItem.id;
+      } else {
+        // As a last resort, use the inventory ID, but this might not render if not in library
+        libraryItemId = inventoryItem.id;
       }
     }
 
@@ -537,7 +590,6 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       existingShopItem.quantity = (existingShopItem.quantity || 1) + quantity;
     } else {
       // Add new item to shop with proper merchant pricing
-      // Get the original item from the library to ensure we have the correct value
       const originalItem = getItemById(libraryItemId);
       const basePrice = originalItem ? calculateMerchantPrice(originalItem) :
         inventoryItem.value || { gold: 0, silver: 1, copper: 0 };
@@ -545,7 +597,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       updatedShopItems.push({
         itemId: libraryItemId,
         quantity: quantity,
-        customPrice: basePrice // Use proper merchant markup price
+        customPrice: basePrice, // Use proper merchant markup price
+        fullItem: inventoryItem // Store full item data to ensure it persists
       });
     }
 
@@ -554,26 +607,17 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       ...creature.shopInventory,
       items: updatedShopItems
     };
-    console.log('Updating creature shop inventory after selling:', {
-      creatureId: creature.id,
-      itemsSold: `${quantity}x ${inventoryItem.name}`,
-      newShopItemsCount: updatedShopItems.length,
-      libraryItemId: libraryItemId
-    });
+    
     updateCreature(creature.id, { shopInventory: updatedShopInventory });
 
     // Remove from inventory
-    if (inventoryItem.quantity && inventoryItem.quantity > quantity) {
-      // Reduce quantity if it's a stack
-      // Note: This would need to be implemented in the inventory store
-      removeItem(inventoryItem.id, quantity);
-    } else {
-      // Remove entire item
-      removeItem(inventoryItem.id);
-    }
+    removeItem(inventoryItem.id, quantity);
 
-    showNotification(`Sold ${quantity}x ${inventoryItem.name} for ${formatCurrency(sellPrice)}!`, 'success');
+    // 10. Show notification
+    const itemName = String(inventoryItem.customName || inventoryItem.name || 'Unknown Item');
+    showNotification(`Sold ${quantity}x ${itemName} for ${formatCurrencyToString(sellPrice)}!`, 'success');
     setSellQuantity(1);
+    setForceRender(prev => prev + 1);
   };
 
   // Handle selling all selected items
@@ -608,29 +652,25 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
         soldItems.push(`${quantity}x ${item.name}`);
 
         // Add item to merchant's inventory
-        // Use the original library item ID, not the inventory item's UUID
-        // If originalItemId is not available, try to find the item in the library by name and type
-        let libraryItemId = item.originalItemId || itemId;
+        // Try multiple fields for library ID discovery
+        let libraryItemId = item.originalItemId || item.itemId || item.itemLibraryId;
 
-        // If we don't have originalItemId, try to find the matching library item
-        if (!item.originalItemId) {
+        if (!libraryItemId) {
           const matchingLibraryItem = itemLibrary.find(libItem =>
-            libItem.name === item.name &&
-            libItem.type === item.type &&
-            libItem.iconId === item.iconId
+            libItem.name.toLowerCase() === item.name.toLowerCase() &&
+            libItem.type === item.type
           );
           if (matchingLibraryItem) {
             libraryItemId = matchingLibraryItem.id;
+          } else {
+            libraryItemId = item.id;
           }
         }
 
         const existingShopItem = updatedShopItems.find(shopItem => shopItem.itemId === libraryItemId);
         if (existingShopItem) {
-          // Increase quantity if item already exists in shop
           existingShopItem.quantity = (existingShopItem.quantity || 1) + quantity;
         } else {
-          // Add new item to shop with proper merchant pricing
-          // Get the original item from the library to ensure we have the correct value
           const originalItem = getItemById(libraryItemId);
           const basePrice = originalItem ? calculateMerchantPrice(originalItem) :
             item.value || { gold: 0, silver: 1, copper: 0 };
@@ -638,7 +678,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
           updatedShopItems.push({
             itemId: libraryItemId,
             quantity: quantity,
-            customPrice: basePrice // Use proper merchant markup price
+            customPrice: basePrice,
+            fullItem: item // Store full item data to ensure it persists
           });
         }
       }
@@ -651,8 +692,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
     };
     updateCreature(creature.id, { shopInventory: updatedShopInventory });
 
-    showNotification(`Sold: ${soldItems.join(', ')} for ${formatCurrency(totalValue)}!`, 'success');
+    // 10. Show notification
+    showNotification(`Sold ${soldItems.length} items for ${formatCurrencyToString(totalValue)}!`, 'success');
     setSelectedSellItems({});
+    setPlayerQuantities({});
+    setForceRender(prev => prev + 1);
   };
 
 
@@ -1185,9 +1229,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
                 copper: (calculateTotalCopper(shopItem.customPrice) * quantity) % 100
               };
 
+              const itemQuantity = selectedItems[shopItemIndex] || 1;
               return (
                 <div key={shopItemIndex} className="cart-item">
-                  <span className="cart-item-name">{quantity}x {item.name}</span>
+                  <span className="cart-item-name">{itemQuantity}x {item.name}</span>
                   <span className="cart-item-price">{formatCurrency(totalItemPrice)}</span>
                 </div>
               );
@@ -1222,10 +1267,11 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             Sell Items
           </div>
           <div className="cart-items">
-            {Object.entries(selectedSellItems).map(([itemId, quantity]) => {
+            {Object.entries(selectedSellItems).map(([itemId]) => {
               const item = inventoryItems.find(invItem => invItem.id === itemId);
               if (!item) return null;
 
+              const quantity = playerQuantities[itemId] || 1;
               const sellPrice = calculateSellPrice(item);
 
               return (

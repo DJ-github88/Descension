@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
-import '../../styles/IconSelector.css';
+// Pathfinder styles imported via main.css
 
 /**
  * IconSelector component for choosing spell icons

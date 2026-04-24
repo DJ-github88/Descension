@@ -4,7 +4,7 @@ import { RESOLUTION_TYPES } from '../core/mechanics/resolutionMechanics';
 import ResolutionTypeSelector from '../components/mechanics/ResolutionTypeSelector';
 import TableEntryEditor from '../components/mechanics/TableEntryEditor';
 import TablePreview from '../components/mechanics/TablePreview';
-import '../styles/RollableTableStep.css';
+// Pathfinder styles imported via main.css
 
 const RollableTableStep = () => {
   const state = useSpellWizardState();

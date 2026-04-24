@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaDiceD20, FaClone, FaCoins, FaBullseye } from 'react-icons/fa';
-import './RollableTableSummary.css';
+// Pathfinder styles imported via main.css
 
 /**
  * Compact Rollable Table Summary Component

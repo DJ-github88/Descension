@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
-import IconSelectionCard from '../../components/common/IconSelectionCard';
+import { IconSelectionCard, MechanicsPopup, MathHelpModal } from '../../components/common';
 import CriticalHitConfig from '../../components/mechanics/CriticalHitConfig';
 import ChanceOnHitConfig from '../../components/mechanics/ChanceOnHitConfig';
 import SavingThrowConfig from '../../components/mechanics/SavingThrowConfig';
-import MechanicsPopup from '../../components/common/MechanicsPopup';
+
 import { FaDiceD20, FaClone, FaCoins, FaCog } from 'react-icons/fa';
 
+// Pathfinder styles imported via main.css
 import { ALL_VARIABLES } from '../../core/data/formulaVariables';
-import MathHelpModal from '../../components/common/MathHelpModal';
-import './damage-effects.css';
-import './progressive-buff.css';
+
 
 const DamageEffects = () => {
   const state = useSpellWizardState();

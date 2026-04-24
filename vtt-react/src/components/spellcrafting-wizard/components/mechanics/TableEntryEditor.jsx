@@ -7,7 +7,7 @@ import {
   faUsers, faMagic, faBolt, faShieldAlt, faTimes, faSave
 } from '@fortawesome/free-solid-svg-icons';
 import CreatureSelectionWindow from '../common/CreatureSelectionWindow';
-import '../../styles/RollableTableStep.css';
+
 
 const TableEntryEditor = ({
   entries,

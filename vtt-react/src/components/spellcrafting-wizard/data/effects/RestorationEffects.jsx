@@ -5,7 +5,7 @@ import IconSelectionCard from '../../components/common/IconSelectionCard';
 import FormulaEditor from '../../components/mechanics/FormulaEditor';
 import ResolutionSelector from '../../components/mechanics/ResolutionSelector';
 
-import './restoration-effects.css';
+
 import { ALL_VARIABLES, VARIABLE_CATEGORIES } from '../../core/data/formulaVariables';
 
 // Pathfinder styles imported via main.css

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
-import '../../styles/CoinFlipConfig.css';
+
 
 // Constants for coin flip outcomes
 const COIN_SIDES = {

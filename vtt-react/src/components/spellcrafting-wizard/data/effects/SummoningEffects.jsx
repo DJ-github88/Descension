@@ -22,7 +22,7 @@ import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
 
 // Pathfinder styles imported via main.css
-import './summoning-effects.css';
+// Pathfinder styles imported via main.css
 
 
 

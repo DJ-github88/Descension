@@ -10,8 +10,7 @@ import WizardStep from '../common/WizardStep';
 import TagBasedTargeting from '../targeting/TagBasedTargeting';
 import { getCustomIconUrl } from '../../../../utils/assetManager';
 
-import '../../styles/Step4Targeting.css';
-import '../../styles/effects/unified-effects.css';
+// Pathfinder styles imported via main.css
 import {
   TARGETING_TYPES as ALL_TARGETING_TYPES,
   AOE_SHAPES,

@@ -218,7 +218,7 @@ const SpellbookWindow = ({ isOpen = true, onClose = () => { } }) => {
         </div>
       }
     >
-      <div className="spellbook-content" style={{ position: 'relative', height: '100%' }}>
+      <div className="spellbook-content spellbook-layout" style={{ position: 'relative', height: '100%' }}>
         {renderContent()}
       </div>
     </WowWindow>

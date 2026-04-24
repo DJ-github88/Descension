@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/effect-preview.css';
+
 import { getIconUrl } from '../../utils/iconUtils';
 import { getCreatureTokenIconUrl, getIconUrl as getAbilityIconUrl } from '../../../../utils/assetManager';
 import { formatEffectComponent } from './SpellCardUtils';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCoins } from 'react-icons/fa';
-import '../../styles/CoinFlipVisualizer.css';
+
 
 const CoinFlipVisualizer = ({ 
   onFlip, 

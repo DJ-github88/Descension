@@ -4,10 +4,7 @@ import ReactDOM from 'react-dom';
 import { FaCog } from 'react-icons/fa';
 
 // Pathfinder styles imported via main.css
-import '../../styles/effects/unified-effects.css';
-import '../../styles/pathfinder/wizard-enhancements.css';
-import './healing-effects.css'; // Import healing effects styling for consistency
-import './damage-effects.css'; // Import damage effects styling for consistency
+// Pathfinder styles imported via main.css
 
 // Import utilities and stat data
 import { BUFF_DEBUFF_STAT_MODIFIERS } from '../../core/data/statModifier';

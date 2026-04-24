@@ -1,5 +1,5 @@
 import React from 'react';
-import './lifelink-styles.css';
+// Pathfinder styles imported via main.css
 
 const LifelinkConfigPopup = ({
   isOpen,

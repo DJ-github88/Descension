@@ -1000,12 +1000,8 @@
 
 /* Character Buffs and Debuffs - positioned below character HUD */
 .character-buffs-debuffs {
-    position: absolute;
-    top: 100%;
-    left: 0;
     width: 100%;
     margin-top: 4px;
-    z-index: 10;
     pointer-events: auto;
 }
 
@@ -1020,6 +1016,10 @@
 
 .character-buffs {
     margin-top: 8px;
+}
+
+.character-debuffs {
+    margin-top: 6px;
 }
 
 .buff-icon,

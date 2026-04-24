@@ -31,7 +31,7 @@ import IconSelectionCard from '../common/IconSelectionCard';
 import EnhancedGraduatedRecipeEffects from './EnhancedGraduatedRecipeEffects';
 
 // Import Pathfinder styles
-import '../../styles/MechanicThresholds.css';
+
 // Pathfinder styles imported via main.css
 
 // Simplified mechanics systems

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../../styles/saving-throw-config.css';
 // Pathfinder styles imported via main.css
 
 const StatusEffectConfigPopup = ({

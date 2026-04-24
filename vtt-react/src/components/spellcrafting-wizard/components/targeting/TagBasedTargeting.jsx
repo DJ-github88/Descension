@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSpellWizardState, useSpellWizardDispatch, actionCreators } from '../../context/spellWizardContext';
-import '../../styles/TagBasedTargeting.css';
+
 
 const DEFAULT_TAGS = [
   { id: 'damage', name: 'Damage', icon: 'spell_fire_flamebolt', defaultTarget: 'target' },

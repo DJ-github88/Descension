@@ -86,9 +86,9 @@
 }
 
 .character-level {
-  color: #ffd700;
+  color: #ffe680;
   font-weight: bold;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .character-class {
@@ -886,6 +886,477 @@
   border-radius: 8px;
 }
 
+.character-view-content .die-selector-section h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.character-view-content .die-selector-strip {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.character-view-content .die-selector-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg,
+      rgba(240, 230, 210, 0.95) 0%,
+      rgba(230, 220, 200, 0.9) 100%);
+  border: 2px solid #8b7355;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.character-view-content .die-selector-icon:hover {
+  background: linear-gradient(135deg,
+      rgba(250, 240, 220, 1) 0%,
+      rgba(240, 230, 210, 0.95) 100%);
+  border-color: #6b5345;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.character-view-content .die-selector-icon.selected {
+  background: linear-gradient(135deg,
+      rgba(139, 115, 85, 0.9) 0%,
+      rgba(107, 83, 69, 0.85) 100%);
+  border-color: #5a1e12;
+  box-shadow: 0 0 12px rgba(139, 115, 85, 0.6),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.character-view-content .die-selector-icon.selected .die-number {
+  color: #f0e6d2;
+  font-weight: 700;
+}
+
+.character-view-content .die-number {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5a1e12;
+  font-family: 'Cinzel', serif;
+}
+
+/* Roll table button */
+.character-view-content .roll-table-btn {
+  padding: 10px 16px;
+  border: 2px solid #5a2a0f;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #8b4513 0%, #6b3410 50%, #5a2a0f 100%);
+  color: #f0e6d2;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.character-view-content .roll-table-btn:hover {
+  background: linear-gradient(135deg, #a0521a 0%, #7a3b12 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Quest toggle button (Show/Hide Completed) */
+.character-view-content .quest-toggle-btn {
+  padding: 8px 12px;
+  border: 1px solid #8b7355;
+  border-radius: 8px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(230, 220, 200, 0.9) 100%);
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5a2a0f;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.character-view-content .quest-toggle-btn:hover {
+  background: linear-gradient(135deg,
+      rgba(255, 245, 225, 0.95) 0%,
+      rgba(240, 225, 200, 0.95) 100%);
+  border-color: #7a3b2e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Quest section headers */
+.character-view-content .quest-section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #7a3b2e;
+  margin: 0 0 20px 0;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  padding-bottom: 12px;
+  border-bottom: 2px solid #d5cbb0;
+}
+
+.character-view-content .quest-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Quest progress button */
+.character-view-content .quest-progress-btn {
+  margin-top: 6px;
+  padding: 4px 8px;
+  border: 1px solid #4a7c59;
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.12) 0%, rgba(74, 124, 89, 0.22) 100%);
+  border-radius: 6px;
+  color: #2f5a42;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.character-view-content .quest-progress-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.18) 0%, rgba(74, 124, 89, 0.28) 100%);
+  border-color: #2f5a42;
+  transform: translateY(-1px);
+}
+
+.character-view-content .quest-progress-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Table section headers */
+.character-view-content .table-section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #7a3b2e;
+  margin: 0 0 12px 0;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+  padding-bottom: 12px;
+  border-bottom: 2px solid #d5cbb0;
+}
+
+/* Table entries for rollable tables */
+.character-view-content .table-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.total-failure {
+  border-left: 6px solid #8B0000;
+  background: linear-gradient(135deg, #ffe8e8 0%, #ffd5d5 100%);
+  border-left-style: double;
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.total-failure::before {
+  content: '\26A0';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #8B0000;
+  opacity: 0.9;
+  background: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #8B0000;
+  font-weight: bold;
+}
+
+.character-view-content .table-entry.failure {
+  border-left: 5px solid #D84315;
+  background: linear-gradient(135deg, #fff0eb 0%, #ffe5e0 100%);
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.failure::before {
+  content: '\2717';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #D84315;
+  opacity: 0.9;
+  background: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #D84315;
+  font-weight: bold;
+}
+
+.character-view-content .table-entry.normal,
+.character-view-content .table-entry.partial {
+  border-left: 5px solid #F57C00;
+  background: linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%);
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.normal::before,
+.character-view-content .table-entry.partial::before {
+  content: '\27A1';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #F57C00;
+  opacity: 0.9;
+  background: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #F57C00;
+  font-weight: bold;
+}
+
+.character-view-content .table-entry.success {
+  border-left: 5px solid #00897B;
+  background: linear-gradient(135deg, #e0f7f4 0%, #d1f2ef 100%);
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.success::before {
+  content: '\2713';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #00897B;
+  opacity: 0.9;
+  background: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #00897B;
+  font-weight: bold;
+}
+
+.character-view-content .table-entry.critical {
+  border-left: 6px solid #1976D2;
+  background: linear-gradient(135deg, #e3f2fd 0%, #d1e7ff 100%);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+  border-left-style: double;
+  position: relative;
+  padding-left: 20px;
+}
+
+.character-view-content .table-entry.critical::before {
+  content: '\2605';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #1976D2;
+  opacity: 0.9;
+  background: white;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #1976D2;
+  font-weight: bold;
+}
+
+.character-view-content .roll-range {
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.character-view-content .roll-result {
+  flex: 1;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.character-view-content .table-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* No quests message */
+.character-view-content .no-quests-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  color: #8b7355;
+  font-family: 'Cinzel', serif;
+  font-style: italic;
+  text-align: center;
+}
+
+.character-view-content .no-quests-message p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Quest items */
+.character-view-content .quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.character-view-content .quest-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg,
+      rgba(240, 230, 210, 0.6) 0%,
+      rgba(230, 220, 200, 0.5) 100%);
+  border: 1px solid #d5cbb0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.character-view-content .quest-item:hover {
+  background: linear-gradient(135deg,
+      rgba(250, 240, 220, 0.8) 0%,
+      rgba(240, 230, 210, 0.7) 100%);
+  border-color: #8b7355;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.character-view-content .quest-item.completed {
+  background: linear-gradient(135deg,
+      rgba(74, 124, 89, 0.2) 0%,
+      rgba(93, 138, 107, 0.15) 100%);
+  border-color: #4a7c59;
+}
+
+.character-view-content .quest-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #8b7355;
+  flex-shrink: 0;
+}
+
+.character-view-content .quest-info {
+  flex: 1;
+}
+
+.character-view-content .quest-name {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5a1e12;
+  margin: 0 0 4px 0;
+}
+
+.character-view-content .quest-description {
+  font-size: 13px;
+  color: #2c1810;
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.character-view-content .quest-rank-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #5a1e12;
+  background: linear-gradient(135deg, rgba(255, 250, 235, 0.95), rgba(244, 232, 200, 0.9));
+  border: 1px solid #c6a02d;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.character-view-content .quest-progress-chip {
+  margin-left: 6px;
+  padding: 2px 8px;
+  background: linear-gradient(135deg, rgba(74, 124, 89, 0.12) 0%, rgba(74, 124, 89, 0.22) 100%);
+  border: 1px solid rgba(74, 124, 89, 0.35);
+  color: #2f5a42;
+  font-size: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.character-view-content .quest-status {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a7c59;
+  width: 24px;
+  text-align: center;
+}
+
+.character-view-content .quest-unlocks {
+  font-size: 11px;
+  color: #4a7c59;
+  font-style: italic;
+}
+
 /* Inventory item-content background fix - remove brown backdrop */
 .character-view-content .item-content {
   background: transparent !important;
@@ -901,6 +1372,28 @@
           rgba(250, 250, 250, 0.15) 50%,
           rgba(255, 255, 255, 0.2) 100%
       ) !important;
+}
+
+/* Remove brown/red backdrop from item shape cells in full-page view */
+.character-view-content .item-shape-cell {
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.character-view-content .item-shape-cell[data-quality="poor"],
+.character-view-content .item-shape-cell[data-quality="common"],
+.character-view-content .item-shape-cell[data-quality="uncommon"],
+.character-view-content .item-shape-cell[data-quality="rare"],
+.character-view-content .item-shape-cell[data-quality="epic"],
+.character-view-content .item-shape-cell[data-quality="legendary"] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-image: none !important;
+}
+
+/* Remove occupied cell brownish tint */
+.character-view-content .inventory-cell.occupied {
+  background: transparent !important;
 }
 
 .character-view-content .item-icon {

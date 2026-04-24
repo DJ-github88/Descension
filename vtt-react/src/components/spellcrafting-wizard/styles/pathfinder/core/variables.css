@@ -162,7 +162,7 @@
   
   /* Header Gradients */
   --pf-gradient-header:
-    linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%);
+    linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%);
 
   /* Gold Gradients */
   --pf-gradient-gold:

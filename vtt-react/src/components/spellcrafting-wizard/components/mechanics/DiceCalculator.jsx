@@ -11,7 +11,7 @@ import {
   MATH_FUNCTIONS
 } from '../../core/mechanics/diceSystem';
 import { getDiceForEffect, getScaledDice, getEffectDiceDescription, DICE_PRESETS } from '../../core/mechanics/resolutionMechanics';
-import '../../styles/DiceCalculator.css';
+
 
 const DiceCalculator = ({ 
   effectType, 

@@ -647,7 +647,7 @@ const getStatDescription = (stat) => {
     return descriptions[stat];
 };
 
-const GeneralStatTooltip = ({ stat, value, baseValue, equipmentBonus, encumbranceEffect, encumbranceDescription, buffEffect, debuffEffect, conditionEffect, description, sources = [] }) => {
+const GeneralStatTooltip = ({ stat, value, displayValue, baseValue, equipmentBonus, encumbranceEffect, encumbranceDescription, buffEffect, debuffEffect, conditionEffect, description, sources = [] }) => {
     const info = getStatDescription(stat);
 
     // Build calculation breakdown for derived stats
@@ -811,9 +811,14 @@ const GeneralStatTooltip = ({ stat, value, baseValue, equipmentBonus, encumbranc
             <div className="equipment-slot-name">
                 {info?.title || stat}
             </div>
-            {value !== undefined && (
+            {value !== undefined && !displayValue && (
                 <div className="equipment-slot-description">
                     Current Value: {typeof value === 'string' ? value : Math.round(value)}
+                </div>
+            )}
+            {displayValue && (
+                <div className="equipment-slot-description">
+                    Current: {displayValue}
                 </div>
             )}
             {description && (

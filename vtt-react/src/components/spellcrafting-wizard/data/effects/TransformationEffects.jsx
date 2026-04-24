@@ -15,7 +15,6 @@ import { FaSearch } from 'react-icons/fa';
 import CreatureSelectionWindow from '../../components/common/CreatureSelectionWindow';
 
 // Pathfinder styles imported via main.css
-import './summoning-effects.css';
 
 // Transformation types (for creature library)
 export const TRANSFORMATION_TYPES = {
