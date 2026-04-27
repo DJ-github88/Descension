@@ -911,7 +911,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_rune_destruction',
       name: 'Rune of Destruction',
-      description: 'Place a rune of destruction that radiates with fiery energy. The rune creates a zone of volatile magic where fire damage is amplified for both allies and enemies. When multiple runes are connected, the entire zone becomes a crucible of destruction, dramatically intensifying all fire damage.',
+      description: 'Place a rune of destruction that creates a zone of volatile magic. Fire damage is amplified for both allies and enemies within 5 ft. At 3+ runes, the entire zone doubles fire damage dealt and taken.',
       spellType: 'ACTION',
       icon: 'Fire/Fiery Symbol',
       school: 'Evocation',
@@ -978,7 +978,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_rune_vitality',
       name: 'Rune of Vitality',
-      description: 'Place a rune of vitality that pulses with healing energy. The rune creates a zone of restoration where wounds mend over time. When multiple runes are connected, the entire zone becomes a sanctuary of healing, dramatically increasing the restorative power.',
+      description: 'Place a rune of vitality that creates a zone of restoration. Creatures within 5 ft heal 1d6 HP per turn. At 3+ runes, the entire zone heals 2d6 HP per turn.',
       spellType: 'ACTION',
       icon: 'Healing/Golden Heart',
       school: 'Abjuration',
@@ -1118,7 +1118,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_flame_inscription',
       name: 'Flame Inscription',
-      description: 'Inscribe your weapon with the power of fire. The runic symbols glow with inner heat, causing the weapon to burn with magical flames. Each strike leaves trails of fire and scorches your enemies.',
+      description: 'Inscribe your weapon with the power of fire. The weapon deals +1d8 fire damage on each strike for the duration of combat.',
       spellType: 'ACTION',
       icon: 'Fire/Flame Fist',
       school: 'Transmutation',
@@ -1245,7 +1245,7 @@ Many players enhance the Inscriptor experience with:
         }
       },
 
-      tags: ['inscription', 'weapon', 'lightning', 'enhancement', 'control', 'enchanter'],
+      tags: ['inscription', 'weapon', 'lightning', 'enhancement', 'control', 'enchanter', 'rollable table'],
       flavorText: 'Lightning arcs along your weapon, ready to shock your enemies.'
     },
 
@@ -1781,7 +1781,7 @@ Many players enhance the Inscriptor experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2344,7 +2344,7 @@ Many players enhance the Inscriptor experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '12d8 + intelligence * 2',
+        formula: '12d6 + intelligence * 2',
         elementType: 'force',
         damageType: 'direct',
         criticalConfig: {
@@ -2352,11 +2352,11 @@ Many players enhance the Inscriptor experience with:
           critType: 'dice',
           critMultiplier: 2.5,
           critDiceOnly: false,
-          extraDice: '6d8',
+          extraDice: '6d6',
           critEffects: ['rune_explosion'],
           runeExplosionConfig: {
             radius: 10,
-            damageFormula: '3d8',
+            damageFormula: '3d6',
             elementType: 'force'
           }
         },
@@ -2525,7 +2525,7 @@ Many players enhance the Inscriptor experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '16d10 + intelligence * 2',
+        formula: '14d6 + intelligence * 2',
         elementType: 'force',
         secondaryElementType: 'radiant',
         damageType: 'direct',
@@ -2597,7 +2597,7 @@ Many players enhance the Inscriptor experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '20d8 + intelligence * 3',
+        formula: '16d6 + intelligence * 3',
         elementType: 'force',
         damageType: 'direct',
         description: 'Damage multiplied by number of active runes (minimum 3, maximum 8)',
@@ -2760,7 +2760,7 @@ Many players enhance the Inscriptor experience with:
       typeConfig: {
         school: 'arcane',
         icon: 'Healing/Prayer',
-        tags: ['buff', 'passive', 'mastery', 'legendary', 'inscriptor'],
+        tags: ['buff', 'passive', 'mastery', 'legendary', 'inscriptor', 'toggleable'],
         toggleable: true
       },
       buffConfig: {
@@ -2864,7 +2864,7 @@ Many players enhance the Inscriptor experience with:
         leaveTrail: false
       },
       damageConfig: {
-        formula: '25d12 + intelligence * 5',
+        formula: '25d6 + intelligence * 5',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2900,7 +2900,7 @@ Many players enhance the Inscriptor experience with:
           id: 'omniscript_power',
           name: 'Omniscript',
           description: 'Allies gain +10 to all stats, immunity to everything, and limitless power for 15 rounds',
-          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take 25d12 + intelligence × 5 force damage, and cannot act.'
+          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take 25d6 + intelligence × 5 force damage, and cannot act.'
         }],
         durationValue: 15,
         durationType: 'rounds',
@@ -3015,7 +3015,7 @@ Many players enhance the Inscriptor experience with:
       typeConfig: {
         school: 'arcane',
         icon: 'Radiant/Radiant Bolt',
-        tags: ['buff', 'utility', 'passive', 'universal', 'legendary', 'inscriptor'],
+        tags: ['buff', 'utility', 'passive', 'universal', 'legendary', 'inscriptor', 'toggleable'],
         toggleable: true
       },
       buffConfig: {

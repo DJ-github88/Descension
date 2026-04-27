@@ -789,7 +789,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_arrow',
       name: 'Lunar Arrow',
-      description: 'Fire an arrow infused with moonlight. The arrow glows with the power of the current lunar phase, its intensity and properties shifting with the moon\'s cycle. In New Moon, it strikes from shadows with deadly precision. In Waxing Moon, it burns brighter. In Full Moon, it becomes a beacon of radiant destruction. In Waning Moon, it costs less to cast as the moon\'s power wanes.',
+      description: 'Fire an arrow infused with moonlight that deals radiant damage. Effects vary with your current lunar phase.',
       spellType: 'ACTION',
       icon: 'Nature/Owl',
       school: 'Evocation',
@@ -836,7 +836,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'phase-dependent', 'moonlight-sentinel']
+      tags: ['radiant', 'damage', 'ranged', 'phase dependent', 'moonlight sentinel']
     },
 
     {
@@ -875,7 +875,7 @@ START: Always New Moon
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d8',
+        formula: '3d6',
         elementType: 'radiant',
         damageType: 'direct',
         scalingType: 'none'
@@ -905,7 +905,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'debuff', 'mark', 'moonlight-sentinel']
+      tags: ['radiant', 'damage', 'ranged', 'debuff', 'mark', 'moonlight sentinel']
     },
 
     {
@@ -969,7 +969,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'multi-target', 'moonlight-sentinel']
+      tags: ['radiant', 'damage', 'ranged', 'multi target', 'moonlight sentinel']
     },
 
     // STARFALL INVOKER - Celestial AoE
@@ -1044,7 +1044,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'aoe', 'starfall-invoker']
+      tags: ['radiant', 'damage', 'aoe', 'starfall invoker']
     },
 
     {
@@ -1139,7 +1139,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'line', 'aoe', 'blind', 'debuff', 'starfall-invoker']
+      tags: ['radiant', 'damage', 'line', 'aoe', 'blind', 'debuff', 'starfall invoker']
     },
 
     {
@@ -1204,7 +1204,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['buff', 'self', 'dual-phase', 'ultimate', 'starfall-invoker']
+      tags: ['buff', 'self', 'dual phase', 'ultimate', 'starfall invoker']
     },
 
     // MOONWELL GUARDIAN - Healing & Support
@@ -1276,7 +1276,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['healing', 'aoe', 'persistent', 'support', 'moonwell-guardian']
+      tags: ['healing', 'aoe', 'persistent', 'support', 'moonwell guardian']
     },
 
     {
@@ -1336,7 +1336,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['shield', 'protection', 'support', 'moonwell-guardian']
+      tags: ['shield', 'protection', 'support', 'moonwell guardian']
     },
 
     {
@@ -1400,7 +1400,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['healing', 'cleanse', 'support', 'powerful', 'moonwell-guardian']
+      tags: ['healing', 'cleanse', 'support', 'powerful', 'moonwell guardian']
     },
 
     // UNIVERSAL SPELLS - Phase Manipulation
@@ -1455,7 +1455,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['utility', 'phase-shift', 'universal', 'core-mechanic']
+      tags: ['utility', 'phase shift', 'universal', 'core mechanic']
     },
 
     {
@@ -1525,7 +1525,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['radiant', 'damage', 'concentration', 'phase-dependent', 'universal']
+      tags: ['radiant', 'damage', 'concentration', 'phase dependent', 'universal']
     },
 
     {
@@ -1581,7 +1581,7 @@ START: Always New Moon
         }
       },
 
-      tags: ['utility', 'buff', 'multi-phase', 'universal']
+      tags: ['utility', 'buff', 'multi phase', 'universal']
     },
 
     // ========================================
@@ -1641,7 +1641,7 @@ START: Always New Moon
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'radiant', 'archery', 'level-7', 'lunarch']
+      tags: ['damage', 'aoe', 'radiant', 'archery', 'level 7', 'lunarch']
     },
 
     {
@@ -1707,13 +1707,13 @@ START: Always New Moon
         value: 4
       },
 
-      tags: ['damage', 'control', 'blind', 'radiant', 'level-7', 'lunarch']
+      tags: ['damage', 'control', 'blind', 'radiant', 'level 7', 'lunarch']
     },
 
     {
       id: 'lunarch_moonwell_surge',
       name: 'Moonwell Surge',
-      description: 'Create a surge of healing moonlight that washes over your allies. The silver light flows like liquid, mending wounds and cleansing their bodies of harmful effects. The healing continues to pulse through them, restoring vitality over time as the moonlight\'s power lingers.',
+      description: 'Create a surge of healing moonlight that heals all allies in an area and cleanses harmful effects.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Radiant/Bright Explosion',
@@ -1767,7 +1767,7 @@ START: Always New Moon
         value: 4
       },
 
-      tags: ['healing', 'purification', 'aoe', 'level-7', 'lunarch']
+      tags: ['healing', 'purification', 'aoe', 'level 7', 'lunarch']
     },
 
     // ========================================
@@ -1820,7 +1820,7 @@ START: Always New Moon
         value: 5
       },
 
-      tags: ['damage', 'line', 'piercing', 'level-8', 'lunarch']
+      tags: ['damage', 'line', 'piercing', 'level 8', 'lunarch']
     },
 
     {
@@ -1871,7 +1871,7 @@ START: Always New Moon
         value: 4
       },
 
-      tags: ['damage', 'multi-target', 'radiant', 'level-8', 'lunarch']
+      tags: ['damage', 'multi target', 'radiant', 'level 8', 'lunarch']
     },
 
     {
@@ -1932,7 +1932,7 @@ START: Always New Moon
         value: 4
       },
 
-      tags: ['buff', 'shield', 'reflect', 'reaction', 'level-8', 'lunarch']
+      tags: ['buff', 'shield', 'reflect', 'reaction', 'level 8', 'lunarch']
     },
 
     // ========================================
@@ -1941,7 +1941,7 @@ START: Always New Moon
     {
       id: 'lunarch_moonfire_rain',
       name: 'Moonfire Rain',
-      description: 'Call down a rain of moonfire that scorches the battlefield. The sky fills with streaks of silver-white fire that crash down in a devastating deluge. The moonfire continues to burn on the ground, creating a zone of radiant destruction that lingers and continues to damage those caught within.',
+      description: 'Call down a rain of moonfire that scorches enemies in a wide area. Creates a persistent zone of radiant damage.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Arcane/Star Trail Path',
@@ -1999,7 +1999,7 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'zone', 'ultimate', 'level-9', 'lunarch']
+      tags: ['damage', 'aoe', 'zone', 'ultimate', 'level 9', 'lunarch']
     },
 
     {
@@ -2053,7 +2053,7 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['buff', 'archery', 'ultimate', 'level-9', 'lunarch']
+      tags: ['buff', 'archery', 'ultimate', 'level 9', 'lunarch']
     },
 
     {
@@ -2117,7 +2117,7 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['buff', 'healing', 'aoe', 'ultimate', 'level-9', 'lunarch']
+      tags: ['buff', 'healing', 'aoe', 'ultimate', 'level 9', 'lunarch']
     },
 
     // ========================================
@@ -2180,7 +2180,7 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['transformation', 'ultimate', 'level-10', 'lunarch']
+      tags: ['transformation', 'ultimate', 'level 10', 'lunarch']
     },
 
     {
@@ -2219,7 +2219,7 @@ START: Always New Moon
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '20d10 + agility * 3',
+        formula: '20d6 + agility',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2236,13 +2236,13 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['damage', 'line', 'ultimate', 'level-10', 'lunarch']
+      tags: ['damage', 'line', 'ultimate', 'level 10', 'lunarch']
     },
 
     {
       id: 'lunarch_eternal_moonwell',
       name: 'Eternal Moonwell',
-      description: 'Create an eternal moonwell that pulses with lunar energy. The sacred pool glows with silver light, continuously healing allies who stand within its radiance while burning enemies with the same divine power. The moonwell persists throughout the entire combat, becoming a permanent fixture of healing and destruction.',
+      description: 'Create an eternal moonwell that continuously heals allies and damages enemies within it for the rest of combat.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Healing/Heart Ripple',
@@ -2305,14 +2305,14 @@ START: Always New Moon
         value: 1
       },
 
-      tags: ['zone', 'healing', 'damage', 'ultimate', 'level-10', 'lunarch']
+      tags: ['zone', 'healing', 'damage', 'ultimate', 'level 10', 'lunarch']
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
     {
       id: 'lunarch_moonlight_bolt',
       name: 'Moonlight Bolt',
-      description: 'Fire a bolt of moonlight that channels lunar energy into a focused beam. The silver-white light streaks toward your target, leaving a trail of shimmering particles in its wake.',
+      description: 'Fire a bolt of concentrated moonlight at a target, dealing radiant damage.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2342,7 +2342,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2358,7 +2358,7 @@ START: Always New Moon
     },
 
     {
-      id: 'lunarch_lunar_blessing',
+      id: 'lunarch_minor_blessing',
       name: 'Lunar Blessing',
       description: 'Bless an ally with lunar power, healing them.',
       level: 1,
@@ -2390,7 +2390,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2407,7 +2407,7 @@ START: Always New Moon
 
     // ADDITIONAL LEVEL 2 SPELLS
     {
-      id: 'lunarch_phase_shift',
+      id: 'lunarch_phase_step',
       name: 'Phase Shift',
       description: 'Shift through phases of the moon to teleport up to 30 feet.',
       level: 2,
@@ -2444,7 +2444,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 15
+          mana: 8
         },
         actionPoints: 1,
         components: ['verbal']
@@ -2462,7 +2462,7 @@ START: Always New Moon
     {
       id: 'lunarch_crescent_strike',
       name: 'Crescent Strike',
-      description: 'Strike with a crescent moon blade formed of pure lunar energy. The blade glows with silver light and cuts through defenses with celestial precision, leaving trails of moonlight in its wake.',
+      description: 'Strike with a crescent moon blade of lunar energy that deals radiant damage.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2484,7 +2484,7 @@ START: Always New Moon
       },
 
       damageConfig: {
-        formula: '3d6',
+        formula: '2d8',
         elementType: 'radiant',
         damageType: 'direct'
       },
@@ -2492,7 +2492,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 15
+          mana: 8
         },
         actionPoints: 1,
         components: ['somatic']
@@ -2552,7 +2552,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 22
+          mana: 15
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2579,7 +2579,7 @@ START: Always New Moon
       typeConfig: {
         school: 'restoration',
         icon: 'Arcane/Star Trail Path',
-        tags: ['healing', 'aoe', 'full-moon', 'universal'],
+        tags: ['healing', 'aoe', 'full moon', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2601,7 +2601,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 28
+          mana: 18
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2613,14 +2613,14 @@ START: Always New Moon
       },
 
       resolution: 'DICE',
-      tags: ['healing', 'aoe', 'full-moon', 'universal']
+      tags: ['healing', 'aoe', 'full moon', 'universal']
     },
 
     // ADDITIONAL LEVEL 6 SPELL
     {
       id: 'lunarch_eclipse_burst',
       name: 'Eclipse Burst',
-      description: 'Create an eclipse that blots out light, leaving only radiant destruction. The sky darkens as the moon passes before the sun, and from that darkness erupts a wave of pure lunar energy that consumes everything in its path.',
+      description: 'Create an eclipse that deals massive radiant damage to all enemies in an area.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2666,7 +2666,7 @@ START: Always New Moon
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 35
+          mana: 22
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']

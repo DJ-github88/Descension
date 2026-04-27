@@ -42,6 +42,7 @@ import './styles/skill-roll-notification.css';
 import './styles/wow-window.css';
 import './styles/draggable-window.css';
 import './styles/Grid.css';
+import './components/auth/styles/LoginTransition.css';
 import './styles/character-sheet-isolation.css';
 import './styles/character-sheet.css';
 import './styles/game-screen.css';
@@ -773,7 +774,8 @@ export default function App() {
     const [showAuthModal, setShowAuthModal] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [showPerformanceDashboard, setShowPerformanceDashboard] = useState(false);
-    const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+    const [authMode, setAuthMode] = useState('login');
+    const [loginTransition, setLoginTransition] = useState(null);
 
     // Authentication store
     const { initializeAuth, refreshAuthState, isAuthenticated, user, isAuthInitialized } = useAuthStore();
@@ -977,6 +979,11 @@ export default function App() {
         setAuthMode('login');
     };
 
+    const handleLoginTransition = () => {
+        setShowAuthModal(false);
+        setLoginTransition('entering');
+    };
+
     const handleCloseUserProfile = () => {
         setShowUserProfile(false);
     };
@@ -1017,6 +1024,9 @@ export default function App() {
                                 handleShowRegister={handleShowRegister}
                                 handleShowUserProfile={handleShowUserProfile}
                                 handleCloseAuthModal={handleCloseAuthModal}
+                                handleLoginTransition={handleLoginTransition}
+                                loginTransition={loginTransition}
+                                setLoginTransition={setLoginTransition}
                                 handleCloseUserProfile={handleCloseUserProfile}
                                 handleReturnToLanding={handleReturnToLanding}
                             />
@@ -1025,6 +1035,41 @@ export default function App() {
                 </RoomProvider>
             </GameProvider>
         </PersistenceProvider>
+    );
+}
+
+function LoginTransitionOverlay({ onComplete }) {
+    const [phase, setPhase] = useState('entering');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const t1 = setTimeout(() => setPhase('showing'), 50);
+        const t2 = setTimeout(() => setPhase('exiting'), 1400);
+        const t3 = setTimeout(() => {
+            setPhase('complete');
+            onComplete();
+            navigate('/account');
+        }, 2000);
+        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    }, [navigate, onComplete]);
+
+    return (
+        <div className={`login-transition-overlay ${phase}`}>
+            <div className="login-transition-glow" />
+            <div className="login-transition-particles">
+                {Array.from({ length: 8 }).map((_, i) => (
+                    <div key={i} className="login-transition-particle" />
+                ))}
+            </div>
+            <div className="login-transition-content">
+                <div className="login-transition-icon">
+                    <i className="fas fa-compass" />
+                </div>
+                <h1 className="login-transition-title">MYTHRILL</h1>
+                <div className="login-transition-line" />
+                <p className="login-transition-subtitle">Your adventure awaits</p>
+            </div>
+        </div>
     );
 }
 
@@ -1041,6 +1086,9 @@ const AppContent = ({
     handleShowRegister,
     handleShowUserProfile,
     handleCloseAuthModal,
+    handleLoginTransition,
+    loginTransition,
+    setLoginTransition,
     handleCloseUserProfile,
     handleReturnToLanding
 }) => {
@@ -1220,6 +1268,7 @@ const AppContent = ({
             <AuthModal
                 isOpen={showAuthModal}
                 onClose={handleCloseAuthModal}
+                onLoginTransition={handleLoginTransition}
                 initialMode={authMode}
             />
 
@@ -1242,6 +1291,11 @@ const AppContent = ({
 
             {/* Global Socket Management */}
             <GlobalSocketManager />
+
+            {/* Login Transition Overlay */}
+            {loginTransition && (
+                <LoginTransitionOverlay onComplete={() => setLoginTransition(null)} />
+            )}
         </>
     );
 };

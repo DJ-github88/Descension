@@ -1,4 +1,3 @@
-// Import polyfills first
 import './polyfills';
 
 import React from 'react';
@@ -8,6 +7,25 @@ import './styles/currency-notification.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isDevelopment } from './config/env';
+
+if (!isDevelopment()) {
+  const noop = () => {};
+  console.log = noop;
+  console.warn = noop;
+  console.info = noop;
+  console.debug = noop;
+  const originalError = console.error;
+  console.error = (...args) => {
+    const msg = args.join(' ');
+    if (typeof msg === 'string' && (
+      msg.includes('act(') ||
+      msg.includes('Warning:') ||
+      msg.includes('ReactDOM.render') ||
+      msg.includes('Unsupported style property')
+    )) return;
+    originalError.apply(console, args);
+  };
+}
 
 // Note: Global title polyfills and other environment setups are handled in ./polyfills
 

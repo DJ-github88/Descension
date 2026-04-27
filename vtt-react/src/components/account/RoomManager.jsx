@@ -432,36 +432,11 @@ const RoomManager = () => {
       return;
     }
 
-    // Check if user is a guest - they get 1 room limit (can be local or multiplayer)
+    // Check if user is a guest - they cannot create rooms, only join
     if (user.isGuest) {
       setIsLoading(true);
 
       try {
-        // Check if guest has been initialized (rooms cleared on first login)
-        const guestInitialized = localStorage.getItem('mythrill-guest-initialized');
-
-        if (!guestInitialized) {
-          // First time this guest is accessing rooms - clear any existing rooms from other users
-          localStorage.removeItem('mythrill_local_rooms');
-
-          // Clear room state data
-          Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('mythrill_local_room_state_')) {
-              localStorage.removeItem(key);
-            }
-          });
-
-          // Clear any previous guest joined rooms
-          localStorage.removeItem('mythrill-guest-joined-room');
-
-          // Mark as initialized
-          localStorage.setItem('mythrill-guest-initialized', 'true');
-        }
-
-        // Load local rooms for guest
-        const localRoomsData = localRoomService.getLocalRooms();
-        const localRoomCount = localRoomsData.length;
-
         // Check for joined multiplayer rooms (stored in localStorage for guests)
         let joinedMultiplayerRooms = [];
         const guestJoinedRoomsJson = localStorage.getItem('mythrill-guest-joined-rooms');
@@ -473,7 +448,6 @@ const RoomManager = () => {
             rawGuestRooms = JSON.parse(guestJoinedRoomsJson);
             if (!Array.isArray(rawGuestRooms)) rawGuestRooms = [];
           } else if (legacyGuestJoinedRoom) {
-            // Migrate legacy single room to new list format
             const roomData = JSON.parse(legacyGuestJoinedRoom);
             rawGuestRooms = [roomData];
             localStorage.setItem('mythrill-guest-joined-rooms', JSON.stringify(rawGuestRooms));
@@ -485,7 +459,6 @@ const RoomManager = () => {
 
         if (rawGuestRooms.length > 0) {
           try {
-            // Verify the rooms still exist on the server
             const serverUrl = process.env.REACT_APP_SOCKET_URL ||
               (process.env.NODE_ENV === 'production' ?
                 'https://descension-mythrill.up.railway.app' :
@@ -519,21 +492,18 @@ const RoomManager = () => {
           }
         }
 
-        // Guests can have 1 local room OR 1 multiplayer room (not both)
-        // Total limit is 1 room
-        const totalRoomCount = localRoomCount + joinedMultiplayerRooms.length;
-
+        // Guests cannot create rooms - only join existing ones
         setRooms(joinedMultiplayerRooms);
-        setLocalRooms(localRoomsData);
+        setLocalRooms([]);
 
         const guestTier = await subscriptionService.getUserTier(user.uid);
         setRoomLimits({
           tier: guestTier,
-          used: totalRoomCount,
-          limit: 1,
-          remaining: Math.max(0, 1 - totalRoomCount),
-          canCreate: totalRoomCount < 1, // Can only create if no rooms at all
-          localRooms: localRoomsData
+          used: joinedMultiplayerRooms.length,
+          limit: 0,
+          remaining: 0,
+          canCreate: false,
+          localRooms: []
         });
       } catch (error) {
         console.error('Error loading guest rooms:', error);
@@ -542,8 +512,8 @@ const RoomManager = () => {
         setRoomLimits({
           tier: { name: 'Guest' },
           used: 0,
-          limit: 1,
-          canCreate: true
+          limit: 0,
+          canCreate: false
         });
       }
 
@@ -642,23 +612,17 @@ const RoomManager = () => {
 
   const handleJoinRoom = (room) => {
     if (room.isTestRoom) {
-      // For test room, navigate directly to game with test room setup
       localStorage.setItem('selectedRoomId', room.id);
-      localStorage.setItem('selectedRoomPassword', 'test123');
       localStorage.setItem('isTestRoom', 'true');
-      // Clear world builder mode flag - test rooms are not world builder mode
       localStorage.removeItem('isWorldBuilderMode');
       navigate('/multiplayer');
     } else if (room.userRole === 'gm') {
-      // CRITICAL: GMs bypass the password prompt for their own rooms
-      // Set flag to indicate this is a GM resuming - room needs to be created/activated on server
       localStorage.setItem('selectedRoomId', room.id);
-      localStorage.setItem('selectedRoomPassword', room.password || '');
       localStorage.setItem('isGMResume', 'true');
       localStorage.setItem('resumeRoomName', room.name || 'Campaign Room');
       localStorage.removeItem('isTestRoom');
 
-      console.log('👑 GM resuming room:', room.id);
+      logger.info('GM resuming room:', room.id);
       navigate('/multiplayer');
     } else {
       // For players joining campaign rooms, trigger the custom password modal
@@ -893,13 +857,20 @@ const RoomManager = () => {
           </button>
         </div>
 
-        {roomLimits && localRooms.length >= roomLimits.limit && (
+        {roomLimits && user?.isGuest && (
+          <div className="limit-message-section">
+            <p className="limit-message guest-upgrade-message">
+              <i className="fas fa-info-circle"></i>
+              Guest accounts cannot create rooms. <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>Create a free account</button> to host your own games!
+            </p>
+          </div>
+        )}
+
+        {!user?.isGuest && roomLimits && localRooms.length >= roomLimits.limit && (
           <div className="limit-message-section">
             <p className="limit-message">
               <i className="fas fa-info-circle"></i>
-              {user?.isGuest
-                ? 'Guest accounts are limited to 1 room. Sign up for a free account to get more!'
-                : 'Upgrade your plan to create more rooms'}
+              Upgrade your plan to create more rooms
             </p>
           </div>
         )}
@@ -1013,20 +984,26 @@ const RoomManager = () => {
             <i className="fas fa-users"></i>
             Multiplayer Rooms
           </h3>
-          <button
-            className="create-local-room-btn"
-            onClick={handleCreateRoom}
-            disabled={roomLimits && !roomLimits.canCreate}
-            title="Create a new multiplayer room"
-          >
-            <i className="fas fa-plus"></i>
-            {user?.isGuest
-              ? 'Sign Up Required'
-              : (roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'New Multiplayer Room')}
-          </button>
+          {!user?.isGuest && (
+            <button
+              className="create-local-room-btn"
+              onClick={handleCreateRoom}
+              disabled={roomLimits && !roomLimits.canCreate}
+              title="Create a new multiplayer room"
+            >
+              <i className="fas fa-plus"></i>
+              {roomLimits && !roomLimits.canCreate ? 'Room Limit Reached' : 'New Multiplayer Room'}
+            </button>
+          )}
+          {user?.isGuest && (
+            <button className="create-local-room-btn guest-upgrade-btn" disabled>
+              <i className="fas fa-lock"></i>
+              Sign Up to Create Rooms
+            </button>
+          )}
         </div>
 
-        {roomLimits && !roomLimits.canCreate && (
+        {!user?.isGuest && roomLimits && !roomLimits.canCreate && (
           <div className="limit-message-section">
             <p className="limit-message">
               <i className="fas fa-info-circle"></i>
@@ -1040,24 +1017,26 @@ const RoomManager = () => {
             <div className="no-rooms">
               <i className="fas fa-dungeon"></i>
               <h3>No Multiplayer Rooms Yet</h3>
-              <p>Create your first permanent room to start a campaign that saves your progress.</p>
-              <div className="empty-state-actions">
-                <button
-                  className="create-room-btn"
-                  onClick={handleCreateRoom}
-                  disabled={roomLimits && !roomLimits.canCreate}
-                  title="Create a new multiplayer room"
-                >
-                  <i className="fas fa-plus"></i>
-                  Create Your First Room
-                </button>
-                {friendsRooms.length > 0 && (
-                  <p className="friends-hint">
-                    <i className="fas fa-info-circle"></i>
-                    {friendsRooms.length} friend{friendsRooms.length === 1 ? '' : 's'} {friendsRooms.length === 1 ? 'is' : 'are'} playing in rooms above
-                  </p>
-                )}
-              </div>
+              {user?.isGuest ? (
+                <>
+                  <p>Join a friend's room to start playing!</p>
+                </>
+              ) : (
+                <>
+                  <p>Create your first permanent room to start a campaign that saves your progress.</p>
+                  <div className="empty-state-actions">
+                    <button
+                      className="create-room-btn"
+                      onClick={handleCreateRoom}
+                      disabled={roomLimits && !roomLimits.canCreate}
+                      title="Create a new multiplayer room"
+                    >
+                      <i className="fas fa-plus"></i>
+                      Create Your First Room
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ) : (
             rooms.map(room => {

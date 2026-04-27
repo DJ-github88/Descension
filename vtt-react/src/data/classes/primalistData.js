@@ -956,7 +956,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['healing-totems', 'totem', 'healing', 'support', 'earthwarden', 'all-specs']
+      tags: ['healing totems', 'totem', 'healing', 'support', 'earthwarden', 'all specs']
     },
 
     {
@@ -1023,7 +1023,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['healing-totems', 'totem', 'healing', 'regeneration', 'earthwarden', 'all-specs']
+      tags: ['healing totems', 'totem', 'healing', 'regeneration', 'earthwarden', 'all specs']
     },
 
     // DEFENSIVE TOTEMS
@@ -1091,7 +1091,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['defensive-totems', 'totem', 'defense', 'shield', 'earthwarden', 'all-specs']
+      tags: ['defensive totems', 'totem', 'defense', 'shield', 'earthwarden', 'all specs']
     },
 
     {
@@ -1164,7 +1164,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['defensive-totems', 'totem', 'defense', 'resistance', 'earthwarden', 'all-specs']
+      tags: ['defensive totems', 'totem', 'defense', 'resistance', 'earthwarden', 'all specs']
     },
 
     // ELEMENTAL TOTEMS
@@ -1237,7 +1237,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['elemental-totems', 'totem', 'fire', 'damage', 'stormbringer', 'all-specs']
+      tags: ['elemental totems', 'totem', 'fire', 'damage', 'stormbringer', 'all specs']
     },
 
     {
@@ -1310,7 +1310,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['elemental-totems', 'totem', 'lightning', 'buff', 'stormbringer', 'all-specs']
+      tags: ['elemental totems', 'totem', 'lightning', 'buff', 'stormbringer', 'all specs']
     },
 
     {
@@ -1382,7 +1382,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['elemental-totems', 'totem', 'frost', 'debuff', 'slow', 'stormbringer', 'all-specs']
+      tags: ['elemental totems', 'totem', 'frost', 'debuff', 'slow', 'stormbringer', 'all specs']
     },
 
     {
@@ -1455,7 +1455,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['elemental-totems', 'totem', 'air', 'buff', 'mobility', 'all-specs']
+      tags: ['elemental totems', 'totem', 'air', 'buff', 'mobility', 'all specs']
     },
 
     // SYNERGY EFFECTS
@@ -1522,13 +1522,13 @@ BATTLE MAP:
         }
       },
 
-      tags: ['synergy-effects', 'healing', 'defense', 'ultimate', 'earthwarden']
+      tags: ['synergy effects', 'healing', 'defense', 'ultimate', 'earthwarden']
     },
 
     {
       id: 'prim_elemental_fury',
       name: 'Elemental Fury',
-      description: 'Unleash a devastating elemental storm for 3 rounds when Flamecaller, Storm, Frost, and Wind totems are active, enhancing allies with bonus fire, lightning, and frost damage to attacks, plus increased attack speed and movement speed.',
+      description: 'When Flamecaller, Storm, Frost, and Wind totems are active, unleash elemental fury that enhances allies with fire, lightning, and frost damage.',
       spellType: 'REACTION',
       icon: 'Healing/Heart Ripple',
       school: 'Elemental',
@@ -1610,7 +1610,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['synergy-effects', 'elemental', 'damage', 'ultimate', 'stormbringer']
+      tags: ['synergy effects', 'elemental', 'damage', 'ultimate', 'stormbringer']
     },
 
     // UTILITY SPELLS
@@ -1669,7 +1669,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['utility', 'ultimate', 'totem', 'all-specs']
+      tags: ['utility', 'ultimate', 'totem', 'all specs']
     },
 
     {
@@ -1725,7 +1725,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['utility', 'totem', 'mobility', 'spiritcaller', 'all-specs']
+      tags: ['utility', 'totem', 'mobility', 'spiritcaller', 'all specs']
     },
 
     {
@@ -1788,7 +1788,7 @@ BATTLE MAP:
         }
       },
 
-      tags: ['utility', 'damage', 'earth', 'aoe', 'ultimate', 'all-specs']
+      tags: ['utility', 'damage', 'earth', 'aoe', 'ultimate', 'all specs']
     }
   ],
 
@@ -1810,7 +1810,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '2d6 + spirit',
+        formula: '1d8 + spirit',
         elementType: 'bludgeoning',
         damageType: 'direct'
       },
@@ -2181,7 +2181,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '3d6 + spirit',
+        formula: '6d6 + spirit',
         elementType: 'piercing',
         damageType: 'area',
         description: 'Creatures that enter or start their turn in the thorns take damage'
@@ -2308,7 +2308,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '4d8 + spirit',
+        formula: '8d6 + spirit',
         elementType: 'fire',
         secondaryElementType: 'lightning',
         damageType: 'area',
@@ -2462,7 +2462,7 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2526,7 +2526,7 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 32 },
+        resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
@@ -2555,7 +2555,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '15d8 + spirit * 2',
+        formula: '14d6 + spirit',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2592,9 +2592,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 32 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of an ancient earth elemental'
       },
@@ -2734,7 +2734,7 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 42 },
+        resourceValues: { mana: 32 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
@@ -2814,9 +2814,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
@@ -2842,7 +2842,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '20d10 + spirit * 3',
+        formula: '18d6 + spirit',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2881,9 +2881,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 60 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A shard of the primordial earth, worth 50,000 gold'
       },
@@ -2971,9 +2971,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 58 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The essence of the World Tree'
       },
@@ -2996,7 +2996,7 @@ BATTLE MAP:
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Heart Ripple',
-        tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist'],
+        tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable'],
         toggleable: true
       },
       transformationConfig: {
@@ -3062,7 +3062,7 @@ BATTLE MAP:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '25d12 + spirit * 4',
+        formula: '22d6 + spirit',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -3086,9 +3086,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 40 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A tear of the earth mother, priceless'
       },
@@ -3191,9 +3191,9 @@ BATTLE MAP:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 40 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Seeds from the World Tree, worth 80,000 gold'
       },

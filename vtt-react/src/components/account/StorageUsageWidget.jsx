@@ -67,8 +67,13 @@ const StorageUsageWidget = ({ compact = false }) => {
   }
 
   const { tier, totalUsed, totalLimit, percentage, breakdown, status, message } = detailedUsage;
+  const isUnlimited = totalLimit >= 5 * 1024 * 1024 * 1024;
   const usedMB = (totalUsed / (1024 * 1024)).toFixed(2);
-  const limitMB = (totalLimit / (1024 * 1024)).toFixed(2);
+  const limitMB = isUnlimited ? 'Unlimited' : (totalLimit / (1024 * 1024)).toFixed(0);
+  const limitGB = (totalLimit / (1024 * 1024 * 1024)).toFixed(1);
+  const displayLimit = isUnlimited ? 'Unlimited' : totalLimit >= 1024 * 1024 * 1024 ? `${limitGB} GB` : `${limitMB} MB`;
+
+  const formatCategoryLimit = (val) => val === -1 || val === undefined ? '∞' : val;
 
   return (
     <div className={`storage-usage-widget ${compact ? 'compact' : ''} ${status}`}>
@@ -88,18 +93,18 @@ const StorageUsageWidget = ({ compact = false }) => {
 
         <div className="storage-stats">
           <span className="storage-used">{usedMB}MB used</span>
-          <span className="storage-limit">{limitMB}MB limit</span>
+          <span className="storage-limit">{displayLimit}</span>
         </div>
 
         {!compact && (
           <div className="storage-breakdown">
             <div className="breakdown-item">
               <span>Characters</span>
-              <span>{breakdown.characters || 0} / {detailedUsage.limits.characters}</span>
+              <span>{breakdown.characters || 0} / {formatCategoryLimit(detailedUsage.limits.characters)}</span>
             </div>
             <div className="breakdown-item">
               <span>Rooms</span>
-              <span>{breakdown.rooms || 0} / {detailedUsage.limits.rooms}</span>
+              <span>{breakdown.rooms || 0} / {formatCategoryLimit(detailedUsage.limits.rooms)}</span>
             </div>
             <div className="breakdown-item">
               <span>Journals</span>
@@ -107,7 +112,7 @@ const StorageUsageWidget = ({ compact = false }) => {
             </div>
             <div className="breakdown-item">
               <span>Campaigns</span>
-              <span>{breakdown.campaigns || 0} / {detailedUsage.limits.campaigns}</span>
+              <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
             </div>
           </div>
         )}

@@ -178,15 +178,21 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
         <h2>Membership & Pricing</h2>
         <div className="pricing-grid">
           <div className="pricing-card free">
-            <h3>Base Edition</h3>
-            <div className="price">Free<span>/forever</span></div>
+            <div className="pricing-card-icon"><i className="fas fa-user-secret"></i></div>
+            <h3>Guest</h3>
+            <div className="price">Free</div>
             <ul>
-              <li>✓ Full character creation (27 classes)</li>
-              <li>✓ World Builder mode</li>
-              <li>✓ 2-player multiplayer rooms</li>
-              <li>✓ Complete spell crafting system</li>
-              <li>✓ Basic VTT features</li>
+              <li>✓ Join multiplayer rooms as a player</li>
+              <li>✓ 1 temporary character</li>
+              <li>✓ Full combat & dice rolling</li>
+              <li>✓ Room chat</li>
+              <li><span className="locked-feature">✗ No cloud save</span></li>
+              <li><span className="locked-feature">✗ Cannot create rooms</span></li>
             </ul>
+            <p className="account-note">
+              <i className="fas fa-info-circle"></i>
+              No account needed — just join a game
+            </p>
             <button
               className="pricing-btn primary-account-btn"
               onClick={onShowLogin}
@@ -194,34 +200,67 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
               <i className="fas fa-sign-in-alt"></i>
               Get Started
             </button>
-            <p className="account-note">
-              <i className="fas fa-info-circle"></i>
-              Free account • No credit card required
-            </p>
           </div>
 
           <div className="pricing-card premium">
-            <h3>Party Edition</h3>
-            <div className="price">Coming Soon</div>
+            <div className="pricing-card-icon"><i className="fas fa-shield-halved"></i></div>
+            <h3>Free Adventurer</h3>
+            <div className="price">$0<span>/forever</span></div>
             <ul>
-              <li>✓ Everything in Base Edition</li>
-              <li>✓ Up to 6-player multiplayer rooms</li>
-              <li>✓ Advanced GM tools</li>
-              <li>✓ Custom content sharing</li>
-              <li>✓ Enhanced VTT features</li>
+              <li>✓ 3 character slots with cloud save</li>
+              <li>✓ 1 permanent room (up to 4 players)</li>
+              <li>✓ Full character creation (27 classes, 12 races)</li>
+              <li>✓ Spell crafting, creature & item creation</li>
+              <li>✓ Map editor with static fog of war</li>
+              <li>✓ Combat system & 3D physics dice</li>
+              <li>✓ Unlimited local rooms</li>
+            </ul>
+            <p className="account-note">
+              <i className="fas fa-info-circle"></i>
+              Free forever • No credit card required
+            </p>
+            <button
+              className="pricing-btn primary-account-btn"
+              onClick={onShowRegister}
+            >
+              <i className="fas fa-user-plus"></i>
+              Create Free Account
+            </button>
+          </div>
+
+          <div className="pricing-card premium">
+            <div className="pricing-card-icon"><i className="fas fa-crown"></i></div>
+            <div className="popular-badge">Most Popular</div>
+            <h3>Campaign Master</h3>
+            <div className="price">$9.99<span>/month</span></div>
+            <ul>
+              <li>✓ 15 character slots with cloud save</li>
+              <li>✓ 5 rooms (up to 6 players each)</li>
+              <li>✓ Dynamic fog of war & line-of-sight</li>
+              <li>✓ Dynamic lighting with shadows</li>
+              <li>✓ Atmospheric effects (rain, snow, fog)</li>
+              <li>✓ Campaign manager & session tracking</li>
+              <li>✓ Portal system — connect maps</li>
+              <li>✓ Travel system & quest sharing</li>
+              <li>✓ Auto backups & community sharing</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>
           </div>
 
           <div className="pricing-card legendary">
-            <h3>Guild Edition</h3>
-            <div className="price">Coming Soon</div>
+            <div className="pricing-card-icon"><i className="fas fa-chess-king"></i></div>
+            <h3>Guild Leader</h3>
+            <div className="price">$19.99<span>/month</span></div>
             <ul>
-              <li>✓ Everything in Party Edition</li>
-              <li>✓ Unlimited player rooms</li>
-              <li>✓ Campaign management tools</li>
-              <li>✓ Priority support & feedback</li>
-              <li>✓ Early access to new features</li>
+              <li>✓ Unlimited character slots</li>
+              <li>✓ 25 rooms (up to 12 players each)</li>
+              <li>✓ Everything in Campaign Master</li>
+              <li>✓ Content packs — create & share bundles</li>
+              <li>✓ Custom rollable tables</li>
+              <li>✓ Guild & group management</li>
+              <li>✓ Campaign analytics dashboard</li>
+              <li>✓ Custom room themes</li>
+              <li>✓ 5 GB cloud storage</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>
           </div>

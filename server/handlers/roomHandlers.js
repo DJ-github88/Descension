@@ -406,12 +406,17 @@ function cleanupInactiveRooms(rooms, players, inactiveThresholdMs = 30 * 60 * 10
   const roomsToDelete = [];
 
   rooms.forEach((room, roomId) => {
-    // Skip permanent rooms
+    if (room.disconnectedPlayers) {
+      Object.keys(room.disconnectedPlayers).forEach(uid => {
+        if (now - room.disconnectedPlayers[uid].disconnectedAt > inactiveThresholdMs) {
+          delete room.disconnectedPlayers[uid];
+        }
+      });
+    }
+
     if (room.isPermanent) return;
 
-    // Check if room is inactive
     if (!room.isActive || (room.gmDisconnectedAt && now - new Date(room.gmDisconnectedAt).getTime() > inactiveThresholdMs)) {
-      // Check if room has no players
       if (room.players.size === 0) {
         roomsToDelete.push(roomId);
       }

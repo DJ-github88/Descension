@@ -218,7 +218,7 @@ export const TRICKSTER_PATH = {
             },
 
             resourceCost: {
-                mana: 10,
+                mana: 4,
                 actionPoints: 1
             },
 
@@ -248,8 +248,8 @@ export const TRICKSTER_PATH = {
 
             abilities: [
                 {
-                    id: 'shadow_step',
-                    name: 'Shadow Step',
+                    id: 'shadow_dancer_step',
+                    name: 'Shadow Dancer Step',
                     description: '"Now you see me..." Teleport through shadows to a nearby location.',
                     icon: 'Utility/Hide',
                     level: 1,
@@ -267,7 +267,7 @@ export const TRICKSTER_PATH = {
                             {
                                 name: 'Shadow Teleport',
                                 description: 'Teleport up to 60 feet to an unoccupied space you can see that is in dim light or darkness',
-                                customName: 'Shadow Step'
+                                customName: 'Shadow Dancer Step'
                             }
                         ],
                         difficultyClass: 0,
@@ -282,7 +282,7 @@ export const TRICKSTER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 10,
+                        mana: 4,
                         health: 0,
                         stamina: 5,
                         focus: 0,
@@ -323,7 +323,7 @@ export const TRICKSTER_PATH = {
                     damageConfig: {
                         damageType: 'direct',
                         elementType: 'physical',
-                        formula: '6d6 + AGI',
+                        formula: '2d6 + AGI',
                         resolution: 'DICE',
                         hasDotEffect: false,
                         savingThrowConfig: {
@@ -332,9 +332,9 @@ export const TRICKSTER_PATH = {
                         criticalConfig: {
                             enabled: true,
                             critType: 'dice',
-                            critMultiplier: 3,
+                            critMultiplier: 2,
                             critDiceOnly: false,
-                            extraDice: '3d6'
+                            extraDice: '1d6'
                         },
                         conditionalDamage: {
                             condition: 'target_unaware_or_flanked',
@@ -355,7 +355,7 @@ export const TRICKSTER_PATH = {
                         health: 0,
                         stamina: 15,
                         focus: 0,
-                        actionPoints: 3
+                        actionPoints: 2
                     },
 
                     durationConfig: {
@@ -447,7 +447,7 @@ export const TRICKSTER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
+                        mana: 4,
                         health: 0,
                         stamina: 0,
                         focus: 0,
@@ -488,7 +488,7 @@ export const TRICKSTER_PATH = {
                     damageConfig: {
                         damageType: 'direct',
                         elementType: 'psychic',
-                        formula: '5d8 + INT',
+                        formula: '2d8 + INT',
                         resolution: 'DICE',
                         hasDotEffect: false,
                         savingThrowConfig: {
@@ -538,11 +538,11 @@ export const TRICKSTER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 25,
+                        mana: 8,
                         health: 0,
                         stamina: 0,
                         focus: 0,
-                        actionPoints: 3
+                        actionPoints: 2
                     },
 
                     durationConfig: {
@@ -587,7 +587,7 @@ export const TRICKSTER_PATH = {
                     icon: 'ability_rogue_deadlypoison',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['buff', 'poison', 'weapon', 'damage-over-time'],
+                    tags: ['buff', 'poison', 'weapon', 'damage over time'],
                     effectTypes: ['buff'],
                     damageTypes: ['poison'],
 
@@ -601,7 +601,7 @@ export const TRICKSTER_PATH = {
                             {
                                 id: 'envenomed_weapon',
                                 name: 'Envenomed Weapon',
-                                description: 'Weapon attacks deal additional 2d6 poison damage and apply poison DoT'
+                                description: 'Weapon attacks deal additional 1d6 poison damage and apply poison DoT'
                             }
                         ],
                         buffs: [
@@ -610,9 +610,9 @@ export const TRICKSTER_PATH = {
                                 description: 'Weapon deals poison damage',
                                 duration: 10,
                                 effects: {
-                                    bonusDamage: '2d6',
+                                    bonusDamage: '1d6',
                                     damageType: 'poison',
-                                    dotDamage: '1d6',
+                                    dotDamage: '1d4',
                                     dotDuration: 3
                                 }
                             }
@@ -627,7 +627,7 @@ export const TRICKSTER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 12,
+                        mana: 4,
                         health: 0,
                         stamina: 0,
                         focus: 0,
@@ -697,7 +697,7 @@ export const TRICKSTER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
+                        mana: 8,
                         health: 0,
                         stamina: 0,
                         focus: 0,

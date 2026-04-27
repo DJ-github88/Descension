@@ -5,7 +5,7 @@ import useAuthStore from '../../store/authStore';
 import { Analytics } from '../../services/analyticsService';
 import './styles/AuthModal.css';
 
-const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
+const AuthModal = ({ isOpen, onClose, onLoginTransition, initialMode = 'login' }) => {
   const navigate = useNavigate();
   const [mode, setMode] = useState(initialMode); // 'login', 'register', 'forgot'
   const [formData, setFormData] = useState({
@@ -88,15 +88,23 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
         formData.friendId || null
       );
       if (result.success) {
-        onClose();
-        navigate('/account');
+        if (onLoginTransition) {
+          onLoginTransition();
+        } else {
+          onClose();
+          navigate('/account');
+        }
       }
     } else if (mode === 'login') {
       const result = await signIn(formData.email, formData.password, formData.rememberMe);
       if (result.success) {
         Analytics.login('email');
-        onClose();
-        navigate('/account');
+        if (onLoginTransition) {
+          onLoginTransition();
+        } else {
+          onClose();
+          navigate('/account');
+        }
       }
     } else if (mode === 'forgot') {
       const result = await resetPassword(formData.email);
@@ -129,8 +137,12 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     if (result.success) {
       console.log('Google sign-in successful!');
       Analytics.login('google');
-      onClose();
-      navigate('/account');
+      if (onLoginTransition) {
+        onLoginTransition();
+      } else {
+        onClose();
+        navigate('/account');
+      }
     } else {
       console.error('Google sign-in failed:', result.error);
     }
@@ -141,8 +153,12 @@ const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
     const result = await signInAsGuest();
     if (result.success) {
       console.log('Guest login successful!');
-      onClose();
-      navigate('/account');
+      if (onLoginTransition) {
+        onLoginTransition();
+      } else {
+        onClose();
+        navigate('/account');
+      }
     } else {
       console.error('Guest login failed:', result.error);
     }

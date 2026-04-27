@@ -15,24 +15,30 @@ import { db } from '../../config/firebase';
 
 // Storage limits by subscription tier (in bytes)
 export const STORAGE_LIMITS = {
-  GUEST: { total: 0 }, // No persistence
+  GUEST: { total: 0 },
   FREE: {
-    total: 50 * 1024 * 1024, // 50MB
-    characters: 50,
-    campaigns: 1,
+    total: 25 * 1024 * 1024, // 25MB
+    characters: 3,
+    campaigns: 0,
     rooms: 1
+  },
+  DEV_PREVIEW: {
+    total: 1 * 1024 * 1024 * 1024, // 1GB
+    characters: 50,
+    campaigns: 10,
+    rooms: 5
   },
   SUBSCRIBER: {
     total: 500 * 1024 * 1024, // 500MB
-    characters: 6,
+    characters: 15,
     campaigns: 5,
     rooms: 5
   },
   PREMIUM: {
-    total: 2 * 1024 * 1024 * 1024, // 2GB
-    characters: 24,
-    campaigns: 20,
-    rooms: 20
+    total: 5 * 1024 * 1024 * 1024, // 5GB
+    characters: -1, // unlimited
+    campaigns: 25,
+    rooms: 25
   }
 };
 

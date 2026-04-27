@@ -26,9 +26,7 @@ export const REAVER_PATH = {
         mechanicalIntegration: 'Berserker rage and brutal combat.'
     },
 
-    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
-        // PASSIVE - Bloodlust
         {
             id: 'bloodlust',
             name: 'Bloodlust',
@@ -43,7 +41,7 @@ export const REAVER_PATH = {
             typeConfig: {
                 school: 'physical',
                 icon: 'Utility/Muscular Red Figure',
-                tags: ['passive', 'combat', 'lifesteal', 'temporary-hp']
+                tags: ['passive', 'combat', 'lifesteal', 'temporary hp']
             },
 
             buffConfig: {
@@ -76,7 +74,6 @@ export const REAVER_PATH = {
             resolution: 'DICE',
             visualTheme: 'fire'
         },
-        // REACTION - Vengeful Strike
         {
             id: 'vengeful_strike',
             name: 'Vengeful Strike',
@@ -153,7 +150,6 @@ export const REAVER_PATH = {
             resolution: 'DICE',
             visualTheme: 'fire'
         },
-        // ACTION - Blood Rage
         {
             id: 'blood_rage',
             name: 'Blood Rage',
@@ -161,14 +157,14 @@ export const REAVER_PATH = {
             icon: 'Utility/Craze',
             level: 1,
             spellType: 'ACTION',
-            tags: ['action', 'buff', 'rage', 'damage', 'risk-reward'],
+            tags: ['action', 'buff', 'rage', 'damage', 'risk reward'],
             effectTypes: ['buff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'physical',
                 icon: 'Utility/Craze',
-                tags: ['action', 'buff', 'rage', 'damage', 'risk-reward']
+                tags: ['action', 'buff', 'rage', 'damage', 'risk reward']
             },
 
             buffConfig: {
@@ -208,7 +204,6 @@ export const REAVER_PATH = {
         }
     ],
 
-    // Legacy abilities for subPaths
     legacyAbilities: [
         {
             id: 'whirlwind',
@@ -359,18 +354,17 @@ export const REAVER_PATH = {
 
             abilities: [
                 {
-                    id: 'blood_rage',
-                    name: 'Blood Rage',
+                    id: 'berserker_frenzy',
+                    name: 'Berserker Frenzy',
                     description: '"RAGE!" Enter a berserker rage, dealing massive damage but taking more damage.',
                     icon: 'Utility/Craze',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['buff', 'rage', 'damage', 'risk-reward'],
+                    tags: ['buff', 'rage', 'damage', 'risk reward'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
                     buffConfig: {
-                        duration: 6,
                         durationValue: 6,
                         durationType: 'rounds',
                         durationUnit: 'rounds',
@@ -394,8 +388,8 @@ export const REAVER_PATH = {
                         ],
                         statusEffects: [
                             {
-                                id: 'blood_rage',
-                                name: 'Blood Rage',
+                                id: 'berserker_frenzy',
+                                name: 'Berserker Frenzy',
                                 description: '+8 damage dealt, -2 armor (easier to hit)'
                             }
                         ],
@@ -454,7 +448,7 @@ export const REAVER_PATH = {
                     icon: 'Utility/Dynamic Lunge',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['damage', 'physical', 'reckless', 'high-risk'],
+                    tags: ['damage', 'physical', 'reckless', 'high risk'],
                     effectTypes: ['damage'],
                     damageTypes: ['physical'],
 
@@ -534,7 +528,7 @@ export const REAVER_PATH = {
                     spellType: 'ACTION',
                     tags: ['damage', 'healing', 'lifesteal', 'blood'],
                     effectTypes: ['damage', 'healing'],
-                    damageTypes: ['physical', 'necrotic'],
+                    damageTypes: ['physical'],
 
                     damageConfig: {
                         damageType: 'direct',
@@ -575,7 +569,7 @@ export const REAVER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 15,
+                        mana: 4,
                         health: 0,
                         stamina: 10,
                         focus: 0,
@@ -609,12 +603,11 @@ export const REAVER_PATH = {
                     icon: 'Utility/Muscle Flex',
                     level: 2,
                     spellType: 'PASSIVE',
-                    tags: ['buff', 'passive', 'blood', 'attack-speed'],
+                    tags: ['buff', 'passive', 'blood', 'attack speed'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
                     buffConfig: {
-                        duration: 0,
                         durationValue: 0,
                         durationType: 'permanent',
                         durationUnit: 'permanent',
@@ -700,7 +693,6 @@ export const REAVER_PATH = {
                     damageTypes: [],
 
                     buffConfig: {
-                        duration: 8,
                         durationValue: 8,
                         durationType: 'rounds',
                         durationUnit: 'rounds',
@@ -791,7 +783,6 @@ export const REAVER_PATH = {
                     damageTypes: [],
 
                     buffConfig: {
-                        duration: 10,
                         durationValue: 10,
                         durationType: 'rounds',
                         durationUnit: 'rounds',

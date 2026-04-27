@@ -11,6 +11,7 @@
 const admin = require('firebase-admin');
 const { v4: uuidv4 } = require('uuid');
 const firebaseService = require('./firebaseService');
+const logger = require('./logger');
 
 class OptimizedFirebaseService {
   constructor() {
@@ -43,7 +44,7 @@ class OptimizedFirebaseService {
       const projectId = process.env.FIREBASE_PROJECT_ID || 'mythrill-ff7c6';
 
       if (!serviceAccountKey) {
-        console.warn('⚠️ Firebase service account key not found, running without persistence');
+        logger.warn('Firebase service account key not found, running without persistence');
         return;
       }
 
@@ -51,7 +52,7 @@ class OptimizedFirebaseService {
       try {
         serviceAccount = JSON.parse(serviceAccountKey);
       } catch (parseError) {
-        console.error('❌ Invalid Firebase service account key format');
+        logger.error('Invalid Firebase service account key format');
         return;
       }
 
@@ -71,13 +72,13 @@ class OptimizedFirebaseService {
       });
 
       this.isInitialized = true;
-      console.log('🚀 Optimized Firebase service initialized');
+      logger.info('Optimized Firebase service initialized');
 
       // Start background cleanup
       this.startBackgroundTasks();
 
     } catch (error) {
-      console.error('❌ Optimized Firebase initialization failed:', error);
+      logger.error('Optimized Firebase initialization failed:', error);
     }
   }
 
@@ -101,7 +102,7 @@ class OptimizedFirebaseService {
    */
   queueWrite(roomId, operation) {
     if (!this.isInitialized) {
-      console.warn('Firebase not initialized, skipping write');
+      logger.warn('Firebase not initialized, skipping write');
       return Promise.resolve();
     }
 
@@ -183,7 +184,7 @@ class OptimizedFirebaseService {
 
       if (operationCount > 0) {
         await this.retryOperation(() => batch.commit());
-        console.log(`📦 Batch write completed for room ${roomId}: ${operationCount} operations`);
+        logger.info(`Batch write completed for room ${roomId}: ${operationCount} operations`);
       }
 
       // If there are remaining operations, schedule another batch
@@ -192,7 +193,7 @@ class OptimizedFirebaseService {
       }
 
     } catch (error) {
-      console.error(`❌ Batch write failed for room ${roomId}:`, error);
+      logger.error(`Batch write failed for room ${roomId}:`, error);
       
       // Re-queue failed operations
       queue.unshift(...operations);
@@ -234,7 +235,7 @@ class OptimizedFirebaseService {
       // Check cache first
       const cached = this.getCache(cacheKey);
       if (cached) {
-        console.log(`💾 Cache hit for room ${roomId}`);
+        logger.info(`Cache hit for room ${roomId}`);
         if (global.performanceMonitor) {
           global.performanceMonitor.trackDatabaseQuery('getRoomData_cache', Date.now() - startTime, true);
         }
@@ -242,7 +243,7 @@ class OptimizedFirebaseService {
       }
 
       if (!this.isInitialized) {
-        console.warn('Firebase not initialized');
+        logger.warn('Firebase not initialized');
         return null;
       }
 
@@ -258,7 +259,7 @@ class OptimizedFirebaseService {
       return data;
 
     } catch (error) {
-      console.error(`❌ Failed to get room data for ${roomId}:`, error);
+      logger.error(`Failed to get room data for ${roomId}:`, error);
 
       if (global.errorHandler) {
         await global.errorHandler.handleError(error, {
@@ -353,9 +354,9 @@ class OptimizedFirebaseService {
         break;
       }
 
-      console.log(`⚡ Immediate write completed: ${path}`);
+      logger.info(`Immediate write completed: ${path}`);
     } catch (error) {
-      console.error(`❌ Immediate write failed for ${path}:`, error);
+      logger.error(`Immediate write failed for ${path}:`, error);
       throw error;
     }
   }
@@ -371,7 +372,7 @@ class OptimizedFirebaseService {
         if (i === attempts - 1) {throw error;}
         
         const delay = this.retryDelay * Math.pow(2, i);
-        console.warn(`⚠️ Operation failed, retrying in ${delay}ms (attempt ${i + 1}/${attempts})`);
+        logger.warn(`Operation failed, retrying in ${delay}ms (attempt ${i + 1}/${attempts})`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
@@ -421,7 +422,7 @@ class OptimizedFirebaseService {
     }
 
     if (cleaned > 0) {
-      console.log(`🧹 Cache cleanup: removed ${cleaned} expired entries`);
+      logger.info(`Cache cleanup: removed ${cleaned} expired entries`);
     }
   }
 
@@ -436,7 +437,7 @@ class OptimizedFirebaseService {
     }
 
     await Promise.all(promises);
-    console.log('🚀 All pending writes flushed');
+    logger.info('All pending writes flushed');
   }
 
   /**
@@ -453,7 +454,7 @@ class OptimizedFirebaseService {
 
   logMetrics() {
     const metrics = this.getMetrics();
-    console.log('📊 Firebase metrics:', metrics);
+    logger.info('Firebase metrics:', metrics);
   }
 
   /**

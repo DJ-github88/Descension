@@ -3,6 +3,8 @@
  * Prevents spam and abuse by limiting the frequency of socket events
  */
 
+const logger = require('./logger');
+
 class RateLimitService {
   constructor() {
     // Rate limit configurations per event type
@@ -174,7 +176,7 @@ class RateLimitService {
   resetClientLimits(clientId) {
     if (this.eventCounts.has(clientId)) {
       this.eventCounts.get(clientId).clear();
-      console.log(`🧹 Reset rate limits for client ${clientId}`);
+      logger.info(`Reset rate limits for client ${clientId}`);
     }
   }
 
@@ -186,7 +188,7 @@ class RateLimitService {
   updateEventLimits(eventType, limits) {
     if (limits.maxPerMinute && limits.maxPerSecond) {
       this.rateLimits[eventType] = limits;
-      console.log(`📊 Updated rate limits for ${eventType}:`, limits);
+      logger.info(`Updated rate limits for ${eventType}:`, limits);
     }
   }
 
@@ -220,7 +222,7 @@ class RateLimitService {
     }
 
     if (cleanedClients > 0 || cleanedEvents > 0) {
-      console.log(`🧹 Rate limit cleanup: removed ${cleanedClients} clients and ${cleanedEvents} event types`);
+      logger.info(`Rate limit cleanup: removed ${cleanedClients} clients and ${cleanedEvents} event types`);
     }
   }
 
@@ -282,7 +284,7 @@ class RateLimitService {
             violationCounts.set(socket.id, violations + 1);
 
             if (logViolations) {
-              console.warn(`🚫 Rate limit exceeded for event '${event}' from client ${socket.id}: ${rateLimitResult.reason}`);
+              logger.warn(`Rate limit exceeded for event '${event}' from client ${socket.id}: ${rateLimitResult.reason}`);
             }
 
             // Send rate limit error to client
@@ -294,7 +296,7 @@ class RateLimitService {
 
             // Disconnect if too many violations
             if (disconnectOnViolation && violations >= violationThreshold) {
-              console.error(`🚫 Disconnecting client ${socket.id} due to repeated rate limit violations`);
+              logger.error(`Disconnecting client ${socket.id} due to repeated rate limit violations`);
               socket.disconnect(true);
               return;
             }
@@ -309,7 +311,7 @@ class RateLimitService {
           try {
             await handler(data);
           } catch (error) {
-            console.error(`Error in rate-limited handler for event '${event}':`, error);
+            logger.error(`Error in rate-limited handler for event '${event}':`, error);
           }
         };
 

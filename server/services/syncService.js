@@ -38,7 +38,7 @@ function deepMerge(target, source) {
  * Prevents quota exhaustion by batching writes
  */
 class FirebaseBatchWriter {
-  constructor(flushInterval = 500, maxBatchSize = 50) {
+  constructor(flushInterval = 200, maxBatchSize = 50) {
     this.pendingWrites = new Map();
     this.flushInterval = flushInterval;
     this.maxBatchSize = maxBatchSize;
@@ -51,7 +51,7 @@ class FirebaseBatchWriter {
    * @param {string} roomId - Room ID
    * @param {Object} gameState - Game state to write
    */
-  queueWrite(roomId, gameState) {
+  queueWrite(roomId, gameState, isCritical = false) {
     const existing = this.pendingWrites.get(roomId);
     const mergedGameState = existing ? deepMerge(existing.gameState, gameState) : { ...gameState };
     this.pendingWrites.set(roomId, {
@@ -59,8 +59,7 @@ class FirebaseBatchWriter {
       timestamp: Date.now()
     });
 
-    // Flush immediately if batch is full
-    if (this.pendingWrites.size >= this.maxBatchSize) {
+    if (isCritical || this.pendingWrites.size >= this.maxBatchSize) {
       this.flush();
     }
   }
@@ -281,7 +280,7 @@ function createSyncServices(io, rooms, players) {
  */
 function setupShutdownHandlers(services) {
   const gracefulShutdown = async () => {
-    console.log('Shutting down gracefully...');
+    logger.info('Shutting down gracefully...');
     
     if (services.firebaseBatchWriter) {
       await services.firebaseBatchWriter.flush();

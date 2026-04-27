@@ -759,7 +759,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_basic_strike',
       name: 'Basic Strike',
-      description: 'You channel the first stirrings of your inner fury into a devastating melee attack. As you swing, you can feel the rage building within you—a heat that starts in your chest and spreads through your arms, making every muscle burn with power. The strike itself is deceptively simple, but it carries the weight of your growing fury. With each successful hit, you feel the beast within you grow stronger, hungrier. Your vision begins to tinge red at the edges, and you can hear your own heartbeat thundering in your ears. This is the foundation of your power—every swing is a step closer to unleashing the full force of your rage.',
+      description: 'Channel your inner fury into a devastating melee strike. Each successful hit feeds the beast within, building your rage and bringing you closer to unleashing your full power.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Slashing/Cross Slash',
@@ -767,7 +767,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Slashing/Cross Slash',
-        tags: ['melee', 'damage', 'rage_generation', 'starter'],
+        tags: ['melee', 'damage', 'rage generation', 'starter'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -784,7 +784,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0 },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Swing weapon with controlled fury, feeling the rage build with each motion'
+        somaticText: 'Swing with controlled fury, rage building with each motion'
       },
 
       resolution: 'DICE',
@@ -794,14 +794,14 @@ When you cross a Rage State threshold, announce it dramatically:
         formula: '1d8 + strength',
         elementType: 'bludgeoning',
         damageType: 'direct',
-        description: 'The strike lands with brutal force, driven by your growing rage. Each successful hit feeds the fury within you, and you can feel your power escalating with every blow.'
+        description: 'A brutal strike driven by growing rage. Each hit feeds the fury within, escalating your power with every blow.'
       },
 
       cooldownConfig: {
         type: 'none'
       },
 
-      tags: ['melee', 'damage', 'rage_generation', 'starter', 'berserker']
+      tags: ['melee', 'damage', 'rage generation', 'starter', 'berserker']
     },
 
     {
@@ -815,7 +815,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Utility/Deflecting Shield',
-        tags: ['defense', 'buff', 'rage_generation', 'stance', 'toggleable', 'starter'],
+        tags: ['defense', 'buff', 'rage generation', 'stance', 'toggleable', 'starter'],
         toggleable: true
       },
 
@@ -866,13 +866,13 @@ When you cross a Rage State threshold, announce it dramatically:
         type: 'none'
       },
 
-      tags: ['defense', 'buff', 'rage_generation', 'stance', 'toggleable', 'starter', 'berserker']
+      tags: ['defense', 'buff', 'rage generation', 'stance', 'toggleable', 'starter', 'berserker']
     },
 
     {
       id: 'berserk_rage_tap',
       name: 'Rage Tap',
-      description: 'Plunge deep into your primal fury, awakening the beast within. Your attacks become more ferocious, and every strike feeds the growing storm of rage inside you. Only one stance can be active at a time.',
+      description: 'Awaken the beast within through primal fury. Your attacks grow more ferocious, and every strike feeds the storm of rage inside you. Only one stance can be active at a time.',
       level: 1,
       spellType: 'PASSIVE',
       icon: 'Slashing/Bloody Slash',
@@ -880,7 +880,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Slashing/Bloody Slash',
-        tags: ['buff', 'rage_generation', 'damage', 'stance', 'toggleable', 'starter'],
+        tags: ['buff', 'rage generation', 'damage', 'stance', 'toggleable', 'starter'],
         toggleable: true
       },
 
@@ -932,7 +932,7 @@ When you cross a Rage State threshold, announce it dramatically:
         type: 'none'
       },
 
-      tags: ['buff', 'rage_generation', 'damage', 'stance', 'toggleable', 'starter', 'berserker']
+      tags: ['buff', 'rage generation', 'damage', 'stance', 'toggleable', 'starter', 'berserker']
     },
 
     // ========================================
@@ -942,7 +942,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_frenzied_slash',
       name: 'Frenzied Slash',
-      description: 'Your rage has reached the Frenzied state, and now the beast within you breaks free. Your vision completely tints red, and the world narrows to nothing but your target. You unleash a whirlwind of savage strikes, each one faster and more brutal than the last. Your weapon becomes an extension of your fury, moving with impossible speed as you strike again and again. The strikes are not controlled—they are pure, unadulterated violence, driven by the primal need to destroy. Blood sprays with each hit, and you can feel the rage surging through your veins like liquid fire. On critical hits, the force of your fury is so overwhelming that it sends enemies flying backward, their bodies unable to withstand the raw power of your unleashed rage.',
+      description: 'Unleash a whirlwind of savage strikes fueled by primal fury. Each hit feeds your rage, and devastating blows ignite enemies with burning fury. Critical hits send enemies flying.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Slashing/Cleave',
@@ -950,7 +950,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Slashing/Cleave',
-        tags: ['melee', 'damage', 'rage_generation', 'frenzied'],
+        tags: ['melee', 'damage', 'rage generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -967,7 +967,7 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Unleash a whirlwind of savage strikes, your vision red with fury as the beast within takes control'
+        somaticText: 'Unleash a whirlwind of savage strikes, vision red with fury'
       },
 
       resolution: 'DICE',
@@ -1000,20 +1000,20 @@ When you cross a Rage State threshold, announce it dramatically:
             saveType: 'constitution'
           }
         },
-        description: 'The frenzied slash tears into your enemy with savage brutality. Each strike is driven by pure rage, and the damage escalates with your fury. On particularly devastating hits, your rage burns so hot that it literally sets your enemy on fire, the flames of your fury consuming them.'
+        description: 'The frenzied slash tears into your enemy with savage brutality, driven by pure rage. Devastating hits can ignite enemies with burning fury.'
       },
 
       cooldownConfig: {
         type: 'none'
       },
 
-      tags: ['melee', 'damage', 'rage_generation', 'frenzied', 'berserker']
+      tags: ['melee', 'damage', 'rage generation', 'frenzied', 'berserker']
     },
 
     {
       id: 'berserk_war_cry',
       name: 'War Cry',
-      description: 'You draw in a massive breath, feeling your rage build in your chest like a gathering storm. When you unleash your war cry, your voice becomes something more than human—it is the thunder of charging hordes, the roar of ancient beasts, the battle hymn of warriors long dead. The sound is so powerful it creates visible shockwaves in the air, and enemies within range are physically battered by the concussive force of your voice. Your allies feel their own fighting spirit ignite, their blood heating with the same primal fury that drives you. The war cry doesn\'t just inspire—it transforms, turning fear into courage and hesitation into action. The very air seems to vibrate with your fury, and for a moment, everyone within earshot shares in your rage.',
+      description: 'Unleash a thunderous war cry that creates visible shockwaves, battering nearby enemies with concussive force while igniting your allies\' fighting spirit with primal fury.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Utility/Overlords Command',
@@ -1021,17 +1021,35 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Utility/Overlords Command',
-        tags: ['buff', 'aoe', 'support', 'rage_generation', 'frenzied'],
+        tags: ['buff', 'aoe', 'support', 'rage generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 30 },
         targetRestrictions: ['ally', 'enemy']
+      },
+
+      effectTargeting: {
+        buff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['ally']
+        },
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['enemy']
+        }
       },
 
       resourceCost: {
@@ -1050,7 +1068,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'battle_fury',
           name: 'Battle Fury',
-          description: 'The war cry has ignited your fighting spirit, sharpening your focus and strengthening your strikes. You gain +2 to attack rolls as your rage channels into perfect precision. Every swing feels guided by the fury within you, striking with unerring accuracy.',
+          description: 'Gain +2 to attack rolls',
           statModifier: {
             stat: 'attack',
             magnitude: 2,
@@ -1059,7 +1077,7 @@ When you cross a Rage State threshold, announce it dramatically:
         }, {
           id: 'war_cry_morale',
           name: 'War Morale',
-          description: 'Your allies are filled with the same primal fury that drives you. Their blood heats, their muscles tense, and they feel an overwhelming urge to fight. They gain +1d4 bonus damage as the war cry awakens the warrior within each of them.',
+          description: 'Allies gain +1d4 bonus damage',
           damageFormula: '+1d4',
           statModifier: {
             stat: 'damage',
@@ -1078,7 +1096,7 @@ When you cross a Rage State threshold, announce it dramatically:
         formula: '1d4',
         elementType: 'thunder',
         damageType: 'direct',
-        description: 'The concussive force of your war cry strikes enemies like a physical blow, causing their ears to ring and their balance to falter. The sound itself is a weapon, battering them with pure sonic force.'
+        description: 'Concussive sonic force batters nearby enemies.'
       },
 
       cooldownConfig: {
@@ -1086,13 +1104,13 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 2
       },
 
-      tags: ['buff', 'aoe', 'support', 'rage_generation', 'frenzied', 'berserker']
+      tags: ['buff', 'aoe', 'support', 'rage generation', 'frenzied', 'berserker']
     },
 
     {
       id: 'berserk_bloodthirst',
       name: 'Bloodthirst',
-      description: 'Your hunger becomes something primal and insatiable. As you strike your foe, you don\'t just damage them—you drink deep of their life essence, feeling their vitality flow into you like a dark river. The sensation is intoxicating: with each drop of blood spilled, you feel your own wounds close, your muscles strengthen, and your rage burn brighter. Your weapon seems to pulse with dark energy as it tears into flesh, and you can actually see the life force being drawn from your enemy, visible as a red mist that flows into your body. The more damage you deal, the more you heal, creating a vicious cycle of destruction and renewal. On critical hits, the life drain is so powerful that it visibly weakens your enemy, their movements becoming sluggish as their vitality is consumed.',
+      description: 'Strike your foe with ravenous hunger, drinking deep of their life essence. The more damage you deal, the more you heal. Critical hits drain so fiercely that enemies are visibly weakened.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Necrotic/Drain Soul',
@@ -1100,11 +1118,12 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Necrotic/Drain Soul',
-        tags: ['healing', 'self_sustain', 'rage_generation', 'frenzied'],
+        tags: ['healing', 'self sustain', 'rage generation', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
@@ -1112,12 +1131,24 @@ When you cross a Rage State threshold, announce it dramatically:
         targetRestrictions: ['enemy']
       },
 
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'melee',
+          rangeDistance: 5,
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'self'
+        }
+      },
+
       resourceCost: {
         resourceTypes: ['mana', 'rage_state'],
         resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Strike with dark energy, visibly draining life force from your enemy as red mist flows into you'
+        somaticText: 'Strike with dark energy, draining life force as red mist flows into you'
       },
 
       resolution: 'DICE',
@@ -1154,20 +1185,20 @@ When you cross a Rage State threshold, announce it dramatically:
             saveType: 'constitution'
           }
         },
-        description: 'The bloodthirst strike tears into your enemy with necrotic force, actively draining their life essence. You can see their vitality being consumed, and they feel a deep cold spreading through their body as their life force is siphoned away.'
+        description: 'Tears into your enemy with necrotic force, draining their vitality and siphoning it into yourself.'
       },
 
       healingConfig: {
         formula: 'damageDealt / 2',
         healingType: 'direct',
-        description: 'Each drop of spilled blood becomes fuel for your unyielding vitality. You feel the stolen life force flow through you, closing wounds, mending broken bones, and restoring your strength. The sensation is addictive—the more you drain, the stronger you become.'
+        description: 'Stolen life force flows through you, closing wounds and restoring strength.'
       },
 
       cooldownConfig: {
         type: 'none'
       },
 
-      tags: ['melee', 'damage', 'healing', 'self_sustain', 'rage_generation', 'frenzied', 'berserker']
+      tags: ['melee', 'damage', 'healing', 'self sustain', 'rage generation', 'frenzied', 'berserker']
     },
 
     {
@@ -1181,7 +1212,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Utility/Speed Boot',
-        tags: ['buff', 'speed', 'rage_management', 'frenzied'],
+        tags: ['buff', 'speed', 'rage management', 'frenzied'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1192,8 +1223,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 10 },
+        resourceTypes: ['mana', 'rage_state'],
+        resourceValues: { mana: 0, rage_state: 'Frenzied' },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Inject yourself with adrenaline'
@@ -1226,7 +1257,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 3
       },
 
-      tags: ['buff', 'speed', 'rage_management', 'frenzied', 'berserker']
+      tags: ['buff', 'speed', 'rage management', 'frenzied', 'berserker']
     },
 
     // ========================================
@@ -1236,7 +1267,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_primal_roar',
       name: 'Primal Roar',
-      description: 'The ancient fury of your ancestors erupts in a deafening roar that shakes the earth and breaks the spirit. Enemies within range are battered by thunderous force and flee in terror from the awakening beast.',
+      description: 'Unleash a deafening roar that deals thunder damage and sends enemies fleeing in terror. Constitution save halves damage and negates fear.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Utility/Overlords Command',
@@ -1309,7 +1340,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_bloodlust',
       name: 'Bloodlust',
-      description: 'The ancient blood of predators courses through your veins, awakening regenerative powers that mend your wounds with primal fury. Your very life force becomes a weapon of endurance.',
+      description: 'Channel primal fury into escalating regeneration. Heal instantly, then gain progressively stronger healing over the next 3 rounds.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Necrotic/Drain Soul',
@@ -1317,7 +1348,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Necrotic/Drain Soul',
-        tags: ['healing', 'hot', 'self_sustain', 'primal'],
+        tags: ['healing', 'hot', 'self sustain', 'primal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1367,7 +1398,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 3
       },
 
-      tags: ['healing', 'hot', 'self_sustain', 'primal', 'berserker']
+      tags: ['healing', 'hot', 'self sustain', 'primal', 'berserker']
     },
 
     {
@@ -1524,7 +1555,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_carnage_strike',
       name: 'Carnage Strike',
-      description: 'Carnage incarnate flows through your veins as you unleash a strike of apocalyptic violence. The battlefield becomes your slaughterhouse, where every swing paints the ground red and leaves your enemies broken and bleeding.',
+      description: 'A devastating strike that can send enemies flying, stun them, and leave them bleeding on devastating hits. Powerful hits may also inflict fear.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Slashing/Sword Strike',
@@ -1602,7 +1633,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 1
+        value: 2
       },
 
       tags: ['melee', 'damage', 'carnage', 'berserker']
@@ -1681,7 +1712,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_intimidating_presence',
       name: 'Intimidating Presence',
-      description: 'Your terrifying aura causes enemies to flee and allies to fight harder.',
+      description: 'Radiate a terrifying aura that causes enemies within 20 feet to flee in panic.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Necrotic/Screaming Skull',
@@ -1703,8 +1734,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 15 },
+        resourceTypes: ['mana', 'rage_state'],
+        resourceValues: { mana: 0, rage_state: 'Carnage' },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'FEAR ME!',
@@ -1743,7 +1774,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_battle_trance',
       name: 'Battle Trance',
-      description: 'Enter a trance-like state of perfect combat awareness, where time seems to slow and every movement becomes predictable. Your heightened reflexes allow you to dodge attacks with supernatural precision.',
+      description: 'Enter a trance of perfect combat awareness, gaining +3 dodge for 2 rounds.',
       level: 4,
       spellType: 'ACTION',
       icon: 'General/Rage',
@@ -1806,7 +1837,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_cataclysmic_blow',
       name: 'Cataclysmic Blow',
-      description: 'Gather the destructive force of a collapsing star in your fist and unleash it upon your foe. The impact can shatter stone, crumple armor, and leave even the mightiest warriors stunned and broken.',
+      description: 'Channel devastating force into a single blow. Can stun, knock back, and disarm on devastating hits.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Bludgeoning/Mortal Strike',
@@ -1912,8 +1943,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 20 },
+        resourceTypes: ['mana', 'rage_state'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'NOTHING STOPS ME!',
@@ -1963,12 +1994,30 @@ When you cross a Rage State threshold, announce it dramatically:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 30 },
         targetRestrictions: ['ally', 'enemy']
+      },
+
+      effectTargeting: {
+        buff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['ally']
+        },
+        debuff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['enemy']
+        }
       },
 
       resourceCost: {
@@ -2006,7 +2055,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'demoralized',
           name: 'Demoralized',
-          description: 'Your terrifying presence shakes their resolve, making them less effective in combat. The primal fury in your voice and the savage intensity in your eyes cause their hands to tremble and their aim to falter.',
+          description: 'Shakes their resolve, making them less effective in combat.',
           statModifier: {
             stat: 'attack',
             magnitude: 2,
@@ -2040,7 +2089,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Fire/Volcanic Erupt',
-        tags: ['aoe', 'damage', 'self_damage', 'cataclysm'],
+        tags: ['aoe', 'damage', 'self damage', 'cataclysm'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2054,8 +2103,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 25 },
+        resourceTypes: ['mana', 'rage_state'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'MY RAGE CONSUMES ALL!',
@@ -2084,7 +2133,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 4
       },
 
-      tags: ['aoe', 'damage', 'self_damage', 'cataclysm', 'berserker']
+      tags: ['aoe', 'damage', 'self damage', 'cataclysm', 'berserker']
     },
 
     // ========================================
@@ -2094,7 +2143,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_obliterating_strike',
       name: 'Obliterating Strike',
-      description: 'The culmination of your rage erupts in a cataclysmic explosion of pure destructive force. Reality itself warps around your strike as you channel the entropy of a dying universe. Must be used immediately or risk Overheat.',
+      description: 'Unleash a massive explosion of destructive force. Devastating hits can send enemies flying, stun them, and set them ablaze. Must be used immediately or risk Overheat.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Utility/Empowered Warrior',
@@ -2298,7 +2347,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_berserkers_rage',
       name: 'Berserker\'s Rage',
-      description: 'Embrace the full power of your fury, transforming into an unstoppable force of destruction. Your body swells with primal energy, your muscles bulge with supernatural strength, and your eyes burn with pure rage.',
+      description: 'Embrace the full power of your fury, transforming into an unstoppable force of destruction. Your body surges with primal energy and supernatural strength.',
       level: 7,
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
@@ -2306,7 +2355,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'General/Fiery Rage',
-        tags: ['transformation', 'damage'],
+        tags: ['buff', 'transformation', 'damage'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2369,7 +2418,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_fury_of_the_ancients',
       name: 'Fury of the Ancients',
-      description: 'The spirits of ancient berserkers possess your form as you transform into a living cyclone of primal fury. Blades of ancestral rage whirl around you, tearing through flesh and bone, leaving only devastation in your wake.',
+      description: 'Transform into a living cyclone of primal fury, dealing massive AoE damage and knocking enemies down.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Slashing/Whirl',
@@ -2377,7 +2426,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Slashing/Whirl',
-        tags: ['aoe', 'damage', 'movement'],
+        tags: ['aoe', 'damage', 'control', 'movement'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2441,7 +2490,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 5
       },
 
-      tags: ['aoe', 'damage', 'movement', 'obliteration', 'berserker']
+      tags: ['aoe', 'damage', 'control', 'movement', 'obliteration', 'berserker']
     },
 
     {
@@ -2511,7 +2560,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_ragnarok_fury',
       name: 'Ragnarok Fury',
-      description: 'Unleash apocalyptic rage that shatters the earth and consumes everything in flames.',
+      description: 'Unleash apocalyptic fire that consumes everything in a 25-foot radius. Enemies that fail their save are stunned by the shockwave.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Dripping Lava',
@@ -2519,7 +2568,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Fire/Dripping Lava',
-        tags: ['aoe', 'damage', 'damage'],
+        tags: ['aoe', 'damage', 'fire', 'control'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2580,7 +2629,7 @@ When you cross a Rage State threshold, announce it dramatically:
         value: 7
       },
 
-      tags: ['aoe', 'damage', 'damage', 'obliteration', 'berserker']
+      tags: ['aoe', 'damage', 'fire', 'control', 'obliteration', 'berserker']
     },
 
     {
@@ -2730,7 +2779,7 @@ When you cross a Rage State threshold, announce it dramatically:
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Arcane/Missile',
-        tags: ['aoe', 'damage', 'primal', 'obliteration'],
+        tags: ['aoe', 'damage', 'obliteration'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2797,7 +2846,7 @@ When you cross a Rage State threshold, announce it dramatically:
         description: 'Once per combat'
       },
 
-      tags: ['aoe', 'damage', 'primal', 'obliteration', 'berserker', 'self-damage']
+      tags: ['aoe', 'damage', 'obliteration', 'berserker', 'self damage']
     },
 
     {
@@ -2838,10 +2887,10 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'veterans_resolve',
           name: 'Veteran\'s Resolve',
-          description: 'Gain +4 damage bonus for 3 rounds. Effect ends immediately if you do not attack on your turn',
+          description: 'Gain +8 damage bonus for 3 rounds. Effect ends immediately if you do not attack on your turn',
           statModifier: {
             stat: 'damage',
-            magnitude: 4,
+            magnitude: 8,
             magnitudeType: 'flat'
           }
         }],
@@ -2884,9 +2933,9 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_cost'],
-        resourceValues: { mana: 0, rage_cost: 30 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Obliteration', rage_cost: 50 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'BLOOD FOR BLOOD!',
         somaticText: 'Enter a savage blood-fueled state'
@@ -2989,7 +3038,7 @@ When you cross a Rage State threshold, announce it dramatically:
         description: 'Once per combat'
       },
 
-      tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker', 'self-damage']
+      tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker', 'self damage']
     },
 
     {
@@ -3128,7 +3177,7 @@ When you cross a Rage State threshold, announce it dramatically:
         description: 'Once per combat'
       },
 
-      tags: ['buff', 'transformation', 'obliteration', 'berserker', 'self-damage']
+      tags: ['buff', 'transformation', 'obliteration', 'berserker', 'self damage']
     }
   ],
 

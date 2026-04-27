@@ -22,13 +22,9 @@ class Logger {
       
       // Start periodic flush
       setInterval(() => this.flush(), this.flushInterval);
-      
-      // Cleanup old logs on startup
       this.cleanupOldLogs();
-      
-      console.log('📝 Logger initialized');
     } catch (error) {
-      console.error('Failed to initialize logger:', error);
+      // Silent - logger init failure shouldn't crash the server
     }
   }
 
@@ -74,21 +70,20 @@ class Logger {
    */
   async flush() {
     if (this.logBuffer.length === 0) return;
-    
+
     const logsToWrite = [...this.logBuffer];
     this.logBuffer = [];
-    
+
     try {
       const today = new Date().toISOString().split('T')[0];
       const logFile = path.join(this.logDirectory, `app-${today}.log`);
-      const logLines = logsToWrite.map(entry => 
+      const logLines = logsToWrite.map(entry =>
         JSON.stringify(entry) + '\n'
       ).join('');
-      
+
       await fs.appendFile(logFile, logLines);
     } catch (error) {
-      // If file write fails, put logs back in buffer (except errors)
-      console.error('Failed to write logs:', error);
+      // If file write fails, keep error logs in buffer for retry
       this.logBuffer.unshift(...logsToWrite.filter(l => l.level === 'error'));
     }
   }
@@ -112,8 +107,7 @@ class Logger {
         }
       }
     } catch (error) {
-      // Non-critical, just log it
-      console.error('Failed to cleanup old logs:', error);
+      // Non-critical
     }
   }
 

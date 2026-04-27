@@ -863,6 +863,35 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     return spells.filter(spell => !buffEffectIds.has(spell.id));
   }, [classData]);
 
+  const selectedSpellIndex = selectedSpell
+    ? processedSpells.findIndex(s => s.id === selectedSpell.id)
+    : -1;
+
+  const navigateSpell = (direction) => {
+    if (processedSpells.length === 0) return;
+    const newIndex = selectedSpellIndex + direction;
+    if (newIndex >= 0 && newIndex < processedSpells.length) {
+      setSelectedSpell(processedSpells[newIndex]);
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedSpell) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateSpell(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateSpell(1);
+      } else if (e.key === 'Escape') {
+        handleCloseSpellPopup();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedSpell, selectedSpellIndex, processedSpells]);
+
   // Map WoW icon IDs to local ability icons (matching UnifiedSpellCard)
   const mapSpellIcon = (wowIconId) => {
     const iconMapping = {
@@ -1268,6 +1297,14 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
               cursor: 'pointer'
             }}
           >
+            <button
+              className="spellbook-popup-nav spellbook-popup-nav-prev"
+              onClick={(e) => { e.stopPropagation(); navigateSpell(-1); }}
+              disabled={selectedSpellIndex <= 0}
+              aria-label="Previous spell"
+            >
+              <i className="fas fa-chevron-left"></i>
+            </button>
             <div
               className="spellbook-popup-content"
               onClick={(e) => e.stopPropagation()}
@@ -1279,6 +1316,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                 cursor: 'default'
               }}
             >
+              {selectedSpell.level && (
+                <div className="spellbook-popup-level-badge">
+                  <i className="fas fa-star"></i>
+                  <span>Available at Level {selectedSpell.level}</span>
+                </div>
+              )}
               <UnifiedSpellCard
                 spell={{
                   ...selectedSpell,
@@ -1300,6 +1343,19 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
                 rollableTableData={getSpellRollableTable(selectedSpell)}
               />
             </div>
+            <button
+              className="spellbook-popup-nav spellbook-popup-nav-next"
+              onClick={(e) => { e.stopPropagation(); navigateSpell(1); }}
+              disabled={selectedSpellIndex >= processedSpells.length - 1}
+              aria-label="Next spell"
+            >
+              <i className="fas fa-chevron-right"></i>
+            </button>
+            {processedSpells.length > 1 && (
+              <div className="spellbook-popup-counter">
+                {selectedSpellIndex + 1} / {processedSpells.length}
+              </div>
+            )}
           </div>
         )}
       </div>

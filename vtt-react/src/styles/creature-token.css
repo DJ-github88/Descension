@@ -137,7 +137,7 @@
 }
 
 /* GM Hidden state for containers - similar to creature tokens but without the greyscale/opacity filter */
-.grid-container.container-gm-hidden {
+.grid-item-container.container-gm-hidden {
   border-style: dashed !important;
   animation: gmHiddenPulse 3s infinite;
   /* No filters here - containers stay vibrant */

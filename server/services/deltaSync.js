@@ -10,6 +10,7 @@
 
 const { v4: uuidv4 } = require('uuid');
 const zlib = require('zlib');
+const logger = require('./logger');
 
 class DeltaSyncEngine {
   constructor() {
@@ -33,7 +34,7 @@ class DeltaSyncEngine {
     };
 
     this.stateVersions.set(roomId, [version]);
-    console.log(`🔄 Delta sync initialized for room ${roomId}`);
+    logger.info(`Delta sync initialized for room ${roomId}`);
     return version.id;
   }
 
@@ -130,7 +131,7 @@ class DeltaSyncEngine {
     // PERFORMANCE: Check state size before processing
     const stateSize = JSON.stringify(newState).length;
     if (stateSize > this.maxStateSize) {
-      console.warn(`⚠️ State size (${stateSize} bytes) exceeds limit (${this.maxStateSize} bytes) for room ${roomId}`);
+      logger.warn(`State size (${stateSize} bytes) exceeds limit (${this.maxStateSize} bytes) for room ${roomId}`);
       // Truncate or optimize state if needed
       // For now, log warning and continue
     }
@@ -139,14 +140,14 @@ class DeltaSyncEngine {
     const delta = this.computeDelta(currentVersion.state, newState);
 
     if (!delta) {
-      console.log(`📊 No changes detected for room ${roomId}`);
+      logger.info(`No changes detected for room ${roomId}`);
       return null;
     }
 
     // PERFORMANCE: Check delta size
     const deltaSize = JSON.stringify(delta).length;
     if (deltaSize > this.maxDeltaSize) {
-      console.warn(`⚠️ Delta size (${deltaSize} bytes) exceeds limit (${this.maxDeltaSize} bytes) for room ${roomId}`);
+      logger.warn(`Delta size (${deltaSize} bytes) exceeds limit (${this.maxDeltaSize} bytes) for room ${roomId}`);
       // For large deltas, consider sending full state instead
       // This is a performance optimization to avoid expensive delta application
     }
@@ -170,7 +171,7 @@ class DeltaSyncEngine {
       versions.splice(0, versions.length - this.maxVersionHistory);
     }
 
-    console.log(`🔄 State update created for room ${roomId}, delta size: ${JSON.stringify(delta).length} bytes`);
+    logger.info(`State update created for room ${roomId}, delta size: ${JSON.stringify(delta).length} bytes`);
     return newVersion;
   }
 
@@ -241,7 +242,7 @@ class DeltaSyncEngine {
       });
 
       const compressionRatio = compressed.length / deltaStr.length;
-      console.log(`🗜️ Delta compressed: ${deltaStr.length} -> ${compressed.length} bytes (${(compressionRatio * 100).toFixed(1)}%)`);
+      logger.info(`Delta compressed: ${deltaStr.length} -> ${compressed.length} bytes (${(compressionRatio * 100).toFixed(1)}%)`);
 
       return {
         compressed: true,
@@ -250,7 +251,7 @@ class DeltaSyncEngine {
         compressedSize: compressed.length
       };
     } catch (error) {
-      console.error('Delta compression failed:', error);
+      logger.error('Delta compression failed:', error);
       return { compressed: false, data: delta };
     }
   }
@@ -274,7 +275,7 @@ class DeltaSyncEngine {
 
       return JSON.parse(decompressed.toString());
     } catch (error) {
-      console.error('Delta decompression failed:', error);
+      logger.error('Delta decompression failed:', error);
       throw error;
     }
   }
@@ -407,7 +408,7 @@ class DeltaSyncEngine {
     // For primitive values or incompatible types, use last-write-wins with timestamp
     // In practice, we'll prefer value2 (more recent) but log the conflict
     if (JSON.stringify(value1) !== JSON.stringify(value2)) {
-      console.warn(`⚠️ Conflict detected at path "${path}": ${JSON.stringify(value1)} vs ${JSON.stringify(value2)}. Using last-write-wins.`);
+      logger.warn(`Conflict detected at path "${path}": ${JSON.stringify(value1)} vs ${JSON.stringify(value2)}. Using last-write-wins.`);
     }
     
     return value2; // Last write wins for simple conflicts
@@ -455,7 +456,7 @@ class DeltaSyncEngine {
     );
 
     if (concurrentUpdates.length > 0) {
-      console.log(`⚠️ Concurrent updates detected for room ${roomId}. Resolving conflicts...`);
+      logger.info(`Concurrent updates detected for room ${roomId}. Resolving conflicts...`);
       
       // Apply concurrent updates first, then apply new update
       let mergedState = this.deepClone(currentVersion.state);
@@ -469,7 +470,7 @@ class DeltaSyncEngine {
       const delta = this.computeDelta(baseState, newState);
       
       if (!delta) {
-        console.log(`📊 No changes after conflict resolution for room ${roomId}`);
+        logger.info(`No changes after conflict resolution for room ${roomId}`);
         return null;
       }
 
@@ -495,7 +496,7 @@ class DeltaSyncEngine {
         versions.splice(0, versions.length - this.maxVersionHistory);
       }
 
-      console.log(`🔄 State update with conflict resolution created for room ${roomId}`);
+      logger.info(`State update with conflict resolution created for room ${roomId}`);
       return newVersion;
     }
 

@@ -987,7 +987,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_restorative_prayer',
       name: 'Restorative Prayer',
-      description: 'You clasp your hands together in prayer, feeling the divine power flow through you as your devotion to your cause strengthens. A warm, golden light emanates from your clasped hands, growing brighter as you speak the words of healing. The prayer is more than just words—it is a channel for divine mercy, a bridge between the mortal realm and the source of all healing. As you complete the prayer, a beam of gentle golden light extends from your hands to your target, carrying with it the power to mend wounds, close cuts, and restore vitality. The healing feels warm and comforting, like being bathed in the first rays of morning sunlight. With each use, your devotion grows, and the prayer becomes more powerful, allowing you to channel even greater healing energy.',
+      description: 'Channel divine energy through prayer to heal an ally. Scales with Spirit and can be amplified with Devotion.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Healing/Golden Heart',
@@ -995,7 +995,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Healing/Golden Heart',
-        tags: ['healing', 'basic', 'devotion-amplifiable', 'level-1'],
+        tags: ['healing', 'basic', 'devotion amplifiable', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1035,7 +1035,7 @@ INTERVENE COUNT: 1
         value: 0
       },
 
-      tags: ['healing', 'basic', 'devotion-amplifiable', 'level-1']
+      tags: ['healing', 'basic', 'devotion amplifiable', 'level 1']
     },
 
     {
@@ -1049,7 +1049,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Utility/Shield',
-        tags: ['protection', 'reaction', 'devotion-amplifiable', 'level-1'],
+        tags: ['protection', 'reaction', 'devotion amplifiable', 'level 1'],
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -1094,13 +1094,13 @@ INTERVENE COUNT: 1
         value: 0
       },
 
-      tags: ['protection', 'reaction', 'devotion-amplifiable', 'level-1']
+      tags: ['protection', 'reaction', 'devotion amplifiable', 'level 1']
     },
 
     {
       id: 'martyr_penance_of_pain',
       name: 'Penance of Pain',
-      description: 'You press your hand to one of your own wounds, feeling the pain intensify as you channel it through your body. This is the essence of the Martyr\'s path—suffering transformed into salvation. The pain doesn\'t diminish; instead, it becomes a conduit for divine power. You can feel your own life force being drawn from your wounds, but rather than being lost, it is transformed into healing energy that flows from your fingertips. The process is excruciating—every moment of channeling brings fresh agony as your pain is literally converted into life-giving power. But the result is worth it: your ally feels their wounds close, their pain fade, and their strength return, all paid for with your own suffering. This act of self-sacrifice strengthens your devotion, proving your commitment to protecting others at any cost.',
+      description: 'Press your hand to your own wounds, converting pain into healing for an ally. The more wounded you are, the stronger the healing. Builds Devotion.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Beam',
@@ -1108,7 +1108,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Beam',
-        tags: ['healing', 'sacrificial', 'devotion-amplifiable', 'level-1'],
+        tags: ['healing', 'sacrificial', 'devotion amplifiable', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1148,7 +1148,7 @@ INTERVENE COUNT: 1
         value: 0
       },
 
-      tags: ['healing', 'sacrificial', 'devotion-amplifiable', 'level-1']
+      tags: ['healing', 'sacrificial', 'devotion amplifiable', 'level 1']
     },
 
     {
@@ -1162,7 +1162,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Bolt',
-        tags: ['damage', 'healing', 'radiant', 'devotion-amplifiable', 'level-1'],
+        tags: ['damage', 'healing', 'radiant', 'devotion amplifiable', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1229,7 +1229,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['damage', 'healing', 'radiant', 'devotion-amplifiable', 'level-1']
+      tags: ['damage', 'healing', 'radiant', 'devotion amplifiable', 'level 1']
     },
 
     {
@@ -1243,16 +1243,22 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Healing/Reaching Hand',
-        tags: ['damage', 'melee', 'radiant', 'healing', 'devotion-amplifiable', 'level-1'],
+        tags: ['damage', 'melee', 'radiant', 'healing', 'devotion amplifiable', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
         rangeDistance: 5,
-        targetRestrictions: []
+        targetRestrictions: ['enemy']
+      },
+
+      effectTargeting: {
+        damage: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5, targetRestrictions: ['enemy'] },
+        healing: { targetingType: 'self' }
       },
 
       resourceCost: {
@@ -1287,19 +1293,20 @@ INTERVENE COUNT: 1
         value: 0
       },
 
-      tags: ['damage', 'melee', 'radiant', 'healing', 'devotion-amplifiable', 'level-1']
+      tags: ['damage', 'melee', 'radiant', 'healing', 'devotion amplifiable', 'level 1']
     },
 
     {
       id: 'martyr_divine_shield',
       name: 'Divine Shield',
-      description: 'Grant protective divine energy to all allies within range. Golden light flows from your hands, forming shimmering shields around each ally. The divine protection absorbs incoming damage, protecting their actual health with a barrier of holy energy.',
+      description: 'Grant protective divine energy to all allies within range, shielding them with temporary HP.',
       spellType: 'ACTION',
       icon: 'Force/Force Shield',
       school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        tags: ['buff', 'temporary hp', 'aoe', 'devotion amplifiable', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1355,13 +1362,19 @@ INTERVENE COUNT: 1
         }
       },
 
-      tags: ['buff', 'temporary-hp', 'aoe', 'devotion-amplifiable']
+      tags: ['buff', 'temporary hp', 'aoe', 'devotion amplifiable', 'level 2']
     },
     {
+      id: 'martyr_purifying_pain',
+      name: 'Purifying Pain',
+      description: 'Inflict radiant damage upon yourself to heal an ally. The self-damage builds Devotion.',
+      spellType: 'ACTION',
+      icon: 'Healing/Golden Heart',
       school: 'Restoration',
       level: 2,
 
       typeConfig: {
+        tags: ['healing', 'self damage', 'sacrifice', 'devotion amplifiable', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1410,7 +1423,7 @@ INTERVENE COUNT: 1
         }
       },
 
-      tags: ['healing', 'self-damage', 'sacrifice', 'devotion-amplifiable']
+      tags: ['healing', 'self damage', 'sacrifice', 'devotion amplifiable', 'level 2']
     },
 
 
@@ -1418,13 +1431,14 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_sanctuary_aura',
       name: 'Sanctuary Aura',
-      description: 'Surround an ally with a protective aura of divine energy. Golden light envelops them, creating a barrier that significantly reduces all incoming damage. The divine protection makes them nearly impervious to harm.',
+      description: 'Surround an ally with a protective aura that grants resistance to all damage types for 1 minute.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Golden Shield',
       school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        tags: ['buff', 'resistance', 'protection', 'devotion amplifiable', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1479,7 +1493,7 @@ INTERVENE COUNT: 1
         }
       },
 
-      tags: ['buff', 'resistance', 'protection', 'devotion-amplifiable']
+      tags: ['buff', 'resistance', 'protection', 'devotion amplifiable', 'level 2']
     },
 
     {
@@ -1493,7 +1507,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Radiant/Divine Blessing',
-        tags: ['buff', 'saving-throws', 'damage-reduction', 'aoe', 'devotion-amplifiable', 'level-2'],
+        tags: ['buff', 'saving throws', 'damage reduction', 'aoe', 'devotion amplifiable', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1555,7 +1569,7 @@ INTERVENE COUNT: 1
         value: 0
       },
 
-      tags: ['buff', 'saving-throws', 'damage-reduction', 'aoe', 'devotion-amplifiable', 'level-2']
+      tags: ['buff', 'saving throws', 'damage reduction', 'aoe', 'devotion amplifiable', 'level 2']
     },
 
     // ========================================
@@ -1572,7 +1586,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Force/Force Shield',
-        tags: ['buff', 'protection', 'sacrifice', 'level-3'],
+        tags: ['buff', 'protection', 'sacrifice', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1618,7 +1632,7 @@ INTERVENE COUNT: 1
         value: 3
       },
 
-      tags: ['buff', 'protection', 'sacrifice', 'level-3']
+      tags: ['buff', 'protection', 'sacrifice', 'level 3']
     },
 
     {
@@ -1632,7 +1646,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Fire/Sun Symbol',
-        tags: ['damage', 'self-damage', 'radiant', 'aoe', 'level-3'],
+        tags: ['damage', 'self damage', 'radiant', 'aoe', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1676,7 +1690,7 @@ INTERVENE COUNT: 1
         value: 2
       },
 
-      tags: ['damage', 'self-damage', 'radiant', 'aoe', 'level-3']
+      tags: ['damage', 'self damage', 'radiant', 'aoe', 'level 3']
     },
 
     {
@@ -1690,7 +1704,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Healing/Cure Within',
-        tags: ['purification', 'sacrifice', 'utility', 'level-3'],
+        tags: ['purification', 'sacrifice', 'utility', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1728,7 +1742,7 @@ INTERVENE COUNT: 1
         value: 2
       },
 
-      tags: ['purification', 'sacrifice', 'utility', 'level-3']
+      tags: ['purification', 'sacrifice', 'utility', 'level 3']
     },
 
     // ========================================
@@ -1745,7 +1759,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Radiant/Radiant Golden Shield',
-        tags: ['buff', 'shield', 'protection', 'level-4'],
+        tags: ['buff', 'shield', 'protection', 'level 4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1795,7 +1809,7 @@ INTERVENE COUNT: 1
         value: 3
       },
 
-      tags: ['buff', 'shield', 'protection', 'level-4']
+      tags: ['buff', 'shield', 'protection', 'level 4']
     },
 
     {
@@ -1809,7 +1823,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'necromancy',
         icon: 'Healing/Golden Heart',
-        tags: ['healing', 'sacrifice', 'self-damage', 'level-4'],
+        tags: ['healing', 'sacrifice', 'self damage', 'level 4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1846,7 +1860,7 @@ INTERVENE COUNT: 1
         value: 2
       },
 
-      tags: ['healing', 'sacrifice', 'self-damage', 'level-4']
+      tags: ['healing', 'sacrifice', 'self damage', 'level 4']
     },
 
     {
@@ -1860,7 +1874,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'enchantment',
         icon: 'Necrotic/Blood Scroll',
-        tags: ['debuff', 'utility', 'healing', 'mark', 'level-4'],
+        tags: ['debuff', 'utility', 'healing', 'mark', 'level 4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1903,7 +1917,7 @@ INTERVENE COUNT: 1
         value: 3
       },
 
-      tags: ['debuff', 'utility', 'healing', 'mark', 'level-4']
+      tags: ['debuff', 'utility', 'healing', 'mark', 'level 4']
     },
 
     // ========================================
@@ -1920,7 +1934,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Radiant/Divine Illumination',
-        tags: ['buff', 'healing', 'immunity', 'aoe', 'level-5'],
+        tags: ['buff', 'healing', 'immunity', 'aoe', 'level 5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1973,7 +1987,7 @@ INTERVENE COUNT: 1
         value: 4
       },
 
-      tags: ['buff', 'healing', 'immunity', 'aoe', 'level-5']
+      tags: ['buff', 'healing', 'immunity', 'aoe', 'level 5']
     },
 
     {
@@ -1987,7 +2001,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'enchantment',
         icon: 'Necrotic/Blood Skull',
-        tags: ['buff', 'protection', 'sacrifice', 'party', 'level-5'],
+        tags: ['buff', 'protection', 'sacrifice', 'party', 'level 5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2034,7 +2048,7 @@ INTERVENE COUNT: 1
         value: 5
       },
 
-      tags: ['buff', 'protection', 'sacrifice', 'party', 'level-5']
+      tags: ['buff', 'protection', 'sacrifice', 'party', 'level 5']
     },
 
     {
@@ -2048,7 +2062,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Golden Shield',
-        tags: ['damage', 'radiant', 'aoe', 'stored-damage', 'level-5'],
+        tags: ['damage', 'radiant', 'aoe', 'stored damage', 'level 5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2099,7 +2113,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['damage', 'radiant', 'aoe', 'stored-damage', 'level-5']
+      tags: ['damage', 'radiant', 'aoe', 'stored damage', 'level 5']
     },
 
     // ========================================
@@ -2108,7 +2122,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_sanctified_ground',
       name: 'Sanctified Ground',
-      description: 'Create a zone of holy ground that pulses with divine energy. The ground itself glows with golden light, healing allies who stand upon it while burning undead and demons with the same sacred power. The zone persists, becoming a sanctuary of healing and destruction.',
+      description: 'Create a zone of holy ground that heals allies and burns undead and demons standing upon it. Persists for 5 rounds.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Radiant/Bright Explosion',
@@ -2116,7 +2130,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Bright Explosion',
-        tags: ['healing', 'damage', 'zone', 'aoe', 'level-6'],
+        tags: ['healing', 'damage', 'zone', 'aoe', 'level 6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2172,7 +2186,7 @@ INTERVENE COUNT: 1
         value: 5
       },
 
-      tags: ['healing', 'damage', 'zone', 'aoe', 'level-6']
+      tags: ['healing', 'damage', 'zone', 'aoe', 'level 6']
     },
 
     {
@@ -2186,7 +2200,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Force/Force Field',
-        tags: ['buff', 'protection', 'sacrifice', 'tank', 'level-6'],
+        tags: ['buff', 'protection', 'sacrifice', 'tank', 'level 6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2232,7 +2246,7 @@ INTERVENE COUNT: 1
         value: 6
       },
 
-      tags: ['buff', 'protection', 'sacrifice', 'tank', 'level-6']
+      tags: ['buff', 'protection', 'sacrifice', 'tank', 'level 6']
     },
 
     {
@@ -2246,7 +2260,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Divine Downward Sword',
-        tags: ['damage', 'radiant', 'single-target', 'level-6'],
+        tags: ['damage', 'radiant', 'single target', 'level 6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2291,7 +2305,7 @@ INTERVENE COUNT: 1
         value: 3
       },
 
-      tags: ['damage', 'radiant', 'single-target', 'level-6']
+      tags: ['damage', 'radiant', 'single target', 'level 6']
     },
 
     // ========================================
@@ -2308,7 +2322,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'necromancy',
         icon: 'Healing/Ressusitate',
-        tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level-7'],
+        tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level 7'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2347,7 +2361,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level-7']
+      tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level 7']
     },
 
     {
@@ -2361,7 +2375,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'conjuration',
         icon: 'Radiant/Winged Angel',
-        tags: ['buff', 'protection', 'cheat-death', 'level-7'],
+        tags: ['buff', 'protection', 'cheat death', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2407,13 +2421,13 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['buff', 'protection', 'cheat-death', 'level-7']
+      tags: ['buff', 'protection', 'cheat death', 'level 7']
     },
 
     {
       id: 'martyr_holy_wrath',
       name: 'Holy Wrath',
-      description: 'Unleash all accumulated devotion as radiant damage to all enemies within range. Every moment of suffering, every wound taken, every sacrifice made is channeled into a cataclysmic burst of holy power that consumes your foes in divine fire.',
+      description: 'Unleash all accumulated Devotion as radiant damage to all enemies within range. The more Devotion spent, the more devastating the burst.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Sunburst',
@@ -2421,7 +2435,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Sunburst',
-        tags: ['damage', 'radiant', 'aoe', 'devotion-spend', 'level-7'],
+        tags: ['damage', 'radiant', 'aoe', 'devotion spend', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2481,7 +2495,7 @@ INTERVENE COUNT: 1
         value: 5
       },
 
-      tags: ['damage', 'radiant', 'aoe', 'devotion-spend', 'level-7']
+      tags: ['damage', 'radiant', 'aoe', 'devotion spend', 'level 7']
     },
 
     // ========================================
@@ -2498,7 +2512,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'abjuration',
         icon: 'Radiant/Divine Radiance',
-        tags: ['protection', 'reaction', 'negate', 'level-8'],
+        tags: ['protection', 'reaction', 'negate', 'level 8'],
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -2536,7 +2550,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['protection', 'reaction', 'negate', 'level-8']
+      tags: ['protection', 'reaction', 'negate', 'level 8']
     },
 
     {
@@ -2550,7 +2564,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'enchantment',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['debuff', 'damage', 'link', 'psychic', 'level-8'],
+        tags: ['debuff', 'damage', 'link', 'psychic', 'level 8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2597,7 +2611,7 @@ INTERVENE COUNT: 1
         value: 5
       },
 
-      tags: ['debuff', 'damage', 'link', 'psychic', 'level-8']
+      tags: ['debuff', 'damage', 'link', 'psychic', 'level 8']
     },
 
     {
@@ -2611,7 +2625,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'necromancy',
         icon: 'Healing/Reaching Hand',
-        tags: ['healing', 'sacrifice', 'self-damage', 'aoe', 'level-8'],
+        tags: ['healing', 'sacrifice', 'self damage', 'aoe', 'level 8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2649,7 +2663,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['healing', 'sacrifice', 'self-damage', 'aoe', 'level-8']
+      tags: ['healing', 'sacrifice', 'self damage', 'aoe', 'level 8']
     },
 
     // ========================================
@@ -2666,7 +2680,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'transmutation',
         icon: 'Radiant/Divine Illumination',
-        tags: ['transformation', 'buff', 'protection', 'ultimate', 'level-9'],
+        tags: ['transformation', 'buff', 'protection', 'ultimate', 'level 9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2706,7 +2720,7 @@ INTERVENE COUNT: 1
         canBeDispelled: false
       },
 
-      devotionRequired: 8,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -2714,7 +2728,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['transformation', 'buff', 'protection', 'ultimate', 'level-9']
+      tags: ['transformation', 'buff', 'protection', 'ultimate', 'level 9']
     },
 
     {
@@ -2728,7 +2742,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Warrior',
-        tags: ['damage', 'healing', 'aoe', 'ultimate', 'level-9'],
+        tags: ['damage', 'healing', 'aoe', 'ultimate', 'level 9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2779,7 +2793,7 @@ INTERVENE COUNT: 1
         hasHotEffect: false
       },
 
-      devotionRequired: 10,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -2787,7 +2801,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['damage', 'healing', 'aoe', 'ultimate', 'level-9']
+      tags: ['damage', 'healing', 'aoe', 'ultimate', 'level 9']
     },
 
     {
@@ -2801,7 +2815,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'enchantment',
         icon: 'Force/Force Shield',
-        tags: ['buff', 'protection', 'party', 'immortality', 'level-9'],
+        tags: ['buff', 'protection', 'party', 'immortality', 'level 9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2840,7 +2854,7 @@ INTERVENE COUNT: 1
         canBeDispelled: false
       },
 
-      devotionRequired: 8,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -2848,7 +2862,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['buff', 'protection', 'party', 'immortality', 'level-9']
+      tags: ['buff', 'protection', 'party', 'immortality', 'level 9']
     },
 
     // ========================================
@@ -2865,7 +2879,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'necromancy',
         icon: 'Healing/Ressusitate',
-        tags: ['resurrection', 'sacrifice', 'ultimate', 'level-10'],
+        tags: ['resurrection', 'sacrifice', 'ultimate', 'level 10'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2914,7 +2928,7 @@ INTERVENE COUNT: 1
         }
       },
 
-      devotionRequired: 10,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -2922,7 +2936,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['resurrection', 'sacrifice', 'ultimate', 'level-10']
+      tags: ['resurrection', 'sacrifice', 'ultimate', 'level 10']
     },
 
     {
@@ -2936,7 +2950,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'transmutation',
         icon: 'Radiant/Radiant Glow',
-        tags: ['transformation', 'buff', 'ultimate', 'level-10'],
+        tags: ['transformation', 'buff', 'ultimate', 'level 10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2979,7 +2993,7 @@ INTERVENE COUNT: 1
         canBeDispelled: false
       },
 
-      devotionRequired: 10,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -2987,7 +3001,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['transformation', 'buff', 'ultimate', 'level-10']
+      tags: ['transformation', 'buff', 'ultimate', 'level 10']
     },
 
     {
@@ -3001,7 +3015,7 @@ INTERVENE COUNT: 1
       typeConfig: {
         school: 'enchantment',
         icon: 'Radiant/Golden Ring',
-        tags: ['buff', 'protection', 'ultimate', 'party', 'level-10'],
+        tags: ['buff', 'protection', 'ultimate', 'party', 'level 10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -3040,7 +3054,7 @@ INTERVENE COUNT: 1
         canBeDispelled: false
       },
 
-      devotionRequired: 10,
+      devotionRequired: 6,
       devotionGain: 0,
 
       cooldownConfig: {
@@ -3048,7 +3062,7 @@ INTERVENE COUNT: 1
         value: 1
       },
 
-      tags: ['buff', 'protection', 'ultimate', 'party', 'level-10']
+      tags: ['buff', 'protection', 'ultimate', 'party', 'level 10']
     }
 
   ]

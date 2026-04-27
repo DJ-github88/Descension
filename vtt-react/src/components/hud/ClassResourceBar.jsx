@@ -584,6 +584,8 @@ const ClassResourceBar = ({
     const setOracleSpec = (value) => setOracleState(prev => ({ ...prev, oracleSpec: value }));
     const setLastVisionGain = (value) => setOracleState(prev => ({ ...prev, lastVisionGain: value }));
     const setPredictionAccuracy = (value) => setOracleState(prev => ({ ...prev, predictionAccuracy: value }));
+    const setShowChargesMenu = (value) => setCovenbaneState(prev => ({ ...prev, showChargesMenu: value }));
+    const setShowInscriptionsMenu = (value) => setInscriptorState(prev => ({ ...prev, showInscriptionsMenu: value }));
 
     // Setter functions for hover sections in class-specific states
     const setBladedancerHoverSection = (value) => setBladedancerState(prev => ({ ...prev, bladedancerHoverSection: value }));

@@ -837,7 +837,7 @@ Playing Gambler in person is uniquely satisfying because:
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
-          tags: ['damage', 'fortune-generation', 'variable', 'gambler']
+          tags: ['damage', 'fortune generation', 'variable', 'rollable table', 'gambler']
         },
 
         targetingConfig: {
@@ -849,7 +849,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           resourceTypes: ['mana'],
-          resourceValues: { mana: 3 },
+          resourceValues: { mana: 7 },
           actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Fortuna!',
@@ -907,7 +907,7 @@ Playing Gambler in person is uniquely satisfying because:
           ]
         },
 
-        tags: ['damage', 'fortune-generation', 'variable', 'gambler']
+        tags: ['damage', 'fortune generation', 'variable', 'rollable table', 'gambler']
       },
 
       {
@@ -923,7 +923,7 @@ Playing Gambler in person is uniquely satisfying because:
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
-          tags: ['buff', 'utility', 'fortune-cost', 'gambler']
+          tags: ['utility', 'buff', 'debuff', 'coin flip', 'rollable table', 'gambler', 'fortunes-favor']
         },
 
         targetingConfig: {
@@ -935,7 +935,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           resourceTypes: ['mana'],
-          resourceValues: { mana: 5 },
+          resourceValues: { mana: 10 },
           actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Fatum Nummus!',
@@ -1024,7 +1024,7 @@ Playing Gambler in person is uniquely satisfying because:
           ]
         },
 
-        tags: ['utility', 'buff', 'debuff', 'coin-flip', 'gambler', 'fortunes-favor']
+        tags: ['utility', 'buff', 'debuff', 'coin flip', 'rollable table', 'gambler', 'fortunes-favor']
       },
 
       {
@@ -1040,7 +1040,7 @@ Playing Gambler in person is uniquely satisfying because:
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
-          tags: ['ultimate', 'random', 'high-risk', 'high-reward', 'gambler']
+          tags: ['ultimate', 'random', 'high risk', 'high reward', 'rollable table', 'gambler', 'card-sharp']
         },
 
         targetingConfig: {
@@ -1050,7 +1050,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           resourceTypes: ['mana'],
-          resourceValues: { mana: 8 },
+          resourceValues: { mana: 28 },
           actionPoints: 2,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Fortuna Maxima!',
@@ -1120,7 +1120,7 @@ Playing Gambler in person is uniquely satisfying because:
           ]
         },
 
-        tags: ['ultimate', 'random', 'high-risk', 'high-reward', 'gambler', 'card-sharp']
+        tags: ['ultimate', 'random', 'high risk', 'high reward', 'rollable table', 'gambler', 'card-sharp']
       },
 
       
@@ -1137,7 +1137,7 @@ Playing Gambler in person is uniquely satisfying because:
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
-          tags: ['ultimate', 'life-or-death', 'extreme-risk', 'healing', 'gambler']
+          tags: ['ultimate', 'life or death', 'extreme risk', 'healing', 'rollable table', 'gambler', 'high-roller']
         },
 
         targetingConfig: {
@@ -1147,7 +1147,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           resourceTypes: ['mana'],
-          resourceValues: { mana: 10 },
+          resourceValues: { mana: 36 },
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Omnia Aut Nihil!',
@@ -1160,7 +1160,7 @@ Playing Gambler in person is uniquely satisfying because:
         healingConfig: {
           formula: 'variable',
           healingType: 'direct',
-          description: 'Roll the dice of fate. The result could be miraculous healing, devastating loss, or anything in between. Fortune favors the bold, but also punishes the reckless.'
+          description: 'Roll d100. Results determine your fate.'
         },
 
         utilityConfig: {
@@ -1202,7 +1202,7 @@ Playing Gambler in person is uniquely satisfying because:
           ]
         },
 
-        tags: ['ultimate', 'life-or-death', 'extreme-risk', 'healing', 'gambler', 'high-roller']
+        tags: ['ultimate', 'life or death', 'extreme risk', 'healing', 'rollable table', 'gambler', 'high-roller']
       },
 
       {
@@ -1218,7 +1218,7 @@ Playing Gambler in person is uniquely satisfying because:
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
-          tags: ['minigame', 'damage', 'control', 'psychic', 'gambler']
+          tags: ['competitive', 'minigame', 'damage', 'control', 'psychic', 'gambler', 'card-sharp']
         },
 
         targetingConfig: {
@@ -1230,7 +1230,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         resourceCost: {
           resourceTypes: ['mana'],
-          resourceValues: { mana: 8 },
+          resourceValues: { mana: 24 },
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Ludus Mortis!',
@@ -1289,7 +1289,7 @@ Playing Gambler in person is uniquely satisfying because:
           }
         },
 
-        tags: ['competitive', 'minigame', 'psychic', 'control', 'gambler', 'card-sharp']
+        tags: ['competitive', 'minigame', 'damage', 'control', 'psychic', 'gambler', 'card-sharp']
       },
 
       {
@@ -1304,7 +1304,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['damage', 'critical hit', 'self damage risk', 'gambler', 'high-roller']
         },
 
         targetingConfig: {
@@ -1317,7 +1318,9 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         resourceCost: {
-          mana: 5,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 14 },
+          actionPoints: 1,
           components: ['verbal'],
           verbalText: 'Duplica Aut Nihil!'
         },
@@ -1347,7 +1350,7 @@ Playing Gambler in person is uniquely satisfying because:
           }
         },
 
-        tags: ['damage', 'critical-hit', 'self-damage-risk', 'gambler', 'high-roller']
+        tags: ['damage', 'critical hit', 'self damage risk', 'gambler', 'high-roller']
       },
 
       {
@@ -1362,7 +1365,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['damage', 'prediction', 'skill based', 'gambler', 'card-sharp']
         },
 
         targetingConfig: {
@@ -1376,7 +1380,9 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         resourceCost: {
-          mana: 4,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 10 },
+          actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Provoco Fortunam!',
           somaticText: 'Point at target and call out number'
@@ -1385,7 +1391,7 @@ Playing Gambler in person is uniquely satisfying because:
         resolution: 'DICE',
 
         damageConfig: {
-          formula: '3d10',
+          formula: '4d6',
           elementType: 'force',
           damageType: 'direct',
           scalingType: 'accuracy_based'
@@ -1408,7 +1414,7 @@ Playing Gambler in person is uniquely satisfying because:
           }
         },
 
-        tags: ['damage', 'prediction', 'skill-based', 'gambler', 'card-sharp']
+        tags: ['damage', 'prediction', 'skill based', 'gambler', 'card-sharp']
       },
 
       {
@@ -1423,7 +1429,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['buff', 'debuff', 'coin flip', 'rollable table', 'duration', 'gambler']
         },
 
         targetingConfig: {
@@ -1438,7 +1445,8 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         resourceCost: {
-          mana: 3,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 6 },
           actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Nummus Fortunae!',
@@ -1492,7 +1500,7 @@ Playing Gambler in person is uniquely satisfying because:
           ]
         },
 
-        tags: ['buff', 'debuff', 'coin-flip', 'duration', 'gambler']
+        tags: ['buff', 'debuff', 'coin flip', 'rollable table', 'duration', 'gambler']
       },
 
       {
@@ -1507,7 +1515,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['utility', 'social', 'detection', 'gambler']
         },
 
         targetingConfig: {
@@ -1523,7 +1532,8 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         resourceCost: {
-          mana: 3,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 6 },
           actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Perspicio Verum!',
@@ -1576,7 +1586,8 @@ Playing Gambler in person is uniquely satisfying because:
 
         typeConfig: {
           castTime: 1,
-          castTimeType: 'IMMEDIATE'
+          castTimeType: 'IMMEDIATE',
+          tags: ['utility', 'illusion', 'deception', 'gambler']
         },
 
         targetingConfig: {
@@ -1591,7 +1602,8 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         resourceCost: {
-          mana: 3,
+          resourceTypes: ['mana'],
+          resourceValues: { mana: 7 },
           actionPoints: 1,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Aurum Falsum!',
@@ -1655,7 +1667,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 2 },
+        resourceValues: { mana: 3 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Luck be mine!',
@@ -1690,7 +1702,7 @@ Playing Gambler in person is uniquely satisfying because:
         }
       },
 
-      tags: ['damage', 'buff', 'coin-flip', 'level-1', 'gambler']
+      tags: ['damage', 'buff', 'coin flip', 'level 1', 'gambler']
     },
 
     {
@@ -1715,7 +1727,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 1 },
+        resourceValues: { mana: 3 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'First timer!'
@@ -1741,7 +1753,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 2
       },
 
-      tags: ['buff', 'luck', 'level-1', 'gambler']
+      tags: ['buff', 'luck', 'level 1', 'gambler']
     },
 
     {
@@ -1768,7 +1780,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 2 },
+        resourceValues: { mana: 3 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Throw enchanted die'
@@ -1778,12 +1790,12 @@ Playing Gambler in person is uniquely satisfying because:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6',
+        formula: '1d8',
         elementType: 'force',
         damageType: 'direct'
       },
 
-      tags: ['damage', 'ranged', 'level-1', 'gambler']
+      tags: ['damage', 'ranged', 'level 1', 'gambler']
     },
 
     // ========================================
@@ -1811,7 +1823,7 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 15 },
+        resourceValues: { mana: 16 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: "I'm on fire!"
@@ -1837,13 +1849,13 @@ Playing Gambler in person is uniquely satisfying because:
         value: 4
       },
 
-      tags: ['buff', 'damage', 'level-5', 'gambler']
+      tags: ['buff', 'damage', 'level 5', 'gambler']
     },
 
     {
-      id: 'gambler_double_or_nothing',
-      name: 'Double or Nothing',
-      description: 'Gamble big! Double your next spell or attack damage on heads, or deal nothing on tails.',
+      id: 'gambler_mirage_flip',
+      name: 'Mirage Flip',
+      description: 'Flip a coin to double or nullify your next spell or attack damage.',
       level: 5,
       spellType: 'REACTION',
       icon: 'Utility/Utility',
@@ -1862,20 +1874,20 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 12 },
-        actionPoints: 0,
-        components: ['verbal'],
-        verbalText: 'Double or nothing!'
-      },
+          resourceValues: { mana: 17 },
+          actionPoints: 0,
+          components: ['verbal'],
+          verbalText: 'Double or nothing!'
+        },
 
-      resolution: 'COIN_FLIP',
-      effectTypes: ['buff'],
+        resolution: 'COIN_FLIP',
+        effectTypes: ['buff'],
 
-      buffConfig: {
-        buffType: 'damage_modifier',
-        effects: [{
-          id: 'double_damage',
-          name: 'Double Damage',
+        buffConfig: {
+          buffType: 'damage_modifier',
+          effects: [{
+            id: 'mirage_flip_double',
+            name: 'Mirage Flip Double',
           description: 'On heads: double damage. On tails: zero damage.'
         }]
       },
@@ -1893,13 +1905,13 @@ Playing Gambler in person is uniquely satisfying because:
         value: 3
       },
 
-      tags: ['buff', 'coin-flip', 'high-risk', 'level-5', 'gambler']
+      tags: ['buff', 'coin flip', 'high risk', 'level 5', 'gambler']
     },
 
     {
-      id: 'gambler_loaded_dice',
-      name: 'Loaded Dice',
-      description: 'Subtly manipulate the odds. Reroll any dice you roll this turn and take the better result.',
+      id: 'gambler_fate_reroll',
+      name: 'Fate Reroll',
+      description: 'Reroll any dice you roll this turn and take the better result.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Social/Dice Roll',
@@ -1918,20 +1930,20 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 14 },
-        actionPoints: 0,
-        components: ['somatic'],
-        somaticText: 'Sleight of hand'
-      },
+          resourceValues: { mana: 18 },
+          actionPoints: 0,
+          components: ['somatic'],
+          somaticText: 'Sleight of hand'
+        },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+        resolution: 'NONE',
+        effectTypes: ['buff'],
 
-      buffConfig: {
-        buffType: 'reroll',
-        effects: [{
-          id: 'loaded_dice',
-          name: 'Loaded Dice',
+        buffConfig: {
+          buffType: 'reroll',
+          effects: [{
+            id: 'fate_reroll',
+            name: 'Fate Reroll',
           description: 'Reroll any dice this turn and take the better result.'
         }],
         durationValue: 1,
@@ -1944,7 +1956,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 4
       },
 
-      tags: ['buff', 'reroll', 'level-5', 'gambler']
+      tags: ['buff', 'reroll', 'level 5', 'gambler']
     },
 
     // ========================================
@@ -1976,10 +1988,10 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 22 },
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'The house always wins!',
+          resourceValues: { mana: 20 },
+          actionPoints: 2,
+          components: ['verbal', 'somatic'],
+          verbalText: 'The house always wins!',
         somaticText: 'Card dealer gesture'
       },
 
@@ -2018,7 +2030,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 5
       },
 
-      tags: ['debuff', 'buff', 'luck', 'level-6', 'gambler']
+      tags: ['debuff', 'buff', 'luck', 'level 6', 'gambler']
     },
 
     {
@@ -2045,16 +2057,16 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
-        actionPoints: 1,
-        components: ['somatic'],
-        somaticText: 'Draw a card'
-      },
+          resourceValues: { mana: 22 },
+          actionPoints: 1,
+          components: ['somatic'],
+          somaticText: 'Draw a card'
+        },
 
-      resolution: 'DICE',
-      effectTypes: ['utility'],
+        resolution: 'DICE',
+        effectTypes: ['utility'],
 
-      rollableTable: {
+        rollableTable: {
         diceFormula: '1d4',
         entries: [
           { 
@@ -2085,7 +2097,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 3
       },
 
-      tags: ['damage', 'healing', 'control', 'variable', 'level-6', 'gambler']
+      tags: ['damage', 'healing', 'control', 'variable', 'rollable table', 'level 6', 'gambler']
     },
 
     {
@@ -2110,10 +2122,10 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
-        actionPoints: 0,
-        components: ['somatic'],
-        somaticText: 'Assume poker face'
+          resourceValues: { mana: 20 },
+          actionPoints: 0,
+          components: ['somatic'],
+          somaticText: 'Assume poker face'
       },
 
       resolution: 'NONE',
@@ -2136,7 +2148,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 4
       },
 
-      tags: ['buff', 'immunity', 'mental', 'level-6', 'gambler']
+      tags: ['buff', 'immunity', 'mental', 'level 6', 'gambler']
     },
 
     // ========================================
@@ -2166,18 +2178,18 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'High stakes!',
-        somaticText: 'Roll the divine die'
-      },
+          resourceValues: { mana: 32 },
+          actionPoints: 2,
+          components: ['verbal', 'somatic'],
+          verbalText: 'High stakes!',
+          somaticText: 'Roll the divine die'
+        },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+        resolution: 'DICE',
+        effectTypes: ['damage'],
 
-      damageConfig: {
-        formula: '15d10 + charisma * 2',
+        damageConfig: {
+          formula: '18d6 + charisma',
         elementType: 'force',
         damageType: 'direct'
       },
@@ -2196,7 +2208,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 1
       },
 
-      tags: ['damage', 'high-risk', 'high-reward', 'level-9', 'gambler']
+      tags: ['damage', 'high risk', 'high reward', 'level 9', 'gambler']
     },
 
     {
@@ -2225,18 +2237,18 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
-        actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'JACKPOT!',
-        somaticText: 'Pull the lever'
-      },
+          resourceValues: { mana: 34 },
+          actionPoints: 3,
+          components: ['verbal', 'somatic'],
+          verbalText: 'JACKPOT!',
+          somaticText: 'Pull the lever'
+        },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+        resolution: 'DICE',
+        effectTypes: ['damage'],
 
-      damageConfig: {
-        formula: '8d8 + charisma',
+        damageConfig: {
+          formula: '16d6 + charisma',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2262,7 +2274,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'high-reward', 'level-9', 'gambler']
+      tags: ['damage', 'aoe', 'high reward', 'level 9', 'gambler']
     },
 
     {
@@ -2289,10 +2301,10 @@ Playing Gambler in person is uniquely satisfying because:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 60 },
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Fortune flip!',
+          resourceValues: { mana: 34 },
+          actionPoints: 2,
+          components: ['verbal', 'somatic'],
+          verbalText: 'Fortune flip!',
         somaticText: 'Dramatic coin flip'
       },
 
@@ -2311,7 +2323,7 @@ Playing Gambler in person is uniquely satisfying because:
         value: 1
       },
 
-      tags: ['utility', 'coin-flip', 'high-risk', 'level-9', 'gambler']
+      tags: ['utility', 'coin flip', 'high risk', 'level 9', 'gambler']
     },
 
     // ADDITIONAL LEVEL 3 SPELLS
@@ -2326,7 +2338,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Utility/Utility',
-        tags: ['damage', 'coin-flip', 'universal'],
+        tags: ['damage', 'coin flip', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2340,7 +2352,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '4d8',
+        formula: '4d6',
         elementType: 'force',
         damageType: 'direct'
       },
@@ -2348,7 +2360,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 18
+          mana: 10
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2360,7 +2372,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin-flip', 'universal']
+      tags: ['damage', 'coin flip', 'universal']
     },
 
     {
@@ -2374,7 +2386,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'enhancement',
         icon: 'Social/Dice Roll',
-        tags: ['buff', 'coin-flip', 'risky', 'universal'],
+        tags: ['buff', 'coin flip', 'risky', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2406,7 +2418,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 18
+          mana: 10
         },
         actionPoints: 1
       },
@@ -2417,7 +2429,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['buff', 'coin-flip', 'risky', 'universal']
+      tags: ['buff', 'coin flip', 'risky', 'universal']
     },
 
     {
@@ -2431,7 +2443,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Utility/Utility',
-        tags: ['damage', 'coin-flip', 'high-risk', 'universal'],
+        tags: ['damage', 'coin flip', 'high risk', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2445,7 +2457,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '5d10',
+        formula: '4d6',
         elementType: 'force',
         damageType: 'direct'
       },
@@ -2453,7 +2465,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 20
+          mana: 11
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2465,7 +2477,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin-flip', 'high-risk', 'universal']
+      tags: ['damage', 'coin flip', 'high risk', 'universal']
     },
 
     // ADDITIONAL LEVEL 4 SPELLS
@@ -2480,7 +2492,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'divination',
         icon: 'Radiant/Divine Radiance',
-        tags: ['buff', 'coin-flip', 'fortune', 'universal'],
+        tags: ['buff', 'coin flip', 'fortune', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2512,7 +2524,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 22
+          mana: 14
         },
         actionPoints: 1
       },
@@ -2523,7 +2535,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['buff', 'coin-flip', 'fortune', 'universal']
+      tags: ['buff', 'coin flip', 'fortune', 'universal']
     },
 
     {
@@ -2537,7 +2549,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Utility/Utility',
-        tags: ['damage', 'coin-flip', 'jackpot', 'universal'],
+        tags: ['damage', 'coin flip', 'jackpot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2551,7 +2563,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '6d12',
+        formula: '6d6',
         elementType: 'force',
         damageType: 'direct',
         criticalConfig: {
@@ -2564,7 +2576,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 24
+          mana: 15
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2576,14 +2588,14 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin-flip', 'jackpot', 'universal']
+      tags: ['damage', 'coin flip', 'jackpot', 'universal']
     },
 
     // ADDITIONAL LEVEL 7 SPELL
     {
-      id: 'gambler_all_in',
-      name: 'All In',
-      description: 'Go all in - on heads deal damage to all enemies, on tails take damage yourself.',
+      id: 'gambler_all_or_nothing',
+      name: 'All or Nothing',
+      description: 'Flip a coin to unleash devastating force on all enemies or take damage yourself.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2591,7 +2603,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Utility/Utility',
-        tags: ['damage', 'aoe', 'coin-flip', 'ultimate', 'universal'],
+        tags: ['damage', 'aoe', 'coin flip', 'ultimate', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2606,19 +2618,19 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '10d10',
+        formula: '12d6',
         elementType: 'force',
         damageType: 'area',
         criticalConfig: {
           critType: 'effect',
-          critEffects: ['all_in_stun']
+          critEffects: ['all_or_nothing_stun']
         }
       },
 
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 45
+          mana: 25
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2630,14 +2642,14 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['damage', 'aoe', 'coin-flip', 'ultimate', 'universal']
+      tags: ['damage', 'aoe', 'coin flip', 'ultimate', 'universal']
     },
 
     // ADDITIONAL LEVEL 8 SPELL
     {
-      id: 'gambler_loaded_dice',
-      name: 'Loaded Dice',
-      description: 'Use loaded dice to guarantee success - automatically deal damage with no gamble.',
+      id: 'gambler_weighted_dice',
+      name: 'Weighted Dice',
+      description: 'Use weighted dice to guarantee a devastating hit with no gamble.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2659,7 +2671,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '8d10',
+        formula: '14d6',
         elementType: 'force',
         damageType: 'direct',
         criticalConfig: {
@@ -2672,7 +2684,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 50
+          mana: 28
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2691,7 +2703,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_divine_jackpot',
       name: 'Divine Jackpot',
-      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take 20d12 force damage.',
+      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take 20d6 force damage.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2699,7 +2711,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Utility/Utility',
-        tags: ['damage', 'coin-flip', 'ultimate', 'jackpot', 'universal'],
+        tags: ['damage', 'coin flip', 'ultimate', 'jackpot', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2714,7 +2726,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       damageConfig: {
-        formula: '20d12',
+        formula: '20d6',
         elementType: 'force',
         damageType: 'area',
         criticalConfig: {
@@ -2726,7 +2738,7 @@ Playing Gambler in person is uniquely satisfying because:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 100
+          mana: 38
         },
         actionPoints: 3,
         components: ['verbal', 'somatic']
@@ -2738,7 +2750,7 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin-flip', 'ultimate', 'jackpot', 'universal']
+      tags: ['damage', 'coin flip', 'ultimate', 'jackpot', 'universal']
     }
   ]
 };

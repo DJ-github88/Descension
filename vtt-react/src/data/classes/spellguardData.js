@@ -971,7 +971,7 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['defense', 'shield', 'aep-cost', 'self-buff']
+      tags: ['defense', 'shield', 'aep cost', 'self buff']
     },
 
     {
@@ -1028,13 +1028,13 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['defense', 'reflection', 'reaction', 'aep-cost', 'anti-mage']
+      tags: ['defense', 'reflection', 'reaction', 'aep cost', 'anti mage']
     },
 
     {
       id: 'sg_barrier_of_protection',
       name: 'Barrier of Protection',
-      description: 'Create a protective barrier around all allies within range. The arcane energy forms shimmering shields that envelop each ally, absorbing incoming damage and protecting them from harm. The barriers pulse with protective magic.',
+      description: 'Create a protective barrier around all allies within range that absorbs incoming damage.',
       spellType: 'ACTION',
       icon: 'Healing/Prayer',
       school: 'Abjuration',
@@ -1059,7 +1059,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 6,
+        mana: 10,
         classResource: {
           type: 'arcane_energy_points',
           cost: 15
@@ -1091,14 +1091,14 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['defense', 'shield', 'aoe', 'aep-cost', 'ally-protection']
+      tags: ['defense', 'shield', 'aoe', 'aep cost', 'ally protection']
     },
 
     // OFFENSIVE SPELLS
     {
       id: 'sg_empowered_strike',
       name: 'Empowered Strike',
-      description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional arcane damage. The strike also drains additional mana from the target.',
+      description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional arcane damage and draining mana from the target.',
       spellType: 'ACTION',
       icon: 'General/Rage',
       school: 'Evocation',
@@ -1121,7 +1121,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 5,
+        mana: 4,
         classResource: {
           type: 'arcane_energy_points',
           cost: 15
@@ -1134,7 +1134,7 @@ Many players enhance the Spellguard experience with:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6',
+        formula: '1d8',
         damageType: 'arcane',
         scalingType: 'none'
       },
@@ -1142,24 +1142,24 @@ Many players enhance the Spellguard experience with:
       effects: {
         damage: {
           instant: {
-            formula: '2d6',
+            formula: '1d8',
             type: 'arcane',
             additionalToMelee: true
           }
         },
         manaDrain: {
-          amount: '2d6',
+          amount: '1d8',
           description: 'Drains additional mana equal to arcane damage dealt'
         }
       },
 
-      tags: ['damage', 'melee', 'arcane', 'aep-cost', 'mana-drain']
+      tags: ['damage', 'melee', 'arcane', 'aep cost', 'mana drain']
     },
 
     {
       id: 'sg_arcane_nova',
       name: 'Arcane Nova',
-      description: 'Release stored arcane energy in a devastating burst around you. The accumulated magical power explodes outward in a wave of pure arcane force, damaging enemies and disrupting their spellcasting. The burst leaves a lingering field that weakens magical attacks.',
+      description: 'Release stored arcane energy in a burst around you, damaging enemies and weakening their spellcasting.',
       spellType: 'ACTION',
       icon: 'Arcane/Magical Sword',
       school: 'Evocation',
@@ -1183,7 +1183,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 8,
+        mana: 14,
         classResource: {
           type: 'arcane_energy_points',
           cost: 25
@@ -1224,7 +1224,7 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['damage', 'aoe', 'arcane', 'aep-cost', 'debuff']
+      tags: ['damage', 'aoe', 'arcane', 'aep cost', 'debuff']
     },
 
     {
@@ -1253,7 +1253,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 5,
+        mana: 10,
         classResource: {
           type: 'arcane_energy_points',
           cost: 15
@@ -1287,7 +1287,7 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['damage', 'melee', 'arcane', 'aep-cost', 'silence', 'anti-mage']
+      tags: ['damage', 'melee', 'arcane', 'aep cost', 'silence', 'anti mage']
     },
 
     // UTILITY SPELLS
@@ -1344,7 +1344,7 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['healing', 'utility', 'aep-cost', 'support']
+      tags: ['healing', 'utility', 'aep cost', 'support']
     },
 
     {
@@ -1397,13 +1397,13 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['buff', 'resistance', 'utility', 'aep-cost', 'protection']
+      tags: ['buff', 'resistance', 'utility', 'aep cost', 'protection']
     },
 
     {
       id: 'sg_spell_disruption',
       name: 'Spell Disruption',
-      description: 'Disrupt an enemy spell being cast, causing it to fail. You sense the magical energy gathering and strike at the perfect moment, severing the connection between the caster and their spell. The disrupted magic fizzles harmlessly.',
+      description: 'Disrupt an enemy spell being cast, causing it to fail.',
       spellType: 'REACTION',
       icon: 'Necrotic/Necrotic Skull',
       school: 'Abjuration',
@@ -1427,7 +1427,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 5,
+        mana: 10,
         classResource: {
           type: 'arcane_energy_points',
           cost: 15
@@ -1447,13 +1447,13 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['counterspell', 'reaction', 'utility', 'aep-cost', 'anti-mage']
+      tags: ['counterspell', 'reaction', 'utility', 'aep cost', 'anti mage']
     },
 
     {
       id: 'sg_reflective_aura',
       name: 'Reflective Aura',
-      description: 'Create an aura around yourself that reflects spell damage back at attackers. The reflective field shimmers with arcane energy, catching incoming spells and turning them back against their casters. The aura has a limited capacity before it dissipates.',
+      description: 'Create an aura around yourself that reflects spell damage back at attackers for 1 minute.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Golden Shield',
       school: 'Abjuration',
@@ -1498,7 +1498,7 @@ Many players enhance the Spellguard experience with:
         }
       },
 
-      tags: ['buff', 'reflection', 'aura', 'aep-cost', 'anti-mage']
+      tags: ['buff', 'reflection', 'aura', 'aep cost', 'anti mage']
     },
 
     // ULTIMATE SPELLS
@@ -1527,7 +1527,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 8,
+        mana: 18,
         classResource: {
           type: 'arcane_energy_points',
           cost: 25
@@ -1555,13 +1555,13 @@ Many players enhance the Spellguard experience with:
         charges: 1
       },
 
-      tags: ['defense', 'immunity', 'ultimate', 'aep-cost', 'anti-mage']
+      tags: ['defense', 'immunity', 'ultimate', 'aep cost', 'anti mage']
     },
 
     {
       id: 'sg_magic_nullification',
       name: 'Magic Nullification',
-      description: 'Create an anti-magic zone centered on yourself. The area becomes a void of magical energy, suppressing all spells and magical effects. Enemies within the zone find their magic completely nullified, unable to cast spells or benefit from magical effects.',
+      description: 'Create an anti-magic zone centered on yourself that suppresses all spells and magical effects.',
       spellType: 'ACTION',
       icon: 'Necrotic/Protective Aura',
       school: 'Abjuration',
@@ -1585,7 +1585,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 6,
+        mana: 18,
         classResource: {
           type: 'arcane_energy_points',
           cost: 20
@@ -1617,13 +1617,13 @@ Many players enhance the Spellguard experience with:
         charges: 1
       },
 
-      tags: ['zone', 'anti-magic', 'ultimate', 'aep-cost', 'control']
+      tags: ['zone', 'anti magic', 'ultimate', 'aep cost', 'control']
     },
 
     {
       id: 'sg_spell_reflection',
       name: 'Spell Reflection',
-      description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The magical energy is caught and amplified, turning the caster\'s own spell against them with devastating force. The reflection cannot be countered.',
+      description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The reflection cannot be countered.',
       spellType: 'REACTION',
       icon: 'Arcane/Quick Step',
       school: 'Abjuration',
@@ -1645,7 +1645,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 6,
+        mana: 14,
         classResource: {
           type: 'arcane_energy_points',
           cost: 15
@@ -1673,13 +1673,13 @@ Many players enhance the Spellguard experience with:
         charges: 1
       },
 
-      tags: ['reflection', 'reaction', 'ultimate', 'aep-cost', 'anti-mage']
+      tags: ['reflection', 'reaction', 'ultimate', 'aep cost', 'anti mage']
     },
 
     {
       id: 'sg_control_magic',
       name: 'Control Magic',
-      description: 'Take control of a newly summoned creature or magical construct. You seize the magical bonds that hold the creature, twisting them to serve you instead. The creature becomes your servant, following your commands until the control is broken or dismissed.',
+      description: 'Take control of a newly summoned creature or magical construct, turning it against its summoner.',
       spellType: 'REACTION',
       icon: 'Psychic/Mind Control',
       school: 'Enchantment',
@@ -1704,7 +1704,7 @@ Many players enhance the Spellguard experience with:
       },
 
       resourceCost: {
-        mana: 7,
+        mana: 14,
         classResource: {
           type: 'arcane_energy_points',
           cost: 20
@@ -1738,7 +1738,7 @@ Many players enhance the Spellguard experience with:
         charges: 1
       },
 
-      tags: ['control', 'charm', 'reaction', 'aep-cost', 'anti-mage', 'ultimate']
+      tags: ['control', 'charm', 'reaction', 'aep cost', 'anti mage', 'ultimate']
     },
 
     // ========================================
@@ -1768,7 +1768,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 25, aep: 20 },
+        resourceValues: { mana: 22, aep: 15 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Grasp the magic'
@@ -1790,12 +1790,12 @@ Many players enhance the Spellguard experience with:
         value: 4
       },
 
-      tags: ['utility', 'anti-mage', 'counter', 'level-6', 'spellguard']
+      tags: ['utility', 'anti mage', 'counter', 'level 6', 'spellguard']
     },
 
     {
-      id: 'spellguard_arcane_fortress',
-      name: 'Arcane Fortress',
+      id: 'spellguard_arcane_bastion',
+      name: 'Arcane Bastion',
       description: 'Create a fortress of magical energy that protects all allies within from magical attacks.',
       level: 6,
       spellType: 'ACTION',
@@ -1818,7 +1818,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 30, aep: 25 },
+        resourceValues: { mana: 24, aep: 18 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Arx Magica!',
@@ -1831,8 +1831,8 @@ Many players enhance the Spellguard experience with:
       buffConfig: {
         buffType: 'spell_resistance',
         effects: [{
-          id: 'arcane_fortress',
-          name: 'Arcane Fortress',
+          id: 'arcane_bastion',
+          name: 'Arcane Bastion',
           description: 'Allies gain resistance to spell damage and advantage on saves vs magic'
         }],
         durationValue: 5,
@@ -1847,7 +1847,7 @@ Many players enhance the Spellguard experience with:
         value: 5
       },
 
-      tags: ['buff', 'protection', 'aoe', 'level-6', 'spellguard']
+      tags: ['buff', 'protection', 'aoe', 'level 6', 'spellguard']
     },
 
     {
@@ -1875,7 +1875,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 22 },
         actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Drain!'
@@ -1885,7 +1885,7 @@ Many players enhance the Spellguard experience with:
       effectTypes: ['damage', 'utility'],
 
       damageConfig: {
-        formula: '4d8',
+        formula: '8d6',
         elementType: 'force',
         damageType: 'mana_drain',
         savingThrowConfig: {
@@ -1909,7 +1909,7 @@ Many players enhance the Spellguard experience with:
         value: 3
       },
 
-      tags: ['damage', 'utility', 'mana-drain', 'aoe', 'level-6', 'spellguard']
+      tags: ['damage', 'utility', 'mana drain', 'aoe', 'level 6', 'spellguard']
     },
 
     // ========================================
@@ -1940,7 +1940,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 40, aep: 30 },
+        resourceValues: { mana: 26, aep: 20 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'NULLUM MAGICUM!',
@@ -1970,13 +1970,13 @@ Many players enhance the Spellguard experience with:
         value: 6
       },
 
-      tags: ['zone', 'control', 'anti-magic', 'level-7', 'spellguard']
+      tags: ['zone', 'control', 'anti magic', 'level 7', 'spellguard']
     },
 
     {
-      id: 'spellguard_spell_reflection',
-      name: 'Spell Reflection',
-      description: 'Create a barrier that reflects spells back at their casters.',
+      id: 'spellguard_supreme_reflection',
+      name: 'Supreme Reflection',
+      description: 'Create a barrier that reflects spells back at their casters with devastating force.',
       level: 7,
       spellType: 'REACTION',
       icon: 'Frost/Circular Frost Explosion',
@@ -1995,7 +1995,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 35, aep: 25 },
+        resourceValues: { mana: 26, aep: 18 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Mirror gesture'
@@ -2007,8 +2007,8 @@ Many players enhance the Spellguard experience with:
       buffConfig: {
         buffType: 'reflection',
         effects: [{
-          id: 'spell_reflection',
-          name: 'Spell Reflection',
+          id: 'supreme_reflection',
+          name: 'Supreme Reflection',
           description: 'The next spell targeting you is reflected back at the caster with full effect'
         }],
         durationValue: 1,
@@ -2021,13 +2021,13 @@ Many players enhance the Spellguard experience with:
         value: 4
       },
 
-      tags: ['buff', 'reflection', 'anti-mage', 'level-7', 'spellguard']
+      tags: ['buff', 'reflection', 'anti mage', 'level 7', 'spellguard']
     },
 
     {
       id: 'spellguard_arcane_overload',
       name: 'Arcane Overload',
-      description: 'Overload a spellcaster with arcane energy, causing them to take 8d10 + intelligence force damage (plus bonus damage equal to target\'s remaining mana, max 50).',
+      description: 'Overload a spellcaster with arcane energy, dealing force damage plus bonus damage equal to their remaining mana.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Arcane/Empowering Growth',
@@ -2048,7 +2048,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 40, aep: 30 },
+        resourceValues: { mana: 28, aep: 20 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'OVERLOAD!'
@@ -2058,7 +2058,7 @@ Many players enhance the Spellguard experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d10 + intelligence',
+        formula: '12d6 + intelligence',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2074,7 +2074,7 @@ Many players enhance the Spellguard experience with:
           enabled: true,
           critType: 'dice',
           critMultiplier: 2.5,
-          extraDice: '4d10',
+          extraDice: '6d6',
           critEffects: ['mana_drain']
         }
       },
@@ -2084,7 +2084,7 @@ Many players enhance the Spellguard experience with:
         value: 4
       },
 
-      tags: ['damage', 'anti-mage', 'level-7', 'spellguard']
+      tags: ['damage', 'anti mage', 'level 7', 'spellguard']
     },
 
     // ========================================
@@ -2114,7 +2114,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 50, aep: 35 },
+        resourceValues: { mana: 30, aep: 25 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'BANE OF MAGES!'
@@ -2144,7 +2144,7 @@ Many players enhance the Spellguard experience with:
         value: 5
       },
 
-      tags: ['debuff', 'anti-mage', 'mark', 'level-8', 'spellguard']
+      tags: ['debuff', 'anti mage', 'mark', 'level 8', 'spellguard']
     },
 
     {
@@ -2171,7 +2171,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 55, aep: 40 },
+        resourceValues: { mana: 30, aep: 25 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Create perfect shield'
@@ -2197,13 +2197,13 @@ Many players enhance the Spellguard experience with:
         value: 5
       },
 
-      tags: ['buff', 'protection', 'reaction', 'level-8', 'spellguard']
+      tags: ['buff', 'protection', 'reaction', 'level 8', 'spellguard']
     },
 
     {
       id: 'spellguard_arcane_annihilation',
       name: 'Arcane Annihilation',
-      description: 'Unleash devastating arcane power that destroys magical defenses and deals 12d8 + intelligence × 2 force damage.',
+      description: 'Unleash devastating arcane power that destroys magical defenses and deals force damage to all enemies in range.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Arcane/Magical Sword',
@@ -2226,7 +2226,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 60, aep: 50 },
+        resourceValues: { mana: 32, aep: 30 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'ARCANE ANNIHILATION!',
@@ -2237,7 +2237,7 @@ Many players enhance the Spellguard experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d8 + intelligence * 2',
+        formula: '14d6 + intelligence',
         elementType: 'force',
         damageType: 'area',
         savingThrowConfig: {
@@ -2253,7 +2253,7 @@ Many players enhance the Spellguard experience with:
           enabled: true,
           critType: 'dice',
           critMultiplier: 3.0,
-          extraDice: '6d8',
+          extraDice: '8d6',
           critEffects: ['spell_destruction', 'stun']
         }
       },
@@ -2263,7 +2263,7 @@ Many players enhance the Spellguard experience with:
         value: 5
       },
 
-      tags: ['damage', 'aoe', 'anti-magic', 'level-8', 'spellguard']
+      tags: ['damage', 'aoe', 'anti magic', 'level 8', 'spellguard']
     },
 
     // ========================================
@@ -2293,7 +2293,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 70, aep: 60 },
+        resourceValues: { mana: 34, aep: 35 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'ABSOLUTE NEGATION!'
@@ -2314,7 +2314,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['utility', 'counter', 'control', 'ultimate', 'level-9', 'spellguard']
+      tags: ['utility', 'counter', 'control', 'ultimate', 'level 9', 'spellguard']
     },
 
     {
@@ -2341,7 +2341,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 75, aep: 60 },
+        resourceValues: { mana: 36, aep: 35 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'PRISON OF MAGIC!',
@@ -2371,7 +2371,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['control', 'imprisonment', 'ultimate', 'level-9', 'spellguard']
+      tags: ['control', 'imprisonment', 'ultimate', 'level 9', 'spellguard']
     },
 
     {
@@ -2398,7 +2398,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 80, aep: 70 },
+        resourceValues: { mana: 36, aep: 40 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'CONSUME ALL MAGIC!'
@@ -2419,7 +2419,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['utility', 'buff', 'dispel', 'ultimate', 'level-9', 'spellguard']
+      tags: ['utility', 'buff', 'dispel', 'ultimate', 'level 9', 'spellguard']
     },
 
     // ========================================
@@ -2447,7 +2447,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 100, aep: 'all' },
+        resourceValues: { mana: 40, aep: 50 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'I AM THE END OF MAGIC!'
@@ -2480,7 +2480,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['transformation', 'anti-magic', 'ultimate', 'level-10', 'spellguard']
+      tags: ['transformation', 'anti magic', 'ultimate', 'level 10', 'spellguard']
     },
 
     {
@@ -2507,7 +2507,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 100, aep: 80 },
+        resourceValues: { mana: 40, aep: 50 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'REALITY IS ANCHORED!',
@@ -2530,7 +2530,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['zone', 'control', 'ultimate', 'level-10', 'spellguard']
+      tags: ['zone', 'control', 'ultimate', 'level 10', 'spellguard']
     },
 
     {
@@ -2557,7 +2557,7 @@ Many players enhance the Spellguard experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
-        resourceValues: { mana: 100, aep: 100 },
+        resourceValues: { mana: 40, aep: 50 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'ALL MAGIC ENDS!'
@@ -2580,7 +2580,7 @@ Many players enhance the Spellguard experience with:
         value: 1
       },
 
-      tags: ['utility', 'dispel', 'ultimate', 'level-10', 'spellguard']
+      tags: ['utility', 'dispel', 'ultimate', 'level 10', 'spellguard']
     },
 
     // ADDITIONAL LEVEL 5 SPELL
@@ -2595,7 +2595,6 @@ Many players enhance the Spellguard experience with:
       typeConfig: {
         school: 'abjuration',
         icon: 'Force/Force Field',
-        tags: ['buff', 'shield', 'reflection', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2625,7 +2624,7 @@ Many players enhance the Spellguard experience with:
       resourceCost: {
         resourceTypes: ['mana', 'aep'],
         resourceValues: {
-          mana: 25,
+          mana: 18,
           aep: 20
         },
         actionPoints: 1,

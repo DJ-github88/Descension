@@ -1841,7 +1841,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '2d6 + intelligence',
+        formula: '1d8 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         savingThrowConfig: {
@@ -1877,7 +1877,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -1927,7 +1927,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2000,7 +2000,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '3d6 + intelligence',
+        formula: '2d8 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         criticalConfig: {
@@ -2022,7 +2022,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 7 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2077,7 +2077,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 2,
         components: ['somatic']
@@ -2133,7 +2133,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 7 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2193,7 +2193,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 15 },
+        resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2221,7 +2221,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '5d8 + intelligence * 1.5',
+        formula: '4d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         criticalConfig: {
@@ -2245,7 +2245,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceValues: { mana: 12 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2303,7 +2303,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 16 },
+        resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2332,7 +2332,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '6d8 + intelligence * 2',
+        formula: '6d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         criticalConfig: {
@@ -2357,7 +2357,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 22 },
+        resourceValues: { mana: 14 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2385,7 +2385,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '3d6 + intelligence',
+        formula: '5d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct'
       },
@@ -2418,7 +2418,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 16 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2500,14 +2500,14 @@ Many players enhance the Lichborne experience with:
         breakEffect: 'none'
       },
       damageConfig: {
-        formula: '4d6 + intelligence',
+        formula: '8d6 + intelligence',
         elementType: 'frost',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
           tickFrequency: 'round',
-          dotFormula: '4d6 + intelligence',
+          dotFormula: '8d6 + intelligence',
           isProgressiveDot: false
         }
       },
@@ -2538,13 +2538,13 @@ Many players enhance the Lichborne experience with:
       },
       channelingConfig: {
         type: 'persistent',
-        baseFormula: '4d6 + intelligence',
+        baseFormula: '8d6 + intelligence',
         tickFrequency: 'round',
         maxDuration: 3
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
+        resourceValues: { mana: 18 },
         useFormulas: {},
         actionPoints: 2,
         channelingFrequency: 'per_round',
@@ -2597,7 +2597,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 22 },
+        resourceValues: { mana: 18 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2647,7 +2647,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 16 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2676,7 +2676,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '5d8 + intelligence * 1.5',
+        formula: '9d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct'
       },
@@ -2702,7 +2702,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 22 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2773,7 +2773,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 32 },
+        resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2854,7 +2854,7 @@ Many players enhance the Lichborne experience with:
         leaveTrail: false
       },
       damageConfig: {
-        formula: '6d6 + intelligence',
+        formula: '12d6 + intelligence',
         elementType: 'frost',
         damageType: 'area',
         criticalConfig: {
@@ -2906,7 +2906,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 38 },
+        resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2930,7 +2930,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Orb',
-        tags: ['control', 'multi-target', 'cold', 'lichborne'],
+        tags: ['control', 'multi target', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2962,7 +2962,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 25 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2972,7 +2972,7 @@ Many players enhance the Lichborne experience with:
         value: 4
       },
       resolution: 'DICE',
-      tags: ['control', 'multi-target', 'cold', 'lichborne']
+      tags: ['control', 'multi target', 'cold', 'lichborne']
     },
 
     {
@@ -2991,7 +2991,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '10d8 + intelligence * 2 + phylactery_hp',
+        formula: '14d6 + intelligence + phylactery_hp',
         elementType: 'necrotic',
         secondaryElementType: 'frost',
         damageType: 'direct',
@@ -3037,7 +3037,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '12d8 + intelligence * 2',
+        formula: '14d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         savingThrowConfig: {
@@ -3079,7 +3079,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 30 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -3103,7 +3103,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Icey wall',
-        tags: ['control', 'single-target', 'cold', 'lichborne'],
+        tags: ['control', 'single target', 'cold', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3136,7 +3136,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
@@ -3146,7 +3146,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['control', 'single-target', 'cold', 'lichborne']
+      tags: ['control', 'single target', 'cold', 'lichborne']
     },
 
     {
@@ -3167,7 +3167,7 @@ Many players enhance the Lichborne experience with:
         maxTriggers: -1
       },
       damageConfig: {
-        formula: '4d6 + intelligence',
+        formula: '13d6 + intelligence',
         elementType: 'frost',
         secondaryElementType: 'necrotic',
         damageType: 'area',
@@ -3203,7 +3203,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 42 },
+        resourceValues: { mana: 32 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -3232,7 +3232,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '15d10 + intelligence * 3',
+        formula: '18d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         savingThrowConfig: {
@@ -3275,9 +3275,9 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 35 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A crystal from the elemental plane of ice'
       },
@@ -3384,7 +3384,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '15d10 + intelligence * 3 + phylactery_hp * 2',
+        formula: '20d6 + intelligence + phylactery_hp',
         elementType: 'necrotic',
         secondaryElementType: 'frost',
         damageType: 'direct',
@@ -3404,7 +3404,7 @@ Many players enhance the Lichborne experience with:
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
@@ -3460,9 +3460,9 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 65 },
+        resourceValues: { mana: 38 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of a time elemental'
       },
@@ -3484,7 +3484,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Protective Aura',
-        tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne'],
+        tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne', 'toggleable'],
         toggleable: true
       },
       utilityConfig: {
@@ -3547,7 +3547,7 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '20d12 + intelligence * 4',
+        formula: '25d6 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
         savingThrowConfig: {
@@ -3601,9 +3601,9 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 40 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A shard of the primordial ice, worth 50,000 gold'
       },

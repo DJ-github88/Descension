@@ -1028,7 +1028,7 @@ Many players enhance the Oracle experience with:
         secondary: 'If you make a prediction about the outcome before rolling, gain +1 Vision if correct'
       },
 
-      tags: ['seer', 'divination', 'advantage', 'self-buff']
+      tags: ['seer', 'divination', 'advantage', 'self buff']
     },
 
     {
@@ -1075,13 +1075,13 @@ Many players enhance the Oracle experience with:
         secondary: 'If they succeed, you gain 1 Vision back'
       },
 
-      tags: ['seer', 'divination', 'ally-buff', 'reaction']
+      tags: ['seer', 'divination', 'ally buff', 'reaction']
     },
 
     {
       id: 'oracle_prophecy_of_doom',
       name: 'Prophecy of Doom',
-      description: 'Declare a dire prophecy about an enemy\'s fate. Your words weave a web of destiny around them, and if your prediction comes true, they suffer the prophesied doom. The weight of fate itself presses down upon them, filling them with dread.',
+      description: 'Declare a prophecy about an enemy\'s fate. If the predicted event occurs, the target suffers psychic damage and is frightened.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
       school: 'Divination',
@@ -1199,7 +1199,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_truth',
       name: 'Reveal Truth',
-      description: 'Compel a creature to speak only truth. The power of truth itself forces them to answer honestly, unable to lie or deceive. Your question cuts through all falsehoods, revealing what they desperately try to hide.',
+      description: 'Compel a creature to speak only truth. The target must answer one question honestly, unable to lie or mislead.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Beam',
       school: 'Divination',
@@ -1340,7 +1340,7 @@ Many players enhance the Oracle experience with:
         tertiary: 'Gain 1 Vision for each hidden creature or illusion revealed (max 3 per casting)'
       },
 
-      tags: ['truthseeker', 'divination', 'detection', 'anti-illusion']
+      tags: ['truthseeker', 'divination', 'detection', 'anti illusion']
     },
 
     // ===== FATEWEAVER SPECIALIZATION =====
@@ -1494,7 +1494,7 @@ Many players enhance the Oracle experience with:
         note: 'This is the ultimate fate manipulation - use wisely'
       },
 
-      tags: ['fateweaver', 'divination', 'ultimate', 'guaranteed-outcome']
+      tags: ['fateweaver', 'divination', 'ultimate', 'guaranteed outcome']
     },
 
     // ===== UNIVERSAL ABILITIES =====
@@ -1640,13 +1640,13 @@ Many players enhance the Oracle experience with:
         value: 3
       },
 
-      tags: ['seer', 'damage', 'psychic', 'guaranteed-hit', 'level-6']
+      tags: ['seer', 'damage', 'psychic', 'guaranteed hit', 'level 6']
     },
 
     {
       id: 'oracle_reveal_weakness',
       name: 'Reveal Weakness',
-      description: 'Peer into a target\'s timeline to discover their greatest weakness. Your vision pierces through time itself, revealing every flaw and vulnerability. Once exposed, they become vulnerable to all damage, their defenses crumbling before your sight.',
+      description: 'Peer into a target\'s timeline to discover their greatest weakness, making them vulnerable to all damage.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Utility/All Seeing Eye',
@@ -1697,7 +1697,7 @@ Many players enhance the Oracle experience with:
         value: 4
       },
 
-      tags: ['truthseeker', 'debuff', 'vulnerability', 'level-6']
+      tags: ['truthseeker', 'debuff', 'vulnerability', 'level 6']
     },
 
     {
@@ -1746,7 +1746,7 @@ Many players enhance the Oracle experience with:
         value: 2
       },
 
-      tags: ['fateweaver', 'utility', 'reroll', 'level-6']
+      tags: ['fateweaver', 'utility', 'reroll', 'level 6']
     },
 
     // ========================================
@@ -1755,7 +1755,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prescient_dodge',
       name: 'Prescient Dodge',
-      description: 'See all incoming attacks before they happen. Your prescience allows you to anticipate every strike, every spell, every threat. Enemies find it nearly impossible to hit you as you dodge attacks that haven\'t even been made yet.',
+      description: 'See incoming attacks before they happen, granting disadvantage on attacks against you and automatic success on Agility saves.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Nature/Ethereal Bird',
@@ -1803,13 +1803,13 @@ Many players enhance the Oracle experience with:
         value: 5
       },
 
-      tags: ['seer', 'buff', 'evasion', 'level-7']
+      tags: ['seer', 'buff', 'evasion', 'level 7']
     },
 
     {
       id: 'oracle_expose_secrets',
       name: 'Expose Secrets',
-      description: 'Read the hidden truths in a creature\'s past. Your vision pierces through time, revealing every secret, every weakness, every moment of vulnerability. Once exposed, they cannot hide from you, and all attacks against them find their mark with unerring precision.',
+      description: 'Read the hidden truths in a creature\'s past, exposing their secrets. Attacks against them gain advantage and they lose all concealment.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Psychic/Mind Roar',
@@ -1857,7 +1857,7 @@ Many players enhance the Oracle experience with:
       },
 
       damageConfig: {
-        formula: '4d10',
+        formula: '12d6 + intelligence',
         elementType: 'psychic',
         damageType: 'direct',
         criticalConfig: {
@@ -1888,7 +1888,7 @@ Many players enhance the Oracle experience with:
         value: 4
       },
 
-      tags: ['truthseeker', 'debuff', 'damage', 'level-7']
+      tags: ['truthseeker', 'debuff', 'damage', 'level 7']
     },
 
     {
@@ -1938,7 +1938,7 @@ Many players enhance the Oracle experience with:
         value: 5
       },
 
-      tags: ['fateweaver', 'utility', 'link', 'level-7']
+      tags: ['fateweaver', 'utility', 'link', 'level 7']
     },
 
     // ========================================
@@ -1993,7 +1993,7 @@ Many players enhance the Oracle experience with:
         value: 5
       },
 
-      tags: ['seer', 'buff', 'foresight', 'level-8']
+      tags: ['seer', 'buff', 'foresight', 'level 8']
     },
 
     {
@@ -2057,7 +2057,7 @@ Many players enhance the Oracle experience with:
         value: 4
       },
 
-      tags: ['truthseeker', 'damage', 'control', 'psychic', 'level-8']
+      tags: ['truthseeker', 'damage', 'control', 'psychic', 'level 8']
     },
 
     {
@@ -2106,7 +2106,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'utility', 'fate-control', 'level-8']
+      tags: ['fateweaver', 'utility', 'fate control', 'level 8']
     },
 
     // ========================================
@@ -2174,7 +2174,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['seer', 'summoning', 'duplicate', 'level-9']
+      tags: ['seer', 'summoning', 'duplicate', 'level 9']
     },
 
     {
@@ -2223,7 +2223,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['truthseeker', 'utility', 'knowledge', 'ritual', 'level-9']
+      tags: ['truthseeker', 'utility', 'knowledge', 'ritual', 'level 9']
     },
 
     {
@@ -2273,7 +2273,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'control', 'fate', 'ultimate', 'level-9']
+      tags: ['fateweaver', 'control', 'fate', 'ultimate', 'level 9']
     },
 
     // ========================================
@@ -2344,7 +2344,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['seer', 'summoning', 'ultimate', 'level-10']
+      tags: ['seer', 'summoning', 'ultimate', 'level 10']
     },
 
     {
@@ -2414,7 +2414,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['truthseeker', 'damage', 'control', 'ultimate', 'level-10']
+      tags: ['truthseeker', 'damage', 'control', 'ultimate', 'level 10']
     },
 
     {
@@ -2473,7 +2473,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'transformation', 'ultimate', 'level-10']
+      tags: ['fateweaver', 'transformation', 'ultimate', 'level 10']
     },
 
     // ADDITIONAL LEVEL 1 SPELL
@@ -2483,6 +2483,7 @@ Many players enhance the Oracle experience with:
       description: 'Gain divine insight into an enemy, revealing their weaknesses and granting +2 to attack rolls against them for 3 rounds.',
       level: 1,
       spellType: 'ACTION',
+      specialization: 'universal',
       effectTypes: ['buff'],
 
       typeConfig: {
@@ -2545,6 +2546,7 @@ Many players enhance the Oracle experience with:
       description: 'See incoming attacks before they happen, gaining +3 AC and advantage on saving throws for 4 rounds.',
       level: 3,
       spellType: 'ACTION',
+      specialization: 'universal',
       effectTypes: ['buff'],
 
       typeConfig: {
@@ -2604,6 +2606,7 @@ Many players enhance the Oracle experience with:
       description: 'Strike with the power of fate, guaranteed to hit your target.',
       level: 4,
       spellType: 'ACTION',
+      specialization: 'universal',
       effectTypes: ['damage'],
 
       typeConfig: {
@@ -2653,6 +2656,7 @@ Many players enhance the Oracle experience with:
       description: 'Rewrite the destiny of an ally, allowing them to reroll any roll with advantage for 5 rounds.',
       level: 5,
       spellType: 'ACTION',
+      specialization: 'universal',
       effectTypes: ['buff'],
 
       typeConfig: {

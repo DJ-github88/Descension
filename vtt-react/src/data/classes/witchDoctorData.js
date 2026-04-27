@@ -785,12 +785,6 @@ Ogoun: ✓ (poison applied, ally nearby)
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'necrotic',
-        scalingType: 'dot'
-      },
-
-      damageConfig: {
-        formula: '2d6',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,
@@ -807,7 +801,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'cursed',
           name: 'Cursed',
-          description: 'Target is cursed by the loa of death, taking necrotic damage each turn as dark magic eats away at their life force. The curse persists for an extended duration, slowly draining their vitality.',
+          description: 'Cursed. Takes necrotic damage each turn for the duration.',
           statusType: 'cursed',
           level: 'moderate'
         }],
@@ -829,7 +823,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['curse', 'necrotic', 'dot', 'shadow-priest', 'essence-generator'],
+      tags: ['curse', 'necrotic', 'dot', 'shadow priest', 'essence generator'],
       flavorText: 'The loa of pain hear your plea. Let suffering be their answer.'
     },
 
@@ -873,12 +867,12 @@ Ogoun: ✓ (poison applied, ally nearby)
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6',
+        formula: '3d6',
         elementType: 'necrotic',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '2d6',
+          dotFormula: '3d6',
           duration: 3,
           tickFrequency: 'turn',
           isProgressiveDot: false
@@ -903,7 +897,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'frightened',
           name: 'Frightened',
-          description: 'Frightened by the terrifying ritual. The dark power of Baron Samedi fills them with dread, making them cower in fear.',
+          description: 'Frightened. Has disadvantage on ability checks and attack rolls while source of fear is in line of sight.',
           statusType: 'frightened',
           level: 'moderate'
         }]
@@ -925,7 +919,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['ritual', 'necrotic', 'aoe', 'fear', 'shadow-priest', 'precursor'],
+      tags: ['ritual', 'necrotic', 'aoe', 'fear', 'shadow priest', 'precursor'],
       flavorText: 'Death walks among the living. The Baron demands tribute.'
     },
 
@@ -976,12 +970,12 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
 
       damageConfig: {
-        formula: '4d6',
+        formula: '10d6',
         elementType: 'necrotic',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '4d6',
+          dotFormula: '10d6',
           duration: 3,
           tickFrequency: 'turn',
           isProgressiveDot: false
@@ -1001,7 +995,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'cursed',
           name: 'Cursed',
-          description: 'Cursed by Baron Samedi. The loa of death marks them, causing them to suffer from dark magic that saps their strength and vitality.',
+          description: 'Cursed by Baron Samedi. Takes necrotic damage each round and has disadvantage on saves against necrotic effects.',
           statusType: 'cursed',
           level: 'severe'
         }],
@@ -1032,7 +1026,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['invocation', 'loa', 'resurrection', 'necrotic', 'aoe', 'shadow-priest', 'ultimate'],
+      tags: ['invocation', 'loa', 'resurrection', 'necrotic', 'aoe', 'shadow priest', 'ultimate'],
       flavorText: 'The Baron arrives in a cloud of cigar smoke, his laughter echoing as death itself bows before him.'
     },
 
@@ -1118,7 +1112,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['totem', 'healing', 'aoe', 'spirit-healer', 'essence-generator', 'precursor'],
+      tags: ['totem', 'healing', 'aoe', 'spirit healer', 'essence generator', 'precursor'],
       flavorText: 'The spirits gather around the totem, their gentle touch mending wounds.'
     },
 
@@ -1178,7 +1172,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['ritual', 'cleanse', 'healing', 'spirit-healer', 'precursor'],
+      tags: ['ritual', 'cleanse', 'healing', 'spirit healer', 'precursor'],
       flavorText: 'The river spirit washes away all impurities, leaving only purity.'
     },
 
@@ -1235,7 +1229,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'erzulie_protection',
           name: "Erzulie's Protection",
-          description: 'Protected by Erzulie\'s blessing. Their armor is enhanced and they become immune to fear, filled with the goddess\'s protective love.',
+          description: 'Protected by Erzulie. +2 armor and immune to fear for the duration.',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -1267,7 +1261,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['invocation', 'loa', 'healing', 'buff', 'protection', 'spirit-healer', 'ultimate'],
+      tags: ['invocation', 'loa', 'healing', 'buff', 'protection', 'spirit healer', 'ultimate'],
       flavorText: 'Erzulie descends in radiant beauty, her love a shield against all harm.'
     },
 
@@ -1339,7 +1333,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['poison', 'buff', 'weapon', 'war-priest', 'essence-generator', 'precursor'],
+      tags: ['poison', 'buff', 'weapon', 'war priest', 'essence generator', 'precursor'],
       flavorText: 'The serpent loa bless your weapon with deadly venom.'
     },
 
@@ -1415,7 +1409,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['poison', 'damage', 'aoe', 'war-priest', 'essence-generator'],
+      tags: ['poison', 'damage', 'aoe', 'war priest', 'essence generator'],
       flavorText: 'Toxic fumes choke your enemies, the spirits of disease rejoicing.'
     },
 
@@ -1495,7 +1489,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['invocation', 'loa', 'buff', 'fire', 'war-priest', 'ultimate'],
+      tags: ['invocation', 'loa', 'buff', 'fire', 'war priest', 'ultimate'],
       flavorText: 'Ogoun arrives with the clash of steel, his war cry igniting the blood of warriors.'
     },
 
@@ -1578,7 +1572,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['invocation', 'loa', 'healing', 'cleanse', 'spirit-healer', 'ultimate'],
+      tags: ['invocation', 'loa', 'healing', 'cleanse', 'spirit healer', 'ultimate'],
       flavorText: 'Simbi rises from the waters, her healing rain washing away all suffering.'
     },
 
@@ -1651,7 +1645,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['invocation', 'loa', 'teleportation', 'utility', 'war-priest', 'ultimate'],
+      tags: ['invocation', 'loa', 'teleportation', 'utility', 'war priest', 'ultimate'],
       flavorText: 'Papa Legba opens the crossroads, his ancient wisdom guiding you through the spirit realm.'
     },
 
@@ -1716,7 +1710,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['curse', 'debuff', 'shadow-priest', 'essence-generator'],
+      tags: ['curse', 'debuff', 'shadow priest', 'essence generator'],
       flavorText: 'Your strength drains away, stolen by the spirits of weakness.'
     },
 
@@ -1775,7 +1769,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['ritual', 'divination', 'utility', 'all-specs', 'essence-generator'],
+      tags: ['ritual', 'divination', 'utility', 'all specs', 'essence generator'],
       flavorText: 'The spirits whisper secrets from beyond the veil, their words cryptic but true.'
     },
 
@@ -1849,7 +1843,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         }
       },
 
-      tags: ['totem', 'buff', 'immunity', 'war-priest', 'essence-generator'],
+      tags: ['totem', 'buff', 'immunity', 'war priest', 'essence generator'],
       flavorText: 'The war spirits rally around the totem, their courage infectious.'
     }
   ],
@@ -1867,7 +1861,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Ritual',
-        tags: ['attack', 'damage', 'curse', 'necrotic', 'witch-doctor'],
+        tags: ['attack', 'damage', 'curse', 'necrotic', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1904,7 +1898,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'curse', 'necrotic', 'witch-doctor']
+      tags: ['attack', 'damage', 'curse', 'necrotic', 'witch doctor']
     },
 
     {
@@ -1917,7 +1911,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['attack', 'damage', 'necrotic', 'witch-doctor'],
+        tags: ['attack', 'damage', 'necrotic', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1947,7 +1941,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'necrotic', 'witch-doctor']
+      tags: ['attack', 'damage', 'necrotic', 'witch doctor']
     },
 
     {
@@ -1960,7 +1954,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Ethereal Bear Spirit',
-        tags: ['buff', 'support', 'spirit', 'witch-doctor'],
+        tags: ['buff', 'support', 'spirit', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1999,7 +1993,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 3
       },
       resolution: 'DICE',
-      tags: ['buff', 'support', 'spirit', 'witch-doctor']
+      tags: ['buff', 'support', 'spirit', 'witch doctor']
     },
 
     // ===== LEVEL 4 SPELLS =====
@@ -2013,19 +2007,19 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Death',
-        tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch-doctor'],
+        tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '2d6 + spirit',
+        formula: '5d6 + spirit',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,
         dotConfig: {
           duration: 4,
           tickFrequency: 'round',
-          dotFormula: '2d6 + spirit',
+          dotFormula: '5d6 + spirit',
           isProgressiveDot: false
         }
       },
@@ -2050,7 +2044,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 3
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch-doctor']
+      tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch doctor']
     },
 
     {
@@ -2063,7 +2057,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['damage', 'utility', 'voodoo', 'witch-doctor'],
+        tags: ['damage', 'utility', 'voodoo', 'witch doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2107,7 +2101,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 4
       },
       resolution: 'DICE',
-      tags: ['damage', 'utility', 'voodoo', 'witch-doctor']
+      tags: ['damage', 'utility', 'voodoo', 'witch doctor']
     },
 
     {
@@ -2120,7 +2114,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Heart Ripple',
-        tags: ['healing', 'buff', 'loa', 'support', 'witch-doctor'],
+        tags: ['healing', 'buff', 'loa', 'support', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2172,7 +2166,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['healing', 'buff', 'loa', 'support', 'witch-doctor']
+      tags: ['healing', 'buff', 'loa', 'support', 'witch doctor']
     },
 
     // ===== LEVEL 5 SPELLS (need 2 more) =====
@@ -2186,7 +2180,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Utility/All Seeing Eye',
-        tags: ['debuff', 'curse', 'hex', 'witch-doctor'],
+        tags: ['debuff', 'curse', 'hex', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2227,7 +2221,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 4
       },
       resolution: 'DICE',
-      tags: ['debuff', 'curse', 'hex', 'witch-doctor']
+      tags: ['debuff', 'curse', 'hex', 'witch doctor']
     },
 
     {
@@ -2240,7 +2234,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Arise',
-        tags: ['summoning', 'undead', 'witch-doctor'],
+        tags: ['summoning', 'undead', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2296,7 +2290,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['summoning', 'undead', 'witch-doctor']
+      tags: ['summoning', 'undead', 'witch doctor']
     },
 
     // ===== LEVEL 6 SPELLS (need 1 more) =====
@@ -2310,7 +2304,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Necrotic/Necrotic Death',
-        tags: ['buff', 'defense', 'protection', 'witch-doctor'],
+        tags: ['buff', 'defense', 'protection', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2349,7 +2343,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['buff', 'defense', 'protection', 'witch-doctor']
+      tags: ['buff', 'defense', 'protection', 'witch doctor']
     },
 
     // ===== LEVEL 7 SPELLS (need 1 more) =====
@@ -2363,7 +2357,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Utility/Powerful Warrior',
-        tags: ['damage', 'buff', 'loa', 'war', 'witch-doctor'],
+        tags: ['damage', 'buff', 'loa', 'war', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2407,7 +2401,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
@@ -2417,7 +2411,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'buff', 'loa', 'war', 'witch-doctor']
+      tags: ['damage', 'buff', 'loa', 'war', 'witch doctor']
     },
 
     // ===== LEVEL 8 SPELLS =====
@@ -2431,12 +2425,12 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Death Mark',
-        tags: ['damage', 'loa', 'death', 'epic', 'witch-doctor'],
+        tags: ['damage', 'loa', 'death', 'epic', 'witch doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '12d10 + spirit * 3',
+        formula: '14d6 + spirit * 3',
         elementType: 'necrotic',
         damageType: 'direct',
         description: 'Deals triple damage to cursed enemies'
@@ -2453,7 +2447,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 32 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2464,7 +2458,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'loa', 'death', 'epic', 'witch-doctor']
+      tags: ['damage', 'loa', 'death', 'epic', 'witch doctor']
     },
 
     {
@@ -2477,7 +2471,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Prayer',
-        tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch-doctor'],
+        tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch doctor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -2513,9 +2507,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 32 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Ancestral bones and offerings'
       },
@@ -2524,7 +2518,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch-doctor']
+      tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch doctor']
     },
 
     {
@@ -2537,13 +2531,13 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Poison/Poison Plague',
-        tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch-doctor'],
+        tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch doctor'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
         leaveTrail: false
       },
       damageConfig: {
-        formula: '6d6 + spirit',
+        formula: '12d6 + spirit',
         elementType: 'necrotic',
         damageType: 'area',
         description: 'All enemies in the zone take damage at the start of their turn'
@@ -2572,7 +2566,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 42 },
+        resourceValues: { mana: 30 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2583,7 +2577,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch-doctor']
+      tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch doctor']
     },
 
     // ===== LEVEL 9 SPELLS =====
@@ -2597,7 +2591,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Reaching Hand',
-        tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch-doctor'],
+        tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2640,9 +2634,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Perfume, jewelry, and flowers'
       },
@@ -2651,7 +2645,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch-doctor']
+      tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor']
     },
 
     {
@@ -2664,12 +2658,12 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Psychic/Twist Pain',
-        tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch-doctor'],
+        tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch doctor'],
         castTime: 4,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '20d8 + spirit * 3',
+        formula: '18d6 + spirit * 3',
         elementType: 'necrotic',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2712,9 +2706,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 60 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The skull of a powerful enemy, worth 50,000 gold'
       },
@@ -2723,7 +2717,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch-doctor']
+      tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch doctor']
     },
 
     {
@@ -2736,7 +2730,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Teleport',
-        tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch-doctor'],
+        tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch doctor'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
         cooldownUnit: 'seconds',
@@ -2792,9 +2786,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 58 },
+        resourceValues: { mana: 36 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
@@ -2802,7 +2796,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch-doctor']
+      tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch doctor']
     },
 
     // ===== LEVEL 10 SPELLS =====
@@ -2816,7 +2810,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Radiant/Golden Ring',
-        tags: ['buff', 'passive', 'loa', 'legendary', 'witch-doctor'],
+        tags: ['buff', 'passive', 'loa', 'legendary', 'witch doctor', 'toggleable'],
         toggleable: true
       },
       buffConfig: {
@@ -2849,7 +2843,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
-      tags: ['buff', 'passive', 'loa', 'legendary', 'witch-doctor', 'toggleable']
+      tags: ['buff', 'passive', 'loa', 'legendary', 'witch doctor', 'toggleable']
     },
 
     {
@@ -2862,7 +2856,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Root Network',
-        tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch-doctor'],
+        tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch doctor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -2902,9 +2896,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 40 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Keys, crossroads dirt, and rum'
       },
@@ -2913,7 +2907,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch-doctor']
+      tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch doctor']
     },
 
     {
@@ -2926,12 +2920,12 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Screaming Skull',
-        tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch-doctor'],
+        tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch doctor'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '25d10 + spirit * 4',
+        formula: '22d6 + spirit * 4',
         elementType: 'necrotic',
         damageType: 'direct',
         description: 'If target survives, they are cursed to die in 3 rounds unless the curse is removed'
@@ -2963,9 +2957,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 40 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A piece of the target soul, worth immeasurable value'
       },
@@ -2974,7 +2968,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch-doctor']
+      tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch doctor']
     }
   ],
 

@@ -9,6 +9,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+const logger = require('./logger');
 
 class LagCompensationSystem {
   constructor() {
@@ -28,7 +29,7 @@ class LagCompensationSystem {
       poor: 10       // > 100ms latency
     };
 
-    console.log('⚡ Lag Compensation System initialized');
+    logger.info('Lag Compensation System initialized');
   }
 
   /**
@@ -57,7 +58,7 @@ class LagCompensationSystem {
 
     // Reduce logging to prevent spam - only log every 5th client
     if (this.clientStates.size % 5 === 0) {
-      console.log(`⚡ Lag compensation: ${this.clientStates.size} clients tracked`);
+      logger.info(`Lag compensation: ${this.clientStates.size} clients tracked`);
     }
   }
 
@@ -288,7 +289,7 @@ class LagCompensationSystem {
     const correctionThreshold = this.getCorrectionThreshold(latency);
     
     if (discrepancy > correctionThreshold) {
-      console.log(`🔄 Correction needed for client ${socketId}: discrepancy ${discrepancy}ms > threshold ${correctionThreshold}ms`);
+      logger.info(`Correction needed for client ${socketId}: discrepancy ${discrepancy}ms > threshold ${correctionThreshold}ms`);
 
       // Update confirmed state
       clientState.confirmedState = serverState;
@@ -373,7 +374,7 @@ class LagCompensationSystem {
     // Adapt update rate based on network conditions
     existing.updateRate = this.calculateAdaptiveUpdateRate(existing);
 
-    console.log(`📊 Network metrics updated for ${socketId}: latency=${Math.round(existing.latency)}ms, rate=${existing.updateRate}fps`);
+    logger.info(`Network metrics updated for ${socketId}: latency=${Math.round(existing.latency)}ms, rate=${existing.updateRate}fps`);
   }
 
   /**
@@ -437,7 +438,7 @@ class LagCompensationSystem {
     this.clientStates.delete(socketId);
     this.pendingInputs.delete(socketId);
     this.networkMetrics.delete(socketId);
-    console.log(`🧹 Lag compensation cleanup for client ${socketId}`);
+    logger.info(`Lag compensation cleanup for client ${socketId}`);
   }
 
   /**
@@ -517,7 +518,7 @@ class LagCompensationSystem {
       // };
 
       // This would be sent via socket to the client
-      console.log(`🔄 Sending combat correction to ${socketId}:`, discrepancies.length, 'discrepancies');
+      logger.info(`Sending combat correction to ${socketId}:`, discrepancies.length, 'discrepancies');
     }
   }
 
@@ -606,7 +607,7 @@ class LagCompensationSystem {
       this.cleanupClient(socketId);
     }
 
-    console.log(`🧹 Lag compensation cleanup for room ${roomId}`);
+    logger.info(`Lag compensation cleanup for room ${roomId}`);
   }
 }
 

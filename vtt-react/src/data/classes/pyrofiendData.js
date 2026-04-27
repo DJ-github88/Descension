@@ -632,7 +632,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_ember_spark',
       name: 'Ember Spark',
-      description: 'You channel a tiny fragment of demonic fire, feeling the infernal energy course through your veins as your Inferno Level rises. A small, malevolent spark forms at your fingertips—it glows with an unnatural red-orange light that seems to pulse with dark intent. When you launch it forward, the spark streaks through the air like a tiny comet, leaving a trail of black smoke in its wake. Upon impact, the spark doesn\'t just burn—it burrows into the target\'s flesh, where it continues to smolder and burn with demonic fire. The flames are persistent and hungry, refusing to be extinguished easily. Each time the fire flares up, it causes fresh pain as the demonic energy continues to consume the target from within.',
+      description: 'Launch a malevolent spark that burrows into the target, dealing initial fire damage and leaving a persistent burn. The demonic flame smolders within, dealing additional damage over the next 2 rounds.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Fire/Flame Burst',
@@ -665,7 +665,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d3',
+        formula: '1d6',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -717,7 +717,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 5, inferno_ascend: 1, inferno_required: 0 },
+        resourceValues: { mana: 4, inferno_ascend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -728,7 +728,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d4 + intelligence/3',
+        formula: '1d8 + intelligence/3',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -781,7 +781,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 2, inferno_ascend: 1, inferno_required: 0 },
+        resourceValues: { mana: 3, inferno_ascend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal'],
@@ -791,7 +791,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d3 + intelligence/4',
+        formula: '1d6 + intelligence/4',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -827,7 +827,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
-        resourceValues: { mana: 5, inferno_descend: 2, inferno_required: 0 },
+        resourceValues: { mana: 4, inferno_descend: 2, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -874,7 +874,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_descend', 'inferno_required'],
-        resourceValues: { mana: 6, inferno_descend: 1, inferno_required: 0 },  // Heat Shield - minor descend
+        resourceValues: { mana: 4, inferno_descend: 1, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -950,7 +950,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/2',
+        formula: '2d8 + intelligence/2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -988,7 +988,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 10, inferno_ascend: 1, inferno_required: 1 },
+        resourceValues: { mana: 8, inferno_ascend: 1, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -999,7 +999,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '1d6 + intelligence/3',
+        formula: '2d6 + intelligence/3',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -1059,7 +1059,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 },
+        resourceValues: { mana: 8, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1113,7 +1113,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 2 },
+        resourceValues: { mana: 12, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1177,7 +1177,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 15, inferno_ascend: 2, inferno_required: 2 },
+        resourceValues: { mana: 10, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1188,7 +1188,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d8 + intelligence',
+        formula: '3d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE',
         chanceOnHitConfig: {
@@ -1320,7 +1320,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '4d6 + intelligence * 1.5',
+        formula: '5d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -1358,7 +1358,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 1 },
+        resourceValues: { mana: 14, inferno_ascend: 2, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1369,7 +1369,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d8 + intelligence',
+        formula: '5d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -1410,7 +1410,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 2 },
+        resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1421,18 +1421,18 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d6',
+        formula: '2d6',
         damageTypes: ['fire'],
         resolution: 'DICE',
         triggerCondition: 'area_entry',
-        triggerDescription: 'Enemies within 5 feet take 1d6 fire damage at the start of each of their turns',
+        triggerDescription: 'Enemies within 5 feet take 2d6 fire damage at the start of each of their turns',
         areaShape: 'circle',
         areaParameters: { radius: 5 }
       },
 
       channelingConfig: {
         type: 'persistent',
-        baseFormula: '1d6',
+        baseFormula: '2d6',
         tickFrequency: 'round',
         maxDuration: 3
       },
@@ -1442,7 +1442,7 @@ Many players enhance the experience by adding thematic elements:
         cooldownValue: 0
       },
 
-      tags: ['fire', 'buff']
+      tags: ['fire', 'damage', 'channeled']
     },
 
     // ========================================
@@ -1474,7 +1474,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 25, inferno_ascend: 2, inferno_required: 2 },
+        resourceValues: { mana: 20, inferno_ascend: 2, inferno_required: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1485,7 +1485,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '4d8 + intelligence * 1.5',
+        formula: '8d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -1523,7 +1523,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 3 },
+        resourceValues: { mana: 20, inferno_ascend: 3, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1534,7 +1534,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d8 + intelligence/2',
+        formula: '6d8 + intelligence/2',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -1581,7 +1581,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 3 },
+        resourceValues: { mana: 18, inferno_ascend: 2, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1592,7 +1592,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d6 + intelligence',
+        formula: '7d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE',
         chanceOnHitConfig: {
@@ -1655,7 +1655,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 3 },
+        resourceValues: { mana: 24, inferno_ascend: 3, inferno_required: 3 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
@@ -1667,7 +1667,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d6 + intelligence * 2',
+        formula: '9d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE',
         criticalConfig: {
@@ -1721,7 +1721,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 4 },
+        resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 4 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1732,7 +1732,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d8 + intelligence',
+        formula: '8d6 + intelligence',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -1779,7 +1779,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 30, inferno_ascend: 2, inferno_required: 4 },
+        resourceValues: { mana: 22, inferno_ascend: 2, inferno_required: 4 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1790,7 +1790,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '1d4 + intelligence/3',
+        formula: '4d6 + intelligence/3',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -1861,7 +1861,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 6 },
+        resourceValues: { mana: 28, inferno_ascend: 3, inferno_required: 6 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
@@ -1873,7 +1873,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + intelligence * 2.5',
+        formula: '12d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE',
         criticalConfig: {
@@ -1926,9 +1926,9 @@ Many players enhance the experience by adding thematic elements:
           damage: {
             isConditional: true,
             defaultEnabled: true,
-            baseFormula: '8d6 + intelligence * 2.5',
+            baseFormula: '12d6 + intelligence * 2',
             conditionalFormulas: {
-              'resource_threshold_70': '10d6 + intelligence * 3'
+              'resource_threshold_70': '14d6 + intelligence * 3'
             }
           }
         }
@@ -1968,7 +1968,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 38, inferno_ascend: 3, inferno_required: 5 },
+        resourceValues: { mana: 26, inferno_ascend: 3, inferno_required: 5 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1979,7 +1979,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d8 + intelligence * 2',
+        formula: '10d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE',
         criticalConfig: {
@@ -2030,7 +2030,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 35, inferno_ascend: 2, inferno_required: 5 },
+        resourceValues: { mana: 24, inferno_ascend: 2, inferno_required: 5 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2074,7 +2074,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_meteor_shower',
       name: 'Meteor Shower',
-      description: 'Summon a shower of flaming meteors from the sky. The meteors streak downward in a devastating rain of fire, crashing into the ground with explosive force. The impact creates waves of heat and flame that engulf everything in the area. On particularly devastating impacts, the meteors leave behind lingering flames and send enemies flying.',
+      description: 'Summon a shower of flaming meteors from the sky. The devastating rain of fire crashes into the ground with explosive force, engulfing the area in flames.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Fiery Comet',
@@ -2098,7 +2098,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 45, inferno_ascend: 3, inferno_required: 7 },
+        resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 7 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2109,7 +2109,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + intelligence * 2.5',
+        formula: '14d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE',
         criticalConfig: {
@@ -2166,7 +2166,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 42, inferno_ascend: 3, inferno_required: 8 },
+        resourceValues: { mana: 30, inferno_ascend: 3, inferno_required: 8 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2177,7 +2177,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '10d6 + intelligence * 3',
+        formula: '14d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -2217,7 +2217,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 48, inferno_ascend: 3, inferno_required: 8 },
+        resourceValues: { mana: 32, inferno_ascend: 3, inferno_required: 8 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2228,7 +2228,7 @@ Many players enhance the experience by adding thematic elements:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10 + intelligence * 2',
+        formula: '12d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -2276,7 +2276,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 50, inferno_ascend: 3, inferno_required: 7 },
+        resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 7 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2344,7 +2344,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 60, inferno_ascend: 3, inferno_required: 9 },
+        resourceValues: { mana: 36, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2391,7 +2391,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 55, inferno_ascend: 3, inferno_required: 0 },
+        resourceValues: { mana: 34, inferno_ascend: 3, inferno_required: 0 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
@@ -2534,7 +2534,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 70, inferno_ascend: 3, inferno_required: 9 },
+        resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2594,7 +2594,7 @@ Many players enhance the experience by adding thematic elements:
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 80, inferno_ascend: 3, inferno_required: 9 },
+        resourceValues: { mana: 40, inferno_ascend: 3, inferno_required: 9 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],

@@ -1624,7 +1624,7 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + agility',
+        formula: '2d8 + agility',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -1702,7 +1702,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_mastery',
       name: 'Stance Mastery',
-      description: 'Demonstrate mastery of your current stance, pushing it to its absolute limit. Every aspect of your combat form is amplified, making you a true master of that fighting style. Your movements become perfect, your strikes more precise, and your defenses impenetrable.',
+      description: 'Push your current stance to its limit, gaining +2 stance power for 2 rounds.',
       level: 3,
       spellType: 'ACTION',
       icon: 'General/Rage',
@@ -1990,12 +1990,26 @@ Many players enhance the stance-dancing experience with:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 10 },
         targetRestrictions: ['enemy']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 10 },
+          targetRestrictions: ['enemy']
+        },
+        buff: {
+          targetingType: 'self'
+        }
       },
 
       resourceCost: {
@@ -2116,11 +2130,24 @@ Many players enhance the stance-dancing experience with:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
         rangeDistance: 5,
         targetRestrictions: ['enemy']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'melee',
+          rangeDistance: 5,
+          targetRestrictions: ['enemy']
+        },
+        buff: {
+          targetingType: 'self'
+        }
       },
 
       resourceCost: {
@@ -2177,7 +2204,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_harmony',
       name: 'Stance Harmony',
-      description: 'Achieve perfect harmony between all stances, allowing you to draw power from multiple fighting styles simultaneously. You flow seamlessly between forms, combining their strengths into a unified combat style that transcends any single stance. This perfect balance requires intense concentration to maintain.',
+      description: 'Harmonize all stances simultaneously, maintaining passive benefits from multiple combat forms for 3 rounds. Requires concentration.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Nature/Tree',
@@ -2580,7 +2607,7 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d6 + agility',
+        formula: '4d8 + agility',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -3006,7 +3033,7 @@ Many players enhance the stance-dancing experience with:
       'bladedancer_perfect_harmony'
     ],
     10: [
-      'bladedancer_transcendent_dance_of_the_six_winds',
+      'bladedancer_dance_of_the_six_winds',
       'bladedancer_zenith_blade_mastery'
     ]
   },

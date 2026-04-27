@@ -1217,14 +1217,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     socket.on('connect', handleConnect);
 
-    socket.on('disconnect', (reason) => {
-      console.log('🔌 Socket disconnected:', reason);
-      setConnectionStatus('disconnected');
-      // Reset auto-join attempt on disconnect so it can retry on next connection
-      // if we are still on the loading screen
-      autoJoinAttemptedRef.current = false;
-    });
-
     socket.on('error', (data) => {
       console.error('❌ Socket error received:', data);
       if (typeof data === 'object') {
@@ -1254,7 +1246,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
     // NEW: Handle specific room errors from server
     socket.on('room_error', (data) => {
-      console.error('❌ Room error received:', data);
       const errorMessage = typeof data === 'string' ? data : (data.message || 'Unknown room error');
       
       setError(errorMessage);
@@ -1266,7 +1257,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         setIsRoomReady(false);
       }
 
-      // Re-enable auto-join attempts for correction
       autoJoinAttemptedRef.current = false;
       
       addNotificationRef.current('social', {
@@ -1277,9 +1267,23 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    socket.on('auth_error', (data) => {
+      const errorMessage = typeof data === 'string' ? data : (data.error || data.message || 'Authentication required');
+      setError(errorMessage);
+      setConnectionStatus('error');
+      addNotificationRef.current('social', {
+        sender: { name: 'System', class: 'system', level: 0 },
+        content: errorMessage,
+        type: 'error',
+        timestamp: new Date().toISOString()
+      });
+    });
+
     socket.on('disconnect', (reason) => {
+      console.log('🔌 Socket disconnected:', reason);
       setConnectionStatus(reason === 'io client disconnect' ? 'disconnected' : 'error');
       setConnectionQuality({ latency: 0, quality: 'disconnected' });
+      autoJoinAttemptedRef.current = false;
 
       if (socket._latencyCheckInterval) {
         clearInterval(socket._latencyCheckInterval);
@@ -2256,48 +2260,6 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
-    // Listen for buff updates from other players
-    socket.on('buff_update', (data) => {
-      if (!data) return;
-      const { type, data: buffData, senderSocketId } = data;
-
-      // Skip if we sent this
-      if (senderSocketId === socket?.id) return;
-
-      console.log('✨ Received buff update:', type, buffData);
-
-      Promise.all([
-        import('../../store/buffStore'),
-        import('../../store/gameStore'),
-        import('../../store/authStore')
-      ]).then(([{ default: useBuffStore }, { default: useGameStore }, { default: useAuthStore }]) => {
-        const buffStore = useBuffStore.getState();
-        const gameStore = useGameStore.getState();
-        const authStore = useAuthStore.getState();
-        
-        // Remap targetId if this buff is for us
-        const remappedBuffData = { ...buffData };
-        if (buffData.targetId) {
-          const myPlayerId = gameStore.currentPlayer?.id;
-          const myUserId = authStore.user?.uid;
-          
-          // If the buff targets our player ID or user ID, remap to 'current-player'
-          if (buffData.targetId === myPlayerId || buffData.targetId === myUserId) {
-            remappedBuffData.targetId = 'current-player';
-            console.log('🔄 Remapped buff targetId to current-player');
-          }
-        }
-        
-        if (type === 'buff_added') {
-          // Add buff silently (don't re-sync)
-          buffStore.addBuff(remappedBuffData, true);
-        } else if (type === 'buff_removed') {
-          // Remove buff silently (don't re-sync)
-          buffStore.removeBuff(data.buffId || buffData.id, true);
-        }
-      });
-    });
-
     // Listen for debuff updates from other players
     socket.on('debuff_update', (data) => {
       if (!data) return;
@@ -2316,29 +2278,27 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         const debuffStore = useDebuffStore.getState();
         const gameStore = useGameStore.getState();
         const authStore = useAuthStore.getState();
-        
-        // Remap targetId if this debuff is for us
+
         const remappedDebuffData = { ...debuffData };
         if (debuffData.targetId) {
           const myPlayerId = gameStore.currentPlayer?.id;
           const myUserId = authStore.user?.uid;
-          
-          // If the debuff targets our player ID or user ID, remap to 'current-player'
           if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
             remappedDebuffData.targetId = 'current-player';
             console.log('🔄 Remapped debuff targetId to current-player');
           }
         }
-        
+
         if (type === 'debuff_added') {
-          // Add debuff silently (don't re-sync)
           debuffStore.addDebuff(remappedDebuffData, true);
         } else if (type === 'debuff_removed') {
-          // Remove debuff silently (don't re-sync)
           debuffStore.removeDebuff(data.debuffId || debuffData.id, true);
         }
       });
     });
+
+    // NOTE: buff_update and debuff_update handlers are also registered below
+    // in a consolidated handler block. The consolidated version takes precedence.
 
 
     // Listen for gameplay settings synchronization from GM
@@ -3219,67 +3179,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     });
 
 
-    // Listen for buff updates from other players/GM
-    socket.on('buff_update', (data) => {
-      const { type, data: buffData, senderSocketId } = data;
-      // Skip if we are the one who sent it (senderSocketId is usually the one who emitted)
-      if (senderSocketId === socket?.id) return;
-
-      // Get stores for targetId remapping
-      const gameStore = require('../../store/gameStore').default.getState();
-      const authStore = require('../../store/authStore').default.getState();
-      const buffStore = require('../../store/buffStore').default.getState();
-      
-      // Remap targetId if this buff is for us
-      const remappedBuffData = { ...buffData };
-      if (buffData && buffData.targetId) {
-        const myPlayerId = gameStore.currentPlayer?.id;
-        const myUserId = authStore.user?.uid;
-        
-        if (buffData.targetId === myPlayerId || buffData.targetId === myUserId) {
-          remappedBuffData.targetId = 'current-player';
-          console.log('🔄 Remapped buff targetId to current-player');
-        }
-      }
-      
-      if (type === 'buff_added') {
-        buffStore.addBuff(remappedBuffData, true); // silent = true to avoid echo
-      } else if (type === 'buff_removed') {
-        buffStore.removeBuff(remappedBuffData.buffId, true); // silent = true to avoid echo
-      }
-      console.log('✨ Received buff_update:', { type, buffData });
-    });
-
-    // Listen for debuff updates from other players/GM
-    socket.on('debuff_update', (data) => {
-      const { type, data: debuffData, senderSocketId } = data;
-      // Skip if we are the one who sent it
-      if (senderSocketId === socket?.id) return;
-
-      // Get stores for targetId remapping
-      const gameStore = require('../../store/gameStore').default.getState();
-      const authStore = require('../../store/authStore').default.getState();
-      const debuffStore = require('../../store/debuffStore').default.getState();
-      
-      // Remap targetId if this debuff is for us
-      const remappedDebuffData = { ...debuffData };
-      if (debuffData && debuffData.targetId) {
-        const myPlayerId = gameStore.currentPlayer?.id;
-        const myUserId = authStore.user?.uid;
-        
-        if (debuffData.targetId === myPlayerId || debuffData.targetId === myUserId) {
-          remappedDebuffData.targetId = 'current-player';
-          console.log('🔄 Remapped debuff targetId to current-player');
-        }
-      }
-      
-      if (type === 'debuff_added') {
-        debuffStore.addDebuff(remappedDebuffData, true); // silent = true to avoid echo
-      } else if (type === 'debuff_removed') {
-        debuffStore.removeDebuff(remappedDebuffData.debuffId, true); // silent = true to avoid echo
-      }
-      console.log('💀 Received debuff_update:', { type, debuffData });
-    });
+    // buff_update and debuff_update handled in consolidated handlers below
 
     // Listen for creature tokens being added by GM
     socket.on('creature_added', (data) => {
@@ -4297,17 +4197,35 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       if (data.combat) {
         const combatStore = useCombatStore.getState();
         if (data.combat.isActive) {
-          // Restore combat state
           if (data.combat.turnOrder && data.combat.turnOrder.length > 0) {
             combatStore.startCombat(data.combat.turnOrder);
             if (data.combat.currentTurnIndex !== undefined) {
-              // Set current turn
               for (let i = 0; i < data.combat.currentTurnIndex; i++) {
                 combatStore.nextTurn();
               }
             }
           }
         }
+      }
+
+      // IMPROVEMENT: Rehydrate buffs from server state
+      if (data.buffs && Object.keys(data.buffs).length > 0) {
+        import('../../store/buffStore').then(({ default: useBuffStore }) => {
+          const buffStore = useBuffStore.getState();
+          Object.values(data.buffs).forEach(buffData => {
+            if (buffData) buffStore.addBuff(buffData, true);
+          });
+        }).catch(err => console.warn('Failed to rehydrate buffs:', err));
+      }
+
+      // IMPROVEMENT: Rehydrate debuffs from server state
+      if (data.debuffs && Object.keys(data.debuffs).length > 0) {
+        import('../../store/debuffStore').then(({ default: useDebuffStore }) => {
+          const debuffStore = useDebuffStore.getState();
+          Object.values(data.debuffs).forEach(debuffData => {
+            if (debuffData) debuffStore.addDebuff(debuffData, true);
+          });
+        }).catch(err => console.warn('Failed to rehydrate debuffs:', err));
       }
 
       // IMPROVEMENT: Sync party members from server state

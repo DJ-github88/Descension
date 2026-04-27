@@ -9,6 +9,7 @@
  */
 
 // const { v4: uuidv4 } = require('uuid'); // Not used in this module
+const logger = require('./logger');
 
 class MemoryManager {
   constructor() {
@@ -29,7 +30,7 @@ class MemoryManager {
     this.memoryCheckInterval = 60000; // 1 minute
 
     this.startMonitoring();
-    console.log('🧠 Memory Manager initialized');
+    logger.info('Memory Manager initialized');
   }
 
   /**
@@ -50,7 +51,7 @@ class MemoryManager {
     this.gcIntervalId = setInterval(() => {
       if (global.gc) {
         global.gc();
-        console.log('🗑️ Manual garbage collection triggered');
+        logger.info('Manual garbage collection triggered');
       }
     }, 5 * 60 * 1000); // Every 5 minutes
   }
@@ -74,7 +75,7 @@ class MemoryManager {
       this.gcIntervalId = null;
     }
 
-    console.log('🛑 Memory monitoring stopped');
+    logger.info('Memory monitoring stopped');
   }
 
   /**
@@ -101,7 +102,7 @@ class MemoryManager {
 
     // Reduce logging frequency to prevent spam
     if (this.trackedObjects.size % 10 === 0) {
-      console.log(`📊 Memory tracking: ${this.trackedObjects.size} objects tracked`);
+      logger.info(`Memory tracking: ${this.trackedObjects.size} objects tracked`);
     }
     return metadata;
   }
@@ -131,7 +132,7 @@ class MemoryManager {
       }
 
       this.trackedObjects.delete(objectId);
-      console.log(`🗑️ Untracked object ${objectId}: freed ${metadata.size} bytes`);
+      logger.info(`Untracked object ${objectId}: freed ${metadata.size} bytes`);
       return true;
     }
     return false;
@@ -158,7 +159,7 @@ class MemoryManager {
     };
 
     this.playerSessions.set(socketId, session);
-    console.log(`👤 Tracking player session: ${playerData.name} (${socketId})`);
+    logger.info(`Tracking player session: ${playerData.name} (${socketId})`);
     return session;
   }
 
@@ -188,7 +189,7 @@ class MemoryManager {
       }, this.sessionTimeout);
       
       this.cleanupTimers.set(socketId, cleanupTimer);
-      console.log(`⏰ Player ${session.playerName} marked for cleanup in ${this.sessionTimeout}ms`);
+      logger.info(`Player ${session.playerName} marked for cleanup in ${this.sessionTimeout}ms`);
     }
   }
 
@@ -199,7 +200,7 @@ class MemoryManager {
     const session = this.playerSessions.get(socketId);
     if (!session) {return;}
 
-    console.log(`🧹 Cleaning up session for ${session.playerName}`);
+    logger.info(`Cleaning up session for ${session.playerName}`);
 
     // Clear cleanup timer
     const timer = this.cleanupTimers.get(socketId);
@@ -221,14 +222,14 @@ class MemoryManager {
 
     // Remove session
     this.playerSessions.delete(socketId);
-    console.log(`✅ Session cleanup completed for ${session.playerName}`);
+    logger.info(`Session cleanup completed for ${session.playerName}`);
   }
 
   /**
    * Cleanup room and all associated data
    */
   cleanupRoom(roomId) {
-    console.log(`🧹 Cleaning up room ${roomId}`);
+    logger.info(`Cleaning up room ${roomId}`);
 
     // Find all objects associated with this room
     const roomObjects = Array.from(this.trackedObjects.entries())
@@ -251,7 +252,7 @@ class MemoryManager {
     // Remove room memory tracking
     this.roomMemoryUsage.delete(roomId);
 
-    console.log(`✅ Room ${roomId} cleanup completed: freed ${freedMemory} bytes`);
+    logger.info(`Room ${roomId} cleanup completed: freed ${freedMemory} bytes`);
     return freedMemory;
   }
 
@@ -287,7 +288,7 @@ class MemoryManager {
     }
 
     if (cleanedObjects > 0) {
-      console.log(`🧹 Cleanup cycle: removed ${cleanedObjects} objects, freed ${freedMemory} bytes`);
+      logger.info(`Cleanup cycle: removed ${cleanedObjects} objects, freed ${freedMemory} bytes`);
     }
   }
 
@@ -299,17 +300,17 @@ class MemoryManager {
     const totalMemory = usage.heapUsed + usage.external;
 
     // Log memory stats
-    console.log(`📊 Memory usage: ${Math.round(totalMemory / 1024 / 1024)}MB heap, ${this.trackedObjects.size} tracked objects`);
+    logger.info(`Memory usage: ${Math.round(totalMemory / 1024 / 1024)}MB heap, ${this.trackedObjects.size} tracked objects`);
 
     // Check thresholds
     if (totalMemory > this.memoryThresholds.emergency) {
-      console.error('🚨 EMERGENCY: Memory usage critical! Performing aggressive cleanup...');
+      logger.error('EMERGENCY: Memory usage critical! Performing aggressive cleanup...');
       this.performAggressiveCleanup();
     } else if (totalMemory > this.memoryThresholds.critical) {
-      console.warn('⚠️ WARNING: High memory usage detected. Performing cleanup...');
+      logger.warn('WARNING: High memory usage detected. Performing cleanup...');
       this.performCleanupCycle();
     } else if (totalMemory > this.memoryThresholds.warning) {
-      console.warn('⚠️ Memory usage above warning threshold');
+      logger.warn('Memory usage above warning threshold');
     }
 
     // Update room memory stats
@@ -320,7 +321,7 @@ class MemoryManager {
    * Perform aggressive cleanup in emergency situations
    */
   performAggressiveCleanup() {
-    console.log('🚨 Performing aggressive memory cleanup...');
+    logger.info('Performing aggressive memory cleanup...');
 
     const now = Date.now();
     let cleanedObjects = 0;
@@ -341,7 +342,7 @@ class MemoryManager {
       global.gc();
     }
 
-    console.log(`🚨 Aggressive cleanup completed: removed ${cleanedObjects} objects, freed ${freedMemory} bytes`);
+    logger.info(`Aggressive cleanup completed: removed ${cleanedObjects} objects, freed ${freedMemory} bytes`);
   }
 
   /**
@@ -375,7 +376,7 @@ class MemoryManager {
   updateRoomMemoryStats() {
     for (const [roomId, usage] of this.roomMemoryUsage.entries()) {
       if (usage.totalSize > 50 * 1024 * 1024) { // 50MB per room warning
-        console.warn(`⚠️ Room ${roomId} using ${Math.round(usage.totalSize / 1024 / 1024)}MB memory`);
+        logger.warn(`Room ${roomId} using ${Math.round(usage.totalSize / 1024 / 1024)}MB memory`);
       }
     }
   }

@@ -56,7 +56,7 @@ function validateMapExists(room, mapId, preferredName = null) {
       environmentalObjects: [],
       createdAt: new Date()
     };
-    console.log(`🗺️ Created new map structure: ${mapId} (${initialName})`);
+    logger.debug(`Created new map structure: ${mapId} (${initialName})`);
   } else if (preferredName && (!room.gameState.maps[mapId].name || room.gameState.maps[mapId].name.startsWith('Map '))) {
     room.gameState.maps[mapId].name = preferredName;
   }
@@ -94,12 +94,23 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
   const roomJoinRequests = new Map();
 
   io.on('connection', (socket) => {
-    logger.info('Player connected', { socketId: socket.id });
+    logger.info('Player connected', { socketId: socket.id, authenticated: socket.data.authenticated, isGuest: socket.data.isGuest });
+
+    const requireAuth = (callback) => {
+      return (...args) => {
+        if (!socket.data.authenticated) {
+          logger.warn('Unauthenticated socket attempted restricted action', { socketId: socket.id, isGuest: socket.data.isGuest });
+          socket.emit('auth_error', { error: 'Authentication required. Please log in to perform this action.' });
+          return;
+        }
+        return callback(...args);
+      };
+    };
 
     const chatDebugEnabled = process.env.CHAT_DEBUG === 'true' || process.env.NODE_ENV === 'development';
     const chatDebug = (...args) => {
       if (chatDebugEnabled) {
-        console.log(...args);
+        logger.debug('[chat]', ...args);
       }
     };
 
@@ -427,7 +438,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
                 memberSockets.forEach(s => {
                   s.emit('gm_session_invitation', invitation);
-                  console.log(`📤 [Server] Sent gm_session_invitation to socket ${s.id} for member ${memberId}`);
                 });
 
                 logger.info('GM session invitation sent', {
@@ -502,7 +512,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== ROOM MANAGEMENT HANDLERS ====================
 
-    socket.on('create_room', async (data) => {
+    socket.on('create_room', requireAuth(async (data) => {
       let room = null;
 
       try {
@@ -663,7 +673,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const roomForEmission = {
           id: room.id,
           name: room.name,
-          passwordHash: room.passwordHash,
           gm: room.gm,
           players: room.players,
           settings: room.settings,
@@ -676,7 +685,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         socket.emit('room_created', { room: roomForEmission });
         logger.info('[create_room] Room created successfully', { roomId: room.id, roomName: room.name });
 
-        // Emit room_joined for GM (client expects this to complete loading)
         socket.emit('room_joined', {
           room: roomForEmission,
           player: roomForEmission.gm,
@@ -724,9 +732,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         logger.error('[create_room] Error creating room:', { error: error.message, stack: error.stack });
         socket.emit('room_error', { error: error.message });
       }
-    });
+    }));
 
-    socket.on('join_room', async (data) => {
+    socket.on('join_room', requireAuth(async (data) => {
       try {
         const { roomId, playerName, password, playerColor, character } = data;
 
@@ -746,7 +754,17 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         const joiningUserId = socket.data?.userId || data.userId || null;
         const isGMReclaim = room.gmId && joiningUserId && room.gmId === joiningUserId;
 
-        const playerId = uuidv4();
+        const isPlayerReclaim = !isGMReclaim && joiningUserId
+          && room.disconnectedPlayers && room.disconnectedPlayers[joiningUserId];
+
+        let playerId;
+        if (isPlayerReclaim) {
+          playerId = room.disconnectedPlayers[joiningUserId].playerId;
+          delete room.disconnectedPlayers[joiningUserId];
+        } else {
+          playerId = uuidv4();
+        }
+
         const player = {
           id: playerId,
           name: sanitizePlayerName(playerName) || 'Player',
@@ -816,7 +834,6 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             player: {
               id: player.id,
               name: player.name,
-              socketId: socket.id,
               character: player.character,
               currentMapId: player.currentMapId,
               userId: player.userId || null
@@ -834,7 +851,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         logger.error('[join_room] Error joining room:', { error: error.message });
         socket.emit('room_error', { error: error.message });
       }
-    });
+    }));
 
     socket.on('leave_room', (ackCallback) => {
       const player = players.get(socket.id);
@@ -950,7 +967,15 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             roomId: room.id
           });
         } else {
-          // Regular player disconnected
+          // Regular player disconnected — store last known ID for reconnection
+          if (player.userId) {
+            if (!room.disconnectedPlayers) room.disconnectedPlayers = {};
+            room.disconnectedPlayers[player.userId] = {
+              playerId: player.id,
+              playerName: player.name,
+              disconnectedAt: Date.now()
+            };
+          }
           room.players.delete(player.id);
           if (room.gameState.playerMapAssignments) {
             delete room.gameState.playerMapAssignments[player.id];
@@ -973,11 +998,12 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== TOKEN MANAGEMENT HANDLERS ====================
 
-    socket.on('token_created', async (data) => {
+    socket.on('token_created', async (data, ackCallback) => {
       try {
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) {
           socket.emit('error', { message: validation.error });
+          if (typeof ackCallback === 'function') ackCallback({ success: false, error: validation.error });
           return;
         }
 
@@ -994,24 +1020,27 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         };
 
         map.tokens[tokenId] = token;
-        room.gameState.tokens[tokenId] = token; // Legacy support
+        room.gameState.tokens[tokenId] = token;
 
-        // Broadcast to all players in room using room.id from validation
         io.to(room.id).emit('token_created', {
-          ...data, // Relay all metadata (creature, position, player info)
-          token,   // Overwrite with processed token
+          ...data,
+          token,
           mapId,
           createdBy: socket.id,
           sequence: getNextEventSequence()
         });
 
-        // Queue Firebase update
-        firebaseBatchWriter.queueWrite(room.id, room.gameState);
+        firebaseBatchWriter.queueWrite(room.id, room.gameState, true);
+
+        if (typeof ackCallback === 'function') {
+          ackCallback({ success: true, tokenId });
+        }
 
         logger.debug('[token_created] Token created', { tokenId, mapId, roomId: room.id });
 
       } catch (error) {
         logger.error('[token_created] Error:', { error: error.message });
+        if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
       }
     });
 
@@ -1316,23 +1345,20 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
     });
 
     socket.on('character_updated', async (data) => {
-      console.log(`📥 [Server] character_updated received from ${socket.id}`, {
+      logger.debug(`character_updated received`, {
+        socketId: socket.id,
         characterId: data.characterId,
-        name: data.character?.name,
-        race: data.character?.race,
-        class: data.character?.class,
-        roomId: data.roomId,
         hasCharacter: !!data.character
       });
       try {
         const validation = validateRoomMembership(socket, data.roomId);
         if (!validation.valid) {
-          console.log(`❌ [Server] character_updated validation failed:`, validation.error);
+          logger.warn(`character_updated validation failed:`, { error: validation.error });
           return;
         }
 
         const { room, player } = validation;
-        console.log(`✅ [Server] character_updated validated for player ${player.id} in room ${room.id}`);
+        logger.debug(`character_updated validated`, { playerId: player.id, roomId: room.id });
 
         // Update player character data
         if (data.character) {
@@ -1357,10 +1383,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         // CRITICAL FIX: Use room.id instead of data.roomId (which may be undefined)
         // validateRoomMembership resolves the room from player.roomId as fallback
         const broadcastRoomId = room.id;
-        console.log(`📤 [Server] Broadcasting character_updated to room ${broadcastRoomId}:`, {
+        logger.debug(`Broadcasting character_updated`, {
+          roomId: broadcastRoomId,
           playerId: player.id,
-          playerName: player.character?.name,
-          playerClass: player.character?.class,
           isGM: player.isGM || room.gm?.socketId === socket.id
         });
         
@@ -1527,8 +1552,17 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const roomId = data.roomId || data.data?.roomId;
+        const room = rooms.get(roomId);
+        if (room) {
+          if (!room.gameState.buffs) room.gameState.buffs = {};
+          if (data.tokenId && data.buff) {
+            room.gameState.buffs[data.tokenId] = data.buff;
+          } else if (data.buffs) {
+            room.gameState.buffs = { ...room.gameState.buffs, ...data.buffs };
+          }
+          firebaseBatchWriter.queueWrite(roomId, room.gameState);
+        }
 
-        // Broadcast to the rest of the room
         socket.to(roomId).emit('buff_update', {
           ...data,
           senderSocketId: socket.id
@@ -1544,8 +1578,17 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         if (!validation.valid) return;
 
         const roomId = data.roomId || data.data?.roomId;
+        const room = rooms.get(roomId);
+        if (room) {
+          if (!room.gameState.debuffs) room.gameState.debuffs = {};
+          if (data.tokenId && data.debuff) {
+            room.gameState.debuffs[data.tokenId] = data.debuff;
+          } else if (data.debuffs) {
+            room.gameState.debuffs = { ...room.gameState.debuffs, ...data.debuffs };
+          }
+          firebaseBatchWriter.queueWrite(roomId, room.gameState);
+        }
 
-        // Broadcast to the rest of the room
         socket.to(roomId).emit('debuff_update', {
           ...data,
           senderSocketId: socket.id
@@ -2366,10 +2409,13 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
     // ==================== COMBAT HANDLERS ====================
 
-    socket.on('combat_started', (data) => {
+    socket.on('combat_started', (data, ackCallback) => {
       try {
         const validation = validateRoomMembership(socket, data.roomId);
-        if (!validation.valid) return;
+        if (!validation.valid) {
+          if (typeof ackCallback === 'function') ackCallback({ success: false, error: 'Not a room member' });
+          return;
+        }
 
         const { room } = validation;
 
@@ -2385,17 +2431,25 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           combat: room.gameState.combat
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(data.roomId, room.gameState, true);
+
+        if (typeof ackCallback === 'function') {
+          ackCallback({ success: true, combat: room.gameState.combat });
+        }
 
       } catch (error) {
         logger.error('[combat_started] Error:', { error: error.message });
+        if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
       }
     });
 
-    socket.on('combat_ended', (data) => {
+    socket.on('combat_ended', (data, ackCallback) => {
       try {
         const validation = validateRoomMembership(socket, data.roomId);
-        if (!validation.valid) return;
+        if (!validation.valid) {
+          if (typeof ackCallback === 'function') ackCallback({ success: false, error: 'Not a room member' });
+          return;
+        }
 
         const { room } = validation;
 
@@ -2408,10 +2462,15 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         io.to(data.roomId).emit('combat_ended');
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(data.roomId, room.gameState, true);
+
+        if (typeof ackCallback === 'function') {
+          ackCallback({ success: true });
+        }
 
       } catch (error) {
         logger.error('[combat_ended] Error:', { error: error.message });
+        if (typeof ackCallback === 'function') ackCallback({ success: false, error: error.message });
       }
     });
 
@@ -2560,7 +2619,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     });
 
-    socket.on('global_chat_message', (data) => {
+    socket.on('global_chat_message', requireAuth((data) => {
       try {
         const player = players.get(socket.id);
         const socialUser = onlineSocialUsers.get(socket.id);
@@ -2598,9 +2657,9 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       } catch (error) {
         logger.error('[global_chat_message] Error:', { error: error.message });
       }
-    });
+    }));
 
-    socket.on('whisper_message', (data) => {
+    socket.on('whisper_message', requireAuth((data) => {
       try {
         // Allow whispers from both game room players AND social users
         const player = players.get(socket.id);
@@ -2679,7 +2738,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       } catch (error) {
         logger.error('[whisper_message] Error:', { error: error.message });
       }
-    });
+    }));
 
     // ==================== ENVIRONMENT HANDLERS ====================
 
@@ -2931,7 +2990,7 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           updatedBy: socket.id
         });
 
-        firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        firebaseBatchWriter.queueWrite(data.roomId, room.gameState, true);
 
       } catch (error) {
         logger.error('[fog_update] Error:', { error: error.message });
@@ -3045,6 +3104,88 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         },
         player: player
       });
+    });
+
+    socket.on('sync_tokens', (data) => {
+      const sender = players.get(socket.id);
+      if (!sender) return;
+      const room = rooms.get(sender.roomId);
+      if (!room) return;
+
+      const payload = { tokens: data.tokens, mapId: data.mapId };
+
+      if (data.recipientPlayerId) {
+        const recipient = Array.from(players.values()).find(p => p.id === data.recipientPlayerId);
+        if (recipient) {
+          io.to(recipient.socketId).emit('full_game_state_sync', payload);
+        }
+      } else {
+        socket.to(sender.roomId).emit('full_game_state_sync', payload);
+      }
+    });
+
+    socket.on('sync_grid_items', (data) => {
+      const sender = players.get(socket.id);
+      if (!sender) return;
+      const room = rooms.get(sender.roomId);
+      if (!room) return;
+
+      const payload = { gridItems: data.gridItems, mapId: data.mapId };
+
+      if (data.recipientPlayerId) {
+        const recipient = Array.from(players.values()).find(p => p.id === data.recipientPlayerId);
+        if (recipient) {
+          io.to(recipient.socketId).emit('full_game_state_sync', payload);
+        }
+      } else {
+        socket.to(sender.roomId).emit('full_game_state_sync', payload);
+      }
+    });
+
+    socket.on('sync_character_tokens', (data) => {
+      const sender = players.get(socket.id);
+      if (!sender) return;
+      const room = rooms.get(sender.roomId);
+      if (!room) return;
+
+      const payload = { characterTokens: data.characterTokens, mapId: data.mapId };
+
+      if (data.recipientPlayerId) {
+        const recipient = Array.from(players.values()).find(p => p.id === data.recipientPlayerId);
+        if (recipient) {
+          io.to(recipient.socketId).emit('full_game_state_sync', payload);
+        }
+      } else {
+        socket.to(sender.roomId).emit('full_game_state_sync', payload);
+      }
+    });
+
+    socket.on('request_combat_sync', () => {
+      const player = players.get(socket.id);
+      if (!player) return;
+      const room = rooms.get(player.roomId);
+      if (!room) return;
+
+      socket.emit('full_game_state_sync', {
+        combat: room.gameState.combat || null,
+        players: Array.from(room.players.values()),
+        gm: room.gm
+      });
+    });
+
+    socket.on('save_room_state_request', async (data) => {
+      const player = players.get(socket.id);
+      if (!player) return;
+      const room = rooms.get(player.roomId);
+      if (!room) return;
+
+      try {
+        await firebaseService.updateRoomGameState(room.id, room.gameState);
+        socket.emit('room_state_saved', { roomId: room.id, reason: data.reason });
+      } catch (error) {
+        logger.error('[save_room_state_request] Error:', { error: error.message });
+        socket.emit('room_state_save_error', { error: error.message });
+      }
     });
 
     socket.on('resolve_state_conflict', async (data) => {

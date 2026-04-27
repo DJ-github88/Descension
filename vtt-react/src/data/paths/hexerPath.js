@@ -33,7 +33,7 @@ export const HEXER_PATH = {
             id: 'dark_pact',
             name: 'Dark Pact',
             description: '"I have bargained with powers beyond your comprehension." Your pact with dark forces grants you resistance to necrotic damage and the ability to sense magical curses.',
-            icon: 'Void/Demonic Possesion',
+            icon: 'Void/Demonic Possession',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'dark', 'resistance', 'detection'],
@@ -42,7 +42,7 @@ export const HEXER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'Void/Demonic Possesion',
+                icon: 'Void/Demonic Possession',
                 tags: ['passive', 'dark', 'resistance', 'detection']
             },
 
@@ -177,14 +177,14 @@ export const HEXER_PATH = {
             icon: 'Necrotic/Cursed Entities',
             level: 1,
             spellType: 'ACTION',
-            tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification'],
+            tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification'],
             effectTypes: ['debuff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'shadow',
                 icon: 'Necrotic/Cursed Entities',
-                tags: ['action', 'debuff', 'curse', 'hex', 'damage-amplification']
+                tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
             },
 
             debuffConfig: {
@@ -239,7 +239,7 @@ export const HEXER_PATH = {
             icon: 'Radiant/Radiant Golden Shield',
             level: 1,
             spellType: 'ACTION',
-            tags: ['buff', 'defensive', 'spirit', 'ward'],
+            tags: ['action', 'buff', 'defensive', 'spirit', 'ward'],
             effectTypes: ['buff'],
             damageTypes: [],
 
@@ -285,10 +285,8 @@ export const HEXER_PATH = {
             },
 
             resourceCost: {
-                mana: 18,
-                health: 0,
-                stamina: 0,
-                focus: 5,
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 18 },
                 actionPoints: 1
             },
 
@@ -319,7 +317,7 @@ export const HEXER_PATH = {
             icon: 'Void/Red Energy Burst',
             level: 1,
             spellType: 'ACTION',
-            tags: ['damage', 'curse', 'spirit', 'ranged'],
+            tags: ['action', 'damage', 'curse', 'spirit', 'ranged'],
             effectTypes: ['damage'],
             damageTypes: ['necrotic', 'psychic'],
 
@@ -348,10 +346,8 @@ export const HEXER_PATH = {
             },
 
             resourceCost: {
-                mana: 12,
-                health: 0,
-                stamina: 0,
-                focus: 0,
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 12 },
                 actionPoints: 1
             },
 
@@ -391,48 +387,38 @@ export const HEXER_PATH = {
 
             abilities: [
                 {
-                    id: 'hex',
-                    name: 'Hex',
-                    description: '"You are cursed." Place a debilitating hex on an enemy.',
+                    id: 'spirit_hex',
+                    name: 'Spirit Hex',
+                    description: '"You are cursed by the spirits." Place a debilitating hex on an enemy, causing them to take 20% increased damage from all sources.',
                     icon: 'Necrotic/Cursed Entities',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['debuff', 'curse', 'hex', 'damage-amplification'],
+                    tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification'],
                     effectTypes: ['debuff'],
                     damageTypes: [],
 
+                    typeConfig: {
+                        school: 'shadow',
+                        icon: 'Necrotic/Cursed Entities',
+                        tags: ['action', 'debuff', 'curse', 'hex', 'damage amplification']
+                    },
+
                     debuffConfig: {
-                        duration: 10,
+                        debuffType: 'statusEffect',
+                        effects: [
+                            {
+                                id: 'spirit_hexed',
+                                name: 'Spirit Hexed',
+                                description: 'Target takes 20% increased damage from all sources. The curse can be removed by dispel magic or similar effects.'
+                            }
+                        ],
                         durationValue: 10,
                         durationType: 'rounds',
                         durationUnit: 'rounds',
-                        statModifiers: [
-                            {
-                                name: 'hex_vulnerability',
-                                stat: 'damage_taken',
-                                value: 20,
-                                magnitude: 20,
-                                magnitudeType: 'percentage',
-                                isPercentage: true
-                            }
-                        ],
-                        statusEffects: [
-                            {
-                                id: 'hexed',
-                                name: 'Hexed',
-                                description: 'Cursed to take 20% increased damage'
-                            }
-                        ],
-                        debuffs: [
-                            {
-                                name: 'Hex Curse',
-                                description: 'Vulnerability to damage',
-                                duration: 10,
-                                effects: {
-                                    damageVulnerability: 20
-                                }
-                            }
-                        ]
+                        saveDC: 14,
+                        saveType: 'spirit',
+                        saveOutcome: 'negates',
+                        canBeDispelled: true
                     },
 
                     targetingConfig: {
@@ -443,19 +429,9 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 15,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 15 },
                         actionPoints: 1
-                    },
-
-                    durationConfig: {
-                        type: 'timed',
-                        value: 10,
-                        unit: 'rounds',
-                        concentration: false,
-                        dispellable: true
                     },
 
                     cooldownConfig: {
@@ -466,9 +442,7 @@ export const HEXER_PATH = {
                     },
 
                     resolution: 'DICE',
-                    visualTheme: 'shadow',
-                    effectMechanicsConfigs: {},
-                    mechanicsConfig: []
+                    visualTheme: 'shadow'
                 },
                 {
                     id: 'spirit_link',
@@ -477,7 +451,7 @@ export const HEXER_PATH = {
                     icon: 'Healing/Renewal',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['buff', 'protection', 'spirit', 'damage-sharing'],
+                    tags: ['action', 'buff', 'protection', 'spirit', 'damage sharing'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
@@ -517,10 +491,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 25,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 25 },
                         actionPoints: 2
                     },
 
@@ -551,7 +523,7 @@ export const HEXER_PATH = {
                     icon: 'Void/Shadowy Potion',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['debuff', 'curse', 'damage-reflect', 'voodoo'],
+                    tags: ['action', 'debuff', 'curse', 'damage reflect', 'voodoo'],
                     effectTypes: ['debuff'],
                     damageTypes: [],
 
@@ -589,10 +561,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
-                        health: 5,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 20 },
                         actionPoints: 2
                     },
 
@@ -638,7 +608,7 @@ export const HEXER_PATH = {
                     icon: 'Utility/Crouching Beast',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['buff', 'transformation', 'beast', 'physical'],
+                    tags: ['action', 'buff', 'transformation', 'beast', 'physical'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
@@ -694,10 +664,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 20 },
                         actionPoints: 2
                     },
 
@@ -728,7 +696,7 @@ export const HEXER_PATH = {
                     icon: 'Utility/Snarling Beast',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['buff', 'rage', 'attack-speed', 'damage'],
+                    tags: ['action', 'buff', 'rage', 'attack speed', 'damage'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
@@ -783,10 +751,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
-                        health: 0,
-                        stamina: 15,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 20 },
                         actionPoints: 2
                     },
 
@@ -832,7 +798,7 @@ export const HEXER_PATH = {
                     icon: 'Utility/Ornate Staff',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['summon', 'totem', 'buff', 'aoe'],
+                    tags: ['action', 'summon', 'totem', 'buff', 'aoe'],
                     effectTypes: ['summon'],
                     damageTypes: [],
 
@@ -861,10 +827,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 20 },
                         actionPoints: 2
                     },
 
@@ -895,7 +859,7 @@ export const HEXER_PATH = {
                     icon: 'Healing/Golden Heart',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['healing', 'buff', 'ancestral', 'aoe'],
+                    tags: ['action', 'healing', 'buff', 'ancestral', 'aoe'],
                     effectTypes: ['healing', 'buff'],
                     damageTypes: [],
 
@@ -957,10 +921,8 @@ export const HEXER_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 25,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 25 },
                         actionPoints: 3
                     },
 

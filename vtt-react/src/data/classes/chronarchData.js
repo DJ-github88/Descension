@@ -202,7 +202,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         ['Fate Manipulation', '6 Strain'],
         ['Temporal Shockwave', '5 Strain'],
         ['Reality Fracture', '7 Strain'],
-        ['Temporal Paradox (Level 9)', '6 Strain'],
+        ['Chronal Paradox', '6 Strain'],
         ['Temporal Mastery', '8 Strain'],
         ['Chronal Restoration', '6 Strain'],
         ['Chronal Vortex', '8 Strain']
@@ -604,7 +604,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_rewind',
       name: 'Temporal Rewind',
-      description: 'Rewind time slightly, undoing some of the damage you took. The temporal energy flows backward through your wounds, partially reversing the injuries and healing additional damage. Time itself bends to your will, mending what was broken.',
+      description: 'Rewind time to undo recent damage taken by an ally and heal additional wounds.',
       level: 2,
       icon: 'Arcane/Rewind Time',
       spellType: 'REACTION',
@@ -645,7 +645,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       },
 
       healingConfig: {
-        formula: '1d6 + spirit',
+        formula: '2d6 + spirit',
         healingType: 'direct'
       },
 
@@ -896,7 +896,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_foresight',
       name: 'Temporal Foresight',
-      description: 'Briefly glimpse fragments of future timelines, granting you unparalleled tactical awareness and the ability to act before your enemies.',
+      description: 'Glimpse future timelines, gaining tactical awareness and the ability to react before enemies.',
       level: 3,
       icon: 'Psychic/Focused Mind',
       spellType: 'ACTION',
@@ -987,7 +987,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 12 },
         timeShardCost: 4,
         temporalStrainGain: 3,
         actionPoints: 1,
@@ -1000,7 +1000,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['healing', 'purification'],
 
       healingConfig: {
-        formula: '3d6',
+        formula: '5d6 + spirit',
         healingType: 'area',
         targetType: 'ally',
         areaShape: 'circle',
@@ -1043,7 +1043,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       typeConfig: {
         school: 'illusion',
         icon: 'Arcane/Portal Archway',
-        tags: ['control', 'confusion', 'aoe', 'displacement'],
+        tags: ['control', 'confusion', 'aoe', 'displacement', 'rollable table'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1058,7 +1058,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 10 },
         timeShardCost: 3,
         temporalStrainGain: 2,
         actionPoints: 1,
@@ -1195,7 +1195,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         ]
       },
 
-      tags: ['control', 'confusion', 'aoe', 'displacement'],
+      tags: ['control', 'confusion', 'aoe', 'displacement', 'rollable table'],
       specialization: 'displacement'
     },
 
@@ -1428,7 +1428,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 14 },
+        resourceValues: { mana: 16 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempus Protegere',
@@ -1494,7 +1494,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 16 },
         timeShardCost: 4,
         temporalStrainGain: 2,
         actionPoints: 1,
@@ -1507,7 +1507,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['healing', 'buff'],
 
       healingConfig: {
-        formula: '4d6',
+        formula: '6d8 + spirit',
         healingType: 'direct',
         targetType: 'ally'
       },
@@ -1566,7 +1566,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 15 },
         timeShardCost: 3,
         temporalStrainGain: 2,
         actionPoints: 1,
@@ -1613,7 +1613,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_fracture',
       name: 'Temporal Fracture',
-      description: 'Tear fractures in the temporal fabric around enemies, causing them to rapidly age and decay as time accelerates unnaturally around them.',
+      description: 'Tear fractures in time around enemies, dealing damage and causing rapid aging.',
       level: 6,
       icon: 'Poison/Poison Contagion',
       spellType: 'ACTION',
@@ -1636,7 +1636,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 20 },
         timeShardCost: 5,
         temporalStrainGain: 4,
         actionPoints: 1,
@@ -1649,7 +1649,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '3d6',
+        formula: '8d6 + intelligence',
         elementType: 'necrotic',
         damageType: 'area',
         areaShape: 'circle',
@@ -1712,7 +1712,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 14 },
+        resourceValues: { mana: 20 },
         timeShardCost: 4,
         temporalStrainGain: 3,
         actionPoints: 1,
@@ -1855,7 +1855,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 14 },
+        resourceValues: { mana: 22 },
         timeShardCost: 6,
         temporalStrainGain: 4,
         actionPoints: 1,
@@ -1868,7 +1868,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '3d8',
+        formula: '10d6 + intelligence',
         elementType: 'force',
         damageType: 'area',
         areaShape: 'circle',
@@ -1947,7 +1947,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceValues: { mana: 24 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempus Revertere',
@@ -1958,7 +1958,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '6d6',
+        formula: '10d6 + spirit',
         healingType: 'direct',
         targetType: 'ally'
       },
@@ -2000,7 +2000,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 18 },
+        resourceValues: { mana: 24 },
         timeShardCost: 6,
         temporalStrainGain: 5,
         actionPoints: 1,
@@ -2013,7 +2013,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '4d8',
+        formula: '10d6 + intelligence',
         elementType: 'force',
         damageType: 'area',
         areaShape: 'circle',
@@ -2054,7 +2054,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'temporal_flux_dominion',
       name: 'Temporal Flux: Dominion',
-      description: 'Channel ultimate temporal flux to take complete dominion over time itself, bending the flow of moments to your will.',
+      description: 'Take dominion over time in an area, controlling turn order and speed.',
       level: 8,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -2077,7 +2077,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 15 },
+        resourceValues: { mana: 24 },
         timeShardCost: 8,
         temporalStrainGain: 6,
         actionPoints: 1,
@@ -2144,7 +2144,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 28 },
         timeShardCost: 8,
         temporalStrainGain: 5,
         actionPoints: 1,
@@ -2199,7 +2199,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 20 },
+        resourceValues: { mana: 28 },
         timeShardCost: 8,
         temporalStrainGain: 6,
         actionPoints: 1,
@@ -2301,7 +2301,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '5d10 + intelligence',
+        formula: '15d6 + intelligence',
         elementType: 'force',
         damageType: 'area',
         canCrit: true,
@@ -2378,7 +2378,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '5d8',
+        formula: '15d6 + intelligence',
         elementType: 'force',
         damageType: 'area',
         areaShape: 'circle',
@@ -2413,9 +2413,9 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     },
 
     {
-      id: 'temporal_paradox',
-      name: 'Temporal Paradox',
-      description: 'Create a temporal paradox that forces enemies to relive their actions in an endless loop, preventing them from taking new actions.',
+      id: 'chronal_paradox',
+      name: 'Chronal Paradox',
+      description: 'Force enemies to relive their actions in an endless loop, preventing new actions and dealing psychic damage.',
       level: 9,
       icon: 'Arcane/Portal Archway',
       spellType: 'ACTION',
@@ -2438,7 +2438,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
 
       resourceCost: {
         resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 25 },
+        resourceValues: { mana: 30 },
         timeShardCost: 7,
         temporalStrainGain: 6,
         actionPoints: 2,
@@ -2601,7 +2601,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['healing', 'buff'],
 
       healingConfig: {
-        formula: '6d8 + intelligence',
+        formula: '18d6 + spirit',
         healingType: 'direct',
         targetType: 'ally',
         description: 'Rewind injuries and restore vitality to all allies in the area'
@@ -2668,7 +2668,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       effectTypes: ['damage', 'healing', 'control'],
 
       damageConfig: {
-        formula: '5d10',
+        formula: '18d6 + intelligence',
         elementType: 'necrotic',
         damageType: 'area',
         areaShape: 'circle',
@@ -2677,7 +2677,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
       },
 
       healingConfig: {
-        formula: '5d10',
+        formula: '18d6 + spirit',
         healingType: 'area',
         targetType: 'ally',
         areaShape: 'circle',
@@ -2740,7 +2740,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     ],
     6: [
       'temporal_fracture',
-      'time_lock',
+      'temporal_echoes',
       'temporal_loop'
     ],
     7: [
@@ -2755,7 +2755,8 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     ],
     9: [
       'temporal_shockwave',
-      'reality_fracture'
+      'reality_fracture',
+      'chronal_paradox'
     ],
     10: [
       'temporal_mastery',

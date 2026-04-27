@@ -838,29 +838,54 @@ Before combat, decide which cadences you want to prioritize:
   // Maps character level to available spell IDs for learning
   spellPools: {
     1: [
-      // Level 1 spells: Basic builders and simple resolvers (5 options, pick 3)
       'minstrel_opening_chord',
       'minstrel_harmonic_strike',
       'minstrel_inspiring_rhythm',
       'minstrel_minor_cadence',
-      'minstrel_soothing_melody'
+      'minstrel_soothing_melody',
+      'minstrel_uplifting_rhythm',
+      'minstrel_resolving_strike',
+      'minstrel_mending_cadence'
     ],
     2: [
-      // Level 2 spells: More builders and utility (3 options, pick 1)
       'minstrel_healing_hymn',
-      'minstrel_war_drum',
-      'minstrel_dissonant_shriek'
+      'minstrel_war_drum'
+    ],
+    3: [
+      'minstrel_dissonant_shriek',
+      'minstrel_song_of_rest'
     ],
     4: [
-      // Level 4+ spells: Advanced resolvers
       'minstrel_perfect_cadence',
+      'minstrel_harmony_strike'
+    ],
+    5: [
       'minstrel_circle_of_fifths',
       'minstrel_authentic_cadence'
     ],
     6: [
-      // Level 6+ spells: Complex cadences
       'minstrel_tritone_substitution',
       'minstrel_picardy_third'
+    ],
+    7: [
+      'minstrel_symphony_of_destruction',
+      'minstrel_song_of_heroes',
+      'minstrel_discordant_shriek'
+    ],
+    8: [
+      'minstrel_magnum_opus',
+      'minstrel_serenade_of_shadows',
+      'minstrel_harmony_of_renewal'
+    ],
+    9: [
+      'minstrel_crescendo_of_power',
+      'minstrel_requiem_of_the_fallen',
+      'minstrel_tempo_mastery'
+    ],
+    10: [
+      'minstrel_legendary_performance',
+      'minstrel_song_of_creation',
+      'minstrel_final_cadence'
     ]
   },
 
@@ -880,7 +905,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Divine Halo',
-        tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1'],
+        tags: ['builder', 'basic', 'sonic', 'tonic generator', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -894,7 +919,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -924,7 +949,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['builder', 'basic', 'sonic', 'tonic-generator', 'level-1']
+      tags: ['builder', 'basic', 'sonic', 'tonic generator', 'level 1']
     },
 
     {
@@ -938,7 +963,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Bludgeoning/Mortal Strike',
-        tags: ['builder', 'melee', 'basic', 'mediant-generator', 'level-1'],
+        tags: ['builder', 'melee', 'basic', 'mediant generator', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -952,7 +977,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['somatic'],
@@ -981,7 +1006,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['builder', 'melee', 'basic', 'mediant-generator', 'level-1']
+      tags: ['builder', 'melee', 'basic', 'mediant generator', 'level 1']
     },
 
     {
@@ -995,7 +1020,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Golden Ring',
-        tags: ['builder', 'support', 'dominant-generator', 'level-1'],
+        tags: ['builder', 'support', 'dominant generator', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1007,7 +1032,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 3 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1046,7 +1071,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['builder', 'support', 'dominant-generator', 'level-1']
+      tags: ['builder', 'support', 'dominant generator', 'level 1']
     },
 
     {
@@ -1060,7 +1085,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Bolt',
-        tags: ['resolver', 'healing', 'subdominant-generator', 'level-1'],
+        tags: ['resolver', 'healing', 'subdominant generator', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1075,7 +1100,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1105,7 +1130,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['resolver', 'healing', 'subdominant-generator', 'level-1']
+      tags: ['resolver', 'healing', 'subdominant generator', 'level 1']
     },
 
     {
@@ -1119,7 +1144,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['resolver', 'utility', 'leading-generator', 'level-1'],
+        tags: ['resolver', 'utility', 'leading generator', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1133,7 +1158,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 3 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1170,12 +1195,12 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['resolver', 'utility', 'leading-generator', 'level-1']
+      tags: ['resolver', 'utility', 'leading generator', 'level 1']
     },
 
     {
-      id: 'minstrel_inspiring_rhythm_supertonic',
-      name: 'Inspiring Rhythm',
+      id: 'minstrel_uplifting_rhythm',
+      name: 'Uplifting Rhythm',
       description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Warrior',
@@ -1183,6 +1208,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 1,
 
       typeConfig: {
+        school: 'enchantment',
+        icon: 'Radiant/Radiant Warrior',
+        tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1201,7 +1229,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 12 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1249,12 +1277,12 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'buff', 'support', 'supertonic-generator', 'battlechoir', 'level-1']
+      tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1']
     },
 
     {
-      id: 'minstrel_minor_cadence_resolver',
-      name: 'Minor Cadence',
+      id: 'minstrel_resolving_strike',
+      name: 'Resolving Strike',
       description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
       spellType: 'ACTION',
       icon: 'Arcane/Orb Manipulation',
@@ -1262,6 +1290,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 1,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'Arcane/Orb Manipulation',
+        tags: ['resolver', 'cadence', 'damage', 'simple', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1277,7 +1308,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 15,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Simple resolution phrase'
       },
@@ -1285,15 +1318,15 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6',
-        damageType: 'force',
-        scalingType: 'none'
+        formula: '1d8 + spirit',
+        elementType: 'thunder',
+        damageType: 'direct'
       },
 
       effects: {
         damage: {
           instant: {
-            formula: '2d6',
+            formula: '1d8 + spirit',
             type: 'thunder'
           }
         }
@@ -1310,12 +1343,12 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'damage', 'simple', 'level-1']
+      tags: ['resolver', 'cadence', 'damage', 'simple', 'level 1']
     },
 
     {
-      id: 'minstrel_soothing_melody_resolver',
-      name: 'Soothing Melody',
+      id: 'minstrel_mending_cadence',
+      name: 'Mending Cadence',
       description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
       spellType: 'ACTION',
       icon: 'Healing/Reaching Hand',
@@ -1323,6 +1356,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 1,
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Healing/Reaching Hand',
+        tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level 1'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1338,7 +1374,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 18,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Gentle healing melody'
       },
@@ -1347,7 +1385,7 @@ Before combat, decide which cadences you want to prioritize:
 
       healingConfig: {
         healingType: 'direct',
-        formula: '2d4+2',
+        formula: '1d8 + spirit',
         resolution: 'DICE'
       },
 
@@ -1358,14 +1396,8 @@ Before combat, decide which cadences you want to prioritize:
       effects: {
         healing: {
           instant: {
-            formula: '2d4+2',
+            formula: '1d8 + spirit',
             type: 'magical'
-          }
-        },
-        restoration: {
-          mana: {
-            formula: '1d4',
-            description: 'Restores mana to target'
           }
         }
       },
@@ -1385,7 +1417,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level-1']
+      tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level 1']
     },
 
     {
@@ -1398,6 +1430,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 2,
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Healing/Golden Heart',
+        tags: ['builder', 'healing', 'subdominant generator', 'soulsinger', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1413,7 +1448,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 15,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Melodic healing verse'
       },
@@ -1422,7 +1459,7 @@ Before combat, decide which cadences you want to prioritize:
 
       healingConfig: {
         healingType: 'direct',
-        formula: '2d6+2',
+        formula: '2d6 + spirit',
         resolution: 'DICE'
       },
 
@@ -1433,7 +1470,7 @@ Before combat, decide which cadences you want to prioritize:
       effects: {
         healing: {
           instant: {
-            formula: '2d6+2',
+            formula: '2d6 + spirit',
             type: 'magical'
           }
         }
@@ -1453,7 +1490,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'healing', 'subdominant-generator', 'soulsinger', 'level-2']
+      tags: ['builder', 'healing', 'subdominant generator', 'soulsinger', 'level 2']
     },
 
     {
@@ -1466,6 +1503,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 2,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'Utility/Overlords Command',
+        tags: ['builder', 'aoe', 'damage', 'dominant generator', 'battlechoir', 'area effect', 'level 2'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1483,7 +1523,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 20,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Beat drum or stomp rhythmically'
       },
@@ -1491,15 +1533,15 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d4',
-        damageType: 'force',
-        scalingType: 'none'
+        formula: '2d6 + spirit',
+        elementType: 'thunder',
+        damageType: 'direct'
       },
 
       effects: {
         damage: {
           instant: {
-            formula: '2d4',
+            formula: '2d6 + spirit',
             type: 'thunder'
           }
         }
@@ -1517,7 +1559,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'aoe', 'damage', 'dominant-generator', 'battlechoir', 'area-effect', 'level-2']
+      tags: ['builder', 'aoe', 'damage', 'dominant generator', 'battlechoir', 'area effect', 'level 2']
     },
 
     {
@@ -1530,6 +1572,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 3,
 
       typeConfig: {
+        school: 'enchantment',
+        icon: 'Psychic/Agonizing Scream',
+        tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1546,7 +1591,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 25,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Piercing discordant scream'
       },
@@ -1554,15 +1601,15 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6',
-        damageType: 'psychic',
-        scalingType: 'none'
+        formula: '3d6 + spirit',
+        elementType: 'psychic',
+        damageType: 'direct'
       },
 
       effects: {
         damage: {
           instant: {
-            formula: '2d6',
+            formula: '3d6 + spirit',
             type: 'psychic'
           }
         },
@@ -1584,7 +1631,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'aoe', 'fear', 'leading-tone-generator', 'dissonance']
+      tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3']
     },
 
     // Resolving Spells - Consume Notes for Powerful Cadences
@@ -1598,6 +1645,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 4,
 
       typeConfig: {
+        school: 'divination',
+        icon: 'Radiant/Radiant Bolt',
+        tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1615,7 +1665,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 30,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Harmonic resolution phrase'
       },
@@ -1642,7 +1694,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir']
+      tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4']
     },
 
     {
@@ -1655,6 +1707,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 5,
 
       typeConfig: {
+        school: 'evocation',
+        icon: 'Fire/Dragon Breath',
+        tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1674,7 +1729,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 40,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Cyclical harmonic phrase'
       },
@@ -1682,15 +1739,15 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d4',
-        damageType: 'force',
-        scalingType: 'none'
+        formula: '3d6 + spirit',
+        elementType: 'thunder',
+        damageType: 'direct'
       },
 
       effects: {
         damage: {
           dot: {
-            formula: '2d4',
+            formula: '3d6 + spirit',
             type: 'thunder',
             duration: 3,
             interval: 'turn'
@@ -1710,7 +1767,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir']
+      tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5']
     },
 
     {
@@ -1723,6 +1780,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 5,
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Healing/Prayer',
+        tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger', 'level 5'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1741,7 +1801,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 45,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Triumphant finale verse'
       },
@@ -1755,7 +1817,7 @@ Before combat, decide which cadences you want to prioritize:
       effects: {
         healing: {
           instant: {
-            formula: '1d8',
+            formula: '4d6 + spirit',
             type: 'magical'
           }
         },
@@ -1783,7 +1845,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger']
+      tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger', 'level 5']
     },
 
     {
@@ -1796,6 +1858,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 6,
 
       typeConfig: {
+        school: 'enchantment',
+        icon: 'Psychic/Mind Strike',
+        tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1813,7 +1878,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 50,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Dissonant binding phrase'
       },
@@ -1842,7 +1909,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance']
+      tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6']
     },
 
     {
@@ -1855,6 +1922,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 6,
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Radiant/Divine Radiance',
+        tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1871,7 +1941,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 55,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Hopeful ascending melody'
       },
@@ -1885,7 +1957,7 @@ Before combat, decide which cadences you want to prioritize:
       effects: {
         healing: {
           instant: {
-            formula: '2d6',
+            formula: '6d6 + spirit',
             type: 'magical'
           }
         },
@@ -1910,7 +1982,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger']
+      tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6']
     },
 
     // Utility Spell
@@ -1924,6 +1996,9 @@ Before combat, decide which cadences you want to prioritize:
       level: 3,
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Psychic/Mind Control',
+        tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3'],
         castTime: 10,
         castTimeType: 'MINUTES'
       },
@@ -1942,7 +2017,9 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        mana: 20,
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Soothing rest melody'
       },
@@ -1973,7 +2050,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger']
+      tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3']
     },
 
     // ========================================
@@ -1990,7 +2067,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Nature/Earth Shatter',
-        tags: ['damage', 'aoe', 'thunder', 'resolver', 'level-7'],
+        tags: ['damage', 'aoe', 'thunder', 'resolver', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2006,7 +2083,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 28 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Destructio Symphonia!',
@@ -2017,7 +2094,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10 + intelligence',
+        formula: '10d6 + spirit',
         elementType: 'thunder',
         damageType: 'direct',
         criticalConfig: {
@@ -2061,7 +2138,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'thunder', 'resolver', 'level-7']
+      tags: ['damage', 'aoe', 'thunder', 'resolver', 'level 7']
     },
 
     {
@@ -2075,7 +2152,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Radiant/Divine Radiance',
-        tags: ['buff', 'aoe', 'support', 'builder', 'level-7'],
+        tags: ['buff', 'aoe', 'support', 'builder', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2090,7 +2167,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 30 },
+        resourceValues: { mana: 28 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Canticum Heroum!',
@@ -2105,7 +2182,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'heroic_might',
           name: 'Heroic Might',
-          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds. The heroic might empowers every strike, making allies more accurate and devastating in combat.',
+          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds.',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 3,
@@ -2132,7 +2209,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 5
       },
 
-      tags: ['buff', 'aoe', 'support', 'builder', 'level-7']
+      tags: ['buff', 'aoe', 'support', 'builder', 'level 7']
     },
 
     {
@@ -2146,7 +2223,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Agonizing Scream',
-        tags: ['damage', 'control', 'psychic', 'level-7'],
+        tags: ['damage', 'control', 'psychic', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2171,7 +2248,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '4d8 + intelligence',
+        formula: '10d6 + spirit',
         elementType: 'psychic',
         damageType: 'direct'
       },
@@ -2200,7 +2277,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 3
       },
 
-      tags: ['damage', 'control', 'psychic', 'level-7']
+      tags: ['damage', 'control', 'psychic', 'level 7']
     },
 
     // ========================================
@@ -2217,7 +2294,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Divine Blessing',
-        tags: ['damage', 'healing', 'aoe', 'resolver', 'level-8'],
+        tags: ['damage', 'healing', 'aoe', 'resolver', 'level 8'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2232,7 +2309,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 32 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Opus Magnum Virtuoso!',
@@ -2243,7 +2320,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '8d8 + intelligence',
+        formula: '12d6 + spirit',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2255,7 +2332,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       healingConfig: {
-        formula: '6d8 + intelligence',
+        formula: '6d6 + spirit',
         healingType: 'direct',
         hasHotEffect: false
       },
@@ -2275,7 +2352,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 6
       },
 
-      tags: ['damage', 'healing', 'aoe', 'resolver', 'level-8']
+      tags: ['damage', 'healing', 'aoe', 'resolver', 'level 8']
     },
 
     {
@@ -2289,7 +2366,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Mind Control',
-        tags: ['debuff', 'control', 'aoe', 'level-8'],
+        tags: ['debuff', 'control', 'aoe', 'level 8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2305,7 +2382,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 38 },
+        resourceValues: { mana: 32 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Dark haunting melody',
@@ -2320,7 +2397,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'entranced',
           name: 'Entranced',
-          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds. The entrancing music leaves them vulnerable, their defenses weakened and their will compromised.'
+          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds.'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2353,7 +2430,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 5
       },
 
-      tags: ['debuff', 'control', 'aoe', 'level-8']
+      tags: ['debuff', 'control', 'aoe', 'level 8']
     },
 
     {
@@ -2367,7 +2444,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Healing/Renewal',
-        tags: ['healing', 'purification', 'aoe', 'level-8'],
+        tags: ['healing', 'purification', 'aoe', 'level 8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2382,7 +2459,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 32 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Harmonia Renovare!',
@@ -2393,7 +2470,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['healing', 'purification'],
 
       healingConfig: {
-        formula: '5d10 + intelligence',
+        formula: '10d6 + spirit',
         healingType: 'direct',
         hasHotEffect: true,
         hotFormula: '2d6',
@@ -2413,7 +2490,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 5
       },
 
-      tags: ['healing', 'purification', 'aoe', 'level-8']
+      tags: ['healing', 'purification', 'aoe', 'level 8']
     },
 
     // ========================================
@@ -2430,7 +2507,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Radiant/Radiant Glow',
-        tags: ['buff', 'self', 'empowerment', 'level-9'],
+        tags: ['buff', 'self', 'empowerment', 'level 9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2442,7 +2519,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 36 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Crescendo Potentia!',
@@ -2457,7 +2534,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'empowered_performance',
           name: 'Empowered Performance',
-          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources. The empowered performance amplifies every aspect of your magic, making you a true master of musical spellcasting.',
+          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources.',
           statModifier: {
             stat: 'spell_power',
             magnitude: 50,
@@ -2476,7 +2553,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['buff', 'self', 'empowerment', 'level-9']
+      tags: ['buff', 'self', 'empowerment', 'level 9']
     },
 
     {
@@ -2490,7 +2567,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'necromancy',
         icon: 'Necrotic/Drain Soul',
-        tags: ['damage', 'buff', 'aoe', 'resolver', 'level-9'],
+        tags: ['damage', 'buff', 'aoe', 'resolver', 'level 9'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2505,7 +2582,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 36 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Requiem Aeternam Dona Eis!',
@@ -2516,7 +2593,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage', 'buff'],
 
       damageConfig: {
-        formula: '10d8 + intelligence',
+        formula: '15d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2532,7 +2609,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'spirit_of_heroes',
           name: 'Spirit of Heroes',
-          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds. The spirit of heroes fills them with legendary power, making them nearly unstoppable.'
+          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2556,7 +2633,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['damage', 'buff', 'aoe', 'resolver', 'level-9']
+      tags: ['damage', 'buff', 'aoe', 'resolver', 'level 9']
     },
 
     {
@@ -2570,7 +2647,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Force/Force Field',
-        tags: ['buff', 'debuff', 'control', 'level-9'],
+        tags: ['buff', 'debuff', 'control', 'level 9'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2585,7 +2662,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 52 },
+        resourceValues: { mana: 36 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempus Dominium!',
@@ -2600,7 +2677,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'accelerated_tempo',
           name: 'Accelerated Tempo',
-          description: 'Allies gain an extra action on each of their turns for 3 rounds. The accelerated tempo makes time itself move faster for your allies, allowing them to act with incredible speed.'
+          description: 'Allies gain an extra action on each of their turns for 3 rounds.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2614,7 +2691,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'slowed_tempo',
           name: 'Slowed Tempo',
-          description: 'Enemies lose their reaction and have their speed halved for 3 rounds. The slowed tempo makes time crawl for your enemies, leaving them unable to react and moving at a snail\'s pace.'
+          description: 'Enemies lose their reaction and have their speed halved for 3 rounds.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2629,7 +2706,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['buff', 'debuff', 'control', 'level-9']
+      tags: ['buff', 'debuff', 'control', 'level 9']
     },
 
     // ========================================
@@ -2646,7 +2723,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Divine Illumination',
-        tags: ['damage', 'buff', 'aoe', 'ultimate', 'level-10'],
+        tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -2661,7 +2738,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 80 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Cantus Legendarum Ultimus!',
@@ -2672,7 +2749,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage', 'buff', 'healing'],
 
       damageConfig: {
-        formula: '12d10 + intelligence * 2',
+        formula: '20d6 + spirit',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2684,7 +2761,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       healingConfig: {
-        formula: '8d10 + intelligence',
+        formula: '10d6 + spirit',
         healingType: 'direct',
         hasHotEffect: false
       },
@@ -2694,7 +2771,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'legendary_inspiration',
           name: 'Legendary Inspiration',
-          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds. The legendary inspiration makes your allies nearly invincible, their every action enhanced and their defenses impenetrable.',
+          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds.',
           statModifier: {
             stat: 'all_rolls',
             magnitude: 5,
@@ -2713,7 +2790,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['damage', 'buff', 'aoe', 'ultimate', 'level-10']
+      tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10']
     },
 
     {
@@ -2727,7 +2804,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'conjuration',
         icon: 'Arcane/Magical Sword',
-        tags: ['summoning', 'buff', 'ultimate', 'level-10'],
+        tags: ['summoning', 'buff', 'ultimate', 'level 10'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -2741,7 +2818,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Cantus Creationis!',
@@ -2801,7 +2878,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['summoning', 'buff', 'ultimate', 'level-10']
+      tags: ['summoning', 'buff', 'ultimate', 'level 10']
     },
 
     {
@@ -2815,7 +2892,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Fire/Rising Inferno',
-        tags: ['damage', 'single-target', 'ultimate', 'resolver', 'level-10'],
+        tags: ['damage', 'single target', 'ultimate', 'resolver', 'level 10'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2829,7 +2906,7 @@ Before combat, decide which cadences you want to prioritize:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 40 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'CADENZA FINALE!',
@@ -2840,7 +2917,7 @@ Before combat, decide which cadences you want to prioritize:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '20d6 + intelligence * 3',
+        formula: '25d6 + spirit',
         elementType: 'force',
         damageType: 'direct',
         criticalConfig: {
@@ -2866,14 +2943,14 @@ Before combat, decide which cadences you want to prioritize:
         value: 1
       },
 
-      tags: ['damage', 'single-target', 'ultimate', 'resolver', 'level-10']
+      tags: ['damage', 'single target', 'ultimate', 'resolver', 'level 10']
     },
 
     // ADDITIONAL LEVEL 4 SPELL
     {
       id: 'minstrel_harmony_strike',
       name: 'Harmony Strike',
-      description: 'Strike with harmonic resonance. The musical energy flows through your weapon, creating a devastating chord that resonates with destructive force. The strike generates powerful musical notes that can be used for future compositions.',
+      description: 'Strike with harmonic resonance, dealing force damage and generating musical notes.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2881,7 +2958,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Psychic/Mind Control',
-        tags: ['damage', 'force', 'note-generation', 'universal'],
+        tags: ['damage', 'force', 'note generation', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2896,7 +2973,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       damageConfig: {
-        formula: '4d8',
+        formula: '5d6 + spirit',
         elementType: 'force',
         damageType: 'direct'
       },
@@ -2904,7 +2981,7 @@ Before combat, decide which cadences you want to prioritize:
       resourceCost: {
         resourceTypes: ['mana', 'note_ii', 'note_iv'],
         resourceValues: {
-          mana: 20,
+          mana: 16,
           note_ii: 1,
           note_iv: 1
         },
@@ -2918,7 +2995,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'force', 'note-generation', 'universal']
+      tags: ['damage', 'force', 'note generation', 'universal']
     }
   ]
 };

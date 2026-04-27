@@ -4,7 +4,7 @@
 export const CHAOS_WEAVER_DOCS = {
   className: 'Chaos Weaver',
   icon: 'Psychic/Mind Control',
-  specializations: ['reality_bending', 'entropy_control', 'chaos_dice'],
+  specializations: ['reality_bending', 'entropy_control', 'chaos_dice', 'wild_magic'],
 
   // Example spells showcasing the class's capabilities
   exampleSpells: [
@@ -47,7 +47,7 @@ export const CHAOS_WEAVER_DOCS = {
       },
       cooldownConfig: { type: 'turn_based', value: 1 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'chaos_dice'],
+      tags: ['chaos', 'damage', 'chaos dice'],
       specialization: 'chaos_dice'
     },
     {
@@ -61,7 +61,7 @@ export const CHAOS_WEAVER_DOCS = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'area', 'rollable_table']
+        tags: ['chaos', 'damage', 'area', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -100,7 +100,7 @@ export const CHAOS_WEAVER_DOCS = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'area', 'rollable_table', 'chaos_dice'],
+      tags: ['chaos', 'damage', 'area', 'rollable table', 'chaos dice'],
       specialization: 'chaos_dice'
     },
     {
@@ -114,7 +114,7 @@ export const CHAOS_WEAVER_DOCS = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'chaos_dice', 'rollable_table']
+        tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -149,7 +149,7 @@ export const CHAOS_WEAVER_DOCS = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     }
   ],
@@ -220,12 +220,12 @@ export const CHAOS_WEAVER_DOCS = {
     9: [
       'chaos_weaver-chaos_dice-chaos_cataclysm',
       'chaos_weaver-reality_bending-chaos_conduit',
-      'chaos_weaver-entropy_control-entropy_wave',
+      'chaos_weaver-entropy_control-chaos_wave',
       'chaos_weaver-wild_magic-chaos_omega',
       'chaos_weaver-chaos_dice-greater_surge'
     ],
     10: [
-      'chaos_weaver-chaos_dice-ultimate_chaos',
+      'chaos_weaver-chaos_dice-ultimate_chaos_supreme',
       'chaos_weaver-reality_bending-chaos_avatar',
       'chaos_weaver-entropy_control-entropy_master',
       'chaos_weaver-wild_magic-chaos_storm_ultimate'
@@ -309,7 +309,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 1 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'chaos_dice'],
+      tags: ['chaos', 'damage', 'chaos dice'],
       specialization: 'chaos_dice'
     },
     {
@@ -348,13 +348,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'defense', 'reality_bending'],
+      tags: ['chaos', 'defense', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
       id: 'chaos_weaver-entropy_control-entropic_touch',
       name: 'Entropic Touch',
-      description: 'Infuse a target with entropic decay. The chaotic energy eats away at their defenses, causing their armor to weaken and crumble as the entropy spreads through their form.',
+      description: 'Infuse a target with entropic decay, dealing necrotic damage and reducing their armor.',
       level: 1,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -362,7 +362,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['entropy', 'debuff', 'necrotic']
+        tags: ['chaos', 'entropy', 'debuff', 'damage', 'necrotic', 'entropy control']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -405,7 +405,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 1 },
       resolution: 'DICE',
-      tags: ['chaos', 'entropy', 'debuff', 'damage', 'entropy_control'],
+      tags: ['chaos', 'entropy', 'debuff', 'damage', 'necrotic', 'entropy control'],
       specialization: 'entropy_control'
     },
 
@@ -423,7 +423,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'rollable_table']
+        tags: ['chaos', 'damage', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -458,7 +458,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 1 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'rollable_table', 'chaos_dice'],
+      tags: ['chaos', 'damage', 'rollable table', 'chaos dice'],
       specialization: 'chaos_dice'
     },
     {
@@ -472,7 +472,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'control', 'reality_bending']
+        tags: ['chaos', 'control', 'reality bending', 'forced movement']
       },
       controlConfig: {
         controlType: 'forcedMovement',
@@ -510,7 +510,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'control', 'forced_movement', 'reality_bending'],
+      tags: ['chaos', 'control', 'forced movement', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
@@ -524,7 +524,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy']
+        tags: ['chaos', 'damage', 'debuff', 'entropy', 'entropy control']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -595,7 +595,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control'],
       specialization: 'entropy_control'
     },
 
@@ -613,7 +613,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'area', 'rollable_table']
+        tags: ['chaos', 'damage', 'area', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -652,7 +652,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'area', 'rollable_table', 'chaos_dice'],
+      tags: ['chaos', 'damage', 'area', 'rollable table', 'chaos dice'],
       specialization: 'chaos_dice'
     },
     {
@@ -666,7 +666,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'control', 'reality_bending', 'rollable_table']
+        tags: ['chaos', 'control', 'reality bending', 'rollable table', 'terrain']
       },
       rollableTable: {
         enabled: true,
@@ -700,7 +700,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'control', 'terrain', 'reality_bending', 'rollable_table'],
+      tags: ['chaos', 'control', 'terrain', 'reality bending', 'rollable table'],
       specialization: 'reality_bending'
     },
     {
@@ -714,7 +714,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'rollable_table']
+        tags: ['chaos', 'damage', 'debuff', 'entropy control', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -748,7 +748,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'rollable_table'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control', 'rollable table'],
       specialization: 'entropy_control'
     },
 
@@ -766,7 +766,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Quick Step',
-        tags: ['chaos', 'control', 'reality_bending']
+        tags: ['chaos', 'control', 'reality bending', 'forced movement']
       },
       controlConfig: {
         controlType: 'forcedMovement',
@@ -804,12 +804,12 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'control', 'forced_movement', 'reality_bending'],
+      tags: ['chaos', 'control', 'forced movement', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
-      id: 'chaos_weaver-entropy_control-entropy_wave',
-      name: 'Entropy Wave',
+      id: 'chaos_weaver-entropy_control-chaos_wave',
+      name: 'Chaos Wave',
       description: 'Send a wave of entropic decay that damages and weakens all in its path.',
       level: 4,
       icon: 'Radiant/Radiant Divinity',
@@ -818,7 +818,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy_control']
+        tags: ['chaos', 'damage', 'debuff', 'entropy control']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -889,7 +889,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control'],
       specialization: 'entropy_control'
     },
     {
@@ -903,7 +903,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'storm', 'rollable_table']
+        tags: ['chaos', 'damage', 'storm', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -942,7 +942,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 4 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'storm', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'storm', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
 
@@ -960,7 +960,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'weapon', 'entropy_control', 'rollable_table']
+        tags: ['chaos', 'damage', 'weapon', 'entropy control', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -992,7 +992,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'weapon', 'entropy_control', 'rollable_table'],
+      tags: ['chaos', 'damage', 'weapon', 'entropy control', 'rollable table'],
       specialization: 'entropy_control'
     },
     {
@@ -1006,7 +1006,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Fire/Hellfire',
-        tags: ['chaos', 'damage', 'pulse', 'chaos_dice', 'rollable_table']
+        tags: ['chaos', 'damage', 'pulse', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1042,7 +1042,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'pulse', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'pulse', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
     {
@@ -1056,7 +1056,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'utility', 'defense', 'reality_bending']
+        tags: ['chaos', 'utility', 'defense', 'reality bending']
       },
       utilityConfig: {
         utilityType: 'defense',
@@ -1088,7 +1088,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 2 },
       resolution: 'DICE',
-      tags: ['chaos', 'utility', 'defense', 'reality_bending'],
+      tags: ['chaos', 'utility', 'defense', 'reality bending'],
       specialization: 'reality_bending'
     },
 
@@ -1106,7 +1106,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'reality', 'chaos_dice', 'rollable_table']
+        tags: ['chaos', 'damage', 'control', 'reality', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1145,7 +1145,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 5 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'reality', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'reality', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
     {
@@ -1159,7 +1159,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Nature/Nature Wild 1',
-        tags: ['chaos', 'damage', 'control', 'wild_magic', 'eruption']
+        tags: ['chaos', 'damage', 'control', 'wild magic', 'eruption', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1193,13 +1193,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 5 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'wild_magic', 'eruption', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'wild magic', 'eruption', 'rollable table'],
       specialization: 'wild_magic'
     },
     {
       id: 'chaos_weaver-entropy_control-decay_cascade',
       name: 'Decay Cascade',
-      description: 'Trigger a cascade of entropic decay that spreads through multiple targets. The chaotic energy flows from one victim to the next, weakening their bodies and defenses as the entropy consumes them. The decay spreads like a plague, leaving destruction in its wake.',
+      description: 'Trigger a cascade of entropic decay that chains between targets, dealing necrotic damage and reducing stats.',
       level: 6,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1207,7 +1207,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'cascade']
+        tags: ['chaos', 'damage', 'debuff', 'entropy control', 'cascade']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -1282,7 +1282,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 4 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'cascade'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control', 'cascade'],
       specialization: 'entropy_control'
     },
     {
@@ -1296,7 +1296,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos_dice', 'rollable_table']
+        tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1334,7 +1334,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 6 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
 
@@ -1352,7 +1352,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Nature/Nature Wild 1',
-        tags: ['chaos', 'damage', 'control', 'nova', 'wild_magic']
+        tags: ['chaos', 'damage', 'control', 'nova', 'wild magic', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1384,7 +1384,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 5 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'nova', 'wild_magic', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'nova', 'wild magic', 'rollable table'],
       specialization: 'wild_magic'
     },
     {
@@ -1398,7 +1398,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'control', 'summoning', 'reality_bending']
+        tags: ['chaos', 'control', 'summoning', 'reality bending']
       },
       summoningConfig: {
         creatureType: 'chaos_entity',
@@ -1422,7 +1422,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 6 },
       resolution: 'DICE',
-      tags: ['chaos', 'control', 'summoning', 'reality_bending'],
+      tags: ['chaos', 'control', 'summoning', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
@@ -1436,7 +1436,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice']
+        tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1470,7 +1470,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 7 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
 
@@ -1488,7 +1488,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'plague']
+        tags: ['chaos', 'damage', 'debuff', 'entropy control', 'plague']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -1530,7 +1530,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 4 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control', 'plague'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control', 'plague'],
       specialization: 'entropy_control'
     },
     {
@@ -1544,7 +1544,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Nature/Nature Wild 1',
-        tags: ['chaos', 'damage', 'control', 'cascade', 'wild_magic']
+        tags: ['chaos', 'damage', 'control', 'cascade', 'wild magic', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1580,7 +1580,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 4 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'cascade', 'wild_magic', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'cascade', 'wild magic', 'rollable table'],
       specialization: 'wild_magic'
     },
     {
@@ -1594,7 +1594,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'chaos_dice']
+        tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1630,7 +1630,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 4 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
 
@@ -1648,7 +1648,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'chaos_dice']
+        tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1684,13 +1684,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'once_per_combat' },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
     {
       id: 'chaos_weaver-reality_bending-chaos_conduit',
       name: 'Chaos Conduit',
-      description: 'Become a living conduit for chaotic energy, gaining immense but unstable power. The raw chaos flows through you, amplifying your spells to devastating levels, but the uncontrolled energy tears at your body with each passing moment. The power is intoxicating but dangerous.',
+      description: 'Become a living conduit for chaotic energy, gaining +4 spell damage and +1 die on chaos spells for 3 rounds, but taking 2d6 damage each turn.',
       level: 9,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -1698,7 +1698,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'buff', 'control', 'reality_bending']
+        tags: ['chaos', 'buff', 'control', 'reality bending']
       },
       buffConfig: {
         buffType: 'statusEffect',
@@ -1726,13 +1726,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'once_per_combat' },
       resolution: 'DICE',
-      tags: ['chaos', 'buff', 'control', 'reality_bending'],
+      tags: ['chaos', 'buff', 'control', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
       id: 'chaos_weaver-entropy_control-entropy_wave',
       name: 'Entropy Wave',
-      description: 'Unleash a devastating wave of entropy that decays and weakens everything it touches. The chaotic energy spreads outward in a destructive tide, consuming strength, vitality, and defenses. Those caught in the wave feel their very essence being eroded away.',
+      description: 'Unleash a devastating wave of entropy that deals necrotic damage and reduces all stats and armor of enemies caught within.',
       level: 9,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1740,7 +1740,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'damage', 'debuff', 'entropy_control']
+        tags: ['chaos', 'damage', 'debuff', 'entropy control']
       },
       damageTypes: ['necrotic'],
       damageConfig: {
@@ -1799,7 +1799,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'once_per_combat' },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'debuff', 'entropy_control'],
+      tags: ['chaos', 'damage', 'debuff', 'entropy control'],
       specialization: 'entropy_control'
     },
 
@@ -1807,8 +1807,8 @@ export const CHAOS_WEAVER_DATA = {
     // LEVEL 10 SPELLS
     // ========================================
     {
-      id: 'chaos_weaver-chaos_dice-ultimate_chaos',
-      name: 'Ultimate Chaos',
+      id: 'chaos_weaver-chaos_dice-ultimate_chaos_supreme',
+      name: 'Ultimate Chaos Supreme',
       description: 'Channel the most powerful expression of chaos magic, unleashing devastating and unpredictable effects.',
       level: 10,
       icon: 'Arcane/Spellcasting Aura',
@@ -1817,7 +1817,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice']
+        tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1853,7 +1853,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'once_per_combat' },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos_dice', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table'],
       specialization: 'chaos_dice'
     },
     {
@@ -1867,7 +1867,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Open Portal',
-        tags: ['chaos', 'transformation', 'reality_bending']
+        tags: ['chaos', 'transformation', 'reality bending']
       },
       transformationConfig: {
         transformationType: 'elemental',
@@ -1907,7 +1907,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'long_rest' },
       resolution: 'NONE',
-      tags: ['chaos', 'transformation', 'reality_bending'],
+      tags: ['chaos', 'transformation', 'reality bending'],
       specialization: 'reality_bending'
     },
     {
@@ -1921,7 +1921,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Nature/Nature Wild 1',
-        tags: ['chaos', 'damage', 'control', 'wild_magic']
+        tags: ['chaos', 'damage', 'control', 'wild magic', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1953,7 +1953,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'once_per_combat' },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'wild_magic', 'rollable_table'],
+      tags: ['chaos', 'damage', 'control', 'wild magic', 'rollable table'],
       specialization: 'wild_magic'
     },
     {
@@ -1967,7 +1967,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['chaos', 'buff', 'entropy_control', 'passive']
+        tags: ['chaos', 'buff', 'entropy control', 'passive']
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -1997,7 +1997,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'none' },
       resolution: 'NONE',
-      tags: ['chaos', 'buff', 'entropy_control', 'passive'],
+      tags: ['chaos', 'buff', 'entropy control', 'passive'],
       specialization: 'entropy_control'
     }
   ],
@@ -2517,7 +2517,7 @@ TABLE SAFETY GUIDELINES:
     
     specs: [
       {
-        id: 'reality-bending',
+        id: 'reality_bending',
         name: 'Reality Bending',
         icon: 'Arcane/Conjure Elements',
         color: '#9B59B6',
@@ -2561,7 +2561,7 @@ TABLE SAFETY GUIDELINES:
       },
 
       {
-        id: 'wild-magic',
+        id: 'wild_magic',
         name: 'Wild Magic',
         icon: 'Nature/Nature Wild 1',
         color: '#E74C3C',
@@ -2605,8 +2605,8 @@ TABLE SAFETY GUIDELINES:
       },
 
       {
-        id: 'entropy',
-        name: 'Entropy',
+        id: 'entropy_control',
+        name: 'Entropy Control',
         icon: 'Utility/All Seeing Eye',
         color: '#2C3E50',
         theme: 'Decay and Destruction',
@@ -2645,6 +2645,49 @@ TABLE SAFETY GUIDELINES:
           'Entropic Blast - High damage with armor reduction',
           'Chaos Burst - Random damage type burst',
           'Discordant Strike - Weapon infusion with random damage'
+        ]
+      },
+      {
+        id: 'chaos_dice',
+        name: 'Chaos Dice',
+        icon: 'fas fa-dice',
+        color: '#F39C12',
+        theme: 'Random Tables',
+
+        description: `Chaos Dice specialists focus on rolling on random effect tables, using Mayhem Modifiers to steer outcomes toward devastating results. They have the widest variety of random effects and the most table-rolling spells.`,
+
+        playstyle: 'Table rolling, modifier management, controlled randomness, burst damage',
+
+        strengths: [
+          'Most rollable table spells of any spec',
+          'Best synergy with Mayhem Modifier spending',
+          'Highest damage ceiling on lucky rolls',
+          'Spells scale dramatically with modifier investment'
+        ],
+
+        weaknesses: [
+          'Heavily reliant on Mayhem Modifier economy',
+          'Without modifiers, outcomes are purely random',
+          'Mana-intensive for sustained table rolling',
+          'Vulnerable when modifiers are depleted'
+        ],
+
+        passiveAbility: {
+          name: 'Chaos Attunement',
+          description: 'All Chaos Weavers gain +1 Mayhem Modifier whenever they roll a natural 1 or natural 20 on any d20 roll.',
+          icon: 'Psychic/Mind Control'
+        },
+
+        specPassive: {
+          name: 'Loaded Dice',
+          description: 'When you roll on a chaos table, the minimum result is increased by 1 per 5 Mayhem Modifiers you currently have (rounded down). Additionally, rolling a natural maximum on any chaos table generates +2 Mayhem Modifiers.',
+          icon: 'fas fa-dice'
+        },
+
+        keyAbilities: [
+          'Chaos Bolt - Basic chaos table spell',
+          'Prismatic Chaos - d33 prismatic effect table',
+          'Chaos Storm - d100 catastrophic storm effects'
         ]
       }
     ]

@@ -480,7 +480,7 @@ const GridContainer = ({ gridItem }) => {
     <>
       <div
         ref={containerRef}
-        className={`grid-container ${gridItem.isHidden && isGMMode ? 'container-gm-hidden' : ''}`}
+        className={`grid-item-container ${gridItem.isHidden && isGMMode ? 'container-gm-hidden' : ''}`}
         style={{
           position: 'absolute',
           left: 0,

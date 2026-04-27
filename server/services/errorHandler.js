@@ -197,13 +197,13 @@ class ErrorHandler {
     const count = this.errorCounts.get(key) || 0;
 
     if (count >= this.errorThresholds.emergency) {
-      console.error(`🚨 EMERGENCY: ${count} ${errorType} errors in 5 minutes!`);
+      logger.error(`EMERGENCY: ${count} ${errorType} errors in 5 minutes!`);
       this.triggerEmergencyProtocol(errorType);
     } else if (count >= this.errorThresholds.critical) {
-      console.error(`⚠️ CRITICAL: ${count} ${errorType} errors in 5 minutes!`);
+      logger.error(`CRITICAL: ${count} ${errorType} errors in 5 minutes!`);
       this.triggerCriticalProtocol(errorType);
     } else if (count >= this.errorThresholds.warning) {
-      console.warn(`⚠️ WARNING: ${count} ${errorType} errors in 5 minutes`);
+      logger.warn(`WARNING: ${count} ${errorType} errors in 5 minutes`);
     }
   }
 
@@ -211,7 +211,7 @@ class ErrorHandler {
    * Emergency protocol for severe error patterns
    */
   triggerEmergencyProtocol(errorType) {
-    console.error(`🚨 EMERGENCY PROTOCOL ACTIVATED for ${errorType} errors`);
+    logger.error(`EMERGENCY PROTOCOL ACTIVATED for ${errorType} errors`);
     
     switch (errorType) {
     case 'memory':
@@ -222,11 +222,11 @@ class ErrorHandler {
       break;
     case 'database':
       // Switch to in-memory mode temporarily
-      console.error('🔥 Database errors critical - switching to in-memory mode');
+      logger.error('Database errors critical - switching to in-memory mode');
       break;
     case 'network':
       // Implement connection throttling
-      console.error('🌐 Network errors critical - implementing throttling');
+      logger.error('Network errors critical - implementing throttling');
       break;
     }
   }
@@ -235,16 +235,16 @@ class ErrorHandler {
    * Critical protocol for high error rates
    */
   triggerCriticalProtocol(errorType) {
-    console.warn(`⚠️ CRITICAL PROTOCOL ACTIVATED for ${errorType} errors`);
+    logger.warn(`CRITICAL PROTOCOL ACTIVATED for ${errorType} errors`);
     
     switch (errorType) {
     case 'multiplayer':
       // Reset multiplayer connections
-      console.warn('🎮 Multiplayer errors critical - considering connection reset');
+      logger.warn('Multiplayer errors critical - considering connection reset');
       break;
     case 'validation':
       // Increase validation strictness
-      console.warn('✅ Validation errors critical - increasing strictness');
+      logger.warn('Validation errors critical - increasing strictness');
       break;
     }
   }

@@ -4121,3 +4121,400 @@
   margin-right: 6px;
   color: #ffd700;
 }
+
+/* =====================================================
+   Membership Plans Section
+   ===================================================== */
+
+.membership-plans-section {
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border: 2px solid #8b4513;
+  border-radius: var(--pf-border-radius-lg, 16px);
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.2);
+}
+
+.membership-plans-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.membership-plans-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: #2d1810;
+  font-size: 1.8rem;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 2px rgba(212, 175, 55, 0.3);
+}
+
+.membership-plans-subtitle {
+  color: #5d4e37;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.current-plan-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(139, 69, 19, 0.1);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 25px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #5d4e37;
+}
+
+.current-plan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.membership-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .membership-plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .membership-plans-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.membership-plan-card {
+  background: linear-gradient(135deg, rgba(248, 245, 240, 0.9) 0%, rgba(240, 234, 214, 0.9) 100%);
+  border: 2px solid #8b4513;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(139, 69, 19, 0.2);
+}
+
+.membership-plan-card.current {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+}
+
+.membership-plan-card.highlighted {
+  border-color: #d4af37;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(240, 234, 214, 0.95) 100%);
+}
+
+.membership-plan-card.guest {
+  opacity: 0.8;
+}
+
+.plan-popular-tag,
+.plan-current-tag {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 14px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.plan-popular-tag {
+  background: linear-gradient(135deg, #d4af37, #ffd700);
+  color: #2c1810;
+}
+
+.plan-current-tag {
+  background: #4CAF50;
+  color: white;
+}
+
+.plan-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.plan-name {
+  color: #2d1810;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+}
+
+.membership-plan-card.guest .plan-name {
+  color: #888;
+}
+
+.membership-plan-card.premium .plan-name {
+  color: #9b59b6;
+}
+
+.membership-plan-card.subscriber .plan-name {
+  color: #9b59b6;
+}
+
+.membership-plan-card.paid-tier .plan-name {
+  color: #d4af37;
+}
+
+.plan-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #2d1810;
+  margin-bottom: 0.25rem;
+}
+
+.plan-price span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.plan-description {
+  color: #5d4e37;
+  font-size: 0.85rem;
+  margin: 0 0 1rem 0;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.plan-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.15);
+}
+
+.plan-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: #5d4e37;
+  font-weight: 600;
+}
+
+.plan-stat i {
+  color: #d4af37;
+  font-size: 0.7rem;
+  width: 14px;
+  text-align: center;
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  flex: 1;
+  text-align: left;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  font-size: 0.8rem;
+  color: #2d1810;
+  line-height: 1.3;
+}
+
+.plan-features li i {
+  color: #4CAF50;
+  font-size: 0.65rem;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.plan-features .more-features {
+  color: #8b4513;
+  font-weight: 600;
+  font-style: italic;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.plan-action {
+  margin-top: auto;
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.plan-btn.current-btn {
+  background: #4CAF50;
+  color: white;
+  opacity: 0.7;
+  cursor: default;
+}
+
+.plan-btn.upgrade-btn {
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  color: #2c1810;
+}
+
+.plan-btn.upgrade-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.plan-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.plan-note {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+  padding: 0.5rem;
+}
+
+/* Guest-specific tweaks */
+.membership-plan-card.guest {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(248, 245, 240, 0.9),
+    rgba(248, 245, 240, 0.9) 10px,
+    rgba(240, 234, 214, 0.9) 10px,
+    rgba(240, 234, 214, 0.9) 20px
+  );
+}
+
+.membership-plan-card.guest .plan-features li i {
+  color: #aaa;
+}
+
+.membership-plan-card.guest .plan-icon {
+  color: #888;
+}
+
+/* =====================================================
+   Upgrade Prompt (shown when user lacks tier access)
+   ===================================================== */
+
+.upgrade-prompt-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.upgrade-prompt-card {
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.95) 0%, rgba(232, 224, 208, 0.95) 100%);
+  border: 2px solid #d4af37;
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 8px 30px rgba(139, 69, 19, 0.15);
+}
+
+.upgrade-prompt-icon {
+  font-size: 3rem;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.upgrade-prompt-card h3 {
+  color: #2d1810;
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  font-family: 'Cinzel', serif;
+}
+
+.upgrade-prompt-card p {
+  color: #5d4e37;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.upgrade-prompt-required {
+  font-size: 0.9rem;
+  color: #8b4513;
+  font-weight: 600;
+  margin-bottom: 1.5rem !important;
+}
+
+.upgrade-prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  color: #2c1810;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upgrade-prompt-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.guest-signup-link {
+  background: none;
+  border: none;
+  color: #4a9eff;
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+
+.guest-signup-link:hover {
+  color: #2563eb;
+}
+
+.guest-upgrade-btn {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.guest-upgrade-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

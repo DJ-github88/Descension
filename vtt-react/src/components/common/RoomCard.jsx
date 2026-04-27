@@ -576,7 +576,7 @@ const RoomCard = ({
               </div>
             ) : (
               <div className="password-display">
-                <code className="password-code">{room.password || '(No password set)'}</code>
+                <code className="password-code">{room.hasPassword ? '••••••••' : '(No password set)'}</code>
                 <button
                   onClick={() => setIsEditingPassword(true)}
                   className="edit-password-btn"

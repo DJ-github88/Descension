@@ -886,7 +886,7 @@ body svg[data-icon] {
 .account-note {
   color: #c9aa71;
   font-size: 0.9rem;
-  margin: 0;
+  margin: 0 0 12px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -928,71 +928,126 @@ body svg[data-icon] {
 /* Pricing Grid */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  max-width: 900px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pricing-card {
   background: rgba(0, 0, 0, 0.7);
   border: 2px solid #8b4513;
   border-radius: 12px;
-  padding: 30px;
+  padding: 24px 20px;
   text-align: center;
   position: relative;
   transition: all 0.3s ease;
   color: #f0e6d2;
+  display: flex;
+  flex-direction: column;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(139, 69, 19, 0.3);
+}
+
+.pricing-card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #d4af37;
+}
+
+.pricing-card.free .pricing-card-icon {
+  color: #888;
+}
+
+.pricing-card.legendary .pricing-card-icon {
+  color: #f1c40f;
 }
 
 .pricing-card.premium {
   border-color: #d4af37;
-  transform: scale(1.05);
 }
 
-.pricing-card.premium::before {
-  content: "POPULAR";
+.popular-badge {
   position: absolute;
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: #d4af37;
+  background: linear-gradient(135deg, #d4af37, #ffd700);
   color: #2c1810;
   padding: 4px 16px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pricing-card.premium::before {
+  display: none;
 }
 
 .pricing-card h3 {
   color: #d4af37;
-  font-size: 1.4rem;
-  margin-bottom: 16px;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.pricing-card.free h3 {
+  color: #aaa;
+}
+
+.pricing-card.legendary h3 {
+  color: #f1c40f;
 }
 
 .price {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #f0e6d2;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .price span {
-  font-size: 1rem;
+  font-size: 0.9rem;
   opacity: 0.7;
 }
 
 .pricing-card ul {
   list-style: none;
   padding: 0;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
+  flex: 1;
+  text-align: left;
 }
 
 .pricing-card li {
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(139, 69, 19, 0.3);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.2);
   color: #f0e6d2;
   font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.pricing-card .locked-feature {
+  color: #888;
+  opacity: 0.7;
 }
 
 .pricing-btn {
@@ -1017,6 +1072,15 @@ body svg[data-icon] {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.pricing-btn.primary-account-btn {
+  background: linear-gradient(135deg, #4a9eff, #2563eb);
+  color: white;
+}
+
+.pricing-btn.primary-account-btn:hover {
+  box-shadow: 0 4px 12px rgba(74, 154, 255, 0.4);
 }
 
 /* Account Forms */

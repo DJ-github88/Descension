@@ -29,7 +29,6 @@ const ROOM_SESSIONS_COLLECTION = 'roomSessions';
  * @returns {Promise<string>} - Room ID
  */
 export const createPersistentRoom = async (roomData) => {
-  // Check for demo mode
   try {
     const { isDemoMode } = await import('../config/firebase');
     if (isDemoMode) {
@@ -43,7 +42,16 @@ export const createPersistentRoom = async (roomData) => {
 
   const userId = auth.currentUser.uid;
 
-  // Check subscription limits
+  const tier = await subscriptionService.getUserTier(userId);
+
+  if (tier.id === 'guest') {
+    throw new Error('Guest accounts cannot create rooms. Please create a free account to host games.');
+  }
+
+  if (tier.roomLimit <= 0) {
+    throw new Error('Your plan does not allow room creation. Please upgrade your membership.');
+  }
+
   try {
     const userRooms = await getUserRooms(userId);
     const currentRoomCount = userRooms.filter(room => room.userRole === 'gm').length;
@@ -51,16 +59,16 @@ export const createPersistentRoom = async (roomData) => {
     const roomLimitCheck = await subscriptionService.canCreateRoom(currentRoomCount, userId);
 
     if (!roomLimitCheck.canCreate) {
-      const tier = roomLimitCheck.tier;
       throw new Error(`Room limit reached. Your ${tier.name} plan allows ${tier.roomLimit} room${tier.roomLimit === 1 ? '' : 's'}. You currently have ${currentRoomCount} room${currentRoomCount === 1 ? '' : 's'}.`);
     }
   } catch (error) {
-    if (error.message.includes('Room limit reached')) {
-      throw error; // Re-throw subscription limit errors
+    if (error.message.includes('Room limit reached') || error.message.includes('cannot create rooms')) {
+      throw error;
     }
     console.warn('Could not check room limits:', error);
-    // Continue with room creation if limit check fails
   }
+
+  const maxPlayers = tier.maxPlayersPerRoom || 4;
 
   const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -68,15 +76,15 @@ export const createPersistentRoom = async (roomData) => {
     id: roomId,
     name: roomData.name,
     description: roomData.description || '',
-    password: roomData.password, // In production, this should be hashed
-
-    // GM and ownership
+    // SECURITY: Password must NOT be stored in Firestore.
+    // Room creation/joining should go through server-side socket events which use bcrypt hashing.
+    // This field is intentionally omitted from the Firestore document.
     gmId: userId,
     gmName: roomData.gmName || auth.currentUser.displayName || 'Game Master',
 
     // Room settings
     settings: {
-      maxPlayers: roomData.maxPlayers || 6,
+      maxPlayers: Math.min(roomData.maxPlayers || maxPlayers, maxPlayers),
       isPrivate: true,
       allowSpectators: roomData.allowSpectators || false,
       autoSaveInterval: 300000, // 5 minutes
@@ -325,16 +333,17 @@ export const joinRoom = async (roomId, userId, password) => {
     const roomData = await getRoomData(roomId);
 
     if (!roomData) {
-      console.warn(`❌ [joinRoom] Room not found in Firestore: ${roomId}`);
       throw new Error(`Room not found: ${roomId}`);
     }
 
-    // Check password - handle both empty and non-empty passwords
-    const roomPassword = roomData.password || '';
-    const providedPassword = password || '';
+    // SECURITY: Password verification must be done server-side via bcrypt.
+    // Client-side password checking is insecure and has been removed.
+    // The server handles password verification during the join_room socket event.
+    // This function only adds the user to the room's Firestore members list
+    // after the server has already verified the password.
 
-    if (roomPassword !== providedPassword) {
-      throw new Error('Incorrect password');
+    if (roomData.password) {
+      throw new Error('Password-protected rooms must be joined through the multiplayer server.');
     }
 
     // Check if user is banned

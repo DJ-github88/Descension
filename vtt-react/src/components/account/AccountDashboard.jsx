@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import useCharacterStore from '../../store/characterStore';
-import subscriptionService from '../../services/subscriptionService';
+import subscriptionService, { SUBSCRIPTION_TIERS, TIER_ORDER, canUseFeature } from '../../services/subscriptionService';
 import { RACE_DATA } from '../../data/raceData';
 import { getClassResourceConfig, initializeClassResource } from '../../data/classResources';
 import { calculateDerivedStats, calculateEquipmentBonuses } from '../../utils/characterUtils';
 import { applyRacialModifiers } from '../../data/raceData';
 import { getWowIconUrl } from '../../utils/assetManager';
 import RoomManager from './RoomManager';
-import CampaignManager from './CampaignManager';
+import CampaignManager, { canAccessCampaignManager } from './CampaignManager';
 import AccountJournalManager from './AccountJournalManager';
 import ProfileEditModal from './ProfileEditModal';
 // Note: canAccessCampaignManager is available for future access control:
@@ -83,6 +83,9 @@ const AccountDashboard = ({ user }) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showAccountDeleteConfirm, setShowAccountDeleteConfirm] = useState(false);
+  const [accountDeleteText, setAccountDeleteText] = useState('');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   const receivedRequests = (pendingRequests || []).filter(r => r.type === 'received' && r.status === 'pending');
 
@@ -220,6 +223,35 @@ const AccountDashboard = ({ user }) => {
   const cancelDeleteCharacter = () => {
     setShowDeleteConfirm(false);
     setSelectedCharacter(null);
+  };
+
+  const handleDeleteAccount = async () => {
+    if (accountDeleteText !== 'DELETE') return;
+    if (isGuest) return;
+    setIsDeletingAccount(true);
+    try {
+      const persistenceService = (await import('../../services/firebase/persistenceService')).default;
+      if (persistenceService?.deleteAllUserData) {
+        await persistenceService.deleteAllUserData(user.uid);
+      }
+      const { deleteUser } = await import('firebase/auth');
+      const { auth } = await import('../../config/firebase');
+      if (auth?.currentUser) {
+        await deleteUser(auth.currentUser);
+      }
+      await signOut();
+      navigate('/', { replace: true });
+    } catch (error) {
+      if (error.code === 'auth/requires-recent-login') {
+        alert('For security, please sign out and sign back in before deleting your account.');
+      } else {
+        alert(`Failed to delete account: ${error.message}`);
+      }
+    } finally {
+      setIsDeletingAccount(false);
+      setShowAccountDeleteConfirm(false);
+      setAccountDeleteText('');
+    }
   };
 
   // Calculate correct health and mana values for a character
@@ -415,6 +447,12 @@ const AccountDashboard = ({ user }) => {
                   <span>Social</span>
                 </button>
               )}
+              <button
+                className={`fan-tab ${activeTab === 'membership' ? 'active' : ''}`}
+                onClick={() => setActiveTab('membership')}
+              >
+                <span>Membership</span>
+              </button>
             </div>
           </nav>
 
@@ -491,7 +529,7 @@ const AccountDashboard = ({ user }) => {
         </header>
 
         {/* Guest Info Banner */}
-        {isGuest && (
+          {isGuest && (
           <div className="guest-info-banner">
             <div className="guest-banner-icon">
               <i className="fas fa-user-secret"></i>
@@ -499,9 +537,8 @@ const AccountDashboard = ({ user }) => {
             <div className="guest-banner-content">
               <h4>Playing as Guest</h4>
               <p>
-                You can create rooms, build characters, and chat with other players via the{' '}
-                <strong>Community</strong> window (the globe icon). To access Campaigns, Journal,
-                and Social features — <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>create a free account</button>.
+                You can join other players' rooms and participate in games. To create your own rooms,
+                save characters, and access all features — <button className="guest-signup-link" onClick={() => { window.location.href = '/'; }}>create a free account</button>.
               </p>
             </div>
           </div>
@@ -680,7 +717,22 @@ const AccountDashboard = ({ user }) => {
 
           {activeTab === 'campaigns' && (
             <div className="tab-content">
-              <CampaignManager user={user} />
+              {subscriptionStatus && canAccessCampaignManager(subscriptionStatus.tier) ? (
+                <CampaignManager user={user} />
+              ) : (
+                <div className="upgrade-prompt-section">
+                  <div className="upgrade-prompt-card">
+                    <div className="upgrade-prompt-icon"><i className="fas fa-crown"></i></div>
+                    <h3>Campaign Manager</h3>
+                    <p>Organize your campaigns with session tracking, multi-room management, and more.</p>
+                    <p className="upgrade-prompt-required">Requires <strong>Campaign Master</strong> or above</p>
+                    <button className="upgrade-prompt-btn" onClick={() => setActiveTab('membership')}>
+                      <i className="fas fa-arrow-right"></i>
+                      View Plans
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -693,6 +745,123 @@ const AccountDashboard = ({ user }) => {
           {activeTab === 'social' && (
             <div className="tab-content">
               <AccountSocialManager />
+            </div>
+          )}
+
+          {activeTab === 'membership' && (
+            <div className="tab-content">
+              <div className="membership-plans-section">
+                <div className="membership-plans-header">
+                  <h2>Choose Your Plan</h2>
+                  <p className="membership-plans-subtitle">
+                    Unlock the full power of Mythrill VTT for your tabletop adventures
+                  </p>
+                  {subscriptionStatus && (
+                    <div className="current-plan-indicator">
+                      <span>Current plan: </span>
+                      <span
+                        className="current-plan-badge"
+                        style={{ background: subscriptionStatus.color || '#888' }}
+                      >
+                        <i className={`fas ${subscriptionStatus.icon || 'fa-user'}`}></i>
+                        {subscriptionStatus.displayName}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="membership-plans-grid">
+                  {TIER_ORDER.map(tierKey => {
+                    const tier = SUBSCRIPTION_TIERS[tierKey];
+                    if (!tier) return null;
+                    const isCurrentTier = subscriptionStatus?.tierKey === tierKey;
+                    const isFree = tier.price === 0 && tierKey !== 'GUEST';
+
+                    return (
+                      <div
+                        key={tierKey}
+                        className={`membership-plan-card ${tierKey.toLowerCase()} ${isCurrentTier ? 'current' : ''} ${tier.highlight ? 'highlighted' : ''}`}
+                      >
+                        {tier.highlight && (
+                          <div className="plan-popular-tag">Most Popular</div>
+                        )}
+                        {isCurrentTier && (
+                          <div className="plan-current-tag">Current Plan</div>
+                        )}
+
+                        <div className="plan-icon" style={{ color: tier.color }}>
+                          <i className={`fas ${tier.icon}`}></i>
+                        </div>
+
+                        <h3 className="plan-name">{tier.name}</h3>
+                        <div className="plan-price">
+                          {tier.price === 0 ? (
+                            isFree ? <>Free<span>/forever</span></> : 'Free'
+                          ) : (
+                            <>${tier.price}<span>/month</span></>
+                          )}
+                        </div>
+                        <p className="plan-description">{tier.description}</p>
+
+                        <div className="plan-stats">
+                          <div className="plan-stat">
+                            <i className="fas fa-users"></i>
+                            <span>{tier.characterLimit === -1 ? 'Unlimited' : tier.characterLimit} characters</span>
+                          </div>
+                          <div className="plan-stat">
+                            <i className="fas fa-door-open"></i>
+                            <span>{tier.roomLimit === 0 ? 'Join only' : `${tier.roomLimit} room${tier.roomLimit !== 1 ? 's' : ''}`}</span>
+                          </div>
+                          {tier.maxPlayersPerRoom > 0 && (
+                            <div className="plan-stat">
+                              <i className="fas fa-user-group"></i>
+                              <span>Up to {tier.maxPlayersPerRoom} players/room</span>
+                            </div>
+                          )}
+                          {tier.storageLimit > 0 && (
+                            <div className="plan-stat">
+                              <i className="fas fa-database"></i>
+                              <span>{tier.storageLimit >= 1024 * 1024 * 1024
+                                ? `${(tier.storageLimit / (1024 * 1024 * 1024)).toFixed(0)} GB`
+                                : `${(tier.storageLimit / (1024 * 1024)).toFixed(0)} MB`} storage</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <ul className="plan-features">
+                          {tier.features.slice(0, 8).map((feature, idx) => (
+                            <li key={idx}>
+                              <i className="fas fa-check"></i>
+                              {feature}
+                            </li>
+                          ))}
+                          {tier.features.length > 8 && (
+                            <li className="more-features">
+                              +{tier.features.length - 8} more features
+                            </li>
+                          )}
+                        </ul>
+
+                        <div className="plan-action">
+                          {isCurrentTier ? (
+                            <button className="plan-btn current-btn" disabled>
+                              Current Plan
+                            </button>
+                          ) : tier.price === 0 && tierKey === 'GUEST' ? (
+                            <span className="plan-note">No account needed</span>
+                          ) : tier.price === 0 ? (
+                            <span className="plan-note">Free with account</span>
+                          ) : (
+                            <button className="plan-btn upgrade-btn" disabled>
+                              Coming Soon
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           )}
         </main>
@@ -713,6 +882,61 @@ const AccountDashboard = ({ user }) => {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+
+        {!isGuest && (
+          <div className="account-danger-zone" style={{ marginTop: '2rem', padding: '1.5rem', borderTop: '2px solid #dc3545' }}>
+            <h4 style={{ color: '#dc3545', marginBottom: '0.5rem' }}>Danger Zone</h4>
+            <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1rem' }}>
+              Permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+            {!showAccountDeleteConfirm ? (
+              <button
+                className="confirm-delete-btn"
+                onClick={() => setShowAccountDeleteConfirm(true)}
+                style={{ background: '#dc3545', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}
+              >
+                <i className="fas fa-exclamation-triangle"></i> Delete Account
+              </button>
+            ) : (
+              <div style={{ background: 'rgba(220,53,69,0.1)', padding: '1rem', borderRadius: '4px' }}>
+                <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>This will permanently delete:</p>
+                <ul style={{ fontSize: '0.85rem', marginLeft: '1rem', marginBottom: '1rem' }}>
+                  <li>All your characters</li>
+                  <li>All your rooms and campaigns</li>
+                  <li>Your journals, friends, and settings</li>
+                  <li>Your account credentials</li>
+                </ul>
+                <p style={{ fontSize: '0.85rem', marginBottom: '0.5rem' }}>
+                  Type <strong>DELETE</strong> to confirm:
+                </p>
+                <input
+                  type="text"
+                  value={accountDeleteText}
+                  onChange={(e) => setAccountDeleteText(e.target.value)}
+                  placeholder="Type DELETE"
+                  style={{ padding: '0.4rem', marginBottom: '0.75rem', width: '200px', display: 'block' }}
+                />
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <button
+                    className="confirm-delete-btn"
+                    onClick={handleDeleteAccount}
+                    disabled={accountDeleteText !== 'DELETE' || isDeletingAccount}
+                    style={{ background: '#dc3545', color: '#fff', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: accountDeleteText === 'DELETE' ? 'pointer' : 'not-allowed', opacity: accountDeleteText === 'DELETE' ? 1 : 0.5 }}
+                  >
+                    {isDeletingAccount ? 'Deleting...' : 'Permanently Delete My Account'}
+                  </button>
+                  <button
+                    className="cancel-btn"
+                    onClick={() => { setShowAccountDeleteConfirm(false); setAccountDeleteText(''); }}
+                    style={{ padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

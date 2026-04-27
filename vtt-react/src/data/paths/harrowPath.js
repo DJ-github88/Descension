@@ -178,7 +178,7 @@ export const HARROW_PATH = {
         {
             id: 'terrifying_presence',
             name: 'Terrifying Presence',
-            description: '"Fear me!" Unleash an aura of dread that frightens all enemies within 30 feet. Frightened creatures have disadvantage on attacks and must move away from you.',
+            description: '"Fear me!" Unleash an aura of dread that frightens all enemies within 30 feet.',
             icon: 'Psychic/Hypnotic Eye',
             level: 1,
             spellType: 'ACTION',
@@ -198,7 +198,7 @@ export const HARROW_PATH = {
                     {
                         id: 'fear',
                         name: 'Frightened',
-                        description: 'Target is frightened for 4 rounds. They have disadvantage on attack rolls and ability checks while you are in their line of sight, and must use their movement to move away from you.'
+                        description: 'Frightened for 4 rounds with disadvantage on attacks and ability checks. Must move away each turn.'
                     }
                 ],
                 durationValue: 4,
@@ -221,7 +221,7 @@ export const HARROW_PATH = {
 
             resourceCost: {
                 resourceTypes: ['mana'],
-                resourceValues: { mana: 15 },
+                resourceValues: { mana: 4 },
                 actionPoints: 2
             },
 
@@ -240,7 +240,7 @@ export const HARROW_PATH = {
     // Legacy abilities for subPaths (kept for reference)
     legacyAbilities: [
         {
-            id: 'plague_touch',
+            id: 'plague_touch_legacy',
             name: 'Plague Touch',
             description: '"Rot and decay." Infect an enemy with a virulent disease.',
             icon: 'Necrotic/Necrotic Skull',
@@ -277,10 +277,8 @@ export const HARROW_PATH = {
             },
 
             resourceCost: {
-                mana: 12,
-                health: 0,
-                stamina: 0,
-                focus: 0,
+                resourceTypes: ['mana'],
+                resourceValues: { mana: 4 },
                 actionPoints: 1
             },
 
@@ -305,13 +303,13 @@ export const HARROW_PATH = {
             mechanicsConfig: []
         },
         {
-            id: 'deaths_door',
+            id: 'deaths_door_legacy',
             name: "Death's Door",
             description: '"Not yet." When reduced to 0 HP, automatically stabilize and gain temporary HP.',
             icon: 'Utility/Grim Reaper',
             level: 2,
             spellType: 'REACTION',
-            tags: ['defensive', 'survival', 'reaction', 'passive'],
+            tags: ['defensive', 'survival', 'reaction'],
             effectTypes: ['healing'],
             damageTypes: [],
 
@@ -361,11 +359,7 @@ export const HARROW_PATH = {
             },
 
             resourceCost: {
-                mana: 0,
-                health: 0,
-                stamina: 0,
-                focus: 0,
-                actionPoints: 1
+                actionPoints: 0
             },
 
             durationConfig: {
@@ -404,7 +398,7 @@ export const HARROW_PATH = {
 
             abilities: [
                 {
-                    id: 'terrifying_presence',
+                    id: 'dread_terrifying_presence',
                     name: 'Terrifying Presence',
                     description: '"Fear me!" Unleash an aura of dread that frightens nearby enemies.',
                     icon: 'Psychic/Hypnotic Eye',
@@ -415,38 +409,20 @@ export const HARROW_PATH = {
                     damageTypes: [],
 
                     debuffConfig: {
-                        duration: 6,
                         durationValue: 6,
                         durationType: 'rounds',
                         durationUnit: 'rounds',
-                        statModifiers: [
-                            {
-                                name: 'fear_penalty',
-                                stat: 'strength',
-                                value: -2,
-                                magnitude: -2,
-                                magnitudeType: 'flat',
-                                isPercentage: false
-                            }
-                        ],
-                        statusEffects: [
+                        effects: [
                             {
                                 id: 'frightened',
                                 name: 'Frightened',
-                                description: 'Terrified, -2 STR and cannot move closer to source of fear'
+                                description: 'Frightened with -2 STR penalty, cannot approach source of fear.'
                             }
                         ],
-                        debuffs: [
-                            {
-                                name: 'Dread',
-                                description: 'Overcome with fear',
-                                duration: 6,
-                                effects: {
-                                    attackPenalty: -3,
-                                    movementRestriction: 'cannot_approach'
-                                }
-                            }
-                        ]
+                        saveDC: 13,
+                        saveType: 'spirit',
+                        saveOutcome: 'negates',
+                        canBeDispelled: true
                     },
 
                     targetingConfig: {
@@ -454,15 +430,13 @@ export const HARROW_PATH = {
                         rangeType: 'self_centered',
                         rangeDistance: 0,
                         aoeShape: 'sphere',
-                        aoeSize: 15,
+                        aoeParameters: { radius: 15 },
                         targetRestrictions: ['enemy']
                     },
 
                     resourceCost: {
-                        mana: 15,
-                        health: 0,
-                        stamina: 10,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 4 },
                         actionPoints: 2
                     },
 
@@ -493,7 +467,7 @@ export const HARROW_PATH = {
                     icon: 'Necrotic/Drain Soul',
                     level: 2,
                     spellType: 'REACTION',
-                    tags: ['healing', 'passive', 'death', 'temporary-hp'],
+                    tags: ['healing', 'reaction', 'death', 'temporary hp'],
                     effectTypes: ['healing'],
                     damageTypes: [],
 
@@ -538,10 +512,7 @@ export const HARROW_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 0,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0
+                        actionPoints: 0
                     },
 
                     durationConfig: {
@@ -571,14 +542,14 @@ export const HARROW_PATH = {
                     icon: 'Void/Corrupted Eye',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['damage', 'shadow', 'sacrifice', 'high-damage'],
+                    tags: ['damage', 'shadow', 'sacrifice', 'high damage'],
                     effectTypes: ['damage'],
                     damageTypes: ['necrotic'],
 
                     damageConfig: {
                         damageType: 'direct',
                         elementType: 'necrotic',
-                        formula: '8d8 + CON',
+                        formula: '4d8 + CON',
                         resolution: 'DICE',
                         hasDotEffect: false,
                         savingThrowConfig: {
@@ -600,10 +571,8 @@ export const HARROW_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 15,
-                        health: 20,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana', 'health'],
+                        resourceValues: { mana: 7, health: 20 },
                         actionPoints: 3
                     },
 
@@ -643,7 +612,7 @@ export const HARROW_PATH = {
 
             abilities: [
                 {
-                    id: 'plague_touch',
+                    id: 'plaguebringer_touch',
                     name: 'Plague Touch',
                     description: '"Rot and decay." Infect an enemy with a virulent disease.',
                     icon: 'Necrotic/Necrotic Skull',
@@ -676,38 +645,20 @@ export const HARROW_PATH = {
                     },
 
                     debuffConfig: {
-                        duration: 8,
                         durationValue: 8,
                         durationType: 'rounds',
                         durationUnit: 'rounds',
-                        statModifiers: [
-                            {
-                                name: 'disease_weakness',
-                                stat: 'constitution',
-                                value: -2,
-                                magnitude: -2,
-                                magnitudeType: 'flat',
-                                isPercentage: false
-                            }
-                        ],
-                        statusEffects: [
+                        effects: [
                             {
                                 id: 'diseased',
                                 name: 'Diseased',
-                                description: 'Suffering from virulent plague, taking damage over time and weakened'
+                                description: 'Suffering from virulent plague, taking damage over time.'
                             }
                         ],
-                        debuffs: [
-                            {
-                                name: 'Plague',
-                                description: 'Infected with disease',
-                                duration: 8,
-                                effects: {
-                                    constitutionPenalty: -2,
-                                    dotDamage: '1d6'
-                                }
-                            }
-                        ]
+                        saveDC: 13,
+                        saveType: 'constitution',
+                        saveOutcome: 'halves',
+                        canBeDispelled: true
                     },
 
                     targetingConfig: {
@@ -718,10 +669,8 @@ export const HARROW_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 18,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 4 },
                         actionPoints: 2
                     },
 
@@ -791,10 +740,8 @@ export const HARROW_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 25,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 8 },
                         actionPoints: 3
                     },
 
@@ -834,13 +781,13 @@ export const HARROW_PATH = {
 
             abilities: [
                 {
-                    id: 'deaths_door',
+                    id: 'warden_deaths_door',
                     name: "Death's Door",
                     description: '"Not yet." When reduced to 0 HP, automatically stabilize and gain temporary HP.',
                     icon: 'Utility/Grim Reaper',
                     level: 2,
                     spellType: 'REACTION',
-                    tags: ['healing', 'survival', 'death-save', 'passive'],
+                    tags: ['healing', 'survival', 'death save', 'reaction'],
                     effectTypes: ['healing'],
                     damageTypes: [],
 
@@ -885,10 +832,7 @@ export const HARROW_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 0,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0
+                        actionPoints: 0
                     },
 
                     durationConfig: {
@@ -915,4 +859,3 @@ export const HARROW_PATH = {
         }
     }
 };
-

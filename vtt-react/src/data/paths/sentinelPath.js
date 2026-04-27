@@ -114,7 +114,7 @@ export const SENTINEL_PATH = {
                         statModifier: {
                             stat: 'damage_reduction',
                             magnitudeType: 'dice',
-                            formula: '1d4 × 25% damage taken'
+                            formula: '1d4 * 25% damage taken'
                         }
                     }
                 ],
@@ -173,18 +173,18 @@ export const SENTINEL_PATH = {
         {
             id: 'shield_wall',
             name: 'Shield Wall',
-            description: '"None shall pass!" Raise your shield in a defensive stance, reducing all incoming damage by 50%. Lasts for 6 rounds or until you have absorbed level × 4d8 damage. While channeling, you cannot attack.',
+            description: '"None shall pass!" Raise your shield in a defensive stance, reducing all incoming damage by 50%. While channeling, you cannot attack or cast other spells.',
             icon: 'Utility/Bound Shield',
             level: 1,
             spellType: 'CHANNELED',
-            tags: ['channeled', 'buff', 'defense', 'shield', 'damage-reduction'],
+            tags: ['channeled', 'buff', 'defense', 'shield', 'damage reduction'],
             effectTypes: ['buff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'physical',
                 icon: 'Utility/Bound Shield',
-                tags: ['action', 'buff', 'defense', 'shield', 'damage-reduction']
+                tags: ['channeled', 'buff', 'defense', 'shield', 'damage reduction']
             },
 
             buffConfig: {
@@ -193,7 +193,7 @@ export const SENTINEL_PATH = {
                     {
                         id: 'shield_wall',
                         name: 'Shield Wall',
-                        description: 'Reduce all incoming damage by 50%. Lasts for 6 rounds or until level × 4d8 damage has been absorbed. While channeling, you cannot attack or cast other spells.',
+                        description: 'Reduces all incoming damage by 50%. Cannot attack or cast other spells while channeling.',
                         statModifier: {
                             stat: 'damage_reduction',
                             magnitude: 50,
@@ -236,7 +236,7 @@ export const SENTINEL_PATH = {
             id: 'taunt',
             name: 'Taunt',
             description: '"Face me!" Force enemies to attack you instead of allies.',
-                    icon: 'Utility/Overlords Command',
+            icon: 'Utility/Overlords Command',
             level: 1,
             spellType: 'ACTION',
             tags: ['control', 'taunt', 'aggro', 'forced'],
@@ -429,13 +429,13 @@ export const SENTINEL_PATH = {
 
             abilities: [
                 {
-                    id: 'shield_wall',
+                    id: 'bulwark_shield_wall',
                     name: 'Shield Wall',
                     description: '"None shall pass!" Raise your shield, massively increasing your defenses.',
                     icon: 'Utility/Bound Shield',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['buff', 'defense', 'shield', 'damage-reduction'],
+                    tags: ['buff', 'defense', 'shield', 'damage reduction'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
@@ -456,16 +456,15 @@ export const SENTINEL_PATH = {
                             {
                                 name: 'damage_reduction',
                                 stat: 'damage_reduction',
-                                value: 10,
-                                magnitude: 10,
-                                magnitudeType: 'flat',
-                                isPercentage: false,
-                                formula: '2d6 + 4'
+                                value: 50,
+                                magnitude: 50,
+                                magnitudeType: 'percentage',
+                                isPercentage: true
                             }
                         ],
                         statusEffects: [
                             {
-                                id: 'shield_wall',
+                                id: 'bulwark_shield_wall',
                                 name: 'Shield Wall',
                                 description: '+5 armor, take 50% reduced damage, cannot move'
                             }
@@ -520,10 +519,10 @@ export const SENTINEL_PATH = {
                     mechanicsConfig: []
                 },
                 {
-                    id: 'taunt',
+                    id: 'bulwark_taunt',
                     name: 'Taunt',
                     description: '"Face me, coward!" Force enemies to attack you instead of your allies.',
-            icon: 'Utility/Overlords Command',
+                    icon: 'Utility/Overlords Command',
                     level: 1,
                     spellType: 'ACTION',
                     tags: ['debuff', 'taunt', 'control', 'threat'],
@@ -538,7 +537,7 @@ export const SENTINEL_PATH = {
                         statModifiers: [],
                         statusEffects: [
                             {
-                                id: 'taunted',
+                                id: 'bulwark_taunted',
                                 name: 'Taunted',
                                 description: 'Forced to attack the Sentinel'
                             }
@@ -615,7 +614,7 @@ export const SENTINEL_PATH = {
                     icon: 'Radiant/Divine Blessing',
                     level: 2,
                     spellType: 'REACTION',
-                    tags: ['protection', 'intercept', 'ally-save', 'selfless'],
+                    tags: ['protection', 'intercept', 'ally save', 'selfless'],
                     effectTypes: ['utility'],
                     damageTypes: [],
 
@@ -667,10 +666,11 @@ export const SENTINEL_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 10,
+                        mana: 8,
                         health: 0,
                         stamina: 10,
-                        focus: 0
+                        focus: 0,
+                        actionPoints: 1
                     },
 
                     durationConfig: {
@@ -700,7 +700,7 @@ export const SENTINEL_PATH = {
                     icon: 'Radiant/Radiant Divinity',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['protection', 'sacrifice', 'redirect', 'ally-save'],
+                    tags: ['protection', 'sacrifice', 'redirect', 'ally save'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 
@@ -738,7 +738,7 @@ export const SENTINEL_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
+                        mana: 8,
                         health: 0,
                         stamina: 15,
                         focus: 0,
@@ -827,7 +827,7 @@ export const SENTINEL_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 15,
+                        mana: 4,
                         health: 0,
                         stamina: 15,
                         focus: 0,
@@ -861,7 +861,7 @@ export const SENTINEL_PATH = {
                     icon: 'Radiant/Radiant Golden Shield',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['buff', 'immunity', 'crowd-control', 'defensive'],
+                    tags: ['buff', 'immunity', 'crowd control', 'defensive'],
                     effectTypes: ['buff'],
                     damageTypes: [],
 

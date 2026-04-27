@@ -2,13 +2,13 @@
  * Deathcaller Class Data
  * 
  * Complete class information for the Deathcaller - a dark necromancer
- * who harnesses forbidden blood magic and necrotic ascension paths.
+ * who harnesses forbidden blood magic and Necrotic Ascension paths.
  */
 
 export const DEATHCALLER_DATA = {
   id: 'deathcaller',
   name: 'Deathcaller',
-  icon: 'fas fa-skull',
+  icon: 'Necrotic/Necrotic Skull',
   role: 'Damage/Support',
   damageTypes: ['necrotic', 'psychic'],
 
@@ -19,7 +19,7 @@ export const DEATHCALLER_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Deathcaller uses health as a resource, sacrificing HP to cast powerful necrotic spells. You progress through 7 sequential Necrotic Ascension Paths (Shrouded Veil → Crimson Pact → Spectral Command → Frostwalker → Silent Shroud → Life Leech → Deep Void), each granting powerful boons but inflicting permanent curses. Spells cost both mana AND health (using dice formulas like 1d6 HP, 2d8 HP). Blood Tokens generated from health sacrificed enhance necrotic damage (+1d6 per token) but burst for 1d10 damage each if unused within 10 minutes.
+      content: `**What You Need to Know**: The Deathcaller uses health as a resource, sacrificing HP to cast powerful necrotic spells. You progress through 7 sequential Necrotic Ascension Paths (Shrouded Veil → Crimson Pact → Spectral Command → Frostwalker → Silent Shroud → Life Leech → Deep Void), each granting powerful boons but inflicting permanent curses. Spells cost both mana AND health (using dice formulas like 1d6 HP, 2d8 HP). Blood Tokens generated from Health Sacrificed enhance necrotic damage (+1d6 per token) but burst for 1d10 damage each if unused within 10 minutes.
 
 **Core Mechanic**: Sacrifice health → Cast spells → Generate Blood Tokens → Spend tokens for bonus damage OR let them burst
 
@@ -627,7 +627,7 @@ Create two zones:
 
 Create a reference card with the 7 Ascension Paths:
 \`\`\`
-NECROTIC ASCENSION PATHS
+Necrotic Ascension PATHS
 
 ☐ 1. SHROUDED VEIL (Lvl 1)
    Boon: +2d6 necrotic damage to all spells
@@ -703,7 +703,7 @@ HEALTH AS RESOURCE:
 • Roll health cost dice when casting
 • Track HP sacrificed vs. damage taken
 
-BLOOD TOKENS (Requires Crimson Pact):
+Blood Tokens (Requires Crimson Pact):
 • 1 HP sacrificed = 1 Blood Token
 • Spend tokens: +1d6 damage per token
 • Burst timer: 10 min (15 with upgrade)
@@ -831,7 +831,7 @@ Keep a note of which curses are affecting you:
         keyAbilities: [
           "Blood Leech - Drain health from a target, restoring 25% per HP sacrificed (8 mana, 1d4 HP cost)",
           "Crimson Shield - Absorb 10x damage sacrificed, converting damage taken into healing (5 mana, 1d10 HP cost)",
-          "Eternal Agony - Inflict escalating psychic pain based on health sacrificed (15 mana, 1d10 HP cost)"
+          "Eternal Agony - Inflict escalating psychic pain based on Health Sacrificed (15 mana, 1d10 HP cost)"
         ]
       },
 
@@ -868,7 +868,7 @@ Keep a note of which curses are affecting you:
         },
 
         keyAbilities: [
-          "Soul Chain - Summon spectral ally with HP equal to health sacrificed (0 mana, 2d8 HP cost)",
+          "Soul Chain - Summon spectral ally with HP equal to Health Sacrificed (0 mana, 2d8 HP cost)",
           "Dance of the Damned - Summon two skeletal archers dealing 2d6 each (0 mana, 3d6 HP cost)",
           "Spectral Vanguard - Summon a powerful spectral knight to protect allies (10 mana, 4d8 HP cost)"
         ]
@@ -907,7 +907,7 @@ Keep a note of which curses are affecting you:
         },
 
         keyAbilities: [
-          "Mind Shatter - Psychic damage scaling with health sacrificed, rounded up (25 mana, 2d6 HP cost)",
+          "Mind Shatter - Psychic damage scaling with Health Sacrificed, rounded up (25 mana, 2d6 HP cost)",
           "Despair's Grasp - Mass debuff causing disadvantage and halved movement (15 mana, DC 15 Wisdom)",
           "Void Rift - Ultimate ability pulling enemies and dealing massive damage (45 mana, 4d10 HP + 1d6 permanent HP)"
         ]
@@ -921,13 +921,13 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_necrotic_bolt',
       name: 'Necrotic Bolt',
-      description: 'Fire a bolt of dark necrotic energy that streaks toward your target. The bolt is formed from your own life force, drawn from your body as you cast. It strikes with unerring accuracy, leaving a trail of shadow in its wake. The necrotic energy saps the target\'s vitality on impact.',
+      description: 'Fire a bolt of necrotic energy dealing 3d8 damage. Reduces target\'s damage dealt by 3 for 1 round. Costs 1d6 HP to cast. Deals necrotic damage and generates Blood Tokens from Health Sacrificed.',
       level: 1,
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['damage', 'ranged', 'blood-magic']
+        tags: ['damage', 'ranged', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -941,8 +941,8 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'opportunistic'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 8 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -957,7 +957,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '3d8',
+        formula: '1d8',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: true,
@@ -971,19 +971,19 @@ Keep a note of which curses are affecting you:
         }
       },
       resolution: 'DICE',
-      tags: ['damage', 'ranged', 'blood-magic']
+      tags: ['damage', 'ranged', 'blood magic']
     },
 
     {
       id: 'dc_shadow_step',
       name: 'Shadow Step',
-      description: 'Step into the shadows and emerge from darkness elsewhere. Your form dissolves into shadowy mist, flowing through the darkness itself. If you emerge from an area of shadow or darkness, the residual shadow energy clings to you, empowering your next strike with necrotic power.',
+      description: 'Step through the shadows up to 30 feet. You gain +2 Dodge Rating for 1 round upon arrival. Costs 1d6 HP.',
       level: 1,
       effectTypes: ['utility'],
       typeConfig: {
         school: 'shadow',
         icon: 'Utility/Phantom Dash',
-        tags: ['teleport', 'mobility', 'necrotic', 'blood-magic']
+        tags: ['teleport', 'mobility', 'necrotic', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -996,8 +996,8 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 10 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1016,14 +1016,19 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'teleport',
           name: 'Teleport',
-          description: 'Teleport through shadows',
+          description: 'Gain +2 Dodge Rating after teleporting.',
+          statModifier: {
+            stat: 'dodge',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          },
           distance: 30,
-          duration: 0,
-          durationUnit: 'instant'
+          duration: 1,
+          durationUnit: 'rounds'
         }],
         power: 'minor'
       },
-      tags: ['teleport', 'mobility', 'necrotic', 'blood-magic']
+      tags: ['teleport', 'mobility', 'necrotic', 'blood magic']
     },
 
     {
@@ -1034,16 +1039,16 @@ Keep a note of which curses are affecting you:
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Radiant/Radiant Divinity',
-        tags: ['protection', 'ward', 'blood-magic']
+        icon: 'Necrotic/Protective Aura',
+        tags: ['protection', 'ward', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 5 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1062,13 +1067,13 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'damage_absorption',
           name: 'Damage Absorption',
-          description: 'Absorbs damage equal to health sacrificed',
+          description: 'Absorbs damage equal to Health Sacrificed',
           duration: 1,
           durationUnit: 'minutes'
         }],
         power: 'minor'
       },
-      tags: ['protection', 'ward', 'blood-magic']
+      tags: ['protection', 'ward', 'blood magic']
     },
 
     // ===== LEVEL 2 SPELLS =====
@@ -1081,7 +1086,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Drain Soul',
-        tags: ['damage', 'healing', 'life-drain', 'blood-magic']
+        tags: ['damage', 'healing', 'life drain', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1095,8 +1100,8 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'lowest_health'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 12 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 7 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1119,7 +1124,7 @@ Keep a note of which curses are affecting you:
         critDiceOnly: false
       },
       healingConfig: {
-        formula: 'damageDealt * 0.5',
+        formula: 'damage_dealt * 0.5',
         healingType: 'direct',
         hasHotEffect: false,
         hasShieldEffect: false
@@ -1156,27 +1161,27 @@ Keep a note of which curses are affecting you:
           }
         }
       },
-      tags: ['damage', 'healing', 'life-drain', 'blood-magic']
+      tags: ['damage', 'healing', 'life drain', 'blood magic']
     },
 
     {
       id: 'dc_crimson_shield',
       name: 'Crimson Shield',
-      description: 'Sacrifice blood to create a protective barrier that absorbs damage and converts it to healing.',
+      description: 'Conjure a shield of hardened blood that absorbs 15 damage. Lasts for 1 minute or until depleted.',
       level: 2,
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Radiant/Radiant Divinity',
-        tags: ['shield', 'absorption', 'healing', 'blood-magic']
+        icon: 'Necrotic/Protective Aura',
+        tags: ['shield', 'absorption', 'healing', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 12 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1195,19 +1200,24 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'absorption_shield',
           name: 'Absorption Shield',
-          description: 'Absorbs damage and converts to healing',
+          description: 'Absorbs 15 damage',
+          statModifier: {
+            stat: 'damage_absorption',
+            magnitude: 15,
+            magnitudeType: 'flat'
+          },
           duration: 1,
           durationUnit: 'minutes'
         }],
         power: 'moderate'
       },
-      tags: ['shield', 'absorption', 'healing', 'blood-magic']
+      tags: ['shield', 'absorption', 'healing', 'blood magic']
     },
 
     {
       id: 'dc_dark_pursuit',
       name: 'Dark Pursuit',
-      description: 'Surge forward with supernatural speed, gaining advantage on your next attack.',
+      description: 'Surge forward with supernatural speed, gaining +15 Movement Speed for the turn and advantage on your next attack.',
       level: 2,
       effectTypes: ['utility'],
       typeConfig: {
@@ -1220,8 +1230,8 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 10 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 6 },
         actionPoints: 1,
         components: ['somatic'],
         useFormulas: {
@@ -1240,7 +1250,12 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'speed_burst',
           name: 'Speed Burst',
-          description: 'Supernatural burst of speed and advantage on next attack',
+          description: 'Gain +15 Movement Speed and advantage on your next attack',
+          statModifier: {
+            stat: 'movement_speed',
+            magnitude: 15,
+            magnitudeType: 'flat'
+          },
           duration: 1,
           durationUnit: 'rounds'
         }],
@@ -1253,13 +1268,13 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_death_s_embrace',
       name: 'Death\'s Embrace',
-      description: 'Unleash a wave of death energy that radiates outward from your body. The necrotic force spreads like a dark tide, washing over all enemies in range. The energy is drawn from your own life force, creating a devastating area of decay. You can channel additional Blood Tokens into the spell to intensify its power.',
+      description: 'Unleash a wave of necrotic energy dealing 4d6 damage to all enemies within 20 feet. Blood Tokens can be channeled for +1d6 additional damage per token.',
       level: 3,
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
+        tags: ['damage', 'aoe', 'necrotic', 'Blood Tokens']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1273,8 +1288,8 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'standard'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 15 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 10 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1308,24 +1323,24 @@ Keep a note of which curses are affecting you:
           resourceType: 'bloodTokens',
           thresholdValue: 0,
           thresholdType: 'above',
-          modifiedFormula: '4d6 + (bloodTokens_spent * 1d6)',
+          modifiedFormula: '4d6 + (blood_tokens_spent * 1d6)',
           description: 'Spend Blood Tokens for bonus damage each',
           damageFormula: '+1d6'
         }]
       },
-      tags: ['damage', 'aoe', 'necrotic', 'blood-tokens']
+      tags: ['damage', 'aoe', 'necrotic', 'Blood Tokens']
     },
 
     {
       id: 'dc_soul_chain',
       name: 'Soul Chain',
-      description: 'Summon a spectral ally from a corpse to fight for you. Requires Spectral Command path.',
+      description: 'Summon a spectral ally with HP equal to double the health sacrificed (Max 50 HP). The ally deals 1d10 necrotic damage on hit and lasts for 1 minute. Requires Spectral Command path.',
       level: 3,
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Drain Soul',
-        tags: ['summon', 'spectral', 'blood-magic']
+        tags: ['summon', 'spectral', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1339,8 +1354,8 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 12, ascension_required: 'spectral_command' },
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
         useFormulas: {
@@ -1361,9 +1376,9 @@ Keep a note of which curses are affecting you:
           description: 'A ghostly warrior bound by necrotic energy, loyal to its summoner.',
           size: 'Medium',
           type: 'undead',
-          tokenIcon: 'ability_ghoulfrenzy',
+          tokenicon: 'Necrotic/Roaring Zombie',
           stats: {
-            maxHp: 'equal to health sacrificed (2d8)',
+            maxHp: 'equal to Health Sacrificed (2d8)',
             armor: 12,
             maxMana: 0
           },
@@ -1384,19 +1399,19 @@ Keep a note of which curses are affecting you:
         controlRange: 60,
         controlType: 'mental'
       },
-      tags: ['summon', 'spectral', 'blood-magic']
+      tags: ['summon', 'spectral', 'blood magic']
     },
 
     {
       id: 'dc_hex_of_weakness',
       name: 'Hex of Weakness',
-      description: 'Curse an enemy with a mark of necrotic weakness. Dark energy seeps into their defenses, making them vulnerable. The curse burns with necrotic fire, continuing to eat away at their defenses over time. Their ability to resist damage is compromised as the dark magic takes hold.',
+      description: 'Curse an enemy with necrotic weakness, reducing their damage reduction and dealing ongoing necrotic damage.',
       level: 3,
       effectTypes: ['debuff', 'damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['debuff', 'curse', 'dot', 'anti-magic']
+        tags: ['debuff', 'curse', 'dot', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1410,8 +1425,8 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'opportunistic'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 15 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 10 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1430,7 +1445,7 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'necrotic_weakness',
           name: 'Necrotic Weakness',
-          description: 'The necrotic curse weakens their defenses, making them more vulnerable to all attacks. Their ability to resist damage is compromised as the dark magic takes hold.',
+          description: 'Reduces damage reduction by 2 and deals ongoing necrotic damage.',
           statModifier: {
             stat: 'damage_reduction',
             magnitude: 2,
@@ -1458,7 +1473,7 @@ Keep a note of which curses are affecting you:
         }
       },
       resolution: 'SAVING_THROW',
-      tags: ['debuff', 'curse', 'dot', 'anti-magic']
+      tags: ['debuff', 'curse', 'dot', 'anti magic']
     },
 
     // ===== LEVEL 4 SPELLS =====
@@ -1471,7 +1486,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Drain Soul',
-        tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'ascension-synergy']
+        tags: ['damage', 'healing', 'life drain', 'blood magic', 'ascension synergy']
       },
       targetingMode: 'effect',
       targetingConfig: {
@@ -1507,8 +1522,8 @@ Keep a note of which curses are affecting you:
         }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 18 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 14, ascension_required: 'spectral_command' },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1523,7 +1538,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '3d8',
+        formula: '5d6',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: true,
@@ -1531,7 +1546,7 @@ Keep a note of which curses are affecting you:
         critDiceOnly: false
       },
       healingConfig: {
-        formula: 'damageDealt * 0.75',
+        formula: 'damage_dealt * 0.75',
         healingType: 'direct',
         hasHotEffect: false,
         hasShieldEffect: false
@@ -1542,11 +1557,11 @@ Keep a note of which curses are affecting you:
           resourceType: 'ascensionPaths',
           thresholdValue: 'life_leech',
           thresholdType: 'active',
-          modifiedFormula: 'damageDealt * 1.5',
+          modifiedFormula: 'damage_dealt * 1.5',
           description: 'Life Leech Ascension Path: 50% more healing'
         }]
       },
-      tags: ['damage', 'healing', 'life-drain', 'blood-magic', 'ascension-synergy']
+      tags: ['damage', 'healing', 'life drain', 'blood magic', 'ascension synergy']
     },
 
     {
@@ -1557,8 +1572,8 @@ Keep a note of which curses are affecting you:
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Nature/Ethereal Bird',
-        tags: ['summon', 'spectral', 'ranged', 'blood-magic']
+        icon: 'Necrotic/Spectral Summoning',
+        tags: ['summon', 'spectral', 'ranged', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1573,8 +1588,8 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 14, ascension_required: 'spectral_command' },
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
         useFormulas: {
@@ -1595,7 +1610,7 @@ Keep a note of which curses are affecting you:
           description: 'A rotting archer with an unerring aim, bound to serve its necrotic master.',
           size: 'Medium',
           type: 'undead',
-          tokenIcon: 'spell_shadow_raisedead',
+          tokenicon: 'Necrotic/Resurrect',
           stats: {
             maxHp: 20,
             armor: 13,
@@ -1618,7 +1633,7 @@ Keep a note of which curses are affecting you:
         controlRange: 60,
         controlType: 'mental'
       },
-      tags: ['summon', 'spectral', 'ranged', 'blood-magic']
+      tags: ['summon', 'spectral', 'ranged', 'blood magic']
     },
 
     {
@@ -1630,7 +1645,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'shadow',
         icon: 'Necrotic/Corruption',
-        tags: ['crowd-control', 'root', 'control']
+        tags: ['crowd control', 'root', 'control']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1638,8 +1653,8 @@ Keep a note of which curses are affecting you:
         rangeDistance: 30
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 18 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 14, ascension_required: 'spectral_command' },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1671,14 +1686,14 @@ Keep a note of which curses are affecting you:
           }
         }]
       },
-      tags: ['crowd-control', 'root', 'control']
+      tags: ['crowd control', 'root', 'control']
     },
 
     // ===== LEVEL 5 SPELLS =====
     {
       id: 'dc_aura_of_decay',
       name: 'Aura of Decay',
-      description: 'Emanate an aura of death that surrounds you with an oppressive field of necrotic energy. Enemies caught within the aura feel their life force being slowly drained away, their strength waning with each passing moment. The aura weakens their attacks and saps their vitality, creating a zone of decay around you.',
+      description: 'Emanate a necrotic aura dealing 2d6 damage to enemies within 20ft at the start of their turn. Affected enemies suffer -3 Damage Reduction.',
       level: 5,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
@@ -1693,8 +1708,8 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 20 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 25 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1719,7 +1734,12 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'decay_debuff',
           name: 'Decay',
-          description: 'The necrotic energy saps their strength, making all their attacks and abilities less effective. Their power wanes as the decay takes hold.',
+          description: 'Reduces Damage Reduction by 3.',
+          statModifier: {
+            stat: 'damage_reduction',
+            magnitude: -3,
+            magnitudeType: 'flat'
+          },
           statusType: 'weakened',
           level: 'moderate'
         }],
@@ -1735,13 +1755,13 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_life_link',
       name: 'Life Link',
-      description: 'Link your life force with an ally, sharing all damage taken.',
+      description: 'Link your life force with an ally for 1 minute. 50% of damage they take is redirected to you. While linked, you both gain +2 Armor.',
       level: 5,
       effectTypes: ['utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Healing/Prayer',
-        tags: ['support', 'protection', 'link', 'damage-sharing']
+        icon: 'Necrotic/Protective Aura',
+        tags: ['support', 'protection', 'link', 'damage sharing']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1750,8 +1770,8 @@ Keep a note of which curses are affecting you:
         targetType: 'ally'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 25 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
@@ -1770,7 +1790,7 @@ Keep a note of which curses are affecting you:
         }],
         power: 'major'
       },
-      tags: ['support', 'protection', 'link', 'damage-sharing']
+      tags: ['support', 'protection', 'link', 'damage sharing']
     },
 
     {
@@ -1790,8 +1810,8 @@ Keep a note of which curses are affecting you:
         rangeDistance: 5
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 25 },
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         useFormulas: {
@@ -1842,9 +1862,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 25 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 22, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -1858,7 +1878,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '4d6',
+        formula: '8d6',
         elementType: 'necrotic',
         damageType: 'area',
         criticalConfig: {
@@ -1894,7 +1914,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Psychic/Twist Pain',
-        tags: ['crowd-control', 'paralysis', 'necrotic', 'area']
+        tags: ['crowd control', 'paralysis', 'necrotic', 'area']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1908,9 +1928,9 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'contagion'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 28 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 22 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -1924,7 +1944,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '3d10',
+        formula: '8d6',
         elementType: 'necrotic',
         damageType: 'area'
       },
@@ -1943,7 +1963,7 @@ Keep a note of which curses are affecting you:
         }]
       },
       resolution: 'SAVING_THROW',
-      tags: ['crowd-control', 'paralysis', 'necrotic', 'area']
+      tags: ['crowd control', 'paralysis', 'necrotic', 'area']
     },
 
     {
@@ -1955,7 +1975,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic']
+        tags: ['damage', 'psychic', 'dot', 'escalating', 'blood magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1969,9 +1989,9 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'aggressive'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 28 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 22 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -1990,21 +2010,21 @@ Keep a note of which curses are affecting you:
         damageType: 'dot',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: 'turn_number * 1d6 * (health sacrificed)',
+          dotFormula: 'turn_number * 1d6 * health_sacrificed',
           duration: 5,
           tickFrequency: 'round',
           isProgressiveDot: true,
           progressiveStages: [
-            { round: 1, formula: '1d6 × (health sacrificed)', description: 'Initial agony wracks the target\'s mind as the psychic torment begins to take hold.' },
-            { round: 2, formula: '2d6 × (health sacrificed)', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
-            { round: 3, formula: '3d6 × (health sacrificed)', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' },
-            { round: 4, formula: '4d6 × (health sacrificed)', description: 'Excruciating pain tears at their sanity, the curse reaching near-unbearable intensity.' },
-            { round: 5, formula: '5d6 × (health sacrificed)', description: 'Unbearable agony reaches its peak, the psychic torment at its most devastating.' }
+            { round: 1, formula: '1d6 × health_sacrificed', description: 'Initial agony wracks the target\'s mind as the psychic torment begins to take hold.' },
+            { round: 2, formula: '2d6 × health_sacrificed', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
+            { round: 3, formula: '3d6 × health_sacrificed', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' },
+            { round: 4, formula: '4d6 × health_sacrificed', description: 'Excruciating pain tears at their sanity, the curse reaching near-unbearable intensity.' },
+            { round: 5, formula: '5d6 × health_sacrificed', description: 'Unbearable agony reaches its peak, the psychic torment at its most devastating.' }
           ]
         }
       },
       resolution: 'DICE',
-      tags: ['damage', 'psychic', 'dot', 'escalating', 'blood-magic']
+      tags: ['damage', 'psychic', 'dot', 'escalating', 'blood magic']
     },
 
     // ===== LEVEL 7 SPELLS =====
@@ -2017,7 +2037,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+        tags: ['aoe', 'damage over time', 'anti magic', 'concentration']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2026,9 +2046,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 30 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 25, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2042,12 +2062,12 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '3d8',
+        formula: '10d6',
         elementType: 'necrotic',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '3d8',
+          dotFormula: '4d6',
           duration: 1,
           tickFrequency: 'round',
           isProgressiveDot: false
@@ -2062,7 +2082,7 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'anti_magic_weakening',
           name: 'Anti-Magic Weakening',
-          description: 'The anti-magic field severely weakens magical abilities. Spell attacks become unreliable and magical energy cannot be replenished. The field disrupts the very essence of magic itself.',
+          description: 'Severely weakens magical abilities and prevents mana regeneration.',
           statusType: 'weakened',
           level: 'major'
         }],
@@ -2072,18 +2092,18 @@ Keep a note of which curses are affecting you:
         concentrationRequired: true
       },
       resolution: 'DICE',
-      tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+      tags: ['aoe', 'damage over time', 'anti magic', 'concentration']
     },
 
     {
       id: 'dc_apex_predator',
       name: 'Apex Predator',
-      description: 'Transform into a perfect hunter, becoming invisible to enemies and gaining supernatural abilities.',
+      description: 'Transform into a perfect hunter for 10 minutes. Gain Invisibility, +10 Movement Speed, and +3 to Stealth checks.',
       level: 7,
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'shadow',
-        icon: 'Nature/Tiger Spirit',
+        icon: 'Necrotic/Ghostly Menace',
         tags: ['transformation', 'stealth', 'buff']
       },
       targetingConfig: {
@@ -2096,9 +2116,9 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health'],
-        resourceValues: { mana: 32 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceValues: { mana: 25 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2117,7 +2137,12 @@ Keep a note of which curses are affecting you:
         duration: 10,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['invisibility_to_enemies', 'supernatural_senses', 'enhanced_speed']
+        specialEffects: ['invisibility_to_enemies', 'supernatural_senses', 'enhanced_speed'],
+        statModifier: {
+          stat: 'movement_speed',
+          magnitude: 10,
+          magnitudeType: 'flat'
+        }
       },
       tags: ['transformation', 'stealth', 'buff']
     },
@@ -2125,12 +2150,12 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_final_hour',
       name: 'Final Hour',
-      description: 'Enter a state of ultimate focus where every attack becomes devastating. Your senses sharpen, your movements become fluid, and your strikes find their mark with unerring precision.',
+      description: 'Enter a state of ultimate focus for 1 minute. Gain +3 Attack and Damage, and your critical hit range is increased by 2.',
       level: 7,
       effectTypes: ['buff'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Piercing/Focused Arrow Shot',
+        icon: 'Necrotic/Drain Soul',
         tags: ['transformation', 'damage', 'mobility']
       },
       targetingConfig: {
@@ -2138,9 +2163,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 25, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2159,7 +2184,7 @@ Keep a note of which curses are affecting you:
           {
             id: 'ultimate_focus_attack',
             name: 'Perfect Precision',
-            description: 'Gain +4 to attack rolls for 1 minute. Your focus is so intense that every strike is perfectly aimed.',
+            description: 'Gain +4 to attack rolls for 1 minute.',
             statModifier: {
               stat: 'attack',
               magnitude: 4,
@@ -2169,7 +2194,7 @@ Keep a note of which curses are affecting you:
           {
             id: 'ultimate_focus_damage',
             name: 'Devastating Strikes',
-            description: 'Your attacks strike with overwhelming force, tearing through defenses and leaving devastating wounds. Every strike carries the weight of your ultimate focus, making each blow more devastating than the last.',
+            description: 'Deal +2d6 damage on all attacks.',
             statModifier: {
               stat: 'damage',
               magnitude: '2d6',
@@ -2189,7 +2214,7 @@ Keep a note of which curses are affecting you:
           {
             id: 'ultimate_focus_crit',
             name: 'Critical Mastery',
-            description: 'Your enhanced focus allows you to find and exploit weak points with devastating precision. Your critical strikes become more frequent as you learn to read your enemies\' defenses and strike where they are most vulnerable.',
+            description: 'Critical hit range expanded by 1.',
             statModifier: {
               stat: 'crit_range',
               magnitude: 1,
@@ -2215,7 +2240,7 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'healing'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Radiant/Divine Ascension',
+        icon: 'Necrotic/Ebon Death',
         tags: ['aoe', 'damage', 'healing', 'necrotic']
       },
       targetingConfig: {
@@ -2225,9 +2250,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 40 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 28, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2241,7 +2266,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '6d8',
+        formula: '12d6',
         elementType: 'necrotic',
         damageType: 'area',
         criticalConfig: {
@@ -2250,7 +2275,7 @@ Keep a note of which curses are affecting you:
         }
       },
       healingConfig: {
-        formula: '6d8',
+        formula: '12d6',
         healingType: 'direct',
         hasHotEffect: false,
         hasShieldEffect: false
@@ -2281,9 +2306,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 28, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2311,7 +2336,7 @@ Keep a note of which curses are affecting you:
           {
             id: 'shadow_entity',
             name: 'Shadow Entity',
-            description: 'Physical damage reduced by 50% for 1 minute. Your form becomes partially incorporeal, allowing physical attacks to pass through you with reduced effectiveness.',
+            description: 'Reduce physical damage taken by 50%.',
             statModifier: {
               stat: 'damage_reduction',
               magnitude: 50,
@@ -2333,7 +2358,7 @@ Keep a note of which curses are affecting you:
             name: 'Shadow Step',
             distance: 30,
             needsLineOfSight: false,
-            description: 'Teleport up to 30 feet through shadows as a bonus action. You can move through shadows and darkness instantly, appearing at any point within range.'
+            description: 'Teleport up to 30 feet through shadows.',
           },
           {
             id: 'phasing',
@@ -2342,7 +2367,7 @@ Keep a note of which curses are affecting you:
             canAttack: true,
             canInteract: true,
             maxThickness: 'unlimited',
-            description: 'Pass through non-magical barriers and obstacles of any thickness. You can move through walls, doors, and other solid objects that are not magically warded. You can attack and interact with objects while phasing.'
+            description: 'Pass through non-magical barriers of any thickness.',
           }
         ],
         duration: 1,
@@ -2361,8 +2386,8 @@ Keep a note of which curses are affecting you:
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Arcane/Magical Cross Emblem 2',
-        tags: ['aoe', 'anti-magic', 'suppression', 'concentration']
+        icon: 'Necrotic/Corruption',
+        tags: ['aoe', 'anti magic', 'suppression', 'concentration']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2371,9 +2396,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 40 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 28, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2387,7 +2412,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '4d10',
+        formula: '12d6',
         elementType: 'force',
         damageType: 'area',
         criticalConfig: {
@@ -2408,20 +2433,20 @@ Keep a note of which curses are affecting you:
         power: 'major'
       },
       resolution: 'DICE',
-      tags: ['aoe', 'anti-magic', 'suppression', 'concentration']
+      tags: ['aoe', 'anti magic', 'suppression', 'concentration']
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
       id: 'dc_hexbreaker_apocalypse',
       name: 'Hexbreaker Apocalypse',
-      description: 'Unleash apocalyptic levels of necrotic energy that reshape reality itself.',
+      description: 'Unleash 15d6 necrotic damage in a 50ft radius. Enemies take 6d6 ongoing damage and have -5 All Resistances for 1 minute.',
       level: 9,
       effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
+        tags: ['aoe', 'damage', 'damage over time', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2430,9 +2455,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 50 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 32, bloodTokens: 6 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2446,12 +2471,12 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '8d8',
+        formula: '15d6',
         elementType: 'necrotic',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '4d8',
+          dotFormula: '6d6',
           duration: 1,
           tickFrequency: 'round',
           isProgressiveDot: false
@@ -2465,7 +2490,12 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'apocalyptic_weakening',
           name: 'Apocalyptic Weakening',
-          description: 'The apocalyptic weakening renders enemies nearly powerless. Their magical abilities are completely suppressed, their attacks become feeble, and they cannot replenish their energy. The curse strips away their power at a fundamental level.',
+          description: 'Reduces All Resistances by 5.',
+          statModifier: {
+            stat: 'all_resistances',
+            magnitude: -5,
+            magnitudeType: 'flat'
+          },
           statusType: 'weakened',
           level: 'extreme'
         }],
@@ -2483,13 +2513,13 @@ Keep a note of which curses are affecting you:
         difficultyClass: 19,
         saveOutcome: 'halves'
       },
-      tags: ['aoe', 'damage', 'damage-over-time', 'anti-magic']
+      tags: ['aoe', 'damage', 'damage over time', 'anti magic']
     },
 
     {
       id: 'dc_void_hunter',
       name: 'Void Hunter',
-      description: 'Step into the void between worlds, becoming a perfect hunter that can strike from anywhere.',
+      description: 'Transform into a Void Hunter for 10 minutes. Gain +20 Movement Speed, Phase Shift (ignore walls), and +5 to all attack rolls.',
       level: 9,
       effectTypes: ['transformation'],
       typeConfig: {
@@ -2502,9 +2532,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 32, bloodTokens: 6 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2523,7 +2553,12 @@ Keep a note of which curses are affecting you:
         duration: 10,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['void_existence', 'teleport_anywhere', 'ignore_defenses', 'complete_immunity']
+        specialEffects: ['void_existence', 'teleport_anywhere', 'ignore_defenses', 'complete_immunity'],
+        statModifier: {
+          stat: 'movement_speed',
+          magnitude: 20,
+          magnitudeType: 'flat'
+        }
       },
       tags: ['transformation', 'mobility', 'damage']
     },
@@ -2531,12 +2566,12 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_divine_executioner',
       name: 'Divine Executioner',
-      description: 'Become an instrument of necrotic justice, executing evil with righteous fury.',
+      description: 'Become a Divine Executioner for 10 minutes. Enemies within 30ft take 4d6 damage per turn. Gain Immunity to all debuffs and +4 Armor.',
       level: 9,
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Radiant/Radiant Warrior',
+        icon: 'Necrotic/Lich With Green Orb',
         tags: ['transformation', 'damage', 'mobility']
       },
       targetingConfig: {
@@ -2544,9 +2579,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 32, bloodTokens: 6 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2565,7 +2600,12 @@ Keep a note of which curses are affecting you:
         duration: 10,
         durationUnit: 'minutes',
         power: 'major',
-        specialEffects: ['instant_death_zone', 'complete_evil_immunity', 'necrotic_judgment', 'truth_compulsion', 'zone_of_decay']
+        specialEffects: ['instant_death_zone', 'complete_evil_immunity', 'necrotic_judgment', 'truth_compulsion', 'zone_of_decay'],
+        statModifier: {
+          stat: 'armor',
+          magnitude: 4,
+          magnitudeType: 'flat'
+        }
       },
       tags: ['transformation', 'damage', 'mobility']
     },
@@ -2580,7 +2620,7 @@ Keep a note of which curses are affecting you:
       typeConfig: {
         school: 'necrotic',
         icon: 'Void/Black Hole',
-        tags: ['aoe', 'damage', 'permanent', 'anti-magic']
+        tags: ['aoe', 'damage', 'permanent', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2589,9 +2629,9 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 100 }
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 36, bloodTokens: 6 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true
@@ -2605,7 +2645,7 @@ Keep a note of which curses are affecting you:
         value: 0
       },
       damageConfig: {
-        formula: '10d10',
+        formula: '18d6',
         elementType: 'necrotic',
         damageType: 'area',
         canCrit: true,
@@ -2630,7 +2670,7 @@ Keep a note of which curses are affecting you:
         difficultyClass: 20,
         saveOutcome: 'negates'
       },
-      tags: ['aoe', 'damage', 'permanent', 'anti-magic']
+      tags: ['aoe', 'damage', 'permanent', 'anti magic']
     },
 
     {
@@ -2649,9 +2689,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 36, bloodTokens: 6 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true,
@@ -2693,9 +2733,9 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['bloodTokens'],
-        resourceValues: { bloodTokens: 6 },
-        actionPoints: 1,
+        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceValues: { mana: 36, bloodTokens: 6 },
+        actionPoints: 3,
         components: ['verbal', 'somatic'],
         useFormulas: {
           health: true,

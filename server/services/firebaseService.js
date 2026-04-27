@@ -787,7 +787,7 @@ const loadPersistentRooms = async () => {
     logger.info(`Loaded ${rooms.length} persistent rooms from Firestore`);
     return rooms;
   } catch (error) {
-    console.error('Error loading persistent rooms:', error);
+    logger.error('Error loading persistent rooms:', { error: error.message });
     return [];
   }
 };

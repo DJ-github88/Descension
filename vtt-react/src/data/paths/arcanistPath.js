@@ -94,14 +94,14 @@ export const ARCANIST_PATH = {
             icon: 'Arcane/Magical Sword',
             level: 1,
             spellType: 'REACTION',
-            tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin-flip'],
+            tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin flip'],
             effectTypes: ['buff', 'utility'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'arcane',
                 icon: 'Arcane/Magical Sword',
-                tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin-flip']
+                tags: ['reaction', 'defensive', 'arcane', 'counterspell', 'coin flip']
             },
 
             buffConfig: {
@@ -151,7 +151,7 @@ export const ARCANIST_PATH = {
 
             resourceCost: {
                 resourceTypes: ['mana'],
-                resourceValues: { mana: 10 },
+                resourceValues: { mana: 4 },
                 actionPoints: 0
             },
 
@@ -214,7 +214,7 @@ export const ARCANIST_PATH = {
 
             resourceCost: {
                 resourceTypes: ['mana'],
-                resourceValues: { mana: 25 },
+                resourceValues: { mana: 4 },
                 actionPoints: 3
             },
 
@@ -244,8 +244,8 @@ export const ARCANIST_PATH = {
 
             abilities: [
                 {
-                    id: 'elemental_blast',
-                    name: 'Elemental Blast',
+                    id: 'evoker_elemental_blast',
+                    name: 'Evoker Elemental Blast',
                     description: '"Feel the fury of the elements!" Unleash a devastating blast of elemental energy.',
                     icon: 'Arcane/Conjure Elements',
                     level: 1,
@@ -253,6 +253,12 @@ export const ARCANIST_PATH = {
                     tags: ['damage', 'elemental', 'blast', 'aoe'],
                     effectTypes: ['damage'],
                     damageTypes: ['fire', 'frost', 'lightning'],
+
+                    typeConfig: {
+                        school: 'fire',
+                        icon: 'Arcane/Conjure Elements',
+                        tags: ['damage', 'elemental', 'blast', 'aoe']
+                    },
 
                     damageConfig: {
                         damageType: 'direct',
@@ -279,15 +285,13 @@ export const ARCANIST_PATH = {
                         rangeType: 'ranged',
                         rangeDistance: 60,
                         aoeShape: 'sphere',
-                        aoeSize: 10,
+                        aoeParameters: { radius: 10 },
                         targetRestrictions: ['enemy']
                     },
 
                     resourceCost: {
-                        mana: 25,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 4 },
                         actionPoints: 3
                     },
 
@@ -322,6 +326,12 @@ export const ARCANIST_PATH = {
                     effectTypes: ['buff'],
                     damageTypes: [],
 
+                    typeConfig: {
+                        school: 'arcane',
+                        icon: 'Arcane/Orb Manipulation',
+                        tags: ['buff', 'elemental', 'mastery', 'versatility']
+                    },
+
                     buffConfig: {
                         duration: 8,
                         durationValue: 8,
@@ -339,7 +349,7 @@ export const ARCANIST_PATH = {
                         ],
                         statusEffects: [
                             {
-                                id: 'elemental_mastery',
+                                id: 'elemental_mastery_buff',
                                 name: 'Elemental Mastery',
                                 description: 'All elemental spells deal +5 damage'
                             }
@@ -364,10 +374,8 @@ export const ARCANIST_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 30,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 7 },
                         actionPoints: 2
                     },
 
@@ -413,9 +421,15 @@ export const ARCANIST_PATH = {
                     icon: 'Arcane/Rewind Time',
                     level: 2,
                     spellType: 'ACTION',
-                    tags: ['utility', 'time', 'buff', 'extra-actions'],
+                    tags: ['utility', 'time', 'buff', 'extra actions'],
                     effectTypes: ['buff'],
                     damageTypes: [],
+
+                    typeConfig: {
+                        school: 'arcane',
+                        icon: 'Arcane/Rewind Time',
+                        tags: ['utility', 'time', 'buff', 'extra actions']
+                    },
 
                     buffConfig: {
                         duration: 1,
@@ -450,17 +464,15 @@ export const ARCANIST_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 30,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
-                        actionPoints: 0
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 7 },
+                        actionPoints: 1
                     },
 
                     durationConfig: {
-                        type: 'instant',
-                        value: 0,
-                        unit: 'seconds',
+                        type: 'timed',
+                        value: 1,
+                        unit: 'rounds',
                         concentration: false,
                         dispellable: false
                     },
@@ -487,6 +499,12 @@ export const ARCANIST_PATH = {
                     tags: ['healing', 'time', 'rewind', 'defensive'],
                     effectTypes: ['healing'],
                     damageTypes: [],
+
+                    typeConfig: {
+                        school: 'arcane',
+                        icon: 'Arcane/Sands of Time',
+                        tags: ['healing', 'time', 'rewind', 'defensive']
+                    },
 
                     healingConfig: {
                         healingType: 'direct',
@@ -534,10 +552,9 @@ export const ARCANIST_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 25,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 7 },
+                        actionPoints: 0
                     },
 
                     durationConfig: {
@@ -582,9 +599,15 @@ export const ARCANIST_PATH = {
                     icon: 'Arcane/Ebon Blaze',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['buff', 'spell-power', 'enhancement', 'metamagic'],
+                    tags: ['buff', 'spell power', 'enhancement', 'metamagic'],
                     effectTypes: ['buff'],
                     damageTypes: [],
+
+                    typeConfig: {
+                        school: 'arcane',
+                        icon: 'Arcane/Ebon Blaze',
+                        tags: ['buff', 'spell power', 'enhancement', 'metamagic']
+                    },
 
                     buffConfig: {
                         duration: 2,
@@ -603,7 +626,7 @@ export const ARCANIST_PATH = {
                         ],
                         statusEffects: [
                             {
-                                id: 'arcane_surge',
+                                id: 'arcane_surge_buff',
                                 name: 'Arcane Surge',
                                 description: 'Next spell deals +10 damage'
                             }
@@ -628,10 +651,8 @@ export const ARCANIST_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 15,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 4 },
                         actionPoints: 1
                     },
 
@@ -665,6 +686,12 @@ export const ARCANIST_PATH = {
                     tags: ['utility', 'dispel', 'steal', 'tactical'],
                     effectTypes: ['utility', 'buff'],
                     damageTypes: [],
+
+                    typeConfig: {
+                        school: 'arcane',
+                        icon: 'Arcane/Magical Duel',
+                        tags: ['utility', 'dispel', 'steal', 'tactical']
+                    },
 
                     utilityConfig: {
                         utilityType: 'dispel',
@@ -709,10 +736,8 @@ export const ARCANIST_PATH = {
                     },
 
                     resourceCost: {
-                        mana: 20,
-                        health: 0,
-                        stamina: 0,
-                        focus: 0,
+                        resourceTypes: ['mana'],
+                        resourceValues: { mana: 7 },
                         actionPoints: 2
                     },
 

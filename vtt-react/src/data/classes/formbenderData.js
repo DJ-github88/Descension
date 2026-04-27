@@ -768,7 +768,7 @@ Frostfang
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['physical', 'stealth', 'burst-damage', 'nightstalker']
+        tags: ['physical', 'stealth', 'burst damage', 'nightstalker', 'feral shifter']
       },
 
       targetingConfig: {
@@ -856,7 +856,7 @@ Frostfang
         value: 0
       },
 
-      tags: ['physical', 'stealth', 'burst-damage', 'nightstalker', 'feral-shifter'],
+      tags: ['physical', 'stealth', 'burst damage', 'nightstalker', 'feral shifter'],
       flavorText: 'From the shadows, death strikes without warning.'
     },
 
@@ -873,7 +873,7 @@ Frostfang
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['stealth', 'buff', 'illusion', 'nightstalker']
+        tags: ['stealth', 'invisibility', 'illusion', 'nightstalker', 'utility']
       },
 
       targetingConfig: {
@@ -1005,7 +1005,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['aoe', 'thunder', 'crowd control', 'ironhide', 'feral shifter']
       },
 
       targetingConfig: {
@@ -1081,7 +1082,7 @@ Frostfang
         }
       },
 
-      tags: ['aoe', 'thunder', 'crowd-control', 'ironhide', 'feral-shifter'],
+      tags: ['aoe', 'thunder', 'crowd control', 'ironhide', 'feral shifter'],
       flavorText: 'The bear\'s roar shakes the very earth.'
     },
 
@@ -1097,7 +1098,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['defense', 'temporary hp', 'resistance', 'ironhide', 'restoration shifter']
       },
 
       targetingConfig: {
@@ -1157,7 +1159,7 @@ Frostfang
         }
       },
 
-      tags: ['defense', 'temporary-hp', 'resistance', 'ironhide', 'restoration-shifter'],
+      tags: ['defense', 'temporary hp', 'resistance', 'ironhide', 'restoration shifter'],
       flavorText: 'The bear\'s hide becomes as hard as stone.'
     },
 
@@ -1174,7 +1176,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['physical', 'aerial', 'grapple', 'skyhunter', 'feral shifter']
       },
 
       targetingConfig: {
@@ -1243,7 +1246,7 @@ Frostfang
         }
       },
 
-      tags: ['physical', 'aerial', 'grapple', 'skyhunter', 'feral-shifter'],
+      tags: ['physical', 'aerial', 'grapple', 'skyhunter', 'feral shifter'],
       flavorText: 'From the skies, the hunter descends.'
     },
 
@@ -1259,7 +1262,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['utility', 'flight', 'wind', 'aoe', 'skyhunter', 'balance shifter']
       },
 
       targetingConfig: {
@@ -1319,7 +1323,7 @@ Frostfang
         }
       },
 
-      tags: ['utility', 'flight', 'wind', 'aoe', 'skyhunter', 'balance-shifter'],
+      tags: ['utility', 'flight', 'wind', 'aoe', 'skyhunter', 'balance shifter'],
       flavorText: 'The winds obey those who soar among them.'
     },
 
@@ -1336,7 +1340,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['cold', 'physical', 'crowd control', 'frostfang', 'feral shifter']
       },
 
       targetingConfig: {
@@ -1405,7 +1410,7 @@ Frostfang
         }
       },
 
-      tags: ['cold', 'physical', 'crowd-control', 'frostfang', 'feral-shifter'],
+      tags: ['cold', 'physical', 'crowd control', 'frostfang', 'feral shifter'],
       flavorText: 'The wolf\'s bite carries the chill of winter.'
     },
 
@@ -1421,7 +1426,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['summoning', 'pack tactics', 'support', 'frostfang', 'restoration shifter']
       },
 
       targetingConfig: {
@@ -1485,7 +1491,7 @@ Frostfang
         }
       },
 
-      tags: ['summoning', 'pack-tactics', 'support', 'frostfang', 'restoration-shifter'],
+      tags: ['summoning', 'pack tactics', 'support', 'frostfang', 'restoration shifter'],
       flavorText: 'The pack answers the call of their leader.'
     },
 
@@ -1502,7 +1508,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['crowd control', 'nature', 'universal', 'all specs']
       },
 
       targetingConfig: {
@@ -1539,7 +1546,7 @@ Frostfang
         }
       },
 
-      tags: ['crowd-control', 'nature', 'universal', 'all-specs'],
+      tags: ['crowd control', 'nature', 'universal', 'all specs'],
       flavorText: 'Nature itself reaches out to bind your foes.'
     },
 
@@ -1555,7 +1562,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['healing', 'support', 'universal', 'all specs', 'restoration shifter']
       },
 
       targetingConfig: {
@@ -1588,7 +1596,7 @@ Frostfang
         }
       },
 
-      tags: ['healing', 'support', 'universal', 'all-specs', 'restoration-shifter'],
+      tags: ['healing', 'support', 'universal', 'all specs', 'restoration shifter'],
       flavorText: 'Life flows through your touch, mending wounds.'
     },
 
@@ -1604,7 +1612,8 @@ Frostfang
 
       typeConfig: {
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: 'IMMEDIATE',
+        tags: ['transformation', 'utility', 'universal', 'all specs', 'balance shifter']
       },
 
       targetingConfig: {
@@ -1652,7 +1661,7 @@ Frostfang
         }
       },
 
-      tags: ['transformation', 'utility', 'universal', 'all-specs', 'balance-shifter'],
+      tags: ['transformation', 'utility', 'universal', 'all specs', 'balance shifter'],
       flavorText: 'The wild flows through you, reshaping your form.'
     }
   ],
@@ -2136,7 +2145,7 @@ Frostfang
     {
       id: 'formbender_savage_charge',
       name: 'Savage Charge',
-      description: 'Charge forward with primal fury, dealing massive damage and knocking down enemies for 1 round. Targets must save or be knocked prone.',
+      description: 'Charge forward with primal fury, dealing massive damage. Targets must succeed on a Strength save or be knocked prone.',
       spellType: 'ACTION',
       icon: 'Utility/Dash',
       school: 'Physical',
@@ -2174,7 +2183,7 @@ Frostfang
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '3d8 + strength',
+        formula: '5d6 + strength',
         elementType: 'bludgeoning',
         damageType: 'direct',
         description: 'Charge attack that knocks down enemies in your path'
@@ -2412,12 +2421,12 @@ Frostfang
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Claw Marks',
-        tags: ['attack', 'damage', 'physical', 'multi-hit', 'formbender'],
+        tags: ['attack', 'damage', 'physical', 'multi hit', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '4d6 + strength',
+        formula: '6d8 + strength',
         elementType: 'slashing',
         damageType: 'direct',
         description: 'Make 3 rapid claw attacks at the target'
@@ -2442,13 +2451,13 @@ Frostfang
         value: 3
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'physical', 'multi-hit', 'formbender']
+      tags: ['attack', 'damage', 'physical', 'multi hit', 'formbender']
     },
 
     {
       id: 'formbender_adaptive_form',
       name: 'Adaptive Form',
-      description: 'Shift between forms instantly without cost for 3 rounds. All form transformations are free (cost 0 Wild Instinct), allowing rapid adaptation to combat situations.',
+      description: 'Shift between forms instantly without Wild Instinct cost for 3 rounds.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
@@ -2502,7 +2511,7 @@ Frostfang
       typeConfig: {
         school: 'nature',
         icon: 'Necrotic/Resurrect',
-        tags: ['transformation', 'size', 'formbender'],
+        tags: ['transformation', 'buff', 'size', 'formbender'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3015,7 +3024,7 @@ Frostfang
         controlType: 'autonomous'
       },
       damageConfig: {
-        formula: '6d10 + spirit',
+        formula: '12d6 + spirit',
         elementType: 'force',
         damageType: 'direct',
         description: 'Wild Hunt spirits deal this damage to enemies they catch'
@@ -3104,7 +3113,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 8 },
         useFormulas: {},
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
@@ -3130,7 +3139,7 @@ Frostfang
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '20d10 + strength * 2 + spirit * 2',
+        formula: '18d6 + strength + spirit',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -3171,7 +3180,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 10 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The fang of a primordial beast, worth 50,000 gold'
       },
@@ -3193,7 +3202,7 @@ Frostfang
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Heart Ripple',
-        tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender'],
+        tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender', 'toggleable'],
         toggleable: true
       },
       buffConfig: {
@@ -3240,7 +3249,7 @@ Frostfang
       typeConfig: {
         school: 'nature',
         icon: 'Utility/Resistance',
-        tags: ['transformation', 'ultimate', 'formbender'],
+        tags: ['transformation', 'buff', 'legendary', 'formbender'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -3268,7 +3277,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 15 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of the World Beast, priceless artifact'
       },
@@ -3355,7 +3364,7 @@ Frostfang
         resourceTypes: ['wild_instinct'],
         resourceValues: { wild_instinct: 12 },
         useFormulas: {},
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Seeds of creation, worth 80,000 gold'
       },
@@ -3377,7 +3386,7 @@ Frostfang
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Growth',
-        tags: ['transformation', 'passive', 'mastery', 'formbender'],
+        tags: ['transformation', 'passive', 'mastery', 'formbender', 'toggleable'],
         toggleable: true
       },
       transformationConfig: {

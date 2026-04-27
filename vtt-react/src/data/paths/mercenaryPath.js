@@ -171,14 +171,14 @@ export const MERCENARY_PATH = {
             icon: 'Necrotic/Eagle Eye',
             level: 1,
             spellType: 'ACTION',
-            tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark'],
+            tags: ['action', 'debuff', 'tactical', 'damage amplification', 'mark'],
             effectTypes: ['debuff'],
             damageTypes: [],
 
             typeConfig: {
                 school: 'physical',
                 icon: 'Necrotic/Eagle Eye',
-                tags: ['action', 'debuff', 'tactical', 'damage-amplification', 'mark']
+                tags: ['action', 'debuff', 'tactical', 'damage amplification', 'mark']
             },
 
             debuffConfig: {
@@ -233,7 +233,7 @@ export const MERCENARY_PATH = {
             icon: 'Utility/Sniper',
             level: 1,
             spellType: 'ACTION',
-            tags: ['damage', 'melee', 'precision', 'armor-piercing'],
+            tags: ['damage', 'melee', 'precision', 'armor piercing'],
             effectTypes: ['damage'],
             damageTypes: ['physical'],
 
@@ -368,13 +368,13 @@ export const MERCENARY_PATH = {
 
             abilities: [
                 {
-                    id: 'exploit_weakness',
+                    id: 'tactician_exploit_weakness',
                     name: 'Exploit Weakness',
                     description: '"I see your weakness." Mark an enemy, dealing increased damage to them.',
                     icon: 'Necrotic/Eagle Eye',
                     level: 1,
                     spellType: 'ACTION',
-                    tags: ['debuff', 'tactical', 'damage-amplification', 'mark'],
+                    tags: ['debuff', 'tactical', 'damage amplification', 'mark'],
                     effectTypes: ['debuff'],
                     damageTypes: [],
 
@@ -395,7 +395,7 @@ export const MERCENARY_PATH = {
                         ],
                         statusEffects: [
                             {
-                                id: 'marked_target',
+                                id: 'tactician_marked_target',
                                 name: 'Marked Target',
                                 description: 'Weakness exploited, -3 armor, you deal 25% more damage to this target'
                             }
@@ -449,7 +449,7 @@ export const MERCENARY_PATH = {
                     mechanicsConfig: []
                 },
                 {
-                    id: 'tactical_retreat',
+                    id: 'tactician_tactical_retreat',
                     name: 'Tactical Retreat',
                     description: '"Live to fight another day." Quickly disengage and reposition.',
                     icon: 'Utility/Swift Boot',
@@ -562,10 +562,11 @@ export const MERCENARY_PATH = {
 
                     triggerConfig: {
                         global: {
+                            enabled: true,
                             logicType: 'OR',
                             compoundTriggers: [
                                 {
-                                    id: 'enemy_melee_attack',
+                                    id: 'riposte_enemy_melee_attack',
                                     name: 'When an enemy attacks you in melee',
                                     parameters: {
                                         attack_type: 'melee',
@@ -587,7 +588,8 @@ export const MERCENARY_PATH = {
                         mana: 0,
                         health: 0,
                         stamina: 10,
-                        focus: 0
+                        focus: 0,
+                        actionPoints: 0
                     },
 
                     durationConfig: {
@@ -665,10 +667,11 @@ export const MERCENARY_PATH = {
 
                     triggerConfig: {
                         global: {
+                            enabled: true,
                             logicType: 'OR',
                             compoundTriggers: [
                                 {
-                                    id: 'enemy_melee_attack',
+                                    id: 'parry_enemy_melee_attack',
                                     name: 'When an enemy attacks you in melee',
                                     parameters: {
                                         attack_type: 'melee',
@@ -690,7 +693,8 @@ export const MERCENARY_PATH = {
                         mana: 0,
                         health: 0,
                         stamina: 10,
-                        focus: 0
+                        focus: 0,
+                        actionPoints: 0
                     },
 
                     durationConfig: {

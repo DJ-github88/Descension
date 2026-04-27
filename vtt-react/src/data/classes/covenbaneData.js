@@ -330,7 +330,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_shadow_hunt',
       name: 'Shadow Hunt',
-      description: 'A spectral wolf\'s eye opens on your palm, then flies unerringly toward your prey and sinks into their flesh like a brand. From this moment, you can feel the marked creature\'s presence — a faint pull in your chest that grows warmer the closer you get. Your weapons hunger for the mark, each strike dealing an additional 1d4 radiant damage, and your instincts sharpen to supernatural precision against the branded target.',
+      description: 'Mark a creature within 60 feet with a spectral brand, sensing its presence and direction. Attacks against the marked target gain advantage and deal +1d4 radiant damage for 10 minutes.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -396,7 +396,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hex_strike',
       name: 'Hex Strike',
-      description: 'Your weapon screams as black lightning crawls along the blade, drawn from the latent hex energy that clings to every evil spellcaster like rot on spoiled fruit. The air around your weapon crackles and hums with suppressed malice. Your next strike doesn\'t just cut flesh — it tears through the magical essence itself, dealing an additional 1d6 necrotic damage and devouring a fragment of the target\'s arcane power.',
+      description: 'Imbue your weapon with disruptive hex energy. Your next melee attack deals +1d6 necrotic damage and generates 1 Hexbreaker Charge on hit against evil magic users.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -408,7 +408,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'bonus',
         range: 'self',
         rangeType: 'self',
-        tags: ['damage', 'weapon', 'charge-generation']
+        tags: ['damage', 'weapon', 'charge generation']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -447,13 +447,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         stackingRule: 'replace',
         maxStacks: 1
       },
-      tags: ['damage', 'weapon', 'charge-generation']
+      tags: ['damage', 'weapon', 'charge generation']
     },
 
     {
       id: 'cov_silver_blade',
       name: 'Silver Blade',
-      description: 'You draw a line of molten silver across your palm with your thumbnail and the metal flows upward, coating your weapon in a thin sheen of holy metal that glows with the soft warmth of a chapel candle. Where other weapons glance off magical wards and enchanted hides, yours bites deep — blessed silver recognizes no mortal enchantment as its master. Against the wicked, the blade burns with quiet fury.',
+      description: 'Coat your weapon in blessed silver for 1 minute. Attacks bypass magical resistance and deal +1d4 radiant damage against evil creatures.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -465,7 +465,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'bonus',
         range: 'self',
         rangeType: 'self',
-        tags: ['weapon', 'anti-magic', 'resistance-piercing']
+        tags: ['weapon', 'anti magic', 'resistance piercing']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -504,7 +504,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         stackingRule: 'replace',
         maxStacks: 1
       },
-      tags: ['weapon', 'anti-magic', 'resistance-piercing', 'demonhunter']
+      tags: ['weapon', 'anti magic', 'resistance piercing', 'demonhunter']
     },
 
     // ===== LEVEL 2 SPELLS — Basic Anti-Magic (1 charge) =====
@@ -512,7 +512,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_dark_pursuit',
       name: 'Dark Pursuit',
-      description: 'The shadows beneath your feet come alive — not as allies, but as hungry things that propel you forward on a wave of darkness. You streak across the battlefield like a dark comet, leaving a trail of dissolving shadow in your wake. Opportunity attacks slide through your afterimage. When you emerge from the dash, your next strike carries the momentum of the void itself.',
+      description: 'Dash 30 feet on a wave of living shadow, ignoring difficult terrain and opportunity attacks. Gain advantage on your next melee attack.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['utility', 'buff'],
@@ -582,7 +582,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hex_weakness',
       name: 'Hex of Weakness',
-      description: 'You trace a sigil of unraveling in the air — three jagged lines that pulse with sickly violet light before embedding themselves into the target\'s magical core like burrowing parasites. The hex gnaws at the victim\'s connection to the arcane from within: their spells lose accuracy, their magical defenses crumble, and radiant light burns them twice as fiercely. Against evil magic users, the sigil goes deeper still — every wound threatens to shatter their concentration entirely.',
+      description: 'Afflict a target with a sigil that unravels their magical power for 1 minute. Spell attacks suffer -2, spell save DC drops by 1, and the target becomes vulnerable to radiant damage. Evil magic users risk losing concentration on any damage taken.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['debuff'],
@@ -594,7 +594,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '30 feet',
         rangeType: 'ranged',
-        tags: ['debuff', 'curse', 'anti-magic']
+        tags: ['debuff', 'curse', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -652,13 +652,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
           saveOutcome: 'negates'
         }
       },
-      tags: ['debuff', 'curse', 'anti-magic', 'spellbreaker']
+      tags: ['debuff', 'curse', 'anti magic', 'spellbreaker']
     },
 
     {
       id: 'cov_silver_bolt',
       name: 'Silver Bolt',
-      description: 'A bolt of hardened light streaks from your outstretched hand, trailing silver sparks like a falling star aimed at the heart of darkness itself. The bolt bends reality to reach its target — curving around cover, slipping past guards, seeking the evil within like a compass needle finding north. Against the truly wicked, the light burns white-hot, searing flesh and spirit alike.',
+      description: 'Launch a guided bolt of hardened silver light at a target within 60 feet. Deals 2d8 radiant damage, curving around cover to strike evil creatures.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -670,7 +670,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '60 feet',
         rangeType: 'ranged',
-        tags: ['damage', 'ranged', 'anti-magic']
+        tags: ['damage', 'ranged', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -703,7 +703,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         critDiceOnly: false
       },
       resolution: 'DICE',
-      tags: ['damage', 'ranged', 'anti-magic', 'demonhunter']
+      tags: ['damage', 'ranged', 'anti magic', 'demonhunter']
     },
 
     // ===== LEVEL 3 SPELLS — Mid-Tier Tools (1-2 charges) =====
@@ -711,7 +711,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_curse_eater',
       name: 'Curse Eater',
-      description: 'You plunge your hand into the shimmering magical aura that clings to the afflicted and rip outward, tearing the curse free like a splinter from infected flesh. Dark energy writhes between your fingers before dissolving into harmless wisps. As the curse dies, its remnants flood into you — a rush of stolen vitality that knits your wounds and fills your Hexbreaker Charges with borrowed power. Against stronger enchantments, the target at least feels the grip loosen.',
+      description: 'Tear a curse, hex, or magical affliction from a creature you touch, healing them for 2d8 and gaining 1 Hexbreaker Charge if the affliction was evil magic.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['purification', 'healing'],
@@ -723,7 +723,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: 'touch',
         rangeType: 'touch',
-        tags: ['dispel', 'anti-magic', 'healing']
+        tags: ['dispel', 'anti magic', 'healing']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -760,13 +760,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         hasHotEffect: false,
         hasShieldEffect: false
       },
-      tags: ['dispel', 'anti-magic', 'healing', 'spellbreaker']
+      tags: ['dispel', 'anti magic', 'healing', 'spellbreaker']
     },
 
     {
       id: 'cov_shadow_ambush',
       name: 'Shadow Ambush',
-      description: 'The shadows stop being shadows and start being you. Your body dissolves into living darkness, your heartbeat becomes the silence between moments. When you strike from this void, the necrotic energy doesn\'t just wound — it announces your presence like a predator\'s cry, freezing the target with primal terror. For a few precious seconds after the ambush, the enemy knows exactly what is hunting them.',
+      description: 'Dissolve into living shadow, becoming invisible for up to 1 minute. Your first melee attack from this state deals +2d6 necrotic damage with advantage and frightens evil magic users.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -824,7 +824,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_anti_magic_barrier',
       name: 'Anti-Magic Barrier',
-      description: 'You slam your heel into the ground and a dome of fractured light erupts around you — not solid, but present, like heat shimmer made visible. Within this sphere, magic itself becomes uncertain: incantations falter on the tongue, gestures lose their meaning, and spells die stillborn in the caster\'s hands. Your allies stand in the eye of the storm, their saving throws bolstered by the barrier\'s protective resonance. It lasts only moments, but in those moments, you are untouchable.',
+      description: 'Project a 10-foot dome of anti-magic light for 3 rounds. Enemy spellcasters inside must Con save DC 14 or their spells fail, and allies gain +2 to saves against magic.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
@@ -836,7 +836,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: 'self',
         rangeType: 'self',
-        tags: ['protection', 'anti-magic', 'spellbreaker']
+        tags: ['protection', 'anti magic', 'spellbreaker']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -890,7 +890,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         stackingRule: 'replace',
         maxStacks: 1
       },
-      tags: ['protection', 'anti-magic', 'spellbreaker']
+      tags: ['protection', 'anti magic', 'spellbreaker']
     },
 
     // ===== LEVEL 4 SPELLS — Strong Effects (2-3 charges) =====
@@ -898,7 +898,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_spirit_shackle',
       name: 'Spirit Shackle',
-      description: 'You drive your fist through the target\'s shadow and anchor it to the earth with chains of compressed anti-magic. The shadow writhes and screams silently as the bonds take hold — the target\'s feet lock to the ground, their voice dies in their throat as the chains seal their lips against incantation. Every word of power they try to speak dissolves on their tongue. Only the strongest spirits can wrench themselves free.',
+      description: 'Pin a target\'s shadow to the ground with anti-magic chains. The target is restrained and silenced for up to 1 minute (Spirit save DC 15 at end of each turn ends the effect). Attacks against the restrained target have advantage.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['control'],
@@ -910,7 +910,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '30 feet',
         rangeType: 'ranged',
-        tags: ['crowd-control', 'root', 'silence', 'control']
+        tags: ['crowd control', 'root', 'silence', 'control']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -956,13 +956,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         concentrationRequired: true,
         canBeDispelled: true
       },
-      tags: ['crowd-control', 'root', 'silence', 'control', 'shadowbane']
+      tags: ['crowd control', 'root', 'silence', 'control', 'shadowbane']
     },
 
     {
       id: 'cov_hexbreaker_precision',
       name: 'Hexbreaker Precision',
-      description: 'Your eyes ignite with cold silver fire as you perceive the invisible architecture of magic itself — the shimmering threads of enchantment, the dark knots of cursework, the telltale glow of a spell about to be cast. In this heightened state, you see every gap in every defense, every weakness in every ward. Your blade knows exactly where to fall, and against those who wield evil magic, your critical strikes come with terrifying regularity.',
+      description: 'Enter a state of magical perception for 1 minute. Gain +3 to attack rolls, +1d6 radiant damage on weapon attacks, and expanded crit range (19-20) against evil magic users.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -974,7 +974,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'bonus',
         range: 'self',
         rangeType: 'self',
-        tags: ['buff', 'accuracy', 'anti-magic']
+        tags: ['buff', 'accuracy', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'self',
@@ -1029,13 +1029,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         stackingRule: 'replace',
         maxStacks: 1
       },
-      tags: ['buff', 'accuracy', 'anti-magic', 'demonhunter']
+      tags: ['buff', 'accuracy', 'anti magic', 'demonhunter']
     },
 
     {
       id: 'cov_silver_storm',
       name: 'Silver Storm',
-      description: 'You hurl your arm skyward and blessed silver shards erupt from thin air, spinning into a horizontal tornado of holy metal that fills the battlefield with the sound of a thousand crystal bells. The shards seek the wicked with grim precision, embedding themselves in flesh and marking the survivors with a silver glow that calls your blade homeward. The air smells of ozone and old churches.',
+      description: 'Fill a 20-foot radius with whirling blessed silver shards. Deals 5d6 radiant damage (Agility save DC 15 halves) and marks survivors — attacks against marked creatures have advantage until your next turn.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -1074,7 +1074,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 1
       },
       damageConfig: {
-        formula: '4d6',
+        formula: '5d6',
         elementType: 'radiant',
         damageType: 'area',
         canCrit: false
@@ -1109,7 +1109,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_execution',
       name: 'Hexbreaker Execution',
-      description: 'Every Hexbreaker Charge you\'ve gathered converges into a single point on your blade — a pinprick of absolute light that hurts to look at. You swing not at the body, but at the thread of magic that keeps the target alive. If the blow lands, radiant and necrotic energy detonate simultaneously in a blinding flash. The weak are simply... erased, their connection to magic severed so completely that their body doesn\'t understand how to keep existing.',
+      description: 'Channel concentrated Hexbreaker energy into a single devastating melee strike. Deals 6d10 radiant damage and instantly kills evil magic users at 25 HP or lower (Con save DC 16 negates). On kill, gain 2 Hexbreaker Charges.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
@@ -1181,7 +1181,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_anti_magic_field',
       name: 'Anti-Magic Field',
-      description: 'You speak a single word that was old when the gods were young, and reality listens. A sphere of absolute silence descends around you — not quiet, but absence, as though magic itself has been forbidden to exist. Within the field, spells unravel mid-incantation, summoned creatures flicker and vanish like dying candles, and enchanted weapons become ordinary steel. The air tastes of nothing. You stand at the still center of a world without wonder.',
+      description: 'Speak a word of absolute negation, creating a 15-foot anti-magic sphere for 1 minute. No spells can be cast, summoned creatures vanish, magic items are suppressed, and concentration effects end on entry.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['utility'],
@@ -1193,7 +1193,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: 'self',
         rangeType: 'self',
-        tags: ['aoe', 'anti-magic', 'suppression', 'spellbreaker']
+        tags: ['aoe', 'anti magic', 'suppression', 'spellbreaker']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1229,13 +1229,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         ],
         power: 'major'
       },
-      tags: ['aoe', 'anti-magic', 'suppression', 'spellbreaker']
+      tags: ['aoe', 'anti magic', 'suppression', 'spellbreaker']
     },
 
     {
       id: 'cov_hunters_net',
       name: 'Hunter\'s Net',
-      description: 'A hurl a net of interlocking silver chains that explodes outward in mid-flight, expanding into a glittering cage of holy metal. The chains don\'t just restrain — they burn, each link radiating blessed heat that sears the flesh of the wicked. Those caught within find their voices stolen and their feet bound, able only to thrash against chains that tighten with every struggle. The chains hum with a deep, resonant tone like a cathedral organ.',
+      description: 'Hurl a net of silver chains that fills a 20-foot radius. Targets are restrained, silenced, and take 6d8 radiant damage plus 2d6 radiant at the start of each turn (Strength save DC 16 at end of each turn ends the effect).',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['control', 'damage'],
@@ -1247,7 +1247,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '30 feet',
         rangeType: 'ranged',
-        tags: ['aoe', 'crowd-control', 'anti-magic', 'demonhunter']
+        tags: ['aoe', 'crowd control', 'anti magic', 'demonhunter']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1274,7 +1274,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 2
       },
       damageConfig: {
-        formula: '2d6',
+        formula: '6d8',
         elementType: 'radiant',
         damageType: 'area',
         canCrit: false
@@ -1308,7 +1308,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         concentrationRequired: true,
         canBeDispelled: true
       },
-      tags: ['aoe', 'crowd-control', 'anti-magic', 'demonhunter']
+      tags: ['aoe', 'crowd control', 'anti magic', 'demonhunter']
     },
 
     // ===== LEVEL 6 SPELLS — Devastating (4-5 charges) =====
@@ -1316,7 +1316,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_fury',
       name: 'Hexbreaker Fury',
-      description: 'You release every charge you\'ve gathered in a single catastrophic instant. Twin explosions of shadow and light spiral outward from your body — necrotic darkness that devours magical defenses, and radiant fury that sears the soul. The shockwave staggers even the strongest mages, leaving them dazed and reeling as the backlash of anti-magic energy overwhelms their senses. When the light fades, only the silence remains.',
+      description: 'Unleash a devastating shockwave of shadow and light in a 25-foot radius. Deals 8d6 necrotic damage (Con save DC 17 halves) and stuns targets for 1 round.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
@@ -1354,7 +1354,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 1
       },
       damageConfig: {
-        formula: '6d6',
+        formula: '8d6',
         elementType: 'necrotic',
         damageType: 'area',
         canCrit: false
@@ -1381,8 +1381,8 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
           {
             id: 'anti_magic_burst',
             name: 'Anti-Magic Burst',
-            description: 'Stunned for 1 round. Takes 6d6 necrotic + 6d6 radiant damage (half on successful save).',
-            mechanicsText: '6d6 necrotic + 6d6 radiant'
+            description: 'Stunned for 1 round on failed save. Half damage on successful save.',
+            mechanicsText: '8d6 necrotic'
           }
         ],
         canBeDispelled: true
@@ -1393,7 +1393,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_shadow_eruption',
       name: 'Shadow Eruption',
-      description: 'You slam both fists into the earth and the ground answers — shadows erupt upward like geysers of liquid night, reaching for every enemy within reach. The darkness clings to eyes and skin, blinding and disorienting as shadow tendrils pull at the victims\' feet. Those caught in the eruption stumble in random directions, their senses overwhelmed by a world that has suddenly gone utterly, impossibly dark.',
+      description: 'Erupt shadows upward in a 15-foot cone. Deals 8d6 necrotic damage (Agility save DC 17 halves) and blinds targets for 2 rounds, causing them to move randomly.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -1431,7 +1431,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 2
       },
       damageConfig: {
-        formula: '5d8',
+        formula: '8d6',
         elementType: 'necrotic',
         damageType: 'area',
         canCrit: false
@@ -1471,7 +1471,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_spell_nullification',
       name: 'Spell Nullification',
-      description: 'You reach across the magical spectrum and find the spell — feel its shape in the target\'s mind like a key in a lock. With a twist of your will, you snap it shut. The sealed spell becomes a locked door in the caster\'s thoughts, a knot of unreachable knowledge that they can feel but never touch. The severance sends a spike of psychic agony through any evil magic user — the sensation of a limb they didn\'t know they had being amputated.',
+      description: 'Seal one of the target\'s known spells for 1 hour, making it completely inaccessible. Deals 3d8 psychic damage to evil magic users (Spirit save DC 17 negates).',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['control', 'damage'],
@@ -1483,7 +1483,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '60 feet',
         rangeType: 'ranged',
-        tags: ['reaction', 'anti-magic', 'seal', 'spellbreaker']
+        tags: ['anti magic', 'seal', 'spellbreaker']
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1542,7 +1542,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         canBeDispelled: true,
         dispelDifficulty: 'very_hard'
       },
-      tags: ['anti-magic', 'seal', 'spellbreaker']
+      tags: ['anti magic', 'seal', 'spellbreaker']
     },
 
     // ===== LEVEL 7 SPELLS — Near-Ultimate (5-6 charges) =====
@@ -1550,7 +1550,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_storm',
       name: 'Hexbreaker Storm',
-      description: 'The sky tears open and a storm descends — not of rain or wind, but of anti-magic fury that screams across the battlefield with the sound of shattering glass. Silver lightning arcs between enemies as the storm strips mana from the air itself. Those caught within find their most powerful spells reduced to parlor tricks, their magical reserves draining away like water through cracked stone.',
+      description: 'Summon a persistent anti-magic storm in a 30-foot radius for 1 minute. Deals 3d8 radiant damage per round, imposes disadvantage on spellcasting, and prevents mana recovery.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -1562,7 +1562,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: '60 feet',
         rangeType: 'ranged',
-        tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration']
+        tags: ['aoe', 'damage over time', 'anti magic', 'concentration']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1619,13 +1619,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         canBeDispelled: true,
         dispelDifficulty: 'very_hard'
       },
-      tags: ['aoe', 'damage-over-time', 'anti-magic', 'concentration', 'spellbreaker']
+      tags: ['aoe', 'damage over time', 'anti magic', 'concentration', 'spellbreaker']
     },
 
     {
       id: 'cov_apex_predator',
       name: 'Apex Predator',
-      description: 'The transformation is not gentle. Your bones crack and lengthen, your skin darkens to the color of a starless sky, and your eyes become twin pools of liquid silver. You are no longer hunting — you ARE the hunt. Every shadow is a doorway, every patch of darkness a hiding place. Evil creatures look right through you as though you don\'t exist, but they feel you watching. They feel the weight of your gaze like a hand on their shoulder.',
+      description: 'Transform into a Void Hunter for 5 rounds, existing partially in the void. Gain immunity to non-magical damage, teleport to visible creatures to attack (no action cost), and ignore AC bonuses from physical armor and magical shields.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
@@ -1679,7 +1679,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_final_hour',
       name: 'Final Hour',
-      description: 'When death comes for you, it finds you waiting with a blade in your hand and fire in your eyes. Your wounds knit shut as righteous fury floods your veins — every injury you\'ve suffered transforms into fuel for one last, glorious crusade. Your weapon blazes with holy light that burns the very air, and every enemy within reach feels the weight of a dying hunter\'s final prayer: that none of them leave this place alive.',
+      description: 'When death nears, righteous fury takes hold for 3 rounds. Regain 50% HP, deal +3d8 radiant damage per attack, become immune to fear and charm, and cannot drop below 1 HP.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['buff', 'damage'],
@@ -1691,7 +1691,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: 'self',
         rangeType: 'self',
-        tags: ['buff', 'damage', 'last-stand', 'demonhunter']
+        tags: ['buff', 'damage', 'last stand', 'demonhunter']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1741,7 +1741,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         canCrit: false
       },
       resolution: 'DICE',
-      tags: ['buff', 'damage', 'last-stand', 'demonhunter']
+      tags: ['buff', 'damage', 'last stand', 'demonhunter']
     },
 
     // ===== LEVEL 8 SPELLS — Ultimate-Tier (6 charges) =====
@@ -1749,7 +1749,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_judgment_day',
       name: 'Judgment Day',
-      description: 'You raise your weapon to the sky and divine light pours down like molten gold, pooling on the ground before erupting upward in pillars of righteous fire. The light doesn\'t discriminate — it finds every creature with evil in its heart and burns them from the inside out. The screams are brief but terrible. When the pillars fade, the ground is scorched clean and the air smells of lightning and burnt offering. Evil remembers this day.',
+      description: 'Call down pillars of divine fire in a 40-foot radius. Deals 10d10 radiant damage (Charisma save DC 19 halves) against evil creatures.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -1810,7 +1810,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_shadow_ascendant',
       name: 'Shadow Ascendant',
-      description: 'You step into your own shadow and come out something else. The darkness doesn\'t just cover you — it becomes you, a living cloak of liquid night that moves with predatory intelligence. Your attacks now come from every direction at once, shadows striking before your blade even moves. Enemies see you flicker between positions like a film skipping frames, never quite sure where you are until the cold steel is already between their ribs.',
+      description: 'Ascend to pure shadow form for 4 rounds. Melee attacks reach 30ft, generate a secondary 2d6 necrotic strike against a different nearby target, and you can swap positions with any creature within 60ft as a bonus action.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
@@ -1864,7 +1864,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_anti_magic_storm',
       name: 'Anti-Magic Storm',
-      description: 'The sky bruises purple and black as anti-magic lightning tears through the clouds — not natural lightning, but the death-throes of every spell caught in the storm\'s path. Bolts of pure negation crash down in a relentless barrage, each strike obliterating magical effects and shields on contact. The air itself becomes hostile to magic, shimmering with disruptive energy that makes incantations taste like ash on the tongue.',
+      description: 'Summon a storm of anti-magic negation in a 35-foot radius for 3 rounds. Deals 10d6 necrotic damage, spells cast inside require 2 extra spell slots or fail, and magic items lose their enchantments.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -1903,7 +1903,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 1
       },
       damageConfig: {
-        formula: '6d8',
+        formula: '10d6',
         elementType: 'necrotic',
         damageType: 'area',
         canCrit: false
@@ -1915,8 +1915,8 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
           {
             id: 'magic_suppression_field',
             name: 'Magic Suppression',
-            description: 'All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses. 6d8 necrotic damage per round.',
-            mechanicsText: '6d8 necrotic/round'
+            description: 'All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses. 10d6 necrotic damage.',
+            mechanicsText: '10d6 necrotic'
           }
         ],
         durationType: 'rounds',
@@ -1934,7 +1934,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_apocalypse',
       name: 'Hexbreaker Apocalypse',
-      description: 'You don\'t fight magic anymore — you erase it. A sphere of absolute negation expands from your body, growing larger and larger as it consumes every spell, enchantment, and magical effect it touches. The ground turns to grey ash beneath it, and the sky above cracks like old porcelain. Creatures of magic shriek as their essence unravels — summoned beings dissolve into smoke, enchanted weapons rust to nothing, and wards shatter like glass. What remains when the light fades is simply... empty.',
+      description: 'Unleash absolute negation in a 60-foot radius. Deals 12d10 necrotic damage (Charisma save DC 20 halves), destroys all magical effects and summons, and renders magic items inert for 1 hour.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -2006,7 +2006,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_void_hunter',
       name: 'Void Hunter',
-      description: 'You stop existing in the material world and begin existing in the spaces between things — the gaps between heartbeats, the silence between words, the darkness behind closed eyes. In this state you are untouchable, moving through the world like a thought through a dream. Your strikes don\'t come from a direction — they come from nowhere, materializing inside the target\'s guard with surgical precision. The void has claimed you, and it does not share.',
+      description: 'Phase into the void between worlds for 3 rounds. Become intangible and undetectable, deal 4d10 necrotic damage per melee attack bypassing all defenses, and teleport up to 120ft as a free action.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
@@ -2060,7 +2060,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_divine_executioner',
       name: 'Divine Executioner',
-      description: 'Become an instrument of divine justice for 5 rounds. Your eyes burn with white fire and your weapon crackles with holy energy. You instantly know the true alignment of every creature you can see. Your weapon attacks deal an additional 4d10 radiant damage against evil creatures. You are completely immune to all damage and effects from evil-aligned creatures and sources.',
+      description: 'Become an instrument of divine justice for 5 rounds. Instantly read all creatures\' alignments, deal +4d10 radiant damage against evil with weapon attacks, and gain complete immunity to evil-sourced damage and effects.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
@@ -2116,7 +2116,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_hexbreaker_armageddon',
       name: 'Hexbreaker Armageddon',
-      description: 'You don\'t cast this spell — you surrender to it. The anti-magic energy you\'ve gathered your entire career erupts outward in a wave of absolute annihilation that rewrites reality. The ground cracks. The sky darkens. Every thread of magic in the area unravels simultaneously, and the damage is permanent — magic will never function here again. The world remembers what you did, and it is afraid.',
+      description: 'Erase all magic in a 100-foot radius permanently. Deals 18d6 necrotic damage (Charisma save DC 20 negates), all spells and enchantments are destroyed forever, and failed casters permanently lose spellcasting ability.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -2128,7 +2128,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         castTimeType: 'action',
         range: 'self',
         rangeType: 'self',
-        tags: ['aoe', 'damage', 'permanent', 'anti-magic']
+        tags: ['aoe', 'damage', 'permanent', 'anti magic']
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2153,7 +2153,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         value: 1
       },
       damageConfig: {
-        formula: '10d10',
+        formula: '18d6',
         elementType: 'necrotic',
         damageType: 'area',
         canCrit: false,
@@ -2181,13 +2181,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
         ],
         power: 'major'
       },
-      tags: ['aoe', 'damage', 'permanent', 'anti-magic', 'spellbreaker']
+      tags: ['aoe', 'damage', 'permanent', 'anti magic', 'spellbreaker']
     },
 
     {
       id: 'cov_shadow_god',
       name: 'Shadow God',
-      description: 'You become something that should not exist — a god carved from shadow, wearing darkness like a second skin. In this form, only the purest light can touch you, and you move through the world like a thought through a sleeping mind, appearing and vanishing without effort or action. Every strike you land against evil is a killing blow — the shadows themselves ensure it. When you return to mortality, the cost is steep. Three rounds of divinity. A lifetime of exhaustion.',
+      description: 'Ascend to shadow godhood for 3 rounds. Immune to all damage except radiant, teleport anywhere within 120ft freely, and all attacks against evil creatures auto-crit. Gain 2 exhaustion levels when transformation ends.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
@@ -2242,7 +2242,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
     {
       id: 'cov_divine_incarnation',
       name: 'Divine Incarnation',
-      description: 'Divine fire pours down from above and fills you until your skin glows like forged steel. You are no longer human — you are a verdict made flesh. Evil creatures within your presence burn simply for existing near you, their eyes wide with the understanding that judgment has arrived. Once per round, you may extend your hand and speak a single word: an evil creature before you simply ceases, as though it never existed at all. Three rounds of this power costs a heavy toll.',
+      description: 'Become an avatar of divine judgment for 3 rounds. Evil creatures within 30ft take 3d8 radiant damage per round, you\'re immune to evil-sourced damage, and once per round instantly kill an evil creature at 50 HP or below. Gain 2 exhaustion levels when it ends.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['transformation'],

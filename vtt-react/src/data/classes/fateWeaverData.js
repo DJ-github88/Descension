@@ -1050,7 +1050,7 @@ Many players enhance the Fate Weaver experience with:
         ]
       },
 
-      tags: ['cards', 'poker', 'variable-damage', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'poker', 'variable damage', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1131,7 +1131,7 @@ Many players enhance the Fate Weaver experience with:
         ]
       },
 
-      tags: ['cards', 'blackjack', 'buff', 'ac-bonus', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'blackjack', 'buff', 'ac bonus', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1143,7 +1143,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Evocation',
       level: 2,
 
-      description: 'Draw cards one at a time, playing a dangerous game with fate itself. Hearts bring pain, face cards bring greater suffering, but other cards offer power and advantage. The longer you draw, the greater the risk and reward. You may stop drawing at any time, but the temptation to continue is strong.',
+      description: 'Draw cards one at a time. Hearts deal damage to you, face cards deal greater damage, but other cards grant power and advantage. You may stop drawing at any time.',
 
       typeConfig: {
         castTime: 1,
@@ -1212,7 +1212,7 @@ Many players enhance the Fate Weaver experience with:
         ]
       },
 
-      tags: ['cards', 'self-damage', 'buff', 'risk-reward', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'self damage', 'buff', 'risk reward', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1224,7 +1224,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Evocation',
       level: 1,
 
-      description: 'Challenge a creature to a card draw. Both you and the target draw one card. Higher card wins: if you win, deal 3d8 damage. If you lose, heal the target for 2d8. If you tie, both take 1d8 damage.',
+      description: 'Challenge a creature to a card draw. Both you and the target draw one card. Higher card wins: if you win, deal 1d8 damage. If you lose, heal the target for 2d8. If you tie, both take 1d8 damage.',
 
       typeConfig: {
         castTime: 1,
@@ -1252,7 +1252,7 @@ Many players enhance the Fate Weaver experience with:
       resolution: 'CARDS',
 
       damageConfig: {
-        formula: '3d8',
+        formula: '1d8',
         damageType: 'force',
         scalingType: 'none'
       },
@@ -1260,7 +1260,7 @@ Many players enhance the Fate Weaver experience with:
       effects: {
         variable: {
           type: 'competitive_draw',
-          win: '3d8 damage to target',
+          win: '1d8 damage to target',
           lose: '2d8 healing to target',
           tie: '1d8 damage to both'
         }
@@ -1285,13 +1285,13 @@ Many players enhance the Fate Weaver experience with:
         resolutionType: 'CARDS',
         resolutionConfig: { cardType: 'competitive', players: 2 },
         entries: [
-          { range: 'You Win', result: 'Deal 3d8 force damage to target', description: 'Your card is higher' },
+          { range: 'You Win', result: 'Deal 1d8 force damage to target', description: 'Your card is higher' },
           { range: 'You Lose', result: 'Target heals for 2d8 HP + you gain 1 Thread', description: 'Target\'s card is higher' },
           { range: 'Tie', result: 'Both take 1d8 damage + you gain 1 Thread', description: 'Same card value' }
         ]
       },
 
-      tags: ['cards', 'competitive', 'damage', 'healing', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'competitive', 'damage', 'healing', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1303,7 +1303,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Abjuration',
       level: 4,
 
-      description: 'Draw cards and attempt to match them in sequences or sets. The patterns you create determine the power you gain. Sequences unlock free spellcasting, while sets restore your vitality. Failure to create patterns generates Threads of Destiny, weaving your fate into the cosmic tapestry.',
+      description: 'Draw cards and attempt to match them in sequences or sets. Sequences unlock free spellcasting, while sets restore vitality. Failure to create patterns generates a Thread of Destiny.',
 
       typeConfig: {
         castTime: 1,
@@ -1365,7 +1365,7 @@ Many players enhance the Fate Weaver experience with:
         ]
       },
 
-      tags: ['cards', 'pattern-matching', 'healing', 'utility', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'pattern matching', 'healing', 'utility', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1440,7 +1440,7 @@ Many players enhance the Fate Weaver experience with:
         ]
       },
 
-      tags: ['cards', 'matching', 'buff', 'ally-cooperation', 'fate-weaver', 'thread-generation']
+      tags: ['cards', 'matching', 'buff', 'ally cooperation', 'fate weaver', 'thread generation', 'rollable table']
     },
 
     {
@@ -1495,7 +1495,7 @@ Many players enhance the Fate Weaver experience with:
         }
       },
 
-      tags: ['utility', 'teleport', 'tactical', 'ally-support', 'fate-weaver']
+      tags: ['utility', 'teleport', 'tactical', 'ally support', 'fate weaver']
     },
 
     {
@@ -1564,7 +1564,7 @@ Many players enhance the Fate Weaver experience with:
         }
       },
 
-      tags: ['utility', 'buff', 'proficiency', 'versatile', 'fate-weaver']
+      tags: ['utility', 'buff', 'proficiency', 'versatile', 'fate weaver']
     },
 
     {
@@ -1623,7 +1623,7 @@ Many players enhance the Fate Weaver experience with:
         }
       },
 
-      tags: ['healing', 'support', 'sacrifice', 'bond', 'fate-weaver']
+      tags: ['healing', 'support', 'sacrifice', 'bond', 'fate weaver']
     },
 
     // ========================================
@@ -1677,7 +1677,7 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['buff', 'accuracy', 'poker', 'level-5', 'fate-weaver']
+      tags: ['buff', 'accuracy', 'poker', 'level 5', 'fate weaver']
     },
 
     {
@@ -1740,7 +1740,7 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'poker', 'pattern-matching', 'level-5', 'fate-weaver']
+      tags: ['damage', 'aoe', 'poker', 'pattern matching', 'level 5', 'fate weaver', 'rollable table']
     },
 
     {
@@ -1788,7 +1788,7 @@ Many players enhance the Fate Weaver experience with:
         value: 3
       },
 
-      tags: ['control', 'utility', 'reroll', 'level-5', 'fate-weaver']
+      tags: ['control', 'utility', 'reroll', 'level 5', 'fate weaver']
     },
 
     // ========================================
@@ -1860,7 +1860,7 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['buff', 'debuff', 'aoe', 'control', 'level-6', 'fate-weaver']
+      tags: ['buff', 'debuff', 'aoe', 'control', 'level 6', 'fate weaver']
     },
 
     {
@@ -1915,7 +1915,7 @@ Many players enhance the Fate Weaver experience with:
         value: 3
       },
 
-      tags: ['damage', 'blackjack', 'risk-reward', 'level-6', 'fate-weaver']
+      tags: ['damage', 'blackjack', 'risk reward', 'level 6', 'fate weaver']
     },
 
     {
@@ -1974,7 +1974,7 @@ Many players enhance the Fate Weaver experience with:
         value: 5
       },
 
-      tags: ['utility', 'teleport', 'party', 'level-6', 'fate-weaver']
+      tags: ['utility', 'teleport', 'party', 'level 6', 'fate weaver']
     },
 
     // ========================================
@@ -2025,7 +2025,7 @@ Many players enhance the Fate Weaver experience with:
         value: 6
       },
 
-      tags: ['buff', 'debuff', 'aoe', 'dice-manipulation', 'level-7', 'fate-weaver']
+      tags: ['buff', 'debuff', 'aoe', 'dice manipulation', 'level 7', 'fate weaver']
     },
 
     {
@@ -2062,14 +2062,14 @@ Many players enhance the Fate Weaver experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: 'hp_bet * 2d6',
+        formula: '12d6 + hp_bet',
         elementType: 'force',
         damageType: 'direct'
       },
 
       specialMechanics: {
         allIn: {
-          description: 'Bet up to half your current HP. Deal damage equal to HP bet × 2d6.',
+          description: 'Bet up to half your current HP. Deal 12d6 force damage plus an amount equal to the HP bet.',
           risk: 'If the attack misses, you still lose the HP'
         }
       },
@@ -2079,7 +2079,7 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['damage', 'high-risk', 'betting', 'level-7', 'fate-weaver']
+      tags: ['damage', 'high risk', 'betting', 'level 7', 'fate weaver']
     },
 
     {
@@ -2125,7 +2125,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['utility', 'time', 'undo', 'level-7', 'fate-weaver']
+      tags: ['utility', 'time', 'undo', 'level 7', 'fate weaver']
     },
 
     // ========================================
@@ -2184,7 +2184,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['variable', 'random', 'powerful', 'level-8', 'fate-weaver']
+      tags: ['variable', 'random', 'powerful', 'level 8', 'fate weaver', 'rollable table']
     },
 
     {
@@ -2240,7 +2240,7 @@ Many players enhance the Fate Weaver experience with:
         value: 5
       },
 
-      tags: ['debuff', 'guaranteed-hit', 'level-8', 'fate-weaver']
+      tags: ['debuff', 'guaranteed hit', 'level 8', 'fate weaver']
     },
 
     {
@@ -2291,7 +2291,7 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['buff', 'amplify', 'risk-reward', 'level-8', 'fate-weaver']
+      tags: ['buff', 'amplify', 'risk reward', 'level 8', 'fate weaver']
     },
 
     // ========================================
@@ -2345,7 +2345,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['damage', 'high-risk', 'coin-flip', 'ultimate', 'level-9', 'fate-weaver']
+      tags: ['damage', 'high risk', 'coin flip', 'ultimate', 'level 9', 'fate weaver']
     },
 
     {
@@ -2396,7 +2396,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['buff', 'dice-control', 'ultimate', 'level-9', 'fate-weaver']
+      tags: ['buff', 'dice control', 'ultimate', 'level 9', 'fate weaver']
     },
 
     {
@@ -2461,7 +2461,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'jackpot', 'ultimate', 'level-9', 'fate-weaver']
+      tags: ['damage', 'aoe', 'jackpot', 'ultimate', 'level 9', 'fate weaver']
     },
 
     // ========================================
@@ -2516,7 +2516,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['utility', 'ultimate', 'fate-control', 'level-10', 'fate-weaver']
+      tags: ['utility', 'ultimate', 'fate control', 'level 10', 'fate weaver']
     },
 
     {
@@ -2584,7 +2584,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['variable', 'random', 'legendary', 'ultimate', 'level-10', 'fate-weaver']
+      tags: ['variable', 'random', 'legendary', 'ultimate', 'level 10', 'fate weaver', 'rollable table']
     },
 
     {
@@ -2647,7 +2647,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['zone', 'control', 'gambling', 'ultimate', 'level-10', 'fate-weaver']
+      tags: ['zone', 'control', 'gambling', 'ultimate', 'level 10', 'fate weaver']
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
@@ -2703,7 +2703,7 @@ Many players enhance the Fate Weaver experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 3
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2761,7 +2761,7 @@ Many players enhance the Fate Weaver experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 0,
         components: ['verbal']
@@ -2820,7 +2820,7 @@ Many players enhance the Fate Weaver experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 15
+          mana: 8
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']

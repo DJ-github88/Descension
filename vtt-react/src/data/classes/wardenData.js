@@ -944,7 +944,7 @@ Many players enhance the warden experience with:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '3d6',
+        formula: '1d8',
         damageType: 'bludgeoning',
         scalingType: 'none'
       },
@@ -952,7 +952,7 @@ Many players enhance the warden experience with:
       effects: {
         damage: {
           base: {
-            formula: '3d6',
+            formula: '1d8',
             type: 'physical'
           },
           bonus: {
@@ -1021,7 +1021,7 @@ Many players enhance the warden experience with:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '4d8',
+        formula: '6d8',
         damageType: 'necrotic',
         scalingType: 'none'
       },
@@ -1035,7 +1035,7 @@ Many players enhance the warden experience with:
         },
         damage: {
           multiTarget: {
-            formula: '4d8',
+            formula: '6d8',
             type: 'necrotic',
             targets: 3,
             advantage: true
@@ -1058,7 +1058,7 @@ Many players enhance the warden experience with:
         }
       },
 
-      tags: ['shadow', 'damage', 'multi-target', 'ultimate', 'invisibility', 'shadowblade']
+      tags: ['shadow', 'damage', 'multi target', 'ultimate', 'invisibility', 'shadowblade']
     },
 
     // JAILER - Cage Master
@@ -1231,7 +1231,7 @@ Many players enhance the warden experience with:
         }
       },
 
-      tags: ['shadow', 'damage', 'chain', 'cage-synergy', 'jailer']
+      tags: ['shadow', 'damage', 'chain', 'cage synergy', 'jailer']
     },
 
     {
@@ -1371,10 +1371,29 @@ Many players enhance the warden experience with:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '3d6',
+        formula: '2d8',
         damageType: 'bludgeoning',
         scalingType: 'none'
       },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'dash',
+        rangeDistance: 40
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        actionPoints: 1,
+        vengeancePoints: 2,
+        components: ['somatic'],
+        somaticText: 'Dash and strike rapidly'
+      },
+
+      resolution: 'DICE',
 
       effects: {
         utility: {
@@ -1386,10 +1405,10 @@ Many players enhance the warden experience with:
         },
         damage: {
           multiStrike: {
-            strikes: 3,
-            formula: '1d6',
+            strikes: 2,
+            formula: '1d8',
             type: 'physical',
-            total: '3d6'
+            total: '2d8'
           },
           markedBonus: {
             formula: '+1d6',
@@ -1401,8 +1420,8 @@ Many players enhance the warden experience with:
       specialMechanics: {
         vengeancePoints: {
           cost: 2,
-          generated: 6,
-          description: 'Costs 2 VP, generates up to 6 VP (2 VP per strike against marked target)'
+          generated: 4,
+          description: 'Costs 2 VP, generates up to 4 VP (2 VP per strike against marked target)'
         },
         inexorablePursuit: {
           description: 'Vengeance Seeker spec: Dashing to marked target costs no action points',
@@ -1414,7 +1433,7 @@ Many players enhance the warden experience with:
         }
       },
 
-      tags: ['physical', 'damage', 'dash', 'multi-strike', 'vengeance-seeker']
+      tags: ['physical', 'damage', 'dash', 'multi strike', 'vengeance seeker']
     },
 
     {
@@ -1453,7 +1472,7 @@ Many players enhance the warden experience with:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '4d8',
+        formula: '4d6',
         damageType: 'bludgeoning',
         scalingType: 'marked_target'
       },
@@ -1461,11 +1480,11 @@ Many players enhance the warden experience with:
       effects: {
         damage: {
           base: {
-            formula: '4d8',
+            formula: '4d6',
             type: 'physical'
           },
           markedBonus: {
-            formula: '+2d8',
+            formula: '+2d6',
             type: 'physical',
             condition: 'If target is marked by Mark of the Hunt'
           }
@@ -1480,8 +1499,8 @@ Many players enhance the warden experience with:
         },
         markedRequirement: {
           description: 'Deals maximum damage against marked targets',
-          baseDamage: '4d8 against any target',
-          markedDamage: '6d8 against marked target (+2d8 bonus)'
+          baseDamage: '4d6 against any target',
+          markedDamage: '6d6 against marked target (+2d6 bonus)'
         },
         vengeanceSeekerSynergy: {
           description: 'Vengeance Seeker spec excels with this ability',
@@ -1489,7 +1508,7 @@ Many players enhance the warden experience with:
         }
       },
 
-      tags: ['physical', 'damage', 'marked-synergy', 'vengeance-seeker']
+      tags: ['physical', 'damage', 'marked synergy', 'vengeance seeker']
     },
 
     {
@@ -1505,7 +1524,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['transformation', 'ultimate', 'vengeance-seeker']
+        tags: ['transformation', 'ultimate', 'vengeance seeker']
       },
 
       targetingConfig: {
@@ -1548,7 +1567,7 @@ Many players enhance the warden experience with:
         value: 10
       },
 
-      tags: ['transformation', 'ultimate', 'vengeance-seeker']
+      tags: ['transformation', 'ultimate', 'vengeance seeker']
     },
 
     // UNIVERSAL ABILITIES - All Wardens
@@ -1915,7 +1934,7 @@ Many players enhance the warden experience with:
         }
       },
 
-      tags: ['buff', 'defense', 'reaction', 'vp-generation', 'universal']
+      tags: ['buff', 'defense', 'reaction', 'vp generation', 'universal']
     },
 
     {
@@ -1989,7 +2008,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'shadow',
         icon: 'Piercing/Night Dagger',
-        tags: ['damage', 'shadow', 'armor-penetration', 'universal'],
+        tags: ['damage', 'shadow', 'armor penetration', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2024,7 +2043,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'shadow', 'armor-penetration', 'universal']
+      tags: ['damage', 'shadow', 'armor penetration', 'universal']
     },
 
     {
@@ -2101,7 +2120,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'physical',
         icon: 'Nature/Sense',
-        tags: ['damage', 'mobility', 'marked-synergy', 'vengeance-seeker'],
+        tags: ['damage', 'mobility', 'marked synergy', 'vengeance seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2116,7 +2135,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '4d6',
+        formula: '5d6',
         elementType: 'physical',
         damageType: 'direct'
       },
@@ -2150,7 +2169,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'mobility', 'marked-synergy', 'vengeance-seeker']
+      tags: ['damage', 'mobility', 'marked synergy', 'vengeance seeker']
     },
 
     // LEVEL 6 SPELLS
@@ -2180,7 +2199,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '5d8',
+        formula: '8d6',
         elementType: 'physical',
         damageType: 'direct'
       },
@@ -2214,7 +2233,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'shadow',
         icon: 'Psychic/Mind Control',
-        tags: ['damage', 'cage-synergy', 'shadow', 'jailer'],
+        tags: ['damage', 'cage synergy', 'shadow', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2248,7 +2267,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'cage-synergy', 'shadow', 'jailer']
+      tags: ['damage', 'cage synergy', 'shadow', 'jailer']
     },
 
     // LEVEL 7 SPELLS
@@ -2263,7 +2282,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'physical',
         icon: 'Piercing/Targeted Strike',
-        tags: ['damage', 'execute', 'marked-synergy', 'vengeance-seeker'],
+        tags: ['damage', 'execute', 'marked synergy', 'vengeance seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2311,7 +2330,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'execute', 'marked-synergy', 'vengeance-seeker']
+      tags: ['damage', 'execute', 'marked synergy', 'vengeance seeker']
     },
 
     {
@@ -2325,7 +2344,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'shadow',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['control', 'cage', 'anti-teleport', 'jailer'],
+        tags: ['control', 'cage', 'anti teleport', 'jailer'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2373,7 +2392,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['control', 'cage', 'anti-teleport', 'jailer']
+      tags: ['control', 'cage', 'anti teleport', 'jailer']
     },
 
     {
@@ -2387,7 +2406,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'physical',
         icon: 'Slashing/Cross Slash',
-        tags: ['damage', 'multi-strike', 'vengeance', 'universal'],
+        tags: ['damage', 'multi strike', 'vengeance', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2401,7 +2420,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '6d8',
+        formula: '10d6',
         elementType: 'physical',
         damageType: 'direct'
       },
@@ -2421,7 +2440,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'multi-strike', 'vengeance', 'universal']
+      tags: ['damage', 'multi strike', 'vengeance', 'universal']
     },
 
     // LEVEL 8 SPELLS
@@ -2436,7 +2455,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'shadow',
         icon: 'General/Fiery Rage',
-        tags: ['buff', 'transformation', 'enhancement', 'vengeance-seeker'],
+        tags: ['buff', 'transformation', 'enhancement', 'vengeance seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2470,7 +2489,7 @@ Many players enhance the warden experience with:
         resourceValues: {
           vengeance_points: 8
         },
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
 
@@ -2480,7 +2499,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['buff', 'transformation', 'enhancement', 'vengeance-seeker']
+      tags: ['buff', 'transformation', 'enhancement', 'vengeance seeker']
     },
 
     {
@@ -2555,7 +2574,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'physical',
         icon: 'Bludgeoning/Mortal Strike',
-        tags: ['damage', 'multi-strike', 'vp-generation', 'universal'],
+        tags: ['damage', 'multi strike', 'vp generation', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2569,7 +2588,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '8d8',
+        formula: '12d6',
         elementType: 'physical',
         damageType: 'direct'
       },
@@ -2589,7 +2608,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'multi-strike', 'vp-generation', 'universal']
+      tags: ['damage', 'multi strike', 'vp generation', 'universal']
     },
 
     // LEVEL 9 SPELLS
@@ -2604,7 +2623,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'physical',
         icon: 'Slashing/Cross Slash',
-        tags: ['damage', 'marked-synergy', 'execute', 'vengeance-seeker'],
+        tags: ['damage', 'marked synergy', 'execute', 'vengeance seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2618,7 +2637,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '10d10',
+        formula: '15d6',
         elementType: 'physical',
         damageType: 'direct'
       },
@@ -2638,7 +2657,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'marked-synergy', 'execute', 'vengeance-seeker']
+      tags: ['damage', 'marked synergy', 'execute', 'vengeance seeker']
     },
 
     {
@@ -2728,7 +2747,7 @@ Many players enhance the warden experience with:
       },
 
       damageConfig: {
-        formula: '9d10',
+        formula: '16d6',
         elementType: 'necrotic',
         damageType: 'direct'
       },
@@ -2887,7 +2906,7 @@ Many players enhance the warden experience with:
       typeConfig: {
         school: 'shadow',
         icon: 'General/Fiery Rage',
-        tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance-seeker'],
+        tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance seeker'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2921,7 +2940,7 @@ Many players enhance the warden experience with:
         resourceValues: {
           vengeance_points: 10
         },
-        actionPoints: 1,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
 
@@ -2931,7 +2950,7 @@ Many players enhance the warden experience with:
       },
 
       resolution: 'DICE',
-      tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance-seeker']
+      tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance seeker']
     }
   ]
 };

@@ -18,6 +18,41 @@ import useCharacterStore from '../../../../store/characterStore';
 import { getAbilityIconUrl, getCustomIconUrl } from '../../../../utils/assetManager';
 // Pathfinder styles imported via main.css
 
+// Comprehensive mapping of internal stat keys to user-friendly labels
+const GLOBAL_STAT_MAP = {
+  // Primary stats
+  'strength': 'Strength', 'agility': 'Agility', 'constitution': 'Constitution',
+  'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
+  'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
+  'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
+  // Combat stats
+  'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 
+  'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 
+  'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 
+  'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points',
+  'dodge': 'Dodge Rating', 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
+  'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
+  'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points', 'action_points': 'Action Points',
+  'damagereduction': 'Damage Reduction', 'damage_reduction': 'Damage Reduction',
+  'healingperkill': 'Healing Per Kill', 'healing_per_kill': 'Healing Per Kill',
+  'ragegeneration': 'Rage Generation', 'rage_generation': 'Rage Generation', 'rage generation': 'Rage Generation',
+  'momentumgeneration': 'Momentum Generation', 'momentum_generation': 'Momentum Generation', 'momentum generation': 'Momentum Generation',
+  'all_resistances': 'All Resistances', 'all_primary_stats': 'All Primary Stats',
+  // Spell power stats
+  'fire_spell_power': 'Fire Spell Power', 'frost_spell_power': 'Frost Spell Power',
+  'lightning_spell_power': 'Lightning Spell Power', 'arcane_spell_power': 'Arcane Spell Power',
+  'nature_spell_power': 'Nature Spell Power', 'force_spell_power': 'Force Spell Power',
+  'necrotic_spell_power': 'Necrotic Spell Power', 'radiant_spell_power': 'Radiant Spell Power',
+  'poison_spell_power': 'Poison Spell Power', 'psychic_spell_power': 'Psychic Spell Power',
+  'chaos_spell_power': 'Chaos Spell Power', 'void_spell_power': 'Void Spell Power',
+  // Transition/Stance stats
+  'multistancebenefits': 'Multi-Stance Benefits', 'multiStanceBenefits': 'Multi-Stance Benefits', 'multi_stance_benefits': 'Multi-Stance Benefits',
+  'multistanceecho': 'Multi-Stance Echo', 'multiStanceEcho': 'Multi-Stance Echo', 'multi_stance_echo': 'Multi-Stance Echo',
+  'stancepower': 'Stance Power', 'stancePower': 'Stance Power', 'stance_power': 'Stance Power',
+  'transitioncostreduction': 'Transition Cost Reduction', 'transition_cost_reduction': 'Transition Cost Reduction',
+  'movementspeed': 'Movement Speed', 'movement_speed': 'Movement Speed'
+};
+
 /**
  * TRUE Unified Spell Card Component
  * Consolidates ALL spell card implementations with consistent Pathfinder styling
@@ -199,6 +234,21 @@ const UnifiedSpellCard = ({
       'mana_regen': 'Mana Regen',
       'damage_dealt': 'Damage Dealt',
       'damage dealt': 'Damage Dealt',
+      'damage_taken': 'Damage Taken',
+      'damage taken': 'Damage Taken',
+      'drp_spent': 'DRP Spent',
+      'drp': 'DRP',
+      'health_spent': 'Health Spent',
+      'health': 'Health',
+      'permanent_health': 'Permanent Health',
+      'health_sacrificed': 'Health Sacrificed',
+      'health sacrificed': 'Health Sacrificed',
+      'blood_tokens_spent': 'Blood Tokens Spent',
+      'blood tokens spent': 'Blood Tokens Spent',
+      'blood_tokens': 'Blood Tokens',
+      'blood tokens': 'Blood Tokens',
+      'healing_dealt': 'Healing Dealt',
+      'drp_gain': 'DRP Gained',
       // Add comprehensive stat names for proper formatting
       'strength': 'Strength',
       'agility': 'Agility',
@@ -213,6 +263,9 @@ const UnifiedSpellCard = ({
       'spi': 'Spirit',
       'spir': 'Spirit',
       'cha': 'Charisma',
+      'maxhitpoints': 'Maximum Hit Points',
+      'max_hit_points': 'Maximum Hit Points',
+      'hitpoints': 'Hit Points',
       // Handle weapon-related formulas that should not be converted
       'weapon_die': 'weapon_die', // Keep as-is, will be replaced with actual dice in weapon-dependent spells
       'weapon_damage': 'weapon_damage', // Keep as-is
@@ -2622,6 +2675,11 @@ const UnifiedSpellCard = ({
             const pathNames = {
               'shrouded_veil': 'Shrouded Veil',
               'crimson_pact': 'Crimson Pact',
+              'spectral_command': 'Spectral Command',
+              'frostwalker': 'Frostwalker',
+              'silent_shroud': 'Silent Shroud',
+              'life_leech': 'Life Leech',
+              'deep_void': 'Deep Void',
               'eternal_hunger': 'Eternal Hunger'
             };
             const displayName = pathNames[ascensionPath] || ascensionPath;
@@ -6133,7 +6191,8 @@ const UnifiedSpellCard = ({
     // Handle class spell format with statBonuses
     if (buffConfig.statBonuses && buffConfig.statBonuses.length > 0) {
       buffConfig.statBonuses.forEach(bonus => {
-        const statName = bonus.stat.charAt(0).toUpperCase() + bonus.stat.slice(1);
+        const rawStat = bonus.stat?.toLowerCase() || '';
+        const statName = GLOBAL_STAT_MAP[rawStat] || bonus.stat.charAt(0).toUpperCase() + bonus.stat.slice(1);
         const sign = bonus.amount >= 0 ? '+' : '';
         const typeText = bonus.type === 'percentage' ? '%' : '';
         effects.push({
@@ -6180,8 +6239,11 @@ const UnifiedSpellCard = ({
         // Check for incomplete stat data and show warning
         const hasIncompleteName = !stat.name || stat.name.toLowerCase().includes('stat') && !stat.name.toLowerCase().includes('strength') && !stat.name.toLowerCase().includes('agility');
 
+        const rawStatId = (stat.name || stat.id || '').toLowerCase();
+        const statNameFromMap = GLOBAL_STAT_MAP[rawStatId] || stat.name || 'Stat Modifier';
+        
         let statDisplay = {
-          name: hasIncompleteName ? 'INCOMPLETE: Specify stat name' : (stat.name || 'Stat Modifier'),
+          name: hasIncompleteName ? 'INCOMPLETE: Specify stat name' : statNameFromMap,
           value: '',
           class: hasIncompleteName ? 'incomplete-data' : ''
         };
@@ -10682,91 +10744,7 @@ const UnifiedSpellCard = ({
                     // Check if this effect has statModifier (stat enhancement) and no mechanicsText provided
                     if (!mechanicsText && effect.statModifier) {
                       const statMod = effect.statModifier;
-                      const statMap = {
-                        // Primary stats
-                        'strength': 'Strength',
-                        'agility': 'Agility',
-                        'constitution': 'Constitution',
-                        'intelligence': 'Intelligence',
-                        'spirit': 'Spirit',
-                        'charisma': 'Charisma',
-                        'str': 'Strength',
-                        'agi': 'Agility',
-                        'con': 'Constitution',
-                        'int': 'Intelligence',
-                        'spi': 'Spirit',
-                        'spir': 'Spirit',
-                        'cha': 'Charisma',
-                        // Secondary/Combat stats
-                        'speed': 'Speed',
-                        'armor': 'Armor',
-                        'attack': 'Attack',
-                        'damage': 'Damage',
-                        'dodge': 'Dodge Rating',
-                        'hp_regen': 'Health Regeneration',
-                        'mp_regen': 'Mana Regeneration',
-                        'healing_power': 'Healing Power',
-                        'initiative': 'Initiative',
-                        'lifesteal': 'Lifesteal',
-                        'damage_reflection': 'Damage Reflection',
-                        'actionpoints': 'Action Points',
-                        'action_points': 'Action Points',
-                        'damagereduction': 'Damage Reduction',
-                        'damage_reduction': 'Damage Reduction',
-                        'healingperkill': 'Healing Per Kill',
-                        'healing_per_kill': 'Healing Per Kill',
-                        'ragegeneration': 'Rage Generation',
-                        'rage_generation': 'Rage Generation',
-                        'momentumgeneration': 'Momentum Generation',
-                        'momentumGeneration': 'Momentum Generation',
-                        'momentum_generation': 'Momentum Generation',
-                        'all_resistances': 'All Resistances',
-                        'all_primary_stats': 'All Primary Stats',
-                        // Spell power stats
-                        'fire_spell_power': 'Fire Spell Power',
-                        'frost_spell_power': 'Frost Spell Power',
-                        'lightning_spell_power': 'Lightning Spell Power',
-                        'arcane_spell_power': 'Arcane Spell Power',
-                        'nature_spell_power': 'Nature Spell Power',
-                        'force_spell_power': 'Force Spell Power',
-                        'necrotic_spell_power': 'Necrotic Spell Power',
-                        'radiant_spell_power': 'Radiant Spell Power',
-                        'poison_spell_power': 'Poison Spell Power',
-                        'psychic_spell_power': 'Psychic Spell Power',
-                        'chaos_spell_power': 'Chaos Spell Power',
-                        'void_spell_power': 'Void Spell Power',
-                        // Resistance stats
-                        'fire_resistance': 'Fire Resistance',
-                        'frost_resistance': 'Frost Resistance',
-                        'lightning_resistance': 'Lightning Resistance',
-                        'arcane_resistance': 'Arcane Resistance',
-                        'nature_resistance': 'Nature Resistance',
-                        'force_resistance': 'Force Resistance',
-                        'necrotic_resistance': 'Necrotic Resistance',
-                        'radiant_resistance': 'Radiant Resistance',
-                        'poison_resistance': 'Poison Resistance',
-                        'psychic_resistance': 'Psychic Resistance',
-                        'chaos_resistance': 'Chaos Resistance',
-                        'void_resistance': 'Void Resistance',
-                        'physical_resistance': 'Physical Resistance',
-                        'damage_immunity': 'Damage Immunity',
-                        // Custom class-specific stats
-                        'multistancebenefits': 'Multi-Stance Benefits',
-                        'multiStanceBenefits': 'Multi-Stance Benefits',
-                        'multi_stance_benefits': 'Multi-Stance Benefits',
-                        'multistanceecho': 'Multi-Stance Echo',
-                        'multiStanceEcho': 'Multi-Stance Echo',
-                        'multi_stance_echo': 'Multi-Stance Echo',
-                        'stancepower': 'Stance Power',
-                        'stancePower': 'Stance Power',
-                        'stance_power': 'Stance Power',
-                        'transitioncostreduction': 'Stance Transition Cost Reduction',
-                        'transitionCostReduction': 'Stance Transition Cost Reduction',
-                        'transition_cost_reduction': 'Stance Transition Cost Reduction',
-                        'movementspeed': 'Movement Speed',
-                        'movementSpeed': 'Movement Speed',
-                        'movement_speed': 'Movement Speed'
-                      };
+                      const statMap = GLOBAL_STAT_MAP;
 
                       // Get stat name from map, or format the stat name properly
                       const rawStat = statMod.stat?.toLowerCase() || '';
@@ -10830,10 +10808,10 @@ const UnifiedSpellCard = ({
                         
                         if (!suppressMechanicsText && !isResistanceStat) {
                           if (isDiceFormula) {
-                            mechanicsText = statMod.formula;
+                            mechanicsText = cleanFormula(statMod.formula);
                           } else {
                             const sign = magnitude >= 0 ? '+' : '';
-                            mechanicsText = `${sign}${magnitude}${typeText} ${statName}`;
+                            mechanicsText = `${sign}${cleanFormula(magnitude)}${typeText} ${statName}`;
                           }
                         }
                       }
@@ -10951,14 +10929,14 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
                               'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
                               'damage_reduction': 'Damage Reduction', 'healingperkill': 'Healing Per Kill',
                               'healing_per_kill': 'Healing Per Kill', 'ragegeneration': 'Rage Generation',
-                              'rage_generation': 'Rage Generation', 'all_resistances': 'All Resistances',
+                              'rage_generation': 'Rage Generation', 'rage generation': 'Rage Generation', 'all_resistances': 'All Resistances',
                               'all_primary_stats': 'All Primary Stats'
                             };
 
@@ -11134,14 +11112,14 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
                                 'action_points': 'Action Points', 'damagereduction': 'Damage Reduction',
                                 'damage_reduction': 'Damage Reduction', 'all_resistances': 'All Resistances',
                                 'all_primary_stats': 'All Primary Stats', 'ragegeneration': 'Rage Generation',
-                                'rage_generation': 'Rage Generation'
+                                'rage_generation': 'Rage Generation', 'rage generation': 'Rage Generation'
                               };
 
                               const progressiveStagesText = buffData.progressiveStages.map((stage, stageIndex) => {
@@ -11466,7 +11444,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11547,7 +11525,7 @@ const UnifiedSpellCard = ({
                               'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                               'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                               'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
+                              'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
                               'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                               'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                               'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11613,7 +11591,7 @@ const UnifiedSpellCard = ({
                               }
                             } else {
                               // Use generic formatting for non-resistance stats
-                              allStatChanges.push(`${sign}${value}${typeText} ${statName}`);
+                              allStatChanges.push(`${sign}${cleanFormula(value)}${typeText} ${statName}`);
                             }
                           });
                         }
@@ -11690,7 +11668,7 @@ const UnifiedSpellCard = ({
                                 'intelligence': 'Intelligence', 'spirit': 'Spirit', 'charisma': 'Charisma',
                                 'str': 'Strength', 'agi': 'Agility', 'con': 'Constitution',
                                 'int': 'Intelligence', 'spi': 'Spirit', 'spir': 'Spirit', 'cha': 'Charisma',
-                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'dodge': 'Dodge Rating',
+                                'speed': 'Speed', 'armor': 'Armor', 'attack': 'Attack', 'damage': 'Damage', 'crit_range': 'Critical Range', 'crit_multiplier': 'Critical Multiplier', 'attackdamagebonus': 'Attack and Damage', 'attackDamageBonus': 'Attack and Damage', 'attack_damage_bonus': 'Attack and Damage', 'maxhitpoints': 'Maximum Hit Points', 'max_hit_points': 'Maximum Hit Points', 'hitpoints': 'Hit Points', 'dodge': 'Dodge Rating',
                                 'hp_regen': 'Health Regeneration', 'mp_regen': 'Mana Regeneration',
                                 'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
                                 'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points',
@@ -11731,7 +11709,7 @@ const UnifiedSpellCard = ({
                               // Build mechanics text - suppress if description already explains the effect
                               // For Dodge reaction, show total Dodge Rating (e.g., "+2 Dodge Rating" = 1 base + 1 from reaction)
                               const sign = (isDodgeReaction && magnitude > 0) ? '+' : (magnitude >= 0 ? '' : '');
-                              mechanicsText = descriptionHasStatReduction ? '' : `${sign}${magnitude}${typeText} ${statName}`;
+                              mechanicsText = descriptionHasStatReduction ? '' : `${sign}${cleanFormula(magnitude)}${typeText} ${statName}`;
                               
                               // Build description with duration and save
                               // Check if description already includes duration information
@@ -13737,10 +13715,10 @@ const UnifiedSpellCard = ({
 
                           // Add restored resources
                           if (restorationData.restoredHealth) {
-                            mechanicsParts.push(`Restores ${restorationData.restoredHealth} health`);
+                            mechanicsParts.push(`Restores ${cleanFormula(restorationData.restoredHealth)} health`);
                           }
                           if (restorationData.restoredMana) {
-                            mechanicsParts.push(`${restorationData.restoredMana} mana`);
+                            mechanicsParts.push(`${cleanFormula(restorationData.restoredMana)} mana`);
                           }
 
                           // Add removed conditions

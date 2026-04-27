@@ -48,11 +48,11 @@ if (process.env.NODE_ENV === 'production' || process.env.RAILWAY_ENVIRONMENT) {
     const path = require('path');
     const { validateEnvironment } = require(path.resolve(process.cwd(), 'scripts/validate-env'));
     if (!validateEnvironment()) {
-      console.error('❌ Environment validation failed. Server will not start.');
+      logger.error('Environment validation failed. Server will not start.');
       process.exit(1);
     }
   } catch (error) {
-    console.warn('⚠️  Could not validate environment variables:', error.message);
+    logger.warn('Could not validate environment variables:', { error: error.message });
   }
 }
 
@@ -96,7 +96,7 @@ function getAllowedOrigins() {
 const allowedOrigins = getAllowedOrigins();
 const errorHandler = new ErrorHandler();
 
-console.log('🚀 SERVER CORS CONFIGURATION:', {
+logger.debug('Server CORS configuration', {
   allowedOrigins,
   envVarSet: !!process.env.ALLOWED_ORIGINS,
   environment: process.env.NODE_ENV,
@@ -262,13 +262,7 @@ app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({
-    status: 'ok',
-    rooms: rooms.size,
-    players: players.size,
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
-  });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Room list endpoint
@@ -301,14 +295,10 @@ const PORT = process.env.PORT || 3001;
 initializeServer()
   .then(() => {
     server.listen(PORT, () => {
-      console.log(`🎮 Mythrill VTT Server running on port ${PORT}`);
-      console.log(`📡 WebSocket server ready`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-      logger.info('Server started', { port: PORT, environment: process.env.NODE_ENV });
+      logger.info('Server started', { port: PORT, environment: process.env.NODE_ENV || 'development' });
     });
   })
   .catch(error => {
-    console.error('❌ Failed to initialize server:', error);
     logger.error('Server initialization failed', { error: error.message });
     process.exit(1);
   });

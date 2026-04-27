@@ -9,6 +9,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+const logger = require('./logger');
 
 class EventBatcher {
   constructor(io) {
@@ -27,7 +28,7 @@ class EventBatcher {
       highLatency: 100 // > 50ms
     };
 
-    console.log('🚀 Event Batcher initialized');
+    logger.info('Event Batcher initialized');
   }
 
   /**
@@ -35,7 +36,7 @@ class EventBatcher {
    */
   initializeRoom(roomId) {
     if (this.roomBatches.has(roomId)) {
-      console.log(`📦 Room ${roomId} already has event batching initialized`);
+      logger.info(`Room ${roomId} already has event batching initialized`);
       return; // Already initialized
     }
 
@@ -61,7 +62,7 @@ class EventBatcher {
     this.batchIntervals.set(roomId, intervalId);
     // Reduce logging frequency to prevent spam
     if (this.roomBatches.size % 3 === 0) {
-      console.log(`📦 Event batching: ${this.roomBatches.size} rooms tracked`);
+      logger.info(`Event batching: ${this.roomBatches.size} rooms tracked`);
     }
   }
 
@@ -71,7 +72,7 @@ class EventBatcher {
   addEvent(roomId, event, priority = 'normal') {
     const batchData = this.roomBatches.get(roomId);
     if (!batchData) {
-      console.warn(`Room ${roomId} not initialized for batching`);
+      logger.warn(`Room ${roomId} not initialized for batching (addEvent)`);
       return false;
     }
 
@@ -113,7 +114,7 @@ class EventBatcher {
   addPlayerEvent(roomId, playerId, event, priority = 'normal') {
     const batchData = this.roomBatches.get(roomId);
     if (!batchData) {
-      console.warn(`Room ${roomId} not initialized for batching`);
+      logger.warn(`Room ${roomId} not initialized for batching (addPlayerEvent)`);
       return false;
     }
 
@@ -219,7 +220,7 @@ class EventBatcher {
           (batchData.metrics.averageBatchSize + allPlayerEvents.length) / 2;
 
       } catch (error) {
-        console.error('Failed to send player batch:', error);
+        logger.error('Failed to send player batch:', error);
       }
     }
   }
@@ -288,7 +289,7 @@ class EventBatcher {
     batchData.lastFlush = now;
 
     if (allEvents.length > 0) {
-      console.log(`📦 Batch sent to room ${roomId}: ${allEvents.length} events, ${JSON.stringify(compressedPacket).length} bytes`);
+      logger.info(`Batch sent to room ${roomId}: ${allEvents.length} events, ${JSON.stringify(compressedPacket).length} bytes`);
     }
   }
 
@@ -592,7 +593,7 @@ class EventBatcher {
 
     // Remove batch data
     this.roomBatches.delete(roomId);
-    console.log(`🧹 Event batching cleaned up for room ${roomId}`);
+    logger.info(`Event batching cleaned up for room ${roomId}`);
   }
 
   /**

@@ -14,13 +14,14 @@ import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
-  allowedTiers: ['GUEST', 'FREE', 'SUBSCRIBER', 'PREMIUM'], // All tiers for now
+  allowedTiers: ['SUBSCRIBER', 'PREMIUM'],
   featureName: 'Campaign Manager'
 };
 
 export const canAccessCampaignManager = (subscriptionTier) => {
-  if (!subscriptionTier) return true;
+  if (!subscriptionTier) return false;
   const tierName = typeof subscriptionTier === 'object' ? subscriptionTier.id?.toUpperCase() : subscriptionTier?.toUpperCase();
+  if (tierName === 'DEV_PREVIEW') return true;
   return CAMPAIGN_ACCESS_CONFIG.allowedTiers.includes(tierName);
 };
 

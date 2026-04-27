@@ -12,18 +12,7 @@
     overflow: hidden; 
 }
 
-/* Library mode and designer mode now handled by WowWindow sizing */
-.item-library-container.library-mode {
-    /* Size handled by WowWindow */
-}
 
-.item-library-container.designer-mode {
-    /* Size handled by WowWindow */
-}
-
-.item-library-container.community-mode {
-    /* Size handled by WowWindow */
-}
 
 /* Header is now handled by WowWindow - this is for tab styling only */
 .item-library-header {
@@ -672,6 +661,7 @@
     max-height: 2.4em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     padding: 2px 0;
     box-sizing: border-box;

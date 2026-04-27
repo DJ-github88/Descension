@@ -158,7 +158,7 @@ function createSanitizationMiddleware(options = {}) {
         try {
           await handler(sanitizedData);
         } catch (error) {
-          console.error(`Error in sanitized handler for event '${event}':`, error);
+          logger.error(`Error in sanitized handler for event '${event}':`, error);
         }
       };
 

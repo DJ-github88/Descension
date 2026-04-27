@@ -126,19 +126,7 @@ if (app) {
   }
 }
 
-// Make Firebase services available globally for debugging and setup
-if (typeof window !== 'undefined' && app) {
-  window.firebaseApp = app;
-  if (db) {
-    window.firebaseDB = db;
-  }
-  if (auth) {
-    window.firebaseAuth = auth;
-  }
-  if (storage) {
-    window.firebaseStorage = storage;
-  }
-}
+
 
 export { isFirebaseConfigured, isDemoMode };
 export default app;

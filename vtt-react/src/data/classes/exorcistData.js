@@ -1698,7 +1698,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'General/Increase Strength',
-        tags: ['buff', 'demon-enhancement', 'universal'],
+        tags: ['buff', 'demon enhancement', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1751,7 +1751,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'AUTOMATIC',
-      tags: ['buff', 'demon-enhancement', 'universal']
+      tags: ['buff', 'demon enhancement', 'universal']
     },
 
     // POSSESSED SPEC SPELLS
@@ -1904,7 +1904,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       damageConfig: {
-        formula: '4d6 + spirit',
+        formula: '5d6 + spirit',
         elementType: 'radiant',
         damageType: 'area',
         savingThrowConfig: {
@@ -2004,7 +2004,7 @@ RESTORATION AVAILABLE: Yes
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2058,7 +2058,7 @@ RESTORATION AVAILABLE: Yes
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal']
@@ -2119,7 +2119,7 @@ RESTORATION AVAILABLE: Yes
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 15
+          mana: 5
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2146,7 +2146,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'Utility/Summon Minion',
-        tags: ['summoning', 'binding', 'demon', 'pit-fiend', 'demonologist'],
+        tags: ['summoning', 'binding', 'demon', 'pit fiend', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2187,7 +2187,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['summoning', 'binding', 'demon', 'pit-fiend', 'demonologist']
+      tags: ['summoning', 'binding', 'demon', 'pit fiend', 'demonologist']
     },
 
     {
@@ -2201,7 +2201,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'holy',
         icon: 'Force/Force Field',
-        tags: ['utility', 'demon-control', 'dominance', 'demonologist'],
+        tags: ['utility', 'demon control', 'dominance', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2241,7 +2241,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['utility', 'demon-control', 'dominance', 'demonologist']
+      tags: ['utility', 'demon control', 'dominance', 'demonologist']
     },
 
     {
@@ -2255,7 +2255,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'holy',
         icon: 'Radiant/Divine Beam',
-        tags: ['damage', 'holy', 'aoe', 'anti-demon', 'universal'],
+        tags: ['damage', 'holy', 'aoe', 'anti demon', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2305,7 +2305,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'holy', 'aoe', 'anti-demon', 'universal']
+      tags: ['damage', 'holy', 'aoe', 'anti demon', 'universal']
     },
 
     // LEVEL 7 SPELLS
@@ -2320,7 +2320,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'Utility/Summon Minion',
-        tags: ['summoning', 'binding', 'demon', 'balor', 'demon-lord'],
+        tags: ['summoning', 'binding', 'demon', 'balor', 'demon lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2361,7 +2361,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['summoning', 'binding', 'demon', 'balor', 'demon-lord']
+      tags: ['summoning', 'binding', 'demon', 'balor', 'demon lord']
     },
 
     {
@@ -2375,7 +2375,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'Necrotic/Demonic Empowerment',
-        tags: ['buff', 'demon-enhancement', 'mass', 'demonologist'],
+        tags: ['buff', 'demon enhancement', 'mass', 'demonologist'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2419,7 +2419,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['buff', 'demon-enhancement', 'mass', 'demonologist']
+      tags: ['buff', 'demon enhancement', 'mass', 'demonologist']
     },
 
     {
@@ -2787,7 +2787,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'holy',
         icon: 'Force/Force Field',
-        tags: ['buff', 'dominance', 'demon-enhancement', 'ultimate', 'demon-lord'],
+        tags: ['buff', 'dominance', 'demon enhancement', 'ultimate', 'demon lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2831,7 +2831,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['buff', 'dominance', 'demon-enhancement', 'ultimate', 'demon-lord']
+      tags: ['buff', 'dominance', 'demon enhancement', 'ultimate', 'demon lord']
     },
 
     // LEVEL 10 SPELLS
@@ -2846,7 +2846,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'Utility/Summon Minion',
-        tags: ['summoning', 'ultimate', 'demon-prince', 'demon-lord'],
+        tags: ['summoning', 'ultimate', 'demon prince', 'demon lord'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2877,7 +2877,7 @@ RESTORATION AVAILABLE: Yes
         resourceValues: {
           mana: 70
         },
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material']
       },
 
@@ -2887,7 +2887,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['summoning', 'ultimate', 'demon-prince', 'demon-lord']
+      tags: ['summoning', 'ultimate', 'demon prince', 'demon lord']
     },
 
     {
@@ -2965,7 +2965,7 @@ RESTORATION AVAILABLE: Yes
       typeConfig: {
         school: 'shadow',
         icon: 'Necrotic/Transform Demon',
-        tags: ['transformation', 'ultimate', 'god-form', 'possessed'],
+        tags: ['transformation', 'ultimate', 'god form', 'possessed'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3008,7 +3008,7 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['transformation', 'ultimate', 'god-form', 'possessed']
+      tags: ['transformation', 'ultimate', 'god form', 'possessed']
     }
   ]
 };

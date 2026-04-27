@@ -1097,7 +1097,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       resourceCost: {
-        mana: 6,
+        mana: 12,
         toxinVials: 3,
         actionPoints: 1,
         components: ['somatic', 'material'],
@@ -1116,13 +1116,13 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '3d6 + intelligence',
+        formula: '5d6 + intelligence',
         elementType: 'poison',
         damageType: 'area',
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '3d6',
+          dotFormula: '2d6',
           duration: 4,
           tickFrequency: 'turn',
           isProgressiveDot: false
@@ -1273,9 +1273,9 @@ Many players enhance the Toxicologist experience with:
       },
 
       resourceCost: {
-        mana: 8,
+        mana: 15,
         contraptionParts: 4,
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['somatic', 'verbal'],
         verbalText: 'Activate network protocol!',
         somaticText: 'Link contraptions with arcane energy'
@@ -1310,7 +1310,7 @@ Many players enhance the Toxicologist experience with:
     {
       id: 'tox_overcharged_trap',
       name: 'Overcharged Trap',
-      description: 'Deploy a supercharged contraption that explodes with devastating force. The device is overcharged with volatile chemicals, creating a massive fireball that engulfs everything in the area. The explosion leaves enemies burned and crippled, their defenses shattered by the blast.',
+      description: 'Deploy a supercharged contraption that explodes in a 15ft radius, dealing fire damage, reducing armor, and leaving a burning DoT.',
       spellType: 'ACTION',
       icon: 'Utility/Utility Tool',
       school: 'Engineering',
@@ -1337,9 +1337,9 @@ Many players enhance the Toxicologist experience with:
       },
 
       resourceCost: {
-        mana: 10,
+        mana: 18,
         contraptionParts: 3,
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['somatic', 'material'],
         somaticText: 'Deploy overcharged contraption',
         materialText: 'Enhanced contraption parts'
@@ -1356,7 +1356,7 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '5d8 + intelligence',
+        formula: '8d6 + intelligence',
         elementType: 'fire',
         damageType: 'area',
         attackType: 'spell_save',
@@ -1382,7 +1382,7 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'burned',
           name: 'Burned',
-          description: 'Severely burned by the explosive force. Their armor is damaged and they continue to burn, taking fire damage over time as the flames consume them.',
+          description: 'Armor reduced by 3 and takes 1d6 fire damage per round for 3 rounds.',
           statModifier: {
             stat: 'armor',
             magnitude: -3,
@@ -1401,7 +1401,7 @@ Many players enhance the Toxicologist experience with:
           effect: 'Gadgeteers add +2d8 damage and +5ft radius (total 20ft)'
         },
         explosiveForce: {
-          description: 'The explosive force sends enemies flying backward and knocks them to the ground. The concussive blast is powerful enough to throw even the strongest foes off balance, though those with exceptional strength may resist being knocked down.'
+          description: 'Enemies are knocked prone on a failed save.'
         }
       },
 
@@ -1454,7 +1454,7 @@ Many players enhance the Toxicologist experience with:
       resolution: 'ATTACK_ROLL',
 
       damageConfig: {
-        formula: '1d8 + agility',
+        formula: '3d6 + agility',
         elementType: 'poison',
         damageType: 'direct',
         attackType: 'weapon_attack'
@@ -1465,7 +1465,7 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'crippled',
           name: 'Crippled',
-          description: 'Severely crippled by the sabotage. Their attacks become clumsy and inaccurate, their armor is compromised, their movement is slowed, and they struggle to resist further effects. The sabotage has left them nearly helpless.',
+          description: '-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds.',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: -4,
@@ -1524,10 +1524,10 @@ Many players enhance the Toxicologist experience with:
       },
 
       resourceCost: {
-        mana: 7,
+        mana: 15,
         toxinVials: 3,
         contraptionParts: 1,
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['somatic', 'material'],
         somaticText: 'Throw chaos grenade',
         materialText: 'Alchemical explosive'
@@ -1544,11 +1544,11 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '2d8 + intelligence',
+        formula: '3d8 + intelligence',
         elementType: 'poison',
         damageType: 'area',
         additionalDamage: {
-          formula: '2d8',
+          formula: '3d8',
           elementType: 'fire'
         },
         savingThrowConfig: {
@@ -1619,10 +1619,10 @@ Many players enhance the Toxicologist experience with:
       },
 
       resourceCost: {
-        mana: 12,
+        mana: 21,
         toxinVials: 4,
         contraptionParts: 2,
-        actionPoints: 1,
+        actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Total system failure!',
         somaticText: 'Inject shutdown toxin',
@@ -1665,7 +1665,7 @@ Many players enhance the Toxicologist experience with:
         }
       },
 
-      tags: ['single-target', 'debuff', 'incapacitate', 'ultimate', 'saboteur']
+      tags: ['single target', 'debuff', 'incapacitate', 'ultimate', 'saboteur']
     },
 
     // ===== UNIVERSAL ABILITIES =====
@@ -1728,7 +1728,7 @@ Many players enhance the Toxicologist experience with:
         }
       },
 
-      tags: ['utility', 'poison', 'weapon-enhancement', 'universal']
+      tags: ['utility', 'poison', 'weapon enhancement', 'universal']
     },
 
     {
@@ -1832,6 +1832,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         toxinVials: 3,
+        actionPoints: 1,
         components: ['somatic', 'material'],
         somaticText: 'Throw explosive vial',
         materialText: 'Volatile alchemical mixture'
@@ -1848,7 +1849,7 @@ Many players enhance the Toxicologist experience with:
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '3d8 + intelligence',
+        formula: '3d6 + intelligence',
         elementType: 'fire',
         damageType: 'area',
         attackType: 'spell_save',
@@ -1925,7 +1926,7 @@ Many players enhance the Toxicologist experience with:
             'Can use to escape or reposition',
             'Provides cover for allies'
           ],
-          description: 'Creates tactical opportunities by manipulating the battlefield terrain and enemy positioning, allowing for strategic advantages in combat.'
+          description: 'Disrupts enemy vision and positioning for tactical advantage.'
         }
       },
 
@@ -1969,7 +1970,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
-        resourceValues: { mana: 45, toxinVials: 3 },
+        resourceValues: { mana: 24, toxinVials: 3 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Release plague vial'
@@ -1979,7 +1980,7 @@ Many players enhance the Toxicologist experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '6d8 + intelligence',
+        formula: '12d6 + intelligence',
         elementType: 'poison',
         damageType: 'persistent',
         spreadMechanic: 'Spreads to enemies within 10 feet at start of their turn',
@@ -1995,7 +1996,7 @@ Many players enhance the Toxicologist experience with:
           id: 'pandemic_plague',
           name: 'Pandemic Plague',
           description: 'Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.',
-          damageFormula: '3d8'
+          damageFormula: '3d6'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2010,7 +2011,7 @@ Many players enhance the Toxicologist experience with:
         value: 5
       },
 
-      tags: ['damage', 'debuff', 'spreading', 'poison', 'level-8', 'toxicologist']
+      tags: ['damage', 'debuff', 'spreading', 'poison', 'level 8', 'toxicologist']
     },
 
     {
@@ -2037,7 +2038,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 32 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Activate construct'
@@ -2077,7 +2078,7 @@ Many players enhance the Toxicologist experience with:
         value: 6
       },
 
-      tags: ['summoning', 'construct', 'level-8', 'toxicologist']
+      tags: ['summoning', 'construct', 'level 8', 'toxicologist']
     },
 
     {
@@ -2107,7 +2108,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 32 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Trigger sabotage devices'
@@ -2136,7 +2137,7 @@ Many players enhance the Toxicologist experience with:
         value: 5
       },
 
-      tags: ['debuff', 'aoe', 'sabotage', 'level-8', 'toxicologist']
+      tags: ['debuff', 'aoe', 'sabotage', 'level 8', 'toxicologist']
     },
 
     // ========================================
@@ -2167,8 +2168,8 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
-        resourceValues: { mana: 70, toxinVials: 5 },
-        actionPoints: 2,
+        resourceValues: { mana: 27, toxinVials: 5 },
+        actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Inject extinction toxin'
       },
@@ -2177,7 +2178,7 @@ Many players enhance the Toxicologist experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '15d8 + intelligence * 2',
+        formula: '18d6 + intelligence',
         elementType: 'poison',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2198,7 +2199,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['damage', 'poison', 'ultimate', 'level-9', 'toxicologist']
+      tags: ['damage', 'poison', 'ultimate', 'level 9', 'toxicologist']
     },
 
     {
@@ -2225,7 +2226,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 80 },
+        resourceValues: { mana: 36 },
         actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Deploy war machine'
@@ -2265,7 +2266,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['summoning', 'construct', 'ultimate', 'level-9', 'toxicologist']
+      tags: ['summoning', 'construct', 'ultimate', 'level 9', 'toxicologist']
     },
 
     {
@@ -2295,7 +2296,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 36 },
         actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Trigger total failure'
@@ -2324,7 +2325,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['debuff', 'aoe', 'dispel', 'ultimate', 'level-9', 'toxicologist']
+      tags: ['debuff', 'aoe', 'dispel', 'ultimate', 'level 9', 'toxicologist']
     },
 
     // ========================================
@@ -2356,7 +2357,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
-        resourceValues: { mana: 100, toxinVials: 'all' },
+        resourceValues: { mana: 30, toxinVials: 'all' },
         actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Release the apocalypse plague'
@@ -2366,7 +2367,7 @@ Many players enhance the Toxicologist experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '20d8 + intelligence * 3',
+        formula: '22d6 + intelligence',
         elementType: 'poison',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2398,7 +2399,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['damage', 'debuff', 'aoe', 'ultimate', 'level-10', 'toxicologist']
+      tags: ['damage', 'debuff', 'aoe', 'ultimate', 'level 10', 'toxicologist']
     },
 
     {
@@ -2427,7 +2428,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Activate mechanical army'
@@ -2467,7 +2468,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['summoning', 'army', 'construct', 'ultimate', 'level-10', 'toxicologist']
+      tags: ['summoning', 'army', 'construct', 'ultimate', 'level 10', 'toxicologist']
     },
 
     {
@@ -2496,7 +2497,7 @@ Many players enhance the Toxicologist experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['somatic'],
         somaticText: 'Detonate reality bomb'
@@ -2506,7 +2507,7 @@ Many players enhance the Toxicologist experience with:
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '15d10 + intelligence * 2',
+        formula: '22d6 + intelligence',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2530,7 +2531,7 @@ Many players enhance the Toxicologist experience with:
         value: 1
       },
 
-      tags: ['damage', 'control', 'anti-magic', 'ultimate', 'level-10', 'toxicologist']
+      tags: ['damage', 'control', 'anti magic', 'ultimate', 'level 10', 'toxicologist']
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
@@ -2541,6 +2542,7 @@ Many players enhance the Toxicologist experience with:
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'conjuration',
@@ -2567,7 +2569,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1
       },
@@ -2582,12 +2584,13 @@ Many players enhance the Toxicologist experience with:
     },
 
     {
-      id: 'tox_toxic_cloud',
-      name: 'Toxic Cloud',
-      description: 'Create a small toxic cloud that deals 1d4 poison damage to enemies in a 10-foot radius.',
+      id: 'tox_noxious_fumes',
+      name: 'Noxious Fumes',
+      description: 'Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'conjuration',
@@ -2606,7 +2609,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '1d4',
+        formula: '1d6',
         elementType: 'poison',
         damageType: 'area'
       },
@@ -2614,7 +2617,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2630,12 +2633,13 @@ Many players enhance the Toxicologist experience with:
     },
 
     {
-      id: 'tox_antidote',
-      name: 'Antidote',
+      id: 'tox_purifying_antidote',
+      name: 'Purifying Antidote',
       description: 'Create an antidote that removes all poison effects from an ally.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['purification'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'restoration',
@@ -2662,7 +2666,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 10
+          mana: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material']
@@ -2679,12 +2683,13 @@ Many players enhance the Toxicologist experience with:
 
     // ADDITIONAL LEVEL 3 SPELLS
     {
-      id: 'tox_venom_strike',
-      name: 'Venom Strike',
+      id: 'tox_venom_blast',
+      name: 'Venom Blast',
       description: 'Strike with concentrated venom that deals poison damage.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'necromancy',
@@ -2703,7 +2708,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '4d8',
+        formula: '4d6',
         elementType: 'poison',
         damageType: 'direct'
       },
@@ -2711,7 +2716,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 18
+          mana: 12
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2733,6 +2738,7 @@ Many players enhance the Toxicologist experience with:
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'necromancy',
@@ -2776,7 +2782,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 18
+          mana: 12
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2799,6 +2805,7 @@ Many players enhance the Toxicologist experience with:
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'conjuration',
@@ -2818,7 +2825,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '5d8',
+        formula: '6d6',
         elementType: 'poison',
         damageType: 'area',
         savingThrowConfig: {
@@ -2834,7 +2841,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 22
+          mana: 16
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2857,6 +2864,7 @@ Many players enhance the Toxicologist experience with:
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'necromancy',
@@ -2875,12 +2883,12 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '6d10',
+        formula: '6d8',
         elementType: 'poison',
         damageType: 'direct',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '1d10',
+          dotFormula: '1d8',
           duration: 5,
           tickFrequency: 'turn',
           isProgressiveDot: false
@@ -2890,7 +2898,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 28
+          mana: 20
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2913,6 +2921,7 @@ Many players enhance the Toxicologist experience with:
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'evocation',
@@ -2932,7 +2941,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '7d8',
+        formula: '8d6',
         elementType: 'poison',
         damageType: 'area',
         criticalConfig: {
@@ -2944,7 +2953,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 35
+          mana: 24
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2967,6 +2976,7 @@ Many players enhance the Toxicologist experience with:
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'necromancy',
@@ -2986,7 +2996,7 @@ Many players enhance the Toxicologist experience with:
       },
 
       damageConfig: {
-        formula: '8d8',
+        formula: '10d6',
         elementType: 'poison',
         damageType: 'direct',
         criticalConfig: {
@@ -2998,7 +3008,7 @@ Many players enhance the Toxicologist experience with:
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
-          mana: 45
+          mana: 28
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']

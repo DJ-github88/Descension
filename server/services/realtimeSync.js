@@ -9,6 +9,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+const logger = require('./logger');
 
 class RealtimeSyncEngine {
   constructor(eventBatcher, deltaSync, optimizedFirebase) {
@@ -41,7 +42,7 @@ class RealtimeSyncEngine {
     this.pendingUpdates = new Map(); // roomId -> pending updates by category
     this.playerViewports = new Map(); // roomId -> playerId -> viewport data
 
-    console.log('🔄 Advanced Real-time Sync Engine initialized');
+    logger.info('Advanced Real-time Sync Engine initialized');
   }
 
   /**
@@ -57,7 +58,7 @@ class RealtimeSyncEngine {
   initializeRoom(roomId, initialState = {}) {
     // Prevent duplicate initialization
     if (this.isRoomInitialized(roomId)) {
-      console.log(`🔄 Room ${roomId} already initialized for real-time sync`);
+      logger.info(`Room ${roomId} already initialized for real-time sync`);
       return this.roomStates.get(roomId);
     }
     const completeState = {
@@ -129,7 +130,7 @@ class RealtimeSyncEngine {
     // Start sync timers for each category
     this.startSyncTimers(roomId);
     
-    console.log(`🔄 Real-time sync initialized for room ${roomId}`);
+    logger.info(`Real-time sync initialized for room ${roomId}`);
     return completeState;
   }
 
@@ -474,10 +475,10 @@ class RealtimeSyncEngine {
         );
       }
 
-      console.log(`🔄 Synced ${categoryUpdates.length} ${category} updates for room ${roomId}`);
+      logger.info(`Synced ${categoryUpdates.length} ${category} updates for room ${roomId}`);
 
     } catch (error) {
-      console.error(`❌ Failed to sync ${category} for room ${roomId}:`, error);
+      logger.error(`Failed to sync ${category} for room ${roomId}:`, error);
 
       // Re-queue failed updates
       pending.get(category).unshift(...categoryUpdates);
@@ -569,7 +570,7 @@ class RealtimeSyncEngine {
     );
 
     await Promise.all(promises);
-    console.log(`🚀 Force sync completed for room ${roomId}`);
+    logger.info(`Force sync completed for room ${roomId}`);
   }
 
   /**
@@ -609,7 +610,7 @@ class RealtimeSyncEngine {
     this.roomStates.delete(roomId);
     this.pendingUpdates.delete(roomId);
 
-    console.log(`🧹 Real-time sync cleanup completed for room ${roomId}`);
+    logger.info(`Real-time sync cleanup completed for room ${roomId}`);
   }
 
   /**
@@ -639,7 +640,7 @@ class RealtimeSyncEngine {
         }
       }
 
-      console.log(`⚙️ Updated sync config for ${category}:`, newConfig);
+      logger.info(`Updated sync config for ${category}:`, newConfig);
     }
   }
 

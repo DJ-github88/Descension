@@ -991,7 +991,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['affliction', 'base', 'psychic', 'curse', 'plaguebringer', 'torment-weaver'],
+            tags: ['affliction', 'base', 'psychic', 'curse', 'plaguebringer', 'torment weaver'],
             flavorText: 'The seed of suffering takes root. Soon, it will bloom into true agony.'
           },
 
@@ -1068,7 +1068,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['affliction', 'base', 'poison', 'melee', 'plaguebringer', 'virulent-spreader'],
+            tags: ['affliction', 'base', 'poison', 'melee', 'plaguebringer', 'virulent spreader'],
             flavorText: 'A single touch. A lifetime of suffering.'
           },
           {
@@ -1100,7 +1100,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 4,
+              mana: 6,
               components: ['verbal', 'somatic'],
               verbalText: 'Nebula Debilis!',
               somaticText: 'Spread arms to create fog'
@@ -1170,7 +1170,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 5,
+              mana: 7,
               components: ['verbal', 'somatic'],
               verbalText: 'Vita Exhaurio!',
               somaticText: 'Grasp target and drain essence'
@@ -1300,7 +1300,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['torment', 'category', 'psychic', 'confusion', 'plaguebringer', 'torment-weaver'],
+            tags: ['torment', 'category', 'psychic', 'confusion', 'plaguebringer', 'torment weaver'],
             flavorText: 'Friend becomes foe. Reality fractures. Madness blooms.'
           },
 
@@ -1329,7 +1329,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 8,
+              mana: 10,
               components: ['verbal'],
               verbalText: 'ULULATUS DOLORIS!'
             },
@@ -1343,7 +1343,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '2d4 + intelligence',
+              formula: '3d6 + intelligence',
               elementType: 'psychic',
               damageType: 'direct',
               attackType: 'spell_save',
@@ -1385,7 +1385,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['torment', 'category', 'psychic', 'paralyze', 'plaguebringer', 'torment-weaver'],
+            tags: ['torment', 'category', 'psychic', 'paralyze', 'plaguebringer', 'torment weaver'],
             flavorText: 'The wail of the damned. Terror incarnate. Movement ceases.'
           }
 ,          {
@@ -1413,7 +1413,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 5,
+              mana: 6,
               components: ['verbal', 'somatic'],
               verbalText: 'Ulcera Contagio!',
               somaticText: 'Touch target to inflict sores'
@@ -1465,7 +1465,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['fester', 'category', 'necrotic', 'contagion', 'plaguebringer', 'virulent-spreader'],
+            tags: ['fester', 'category', 'necrotic', 'contagion', 'plaguebringer', 'virulent spreader'],
             flavorText: 'The sores weep. The infection spreads. None are safe.'
           },
 
@@ -1544,7 +1544,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['fester', 'category', 'poison', 'debuff', 'plaguebringer', 'virulent-spreader'],
+            tags: ['fester', 'category', 'poison', 'debuff', 'plaguebringer', 'virulent spreader'],
             flavorText: 'The swarm descends. Vision fails. Decay festers.'
           }
 ,          {
@@ -1626,7 +1626,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['amplify-pain', 'category', 'amplification', 'plaguebringer'],
+            tags: ['amplify pain', 'category', 'amplification', 'plaguebringer'],
             flavorText: 'Pain echoes. Suffering multiplies. Agony intensifies.'
           },
 
@@ -1658,7 +1658,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 10,
+              mana: 14,
               components: ['verbal', 'somatic'],
               verbalText: 'Dolor Triplicatus!',
               somaticText: 'Focus energy on target'
@@ -1711,7 +1711,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['amplify-pain', 'category', 'amplification', 'plaguebringer'],
+            tags: ['amplify pain', 'category', 'amplification', 'plaguebringer'],
             flavorText: 'Pain magnified beyond endurance. Suffering absolute.'
           }
 ,          {
@@ -1803,7 +1803,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['decay', 'category', 'necrotic', 'permanent', 'plaguebringer', 'decay-harbinger'],
+            tags: ['decay', 'category', 'necrotic', 'permanent', 'plaguebringer', 'decay harbinger'],
             flavorText: 'Flesh rots. Life force diminishes. Decay is permanent.'
           },
 
@@ -1880,7 +1880,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['decay', 'category', 'necrotic', 'anti-healing', 'plaguebringer', 'decay-harbinger'],
+            tags: ['decay', 'category', 'necrotic', 'anti healing', 'plaguebringer', 'decay harbinger'],
             flavorText: 'The touch of death. Healing fails. Withering spreads.'
           }
 ,          {
@@ -1910,7 +1910,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 8,
+              mana: 10,
               components: ['verbal', 'somatic'],
               verbalText: 'Sanatio Inversa!',
               somaticText: 'Twist healing energy into harm'
@@ -1951,7 +1951,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['nurture', 'category', 'curse', 'anti-healing', 'plaguebringer', 'decay-harbinger'],
+            tags: ['nurture', 'category', 'curse', 'anti healing', 'plaguebringer', 'decay harbinger'],
             flavorText: 'Healing becomes harm. Life becomes death. Nurture becomes nightmare.'
           },
 
@@ -2044,7 +2044,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 8,
+              mana: 9,
               components: ['verbal', 'somatic'],
               verbalText: 'Essentia Corruptio!',
               somaticText: 'Corrupt target\'s essence'
@@ -2059,7 +2059,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '1d10 + intelligence',
+              formula: '3d6 + intelligence',
               elementType: 'necrotic',
               damageType: 'direct',
               attackType: 'automatic'
@@ -2119,7 +2119,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 9,
+              mana: 13,
               components: ['verbal', 'somatic'],
               verbalText: 'Virtus Inversa!',
               somaticText: 'Invert target\'s strengths'
@@ -2160,7 +2160,7 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['corrupt', 'category', 'debuff', 'stat-inversion', 'plaguebringer'],
+            tags: ['corrupt', 'category', 'debuff', 'stat inversion', 'plaguebringer'],
             flavorText: 'Strength becomes weakness. Power becomes frailty. Corruption complete.'
           }
 ,          {
@@ -2188,7 +2188,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resourceCost: {
-              mana: 11,
+              mana: 14,
               components: ['verbal', 'somatic'],
               verbalText: 'Tactus Virulentus!',
               somaticText: 'Touch target to spread virulent plague'
@@ -2203,7 +2203,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '4d6 + intelligence',
+              formula: '5d6 + intelligence',
               elementType: 'poison',
               damageType: 'direct',
               attackType: 'spell_save'
@@ -2212,7 +2212,7 @@ Many players enhance the Plaguebringer experience with:
             effects: {
               damage: {
                 instant: {
-                  amount: '4d6 + INT',
+                  amount: '5d6 + INT',
                   type: 'poison',
                   description: 'Immediate poison damage to primary target'
                 }
@@ -2242,14 +2242,14 @@ Many players enhance the Plaguebringer experience with:
               }
             },
 
-            tags: ['infect', 'category', 'poison', 'contagion', 'plaguebringer', 'virulent-spreader'],
+            tags: ['infect', 'category', 'poison', 'contagion', 'plaguebringer', 'virulent spreader'],
             flavorText: 'One touch. Many infected. The plague spreads.'
           },
 
           {
             id: 'pb_contagion_burst',
             name: 'Contagion Burst',
-            description: 'Creates a burst on a single target in melee range, initially dealing 2d6 poison damage and increasing by 1d6 for each subsequent Contagion Burst. Advances Infect-path afflictions.',
+            description: 'Creates a burst on a single target in melee range, initially dealing 3d6 poison damage and increasing by 1d6 for each subsequent Contagion Burst. Advances Infect-path afflictions.',
             spellType: 'ACTION',
             icon: 'Poison/Acid Spray',
             school: 'Necromancy',
@@ -2286,17 +2286,16 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '2d6',
+              formula: '3d6 + intelligence',
               elementType: 'poison',
               damageType: 'direct',
-              damageType: 'poison',
               attackType: 'spell_save'
             },
 
             effects: {
               damage: {
                 instant: {
-                  amount: '2d6 + INT',
+                  amount: '3d6 + INT',
                   type: 'poison',
                   description: 'Initial poison damage'
                 }
@@ -2314,18 +2313,18 @@ Many players enhance the Plaguebringer experience with:
                 description: 'Advances any afflictions on the target that require Infect category'
               },
               stackingDamage: {
-                initial: '2d6',
+                initial: '3d6',
                 increment: '1d6',
                 description: 'Damage increases with each cast on same target',
-                example: '1st cast: 2d6, 2nd cast: 3d6, 3rd cast: 4d6, etc.'
+                example: '1st cast: 3d6, 2nd cast: 4d6, 3rd cast: 5d6, etc.'
               },
               savingThrowEffect: {
-                onSuccess: 'Initial damage is 1d6 and effect spread is reduced',
+                onSuccess: 'Initial damage is 2d6 and effect spread is reduced',
                 onFailure: 'Full damage and stacking effect applies'
               }
             },
 
-            tags: ['infect', 'category', 'poison', 'stacking', 'plaguebringer', 'virulent-spreader'],
+            tags: ['infect', 'category', 'poison', 'stacking', 'plaguebringer', 'virulent spreader'],
             flavorText: 'The contagion builds. Each burst stronger. Infection inevitable.'
           },
 
@@ -2378,7 +2377,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 10
+                mana: 3
               },
               actionPoints: 1,
               components: ['verbal', 'somatic']
@@ -2426,7 +2425,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 10
+                mana: 4
               },
               actionPoints: 1,
               components: ['verbal', 'somatic']
@@ -2495,7 +2494,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 10
+                mana: 4
               },
               actionPoints: 1,
               components: ['verbal', 'somatic']
@@ -2514,7 +2513,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_plague_burst',
             name: 'Plague Burst',
-            description: 'Detonate all afflictions on a target, dealing 5d8 poison damage plus bonus damage based on affliction stacks.',
+            description: 'Detonate all afflictions on a target, dealing 6d8 poison damage plus bonus damage based on affliction stacks.',
             level: 5,
             spellType: 'ACTION',
             effectTypes: ['damage'],
@@ -2522,7 +2521,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Poison/Poison Plague',
-              tags: ['damage', 'poison', 'burst', 'virulent-spreader'],
+              tags: ['damage', 'poison', 'burst', 'virulent spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2536,7 +2535,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '5d8',
+              formula: '6d8',
               elementType: 'poison',
               damageType: 'direct',
               savingThrowConfig: {
@@ -2552,7 +2551,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 25
+                mana: 18
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2564,13 +2563,13 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'poison', 'burst', 'virulent-spreader']
+            tags: ['damage', 'poison', 'burst', 'virulent spreader']
           },
 
           {
             id: 'pb_mass_affliction',
             name: 'Mass Affliction',
-            description: 'Apply a basic affliction to all enemies in a 20 foot radius, dealing 3d6 poison damage and starting affliction cultivation.',
+            description: 'Apply a basic affliction to all enemies in a 20 foot radius, dealing 6d6 poison damage and starting affliction cultivation.',
             level: 5,
             spellType: 'ACTION',
             effectTypes: ['damage', 'debuff'],
@@ -2593,7 +2592,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '3d6',
+              formula: '6d6',
               elementType: 'poison',
               damageType: 'area'
             },
@@ -2617,7 +2616,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 30
+                mana: 20
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2635,7 +2634,7 @@ Many players enhance the Plaguebringer experience with:
           {
             id: 'pb_torment_cascade',
             name: 'Torment Cascade',
-            description: 'Create a cascading wave of psychic torment that chains between enemies, dealing 4d8 psychic damage to each.',
+            description: 'Create a cascading wave of psychic torment that chains between enemies, dealing 6d8 psychic damage to each.',
             level: 5,
             spellType: 'ACTION',
             effectTypes: ['damage'],
@@ -2643,7 +2642,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Psychic/Psionic Strike',
-              tags: ['damage', 'psychic', 'chain', 'torment-weaver'],
+              tags: ['damage', 'psychic', 'chain', 'torment weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2658,7 +2657,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '4d8',
+              formula: '6d8',
               elementType: 'psychic',
               damageType: 'direct'
             },
@@ -2666,7 +2665,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 28
+                mana: 19
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2678,14 +2677,14 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'psychic', 'chain', 'torment-weaver']
+            tags: ['damage', 'psychic', 'chain', 'torment weaver']
           },
 
           // LEVEL 6 SPELLS
           {
             id: 'pb_plague_storm',
             name: 'Plague Storm',
-            description: 'Summon a storm of plague that deals 6d6 poison damage to all enemies in a massive area.',
+            description: 'Summon a storm of plague that deals 8d6 poison damage to all enemies in a massive area.',
             level: 6,
             spellType: 'ACTION',
             effectTypes: ['damage'],
@@ -2693,7 +2692,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Poison/Poison Plague',
-              tags: ['damage', 'poison', 'aoe', 'storm', 'virulent-spreader'],
+              tags: ['damage', 'poison', 'aoe', 'storm', 'virulent spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2708,7 +2707,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '6d6',
+              formula: '8d6',
               elementType: 'poison',
               damageType: 'area',
               savingThrowConfig: {
@@ -2724,7 +2723,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 35
+                mana: 22
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2736,7 +2735,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'poison', 'aoe', 'storm', 'virulent-spreader']
+            tags: ['damage', 'poison', 'aoe', 'storm', 'virulent spreader']
           },
 
           {
@@ -2750,7 +2749,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Psychic/Mind Strike',
-              tags: ['damage', 'psychic', 'control', 'stun', 'torment-weaver'],
+              tags: ['damage', 'psychic', 'control', 'stun', 'torment weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2789,7 +2788,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 35
+                mana: 24
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2801,7 +2800,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'psychic', 'control', 'stun', 'torment-weaver']
+            tags: ['damage', 'psychic', 'control', 'stun', 'torment weaver']
           },
 
           {
@@ -2815,7 +2814,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Necrotic/Necrotic Death',
-              tags: ['damage', 'necrotic', 'zone', 'decay-harbinger'],
+              tags: ['damage', 'necrotic', 'zone', 'decay harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2844,7 +2843,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 35
+                mana: 23
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2856,7 +2855,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'necrotic', 'zone', 'decay-harbinger']
+            tags: ['damage', 'necrotic', 'zone', 'decay harbinger']
           },
 
           // LEVEL 7 SPELLS
@@ -2871,7 +2870,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Poison/Poison Contagion',
-              tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent-spreader'],
+              tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2902,7 +2901,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 45
+                mana: 28
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2914,7 +2913,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent-spreader']
+            tags: ['damage', 'poison', 'ultimate', 'mass', 'virulent spreader']
           },
 
           {
@@ -2928,7 +2927,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Psychic/Mind Control',
-              tags: ['damage', 'psychic', 'control', 'confusion', 'torment-weaver'],
+              tags: ['damage', 'psychic', 'control', 'confusion', 'torment weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -2968,7 +2967,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 45
+                mana: 27
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -2980,7 +2979,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'psychic', 'control', 'confusion', 'torment-weaver']
+            tags: ['damage', 'psychic', 'control', 'confusion', 'torment weaver']
           },
 
           {
@@ -2994,7 +2993,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Necrotic/Drain Soul',
-              tags: ['damage', 'healing', 'necrotic', 'drain', 'decay-harbinger'],
+              tags: ['damage', 'healing', 'necrotic', 'drain', 'decay harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3020,7 +3019,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 40
+                mana: 25
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -3032,7 +3031,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'healing', 'necrotic', 'drain', 'decay-harbinger']
+            tags: ['damage', 'healing', 'necrotic', 'drain', 'decay harbinger']
           },
 
           // LEVEL 8 SPELLS
@@ -3076,7 +3075,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 50
+                mana: 32
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -3102,7 +3101,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Poison/Poison Contagion',
-              tags: ['damage', 'poison', 'spreading', 'virulent-spreader'],
+              tags: ['damage', 'poison', 'spreading', 'virulent spreader'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3117,7 +3116,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '6d8',
+              formula: '12d6',
               elementType: 'poison',
               damageType: 'direct'
             },
@@ -3125,7 +3124,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 50
+                mana: 30
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -3137,7 +3136,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'poison', 'spreading', 'virulent-spreader']
+            tags: ['damage', 'poison', 'spreading', 'virulent spreader']
           },
 
           {
@@ -3151,7 +3150,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Psychic/Psionic Strike',
-              tags: ['damage', 'psychic', 'control', 'fear', 'torment-weaver'],
+              tags: ['damage', 'psychic', 'control', 'fear', 'torment weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3191,7 +3190,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 50
+                mana: 31
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -3203,7 +3202,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'psychic', 'control', 'fear', 'torment-weaver']
+            tags: ['damage', 'psychic', 'control', 'fear', 'torment weaver']
           },
 
           // LEVEL 9 SPELLS
@@ -3249,7 +3248,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 60
+                mana: 36
               },
               actionPoints: 3,
               components: ['verbal', 'somatic']
@@ -3275,7 +3274,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Psychic/Mind Control',
-              tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment-weaver'],
+              tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment weaver'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3319,7 +3318,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 60
+                mana: 35
               },
               actionPoints: 3,
               components: ['verbal', 'somatic']
@@ -3331,7 +3330,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment-weaver']
+            tags: ['damage', 'psychic', 'permanent', 'ultimate', 'torment weaver']
           },
 
           {
@@ -3345,7 +3344,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Necrotic/Necrotic Death',
-              tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay-harbinger'],
+              tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay harbinger'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3368,7 +3367,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 60
+                mana: 33
               },
               actionPoints: 3,
               components: ['verbal', 'somatic']
@@ -3380,7 +3379,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay-harbinger']
+            tags: ['damage', 'necrotic', 'ultimate', 'mass', 'decay harbinger']
           },
 
           // LEVEL 10 SPELLS
@@ -3395,7 +3394,7 @@ Many players enhance the Plaguebringer experience with:
             typeConfig: {
               school: 'necromancy',
               icon: 'Poison/Poison Contagion',
-              tags: ['transformation', 'ultimate', 'god-form', 'universal'],
+              tags: ['transformation', 'ultimate', 'god form', 'universal'],
               castTime: 1,
               castTimeType: 'IMMEDIATE'
             },
@@ -3425,7 +3424,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 100
+                mana: 40
               },
               actionPoints: 2,
               components: ['verbal', 'somatic']
@@ -3437,7 +3436,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             resolution: 'DICE',
-            tags: ['transformation', 'ultimate', 'god-form', 'universal']
+            tags: ['transformation', 'ultimate', 'god form', 'universal']
           },
 
           {
@@ -3466,7 +3465,7 @@ Many players enhance the Plaguebringer experience with:
             },
 
             damageConfig: {
-              formula: '20d12',
+              formula: '25d6',
               elementType: 'necrotic',
               damageType: 'area',
               savingThrowConfig: {
@@ -3482,9 +3481,9 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 100
+                mana: 38
               },
-              actionPoints: 4,
+              actionPoints: 3,
               components: ['verbal', 'somatic']
             },
 
@@ -3546,7 +3545,7 @@ Many players enhance the Plaguebringer experience with:
             resourceCost: {
               resourceTypes: ['mana'],
               resourceValues: {
-                mana: 80
+                mana: 36
               },
               actionPoints: 3,
               components: ['verbal', 'somatic']

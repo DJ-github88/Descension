@@ -933,7 +933,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '2d6 + intelligence',
+        formula: '1d8 + intelligence',
         elementType: 'psychic',
         damageType: 'direct',
         canCrit: true,
@@ -1712,7 +1712,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       damageConfig: {
-        formula: '8d6 + intelligence',
+        formula: '12d6 + intelligence',
         elementType: 'psychic',
         damageType: 'area',
         savingThrowConfig: {
@@ -2206,7 +2206,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Mind Control',
-        tags: ['debuff', 'lies', 'spirit-reduction', 'universal'],
+        tags: ['debuff', 'lies', 'spirit reduction', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2255,7 +2255,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       resolution: 'DICE',
-      tags: ['debuff', 'lies', 'spirit-reduction', 'universal']
+      tags: ['debuff', 'lies', 'spirit reduction', 'universal']
     },
 
     {
@@ -2387,7 +2387,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       damageConfig: {
-        formula: '3d6',
+        formula: '2d6',
         elementType: 'psychic',
         damageType: 'direct'
       },
@@ -2580,7 +2580,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Mind Control',
-        tags: ['control', 'manipulation', 'mind-control', 'mass', 'universal'],
+        tags: ['control', 'manipulation', 'mind control', 'mass', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2626,7 +2626,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       resolution: 'DICE',
-      tags: ['control', 'manipulation', 'mind-control', 'mass', 'universal']
+      tags: ['control', 'manipulation', 'mind control', 'mass', 'universal']
     },
 
     // ADDITIONAL LEVEL 9 SPELL
@@ -2706,7 +2706,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Mind Control',
-        tags: ['transformation', 'ultimate', 'god-form', 'universal'],
+        tags: ['transformation', 'ultimate', 'god form', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2738,7 +2738,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
         resourceValues: {
           mana: 100
         },
-        actionPoints: 2,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
 
@@ -2748,7 +2748,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       resolution: 'DICE',
-      tags: ['transformation', 'ultimate', 'god-form', 'universal']
+      tags: ['transformation', 'ultimate', 'god form', 'universal']
     }
   ]
 };

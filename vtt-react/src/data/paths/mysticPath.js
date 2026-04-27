@@ -26,9 +26,7 @@ export const MYSTIC_PATH = {
         mechanicalIntegration: 'Energy manipulation and spiritual transcendence.'
     },
 
-    // 3 abilities: 1 PASSIVE, 1 REACTION, 1 ACTION - player picks one of each
     abilities: [
-        // PASSIVE - Spiritual Attunement
         {
             id: 'spiritual_attunement',
             name: 'Spiritual Attunement',
@@ -86,7 +84,6 @@ export const MYSTIC_PATH = {
             resolution: 'DICE',
             visualTheme: 'holy'
         },
-        // REACTION - Spirit Ward
         {
             id: 'spirit_ward',
             name: 'Spirit Ward',
@@ -157,7 +154,7 @@ export const MYSTIC_PATH = {
 
             resourceCost: {
                 resourceTypes: ['mana'],
-                resourceValues: { mana: 8 },
+                resourceValues: { mana: 4 },
                 actionPoints: 0
             },
 
@@ -171,7 +168,6 @@ export const MYSTIC_PATH = {
             resolution: 'DICE',
             visualTheme: 'holy'
         },
-        // ACTION - Soul Drain
         {
             id: 'soul_drain',
             name: 'Soul Drain',
@@ -217,22 +213,16 @@ export const MYSTIC_PATH = {
                 hasShieldEffect: false
             },
 
-            targetingMode: 'effect',
-            effectTargeting: {
-                damage: {
-                    targetingType: 'single',
-                    rangeType: 'ranged',
-                    rangeDistance: 30,
-                    targetRestrictions: ['enemy']
-                },
-                healing: {
-                    targetingType: 'self'
-                }
+            targetingConfig: {
+                targetingType: 'single',
+                rangeType: 'ranged',
+                rangeDistance: 30,
+                targetRestrictions: ['enemy']
             },
 
             resourceCost: {
                 resourceTypes: ['mana'],
-                resourceValues: { mana: 15 },
+                resourceValues: { mana: 4 },
                 actionPoints: 2
             },
 
@@ -249,6 +239,5 @@ export const MYSTIC_PATH = {
     ],
 
     subPaths: {
-        // SubPaths defined in enhancedPathData.js
     }
 };

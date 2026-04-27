@@ -904,7 +904,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['physical', 'damage', 'chain', 'multi-target', 'bladestorm']
+      tags: ['physical', 'damage', 'chain', 'multi target', 'bladestorm']
     },
 
     {
@@ -1031,7 +1031,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['physical', 'damage', 'multi-target', 'ultimate', 'bladestorm']
+      tags: ['physical', 'damage', 'multi target', 'ultimate', 'bladestorm']
     },
 
     // BEASTMASTER - Companion Synergy
@@ -1336,7 +1336,7 @@ Use a die or paper to track companion HP:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '4d8',
+        formula: '3d8',
         elementType: 'slashing',
         damageType: 'direct',
         scalingType: 'none'
@@ -1345,12 +1345,12 @@ Use a die or paper to track companion HP:
       effects: {
         damage: {
           base: {
-            formula: '4d8',
+            formula: '3d8',
             type: 'slashing',
             advantage: 'if_stealthed'
           },
           bonus: {
-            formula: '2d6',
+            formula: '1d6',
             type: 'necrotic',
             condition: 'From stealth or after Shadowstep'
           }
@@ -1365,7 +1365,7 @@ Use a die or paper to track companion HP:
         },
         stealthRequirement: {
           description: 'Deals maximum damage when used from stealth or after Shadowstep',
-          bonusDamage: '+2d6 from Lethal Precision passive'
+          bonusDamage: '+1d6 from Lethal Precision passive'
         }
       },
 
@@ -1439,7 +1439,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['shadow', 'damage', 'multi-target', 'ultimate', 'shadowdancer']
+      tags: ['shadow', 'damage', 'multi target', 'ultimate', 'shadowdancer']
     },
 
     // UNIVERSAL ABILITIES - All Huntresses
@@ -1722,7 +1722,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['physical', 'damage', 'multi-target', 'universal']
+      tags: ['physical', 'damage', 'multi target', 'universal']
     },
 
     // ===== ADDITIONAL SPELLS TO REACH 3 PER LEVEL =====
@@ -1784,7 +1784,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['buff', 'mark', 'companion-synergy', 'universal']
+      tags: ['buff', 'mark', 'companion synergy', 'universal']
     },
 
     // LEVEL 4 (needs 3)
@@ -1905,7 +1905,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['buff', 'companion-synergy', 'enhancement', 'universal']
+      tags: ['buff', 'companion synergy', 'enhancement', 'universal']
     },
 
     {
@@ -2019,7 +2019,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['buff', 'transformation', 'companion-synergy', 'universal']
+      tags: ['buff', 'transformation', 'companion synergy', 'universal']
     },
 
     {
@@ -2120,18 +2120,18 @@ Use a die or paper to track companion HP:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '5d8 + agility',
+        formula: '5d6 + agility',
         damageType: 'slashing'
       },
 
       effects: {
         damage: {
           huntress: {
-            formula: '5d8 + agility',
+            formula: '5d6 + agility',
             type: 'slashing'
           },
           companion: {
-            formula: '4d10 + companion_attack',
+            formula: '3d6 + companion_attack',
             type: 'piercing',
             description: 'Companion attacks immediately with advantage'
           }
@@ -2144,11 +2144,11 @@ Use a die or paper to track companion HP:
           description: 'Costs 3 Quarry Marks to use'
         },
         companionSynergy: {
-          description: 'Companion attacks with advantage and deals +4d10 damage'
+          description: 'Companion attacks with advantage and deals +3d6 damage'
         }
       },
 
-      tags: ['physical', 'damage', 'companion-synergy', 'coordinated', 'universal']
+      tags: ['physical', 'damage', 'companion synergy', 'coordinated', 'universal']
     },
 
     // LEVEL 7 (needs 3)
@@ -2264,7 +2264,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['control', 'fear', 'companion-synergy', 'aoe', 'universal']
+      tags: ['control', 'fear', 'companion synergy', 'aoe', 'universal']
     },
 
     {
@@ -2320,7 +2320,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['physical', 'damage', 'single-target', 'burst', 'universal']
+      tags: ['physical', 'damage', 'single target', 'burst', 'universal']
     },
 
     // LEVEL 8 (needs 3)
@@ -2449,7 +2449,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['transformation', 'buff', 'companion-synergy', 'merge', 'universal']
+      tags: ['transformation', 'buff', 'companion synergy', 'merge', 'universal']
     },
 
     {
@@ -2551,7 +2551,7 @@ Use a die or paper to track companion HP:
 
       resourceCost: {
         mana: 50,
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic']
       },
 
@@ -2576,7 +2576,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['transformation', 'buff', 'legendary', 'companion-synergy', 'universal']
+      tags: ['transformation', 'buff', 'legendary', 'companion synergy', 'universal']
     },
 
     {
@@ -2608,7 +2608,7 @@ Use a die or paper to track companion HP:
 
       resourceCost: {
         mana: 45,
-        actionPoints: 4,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A black diamond worth 5000 gold'
       },
@@ -2616,7 +2616,7 @@ Use a die or paper to track companion HP:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '20d12 + agility * 2',
+        formula: '18d6 + agility * 2',
         damageType: 'necrotic',
         savingThrow: 'Constitution',
         saveDC: 20,
@@ -2625,7 +2625,7 @@ Use a die or paper to track companion HP:
 
       effects: {
         damage: {
-          formula: '20d12 + agility * 2',
+          formula: '18d6 + agility * 2',
           type: 'necrotic',
           save: 'DC 20 Constitution for half damage',
           chain: 'Chains to up to 10 enemies'
@@ -2696,7 +2696,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['passive', 'legendary', 'companion-synergy', 'enhancement', 'universal', 'toggleable']
+      tags: ['passive', 'legendary', 'companion synergy', 'enhancement', 'universal', 'toggleable']
     },
 
     // LEVEL 10 (needs 3)
@@ -2727,7 +2727,7 @@ Use a die or paper to track companion HP:
 
       resourceCost: {
         mana: 70,
-        actionPoints: 5,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The edge of mortality itself, priceless'
       },
@@ -2735,15 +2735,15 @@ Use a die or paper to track companion HP:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '50d20 + agility * 5',
+        formula: '22d6 + agility * 3',
         damageType: 'force'
       },
 
       effects: {
         damage: {
-          formula: '50d20 + agility * 5',
+          formula: '22d6 + agility * 3',
           type: 'force',
-          description: 'Deals 50d20 + agility × 5 force damage that ignores all resistances and immunities'
+          description: 'Deals 22d6 + agility × 3 force damage that ignores all resistances and immunities'
         },
         execute: {
           description: 'If target HP drops below 50% after this attack, target is instantly killed'
@@ -2764,7 +2764,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['physical', 'damage', 'execute', 'legendary', 'single-target', 'universal']
+      tags: ['physical', 'damage', 'execute', 'legendary', 'single target', 'universal']
     },
 
     {
@@ -2796,7 +2796,7 @@ Use a die or paper to track companion HP:
 
       resourceCost: {
         mana: 80,
-        actionPoints: 6,
+        actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of a primal beast, worth 100,000 gold'
       },
@@ -2804,13 +2804,13 @@ Use a die or paper to track companion HP:
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '30d12 + agility * 3',
+        formula: '20d6 + agility * 3',
         damageType: 'nature',
         savingThrow: 'Constitution',
         saveDC: 22,
         saveEffect: 'half',
         dot: {
-          formula: '10d10',
+          formula: '5d6',
           duration: 5,
           tickFrequency: 'round'
         }
@@ -2819,12 +2819,12 @@ Use a die or paper to track companion HP:
       effects: {
         damage: {
           initial: {
-            formula: '30d12 + agility * 3',
+            formula: '20d6 + agility * 3',
             type: 'nature',
             save: 'DC 22 Constitution for half'
           },
           dot: {
-            formula: '10d10 nature per round',
+            formula: '5d6 nature per round',
             duration: 5,
             durationUnit: 'rounds'
           }
@@ -2901,7 +2901,7 @@ Use a die or paper to track companion HP:
         }
       },
 
-      tags: ['passive', 'legendary', 'ascension', 'companion-synergy', 'universal', 'toggleable']
+      tags: ['passive', 'legendary', 'ascension', 'companion synergy', 'universal', 'toggleable']
     }
   ]
 };

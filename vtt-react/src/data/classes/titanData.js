@@ -1101,7 +1101,7 @@ Many players enhance the titan experience with:
         }
       },
 
-      tags: ['ultimate', 'force', 'stun', 'single-target', 'astraeus', 'titan']
+      tags: ['ultimate', 'force', 'stun', 'single target', 'astraeus', 'titan']
     },
 
     // TERRANOX - EARTH TITAN
@@ -1338,7 +1338,7 @@ Many players enhance the titan experience with:
         }
       },
 
-      tags: ['passive', 'lightning', 'attack-speed', 'zephyra', 'titan']
+      tags: ['passive', 'lightning', 'attack speed', 'zephyra', 'titan']
     },
 
     {
@@ -1489,7 +1489,7 @@ Many players enhance the titan experience with:
         }
       },
 
-      tags: ['utility', 'devotion', 'switching', 'astral-warrior', 'titan']
+      tags: ['utility', 'devotion', 'switching', 'astral warrior', 'titan']
     },
 
     // ========================================
@@ -1549,7 +1549,7 @@ Many players enhance the titan experience with:
         value: 2
       },
 
-      tags: ['damage', 'melee', 'devotion', 'level-4', 'titan']
+      tags: ['damage', 'melee', 'devotion', 'level 4', 'titan']
     },
 
     {
@@ -1574,7 +1574,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceValues: { mana: 16 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Armor of the stars!'
@@ -1602,7 +1602,7 @@ Many players enhance the titan experience with:
         value: 4
       },
 
-      tags: ['buff', 'armor', 'protection', 'level-4', 'titan']
+      tags: ['buff', 'armor', 'protection', 'level 4', 'titan']
     },
 
     {
@@ -1659,14 +1659,14 @@ Many players enhance the titan experience with:
         value: 3
       },
 
-      tags: ['debuff', 'taunt', 'control', 'level-4', 'titan']
+      tags: ['debuff', 'taunt', 'control', 'level 4', 'titan']
     },
 
     // ========================================
     // LEVEL 5 SPELLS
     // ========================================
     {
-      id: 'titan_solar_flare',
+      id: 'titan_solar_inferno',
       name: 'Solar Flare',
       description: 'Release a burst of solar energy, dealing fire and radiant damage to all nearby enemies.',
       level: 5,
@@ -1690,7 +1690,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 22 },
+        resourceValues: { mana: 18 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Solara, ignite!'
@@ -1700,7 +1700,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d8 + strength',
+        formula: '6d8 + strength',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -1716,11 +1716,11 @@ Many players enhance the titan experience with:
         value: 3
       },
 
-      tags: ['damage', 'aoe', 'radiant', 'solara', 'level-5', 'titan']
+      tags: ['damage', 'aoe', 'radiant', 'solara', 'level 5', 'titan']
     },
 
     {
-      id: 'titan_lunar_shield',
+      id: 'titan_lunar_sanctuary',
       name: 'Lunar Shield',
       description: 'Create a shield of moonlight that protects allies and heals them over time.',
       level: 5,
@@ -1744,7 +1744,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
+        resourceValues: { mana: 20 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Lunara, protect us!',
@@ -1782,11 +1782,11 @@ Many players enhance the titan experience with:
         value: 4
       },
 
-      tags: ['buff', 'healing', 'protection', 'lunara', 'level-5', 'titan']
+      tags: ['buff', 'healing', 'protection', 'lunara', 'level 5', 'titan']
     },
 
     {
-      id: 'titan_starfall',
+      id: 'titan_meteor_strike',
       name: 'Starfall',
       description: 'Call down a meteor of starlight on an area, dealing massive force damage.',
       level: 5,
@@ -1810,7 +1810,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 20 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Stars, fall!',
@@ -1821,7 +1821,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d10 + strength',
+        formula: '8d6 + strength',
         elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
@@ -1837,14 +1837,14 @@ Many players enhance the titan experience with:
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'force', 'astraeus', 'level-5', 'titan']
+      tags: ['damage', 'aoe', 'force', 'astraeus', 'level 5', 'titan']
     },
 
     // ========================================
     // LEVEL 6 SPELLS
     // ========================================
     {
-      id: 'titan_earthquake',
+      id: 'titan_tectonic_upheaval',
       name: 'Earthquake',
       description: 'Cause the ground to shake violently, knocking enemies prone and creating difficult terrain.',
       level: 6,
@@ -1868,7 +1868,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 32 },
+        resourceValues: { mana: 22 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Terranox, shake the earth!',
@@ -1879,7 +1879,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '4d8 + strength',
+        formula: '8d6 + strength',
         elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
@@ -1917,7 +1917,7 @@ Many players enhance the titan experience with:
         value: 4
       },
 
-      tags: ['damage', 'control', 'zone', 'terranox', 'level-6', 'titan']
+      tags: ['damage', 'control', 'zone', 'terranox', 'level 6', 'titan']
     },
 
     {
@@ -1946,7 +1946,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 35 },
+        resourceValues: { mana: 24 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Zephyra, storm!'
@@ -1956,7 +1956,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage', 'buff'],
 
       damageConfig: {
-        formula: '6d8 + strength',
+        formula: '8d6 + strength',
         elementType: 'lightning',
         damageType: 'direct',
         savingThrowConfig: {
@@ -1984,7 +1984,7 @@ Many players enhance the titan experience with:
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'lightning', 'zephyra', 'level-6', 'titan']
+      tags: ['damage', 'aoe', 'lightning', 'zephyra', 'level 6', 'titan']
     },
 
     {
@@ -2009,7 +2009,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 30 },
+        resourceValues: { mana: 22 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Celestials, converge!'
@@ -2037,7 +2037,7 @@ Many players enhance the titan experience with:
         value: 5
       },
 
-      tags: ['buff', 'devotion', 'dual', 'level-6', 'titan']
+      tags: ['buff', 'devotion', 'dual', 'level 6', 'titan']
     },
 
     // ========================================
@@ -2065,7 +2065,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 28 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'SOLARA, EMBODY ME!'
@@ -2101,7 +2101,7 @@ Many players enhance the titan experience with:
         value: 6
       },
 
-      tags: ['transformation', 'solara', 'fire', 'level-7', 'titan']
+      tags: ['transformation', 'solara', 'fire', 'level 7', 'titan']
     },
 
     {
@@ -2129,7 +2129,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 28 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Lunara, bless us!',
@@ -2165,7 +2165,7 @@ Many players enhance the titan experience with:
         value: 5
       },
 
-      tags: ['healing', 'buff', 'lunara', 'level-7', 'titan']
+      tags: ['healing', 'buff', 'lunara', 'level 7', 'titan']
     },
 
     {
@@ -2194,7 +2194,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 28 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Astraeus, meteors!',
@@ -2205,7 +2205,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + strength',
+        formula: '12d6 + strength',
         elementType: 'force',
         damageType: 'area',
         savingThrowConfig: {
@@ -2231,7 +2231,7 @@ Many players enhance the titan experience with:
         value: 5
       },
 
-      tags: ['damage', 'aoe', 'astraeus', 'level-7', 'titan']
+      tags: ['damage', 'aoe', 'astraeus', 'level 7', 'titan']
     },
 
     // ========================================
@@ -2259,7 +2259,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 30 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'TERRANOX, FORTRESS!'
@@ -2297,7 +2297,7 @@ Many players enhance the titan experience with:
         value: 6
       },
 
-      tags: ['transformation', 'terranox', 'defense', 'level-8', 'titan']
+      tags: ['transformation', 'terranox', 'defense', 'level 8', 'titan']
     },
 
     {
@@ -2325,7 +2325,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 60 },
+        resourceValues: { mana: 32 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'ZEPHYRA, STORM LORD!'
@@ -2361,7 +2361,7 @@ Many players enhance the titan experience with:
         value: 5
       },
 
-      tags: ['damage', 'control', 'lightning', 'zephyra', 'level-8', 'titan']
+      tags: ['damage', 'control', 'lightning', 'zephyra', 'level 8', 'titan']
     },
 
     {
@@ -2388,7 +2388,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 55 },
+        resourceValues: { mana: 30 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'CELESTIALS, JUDGE THIS ONE!'
@@ -2398,7 +2398,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d10 + strength * 2',
+        formula: '14d6 + strength',
         elementType: 'radiant',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2424,7 +2424,7 @@ Many players enhance the titan experience with:
         value: 5
       },
 
-      tags: ['damage', 'radiant', 'single-target', 'level-8', 'titan']
+      tags: ['damage', 'radiant', 'single target', 'level 8', 'titan']
     },
 
     // ========================================
@@ -2452,7 +2452,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 35 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'I BECOME THE CELESTIAL!'
@@ -2488,7 +2488,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['transformation', 'ultimate', 'devotion', 'level-9', 'titan']
+      tags: ['transformation', 'ultimate', 'devotion', 'level 9', 'titan']
     },
 
     {
@@ -2517,7 +2517,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 80 },
+        resourceValues: { mana: 36 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'ALL CELESTIALS, STRIKE!',
@@ -2528,7 +2528,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d10 radiant + 5d10 fire + 5d10 lightning + 5d10 cold + 5d10 force',
+        formula: '3d6 radiant + 3d6 fire + 3d6 lightning + 3d6 cold + 3d6 force + strength',
         elementType: 'mixed',
         damageType: 'area',
         savingThrowConfig: {
@@ -2553,7 +2553,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'ultimate', 'level-9', 'titan']
+      tags: ['damage', 'aoe', 'ultimate', 'level 9', 'titan']
     },
 
     {
@@ -2581,7 +2581,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 35 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'CELESTIALS, PROTECT US!'
@@ -2607,7 +2607,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['buff', 'protection', 'reaction', 'level-9', 'titan']
+      tags: ['buff', 'protection', 'reaction', 'level 9', 'titan']
     },
 
     // ========================================
@@ -2616,7 +2616,7 @@ Many players enhance the titan experience with:
     {
       id: 'titan_celestial_fusion',
       name: 'Celestial Fusion',
-      description: 'Fuse with ALL celestials at once, becoming an avatar of cosmic power beyond comprehension.',
+      description: 'Fuse with all celestials at once, becoming an avatar of cosmic power.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Radiance',
@@ -2635,7 +2635,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'ALL CELESTIALS, FUSE WITH ME!'
@@ -2674,7 +2674,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['transformation', 'ultimate', 'all-celestials', 'level-10', 'titan']
+      tags: ['transformation', 'ultimate', 'all celestials', 'level 10', 'titan']
     },
 
     {
@@ -2702,7 +2702,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'APOCALYPSE!',
@@ -2713,7 +2713,7 @@ Many players enhance the titan experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '20d10 + strength * 3',
+        formula: '22d6 + strength',
         elementType: 'mixed',
         damageType: 'area',
         savingThrowConfig: {
@@ -2735,7 +2735,7 @@ Many players enhance the titan experience with:
 
       specialMechanics: {
         apocalypse: {
-          description: 'The battlefield is devastated. All enemies take 20d10 + strength × 3 mixed damage. Terrain is transformed into difficult terrain.',
+          description: 'The battlefield is devastated. All enemies take 22d6 + strength mixed damage. Terrain is transformed into difficult terrain.',
           aftermath: 'Creates difficult terrain in the entire area for 1 hour'
         }
       },
@@ -2745,7 +2745,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'ultimate', 'level-10', 'titan']
+      tags: ['damage', 'aoe', 'ultimate', 'level 10', 'titan']
     },
 
     {
@@ -2773,7 +2773,7 @@ Many players enhance the titan experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 40 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'CELESTIALS, GRANT REBIRTH!',
@@ -2801,7 +2801,7 @@ Many players enhance the titan experience with:
         value: 1
       },
 
-      tags: ['healing', 'resurrection', 'ultimate', 'level-10', 'titan']
+      tags: ['healing', 'resurrection', 'ultimate', 'level 10', 'titan']
     }
   ]
 };

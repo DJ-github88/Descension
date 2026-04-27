@@ -4,6 +4,7 @@
  */
 
 const Joi = require('joi');
+const logger = require('./logger');
 
 // Validation schemas for different socket events
 const validationSchemas = {
@@ -239,7 +240,7 @@ function createValidationMiddleware(options = {}) {
           clientErrorCounts.set(clientId, errorCount + 1);
 
           if (logErrors) {
-            console.warn(`⚠️ Socket validation failed for event '${event}' from client ${clientId}:`, validation.errors);
+            logger.warn(`Socket validation failed for event '${event}' from client ${clientId}:`, validation.errors);
           }
 
           // Send validation error to client
@@ -251,7 +252,7 @@ function createValidationMiddleware(options = {}) {
 
           // Disconnect client if too many validation errors or in strict mode
           if (strictMode || errorCount >= maxErrorsPerMinute) {
-            console.error(`🚫 Disconnecting client ${clientId} due to validation errors`);
+            logger.error(`Disconnecting client ${clientId} due to validation errors`);
             socket.disconnect(true);
             return;
           }
@@ -263,7 +264,7 @@ function createValidationMiddleware(options = {}) {
         try {
           await handler(validation.value);
         } catch (error) {
-          console.error(`Error in socket handler for event '${event}':`, error);
+          logger.error(`Error in socket handler for event '${event}':`, error);
           socket.emit('error', {
             message: 'Internal server error',
             event: event
