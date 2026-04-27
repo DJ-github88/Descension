@@ -770,7 +770,7 @@ Many players enhance the dreadnaught experience with:
         ],
         
         specPassive: {
-          name: 'Soul Harvest',
+          name: 'Death Mark',
           description: 'Wraith Strike heals for 50% of necrotic damage dealt. Generate 1 DRP when dealing necrotic damage. Gain 1 DRP per 4 damage taken instead of per 5.'
         }
       },
@@ -813,21 +813,75 @@ Many players enhance the dreadnaught experience with:
     ]
   },
   
-  // Example Spells - organized by level, showcasing DRP system
-  exampleSpells: [
+  // Spells - organized by level, showcasing DRP system
+  spells: [
     // ========================================
-    // LEVEL 1 SPELLS
+    // LEVEL 1 SPELLS — Core Survivability
+    // The bedrock of what makes a Dreadnaught: take damage, grow stronger, refuse to die.
     // ========================================
+
+    {
+      id: 'dread_dark_rebirth',
+      name: 'Dark Rebirth',
+      description: 'A pact with darkness etched into your very soul. When you are reduced to 0 hit points, the shadows reject your death — you automatically spend all remaining DRP to claw yourself back from oblivion, regaining hit points equal to twice the DRP consumed. The darker the pact, the greater the recovery.',
+      level: 1,
+      spellType: 'PASSIVE',
+      icon: 'Necrotic/Resurrect',
+      school: 'Necromancy',
+
+      typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Resurrect',
+
+        tags: ['passive', 'revival', 'core mechanic', 'drp', 'starter'],
+        castTime: 0,
+        castTimeType: 'PASSIVE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        useFormulas: {},
+        actionPoints: 0,
+        components: []
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['restoration'],
+
+      revivalConfig: {
+        trigger: 'death',
+        healingAmount: '2 * drpSpent',
+        resourceCost: 'all_drp',
+        description: 'Automatically triggers at 0 HP. Spends all DRP and restores HP equal to 2× DRP consumed.'
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'revival', 'core mechanic', 'drp', 'starter', 'level 1', 'dreadnaught']
+    },
+
     {
       id: 'dread_shadow_shield',
       name: 'Shadow Shield',
-      description: 'Create a shield of dark energy that absorbs damage equal to twice the DRP spent.',
+      description: 'You reach into the dark reservoir within you and shape it into a barrier of solidified shadow. The more pain you have endured, the thicker the shield — spend DRP freely to determine its strength. The barrier absorbs incoming damage equal to twice the DRP invested, then shatters in a cascade of dissipating darkness.',
       level: 1,
       spellType: 'REACTION',
-      icon: 'Radiant/Radiant Divinity',
+      icon: 'Void/Consumed by Void',
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Consumed by Void',
+
+        tags: ['defense', 'shield', 'absorption', 'drp', 'reaction', 'starter'],
         castTime: 1,
         castTimeType: 'REACTION'
       },
@@ -843,7 +897,7 @@ Many players enhance the dreadnaught experience with:
         useFormulas: {},
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Raise hand to summon shadow barrier'
+        somaticText: 'Raise hand, shadows coalesce into a protective barrier'
       },
 
       resolution: 'NONE',
@@ -854,7 +908,7 @@ Many players enhance the dreadnaught experience with:
         effects: [{
           id: 'shadow_shield_absorption',
           name: 'Shadow Shield',
-          description: 'Absorbs damage equal to 2× DRP spent',
+          description: 'Absorbs damage equal to 2× DRP spent. DRP generation still occurs from absorbed damage.',
           tempHPFormula: '2 * drpSpent',
           tempHPType: 'absorption'
         }],
@@ -865,19 +919,27 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['defense', 'shield', 'absorption', 'drp', 'level-1', 'dreadnaught']
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['defense', 'shield', 'absorption', 'drp', 'reaction', 'starter', 'level 1', 'dreadnaught']
     },
 
     {
       id: 'dread_dark_resistance',
       name: 'Dark Resistance',
-      description: 'While you have at least 10 DRP, gain resistance to one damage type of your choice.',
+      description: 'The darkness within you hardens against the world\'s pain. While you carry at least 10 Dark Resilience Points, the shadow-pact grants you resistance to one damage type of your choice. When the enemy shifts tactics, you may spend 1 AP to redirect your resistance to meet them. Pain cannot break what pain has forged.',
       level: 1,
       spellType: 'PASSIVE',
-      icon: 'Radiant/Radiant Divinity',
+      icon: 'Void/Void Tendrils',
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Void Tendrils',
+
+        tags: ['passive', 'resistance', 'defense', 'drp', 'starter'],
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -903,7 +965,7 @@ Many players enhance the dreadnaught experience with:
         effects: [{
           id: 'dark_resistance_passive',
           name: 'Dark Resistance',
-          description: 'Gain resistance to one damage type of your choice (requires 10+ DRP)',
+          description: 'Gain resistance to one damage type of your choice (requires 10+ DRP). Spend 1 AP to switch resistance type.',
           statModifier: {
             stat: 'damageResistance',
             magnitude: 1,
@@ -917,19 +979,27 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['passive', 'resistance', 'defense', 'drp', 'level-1', 'dreadnaught']
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'resistance', 'defense', 'drp', 'starter', 'level 1', 'dreadnaught']
     },
 
     {
       id: 'dread_dark_regeneration',
       name: 'Dark Regeneration',
-      description: 'Regenerate hit points based on your DRP at the start of each turn.',
+      description: 'Dark energy seeps into your wounds, knitting flesh with shadow. At the start of each turn, your accumulated pain converts into healing — the more DRP you carry, the faster the darkness repairs you. At 10 DRP it whispers; at 50, it roars.',
       level: 1,
       spellType: 'PASSIVE',
-      icon: 'Necrotic/Drain Soul',
+      icon: 'Necrotic/Blood Skull',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Blood Skull',
+
+        tags: ['passive', 'healing', 'regeneration', 'drp', 'starter'],
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -951,15 +1021,20 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: 'DRP / 10',
+        formula: 'floor(DRP / 10)',
         healingType: 'hot',
         hasHotEffect: true,
-        hotFormula: 'DRP / 10',
+        hotFormula: 'floor(DRP / 10)',
         hotDuration: 999,
-        hotTickType: 'turn'
+        hotTickType: 'turn',
+        notes: '1 HP/turn at 10 DRP, scaling to 5 HP/turn at 50 DRP'
       },
 
-      tags: ['passive', 'healing', 'regeneration', 'drp', 'level-1', 'dreadnaught']
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['passive', 'healing', 'regeneration', 'drp', 'starter', 'level 1', 'dreadnaught']
     },
 
     // ========================================
@@ -975,14 +1050,24 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Necrotic Strike',
+
+        tags: ["damage","necrotic","melee","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
+        rangeDistance: 5,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
       },
 
       resourceCost: {
@@ -1005,7 +1090,7 @@ Many players enhance the dreadnaught experience with:
         critMultiplier: 2
       },
 
-      tags: ['damage', 'necrotic', 'melee', 'drp', 'level-2', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'melee', 'drp', 'level 2', 'dreadnaught']
     },
 
     {
@@ -1018,8 +1103,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Drain Soul',
+
+        tags: ["damage","healing","necrotic","touch","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingMode: 'effect',
@@ -1066,7 +1159,7 @@ Many players enhance the dreadnaught experience with:
         hasHotEffect: false
       },
 
-      tags: ['damage', 'healing', 'necrotic', 'touch', 'drp', 'level-2', 'dreadnaught']
+      tags: ['damage', 'healing', 'necrotic', 'touch', 'drp', 'level 2', 'dreadnaught']
     },
 
     {
@@ -1079,8 +1172,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Void Tendrils',
+
+        tags: ["buff","armor","defense","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1120,7 +1221,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['buff', 'ac', 'defense', 'drp', 'level-2', 'dreadnaught']
+      tags: ['buff', 'ac', 'defense', 'drp', 'level 2', 'dreadnaught']
     },
 
     // ========================================
@@ -1136,8 +1237,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Death Mark',
+
+        tags: ["damage","necrotic","aoe","aura","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1162,27 +1271,35 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6 + spirit',
+        formula: '3d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false
       },
 
-      tags: ['damage', 'necrotic', 'aoe', 'drp', 'level-3', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'aoe', 'drp', 'level 3', 'dreadnaught']
     },
 
     {
       id: 'dread_blood_to_shadow',
       name: 'Blood to Shadow',
-      description: 'Convert your own hit points into Dark Resilience Points. You channel your life force into shadowy energy, transforming physical vitality into dark power. The conversion is painful but necessary, trading immediate health for lasting resilience.',
+      description: 'Convert your own hit points into Dark Resilience Points at a 5:1 ratio.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Necrotic/Blood Skull',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Blood Skull',
+
+        tags: ["resource gain","drp","health conversion"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1212,7 +1329,7 @@ Many players enhance the dreadnaught experience with:
         }]
       },
 
-      tags: ['resource-gain', 'drp', 'health', 'level-3', 'dreadnaught']
+      tags: ['resource gain', 'drp', 'health', 'level 3', 'dreadnaught']
     },
 
     {
@@ -1225,8 +1342,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Void Shield',
+
+        tags: ["buff","resistance","protection","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1276,7 +1401,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['buff', 'resistance', 'protection', 'drp', 'level-3', 'dreadnaught']
+      tags: ['buff', 'resistance', 'protection', 'drp', 'level 3', 'dreadnaught']
     },
 
     // ========================================
@@ -1292,14 +1417,24 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Vampiric Touch',
+
+        tags: ["damage","healing","necrotic","melee","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
-        rangeDistance: 5
+        rangeDistance: 5,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
       },
 
       resourceCost: {
@@ -1315,7 +1450,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '3d8 + spirit',
+        formula: '5d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: true,
@@ -1328,7 +1463,7 @@ Many players enhance the dreadnaught experience with:
         hasHotEffect: false
       },
 
-      tags: ['damage', 'healing', 'necrotic', 'melee', 'drp', 'level-4', 'dreadnaught']
+      tags: ['damage', 'healing', 'necrotic', 'melee', 'drp', 'level 4', 'dreadnaught']
     },
 
     {
@@ -1337,18 +1472,28 @@ Many players enhance the dreadnaught experience with:
       description: 'Drain the soul essence from an enemy, dealing massive necrotic damage and gaining DRP.',
       level: 4,
       spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
+      icon: 'Necrotic/Skull Staff',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Drain Soul',
+
+        tags: ["damage","resource gain","necrotic","ranged","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
       },
 
       resourceCost: {
@@ -1365,7 +1510,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'buff'],
 
       damageConfig: {
-        formula: '4d6 + spirit',
+        formula: '6d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false
@@ -1379,7 +1524,7 @@ Many players enhance the dreadnaught experience with:
         }]
       },
 
-      tags: ['damage', 'resource-gain', 'necrotic', 'ranged', 'drp', 'level-4', 'dreadnaught']
+      tags: ['damage', 'resource gain', 'necrotic', 'ranged', 'drp', 'level 4', 'dreadnaught']
     },
 
     {
@@ -1392,8 +1537,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Necrotic Wither 1',
+
+        tags: ["buff","strength","necrotic","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1445,7 +1598,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['buff', 'strength', 'damage', 'necrotic', 'drp', 'level-4', 'dreadnaught']
+      tags: ['buff', 'strength', 'damage', 'necrotic', 'drp', 'level 4', 'dreadnaught']
     },
 
     // ========================================
@@ -1461,8 +1614,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Necrotic Wither 2',
+
+        tags: ["buff","resistance","healing","necrotic","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1494,7 +1655,7 @@ Many players enhance the dreadnaught experience with:
               stat: 'damageResistance',
               magnitude: 1,
               magnitudeType: 'flat',
-              damageTypes: ['necrotic']
+              damageTypes: ['slashing','piercing','bludgeoning','fire','cold','lightning','acid','thunder','necrotic','radiant','psychic','poison','force']
             }
           },
           {
@@ -1515,21 +1676,29 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['buff', 'resistance', 'healing', 'necrotic', 'drp', 'level-5', 'dreadnaught']
+      tags: ['buff', 'resistance', 'healing', 'necrotic', 'drp', 'level 5', 'dreadnaught']
     },
 
     {
       id: 'dread_necrotic_wave',
       name: 'Necrotic Wave',
-      description: 'Send out a wave of necrotic energy that damages and weakens enemies. The dark energy flows in a line, corrupting everything it touches. Those struck find their resistance to necrotic magic compromised, making them vulnerable to further dark effects.',
+      description: 'Send a line of necrotic energy that damages enemies and inflicts necrotic weakness.',
       level: 5,
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Necrotic Wave',
+
+        tags: ["damage","debuff","necrotic","aoe","line","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1554,7 +1723,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '4d6 + spirit',
+        formula: '6d8 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false
@@ -1580,7 +1749,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: true
       },
 
-      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'line', 'drp', 'level-5', 'dreadnaught']
+      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'line', 'drp', 'level 5', 'dreadnaught']
     },
 
     {
@@ -1593,8 +1762,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Void Shield',
+
+        tags: ["defense","reflection","necrotic","drp","reaction"],
         castTime: 1,
         castTimeType: 'REACTION'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1632,7 +1809,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['defense', 'reflection', 'damage', 'necrotic', 'drp', 'level-5', 'dreadnaught']
+      tags: ['defense', 'reflection', 'damage', 'necrotic', 'drp', 'level 5', 'dreadnaught']
     },
 
     // ========================================
@@ -1641,16 +1818,16 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_shadow_step',
       name: 'Shadow Step',
-      description: 'Dissolve into shadows and teleport up to 30 feet to an unoccupied space. Shadows linger at your departure and arrival points, creating areas of darkness that obscure vision and slow movement.',
+      description: 'Dissolve into shadows and teleport up to 30 feet. Shadows linger at departure and arrival points, obscuring vision.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Utility/Phantom Dash',
       school: 'Conjuration',
 
       typeConfig: {
-        school: 'shadow',
+        school: 'conjuration',
         icon: 'Utility/Phantom Dash',
-        tags: ['movement', 'teleport', 'shadow', 'utility', 'debuff', 'area'],
+        tags: ["movement","teleport","shadow","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1723,7 +1900,7 @@ Many players enhance the dreadnaught experience with:
         value: 0
       },
 
-      tags: ['movement', 'teleport', 'shadow', 'drp', 'level-6', 'dreadnaught']
+      tags: ['movement', 'teleport', 'shadow', 'drp', 'level 6', 'dreadnaught']
     },
 
     {
@@ -1736,14 +1913,24 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Drain Soul',
+
+        tags: ["damage","debuff","necrotic","healing prevention","ranged","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 60
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
       },
 
       resourceCost: {
@@ -1760,7 +1947,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '5d8 + spirit',
+        formula: '8d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: true,
@@ -1779,13 +1966,13 @@ Many players enhance the dreadnaught experience with:
           }
         }],
         durationValue: 1,
-        durationType: 'hours',
-        durationUnit: 'hours',
+        durationType: 'minutes',
+        durationUnit: 'minutes',
         concentrationRequired: false,
         canBeDispelled: true
       },
 
-      tags: ['damage', 'debuff', 'necrotic', 'healing-prevention', 'ranged', 'drp', 'level-6', 'dreadnaught']
+      tags: ['damage', 'debuff', 'necrotic', 'healing prevention', 'ranged', 'drp', 'level 6', 'dreadnaught']
     },
 
     {
@@ -1798,8 +1985,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Consumed by Void',
+
+        tags: ["damage","debuff","necrotic","aoe","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1824,7 +2019,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'buff'],
 
       damageConfig: {
-        formula: '3d6 + spirit',
+        formula: '8d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
@@ -1851,7 +2046,7 @@ Many players enhance the dreadnaught experience with:
         targetRestrictions: ['undead', 'ally']
       },
 
-      tags: ['damage', 'buff', 'necrotic', 'aoe', 'undead', 'drp', 'level-6', 'dreadnaught']
+      tags: ['damage', 'buff', 'necrotic', 'aoe', 'undead', 'drp', 'level 6', 'dreadnaught']
     },
 
     // ========================================
@@ -1867,8 +2062,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Consumed by Void',
+
+        tags: ["damage","debuff","terrain","darkness","necrotic","aoe","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -1881,7 +2084,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 60 },
+        resourceValues: { drp: 40 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
@@ -1894,11 +2097,11 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '4d6 + spirit',
+        formula: '10d6 + spirit',
         elementType: 'necrotic',
         damageType: 'hot',
         hasHotEffect: true,
-        hotFormula: '2d6 + spirit',
+        hotFormula: '5d6 + spirit',
         hotDuration: 1,
         hotTickType: 'turn',
         canCrit: false,
@@ -1952,19 +2155,23 @@ Many players enhance the dreadnaught experience with:
         durationUnit: 'minutes'
       },
 
-      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'drp', 'level-7', 'dreadnaught']
+      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'drp', 'level 7', 'dreadnaught']
     },
 
     {
       id: 'dread_soul_harvest',
       name: 'Soul Harvest',
-      description: 'Harvest souls from defeated enemies, gaining massive DRP and temporary undead minions.',
+      description: 'You brand an enemy with a shadowed mark that hungers for pain. Each time the marked target deals damage to you, you gain bonus DRP equal to half the damage dealt — turning their aggression into your power. The mark persists for 1 minute or until the target is slain.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Utility/All Seeing Eye',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Death Mark',
+
+        tags: ["debuff","drp","resource gain","necrotic","aoe"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1979,7 +2186,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 70 },
+        resourceValues: { drp: 45 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -2011,7 +2218,7 @@ Many players enhance the dreadnaught experience with:
         }
       },
 
-      tags: ['resource-gain', 'summon', 'undead', 'aoe', 'drp', 'level-7', 'dreadnaught']
+      tags: ['resource gain', 'summon', 'undead', 'aoe', 'drp', 'level 7', 'dreadnaught']
     },
 
     {
@@ -2024,8 +2231,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Black Hole',
+
+        tags: ["damage","necrotic","aoe","cone","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2038,11 +2253,11 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 80 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Vacuum Eruptio!',
+        verbalText: 'Tenebra Eruptio!',
         somaticText: 'Void energy explodes outward'
       },
 
@@ -2050,7 +2265,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d8 + spirit',
+        formula: '12d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
@@ -2059,7 +2274,7 @@ Many players enhance the dreadnaught experience with:
         halfDamage: true
       },
 
-      tags: ['damage', 'necrotic', 'aoe', 'cone', 'save', 'drp', 'level-7', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'aoe', 'cone', 'save', 'drp', 'level 7', 'dreadnaught']
     },
 
     // ========================================
@@ -2075,8 +2290,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Abjuration',
 
       typeConfig: {
+        school: 'abjuration',
+        icon: 'Void/Consumed by Void',
+
+        tags: ["buff","transformation","immunity","resistance","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2086,7 +2309,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 100 },
+        resourceValues: { drp: 45 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -2114,12 +2337,12 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'immortal_fortress_resistance',
             name: 'Fortress Resistance',
-            description: 'Resistance to all other damage types',
+            description: 'Resistance to all damage types not already immune (slashing, piercing, bludgeoning, fire, cold, lightning, acid, thunder, radiant, force)',
             statModifier: {
               stat: 'damageResistance',
               magnitude: 1,
               magnitudeType: 'flat',
-              damageTypes: ['necrotic']
+              damageTypes: ['slashing','piercing','bludgeoning','fire','cold','lightning','acid','thunder','radiant','force']
             }
           }
         ],
@@ -2146,7 +2369,7 @@ Many players enhance the dreadnaught experience with:
         ]
       },
 
-      tags: ['buff', 'transformation', 'immunity', 'resistance', 'drp', 'level-8', 'dreadnaught']
+      tags: ['buff', 'transformation', 'immunity', 'resistance', 'drp', 'level 8', 'dreadnaught']
     },
 
     {
@@ -2159,8 +2382,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Psionic Strike',
+
+        tags: ["damage","healing","necrotic","aoe","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2173,7 +2404,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 90 },
+        resourceValues: { drp: 40 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -2185,7 +2416,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '5d8 + spirit',
+        formula: '13d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
@@ -2200,7 +2431,7 @@ Many players enhance the dreadnaught experience with:
         hasHotEffect: false
       },
 
-      tags: ['damage', 'healing', 'necrotic', 'aoe', 'save', 'drp', 'level-8', 'dreadnaught']
+      tags: ['damage', 'healing', 'necrotic', 'aoe', 'save', 'drp', 'level 8', 'dreadnaught']
     },
 
     {
@@ -2213,8 +2444,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Black Hole',
+
+        tags: ["damage","debuff","necrotic","aoe","fear","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2227,7 +2466,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 120 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
@@ -2240,7 +2479,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '8d6 + spirit',
+        formula: '15d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
@@ -2280,7 +2519,7 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'fear', 'save', 'drp', 'level-8', 'dreadnaught']
+      tags: ['damage', 'debuff', 'necrotic', 'aoe', 'fear', 'save', 'drp', 'level 8', 'dreadnaught']
     },
 
     // ========================================
@@ -2296,8 +2535,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Consumed by Void',
+
+        tags: ["damage","debuff","terrain","darkness","necrotic","aoe","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2310,7 +2557,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 150 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
@@ -2323,7 +2570,7 @@ Many players enhance the dreadnaught experience with:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '10d6 + spirit',
+        formula: '16d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
@@ -2337,7 +2584,7 @@ Many players enhance the dreadnaught experience with:
         },
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: '2d6',
+          dotFormula: '4d6',
           duration: 24,
           tickFrequency: 'turn',
           isProgressiveDot: false,
@@ -2380,21 +2627,29 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'save', 'drp', 'level-9', 'dreadnaught']
+      tags: ['damage', 'debuff', 'terrain', 'darkness', 'necrotic', 'aoe', 'save', 'drp', 'level 9', 'dreadnaught']
     },
 
     {
       id: 'dread_cosmic_devourer',
-      name: 'Cosmic Devourer',
-      description: 'Transform into a cosmic entity that devours everything in its path.',
+      name: 'Void Incarnate',
+      description: 'You surrender to the void within, allowing the darkness to consume your physical form entirely. You become a living shadow — incorporeal, ravenous, and terrifying. For a brief window, you are not a warrior. You are the darkness itself.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Psychic/Mind Beam',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Black Hole',
+
+        tags: ["transformation","damage","necrotic","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2404,7 +2659,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 200 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -2432,14 +2687,14 @@ Many players enhance the dreadnaught experience with:
       },
 
       damageConfig: {
-        formula: '12d6 + spirit',
+        formula: '18d6 + spirit',
         elementType: 'necrotic',
         damageType: 'direct',
         canCrit: false,
         trigger: 'devour_attack'
       },
 
-      tags: ['transformation', 'damage', 'necrotic', 'devour', 'drp', 'level-9', 'dreadnaught']
+      tags: ['transformation', 'damage', 'necrotic', 'devour', 'drp', 'level 9', 'dreadnaught']
     },
 
     // ========================================
@@ -2482,7 +2737,7 @@ Many players enhance the dreadnaught experience with:
         description: 'Revive at 0 HP, healing for 2× total DRP spent'
       },
 
-      tags: ['restoration', 'healing', 'drp', 'passive', 'level-10', 'dreadnaught']
+      tags: ['restoration', 'healing', 'drp', 'passive', 'level 10', 'dreadnaught']
     },
 
     {
@@ -2495,8 +2750,16 @@ Many players enhance the dreadnaught experience with:
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Necrotic/Empowering Aura',
+
+        tags: ["buff","retaliation","necrotic","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2506,7 +2769,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 100 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -2524,7 +2787,7 @@ Many players enhance the dreadnaught experience with:
           name: 'Spirit Retribution',
           description: 'Spirits deal necrotic damage equal to damage taken back at attacker',
           retaliationDamage: {
-            formula: 'damage_taken',
+            formula: 'Math.floor(damage_taken * 0.5)',
             elementType: 'necrotic',
             damageType: 'direct'
           }
@@ -2536,21 +2799,29 @@ Many players enhance the dreadnaught experience with:
         canBeDispelled: false
       },
 
-      tags: ['buff', 'retaliation', 'damage', 'necrotic', 'drp', 'level-10', 'dreadnaught']
+      tags: ['buff', 'retaliation', 'damage', 'necrotic', 'drp', 'level 10', 'dreadnaught']
     },
 
     {
       id: 'dread_cosmic_annihilation',
-      name: 'Cosmic Annihilation',
-      description: 'Unleash the ultimate power of darkness, annihilating everything within range.',
+      name: 'Void Annihilation',
+      description: 'You become the void itself — a yawning darkness that swallows all light, life, and hope in range. Targets that fail their save are not merely harmed; they are unmade, their essence dissolving into the darkness that feeds you.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Psychic/Psionic Boom',
       school: 'Necromancy',
 
       typeConfig: {
+        school: 'necromancy',
+        icon: 'Void/Black Hole',
+
+        tags: ["damage","necrotic","aoe","ultimate","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
+      },
+
+      cooldownConfig: {
+        type: 'none'
       },
 
       targetingConfig: {
@@ -2563,7 +2834,7 @@ Many players enhance the dreadnaught experience with:
 
       resourceCost: {
         resourceTypes: ['drp'],
-        resourceValues: { drp: 500 },
+        resourceValues: { drp: 50 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
@@ -2573,7 +2844,7 @@ Many players enhance the dreadnaught experience with:
       },
 
       resolution: 'DICE',
-      effectTypes: ['damage', 'damage'],
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '20d6 + spirit',
@@ -2593,7 +2864,7 @@ Many players enhance the dreadnaught experience with:
         saveDC: '8 + proficiency + spirit_mod'
       },
 
-      tags: ['damage', 'damage', 'necrotic', 'aoe', 'ultimate', 'save', 'drp', 'level-10', 'dreadnaught']
+      tags: ['damage', 'necrotic', 'aoe', 'ultimate', 'save', 'drp', 'level 10', 'dreadnaught']
     },
 
     // ADDITIONAL LEVEL 9 SPELL
@@ -2607,8 +2878,8 @@ Many players enhance the dreadnaught experience with:
 
       typeConfig: {
         school: 'necromancy',
-        icon: 'Necrotic/Spectral Summoning',
-        tags: ['damage', 'necrotic', 'execute', 'ultimate', 'dreadnaught'],
+        icon: 'Necrotic/Necrotic Wither 2',
+        tags: ["damage","necrotic","execute","ultimate","drp"],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
