@@ -162,7 +162,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Lava',
         category: 'hazard',
         color: '#ff4500',
-        texture: '/assets/terrain/lava.png',
+        tileVariations: ['/assets/tiles/Lava1.png'],
         movementCost: 99,
         damage: '2d6 fire',
         description: 'Molten lava - extremely dangerous'
@@ -172,7 +172,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Acid Pool',
         category: 'hazard',
         color: '#32cd32',
-        texture: '/assets/terrain/acid.png',
+        tileVariations: ['/assets/tiles/Acid1.png'],
         movementCost: 99,
         damage: '1d6 acid',
         description: 'Corrosive acid pool'
@@ -182,7 +182,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Pit',
         category: 'hazard',
         color: '#2f2f2f',
-        texture: '/assets/terrain/pit.png',
+        tileVariations: ['/assets/tiles/Pit1.png'],
         movementCost: 99,
         description: 'Deep pit or chasm'
     },
@@ -191,7 +191,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'The Abyss',
         category: 'hazard',
         color: '#000000',
-        texture: '/assets/terrain/abyss.png',
+        tileVariations: ['/assets/tiles/Abyss1.png'],
         movementCost: 99,
         description: 'Infinite dark void'
     },

@@ -1140,26 +1140,44 @@ const UnifiedSpellCard = ({
 
       // Define behavior names
       const behaviorNames = {
+        // Chain behaviors
         'nearest': 'Nearest',
         'farthest': 'Farthest',
         'random': 'Random',
         'lowest_health': 'Lowest HP',
         'highest_health': 'Highest HP',
+
+        // Bounce behaviors
         'ricocheting': 'Ricocheting',
         'accelerating': 'Accelerating',
         'decelerating': 'Decelerating',
-        'smart': 'Smart Seeking',
-        'persistent': 'Persistent',
-        'phase_through': 'Phase Through',
+
+        // Seeking behaviors
+        'aggressive': 'Aggressive',
+        'opportunistic': 'Opportunistic',
+        'thorough': 'Thorough',
+        'prioritized': 'Prioritized',
+        'intelligent': 'Intelligent',
+
+        // Explosion behaviors
+        'standard': 'Standard',
+        'shaped': 'Shaped Charge',
         'delayed': 'Delayed',
-        'instant': 'Instant',
         'chain_reaction': 'Chain Reaction',
-        'radial': 'Radial',
-        'directional': 'Directional',
-        'viral': 'Viral',
-        'equal_power': 'Equal Power',
-        'diminishing': 'Diminishing',
-        'focused': 'Focused'
+        'elemental': 'Elemental',
+
+        // Spreading behaviors
+        'contagion': 'Contagion',
+        'expanding': 'Expanding',
+        'creeping': 'Creeping',
+        'pulsing': 'Pulsing',
+        'consuming': 'Consuming',
+
+        // Forking behaviors
+        'equal': 'Equal Split',
+        'targeted': 'Targeted Split',
+        'cascading': 'Cascading Split',
+        'converging': 'Converging'
       };
 
       // Get method name, with fallback capitalization
@@ -1382,24 +1400,31 @@ const UnifiedSpellCard = ({
       'decelerating': 'Decelerating',
 
       // Seeking behaviors
-      'smart': 'Smart Seeking',
-      'persistent': 'Persistent',
-      'phase_through': 'Phase Through',
+      'aggressive': 'Aggressive',
+      'opportunistic': 'Opportunistic',
+      'thorough': 'Thorough',
+      'prioritized': 'Prioritized',
+      'intelligent': 'Intelligent',
 
       // Explosion behaviors
+      'standard': 'Standard',
+      'shaped': 'Shaped Charge',
       'delayed': 'Delayed',
-      'instant': 'Instant',
       'chain_reaction': 'Chain Reaction',
+      'elemental': 'Elemental',
 
       // Spreading behaviors
-      'radial': 'Radial',
-      'directional': 'Directional',
-      'viral': 'Viral',
+      'contagion': 'Contagion',
+      'expanding': 'Expanding',
+      'creeping': 'Creeping',
+      'pulsing': 'Pulsing',
+      'consuming': 'Consuming',
 
       // Forking behaviors
-      'equal_power': 'Equal Power',
-      'diminishing': 'Diminishing',
-      'focused': 'Focused'
+      'equal': 'Equal Split',
+      'targeted': 'Targeted Split',
+      'cascading': 'Cascading Split',
+      'converging': 'Converging'
     };
 
     let result = propagationMethods[method] || method;

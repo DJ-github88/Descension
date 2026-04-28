@@ -20,17 +20,7 @@ import {
   getMaxTargets,
   isMultiTarget
 } from '../../core/data/targetingTypes';
-import {
-  FaProjectDiagram,
-  FaRandom,
-  FaSearchLocation,
-  FaBomb,
-  FaFireAlt,
-  FaRecycle,
-  FaSnowflake,
-  FaWind,
-  FaShareAlt
-} from 'react-icons/fa';
+
 
 
 // Filter out targeting types that are redundant with AOE shapes or selection methods
@@ -43,47 +33,47 @@ const TARGETING_TYPES = [
     id: 'self_centered',
     name: 'Self-Centered',
     description: 'Effect emanates from the caster',
-    icon: 'spell_arcane_blast',
+    icon: 'Arcane/Spellcasting Aura',
     actionPointModifier: 0
   }
 ];
 
 // Targeting restrictions options
 const TARGET_RESTRICTIONS = [
-  { id: 'any', name: 'Any Target', icon: 'spell_shadow_possession', description: 'Can target any valid entity' },
-  { id: 'ally', name: 'Allies', icon: 'spell_holy_prayerofspirit', description: 'Can target friendly characters' },
-  { id: 'enemy', name: 'Enemies', icon: 'ability_rogue_findweakness', description: 'Can target hostile characters' },
-  { id: 'self', name: 'Self', icon: 'spell_holy_innerfire', description: 'Can target the caster' },
-  { id: 'creature', name: 'Creatures', icon: 'inv_misc_head_dragon_01', description: 'Can target living beings' },
-  { id: 'object', name: 'Objects', icon: 'inv_misc_drum_01', description: 'Can target inanimate objects' },
-  { id: 'undead', name: 'Undead', icon: 'spell_shadow_shadetruesight', description: 'Can target undead entities' },
-  { id: 'construct', name: 'Constructs', icon: 'inv_misc_pocketwatch_01', description: 'Can target constructed entities' },
-  { id: 'location', name: 'Location', icon: 'spell_nature_wispsplode', description: 'Targets a location rather than an entity' },
-  { id: 'friendly_player', name: 'Friendly Players', icon: 'spell_holy_devotionaura', description: 'Can target friendly player characters' },
-  { id: 'friendly_npc', name: 'Friendly NPCs', icon: 'spell_holy_sealofwisdom', description: 'Can target friendly non-player characters' },
-  { id: 'hostile_player', name: 'Hostile Players', icon: 'ability_warrior_challange', description: 'Can target hostile player characters' },
-  { id: 'hostile_npc', name: 'Hostile NPCs', icon: 'ability_creature_cursed_04', description: 'Can target hostile non-player characters' },
-  { id: 'elemental', name: 'Elementals', icon: 'spell_fire_elemental_totem', description: 'Can target elemental entities' },
-  { id: 'demon', name: 'Demons', icon: 'spell_shadow_summonfelhunter', description: 'Can target demonic entities' },
-  { id: 'beast', name: 'Beasts', icon: 'ability_hunter_pet_bear', description: 'Can target beast entities' }
+  { id: 'any', name: 'Any Target', icon: 'Utility/All Seeing Eye', description: 'Can target any valid entity' },
+  { id: 'ally', name: 'Allies', icon: 'Radiant/Radiant Aura', description: 'Can target friendly characters' },
+  { id: 'enemy', name: 'Enemies', icon: 'Piercing/Targeted Strike', description: 'Can target hostile characters' },
+  { id: 'self', name: 'Self', icon: 'Radiant/Divine Blessing', description: 'Can target the caster' },
+  { id: 'creature', name: 'Creatures', icon: 'Utility/Dragon Encounter', description: 'Can target living beings' },
+  { id: 'object', name: 'Objects', icon: 'General/Defend', description: 'Can target inanimate objects' },
+  { id: 'undead', name: 'Undead', icon: 'Necrotic/Glowing Skull', description: 'Can target undead entities' },
+  { id: 'construct', name: 'Constructs', icon: 'Arcane/Sands of Time', description: 'Can target constructed entities' },
+  { id: 'location', name: 'Location', icon: 'Nature/Nature Natural', description: 'Targets a location rather than an entity' },
+  { id: 'friendly_player', name: 'Friendly Players', icon: 'Radiant/Golden Embrace', description: 'Can target friendly player characters' },
+  { id: 'friendly_npc', name: 'Friendly NPCs', icon: 'Radiant/Radiant Blessing 1', description: 'Can target friendly non-player characters' },
+  { id: 'hostile_player', name: 'Hostile Players', icon: 'Piercing/Targeted Strike 1', description: 'Can target hostile player characters' },
+  { id: 'hostile_npc', name: 'Hostile NPCs', icon: 'Necrotic/Necrotic Skull', description: 'Can target hostile non-player characters' },
+  { id: 'elemental', name: 'Elementals', icon: 'Fire/Flame Burst', description: 'Can target elemental entities' },
+  { id: 'demon', name: 'Demons', icon: 'Necrotic/Horned Demon', description: 'Can target demonic entities' },
+  { id: 'beast', name: 'Beasts', icon: 'Utility/Beast Paw Claws', description: 'Can target beast entities' }
 ];
 
 // Target selection methods
 const TARGET_SELECTION_METHODS = [
-  { id: 'manual', name: 'Manual Selection', description: 'Manually select targets during casting', icon: 'ability_hunter_snipershot' },
-  { id: 'nearest', name: 'Nearest Target', description: 'Automatically targets the nearest valid target', icon: 'ability_hunter_markedfordeath' },
-  { id: 'farthest', name: 'Farthest Target', description: 'Automatically targets the farthest valid target in range', icon: 'ability_hunter_longshots' },
-  { id: 'random', name: 'Random Target', description: 'Selects a random valid target in range', icon: 'ability_rogue_blindingpowder' },
-  { id: 'lowest_health', name: 'Lowest Health', description: 'Targets the valid target with the lowest health', icon: 'inv_misc_bandage_15' },
-  { id: 'highest_health', name: 'Highest Health', description: 'Targets the valid target with the highest health', icon: 'spell_holy_sealofsacrifice' }
+  { id: 'manual', name: 'Manual Selection', description: 'Manually select targets during casting', icon: 'Utility/Target Crosshair' },
+  { id: 'nearest', name: 'Nearest Target', description: 'Automatically targets the nearest valid target', icon: 'Piercing/Focused Arrow Shot' },
+  { id: 'farthest', name: 'Farthest Target', description: 'Automatically targets the farthest valid target in range', icon: 'Piercing/Bow Shot' },
+  { id: 'random', name: 'Random Target', description: 'Selects a random valid target in range', icon: 'General/Discover' },
+  { id: 'lowest_health', name: 'Lowest Health', description: 'Targets the valid target with the lowest health', icon: 'Healing/Heal Wound' },
+  { id: 'highest_health', name: 'Highest Health', description: 'Targets the valid target with the highest health', icon: 'Utility/Shield' }
 ];
 
 // Range type options
 const RANGE_TYPES = [
-  { id: 'touch', name: 'Touch', description: 'Must touch the target', distance: 5, icon: 'spell_holy_blessingofstrength' },
-  { id: 'ranged', name: 'Ranged', description: 'Can target at a specific range', distance: 30, icon: 'ability_hunter_mastermarksman' },
-  { id: 'sight', name: 'Sight', description: 'Can target anything you can see', distance: 60, icon: 'spell_holy_sealofsalvation' },
-  { id: 'unlimited', name: 'Unlimited', description: 'No range limit', distance: -1, icon: 'spell_arcane_mindmastery' }
+  { id: 'touch', name: 'Touch', description: 'Must touch the target', distance: 5, icon: 'Radiant/Divine Blessing' },
+  { id: 'ranged', name: 'Ranged', description: 'Can target at a specific range', distance: 30, icon: 'Utility/Target Crosshair' },
+  { id: 'sight', name: 'Sight', description: 'Can target anything you can see', distance: 60, icon: 'Utility/Watchful Eye' },
+  { id: 'unlimited', name: 'Unlimited', description: 'No range limit', distance: -1, icon: 'Arcane/Missile' }
 ];
 
 // Propagation methods
@@ -91,49 +81,49 @@ const PROPAGATION_METHODS = [
   {
     id: 'none',
     name: 'No Propagation',
-    icon: 'inv_misc_gem_pearl_03',
+    icon: 'Utility/Shield',
     description: 'The spell only affects its primary target(s) and does not propagate further.',
     effects: ['Predictable targeting', 'No additional targets']
   },
   {
     id: 'chain',
     name: 'Chain Effect',
-    icon: 'spell_frost_chainofdamnation',
+    icon: 'Frost/Ice Shards',
     description: 'The spell automatically jumps from one target to another in sequence.',
     effects: ['Each jump does reduced effect', 'Controllable max number of targets', 'Predictable path']
   },
   {
     id: 'bounce',
     name: 'Bounce Effect',
-    icon: 'spell_arcane_arcane04',
+    icon: 'Arcane/Spiral Vortex',
     description: 'The spell bounces unpredictably between multiple targets in range.',
     effects: ['Unpredictable targeting', 'Each bounce can hit the same target', 'Good for crowded areas']
   },
   {
     id: 'seeking',
     name: 'Seeking Effect',
-    icon: 'ability_hunter_markedshot',
+    icon: 'Utility/Target Crosshair',
     description: 'The spell actively searches for valid targets within range.',
     effects: ['Ignores obstacles', 'Prioritizes certain target types', 'Can find hidden targets']
   },
   {
     id: 'explosion',
     name: 'Explosion on Impact',
-    icon: 'spell_fire_fireball02',
+    icon: 'Fire/Flame Burst',
     description: 'The spell creates a secondary explosion when it hits its target.',
     effects: ['Secondary AoE damage', 'Affects surrounding targets', 'Good for clustered enemies']
   },
   {
     id: 'spreading',
     name: 'Spreading Effect',
-    icon: 'spell_fire_fire',
+    icon: 'Nature/Vines',
     description: 'The spell effect gradually spreads to adjacent targets or areas over time.',
     effects: ['Covers increasing area', 'Delayed full effect', 'Good for zoning and control']
   },
   {
     id: 'forking',
     name: 'Forking Paths',
-    icon: 'spell_arcane_blast',
+    icon: 'Lightning/Lightning Bolt',
     description: 'The spell splits into multiple projectiles that can hit different targets.',
     effects: ['Multiple simultaneous targets', 'Reduced effect per fork', 'Good for crowd damage']
   }
@@ -142,46 +132,46 @@ const PROPAGATION_METHODS = [
 // Propagation behaviors
 const PROPAGATION_BEHAVIORS = {
   'chain': [
-    { id: 'nearest', name: 'Nearest Target', description: 'Chains to the closest eligible target', icon: 'ability_hunter_markedshot' },
-    { id: 'farthest', name: 'Farthest Target', description: 'Chains to the farthest eligible target within range', icon: 'ability_hunter_longshots' },
-    { id: 'random', name: 'Random Target', description: 'Chains to a random eligible target within range', icon: 'ability_rogueblind' },
-    { id: 'lowest_health', name: 'Lowest Health', description: 'Chains to the eligible target with the lowest health', icon: 'inv_misc_bandage_15' },
-    { id: 'highest_health', name: 'Highest Health', description: 'Chains to the eligible target with the highest health', icon: 'inv_shield_04' }
+    { id: 'nearest', name: 'Nearest Target', description: 'Chains to the closest eligible target', icon: 'Piercing/Focused Arrow Shot' },
+    { id: 'farthest', name: 'Farthest Target', description: 'Chains to the farthest eligible target within range', icon: 'Piercing/Bow Shot' },
+    { id: 'random', name: 'Random Target', description: 'Chains to a random eligible target within range', icon: 'General/Discover' },
+    { id: 'lowest_health', name: 'Lowest Health', description: 'Chains to the eligible target with the lowest health', icon: 'Healing/Heal Wound' },
+    { id: 'highest_health', name: 'Highest Health', description: 'Chains to the eligible target with the highest health', icon: 'Utility/Shield' }
   ],
   'bounce': [
-    { id: 'random', name: 'Random Bounce', description: 'Bounces in unpredictable patterns', icon: 'spell_nature_wispsplode' },
-    { id: 'nearest', name: 'Proximity Bounce', description: 'Tends to bounce to nearby targets', icon: 'spell_arcane_blink' },
-    { id: 'ricocheting', name: 'Ricocheting', description: 'Can bounce off walls and objects', icon: 'ability_warrior_riposte' },
-    { id: 'accelerating', name: 'Accelerating', description: 'Each bounce is faster and more powerful', icon: 'spell_magic_lesserinvisibilty' },
-    { id: 'decelerating', name: 'Decelerating', description: 'Each bounce is slower and less powerful', icon: 'spell_arcane_arcane04' }
+    { id: 'random', name: 'Random Bounce', description: 'Bounces in unpredictable patterns', icon: 'Nature/Nature Natural' },
+    { id: 'nearest', name: 'Proximity Bounce', description: 'Tends to bounce to nearby targets', icon: 'Arcane/Missile' },
+    { id: 'ricocheting', name: 'Ricocheting', description: 'Can bounce off walls and objects', icon: 'Bludgeoning/Striking Hammer' },
+    { id: 'accelerating', name: 'Accelerating', description: 'Each bounce is faster and more powerful', icon: 'Utility/Speed Boot' },
+    { id: 'decelerating', name: 'Decelerating', description: 'Each bounce is slower and less powerful', icon: 'Frost/Cooldown' }
   ],
   'seeking': [
-    { id: 'aggressive', name: 'Aggressive Seeking', description: 'Actively hunts down the strongest eligible targets', icon: 'ability_hunter_snipershot' },
-    { id: 'opportunistic', name: 'Opportunistic', description: 'Targets the most vulnerable eligible targets', icon: 'ability_rogue_findweakness' },
-    { id: 'thorough', name: 'Thorough', description: 'Seeks out all eligible targets methodically', icon: 'inv_misc_spyglass_02' },
-    { id: 'prioritized', name: 'Prioritized', description: 'Follows a strict targeting priority order', icon: 'inv_misc_book_11' },
-    { id: 'intelligent', name: 'Intelligent', description: 'Dynamically adjusts targeting based on battlefield conditions', icon: 'spell_arcane_mindmastery' }
+    { id: 'aggressive', name: 'Aggressive Seeking', description: 'Actively hunts down the strongest eligible targets', icon: 'Piercing/Targeted Strike' },
+    { id: 'opportunistic', name: 'Opportunistic', description: 'Targets the most vulnerable eligible targets', icon: 'Piercing/Piercing Thrust' },
+    { id: 'thorough', name: 'Thorough', description: 'Seeks out all eligible targets methodically', icon: 'Utility/Watchful Eye' },
+    { id: 'prioritized', name: 'Prioritized', description: 'Follows a strict targeting priority order', icon: 'Arcane/Sands of Time' },
+    { id: 'intelligent', name: 'Intelligent', description: 'Dynamically adjusts targeting based on battlefield conditions', icon: 'Psychic/Psionic Blast' }
   ],
   'explosion': [
-    { id: 'standard', name: 'Standard Explosion', description: 'Simple explosion with equal effect in all directions', icon: 'spell_fire_flamebolt' },
-    { id: 'shaped', name: 'Shaped Charge', description: 'Explosion is directed in a specific pattern', icon: 'spell_fire_selfdestruct' },
-    { id: 'delayed', name: 'Delayed Explosion', description: 'Explosion occurs after a short delay', icon: 'spell_fire_fireball02' },
-    { id: 'chain_reaction', name: 'Chain Reaction', description: 'Can trigger secondary explosions', icon: 'spell_fire_burnout' },
-    { id: 'elemental', name: 'Elemental Burst', description: 'Explosion includes elemental effects', icon: 'spell_fire_volcano' }
+    { id: 'standard', name: 'Standard Explosion', description: 'Simple explosion with equal effect in all directions', icon: 'Fire/Flame Burst' },
+    { id: 'shaped', name: 'Shaped Charge', description: 'Explosion is directed in a specific pattern', icon: 'Utility/Explosive Detonation' },
+    { id: 'delayed', name: 'Delayed Explosion', description: 'Explosion occurs after a short delay', icon: 'Fire/Rising Inferno' },
+    { id: 'chain_reaction', name: 'Chain Reaction', description: 'Can trigger secondary explosions', icon: 'Fire/Rising Inferno 1' },
+    { id: 'elemental', name: 'Elemental Burst', description: 'Explosion includes elemental effects', icon: 'Fire/Eruption' }
   ],
   'spreading': [
-    { id: 'contagion', name: 'Contagion', description: 'Spreads like a disease from one target to adjacent targets', icon: 'spell_shadow_plaguecloud' },
-    { id: 'expanding', name: 'Expanding', description: 'Gradually expands outward in all directions', icon: 'spell_shadow_shadowfury' },
-    { id: 'creeping', name: 'Creeping', description: 'Slowly moves across surfaces and around obstacles', icon: 'spell_shadow_curseofmannoroth' },
-    { id: 'pulsing', name: 'Pulsing', description: 'Emits periodic pulses that apply effects', icon: 'spell_arcane_blast' },
-    { id: 'consuming', name: 'Consuming', description: 'Grows stronger as it spreads and consumes resources', icon: 'spell_shadow_burningspirit' }
+    { id: 'contagion', name: 'Contagion', description: 'Spreads like a disease from one target to adjacent targets', icon: 'Poison/Poison Contagion' },
+    { id: 'expanding', name: 'Expanding', description: 'Gradually expands outward in all directions', icon: 'Force/Radial Burst' },
+    { id: 'creeping', name: 'Creeping', description: 'Slowly moves across surfaces and around obstacles', icon: 'Nature/Vines' },
+    { id: 'pulsing', name: 'Pulsing', description: 'Emits periodic pulses that apply effects', icon: 'Arcane/Spiral Vortex' },
+    { id: 'consuming', name: 'Consuming', description: 'Grows stronger as it spreads and consumes resources', icon: 'Necrotic/Necrotic Skull' }
   ],
   'forking': [
-    { id: 'equal', name: 'Equal Split', description: 'Splits into equal forks with equal power', icon: 'spell_arcane_arcanetorrent' },
-    { id: 'random', name: 'Random Split', description: 'Splits in random directions with varying power', icon: 'spell_arcane_starfire' },
-    { id: 'targeted', name: 'Targeted Split', description: 'Forks seek out specific types of targets', icon: 'ability_hunter_disruptingshot' },
-    { id: 'cascading', name: 'Cascading Split', description: 'Each fork can split again into smaller forks', icon: 'spell_arcane_blast' },
-    { id: 'converging', name: 'Converging', description: 'Forks eventually converge on a single point', icon: 'spell_arcane_focusedpower' }
+    { id: 'equal', name: 'Equal Split', description: 'Splits into equal forks with equal power', icon: 'Lightning/Lightning Bolt' },
+    { id: 'random', name: 'Random Split', description: 'Splits in random directions with varying power', icon: 'Lightning/Lightning Storm' },
+    { id: 'targeted', name: 'Targeted Split', description: 'Forks seek out specific types of targets', icon: 'Piercing/Targeted Strike' },
+    { id: 'cascading', name: 'Cascading Split', description: 'Each fork can split again into smaller forks', icon: 'Lightning/Lightning Path' },
+    { id: 'converging', name: 'Converging', description: 'Forks eventually converge on a single point', icon: 'Arcane/Spiral Vortex' }
   ]
 };
 
@@ -578,101 +568,8 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
     });
   };
 
-  // Helper function to map WoW icon IDs to local ability icons
-  const getLocalIconUrl = (wowIconId) => {
-    const iconMapping = {
-      // Targeting modes
-      'spell_arcane_portaldalaran': 'Utility/Utility',
-      'ability_hunter_snipershot': 'Utility/Target Crosshair',
-      
-      // Targeting types (from ALL_TARGETING_TYPES)
-      'spell_frost_chainofdamnation': 'Frost/Frost Chain',
-      'spell_fire_flamestrike': 'Fire/Fire Burst',
-      'spell_frost_chainheal': 'Frost/Frost Chain',
-      'spell_fire_flamegeyser': 'Fire/Fire Burst',
-      'spell_arcane_starfire': 'Arcane/Arcane Blast',
-      'spell_holy_powerwordshield': 'Radiant/Radiant Aura',
-      'spell_holy_divineillumination': 'Radiant/Radiant Aura',
-      'ability_hunter_markedfordeath': 'Utility/Target Crosshair',
-      'spell_arcane_blast': 'Arcane/Arcane Blast',
-      
-      // AOE Shapes
-      'inv_misc_questionmark': 'Utility/Utility',
-      'spell_holy_circleofrenewal': 'Radiant/Radiant Aura',
-      'inv_misc_gem_diamond_02': 'Utility/Utility',
-      'inv_throwingaxe_03': 'Utility/Piercing Shot',
-      
-      // Targeting restrictions
-      'spell_shadow_possession': 'Shadow/Shadow Presence',
-      'spell_holy_prayerofspirit': 'Radiant/Radiant Aura',
-      'ability_rogue_findweakness': 'Piercing/Piercing Shot',
-      'spell_holy_innerfire': 'Radiant/Radiant Aura',
-      'inv_misc_head_dragon_01': 'Utility/Dragon Encounter',
-      'inv_misc_drum_01': 'Utility/Utility',
-      'spell_shadow_shadetruesight': 'Shadow/Shadow Darkness',
-      'inv_misc_pocketwatch_01': 'Utility/Hourglass',
-      'spell_nature_wispsplode': 'Nature/Nature Natural',
-      'spell_holy_devotionaura': 'Radiant/Radiant Aura',
-      'spell_holy_sealofwisdom': 'Radiant/Divine Blessing',
-      'ability_warrior_challange': 'Combat/Striking Hammer',
-      'ability_creature_cursed_04': 'Necrotic/Necrotic Skull',
-      'spell_fire_elemental_totem': 'Fire/Fire Burst',
-      'spell_shadow_summonfelhunter': 'Shadow/Shadow Entity',
-      'ability_hunter_pet_bear': 'Utility/Beast Paw Claws',
-      
-      // Target selection methods
-      'ability_hunter_longshots': 'Utility/Piercing Shot',
-      'ability_rogue_blindingpowder': 'Utility/Utility',
-      'inv_misc_bandage_15': 'Healing/Healing',
-      'spell_holy_sealofsacrifice': 'Radiant/Radiant Aura',
-      
-      // Range types
-      'spell_holy_blessingofstrength': 'Utility/Utility',
-      'ability_hunter_mastermarksman': 'Utility/Target Crosshair',
-      'spell_holy_sealofsalvation': 'Radiant/Radiant Aura',
-      'spell_arcane_mindmastery': 'Arcane/Arcane Blast',
-      
-      // Propagation methods
-      'inv_misc_gem_pearl_03': 'Utility/Utility',
-      'spell_arcane_arcane04': 'Arcane/Arcane Blast',
-      'ability_hunter_markedshot': 'Utility/Target Crosshair',
-      'spell_fire_fireball02': 'Fire/Fire Burst',
-      'spell_fire_fire': 'Fire/Fire Burst',
-      
-      // Propagation behaviors
-      'ability_rogueblind': 'Utility/Utility',
-      'inv_shield_04': 'Utility/Shield',
-      'spell_arcane_blink': 'Arcane/Arcane Blast',
-      'ability_warrior_riposte': 'Combat/Striking Hammer',
-      'spell_magic_lesserinvisibilty': 'Utility/Hide',
-      'inv_misc_spyglass_02': 'Utility/Watchful Eye',
-      'inv_misc_book_11': 'Utility/Utility',
-      'spell_fire_flamebolt': 'Fire/Fire Burst',
-      'spell_fire_selfdestruct': 'Fire/Explosive Detonation',
-      'spell_fire_burnout': 'Fire/Fire Burst',
-      'spell_fire_volcano': 'Fire/Fire Burst',
-      'spell_shadow_plaguecloud': 'Necrotic/Necrotic Skull',
-      'spell_shadow_shadowfury': 'Shadow/Shadow Darkness',
-      'spell_shadow_curseofmannoroth': 'Necrotic/Necrotic Skull',
-      'spell_shadow_burningspirit': 'Shadow/Shadow Darkness',
-      'spell_arcane_arcanetorrent': 'Arcane/Arcane Blast',
-      'ability_hunter_disruptingshot': 'Utility/Piercing Shot',
-      'spell_arcane_focusedpower': 'Arcane/Arcane Blast',
-      
-      // Effect icons
-      'spell_fire_flameshock': 'Fire/Fire Burst',
-      'spell_holy_flashheal': 'Healing/Healing',
-      'spell_holy_blessingofprotection': 'Radiant/Radiant Aura',
-      'spell_shadow_curseofsargeras': 'Necrotic/Necrotic Skull',
-      'spell_frost_chainsofice': 'Frost/Frost Chain',
-      'spell_shadow_summoninfernal': 'Utility/Summon Minion',
-      'spell_nature_polymorph': 'Utility/Utility',
-      'spell_holy_dispelmagic': 'Radiant/Divine Blessing',
-      'spell_holy_renew': 'Healing/Healing'
-    };
-    
-    const localIcon = iconMapping[wowIconId] || 'Utility/Utility';
-    return getCustomIconUrl(localIcon, 'abilities');
+  const getLocalIconUrl = (iconPath) => {
+    return getCustomIconUrl(iconPath, 'abilities');
   };
 
   // Helper function to get effect icons
@@ -2535,7 +2432,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
               >
                 <div className="targeting-mode-icon">
                   <img
-                    src={getLocalIconUrl('spell_arcane_portaldalaran')}
+                    src={getLocalIconUrl('Arcane/Open Portal')}
                     alt="Unified Targeting"
                     onError={(e) => {
                       e.target.onerror = null;
@@ -2562,7 +2459,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
               >
                 <div className="targeting-mode-icon">
                   <img
-                    src={getLocalIconUrl('ability_hunter_snipershot')}
+                    src={getLocalIconUrl('Utility/Target Crosshair')}
                     alt="Effect-Specific Targeting"
                     onError={(e) => {
                       e.target.onerror = null;
@@ -3601,7 +3498,7 @@ const Step4Targeting = ({ onNext, onPrevious, stepNumber, totalSteps }) => {
                   {selectedPropagation !== 'none' && targetPosition && (
                     <div className="preview-controls">
                       <button
-                        className="wow-button preview-button"
+                        className="preview-button"
                         onClick={startAnimation}
                       >
                         {animationActive ? 'Stop Animation' : 'Preview Propagation'}

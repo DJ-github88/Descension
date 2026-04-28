@@ -4,63 +4,63 @@ const TARGETING_TYPES = [
       id: 'single',
       name: 'Single Target',
       description: 'Affects one specific target',
-      icon: 'ability_hunter_snipershot',
+      icon: 'Utility/Target Crosshair',
       actionPointModifier: 0
     },
     {
       id: 'multi',
       name: 'Multiple Targets',
       description: 'Affects several individually selected targets',
-      icon: 'spell_frost_chainofdamnation',
+      icon: 'Frost/Ice Shards',
       actionPointModifier: 1
     },
     {
       id: 'area',
       name: 'Area of Effect',
       description: 'Affects all targets within a defined area',
-      icon: 'spell_fire_flamestrike',
+      icon: 'Fire/Flame Burst',
       actionPointModifier: 1
     },
     {
       id: 'chain',
       name: 'Chain Effect',
       description: 'Effect jumps from one target to nearby targets',
-      icon: 'spell_frost_chainheal',
+      icon: 'Frost/Ice Shards',
       actionPointModifier: 2
     },
     {
       id: 'cone',
       name: 'Cone',
       description: 'Affects targets in a cone-shaped area',
-      icon: 'spell_fire_flamegeyser',
+      icon: 'Fire/Fiery Arc',
       actionPointModifier: 1
     },
     {
       id: 'line',
       name: 'Line',
       description: 'Affects targets in a line',
-      icon: 'spell_arcane_starfire',
+      icon: 'Arcane/Missile',
       actionPointModifier: 1
     },
     {
       id: 'self',
       name: 'Self',
       description: 'Only affects the caster',
-      icon: 'spell_holy_powerwordshield',
+      icon: 'Radiant/Radiant Aura',
       actionPointModifier: -1
     },
     {
       id: 'smart',
       name: 'Smart Targeting',
       description: 'Automatically selects targets based on parameters',
-      icon: 'spell_holy_divineillumination',
+      icon: 'Radiant/Divine Blessing',
       actionPointModifier: 2
     },
     {
       id: 'nearest',
       name: 'Nearest Target',
       description: 'Automatically targets the nearest valid target',
-      icon: 'ability_hunter_markedfordeath',
+      icon: 'Piercing/Focused Arrow Shot',
       actionPointModifier: 0
     }
 ];
@@ -70,14 +70,14 @@ const AOE_SHAPES = [
       id: 'none',
       name: 'None',
       description: 'No area of effect - single point impact',
-      icon: 'inv_misc_questionmark',
+      icon: 'Utility/Utility',
       parameterType: 'none'
     },
     {
       id: 'circle',
       name: 'Circle',
       description: 'Affects all targets within a circular area',
-      icon: 'spell_holy_circleofrenewal',
+      icon: 'Radiant/Radiant Aura',
       defaultRadius: 20,
       parameterType: 'radius'
     },
@@ -85,7 +85,7 @@ const AOE_SHAPES = [
       id: 'square',
       name: 'Square',
       description: 'Affects all targets within a square area',
-      icon: 'inv_misc_gem_diamond_02',
+      icon: 'Force/Energy Core',
       defaultSize: 15,
       parameterType: 'sideLength'
     },
@@ -93,7 +93,7 @@ const AOE_SHAPES = [
       id: 'cone',
       name: 'Cone',
       description: 'Affects targets in a cone-shaped area extending from the caster',
-      icon: 'inv_throwingaxe_03',
+      icon: 'Piercing/Piercing Thrust',
       defaultRange: 15,
       defaultAngle: 90,
       parameterType: 'rangeAngle'
@@ -102,7 +102,7 @@ const AOE_SHAPES = [
       id: 'line',
       name: 'Line',
       description: 'Affects targets in a straight line from the caster',
-      icon: 'inv_weapon_bow_07',
+      icon: 'Piercing/Bow Shot',
       defaultLength: 30,
       defaultWidth: 5,
       parameterType: 'lengthWidth'
@@ -111,7 +111,7 @@ const AOE_SHAPES = [
       id: 'cube',
       name: 'Cube',
       description: 'Affects all targets within a three-dimensional cube',
-      icon: 'inv_misc_gem_diamond_01',
+      icon: 'Force/Energy Nexus',
       defaultSize: 15,
       parameterType: 'sideLength'
     },
@@ -119,7 +119,7 @@ const AOE_SHAPES = [
       id: 'sphere',
       name: 'Sphere',
       description: 'Affects all targets within a three-dimensional sphere',
-      icon: 'inv_misc_orb_01',
+      icon: 'Arcane/Open Portal',
       defaultRadius: 20,
       parameterType: 'radius'
     },
@@ -127,7 +127,7 @@ const AOE_SHAPES = [
       id: 'cylinder',
       name: 'Cylinder',
       description: 'Affects all targets within a cylinder',
-      icon: 'spell_holy_circleofrenewal',
+      icon: 'Radiant/Radiant Aura',
       defaultRadius: 10,
       defaultHeight: 20,
       parameterType: 'radiusHeight'
@@ -136,7 +136,7 @@ const AOE_SHAPES = [
       id: 'wall',
       name: 'Wall',
       description: 'Creates a wall-shaped effect',
-      icon: 'spell_holy_powerwordbarrier',
+      icon: 'Utility/Shield',
       defaultLength: 30,
       defaultHeight: 10,
       defaultWidth: 5,
@@ -146,7 +146,7 @@ const AOE_SHAPES = [
       id: 'trail',
       name: 'Movement Trail',
       description: 'Creates a trail of effects along a movement path',
-      icon: 'spell_nature_wispsplode',
+      icon: 'Nature/Nature Natural',
       defaultWidth: 5,
       defaultDuration: 10,
       parameterType: 'widthDuration'

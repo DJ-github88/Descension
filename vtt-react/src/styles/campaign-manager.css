@@ -33,7 +33,7 @@
     padding: 20px 20px 60px 20px;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     box-sizing: border-box;
     display: flex;
@@ -221,7 +221,7 @@ button.campaign-input:hover {
 }
 
 .campaign-add-btn {
-    background: var(--pf-gradient-header, linear-gradient(135deg, #8B4513 0%, #5a1e12 100%));
+    background: linear-gradient(135deg, #8B0000 0%, #5a1e12 100%);
     color: var(--pf-text-on-dark, #f8f4e6);
     border: none;
     padding: 10px 16px;
@@ -240,6 +240,7 @@ button.campaign-input:hover {
 .campaign-add-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, #a50000 0%, #6f0000 100%);
 }
 
 /* Placeholder Styles */
@@ -1104,13 +1105,9 @@ button.campaign-input:hover {
 }
 
 .homebrew-section {
-    animation: fadeIn 0.2s ease;
+    animation: cmFadeIn 0.2s ease forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
 
 .homebrew-actions {
     display: flex;
@@ -1580,7 +1577,7 @@ button.campaign-input:hover {
 .campaign-creature-tooltip-portal {
     /* Portal should not block underlying UI drag/resize; only tooltip body is interactive. */
     pointer-events: none;
-    animation: fadeIn 0.3s ease-out;
+    animation: tooltipFadeIn 0.3s ease-out forwards;
     transform: scale(0.85) translateZ(0);
     transform-origin: top left;
     overflow: visible;
@@ -1636,7 +1633,7 @@ button.campaign-input:hover {
     font-size: 10px;
 }
 
-@keyframes fadeIn {
+@keyframes tooltipFadeIn {
     from {
         opacity: 0;
         transform: scale(0.85) translateY(0);
