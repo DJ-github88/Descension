@@ -2031,7 +2031,7 @@
   gap: var(--pf-space-2);
   align-items: flex-start;
   justify-content: flex-start;
-  margin-top: 0;
+  margin-top: 6px; /* Added spacing from header */
   margin-bottom: var(--pf-space-1);
   flex-wrap: nowrap;
   min-height: 20px;
@@ -2043,51 +2043,46 @@
 .unified-spell-resource-costs {
   display: flex;
   align-items: center;
-  gap: 2px;
   flex-shrink: 1;
   flex-wrap: wrap; /* Allow wrapping when there are many resources */
   max-width: 100%; /* Ensure it doesn't overflow */
+  margin-top: 0;
 }
 
 .unified-spell-resource-costs .pf-spell-resources {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px; /* Consistent gap between different resources */
   flex-wrap: wrap; /* Allow wrapping for multiple resources */
-}
-
-.unified-spell-resource-costs {
   margin-top: 0;
 }
 
 .unified-spell-resource-costs .pf-resource-cost {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px; /* Space between icon, amount, and name */
   background: transparent;
   border: none;
-  padding: 1px 3px;
-  font-size: 10px;
+  padding: 2px 4px;
+  font-size: 11px;
   font-weight: var(--pf-font-bold);
   color: #ffffff;
   min-width: auto;
   justify-content: flex-start;
   line-height: 1;
-  margin-right: 4px;
+  margin-right: 0; /* Remove margin-right since we use gap on parent */
 }
 
 .unified-spell-resource-costs .pf-resource-icon {
-  font-size: 10px;
-  margin-right: 1px;
+  font-size: 12px;
   color: #ffffff !important;
 }
 
 .unified-spell-resource-costs .pf-resource-amount {
   font-weight: var(--pf-font-bold);
   color: #ffffff;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1;
-  margin-right: 1px;
 }
 
 /* Formula resources styling */
@@ -2529,7 +2524,7 @@
 /* Ensure wizard variant resource costs and components are visible */
 .unified-spell-card.wizard .unified-spell-wizard-meta {
   padding-top: 0;
-  margin-top: 0;
+  margin-top: 6px; /* Added spacing from header */
 }
 
 /* Ultimate "Rustic Red" override for Spell Wizard Preview Headers */

@@ -10,7 +10,7 @@
  * - All classes: Also learn 1 spell from available options (free, doesn't cost points)
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { getSafePortalTarget } from '../../utils/portalUtils';
 
@@ -44,6 +44,7 @@ import { TOXICOLOGIST_DATA } from '../../data/classes/toxicologistData';
 import { WARDEN_DATA } from '../../data/classes/wardenData';
 import { WITCH_DOCTOR_DATA } from '../../data/classes/witchDoctorData';
 import UnifiedSpellCard from '../spellcrafting-wizard/components/common/UnifiedSpellCard';
+import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellCardTransformer';
 import { getIconUrl } from '../../utils/assetManager';
 import './LevelUpChoiceModal.css';
 
@@ -124,9 +125,9 @@ const LevelUpChoiceModal = ({
     onChoiceSelected
 }) => {
     // Point-spending system: 2 points total
-    const [choices, setChoices] = useState([]); // Array of choice objects: { type: 'attribute'|'health'|'mana', value: 'strength'|null }
+    const [choices, setChoices] = useState([]);
     const [selectedSpell, setSelectedSpell] = useState(null);
-    const [viewingSpell, setViewingSpell] = useState(null);
+    const [clickedSpell, setClickedSpell] = useState(null);
 
     const TOTAL_POINTS = 2;
     const pointsSpent = choices.length;
@@ -294,25 +295,52 @@ const LevelUpChoiceModal = ({
         return true;
     };
 
+    const clickedSpellIndex = clickedSpell
+        ? availableSpellPool.findIndex(s => s.id === clickedSpell.id)
+        : -1;
+
+    const navigateClickedSpell = (direction) => {
+        if (availableSpellPool.length === 0) return;
+        const newIndex = clickedSpellIndex + direction;
+        if (newIndex >= 0 && newIndex < availableSpellPool.length) {
+            setClickedSpell(availableSpellPool[newIndex]);
+        }
+    };
+
+    useEffect(() => {
+        if (!clickedSpell) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                navigateClickedSpell(-1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                navigateClickedSpell(1);
+            } else if (e.key === 'Escape') {
+                setClickedSpell(null);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [clickedSpell, clickedSpellIndex, availableSpellPool]);
+
     if (!isOpen) return null;
 
     const portalTarget = getSafePortalTarget();
     if (!portalTarget) return null;
 
-    const currentSpell = viewingSpell ? availableSpellPool.find(s => s.id === viewingSpell) : null;
-
-    console.log('🎉 Level-Up Modal Opened:', {
+    console.log('[Level-Up] Modal Opened:', {
         currentLevel,
         characterClass,
         availableSpellPoolCount: availableSpellPool.length,
         knownSpellsCount: knownSpells.length
     });
 
-    return createPortal(
+    const mainModal = createPortal(
         <div className="level-up-modal-overlay">
             <div className="level-up-modal">
                 <div className="level-up-header">
-                    <h2>🎉 Level Up! You reached Level {currentLevel}</h2>
+                    <h2>Level Up! You reached Level {currentLevel}</h2>
                     <p>You have <strong>{pointsRemaining}</strong> point{pointsRemaining !== 1 ? 's' : ''} remaining to spend</p>
                 </div>
 
@@ -320,14 +348,14 @@ const LevelUpChoiceModal = ({
                 {SPELL_CLASSES.includes(characterClass) && availableSpellPool.length > 0 && (
                     <div className="spell-selection-section">
                         <h3><i className="fas fa-magic"></i> Learn a New Spell</h3>
-                        <p className="section-description">Click a spell icon to view details, then select one to learn:</p>
+                        <p className="section-description">Click a spell icon to view details:</p>
                         <div className="spell-options-layout">
                             <div className="spell-icons-row">
                                 {availableSpellPool.map(spell => (
                                     <div
                                         key={spell.id}
                                         className={`spell-icon-wrapper ${selectedSpell === spell.id ? 'selected' : ''}`}
-                                        onClick={() => setSelectedSpell(spell.id)}
+                                        onClick={() => setClickedSpell(spell)}
                                     >
                                         <img
                                             src={getIconUrl(spell.icon, 'abilities')}
@@ -337,7 +365,6 @@ const LevelUpChoiceModal = ({
                                                 e.target.onerror = null;
                                                 e.target.src = getIconUrl('Utility/Utility', 'abilities');
                                             }}
-                                            onMouseEnter={() => setViewingSpell(spell.id)}
                                         />
                                         {selectedSpell === spell.id && (
                                             <div className="selection-check">
@@ -347,15 +374,6 @@ const LevelUpChoiceModal = ({
                                     </div>
                                 ))}
                             </div>
-                            {viewingSpell && availableSpellPool.find(s => s.id === viewingSpell) && (
-                                <div className="spell-card-preview">
-                                    <UnifiedSpellCard
-                                        spell={availableSpellPool.find(s => s.id === viewingSpell)}
-                                        variant="library"
-                                        showActions={false}
-                                    />
-                                </div>
-                            )}
                         </div>
                     </div>
                 )}
@@ -546,6 +564,91 @@ const LevelUpChoiceModal = ({
             </div>
         </div>,
         portalTarget
+    );
+
+    const spellPopup = clickedSpell && createPortal(
+        <div
+            className="level-up-spell-popup-overlay"
+            onClick={() => setClickedSpell(null)}
+        >
+            <button
+                className="level-up-spell-popup-nav level-up-spell-popup-nav-prev"
+                onClick={(e) => { e.stopPropagation(); navigateClickedSpell(-1); }}
+                disabled={clickedSpellIndex <= 0}
+                aria-label="Previous spell"
+            >
+                <i className="fas fa-chevron-left"></i>
+            </button>
+            <div
+                className="level-up-spell-popup-content"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {clickedSpell.level && (
+                    <div className="level-up-spell-popup-level-badge">
+                        <i className="fas fa-star"></i>
+                        <span>Available at Level {clickedSpell.level}</span>
+                    </div>
+                )}
+                <UnifiedSpellCard
+                    spell={{
+                        ...clickedSpell,
+                        infernoRequired: clickedSpell.specialMechanics?.infernoLevel?.required,
+                        infernoAscend: clickedSpell.specialMechanics?.infernoLevel?.ascendBy,
+                        infernoDescend: clickedSpell.specialMechanics?.infernoLevel?.descendBy,
+                        ...(clickedSpell.specialMechanics?.musicalCombo && {
+                            musicalCombo: clickedSpell.specialMechanics.musicalCombo
+                        }),
+                        ...(clickedSpell.specialMechanics?.timeShards && {
+                            timeShardGenerate: clickedSpell.specialMechanics.timeShards.generated,
+                            timeShardCost: clickedSpell.specialMechanics.temporalFlux?.shardCost,
+                            temporalStrainGain: clickedSpell.specialMechanics.temporalFlux?.strainGained,
+                            temporalStrainReduce: clickedSpell.specialMechanics.temporalFlux?.strainReduced
+                        }),
+                        ...(clickedSpell.specialMechanics?.devotionLevel && {
+                            devotionRequired: clickedSpell.specialMechanics.devotionLevel.required,
+                            devotionCost: clickedSpell.specialMechanics.devotionLevel.cost || clickedSpell.specialMechanics.devotionLevel.amplifiedCost,
+                            devotionGain: clickedSpell.specialMechanics.devotionLevel.gain
+                        })
+                    }}
+                    variant="wizard"
+                    showActions={false}
+                    showDescription={true}
+                    showStats={true}
+                    showTags={true}
+                    rollableTableData={getSpellRollableTable(clickedSpell)}
+                />
+                <button
+                    className="level-up-spell-popup-select-btn"
+                    onClick={() => {
+                        setSelectedSpell(clickedSpell.id);
+                        setClickedSpell(null);
+                    }}
+                >
+                    <i className="fas fa-check"></i> Select {clickedSpell.name}
+                </button>
+            </div>
+            <button
+                className="level-up-spell-popup-nav level-up-spell-popup-nav-next"
+                onClick={(e) => { e.stopPropagation(); navigateClickedSpell(1); }}
+                disabled={clickedSpellIndex >= availableSpellPool.length - 1}
+                aria-label="Next spell"
+            >
+                <i className="fas fa-chevron-right"></i>
+            </button>
+            {availableSpellPool.length > 1 && (
+                <div className="level-up-spell-popup-counter">
+                    {clickedSpellIndex + 1} / {availableSpellPool.length}
+                </div>
+            )}
+        </div>,
+        portalTarget
+    );
+
+    return (
+        <>
+            {mainModal}
+            {spellPopup}
+        </>
     );
 
 };

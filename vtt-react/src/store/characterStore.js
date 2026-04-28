@@ -1017,10 +1017,16 @@ const useCharacterStore = create((set, get) => ({
 
                 // If leveling down, reverse bonuses from lost levels
                 if (newLevel < oldLevel) {
-                    // Reverse bonuses for each level being lost (in descending order)
+                    // Reverse bonuses for each level being lost (in descending order).
+                    // reverseLevelUpBonus no longer calls initializeCharacter itself;
+                    // we do a single pass below after all reversals are complete.
                     for (let level = oldLevel; level > newLevel; level--) {
                         get().reverseLevelUpBonus(level);
                     }
+
+                    // Recalculate derived stats once after all reversals
+                    // (health, mana, AP will reflect the pruned levelUpHistory)
+                    setTimeout(() => get().initializeCharacter(), 0);
 
                     // Update XP to match new level
                     const { getXPForLevel } = require('../utils/experienceUtils');
@@ -4154,10 +4160,17 @@ const useCharacterStore = create((set, get) => ({
             set({ experience: newXP });
         }
 
-        // Auto-assign spells based on new level
-        const characterClass = state.characterClass;
-        if (characterClass) {
-            get().assignSpellsForLevel(newLevel, characterClass);
+        // Auto-assign spells based on new level (only when leveling UP — leveling down
+        // reverts spells via reverseLevelUpBonus, which already handled them above).
+        if (levelChange > 0) {
+            const characterClass = state.characterClass;
+            if (characterClass) {
+                get().assignSpellsForLevel(newLevel, characterClass);
+            }
+        } else {
+            // Leveling down: run a final initializeCharacter to recompute HP/mana/AP
+            // from the now-pruned levelUpHistory (reverseLevelUpBonus already removed entries).
+            get().initializeCharacter();
         }
 
         // Record character change for persistence
@@ -4356,7 +4369,10 @@ const useCharacterStore = create((set, get) => ({
 
     },
 
-    // Reverse level-up bonuses when leveling down
+    // Reverse level-up bonuses when leveling down.
+    // Applies all removals atomically in a single set() call to avoid stale-state bugs,
+    // then removes the history entry.  Callers are responsible for calling
+    // initializeCharacter() once after all reversals are complete.
     reverseLevelUpBonus: (level) => {
         const state = get();
         const choice = state.levelUpHistory[level];
@@ -4365,22 +4381,19 @@ const useCharacterStore = create((set, get) => ({
             return;
         }
 
+        const atomicUpdate = {};
 
         // Reverse spell if present
         if (choice.spellId) {
             const currentSpells = state.class_spells?.known_spells || [];
-            const updatedSpells = currentSpells.filter(id => id !== choice.spellId);
-            set({
-                class_spells: {
-                    ...state.class_spells,
-                    known_spells: updatedSpells
-                }
-            });
+            atomicUpdate.class_spells = {
+                ...state.class_spells,
+                known_spells: currentSpells.filter(id => id !== choice.spellId)
+            };
         }
 
         // Reverse attribute increases (handle both old and new format)
         const attributes = choice.attributes || (choice.attribute ? [choice.attribute] : []);
-
         if (attributes.length > 0) {
             const newStats = { ...state.stats };
             attributes.forEach(attr => {
@@ -4388,19 +4401,19 @@ const useCharacterStore = create((set, get) => ({
                     newStats[attr] = Math.max(1, (newStats[attr] || 1) - 1);
                 }
             });
-
-            set({ stats: newStats });
+            atomicUpdate.stats = newStats;
         }
 
-        // Remove from history BEFORE recalculating
+        // Remove this level's entry from history so initializeCharacter()
+        // will exclude its healthIncrease / manaIncrease from the running totals.
         const updatedHistory = { ...state.levelUpHistory };
         delete updatedHistory[level];
-        set({ levelUpHistory: updatedHistory });
+        atomicUpdate.levelUpHistory = updatedHistory;
 
-        // Recalculate derived stats (this will now exclude the removed level-up bonuses)
-        get().initializeCharacter();
-
-        get().syncWithMultiplayer();
+        set(atomicUpdate);
+        // NOTE: Do NOT call initializeCharacter() here.
+        // When reversing multiple levels in a loop (adjustLevel), the caller
+        // does a single initializeCharacter() pass at the end for efficiency.
     }
 }));
 

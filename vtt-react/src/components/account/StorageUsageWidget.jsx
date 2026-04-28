@@ -17,7 +17,6 @@ const StorageUsageWidget = ({ compact = false }) => {
   const [detailedUsage, setDetailedUsage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Load detailed storage usage on mount
   useEffect(() => {
     const loadDetailedUsage = async () => {
       if (!user || user.isGuest || !isOnline) return;
@@ -43,11 +42,13 @@ const StorageUsageWidget = ({ compact = false }) => {
       <div className={`storage-usage-widget ${compact ? 'compact' : ''} guest`}>
         <div className="storage-header">
           <i className="fas fa-info-circle"></i>
-          <span>Guest Mode</span>
+          <span>No Cloud Storage</span>
         </div>
-        <div className="storage-content">
-          <p>Data is not saved. Upgrade to an account to persist your progress!</p>
-        </div>
+        {!compact && (
+          <div className="storage-content">
+            <p>Data is not saved. Upgrade to an account to persist your progress!</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -56,12 +57,14 @@ const StorageUsageWidget = ({ compact = false }) => {
     return (
       <div className={`storage-usage-widget ${compact ? 'compact' : ''} offline`}>
         <div className="storage-header">
-          <i className="fas fa-cloud-offline"></i>
-          <span>Storage Offline</span>
+          <i className="fas fa-cloud"></i>
+          <span>Loading...</span>
         </div>
-        <div className="storage-content">
-          <p>Unable to check storage usage. Please check your connection.</p>
-        </div>
+        {!compact && (
+          <div className="storage-content">
+            <p>Unable to check storage usage. Please check your connection.</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -75,8 +78,33 @@ const StorageUsageWidget = ({ compact = false }) => {
 
   const formatCategoryLimit = (val) => val === -1 || val === undefined ? '∞' : val;
 
+  if (compact) {
+    return (
+      <div className={`storage-usage-widget compact ${status}`}>
+        <div className="storage-compact-row">
+          <div className="storage-header">
+            <i className={`fas fa-cloud ${status === 'critical' ? 'error' : status === 'warning' ? 'warning' : 'success'}`}></i>
+            <span>Storage</span>
+          </div>
+          <div className="storage-bar">
+            <div
+              className="storage-fill"
+              style={{ width: `${Math.min(percentage, 100)}%` }}
+            />
+          </div>
+          <div className="storage-stats">
+            <span className="storage-used">{usedMB} MB</span>
+            <span className="storage-separator">/</span>
+            <span className="storage-limit">{displayLimit}</span>
+          </div>
+          <span className="storage-percentage">{percentage}%</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`storage-usage-widget ${compact ? 'compact' : ''} ${status}`}>
+    <div className={`storage-usage-widget ${status}`}>
       <div className="storage-header">
         <i className={`fas fa-cloud ${status === 'critical' ? 'error' : status === 'warning' ? 'warning' : 'success'}`}></i>
         <span>{tier} Storage</span>
@@ -96,26 +124,24 @@ const StorageUsageWidget = ({ compact = false }) => {
           <span className="storage-limit">{displayLimit}</span>
         </div>
 
-        {!compact && (
-          <div className="storage-breakdown">
-            <div className="breakdown-item">
-              <span>Characters</span>
-              <span>{breakdown.characters || 0} / {formatCategoryLimit(detailedUsage.limits.characters)}</span>
-            </div>
-            <div className="breakdown-item">
-              <span>Rooms</span>
-              <span>{breakdown.rooms || 0} / {formatCategoryLimit(detailedUsage.limits.rooms)}</span>
-            </div>
-            <div className="breakdown-item">
-              <span>Journals</span>
-              <span>{(breakdown.journals || 0) > 0 ? '1' : '0'} / 1</span>
-            </div>
-            <div className="breakdown-item">
-              <span>Campaigns</span>
-              <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
-            </div>
+        <div className="storage-breakdown">
+          <div className="breakdown-item">
+            <span>Characters</span>
+            <span>{breakdown.characters || 0} / {formatCategoryLimit(detailedUsage.limits.characters)}</span>
           </div>
-        )}
+          <div className="breakdown-item">
+            <span>Rooms</span>
+            <span>{breakdown.rooms || 0} / {formatCategoryLimit(detailedUsage.limits.rooms)}</span>
+          </div>
+          <div className="breakdown-item">
+            <span>Journals</span>
+            <span>{(breakdown.journals || 0) > 0 ? '1' : '0'} / 1</span>
+          </div>
+          <div className="breakdown-item">
+            <span>Campaigns</span>
+            <span>{breakdown.campaigns || 0} / {formatCategoryLimit(detailedUsage.limits.campaigns)}</span>
+          </div>
+        </div>
 
         {message && (
           <div className={`storage-message ${status}`}>

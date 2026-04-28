@@ -5,7 +5,7 @@
  * Migrated from ChatWindow loot functionality
  */
 
-import React, { useState, useRef, lazy, Suspense } from 'react';
+import React, { useState, useRef, lazy, Suspense, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
 
@@ -40,6 +40,19 @@ const LootTab = () => {
   // State for item tooltip
   const [tooltipItem, setTooltipItem] = useState(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
+  // Auto-scroll to bottom when new loot arrives
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      const container = messagesEndRef.current.parentElement;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [notifications]);
 
   // Calculate tooltip position based on mouse coordinates
   const calculateTooltipPosition = (e) => {

@@ -19,6 +19,7 @@ import ClassResourceBar from '../hud/ClassResourceBar';
 import usePresenceStore from '../../store/presenceStore';
 import useSocialStore from '../../store/socialStore';
 import AccountSocialManager from './AccountSocialManager';
+import StorageUsageWidget from './StorageUsageWidget';
 import './styles/AccountDashboard.css';
 import './styles/AccountDashboardIsolation.css';
 import './styles/RoomManager.css'; // Import existing modal styles
@@ -543,6 +544,19 @@ const AccountDashboard = ({ user }) => {
             </div>
           </div>
         )}
+
+        {/* Storage Overview Bar */}
+        <div className="account-overview-bar">
+          <div className="account-storage-info">
+            <StorageUsageWidget compact={true} />
+          </div>
+          {!isGuest && subscriptionStatus?.canUpgrade && (
+            <button className="upgrade-cta-btn" onClick={() => setActiveTab('membership')}>
+              <i className="fas fa-arrow-up"></i>
+              Upgrade Plan
+            </button>
+          )}
+        </div>
 
         {/* Main Content */}
         <main className="account-main">

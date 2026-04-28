@@ -98,6 +98,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       '3 character slots with cloud save',
       '1 permanent room (up to 4 players)',
+      '25 MB cloud storage',
       'Full character creation (27 classes, 12 races)',
       'Spell crafting, creature & item creation',
       'Full map editor with static fog of war',
@@ -165,6 +166,7 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       '15 character slots with cloud save',
       '5 permanent rooms (up to 6 players each)',
+      '500 MB cloud storage',
       'Dynamic fog of war & line-of-sight',
       'Dynamic lighting with shadows & colors',
       'Atmospheric effects (rain, snow, fog, embers)',

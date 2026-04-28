@@ -30,10 +30,10 @@
     border: 3px solid #8b7355;
     border-radius: 12px;
     padding: 20px;
-    max-width: 750px;
+    max-width: 700px;
     width: 90%;
-    max-height: none;
-    overflow: visible;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     animation: slideIn 0.3s ease;
     display: flex;
@@ -546,7 +546,226 @@
     box-shadow: 0 0 15px rgba(74, 147, 74, 0.6);
 }
 
-.spell-card-preview {
-    margin-top: 15px;
+/* Spell Detail Popup Overlay (same style as ClassDetailDisplay spellbook) */
+.level-up-spell-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(100, 100, 150, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000000;
+    cursor: pointer;
+    animation: levelUpSpellPopupFadeIn 0.3s ease-out;
 }
 
+@keyframes levelUpSpellPopupFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+.level-up-spell-popup-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(150, 150, 200, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(200, 150, 200, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(100, 150, 250, 0.2) 0%, transparent 60%);
+    animation: levelUpCloudDrift 15s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes levelUpCloudDrift {
+    0%, 100% {
+        opacity: 0.6;
+        transform: translate(0, 0);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(-20px, 20px);
+    }
+}
+
+.level-up-spell-popup-content {
+    padding: 20px;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: auto;
+    cursor: default;
+    animation: levelUpSpellCardFadeIn 0.4s ease-out;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes levelUpSpellCardFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.level-up-spell-popup-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 52px;
+    height: 80px;
+    border: 2px solid rgba(200, 180, 140, 0.4);
+    border-radius: 8px;
+    background: rgba(30, 25, 40, 0.7);
+    color: rgba(220, 200, 160, 0.9);
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.level-up-spell-popup-nav:hover:not(:disabled) {
+    background: rgba(60, 50, 80, 0.85);
+    border-color: rgba(220, 200, 140, 0.7);
+    color: #f0e0b0;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 0 20px rgba(200, 180, 140, 0.3);
+}
+
+.level-up-spell-popup-nav:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.level-up-spell-popup-nav:disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+}
+
+.level-up-spell-popup-nav-prev {
+    left: max(16px, calc(50% - 340px));
+}
+
+.level-up-spell-popup-nav-next {
+    right: max(16px, calc(50% - 340px));
+}
+
+.level-up-spell-popup-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: 'Crimson Text', serif;
+    font-size: 0.9rem;
+    color: rgba(200, 180, 140, 0.7);
+    background: rgba(20, 15, 30, 0.6);
+    padding: 4px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(200, 180, 140, 0.2);
+    pointer-events: none;
+    letter-spacing: 0.5px;
+}
+
+.level-up-spell-popup-level-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(40, 35, 60, 0.9), rgba(60, 50, 80, 0.85));
+    border: 1px solid rgba(200, 180, 140, 0.35);
+    border-radius: 8px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1rem;
+    color: rgba(240, 220, 170, 0.95);
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.level-up-spell-popup-level-badge i {
+    color: #d4a843;
+    font-size: 0.85rem;
+}
+
+.level-up-spell-popup-content .pf-spell-card-header,
+.level-up-spell-popup-content .wow-spell-card-header,
+.level-up-spell-popup-content .unified-spell-card-header {
+    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
+    color: #f0e6d2 !important;
+    border-bottom-color: #8B4513 !important;
+}
+
+.level-up-spell-popup-content .pf-spell-name,
+.level-up-spell-popup-content .unified-spell-name,
+.level-up-spell-popup-content .wow-spell-card-title h3 {
+    color: #f0e6d2 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4) !important;
+}
+
+.level-up-spell-popup-content .pf-spell-school,
+.level-up-spell-popup-content .unified-spell-school {
+    color: rgba(240, 230, 210, 0.85) !important;
+}
+
+.level-up-spell-popup-content .pf-action-type-badge,
+.level-up-spell-popup-content .pf-range-badge,
+.level-up-spell-popup-content .pf-targeting-badge {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5) !important;
+}
+
+.level-up-spell-popup-select-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px 20px;
+    font-family: 'Crimson Text', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #f0e6d2;
+    background: linear-gradient(135deg, #2d7a2d 0%, #1e5a1e 100%);
+    border: 2px solid rgba(74, 147, 74, 0.6);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.level-up-spell-popup-select-btn:hover {
+    background: linear-gradient(135deg, #3d8a3d 0%, #2e6a2e 100%);
+    border-color: rgba(100, 180, 100, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(45, 122, 45, 0.4);
+}
+
+.level-up-spell-popup-select-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}

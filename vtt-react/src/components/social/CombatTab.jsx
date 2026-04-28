@@ -5,7 +5,7 @@
  * Migrated from ChatWindow combat functionality
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import useChatStore from '../../store/chatStore';
 import { DICE_TYPES } from '../../store/diceStore';
 
@@ -19,6 +19,19 @@ const CombatTab = () => {
   const notifications = useChatStore((state) => state.notifications?.combat || []);
   const clearNotifications = useChatStore((state) => state.clearNotifications);
   const messagesEndRef = useRef(null);
+
+  // Auto-scroll to bottom when new combat events arrive
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      const container = messagesEndRef.current.parentElement;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [notifications]);
 
   // Render combat notification
   const renderCombatNotification = (notification) => {

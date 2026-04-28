@@ -28,7 +28,15 @@ const TravelTab = () => {
   const travelChatUnreadCount = usePresenceStore((s) => s.travelChatUnreadCount);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      const container = messagesEndRef.current.parentElement;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
   }, [broadcastHistory, playerTravelState?.lastBroadcast]);
 
   if (!isInMultiplayer) {

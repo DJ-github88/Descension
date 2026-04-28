@@ -2902,159 +2902,53 @@ const UnifiedSpellCard = ({
     return (
       <div className="pf-spell-resources">
         {resources.map((resource, index) => {
-          // Special rendering for Inferno costs - compact display
-          if (resource.isInferno) {
-            return (
-              <div
-                key={index}
-                className={`pf-resource-cost ${resource.type}`}
-                title={resource.fullText || resource.amount}
-              >
-                <FontAwesomeIcon
-                  icon={resource.icon}
-                  className="pf-resource-icon"
-                  style={{ color: resource.color }}
-                />
-                <span
-                  className="pf-resource-amount"
-                  style={{
-                    color: '#ffffff',
-                    fontWeight: resource.isRequired ? 'bold' : 'normal'
-                  }}
-                >
-                  {resource.amount}
-                </span>
-                {resource.name && !resource.isRequired && (
-                  <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
-                    {resource.name}
-                  </span>
-                )}
-              </div>
-            );
-          }
-
-          // Special rendering for sphere costs - compact display
+          // Process name for display
+          let displayName = resource.name;
           if (resource.isSphere) {
-            // Extract sphere type for abbreviation
-            const sphereType = resource.name.replace(' Sphere', '').replace(' Spheres', '');
-            return (
-              <div
-                key={index}
-                className="pf-resource-cost sphere-cost"
-                title={`${resource.amount} ${resource.amount === 1 ? sphereType + ' Sphere' : sphereType + ' Spheres'}`}
-                style={{
-                  color: '#ffffff',
-                  background: 'transparent',
-                  border: 'none',
-                  padding: '2px 6px'
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={resource.icon}
-                  className="pf-resource-icon"
-                  style={{ color: '#ffffff' }}
-                />
-                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
-                  {resource.amount}
-                </span>
-                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
-                  {sphereType}
-                </span>
-              </div>
-            );
+             displayName = resource.name ? resource.name.replace(/ Spheres?/g, '') : '';
+          } else if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
+             displayName = 'AP';
+          } else if (resource.isInferno) {
+             displayName = resource.isRequired ? null : resource.name;
           }
 
-          // Special rendering for musical notes
-          if (resource.isMusicalNote) {
-            return (
-              <div
-                key={index}
-                className={`pf-resource-cost ${resource.type}`}
-                title={resource.amount}
-              >
-                <span
-                  className="pf-musical-clef-icon"
-                  style={{ color: resource.color, fontSize: '20px', marginRight: '4px' }}
-                >
-                  {resource.clefSymbol}
-                </span>
-                <span className="pf-resource-amount" style={{ color: '#ffffff' }}>
-                  {resource.amount}
-                </span>
-              </div>
-            );
-          }
-
-          // Special rendering for Chronarch resources (similar to musical notes)
-          if (resource.isChronarch) {
-            return (
-              <div
-                key={index}
-                className={`pf-resource-cost ${resource.type}`}
-                title={`${resource.amount} ${resource.name}`}
-              >
-                <FontAwesomeIcon
-                  icon={resource.icon}
-                  className="pf-chronarch-icon"
-                  style={{ color: '#fff', fontSize: '16px', marginRight: '4px' }}
-                />
-                <span className="pf-resource-amount" style={{ color: '#ffffff', marginRight: '4px' }}>
-                  {resource.amount}
-                </span>
-                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '11px' }}>
-                  {resource.name}
-                </span>
-              </div>
-            );
-          }
-
-          // Special rendering for action points - compact display like spheres
-          if (resource.type === 'action-points' || resource.type === 'action_points' || resource.type === 'actionpoints') {
-            return (
-              <div
-                key={index}
-                className={`pf-resource-cost ${resource.type} action-point-cost`}
-                title={`${resource.amount} ${resource.amount === 1 ? 'Action Point' : 'Action Points'}`}
-                style={{
-                  color: '#ffffff',
-                  background: 'transparent',
-                  border: 'none',
-                  padding: '2px 4px'
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={resource.icon}
-                  className="pf-resource-icon"
-                  style={{ color: '#ffffff', fontSize: '14px' }}
-                />
-                <span className="pf-resource-amount" style={{ color: '#ffffff', fontSize: '12px' }}>
-                  {resource.amount}
-                </span>
-                <span className="pf-resource-name" style={{ color: '#ffffff', fontSize: '10px', marginLeft: '1px' }}>
-                  AP
-                </span>
-              </div>
-            );
-          }
-
-          // Normal resource rendering
+          let displayAmount = resource.isFormula ? resource.amount : resource.amount;
+          
           return (
             <div
               key={index}
               className={`pf-resource-cost ${resource.type} ${resource.isFormula ? 'formula' : ''}`}
-              title={`${resource.name}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
+              title={resource.fullText || `${resource.name || resource.type}: ${resource.isFormula ? `Formula: ${resource.amount}` : resource.amount}`}
             >
-              <FontAwesomeIcon
-                icon={resource.icon}
-                className="pf-resource-icon"
-                style={{ color: '#ffffff' }}
-              />
-              <span className="pf-resource-amount">
-                {resource.isFormula ? resource.amount : resource.amount}
+              {resource.isMusicalNote ? (
+                <span
+                  className="pf-musical-clef-icon"
+                  style={{ color: resource.color }}
+                >
+                  {resource.clefSymbol}
+                </span>
+              ) : (
+                <FontAwesomeIcon
+                  icon={resource.icon}
+                  className="pf-resource-icon"
+                  style={{ color: resource.color || '#ffffff' }}
+                />
+              )}
+              
+              <span 
+                className="pf-resource-amount"
+                style={{ 
+                  fontWeight: resource.isRequired ? 'bold' : 'normal' 
+                }}
+              >
+                {displayAmount}
               </span>
-              <span className="pf-resource-name">
-                {resource.name}
-              </span>
+              
+              {displayName && (
+                <span className="pf-resource-name">
+                  {displayName}
+                </span>
+              )}
             </div>
           );
         })}

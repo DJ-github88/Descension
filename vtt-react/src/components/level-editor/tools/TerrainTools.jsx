@@ -22,7 +22,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
         natural: {
             name: 'Natural Terrain',
             icon: 'Nature/Nature Natural',
-            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water_calm', 'water_ripples', 'water_caustic', 'water_rough', 'water', 'cobblestone']
+            terrains: ['grass', 'dirt', 'stone', 'snow', 'sand', 'water', 'cobblestone']
         },
         dungeon: {
             name: 'Dungeon Floors',
@@ -167,7 +167,7 @@ const TerrainTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }
                                                 {/* Show tile image if available, otherwise show color */}
                                                 {tileImage ? (
                                                     <img
-                                                        src={`${tileImage}?v=26`}
+                                                        src={`${tileImage}?v=35`}
                                                         alt={terrain.name}
                                                         className="terrain-tile-image"
                                                         onError={(e) => {

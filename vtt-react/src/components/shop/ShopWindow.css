@@ -31,9 +31,9 @@
 /* Fixed Window Header Layout */
 .shop-window-header {
   display: grid;
-  grid-template-columns: 200px 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   padding: 6px 16px;
   background: linear-gradient(135deg, #8b4513 0%, #a0824a 30%, #b8956a 70%, #8b7355 100%);
   border-radius: 9px 9px 0 0;
@@ -53,7 +53,7 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   grid-column: 2;
   justify-self: end;
 }
@@ -174,7 +174,7 @@
   object-fit: cover;
 }
 
-.close-button {
+.shop-close-btn {
   background: rgba(220, 53, 69, 0.9);
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: #ffffff;
@@ -192,11 +192,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(2px);
   flex-shrink: 0;
-  grid-column: 3;
-  justify-self: end;
 }
 
-.close-button:hover {
+.shop-close-btn:hover {
   background: rgba(220, 53, 69, 1);
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
@@ -442,7 +440,7 @@
 
 /* Filters Popout */
 .filters-popout-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -454,6 +452,7 @@
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.2s ease-out;
+  border-radius: 12px;
 }
 
 .filters-popout {
@@ -1370,14 +1369,9 @@
     justify-self: center;
   }
 
-  .header-filters {
+  .header-actions {
     grid-column: 1;
     grid-row: 2;
-  }
-
-  .close-button {
-    grid-column: 1;
-    grid-row: 3;
     justify-self: center;
   }
 

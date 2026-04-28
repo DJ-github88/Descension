@@ -55,59 +55,18 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Sand',
         category: 'natural',
         color: '#c2b280',
-        tileVariations: [
-            '/assets/tiles/Sand2.png'
-        ],
+        tileVariations: ['/assets/tiles/Sand1.png'],
         movementCost: 2,
         description: 'Sandy terrain'
     },
-    water_calm: {
-        id: 'water_calm',
-        name: 'Water - Calm',
-        category: 'natural',
-        color: '#4682b4',
-        tileVariations: ['/assets/tiles/Water2.png', '/assets/tiles/Water6.png'],
-        movementCost: 4,
-        description: 'Peaceful, still water'
-    },
-    water_ripples: {
-        id: 'water_ripples',
-        name: 'Water - Ripples',
-        category: 'natural',
-        color: '#4682b4',
-        tileVariations: ['/assets/tiles/Water4.png', '/assets/tiles/Water8.png'],
-        movementCost: 4,
-        description: 'Gently rippling water'
-    },
-    water_caustic: {
-        id: 'water_caustic',
-        name: 'Water - Caustic',
-        category: 'natural',
-        color: '#4682b4',
-        tileVariations: ['/assets/tiles/Water3.png', '/assets/tiles/Water7.png'],
-        movementCost: 4,
-        description: 'Sunlit net patterns on water'
-    },
-    water_rough: {
-        id: 'water_rough',
-        name: 'Water - Rough',
-        category: 'natural',
-        color: '#4682b4',
-        tileVariations: ['/assets/tiles/Water1.png', '/assets/tiles/Water5.png'],
-        movementCost: 4,
-        description: 'Stormy, crashing waves'
-    },
     water: {
         id: 'water',
-        name: 'Water (legacy)',
+        name: 'Water',
         category: 'natural',
         color: '#4682b4',
-        tileVariations: [
-            '/assets/tiles/Water2.png',
-            '/assets/tiles/Water6.png'
-        ],
+        tileVariations: ['/assets/tiles/Water2.png'],
         movementCost: 4,
-        description: 'Legacy water terrain'
+        description: 'Deep water'
     },
     cobblestone: {
         id: 'cobblestone',
@@ -127,7 +86,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Dungeon Floor',
         category: 'dungeon',
         color: '#5a5a5a',
-        texture: '/assets/terrain/dungeon_floor.png',
+        tileVariations: ['/assets/tiles/Dungeon1.png'],
         movementCost: 1,
         description: 'Stone dungeon flooring'
     },
@@ -136,7 +95,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Marble Floor',
         category: 'dungeon',
         color: '#f0f0f0',
-        texture: '/assets/terrain/marble.png',
+        tileVariations: ['/assets/tiles/Marble1.png'],
         movementCost: 1,
         description: 'Polished marble flooring'
     },
@@ -145,7 +104,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Wooden Floor',
         category: 'dungeon',
         color: '#8b4513',
-        texture: '/assets/terrain/wood.png',
+        tileVariations: ['/assets/tiles/Wood1.png'],
         movementCost: 1,
         description: 'Wooden planked flooring'
     },
@@ -165,7 +124,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Mud',
         category: 'difficult',
         color: '#654321',
-        texture: '/assets/terrain/mud.png',
+        tileVariations: ['/assets/tiles/Mud1.png'],
         movementCost: 2,
         description: 'Muddy, difficult terrain'
     },
@@ -174,7 +133,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Swamp',
         category: 'difficult',
         color: '#556b2f',
-        texture: '/assets/terrain/swamp.png',
+        tileVariations: ['/assets/tiles/Swamp1.png'],
         movementCost: 3,
         description: 'Swampy, treacherous ground'
     },
@@ -183,7 +142,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Ice',
         category: 'difficult',
         color: '#b0e0e6',
-        texture: '/assets/terrain/ice.png',
+        tileVariations: ['/assets/tiles/Ice1.png'],
         movementCost: 2,
         description: 'Slippery ice surface'
     },
@@ -192,7 +151,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Fungal Growth',
         category: 'difficult',
         color: '#7b68ee',
-        texture: '/assets/terrain/fungal.png',
+        tileVariations: ['/assets/tiles/Fungal1.png'],
         movementCost: 2,
         description: 'Spongy, glowing fungal matter'
     },
@@ -241,7 +200,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Crystal Floor',
         category: 'dungeon',
         color: '#e0ffff',
-        texture: '/assets/terrain/crystal.png',
+        tileVariations: ['/assets/tiles/Crystal1.png'],
         movementCost: 1,
         description: 'Resonant crystalline surface'
     },
@@ -250,7 +209,7 @@ export const PROFESSIONAL_TERRAIN_TYPES = {
         name: 'Gold Floor',
         category: 'dungeon',
         color: '#ffd700',
-        texture: '/assets/terrain/gold.png',
+        tileVariations: ['/assets/tiles/Gold1.png'],
         movementCost: 1,
         description: 'Opulent solid gold flooring'
     }
@@ -260,6 +219,7 @@ const TerrainSystem = () => {
     const canvasRef = useRef(null);
     const bufferCanvasRef = useRef(null);
     const bufferCtxRef = useRef(null);
+    const renderTimeoutRef = useRef(null);
     const lastBufferResetRef = useRef({
         cameraX: 0,
         cameraY: 0,
@@ -307,6 +267,13 @@ const TerrainSystem = () => {
     useEffect(() => {
         setTerrainDataVersion(v => v + 1);
     }, [terrainData]);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (renderTimeoutRef.current) clearTimeout(renderTimeoutRef.current);
+        };
+    }, []);
 
     // Convert grid coordinates to screen coordinates using the same system as InfiniteGridSystem
     const gridToScreen = useCallback((gridX, gridY, canvasWidth, canvasHeight) => {
@@ -597,7 +564,7 @@ const TerrainSystem = () => {
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
                             img.onload = () => setTerrainDataVersion(v => v + 1);
-                            img.src = `${tileVariationPath}?v=26`;
+                            img.src = `${tileVariationPath}?v=35`;
                             imageCache[tileVariationPath] = img;
                         }
                         const img = imageCache[tileVariationPath];
@@ -663,7 +630,7 @@ const TerrainSystem = () => {
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
                             img.onload = () => setTerrainDataVersion(v => v + 1);
-                            img.src = `${tileVariationPath}?v=26`;
+                            img.src = `${tileVariationPath}?v=35`;
                             imageCache[tileVariationPath] = img;
                         }
                         const img = imageCache[tileVariationPath];
@@ -749,29 +716,52 @@ const TerrainSystem = () => {
 
         const lastReset = lastBufferResetRef.current;
         const terrainLayerVisible = drawingLayers.find(l => l.id === 'terrain')?.visible ?? true;
-        const needsRefresh =
-            !bufferCanvasRef.current ||
-            lastReset.zoom !== effectiveZoom ||
-            lastReset.gridType !== gridType ||
-            lastReset.gridSize !== gridSize ||
-            lastReset.gridOffsetX !== gridOffsetX ||
-            lastReset.gridOffsetY !== gridOffsetY ||
-            lastReset.dataVersion !== terrainDataVersion ||
-            lastReset.viewportWidth !== width ||
-            lastReset.viewportHeight !== height ||
-            lastReset.terrainLayerVisible !== terrainLayerVisible ||
-            Math.abs(cameraX - lastReset.cameraX) * effectiveZoom > bufferPadding ||
-            Math.abs(cameraY - lastReset.cameraY) * effectiveZoom > bufferPadding;
+        
+        // Check if we need to refresh the buffer
+        // We only "hard" refresh if the buffer is missing, or if we've moved/zoomed too far
+        const zoomRatio = lastReset.zoom > 0 ? effectiveZoom / lastReset.zoom : 1;
+        const needsImmediateRefresh = !bufferCanvasRef.current || 
+                                     lastReset.gridType !== gridType ||
+                                     lastReset.gridSize !== gridSize ||
+                                     lastReset.gridOffsetX !== gridOffsetX ||
+                                     lastReset.gridOffsetY !== gridOffsetY ||
+                                     lastReset.dataVersion !== terrainDataVersion ||
+                                     lastReset.viewportWidth !== width ||
+                                     lastReset.viewportHeight !== height ||
+                                     lastReset.terrainLayerVisible !== terrainLayerVisible ||
+                                     Math.abs(cameraX - lastReset.cameraX) * effectiveZoom > bufferPadding * 1.5 ||
+                                     Math.abs(cameraY - lastReset.cameraY) * effectiveZoom > bufferPadding * 1.5;
 
-        if (needsRefresh) {
+        const needsSoftRefresh = lastReset.zoom !== effectiveZoom || 
+                                Math.abs(cameraX - lastReset.cameraX) * effectiveZoom > bufferPadding * 0.5 ||
+                                Math.abs(cameraY - lastReset.cameraY) * effectiveZoom > bufferPadding * 0.5;
+
+        if (needsImmediateRefresh) {
+            if (renderTimeoutRef.current) clearTimeout(renderTimeoutRef.current);
             renderToBuffer();
+        } else if (needsSoftRefresh) {
+            // Debounce the high-quality refresh during zoom/pan
+            if (!renderTimeoutRef.current) {
+                renderTimeoutRef.current = setTimeout(() => {
+                    renderToBuffer();
+                    renderTimeoutRef.current = null;
+                }, 200);
+            }
         }
 
         const bufferCanvas = bufferCanvasRef.current;
-        if (bufferCanvas) {
-            const offsetX = (lastReset.cameraX - cameraX) * effectiveZoom - bufferPadding;
-            const offsetY = (lastReset.cameraY - cameraY) * effectiveZoom - bufferPadding;
-            ctx.drawImage(bufferCanvas, offsetX, offsetY);
+        if (bufferCanvas && lastReset.zoom > 0) {
+            const scale = effectiveZoom / lastReset.zoom;
+            
+            // Calculate precisely where the buffer should be drawn
+            // The buffer was rendered with lastReset.cameraX/Y at its center
+            // We need to scale that buffer and offset it by the current camera position
+            const drawX = (lastReset.cameraX - cameraX) * effectiveZoom + (width / 2) - (width / 2 + bufferPadding) * scale;
+            const drawY = (lastReset.cameraY - cameraY) * effectiveZoom + (height / 2) - (height / 2 + bufferPadding) * scale;
+            const drawW = bufferCanvas.width * scale;
+            const drawH = bufferCanvas.height * scale;
+
+            ctx.drawImage(bufferCanvas, drawX, drawY, drawW, drawH);
         }
     }, [cameraX, cameraY, effectiveZoom, gridSize, gridType, gridOffsetX, gridOffsetY, terrainDataVersion, drawingLayers, renderToBuffer]);
 

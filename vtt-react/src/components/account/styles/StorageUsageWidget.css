@@ -9,9 +9,63 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Compact horizontal layout for account overview bar */
 .storage-usage-widget.compact {
-  padding: 12px;
-  margin: 8px 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.storage-compact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.storage-usage-widget.compact .storage-header {
+  margin-bottom: 0;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.storage-usage-widget.compact .storage-header i {
+  font-size: 12px;
+}
+
+.storage-usage-widget.compact .storage-header span:first-of-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex: unset;
+  white-space: nowrap;
+}
+
+.storage-usage-widget.compact .storage-bar {
+  width: auto;
+  flex: 1;
+  min-width: 60px;
+  max-width: 160px;
+  height: 6px;
+  margin: 0;
+}
+
+.storage-usage-widget.compact .storage-stats {
+  margin-bottom: 0;
+  gap: 0.2rem;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.storage-usage-widget.compact .storage-percentage {
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.storage-separator {
+  color: #a0a0b0;
+  opacity: 0.5;
 }
 
 .storage-usage-widget.guest {
@@ -19,9 +73,19 @@
   border-color: rgba(120, 80, 80, 0.3);
 }
 
+.storage-usage-widget.guest.compact {
+  background: transparent;
+  border: none;
+}
+
 .storage-usage-widget.offline {
   background: linear-gradient(135deg, rgba(60, 60, 40, 0.9), rgba(50, 50, 30, 0.9));
   border-color: rgba(120, 120, 80, 0.3);
+}
+
+.storage-usage-widget.offline.compact {
+  background: transparent;
+  border: none;
 }
 
 .storage-usage-widget.good {
@@ -38,6 +102,12 @@
   background: linear-gradient(135deg, rgba(80, 40, 40, 0.9), rgba(70, 30, 30, 0.9));
   border-color: rgba(160, 80, 80, 0.3);
   animation: pulse 2s infinite;
+}
+
+.storage-usage-widget.critical.compact {
+  background: transparent;
+  border: none;
+  animation: none;
 }
 
 @keyframes pulse {
@@ -186,7 +256,7 @@
   }
 
   .storage-usage-widget.compact {
-    padding: 8px;
+    padding: 0;
   }
 
   .storage-header {

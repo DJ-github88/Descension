@@ -921,11 +921,10 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
             >
               <i className="fas fa-filter"></i>
             </button>
+            <button className="shop-close-btn" onClick={onClose}>
+              <i className="fas fa-times"></i>
+            </button>
           </div>
-
-          <button className="close-button" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
         </div>
 
         {/* Global Filters Popout */}
