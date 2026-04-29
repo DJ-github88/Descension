@@ -7,24 +7,243 @@ import UnifiedContextMenu from '../UnifiedContextMenu';
 
 // Professional object types for VTT
 export const PROFESSIONAL_OBJECTS = {
-    // GM Tools
     gmNotes: {
         id: 'gmNotes',
         name: 'GM Notes',
         category: 'gm',
         icon: 'inv_misc_note_02',
         image: '/assets/objects/gm-notes.png',
-        size: { width: 0.8, height: 0.8 }, // Grid-aligned size
+        size: { width: 0.8, height: 0.8 },
         description: 'GM prepared notes with items and creatures',
-        freePosition: true, // Allow free positioning - place exactly where clicked
+        freePosition: true,
         draggable: true,
         resizable: false,
-        clickable: true, // Can be clicked to open
-        gmOnly: true, // Only visible to GM
+        clickable: true,
+        gmOnly: true,
         interactive: true
     },
-
+    treasureChest: {
+        id: 'treasureChest',
+        name: 'Treasure Chest',
+        category: 'furniture',
+        icon: 'items/Container/Chest/treasure-chest-wooden-brown-straps',
+        image: '/assets/objects/treasure-chest.png',
+        size: { width: 1, height: 1 },
+        description: 'A wooden chest for treasures',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    barrel: {
+        id: 'barrel',
+        name: 'Barrel',
+        category: 'furniture',
+        icon: 'items/Container/Crate/barrel-wooden-orange-bands-hoops',
+        image: '/assets/objects/barrel.png',
+        size: { width: 0.8, height: 0.8 },
+        description: 'A wooden barrel',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    crate: {
+        id: 'crate',
+        name: 'Crate',
+        category: 'furniture',
+        icon: 'items/Container/Crate/crate-wooden-planks-orange-outline',
+        image: '/assets/objects/crate.png',
+        size: { width: 1, height: 1 },
+        description: 'A sturdy wooden crate',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    table: {
+        id: 'table',
+        name: 'Table',
+        category: 'furniture',
+        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
+        image: '/assets/objects/table.png',
+        size: { width: 2, height: 1 },
+        description: 'A wooden table',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    chair: {
+        id: 'chair',
+        name: 'Chair',
+        category: 'furniture',
+        icon: 'items/Armor/Hands/hands-straw-hay-bench',
+        image: '/assets/objects/chair.png',
+        size: { width: 0.6, height: 0.6 },
+        description: 'A wooden chair',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    pillar: {
+        id: 'pillar',
+        name: 'Pillar',
+        category: 'structures',
+        icon: 'Utility/Falling Block',
+        image: '/assets/objects/pillar.png',
+        size: { width: 1, height: 1 },
+        description: 'A stone pillar',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    campfire: {
+        id: 'campfire',
+        name: 'Campfire',
+        category: 'props',
+        icon: 'Fire/Fire Logs',
+        image: '/assets/objects/campfire.png',
+        size: { width: 1, height: 1 },
+        description: 'A crackling campfire',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 3,
+        lightColor: '#ffaa00',
+        showLight: true
+    },
+    torch: {
+        id: 'torch',
+        name: 'Torch',
+        category: 'props',
+        icon: 'Fire/Green Torch',
+        image: '/assets/objects/torch.png',
+        size: { width: 0.4, height: 0.4 },
+        description: 'A lit torch',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 1.5,
+        lightColor: '#ffcc55',
+        showLight: true
+    },
+    trapdoor: {
+        id: 'trapdoor',
+        name: 'Trap Door',
+        category: 'props',
+        icon: 'Utility/Blue Door',
+        image: '/assets/objects/trapdoor.png',
+        size: { width: 1, height: 1 },
+        description: 'A hidden trap door',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    throne: {
+        id: 'throne',
+        name: 'Throne',
+        category: 'furniture',
+        icon: 'Social/Golden Crown',
+        image: '/assets/objects/throne.png',
+        size: { width: 1, height: 1 },
+        description: 'An ornate throne',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    bookshelf: {
+        id: 'bookshelf',
+        name: 'Bookshelf',
+        category: 'furniture',
+        icon: 'items/Misc/Books/book-stack-parchment-text-symbols',
+        image: '/assets/objects/bookshelf.png',
+        size: { width: 1.5, height: 2 },
+        description: 'A tall bookshelf',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    bed: {
+        id: 'bed',
+        name: 'Bed',
+        category: 'furniture',
+        icon: 'items/Armor/Hands/hands-simple-brown-bed',
+        image: '/assets/objects/bed.png',
+        size: { width: 2, height: 1 },
+        description: 'A simple bed',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    statue: {
+        id: 'statue',
+        name: 'Statue',
+        category: 'structures',
+        icon: 'Utility/Armored Construct',
+        image: '/assets/objects/statue.png',
+        size: { width: 1, height: 1 },
+        description: 'A carved stone statue',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    banner: {
+        id: 'banner',
+        name: 'Banner',
+        category: 'props',
+        icon: 'Utility/Fleur De Lis',
+        image: '/assets/objects/banner.png',
+        size: { width: 0.5, height: 1.5 },
+        description: 'A hanging banner',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    crystals: {
+        id: 'crystals',
+        name: 'Crystals',
+        category: 'props',
+        icon: 'Utility/Glowing Shard',
+        image: '/assets/objects/crystals.png',
+        size: { width: 0.8, height: 0.8 },
+        description: 'Glowing crystals',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 2,
+        lightColor: '#aa00ff',
+        showLight: true
+    }
 };
+
+
 
 const ObjectSystem = () => {
     const canvasRef = useRef(null);
@@ -73,6 +292,130 @@ const ObjectSystem = () => {
     } = useGameStore();
 
     const { getCurrentMapId } = useMapStore();
+
+    // Load images into cache
+    useEffect(() => {
+        const processImage = (img, url) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // 1. Identify Background Seed Colors (more samples for better detection)
+            const seeds = [];
+            const step = 0.2; // Sample every 20% along edges
+            for (let t = 0; t <= 1; t += step) {
+                seeds.push({x: Math.floor(t * (width-1)), y: 0});
+                seeds.push({x: Math.floor(t * (width-1)), y: height-1});
+                seeds.push({x: 0, y: Math.floor(t * (height-1))});
+                seeds.push({x: width-1, y: Math.floor(t * (height-1))});
+            }
+            
+            const seedColors = seeds.map(p => {
+                const i = (p.y * width + p.x) * 4;
+                return [data[i], data[i+1], data[i+2]];
+            });
+
+            // Calculate Average Seed Color for global pocket removal
+            let avgR = 0, avgG = 0, avgB = 0;
+            seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
+            avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
+
+            // 2. Flood Fill Transparency (from edges)
+            const visited = new Uint8Array(width * height);
+            const queue = [...seeds];
+            seeds.forEach(p => visited[p.y * width + p.x] = 1);
+
+            while (queue.length > 0) {
+                const {x, y} = queue.shift();
+                const i = (y * width + x) * 4;
+                const r = data[i], g = data[i+1], b = data[i+2];
+                
+                let isMatch = false;
+                for (const s of seedColors) {
+                    if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
+                        isMatch = true; break;
+                    }
+                }
+                
+                // Catch checkerboard colors (whites and light greys)
+                if (!isMatch && r > 180 && g > 180 && b > 180) {
+                    const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
+                    if (diff < 30) isMatch = true; 
+                }
+
+                if (isMatch) {
+                    data[i + 3] = 0; 
+                    const neighbors = [{nx: x+1, ny: y}, {nx: x-1, ny: y}, {nx: x, ny: y+1}, {nx: x, ny: y-1}];
+                    for (const {nx, ny} of neighbors) {
+                        if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[ny * width + nx]) {
+                            visited[ny * width + nx] = 1;
+                            queue.push({x: nx, y: ny});
+                        }
+                    }
+                }
+            }
+
+            // 3. Global Pocket Scan (for trapped background pixels like chair slats)
+            for (let i = 0; i < data.length; i += 4) {
+                if (data[i+3] === 0) continue;
+                const r = data[i], g = data[i+1], b = data[i+2];
+                
+                const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
+                const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
+
+                // ULTRA-AGGRESSIVE NUCLEAR TRANSPARENCY
+                // Clear anything that looks like background (grayscale haze)
+                if ((distToBg < 150 && diff < 60) || (r > 170 && g > 170 && b > 170 && diff < 35)) {
+                    data[i + 3] = 0;
+                }
+            }
+
+            // 4. Post-Process: Desaturate and clean edges
+            for (let i = 0; i < data.length; i += 4) {
+                if (data[i+3] === 0) continue;
+                const r = data[i], g = data[i+1], b = data[i+2];
+                if (r > 200 && g > 200 && b > 200) {
+                    const x = (i/4) % width;
+                    const y = Math.floor((i/4) / width);
+                    let hasTransNeighbor = false;
+                    if (x > 0 && data[i - 4 + 3] === 0) hasTransNeighbor = true;
+                    else if (x < width - 1 && data[i + 4 + 3] === 0) hasTransNeighbor = true;
+                    else if (y > 0 && data[i - width * 4 + 3] === 0) hasTransNeighbor = true;
+                    else if (y < height - 1 && data[i + width * 4 + 3] === 0) hasTransNeighbor = true;
+                    if (hasTransNeighbor) {
+                        const diff = Math.abs(r-g) + Math.abs(g-b);
+                        if (diff < 20) data[i + 3] = Math.max(0, data[i + 3] - 150);
+                    }
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            const processedImg = new Image();
+            processedImg.src = canvas.toDataURL();
+            processedImg.onload = () => {
+                imageCache.current.set(url, processedImg);
+                renderObjects();
+            };
+        };
+
+        Object.values(PROFESSIONAL_OBJECTS).forEach(obj => {
+            if (obj.image && !imageCache.current.has(obj.image)) {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = obj.image;
+                img.onload = () => {
+                    processImage(img, obj.image);
+                };
+            }
+        });
+    }, []);
 
     // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
     const getExplicitCurrentMapId = () => {
@@ -208,7 +551,7 @@ const ObjectSystem = () => {
             }
 
             // Render drag handles if selected and draggable
-            if (obj.selected && objectDef.draggable && isEditorMode) {
+            if (obj.selected && objectDef.draggable && (isEditorMode || isGMMode)) {
                 renderDragHandles(ctx, screenPos, objWidth, objHeight);
             }
         });
@@ -278,11 +621,17 @@ const ObjectSystem = () => {
     };
 
     const renderGenericObject = (ctx, objectDef, screenPos, width, height) => {
-        ctx.fillStyle = '#888888';
-        ctx.fillRect(screenPos.x, screenPos.y, width, height);
-        ctx.strokeStyle = '#666666';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(screenPos.x, screenPos.y, width, height);
+        const img = imageCache.current.get(objectDef.image);
+        if (img) {
+            ctx.drawImage(img, screenPos.x - width / 2, screenPos.y - height / 2, width, height);
+        } else {
+            // Fallback while image loads
+            ctx.fillStyle = 'rgba(136, 136, 136, 0.5)';
+            ctx.fillRect(screenPos.x - width / 2, screenPos.y - height / 2, width, height);
+            ctx.strokeStyle = '#666666';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(screenPos.x - width / 2, screenPos.y - height / 2, width, height);
+        }
     };
 
     const renderLightRadius = (ctx, screenPos, radius, color) => {
@@ -299,38 +648,61 @@ const ObjectSystem = () => {
 
     const renderSelectionHighlight = (ctx, screenPos, width, height) => {
         ctx.save();
-        ctx.strokeStyle = '#00ff00';
+        
+        // Draw glow
+        ctx.shadowColor = '#d4af37';
+        ctx.shadowBlur = 15;
+        ctx.strokeStyle = '#d4af37';
         ctx.lineWidth = 3;
         ctx.setLineDash([]);
+        
+        // Pulsing effect
+        const pulse = Math.sin(Date.now() / 200) * 2;
+        ctx.strokeRect(
+            screenPos.x - width / 2 - 4 - pulse, 
+            screenPos.y - height / 2 - 4 - pulse, 
+            width + 8 + pulse * 2, 
+            height + 8 + pulse * 2
+        );
+        
+        // Inner sharp box
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1;
         ctx.strokeRect(screenPos.x - width / 2 - 2, screenPos.y - height / 2 - 2, width + 4, height + 4);
+        
         ctx.restore();
     };
 
     const renderDragHandles = (ctx, screenPos, width, height) => {
         ctx.save();
-
-        // Calculate handle positions around the object
-        const handleSize = 12; // Increased for easier clicking
+        const handleSize = 14; 
         const halfWidth = width / 2;
         const halfHeight = height / 2;
-
         const handles = [
-            { x: screenPos.x - halfWidth, y: screenPos.y - halfHeight }, // Top-left
-            { x: screenPos.x + halfWidth, y: screenPos.y - halfHeight }, // Top-right
-            { x: screenPos.x - halfWidth, y: screenPos.y + halfHeight }, // Bottom-left
-            { x: screenPos.x + halfWidth, y: screenPos.y + halfHeight }, // Bottom-right
+            { x: screenPos.x - halfWidth, y: screenPos.y - halfHeight },
+            { x: screenPos.x + halfWidth, y: screenPos.y - halfHeight },
+            { x: screenPos.x - halfWidth, y: screenPos.y + halfHeight },
+            { x: screenPos.x + halfWidth, y: screenPos.y + halfHeight },
         ];
-
-        // Draw handles
-        ctx.fillStyle = '#ffffff';
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2;
-
         handles.forEach(handle => {
-            ctx.fillRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
-            ctx.strokeRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
+            ctx.fillStyle = 'rgba(0,0,0,0.5)';
+            ctx.fillRect(handle.x - handleSize/2 + 2, handle.y - handleSize/2 + 2, handleSize, handleSize);
+            ctx.fillStyle = '#d4af37';
+            ctx.fillRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
         });
-
+        
+        // Delete handle
+        const dx = screenPos.x;
+        const dy = screenPos.y - halfHeight - 25;
+        ctx.fillStyle = '#ff4444';
+        ctx.beginPath(); ctx.arc(dx, dy, 12, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = '#ffffff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('×', dx, dy + 1);
         ctx.restore();
     };
 
@@ -400,43 +772,43 @@ const ObjectSystem = () => {
 
     // Check if click is on a resize handle
     const getResizeHandle = useCallback((screenX, screenY, obj) => {
-        if (!obj || !obj.selected) return null;
+        if (!obj || (!isEditorMode && !isGMMode)) return null;
 
         const objectDef = PROFESSIONAL_OBJECTS[obj.type];
         if (!objectDef || !objectDef.resizable) return null;
 
-        const screenObjX = (obj.worldX - cameraX) * effectiveZoom;
-        const screenObjY = (obj.worldY - cameraY) * effectiveZoom;
-        const screenPos = { x: screenObjX, y: screenObjY };
+        const gridSystem = getGridSystem();
+        const viewport = gridSystem.getViewportDimensions();
+        const gridSize = useGameStore.getState().gridSize;
+        const currentZoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
 
-        const tileSize = gridSize * effectiveZoom;
+        let screenPos;
+        if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+            screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
+        } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
+            const worldCorner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
+            screenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+        } else return null;
+
+        const tileSize = gridSize * currentZoom;
         const scale = obj.scale || 1;
-        const objWidth = objectDef.size.width * tileSize * scale;
-        const objHeight = objectDef.size.height * tileSize * scale;
-
-        const handleSize = 12; // Increased from 8 for easier clicking
-        const halfWidth = objWidth / 2;
-        const halfHeight = objHeight / 2;
+        const objW = (objectDef.size.width || 1) * tileSize * scale;
+        const objH = (objectDef.size.height || 1) * tileSize * scale;
 
         const handles = [
-            { id: 'tl', x: screenPos.x - halfWidth, y: screenPos.y - halfHeight },
-            { id: 'tr', x: screenPos.x + halfWidth, y: screenPos.y - halfHeight },
-            { id: 'bl', x: screenPos.x - halfWidth, y: screenPos.y + halfHeight },
-            { id: 'br', x: screenPos.x + halfWidth, y: screenPos.y + halfHeight },
+            { id: 'tl', x: screenPos.x - objW / 2, y: screenPos.y - objH / 2 },
+            { id: 'tr', x: screenPos.x + objW / 2, y: screenPos.y - objH / 2 },
+            { id: 'bl', x: screenPos.x - objW / 2, y: screenPos.y + objH / 2 },
+            { id: 'br', x: screenPos.x + objW / 2, y: screenPos.y + objH / 2 }
         ];
 
         for (const handle of handles) {
-            const distance = Math.sqrt(
-                Math.pow(screenX - handle.x, 2) + Math.pow(screenY - handle.y, 2)
-            );
-            if (distance <= handleSize) {
-                console.log(`🎯 Handle clicked: ${handle.id} at distance ${distance}`);
-                return handle.id;
-            }
+            const dist = Math.sqrt(Math.pow(screenX - handle.x, 2) + Math.pow(screenY - handle.y, 2));
+            if (dist < 40) return handle.id;
         }
 
         return null;
-    }, [environmentalObjects, cameraX, cameraY, effectiveZoom, gridSize]);
+    }, [isEditorMode, isGMMode]);
 
     // Get cursor style based on resize handle
     const getCursorForHandle = useCallback((handle) => {
@@ -586,100 +958,103 @@ const ObjectSystem = () => {
                 // Select the object
                 selectEnvironmentalObject(clickedObject.id);
 
-                // Only allow dragging/resizing in editor mode (or dragging GM notes in GM mode)
-                const canDrag = isEditorMode || (isGMMode && clickedObject.type === 'gmNotes');
-                if (canDrag) {
-                    // Check if clicking on a resize handle (editor mode only)
-                    const handle = isEditorMode ? getResizeHandle(screenX, screenY, clickedObject) : null;
-                    console.log(`🖱️ Mouse down on object: ${clickedObject.id}, handle: ${handle}`);
+                const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
+                if (objectDef && objectDef.draggable) {
+                    // Check for delete handle click
+                    const tileSize = gridSize * effectiveZoom;
+                    const halfHeight = (objectDef.size.height * tileSize * (clickedObject.scale || 1)) / 2;
+                    const gridSystem = getGridSystem();
+                    const viewport = gridSystem.getViewportDimensions();
+                    const objScreenPos = gridSystem.worldToScreen(clickedObject.worldX, clickedObject.worldY, viewport.width, viewport.height);
+                    const hx = objScreenPos.x;
+                    const hy = objScreenPos.y - halfHeight - 25;
+                    const distToDelete = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
+
+                    if (distToDelete < 15) {
+                        removeEnvironmentalObject(clickedObject.id, getExplicitCurrentMapId());
+                        return;
+                    }
+
+                    const handle = getResizeHandle(screenX, screenY, clickedObject);
 
                     if (handle) {
-                        // Start resizing
-                        console.log(`🔄 Starting resize with handle: ${handle}`);
                         setIsResizing(true);
                         setResizeHandle(handle);
                         setInitialScale(clickedObject.scale || 1);
                         setInitialMousePos({ x: screenX, y: screenY });
                         e.stopPropagation();
                     } else {
-                        // Start dragging if object is draggable
-                        const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
-                        if (objectDef && objectDef.draggable) {
-                            setIsDragging(true);
-                            const worldPos = screenToWorld(screenX, screenY);
-                            const offsetX = worldPos.x - clickedObject.worldX;
-                            const offsetY = worldPos.y - clickedObject.worldY;
-                            setDragOffset({ x: offsetX, y: offsetY });
-                            dragStateRef.current = {
-                                isDragging: true,
-                                dragObjectId: clickedObject.id,
-                                dragOffsetX: offsetX,
-                                dragOffsetY: offsetY
-                            };
-                            e.preventDefault();
+                        setIsDragging(true);
+                        const worldPos = screenToWorld(screenX, screenY);
+                        const offsetX = worldPos.x - clickedObject.worldX;
+                        const offsetY = worldPos.y - clickedObject.worldY;
+                        setDragOffset({ x: offsetX, y: offsetY });
+                        dragStateRef.current = {
+                            isDragging: true,
+                            dragObjectId: clickedObject.id,
+                            dragOffsetX: offsetX,
+                            dragOffsetY: offsetY
+                        };
+                        e.preventDefault();
 
-                            const handleDocMouseMove = (moveEvent) => {
-                                const canvasRect = canvasRef.current?.getBoundingClientRect();
-                                if (!canvasRect) return;
-                                const mx = moveEvent.clientX - canvasRect.left;
-                                const my = moveEvent.clientY - canvasRect.top;
+                        const handleDocMouseMove = (moveEvent) => {
+                            const canvasRect = canvasRef.current?.getBoundingClientRect();
+                            if (!canvasRect) return;
+                            const mx = moveEvent.clientX - canvasRect.left;
+                            const my = moveEvent.clientY - canvasRect.top;
 
-                                let moveWorldPos;
-                                try {
-                                    const gridSystem = getGridSystem();
-                                    const viewport = gridSystem.getViewportDimensions();
-                                    moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
-                                } catch (error) {
-                                    const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
-                                    const cx = useGameStore.getState().cameraX;
-                                    const cy = useGameStore.getState().cameraY;
-                                    const cw = canvasRect.width || window.innerWidth;
-                                    const ch = canvasRect.height || window.innerHeight;
-                                    moveWorldPos = {
-                                        x: ((mx - cw / 2) / zoom) + cx,
-                                        y: ((my - ch / 2) / zoom) + cy
-                                    };
-                                }
+                            let moveWorldPos;
+                            try {
+                                const gridSystem = getGridSystem();
+                                const viewport = gridSystem.getViewportDimensions();
+                                moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
+                            } catch (error) {
+                                const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+                                const cx = useGameStore.getState().cameraX;
+                                const cy = useGameStore.getState().cameraY;
+                                const cw = canvasRect.width || window.innerWidth;
+                                const ch = canvasRect.height || window.innerHeight;
+                                moveWorldPos = {
+                                    x: ((mx - cw / 2) / zoom) + cx,
+                                    y: ((my - ch / 2) / zoom) + cy
+                                };
+                            }
 
-                                const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
-                                const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
-                                const mapId = useMapStore.getState().currentMapId || 'default';
-                                const currentObjects = useLevelEditorStore.getState().environmentalObjects;
-                                const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
-                                if (targetObj) {
-                                    useLevelEditorStore.getState().updateEnvironmentalObject(
-                                        dragStateRef.current.dragObjectId,
-                                        { ...targetObj, worldX: newWorldX, worldY: newWorldY },
-                                        mapId
-                                    );
-                                }
-                            };
+                            const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
+                            const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
+                            const mapId = useMapStore.getState().currentMapId || 'default';
+                            const currentObjects = useLevelEditorStore.getState().environmentalObjects;
+                            const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
+                            if (targetObj) {
+                                useLevelEditorStore.getState().updateEnvironmentalObject(
+                                    dragStateRef.current.dragObjectId,
+                                    { ...targetObj, worldX: newWorldX, worldY: newWorldY },
+                                    mapId
+                                );
+                            }
+                        };
 
-                            const handleDocMouseUp = () => {
-                                document.removeEventListener('mousemove', handleDocMouseMove);
-                                document.removeEventListener('mouseup', handleDocMouseUp);
-                                dragStateRef.current.isDragging = false;
-                                dragStateRef.current.dragObjectId = null;
-                                setIsDragging(false);
-                                setDragOffset({ x: 0, y: 0 });
-                            };
+                        const handleDocMouseUp = () => {
+                            document.removeEventListener('mousemove', handleDocMouseMove);
+                            document.removeEventListener('mouseup', handleDocMouseUp);
+                            dragStateRef.current.isDragging = false;
+                            dragStateRef.current.dragObjectId = null;
+                            setIsDragging(false);
+                            setDragOffset({ x: 0, y: 0 });
+                        };
 
-                            document.addEventListener('mousemove', handleDocMouseMove);
-                            document.addEventListener('mouseup', handleDocMouseUp);
-                        }
+                        document.addEventListener('mousemove', handleDocMouseMove);
+                        document.addEventListener('mouseup', handleDocMouseUp);
                         e.stopPropagation();
                     }
                 }
             }
         } else {
-            // Only deselect objects in editor mode
-            if (isEditorMode) {
-                environmentalObjects.forEach(obj => {
-                    if (obj.selected) {
-                        updateEnvironmentalObject(obj.id, { ...obj, selected: false }, getExplicitCurrentMapId());
-                    }
-                });
-            }
+            environmentalObjects.forEach(obj => {
+                if (obj.selected) {
+                    updateEnvironmentalObject(obj.id, { ...obj, selected: false }, getExplicitCurrentMapId());
+                }
+            });
         }
     }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject]);
 
@@ -1006,87 +1381,12 @@ const ObjectSystem = () => {
             const camY = useGameStore.getState().cameraY;
             const objects = useLevelEditorStore.getState().environmentalObjects;
 
-            let clickedObject = null;
-            for (const obj of objects) {
-                const objectDef = PROFESSIONAL_OBJECTS[obj.type];
-                if (!objectDef) continue;
-                if (obj.type !== 'gmNotes') continue;
-                if (objectDef.gmOnly && !useGameStore.getState().isGMMode) continue;
-
-                let screenPos;
-                if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                    try {
-                        const gridSystem = getGridSystem();
-                        const viewport = gridSystem.getViewportDimensions();
-                        screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
-                    } catch (error) {
-                        const cw = canvas.width || window.innerWidth;
-                        const ch = canvas.height || window.innerHeight;
-                        screenPos = {
-                            x: (obj.worldX - camX) * currentZoom + cw / 2,
-                            y: (obj.worldY - camY) * currentZoom + ch / 2
-                        };
-                    }
-                } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
-                    continue;
-                } else {
-                    continue;
-                }
-
-                const gridSize = useGameStore.getState().gridSize;
-                const tileSize = gridSize * currentZoom;
-                const scale = obj.scale || 1;
-                const objWidth = objectDef.size.width * tileSize * scale;
-                const objHeight = objectDef.size.height * tileSize * scale;
-                const padding = Math.max(10, tileSize * 0.1);
-                const left = screenPos.x - objWidth / 2 - padding;
-                const right = screenPos.x + objWidth / 2 + padding;
-                const top = screenPos.y - objHeight / 2 - padding;
-                const bottom = screenPos.y + objHeight / 2 + padding;
-
-                if (screenX >= left && screenX <= right && screenY >= top && screenY <= bottom) {
-                    clickedObject = obj;
-                    break;
-                }
-            }
-
-            if (!clickedObject) return;
-
-            e.preventDefault();
-            e.stopPropagation();
-
-            useLevelEditorStore.getState().selectEnvironmentalObject(clickedObject.id);
-
-            const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
-            if (!objectDef || !objectDef.draggable) return;
-
-            let worldPos;
-            try {
-                const gridSystem = getGridSystem();
-                const viewport = gridSystem.getViewportDimensions();
-                worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height);
-            } catch (error) {
-                const cw = canvas.width || window.innerWidth;
-                const ch = canvas.height || window.innerHeight;
-                worldPos = {
-                    x: ((screenX - cw / 2) / currentZoom) + camX,
-                    y: ((screenY - ch / 2) / currentZoom) + camY
-                };
-            }
-
-            const offsetX = worldPos.x - clickedObject.worldX;
-            const offsetY = worldPos.y - clickedObject.worldY;
-
-            setIsDragging(true);
-            dragStateRef.current = {
-                isDragging: true,
-                dragObjectId: clickedObject.id,
-                dragOffsetX: offsetX,
-                dragOffsetY: offsetY
-            };
+            const gridSystem = getGridSystem();
+            const viewport = gridSystem.getViewportDimensions();
+            const gridSize = useGameStore.getState().gridSize;
 
             const handleDocMouseMove = (moveEvent) => {
-                if (!dragStateRef.current.isDragging) return;
+                if (!dragStateRef.current.isDragging && !dragStateRef.current.isResizing) return;
                 moveEvent.preventDefault();
 
                 const cr = canvasRef.current?.getBoundingClientRect();
@@ -1094,55 +1394,176 @@ const ObjectSystem = () => {
                 const mx = moveEvent.clientX - cr.left;
                 const my = moveEvent.clientY - cr.top;
 
-                let moveWorldPos;
-                try {
-                    const gridSystem = getGridSystem();
-                    const viewport = gridSystem.getViewportDimensions();
-                    moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
-                } catch (error) {
-                    const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
-                    const cx = useGameStore.getState().cameraX;
-                    const cy = useGameStore.getState().cameraY;
-                    const cw = cr.width || window.innerWidth;
-                    const ch = cr.height || window.innerHeight;
-                    moveWorldPos = {
-                        x: ((mx - cw / 2) / zoom) + cx,
-                        y: ((my - ch / 2) / zoom) + cy
-                    };
-                }
-
-                const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
-                const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
-                const mapId = useMapStore.getState().currentMapId || 'default';
+                const mapId = getExplicitCurrentMapId();
                 const currentObjects = useLevelEditorStore.getState().environmentalObjects;
                 const targetObj = currentObjects.find(o => o.id === dragStateRef.current.dragObjectId);
-                if (targetObj) {
-                    useLevelEditorStore.getState().updateEnvironmentalObject(
-                        dragStateRef.current.dragObjectId,
-                        { ...targetObj, worldX: newWorldX, worldY: newWorldY },
-                        mapId
-                    );
+                if (!targetObj) return;
+
+                if (dragStateRef.current.isResizing) {
+                    const { initialScale, initialMousePos, objScreenPos } = dragStateRef.current;
+                    const initialDist = Math.sqrt(Math.pow(initialMousePos.x - objScreenPos.x, 2) + Math.pow(initialMousePos.y - objScreenPos.y, 2));
+                    const currentDist = Math.sqrt(Math.pow(mx - objScreenPos.x, 2) + Math.pow(my - objScreenPos.y, 2));
+                    
+                    if (initialDist > 0) {
+                        const scaleFactor = currentDist / initialDist;
+                        const newScale = Math.max(0.2, Math.min(10, initialScale * scaleFactor));
+                        updateEnvironmentalObject(targetObj.id, { ...targetObj, scale: newScale }, mapId);
+                    }
+                } else if (dragStateRef.current.isDragging) {
+                    let moveWorldPos;
+                    try {
+                        const gridSystem = getGridSystem();
+                        const viewport = gridSystem.getViewportDimensions();
+                        moveWorldPos = gridSystem.screenToWorld(mx, my, viewport.width, viewport.height);
+                    } catch (error) {
+                        const zoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+                        const cx = useGameStore.getState().cameraX;
+                        const cy = useGameStore.getState().cameraY;
+                        moveWorldPos = { x: ((mx - cr.width / 2) / zoom) + cx, y: ((my - cr.height / 2) / zoom) + cy };
+                    }
+
+                    const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
+                    const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
+                    updateEnvironmentalObject(targetObj.id, { ...targetObj, worldX: newWorldX, worldY: newWorldY }, mapId);
                 }
             };
 
             const handleDocMouseUp = () => {
                 document.removeEventListener('mousemove', handleDocMouseMove);
                 document.removeEventListener('mouseup', handleDocMouseUp);
-                dragStateRef.current.isDragging = false;
-                dragStateRef.current.dragObjectId = null;
                 setIsDragging(false);
-                setDragOffset({ x: 0, y: 0 });
+                setIsResizing(false);
+                setResizeHandle(null);
+                dragStateRef.current.isDragging = false;
+                dragStateRef.current.isResizing = false;
+                dragStateRef.current.dragObjectId = null;
             };
 
+            // Attach listeners before potentially returning
             document.addEventListener('mousemove', handleDocMouseMove);
             document.addEventListener('mouseup', handleDocMouseUp);
+
+            // 1. HANDLE CHECK (Priority #1)
+            const selObj = objects.find(o => o.selected);
+            if (selObj && (isEditorMode || isGMMode)) {
+                const handleId = getResizeHandle(screenX, screenY, selObj);
+                if (handleId) {
+                    setIsResizing(true);
+                    setResizeHandle(handleId);
+                    
+                    const selDef = PROFESSIONAL_OBJECTS[selObj.type];
+                    const curScale = selObj.scale || 1;
+                    
+                    let selScreenPos;
+                    if (selObj.freePosition) {
+                        selScreenPos = gridSystem.worldToScreen(selObj.worldX, selObj.worldY, viewport.width, viewport.height);
+                    } else {
+                        const worldCorner = gridSystem.gridToWorldCorner(selObj.gridX, selObj.gridY);
+                        selScreenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+                    }
+
+                    dragStateRef.current = {
+                        isDragging: false, isResizing: true,
+                        resizeHandle: handleId, dragObjectId: selObj.id,
+                        initialScale: curScale, 
+                        initialMousePos: { x: screenX, y: screenY },
+                        objScreenPos: selScreenPos
+                    };
+                    
+                    e.preventDefault(); e.stopPropagation();
+                    return;
+                }
+
+                // Delete Handle
+                const selDef = PROFESSIONAL_OBJECTS[selObj.type];
+                if (selDef) {
+                    const tileSize = gridSize * currentZoom;
+                    const curScale = selObj.scale || 1;
+                    const objH = (selDef.size.height || 1) * tileSize * curScale;
+                    
+                    let selScreenPos;
+                    if (selObj.freePosition) {
+                        selScreenPos = gridSystem.worldToScreen(selObj.worldX, selObj.worldY, viewport.width, viewport.height);
+                    } else {
+                        const worldCorner = gridSystem.gridToWorldCorner(selObj.gridX, selObj.gridY);
+                        selScreenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+                    }
+
+                    const hx = selScreenPos.x;
+                    const hy = selScreenPos.y - (objH / 2) - 25;
+                    const distToDelete = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
+                    if (distToDelete < 30) {
+                        removeEnvironmentalObject(selObj.id, getExplicitCurrentMapId());
+                        e.preventDefault(); e.stopPropagation(); return;
+                    }
+                }
+            }
+
+            // 2. Find if we clicked a NEW object
+            let clickedObject = null;
+            for (const obj of objects) {
+                const objectDef = PROFESSIONAL_OBJECTS[obj.type];
+                if (!objectDef || (!isEditorMode && !isGMMode)) continue;
+
+                let screenPos;
+                if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                    screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
+                } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
+                    const worldCorner = gridSystem.gridToWorldCorner(obj.gridX, obj.gridY);
+                    screenPos = gridSystem.worldToScreen(worldCorner.x + gridSize / 2, worldCorner.y + gridSize / 2, viewport.width, viewport.height);
+                } else continue;
+
+                const tileSize = gridSize * currentZoom;
+                const scale = obj.scale || 1;
+                const objWidth = (objectDef.size.width || 1) * tileSize * scale;
+                const objHeight = (objectDef.size.height || 1) * tileSize * scale;
+                const padding = Math.max(10, tileSize * 0.1);
+                
+                if (screenX >= screenPos.x - objWidth/2 - padding && screenX <= screenPos.x + objWidth/2 + padding &&
+                    screenY >= screenPos.y - objHeight/2 - padding && screenY <= screenPos.y + objHeight/2 + padding) {
+                    clickedObject = obj;
+                    break; 
+                }
+            }
+
+            // 3. DESELECT (Priority #3) - Only if clicking the empty grid
+            if (!clickedObject) {
+                document.removeEventListener('mousemove', handleDocMouseMove);
+                document.removeEventListener('mouseup', handleDocMouseUp);
+                const anySelected = objects.find(o => o.selected);
+                if (anySelected) useLevelEditorStore.getState().clearObjectSelection();
+                return;
+            }
+
+            const objectDef = PROFESSIONAL_OBJECTS[clickedObject.type];
+            if (!objectDef) return;
+
+            e.preventDefault(); e.stopPropagation();
+            useLevelEditorStore.getState().selectEnvironmentalObject(clickedObject.id);
+            if (!objectDef.draggable) return;
+
+            let worldPos;
+            try { worldPos = gridSystem.screenToWorld(screenX, screenY, viewport.width, viewport.height); }
+            catch (err) { worldPos = { x: ((screenX-canvasRect.width/2)/currentZoom)+camX, y: ((screenY-canvasRect.height/2)/currentZoom)+camY }; }
+
+            const curWX = clickedObject.freePosition ? clickedObject.worldX : (clickedObject.gridX * gridSize);
+            const curWY = clickedObject.freePosition ? clickedObject.worldY : (clickedObject.gridY * gridSize);
+
+            setIsDragging(true);
+            setIsResizing(false);
+            dragStateRef.current = {
+                isDragging: true, isResizing: false,
+                dragObjectId: clickedObject.id,
+                dragOffsetX: worldPos.x - curWX,
+                dragOffsetY: worldPos.y - curWY
+            };
         };
 
         document.addEventListener('mousedown', handleDocMouseDown, true);
         return () => {
             document.removeEventListener('mousedown', handleDocMouseDown, true);
         };
-    }, [isGMMode]);
+    }, [isGMMode, isEditorMode]);
 
     // FIXED: Use RAF for smooth object rendering - no throttling to prevent floating
     const scheduledRenderRef = useRef(null);
@@ -1199,9 +1620,6 @@ const ObjectSystem = () => {
                         isResizing ? getCursorForHandle(resizeHandle) :
                             hoveredHandle ? getCursorForHandle(hoveredHandle) : 'pointer'
                 }}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
                 onMouseLeave={(e) => {
                     // Reset connection tracking when mouse leaves canvas
                     if (isOverConnection && connectionElementRef.current) {

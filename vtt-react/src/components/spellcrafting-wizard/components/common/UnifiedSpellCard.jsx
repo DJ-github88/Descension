@@ -8928,7 +8928,8 @@ const UnifiedSpellCard = ({
             const hasCardDamage = spell?.resolution === 'CARDS' && spell?.cardConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasCoinDamage = spell?.resolution === 'COINS' && spell?.coinConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasDiceDamage = spell?.resolution === 'DICE' && spell?.diceConfig?.formula && spell.diceConfig.formula.trim() && spell?.damageConfig && spell?.effectTypes?.includes('damage');
-            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage;
+            const hasDotDamage = spell?.damageConfig?.hasDotEffect || spell?.damageConfig?.damageType === 'dot';
+            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDotDamage;
 
             // Check if healing should be rendered
             const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
@@ -9565,7 +9566,7 @@ const UnifiedSpellCard = ({
                                     });
                                   } else {
                                     // Single damage effect
-                                    const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
+                                  const isDotOnly = damageData?.damageType === 'dot' && !damageData?.formula;
                                     const isAreaDamage = damageData?.damageType === 'area';
                                     const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                     const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
@@ -9796,7 +9797,7 @@ const UnifiedSpellCard = ({
                                 });
                               } else {
                                 // Single damage effect
-                                const isDotOnly = damageData?.damageType === 'dot' && !damageData?.hasDotEffect;
+                                const isDotOnly = damageData?.damageType === 'dot' && !damageData?.formula;
                                 const isAreaDamage = damageData?.damageType === 'area';
                                 const effectSubType = isDotOnly ? 'damage_dot' : (isAreaDamage ? 'damage_area' : 'damage_direct');
                                 const effectTriggers = getEffectTriggersAndFormulas(effectSubType);
@@ -10732,6 +10733,8 @@ const UnifiedSpellCard = ({
                             const sign = magnitude >= 0 ? '+' : '';
                             mechanicsText = `${sign}${cleanFormula(magnitude)}${typeText} ${statName}`;
                           }
+                        } else if (hasStatInDescription) {
+                          mechanicsText = (effect.description || '').trim().replace(/^-\s*/, '').trim();
                         }
                       }
 

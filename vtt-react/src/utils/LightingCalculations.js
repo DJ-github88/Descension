@@ -1,6 +1,6 @@
 /**
  * Lighting Calculations for Dynamic Lighting System
- * Professional VTT implementation with realistic light falloff and shadow casting
+ * Professional VTT implementation with realistic light falloff and dynamic shadows
  */
 
 import { getLineOfSight, hasLineOfSight } from './VisibilityCalculations';
@@ -20,9 +20,6 @@ export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightS
     if (!lightSource.enabled) return { intensity: 0, shadowFactor: 1, atmosphericFactor: 1 };
 
     const {
-        shadowCasting = true,
-        shadowSoftness = 0.5,
-        shadowDistance = 10,
         atmosphericEffects = true,
         performanceMode = false,
         lightAnimations = true
@@ -49,12 +46,10 @@ export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightS
 
     intensity *= mixedFalloff;
 
-    // Calculate shadow factor with advanced shadow system
+    // Calculate dynamic shadow factor based on line of sight
     let shadowFactor = 1;
-    if (shadowCasting && distance <= shadowDistance) {
-        shadowFactor = calculateAdvancedShadow(lightX, lightY, targetX, targetY, wallData, shadowSoftness, performanceMode);
-    } else if (!hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
-        shadowFactor = 0; // Complete shadow for basic line-of-sight blocking
+    if (!hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
+        shadowFactor = performanceMode ? 0 : calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData);
     }
 
     // Apply atmospheric effects
@@ -82,29 +77,20 @@ export function calculateLightIntensity(lightX, lightY, targetX, targetY, lightS
 }
 
 /**
- * Calculate advanced shadow factor with soft shadows
+ * Calculate dynamic shadow factor using line-of-sight sampling
  * @param {number} lightX - Light source x
  * @param {number} lightY - Light source y
  * @param {number} targetX - Target x
  * @param {number} targetY - Target y
  * @param {Object} wallData - Wall data
- * @param {number} shadowSoftness - Shadow softness (0.0 to 1.0)
- * @param {boolean} performanceMode - Use faster but less accurate calculations
  * @returns {number} Shadow factor (0.0 = full shadow, 1.0 = no shadow)
  */
-function calculateAdvancedShadow(lightX, lightY, targetX, targetY, wallData, shadowSoftness = 0.5, performanceMode = false) {
-    if (performanceMode) {
-        // Fast shadow calculation - just check direct line of sight
-        return hasLineOfSight(lightX, lightY, targetX, targetY, wallData) ? 1 : 0;
-    }
-
-    // Advanced soft shadow calculation
-    const samples = shadowSoftness > 0.7 ? 9 : shadowSoftness > 0.3 ? 5 : 3;
-    const radius = shadowSoftness * 0.5; // Shadow penumbra radius
+function calculateDynamicShadow(lightX, lightY, targetX, targetY, wallData) {
+    const samples = 5;
+    const radius = 0.25;
 
     let visibleSamples = 0;
 
-    // Sample multiple points around the target for soft shadows
     for (let i = 0; i < samples; i++) {
         const angle = (i / samples) * Math.PI * 2;
         const offsetX = Math.cos(angle) * radius;
@@ -118,7 +104,6 @@ function calculateAdvancedShadow(lightX, lightY, targetX, targetY, wallData, sha
         }
     }
 
-    // Also check the center point
     if (hasLineOfSight(lightX, lightY, targetX, targetY, wallData)) {
         visibleSamples++;
     }

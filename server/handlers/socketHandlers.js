@@ -18,6 +18,7 @@ const { v4: uuidv4 } = require('uuid');
 const logger = require('../services/logger');
 const firebaseService = require('../services/firebaseService');
 const { sanitizeChatMessage, sanitizePlayerName } = require('../services/sanitizationService');
+const { canCreateRoom, canJoinRoom } = require('../services/tierService');
 
 // Echo Prevention Window - standardized timeout across all stores
 const ECHO_PREVENTION_WINDOW_MS = 200;
@@ -529,6 +530,18 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         const isPermanentRoomResume = !!data.persistentRoomId;
 
+        if (!isPermanentRoomResume) {
+          const gmUserId = socket.data?.userId;
+          if (gmUserId) {
+            const gmRooms = Array.from(rooms.values()).filter(r => r.gmId === gmUserId);
+            const tierCheck = await canCreateRoom(gmUserId, gmRooms.length);
+            if (!tierCheck.allowed) {
+              logger.info('[create_room] Tier check failed', { gmUserId, reason: tierCheck.reason });
+              throw new Error(tierCheck.reason);
+            }
+          }
+        }
+
         if (isPermanentRoomResume) {
           logger.info('[create_room] Checking for existing in-memory room:', { persistentRoomId: data.persistentRoomId });
 
@@ -763,6 +776,16 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           delete room.disconnectedPlayers[joiningUserId];
         } else {
           playerId = uuidv4();
+        }
+
+        if (!isGMReclaim && !isPlayerReclaim && joiningUserId) {
+          const currentPlayers = Object.values(room.players || {}).filter(p => !p.isGM).length;
+          const tierCheck = await canJoinRoom(joiningUserId, currentPlayers, room.maxPlayers);
+          if (!tierCheck.allowed) {
+            logger.info('[join_room] Tier check failed', { joiningUserId, reason: tierCheck.reason });
+            socket.emit('room_error', { error: tierCheck.reason });
+            return;
+          }
         }
 
         const player = {
@@ -2994,6 +3017,25 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
       } catch (error) {
         logger.error('[fog_update] Error:', { error: error.message });
+      }
+    });
+
+    socket.on('weather_update', (data) => {
+      try {
+        const player = players.get(socket.id);
+        if (!player || !player.isGM) return;
+
+        const room = rooms.get(player.roomId);
+        if (!room) return;
+
+        if (!room.gameState.weather) room.gameState.weather = {};
+        room.gameState.weather = { ...data };
+
+        socket.to(player.roomId).emit('weather_update', data);
+
+        firebaseBatchWriter.queueWrite(player.roomId, room.gameState, true);
+      } catch (error) {
+        logger.error('[weather_update] Error:', { error: error.message });
       }
     });
 

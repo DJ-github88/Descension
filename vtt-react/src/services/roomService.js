@@ -68,7 +68,7 @@ export const createPersistentRoom = async (roomData) => {
     console.warn('Could not check room limits:', error);
   }
 
-  const maxPlayers = tier.maxPlayersPerRoom || 4;
+  const maxPlayers = tier.maxPlayersPerRoom || 3;
 
   const roomId = `room_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 

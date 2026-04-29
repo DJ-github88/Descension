@@ -156,6 +156,14 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
     'spell_fire_selfdestruct': 'Utility/Explosive Detonation',
     'spell_fire_twilightflamebreath': 'Fire/Dragon Breath',
     'spell_fire_volcano': 'Fire/Volcanic Erupt',
+    
+    // ===== OBJECTS & FURNITURE =====
+    'inv_box_01': 'Container/Chest/treasure-chest-wooden-brown-straps',
+    'inv_box_04': 'Container/Chest/treasure-chest-teal-golden-trim',
+    'inv_crate_01': 'Container/Chest/wooden-crate-brown-planks-isometric',
+    'inv_misc_note_01': 'Misc/Books/book-scroll-parchment-rolled',
+    'inv_misc_note_02': 'Misc/Books/book-scroll-rolled-red-wax-seal',
+    'inv_misc_dice_01': 'Social/Dice Roll',
 
     // ===== FROST =====
     'spell_frost_arcticwinds': 'Frost/Frozen Wave',
@@ -799,6 +807,11 @@ const convertWowIconToAbilityIcon = (wowIconId) => {
 export const getAbilityIconUrl = (iconId) => {
   if (!iconId) {
     return getCustomIconUrl('Utility/Utility', 'abilities');
+  }
+
+  // Handle items/ prefix by switching category to items
+  if (typeof iconId === 'string' && iconId.startsWith('items/')) {
+    return getIconUrl(iconId.replace('items/', ''), 'items');
   }
 
   // If iconId already contains a path (e.g., "Utility/Icon Name" or "combat/sword")

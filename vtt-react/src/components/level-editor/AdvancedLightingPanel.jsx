@@ -12,21 +12,13 @@ const AdvancedLightingPanel = () => {
     
     // Level editor store
     const {
-        shadowQuality,
         atmosphericEffects,
         lightAnimations,
         performanceMode,
-        shadowCasting,
-        shadowSoftness,
-        shadowDistance,
         weatherEffects,
-        setShadowQuality,
         setAtmosphericEffects,
         setLightAnimations,
         setPerformanceMode,
-        setShadowCasting,
-        setShadowSoftness,
-        setShadowDistance,
         setWeatherEffect,
         clearWeatherEffects
     } = useLevelEditorStore();
@@ -34,25 +26,15 @@ const AdvancedLightingPanel = () => {
     // Game store for GM mode check
     const { isGMMode } = useGameStore();
 
-    // Shadow quality options
-    const shadowQualityOptions = [
-        { value: 'low', label: 'Low', description: 'Basic shadows, best performance' },
-        { value: 'medium', label: 'Medium', description: 'Balanced quality and performance' },
-        { value: 'high', label: 'High', description: 'Soft shadows, higher quality' }
-    ];
-
     // Weather effect options
     const weatherOptions = [
         { value: 'none', label: 'None', description: 'Clear weather' },
         { value: 'rain', label: 'Rain', description: 'Falling rain particles' },
         { value: 'snow', label: 'Snow', description: 'Falling snow particles' },
         { value: 'fog', label: 'Atmospheric Fog', description: 'Drifting fog clouds' },
-        { value: 'storm', label: 'Storm', description: 'Heavy rain with wind' }
+        { value: 'storm', label: 'Storm', description: 'Heavy rain with wind' },
+        { value: 'embers', label: 'Embers', description: 'Rising ember particles' }
     ];
-
-    const handleShadowQualityChange = (quality) => {
-        setShadowQuality(quality);
-    };
 
     const handleWeatherChange = (type) => {
         if (type === 'none') {
@@ -96,80 +78,6 @@ const AdvancedLightingPanel = () => {
                     </label>
                     <div className="setting-description">
                         Enable flickering effects for torches and candles
-                    </div>
-                </div>
-            </div>
-
-            {/* Shadow Settings */}
-            <div className="settings-section">
-                <h4 className="section-title">Shadow Settings</h4>
-                
-                <div className="setting-item">
-                    <label className="setting-label">
-                        <input
-                            type="checkbox"
-                            checked={shadowCasting}
-                            onChange={(e) => setShadowCasting(e.target.checked)}
-                        />
-                        Enable Shadow Casting
-                    </label>
-                    <div className="setting-description">
-                        Walls and objects cast realistic shadows
-                    </div>
-                </div>
-
-                <div className="setting-item">
-                    <label className="setting-label">Shadow Quality:</label>
-                    <div className="quality-buttons">
-                        {shadowQualityOptions.map(option => (
-                            <button
-                                key={option.value}
-                                className={`quality-btn ${shadowQuality === option.value ? 'active' : ''}`}
-                                onClick={() => handleShadowQualityChange(option.value)}
-                                title={option.description}
-                                disabled={!shadowCasting}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="setting-item">
-                    <label className="setting-label">Shadow Softness:</label>
-                    <div className="slider-control">
-                        <input
-                            type="range"
-                            min="0"
-                            max="1"
-                            step="0.1"
-                            value={shadowSoftness}
-                            onChange={(e) => setShadowSoftness(parseFloat(e.target.value))}
-                            disabled={!shadowCasting || shadowQuality === 'low'}
-                        />
-                        <span className="slider-value">{Math.round(shadowSoftness * 100)}%</span>
-                    </div>
-                    <div className="setting-description">
-                        Controls how soft or hard shadow edges appear
-                    </div>
-                </div>
-
-                <div className="setting-item">
-                    <label className="setting-label">Shadow Distance:</label>
-                    <div className="slider-control">
-                        <input
-                            type="range"
-                            min="1"
-                            max="20"
-                            step="1"
-                            value={shadowDistance}
-                            onChange={(e) => setShadowDistance(parseInt(e.target.value))}
-                            disabled={!shadowCasting}
-                        />
-                        <span className="slider-value">{shadowDistance} tiles</span>
-                    </div>
-                    <div className="setting-description">
-                        Maximum distance shadows are calculated
                     </div>
                 </div>
             </div>
@@ -252,10 +160,6 @@ const AdvancedLightingPanel = () => {
                         </span>
                     </div>
                     <div className="info-item">
-                        <span className="info-label">Shadow Quality:</span>
-                        <span className="info-value">{shadowQuality.charAt(0).toUpperCase() + shadowQuality.slice(1)}</span>
-                    </div>
-                    <div className="info-item">
                         <span className="info-label">Weather:</span>
                         <span className="info-value">
                             {weatherEffects.type === 'none' ? 'Clear' : weatherEffects.type.charAt(0).toUpperCase() + weatherEffects.type.slice(1)}
@@ -269,7 +173,6 @@ const AdvancedLightingPanel = () => {
                 <h4 className="section-title">Advanced Features</h4>
                 <ul className="instructions-list">
                     <li><strong>Performance Mode:</strong> Disables advanced effects for better frame rates</li>
-                    <li><strong>Shadow Quality:</strong> Higher quality creates softer, more realistic shadows</li>
                     <li><strong>Atmospheric Effects:</strong> Adds environmental lighting interactions</li>
                     <li><strong>Weather Effects:</strong> Visual overlays that enhance immersion</li>
                     <li>Adjust settings based on your device's performance capabilities</li>

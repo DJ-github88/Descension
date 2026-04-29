@@ -739,7 +739,7 @@ const AccountDashboard = ({ user }) => {
                     <div className="upgrade-prompt-icon"><i className="fas fa-crown"></i></div>
                     <h3>Campaign Manager</h3>
                     <p>Organize your campaigns with session tracking, multi-room management, and more.</p>
-                    <p className="upgrade-prompt-required">Requires <strong>Campaign Master</strong> or above</p>
+                    <p className="upgrade-prompt-required">Requires <strong>Dungeon Master</strong> or above</p>
                     <button className="upgrade-prompt-btn" onClick={() => setActiveTab('membership')}>
                       <i className="fas fa-arrow-right"></i>
                       View Plans

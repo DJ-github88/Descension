@@ -14,7 +14,7 @@ import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
 
 // Access control configuration - can be modified to restrict access by subscription tier
 export const CAMPAIGN_ACCESS_CONFIG = {
-  allowedTiers: ['SUBSCRIBER', 'PREMIUM'],
+  allowedTiers: ['PRO', 'ULTIMATE'],
   featureName: 'Campaign Manager'
 };
 
@@ -22,7 +22,9 @@ export const canAccessCampaignManager = (subscriptionTier) => {
   if (!subscriptionTier) return false;
   const tierName = typeof subscriptionTier === 'object' ? subscriptionTier.id?.toUpperCase() : subscriptionTier?.toUpperCase();
   if (tierName === 'DEV_PREVIEW') return true;
-  return CAMPAIGN_ACCESS_CONFIG.allowedTiers.includes(tierName);
+  const legacyMap = { 'SUBSCRIBER': 'PRO', 'PREMIUM': 'ULTIMATE' };
+  const resolved = legacyMap[tierName] || tierName;
+  return CAMPAIGN_ACCESS_CONFIG.allowedTiers.includes(resolved);
 };
 
 // Simple Input Modal Component - Uses Portal to render at document root for proper z-index

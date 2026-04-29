@@ -3372,7 +3372,7 @@ function GridComponent({
                 {/* Light Source Overlay - Dynamic lighting system */}
                 <LightSourceOverlay />
 
-                {/* Shadow Overlay - Dynamic shadow casting */}
+                {/* Shadow Overlay - Dynamic shadows */}
                 <ShadowOverlay />
 
                 {/* Canvas Wall System - High-performance canvas-based wall rendering with FOV support */}

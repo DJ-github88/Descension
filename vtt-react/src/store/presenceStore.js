@@ -1415,8 +1415,9 @@ const usePresenceStore = create((set, get) => ({
       });
 
       // A member left the party
-      socket.on('party_member_left', ({ partyId, memberId, userName }) => {
-        console.log('👤 Party member left:', userName);
+      socket.on('party_member_left', ({ partyId, memberId, userName, memberName }) => {
+        const displayName = userName || memberName || 'Unknown';
+        console.log('👤 Party member left:', displayName);
 
         set(state => ({
           partyMembers: (state.partyMembers || []).filter(m => m.id !== memberId)
@@ -1437,8 +1438,8 @@ const usePresenceStore = create((set, get) => ({
           const chatStore = require('./chatStore').default;
           chatStore.getState().addSocialNotification({
             type: 'party_member_left',
-            sender: { name: userName },
-            content: `${userName} left the party.`
+            sender: { name: displayName },
+            content: `${displayName} left the party.`
           });
         } catch (e) {
           // chatStore not available

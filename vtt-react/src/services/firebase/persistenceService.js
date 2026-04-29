@@ -9,7 +9,6 @@ import { db } from '../../config/firebase';
 import { doc, getDoc, setDoc, deleteDoc, serverTimestamp, collection, getDocs, query, where } from 'firebase/firestore';
 import { sanitizeForFirestore } from '../../utils/firebaseUtils';
 
-// Import individual persistence services
 import characterStateService from './characterStateService';
 import roomStateService from './roomStateService';
 import journalService from './journalService';
@@ -18,9 +17,20 @@ import storageLimitService, { STORAGE_LIMITS } from './storageLimitService';
 
 export { STORAGE_LIMITS };
 
-/**
- * Master Persistence Service Class
- */
+const LEGACY_TIER_MAP = {
+  'subscriber': 'pro',
+  'premium': 'ultimate'
+};
+
+function resolveTierKey(rawTier) {
+  if (!rawTier) return 'FREE';
+  const normalized = rawTier.toLowerCase ? rawTier.toLowerCase() : rawTier;
+  if (LEGACY_TIER_MAP[normalized]) return LEGACY_TIER_MAP[normalized].toUpperCase();
+  const upper = normalized.toUpperCase();
+  if (STORAGE_LIMITS[upper]) return upper;
+  return 'FREE';
+}
+
 class PersistenceService {
   constructor() {
     this.services = {
@@ -32,14 +42,10 @@ class PersistenceService {
     };
   }
 
-  /**
-   * Get user's current subscription tier and limits
-   */
   async getUserTier(userId) {
     if (!userId) return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
 
     try {
-      // Check for guest users or demo mode
       const { isDemoMode } = await import('../../config/firebase');
       if (isDemoMode || userId.startsWith('guest-')) {
         return { tier: 'FREE', limits: STORAGE_LIMITS.FREE };
@@ -53,15 +59,13 @@ class PersistenceService {
       }
 
       const userData = userSnap.data();
-      const tier = userData.subscriptionTier || 'free';
-      const tierKey = tier.toUpperCase();
+      const tierKey = resolveTierKey(userData.subscriptionTier || 'free');
 
       return {
         tier: tierKey,
         limits: STORAGE_LIMITS[tierKey] || STORAGE_LIMITS.FREE
       };
     } catch (error) {
-      // Suppress permissions errors or offline errors for guest/anonymous users
       if (error?.code !== 'permission-denied' && !error?.message?.includes('offline')) {
         console.error('Error getting user tier:', error);
       }

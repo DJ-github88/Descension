@@ -13,34 +13,47 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 
-// Storage limits by subscription tier (in bytes)
+const LEGACY_TIER_MAP = {
+  'subscriber': 'pro',
+  'premium': 'ultimate'
+};
+
 export const STORAGE_LIMITS = {
   GUEST: { total: 0 },
   FREE: {
-    total: 25 * 1024 * 1024, // 25MB
+    total: 25 * 1024 * 1024,
     characters: 3,
-    campaigns: 0,
+    campaigns: 1,
     rooms: 1
   },
   DEV_PREVIEW: {
-    total: 1 * 1024 * 1024 * 1024, // 1GB
-    characters: 50,
-    campaigns: 10,
-    rooms: 5
+    total: 5 * 1024 * 1024 * 1024,
+    characters: -1,
+    campaigns: 25,
+    rooms: 25
   },
-  SUBSCRIBER: {
-    total: 500 * 1024 * 1024, // 500MB
+  PRO: {
+    total: 500 * 1024 * 1024,
     characters: 15,
     campaigns: 5,
     rooms: 5
   },
-  PREMIUM: {
-    total: 5 * 1024 * 1024 * 1024, // 5GB
-    characters: -1, // unlimited
+  ULTIMATE: {
+    total: 5 * 1024 * 1024 * 1024,
+    characters: -1,
     campaigns: 25,
     rooms: 25
   }
 };
+
+function resolveTierKey(rawTier) {
+  if (!rawTier) return 'FREE';
+  const normalized = rawTier.toLowerCase ? rawTier.toLowerCase() : rawTier;
+  if (LEGACY_TIER_MAP[normalized]) return LEGACY_TIER_MAP[normalized].toUpperCase();
+  const upper = normalized.toUpperCase();
+  if (STORAGE_LIMITS[upper]) return upper;
+  return 'FREE';
+}
 
 // Size limits for individual items (to prevent abuse)
 export const ITEM_SIZE_LIMITS = {
@@ -63,7 +76,6 @@ class StorageLimitService {
   async getUserTier(userId) {
     if (!userId) return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
 
-    // Check for guest users (they have no persistence)
     if (userId.startsWith('guest-')) {
       return { tier: 'GUEST', limits: STORAGE_LIMITS.GUEST };
     }
@@ -77,8 +89,7 @@ class StorageLimitService {
       }
 
       const userData = userSnap.data();
-      const tier = userData.subscriptionTier || 'free';
-      const tierKey = tier.toUpperCase();
+      const tierKey = resolveTierKey(userData.subscriptionTier || 'free');
 
       return {
         tier: tierKey,

@@ -11,7 +11,6 @@ import { getGridSystem } from '../../utils/InfiniteGridSystem';
 import { useLevelEditorPersistence } from '../../hooks/useLevelEditorPersistence';
 import { rafThrottle } from '../../utils/performanceUtils';
 
-// Import professional tool components
 import DrawingTools from './tools/DrawingTools';
 import TerrainTools from './tools/TerrainTools';
 import ObjectTools from './tools/ObjectTools';
@@ -21,6 +20,7 @@ import GridTools from './tools/GridTools';
 import TerrainHoverPreview from './TerrainHoverPreview';
 import { PROFESSIONAL_OBJECTS } from './objects/ObjectSystem';
 import AreaRemoveModal from './AreaRemoveModal';
+import AdvancedLightingPanel from './AdvancedLightingPanel';
 
 import './styles/ProfessionalVTTEditor.css';
 
@@ -249,6 +249,13 @@ const ProfessionalVTTEditor = () => {
             tools: [
                 { id: 'grid_settings', name: 'Grid Settings', icon: 'Utility/Utility Gear', cursor: 'default' },
                 { id: 'grid_toggle', name: 'Toggle Grid', icon: 'Utility/Utility Gear', cursor: 'default' }
+            ]
+        },
+        lighting: {
+            name: 'Lighting',
+            icon: 'Arcane/Arcane Brilliance',
+            tools: [
+                { id: 'lighting_settings', name: 'Lighting Settings', icon: 'Arcane/Arcane Brilliance', cursor: 'default' }
             ]
         }
     };
@@ -1025,9 +1032,7 @@ const ProfessionalVTTEditor = () => {
                 }
                 return;
             case 'object_place':
-                // Check if we're placing a connection (via settings) or regular object
-                if (toolSettings?.selectedPlacementType === 'connection') {
-                    // Place connection/portal - NO DRAWING STATE
+                    if (toolSettings?.selectedPlacementType === 'connection') {
                     const portalCoords = screenToGrid(e.clientX, e.clientY);
                     if (portalCoords) {
                         // Create connection as dndElement
@@ -1106,7 +1111,6 @@ const ProfessionalVTTEditor = () => {
                         });
                     }
 
-                    // Initialize GM Notes data
                     if (objectType === 'gmNotes') {
                         const sectionId = `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
                         objectData.gmNotesData = {
@@ -2941,6 +2945,9 @@ const ProfessionalVTTEditor = () => {
                                 settings={toolSettings}
                                 onSettingsChange={handleToolSettingsChange}
                             />
+                        )}
+                        {activeTab === 'lighting' && (
+                            <AdvancedLightingPanel />
                         )}
                     </div>
 

@@ -902,44 +902,32 @@ const initialState = {
     // Dynamic fog settings
     dynamicFogEnabled: true,
     respectLineOfSight: true,
-    fogRevealMode: 'permanent', // 'permanent' | 'temporary'
+    fogRevealMode: 'permanent',
 
-    // FOV cone settings
-    fovAngle: 360, // Field of view angle in degrees (360 = full view, 100 = directional view)
-    tokenFacingDirections: {}, // { tokenId: angleInRadians } - Direction token is facing based on drag direction
+    fovAngle: 360,
+    tokenFacingDirections: {},
 
-    // Lighting modes
-    fogMode: 'paint', // 'paint' | 'erase' | 'clear' | 'reveal'
+    fogMode: 'paint',
 
-    // Fog system toggles
     fogOfWarEnabled: true,
     lineOfSightEnabled: true,
     tokenVisionEnabled: true,
 
-    // Dynamic lighting system
-    lightSources: {}, // { lightId: { x, y, type, radius, color, intensity, flickering, enabled } }
+    lightSources: {},
     lightingEnabled: true,
-    ambientLightLevel: 0.2, // 0.0 = complete darkness, 1.0 = full daylight
+    ambientLightLevel: 0.2,
     lightInteractsWithFog: true,
-    selectedLightType: 'torch', // Currently selected light type for placement
+    selectedLightType: 'torch',
 
-    // Advanced lighting features
-    shadowQuality: 'medium', // 'low' | 'medium' | 'high'
-    atmosphericEffects: true,
+    atmosphericEffects: false,
     lightAnimations: true,
-    performanceMode: false, // Reduces quality for better performance
+    performanceMode: false,
 
-    // Atmospheric effects
     weatherEffects: {
-        type: 'none', // 'none' | 'rain' | 'snow' | 'fog' | 'storm'
+        type: 'none',
         intensity: 0.5,
         enabled: false
     },
-
-    // Advanced shadow system
-    shadowCasting: true,
-    shadowSoftness: 0.5, // 0.0 = hard shadows, 1.0 = very soft shadows
-    shadowDistance: 10, // Maximum shadow casting distance in tiles
 
     // Selection state
     selectedTiles: [],
@@ -1899,6 +1887,31 @@ const useLevelEditorStore = create((set, get) => ({
         set({ afterimageEnabled: enabled });
     },
 
+    applyTierFeatureFlags: async (userId) => {
+        try {
+            try {
+                const gameStore = (await import('./gameStore')).default;
+                if (gameStore.isInMultiplayer && !gameStore.isGMMode) {
+                    return;
+                }
+            } catch (e) { }
+
+            const subscriptionService = (await import('../services/subscriptionService')).default;
+            const atmosphericAllowed = await subscriptionService.canUseFeature('atmosphericEffects', userId);
+
+            const updates = {};
+            if (!atmosphericAllowed && get().atmosphericEffects) {
+                updates.atmosphericEffects = false;
+                updates.weatherEffects = { type: 'none', intensity: 0.5, enabled: false };
+            }
+            if (Object.keys(updates).length > 0) {
+                set(updates);
+            }
+        } catch (error) {
+            console.warn('Could not apply tier feature flags:', error);
+        }
+    },
+
     // Token vision management
     setTokenVision: (tokenId, range, type = 'normal', isManual = false) => {
         const state = get();
@@ -2210,10 +2223,6 @@ const useLevelEditorStore = create((set, get) => ({
     },
 
     // Advanced lighting settings
-    setShadowQuality: (quality) => {
-        set({ shadowQuality: quality });
-    },
-
     setAtmosphericEffects: (enabled) => {
         set({ atmosphericEffects: enabled });
     },
@@ -2226,37 +2235,37 @@ const useLevelEditorStore = create((set, get) => ({
         set({ performanceMode: enabled });
     },
 
-    setShadowCasting: (enabled) => {
-        set({ shadowCasting: enabled });
-    },
-
-    setShadowSoftness: (softness) => {
-        set({ shadowSoftness: Math.max(0, Math.min(1, softness)) });
-    },
-
-    setShadowDistance: (distance) => {
-        set({ shadowDistance: Math.max(1, Math.min(20, distance)) });
-    },
-
     // Weather effects
     setWeatherEffect: (type, intensity = 0.5, enabled = true) => {
-        set({
-            weatherEffects: {
-                type,
-                intensity: Math.max(0, Math.min(1, intensity)),
-                enabled
+        const weatherState = {
+            type,
+            intensity: Math.max(0, Math.min(1, intensity)),
+            enabled
+        };
+        set({ weatherEffects: weatherState });
+
+        try {
+            const gameStore = require('./gameStore').default;
+            if (gameStore.isInMultiplayer && gameStore.isGMMode && gameStore.multiplayerSocket?.connected) {
+                gameStore.multiplayerSocket.emit('weather_update', weatherState);
             }
-        });
+        } catch (e) { }
     },
 
     clearWeatherEffects: () => {
-        set({
-            weatherEffects: {
-                type: 'none',
-                intensity: 0.5,
-                enabled: false
+        const weatherState = {
+            type: 'none',
+            intensity: 0.5,
+            enabled: false
+        };
+        set({ weatherEffects: weatherState });
+
+        try {
+            const gameStore = require('./gameStore').default;
+            if (gameStore.isInMultiplayer && gameStore.isGMMode && gameStore.multiplayerSocket?.connected) {
+                gameStore.multiplayerSocket.emit('weather_update', weatherState);
             }
-        });
+        } catch (e) { }
     },
 
     // Selection operations

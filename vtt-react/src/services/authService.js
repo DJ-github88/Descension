@@ -290,16 +290,15 @@ class AuthService {
           photoURL: photoURL || null,
           friendId: finalFriendId,
           friendId_lowercase: finalFriendId ? finalFriendId.toLowerCase() : null,
+          subscriptionTier: 'free',
           createdAt,
           lastLoginAt: createdAt,
-          // Default character data
           characters: [],
           preferences: {
             theme: 'pathfinder',
             notifications: true,
             autoSave: true
           },
-          // Game progress
           gameData: {
             unlockedSkills: [],
             achievements: [],

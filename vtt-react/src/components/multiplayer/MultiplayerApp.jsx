@@ -1135,6 +1135,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         return;
       }
 
+      // Also protect during room creation/join attempts to prevent disconnect
+      // mid-lobby from killing the party state and losing the room creation
+      if (isJoiningRoomRef.current || isAutoJoinSequenceRef.current) {
+        console.log('⏭️ [Auth] Skipping socket reconnect - joining room');
+        return;
+      }
+
       try {
         const authState = authStore.getState();
 
@@ -4728,6 +4735,24 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       });
     });
 
+    // ========== WEATHER SYNC (GM → Players) ==========
+
+    socket.on('weather_update', (data) => {
+      import('../../store/levelEditorStore').then(({ default: useLevelEditorStore }) => {
+        const store = useLevelEditorStore.getState();
+        if (data.enabled && data.type && data.type !== 'none') {
+          store.setWeatherEffect(data.type, data.intensity, data.enabled);
+          if (!store.atmosphericEffects) {
+            useLevelEditorStore.setState({ atmosphericEffects: true });
+          }
+        } else {
+          store.clearWeatherEffects();
+        }
+      }).catch(e => {
+        console.warn('Failed to apply weather update:', e);
+      });
+    });
+
     // ========== MAP NAVIGATION EVENT HANDLERS ==========
 
     // Handle map change (player traversed connection or GM transferred them)
@@ -7401,6 +7426,28 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         }
       }
 
+      // Apply tier-based feature restrictions
+      try {
+        const useAuthStore = (await import('../../store/authStore')).default;
+        const userId = useAuthStore.getState().user?.uid;
+        await useLevelEditorStore.getState().applyTierFeatureFlags(userId);
+      } catch (e) {
+        console.warn('Could not apply tier feature flags:', e);
+      }
+
+      // Sync weather state from room game state for players
+      try {
+        if (room.gameState?.weather && !isGameMaster) {
+          const weather = room.gameState.weather;
+          if (weather.enabled && weather.type && weather.type !== 'none') {
+            useLevelEditorStore.setState({ atmosphericEffects: true });
+            useLevelEditorStore.getState().setWeatherEffect(weather.type, weather.intensity, weather.enabled);
+          }
+        }
+      } catch (e) {
+        console.warn('Could not sync weather state:', e);
+      }
+
       // Set current room after all initialization is complete
       setCurrentRoom(room);
       setCombatSyncSocket(socket, room.id);
@@ -7652,23 +7699,26 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         onJoinRoom={handleJoinRoom}
         onReturnToLanding={onReturnToSinglePlayer}
         onJoinAttempt={(roomId) => {
-          // CRITICAL FIX: Set enteringMultiplayer flag and clear party BEFORE any room operation
-          // This prevents social party members from appearing in the room HUD
           sessionStorage.setItem('enteringMultiplayer', 'true');
           try {
-            const currentMembers = usePartyStore.getState().partyMembers || [];
+            const partyState = usePartyStore.getState();
+            const currentMembers = partyState.partyMembers || [];
             if (currentMembers.length > 0) {
               console.log('🧹 Clearing social party members on join attempt', {
                 count: currentMembers.length,
                 names: currentMembers.map(m => m.name)
               });
-              usePartyStore.getState().clearPartyMembers();
+              if (typeof partyState.leaveParty === 'function') {
+                partyState.leaveParty();
+              } else {
+                partyState.clearPartyMembers();
+              }
             }
           } catch (e) {
             console.warn('⚠️ Failed to clear party members on join attempt:', e);
           }
 
-          isAutoJoinSequenceRef.current = true; // NEW creation/join from lobby should also auto-continue
+          isAutoJoinSequenceRef.current = true;
           startJoiningRoom();
         }}
       />
@@ -7856,7 +7906,7 @@ const MultiplayerGameContent = ({
         {/* Disable expensive background managers in player mode for performance */}
         {isGMMode && <DynamicFogManager />}
         {isGMMode && <DynamicLightingManager />}
-        {isGMMode && <AtmosphericEffectsManager />}
+        <AtmosphericEffectsManager />
         {/* Memory system runs in both modes - tracks exploration when viewingFromToken is set */}
         <MemorySnapshotManager isGMMode={isGMMode} gridSize={gridSize} gridOffsetX={gridOffsetX} gridOffsetY={gridOffsetY} />
         <DialogueSystem />

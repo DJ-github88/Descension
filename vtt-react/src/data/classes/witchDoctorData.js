@@ -1852,21 +1852,20 @@ Ogoun: ✓ (poison applied, ally nearby)
   spells: [
     // ===== LEVEL 1 SPELLS =====
     {
-      id: 'witch_doctor_basic_curse',
-      name: 'Basic Curse',
-      description: 'Place a simple curse on your enemy that deals necrotic damage over time.',
+      id: 'witch_doctor_withering_hex',
+      name: 'Withering Hex',
+      description: 'Afflict an enemy with a necrotic hex that withers them over time.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Ritual',
-        tags: ['attack', 'damage', 'curse', 'necrotic', 'witch doctor'],
+        tags: ['attack', 'damage', 'hex', 'necrotic', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '1d6 + spirit',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,
@@ -1996,6 +1995,323 @@ Ogoun: ✓ (poison applied, ally nearby)
       tags: ['buff', 'support', 'spirit', 'witch doctor']
     },
 
+    // ===== LEVEL 2 SPELLS =====
+    {
+      id: 'witch_doctor_grave_bane',
+      name: 'Grave Bane',
+      description: 'Hurl a fistful of grave dirt that clings to your enemy, sapping their vitality and dulling their reflexes.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'debuff'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'Necrotic/Necrotic Skull',
+        tags: ['attack', 'damage', 'debuff', 'necrotic', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+      debuffConfig: {
+        debuffType: 'statPenalty',
+        effects: [{
+          id: 'grave_bane_slow',
+          name: 'Grave Bane',
+          description: 'Agility reduced by 2 for 3 rounds',
+          statModifier: {
+            stat: 'agility',
+            magnitude: -2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'debuff', 'necrotic', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_spirit_sight',
+      name: 'Spirit Sight',
+      description: 'Open your third eye to the spirit world, allowing you to perceive hidden enemies and spectral entities for a short time.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Utility/All Seeing Eye',
+        tags: ['utility', 'divination', 'spirit', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'spirit_sight',
+          name: 'Spirit Sight',
+          description: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
+          customDescription: 'The veil between worlds thins. Invisible and hidden creatures within 60 ft become visible to you.'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self',
+        rangeDistance: 0,
+        targetRestrictions: ['self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['utility', 'divination', 'spirit', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_mending_wax',
+      name: 'Mending Wax',
+      description: 'Apply a mystical wax salve to an ally, closing wounds and mending flesh with the help of ancestral spirits.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Healing/Heal Wound',
+        tags: ['healing', 'support', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '2d8 + spirit',
+        healingType: 'instant'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 7 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['healing', 'support', 'witch doctor']
+    },
+
+    // ===== LEVEL 3 SPELLS =====
+    {
+      id: 'witch_doctor_bone_shrapnel',
+      name: 'Bone Shrapnel',
+      description: 'Conjure a burst of sharpened bone fragments that explode outward, shredding nearby enemies.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'Necrotic/Bone Shards',
+        tags: ['attack', 'damage', 'aoe', 'necrotic', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '3d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'area'
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        areaConfig: {
+          areaType: 'sphere',
+          areaSize: 15,
+          areaSizeUnit: 'ft'
+        },
+        targetRestrictions: ['enemy'],
+        maxTargets: 4,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'aoe', 'necrotic', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_witch_brew',
+      name: 'Witch Brew',
+      description: 'Rapidly distill a volatile elixir from bone dust and herbs. The brew grants enhanced reflexes and heightened awareness to its drinker.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Nature Natural',
+        tags: ['buff', 'support', 'potion', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'witch_brew_agility',
+          name: "Witch Brew",
+          description: 'Gain +3 to Agility for 3 rounds',
+          statModifier: {
+            stat: 'agility',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          }
+        }, {
+          id: 'witch_brew_initiative',
+          name: "Witch Brew",
+          description: 'Gain +2 to Initiative for 3 rounds',
+          statModifier: {
+            stat: 'initiative',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'support', 'potion', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_soul_siphon',
+      name: 'Soul Siphon',
+      description: 'Reach into the spirit of a wounded enemy and drain their life force, transferring it to yourself or an ally.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'healing'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'Void/Black Hole',
+        tags: ['attack', 'damage', 'healing', 'lifesteal', 'necrotic', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+      healingConfig: {
+        formula: '2d8 + spirit/2',
+        healingType: 'instant'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 25,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 11 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'healing', 'lifesteal', 'necrotic', 'witch doctor']
+    },
+
     // ===== LEVEL 4 SPELLS =====
     {
       id: 'witch_doctor_mass_curse',
@@ -2012,14 +2328,13 @@ Ogoun: ✓ (poison applied, ally nearby)
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '5d6 + spirit',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,
         dotConfig: {
           duration: 4,
           tickFrequency: 'round',
-          dotFormula: '5d6 + spirit',
+          dotFormula: '2d6 + spirit',
           isProgressiveDot: false
         }
       },

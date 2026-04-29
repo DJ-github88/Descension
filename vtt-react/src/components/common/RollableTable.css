@@ -1,0 +1,416 @@
+.rollable-table-container {
+  background: rgba(20, 20, 35, 0.95);
+  border: 1px solid rgba(100, 100, 180, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', sans-serif;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.rollable-table-embedded {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.rollable-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.rollable-table-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #c0c0ff;
+  white-space: nowrap;
+}
+
+.rollable-table-select {
+  flex: 1;
+  background: rgba(30, 30, 50, 0.9);
+  border: 1px solid rgba(100, 100, 180, 0.4);
+  border-radius: 4px;
+  color: #e0e0e0;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.rollable-table-select:focus {
+  outline: none;
+  border-color: rgba(130, 130, 255, 0.6);
+}
+
+.rollable-table-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(100, 100, 180, 0.2);
+}
+
+.rollable-table-icon {
+  font-size: 18px;
+}
+
+.rollable-table-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #d0d0ff;
+}
+
+.rollable-table-die {
+  margin-left: auto;
+  font-size: 12px;
+  color: #9090b0;
+  background: rgba(100, 100, 180, 0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.rollable-table-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  border: 1px solid rgba(100, 100, 180, 0.15);
+  border-radius: 4px;
+}
+
+.rollable-table-entry {
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(100, 100, 180, 0.08);
+  transition: background 0.2s;
+}
+
+.rollable-table-entry:hover {
+  background: rgba(100, 100, 180, 0.1);
+}
+
+.rollable-table-entry-highlighted {
+  background: rgba(255, 200, 50, 0.15);
+  border-left: 3px solid rgba(255, 200, 50, 0.6);
+}
+
+.rollable-table-range {
+  color: #9090b0;
+  min-width: 36px;
+  font-size: 11px;
+  font-family: monospace;
+}
+
+.rollable-table-result {
+  color: #d0d0e0;
+}
+
+.rollable-table-roll-btn {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #4a3a8a, #6a5acd);
+  border: 1px solid rgba(130, 130, 255, 0.4);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rollable-table-roll-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5a4a9a, #7a6add);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(100, 100, 200, 0.3);
+}
+
+.rollable-table-roll-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rollable-table-roll-btn.rolling {
+  animation: rollPulse 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes rollPulse {
+  from { opacity: 0.7; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1.02); }
+}
+
+.rollable-table-result-display {
+  margin-top: 12px;
+  background: rgba(100, 100, 180, 0.15);
+  border: 1px solid rgba(255, 200, 50, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.rollable-table-result-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.rollable-table-result-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #9090b0;
+}
+
+.rollable-table-result-die {
+  font-size: 13px;
+  color: #c0c0ff;
+}
+
+.rollable-table-result-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffd700;
+  line-height: 1.4;
+}
+
+.rollable-table-upsell {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(100, 100, 180, 0.1);
+  border: 1px dashed rgba(100, 100, 180, 0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #9090b0;
+  text-align: center;
+}
+
+.rollable-table-history {
+  margin-top: 14px;
+  border-top: 1px solid rgba(100, 100, 180, 0.2);
+  padding-top: 10px;
+}
+
+.rollable-table-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #9090b0;
+  margin-bottom: 6px;
+}
+
+.rollable-table-clear-btn {
+  background: none;
+  border: none;
+  color: #7070a0;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.rollable-table-clear-btn:hover {
+  color: #a0a0d0;
+}
+
+.rollable-table-history-entry {
+  display: flex;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(100, 100, 180, 0.06);
+}
+
+.rollable-table-history-table {
+  color: #8080b0;
+  min-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rollable-table-history-roll {
+  color: #a0a0d0;
+  font-family: monospace;
+  min-width: 50px;
+}
+
+.rollable-table-history-result {
+  color: #c0c0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rollable-table-custom-section {
+  margin-top: 12px;
+}
+
+.rollable-table-create-btn {
+  width: 100%;
+  padding: 8px;
+  background: rgba(100, 100, 180, 0.15);
+  border: 1px dashed rgba(100, 100, 180, 0.4);
+  border-radius: 6px;
+  color: #a0a0d0;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.rollable-table-create-btn:hover {
+  background: rgba(100, 100, 180, 0.25);
+  color: #c0c0ff;
+}
+
+.rollable-table-editor {
+  background: rgba(25, 25, 45, 0.9);
+  border: 1px solid rgba(100, 100, 180, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.rollable-table-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rollable-table-editor-header h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #c0c0ff;
+}
+
+.rollable-table-cancel-btn {
+  background: none;
+  border: none;
+  color: #7070a0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.rollable-table-cancel-btn:hover {
+  color: #a0a0d0;
+}
+
+.rollable-table-editor-field {
+  margin-bottom: 8px;
+}
+
+.rollable-table-editor-field label {
+  display: block;
+  font-size: 11px;
+  color: #9090b0;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rollable-table-editor-field input,
+.rollable-table-editor-field select {
+  width: 100%;
+  background: rgba(30, 30, 50, 0.9);
+  border: 1px solid rgba(100, 100, 180, 0.3);
+  border-radius: 4px;
+  color: #e0e0e0;
+  padding: 6px 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.rollable-table-editor-entries label {
+  display: block;
+  font-size: 11px;
+  color: #9090b0;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rollable-table-editor-entry {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.rollable-table-editor-entry input {
+  background: rgba(30, 30, 50, 0.9);
+  border: 1px solid rgba(100, 100, 180, 0.3);
+  border-radius: 3px;
+  color: #e0e0e0;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.rollable-table-editor-entry span {
+  color: #7070a0;
+  font-size: 12px;
+}
+
+.rollable-table-editor-entry button {
+  background: none;
+  border: none;
+  color: #805050;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.rollable-table-editor-entry button:hover {
+  color: #c05050;
+}
+
+.rollable-table-add-entry-btn {
+  background: none;
+  border: 1px dashed rgba(100, 100, 180, 0.3);
+  border-radius: 3px;
+  color: #7070a0;
+  font-size: 11px;
+  padding: 4px 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.rollable-table-add-entry-btn:hover {
+  color: #a0a0d0;
+  border-color: rgba(100, 100, 180, 0.5);
+}
+
+.rollable-table-save-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  background: linear-gradient(135deg, #2a6a3a, #3a8a4a);
+  border: 1px solid rgba(80, 180, 100, 0.4);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rollable-table-save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rollable-table-delete-btn {
+  background: none;
+  border: none;
+  color: #805050;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.rollable-table-delete-btn:hover {
+  color: #c05050;
+}

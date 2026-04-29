@@ -533,6 +533,10 @@ function GameScreen() {
             }
 
             console.log('✅ Local game state applied to stores');
+
+            useLevelEditorStore.getState().applyTierFeatureFlags(
+                useAuthStore.getState().user?.uid
+            );
         } catch (error) {
             console.error('❌ Error applying local game state:', error);
         }
@@ -721,7 +725,7 @@ function GameScreen() {
                                 <DynamicLightingManager disabled={!isGMMode} />
                             </ErrorBoundary>
                             <ErrorBoundary name="AtmosphericEffects">
-                                <AtmosphericEffectsManager disabled={!isGMMode} />
+                                <AtmosphericEffectsManager />
                             </ErrorBoundary>
                         </>
                     )}

@@ -232,36 +232,34 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
           <div className="pricing-card premium">
             <div className="pricing-card-icon"><i className="fas fa-crown"></i></div>
             <div className="popular-badge">Most Popular</div>
-            <h3>Campaign Master</h3>
-            <div className="price">$9.99<span>/month</span></div>
+            <h3>Dungeon Master</h3>
+            <div className="price">$7.99<span>/month</span></div>
             <ul>
               <li>✓ 15 character slots with cloud save</li>
               <li>✓ 5 rooms (up to 6 players each)</li>
               <li>✓ 500 MB cloud storage</li>
-              <li>✓ Dynamic fog of war & line-of-sight</li>
-              <li>✓ Dynamic lighting with shadows</li>
+              <li>✓ Full GM notes (scroll, NPC, encounter, trap)</li>
+              <li>✓ Portal system — connect maps</li>
+              <li>✓ Travel system with biomes & weather</li>
               <li>✓ Atmospheric effects (rain, snow, fog)</li>
               <li>✓ Campaign manager & session tracking</li>
-              <li>✓ Portal system — connect maps</li>
-              <li>✓ Travel system & quest sharing</li>
-              <li>✓ Auto backups & community sharing</li>
+              <li>✓ Memory snapshots & afterimages</li>
+              <li>✓ Custom rollable tables & quest sharing</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>
           </div>
 
           <div className="pricing-card legendary">
             <div className="pricing-card-icon"><i className="fas fa-chess-king"></i></div>
-            <h3>Guild Leader</h3>
-            <div className="price">$19.99<span>/month</span></div>
+            <h3>Archmage</h3>
+            <div className="price">$14.99<span>/month</span></div>
             <ul>
               <li>✓ Unlimited character slots</li>
               <li>✓ 25 rooms (up to 12 players each)</li>
-              <li>✓ Everything in Campaign Master</li>
-              <li>✓ Content packs — create & share bundles</li>
-              <li>✓ Custom rollable tables</li>
-              <li>✓ Guild & group management</li>
+              <li>✓ Everything in Dungeon Master</li>
               <li>✓ Campaign analytics dashboard</li>
               <li>✓ Custom room themes</li>
+              <li>✓ Priority support & early access</li>
               <li>✓ 5 GB cloud storage</li>
             </ul>
             <button className="pricing-btn">Coming Soon</button>

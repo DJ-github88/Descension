@@ -1,41 +1,44 @@
-// Subscription service for managing user tiers and room limits
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '../config/firebase';
 
+// Tier Feature Flags — gates GM tool CONTROLS only.
+// Players always SEE whatever the GM creates/broadcasts regardless of their own tier.
+// Tier restrictions only limit: data storage, tool access, and creation capabilities.
 const TIER_FEATURE_FLAGS = {
-  dynamicFog: { SUBSCRIBER: true, PREMIUM: true },
-  dynamicLighting: { SUBSCRIBER: true, PREMIUM: true },
-  atmosphericEffects: { SUBSCRIBER: true, PREMIUM: true },
-  campaignManager: { SUBSCRIBER: true, PREMIUM: true },
-  memorySnapshots: { SUBSCRIBER: true, PREMIUM: true },
-  portalSystem: { SUBSCRIBER: true, PREMIUM: true },
-  autoBackups: { SUBSCRIBER: true, PREMIUM: true },
-  travelSystem: { SUBSCRIBER: true, PREMIUM: true },
-  questSharing: { SUBSCRIBER: true, PREMIUM: true },
-  communitySharing: { SUBSCRIBER: true, PREMIUM: true },
-  friendsList: { FREE: true, SUBSCRIBER: true, PREMIUM: true },
-  journal: { FREE: true, SUBSCRIBER: true, PREMIUM: true },
-  contentPacks: { PREMIUM: true },
-  guildManagement: { PREMIUM: true },
-  analytics: { PREMIUM: true },
-  customRoomThemes: { PREMIUM: true },
-  earlyAccess: { SUBSCRIBER: true, PREMIUM: true },
-  bulkImportExport: { PREMIUM: true },
-  rollableTables: { PREMIUM: true },
-  roomCreation: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  gmTools: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  spellCrafting: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  creatureCreation: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  itemGeneration: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  combatSystem: { GUEST: true, FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  diceRolling: { GUEST: true, FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  basicMapEditor: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  staticFog: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  cloudSave: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  globalChat: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  localRooms: { FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  joinRooms: { GUEST: true, FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true },
-  roomChat: { GUEST: true, FREE: true, DEV_PREVIEW: true, SUBSCRIBER: true, PREMIUM: true }
+  dynamicFog: { FREE: true, PRO: true, ULTIMATE: true },
+  dynamicLighting: { FREE: true, PRO: true, ULTIMATE: true },
+  atmosphericEffects: { PRO: true, ULTIMATE: true },
+  portalSystem: { PRO: true, ULTIMATE: true },
+  travelSystem: { PRO: true, ULTIMATE: true },
+  gmNotes: { PRO: true, ULTIMATE: true },
+  memorySnapshots: { FREE: true, PRO: true, ULTIMATE: true },
+  campaignManagerFull: { PRO: true, ULTIMATE: true },
+  questSharing: { PRO: true, ULTIMATE: true },
+  journalFull: { PRO: true, ULTIMATE: true },
+  customRollableTables: { PRO: true, ULTIMATE: true },
+  earlyAccess: { PRO: true, ULTIMATE: true },
+  analytics: { ULTIMATE: true },
+  customRoomThemes: { ULTIMATE: true },
+  communitySharing: { FREE: true, PRO: true, ULTIMATE: true },
+  friendsList: { FREE: true, PRO: true, ULTIMATE: true },
+  autoBackups: { FREE: true, PRO: true, ULTIMATE: true },
+  roomCreation: { FREE: true, PRO: true, ULTIMATE: true },
+  gmTools: { FREE: true, PRO: true, ULTIMATE: true },
+  spellCrafting: { FREE: true, PRO: true, ULTIMATE: true },
+  creatureCreation: { FREE: true, PRO: true, ULTIMATE: true },
+  itemGeneration: { FREE: true, PRO: true, ULTIMATE: true },
+  combatSystem: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true },
+  diceRolling: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true },
+  basicMapEditor: { FREE: true, PRO: true, ULTIMATE: true },
+  staticFog: { FREE: true, PRO: true, ULTIMATE: true },
+  cloudSave: { FREE: true, PRO: true, ULTIMATE: true },
+  globalChat: { FREE: true, PRO: true, ULTIMATE: true },
+  localRooms: { FREE: true, PRO: true, ULTIMATE: true },
+  joinRooms: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true },
+  roomChat: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true },
+  rollableTablesPreset: { FREE: true, PRO: true, ULTIMATE: true },
+  journalBasic: { FREE: true, PRO: true, ULTIMATE: true },
+  campaignManagerBasic: { FREE: true, PRO: true, ULTIMATE: true }
 };
 
 export function canUseFeature(featureName, tierKey) {
@@ -49,12 +52,11 @@ export function getRequiredTierForFeature(featureName) {
   if (!flags) return null;
   const tiers = Object.keys(flags);
   if (tiers.includes('FREE')) return 'FREE';
-  if (tiers.includes('SUBSCRIBER')) return 'SUBSCRIBER';
-  if (tiers.includes('PREMIUM')) return 'PREMIUM';
+  if (tiers.includes('PRO')) return 'PRO';
+  if (tiers.includes('ULTIMATE')) return 'ULTIMATE';
   return tiers[0] || null;
 }
 
-// Subscription tiers with room, character, and player limits
 export const SUBSCRIPTION_TIERS = {
   GUEST: {
     id: 'guest',
@@ -72,12 +74,13 @@ export const SUBSCRIPTION_TIERS = {
     ],
     featureFlags: {
       dynamicFog: false, dynamicLighting: false, atmosphericEffects: false,
-      campaignManager: false, memorySnapshots: false, portalSystem: false,
-      autoBackups: false, travelSystem: false, questSharing: false,
-      communitySharing: false, friendsList: false, journal: false,
-      contentPacks: false, guildManagement: false, analytics: false,
-      customRoomThemes: false, earlyAccess: false, bulkImportExport: false,
-      rollableTables: false, roomCreation: false, gmTools: false,
+      portalSystem: false, travelSystem: false, gmNotes: false,
+      memorySnapshots: true, campaignManagerFull: false, questSharing: false,
+      journalFull: false, customRollableTables: false, earlyAccess: false,
+      analytics: false, customRoomThemes: false,
+      communitySharing: false, friendsList: false, autoBackups: false,
+      rollableTablesPreset: false, journalBasic: false, campaignManagerBasic: false,
+      roomCreation: false, gmTools: false,
       spellCrafting: false, creatureCreation: false, itemGeneration: false,
       combatSystem: true, diceRolling: true, basicMapEditor: false,
       staticFog: false, cloudSave: false, globalChat: false,
@@ -90,31 +93,34 @@ export const SUBSCRIPTION_TIERS = {
   },
   FREE: {
     id: 'free',
-    name: 'Free Adventurer',
+    name: 'Adventurer',
     roomLimit: 1,
     characterLimit: 3,
-    maxPlayersPerRoom: 4,
+    maxPlayersPerRoom: 3,
     storageLimit: 25 * 1024 * 1024,
     features: [
       '3 character slots with cloud save',
-      '1 permanent room (up to 4 players)',
+      '1 permanent room (up to 3 players)',
       '25 MB cloud storage',
       'Full character creation (27 classes, 12 races)',
       'Spell crafting, creature & item creation',
-      'Full map editor with static fog of war',
+      'Full map editor with dynamic fog & lighting',
       'Combat system & 3D physics dice',
       'Unlimited local rooms (offline)',
-      'Global chat & basic friends list',
-      'Cloud-synced journal'
+      'Global chat & friends list',
+      'Basic journal & auto backups',
+      'Community content sharing',
+      'Preset rollable tables'
     ],
     featureFlags: {
-      dynamicFog: false, dynamicLighting: false, atmosphericEffects: false,
-      campaignManager: false, memorySnapshots: false, portalSystem: false,
-      autoBackups: false, travelSystem: false, questSharing: false,
-      communitySharing: false, friendsList: true, journal: true,
-      contentPacks: false, guildManagement: false, analytics: false,
-      customRoomThemes: false, earlyAccess: false, bulkImportExport: false,
-      rollableTables: false, roomCreation: true, gmTools: true,
+      dynamicFog: true, dynamicLighting: true, atmosphericEffects: false,
+      portalSystem: false, travelSystem: false, gmNotes: false,
+      memorySnapshots: true, campaignManagerFull: false, questSharing: false,
+      journalFull: false, customRollableTables: false, earlyAccess: false,
+      analytics: false, customRoomThemes: false,
+      communitySharing: true, friendsList: true, autoBackups: true,
+      rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
+      roomCreation: true, gmTools: true,
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
@@ -128,24 +134,25 @@ export const SUBSCRIPTION_TIERS = {
   DEV_PREVIEW: {
     id: 'dev_preview',
     name: 'Dev Preview',
-    roomLimit: 5,
-    characterLimit: 50,
+    roomLimit: 25,
+    characterLimit: -1,
     maxPlayersPerRoom: 12,
-    storageLimit: 1 * 1024 * 1024 * 1024,
+    storageLimit: 5 * 1024 * 1024 * 1024,
     features: [
       'All features unlocked (dev access)',
-      '50 character slots with cloud save',
-      '5 permanent rooms',
+      'Unlimited character slots',
+      '25 permanent rooms',
       'Full access to all tools'
     ],
     featureFlags: {
       dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
-      campaignManager: true, memorySnapshots: true, portalSystem: true,
-      autoBackups: true, travelSystem: true, questSharing: true,
-      communitySharing: true, friendsList: true, journal: true,
-      contentPacks: true, guildManagement: true, analytics: true,
-      customRoomThemes: true, earlyAccess: true, bulkImportExport: true,
-      rollableTables: true, roomCreation: true, gmTools: true,
+      portalSystem: true, travelSystem: true, gmNotes: true,
+      memorySnapshots: true, campaignManagerFull: true, questSharing: true,
+      journalFull: true, customRollableTables: true, earlyAccess: true,
+      analytics: true, customRoomThemes: true,
+      communitySharing: true, friendsList: true, autoBackups: true,
+      rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
+      roomCreation: true, gmTools: true,
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
@@ -156,9 +163,9 @@ export const SUBSCRIPTION_TIERS = {
     icon: 'fa-code',
     color: '#ff9800'
   },
-  SUBSCRIBER: {
-    id: 'subscriber',
-    name: 'Campaign Master',
+  PRO: {
+    id: 'pro',
+    name: 'Dungeon Master',
     roomLimit: 5,
     characterLimit: 15,
     maxPlayersPerRoom: 6,
@@ -167,41 +174,41 @@ export const SUBSCRIPTION_TIERS = {
       '15 character slots with cloud save',
       '5 permanent rooms (up to 6 players each)',
       '500 MB cloud storage',
-      'Dynamic fog of war & line-of-sight',
-      'Dynamic lighting with shadows & colors',
-      'Atmospheric effects (rain, snow, fog, embers)',
-      'Campaign manager with session tracking',
+      'Full GM notes (scroll, NPC, encounter, trap, loot)',
       'Portal system — connect multiple maps',
-      'Memory snapshots & afterimages',
-      'Full GM notes (scroll, NPC, encounter, trap…)',
-      'Automatic daily character backups',
       'Travel system with biomes & weather',
+      'Atmospheric effects (rain, snow, fog, embers)',
+      'Memory snapshots & afterimages',
+      'Full campaign manager with session tracking',
       'Quest creation & sharing',
+      'Full journal with categories & sharing',
+      'Custom rollable tables',
       'Community content sharing',
       'Priority support & early access'
     ],
     featureFlags: {
       dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
-      campaignManager: true, memorySnapshots: true, portalSystem: true,
-      autoBackups: true, travelSystem: true, questSharing: true,
-      communitySharing: true, friendsList: true, journal: true,
-      contentPacks: false, guildManagement: false, analytics: false,
-      customRoomThemes: false, earlyAccess: true, bulkImportExport: false,
-      rollableTables: false, roomCreation: true, gmTools: true,
+      portalSystem: true, travelSystem: true, gmNotes: true,
+      memorySnapshots: true, campaignManagerFull: true, questSharing: true,
+      journalFull: true, customRollableTables: true, earlyAccess: true,
+      analytics: false, customRoomThemes: false,
+      communitySharing: true, friendsList: true, autoBackups: true,
+      rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
+      roomCreation: true, gmTools: true,
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
       localRooms: true, joinRooms: true, roomChat: true
     },
-    price: 9.99,
+    price: 7.99,
     description: 'For serious Game Masters running campaigns',
     icon: 'fa-crown',
     color: '#9b59b6',
     highlight: true
   },
-  PREMIUM: {
-    id: 'premium',
-    name: 'Guild Leader',
+  ULTIMATE: {
+    id: 'ultimate',
+    name: 'Archmage',
     roomLimit: 25,
     characterLimit: -1,
     maxPlayersPerRoom: 12,
@@ -209,60 +216,56 @@ export const SUBSCRIPTION_TIERS = {
     features: [
       'Unlimited character slots with cloud save',
       '25 permanent rooms (up to 12 players each)',
-      'Everything in Campaign Master +',
-      'Content packs — create & share bundles',
-      'Custom rollable tables',
-      'Guild & persistent group management',
+      '5 GB cloud storage',
+      'Everything in Dungeon Master +',
       'Campaign analytics dashboard',
       'Custom room themes',
-      'Priority support & early access',
-      'Bulk import/export tools',
-      '5 GB cloud storage'
+      'Priority support & early access'
     ],
     featureFlags: {
       dynamicFog: true, dynamicLighting: true, atmosphericEffects: true,
-      campaignManager: true, memorySnapshots: true, portalSystem: true,
-      autoBackups: true, travelSystem: true, questSharing: true,
-      communitySharing: true, friendsList: true, journal: true,
-      contentPacks: true, guildManagement: true, analytics: true,
-      customRoomThemes: true, earlyAccess: true, bulkImportExport: true,
-      rollableTables: true, roomCreation: true, gmTools: true,
+      portalSystem: true, travelSystem: true, gmNotes: true,
+      memorySnapshots: true, campaignManagerFull: true, questSharing: true,
+      journalFull: true, customRollableTables: true, earlyAccess: true,
+      analytics: true, customRoomThemes: true,
+      communitySharing: true, friendsList: true, autoBackups: true,
+      rollableTablesPreset: true, journalBasic: true, campaignManagerBasic: true,
+      roomCreation: true, gmTools: true,
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
       localRooms: true, joinRooms: true, roomChat: true
     },
-    price: 19.99,
+    price: 14.99,
     description: 'For communities and professional Game Masters',
     icon: 'fa-chess-king',
     color: '#f1c40f'
   }
 };
 
-export const TIER_ORDER = ['GUEST', 'FREE', 'SUBSCRIBER', 'PREMIUM'];
+export const TIER_ORDER = ['FREE', 'PRO', 'ULTIMATE'];
+
+const LEGACY_TIER_MAPPING = {
+  'subscriber': 'pro',
+  'premium': 'ultimate',
+  'SUBSCRIBER': 'pro',
+  'PREMIUM': 'ultimate',
+  'campaign_master': 'pro',
+  'guild_leader': 'ultimate'
+};
 
 class SubscriptionService {
   constructor() {
     this.isConfigured = isFirebaseConfigured;
   }
 
-  /**
-   * Get user's current subscription tier
-   * @param {string} userId - User ID (optional, uses current user if not provided)
-   * @returns {Object} - Subscription tier object
-   */
   async getUserTier(userId = null) {
     const checkUserId = userId || auth.currentUser?.uid;
 
-    // CRITICAL FIX: Check for guest users FIRST (before demo mode)
-    // This ensures guest users always get 1 character even in demo mode
-
-    // Check if the userId indicates a guest user (check userId FIRST)
     if (checkUserId && checkUserId.startsWith('guest-')) {
       return SUBSCRIPTION_TIERS.GUEST;
     }
 
-    // Check if user is a guest in localStorage
     const guestUser = localStorage.getItem('mythrill-guest-user');
     if (guestUser) {
       try {
@@ -275,10 +278,6 @@ class SubscriptionService {
       }
     }
 
-    // CRITICAL FIX: Check for dev/demo mode AFTER guest check
-    // This ensures dev users get the correct tier (50 characters) but guests still get 1
-
-    // Check for development bypass (dev mode)
     try {
       const { default: useAuthStore } = await import('../store/authStore');
       const authState = useAuthStore.getState();
@@ -289,13 +288,10 @@ class SubscriptionService {
       console.warn('Could not check dev bypass:', error);
     }
 
-    // Check for demo mode (only for authenticated users, not guests)
     try {
       const { isDemoMode } = await import('../config/firebase');
       if (isDemoMode) {
-        // Only return demo tier if user is authenticated (not guest)
         if (auth.currentUser || (checkUserId && !checkUserId.startsWith('guest-'))) {
-          // In demo mode, give Dev Preview tier instead of unlimited
           return SUBSCRIPTION_TIERS.DEV_PREVIEW;
         }
       }
@@ -303,12 +299,10 @@ class SubscriptionService {
       console.warn('Could not check demo mode:', error);
     }
 
-    // If not logged in, return guest tier
     if (!auth.currentUser && !userId) {
       return SUBSCRIPTION_TIERS.GUEST;
     }
 
-    // If Firebase not configured, return appropriate tier
     if (!this.isConfigured) {
       return auth.currentUser ? SUBSCRIPTION_TIERS.FREE : SUBSCRIPTION_TIERS.GUEST;
     }
@@ -321,32 +315,27 @@ class SubscriptionService {
       if (userSnap.exists()) {
         const userData = userSnap.data();
 
-        // Check if user is marked as guest in Firestore
         if (userData.isGuest) {
           return SUBSCRIPTION_TIERS.GUEST;
         }
 
-        const tierKey = userData.subscriptionTier || 'free';
+        let tierId = userData.subscriptionTier || 'free';
 
-        // Validate tier exists
-        const tier = Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierKey);
+        if (LEGACY_TIER_MAPPING[tierId]) {
+          tierId = LEGACY_TIER_MAPPING[tierId];
+        }
+
+        const tier = Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierId);
         return tier || SUBSCRIPTION_TIERS.FREE;
       } else {
-        // New user, default to free tier
         return SUBSCRIPTION_TIERS.FREE;
       }
     } catch (error) {
       console.error('Error fetching user tier:', error);
-      return SUBSCRIPTION_TIERS.FREE; // Fallback to free tier
+      return SUBSCRIPTION_TIERS.FREE;
     }
   }
 
-  /**
-   * Check if user can create more rooms
-   * @param {number} currentRoomCount - Current number of rooms user has
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<Object>} - { canCreate: boolean, tier: Object, limit: number, remaining: number }
-   */
   async canCreateRoom(currentRoomCount, userId = null) {
     const tier = await this.getUserTier(userId);
     const remaining = Math.max(0, tier.roomLimit - currentRoomCount);
@@ -362,22 +351,11 @@ class SubscriptionService {
     };
   }
 
-  /**
-   * Get room limit for current user
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<number>} - Room limit
-   */
   async getRoomLimit(userId = null) {
     const tier = await this.getUserTier(userId);
     return tier.roomLimit;
   }
 
-  /**
-   * Update user's subscription tier
-   * @param {string} tierId - New tier ID
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<boolean>} - Success status
-   */
   async updateUserTier(tierId, userId = null) {
     if (!this.isConfigured) {
       console.warn('Firebase not configured, cannot update subscription tier');
@@ -390,7 +368,6 @@ class SubscriptionService {
         throw new Error('No user ID provided and no current user');
       }
 
-      // Validate tier exists
       const tier = Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierId);
       if (!tier) {
         throw new Error(`Invalid tier ID: ${tierId}`);
@@ -410,36 +387,21 @@ class SubscriptionService {
     }
   }
 
-  /**
-   * Get all available subscription tiers
-   * @returns {Array} - Array of tier objects
-   */
   getAllTiers() {
     return Object.values(SUBSCRIPTION_TIERS);
   }
 
-  /**
-   * Get tier by ID
-   * @param {string} tierId - Tier ID
-   * @returns {Object|null} - Tier object or null if not found
-   */
   getTierById(tierId) {
+    if (LEGACY_TIER_MAPPING[tierId]) {
+      tierId = LEGACY_TIER_MAPPING[tierId];
+    }
     return Object.values(SUBSCRIPTION_TIERS).find(t => t.id === tierId) || null;
   }
 
-  /**
-   * Check if user is authenticated
-   * @returns {boolean} - Authentication status
-   */
   isAuthenticated() {
     return !!auth.currentUser;
   }
 
-  /**
-   * Get subscription status for display
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<Object>} - Status object with tier info and limits
-   */
   async getSubscriptionStatus(userId = null) {
     const tier = await this.getUserTier(userId);
     const isAuthenticated = this.isAuthenticated();
@@ -462,16 +424,17 @@ class SubscriptionService {
       description: tier.description,
       price: tier.price,
       icon: tier.icon,
-      color: tier.color
+      color: tier.color,
+      canUpgrade: this.canUpgrade(tierKey)
     };
   }
 
-  /**
-   * Check if current user can use a specific feature
-   * @param {string} featureName - Feature flag name
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<boolean>}
-   */
+  canUpgrade(tierKey) {
+    const order = ['GUEST', 'FREE', 'PRO', 'ULTIMATE'];
+    const idx = order.indexOf(tierKey);
+    return idx >= 0 && idx < order.length - 1;
+  }
+
   async canUseFeature(featureName, userId = null) {
     const tier = await this.getUserTier(userId);
     if (tier.featureFlags && tier.featureFlags[featureName] !== undefined) {
@@ -480,26 +443,20 @@ class SubscriptionService {
     return canUseFeature(featureName, this.getTierKey(tier.id));
   }
 
-  /**
-   * Get the tier key (GUEST, FREE, etc.) from a tier ID
-   * @param {string} tierId - Tier ID like 'guest', 'free', 'subscriber', 'premium'
-   * @returns {string} - Tier key like 'GUEST', 'FREE', 'SUBSCRIBER', 'PREMIUM'
-   */
   getTierKey(tierId) {
+    if (LEGACY_TIER_MAPPING[tierId]) {
+      tierId = LEGACY_TIER_MAPPING[tierId];
+    }
     const mapping = {
       'guest': 'GUEST',
       'free': 'FREE',
       'dev_preview': 'DEV_PREVIEW',
-      'subscriber': 'SUBSCRIBER',
-      'premium': 'PREMIUM'
+      'pro': 'PRO',
+      'ultimate': 'ULTIMATE'
     };
     return mapping[tierId] || 'FREE';
   }
 
-  /**
-   * Get tier objects for display (excludes DEV_PREVIEW)
-   * @returns {Array}
-   */
   getDisplayTiers() {
     return TIER_ORDER.map(key => ({
       ...SUBSCRIPTION_TIERS[key],
@@ -507,15 +464,7 @@ class SubscriptionService {
     }));
   }
 
-  /**
-   * Check if user can create more characters
-   * @param {number} currentCharacterCount - Current number of characters
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<Object>} - Object with canCreate boolean and limit info
-   */
   async canCreateCharacter(currentCharacterCount, userId = null) {
-    // CRITICAL FIX: Use getUserTier which now checks dev/demo mode FIRST
-    // This ensures dev users get 50 characters, guest users get 1 character
     const tier = await this.getUserTier(userId);
 
     const characterLimit = tier.characterLimit;
@@ -531,18 +480,21 @@ class SubscriptionService {
     };
   }
 
-  /**
-   * Get character limit for user's current tier
-   * @param {string} userId - User ID (optional)
-   * @returns {Promise<number>} - Character limit
-   */
   async getCharacterLimit(userId = null) {
     const tier = await this.getUserTier(userId);
     return tier.characterLimit;
   }
+
+  resolveTierId(rawTierId) {
+    if (LEGACY_TIER_MAPPING[rawTierId]) {
+      return LEGACY_TIER_MAPPING[rawTierId];
+    }
+    const tier = Object.values(SUBSCRIPTION_TIERS).find(t => t.id === rawTierId);
+    if (tier) return rawTierId;
+    return 'free';
+  }
 }
 
-// Create singleton instance
 const subscriptionService = new SubscriptionService();
 
 export default subscriptionService;

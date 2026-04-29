@@ -3,6 +3,7 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import useShareableStore from '../../store/shareableStore';
+import useFeatureFlag from '../../hooks/useFeatureFlag';
 import { getCustomIconUrl } from '../../utils/assetManager';
 import './styles/AccountJournalManager.css';
 
@@ -126,7 +127,9 @@ const getBackgroundImageUrl = (imagePath) => {
 };
 
 const AccountJournalManager = ({ user }) => {
-  const [activeSection, setActiveSection] = useState('board');
+  const { allowed: journalFullAllowed } = useFeatureFlag('journalFull');
+  const defaultSection = journalFullAllowed ? 'board' : 'received';
+  const [activeSection, setActiveSection] = useState(defaultSection);
   const [connectingFrom, setConnectingFrom] = useState(null);
   const [showKnowledgePopup, setShowKnowledgePopup] = useState(null);
   const [showOrbEditor, setShowOrbEditor] = useState(null);
@@ -212,10 +215,10 @@ const AccountJournalManager = ({ user }) => {
 
   // Sections
   const sections = [
-    { id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram' },
+    { id: 'board', label: 'Knowledge Board', icon: 'fa-project-diagram', pro: true },
     { id: 'received', label: 'Received', icon: 'fa-inbox' },
     { id: 'notes', label: 'My Notes', icon: 'fa-sticky-note' }
-  ];
+  ].filter(s => !s.pro || journalFullAllowed);
 
   // Handle orb drag
   const handleOrbMouseDown = useCallback((e, orb) => {
@@ -578,13 +581,18 @@ const AccountJournalManager = ({ user }) => {
           <span><i className="fas fa-inbox"></i> {filteredKnowledge.length} Received</span>
           <span><i className="fas fa-sticky-note"></i> {filteredNotes.length} Notes</span>
           <span><i className="fas fa-circle"></i> {filteredOrbs.length} Orbs</span>
+          {!journalFullAllowed && (
+            <span className="journal-upsell-hint">
+              Knowledge Board & quest sharing unlock with Dungeon Master+
+            </span>
+          )}
         </div>
       </div>
 
       {/* Content Area */}
       <div className="journal-content-area">
         {/* Knowledge Board */}
-        {activeSection === 'board' && (
+        {activeSection === 'board' && journalFullAllowed && (
           <div className="journal-board-section">
             <div className="board-toolbar">
               <button

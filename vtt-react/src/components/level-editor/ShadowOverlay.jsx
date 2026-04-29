@@ -16,9 +16,6 @@ const ShadowOverlay = () => {
     const {
         lightSources,
         lightingEnabled,
-        shadowCasting,
-        shadowSoftness,
-        shadowDistance,
         wallData,
         performanceMode
     } = useLevelEditorStore();
@@ -40,7 +37,7 @@ const ShadowOverlay = () => {
 
     // Calculate shadows for all light sources
     const calculateAllShadows = useCallback(() => {
-        if (!lightingEnabled || !shadowCasting) {
+        if (!lightingEnabled) {
             shadowDataRef.current = {};
             return;
         }
@@ -72,7 +69,7 @@ const ShadowOverlay = () => {
         });
         
         shadowDataRef.current = shadows;
-    }, [lightSources, lightingEnabled, shadowCasting, wallData]);
+    }, [lightSources, lightingEnabled, wallData]);
 
     // Render shadows on canvas
     const renderShadows = useCallback(() => {
@@ -82,7 +79,7 @@ const ShadowOverlay = () => {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (!lightingEnabled || !shadowCasting || Object.keys(shadowDataRef.current).length === 0) {
+        if (!lightingEnabled || Object.keys(shadowDataRef.current).length === 0) {
             return;
         }
 
@@ -118,21 +115,20 @@ const ShadowOverlay = () => {
             const shadowIntensity = Math.min(0.8, shadowSources.length * 0.3);
             
             // Render shadow with soft edges if enabled
-            if (shadowSoftness > 0 && !performanceMode) {
-                // Soft shadow with gradient
+            if (!performanceMode) {
                 const gradient = ctx.createRadialGradient(
                     screenX + screenSize / 2, screenY + screenSize / 2, 0,
-                    screenX + screenSize / 2, screenY + screenSize / 2, screenSize * (1 + shadowSoftness)
+                    screenX + screenSize / 2, screenY + screenSize / 2, screenSize * 1.5
                 );
                 gradient.addColorStop(0, `rgba(0, 0, 0, ${shadowIntensity})`);
                 gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
                 
                 ctx.fillStyle = gradient;
                 ctx.fillRect(
-                    screenX - screenSize * shadowSoftness / 2,
-                    screenY - screenSize * shadowSoftness / 2,
-                    screenSize * (1 + shadowSoftness),
-                    screenSize * (1 + shadowSoftness)
+                    screenX - screenSize * 0.25,
+                    screenY - screenSize * 0.25,
+                    screenSize * 1.5,
+                    screenSize * 1.5
                 );
             } else {
                 // Hard shadow
@@ -142,8 +138,6 @@ const ShadowOverlay = () => {
         });
     }, [
         lightingEnabled,
-        shadowCasting,
-        shadowSoftness,
         performanceMode,
         cameraX,
         cameraY,
@@ -182,7 +176,7 @@ const ShadowOverlay = () => {
 
     // Animation loop for dynamic shadows
     useEffect(() => {
-        if (!lightingEnabled || !shadowCasting) return;
+        if (!lightingEnabled) return;
 
         let animationId;
         
@@ -201,10 +195,10 @@ const ShadowOverlay = () => {
                 cancelAnimationFrame(animationId);
             }
         };
-    }, [lightingEnabled, shadowCasting, renderShadows]);
+    }, [lightingEnabled, renderShadows]);
 
     // Don't render if shadows are disabled
-    if (!lightingEnabled || !shadowCasting) {
+    if (!lightingEnabled) {
         return null;
     }
 

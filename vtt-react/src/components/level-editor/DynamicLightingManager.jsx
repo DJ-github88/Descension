@@ -20,13 +20,9 @@ const DynamicLightingManager = ({ disabled = false }) => {
         wallData,
         revealedAreas,
         setRevealedArea,
-        shadowQuality,
         atmosphericEffects,
         lightAnimations,
-        performanceMode,
-        shadowCasting,
-        shadowSoftness,
-        shadowDistance
+        performanceMode
     } = useLevelEditorStore();
 
     // Game settings
@@ -68,9 +64,6 @@ const DynamicLightingManager = ({ disabled = false }) => {
         
         // Prepare advanced lighting settings
         const lightingSettings = {
-            shadowCasting,
-            shadowSoftness,
-            shadowDistance,
             atmosphericEffects,
             performanceMode,
             lightAnimations
@@ -115,13 +108,9 @@ const DynamicLightingManager = ({ disabled = false }) => {
         isGMMode,
         getVisibleBounds,
         setRevealedArea,
-        shadowQuality,
         atmosphericEffects,
         lightAnimations,
-        performanceMode,
-        shadowCasting,
-        shadowSoftness,
-        shadowDistance
+        performanceMode
     ]);
 
     // Update lighting when dependencies change

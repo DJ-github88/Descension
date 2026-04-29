@@ -208,6 +208,13 @@
   color: #a08c70;
 }
 
+.journal-upsell-hint {
+  font-style: italic;
+  font-size: 11px;
+  color: #b09060;
+  opacity: 0.8;
+}
+
 /* Section Tabs */
 .journal-section-tabs {
   display: flex;
