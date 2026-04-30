@@ -1812,11 +1812,8 @@ button.campaign-input:hover {
 }
 
 .shareables-creator .section-title {
-    font-family: 'Cinzel', serif;
+    /* Inherits base styles from unified-section-titles.css */
     font-size: 16px;
-    font-weight: 600;
-    color: #5a1e12;
-    margin: 0 0 16px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1961,11 +1958,8 @@ button.campaign-input:hover {
 }
 
 .shareables-library .section-title {
-    font-family: 'Cinzel', serif;
+    /* Inherits base styles from unified-section-titles.css */
     font-size: 16px;
-    font-weight: 600;
-    color: #5a1e12;
-    margin: 0 0 16px;
     display: flex;
     align-items: center;
     gap: 10px;

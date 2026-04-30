@@ -544,7 +544,8 @@ These colors use distinct hues and brightness levels, plus visual indicators (âš
         id: 'classes',
         name: 'Classes',
         icon: 'fas fa-hat-wizard',
-        hasDetailPages: true, // Flag to indicate this subcategory has detail pages
+        hasDetailPages: true,
+        useCustomComponent: true,
         content: {
           title: 'Classes',
           description: '27 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.',

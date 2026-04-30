@@ -1,0 +1,659 @@
+/* ===== PATHFINDER CLASSES DISPLAY ===== */
+
+.classes-display {
+    padding: 24px 28px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== INTRO SECTION ===== */
+
+.classes-intro {
+    background: linear-gradient(145deg,
+        rgba(245, 238, 214, 0.6) 0%,
+        rgba(237, 228, 211, 0.4) 50%,
+        rgba(245, 238, 214, 0.5) 100%);
+    border: 2px solid rgba(139, 105, 20, 0.25);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.classes-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 15% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 50%, rgba(139, 105, 20, 0.06) 0%, transparent 50%);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.classes-intro-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(139, 105, 20, 0.2);
+}
+
+.classes-intro-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d4af37, #8b6914);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fdfaf3;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    box-shadow:
+        0 3px 10px rgba(139, 105, 20, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.classes-intro-title h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #2d1810;
+    margin: 0;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 0 rgba(212, 175, 55, 0.15);
+}
+
+.classes-intro-subtitle {
+    margin: 4px 0 0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: #8b6914;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    font-style: italic;
+}
+
+.classes-intro-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    position: relative;
+}
+
+.classes-intro-col h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 6px 0;
+}
+
+.classes-intro-col h4 i {
+    color: #d4af37;
+    margin-right: 6px;
+    font-size: 0.85rem;
+}
+
+.classes-intro-col p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #3d2a14;
+}
+
+/* ===== FILTERS SECTION ===== */
+
+.classes-filters-section {
+    margin-bottom: 20px;
+}
+
+.classes-role-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.role-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 243, 230, 0.9));
+    border: 1.5px solid rgba(139, 105, 20, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5a3a1e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.role-filter-btn i {
+    font-size: 0.8rem;
+    opacity: 0.55;
+    transition: opacity 0.2s ease;
+}
+
+.role-filter-btn:hover {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: linear-gradient(145deg, rgba(255, 252, 240, 0.95), rgba(252, 248, 235, 0.95));
+    box-shadow: 0 2px 8px rgba(139, 105, 20, 0.1);
+}
+
+.role-filter-btn.active {
+    background: linear-gradient(145deg, #d4af37, #b8941f);
+    border-color: #a08620;
+    color: #fdfaf3;
+    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.35);
+}
+
+.role-filter-btn.active i {
+    opacity: 1;
+}
+
+.role-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.08);
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.role-filter-btn.active .role-filter-count {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== DAMAGE TYPE FILTERS ===== */
+
+.classes-damage-filters {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.damage-filter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+}
+
+.damage-filter-label i {
+    margin-right: 4px;
+}
+
+.damage-type-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(139, 105, 20, 0.12);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #5a3a1e;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.dmg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dmg-color, #888);
+    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.damage-type-btn:hover {
+    border-color: var(--dmg-color, #d4af37);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.damage-type-btn.active {
+    background: var(--dmg-color, #d4af37);
+    border-color: var(--dmg-color, #d4af37);
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.damage-type-btn.active .dmg-dot {
+    background: white;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+/* ===== FILTER INFO ===== */
+
+.classes-filter-info {
+    font-size: 0.72rem;
+    color: #8b6914;
+    font-style: italic;
+    padding-left: 2px;
+}
+
+/* ===== CLASS CARD GRID ===== */
+
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    gap: 12px;
+}
+
+.class-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 10px 14px;
+    background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.92) 0%,
+        rgba(252, 248, 235, 0.88) 50%,
+        rgba(248, 243, 230, 0.85) 100%);
+    border: 1.5px solid rgba(139, 105, 20, 0.18);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    text-align: center;
+    gap: 5px;
+    box-shadow: 0 1px 3px rgba(139, 105, 20, 0.06);
+}
+
+.class-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15%;
+    right: 15%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--role-color, #d4af37), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    border-radius: 1px;
+}
+
+.class-card:hover {
+    border-color: var(--role-color, #d4af37);
+    box-shadow:
+        0 6px 20px rgba(139, 105, 20, 0.12),
+        0 0 0 1px color-mix(in srgb, var(--role-color) 20%, transparent);
+    transform: translateY(-3px);
+    background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 252, 240, 0.95) 50%,
+        rgba(252, 248, 235, 0.92) 100%);
+}
+
+.class-card:hover::after {
+    opacity: 0.5;
+}
+
+.class-card-icon {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--role-color, #8b7355);
+    margin-bottom: 2px;
+    transition: transform 0.25s ease;
+}
+
+.class-card:hover .class-card-icon {
+    transform: scale(1.12);
+}
+
+.class-card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #2d1810;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+}
+
+.class-card-role {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--role-color, #8b7355);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.class-card-damage-types {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 5px;
+    justify-content: center;
+}
+
+.card-dmg-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.card-dmg-more {
+    font-size: 0.55rem;
+    color: #8b6914;
+    font-weight: 600;
+    margin-left: 1px;
+}
+
+.classes-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #8b6914;
+}
+
+.classes-empty i {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    opacity: 0.4;
+}
+
+.classes-empty p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ===== TOOLTIP ===== */
+
+.class-tooltip {
+    position: fixed;
+    z-index: 10000;
+    width: 330px;
+    background: linear-gradient(145deg, #fdfaf3 0%, #f5eed6 30%, #ede4d3 100%);
+    border: 2px solid #8b6914;
+    border-radius: 12px;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 0;
+    overflow: hidden;
+    pointer-events: auto;
+    animation: tooltipFadeIn 0.15s ease;
+}
+
+@keyframes tooltipFadeIn {
+    from { opacity: 0; transform: translateY(5px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.class-tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(139, 105, 20, 0.1), rgba(212, 175, 55, 0.04));
+    border-bottom: 2px solid;
+}
+
+.class-tooltip-icon {
+    font-size: 1.7rem;
+    flex-shrink: 0;
+}
+
+.class-tooltip-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.class-tooltip-title h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #2d1810;
+    margin: 0 0 5px 0;
+    letter-spacing: 0.5px;
+}
+
+.class-tooltip-role-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+.class-tooltip-body {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.class-tooltip-field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.class-tooltip-field .field-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.class-tooltip-field .field-label i {
+    margin-right: 5px;
+    font-size: 0.7rem;
+    color: #d4af37;
+}
+
+.class-tooltip-field .field-value {
+    font-size: 0.85rem;
+    color: #2d1810;
+    line-height: 1.5;
+}
+
+.tooltip-damage-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.tooltip-dmg-tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 999px;
+    color: white;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.class-tooltip-footer {
+    padding: 9px 16px;
+    background: linear-gradient(135deg, rgba(139, 105, 20, 0.08), rgba(212, 175, 55, 0.04));
+    border-top: 1px solid rgba(139, 105, 20, 0.15);
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #8b6914;
+    letter-spacing: 0.3px;
+}
+
+.class-tooltip-footer i {
+    margin-left: 5px;
+    font-size: 0.6rem;
+    transition: transform 0.2s ease;
+}
+
+.class-tooltip:hover .class-tooltip-footer i {
+    transform: translateX(4px);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .classes-display {
+        padding: 16px 16px 32px;
+    }
+
+    .classes-intro {
+        padding: 14px 16px;
+    }
+
+    .classes-intro-columns {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .classes-intro-title h2 {
+        font-size: 1.3rem;
+    }
+
+    .classes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 8px;
+    }
+
+    .class-card {
+        padding: 12px 6px 10px;
+    }
+
+    .class-card-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+    }
+
+    .class-card-name {
+        font-size: 0.72rem;
+    }
+
+    .class-card-role {
+        font-size: 0.58rem;
+    }
+
+    .class-tooltip {
+        display: none;
+    }
+
+    .role-filter-btn {
+        padding: 5px 10px;
+        font-size: 0.65rem;
+    }
+
+    .role-filter-btn .role-filter-count {
+        display: none;
+    }
+
+    .classes-damage-filters {
+        gap: 4px;
+    }
+
+    .damage-type-btn {
+        padding: 3px 7px;
+        font-size: 0.58rem;
+    }
+
+    .dmg-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .damage-filter-label {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .classes-display {
+        padding: 12px 10px 24px;
+    }
+
+    .classes-intro {
+        padding: 12px;
+    }
+
+    .classes-intro-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .classes-intro-title h2 {
+        font-size: 1.15rem;
+    }
+
+    .classes-intro-subtitle {
+        font-size: 0.7rem;
+    }
+
+    .classes-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .class-card {
+        padding: 10px 4px 8px;
+    }
+
+    .class-card-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1.05rem;
+    }
+
+    .class-card-role,
+    .class-card-damage-types {
+        display: none;
+    }
+
+    .class-card-name {
+        font-size: 0.68rem;
+    }
+
+    .classes-intro-col p {
+        font-size: 0.8rem;
+    }
+}

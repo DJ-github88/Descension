@@ -50,22 +50,13 @@ export const SENTINEL_PATH = {
                 buffType: 'statEnhancement',
                 effects: [
                     {
-                        id: 'immovable',
-                        name: 'Immovable',
-                        description: 'You have advantage on saving throws against being moved, pushed, or knocked prone. You cannot be forcibly moved against your will.',
+                        id: 'unwavering_stance',
+                        name: 'Unwavering Stance',
+                        description: 'Armor +3.',
+                        mechanicsText: '+3 Armor',
                         statModifier: {
                             stat: 'armor',
-                            magnitude: 2,
-                            magnitudeType: 'flat'
-                        }
-                    },
-                    {
-                        id: 'guardian_presence',
-                        name: 'Guardian Presence',
-                        description: 'Allies within 10 feet of you gain +1 armor from your protective presence.',
-                        statModifier: {
-                            stat: 'armor',
-                            magnitude: 1,
+                            magnitude: 3,
                             magnitudeType: 'flat'
                         }
                     }
@@ -188,12 +179,13 @@ export const SENTINEL_PATH = {
             },
 
             buffConfig: {
-                buffType: 'statusEffect',
+                buffType: 'statEnhancement',
                 effects: [
                     {
                         id: 'shield_wall',
                         name: 'Shield Wall',
                         description: 'Reduces all incoming damage by 50%. Cannot attack or cast other spells while channeling.',
+                        mechanicsText: '50% damage reduction while channeling',
                         statModifier: {
                             stat: 'damage_reduction',
                             magnitude: 50,

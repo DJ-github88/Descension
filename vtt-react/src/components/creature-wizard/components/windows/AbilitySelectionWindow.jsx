@@ -1,10 +1,7 @@
 import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { SpellLibraryProvider } from '../../../../components/spellcrafting-wizard/context/SpellLibraryContext';
-import { transformSpellForCard, getSpellRollableTable } from '../../../../components/spellcrafting-wizard/core/utils/spellTransformers';
 import AbilityLibrary from './AbilityLibrary';
 import PreviewSpellCard from './PreviewSpellCard';
-import AllSpellsLoader from './AllSpellsLoader';
 import './AbilitySelectionWindow.css';
 import './PreviewSpellCard.css';
 
@@ -179,20 +176,16 @@ const AbilitySelectionWindow = ({ isOpen, onClose, onSelectAbility, recentlyAdde
 
             {/* Main content area with ability grid */}
             <div className="ability-selection-content">
-              <SpellLibraryProvider>
-                {/* Load all spells into the library */}
-                <AllSpellsLoader />
-                <Suspense fallback={<div className="loading-library">Loading spell library...</div>}>
-                  <AbilityLibrary
-                    onSelectAbility={handleSelectAbility}
-                    filterType={selectedType}
-                    searchQuery={searchQuery}
-                    onHoverAbility={setHoveredAbility}
-                    recentlyAddedSpells={recentlyAddedSpells}
-                    existingAbilities={existingAbilities}
-                  />
-                </Suspense>
-              </SpellLibraryProvider>
+              <Suspense fallback={<div className="loading-library">Loading spell library...</div>}>
+                <AbilityLibrary
+                  onSelectAbility={handleSelectAbility}
+                  filterType={selectedType}
+                  searchQuery={searchQuery}
+                  onHoverAbility={setHoveredAbility}
+                  recentlyAddedSpells={recentlyAddedSpells}
+                  existingAbilities={existingAbilities}
+                />
+              </Suspense>
             </div>
 
             {/* Footer with action buttons */}

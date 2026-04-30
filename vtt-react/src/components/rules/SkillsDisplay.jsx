@@ -595,32 +595,80 @@ const SkillsDisplay = () => {
 
     const weaponRankForDisplay = SKILL_RANKS[selectedProficiency] || SKILL_RANKS.UNTRAINED;
 
+    const WEAPON_CATEGORIES = [
+        {
+            key: 'one-handed',
+            label: 'One-Handed',
+            icon: 'fas fa-hand-fist',
+            weapons: ['sword', 'axe', 'mace', 'dagger', 'rapier', 'katana', 'saber', 'sickle', 'flail', 'fist weapon', 'parrying dagger', 'off hand blade', 'war mace']
+        },
+        {
+            key: 'two-handed',
+            label: 'Two-Handed',
+            icon: 'fas fa-hammer',
+            weapons: ['greatsword', 'greataxe', 'maul', 'polearm', 'staff', 'halberd', 'scythe', 'jousting spear', 'double sided sword']
+        },
+        {
+            key: 'ranged',
+            label: 'Ranged',
+            icon: 'fas fa-bullseye',
+            weapons: ['bow', 'crossbow', 'thrown', 'wand', 'blowgun', 'sling', 'boomerang', 'chakram', 'shuriken', 'dart']
+        },
+        {
+            key: 'instruments',
+            label: 'Instruments',
+            icon: 'fas fa-music',
+            weapons: ['harp', 'lute', 'flute', 'drum', 'horn', 'violin', 'guitar']
+        },
+        {
+            key: 'special',
+            label: 'Special',
+            icon: 'fas fa-star',
+            weapons: ['unarmed']
+        }
+    ];
+
     const renderWeaponTypeGrid = (contextKey = 'weapon-grid', { compact = false, showRankChip = true } = {}) => {
         const weaponRankStyleVars = buildWeaponRankStyles(weaponRankForDisplay.color);
 
         return (
-            <div className={`damage-type-grid weapon-type-grid ${compact ? 'compact-grid' : ''}`}>
-                {Object.entries(WEAPON_TYPE_META).map(([weaponKey, meta]) => (
-                    <div
-                        key={`${contextKey}-${weaponKey}`}
-                        className={`damage-type-option weapon-type-option ${compact ? 'compact-option' : ''} ${selectedWeaponType === weaponKey ? 'selected' : ''}`}
-                        onClick={() => setSelectedWeaponType(weaponKey)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
-                        title={`${meta.label} — ${meta.hint}`}
-                        style={weaponRankStyleVars}
-                    >
-                        {(showRankChip || (compact && selectedWeaponType === weaponKey)) && (
-                            <span className="weapon-rank-chip">{weaponRankForDisplay.name}</span>
-                        )}
-                        <img
-                            src={meta.icon}
-                            alt={meta.label}
-                            className={`damage-type-icon weapon-type-icon ${compact ? 'compact-icon' : ''}`}
-                        />
-                        <div className="weapon-type-name">{meta.label}</div>
-                        <div className="weapon-type-hint">{meta.hint}</div>
+            <div className={`weapon-type-categories ${compact ? 'compact-grid' : ''}`}>
+                {WEAPON_CATEGORIES.map(category => (
+                    <div key={`${contextKey}-cat-${category.key}`} className="weapon-category-group">
+                        <div className="weapon-category-header">
+                            <i className={category.icon}></i>
+                            <span>{category.label}</span>
+                            <span className="weapon-category-count">{category.weapons.length}</span>
+                        </div>
+                        <div className="weapon-category-grid">
+                            {category.weapons.map(weaponKey => {
+                                const meta = WEAPON_TYPE_META[weaponKey];
+                                if (!meta) return null;
+                                return (
+                                    <div
+                                        key={`${contextKey}-${weaponKey}`}
+                                        className={`weapon-type-option ${compact ? 'compact-option' : ''} ${selectedWeaponType === weaponKey ? 'selected' : ''}`}
+                                        onClick={() => setSelectedWeaponType(weaponKey)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onKeyPress={(e) => (e.key === 'Enter' || e.key === ' ') && setSelectedWeaponType(weaponKey)}
+                                        title={`${meta.label} — ${meta.hint}`}
+                                        style={weaponRankStyleVars}
+                                    >
+                                        {(showRankChip || (compact && selectedWeaponType === weaponKey)) && (
+                                            <span className="weapon-rank-chip">{weaponRankForDisplay.name}</span>
+                                        )}
+                                        <img
+                                            src={meta.icon}
+                                            alt={meta.label}
+                                            className={`damage-type-icon weapon-type-icon ${compact ? 'compact-icon' : ''}`}
+                                        />
+                                        <div className="weapon-type-name">{meta.label}</div>
+                                        <div className="weapon-type-hint">{meta.hint}</div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>

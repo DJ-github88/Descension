@@ -14,6 +14,7 @@ import ClassDetailDisplay from './ClassDetailDisplay';
 import SpellIconTooltip from './SpellIconTooltip';
 import SkillAbilityIconTooltip from './SkillAbilityIconTooltip';
 import AdvancedTravelDisplay from './AdvancedTravelDisplay';
+import ClassesDisplay from './ClassesDisplay';
 import '../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../spellcrafting-wizard/styles/pathfinder/components/cards.css';
 import './RulesPage.css';
@@ -533,9 +534,12 @@ const RulesPage = () => {
         )}
 
         {/* Render sections */}
-        {currentContent.sections && renderSections(currentContent.sections)}
+        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.sections && renderSections(currentContent.sections)}
 
-        {/* Render custom component if flagged (e.g., RaceSelector, BackgroundSelector, BackgroundsDisplay, SkillsDisplay, LanguagesDisplay) */}
+        {/* Custom component: Classes grid replaces the old table */}
+        {currentSubcategory?.useCustomComponent && selectedSubcategory === 'classes' && !selectedClassDetail && (
+          <ClassesDisplay onSelectClass={handleClassClick} />
+        )}
         {currentSubcategory?.useCustomComponent && selectedSubcategory === 'races' && (
           <Suspense fallback={
             <div className="rules-loading">
@@ -563,7 +567,7 @@ const RulesPage = () => {
         )}
 
         {/* Render tables */}
-        {currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx))}
+        {!(isUsingCustomComponent && selectedSubcategory === 'classes') && currentContent.tables && currentContent.tables.map((table, idx) => renderTable(table, idx))}
 
         {/* Render tabs if present (only if not using custom component) */}
         {!currentSubcategory?.useCustomComponent && currentContent.tabs && renderTabbedContent(currentContent.tabs)}

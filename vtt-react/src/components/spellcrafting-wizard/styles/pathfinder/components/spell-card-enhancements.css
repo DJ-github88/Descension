@@ -443,16 +443,24 @@
 /* Apply to rules section, spell library, spellbook, etc. */
 .rules-page .pf-spell-card,
 .rules-page .wow-spell-card,
+.rules-page .unified-spell-card,
 .background-selector-container .pf-spell-card,
 .background-selector-container .wow-spell-card,
 .race-selector-container .pf-spell-card,
 .race-selector-container .wow-spell-card,
+.race-selector-container .unified-spell-card,
 .spell-library-tab .pf-spell-card,
 .spell-library-tab .wow-spell-card,
 .spellbook-layout .pf-spell-card,
 .spellbook-layout .wow-spell-card {
     /* Ensure all spell cards use consistent styling */
     font-family: var(--pf-font-body, 'Cinzel', serif) !important;
+}
+
+/* Race selector spell card headers - use dark pathfinder red instead of beige */
+.race-selector-container .unified-spell-card .unified-spell-card-header,
+.race-selector-container .pf-spell-card .pf-spell-card-header {
+    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
 }
 
 /* ===== RULES PAGE SPECIFIC STYLING TO MATCH SPELLBOOK ===== */

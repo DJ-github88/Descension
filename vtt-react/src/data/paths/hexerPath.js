@@ -33,7 +33,7 @@ export const HEXER_PATH = {
             id: 'dark_pact',
             name: 'Dark Pact',
             description: '"I have bargained with powers beyond your comprehension." Your pact with dark forces grants you resistance to necrotic damage and the ability to sense magical curses.',
-            icon: 'Void/Demonic Possession',
+            icon: 'Necrotic/Horned Demon',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'dark', 'resistance', 'detection'],
@@ -42,7 +42,7 @@ export const HEXER_PATH = {
 
             typeConfig: {
                 school: 'shadow',
-                icon: 'Void/Demonic Possession',
+                icon: 'Necrotic/Horned Demon',
                 tags: ['passive', 'dark', 'resistance', 'detection']
             },
 

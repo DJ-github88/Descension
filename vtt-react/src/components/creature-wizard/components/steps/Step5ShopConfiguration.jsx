@@ -259,12 +259,10 @@ const Step5ShopConfiguration = () => {
   return (
     <div className="wizard-step shop-configuration-step">
       <h2>Merchant Configuration</h2>
-      <p>Configure this creature as a merchant with wares for sale.</p>
-      <div style={{ marginBottom: '20px' }}></div>
+      <p className="shop-step-description">Configure this creature as a merchant with wares for sale.</p>
 
-      {/* Shopkeeper Toggle */}
-      <div className="form-group">
-        <label className="checkbox-label" style={{ fontSize: '15px', fontWeight: '500', color: '#6b5b47', marginBottom: '8px', display: 'flex', alignItems: 'center' }}>
+      <div className="shop-merchant-toggle">
+        <label className="checkbox-label">
           <input
             type="checkbox"
             checked={wizardState.isShopkeeper}
@@ -273,42 +271,23 @@ const Step5ShopConfiguration = () => {
           <span className="checkbox-custom"></span>
           <span className="checkbox-text">Make this creature a merchant</span>
         </label>
-        <div style={{ marginLeft: '28px', marginBottom: '20px', marginTop: '4px' }}>
-          <span style={{ fontSize: '14px', fontWeight: '400', color: '#6b5b47', lineHeight: '1.4' }}>
-            Enable merchant functionality to allow this creature to buy and sell items with players
-          </span>
-        </div>
+        <p className="toggle-hint">Enable merchant functionality to allow this creature to buy and sell items with players</p>
       </div>
       
       {wizardState.isShopkeeper && (
         <>
-          {/* Shop Basic Info */}
           <div className="shop-info-section">
             <h3>Shop Information</h3>
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="shopName">Shop Name</label>
-                <input
-                  type="text"
-                  id="shopName"
-                  value={wizardState.shopInventory.shopName}
-                  onChange={(e) => handleShopInfoChange('shopName', e.target.value)}
-                  placeholder="e.g., Thorin's Armory"
-                />
-              </div>
-              <div className="form-group" style={{ display: 'flex', alignItems: 'center' }}>
-                <label className="checkbox-label" style={{ fontSize: '15px', fontWeight: '500', color: '#6b5b47', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={wizardState.shopInventory.restockOnLongRest}
-                    onChange={(e) => handleShopInfoChange('restockOnLongRest', e.target.checked)}
-                    style={{ width: '16px', height: '16px', accentColor: '#7a3b2e', cursor: 'pointer', flexShrink: 0 }}
-                  />
-                  <span>Restock on Long Rest</span>
-                </label>
-              </div>
+            <div className="form-group">
+              <label htmlFor="shopName">Shop Name</label>
+              <input
+                type="text"
+                id="shopName"
+                value={wizardState.shopInventory.shopName}
+                onChange={(e) => handleShopInfoChange('shopName', e.target.value)}
+                placeholder="e.g., Thorin's Armory"
+              />
             </div>
-            
             <div className="form-group">
               <label htmlFor="shopDescription">Shop Description</label>
               <textarea
@@ -319,16 +298,24 @@ const Step5ShopConfiguration = () => {
                 rows={3}
               />
             </div>
+            <label className="checkbox-label restock-checkbox">
+              <input
+                type="checkbox"
+                checked={wizardState.shopInventory.restockOnLongRest}
+                onChange={(e) => handleShopInfoChange('restockOnLongRest', e.target.checked)}
+              />
+              <span className="checkbox-custom"></span>
+              <span className="checkbox-text">Restock on Long Rest</span>
+            </label>
           </div>
 
-          {/* Buy Rates Configuration */}
           <div className="buy-rates-section">
-            <h3>Buy Rates Configuration</h3>
-            <p>Set how much this merchant pays for different item categories (as percentage of item value).</p>
+            <h3>Buy Rates</h3>
+            <p className="section-subtitle">Set how much this merchant pays for items (as percentage of item value).</p>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="defaultBuyRate">Default Buy Rate (%)</label>
+            <div className="buy-rates-grid">
+              <div className="form-group buy-rate-item default-rate">
+                <label htmlFor="defaultBuyRate">Default (%)</label>
                 <input
                   type="number"
                   id="defaultBuyRate"
@@ -339,86 +326,77 @@ const Step5ShopConfiguration = () => {
                   placeholder="50"
                 />
               </div>
-            </div>
-
-            <div className="category-rates">
-              <h3>Category-Specific Rates</h3>
-              <p>Set buy rates for each item category. These match the standard item types in the game.</p>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="weaponRate">Weapons (%)</label>
-                  <input
-                    type="number"
-                    id="weaponRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.weapon || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('weapon', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="armorRate">Armor (%)</label>
-                  <input
-                    type="number"
-                    id="armorRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.armor || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('armor', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="consumableRate">Consumables (%)</label>
-                  <input
-                    type="number"
-                    id="consumableRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.consumable || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('consumable', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="weaponRate">Weapons (%)</label>
+                <input
+                  type="number"
+                  id="weaponRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.weapon || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('weapon', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="accessoryRate">Accessories (%)</label>
-                  <input
-                    type="number"
-                    id="accessoryRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.accessory || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('accessory', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="containerRate">Containers (%)</label>
-                  <input
-                    type="number"
-                    id="containerRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.container || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('container', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="miscRate">Miscellaneous (%)</label>
-                  <input
-                    type="number"
-                    id="miscRate"
-                    min="0"
-                    max="200"
-                    value={wizardState.shopInventory.buyRates?.categories?.miscellaneous || 50}
-                    onChange={(e) => handleCategoryBuyRateChange('miscellaneous', parseInt(e.target.value) || 0)}
-                    placeholder="50"
-                  />
-                </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="armorRate">Armor (%)</label>
+                <input
+                  type="number"
+                  id="armorRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.armor || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('armor', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
+              </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="consumableRate">Consumables (%)</label>
+                <input
+                  type="number"
+                  id="consumableRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.consumable || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('consumable', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
+              </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="accessoryRate">Accessories (%)</label>
+                <input
+                  type="number"
+                  id="accessoryRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.accessory || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('accessory', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
+              </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="containerRate">Containers (%)</label>
+                <input
+                  type="number"
+                  id="containerRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.container || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('container', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
+              </div>
+              <div className="form-group buy-rate-item">
+                <label htmlFor="miscRate">Miscellaneous (%)</label>
+                <input
+                  type="number"
+                  id="miscRate"
+                  min="0"
+                  max="200"
+                  value={wizardState.shopInventory.buyRates?.categories?.miscellaneous || 50}
+                  onChange={(e) => handleCategoryBuyRateChange('miscellaneous', parseInt(e.target.value) || 0)}
+                  placeholder="50"
+                />
               </div>
             </div>
           </div>
@@ -477,7 +455,7 @@ const Step5ShopConfiguration = () => {
                             {item.name}
                           </div>
                           <div className="item-secondary-info">
-                            <span className="item-quality-badge" style={{ backgroundColor: qualityColor }}>
+                            <span className="item-quality-badge" data-quality={item.quality || 'common'} style={{ backgroundColor: qualityColor }}>
                               {item.quality?.charAt(0).toUpperCase() + item.quality?.slice(1) || 'Common'}
                             </span>
                             <span className="item-type-badge">

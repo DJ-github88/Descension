@@ -2,6 +2,7 @@
 
 /* Import consolidated form group styles */
 @import './styles/consolidated-form-groups.css';
+@import './styles/unified-section-titles.css';
 
 /* Import shared CSS variables and consolidated selectors */
 @import './styles/shared/variables.css';

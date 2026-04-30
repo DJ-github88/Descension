@@ -45,11 +45,13 @@
 }
 
 .section-title {
+  /* Unique blue mechanical theme */
   margin-top: 24px;
   margin-bottom: 16px;
   color: #3498db;
   border-bottom: 1px solid #34495e;
   padding-bottom: 8px;
+  text-align: left; /* Mechanics stay left-aligned */
 }
 
 /* Game Info Panel */

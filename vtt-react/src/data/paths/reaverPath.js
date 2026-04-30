@@ -6,7 +6,7 @@ export const REAVER_PATH = {
     overview: 'Reavers are savage warriors who embrace the chaos of battle. They fight with reckless abandon, drawing strength from their wounds and the blood of their enemies.',
 
     mechanicalBenefits: [
-        { name: 'Blood Frenzy', description: 'Deal +2 damage while below half health', type: 'passive' }
+        { name: 'Blood Frenzy', description: 'Deal your current level in additional damage while below half health', type: 'passive' }
     ],
 
     integrationNotes: {
@@ -30,12 +30,12 @@ export const REAVER_PATH = {
         {
             id: 'bloodlust',
             name: 'Bloodlust',
-            description: '"The blood of my enemies sustains me." When you reduce an enemy to 0 HP, you gain temporary hit points and resistance to all damage for a brief moment.',
+            description: '"The blood of my enemies sustains me." When an enemy dies within 5 ft. of you, you regain Damage dealt by last attack / Level.',
             icon: 'Utility/Muscular Red Figure',
             level: 1,
             spellType: 'PASSIVE',
             tags: ['passive', 'combat', 'resistance', 'physical'],
-            effectTypes: ['buff'],
+            effectTypes: ['buff', 'healing'],
             damageTypes: [],
 
             typeConfig: {
@@ -44,18 +44,20 @@ export const REAVER_PATH = {
                 tags: ['passive', 'combat', 'lifesteal', 'temporary hp']
             },
 
+            healingConfig: {
+                healingType: 'heal',
+                formula: 'last_attack_damage / level',
+                resolution: 'DICE'
+            },
+
             buffConfig: {
                 buffType: 'statEnhancement',
                 effects: [
                     {
-                        id: 'battle_hardened',
-                        name: 'Battle Hardened',
-                        description: 'You have resistance to bludgeoning, piercing, and slashing damage. Your battle-hardened body shrugs off mundane attacks.',
-                        statModifier: {
-                            stat: 'physical_resistance',
-                            magnitude: 25,
-                            magnitudeType: 'percentage'
-                        }
+                        id: 'bloodlust_heal',
+                        name: 'Bloodlust',
+                        description: 'When an enemy dies within 5 ft. of you, you regain Damage dealt by last attack / Level.',
+                        mechanicsText: 'Heals last attack damage / level on nearby enemy death'
                     }
                 ],
                 durationType: 'permanent',
@@ -120,7 +122,7 @@ export const REAVER_PATH = {
                         {
                             id: 'damage_taken',
                             category: 'combat',
-                            name: 'When an enemy in melee range damages you',
+                            name: 'If I Take Damage',
                             parameters: {
                                 perspective: 'self',
                                 target_type: 'self',
@@ -153,7 +155,7 @@ export const REAVER_PATH = {
         {
             id: 'blood_rage',
             name: 'Blood Rage',
-            description: '"RAGE!" Enter a berserker frenzy, gaining +8 damage on all attacks but reducing your armor by 2. The fury of battle consumes you.',
+            description: '"RAGE!" Enter a berserker frenzy. Gain Level × Weapon Die on all attacks but you cannot react for 6 rounds. You cannot be frightened while raging.',
             icon: 'Utility/Craze',
             level: 1,
             spellType: 'ACTION',
@@ -168,12 +170,25 @@ export const REAVER_PATH = {
             },
 
             buffConfig: {
-                buffType: 'statusEffect',
+                buffType: 'statEnhancement',
                 effects: [
                     {
                         id: 'berserker_rage',
                         name: 'Berserker Rage',
-                        description: 'Gain +8 damage on all attacks but suffer -2 armor for 6 rounds. You cannot be frightened while raging.'
+                        description: 'Gain Level × Weapon Die on all attacks but you cannot react for 6 rounds. You cannot be frightened while raging.',
+                        mechanicsText: 'Level × Weapon Die bonus damage, no reactions for 6 rounds',
+                        statModifier: {
+                            stat: 'damage',
+                            magnitudeType: 'dice',
+                            formula: 'level * weapon_die'
+                        },
+                        restrictions: ['no_reactions']
+                    },
+                    {
+                        id: 'fear_immunity',
+                        name: 'Fear Immunity',
+                        description: 'You cannot be frightened while raging.',
+                        mechanicsText: 'Immune to Frightened while raging'
                     }
                 ],
                 durationValue: 6,

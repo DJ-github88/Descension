@@ -110,12 +110,8 @@ export const HARROW_PATH = {
                     {
                         id: 'defiant_resolve',
                         name: 'Defiant Resolve',
-                        description: 'Gain 2d8 + Constitution temporary hit points and reduce all incoming damage by 1d6 × level (flat reduction) for 2 rounds.',
-                        statModifier: {
-                            stat: 'damage_reduction',
-                            magnitudeType: 'dice',
-                            formula: '1d6 * level'
-                        }
+                        description: 'Heal for 1d4 × level plus your current remaining health.',
+                        mechanicsText: 'Heals 1d4 × level + current remaining health'
                     }
                 ],
                 durationValue: 2,
@@ -125,10 +121,9 @@ export const HARROW_PATH = {
             },
 
             healingConfig: {
-                healingType: 'shield',
-                formula: '2d8 + constitution',
-                resolution: 'DICE',
-                shieldDuration: 2
+                healingType: 'heal',
+                formula: '1d4 * level + current_health',
+                resolution: 'DICE'
             },
 
             targetingConfig: {

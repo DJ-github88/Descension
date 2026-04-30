@@ -91,13 +91,25 @@
   border-radius: 15px 15px 0 0;
 }
 
+.form-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right,
+    transparent,
+    rgba(122, 59, 46, 0.6),
+    rgba(122, 59, 46, 0.8),
+    rgba(122, 59, 46, 0.6),
+    transparent);
+  border-radius: 0 0 15px 15px;
+}
+
 .section-title {
+  /* Inherits base styles from unified-section-titles.css */
   font-size: 22px;
-  font-weight: 700;
-  color: #5a1e12;
-  margin: 0 0 10px 0;
-  font-family: 'Cinzel', 'Bookman Old Style', 'Garamond', serif;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .section-description {
@@ -835,7 +847,8 @@
   padding: 10px 0;
 }
 
-.add-from-spell-library-btn {
+.add-from-spell-library-btn,
+.create-basic-ability-btn {
   background: linear-gradient(135deg, #f0e6d2 0%, #e6dcc6 100%);
   border: 2px solid #a08c70;
   color: #3a3a3a;
@@ -853,13 +866,13 @@
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
   position: relative;
   overflow: hidden;
-  margin: 20px auto;
-  width: fit-content;
-  min-width: 280px;
+  min-width: 260px;
   justify-content: center;
+  white-space: nowrap;
 }
 
-.add-from-spell-library-btn::before {
+.add-from-spell-library-btn::before,
+.create-basic-ability-btn::before {
   content: '';
   position: absolute;
   top: 0;
@@ -870,7 +883,8 @@
   opacity: 0.6;
 }
 
-.add-from-spell-library-btn:hover {
+.add-from-spell-library-btn:hover,
+.create-basic-ability-btn:hover {
   background: linear-gradient(135deg, #e6dcc6 0%, #d5cbb0 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(45, 24, 16, 0.3);
@@ -878,12 +892,14 @@
   color: #2d1810;
 }
 
-.add-from-spell-library-btn:active {
+.add-from-spell-library-btn:active,
+.create-basic-ability-btn:active {
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(45, 24, 16, 0.2);
 }
 
-.add-from-spell-library-btn i {
+.add-from-spell-library-btn i,
+.create-basic-ability-btn i {
   font-size: 20px;
   color: #7a3b2e;
 }
@@ -1296,9 +1312,9 @@
 }
 
 .currency-inputs {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .currency-input-group {
@@ -1314,7 +1330,7 @@
 
 .range-inputs {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .range-input {
@@ -1325,8 +1341,8 @@
 }
 
 .range-input span {
-  font-size: 12px;
-  color: #999;
+  font-size: 13px;
+  color: #6a5a48;
   width: 35px;
 }
 

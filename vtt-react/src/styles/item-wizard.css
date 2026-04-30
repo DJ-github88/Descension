@@ -1613,10 +1613,10 @@
 }
 
 .section-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #ffd100;
-    margin-bottom: 8px;
+  /* Inherits base styles from unified-section-titles.css */
+  color: #ffd100; /* Gold variant */
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .item-wizard-modal .spell-wizard-card-grid {

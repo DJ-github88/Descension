@@ -1,0 +1,91 @@
+/* ===== UNIFIED SECTION TITLE STYLES ===== */
+/* This file consolidates all .section-title styles across the project to ensure visual consistency. */
+
+/* 
+   BASE SECTION TITLE 
+   The default style for section headings: centered, Cinzel font, rustic brown.
+*/
+.section-title {
+    font-family: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #5a1e12;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-align: center;
+    margin: 0 0 15px 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 
+   PREMIUM BOXED STYLE 
+   Used for important sections that need high visibility.
+*/
+.section-title.boxed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 18px;
+    background: linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%);
+    border-radius: 10px;
+    border: 2px solid #8B4513;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+    margin-bottom: 20px;
+}
+
+/* 
+   UNDERLINED STYLE 
+   Clean look with a decorative bottom border.
+*/
+.section-title.underlined {
+    text-align: left;
+    border-bottom: 2px solid #8b7355;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* 
+   PATHFINDER THEME STYLE 
+   Uses CSS variables for theme-aware components.
+*/
+.section-title.pf-theme {
+    color: var(--pf-brown-dark, #5a1e12);
+    font-family: var(--pf-font-display, 'Cinzel', serif);
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+/* 
+   GOLD / LEGENDARY STYLE 
+   Used in wizards and loot for high-rarity items.
+*/
+.section-title.gold {
+    color: #ffd100;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* 
+   COMPACT STYLE 
+   For smaller UI elements like context menus or sidebars.
+*/
+.section-title.compact {
+    font-size: 13px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+/* 
+   CLASS-SPECIFIC OVERRIDES (Optional: can be moved to class CSS files) 
+*/
+.section-title.plaguebringer {
+    color: #9ACD32;
+    font-family: 'Cinzel', serif;
+}
+
+.section-title.witchdoctor {
+    color: #5a1e12;
+    font-size: 13px;
+}

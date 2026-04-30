@@ -16,16 +16,11 @@
 }
 
 .section-title {
-    margin: 0 0 12px 0;
+    /* Inherits base styles from unified-section-titles.css */
     color: var(--pf-brown-dark, #5a1e12);
     font-family: var(--pf-font-display, 'Cinzel', serif);
     font-size: 16px;
-    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: none;
-    padding-bottom: 4px;
-    position: relative;
 }
 
 .section-title::after {

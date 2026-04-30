@@ -166,12 +166,8 @@
 }
 
 .section-title {
+  /* Inherits base styles from unified-section-titles.css */
   font-size: 18px;
-  font-weight: 600;
-  color: #7a3b2e;
-  margin: 0 0 15px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .form-row {

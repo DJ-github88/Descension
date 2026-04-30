@@ -250,7 +250,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_saves',
                                     name: 'Reckless Courage',
-                                    description: 'Lose 2 to saving throws when below 50% HP',
+                                    description: '-2 to all saving throws when below 50% HP',
                                     statModifier: {
                                         stat: 'saving_throws',
                                         magnitude: -2,

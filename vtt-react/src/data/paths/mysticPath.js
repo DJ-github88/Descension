@@ -108,6 +108,7 @@ export const MYSTIC_PATH = {
                         id: 'spirit_shield',
                         name: 'Spirit Shield',
                         description: 'Reduces incoming damage by 1d6 × caster level (flat reduction applied before damage is taken).',
+                        mechanicsText: '1d6 × level damage reduced on next damage taken',
                         statModifier: {
                             stat: 'damage_reduction',
                             magnitudeType: 'dice',
@@ -213,11 +214,33 @@ export const MYSTIC_PATH = {
                 hasShieldEffect: false
             },
 
+            targetingMode: 'effect',
             targetingConfig: {
                 targetingType: 'single',
                 rangeType: 'ranged',
                 rangeDistance: 30,
-                targetRestrictions: ['enemy']
+                targetRestrictions: ['enemy'],
+                maxTargets: 1,
+                targetSelectionMethod: 'manual',
+                requiresLineOfSight: true
+            },
+            effectTargeting: {
+                damage: {
+                    targetingType: 'single',
+                    rangeType: 'ranged',
+                    rangeDistance: 30,
+                    targetRestrictions: ['enemy'],
+                    maxTargets: 1,
+                    targetSelectionMethod: 'manual',
+                    requiresLineOfSight: true
+                },
+                healing: {
+                    targetingType: 'self',
+                    targetRestrictions: [],
+                    maxTargets: 1,
+                    targetSelectionMethod: 'manual',
+                    requiresLineOfSight: false
+                }
             },
 
             resourceCost: {

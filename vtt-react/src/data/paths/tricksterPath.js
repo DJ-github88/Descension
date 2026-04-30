@@ -110,11 +110,12 @@ export const TRICKSTER_PATH = {
                     {
                         id: 'evasion',
                         name: 'Evasion',
-                        description: 'Reduce incoming damage by half and immediately move up to 15 feet without provoking opportunity attacks.',
+                        description: 'Draw a card to determine damage reduction and immediately move up to 15 feet without provoking opportunity attacks.',
+                        mechanicsText: 'Draw 1 card: Value of Card × 5% damage reduced',
                         statModifier: {
                             stat: 'damage_reduction',
-                            magnitude: 50,
-                            magnitudeType: 'percentage'
+                            magnitudeType: 'dice',
+                            formula: 'CARD_VALUE * 5%'
                         }
                     }
                 ],
@@ -176,7 +177,12 @@ export const TRICKSTER_PATH = {
                 recovery: 1
             },
 
-            resolution: 'DICE',
+            cardConfig: {
+                drawCount: 1,
+                deckType: 'STANDARD'
+            },
+
+            resolution: 'CARDS',
             visualTheme: 'shadow'
         },
         // ACTION - Shadow Step

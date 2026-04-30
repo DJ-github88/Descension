@@ -360,7 +360,10 @@
     inset 0 -1px 0 rgba(139, 69, 19, 0.2) !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 8px !important;
+  min-width: 220px !important;
+  white-space: nowrap !important;
 }
 
 .add-from-spell-library-btn:hover {
@@ -402,7 +405,10 @@
     inset 0 -1px 0 rgba(139, 69, 19, 0.2) !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 8px !important;
+  min-width: 220px !important;
+  white-space: nowrap !important;
 }
 
 .create-basic-ability-btn:hover {

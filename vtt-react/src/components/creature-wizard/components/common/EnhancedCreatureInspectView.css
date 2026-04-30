@@ -741,14 +741,13 @@
 }
 
 .section-title {
-  margin-top: 0;
+  /* Inherits base styles from unified-section-titles.css */
   margin-bottom: 15px;
   color: #7a3b2e;
   font-size: 18px;
-  font-weight: bold;
-  font-family: 'Cinzel', serif;
   border-bottom: 2px solid #8b7355;
   padding-bottom: 8px;
+  text-align: left; /* Keep left alignment for inspection view */
 }
 
 

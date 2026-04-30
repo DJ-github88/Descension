@@ -2,11 +2,9 @@ import React, { useState, Suspense, lazy } from 'react';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from '../../context/CreatureWizardContext';
 import '../../styles/WizardSteps.css';
 import './Step3Abilities.css';
-import { SpellLibraryProvider } from '../../../../components/spellcrafting-wizard/context/SpellLibraryContext';
 import AbilitySelectionWindow from '../windows/AbilitySelectionWindow';
 import BasicAbilityCreator from '../windows/BasicAbilityCreator';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
-// Import Pathfinder styles for spell cards
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../windows/BasicAbilityCreator.css';
 
@@ -1378,7 +1376,6 @@ const Step3Abilities = () => {
   };
 
   return (
-    <SpellLibraryProvider>
       <div className="wizard-step">
         <div className="abilities-inner-content">
           <div className="abilities-header-section">
@@ -1422,7 +1419,6 @@ const Step3Abilities = () => {
           onCreateAbility={handleCreateBasicAbility}
         />
       </div>
-    </SpellLibraryProvider>
   );
 };
 

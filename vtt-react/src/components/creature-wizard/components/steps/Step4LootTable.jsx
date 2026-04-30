@@ -539,12 +539,10 @@ const Step4LootTable = () => {
         <div className="loot-section">
           <h3>Currency Drops</h3>
           <div className="currency-inputs">
-              <label>Currency Range</label>
               <p className="currency-help">Format: "1p 3g 4s 52c" (platinum, gold, silver, copper)</p>
 
-              {/* Currency Randomizer Buttons */}
               <div className="currency-randomizers">
-                <label>Quick Randomize:</label>
+                <label>Quick Randomize</label>
                 <div className="randomizer-buttons">
                   <button
                     className="randomizer-button poor"
@@ -612,12 +610,6 @@ const Step4LootTable = () => {
                     )}
                     onChange={(e) => handleCurrencyChange('min', e.target.value)}
                   />
-                  <div className="currency-indicators">
-                    <div className="currency-indicator platinum" title="Platinum"></div>
-                    <div className="currency-indicator gold" title="Gold"></div>
-                    <div className="currency-indicator silver" title="Silver"></div>
-                    <div className="currency-indicator copper" title="Copper"></div>
-                  </div>
                 </div>
                 <div className="range-input">
                   <span>Max:</span>
@@ -632,12 +624,6 @@ const Step4LootTable = () => {
                     )}
                     onChange={(e) => handleCurrencyChange('max', e.target.value)}
                   />
-                  <div className="currency-indicators">
-                    <div className="currency-indicator platinum" title="Platinum"></div>
-                    <div className="currency-indicator gold" title="Gold"></div>
-                    <div className="currency-indicator silver" title="Silver"></div>
-                    <div className="currency-indicator copper" title="Copper"></div>
-                  </div>
                 </div>
               </div>
           </div>

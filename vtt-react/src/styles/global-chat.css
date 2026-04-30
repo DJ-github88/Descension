@@ -1889,6 +1889,41 @@
 }
 
 /* Quality-based border colors for loot */
+.chat-message.loot-message {
+  text-align: center;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(245, 230, 200, 0.5) 100%);
+  border: 1px solid rgba(139, 115, 85, 0.2);
+  margin-bottom: 10px;
+}
+
+.chat-message.loot-message .message-header {
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.chat-message.loot-message::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(122, 59, 46, 0.4), rgba(122, 59, 46, 0.4), transparent);
+}
+
+.chat-message.loot-message::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(122, 59, 46, 0.4), rgba(122, 59, 46, 0.4), transparent);
+}
+
 .chat-message.loot-message[data-item-quality="poor"] {
   border-left: 3px solid #9d9d9d;
 }

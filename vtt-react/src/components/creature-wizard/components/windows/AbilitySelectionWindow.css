@@ -118,7 +118,7 @@
 .ability-type-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .ability-type-filter {
@@ -126,16 +126,18 @@
   border: 2px solid #a08c70;
   border-radius: 6px;
   color: #3a3a3a;
-  padding: 8px 12px;
+  padding: 6px 14px;
   font-size: 13px;
   font-family: 'Bookman Old Style', 'Garamond', serif;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 2px 4px rgba(45, 24, 16, 0.1);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .ability-type-filter:hover {
@@ -147,15 +149,27 @@
 
 .ability-type-filter.active {
   background: linear-gradient(135deg, #7a3b2e 0%, #5d2e23 100%);
-  border-color: #3a3a3a;
-  color: #f0e6d2;
+  border-color: #4a2518;
+  color: #f8f4e6;
   box-shadow:
     0 4px 8px rgba(45, 24, 16, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.ability-type-filter.active i {
+  color: #f8f4e6;
 }
 
 .ability-type-filter i {
-  font-size: 12px;
+  font-size: 13px;
+  width: 13px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.ability-type-filter span {
+  display: inline-block;
 }
 
 /* ===== PATHFINDER CONTENT AREA ===== */

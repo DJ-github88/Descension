@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { v4 as generateUniqueId } from 'uuid';
 import { getIconUrl } from '../../../../utils/assetManager';
 import IconSelector from '../../../spellcrafting-wizard/components/common/IconSelector';
@@ -356,7 +357,7 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
   const damageTypes = ['fire', 'frost', 'lightning', 'arcane', 'nature', 'poison', 'necrotic', 'radiant', 'psychic', 'chaos', 'void', 'bludgeoning', 'piercing', 'slashing'];
   const stats = ['strength', 'agility', 'constitution', 'intelligence', 'spirit', 'charisma', 'armor', 'speed', 'maxHp', 'criticalChance'];
 
-  return (
+  return createPortal(
     <div className="basic-ability-creator-overlay pf-modal-backdrop">
       <div className="basic-ability-creator-modal pf-modal-content pf-texture-parchment">
         <div className="basic-ability-creator-header pf-modal-header">
@@ -918,7 +919,8 @@ const BasicAbilityCreator = ({ isOpen, onClose, onCreateAbility }) => {
           />
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

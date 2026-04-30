@@ -314,10 +314,9 @@
 }
 
 .section-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #9ACD32;
+  /* Inherits base styles from unified-section-titles.css */
+  color: #9ACD32; /* Unique plague green */
+  font-size: 0.9rem;
 }
 
 .section-content {

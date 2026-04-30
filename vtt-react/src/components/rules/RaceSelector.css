@@ -776,41 +776,43 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(5, 3, 1, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    padding: 1.5rem;
-    backdrop-filter: blur(4px);
-    animation: fadeIn 0.3s ease;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+    animation: loreFadeIn 0.4s ease;
     overflow: hidden;
 }
 
-@keyframes fadeIn {
+@keyframes loreFadeIn {
     from {
         opacity: 0;
+        backdrop-filter: blur(0px);
     }
     to {
         opacity: 1;
+        backdrop-filter: blur(8px);
     }
 }
 
 .epic-lore-overlay .race-epic-lore-container {
-    animation: slideUp 0.4s ease;
-    max-width: 850px;
+    animation: loreSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 960px;
     width: 100%;
-    min-width: 320px;
+    min-width: 340px;
 }
 
-@keyframes slideUp {
+@keyframes loreSlideUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px) scale(0.97);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
