@@ -46,17 +46,30 @@
 .classes-intro-icon {
     width: 52px;
     height: 52px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #d4af37, #8b6914);
+    border-radius: 12px;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fdfaf3;
-    font-size: 1.4rem;
     flex-shrink: 0;
     box-shadow:
-        0 3px 10px rgba(139, 105, 20, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 3px 8px rgba(139, 105, 20, 0.2),
+        inset 0 0 0 1px rgba(139, 105, 20, 0.3);
+    border: 2px solid #8b6914;
+    overflow: hidden;
+    position: relative;
+}
+
+.header-pixel-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+    filter: brightness(1.1) contrast(1.15);
+    mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    transform: scale(1.2);
 }
 
 .classes-intro-title h2 {
@@ -126,7 +139,7 @@
 .role-filter-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     padding: 6px 14px;
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(248, 243, 230, 0.9));
     border: 1.5px solid rgba(139, 105, 20, 0.2);
@@ -140,6 +153,14 @@
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
     white-space: nowrap;
+}
+
+.filter-pixel-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
 }
 
 .role-filter-btn i {
@@ -317,15 +338,54 @@
 }
 
 .class-card-icon {
-    width: 46px;
-    height: 46px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    color: var(--role-color, #8b7355);
-    margin-bottom: 2px;
-    transition: transform 0.25s ease;
+    background: #ffffff;
+    border: 2px solid #d4af37;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 
+        inset 0 1px 3px rgba(0, 0, 0, 0.1),
+        0 1px 4px rgba(139, 105, 20, 0.1);
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.class-card:hover .class-card-icon {
+    transform: scale(1.1) translateY(-2px);
+    border-color: var(--role-color, #d4af37);
+    box-shadow: 
+        0 4px 12px rgba(139, 105, 20, 0.2),
+        inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.class-pixel-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+    filter: brightness(1.08) contrast(1.1);
+    mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    transform: scale(1.2);
+}
+
+.tooltip-pixel-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+    filter: brightness(1.1) contrast(1.15);
+    mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
+    transform: scale(1.25);
 }
 
 .class-card:hover .class-card-icon {
@@ -427,6 +487,15 @@
 .class-tooltip-icon {
     font-size: 1.7rem;
     flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1.5px solid rgba(139, 105, 20, 0.2);
 }
 
 .class-tooltip-title {
@@ -532,6 +601,82 @@
 }
 
 /* ===== RESPONSIVE ===== */
+
+/* ===== INDIVIDUAL CLASS ICON TUNING ===== */
+
+.class-pixel-icon[data-class="Arcanoneer"],
+.header-pixel-icon[data-class="Arcanoneer"] {
+    transform: scale(1.4);
+    filter: brightness(1.15) contrast(1.2) saturate(1.1);
+}
+
+.class-pixel-icon[data-class="Bladedancer"],
+.header-pixel-icon[data-class="Bladedancer"] {
+    transform: scale(1.4);
+    filter: brightness(1.6) contrast(1.5) saturate(1.2);
+    mask-image: radial-gradient(circle, black 40%, transparent 85%);
+    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 85%);
+}
+
+.class-pixel-icon[data-class="Chaos Weaver"],
+.header-pixel-icon[data-class="Chaos Weaver"] {
+    transform: scale(1.4);
+    filter: brightness(1.5) contrast(1.4);
+    mask-image: radial-gradient(circle, black 50%, transparent 90%);
+    -webkit-mask-image: radial-gradient(circle, black 50%, transparent 90%);
+}
+
+.class-pixel-icon[data-class="Chronarch"],
+.header-pixel-icon[data-class="Chronarch"] {
+    transform: scale(1.45);
+    filter: brightness(1.5) contrast(1.3);
+    mask-image: radial-gradient(circle, black 45%, transparent 85%);
+    -webkit-mask-image: radial-gradient(circle, black 45%, transparent 85%);
+}
+
+.class-pixel-icon[data-class="Deathcaller"] {
+    transform: scale(1.35) translateY(-2px);
+    filter: brightness(1.1) contrast(1.15);
+}
+
+.class-pixel-icon[data-class="Dreadnaught"],
+.class-pixel-icon[data-class="Exorcist"] {
+    transform: scale(1.25);
+    filter: brightness(1.1) contrast(1.15);
+}
+
+.class-pixel-icon[data-class="Huntress"] {
+    transform: scale(1.3) translateX(-1px);
+    filter: brightness(1.12) contrast(1.15);
+}
+
+.class-pixel-icon[data-class="Inscriptor"] {
+    transform: scale(1.25) translateY(1px);
+    filter: brightness(1.1) contrast(1.18);
+}
+
+.class-pixel-icon[data-class="Lichborne"],
+.class-pixel-icon[data-class="False Prophet"] {
+    transform: scale(1.3);
+    filter: brightness(1.15) contrast(1.2);
+}
+
+.class-pixel-icon[data-class="Formbender"] {
+    transform: scale(1.35);
+    filter: brightness(1.1) contrast(1.2) saturate(1.2);
+}
+
+.filter-pixel-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    mix-blend-mode: multiply;
+    filter: brightness(1.2) contrast(1.3);
+    mask-image: radial-gradient(circle, black 60%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 95%);
+    transform: scale(1.3);
+}
 
 @media (max-width: 768px) {
     .classes-display {

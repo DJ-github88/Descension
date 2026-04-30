@@ -24,33 +24,32 @@ const Step3ClassSelection = () => {
     const { validationErrors } = state;
 
     const characterClasses = [
-        { name: 'Pyrofiend', icon: 'fas fa-fire', description: 'Demonic fire wielder with ascending corruption stages', theme: 'fire' },
+        { name: 'Arcanoneer', imageIcon: '/assets/icons/classes/arcanoneer.png', icon: 'fas fa-atom', description: 'Master of elemental sphere combination with dynamic spell crafting', theme: 'elemental' },
+        { name: 'Berserker', imageIcon: '/assets/icons/classes/berserker.png', icon: 'fas fa-skull', description: 'Fury warrior with momentum-based combat', theme: 'rage' },
+        { name: 'Bladedancer', imageIcon: '/assets/icons/classes/bladedancer.png', icon: 'fas fa-wind', description: 'Finesse fighter with elegant combat techniques', theme: 'finesse' },
+        { name: 'Chaos Weaver', imageIcon: '/assets/icons/classes/chaos_weaver.png', icon: 'fas fa-dice', description: 'Master of unpredictability with highest damage potential', theme: 'chaos' },
+        { name: 'Chronarch', imageIcon: '/assets/icons/classes/chronarch.png', icon: 'fas fa-clock', description: 'Time manipulator building temporal energy', theme: 'time' },
+        { name: 'Covenbane', imageIcon: '/assets/icons/classes/covenbane.png', icon: 'fas fa-crosshairs', description: 'Witch hunter with magic-disrupting abilities', theme: 'anti-magic' },
+        { name: 'Deathcaller', imageIcon: '/assets/icons/classes/deathcaller.png', icon: 'fas fa-skull', description: 'Blood mage sacrificing health for forbidden power', theme: 'necromancy' },
+        { name: 'Dreadnaught', imageIcon: '/assets/icons/classes/dreadnaught.png', icon: 'fas fa-shield', description: 'Fortress defender with heavy armor capabilities', theme: 'fortress' },
+        { name: 'Exorcist', imageIcon: '/assets/icons/classes/exorcist.png', icon: 'fas fa-cross', description: 'Holy warrior banishing evil spirits', theme: 'holy' },
+        { name: 'False Prophet', imageIcon: '/assets/icons/classes/false_prophet.png', icon: 'fas fa-eye', description: 'Corrupting preacher spreading lies and manipulation', theme: 'deception' },
+        { name: 'Fate Weaver', imageIcon: '/assets/icons/classes/fate_weaver.png', icon: 'fas fa-magic', description: 'Card-based destiny manipulator turning failures into power', theme: 'fate' },
+        { name: 'Formbender', imageIcon: '/assets/icons/classes/formbender.png', icon: 'fas fa-paw', description: 'Shapeshifter mastering four primal forms with adaptive combat', theme: 'primal' },
+        { name: 'Gambler', imageIcon: '/assets/icons/classes/gambler.png', icon: 'fas fa-dice', description: 'Daring risk-taker manipulating luck and probability', theme: 'luck' },
+        { name: 'Huntress', imageIcon: '/assets/icons/classes/huntress.png', icon: 'fas fa-moon', description: 'Tracker with precision targeting and pursuit', theme: 'hunter' },
+        { name: 'Inscriptor', imageIcon: '/assets/icons/classes/inscriptor.png', icon: 'fas fa-scroll', description: 'Tactical battlefield controller using runes and inscriptions', theme: 'runes' },
+        { name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: 'fas fa-skull', description: 'Frost-wielding undead with life-draining aura and resurrection', theme: 'undead' },
+        { name: 'Lunarch', imageIcon: '/assets/icons/classes/lunarch.png', icon: 'fas fa-moon', description: 'Lunar mage with phase-based energy cycles', theme: 'lunar' },
+        { name: 'Martyr', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through suffering', theme: 'sacrifice' },
         { name: 'Minstrel', icon: 'fas fa-music', description: 'Musical spellcaster combining notes into powerful chords', theme: 'music' },
-        { name: 'Chronarch', icon: 'fas fa-clock', description: 'Time manipulator building temporal energy', theme: 'time' },
-        { name: 'Chaos Weaver', icon: 'fas fa-dice', description: 'Reality bender using chaos dice and entropy', theme: 'chaos' },
-        { name: 'Fate Weaver', icon: 'fas fa-cards', description: 'Destiny manipulator using cards and threads of fate', theme: 'fate' },
-        { name: 'Gambler', icon: 'fas fa-coins', description: 'Fate manipulator balancing luck and risk', theme: 'luck' },
-        { name: 'Martyr', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through pain', theme: 'sacrifice' },
-        { name: 'False Prophet', icon: 'fas fa-eye-slash', description: 'Deceptive preacher spreading lies and corruption', theme: 'deception' },
-        { name: 'Exorcist', icon: 'fas fa-hand-sparkles', description: 'Holy warrior banishing evil spirits', theme: 'holy' },
         { name: 'Oracle', icon: 'fas fa-eye', description: 'Seer with prophetic visions and fate manipulation', theme: 'divination' },
         { name: 'Plaguebringer', icon: 'fas fa-skull', description: 'Disease spreader with contagious plague stacks', theme: 'disease' },
-        { name: 'Lichborne', icon: 'fas fa-skull-crossbones', description: 'Undead spellcaster with phylactery power', theme: 'undead' },
-        { name: 'Deathcaller', icon: 'fas fa-ghost', description: 'Necromancer harvesting souls for dark magic', theme: 'necromancy' },
-        { name: 'Spellguard', icon: 'fas fa-shield-alt', description: 'Protective mage with magical ward layers', theme: 'protection' },
-        { name: 'Inscriptor', icon: 'fas fa-scroll', description: 'Runic scholar creating magical glyph circuits', theme: 'runes' },
-        { name: 'Arcanoneer', icon: 'fas fa-wand-magic-sparkles', description: 'Elemental cannon wielder with volatility risk', theme: 'elemental' },
-        { name: 'Witch Doctor', icon: 'fas fa-hat-wizard', description: 'Spiritual invoker channeling loa spirits', theme: 'spiritual' },
-        { name: 'Formbender', icon: 'fas fa-paw', description: 'Shapeshifter with primal instinct energy', theme: 'primal' },
         { name: 'Primalist', icon: 'fas fa-tree', description: 'Totem master resonating with elemental forces', theme: 'nature' },
-        { name: 'Berserker', icon: 'fas fa-hammer', description: 'Fury warrior with momentum thresholds', theme: 'rage' },
-        { name: 'Dreadnaught', icon: 'fas fa-shield', description: 'Fortress defender with siege capabilities', theme: 'fortress' },
+        { name: 'Pyrofiend', icon: 'fas fa-fire', description: 'Demonic fire wielder with ascending corruption stages', theme: 'fire' },
+        { name: 'Spellguard', icon: 'fas fa-shield-alt', description: 'Protective mage with magical ward layers', theme: 'protection' },
         { name: 'Titan', icon: 'fas fa-mountain', description: 'Gravity manipulator with strain overload', theme: 'gravity' },
         { name: 'Toxicologist', icon: 'fas fa-flask', description: 'Poison crafter with alchemical vials', theme: 'alchemy' },
-        { name: 'Covenbane', icon: 'fas fa-ban', description: 'Witch hunter with anti-magic seals', theme: 'anti-magic' },
-        { name: 'Bladedancer', icon: 'fas fa-wind', description: 'Finesse fighter with edge and flourish', theme: 'finesse' },
-        { name: 'Lunarch', icon: 'fas fa-moon', description: 'Lunar mage with phase-based energy', theme: 'lunar' },
-        { name: 'Huntress', icon: 'fas fa-crosshairs', description: 'Tracker with quarry marks and precision', theme: 'hunter' },
         { name: 'Warden', icon: 'fas fa-shield', description: 'Barrier guardian with protective bulwarks', theme: 'guardian' }
     ];
 
@@ -132,7 +131,7 @@ const Step3ClassSelection = () => {
         <div className="wizard-step-content">
             <div className="step-header">
                 <h2 className="step-title">
-                    <i className="fas fa-fire"></i>
+                    <img src="/assets/icons/classes/arcanoneer.png" alt="Calling" className="wizard-header-pixel-icon" data-class="Arcanoneer" />
                     Choose Your Calling
                 </h2>
                 <p className="step-description">
@@ -157,6 +156,13 @@ const Step3ClassSelection = () => {
                                     className={`class-card ${selectedClass === classData.name ? 'selected' : ''}`}
                                     onClick={() => handleClassCardClick(classData.name)}
                                 >
+                                    <div className="class-card-icon-container">
+                                        {classData.imageIcon ? (
+                                            <img src={classData.imageIcon} alt={classData.name} className="class-pixel-icon" data-class={classData.name} />
+                                        ) : (
+                                            <i className={classData.icon}></i>
+                                        )}
+                                    </div>
                                     <div className="class-info">
                                         <h4 className="class-name">{classData.name}</h4>
                                         <p className="class-description">
@@ -185,6 +191,7 @@ const Step3ClassSelection = () => {
                 tabs={buildModalTabs()}
                 width="950px"
                 icon={viewingClass?.icon}
+                imageIcon={viewingClass?.imageIcon}
             />
             </div>
         </div>

@@ -34,6 +34,7 @@ const TabbedSelectionModal = ({
     disableSelect = false,
     defaultTab = null,
     icon = null,
+    imageIcon = null,
     gradient = null
 }) => {
     const [activeTab, setActiveTab] = useState(defaultTab || (tabs.length > 0 ? tabs[0].id : null));
@@ -97,12 +98,16 @@ const TabbedSelectionModal = ({
             >
                 <div className="tabbed-selection-modal-header">
                     <div className="tabbed-modal-title-section">
-                        {icon && (
+                        {(icon || imageIcon) && (
                             <div 
                                 className="tabbed-modal-icon"
                                 style={gradient ? { background: gradient } : {}}
                             >
-                                <i className={icon}></i>
+                                {imageIcon ? (
+                                    <img src={imageIcon} alt={selectedItem?.name} className="modal-pixel-icon" />
+                                ) : (
+                                    <i className={icon}></i>
+                                )}
                             </div>
                         )}
                         <div className="tabbed-modal-title-text">
@@ -163,7 +168,11 @@ const TabbedSelectionModal = ({
                             onClick={handleSelect}
                             disabled={!selectedItem || disableSelect}
                         >
-                            <i className="fas fa-check"></i>
+                            {imageIcon ? (
+                                <img src={imageIcon} alt={selectedItem?.name} className="btn-pixel-icon" />
+                            ) : (
+                                <i className="fas fa-check"></i>
+                            )}
                             Select {selectedItem?.name || selectionType}
                         </button>
                     )}

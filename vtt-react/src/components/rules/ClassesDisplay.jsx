@@ -26,23 +26,23 @@ const DAMAGE_COLORS = {
 };
 
 const CLASS_DATA = [
-    { name: 'Arcanoneer', icon: faAtom, role: 'Damage / Utility', resource: 'Sphere Generation', playstyle: 'Master of elemental sphere combination with dynamic spell crafting', roleColor: '#e67e22', damageTypes: ['arcane', 'fire', 'frost', 'lightning', 'force', 'chaos'] },
-    { name: 'Berserker', icon: faSkull, role: 'Damage', resource: 'Rage Points', playstyle: 'Fury warrior with momentum-based combat', roleColor: '#e74c3c', damageTypes: ['slashing', 'bludgeoning'] },
-    { name: 'Bladedancer', icon: faWind, role: 'Damage', resource: 'Edge & Flourish', playstyle: 'Finesse fighter with elegant combat techniques', roleColor: '#e74c3c', damageTypes: ['slashing', 'piercing'] },
-    { name: 'Chaos Weaver', icon: faDice, role: 'Damage', resource: 'Mayhem Modifiers', playstyle: 'Master of unpredictability with highest damage potential', roleColor: '#e74c3c', damageTypes: ['force', 'necrotic', 'chaos'] },
-    { name: 'Chronarch', icon: faClock, role: 'Control', resource: 'Temporal Energy', playstyle: 'Time manipulator building temporal power', roleColor: '#9b59b6', damageTypes: ['force', 'arcane'] },
-    { name: 'Covenbane', icon: faCrosshairs, role: 'Damage / Support', resource: 'Anti-Magic Seals', playstyle: 'Witch hunter with magic-disrupting abilities', roleColor: '#e67e22', damageTypes: ['radiant', 'force', 'slashing'] },
-    { name: 'Deathcaller', icon: faSkull, role: 'Damage / Support', resource: 'Necrotic Ascension', playstyle: 'Blood mage sacrificing health for forbidden power', roleColor: '#e67e22', damageTypes: ['necrotic', 'psychic'] },
-    { name: 'Dreadnaught', icon: faShield, role: 'Tank', resource: 'Siege Mode', playstyle: 'Fortress defender with heavy armor capabilities', roleColor: '#3498db', damageTypes: ['necrotic', 'poison', 'psychic'] },
-    { name: 'Exorcist', icon: faCross, role: 'Support / Damage', resource: 'Divine Favor', playstyle: 'Holy warrior banishing evil spirits', roleColor: '#f1c40f', damageTypes: ['radiant', 'force'] },
-    { name: 'False Prophet', icon: faEye, role: 'Control', resource: 'Deception', playstyle: 'Corrupting preacher spreading lies and manipulation', roleColor: '#9b59b6', damageTypes: ['psychic', 'void', 'necrotic'] },
-    { name: 'Fate Weaver', icon: faMagic, role: 'Support / Control', resource: 'Threads of Destiny', playstyle: 'Card-based destiny manipulator turning failures into power', roleColor: '#f1c40f', damageTypes: ['psychic', 'force'] },
-    { name: 'Formbender', icon: faPaw, role: 'Hybrid', resource: 'Wild Instinct', playstyle: 'Shapeshifter mastering four primal forms with adaptive combat', roleColor: '#2ecc71', damageTypes: ['nature', 'bludgeoning'] },
-    { name: 'Gambler', icon: faDice, role: 'Damage / Utility', resource: 'Fortune Points', playstyle: 'Daring risk-taker manipulating luck and probability', roleColor: '#e67e22', damageTypes: ['force', 'psychic'] },
-    { name: 'Huntress', icon: faMoon, role: 'Damage', resource: 'Quarry Marks', playstyle: 'Tracker with precision targeting and pursuit', roleColor: '#e74c3c', damageTypes: ['piercing', 'slashing'] },
-    { name: 'Inscriptor', icon: faScroll, role: 'Control / Support', resource: 'Runic Wrapping', playstyle: 'Tactical battlefield controller using runes and inscriptions', roleColor: '#f1c40f', damageTypes: ['force', 'arcane'] },
-    { name: 'Lichborne', icon: faSkull, role: 'Damage / Control', resource: 'Eternal Frost Aura', playstyle: 'Frost-wielding undead with life-draining aura and resurrection', roleColor: '#e67e22', damageTypes: ['necrotic', 'frost'] },
-    { name: 'Lunarch', icon: faMoon, role: 'Support / Control', resource: 'Lunar Charge', playstyle: 'Lunar mage with phase-based energy cycles', roleColor: '#f1c40f', damageTypes: ['arcane', 'radiant'] },
+    { name: 'Arcanoneer', imageIcon: '/assets/icons/classes/arcanoneer.png', icon: faAtom, role: 'Damage / Utility', resource: 'Sphere Generation', playstyle: 'Master of elemental sphere combination with dynamic spell crafting', roleColor: '#e67e22', damageTypes: ['arcane', 'fire', 'frost', 'lightning', 'force', 'chaos'] },
+    { name: 'Berserker', imageIcon: '/assets/icons/classes/berserker.png', icon: faSkull, role: 'Damage', resource: 'Rage Points', playstyle: 'Fury warrior with momentum-based combat', roleColor: '#e74c3c', damageTypes: ['slashing', 'bludgeoning'] },
+    { name: 'Bladedancer', imageIcon: '/assets/icons/classes/bladedancer.png', icon: faWind, role: 'Damage', resource: 'Edge & Flourish', playstyle: 'Finesse fighter with elegant combat techniques', roleColor: '#e74c3c', damageTypes: ['slashing', 'piercing'] },
+    { name: 'Chaos Weaver', imageIcon: '/assets/icons/classes/chaos_weaver.png', icon: faDice, role: 'Damage', resource: 'Mayhem Modifiers', playstyle: 'Master of unpredictability with highest damage potential', roleColor: '#e74c3c', damageTypes: ['force', 'necrotic', 'chaos'] },
+    { name: 'Chronarch', imageIcon: '/assets/icons/classes/chronarch.png', icon: faClock, role: 'Control', resource: 'Temporal Energy', playstyle: 'Time manipulator building temporal power', roleColor: '#9b59b6', damageTypes: ['force', 'arcane'] },
+    { name: 'Covenbane', imageIcon: '/assets/icons/classes/covenbane.png', icon: faCrosshairs, role: 'Damage / Support', resource: 'Anti-Magic Seals', playstyle: 'Witch hunter with magic-disrupting abilities', roleColor: '#e67e22', damageTypes: ['radiant', 'force', 'slashing'] },
+    { name: 'Deathcaller', imageIcon: '/assets/icons/classes/deathcaller.png', icon: faSkull, role: 'Damage / Support', resource: 'Necrotic Ascension', playstyle: 'Blood mage sacrificing health for forbidden power', roleColor: '#e67e22', damageTypes: ['necrotic', 'psychic'] },
+    { name: 'Dreadnaught', imageIcon: '/assets/icons/classes/dreadnaught.png', icon: faShield, role: 'Tank', resource: 'Siege Mode', playstyle: 'Fortress defender with heavy armor capabilities', roleColor: '#3498db', damageTypes: ['necrotic', 'poison', 'psychic'] },
+    { name: 'Exorcist', imageIcon: '/assets/icons/classes/exorcist.png', icon: faCross, role: 'Support / Damage', resource: 'Divine Favor', playstyle: 'Holy warrior banishing evil spirits', roleColor: '#f1c40f', damageTypes: ['radiant', 'force'] },
+    { name: 'False Prophet', imageIcon: '/assets/icons/classes/false_prophet.png', icon: faEye, role: 'Control', resource: 'Deception', playstyle: 'Corrupting preacher spreading lies and manipulation', roleColor: '#9b59b6', damageTypes: ['psychic', 'void', 'necrotic'] },
+    { name: 'Fate Weaver', imageIcon: '/assets/icons/classes/fate_weaver.png', icon: faMagic, role: 'Support / Control', resource: 'Threads of Destiny', playstyle: 'Card-based destiny manipulator turning failures into power', roleColor: '#f1c40f', damageTypes: ['psychic', 'force'] },
+    { name: 'Formbender', imageIcon: '/assets/icons/classes/formbender.png', icon: faPaw, role: 'Hybrid', resource: 'Wild Instinct', playstyle: 'Shapeshifter mastering four primal forms with adaptive combat', roleColor: '#2ecc71', damageTypes: ['nature', 'bludgeoning'] },
+    { name: 'Gambler', imageIcon: '/assets/icons/classes/gambler.png', icon: faDice, role: 'Damage / Utility', resource: 'Fortune Points', playstyle: 'Daring risk-taker manipulating luck and probability', roleColor: '#e67e22', damageTypes: ['force', 'psychic'] },
+    { name: 'Huntress', imageIcon: '/assets/icons/classes/huntress.png', icon: faMoon, role: 'Damage', resource: 'Quarry Marks', playstyle: 'Tracker with precision targeting and pursuit', roleColor: '#e74c3c', damageTypes: ['piercing', 'slashing'] },
+    { name: 'Inscriptor', imageIcon: '/assets/icons/classes/inscriptor.png', icon: faScroll, role: 'Control / Support', resource: 'Runic Wrapping', playstyle: 'Tactical battlefield controller using runes and inscriptions', roleColor: '#f1c40f', damageTypes: ['force', 'arcane'] },
+    { name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: faSkull, role: 'Damage / Control', resource: 'Eternal Frost Aura', playstyle: 'Frost-wielding undead with life-draining aura and resurrection', roleColor: '#e67e22', damageTypes: ['necrotic', 'frost'] },
+    { name: 'Lunarch', imageIcon: '/assets/icons/classes/lunarch.png', icon: faMoon, role: 'Support / Control', resource: 'Lunar Charge', playstyle: 'Lunar mage with phase-based energy cycles', roleColor: '#f1c40f', damageTypes: ['arcane', 'radiant'] },
     { name: 'Martyr', icon: faCross, role: 'Tank / Support', resource: 'Pain Points', playstyle: 'Self-sacrificing warrior earning power through suffering', roleColor: '#3498db', damageTypes: ['radiant', 'fire'] },
     { name: 'Minstrel', icon: faMusic, role: 'Support', resource: 'Harmonic Notes', playstyle: 'Musical spellcaster with note combinations', roleColor: '#2ecc71', damageTypes: ['psychic', 'force'] },
     { name: 'Oracle', icon: faEye, role: 'Support / Control', resource: 'Prophetic Vision', playstyle: 'Seer with foresight and divination', roleColor: '#f1c40f', damageTypes: ['psychic', 'force'] },
@@ -58,11 +58,11 @@ const CLASS_DATA = [
 
 const ROLE_FILTERS = [
     { key: 'all', label: 'All', icon: 'fas fa-th' },
-    { key: 'tank', label: 'Tank', icon: 'fas fa-shield-alt' },
-    { key: 'damage', label: 'Damage', icon: 'fas fa-crosshairs' },
-    { key: 'support', label: 'Support', icon: 'fas fa-heart' },
-    { key: 'control', label: 'Control', icon: 'fas fa-brain' },
-    { key: 'hybrid', label: 'Hybrid', icon: 'fas fa-sync-alt' }
+    { key: 'tank', label: 'Tank', imageIcon: '/assets/icons/classes/dreadnaught.png', icon: 'fas fa-shield-alt' },
+    { key: 'damage', label: 'Damage', imageIcon: '/assets/icons/classes/berserker.png', icon: 'fas fa-crosshairs' },
+    { key: 'support', label: 'Support', imageIcon: '/assets/icons/classes/exorcist.png', icon: 'fas fa-heart' },
+    { key: 'control', label: 'Control', imageIcon: '/assets/icons/classes/chronarch.png', icon: 'fas fa-brain' },
+    { key: 'hybrid', label: 'Hybrid', imageIcon: '/assets/icons/classes/formbender.png', icon: 'fas fa-sync-alt' }
 ];
 
 const ALL_DAMAGE_TYPES = (() => {
@@ -137,7 +137,9 @@ const ClassesDisplay = ({ onSelectClass }) => {
         <div className="classes-display">
             <div className="classes-intro">
                 <div className="classes-intro-header">
-                    <div className="classes-intro-icon"><i className="fas fa-hat-wizard"></i></div>
+                    <div className="classes-intro-icon">
+                        <img src="/assets/icons/classes/arcanoneer.png" alt="Classes" className="header-pixel-icon" data-class="Arcanoneer" />
+                    </div>
                     <div className="classes-intro-title">
                         <h2>Classes</h2>
                         <p className="classes-intro-subtitle">Choose the path that calls to your character's soul</p>
@@ -163,7 +165,11 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             className={`role-filter-btn ${activeFilter === filter.key ? 'active' : ''}`}
                             onClick={() => setActiveFilter(filter.key)}
                         >
-                            <i className={filter.icon}></i>
+                            {filter.imageIcon ? (
+                                <img src={filter.imageIcon} alt={filter.label} className="filter-pixel-icon" data-class={filter.label} />
+                            ) : (
+                                <i className={filter.icon}></i>
+                            )}
                             <span>{filter.label}</span>
                             <span className="role-filter-count">
                                 {filter.key === 'all'
@@ -212,7 +218,11 @@ const ClassesDisplay = ({ onSelectClass }) => {
                         onMouseLeave={handleMouseLeave}
                     >
                         <div className="class-card-icon">
-                            <FontAwesomeIcon icon={cls.icon} />
+                            {cls.imageIcon ? (
+                                <img src={cls.imageIcon} alt={cls.name} className="class-pixel-icon" data-class={cls.name} />
+                            ) : (
+                                <FontAwesomeIcon icon={cls.icon} />
+                            )}
                         </div>
                         <div className="class-card-name">{cls.name}</div>
                         <div className="class-card-role">{cls.role}</div>
@@ -248,7 +258,11 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 >
                     <div className="class-tooltip-header" style={{ borderColor: tooltipData.roleColor }}>
                         <div className="class-tooltip-icon" style={{ color: tooltipData.roleColor }}>
-                            <FontAwesomeIcon icon={tooltipData.icon} />
+                            {tooltipData.imageIcon ? (
+                                <img src={tooltipData.imageIcon} alt={tooltipData.name} className="tooltip-pixel-icon" data-class={tooltipData.name} />
+                            ) : (
+                                <FontAwesomeIcon icon={tooltipData.icon} />
+                            )}
                         </div>
                         <div className="class-tooltip-title">
                             <h4>{tooltipData.name}</h4>

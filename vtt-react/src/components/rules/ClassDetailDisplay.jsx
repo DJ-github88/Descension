@@ -1366,8 +1366,19 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
     <div className="class-detail-display premium-theme">
       <div className="class-detail-header premium-header">
         <div className="class-header-left">
-          <div className="class-header-icon">
-            <i className={classData.icon}></i>
+          <div className="class-header-icon-container">
+            <img 
+              src={`/assets/icons/classes/${classData.name.toLowerCase().replace(/ /g, '_')}.png`} 
+              alt={classData.name} 
+              className="header-pixel-icon" 
+              data-class={classData.name}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                const iconEl = e.target.parentElement.querySelector('i');
+                if (iconEl) iconEl.style.display = 'block';
+              }}
+            />
+            <i className={classData.icon} style={{ display: 'none' }}></i>
           </div>
           <div className="class-header-info">
             <h2>{classData.name}</h2>
