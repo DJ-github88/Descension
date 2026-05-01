@@ -12,7 +12,7 @@
   --pf-brown-dark: #654321;
   --pf-text-primary: #2d1810;
   --pf-gradient-parchment: linear-gradient(135deg, #f4f1e8 0%, #e8dcc0 100%);
-  --pf-gradient-header: linear-gradient(to bottom, rgba(139, 69, 19, 0.1), rgba(139, 69, 19, 0.05));
+  --pf-gradient-header: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%);
   --pf-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --pf-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
   --pf-transition-normal: all 0.2s ease;
@@ -79,9 +79,8 @@
   border-color: var(--pf-brown-dark) !important;
 }
 
-/* Pathfinder card header */
 .pf-spell-card-header {
-  background: linear-gradient(135deg, #b8860b 0%, #daa520 50%, #b8860b 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 1px solid rgba(139, 69, 19, 0.2) !important;
   padding: var(--pf-space-4) !important;
   position: relative;
@@ -560,7 +559,7 @@
   border-color: #ff8000;
 }
 
-/* Spell school colors */
+/* Spell school colors (Dark Pathfinder RPG palette) */
 .ability-item.wow-spell-card.school-physical::before {
   content: '';
   position: absolute;
@@ -568,7 +567,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #C0C0C0;
+  background-color: #5A6A72;
 }
 
 .ability-item.wow-spell-card.school-fire::before {
@@ -578,7 +577,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #FF4500;
+  background-color: #8B1A1A;
 }
 
 .ability-item.wow-spell-card.school-frost::before {
@@ -588,7 +587,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #00BFFF;
+  background-color: #2C5F7C;
 }
 
 .ability-item.wow-spell-card.school-arcane::before {
@@ -598,7 +597,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #9966CC;
+  background-color: #5B3A8C;
 }
 
 .ability-item.wow-spell-card.school-nature::before {
@@ -608,7 +607,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #7CFC00;
+  background-color: #2D5A1E;
 }
 
 .ability-item.wow-spell-card.school-shadow::before {
@@ -618,7 +617,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #800080;
+  background-color: #3D1F4E;
 }
 
 .ability-item.wow-spell-card.school-holy::before {
@@ -628,7 +627,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #FFD700;
+  background-color: #8B7328;
 }
 
 .ability-item.wow-spell-card.school-poison::before {
@@ -638,7 +637,107 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background-color: #00FF00;
+  background-color: #2D6A3F;
+}
+
+.ability-item.wow-spell-card.school-lightning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #8B7328;
+}
+
+.ability-item.wow-spell-card.school-necrotic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #3D1F4E;
+}
+
+.ability-item.wow-spell-card.school-radiant::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #8B7328;
+}
+
+.ability-item.wow-spell-card.school-void::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #1A1A2E;
+}
+
+.ability-item.wow-spell-card.school-psychic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #7A2E6E;
+}
+
+.ability-item.wow-spell-card.school-chaos::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #7A2040;
+}
+
+.ability-item.wow-spell-card.school-force::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #7A3B6E;
+}
+
+.ability-item.wow-spell-card.school-bludgeoning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #5C4033;
+}
+
+.ability-item.wow-spell-card.school-piercing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #5A6A72;
+}
+
+.ability-item.wow-spell-card.school-slashing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background-color: #6B2D2D;
 }
 
 /* Card header */

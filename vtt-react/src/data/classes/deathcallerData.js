@@ -388,7 +388,7 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
    - Curse: Specters drain 1d4 HP from you per turn
 
 4. **Frostwalker** (Level 7):
-   - Boon: 15ft aura (enemies -10ft speed, 1d4 cold damage/turn)
+   - Boon: 15ft aura (enemies -10ft speed, 1d4 frost damage/turn)
    - Curse: +50% fire damage taken (vulnerability)
 
 5. **Silent Shroud** (Level 9):
@@ -422,7 +422,7 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
         ['Shrouded Veil', 'Resistance to necrotic damage + advantage on Stealth', '-10% max HP (perpetual shadow drain)', '1'],
         ['Crimson Pact', 'Generate Blood Tokens from health sacrifice (1 HP = 1 Token)', 'Unused tokens burst after 10 min (1d10 per token)', '3'],
         ['Spectral Command', 'Spectral allies deal +1d6 necrotic damage', '-25 ft speed per spectral ally summoned', '5'],
-        ['Frostwalker', 'Aura: 15ft radius, -10ft enemy speed, 1d4 cold/turn', '+50% fire damage taken (vulnerability)', '7'],
+        ['Frostwalker', 'Aura: 15ft radius, -10ft enemy speed, 1d4 frost/turn', '+50% fire damage taken (vulnerability)', '7'],
         ['Silent Shroud', 'Advantage on Stealth and silent movement', '-2 Perception (muffled senses)', '9'],
         ['Life Leech', 'Melee attacks restore 1d6 HP', '-5% max HP (unquenchable thirst)', '11'],
         ['Deep Void', '1/long rest: Negate any spell targeting you', '2d6 psychic damage when used (void consumption)', '13']
@@ -642,7 +642,7 @@ Necrotic Ascension PATHS
    Curse: Specters drain 1d4 HP/turn from YOU
 
 ☐ 4. FROSTWALKER (Lvl 7)
-   Boon: 10ft frost aura (1d6 cold/turn)
+   Boon: 10ft frost aura (1d6 frost/turn)
    Curse: Vulnerable to fire (+50% fire damage)
 
 ☐ 5. SILENT SHROUD (Lvl 9)

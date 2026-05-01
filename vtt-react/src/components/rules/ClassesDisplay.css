@@ -64,12 +64,11 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.1) contrast(1.15);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.2);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 70%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 95%);
 }
 
 .classes-intro-title h2 {
@@ -159,8 +158,9 @@
     width: 20px;
     height: 20px;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
+    filter: brightness(1.05) contrast(1.1);
 }
 
 .role-filter-btn i {
@@ -368,24 +368,22 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.08) contrast(1.1);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.2);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 75%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 75%, transparent 95%);
 }
 
 .tooltip-pixel-icon {
     width: 56px;
     height: 56px;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.1) contrast(1.15);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.25);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 70%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 95%);
 }
 
 .class-card:hover .class-card-icon {
@@ -604,67 +602,8 @@
 
 /* ===== INDIVIDUAL CLASS ICON TUNING ===== */
 
-.class-pixel-icon[data-class="Arcanoneer"],
-.header-pixel-icon[data-class="Arcanoneer"] {
-    transform: scale(1.4);
-    filter: brightness(1.15) contrast(1.2) saturate(1.1);
-}
+/* Individual class icon tuning removed for consistency with high-quality assets */
 
-.class-pixel-icon[data-class="Bladedancer"],
-.header-pixel-icon[data-class="Bladedancer"] {
-    transform: scale(1.4);
-    filter: brightness(1.6) contrast(1.5) saturate(1.2);
-    mask-image: radial-gradient(circle, black 40%, transparent 85%);
-    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 85%);
-}
-
-.class-pixel-icon[data-class="Chaos Weaver"],
-.header-pixel-icon[data-class="Chaos Weaver"] {
-    transform: scale(1.4);
-    filter: brightness(1.5) contrast(1.4);
-    mask-image: radial-gradient(circle, black 50%, transparent 90%);
-    -webkit-mask-image: radial-gradient(circle, black 50%, transparent 90%);
-}
-
-.class-pixel-icon[data-class="Chronarch"],
-.header-pixel-icon[data-class="Chronarch"] {
-    transform: scale(1.45);
-    filter: brightness(1.5) contrast(1.3);
-    mask-image: radial-gradient(circle, black 45%, transparent 85%);
-    -webkit-mask-image: radial-gradient(circle, black 45%, transparent 85%);
-}
-
-.class-pixel-icon[data-class="Deathcaller"] {
-    transform: scale(1.35) translateY(-2px);
-    filter: brightness(1.1) contrast(1.15);
-}
-
-.class-pixel-icon[data-class="Dreadnaught"],
-.class-pixel-icon[data-class="Exorcist"] {
-    transform: scale(1.25);
-    filter: brightness(1.1) contrast(1.15);
-}
-
-.class-pixel-icon[data-class="Huntress"] {
-    transform: scale(1.3) translateX(-1px);
-    filter: brightness(1.12) contrast(1.15);
-}
-
-.class-pixel-icon[data-class="Inscriptor"] {
-    transform: scale(1.25) translateY(1px);
-    filter: brightness(1.1) contrast(1.18);
-}
-
-.class-pixel-icon[data-class="Lichborne"],
-.class-pixel-icon[data-class="False Prophet"] {
-    transform: scale(1.3);
-    filter: brightness(1.15) contrast(1.2);
-}
-
-.class-pixel-icon[data-class="Formbender"] {
-    transform: scale(1.35);
-    filter: brightness(1.1) contrast(1.2) saturate(1.2);
-}
 
 .filter-pixel-icon {
     width: 20px;

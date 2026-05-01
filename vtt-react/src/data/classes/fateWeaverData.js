@@ -40,7 +40,7 @@ export const FATE_WEAVER_DATA = {
 **Best For**: Players who love card game mechanics, tactical decision-making, and the satisfaction of turning failure into a decisive advantage`
     },
     
-    description: `The Fate Weaver manipulates the threads of destiny using their unique connection to cosmic forces. They draw power from cards, utilizing "Threads of Destiny" to influence the outcomes of their spells and actions. This mechanic allows Fate Weavers to predict, alter, and control the course of events in battle, making their actions as strategic as they are mystical.`,
+    description: `Manipulates destiny through cosmic forces and cards. Uses Threads of Destiny to influence spell outcomes, predicting and controlling events in battle with strategic and mystical precision.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -852,7 +852,7 @@ Many players enhance the Fate Weaver experience with:
         color: '#9370DB',
         theme: 'Divination & Prediction',
 
-        description: `The Fortune Teller specialization focuses on reading the cards to predict and shape future events. These Fate Weavers excel at divination, granting allies foresight and manipulating probability to ensure favorable outcomes. They are masters of preparation, always knowing what's coming and positioning their allies for success.`,
+        description: `Masters of divination who read cards to predict and shape events. They grant allies foresight and manipulate probability for favorable outcomes.`,
 
         playstyle: 'Predictive support, ally buffs, probability manipulation, information gathering',
 
@@ -873,7 +873,7 @@ Many players enhance the Fate Weaver experience with:
         passiveAbility: {
           name: 'Prophetic Vision',
           icon: 'Psychic/Focused Mind',
-          description: 'At the start of each turn, you may look at the top 5 cards of your deck and rearrange them in any order. Additionally, whenever an ally within 30 feet makes an attack roll or saving throw, you may spend 1 Thread of Destiny to grant them advantage on that roll (you must see the top card of your deck to use this ability).'
+          description: 'At the start of each turn, look at and rearrange the top 5 cards of your deck. When an ally within 30 ft makes an attack or save, spend 1 Thread to grant them advantage.'
         },
 
         keyAbilities: [
@@ -892,7 +892,7 @@ Many players enhance the Fate Weaver experience with:
         color: '#FFD700',
         theme: 'Deck Manipulation & Control',
 
-        description: `The Card Master specialization focuses on complete control over the deck and hand. These Fate Weavers are experts at manipulating their draws, ensuring they always have the right card at the right time. They excel at combo-based gameplay, assembling powerful card combinations to devastating effect.`,
+        description: `Complete deck control. Experts at manipulating draws to always have the right card, excelling at combo-based gameplay and devastating card combinations.`,
 
         playstyle: 'Deck control, combo assembly, hand manipulation, consistent power',
 
@@ -913,7 +913,7 @@ Many players enhance the Fate Weaver experience with:
         passiveAbility: {
           name: 'Master of the Deck',
           icon: 'Utility/Ornate Staff',
-          description: 'You may hold up to 7 cards in your hand (instead of the normal 5). Additionally, whenever you spend Threads of Destiny to call a specific card, you may call 2 cards instead of 1 for the same cost. Once per turn, you may discard a card and draw a new one for 0 AP (free).'
+          description: 'Hand size increased to 7. Spending Threads to call a specific card lets you call 2 instead. Once per turn, discard a card and draw a replacement for 0 AP.'
         },
 
         keyAbilities: [
@@ -932,7 +932,7 @@ Many players enhance the Fate Weaver experience with:
         color: '#FF1493',
         theme: 'Thread Generation & Manipulation',
 
-        description: `The Thread Weaver specialization embraces failure as a source of power, generating Threads of Destiny at an accelerated rate and using them in creative ways. These Fate Weavers are risk-takers who thrive on chaos, turning every setback into an opportunity and every failure into fuel for their next success.`,
+        description: `Embraces failure as power, generating Threads at an accelerated rate. Risk-takers who turn every setback into opportunity and every failure into fuel.`,
 
         playstyle: 'High risk/reward, Thread generation focus, failure conversion, explosive power',
 
@@ -953,7 +953,7 @@ Many players enhance the Fate Weaver experience with:
         passiveAbility: {
           name: 'Weaver of Fate',
           icon: 'Necrotic/Drain Soul',
-          description: 'You generate +1 additional Thread whenever you would gain Threads (1 becomes 2, 2 becomes 3). Additionally, you can spend 5 Threads of Destiny to force any spell to automatically succeed with maximum effect, or spend 3 Threads to force any spell to fail and gain its maximum Thread generation.'
+          description: 'Generate +1 Thread whenever you gain Threads. Spend 5 Threads to force any spell to auto-succeed with max effect, or 3 Threads to force a spell to fail and gain its max Thread generation.'
         },
 
         keyAbilities: [
@@ -979,7 +979,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Divination',
       level: 3,
 
-      description: 'Draw five cards to form a poker hand. You may redraw up to twice. The strength of your hand determines the spell effect: Royal Flush (ultimate), Straight Flush (massive damage), Four of a Kind (heavy damage), Full House (damage + heal), Flush (moderate damage), Straight (damage), Three of a Kind (light damage), Two Pair (heal + advantage), One Pair (heal), High Card (minimal effect).',
+      description: 'Draw 5 cards to form a poker hand. May redraw up to twice. Hand strength determines the effect, from Royal Flush (ultimate) to High Card (minimal). Better hands yield stronger effects.',
 
       typeConfig: {
         castTime: 1,
@@ -1062,7 +1062,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Abjuration',
       level: 3,
 
-      description: 'Draw cards aiming for a total as close to 21 as possible (blackjack rules: Aces=1 or 11, Face cards=10, others=face value). The closer to 21, the higher the AC bonus granted to an ally for the rest of combat. Going over 21 (bust) reduces your AC for the next round instead.',
+      description: 'Draw cards aiming for 21 (blackjack: Aces=1 or 11, Face=10, others=face value). Closer to 21 = higher AC bonus for an ally for rest of combat. Bust (over 21) reduces your AC next round.',
 
       typeConfig: {
         castTime: 1,

@@ -1537,7 +1537,7 @@ Many players enhance the titan experience with:
       specialMechanics: {
         devotionVariants: {
           solara: { element: 'radiant', bonus: '+2d6 fire' },
-          lunara: { element: 'cold', bonus: '+2d6 healing to self' },
+          lunara: { element: 'frost', bonus: '+2d6 healing to self' },
           astraeus: { element: 'force', bonus: 'Extra attack if target dies' },
           terranox: { element: 'bludgeoning', bonus: 'Knockback 10 feet' },
           zephyra: { element: 'lightning', bonus: 'Chain to nearby enemy' }
@@ -2281,7 +2281,7 @@ Many players enhance the titan experience with:
         resistances: [
           { type: 'physical', resistanceAmount: 'resistance' },
           { type: 'fire', resistanceAmount: 'resistance' },
-          { type: 'cold', resistanceAmount: 'resistance' }
+          { type: 'frost', resistanceAmount: 'resistance' }
         ],
         specialAbilities: [{
           name: 'Immovable',

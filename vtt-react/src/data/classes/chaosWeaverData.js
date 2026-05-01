@@ -71,7 +71,7 @@ export const CHAOS_WEAVER_DOCS = {
         resolutionConfig: { diceType: 'd33', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 3 }, customName: 'Red Prism', effect: 'Fire damage - 4d6 fire damage in 20ft radius', effectConfig: { damageFormula: '4d6', damageType: 'fire', areaShape: 'circle', areaRadius: 20 } },
-          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
+          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 poison damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
           { range: { min: 7, max: 9 }, customName: 'Yellow Prism', effect: 'Lightning damage - 4d6 lightning damage, chains to 2 additional targets', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTargets: 2 } },
           { range: { min: 10, max: 12 }, customName: 'Green Prism', effect: 'Poison damage - 4d6 poison damage, targets poisoned for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'poison', poisonDuration: 1 } },
           { range: { min: 13, max: 15 }, customName: 'Blue Prism', effect: 'Frost damage - 4d6 frost damage, slows targets by 50% for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'frost', slowAmount: 0.5, slowDuration: 2 } },
@@ -623,7 +623,7 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd33', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 3 }, customName: 'Red Prism', effect: 'Fire damage - 4d6 fire damage in 20ft radius', effectConfig: { damageFormula: '4d6', damageType: 'fire', areaShape: 'circle', areaRadius: 20 } },
-          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 acid damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
+          { range: { min: 4, max: 6 }, customName: 'Orange Prism', effect: 'Acid damage - 4d6 poison damage, reduces armor by 3 for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3, debuffDuration: 2 } },
           { range: { min: 7, max: 9 }, customName: 'Yellow Prism', effect: 'Lightning damage - 4d6 lightning damage, chains to 2 additional targets', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTargets: 2 } },
           { range: { min: 10, max: 12 }, customName: 'Green Prism', effect: 'Poison damage - 4d6 poison damage, targets poisoned for 1 round', effectConfig: { damageFormula: '4d6', damageType: 'poison', poisonDuration: 1 } },
           { range: { min: 13, max: 15 }, customName: 'Blue Prism', effect: 'Frost damage - 4d6 frost damage, slows targets by 50% for 2 rounds', effectConfig: { damageFormula: '4d6', damageType: 'frost', slowAmount: 0.5, slowDuration: 2 } },
@@ -724,7 +724,7 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd12', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 2 }, customName: 'Necrotic Burst', effect: '5d6 necrotic damage, reduces strength by 3 for 2 rounds', effectConfig: { damageFormula: '5d6', damageType: 'necrotic', statReduction: 'strength', reductionAmount: 3, debuffDuration: 2 } },
-          { range: { min: 3, max: 4 }, customName: 'Acid Burst', effect: '5d6 acid damage, reduces armor by 4 for 3 rounds', effectConfig: { damageFormula: '5d6', damageType: 'poison', statReduction: 'armor', reductionAmount: 4, debuffDuration: 3 } },
+          { range: { min: 3, max: 4 }, customName: 'Acid Burst', effect: '5d6 poison damage, reduces armor by 4 for 3 rounds', effectConfig: { damageFormula: '5d6', damageType: 'poison', statReduction: 'armor', reductionAmount: 4, debuffDuration: 3 } },
           { range: { min: 5, max: 6 }, customName: 'Poison Burst', effect: '4d6 poison damage, poisons targets (2d6 poison damage per turn for 3 rounds)', effectConfig: { damageFormula: '4d6', damageType: 'poison', dotFormula: '2d6', dotDuration: 3 } },
           { range: { min: 7, max: 8 }, customName: 'Shadow Burst', effect: '5d6 necrotic damage, blinds targets for 2 rounds', effectConfig: { damageFormula: '5d6', damageType: 'necrotic', blindDuration: 2 } },
           { range: { min: 9, max: 10 }, customName: 'Chaos Burst', effect: '4d6 random damage type, random debuff (roll d4: 1=slow, 2=weaken, 3=confuse, 4=stun)', effectConfig: { damageFormula: '4d6', damageType: 'random', randomDebuff: true } },
@@ -970,7 +970,7 @@ export const CHAOS_WEAVER_DATA = {
         resolutionConfig: { diceType: 'd10', diceCount: 1 },
         entries: [
           { range: { min: 1, max: 2 }, customName: 'Necrotic Strike', effect: 'Weapon deals +4d6 necrotic damage, target poisoned', effectConfig: { damageFormula: '4d6', damageType: 'necrotic', poisonEffect: true } },
-          { range: { min: 3, max: 4 }, customName: 'Acid Strike', effect: 'Weapon deals +4d6 acid damage, reduces armor by 3', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3 } },
+          { range: { min: 3, max: 4 }, customName: 'Acid Strike', effect: 'Weapon deals +4d6 poison damage, reduces armor by 3', effectConfig: { damageFormula: '4d6', damageType: 'poison', armorReduction: 3 } },
           { range: { min: 5, max: 6 }, customName: 'Lightning Strike', effect: 'Weapon deals +4d6 lightning damage, chains to nearby enemy', effectConfig: { damageFormula: '4d6', damageType: 'lightning', chainTarget: true } },
           { range: { min: 7, max: 8 }, customName: 'Fire Strike', effect: 'Weapon deals +4d6 fire damage, target burns for 2d6 per turn', effectConfig: { damageFormula: '4d6', damageType: 'fire', burnDamage: '2d6' } },
           { range: { min: 9, max: 10 }, customName: 'Chaos Strike', effect: 'Weapon deals +6d6 random damage type, random secondary effect', effectConfig: { damageFormula: '6d6', damageType: 'random', secondaryEffect: 'random' } }

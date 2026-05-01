@@ -44,15 +44,26 @@
   --pf-info: #2f4f4f;
   --pf-info-light: #708090;
   
-  /* Element/Magic School Colors */
-  --pf-fire: #dc143c;
-  --pf-frost: #4682b4;
-  --pf-nature: #228b22;
-  --pf-arcane: #9370db;
-  --pf-holy: #ffd700;
-  --pf-shadow: #2f2f2f;
-  --pf-lightning: #ffff00;
-  --pf-physical: #696969;
+  /* Damage Type Colors (Dark Pathfinder RPG palette) */
+  --pf-fire: #8B1A1A;
+  --pf-frost: #2C5F7C;
+  --pf-nature: #2D5A1E;
+  --pf-arcane: #5B3A8C;
+  --pf-holy: #8B7328;
+  --pf-shadow: #3D1F4E;
+  --pf-lightning: #8B7328;
+  --pf-physical: #5A6A72;
+  --pf-force: #7A3B6E;
+  --pf-necrotic: #3D1F4E;
+  --pf-radiant: #8B7328;
+  --pf-poison: #2D6A3F;
+  --pf-psychic: #7A2E6E;
+  --pf-chaos: #7A2040;
+  --pf-void: #1A1A2E;
+  --pf-bludgeoning: #5C4033;
+  --pf-piercing: #5A6A72;
+  --pf-slashing: #6B2D2D;
+  --pf-magical: #5B3A8C;
   
   /* Rarity Colors (Pathfinder-themed) */
   --pf-common: #8b7355;

@@ -1145,7 +1145,7 @@ START: Always New Moon
     {
       id: 'lunarch_lunar_eclipse',
       name: 'Lunar Eclipse',
-      description: 'Channel the power of both the New Moon and Full Moon simultaneously, creating a perfect balance of light and shadow. The eclipse grants you both the defensive power of the New Moon and the offensive might of the Full Moon, while a radiant aura of lunar energy surrounds you, burning enemies who come too close.',
+      description: 'Channel both New Moon and Full Moon simultaneously. Gain New Moon\'s defensive power and Full Moon\'s offensive might, wreathed in a radiant lunar aura that burns nearby enemies.',
       spellType: 'ACTION',
       icon: 'Healing/Cure Within',
       school: 'Transmutation',

@@ -330,7 +330,7 @@ After following the correct development path (usually 3 category spells), the ba
         ['Whisper of Decay', 'Torment → Fester → Corrupt', 'Scream of the Plagued', '15ft aura: random attacks for 1 min'],
         ['Venomous Touch', 'Infect → Weaken → Amplify Pain', 'Deadly Caress', '5d6 poison, -5 armor for 1 min'],
         ['Fever Dream', 'Torment → Nurture → Infect', 'Epidemic Nightmare', '3d6 psychic, spreads fear (DC 15) in 5ft'],
-        ['Chill of the Void', 'Decay → Weaken → Corrupt', 'Eternal Chill', '10ft freeze, 3d6 cold/turn for 2 turns'],
+        ['Chill of the Void', 'Decay → Weaken → Corrupt', 'Eternal Chill', '10ft freeze, 3d6 frost/turn for 2 turns'],
         ['Mark of the Pestilent', 'Nurture → Decay → Amplify Pain', 'Sigil of the Doomed', '20ft aura: no healing, 3d6 necrotic'],
         ['Retching Malediction', 'Fester → Torment → Nurture', 'Plague of Desolation', '15ft zone: 1d6 damage reduction, healing→poison']
       ]
@@ -1231,7 +1231,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_hallucinogenic_spores',
             name: 'Hallucinogenic Spores',
-            description: 'Releases hallucinogenic spores targeting a single enemy in melee range. The affected target hallucinates, seeing allies as foes, and must make an attack against an ally on their next turn. Advances Torment-path afflictions.',
+            description: 'Releases spores at a melee target, causing hallucinations that force them to attack an ally next turn. Advances Torment-path afflictions.',
             spellType: 'ACTION',
             icon: 'Nature/Single Leaf',
             school: 'Enchantment',
@@ -1550,7 +1550,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_sufferings_echo',
             name: "Suffering's Echo",
-            description: 'Intensifies the pain of a single afflicted target within 30 ft, doubling the damage of existing conditions and forcing a scream of agony that disorients them for 1 turn. Advances Amplify Pain-path afflictions.',
+            description: 'Doubles the damage of existing conditions on an afflicted target within 30 ft, forcing a disorienting scream for 1 turn. Advances Amplify Pain-path afflictions.',
             spellType: 'ACTION',
             icon: 'Psychic/Psionic Strike',
             school: 'Necromancy',
@@ -2166,7 +2166,7 @@ Many players enhance the Plaguebringer experience with:
 ,          {
             id: 'pb_virulent_touch',
             name: 'Virulent Touch',
-            description: 'Causes a virulent reaction in a single target in melee range. Your touch spreads a terrible plague that infects the target and those nearby. The disease spreads rapidly, causing ongoing suffering and advancing existing infections to more severe stages.',
+            description: 'Infects a melee target with a virulent plague that spreads to nearby foes, causing ongoing suffering and advancing existing infections to more severe stages.',
             spellType: 'ACTION',
             icon: 'Poison/Poison Contagion',
             school: 'Necromancy',

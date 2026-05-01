@@ -325,7 +325,7 @@ Shows 6 equipment slots with inscription status:
 - **Prompt**: "Inscribe up to 3 items (4 mana each)"
 - **Selection Menu**: Click equipment slot to open inscription options
 - **Inscription Options**: List of available inscriptions for that slot
-  * Weapon: "Flame (+1d6 fire)", "Frost (+1d6 cold)", "Force (+1d6 force)", etc.
+  * Weapon: "Flame (+1d6 fire)", "Frost (+1d6 frost)", "Force (+1d6 force)", etc.
   * Armor: "Thorn (reflect damage)", "Warding (+2 AC)", "Restoration (regen)", etc.
   * Boots: "Haste (+10 ft speed)", "Flight (fly 30 ft)", "Water Walking", etc.
 - **Cost Display**: "4 mana" shown for each inscription
@@ -506,7 +506,7 @@ SPECIALIZATIONS:
 3. Roll detonation damage for each rune:
    - Destruction: 4d8 fire → [7,6,5,8] = 26 fire damage
    - Protection: Allies gain 20 temp HP
-   - Frost: 3d6 cold → [5,4,6] = 15 cold damage, -10 ft speed
+   - Frost: 3d6 frost → [5,4,6] = 15 frost damage, -10 ft speed
    - Lightning: 3d8 lightning → [7,6,8] = 21 lightning damage
 4. **Lingering Effect**: All zones leave lingering aura for 2 turns
 5. Active runes: 4 - 4 = **0 runes**
@@ -554,16 +554,16 @@ DETONATION:
 ═══════════════════════════════════
 
 ═══════════════════════════════════
-   RUNE OF FROST (Cold)
+   RUNE OF FROST (Frost)
 ═══════════════════════════════════
 ZONE EFFECT (5 ft radius):
-• Enemies inside: -10 ft speed, +1d4 cold damage taken
+• Enemies inside: -10 ft speed, +1d4 frost damage taken
 
 ZONE SYNERGY (3+ runes):
-• Entire zone: -20 ft speed, +1d6 cold damage taken
+• Entire zone: -20 ft speed, +1d6 frost damage taken
 
 DETONATION:
-• Damage: 3d6 cold (CON save DC 15, half on save)
+• Damage: 3d6 frost (CON save DC 15, half on save)
 • Lingering: Slowing zone for 2 turns
 ═══════════════════════════════════
 \`\`\`
@@ -578,7 +578,7 @@ FLAME INSCRIPTION:
 • Duration: Until long rest
 
 FROST INSCRIPTION:
-• Weapon deals +1d6 cold damage
+• Weapon deals +1d6 frost damage
 • Target: -10 ft speed for 1 turn
 
 LIGHTNING INSCRIPTION:
@@ -598,7 +598,7 @@ WARDING INSCRIPTION:
 • Duration: Until long rest
 
 RESISTANCE INSCRIPTION:
-• Choose damage type: Fire, cold, lightning, or necrotic
+• Choose damage type: Fire, frost, lightning, or necrotic
 • Gain resistance to chosen type
 
 REFLECTION INSCRIPTION:
@@ -629,7 +629,7 @@ REFLECTION INSCRIPTION:
 1. "I detonate all runes!" (1 AP)
 2. Remove all 4 markers from map
 3. Destruction: 4d8 fire → [7,6,5,8] = 26 damage (Agility save)
-4. Frost: 3d6 cold → [5,4,6] = 15 damage (CON save)
+4. Frost: 3d6 frost → [5,4,6] = 15 damage (CON save)
 5. Lightning: 3d8 lightning → [7,6,8] = 21 damage (Agility save)
 6. Protection: All allies gain 20 temp HP
 7. Lingering effects remain for 2 turns
@@ -640,7 +640,7 @@ REFLECTION INSCRIPTION:
 **Method 1: Colored Tokens**
 - Red = Destruction (fire)
 - Blue = Protection (defense)
-- White = Frost (cold)
+- White = Frost (frost)
 - Yellow = Lightning (electric)
 - Visual and easy to identify
 
@@ -678,7 +678,7 @@ INSCRIPTION PLACEMENT:
 RUNE TYPES:
 • Destruction (fire): +1d6 fire damage dealt/taken
 • Protection (defense): +2 AC, +5 temp HP/turn
-• Frost (cold): -10 ft speed, +1d4 cold damage taken
+• Frost (frost): -10 ft speed, +1d4 frost damage taken
 • Lightning (electric): +1d6 lightning damage on entry
 
 STRATEGY:

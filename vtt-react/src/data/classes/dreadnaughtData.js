@@ -370,7 +370,7 @@ At 50 DRP, you're regenerating 5 HP every turn. In a 10-turn fight, that's 50 HP
 - **Effect**: Gain resistance to one damage type of your choice
 - **Activation**: Choose damage type when you first reach 10 DRP
 - **Change**: Can change damage type for 1 AP
-- **Types**: Slashing, piercing, bludgeoning, fire, cold, lightning, necrotic, radiant, etc.
+- **Types**: Slashing, piercing, bludgeoning, fire, frost, lightning, necrotic, radiant, etc.
 
 **Health Regeneration** (Requires 10+ DRP):
 - **Effect**: Regenerate HP at the start of each turn
@@ -593,7 +593,7 @@ At 10+ DRP, you gain passive benefits:
 50 DRP: +5 HP/turn
 \`\`\`
 
-**Resistance Tracker**: Use a token or die to show current resistance type (fire, cold, slashing, etc.).
+**Resistance Tracker**: Use a token or die to show current resistance type (fire, frost, slashing, etc.).
 
 **Example In-Person Turn**:
 
@@ -823,7 +823,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_dark_rebirth',
       name: 'Dark Rebirth',
-      description: 'When you are reduced to 0 hit points, you automatically spend all remaining Dark Resilience Points to claw yourself back from oblivion, regaining hit points equal to twice the DRP consumed. Requires at least 1 DRP. Once per long rest.',
+      description: 'At 0 HP, automatically spend all remaining DRP to return from oblivion, regaining HP equal to twice the DRP consumed. Requires at least 1 DRP. Once per long rest.',
       level: 1,
       spellType: 'PASSIVE',
       icon: 'Necrotic/Resurrect',
@@ -876,7 +876,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_shadow_shield',
       name: 'Shadow Shield',
-      description: 'You reach into the dark reservoir within you and shape it into a barrier of solidified shadow. The more pain you have endured, the thicker the shield — spend DRP freely to determine its strength. The barrier absorbs incoming damage equal to twice the DRP invested, then shatters in a cascade of dissipating darkness.',
+      description: 'Shape solidified shadow into a barrier. Spend DRP freely to determine its strength. Absorbs damage equal to twice the DRP invested, then shatters into dissipating darkness.',
       level: 1,
       spellType: 'REACTION',
       icon: 'Necrotic/Protective Aura',
@@ -996,7 +996,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_dark_regeneration',
       name: 'Dark Regeneration',
-      description: 'Channelling the stored pain within your soul into rapid cellular repair. Spend 5 Dark Resilience Points to activate a shadowy mending effect that restores health every turn based on your current DRP. The more pain you carry, the faster the darkness repairs you.',
+      description: 'Channel stored pain into rapid cellular repair. Spend 5 DRP to activate shadowy mending that restores health each turn based on your current DRP. More pain means faster healing.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Necrotic/Blood Skull',
@@ -1662,7 +1662,7 @@ Many players enhance the dreadnaught experience with:
               stat: 'damageResistance',
               magnitude: 1,
               magnitudeType: 'flat',
-              damageTypes: ['slashing','piercing','bludgeoning','fire','cold','lightning','acid','thunder','necrotic','radiant','psychic','poison','force']
+              damageTypes: ['slashing','piercing','bludgeoning','fire','frost','lightning','poison','necrotic','radiant','psychic','force']
             }
           },
           {
@@ -2168,7 +2168,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_soul_harvest',
       name: 'Death Mark',
-      description: 'You brand a single enemy with a mark of shadow that hungers for pain. Each time the marked target deals damage to you, you gain DRP equal to half the damage dealt (rounded down) — turning their aggression into your strength. The mark persists for 1 minute or until the target is slain.',
+      description: 'Brand an enemy with a shadow mark. Each time the marked target damages you, gain DRP equal to half damage dealt (rounded down). Persists for 1 minute or until the target is slain.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Necrotic/Death Mark',
@@ -2349,12 +2349,12 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'immortal_fortress_resistance',
             name: 'Fortress Resistance',
-            description: 'Resistance to all damage types not already immune (slashing, piercing, bludgeoning, fire, cold, lightning, acid, thunder, radiant, force)',
+            description: 'Resistance to all damage types not already immune (slashing, piercing, bludgeoning, fire, frost, lightning, poison, radiant, force)',
             statModifier: {
               stat: 'damageResistance',
               magnitude: 1,
               magnitudeType: 'flat',
-              damageTypes: ['slashing','piercing','bludgeoning','fire','cold','lightning','acid','thunder','radiant','force']
+              damageTypes: ['slashing','piercing','bludgeoning','fire','frost','lightning','poison','radiant','force']
             }
           }
         ],
@@ -2777,7 +2777,7 @@ Many players enhance the dreadnaught experience with:
     {
       id: 'dread_void_annihilation',
       name: 'Void Annihilation',
-      description: 'You become the void itself — a yawning darkness that swallows all light, life, and hope in range. Targets that fail their save are not merely harmed; they are unmade, their essence dissolving into the darkness that feeds you.',
+      description: 'Become the void itself — a yawning darkness that swallows all in range. Targets that fail their save are unmade, their essence dissolving into the darkness that feeds you.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Void/Black Hole',

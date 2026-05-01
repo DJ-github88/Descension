@@ -366,7 +366,7 @@ You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you.
     mechanics: {
       title: 'How It Works',
       content: `**Generating AEP**:
-- **Absorb Elements (Passive)**: Automatically absorb fire, cold, lightning, or necrotic damage. Gain 2 AEP for every point of magical damage taken.
+- **Absorb Elements (Passive)**: Automatically absorb fire, frost, lightning, or necrotic damage. Gain 2 AEP for every point of magical damage taken.
 - **Energy Conversion (Passive)**: Convert physical damage into AEP. Gain 1 AEP for every 2 points of physical damage taken.
 - **Mana Drain (Passive)**: When you hit with a melee attack, drain mana from the target equal to the damage dealt. Gain 1 AEP per mana drained.
 
@@ -389,7 +389,7 @@ You're the ultimate ANTI-MAGE TANK. Enemy spells don't hurt you—they FEED you.
       title: 'AEP Generation Sources',
       headers: ['Source', 'AEP Gained', 'Trigger', 'Notes'],
       rows: [
-        ['Absorb Elements', '2 per damage', 'Take magical damage', 'Fire, cold, lightning, necrotic'],
+        ['Absorb Elements', '2 per damage', 'Take magical damage', 'Fire, frost, lightning, necrotic'],
         ['Energy Conversion', '1 per 2 damage', 'Take physical damage', 'Less efficient than magical'],
         ['Mana Drain', '1 per mana', 'Melee hit', 'Drains mana equal to damage dealt'],
         ['Arcane Fortitude', '1.5x multiplier', 'Passive (Arcane Warden)', 'Spec-specific enhancement'],
@@ -478,7 +478,7 @@ SPELLGUARD RESOURCE TRACKING:
 ARCANE ENERGY POINTS (AEP): [___] / 100
 
 AEP GENERATION:
-• Magical damage (fire/cold/lightning/necrotic): 2 AEP per damage
+• Magical damage (fire/frost/lightning/necrotic): 2 AEP per damage
 • Physical damage: 1 AEP per 2 damage
 • Mana drain (melee hit): 1 AEP per mana drained
 • Arcane Warden spec: 3 AEP per magical damage (1.5x)
@@ -557,7 +557,7 @@ AEP SPENDING:
 ═══════════════════════════════════
 DAMAGE TYPE → AEP GAINED
 
-MAGICAL DAMAGE (fire/cold/lightning/necrotic):
+MAGICAL DAMAGE (fire/frost/lightning/necrotic):
 • Base: 2 AEP per damage
 • Arcane Warden: 3 AEP per damage (1.5x)
 • Example: 30 fire damage → 60 AEP (90 for Warden)
@@ -614,7 +614,7 @@ MANA DRAIN STRIKE (5 AEP):
 
 **Enemy Mage's Turn**:
 1. "The mage casts Ice Storm at your ally!"
-2. Ice Storm damage: 4d8 → [7,6,5,8] = 26 cold damage
+2. Ice Storm damage: 4d8 → [7,6,5,8] = 26 frost damage
 
 **Your Reaction - Barrier of Protection**:
 1. "I cast Barrier of Protection on my ally!" (20 AEP)
@@ -787,7 +787,7 @@ Many players enhance the Spellguard experience with:
 
         passiveAbility: {
           name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
+          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
           icon: 'Arcane/Ebon Blaze'
         },
 
@@ -834,7 +834,7 @@ Many players enhance the Spellguard experience with:
 
         passiveAbility: {
           name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
+          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
           icon: 'Arcane/Ebon Blaze'
         },
 
@@ -881,7 +881,7 @@ Many players enhance the Spellguard experience with:
 
         passiveAbility: {
           name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
+          description: 'All Spellguards passively absorb magical damage. Gain 2 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 2 points of physical damage taken.',
           icon: 'Arcane/Ebon Blaze'
         },
 
@@ -1350,7 +1350,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_elemental_resistance',
       name: 'Elemental Resistance',
-      description: 'Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, cold, lightning, or necrotic) for 1 minute.',
+      description: 'Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, frost, lightning, or necrotic) for 1 minute.',
       spellType: 'ACTION',
       icon: 'Nature/Centered',
       school: 'Abjuration',
@@ -1389,7 +1389,7 @@ Many players enhance the Spellguard experience with:
       effects: {
         buff: {
           type: 'elemental_resistance',
-          elements: ['fire', 'cold', 'lightning', 'necrotic'],
+          elements: ['fire', 'frost', 'lightning', 'necrotic'],
           chooseOne: true,
           duration: 1,
           durationType: 'minutes',

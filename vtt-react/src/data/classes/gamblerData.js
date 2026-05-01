@@ -30,7 +30,7 @@ export const GAMBLER_DATA = {
 **Best For**: Players who enjoy gambling mechanics, adjusting roll results, and unpredictable high-variance gameplay`
     },
 
-    description: `The Gambler is a daring risk-taker who manipulates luck and probability to gain an edge in combat. Embracing high-risk, high-reward strategies, Gamblers are known for their bold moves and their ability to turn the tide of battle with a well-placed bet. They thrive on chance and the thrill of unpredictability, using Fortune Points to influence outcomes and transform random chance into calculated advantage.`,
+    description: `A daring risk-taker who manipulates luck and probability. Gamblers embrace high-risk, high-reward strategies, using Fortune Points to turn chance into calculated advantage and swing battles on a single bet.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -699,7 +699,7 @@ Playing Gambler in person is uniquely satisfying because:
         color: '#c9aa71',
         theme: 'Luck Manipulation',
 
-        description: `Fortune's Favor Gamblers are masters of coin flips and probability manipulation. They specialize in bending luck to their will, granting rerolls, and influencing the outcomes of chance-based events. These Gamblers believe that fortune favors the bold—and they've learned to make fortune favor them specifically.`,
+        description: `Masters of coin flips and probability. Fortune's Favor Gamblers bend luck to their will, granting rerolls and shaping chance-based outcomes in their favor.`,
 
         playstyle: 'Probability control, reroll manipulation, consistent luck-based advantages',
 
@@ -721,7 +721,7 @@ Playing Gambler in person is uniquely satisfying because:
         uniquePassive: {
           name: "Lucky Streak",
           icon: 'Healing/Renewal',
-          description: 'After successfully landing 3 attacks or spells in a row, your next coin flip ability automatically succeeds on the favorable outcome without needing to flip. This effect resets after use or after missing an attack/spell.',
+          description: 'After 3 consecutive successful attacks/spells, your next coin flip auto-succeeds on the favorable outcome. Resets after use or after missing.',
           mechanicsNote: 'Rewards consistent play and reduces variance during hot streaks. Pairs well with low-risk attacks to build up guaranteed coin flip successes.'
         },
 
@@ -741,7 +741,7 @@ Playing Gambler in person is uniquely satisfying because:
         color: '#7a3b2e',
         theme: 'High Stakes Betting',
 
-        description: `High Roller Gamblers embrace extreme risk for extreme reward. They bet their own health, mana, and resources on the outcomes of their gambles, capable of achieving devastating results—or catastrophic failures. These Gamblers live for the thrill of putting everything on the line and coming out on top.`,
+        description: `Extreme risk for extreme reward. High Rollers bet their own HP, mana, and resources on gambles that yield devastating results or catastrophic failures—all or nothing, every time.`,
 
         playstyle: 'Extreme risk/reward, resource betting, all-or-nothing plays',
 
@@ -784,7 +784,7 @@ Playing Gambler in person is uniquely satisfying because:
         color: '#daa520',
         theme: 'Strategic Gambling',
 
-        description: `Card Sharp Gamblers are strategic masterminds who treat combat like a high-stakes card game. They specialize in prediction, pattern recognition, and calculated risks. These Gamblers use their keen analytical minds to turn randomness into advantage through careful observation and strategic play.`,
+        description: `Strategic masterminds who treat combat like a high-stakes card game. Card Sharps specialize in prediction, pattern recognition, and calculated risks, turning randomness into advantage through analysis.`,
 
         playstyle: 'Calculated risks, prediction mechanics, strategic gambling',
 
@@ -832,7 +832,7 @@ Playing Gambler in person is uniquely satisfying because:
         school: 'Luck Manipulation',
         level: 2,
 
-        description: 'Roll 4d12 before making an attack. The matching dice determine your damage multiplier. Four matching dice deal quadruple damage, three matching deal triple, two matching deal double. All different numbers causes you to take damage equal to the lowest die.',
+        description: 'Roll 4d12 before attacking. Matching dice set your multiplier: 4-of-a-kind deals 4x, triple deals 3x, pair deals 2x. All different? Take damage equal to the lowest die.',
 
         typeConfig: {
           castTime: 1,
@@ -1104,7 +1104,7 @@ Playing Gambler in person is uniquely satisfying because:
             { range: '15-15-15', result: '+5 to attack rolls and armor (10 minutes)', description: 'Combat enhancement' },
             { range: '14-14-14', result: 'Become ethereal - phase through objects (1 minute)', description: 'Utility/escape' },
             { range: '13-13-13', result: '4d10 lightning to 3 enemies in 30ft', description: 'Instant damage' },
-            { range: '12-12-12', result: 'Storm: 4d10 lightning + 4d10 thunder to all enemies in 40ft', description: 'AOE devastation' },
+            { range: '12-12-12', result: 'Storm: 8d10 lightning to all enemies in 40ft', description: 'AOE devastation' },
             { range: '11-11-11', result: 'Resistance to all damage + 2d10 radiant on next attack (1 hour)', description: 'Sustained power' },
             { range: '10-10-10', result: 'Advantage on attacks + heal 30 HP (1 hour)', description: 'Offensive boost' },
             { range: '9-9-9', result: 'Double spell damage but take 2d10 per spell (1 minute)', description: 'High risk/reward' },

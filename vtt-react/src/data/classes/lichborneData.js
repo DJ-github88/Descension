@@ -963,6 +963,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_grave_chill',
       name: 'Grave Chill',
+      level: 1,
       description: 'A spectral chill that deals damage and chills the target. If target is Frozen, deals additional damage.',
       category: 'basic_frost',
       spellType: 'ACTION',
@@ -1046,6 +1047,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_wraith_spear',
       name: 'Wraith Spear',
+      level: 1,
       description: 'Summon a spectral spear of ice that pierces through enemies, potentially freezing them.',
       category: 'freeze_control',
       spellType: 'ACTION',
@@ -1124,6 +1126,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_deathly_frost',
       name: 'Deathly Frost',
+      level: 2,
       description: 'Emit a burst of cold energy, damaging and freezing nearby enemies.',
       category: 'freeze_control',
       spellType: 'ACTION',
@@ -1203,6 +1206,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_glacial_shroud',
       name: 'Glacial Shroud',
+      level: 1,
       description: 'Encase yourself in ice, reducing damage taken and chilling attackers.',
       category: 'utility_support',
       spellType: 'ACTION',
@@ -1260,6 +1264,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_frozen_bastion',
       name: 'Frozen Bastion',
+      level: 2,
       description: 'Create a wall of ice that blocks movement and projectiles.',
       category: 'utility_support',
       spellType: 'ACTION',
@@ -1320,6 +1325,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_spectral_orb',
       name: 'Spectral Orb',
+      level: 3,
       description: 'Summon a spinning orb of ice that damages and chills enemies in its path.',
       category: 'aoe_devastation',
       spellType: 'ACTION',
@@ -1407,6 +1413,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_necrotic_blizzard',
       name: 'Necrotic Blizzard',
+      level: 4,
       description: 'Call forth a storm of necrotic ice shards that rains down in a designated area.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
@@ -1490,6 +1497,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_frostbite_curse',
       name: 'Frostbite Curse',
+      level: 1,
       description: 'Inflict a painful frostbite on a target, causing damage and reducing their effectiveness in combat.',
       category: 'basic_frost',
       spellType: 'ACTION',
@@ -1578,6 +1586,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_deathly_spikes',
       name: 'Deathly Spikes',
+      level: 3,
       description: 'Summon spikes of necrotic ice from the ground, impaling enemies and creating difficult terrain.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
@@ -1667,6 +1676,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_banshees_breath',
       name: "Banshee's Breath",
+      level: 3,
       description: 'Release a chilling wind that damages and pushes back enemies.',
       category: 'hybrid_necrotic',
       spellType: 'ACTION',
@@ -1753,6 +1763,7 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lb_cryostatic_tomb',
       name: 'Cryostatic Tomb',
+      level: 5,
       description: 'Place yourself or an ally in a protective ice block, healing and shielding them from harm.',
       category: 'utility_support',
       spellType: 'ACTION',
@@ -1829,14 +1840,14 @@ Many players enhance the Lichborne experience with:
     {
       id: 'lichborne_frost_bolt',
       name: 'Frost Bolt',
-      description: 'Launch a bolt of frost energy at your target, dealing cold damage and potentially slowing their movement.',
+      description: 'Launch a bolt of frost energy at your target, dealing frost damage and potentially slowing their movement.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen in Ice',
-        tags: ['attack', 'damage', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1887,7 +1898,7 @@ Many players enhance the Lichborne experience with:
         value: 0
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'frost', 'lichborne']
     },
     
     {
@@ -1900,7 +1911,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen in Ice',
-        tags: ['buff', 'defense', 'cold', 'lichborne'],
+        tags: ['buff', 'defense', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1937,7 +1948,7 @@ Many players enhance the Lichborne experience with:
         value: 3
       },
       resolution: 'DICE',
-      tags: ['buff', 'defense', 'cold', 'lichborne']
+      tags: ['buff', 'defense', 'frost', 'lichborne']
     },
 
     {
@@ -1995,7 +2006,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Shards',
-        tags: ['attack', 'damage', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2032,7 +2043,7 @@ Many players enhance the Lichborne experience with:
         value: 0
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'frost', 'lichborne']
     },
 
     {
@@ -2045,7 +2056,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Dripping Ice',
-        tags: ['control', 'cold', 'stun', 'lichborne'],
+        tags: ['control', 'frost', 'stun', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2087,7 +2098,7 @@ Many players enhance the Lichborne experience with:
         value: 2
       },
       resolution: 'DICE',
-      tags: ['control', 'cold', 'stun', 'lichborne']
+      tags: ['control', 'frost', 'stun', 'lichborne']
     },
 
     {
@@ -2157,7 +2168,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Orb',
-        tags: ['attack', 'damage', 'aoe', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'aoe', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2203,7 +2214,7 @@ Many players enhance the Lichborne experience with:
         value: 2
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'aoe', 'frost', 'lichborne']
     },
 
     {
@@ -2216,7 +2227,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frostbite Effect',
-        tags: ['attack', 'damage', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2255,7 +2266,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'frost', 'lichborne']
     },
 
     {
@@ -2268,7 +2279,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen in Ice',
-        tags: ['control', 'terrain', 'cold', 'zone', 'lichborne'],
+        tags: ['control', 'terrain', 'frost', 'zone', 'lichborne'],
         zoneDuration: 3,
         zoneDurationUnit: 'rounds',
         leaveTrail: false
@@ -2313,7 +2324,7 @@ Many players enhance the Lichborne experience with:
         value: 4
       },
       resolution: 'DICE',
-      tags: ['control', 'terrain', 'cold', 'zone', 'lichborne']
+      tags: ['control', 'terrain', 'frost', 'zone', 'lichborne']
     },
 
     // ===== LEVEL 4 SPELLS =====
@@ -2327,7 +2338,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Inflicted Ice Shard',
-        tags: ['attack', 'damage', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2367,7 +2378,7 @@ Many players enhance the Lichborne experience with:
         value: 2
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'frost', 'lichborne']
     },
 
     {
@@ -2380,7 +2391,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen AoE',
-        tags: ['control', 'damage', 'aoe', 'cold', 'lichborne'],
+        tags: ['control', 'damage', 'aoe', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2428,7 +2439,7 @@ Many players enhance the Lichborne experience with:
         value: 3
       },
       resolution: 'DICE',
-      tags: ['control', 'damage', 'aoe', 'cold', 'lichborne']
+      tags: ['control', 'damage', 'aoe', 'frost', 'lichborne']
     },
 
     {
@@ -2489,7 +2500,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen Wave',
-        tags: ['channeled', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
+        tags: ['channeled', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
         maxChannelDuration: 3,
         durationUnit: 'ROUNDS',
         interruptible: true,
@@ -2555,7 +2566,7 @@ Many players enhance the Lichborne experience with:
         value: 4
       },
       resolution: 'DICE',
-      tags: ['channeled', 'damage', 'control', 'aoe', 'cold', 'lichborne']
+      tags: ['channeled', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
 
     {
@@ -2568,7 +2579,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Icey wall',
-        tags: ['utility', 'control', 'terrain', 'cold', 'lichborne'],
+        tags: ['utility', 'control', 'terrain', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2607,7 +2618,7 @@ Many players enhance the Lichborne experience with:
         value: 5
       },
       resolution: 'DICE',
-      tags: ['utility', 'control', 'terrain', 'cold', 'lichborne']
+      tags: ['utility', 'control', 'terrain', 'frost', 'lichborne']
     },
 
     {
@@ -2620,7 +2631,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Shards',
-        tags: ['utility', 'buff', 'defense', 'cold', 'lichborne'],
+        tags: ['utility', 'buff', 'defense', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2657,7 +2668,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['utility', 'buff', 'defense', 'cold', 'lichborne']
+      tags: ['utility', 'buff', 'defense', 'frost', 'lichborne']
     },
 
     // ===== LEVEL 6 SPELLS =====
@@ -2671,7 +2682,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen Area',
-        tags: ['attack', 'damage', 'chain', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'chain', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2712,7 +2723,7 @@ Many players enhance the Lichborne experience with:
         value: 3
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'chain', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'chain', 'frost', 'lichborne']
     },
 
     {
@@ -2725,7 +2736,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Inflicted Ice Shard',
-        tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2784,7 +2795,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
 
     {
@@ -2848,7 +2859,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen Wave',
-        tags: ['damage', 'control', 'aoe', 'zone', 'cold', 'lichborne'],
+        tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne'],
         zoneDuration: 5,
         zoneDurationUnit: 'rounds',
         leaveTrail: false
@@ -2917,7 +2928,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['damage', 'control', 'aoe', 'zone', 'cold', 'lichborne']
+      tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne']
     },
 
     {
@@ -2930,7 +2941,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Orb',
-        tags: ['control', 'multi target', 'cold', 'lichborne'],
+        tags: ['control', 'multi target', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2972,7 +2983,7 @@ Many players enhance the Lichborne experience with:
         value: 4
       },
       resolution: 'DICE',
-      tags: ['control', 'multi target', 'cold', 'lichborne']
+      tags: ['control', 'multi target', 'frost', 'lichborne']
     },
 
     {
@@ -2986,7 +2997,7 @@ Many players enhance the Lichborne experience with:
         school: 'necrotic',
         secondaryElement: 'frost',
         icon: 'Necrotic/Necrotic Death',
-        tags: ['attack', 'damage', 'necrotic', 'cold', 'phylactery', 'lichborne'],
+        tags: ['attack', 'damage', 'necrotic', 'frost', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3018,7 +3029,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'necrotic', 'cold', 'phylactery', 'lichborne']
+      tags: ['attack', 'damage', 'necrotic', 'frost', 'phylactery', 'lichborne']
     },
 
     // ===== LEVEL 8 SPELLS =====
@@ -3032,7 +3043,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen in Ice',
-        tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne'],
+        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -3090,7 +3101,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'lichborne']
+      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
 
     {
@@ -3103,7 +3114,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Icey wall',
-        tags: ['control', 'single target', 'cold', 'lichborne'],
+        tags: ['control', 'single target', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3146,7 +3157,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['control', 'single target', 'cold', 'lichborne']
+      tags: ['control', 'single target', 'frost', 'lichborne']
     },
 
     {
@@ -3160,7 +3171,7 @@ Many players enhance the Lichborne experience with:
         school: 'frost',
         secondaryElement: 'necrotic',
         icon: 'Frost/Frozen in Ice',
-        tags: ['buff', 'damage', 'aura', 'cold', 'necrotic', 'lichborne'],
+        tags: ['buff', 'damage', 'aura', 'frost', 'necrotic', 'lichborne'],
         stateVisibility: 'visible',
         cooldownAfterTrigger: 0,
         cooldownUnit: 'seconds',
@@ -3213,7 +3224,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['buff', 'damage', 'aura', 'cold', 'necrotic', 'lichborne']
+      tags: ['buff', 'damage', 'aura', 'frost', 'necrotic', 'lichborne']
     },
 
     // ===== LEVEL 9 SPELLS =====
@@ -3227,7 +3238,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frozen Wave',
-        tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'epic', 'lichborne'],
+        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'epic', 'lichborne'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
@@ -3286,7 +3297,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'cold', 'epic', 'lichborne']
+      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'epic', 'lichborne']
     },
 
     {
@@ -3347,7 +3358,7 @@ Many players enhance the Lichborne experience with:
         grantedAbilities: [
           { id: 'frost_control', name: 'Frost Aura Mastery', description: 'Eternal Frost Aura no longer drains your HP' },
           { id: 'phylactery_boost', name: 'Phylactery Surge', description: 'Phylactery can resurrect you once even if empty' },
-          { id: 'cold_immunity', name: 'Cold Immunity', description: 'Immune to cold damage' }
+          { id: 'frost_immunity', name: 'Frost Immunity', description: 'Immune to frost damage' }
         ]
       },
       targetingConfig: {
@@ -3379,7 +3390,7 @@ Many players enhance the Lichborne experience with:
         school: 'necrotic',
         secondaryElement: 'frost',
         icon: 'Psychic/Mind Strike',
-        tags: ['attack', 'damage', 'aoe', 'necrotic', 'cold', 'phylactery', 'epic', 'lichborne'],
+        tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'epic', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -3412,7 +3423,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'necrotic', 'cold', 'phylactery', 'epic', 'lichborne']
+      tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'epic', 'lichborne']
     },
 
     // ===== LEVEL 10 SPELLS =====
@@ -3426,7 +3437,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Frost Freeze 1',
-        tags: ['control', 'aoe', 'cold', 'time', 'legendary', 'lichborne'],
+        tags: ['control', 'aoe', 'frost', 'time', 'legendary', 'lichborne'],
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
@@ -3471,7 +3482,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['control', 'aoe', 'cold', 'time', 'legendary', 'lichborne']
+      tags: ['control', 'aoe', 'frost', 'time', 'legendary', 'lichborne']
     },
 
     {
@@ -3542,7 +3553,7 @@ Many players enhance the Lichborne experience with:
       typeConfig: {
         school: 'frost',
         icon: 'Frost/Ice Crystal Rune',
-        tags: ['attack', 'damage', 'control', 'terrain', 'cold', 'legendary', 'lichborne'],
+        tags: ['attack', 'damage', 'control', 'terrain', 'frost', 'legendary', 'lichborne'],
         castTime: 5,
         castTimeType: 'IMMEDIATE'
       },
@@ -3612,7 +3623,7 @@ Many players enhance the Lichborne experience with:
         value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'terrain', 'cold', 'legendary', 'lichborne']
+      tags: ['attack', 'damage', 'control', 'terrain', 'frost', 'legendary', 'lichborne']
     }
   ],
 

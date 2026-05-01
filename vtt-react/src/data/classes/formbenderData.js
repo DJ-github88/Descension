@@ -30,7 +30,7 @@ export const FORMBENDER_DATA = {
 **Best For**: Players who enjoy tactical flexibility, mastering multiple combat styles, and the satisfaction of transforming to perfectly counter any battlefield situation`
     },
     
-    description: `The Formbender is a versatile shapeshifter who channels primal energy through four distinct wild forms. By gathering Wild Instinct through form-specific actions, Formbenders can unleash devastating abilities, adapt to any combat situation, and embody the raw power of nature itself. Each form offers unique strengths and playstyles, from the stealthy Nightstalker to the resilient Ironhide, the aerial Skyhunter, and the pack-focused Frostfang.`,
+    description: `A versatile shapeshifter channeling primal energy through four wild forms—Nightstalker, Ironhide, Skyhunter, and Frostfang—gathering Wild Instinct to unleash devastating adaptive abilities.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -639,7 +639,7 @@ Frostfang
         color: '#9932CC',
         theme: 'Chimeric Hybrid Forms & Adaptive Evolution',
 
-        description: `Metamorphs transcend the limitations of single forms, creating chimeric hybrids that combine traits from multiple creatures. They can merge forms together, creating unique combinations like a bear with eagle wings or a panther with serpent fangs. Their mastery lies in adaptation and versatility.`,
+        description: `Metamorphs transcend single forms, creating chimeric hybrids that merge traits from multiple creatures. Their mastery lies in boundless adaptation and versatility.`,
 
         playstyle: 'Hybrid form creation, multi-trait combinations, adaptive combat',
 
@@ -659,7 +659,7 @@ Frostfang
 
         specPassive: {
           name: 'Chimeric Fusion',
-          description: 'You can merge two base forms together, creating hybrid forms with combined traits. Hybrid forms cost 2 WI to activate but grant abilities from both parent forms. You can also manifest partial transformations (wings, claws, gills) without fully shapeshifting.'
+          description: 'Merge two base forms into a hybrid with combined traits (costs 2 WI). You can also manifest partial transformations (wings, claws, gills) without fully shapeshifting.'
         },
 
         keyAbilities: [
@@ -678,7 +678,7 @@ Frostfang
         color: '#8B0000',
         theme: 'Form Theft & Enemy Mimicry',
 
-        description: `Form Thieves possess the dark art of stealing forms from defeated enemies, adding them to their repertoire. They can transform into humanoids, monsters, and even magical creatures they've slain, perfectly mimicking their abilities and appearance. This forbidden magic makes them master infiltrators and adaptable combatants.`,
+        description: `Form Thieves steal the shapes of slain enemies, perfectly mimicking any creature they've killed. They build a growing repertoire of forms, becoming master infiltrators.`,
 
         playstyle: 'Form collection, enemy mimicry, infiltration, stolen abilities',
 
@@ -698,7 +698,7 @@ Frostfang
 
         specPassive: {
           name: 'Harvest Form',
-          description: 'When you reduce a creature to 0 HP, you can spend 5 WI to steal its form. You can transform into stolen forms, gaining their physical stats, racial abilities, and appearance. You can store up to 10 stolen forms. Transforming into a stolen form costs 2 WI.'
+          description: 'When you reduce a creature to 0 HP, spend 5 WI to steal its form (stats, racial abilities, appearance). Store up to 10 stolen forms. Transforming into one costs 2 WI.'
         },
 
         keyAbilities: [
@@ -717,7 +717,7 @@ Frostfang
         color: '#FF4500',
         theme: 'Ancient Elemental Transformations',
 
-        description: `Primordials channel the ancient power of the elemental planes, transforming into primal elemental beings of fire, water, earth, and air. These transformations are more powerful than standard forms but come with elemental vulnerabilities. They embody raw elemental fury and can reshape the battlefield itself.`,
+        description: `Primordials channel elemental planes, transforming into primal beings of fire, water, earth, and air. More powerful than standard forms but with elemental vulnerabilities.`,
 
         playstyle: 'Elemental transformations, environmental manipulation, high-risk high-reward',
 
@@ -737,13 +737,13 @@ Frostfang
 
         specPassive: {
           name: 'Elemental Ascension',
-          description: 'You replace your base forms with four elemental forms: Inferno (fire), Tsunami (water), Avalanche (earth), and Tempest (air). Each grants immunity to its element, vulnerability to its opposite, and the ability to manipulate that element within 30 feet.'
+          description: 'Replace base forms with elemental forms (Inferno, Tsunami, Avalanche, Tempest). Each grants its element\'s immunity, opposite vulnerability, and 30 ft element manipulation.'
         },
 
         keyAbilities: [
-          'Inferno Form: Become living fire, dealing 1d6 fire damage to adjacent enemies each round, immune to fire, vulnerable to cold',
+          'Inferno Form: Become living fire, dealing 1d6 fire damage to adjacent enemies each round, immune to fire, vulnerable to frost',
           'Tsunami Form: Become living water, gain swim speed 60ft, breathe underwater, create water walls, vulnerable to lightning',
-          'Avalanche Form: Become living stone, gain +5 AC, tremorsense 30ft, reshape earth, vulnerable to thunder',
+          'Avalanche Form: Become living stone, gain +5 AC, tremorsense 30ft, reshape earth, vulnerable to lightning',
           'Tempest Form: Become living wind, gain fly speed 60ft, create wind barriers, vulnerable to being grounded'
         ],
 
@@ -1006,7 +1006,7 @@ Frostfang
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['aoe', 'thunder', 'crowd control', 'ironhide', 'feral shifter']
+        tags: ['aoe', 'lightning', 'crowd control', 'ironhide', 'feral shifter']
       },
 
       targetingConfig: {
@@ -1082,7 +1082,7 @@ Frostfang
         }
       },
 
-      tags: ['aoe', 'thunder', 'crowd control', 'ironhide', 'feral shifter'],
+      tags: ['aoe', 'lightning', 'crowd control', 'ironhide', 'feral shifter'],
       flavorText: 'The bear\'s roar shakes the very earth.'
     },
 
@@ -1331,7 +1331,7 @@ Frostfang
     {
       id: 'fb_frostbite_strike',
       name: 'Frostbite Strike',
-      description: 'Bite with frost-infused fangs, dealing cold damage and applying slowing effects.',
+      description: 'Bite with frost-infused fangs, dealing frost damage and applying slowing effects.',
       spellType: 'ACTION',
       icon: 'Frost/Ice Orb',
       school: 'Evocation',
@@ -1341,7 +1341,7 @@ Frostfang
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['cold', 'physical', 'crowd control', 'frostfang', 'feral shifter']
+        tags: ['frost', 'physical', 'crowd control', 'frostfang', 'feral shifter']
       },
 
       targetingConfig: {
@@ -1410,7 +1410,7 @@ Frostfang
         }
       },
 
-      tags: ['cold', 'physical', 'crowd control', 'frostfang', 'feral shifter'],
+      tags: ['frost', 'physical', 'crowd control', 'frostfang', 'feral shifter'],
       flavorText: 'The wolf\'s bite carries the chill of winter.'
     },
 
@@ -2273,7 +2273,7 @@ Frostfang
     {
       id: 'formbender_beast_form_partial',
       name: 'Beast Form (Partial)',
-      description: 'Take on aspects of one of your forms for 1 minute without fully transforming. Gain benefits of one form aspect: Nightstalker (stealth), Ironhide (armor), Skyhunter (flight), or Frostfang (pack tactics).',
+      description: 'Adopt one form aspect for 1 minute without fully transforming: Nightstalker stealth, Ironhide armor, Skyhunter flight, or Frostfang pack tactics.',
       spellType: 'ACTION',
       icon: 'Piercing/Backstab',
       school: 'Physical',
@@ -2690,7 +2690,7 @@ Frostfang
         newForm: 'Primal Avatar',
         description: 'Channel the essence of all primal forms simultaneously.',
         grantedAbilities: [
-          { id: 'all_form_benefits', name: 'All Form Benefits', description: 'Gain the passive benefits of all four primal forms simultaneously: Feral Shifter (stealth bonuses and movement), Stormbringer (elemental damage and area effects), Earthwarden (defensive bonuses and terrain control), and Flamecaller (fire damage and burning effects). This ultimate form combines the strengths of every primal aspect.' },
+          { id: 'all_form_benefits', name: 'All Form Benefits', description: 'Gain all four primal form passives at once: Feral Shifter stealth, Stormbringer elemental damage, Earthwarden defense, and Flamecaller fire. This ultimate form unites every primal aspect.' },
           { id: 'free_switching', name: 'Free Switching', description: 'Form transitions cost 0 Wild Instinct' },
           { id: 'avatar_instinct', name: '+2 Wild Instinct/Round', description: 'Generate +2 Wild Instinct each round' },
           { id: 'avatar_stats', name: '+3 All Stats', description: 'Gain +3 to all attributes' }

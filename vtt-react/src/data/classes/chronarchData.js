@@ -238,7 +238,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         color: '#4169E1',
         theme: 'Control and Battlefield Manipulation',
 
-        description: 'Masters of temporal control and battlefield manipulation, these Chronarchs excel at freezing enemies and manipulating battlefield positioning. Their spells generate fewer Time Shards but their Flux abilities are more efficient, causing less Strain.',
+        description: 'Masters of freezing enemies and controlling the battlefield. Generate fewer Shards but Flux abilities cost less Strain, making sustained control easier.',
 
         playstyle: 'Control and battlefield manipulation',
 
@@ -298,7 +298,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         color: '#87CEEB',
         theme: 'Support and Damage Mitigation',
 
-        description: 'Support-focused Chronarchs who specialize in healing and damage reversal. They generate more Time Shards from their spells and have powerful restorative Flux abilities, though with higher Strain costs.',
+        description: 'Healing and damage reversal specialists. Generate more Shards per spell and wield powerful restorative Flux abilities, though at higher Strain cost.',
 
         playstyle: 'Support and damage mitigation',
 
@@ -663,7 +663,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
     {
       id: 'chrono_echo',
       name: 'Chrono Echo',
-      description: 'Create temporal echoes of yourself that ripple through time, confusing enemies and providing tactical advantage.',
+      description: 'Create temporal echoes that ripple through time, confusing enemies and granting tactical advantage.',
       level: 2,
       icon: 'Arcane/Ebon Blaze',
       spellType: 'ACTION',
@@ -704,7 +704,7 @@ In the final moments, with Strain at 4, you spend your last 4 Shards on Temporal
         effects: [{
           id: 'chrono_echo',
           name: 'Chrono Echo',
-          description: 'Creates temporal echoes that provide flanking opportunities and grant allies advantage on attacks. The echoes are fragments of past and future actions, creating tactical advantages as allies can strike from multiple temporal angles.',
+          description: 'Creates temporal echoes that grant allies advantage on attacks and flanking bonuses through fragments of past and future actions.',
           config: {
             echoType: 'tactical',
             flankingBonus: true,

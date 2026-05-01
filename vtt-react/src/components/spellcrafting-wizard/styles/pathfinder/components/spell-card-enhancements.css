@@ -457,11 +457,7 @@
     font-family: var(--pf-font-body, 'Cinzel', serif) !important;
 }
 
-/* Race selector spell card headers - use dark pathfinder red instead of beige */
-.race-selector-container .unified-spell-card .unified-spell-card-header,
-.race-selector-container .pf-spell-card .pf-spell-card-header {
-    background: linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%) !important;
-}
+/* Race selector spell card headers - uses unified dark pathfinder red */
 
 /* ===== RULES PAGE SPECIFIC STYLING TO MATCH SPELLBOOK ===== */
 /* Make rules page spell cards look identical to spellbook */

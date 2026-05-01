@@ -142,7 +142,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #2 (5 mana, builder spell)
 **Attack Roll**: d20+5 → [16] = Hit!
-**Damage**: 2d6 thunder → [5, 6] = **11 thunder damage**
+**Damage**: 2d6 lightning → [5, 6] = **11 lightning damage**
 **Musical Note Generated**: III (Mediant)
 
 *You strike your drum with a thunderous CRASH. The sound wave SLAMS into the bandit, knocking him back.*
@@ -226,7 +226,7 @@ Different instruments provide different bonuses and affect your playstyle:
 
 **Your Action**: Cast "Harmonic Strike" at Bandit #5 (5 mana)
 **Attack Roll**: d20+5 → [17] = Hit!
-**Damage**: 2d6 thunder → [6, 5] = **11 thunder damage**
+**Damage**: 2d6 lightning → [6, 5] = **11 lightning damage**
 **Musical Note Generated**: III (Mediant)
 **Result**: Bandit #5 DEAD
 
@@ -932,7 +932,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '1d6',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct'
       },
 
@@ -1319,7 +1319,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '1d8 + spirit',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct'
       },
 
@@ -1327,7 +1327,7 @@ Before combat, decide which cadences you want to prioritize:
         damage: {
           instant: {
             formula: '1d8 + spirit',
-            type: 'thunder'
+            type: 'lightning'
           }
         }
       },
@@ -1534,7 +1534,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '2d6 + spirit',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct'
       },
 
@@ -1542,7 +1542,7 @@ Before combat, decide which cadences you want to prioritize:
         damage: {
           instant: {
             formula: '2d6 + spirit',
-            type: 'thunder'
+            type: 'lightning'
           }
         }
       },
@@ -1740,7 +1740,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '3d6 + spirit',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct'
       },
 
@@ -1748,7 +1748,7 @@ Before combat, decide which cadences you want to prioritize:
         damage: {
           dot: {
             formula: '3d6 + spirit',
-            type: 'thunder',
+            type: 'lightning',
             duration: 3,
             interval: 'turn'
           }
@@ -2059,7 +2059,7 @@ Before combat, decide which cadences you want to prioritize:
     {
       id: 'minstrel_symphony_of_destruction',
       name: 'Symphony of Destruction',
-      description: 'Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive thunder damage to all enemies in a large area.',
+      description: 'Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive lightning damage to all enemies in a large area.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Nature/Earth Shatter',
@@ -2067,7 +2067,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'evocation',
         icon: 'Nature/Earth Shatter',
-        tags: ['damage', 'aoe', 'thunder', 'resolver', 'level 7'],
+        tags: ['damage', 'aoe', 'lightning', 'resolver', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2095,7 +2095,7 @@ Before combat, decide which cadences you want to prioritize:
 
       damageConfig: {
         formula: '10d6 + spirit',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct',
         criticalConfig: {
           enabled: true,
@@ -2138,7 +2138,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 4
       },
 
-      tags: ['damage', 'aoe', 'thunder', 'resolver', 'level 7']
+      tags: ['damage', 'aoe', 'lightning', 'resolver', 'level 7']
     },
 
     {

@@ -215,7 +215,7 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 
 *You are at maximum inferno. +10 fire damage. But you're taking 5 damage per turn from gluttony, you can't accept healing from allies (pride), you must attack whoever hurts you (wrath), and you need half the treasure (greed).*
 
-**Ice Elemental's Turn**: Casts Frost Nova at you → 18 cold damage
+**Ice Elemental's Turn**: Casts Frost Nova at you → 18 frost damage
 **HP**: 33 - 18 = 15/45
 
 **Wrath Triggered**: You MUST attack the ice elemental next turn (fortunately, that's your target anyway)
@@ -807,7 +807,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_cooling_ember',
       name: 'Cooling Ember',
-      description: 'A calming spell that soothes the infernal fire raging within you. The cooling ember draws away excess heat, restoring your body and helping you maintain control over your demonic corruption. Essential for managing the dangerous power you wield.',
+      description: 'Soothes the infernal fire within, drawing away excess heat to restore your body and maintain control over demonic corruption. Essential for managing your dangerous power.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Fire/Dragon Breath',
@@ -854,7 +854,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_heat_shield',
       name: 'Heat Shield',
-      description: 'Create a barrier of heat around yourself. The shimmering air distorts vision as waves of heat radiate outward, absorbing and dispersing incoming attacks. The shield glows with inner fire, protecting you from harm.',
+      description: 'Surround yourself with a shimmering heat barrier that distorts vision, absorbing and dispersing incoming attacks. The shield glows with protective inner fire.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Divinity',
@@ -918,7 +918,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_scorching_grasp',
       name: 'Scorching Grasp',
-      description: 'Flames envelop your hand as you reach for your enemy. The searing heat burns through armor and flesh on contact, leaving scorched marks where your hand touches. The fire clings to the target, continuing to burn.',
+      description: 'Flames envelop your hand, searing through armor and flesh on contact. The fire clings to the target, continuing to burn after the grasp ends.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Fire/Scorching Rune',
@@ -1287,7 +1287,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_infernal_blast',
       name: 'Infernal Blast',
-      description: 'A concentrated blast of demonic fire that erupts from your hands. The infernal energy burns with intense heat, searing through defenses and leaving nothing but ash in its wake. The blast is focused and devastating.',
+      description: 'A concentrated blast of demonic fire that erupts from your hands, searing through defenses and leaving nothing but ash in its wake.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Fire/Infernal Fire',
@@ -1757,7 +1757,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_infernal_brand_advanced',
       name: 'Infernal Brand (Advanced)',
-      description: 'Mark your enemy with a burning brand that sears into their flesh. The infernal sigil glows with inner fire, continuing to burn and weaken them over time. The searing mark saps their strength as the flames consume them.',
+      description: 'Mark an enemy with a burning infernal sigil that sears into their flesh, dealing ongoing fire damage and sapping their strength as flames consume them.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Fire/Fiery Symbol',
@@ -2570,7 +2570,7 @@ Many players enhance the experience by adding thematic elements:
     {
       id: 'pyro_inferno_mastery',
       name: 'Inferno Mastery',
-      description: 'Master the art of infernal fire, unleashing a massive inferno that consumes everything in its path. This ultimate display of pyromantic power demonstrates complete control over flame, creating a cataclysmic explosion of fire that leaves nothing but ash and cinders.',
+      description: 'Unleash a cataclysmic inferno that consumes everything in its path. This ultimate display of pyromantic mastery creates a massive explosion leaving nothing but ash and cinders.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Fire/Fire Orb',

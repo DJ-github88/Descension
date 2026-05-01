@@ -820,30 +820,35 @@ export const formatEffectComponent = (spell, effectType, subType = null) => {
   return effectType.charAt(0).toUpperCase() + effectType.slice(1);
 };
 
-// Get color for damage type
+const DAMAGE_TYPE_COLORS = {
+  fire: '#8B1A1A',
+  frost: '#2C5F7C',
+  lightning: '#8B7328',
+  nature: '#2D5A1E',
+  arcane: '#5B3A8C',
+  force: '#7A3B6E',
+  necrotic: '#3D1F4E',
+  radiant: '#8B7328',
+  poison: '#2D6A3F',
+  psychic: '#7A2E6E',
+  chaos: '#7A2040',
+  void: '#1A1A2E',
+  bludgeoning: '#5C4033',
+  piercing: '#5A6A72',
+  slashing: '#6B2D2D',
+  physical: '#5A6A72',
+  magical: '#5B3A8C',
+  acid: '#2D6A3F',
+  thunder: '#8B7328',
+  cold: '#2C5F7C',
+  ice: '#2C5F7C',
+  shadow: '#3D1F4E',
+  holy: '#8B7328',
+  electric: '#8B7328'
+};
+
 export const getDamageTypeColor = (type) => {
-  const typeColors = {
-    fire: '#ef4444',
-    frost: '#38bdf8',
-    arcane: '#a855f7',
-    nature: '#22c55e',
-    shadow: '#6b21a8',
-    holy: '#f59e0b',
-    lightning: '#facc15',
-    physical: '#9ca3af',
-    acid: '#84cc16',
-    poison: '#10b981',
-    psychic: '#8b5cf6',
-    radiant: '#fbbf24',
-    necrotic: '#7e22ce',
-    thunder: '#3b82f6',
-    force: '#ec4899',
-    cold: '#0ea5e9',
-    bludgeoning: '#94a3b8',
-    piercing: '#94a3b8',
-    slashing: '#94a3b8'
-  };
-  return typeColors[type?.toLowerCase()] || '#9ca3af';
+  return DAMAGE_TYPE_COLORS[type?.toLowerCase()] || '#5A6A72';
 };
 
 // Format cooldown text
@@ -982,17 +987,8 @@ export const getRarityClass = (rarity) => {
   return rarity.toLowerCase();
 };
 
-// Get border color based on school
 export const getBorderColor = (spell) => {
-  if (!spell.school) return '#3b3b3b';
-
-  const schoolLower = spell.school.toLowerCase();
-  if (schoolLower === 'fire') return '#ef4444';
-  if (schoolLower === 'frost' || schoolLower === 'cold') return '#38bdf8';
-  if (schoolLower === 'arcane') return '#a855f7';
-  if (schoolLower === 'nature') return '#22c55e';
-  if (schoolLower === 'shadow') return '#6b21a8';
-  if (schoolLower === 'holy') return '#f59e0b';
-  if (schoolLower === 'lightning') return '#facc15';
-  return '#3b3b3b';
+  const school = spell.school || spell.typeConfig?.school || spell.damageConfig?.elementType;
+  if (!school) return '#3D1F4E';
+  return getDamageTypeColor(school);
 };

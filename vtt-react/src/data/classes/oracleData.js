@@ -30,7 +30,7 @@ export const ORACLE_DATA = {
 **Best For**: Players who love reading the battlefield, making bold calls, and turning foresight into devastating tactical advantage`
     },
 
-    description: `Oracles are mystics who pierce the veil between past, present, and future. Through prophetic visions, they glimpse hidden truths, foresee coming events, and manipulate the threads of fate itself. Unlike the Gambler who relies on luck, or the Chronarch who manipulates time, Oracles see the tapestry of destiny and can subtly alter its weave. Their power grows when their predictions prove true, rewarding insight and foresight.`,
+    description: `Mystics who pierce the veil between past, present, and future. Oracles glimpse hidden truths, manipulate fate's threads, and grow stronger when their predictions prove true—rewarding insight over luck.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -872,7 +872,7 @@ Many players enhance the Oracle experience with:
         color: '#9370DB',
         theme: 'Future Sight & Prediction Mastery',
         
-        description: `Seers specialize in glimpsing the future, making their predictions more accurate and rewarding. They can see multiple possible futures and guide allies toward the best outcomes. Their visions of what's to come make them invaluable tactical advisors.`,
+        description: `Seers glimpse possible futures and guide allies toward the best outcomes. Their predictions are more accurate and rewarding, making them invaluable tactical advisors.`,
         
         playstyle: 'Prediction focus, future sight, tactical foresight, ally guidance',
         
@@ -892,7 +892,7 @@ Many players enhance the Oracle experience with:
         
         specPassive: {
           name: 'Prophetic Clarity',
-          description: 'Your predictions grant +1 additional Vision when correct. You can make predictions without spending action points (once per round). When you make a correct specific or precise prediction, you can immediately make another prediction without spending action points.'
+          description: 'Correct predictions grant +1 Vision. Make 1 free prediction per round (0 AP). Correct specific/precise predictions let you immediately predict again for free.'
         },
         
         keyAbilities: [
@@ -911,7 +911,7 @@ Many players enhance the Oracle experience with:
         color: '#FFD700',
         theme: 'Past Sight & Hidden Knowledge',
 
-        description: `Truthseekers peer into the past and uncover hidden truths. They can read the history of objects, see through lies and illusions, and reveal secrets long buried. Their power comes from knowledge itself, making them master investigators and lore keepers.`,
+        description: `Truthseekers peer into the past and uncover hidden truths—reading object histories, seeing through lies and illusions, revealing buried secrets. Knowledge is their power.`,
 
         playstyle: 'Information gathering, lie detection, secret revelation, investigation',
 
@@ -931,7 +931,7 @@ Many players enhance the Oracle experience with:
 
         specPassive: {
           name: 'All-Seeing Eye',
-          description: 'You automatically detect lies, illusions, and hidden creatures within 30 feet. When you reveal a hidden truth (trap, secret door, disguised enemy, etc.), gain 1 Vision. You can touch an object to see its history for the past 24 hours.'
+          description: 'Auto-detect lies, illusions, and hidden creatures within 30 ft. Gain 1 Vision when revealing a hidden truth. Touch an object to see its last 24 hours.'
         },
 
         keyAbilities: [
@@ -950,7 +950,7 @@ Many players enhance the Oracle experience with:
         color: '#FF1493',
         theme: 'Destiny Manipulation & Fate Alteration',
 
-        description: `Fateweavers don't just see destiny - they reshape it. By manipulating the threads of fate, they can force rerolls, alter outcomes, and bend probability to their will. They are aggressive Vision spenders who actively change the course of events rather than merely predicting them.`,
+        description: `Fateweavers reshape destiny itself. By manipulating fate's threads, they force rerolls, alter outcomes, and bend probability, aggressively spending Visions to rewrite events.`,
 
         playstyle: 'Fate manipulation, reroll forcing, outcome alteration, aggressive Vision spending',
 
@@ -970,7 +970,7 @@ Many players enhance the Oracle experience with:
 
         specPassive: {
           name: 'Threads of Destiny',
-          description: 'You can see the glowing threads of fate connecting all creatures. Once per round as a reaction, you can spend 1 Vision to force any creature within 60 feet to reroll an attack, save, or ability check. You choose which result they use.'
+          description: 'Once per round as a reaction, spend 1 Vision to force a creature within 60 ft to reroll an attack, save, or check. You choose which result is used.'
         },
 
         keyAbilities: [

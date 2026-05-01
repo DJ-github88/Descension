@@ -2238,7 +2238,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_harmony_power',
           name: 'Harmonic Power',
-          description: 'Allows you to combine and maintain benefits from multiple stances simultaneously. The perfect harmony between stances creates a unified combat style that transcends any single form. Requires concentration to maintain this delicate balance.',
+          description: 'Combine and maintain benefits from multiple stances simultaneously. Perfect harmony creates a unified combat style transcending any single form. Requires concentration.',
           statModifier: {
             stat: 'multiStanceBenefits',
             magnitude: 1,
@@ -2351,7 +2351,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'rapid_transitions',
           name: 'Rapid Flow',
-          description: 'Gain +1 stance transition cost reduction (minimum cost of 1), allowing you to change stances more efficiently. Additionally, each stance transition generates +1 Momentum, rewarding your fluid combat style.',
+          description: '+1 stance transition cost reduction (minimum 1) for more efficient stance changes. Each transition generates +1 Momentum, rewarding your fluid combat style.',
           statModifier: {
             stat: 'transitionCostReduction',
             magnitude: 1,
@@ -2659,7 +2659,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_echo_benefits',
           name: 'Echo Benefits',
-          description: 'Gain +2 to multi-stance echo, allowing you to retain partial benefits from your last 2 stances you used. This passive ability lets you maintain a lingering connection to recently used stances, creating a seamless flow between your combat forms.',
+          description: 'Gain +2 multi-stance echo, retaining partial benefits from your last 2 used stances. A lingering connection to recently used forms creates seamless flow between combat styles.',
           statModifier: {
             stat: 'multiStanceEcho',
             magnitude: 2,

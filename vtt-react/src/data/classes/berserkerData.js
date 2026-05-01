@@ -1094,7 +1094,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '1d4',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct',
         description: 'Concussive sonic force batters nearby enemies.'
       },
@@ -1267,7 +1267,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_primal_roar',
       name: 'Primal Roar',
-      description: 'Unleash a deafening roar that deals thunder damage and sends enemies fleeing in terror. Constitution save halves damage and negates fear.',
+      description: 'Unleash a deafening roar that deals lightning damage and sends enemies fleeing in terror. Constitution save halves damage and negates fear.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Utility/Overlords Command',
@@ -1301,7 +1301,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '2d6 + strength',
-        elementType: 'thunder',
+        elementType: 'lightning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2852,7 +2852,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_veterans_resolve',
       name: 'Veteran\'s Resolve',
-      description: 'Draw upon years of brutal combat experience, hardening your strikes with deadly precision for 3 rounds. This focused fury demands you remain aggressive - if you do not attack on your turn, the effect ends immediately.',
+      description: 'Channel brutal combat experience, hardening strikes with deadly precision for 3 rounds. This fury demands aggression—if you don\'t attack on your turn, the effect ends.',
       level: 9,
       spellType: 'ACTION',
       icon: 'General/Rage',
@@ -2913,7 +2913,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_bloodrage_frenzy',
       name: 'Bloodrage Frenzy',
-      description: 'Toggle a blood-soaked frenzy where every wound you inflict heals your body. The longer you maintain this savage state, the more it exhausts you - each round increases the toll taken when you finally emerge.',
+      description: 'Toggle a blood-soaked frenzy where wounds you inflict heal your body. Each round maintained increases the exhausting toll taken when you finally emerge from this savage state.',
       level: 9,
       spellType: 'STATE',
       icon: 'Necrotic/Blood Skull',

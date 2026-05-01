@@ -41,16 +41,17 @@ const Step3ClassSelection = () => {
         { name: 'Inscriptor', imageIcon: '/assets/icons/classes/inscriptor.png', icon: 'fas fa-scroll', description: 'Tactical battlefield controller using runes and inscriptions', theme: 'runes' },
         { name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: 'fas fa-skull', description: 'Frost-wielding undead with life-draining aura and resurrection', theme: 'undead' },
         { name: 'Lunarch', imageIcon: '/assets/icons/classes/lunarch.png', icon: 'fas fa-moon', description: 'Lunar mage with phase-based energy cycles', theme: 'lunar' },
-        { name: 'Martyr', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through suffering', theme: 'sacrifice' },
-        { name: 'Minstrel', icon: 'fas fa-music', description: 'Musical spellcaster combining notes into powerful chords', theme: 'music' },
-        { name: 'Oracle', icon: 'fas fa-eye', description: 'Seer with prophetic visions and fate manipulation', theme: 'divination' },
-        { name: 'Plaguebringer', icon: 'fas fa-skull', description: 'Disease spreader with contagious plague stacks', theme: 'disease' },
-        { name: 'Primalist', icon: 'fas fa-tree', description: 'Totem master resonating with elemental forces', theme: 'nature' },
-        { name: 'Pyrofiend', icon: 'fas fa-fire', description: 'Demonic fire wielder with ascending corruption stages', theme: 'fire' },
-        { name: 'Spellguard', icon: 'fas fa-shield-alt', description: 'Protective mage with magical ward layers', theme: 'protection' },
-        { name: 'Titan', icon: 'fas fa-mountain', description: 'Gravity manipulator with strain overload', theme: 'gravity' },
-        { name: 'Toxicologist', icon: 'fas fa-flask', description: 'Poison crafter with alchemical vials', theme: 'alchemy' },
-        { name: 'Warden', icon: 'fas fa-shield', description: 'Barrier guardian with protective bulwarks', theme: 'guardian' }
+        { name: 'Martyr', imageIcon: '/assets/icons/classes/martyr.png', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through suffering', theme: 'sacrifice' },
+        { name: 'Minstrel', imageIcon: '/assets/icons/classes/minstrel.png', icon: 'fas fa-music', description: 'Musical spellcaster combining notes into powerful chords', theme: 'music' },
+        { name: 'Oracle', imageIcon: '/assets/icons/classes/oracle.png', icon: 'fas fa-eye', description: 'Seer with prophetic visions and fate manipulation', theme: 'divination' },
+        { name: 'Plaguebringer', imageIcon: '/assets/icons/classes/plaguebringer.png', icon: 'fas fa-skull', description: 'Disease spreader with contagious plague stacks', theme: 'disease' },
+        { name: 'Primalist', imageIcon: '/assets/icons/classes/primalist.png', icon: 'fas fa-tree', description: 'Totem master resonating with elemental forces', theme: 'nature' },
+        { name: 'Pyrofiend', imageIcon: '/assets/icons/classes/pyrofiend.png', icon: 'fas fa-fire', description: 'Demonic fire wielder with ascending corruption stages', theme: 'fire' },
+        { name: 'Spellguard', imageIcon: '/assets/icons/classes/spellguard.png', icon: 'fas fa-shield-alt', description: 'Protective mage with magical ward layers', theme: 'protection' },
+        { name: 'Titan', imageIcon: '/assets/icons/classes/titan.png', icon: 'fas fa-mountain', description: 'Gravity manipulator with strain overload', theme: 'gravity' },
+        { name: 'Toxicologist', imageIcon: '/assets/icons/classes/toxicologist.png', icon: 'fas fa-flask', description: 'Poison crafter with alchemical vials', theme: 'alchemy' },
+        { name: 'Warden', imageIcon: '/assets/icons/classes/warden.png', icon: 'fas fa-shield', description: 'Barrier guardian with protective bulwarks', theme: 'guardian' },
+        { name: 'Witch Doctor', imageIcon: '/assets/icons/classes/witch_doctor.png', icon: 'fas fa-skull', description: 'Voodoo practitioner invoking powerful loa through curses and rituals', theme: 'voodoo' }
     ];
 
     const handleClassSelect = (className) => {

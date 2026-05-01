@@ -236,35 +236,35 @@
   border-color: #ff8000;
 }
 
-/* Spell School Colors */
+/* Spell School Colors (Dark Pathfinder RPG palette) */
 .wow-spell-card.spell-fire {
-  border-color: #FF4D4D;
+  border-color: #8B1A1A;
 }
 
 .wow-spell-card.spell-frost {
-  border-color: #4D9EFF;
+  border-color: #2C5F7C;
 }
 
 .wow-spell-card.spell-arcane {
-  border-color: #CC99FF;
+  border-color: #5B3A8C;
 }
 
 .wow-spell-card.spell-nature {
-  border-color: #4DFF4D;
+  border-color: #2D5A1E;
 }
 
 .wow-spell-card.spell-shadow {
-  border-color: #FF4DFF;
+  border-color: #3D1F4E;
 }
 
 .wow-spell-card.spell-holy {
-  border-color: #FFCC00;
+  border-color: #8B7328;
 }
 
 .wow-spell-card.spell-lightning {
-  border-color: #FF9933;
+  border-color: #8B7328;
 }
 
 .wow-spell-card.spell-physical {
-  border-color: #CCCCCC;
+  border-color: #5A6A72;
 }

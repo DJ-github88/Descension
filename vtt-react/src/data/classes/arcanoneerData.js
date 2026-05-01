@@ -684,7 +684,7 @@ MANA COSTS:
         formula: '1d8 + intelligence/4',
         damageTypes: ['frost'],
         resolution: 'DICE',
-        description: 'Flash-freezes tissue at the point of contact, causing cold damage.'
+        description: 'Flash-freezes tissue at the point of contact, causing frost damage.'
       },
 
       debuffConfig: {
@@ -1145,7 +1145,7 @@ MANA COSTS:
     {
       id: 'arc_ice_shard',
       name: 'Ice Shard',
-      description: 'A sharp shard of ice that pierces your target, dealing cold damage and slowing them.',
+      description: 'A sharp shard of ice that pierces your target, dealing frost damage and slowing them.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Frost/Frost Touch',
@@ -1682,7 +1682,7 @@ MANA COSTS:
     {
       id: 'arc_glacial_blessing',
       name: 'Glacial Blessing',
-      description: 'You weave ice, healing, and holy spheres into a shimmering lattice of protective frost and divine light. The blessing settles over your target like a coat of crystalline armor, its facets refracting golden radiance. Wounds close beneath the icy shell as restorative energy pulses through their body, leaving them both healed and shielded by a layer of enchanted frost.',
+      description: 'Weave ice, healing, and holy spheres into crystalline armor of frost and divine light. Wounds close beneath the icy shell as restorative energy heals and shields your target.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Frost/Frozen in Ice',
@@ -1726,7 +1726,7 @@ MANA COSTS:
         effects: [{
           id: 'frost_armor',
           name: 'Frost Armor',
-          description: 'Gain +2 armor and 50% cold resistance for 3 rounds. A layer of protective enchanted ice forms around you, deflecting blows and absorbing frost.',
+          description: 'Gain +2 armor and 50% frost resistance for 3 rounds. A layer of protective enchanted ice forms around you, deflecting blows and absorbing frost.',
           mechanicsText: '',
           statModifier: {
             stat: 'armor',
@@ -1752,7 +1752,7 @@ MANA COSTS:
     {
       id: 'arc_prismatic_ward',
       name: 'Prismatic Ward',
-      description: 'You fuse arcane force, holy radiance, and nature energy into a shimmering dome of multicolored protective energy. The ward expands outward from your position, washing over allies in a wave of cleansing light that strips away harmful effects and leaves behind a faint prismatic shimmer—a shield that absorbs incoming damage for a short time.',
+      description: 'Fuse arcane, holy, and nature spheres into a prismatic dome. Cleansing light washes over allies, removing harmful effects and shielding them from incoming damage.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Divinity',
@@ -1824,7 +1824,7 @@ MANA COSTS:
     {
       id: 'arc_verdant_rejuvenation',
       name: 'Verdant Rejuvenation',
-      description: 'You combine nature, healing, and holy spheres into a swirling orb of emerald and gold energy. When released, it blooms into a field of luminous wildflowers and soft golden light that settles over the area. Allies within the field feel their wounds slowly close as nature energy knits flesh and bone back together over several rounds.',
+      description: 'Nature, healing, and holy spheres bloom into luminous wildflowers and golden light. Wounds slowly close as nature energy knits flesh and bone together over several rounds.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Nature/Growth',
@@ -2732,7 +2732,7 @@ MANA COSTS:
         effects: [{
           id: 'elemental_apotheosis',
           name: 'Elemental Apotheosis',
-          description: 'For 4 rounds: +4 spell damage, +3 armor, resistance to fire/frost/lightning damage, and 2-sphere spells cost 0 mana. Your body radiates prismatic elemental energy, making you a living conduit of elemental force.',
+          description: '4 rounds: +4 spell damage, +3 armor, fire/frost/lightning resistance, 2-sphere spells cost 0 mana. Your body radiates prismatic elemental energy as a living conduit of force.',
           mechanicsText: ''
         }],
         durationValue: 4,

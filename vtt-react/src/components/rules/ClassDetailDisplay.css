@@ -743,9 +743,11 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  image-rendering: pixelated;
+  image-rendering: auto;
   mix-blend-mode: multiply;
-  transform: scale(1.2);
+  filter: brightness(1.05) contrast(1.1);
+  mask-image: radial-gradient(circle, black 75%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle, black 75%, transparent 95%);
 }
 
 .class-detail-display.premium-theme .class-header-icon-container i {

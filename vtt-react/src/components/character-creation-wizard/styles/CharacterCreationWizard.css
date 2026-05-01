@@ -10779,12 +10779,11 @@ button.gender-option.selected {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.08) contrast(1.1);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.2);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 75%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 75%, transparent 95%);
     transition: transform 0.3s ease;
 }
 
@@ -10822,24 +10821,22 @@ button.gender-option.selected {
     width: 48px;
     height: 48px;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.1) contrast(1.15);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.25);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 70%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 95%);
 }
 
 .wizard-header-pixel-icon {
     width: 40px;
     height: 40px;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.1) contrast(1.15);
-    mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
-    transform: scale(1.25);
+    filter: brightness(1.05) contrast(1.1);
+    mask-image: radial-gradient(circle, black 70%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 95%);
     margin-right: 12px;
 }
 
@@ -10847,51 +10844,13 @@ button.gender-option.selected {
     width: 20px;
     height: 20px;
     object-fit: contain;
-    image-rendering: pixelated;
+    image-rendering: auto;
     mix-blend-mode: multiply;
-    filter: brightness(1.1) contrast(1.15);
+    filter: brightness(1.05) contrast(1.1);
     mask-image: radial-gradient(circle, black 60%, transparent 95%);
     -webkit-mask-image: radial-gradient(circle, black 60%, transparent 95%);
-    transform: scale(1.2);
     margin-right: 6px;
     vertical-align: middle;
 }
 
-/* Individual tuning for wizard icons */
-.class-pixel-icon[data-class="Arcanoneer"],
-.wizard-header-pixel-icon[data-class="Arcanoneer"] {
-    transform: scale(1.4);
-    filter: brightness(1.15) contrast(1.2);
-}
-
-.class-pixel-icon[data-class="Bladedancer"],
-.wizard-header-pixel-icon[data-class="Bladedancer"] {
-    transform: scale(1.4);
-    filter: brightness(1.6) contrast(1.5) saturate(1.2);
-    mask-image: radial-gradient(circle, black 40%, transparent 85%);
-    -webkit-mask-image: radial-gradient(circle, black 40%, transparent 85%);
-}
-
-.class-pixel-icon[data-class="Chaos Weaver"],
-.wizard-header-pixel-icon[data-class="Chaos Weaver"] {
-    transform: scale(1.4);
-    filter: brightness(1.5) contrast(1.4);
-    mask-image: radial-gradient(circle, black 50%, transparent 90%);
-    -webkit-mask-image: radial-gradient(circle, black 50%, transparent 90%);
-}
-
-.class-pixel-icon[data-class="Chronarch"],
-.wizard-header-pixel-icon[data-class="Chronarch"] {
-    transform: scale(1.45);
-    filter: brightness(1.5) contrast(1.3);
-    mask-image: radial-gradient(circle, black 45%, transparent 85%);
-    -webkit-mask-image: radial-gradient(circle, black 45%, transparent 85%);
-}
-
-.class-pixel-icon[data-class="Formbender"] {
-    transform: scale(1.35);
-}
-
-.class-pixel-icon[data-class="Dreadnaught"] {
-    transform: scale(1.25);
-}
+/* Individual tuning removed for consistency with high-quality assets */

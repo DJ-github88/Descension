@@ -97,7 +97,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 - **Hallucinogenic**: Disadvantage on attacks
 - **Hemorrhagic**: Prevent healing for 2 rounds
 - **Soporific**: CON save or fall unconscious
-- **Caustic**: 3d8 instant acid damage
+- **Caustic**: 3d8 instant poison damage
 - **Virulent**: Spread to adjacent enemies
 
 **Contraption Deployment** (6 Types):
@@ -112,7 +112,7 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 - **Antidote** (2 vials): Cure poison/disease + resistance
 - **Explosive Concoction** (3 vials): 4d6 fire damage AoE
 - **Smoke Bomb** (2 vials): Obscure vision for escape
-- **Acid Flask** (2 vials): 3d8 acid + armor reduction
+- **Acid Flask** (2 vials): 3d8 poison + armor reduction
 
 **Specialization Synergies**:
 - **Venomancer**: +1d6 poison damage, poison duration +1 round, poison save DC +2
@@ -358,7 +358,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
         [
           'Corrosive Acid',
           '2 vials',
-          '2d6 acid damage, -2 armor for 2 rounds',
+          '2d6 poison damage, -2 armor for 2 rounds',
           '3 attacks',
           'Eats through armor'
         ],
@@ -438,7 +438,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
           'Acid Sprayer',
           '2 parts',
           'Enemy enters 5ft cone',
-          '2d8 acid damage, -3 armor for 3 rounds',
+          '2d8 poison damage, -3 armor for 3 rounds',
           'Until triggered or 10 minutes'
         ],
         [

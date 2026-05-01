@@ -826,26 +826,26 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-/* ===== DAMAGE TYPE COLORS ===== */
+/* ===== DAMAGE TYPE COLORS (Dark Pathfinder RPG palette) ===== */
 
 /* Fire */
 .pf-damage-type-badge.fire {
   background: transparent;
   border-color: transparent;
-  color: #fca5a5;
+  color: #8B1A1A;
 }
 
 .pf-damage-type-badge.fire .pf-damage-type-icon::before {
   content: "";
 }
 
-/* Ice/Cold */
+/* Ice/Cold/Frost */
 .pf-damage-type-badge.ice,
 .pf-damage-type-badge.cold,
 .pf-damage-type-badge.frost {
   background: transparent;
   border-color: transparent;
-  color: #93c5fd;
+  color: #2C5F7C;
 }
 
 .pf-damage-type-badge.ice .pf-damage-type-icon::before,
@@ -854,13 +854,13 @@
   content: "";
 }
 
-/* Lightning/Thunder */
+/* Lightning/Thunder/Electric */
 .pf-damage-type-badge.lightning,
 .pf-damage-type-badge.thunder,
 .pf-damage-type-badge.electric {
   background: transparent;
   border-color: transparent;
-  color: #fde047;
+  color: #8B7328;
 }
 
 .pf-damage-type-badge.lightning .pf-damage-type-icon::before,
@@ -870,33 +870,24 @@
 }
 
 /* Poison */
-.pf-damage-type-badge.poison {
-  background: transparent;
-  border-color: transparent;
-  color: #86efac;
-}
-
-.pf-damage-type-badge.poison .pf-damage-type-icon::before {
-  content: "";
-}
-
-/* Acid */
+.pf-damage-type-badge.poison,
 .pf-damage-type-badge.acid {
   background: transparent;
   border-color: transparent;
-  color: #4ade80;
+  color: #2D6A3F;
 }
 
+.pf-damage-type-badge.poison .pf-damage-type-icon::before,
 .pf-damage-type-badge.acid .pf-damage-type-icon::before {
   content: "";
 }
 
-/* Necrotic */
+/* Necrotic/Shadow */
 .pf-damage-type-badge.necrotic,
 .pf-damage-type-badge.shadow {
   background: transparent;
   border-color: transparent;
-  color: #c4b5fd;
+  color: #3D1F4E;
 }
 
 .pf-damage-type-badge.necrotic .pf-damage-type-icon::before,
@@ -909,7 +900,7 @@
 .pf-damage-type-badge.holy {
   background: transparent;
   border-color: transparent;
-  color: #fde68a;
+  color: #8B7328;
 }
 
 .pf-damage-type-badge.radiant .pf-damage-type-icon::before,
@@ -922,7 +913,7 @@
 .pf-damage-type-badge.force {
   background: transparent;
   border-color: transparent;
-  color: #d8b4fe;
+  color: #5B3A8C;
 }
 
 .pf-damage-type-badge.arcane .pf-damage-type-icon::before,
@@ -930,18 +921,36 @@
   content: "";
 }
 
-/* Physical damage types (bludgeoning, piercing, slashing) */
-.pf-damage-type-badge.slashing,
-.pf-damage-type-badge.piercing,
+/* Bludgeoning */
 .pf-damage-type-badge.bludgeoning {
   background: transparent;
   border-color: transparent;
-  color: #d1d5db;
+  color: #5C4033;
 }
 
-.pf-damage-type-badge.slashing .pf-damage-type-icon::before,
-.pf-damage-type-badge.piercing .pf-damage-type-icon::before,
 .pf-damage-type-badge.bludgeoning .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Piercing */
+.pf-damage-type-badge.piercing {
+  background: transparent;
+  border-color: transparent;
+  color: #5A6A72;
+}
+
+.pf-damage-type-badge.piercing .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Slashing */
+.pf-damage-type-badge.slashing {
+  background: transparent;
+  border-color: transparent;
+  color: #6B2D2D;
+}
+
+.pf-damage-type-badge.slashing .pf-damage-type-icon::before {
   content: "";
 }
 
@@ -949,7 +958,7 @@
 .pf-damage-type-badge.nature {
   background: transparent;
   border-color: transparent;
-  color: #22c55e;
+  color: #2D5A1E;
 }
 
 .pf-damage-type-badge.nature .pf-damage-type-icon::before {
@@ -960,7 +969,7 @@
 .pf-damage-type-badge.void {
   background: transparent;
   border-color: transparent;
-  color: #6b21a8;
+  color: #1A1A2E;
 }
 
 .pf-damage-type-badge.void .pf-damage-type-icon::before {
@@ -971,10 +980,21 @@
 .pf-damage-type-badge.psychic {
   background: transparent;
   border-color: transparent;
-  color: #ec4899;
+  color: #7A2E6E;
 }
 
 .pf-damage-type-badge.psychic .pf-damage-type-icon::before {
+  content: "";
+}
+
+/* Chaos */
+.pf-damage-type-badge.chaos {
+  background: transparent;
+  border-color: transparent;
+  color: #7A2040;
+}
+
+.pf-damage-type-badge.chaos .pf-damage-type-icon::before {
   content: "";
 }
 
@@ -1757,12 +1777,12 @@
   box-shadow: var(--pf-shadow-parchment);
 }
 
-/* Card Header - Highly specific to prevent interference */
+/* Card Header - Unified dark Pathfinder red */
 .unified-spell-card .unified-spell-card-header {
   display: flex !important;
   flex-direction: column !important;
   padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
   position: relative !important;
   gap: var(--pf-space-2, 8px) !important;
@@ -1775,14 +1795,13 @@
 }
 
 /* Override any global interference from creature windows or other components */
-/* REMOVED GLOBAL BODY SELECTOR - was causing interference with external spell cards */
 .spellbook-layout .unified-spell-card .unified-spell-card-header,
 .creature-window .unified-spell-card .unified-spell-card-header,
 .spellbook-tab-headers ~ * .unified-spell-card .unified-spell-card-header {
   display: flex !important;
   flex-direction: column !important;
   padding: var(--pf-space-3, 12px) var(--pf-space-4, 16px) !important;
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
   position: relative !important;
   gap: var(--pf-space-2, 8px) !important;
@@ -1797,7 +1816,7 @@
 .spellbook-tab-headers + * .unified-spell-card-header,
 .spellbook-tab + * .unified-spell-card-header,
 .creature-window-header + * .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   color: var(--pf-text-primary, #2d1810) !important;
 }
 
@@ -1805,7 +1824,7 @@
 [class*="spellbook"] .unified-spell-card-header,
 [class*="creature"] .unified-spell-card-header,
 [class*="tab"] .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #c4a373 0%, #a08c70 50%, #8b7355 100%)) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   color: var(--pf-text-primary, #2d1810) !important;
   border-bottom: var(--pf-border-width-thick, 3px) solid var(--pf-brown-medium, #8B4513) !important;
 }
@@ -2527,8 +2546,7 @@
   margin-top: 6px; /* Added spacing from header */
 }
 
-/* Ultimate "Rustic Red" override for Spell Wizard Preview Headers */
-/* This specific high-specificity selector is designed to beat global cleanup rules and beige-themed defaults */
+/* Wizard variant uses the same unified header */
 html body .pf-spellbook .pf-spell-card.wizard .pf-spell-card-header,
 html body .pf-spellbook .pf-spell-card.wizard .wow-spell-card-header,
 html body .pf-spell-card.wizard .pf-spell-card-header,
@@ -2537,9 +2555,9 @@ body .pf-spell-card.wizard .pf-spell-card-header,
 body .pf-spell-card.wizard .wow-spell-card-header,
 .pf-spell-card.wizard .pf-spell-card-header,
 .pf-spell-card.wizard .wow-spell-card-header {
-  background: linear-gradient(135deg, #5a1e12 0%, #8B4513 50%, #2d1810 100%) !important;
+  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
   border-bottom: 3px solid #3a1e12 !important;
-  color: #f0ead6 !important; /* Parchment white text for high contrast */
+  color: #f0ead6 !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 

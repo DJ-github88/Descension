@@ -504,27 +504,7 @@
   box-shadow: var(--pf-shadow-lg) !important;
 }
 
-/* Override spell card headers - with fallback values to prevent styling failures */
-.spellbook-layout .spell-card-header,
-.spell-library-tab .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
-  min-height: 45px !important;
-}
-
-/* Protect unified spell card headers from spellbook layout interference */
-.spellbook-layout .unified-spell-card .unified-spell-card-header,
-.spellbook-layout .unified-spell-card .spell-card-header,
-.spell-library-tab .unified-spell-card .unified-spell-card-header,
-.spell-library-tab .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: 2px solid #8B4513 !important;
-  color: #2d1810 !important;
-  padding: 12px 16px !important;
-  min-height: 45px !important;
-}
+/* spell card headers now handled by cards.css base rule using --pf-gradient-header */
 
 /* Override spell icons - only within spellbook components, not action bar */
 .spellbook-layout .spell-card .spell-icon,
@@ -818,25 +798,7 @@
   color: var(--pf-text-primary) !important;
 }
 
-/* Force spell card headers to use Pathfinder styling - with fallback values */
-.spellbook-layout .spell-card-header,
-.spellbook-layout .wow-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: var(--pf-border-width, 2px) solid var(--pf-brown-medium, #8B4513) !important;
-  color: var(--pf-text-primary, #2d1810) !important;
-  padding: var(--pf-space-2, 8px) var(--pf-space-3, 12px) !important;
-  min-height: 45px !important;
-}
-
-/* Additional protection for unified spell card headers */
-.spellbook-layout .unified-spell-card .unified-spell-card-header,
-.spellbook-layout .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: 2px solid #8B4513 !important;
-  color: #2d1810 !important;
-  padding: 12px 16px !important;
-  min-height: 45px !important;
-}
+/* spell card headers now handled by cards.css base rule using --pf-gradient-header */
 
 /* Force spell card content areas to use Pathfinder styling */
 .spellbook-layout .spell-card-content,
@@ -1699,32 +1661,7 @@
   background: var(--pf-gradient-parchment-dark) !important;
 }
 
-/* ===== FINAL SPELL CARD HEADER PROTECTION ===== */
-
-/* Ultimate protection for spell card headers - highest specificity */
-body .unified-spell-card .unified-spell-card-header,
-body .unified-spell-card .spell-card-header,
-body .pf-spell-card .spell-card-header,
-body .wow-spell-card .spell-card-header,
-html .unified-spell-card .unified-spell-card-header,
-html .unified-spell-card .spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: 2px solid #8B4513 !important;
-  color: #2d1810 !important;
-  padding: 12px 16px !important;
-  min-height: 45px !important;
-  font-family: 'Cinzel', serif !important;
-}
-
-/* Protect against any spellbook tab interference */
-.spellbook-tab-headers ~ * .unified-spell-card-header,
-.spellbook-tab-headers + * .unified-spell-card-header,
-.spellbook-tab ~ * .unified-spell-card-header,
-.spellbook-tab + * .unified-spell-card-header {
-  background: var(--pf-gradient-header, linear-gradient(135deg, #7a3b2e 0%, #5e2e23 50%, #45211a 100%)) !important;
-  border-bottom: 2px solid #8B4513 !important;
-  color: #2d1810 !important;
-}
+/* spell card headers now handled by cards.css base rule using --pf-gradient-header */
 
 /* Force override any inline styles on section panels */
 .spellbook-layout .section-panel[style*="background"],
