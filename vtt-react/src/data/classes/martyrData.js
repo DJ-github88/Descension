@@ -1339,7 +1339,7 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'temporary_hp',
           name: 'Temporary HP',
-          description: 'The divine shield absorbs incoming damage, protecting your actual health with a barrier of holy energy that glows with golden light.',
+          description: 'Gain 1d6 temporary HP that absorbs incoming damage before your actual health.',
           statModifier: {
             stat: 'temporary_hp',
             magnitude: '1d6',
@@ -1468,12 +1468,12 @@ INTERVENE COUNT: 1
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
-          id: 'resistance',
-          name: 'Resistance',
-          description: 'Gain resistance to all damage types for 1 minute',
+          id: 'sanctuary',
+          name: 'Sanctuary',
+          description: 'Gain 50% damage resistance for 1 minute',
           statModifier: {
-            stat: 'damage_resistance',
-            magnitude: 0.5,
+            stat: 'damage_reduction',
+            magnitude: 50,
             magnitudeType: 'percentage'
           }
         }],
@@ -1538,7 +1538,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'blessed_resilience_saves',
           name: 'Blessed Resilience (Saves)',
-          description: 'Bonus to saving throws',
+          description: '+2 bonus to all saving throws',
+          mechanicsText: '+2 to all Saving Throws',
           statModifier: {
             stat: 'savingThrows',
             magnitude: 2,
@@ -1546,8 +1547,9 @@ INTERVENE COUNT: 1
           }
         }, {
           id: 'blessed_resilience_damage',
-          name: 'Blessed Resilience (Damage)',
-          description: 'Divine protection surrounds you, absorbing and dispersing incoming attacks. The blessed resilience reduces all damage that reaches you.',
+          name: 'Blessed Resilience (Damage Reduction)',
+          description: 'Reduces all incoming damage by 2',
+          mechanicsText: '-2 Damage Taken (flat reduction)',
           statModifier: {
             stat: 'damage_reduction',
             magnitude: 2,
@@ -1615,7 +1617,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'sacrificial_bond',
           name: 'Sacrificial Bond',
-          description: 'You take 50% of damage dealt to bonded ally'
+          description: 'You take 50% of damage dealt to bonded ally',
+          mechanicsText: 'Take 50% of damage dealt to bonded ally'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -1751,7 +1754,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_shield_of_faith',
       name: 'Shield of Faith',
-      description: 'Create a divine shield around an ally that absorbs damage until broken.',
+      description: 'Create a divine shield around an ally that absorbs 3d8 + spirit×2 damage. Lasts up to 10 rounds or until the shield is depleted.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Golden Shield',
@@ -1788,7 +1791,7 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'faith_shield',
           name: 'Shield of Faith',
-          description: 'Absorbs damage until broken',
+          description: 'Absorbs 3d8 + spirit×2 damage until depleted. Lasts up to 10 rounds.',
           shieldValue: {
             formula: '3d8 + spirit * 2',
             shieldType: 'absorption'
@@ -1902,7 +1905,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'martyrs_mark',
           name: "Martyr's Mark",
-          description: 'Allies heal for 25% of damage dealt to marked target'
+          description: 'Allies heal for 25% of damage dealt to marked target',
+          mechanicsText: 'Allies heal for 25% of damage dealt to marked target'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1963,7 +1967,9 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'righteous_immunity',
           name: 'Righteous Immunity',
-          description: 'You become immune to stun, fear, and charm'
+          description: 'You become immune to stun, fear, and charm',
+          mechanicsText: 'Immune to stun, fear, and charm',
+          damageImmunity: ['stun', 'fear', 'charm']
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2031,7 +2037,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'blood_pact',
           name: 'Blood Pact',
-          description: 'All damage is distributed evenly among linked allies'
+          description: 'All damage is distributed evenly among linked allies',
+          mechanicsText: 'All damage distributed evenly among linked allies'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2135,12 +2142,34 @@ INTERVENE COUNT: 1
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
         aoeParameters: { radius: 20 }
+      },
+
+      effectTargeting: {
+        healing: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['ally'],
+          description: 'All allies in the zone are healed each round'
+        },
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['undead', 'demon'],
+          description: 'Undead and demons in the zone take radiant damage each round'
+        }
       },
 
       resourceCost: {
@@ -2161,14 +2190,17 @@ INTERVENE COUNT: 1
         hasHotEffect: true,
         hotFormula: '2d8',
         hotDuration: 5,
-        hotTickType: 'round'
+        hotTickType: 'round',
+        targetRestrictions: ['ally'],
+        description: 'Heals all allies in the zone each round'
       },
 
       damageConfig: {
         formula: '3d8',
         elementType: 'radiant',
         damageType: 'persistent',
-        targetRestrictions: ['undead', 'demon']
+        targetRestrictions: ['undead', 'demon'],
+        description: 'Damages undead and demons in the zone each round'
       },
 
       zoneConfig: {
@@ -2229,7 +2261,9 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'willing_vessel',
           name: 'Willing Vessel',
-          description: 'All ally damage redirects to you. You take 50% reduced damage.'
+          description: 'All ally damage redirects to you. You take 50% reduced damage.',
+          mechanicsText: 'All ally damage redirects to you. You take 50% reduced damage.',
+          damageReduction: { value: 50, magnitudeType: 'percentage' }
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2404,7 +2438,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'guardian_spirit',
           name: 'Guardian Spirit',
-          description: 'If target would die, restore them to 50% health instead'
+          description: 'If target would die, restore them to 50% health instead',
+          mechanicsText: 'If target would die, restore to 50% HP instead'
         }],
         durationValue: 10,
         durationType: 'rounds',
@@ -2593,7 +2628,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'shared_agony',
           name: 'Shared Agony',
-          description: 'Enemy takes psychic damage equal to damage you take'
+          description: 'Enemy takes psychic damage equal to damage you take',
+          mechanicsText: 'Enemy takes psychic damage equal to damage you take'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2747,12 +2783,30 @@ INTERVENE COUNT: 1
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
         targetRestrictions: ['enemy', 'ally']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['ally']
+        }
       },
 
       resourceCost: {
@@ -2845,7 +2899,8 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'eternal_bond',
           name: 'Eternal Bond',
-          description: 'Linked allies cannot die unless all linked allies would die simultaneously'
+          description: 'Linked allies cannot die unless all linked allies would die simultaneously',
+          mechanicsText: 'Linked allies cannot die unless all linked allies would die simultaneously'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2914,7 +2969,9 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'martyrs_blessing',
           name: "Martyr's Blessing",
-          description: 'Resurrected allies gain +5 to all stats for 10 rounds'
+          description: 'Resurrected allies gain +5 to all stats for 10 rounds',
+          statModifier: { stat: 'all_stats', magnitude: 5, magnitudeType: 'flat' },
+          mechanicsText: 'Resurrected allies gain +5 to all stats for 10 rounds'
         }],
         durationValue: 10,
         durationType: 'rounds',
@@ -3045,7 +3102,9 @@ INTERVENE COUNT: 1
         effects: [{
           id: 'final_blessing',
           name: 'Final Blessing',
-          description: 'Allies cannot be reduced below 1 HP for the rest of the encounter.'
+          description: 'Allies cannot be reduced below 1 HP for the rest of the encounter.',
+          mechanicsText: 'Allies cannot be reduced below 1 HP for the rest of the encounter',
+          damageImmunity: ['lethal']
         }],
         durationValue: 1,
         durationType: 'rounds',

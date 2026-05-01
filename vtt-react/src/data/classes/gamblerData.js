@@ -950,7 +950,8 @@ Playing Gambler in person is uniquely satisfying because:
           effects: [{
             id: 'fates_favor',
             name: "Fate's Favor",
-            description: 'Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.'
+            description: 'Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.',
+            mechanicsText: 'Choose one of six coin effects. Heads: powerful benefit, Tails: lesser benefit or minor drawback'
           }],
           durationValue: 1,
           durationType: 'minutes',
@@ -1266,6 +1267,10 @@ Playing Gambler in person is uniquely satisfying because:
             name: 'Stunned',
             description: 'Loser is stunned for 1 round, unable to take actions or reactions',
             config: {
+              saveType: 'constitution',
+              saveDC: 15,
+              duration: 1,
+              durationUnit: 'rounds',
               durationType: 'rounds',
               recoveryMethod: 'automatic'
             }
@@ -1548,6 +1553,7 @@ Playing Gambler in person is uniquely satisfying because:
             id: 'gamblers_insight',
             name: "Gambler's Insight",
             description: 'Gain advantage on Insight and Perception checks against target for 10 minutes',
+            mechanicsText: 'Advantage on Insight and Perception checks for 10 minutes',
             skillModifier: {
               skills: ['Insight', 'Perception'],
               magnitude: 1,
@@ -1688,7 +1694,10 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'minor_luck',
           name: 'Minor Luck',
-          description: '+1 to your next roll'
+          description: '+1 to your next roll',
+          statModifier: { stat: 'all_rolls', magnitude: 1, magnitudeType: 'flat' },
+          mechanicsText: '+1 to next roll',
+          charges: 1
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -1741,7 +1750,9 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'beginners_advantage',
           name: "Beginner's Advantage",
-          description: 'Gain advantage on your next ability check or attack roll'
+          description: 'Gain advantage on your next ability check or attack roll',
+          mechanicsText: 'Advantage on next ability check or attack roll',
+          charges: 1
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -1837,7 +1848,9 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'hot_streak',
           name: 'Hot Streak',
-          description: 'Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.'
+          description: 'Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.',
+          mechanicsText: '+1d6 damage per hit this turn, stacking up to 4 times',
+          charges: 4
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -1888,7 +1901,8 @@ Playing Gambler in person is uniquely satisfying because:
           effects: [{
             id: 'mirage_flip_double',
             name: 'Mirage Flip Double',
-          description: 'On heads: double damage. On tails: zero damage.'
+          description: 'On heads: double damage. On tails: zero damage.',
+          mechanicsText: 'Heads: double damage. Tails: zero damage.'
         }]
       },
 
@@ -1944,7 +1958,8 @@ Playing Gambler in person is uniquely satisfying because:
           effects: [{
             id: 'fate_reroll',
             name: 'Fate Reroll',
-          description: 'Reroll any dice this turn and take the better result.'
+          description: 'Reroll any dice this turn and take the better result.',
+          mechanicsText: 'Reroll any dice this turn and take the better result'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2003,7 +2018,9 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'stolen_luck',
           name: 'Stolen Luck',
-          description: 'Enemies have disadvantage on attack rolls and saving throws.'
+          description: 'Enemies have disadvantage on attack rolls and saving throws.',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Disadvantage on attack rolls and saving throws'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2018,7 +2035,8 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'house_advantage',
           name: 'House Advantage',
-          description: 'You have advantage on all rolls for the duration.'
+          description: 'You have advantage on all rolls for the duration.',
+          mechanicsText: 'Advantage on all rolls for the duration'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2136,7 +2154,9 @@ Playing Gambler in person is uniquely satisfying because:
         effects: [{
           id: 'poker_face',
           name: 'Poker Face',
-          description: 'Immune to charm, fear, and mind-reading effects.'
+          description: 'Immune to charm, fear, and mind-reading effects.',
+          mechanicsText: 'Immune to charm, fear, and mind-reading effects',
+          damageImmunity: ['charm', 'fear', 'mind_reading']
         }],
         durationValue: 5,
         durationType: 'rounds',

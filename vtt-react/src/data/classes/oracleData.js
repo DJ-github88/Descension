@@ -1133,7 +1133,8 @@ Many players enhance the Oracle experience with:
           name: 'Prophesied Doom',
           description: 'Cursed with a dire prophecy - if the predicted event occurs, suffer the doom',
           statusType: 'cursed',
-          level: 'major'
+          level: 'major',
+          mechanicsText: 'Cursed with dire prophecy - suffer doom if predicted event occurs'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1682,7 +1683,9 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'revealed_weakness',
           name: 'Revealed Weakness',
-          description: 'Target takes 50% more damage from all sources for 4 rounds (or 2 rounds if save succeeds)'
+          description: 'Target takes 50% more damage from all sources for 4 rounds (or 2 rounds if save succeeds)',
+          statPenalty: { stat: 'damage_taken', value: 50, magnitudeType: 'percentage_increase' },
+          mechanicsText: '50% increased damage from all sources for 4 rounds (2 on save)'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1789,7 +1792,8 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'prescient_dodge',
           name: 'Prescient Dodge',
-          description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Agility saving throws.'
+          description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Agility saving throws.',
+          mechanicsText: 'Enemies have disadvantage on attacks against you for 3 rounds. Auto-succeed Agility saves.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1846,7 +1850,9 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'exposed_secrets',
           name: 'Exposed Secrets',
-          description: 'All attacks against target have advantage for 1 minute. Target cannot benefit from invisibility, cover, or concealment.'
+          description: 'All attacks against target have advantage for 1 minute. Target cannot benefit from invisibility, cover, or concealment.',
+          statPenalty: { stat: 'armor', value: -99, magnitudeType: 'advantage_to_attackers' },
+          mechanicsText: 'All attacks have advantage. Cannot benefit from invisibility, cover, or concealment.'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -1981,7 +1987,8 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'perfect_foresight',
           name: 'Perfect Foresight',
-          description: 'You know all enemy actions for the next round. You have advantage on all rolls. Enemies have disadvantage against you.'
+          description: 'You know all enemy actions for the next round. You have advantage on all rolls. Enemies have disadvantage against you.',
+          mechanicsText: 'Know all enemy actions next round. Advantage on all rolls. Enemies have disadvantage against you.'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2405,7 +2412,11 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'truth_revealed',
           name: 'Truth Revealed',
-          description: 'Stunned and cannot benefit from any magical protection or concealment'
+          description: 'Stunned and cannot benefit from any magical protection or concealment',
+          saveType: 'charisma',
+          saveDC: 18,
+          duration: 1,
+          durationUnit: 'rounds'
         }]
       },
 

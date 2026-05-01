@@ -1034,7 +1034,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_blood_ward',
       name: 'Blood Ward',
-      description: 'Sacrifice health to create a protective ward that absorbs damage.',
+      description: 'Sacrifice 1d8 health to create a protective ward that absorbs damage equal to twice the health sacrificed. Lasts 1 minute.',
       level: 1,
       effectTypes: ['utility'],
       typeConfig: {
@@ -1067,7 +1067,7 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'damage_absorption',
           name: 'Damage Absorption',
-          description: 'Absorbs damage equal to Health Sacrificed',
+          description: 'Absorbs damage equal to 2× HP sacrificed (1d8). Lasts 1 minute.',
           duration: 1,
           durationUnit: 'minutes'
         }],
@@ -1088,6 +1088,7 @@ Keep a note of which curses are affecting you:
         icon: 'Necrotic/Drain Soul',
         tags: ['damage', 'healing', 'life drain', 'blood magic']
       },
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
@@ -1098,6 +1099,20 @@ Keep a note of which curses are affecting you:
         requiresLineOfSight: true,
         propagationMethod: 'chain',
         propagationBehavior: 'lowest_health'
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'ranged',
+          rangeDistance: 30,
+          targetRestrictions: ['enemy'],
+          maxTargets: 1,
+          propagationMethod: 'chain',
+          propagationBehavior: 'lowest_health'
+        },
+        healing: {
+          targetingType: 'self'
+        }
       },
       resourceCost: {
         resourceTypes: ['mana', 'health', 'ascension_required'],
@@ -1682,7 +1697,13 @@ Keep a note of which curses are affecting you:
           name: 'Spirit Bind',
           description: 'Dark tendrils immobilize the target',
           config: {
-            restraintType: 'immobilize'
+            restraintType: 'immobilize',
+            saveType: 'strength',
+            saveDC: 14,
+            condition: 'restrained',
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -1837,7 +1858,12 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'instant_death',
           name: 'Instant Death',
-          description: 'Attempt to instantly kill wounded targets'
+          description: 'Attempt to instantly kill wounded targets',
+          saveType: 'constitution',
+          saveDC: 16,
+          condition: 'death',
+          duration: 1,
+          durationUnit: 'instant'
         }]
       },
       tags: ['execute', 'control', 'melee']
@@ -1898,7 +1924,12 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'anti_magic_burst',
           name: 'Anti-Magic Burst',
-          description: 'Stuns enemies with cataclysmic necrotic energy'
+          description: 'Stuns enemies with cataclysmic necrotic energy',
+          saveType: 'constitution',
+          saveDC: 17,
+          condition: 'stunned',
+          duration: 1,
+          durationUnit: 'rounds'
         }]
       },
       resolution: 'SAVING_THROW',
@@ -1959,7 +1990,12 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'pain_paralysis',
           name: 'Pain Paralysis',
-          description: 'Paralyzed by overwhelming pain'
+          description: 'Paralyzed by overwhelming pain',
+          saveType: 'constitution',
+          saveDC: 15,
+          condition: 'paralyzed',
+          duration: 1,
+          durationUnit: 'rounds'
         }]
       },
       resolution: 'SAVING_THROW',
@@ -2082,9 +2118,14 @@ Keep a note of which curses are affecting you:
         effects: [{
           id: 'anti_magic_weakening',
           name: 'Anti-Magic Weakening',
-          description: 'Severely weakens magical abilities and prevents mana regeneration.',
+          description: 'Target takes 50% reduced spell damage and cannot regenerate mana for 1 minute. Requires concentration.',
           statusType: 'weakened',
-          level: 'major'
+          level: 'major',
+          statPenalty: [
+            { stat: 'spell_damage', value: -50, magnitudeType: 'percentage' },
+            { stat: 'mana_regen', value: -100, magnitudeType: 'percentage' }
+          ],
+          mechanicsText: '50% reduced spell damage, cannot regenerate mana for 1 minute'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2243,11 +2284,24 @@ Keep a note of which curses are affecting you:
         icon: 'Necrotic/Ebon Death',
         tags: ['aoe', 'damage', 'healing', 'necrotic']
       },
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'sphere',
         aoeParameters: { radius: 40 }
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'sphere',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'self'
+        }
       },
       resourceCost: {
         resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],

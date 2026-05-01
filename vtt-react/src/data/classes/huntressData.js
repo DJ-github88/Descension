@@ -1503,7 +1503,9 @@ Use a die or paper to track companion HP:
           name: 'Blinded',
           description: 'Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks',
           statusType: 'blinded',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'perception', value: -99, magnitudeType: 'auto_fail' }],
+          mechanicsText: 'Disadvantage on attack rolls, auto-fail sight-based checks'
         }]
       },
 

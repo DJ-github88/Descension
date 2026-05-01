@@ -193,7 +193,9 @@ export const HARROW_PATH = {
                     {
                         id: 'fear',
                         name: 'Frightened',
-                        description: 'Frightened for 4 rounds with disadvantage on attacks and ability checks. Must move away each turn.'
+                        description: 'Frightened for 4 rounds with disadvantage on attacks and ability checks. Must move away each turn.',
+                        statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'ability_checks', value: -99, magnitudeType: 'disadvantage' }],
+                        mechanicsText: 'Disadvantage on attacks and ability checks for 4 rounds. Must move away each turn.'
                     }
                 ],
                 durationValue: 4,
@@ -411,7 +413,9 @@ export const HARROW_PATH = {
                             {
                                 id: 'frightened',
                                 name: 'Frightened',
-                                description: 'Frightened with -2 STR penalty, cannot approach source of fear.'
+                                description: 'Frightened with -2 STR penalty, cannot approach source of fear.',
+                                statPenalty: { stat: 'strength', value: -2 },
+                                mechanicsText: '-2 STR, cannot approach source of fear'
                             }
                         ],
                         saveDC: 13,
@@ -647,7 +651,11 @@ export const HARROW_PATH = {
                             {
                                 id: 'diseased',
                                 name: 'Diseased',
-                                description: 'Suffering from virulent plague, taking damage over time.'
+                                description: 'Suffering from virulent plague, taking damage over time.',
+                                dotFormula: '1d6',
+                                dotDamageType: 'poison',
+                                damagePerTurn: '1d6',
+                                mechanicsText: 'Taking poison damage over time from virulent plague'
                             }
                         ],
                         saveDC: 13,

@@ -1895,12 +1895,30 @@ RESTORATION AVAILABLE: Yes
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self',
         aoeShape: 'circle',
         aoeParameters: { radius: 20 },
         targetRestrictions: ['enemy', 'ally']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'self',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 20 },
+          targetRestrictions: ['ally']
+        }
       },
 
       damageConfig: {
@@ -1991,7 +2009,11 @@ RESTORATION AVAILABLE: Yes
           id: 'holy_brand',
           name: 'Holy Brand',
           description: 'Marked with holy light - takes +1d6 radiant damage from next attack for 2 rounds',
-          statusType: 'marked'
+          statusType: 'marked',
+          dotFormula: '+1d6',
+          dotDamageType: 'radiant',
+          damagePerTurn: '+1d6',
+          mechanicsText: '+1d6 radiant damage from next attack for 2 rounds'
         }],
         durationValue: 2,
         durationType: 'rounds',
@@ -2111,7 +2133,12 @@ RESTORATION AVAILABLE: Yes
           config: {
             creatureType: 'fiend',
             blocksEntry: true,
-            blocksExit: true
+            blocksExit: true,
+            saveType: 'charisma',
+            saveDC: 15,
+            condition: 'restrained',
+            duration: 5,
+            durationUnit: 'rounds'
           }
         }]
       },

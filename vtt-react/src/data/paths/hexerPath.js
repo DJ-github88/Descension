@@ -110,7 +110,12 @@ export const HEXER_PATH = {
                     {
                         id: 'reflected_curse',
                         name: 'Reflected Curse',
-                        description: 'The attacker receives their own curse effect. They take 2d6 necrotic damage and have disadvantage on their next attack roll.'
+                        description: 'The attacker receives their own curse effect. They take 2d6 necrotic damage and have disadvantage on their next attack roll.',
+                        dotFormula: '2d6',
+                        dotDamageType: 'necrotic',
+                        damagePerTurn: '2d6',
+                        statPenalty: { stat: 'attack', value: -99, magnitudeType: 'disadvantage' },
+                        mechanicsText: '2d6 necrotic damage and disadvantage on next attack roll'
                     }
                 ],
                 durationValue: 2,
@@ -193,7 +198,9 @@ export const HEXER_PATH = {
                     {
                         id: 'hexed',
                         name: 'Hexed',
-                        description: 'Target takes 20% increased damage from all sources for 10 rounds. The curse can be removed by dispel magic or similar effects.'
+                        description: 'Target takes 20% increased damage from all sources for 10 rounds. The curse can be removed by dispel magic or similar effects.',
+                        statPenalty: { stat: 'damage_taken', value: 20, magnitudeType: 'percentage_increase' },
+                        mechanicsText: '20% increased damage from all sources for 10 rounds'
                     }
                 ],
                 durationValue: 10,
@@ -409,7 +416,9 @@ export const HEXER_PATH = {
                             {
                                 id: 'spirit_hexed',
                                 name: 'Spirit Hexed',
-                                description: 'Target takes 20% increased damage from all sources. The curse can be removed by dispel magic or similar effects.'
+                                description: 'Target takes 20% increased damage from all sources. The curse can be removed by dispel magic or similar effects.',
+                                statPenalty: { stat: 'damage_taken', value: 20, magnitudeType: 'percentage_increase' },
+                                mechanicsText: '20% increased damage from all sources'
                             }
                         ],
                         durationValue: 10,

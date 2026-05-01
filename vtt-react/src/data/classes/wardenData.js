@@ -1117,7 +1117,9 @@ Many players enhance the warden experience with:
           name: 'Caged',
           description: 'Trapped in spectral cage for 3 rounds (or 1 round if save succeeds) - cannot move beyond boundaries or teleport - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
           statusType: 'restrained',
-          level: 'strong'
+          level: 'strong',
+          statPenalty: [{ stat: 'movement_speed', value: -100, magnitudeType: 'percentage' }, { stat: 'attack', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Speed 0, cannot teleport, disadvantage on attacks, advantage on attacks against them for 3 rounds'
         }]
       },
 
@@ -1291,7 +1293,9 @@ Many players enhance the warden experience with:
           name: 'Imprisoned',
           description: 'Trapped in spectral prison - cannot leave area or use movement abilities - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
           statusType: 'restrained',
-          level: 'strong'
+          level: 'strong',
+          statPenalty: [{ stat: 'movement_speed', value: -100, magnitudeType: 'percentage' }, { stat: 'attack', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Speed 0, cannot leave area, disadvantage on attacks'
         }]
       },
 
@@ -1686,7 +1690,9 @@ Many players enhance the warden experience with:
           name: 'Slowed',
           description: 'Movement speed reduced by 10 feet for 1 round',
           statusType: 'slow',
-          level: 'minor'
+          level: 'minor',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }]
       },
 
@@ -2086,7 +2092,12 @@ Many players enhance the warden experience with:
           description: 'Trapped in spectral cage - cannot move beyond 10 feet radius',
           config: {
             restraintType: 'cage',
-            radius: 10
+            radius: 10,
+            saveType: 'dexterity',
+            saveDC: 14,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2372,7 +2383,12 @@ Many players enhance the warden experience with:
           config: {
             restraintType: 'cage',
             blocksTelepor: true,
-            radius: 15
+            radius: 15,
+            saveType: 'dexterity',
+            saveDC: 16,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2540,7 +2556,12 @@ Many players enhance the warden experience with:
           config: {
             restraintType: 'cage',
             unbreakable: true,
-            blocksEscape: true
+            blocksEscape: true,
+            saveType: 'dexterity',
+            saveDC: 19,
+            duration: 5,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2699,7 +2720,12 @@ Many players enhance the warden experience with:
           config: {
             restraintType: 'cage',
             individual: true,
-            damageBonus: '1d8'
+            damageBonus: '1d8',
+            saveType: 'dexterity',
+            saveDC: 17,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2872,7 +2898,12 @@ Many players enhance the warden experience with:
           config: {
             restraintType: 'prison',
             unbreakable: true,
-            damageVulnerability: '2d10'
+            damageVulnerability: '2d10',
+            saveType: 'dexterity',
+            saveDC: 20,
+            duration: 5,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },

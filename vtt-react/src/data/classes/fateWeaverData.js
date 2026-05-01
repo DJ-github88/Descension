@@ -1231,10 +1231,29 @@ Many players enhance the Fate Weaver experience with:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 40
+        rangeDistance: 40,
+        targetRestrictions: ['enemy']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'ranged',
+          rangeDistance: 40,
+          targetRestrictions: ['enemy'],
+          description: 'Target dealt damage if you win the draw or tie'
+        },
+        healing: {
+          targetingType: 'single',
+          rangeType: 'ranged',
+          rangeDistance: 40,
+          targetRestrictions: ['enemy'],
+          description: 'Target healed if you lose the draw'
+        }
       },
 
       durationConfig: {
@@ -1665,7 +1684,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'stacked_deck',
           name: 'Stacked Deck',
-          description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)'
+          description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)',
+          mechanicsText: 'Next 3 attacks or spells automatically hit (crit on natural 20)',
+          charges: 3
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1833,7 +1854,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'good_card',
           name: 'Fortune Card',
-          description: 'Chosen allies gain +3 to all rolls for 3 rounds'
+          description: 'Chosen allies gain +3 to all rolls for 3 rounds',
+          statModifier: { stat: 'all_rolls', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 to all rolls for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1845,7 +1868,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'bad_card',
           name: 'Misfortune Card',
-          description: 'Chosen enemies have -3 to all rolls for 3 rounds'
+          description: 'Chosen enemies have -3 to all rolls for 3 rounds',
+          statPenalty: { stat: 'all_rolls', value: -3 },
+          mechanicsText: '-3 to all rolls for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2225,7 +2250,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'fate_sealed',
           name: 'Fate Sealed',
-          description: 'The next attack against this target automatically hits and cannot be avoided, blocked, or reduced'
+          description: 'The next attack against this target automatically hits and cannot be avoided, blocked, or reduced',
+          mechanicsText: 'Next attack automatically hits, cannot be avoided or reduced',
+          charges: 1
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2279,7 +2306,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'double_down',
           name: 'Double Down',
-          description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects'
+          description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects',
+          mechanicsText: 'Next spell deals double damage/healing but doubles negative effects too',
+          charges: 1
         }],
         durationValue: 1,
         durationType: 'instant',
@@ -2312,12 +2341,32 @@ Many players enhance the Fate Weaver experience with:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
         targetRestrictions: ['enemy']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy'],
+          description: 'Heads: Enemy is reduced to 0 HP (no save)'
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy'],
+          description: 'Tails: Enemy is fully healed and gains +2 AC for 1 minute'
+        }
       },
 
       resourceCost: {
@@ -2384,7 +2433,9 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'master_of_destiny',
           name: 'Master of Destiny',
-          description: 'Choose the result of any die roll (yours or enemy\'s) up to 10 times'
+          description: 'Choose the result of any die roll (yours or enemy\'s) up to 10 times',
+          mechanicsText: 'Choose the result of any die roll up to 10 times',
+          charges: 10
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2748,7 +2799,9 @@ Many players enhance the Fate Weaver experience with:
           id: 'twisted_fate',
           name: 'Twisted Fate',
           description: 'Must reroll next roll and take lower result',
-          statusType: 'disadvantage'
+          statusType: 'disadvantage',
+          statPenalty: { stat: 'all_rolls', value: -99, magnitudeType: 'reroll_lower' },
+          mechanicsText: 'Must reroll next roll and take lower result'
         }],
         durationValue: 1,
         durationType: 'rounds',

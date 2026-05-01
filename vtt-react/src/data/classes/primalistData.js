@@ -1030,7 +1030,7 @@ BATTLE MAP:
     {
       id: 'prim_guardian_totem',
       name: 'Guardian Totem',
-      description: 'Place a protective totem that shields all allies within range, absorbing incoming damage.',
+      description: 'Place a protective totem (10 HP, AC 12) that shields all allies within 10 feet, absorbing 5 damage per attack. Generates 1 synergy per turn active.',
       spellType: 'ACTION',
       icon: 'Nature/Earth Shield',
       school: 'Nature',
@@ -1097,7 +1097,7 @@ BATTLE MAP:
     {
       id: 'prim_earth_totem',
       name: 'Earth Totem',
-      description: 'Place a totem of solid earth that increases allies\' armor and grants resistance to physical damage.',
+      description: 'Place a totem of solid earth that grants +2 AC and 50% resistance to physical (bludgeoning) damage to allies within 10 feet.',
       spellType: 'ACTION',
       icon: 'General/Increase Strength',
       school: 'Earth',
@@ -1357,7 +1357,7 @@ BATTLE MAP:
           {
             type: 'DEBUFF',
             stat: 'attackSpeed',
-            description: 'Reduces enemy attack speed'
+            description: 'Reduces enemy attack speed by 25%'
           },
           {
             type: 'SUMMON',
@@ -1566,7 +1566,7 @@ BATTLE MAP:
             stat: 'weaponDamage',
             damageType: 'fire',
             amount: '2d6',
-            description: 'Adds bonus fire damage to attacks',
+            description: '+2d6 fire damage to attacks',
             damageFormula: '2d6'
           },
           {
@@ -1574,7 +1574,7 @@ BATTLE MAP:
             stat: 'weaponDamage',
             damageType: 'lightning',
             amount: '2d6',
-            description: 'Adds bonus lightning damage to attacks',
+            description: '+2d6 lightning damage to attacks',
             damageFormula: '2d6'
           },
           {
@@ -1582,7 +1582,7 @@ BATTLE MAP:
             stat: 'weaponDamage',
             damageType: 'frost',
             amount: '2d6',
-            description: 'Adds bonus frost damage to attacks',
+            description: '+2d6 frost damage to attacks',
             damageFormula: '2d6'
           },
           {
@@ -2013,7 +2013,13 @@ BATTLE MAP:
           id: 'trip',
           name: 'Knocked Prone',
           description: 'Target is knocked prone and must use movement to stand',
-          config: {}
+          config: {
+            saveType: 'strength',
+            saveDC: 15,
+            knockdown: true,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
         }]
       },
       targetingConfig: {
@@ -2866,7 +2872,14 @@ BATTLE MAP:
           id: 'stagger',
           name: 'Staggered by Cataclysm',
           description: 'Target is knocked prone and stunned for 2 rounds. Requires DC 19 Strength save to negate.',
-          config: {}
+          config: {
+            saveType: 'strength',
+            saveDC: 19,
+            knockdown: true,
+            stun: true,
+            duration: 2,
+            durationUnit: 'rounds'
+          }
         }]
       },
       targetingConfig: {
@@ -3020,7 +3033,9 @@ BATTLE MAP:
           id: 'primal_ascension',
           name: 'Primal Ascension',
           description: 'Enhanced totem mastery with damage resistance while totems are active',
-          customDescription: 'You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem durations doubled, can maintain 2 extra totems, and all totem effects enhanced by 25%.'
+          customDescription: 'You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem durations doubled, can maintain 2 extra totems, and all totem effects enhanced by 25%.',
+          mechanicsText: 'Damage resistance while totems active. Totem damage doubled. Immune to fear.',
+          damageReduction: { value: 25, magnitudeType: 'percentage' }
         }],
         durationValue: 0,
         durationType: 'permanent',

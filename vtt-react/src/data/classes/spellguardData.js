@@ -906,7 +906,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_arcane_shield',
       name: 'Arcane Shield',
-      description: 'Create a shield of absorbed arcane energy that protects you from incoming damage. The shield absorbs damage and grants bonus armor.',
+      description: 'Create a shield of absorbed arcane energy that grants +2 armor and absorbs up to 10d6 damage for 1 minute.',
       spellType: 'ACTION',
       icon: 'Force/Force Shield',
       school: 'Abjuration',
@@ -947,7 +947,7 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'arcane_shield',
           name: 'Arcane Shield',
-          description: 'An arcane shield forms around you, enhancing your armor and creating a barrier that absorbs incoming damage. The shield glows with magical energy, protecting you from harm.',
+          description: '+2 Armor and 10d6 damage absorption shield for 1 minute.',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -1034,7 +1034,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'sg_barrier_of_protection',
       name: 'Barrier of Protection',
-      description: 'Create a protective barrier around all allies within range that absorbs incoming damage.',
+      description: 'Create a protective barrier around all allies within 10ft that absorbs up to 8d6 damage each for 1 minute.',
       spellType: 'ACTION',
       icon: 'Healing/Prayer',
       school: 'Abjuration',
@@ -1833,7 +1833,9 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'arcane_bastion',
           name: 'Arcane Bastion',
-          description: 'Allies gain resistance to spell damage and advantage on saves vs magic'
+          description: 'Allies take 50% reduced spell damage and gain advantage on saving throws against magic for 5 rounds.',
+          mechanicsText: '50% reduced spell damage and advantage on saves vs magic for 5 rounds',
+          damageReduction: { value: 50, magnitudeType: 'percentage', damageType: 'spell' }
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2009,7 +2011,9 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'supreme_reflection',
           name: 'Supreme Reflection',
-          description: 'The next spell targeting you is reflected back at the caster with full effect'
+          description: 'The next spell targeting you is reflected back at the caster with full effect',
+          mechanicsText: 'Next spell targeting you is reflected back at caster with full effect',
+          charges: 1
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2129,7 +2133,11 @@ Many players enhance the Spellguard experience with:
           id: 'mage_bane',
           name: 'Mage Bane',
           description: 'Target takes 5d10 force damage whenever they cast a spell',
-          damageFormula: '5d10'
+          damageFormula: '5d10',
+          dotFormula: '5d10',
+          dotDamageType: 'force',
+          damagePerTurn: '5d10',
+          mechanicsText: '5d10 force damage whenever target casts a spell'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2150,7 +2158,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_impenetrable_ward',
       name: 'Impenetrable Ward',
-      description: 'Create an absolutely impenetrable magical ward that blocks all damage and effects.',
+      description: 'Create an impenetrable ward on an ally, granting complete immunity to all damage and effects until the start of their next turn.',
       level: 8,
       spellType: 'REACTION',
       icon: 'Radiant/Divine Radiance',
@@ -2185,7 +2193,9 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'impenetrable_ward',
           name: 'Impenetrable Ward',
-          description: 'Target is immune to all damage and effects until start of their next turn'
+          description: 'Complete immunity to all damage and effects until the start of your next turn.',
+          mechanicsText: 'Complete immunity to all damage and effects until start of next turn',
+          damageImmunity: ['all']
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2354,10 +2364,10 @@ Many players enhance the Spellguard experience with:
       controlConfig: {
         controlType: 'imprisonment',
         strength: 'absolute',
-        duration: 1,
-        durationUnit: 'minutes',
-        saveDC: 20,
-        saveType: 'spirit',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 17,
+        saveType: 'constitution',
         savingThrow: true,
         effects: [{
           id: 'arcane_prison',
@@ -2587,7 +2597,7 @@ Many players enhance the Spellguard experience with:
     {
       id: 'spellguard_arcane_barrier',
       name: 'Arcane Barrier',
-      description: 'Create a powerful arcane barrier that absorbs damage and reflects force damage back at attackers.',
+      description: 'Create a powerful arcane barrier granting 50 temporary HP that reflects 2d8 force damage back at attackers for 4 rounds.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
@@ -2609,10 +2619,13 @@ Many players enhance the Spellguard experience with:
         effects: [{
           id: 'arcane_barrier',
           name: 'Arcane Barrier',
-          description: 'Gain temporary HP that reflects force damage to attackers',
+          description: 'Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you.',
           temporaryHP: 50,
           reflectDamage: '2d8',
-          reflectType: 'force'
+          reflectType: 'force',
+          mechanicsText: '50 temp HP. Attackers take 2d8 force damage on hit.',
+          tempHPFormula: '50',
+          shieldValue: { formula: '50', shieldType: 'temporary_hp' }
         }],
         durationValue: 4,
         durationType: 'rounds',

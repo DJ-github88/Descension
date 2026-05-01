@@ -554,6 +554,9 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'shadow_dash',
             name: 'Shadow Dash',
             description: 'Dash 30 feet without provoking opportunity attacks. Ignore difficult terrain until end of turn.',
+            movementBonus: 30,
+            duration: 1,
+            durationUnit: 'rounds',
             mechanicsText: '30 feet'
           }
         ],
@@ -625,18 +628,21 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'weakened_magic',
             name: 'Weakened Magic',
             description: 'Spell attack rolls reduced by 2, spell save DC reduced by 1',
+            statPenalty: [{ stat: 'spell_attack', value: -2 }, { stat: 'spell_dc', value: -1 }],
             mechanicsText: '-2 Spell Attack, -1 Spell DC'
           },
           {
             id: 'radiant_vulnerability',
             name: 'Radiant Vulnerability',
             description: 'Vulnerable to radiant damage from all sources — radiant damage taken is doubled',
-            mechanicsText: 'Radiant damage doubled'
+            statPenalty: { stat: 'radiant_vulnerability', value: 100, magnitudeType: 'percentage' },
+            mechanicsText: 'Radiant damage taken is doubled'
           },
           {
             id: 'concentration_disruption',
             name: 'Concentration Disruption',
             description: 'Evil magic users must Con save when taking damage or lose concentration on maintained spells',
+            statPenalty: { stat: 'concentration', value: -99, magnitudeType: 'disadvantage' },
             mechanicsText: 'Con save on damage or lose concentration'
           }
         ],
@@ -868,6 +874,10 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'spell_disruption_zone',
             name: 'Spell Disruption Zone',
             description: 'Enemy spellcasters in zone must Con save DC 14 or spell fails. Allies gain +2 to saves vs magic.',
+            duration: 5,
+            durationUnit: 'rounds',
+            saveDC: 14,
+            saveType: 'constitution',
             mechanicsText: '10ft radius, 3 rounds'
           }
         ],
@@ -950,6 +960,13 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'spirit_bind',
             name: 'Spirit Bind',
             description: 'Restrained and silenced. Speed reduced to 0. Attacks against target have advantage. Spirit save at end of each turn to break free.',
+            saveType: 'spirit',
+            saveDC: 15,
+            condition: 'restrained',
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true,
+            silence: true,
             mechanicsText: 'Speed 0, no verbal spells'
           }
         ],
@@ -1093,7 +1110,8 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'storm_mark',
             name: 'Silver Mark',
             description: 'Attacks against this creature have advantage until end of caster\'s next turn',
-            mechanicsText: ''
+            statPenalty: { stat: 'armor', value: -99, magnitudeType: 'disadvantage_to_attackers' },
+            mechanicsText: 'Attacks against this creature have advantage'
           }
         ],
         durationType: 'rounds',
@@ -1170,6 +1188,11 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'divine_execution',
             name: 'Divine Execution',
             description: 'Instantly kill evil magic users at 25 HP or lower. On kill: gain 2 Hexbreaker Charges.',
+            saveType: 'constitution',
+            saveDC: 16,
+            condition: 'death',
+            duration: 1,
+            durationUnit: 'instant',
             mechanicsText: 'DC 16 Con save or die'
           }
         ],
@@ -1224,6 +1247,9 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'anti_magic_zone',
             name: 'Anti-Magic Zone',
             description: '15ft sphere. No spells cast, summoned creatures vanish, magic items suppressed, concentration ends on entry. Moves with caster. Caster unaffected.',
+            duration: 1,
+            durationUnit: 'minutes',
+            radius: 15,
             mechanicsText: '15ft radius, 1 minute, concentration'
           }
         ],
@@ -1302,6 +1328,14 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'silver_net',
             name: 'Silver Chains',
             description: 'Restrained, silenced, speed reduced to 5ft. Takes 2d6 radiant damage at start of each turn. Str save at end of each turn to break free.',
+            saveType: 'strength',
+            saveDC: 15,
+            condition: 'restrained',
+            duration: 3,
+            durationUnit: 'rounds',
+            silence: true,
+            dotFormula: '2d6',
+            dotDamageType: 'radiant',
             mechanicsText: '2d6 radiant/turn'
           }
         ],
@@ -1382,6 +1416,11 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'anti_magic_burst',
             name: 'Anti-Magic Burst',
             description: 'Stunned for 1 round on failed save. Half damage on successful save.',
+            saveType: 'constitution',
+            saveDC: 17,
+            condition: 'stunned',
+            duration: 1,
+            durationUnit: 'rounds',
             mechanicsText: '8d6 necrotic'
           }
         ],
@@ -1450,7 +1489,8 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'shadow_blindness',
             name: 'Shadow Blindness',
             description: 'Blinded for 2 rounds. Cannot see, automatically fails sight-based checks, disadvantage on attack rolls. Moves in a random direction at start of each turn.',
-            mechanicsText: '',
+            statPenalty: { stat: 'attack', value: -99, magnitudeType: 'disadvantage' },
+            mechanicsText: 'Disadvantage on attack rolls for 2 rounds. Moves randomly.',
             statusType: 'blinded',
             level: 'moderate'
           }
@@ -1536,6 +1576,11 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'spell_seal',
             name: 'Spell Seal',
             description: 'One known spell becomes completely inaccessible for 1 hour. The sealed spell cannot be cast, prepared, or recalled. 3d8 psychic damage to evil magic users.',
+            saveType: 'spirit',
+            saveDC: 17,
+            condition: 'silenced',
+            duration: 1,
+            durationUnit: 'hours',
             mechanicsText: 'DC 17 Spirit save'
           }
         ],
@@ -1609,6 +1654,10 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'anti_magic_weakening',
             name: 'Anti-Magic Weakening',
             description: 'Spellcasting at disadvantage. Cannot regain mana or spell slots. 3d8 radiant damage per round.',
+            statPenalty: { stat: 'spell_attack', value: -99, magnitudeType: 'disadvantage' },
+            dotFormula: '3d8',
+            dotDamageType: 'radiant',
+            damagePerTurn: '3d8',
             mechanicsText: '3d8 radiant/round'
           }
         ],
@@ -1916,6 +1965,10 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'magic_suppression_field',
             name: 'Magic Suppression',
             description: 'All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses. 10d6 necrotic damage.',
+            statPenalty: [{ stat: 'spell_slots', value: 2, magnitudeType: 'additional_cost' }],
+            dotFormula: '10d6',
+            dotDamageType: 'necrotic',
+            damagePerTurn: '10d6',
             mechanicsText: '10d6 necrotic'
           }
         ],
@@ -1995,6 +2048,9 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'apocalypse_field',
             name: 'Apocalypse Field',
             description: '60ft sphere. All magical effects, enchantments, and summons destroyed. Magic items rendered inert for 1 hour. Spellcasters silenced for 1d4 rounds. The area counts as difficult terrain for 10 minutes.',
+            duration: 1,
+            durationUnit: 'hours',
+            radius: 60,
             mechanicsText: '60ft radius, all magic destroyed'
           }
         ],
@@ -2176,6 +2232,7 @@ Covenbanes can sense evil magic within 60 feet. Evil creatures and spellcasters 
             id: 'permanent_magic_ending',
             name: 'Permanent Magic Death',
             description: '100ft sphere. All magic permanently destroyed. Spells fail, enchantments end, magic items become inert. Magic cannot function here again. Cha save or permanently lose spellcasting.',
+            radius: 100,
             mechanicsText: '100ft radius, permanent'
           }
         ],

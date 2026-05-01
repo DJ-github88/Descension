@@ -1826,7 +1826,12 @@ Many players enhance the Inscriptor experience with:
           name: 'Bound',
           description: 'Movement speed reduced to 0 for 2 rounds',
           config: {
-            restraintType: 'magical'
+            restraintType: 'magical',
+            saveType: 'strength',
+            saveDC: 14,
+            duration: 2,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2058,7 +2063,9 @@ Many players enhance the Inscriptor experience with:
           id: 'glyph_mastery',
           name: 'Glyph Mastery',
           description: 'All your glyphs and runes deal +50% damage and have +2 DC for 4 rounds',
-          customDescription: 'All your placed glyphs, runes, and inscriptions are enhanced. Damage increased by 50%, saving throw DCs increased by 2, and durations extended by 1 round.'
+          customDescription: 'All your placed glyphs, runes, and inscriptions are enhanced. Damage increased by 50%, saving throw DCs increased by 2, and durations extended by 1 round.',
+          mechanicsText: '+50% glyph/rune damage, +2 DC for 4 rounds',
+          statModifier: [{ stat: 'glyph_damage', magnitude: 50, magnitudeType: 'percentage' }, { stat: 'spell_dc', magnitude: 2, magnitudeType: 'flat' }]
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2181,7 +2188,12 @@ Many players enhance the Inscriptor experience with:
           name: 'Slowed by Runes',
           description: 'Movement speed reduced by 20 feet for 3 rounds',
           config: {
-            restraintType: 'magical'
+            restraintType: 'magical',
+            saveType: 'dexterity',
+            saveDC: 15,
+            duration: 3,
+            durationUnit: 'rounds',
+            movementPenalty: -20
           }
         }]
       },
@@ -2302,7 +2314,8 @@ Many players enhance the Inscriptor experience with:
           id: 'glyph_nexus',
           name: 'Glyph Nexus',
           description: 'All your glyphs are connected. Triggering one triggers all nearby glyphs (within 30 feet) for 5 rounds',
-          customDescription: 'Creates a magical network linking all your placed glyphs and runes. When any glyph is triggered, all glyphs within 30 feet also trigger simultaneously. Additionally, all glyphs deal +2d6 damage while networked.'
+          customDescription: 'Creates a magical network linking all your placed glyphs and runes. When any glyph is triggered, all glyphs within 30 feet also trigger simultaneously. Additionally, all glyphs deal +2d6 damage while networked.',
+          mechanicsText: 'All glyphs connected. Triggering one triggers all within 30ft for 5 rounds'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2430,6 +2443,7 @@ Many players enhance the Inscriptor experience with:
         canBeDispelled: true
       },
       healingConfig: {
+        formula: '3d8',
         healingType: 'hot',
         hasHotEffect: true,
         hotFormula: '3d8',
@@ -2483,7 +2497,9 @@ Many players enhance the Inscriptor experience with:
           id: 'master_inscriber',
           name: 'Master Inscriber',
           description: 'All inscription, glyph, and rune spells cost 50% less mana, have +3 DC, and deal +100% damage for 5 rounds',
-          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions without spending action points.'
+          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions without spending action points.',
+          mechanicsText: 'Inscription spells cost 50% less mana, +3 DC, +100% damage for 5 rounds',
+          statModifier: [{ stat: 'mana_cost', magnitude: -50, magnitudeType: 'percentage' }, { stat: 'spell_dc', magnitude: 3, magnitudeType: 'flat' }]
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2552,7 +2568,11 @@ Many players enhance the Inscriptor experience with:
           description: 'Target is stunned, unable to act or react for 3 rounds',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 17,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2655,7 +2675,9 @@ Many players enhance the Inscriptor experience with:
           id: 'eternal_inscription',
           name: 'Eternal Inscription',
           description: 'Your next 3 inscriptions are permanent and cannot be dispelled',
-          customDescription: 'The next 3 inscriptions you place become permanent and immune to dispelling. They persist indefinitely until you dismiss them or replace them with new eternal inscriptions.'
+          customDescription: 'The next 3 inscriptions you place become permanent and immune to dispelling. They persist indefinitely until you dismiss them or replace them with new eternal inscriptions.',
+          mechanicsText: 'Next 3 inscriptions are permanent and cannot be dispelled',
+          charges: 3
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -2704,7 +2726,9 @@ Many players enhance the Inscriptor experience with:
           id: 'worldscript',
           name: 'Worldscript',
           description: 'Allies gain +5 to all stats, immunity to control effects, and regenerate 5d10 HP per round in the zone for 10 rounds',
-          customDescription: 'You have inscribed the laws of reality itself. Within the zone, allies gain godlike power while enemies are severely weakened. Allies gain +5 to all stats, immunity to all control effects, and regenerate 5d10 HP per round. Enemies take 10d10 force damage per round and have all stats reduced by 5.'
+          customDescription: 'You have inscribed the laws of reality itself. Within the zone, allies gain godlike power while enemies are severely weakened. Allies gain +5 to all stats, immunity to all control effects, and regenerate 5d10 HP per round. Enemies take 10d10 force damage per round and have all stats reduced by 5.',
+          mechanicsText: '+5 all stats, CC immunity, 5d10 HP regen/round for 10 rounds',
+          statModifier: { stat: 'all_stats', magnitude: 5, magnitudeType: 'flat' }
         }],
         durationValue: 10,
         durationType: 'rounds',
@@ -2769,7 +2793,8 @@ Many players enhance the Inscriptor experience with:
           id: 'master_of_runes',
           name: 'Master of Runes',
           description: 'All rune, glyph, and inscription spells cost 0 mana. You can place unlimited runes. All rune damage tripled.',
-          customDescription: 'You have achieved ultimate mastery over runic magic. All rune, glyph, inscription, and sigil spells cost 0 mana. You can place unlimited runes simultaneously. All rune/glyph/inscription damage is tripled. All saving throw DCs increased by 5. You can inscribe items without spending action points.'
+          customDescription: 'You have achieved ultimate mastery over runic magic. All rune, glyph, inscription, and sigil spells cost 0 mana. You can place unlimited runes simultaneously. All rune/glyph/inscription damage is tripled. All saving throw DCs increased by 5. You can inscribe items without spending action points.',
+          mechanicsText: 'All rune/glyph spells cost 0 mana, unlimited runes, rune damage tripled'
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -2890,7 +2915,11 @@ Many players enhance the Inscriptor experience with:
           description: 'Target is paralyzed, unable to move or act for 5 rounds',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 20,
+            duration: 5,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2900,7 +2929,9 @@ Many players enhance the Inscriptor experience with:
           id: 'omniscript_power',
           name: 'Omniscript',
           description: 'Allies gain +10 to all stats, immunity to everything, and limitless power for 15 rounds',
-          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take 25d6 + intelligence × 5 force damage, and cannot act.'
+          customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, complete immunity to all damage and effects, regenerate to full HP and mana each round, and all their abilities cost 0 resources. Enemies are paralyzed, take 25d6 + intelligence × 5 force damage, and cannot act.',
+          mechanicsText: '+10 all stats, immunity to everything, limitless power for 15 rounds',
+          statModifier: { stat: 'all_stats', magnitude: 10, magnitudeType: 'flat' }
         }],
         durationValue: 15,
         durationType: 'rounds',
@@ -3024,7 +3055,8 @@ Many players enhance the Inscriptor experience with:
           id: 'universal_inscription',
           name: 'Universal Inscription',
           description: 'The universe itself is your canvas. All spells cost 0 resources. All your inscriptions are reality-warping.',
-          customDescription: 'You have inscribed your will upon the fabric of reality itself. All your spells cost 0 mana and 0 action points. All your inscriptions, glyphs, runes, and sigils are permanent unless you dismiss them. You can place unlimited inscriptions. All inscriptions are reality-warping and cannot be dispelled by any means. You can reshape the battlefield at will.'
+          customDescription: 'You have inscribed your will upon the fabric of reality itself. All your spells cost 0 mana and 0 action points. All your inscriptions, glyphs, runes, and sigils are permanent unless you dismiss them. You can place unlimited inscriptions. All inscriptions are reality-warping and cannot be dispelled by any means. You can reshape the battlefield at will.',
+          mechanicsText: 'All spells cost 0 resources. All inscriptions are reality-warping.'
         }],
         durationValue: 0,
         durationType: 'permanent',

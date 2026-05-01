@@ -34,6 +34,7 @@ const GLOBAL_STAT_MAP = {
   'healing_power': 'Healing Power', 'initiative': 'Initiative', 'lifesteal': 'Lifesteal',
   'damage_reflection': 'Damage Reflection', 'actionpoints': 'Action Points', 'action_points': 'Action Points',
   'damagereduction': 'Damage Reduction', 'damage_reduction': 'Damage Reduction',
+  'savingthrows': 'Saving Throws', 'saving_throws': 'Saving Throws',
   'healingperkill': 'Healing Per Kill', 'healing_per_kill': 'Healing Per Kill',
   'ragegeneration': 'Rage Generation', 'rage_generation': 'Rage Generation', 'rage generation': 'Rage Generation',
   'momentumgeneration': 'Momentum Generation', 'momentum_generation': 'Momentum Generation', 'momentum generation': 'Momentum Generation',

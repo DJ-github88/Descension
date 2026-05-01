@@ -997,7 +997,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
           name: 'Confused',
           description: 'Cannot distinguish friend from foe, acts erratically for 3 rounds',
           config: {
-            confusionType: 'complete'
+            confusionType: 'complete',
+            saveType: 'intelligence',
+            saveDC: 14,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2172,7 +2176,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
           name: 'Charmed',
           description: 'Charmed by false promises - cannot attack caster for 2 rounds',
           config: {
-            charmType: 'friendly'
+            charmType: 'friendly',
+            saveType: 'charisma',
+            saveDC: 15,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2404,7 +2412,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
           name: 'Confused',
           description: 'Confused by deception - may attack random target for 1 round',
           config: {
-            confusionType: 'random_target'
+            confusionType: 'random_target',
+            saveType: 'intelligence',
+            saveDC: 14,
+            duration: 1,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2465,7 +2477,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
           name: 'Grand Confusion',
           description: 'All enemies confused - may attack allies or do nothing for 3 rounds',
           config: {
-            confusionType: 'complete'
+            confusionType: 'complete',
+            saveType: 'intelligence',
+            saveDC: 16,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2540,7 +2556,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
           id: 'disoriented',
           name: 'Disoriented',
           description: 'Disoriented by reality distortion - disadvantage on all rolls for 2 rounds',
-          statusType: 'disoriented'
+          statusType: 'disoriented',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Disadvantage on all rolls for 2 rounds'
         }],
         durationValue: 2,
         durationType: 'rounds',
@@ -2606,7 +2624,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
           name: 'Mass Manipulation',
           description: 'All enemies controlled - must follow your commands for 2 rounds',
           config: {
-            controlType: 'full'
+            controlType: 'full',
+            saveType: 'charisma',
+            saveDC: 18,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }]
       },

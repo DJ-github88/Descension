@@ -1012,7 +1012,7 @@ Before combat, decide which cadences you want to prioritize:
     {
       id: 'minstrel_inspiring_rhythm',
       name: 'Inspiring Rhythm',
-      description: 'Play an inspiring rhythm that boosts morale and generates dominant notes.',
+      description: 'Play an inspiring rhythm that grants all nearby allies +1 to attack rolls for 1 round. Generates dominant notes.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Radiant/Golden Ring',
@@ -1048,8 +1048,10 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'inspiring_rhythm',
           name: 'Inspiring Rhythm',
-          description: 'Increases morale and provides minor benefits',
-          customDescription: 'Increases morale and provides minor benefits.'
+          description: 'Allies within 15ft gain +1 to attack rolls for 1 round.',
+          customDescription: 'Allies within 15ft gain +1 to attack rolls for 1 round.',
+          statModifier: { stat: 'attack', magnitude: 1, magnitudeType: 'flat' },
+          mechanicsText: '+1 to attack rolls for 1 round'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -1244,7 +1246,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'armor_boost',
           name: 'Armor Boost',
-          description: 'Increases target armor',
+          description: '+2 Armor for 2 turns',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -1390,34 +1392,19 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       damageConfig: {
-        damageType: 'radiant'
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '1d8 + spirit',
-            type: 'magical'
-          }
+        formula: '1d8 + spirit',
+        elementType: 'radiant',
+        damageType: 'direct',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [{
+            targetType: 'creature_type',
+            creatureTypes: ['undead', 'fiend'],
+            bonusFormula: 'healing_rolled',
+            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
+          }]
         }
       },
-
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'IV', count: 1 },
-            { note: 'I', count: 1 }
-          ],
-          cadenceName: 'Plagal Cadence'
-        },
-        instrumentBonus: {
-          lute: { healingBonus: 1 },
-          harp: { healingBonus: 1 }
-        }
-      },
-
-      tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level 1']
     },
 
     {
@@ -1464,7 +1451,18 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       damageConfig: {
-        damageType: 'radiant'
+        formula: '2d6 + spirit',
+        elementType: 'radiant',
+        damageType: 'direct',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [{
+            targetType: 'creature_type',
+            creatureTypes: ['undead', 'fiend'],
+            bonusFormula: 'healing_rolled',
+            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
+          }]
+        }
       },
 
       effects: {
@@ -1811,7 +1809,18 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'radiant'
+        formula: '4d6 + spirit',
+        elementType: 'radiant',
+        damageType: 'direct',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [{
+            targetType: 'creature_type',
+            creatureTypes: ['undead', 'fiend'],
+            bonusFormula: 'healing_rolled',
+            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
+          }]
+        }
       },
 
       effects: {
@@ -1951,7 +1960,18 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'radiant'
+        formula: '6d6 + spirit',
+        elementType: 'radiant',
+        damageType: 'direct',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [{
+            targetType: 'creature_type',
+            creatureTypes: ['undead', 'fiend'],
+            bonusFormula: 'healing_rolled',
+            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
+          }]
+        }
       },
 
       effects: {
@@ -2027,7 +2047,18 @@ Before combat, decide which cadences you want to prioritize:
       resolution: 'DICE',
 
       damageConfig: {
-        damageType: 'radiant'
+        formula: '2d8',
+        elementType: 'radiant',
+        damageType: 'direct',
+        conditionalDamage: {
+          enabled: true,
+          conditions: [{
+            targetType: 'creature_type',
+            creatureTypes: ['undead', 'fiend'],
+            bonusFormula: 'healing_rolled',
+            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
+          }]
+        }
       },
 
       effects: {
@@ -2266,6 +2297,11 @@ Before combat, decide which cadences you want to prioritize:
           name: 'Disrupted',
           description: 'Enemies cannot cast spells until the end of their next turn',
           config: {
+            saveType: 'constitution',
+            saveDC: 16,
+            condition: 'silenced',
+            duration: 1,
+            durationUnit: 'rounds',
             durationType: 'rounds',
             recoveryMethod: 'automatic'
           }
@@ -2299,12 +2335,30 @@ Before combat, decide which cadences you want to prioritize:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
         targetRestrictions: ['enemy', 'ally']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['ally']
+        }
       },
 
       resourceCost: {
@@ -2397,7 +2451,12 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'entranced',
           name: 'Entranced',
-          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds.'
+          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds.',
+          statPenalty: [
+            { stat: 'armor', value: -4 },
+            { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage' }
+          ],
+          mechanicsText: '-4 AC and disadvantage on saving throws for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2420,7 +2479,11 @@ Before combat, decide which cadences you want to prioritize:
           name: 'Frightened',
           description: 'Enemies are frightened and must move away from you',
           config: {
-            fearStrength: 'moderate'
+            fearStrength: 'moderate',
+            saveType: 'charisma',
+            saveDC: 16,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2609,7 +2672,9 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'spirit_of_heroes',
           name: 'Spirit of Heroes',
-          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.'
+          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.',
+          mechanicsText: '+4 to all saving throws and +3d6 damage on attacks for 5 rounds',
+          statModifier: [{ stat: 'saving_throws', magnitude: 4, magnitudeType: 'flat' }]
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2677,7 +2742,8 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'accelerated_tempo',
           name: 'Accelerated Tempo',
-          description: 'Allies gain an extra action on each of their turns for 3 rounds.'
+          description: 'Allies gain an extra action on each of their turns for 3 rounds.',
+          mechanicsText: 'Extra action on each turn for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2691,7 +2757,10 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'slowed_tempo',
           name: 'Slowed Tempo',
-          description: 'Enemies lose their reaction and have their speed halved for 3 rounds.'
+          description: 'Enemies lose their reaction and have their speed halved for 3 rounds.',
+          statPenalty: [{ stat: 'movement_speed', value: -50, magnitudeType: 'percentage' }],
+          movementPenalty: -50,
+          mechanicsText: 'Lose reaction, speed halved for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2728,12 +2797,37 @@ Before combat, decide which cadences you want to prioritize:
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
         aoeShape: 'circle',
         aoeParameters: { radius: 60 },
         targetRestrictions: ['enemy', 'ally']
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 60 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 60 },
+          targetRestrictions: ['ally']
+        },
+        buff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 60 },
+          targetRestrictions: ['ally']
+        }
       },
 
       resourceCost: {
@@ -2864,7 +2958,9 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'creative_energy',
           name: 'Creative Energy',
-          description: 'Allies gain +3 to all ability scores for the duration of the summon'
+          description: 'Allies gain +3 to all ability scores for the duration of the summon',
+          statModifier: { stat: 'all_stats', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 to all ability scores for duration of summon'
         }],
         durationValue: 10,
         durationType: 'rounds',

@@ -1046,7 +1046,9 @@ Many players enhance the Toxicologist experience with:
           name: 'Poisoned',
           description: 'Disadvantage on attack rolls and ability checks for 4 rounds',
           statusType: 'poisoned',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'ability_checks', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Disadvantage on attack rolls and ability checks for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1224,7 +1226,9 @@ Many players enhance the Toxicologist experience with:
           name: 'Slowed',
           description: 'Movement speed reduced by 10 feet for 2 rounds',
           statusType: 'slowed',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }],
         durationValue: 2,
         durationType: 'rounds',
@@ -1573,7 +1577,11 @@ Many players enhance the Toxicologist experience with:
           name: 'Confused',
           description: 'Attack random target (ally or enemy) for 2 rounds',
           config: {
-            confusionType: 'random_target'
+            confusionType: 'random_target',
+            saveType: 'constitution',
+            saveDC: 14,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -1651,7 +1659,12 @@ Many players enhance the Toxicologist experience with:
           name: 'Total Shutdown',
           description: 'Cannot take actions or reactions, armor reduced to 0, automatically fail all saves, vulnerable to all damage types',
           statusType: 'incapacitated',
-          level: 'severe'
+          level: 'severe',
+          saveType: 'constitution',
+          saveDC: 18,
+          duration: 1,
+          durationUnit: 'rounds',
+          stun: true
         }]
       },
 
@@ -1769,7 +1782,9 @@ Many players enhance the Toxicologist experience with:
       utilityConfig: {
         utilityType: 'cure',
         cures: ['poison', 'disease'],
-        description: 'Cure all poison and disease effects'
+        description: 'Cure all poison and disease effects',
+        charges: 1,
+        mechanicsText: 'Cure all poison and disease effects'
       },
 
       buffConfig: {
@@ -1996,7 +2011,11 @@ Many players enhance the Toxicologist experience with:
           id: 'pandemic_plague',
           name: 'Pandemic Plague',
           description: 'Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.',
-          damageFormula: '3d6'
+          damageFormula: '3d6',
+          dotFormula: '3d6',
+          dotDamageType: 'poison',
+          damagePerTurn: '3d6',
+          statPenalty: { stat: 'constitution', value: -4 }
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2122,7 +2141,9 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'supreme_sabotage',
           name: 'Supreme Sabotage',
-          description: 'Enemies deal half damage, have -5 to hit, and all their gear malfunctions'
+          description: 'Enemies deal half damage, have -5 to hit, and all their gear malfunctions',
+          statPenalty: [{ stat: 'damage', value: -50, magnitudeType: 'percentage' }, { stat: 'attack', value: -5 }],
+          mechanicsText: 'Half damage, -5 to hit, gear malfunctions'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2310,7 +2331,9 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'total_system_failure',
           name: 'Total System Failure',
-          description: 'All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 AC.'
+          description: 'All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 AC.',
+          statPenalty: [{ stat: 'armor', value: -10 }, { stat: 'spellcasting', value: -99, magnitudeType: 'blocked' }],
+          mechanicsText: 'All magic items stop working, buffs removed, no spells for 1 round, -10 AC'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2387,7 +2410,12 @@ Many players enhance the Toxicologist experience with:
         effects: [{
           id: 'apocalypse_plague',
           name: 'Apocalypse Plague',
-          description: 'All enemies are poisoned, weakened, and take ongoing damage. Spreads infinitely between enemies.'
+          description: 'All enemies are poisoned, weakened, and take ongoing damage. Spreads infinitely between enemies.',
+          dotFormula: '4d10',
+          dotDamageType: 'poison',
+          damagePerTurn: '4d10',
+          statPenalty: { stat: 'all_stats', value: -4 },
+          mechanicsText: 'Poisoned, weakened, ongoing damage, spreads infinitely'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2774,7 +2802,11 @@ Many players enhance the Toxicologist experience with:
           name: 'Toxic Shock',
           description: 'Stunned by toxins - cannot act for 1 round',
           config: {
-            stunType: 'toxic'
+            stunType: 'toxic',
+            saveType: 'constitution',
+            saveDC: 16,
+            duration: 1,
+            durationUnit: 'rounds'
           }
         }]
       },

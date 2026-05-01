@@ -1121,7 +1121,7 @@ Many players enhance the Plaguebringer experience with:
                 type: 'debuff_zone',
                 radius: 20,
                 duration: '1 minute',
-                description: 'Fog reduces armor and ranged accuracy'
+                description: 'Fog reduces armor by 5 and imposes disadvantage on ranged attacks'
               },
               debuff: {
                 armorReduction: 5,
@@ -1284,7 +1284,11 @@ Many players enhance the Plaguebringer experience with:
                 name: 'Confused',
                 description: 'Target attacks nearest ally on next turn',
                 statusType: 'confused',
-                level: 'moderate'
+                level: 'moderate',
+                saveType: 'constitution',
+                saveDC: 14,
+                duration: 1,
+                durationUnit: 'rounds'
               }]
             },
 
@@ -1369,7 +1373,11 @@ Many players enhance the Plaguebringer experience with:
                 name: 'Paralyzed by Fear',
                 description: 'Paralyzed with fear, loses next action',
                 statusType: 'paralyzed',
-                level: 'severe'
+                level: 'severe',
+                saveType: 'charisma',
+                saveDC: 15,
+                duration: 1,
+                durationUnit: 'rounds'
               }]
             },
 
@@ -1523,7 +1531,7 @@ Many players enhance the Plaguebringer experience with:
               effects: [{
                 id: 'swarm_vision_reduction',
                 name: 'Swarm Vision Reduction',
-                description: 'Sight range reduced',
+                description: 'Sight range reduced by 1d20 feet',
                 statModifier: {
                   stat: 'sight_range',
                   magnitude: '1d20',
@@ -1777,7 +1785,7 @@ Many players enhance the Plaguebringer experience with:
               effects: [{
                 id: 'permanent_decay',
                 name: 'Permanent Decay',
-                description: 'Permanently reduces max HP',
+                description: 'Permanently reduces max HP by 2d10',
                 statModifier: {
                   stat: 'max_hp',
                   magnitude: '2d10',
@@ -2603,7 +2611,10 @@ Many players enhance the Plaguebringer experience with:
                 id: 'mass_affliction',
                 name: 'Base Affliction',
                 description: 'All targets afflicted with base plague for cultivation - takes 1d4 poison damage per round for 4 rounds',
-                statusType: 'afflicted'
+                statusType: 'afflicted',
+                dotFormula: '1d4',
+                dotDamageType: 'poison',
+                damagePerTurn: '1d4'
               }],
               durationValue: 4,
               durationType: 'rounds',
@@ -2780,7 +2791,11 @@ Many players enhance the Plaguebringer experience with:
                 name: 'Stunned',
                 description: 'Target is stunned from mental anguish - cannot act for 1 round',
                 config: {
-                  stunType: 'mental'
+                  stunType: 'mental',
+                  saveType: 'constitution',
+                  saveDC: 16,
+                  duration: 1,
+                  durationUnit: 'rounds'
                 }
               }]
             },
@@ -2959,7 +2974,11 @@ Many players enhance the Plaguebringer experience with:
                 name: 'Confused',
                 description: 'Targets are confused - 50% chance to attack ally, 50% chance to do nothing for 2 rounds',
                 config: {
-                  confusionType: 'random_actions'
+                  confusionType: 'random_actions',
+                  saveType: 'constitution',
+                  saveDC: 17,
+                  duration: 2,
+                  durationUnit: 'rounds'
                 }
               }]
             },
@@ -2998,11 +3017,27 @@ Many players enhance the Plaguebringer experience with:
               castTimeType: 'IMMEDIATE'
             },
 
+            targetingMode: 'effect',
             targetingConfig: {
               targetingType: 'self',
               rangeType: 'self_centered',
               aoeShape: 'circle',
               aoeParameters: { radius: 30 }
+            },
+
+            effectTargeting: {
+              damage: {
+                targetingType: 'area',
+                rangeType: 'self_centered',
+                aoeShape: 'circle',
+                aoeParameters: { radius: 30 },
+                targetRestrictions: ['enemy'],
+                description: 'All enemies within 30ft take necrotic damage'
+              },
+              healing: {
+                targetingType: 'self',
+                description: 'You heal for a portion of damage dealt'
+              }
             },
 
             damageConfig: {
@@ -3182,7 +3217,11 @@ Many players enhance the Plaguebringer experience with:
                 name: 'Terrorized',
                 description: 'Targets are terrorized - must flee or cower in fear for 3 rounds',
                 config: {
-                  fearType: 'flee_or_cower'
+                  fearType: 'flee_or_cower',
+                  saveType: 'charisma',
+                  saveDC: 18,
+                  duration: 3,
+                  durationUnit: 'rounds'
                 }
               }]
             },
@@ -3532,7 +3571,12 @@ Many players enhance the Plaguebringer experience with:
                 id: 'ultimate_affliction',
                 name: 'Ultimate Affliction',
                 description: 'Target suffers all affliction types simultaneously - takes 5d10 damage per round, reduced healing, stat penalties, and spreading contagion for 6 rounds',
-                statusType: 'ultimate_affliction'
+                statusType: 'ultimate_affliction',
+                dotFormula: '5d10',
+                dotDamageType: 'poison',
+                damagePerTurn: '5d10',
+                statPenalty: [{ stat: 'healing_received', value: -50, magnitudeType: 'percentage' }, { stat: 'all_stats', value: -4 }],
+                mechanicsText: '5d10 damage/round, reduced healing, -4 all stats, spreading contagion for 6 rounds'
               }],
               durationValue: 6,
               durationType: 'rounds',

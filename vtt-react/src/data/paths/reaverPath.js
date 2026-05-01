@@ -576,11 +576,24 @@ export const REAVER_PATH = {
                         }
                     },
 
+                    targetingMode: 'effect',
                     targetingConfig: {
                         targetingType: 'single',
                         rangeType: 'melee',
                         rangeDistance: 5,
                         targetRestrictions: ['enemy']
+                    },
+
+                    effectTargeting: {
+                        damage: {
+                            targetingType: 'single',
+                            rangeType: 'melee',
+                            rangeDistance: 5,
+                            targetRestrictions: ['enemy']
+                        },
+                        healing: {
+                            targetingType: 'self'
+                        }
                     },
 
                     resourceCost: {

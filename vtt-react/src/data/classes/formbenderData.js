@@ -809,7 +809,12 @@ Frostfang
         effects: [{
           id: 'bleeding',
           name: 'Bleeding',
-          description: '1d4 damage per round for 3 rounds (Tier 2+)'
+          description: '1d4 damage per round for 3 rounds (Tier 2+)',
+          dotFormula: '1d4',
+          dotDamageType: 'physical',
+          damagePerTurn: '1d4',
+          duration: 3,
+          durationUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -827,7 +832,11 @@ Frostfang
           description: 'Target is stunned for 1 round (Tier 3: Stun, Tier 5: Paralyze)',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 14,
+            duration: 1,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -897,7 +906,8 @@ Frostfang
         effects: [{
           id: 'invisibility',
           name: 'Shadow Invisibility',
-          description: 'Become invisible for 1 minute or until you attack or take damage'
+          description: 'Become invisible for 1 minute or until you attack or take damage',
+          mechanicsText: 'Invisible for 1 minute or until you attack or take damage'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2008,7 +2018,7 @@ Frostfang
     {
       id: 'formbender_natures_armor',
       name: 'Nature\'s Armor',
-      description: 'Grow thick natural armor that protects you from harm.',
+      description: 'Grow thick natural armor granting +3 AC and 50% resistance to physical damage for 10 minutes.',
       spellType: 'ACTION',
       icon: 'Nature/Earth Shield',
       school: 'Physical',
@@ -2201,7 +2211,13 @@ Frostfang
           id: 'knockdown',
           name: 'Knocked Down',
           description: 'Target is knocked prone for 1 round',
-          config: {}
+          config: {
+            saveType: 'strength',
+            saveDC: 14,
+            knockdown: true,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
         }]
       },
 
@@ -2307,7 +2323,10 @@ Frostfang
         effects: [{
           id: 'beast_form_partial',
           name: 'Beast Form (Partial)',
-          description: 'Gain benefits of one form aspect for 1 minute'
+          description: 'Gain benefits of one form aspect for 1 minute',
+          mechanicsText: 'Gain benefits of one form aspect for 1 minute',
+          duration: 1,
+          durationUnit: 'minutes'
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2474,7 +2493,10 @@ Frostfang
           id: 'adaptive_form',
           name: 'Adaptive Form',
           description: 'Form transformations are free (cost 0 Wild Instinct) for 3 rounds',
-          customDescription: 'You can shift between all forms freely without paying the normal 1 Wild Instinct cost. This allows rapid adaptation to combat situations.'
+          customDescription: 'You can shift between all forms freely without paying the normal 1 Wild Instinct cost. This allows rapid adaptation to combat situations.',
+          mechanicsText: 'Form transformations cost 0 Wild Instinct for 3 rounds',
+          duration: 3,
+          durationUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2588,7 +2610,13 @@ Frostfang
           id: 'stagger',
           name: 'Staggered',
           description: 'Target is knocked prone and must use movement to stand',
-          config: {}
+          config: {
+            saveType: 'strength',
+            saveDC: 15,
+            knockdown: true,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
         }]
       },
       targetingConfig: {
@@ -2759,7 +2787,11 @@ Frostfang
           name: 'Terrified',
           description: 'Enemies are frightened and must move away from you for 3 rounds',
           config: {
-            fearStrength: 'strong'
+            fearStrength: 'strong',
+            saveType: 'charisma',
+            saveDC: 16,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -3163,7 +3195,14 @@ Frostfang
           id: 'stagger',
           name: 'Devastated',
           description: 'Target is knocked prone and stunned for 3 rounds',
-          config: {}
+          config: {
+            saveType: 'constitution',
+            saveDC: 18,
+            knockdown: true,
+            stun: true,
+            duration: 3,
+            durationUnit: 'rounds'
+          }
         }]
       },
       targetingConfig: {
@@ -3211,7 +3250,10 @@ Frostfang
           id: 'eternal_wild',
           name: 'Eternal Wild',
           description: 'Gain unlimited Wild Instinct, instant form transformations, and regenerate 3d10 HP per round in any form',
-          customDescription: 'You have become one with the wild. You generate 5 Wild Instinct per round automatically. All form transformations are instant and free. You regenerate 3d10 HP per round in any form. Your Wild Instinct maximum is increased to 30.'
+          customDescription: 'You have become one with the wild. You generate 5 Wild Instinct per round automatically. All form transformations are instant and free. You regenerate 3d10 HP per round in any form. Your Wild Instinct maximum is increased to 30.',
+          mechanicsText: 'Unlimited Wild Instinct, instant transformations, regenerate 3d10 HP/round',
+          dotFormula: '3d10',
+          dotDamageType: 'healing'
         }],
         durationValue: 0,
         durationType: 'permanent',

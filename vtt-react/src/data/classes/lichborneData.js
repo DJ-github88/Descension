@@ -1010,7 +1010,9 @@ Many players enhance the Lichborne experience with:
           name: 'Chilled',
           description: 'Movement speed reduced by 10 feet',
           statusType: 'slow',
-          level: 'minor'
+          level: 'minor',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }]
       },
 
@@ -1874,7 +1876,9 @@ Many players enhance the Lichborne experience with:
         effects: [{
           id: 'slow',
           name: 'Chilled',
-          description: 'Movement speed reduced by 10 feet for 1 round'
+          description: 'Movement speed reduced by 10 feet for 1 round',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }]
       },
       targetingConfig: {
@@ -2074,7 +2078,11 @@ Many players enhance the Lichborne experience with:
           description: 'Target is frozen solid and cannot move or take actions for 1 round',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 15,
+            duration: 1,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2188,7 +2196,9 @@ Many players enhance the Lichborne experience with:
         effects: [{
           id: 'slow',
           name: 'Chilled',
-          description: 'Movement speed reduced by 15 feet for 1 round'
+          description: 'Movement speed reduced by 15 feet for 1 round',
+          statPenalty: { stat: 'movement_speed', value: -15 },
+          movementPenalty: -15
         }]
       },
       targetingConfig: {
@@ -2297,7 +2307,12 @@ Many players enhance the Lichborne experience with:
           name: 'Slowed by Ice',
           description: 'Movement speed reduced by 50% while in zone',
           config: {
-            restraintType: 'physical'
+            restraintType: 'physical',
+            saveType: 'constitution',
+            saveDC: 14,
+            duration: 5,
+            durationUnit: 'rounds',
+            movementPenalty: -50
           }
         }]
       },
@@ -2413,7 +2428,12 @@ Many players enhance the Lichborne experience with:
           name: 'Frozen in Place',
           description: 'Target is rooted and cannot move for 2 rounds',
           config: {
-            restraintType: 'physical'
+            restraintType: 'physical',
+            saveType: 'constitution',
+            saveDC: 15,
+            duration: 2,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -2533,7 +2553,9 @@ Many players enhance the Lichborne experience with:
         effects: [{
           id: 'slow',
           name: 'Chilled by Blizzard',
-          description: 'Movement speed reduced by 20 feet while in blizzard'
+          description: 'Movement speed reduced by 20 feet while in blizzard',
+          statPenalty: { stat: 'movement_speed', value: -20 },
+          movementPenalty: -20
         }]
       },
       targetingConfig: {
@@ -2767,7 +2789,11 @@ Many players enhance the Lichborne experience with:
           description: 'Target is frozen solid and cannot take actions or reactions for 2 rounds',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 18,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -2901,7 +2927,9 @@ Many players enhance the Lichborne experience with:
         effects: [{
           id: 'slow',
           name: 'Winter Storm',
-          description: 'Movement speed reduced by 50% and visibility heavily obscured'
+          description: 'Movement speed reduced by 50% and visibility heavily obscured',
+          statPenalty: { stat: 'movement_speed', value: -50, magnitudeType: 'percentage' },
+          movementPenalty: -50
         }]
       },
       targetingConfig: {
@@ -2958,7 +2986,12 @@ Many players enhance the Lichborne experience with:
           name: 'Frost Chains',
           description: 'Target is bound by frost chains and cannot move or take actions for 3 rounds. Can attempt DC 17 Strength save at end of each turn to break free.',
           config: {
-            restraintType: 'magical'
+            restraintType: 'magical',
+            saveType: 'strength',
+            saveDC: 17,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -3073,7 +3106,12 @@ Many players enhance the Lichborne experience with:
           name: 'Trapped in Glacier',
           description: 'Target is trapped within the glacier and restrained for 3 rounds. Requires DC 18 Strength check to break free.',
           config: {
-            restraintType: 'physical'
+            restraintType: 'physical',
+            saveType: 'strength',
+            saveDC: 18,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },
@@ -3132,7 +3170,13 @@ Many players enhance the Lichborne experience with:
           description: 'Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'save_or_break'
+            recoveryMethod: 'save_or_break',
+            saveType: 'constitution',
+            saveDC: 18,
+            duration: 5,
+            durationUnit: 'rounds',
+            immobilize: true,
+            shieldValue: 150
           }
         }]
       },
@@ -3269,7 +3313,11 @@ Many players enhance the Lichborne experience with:
           description: 'Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'save'
+            recoveryMethod: 'save',
+            saveType: 'constitution',
+            saveDC: 19,
+            duration: 4,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -3455,7 +3503,11 @@ Many players enhance the Lichborne experience with:
           description: 'All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 20,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -3516,7 +3568,8 @@ Many players enhance the Lichborne experience with:
           id: 'phylactery_eternal',
           name: 'Eternal Phylactery',
           description: 'Phylactery automatically refills and provides unlimited resurrections',
-          customDescription: 'Your phylactery has become eternal. When you die, you resurrect at 50 HP without consuming phylactery HP. Your phylactery HP automatically refills to 50 after each resurrection.'
+          customDescription: 'Your phylactery has become eternal. When you die, you resurrect at 50 HP without consuming phylactery HP. Your phylactery HP automatically refills to 50 after each resurrection.',
+          mechanicsText: 'Resurrect at 50 HP without consuming phylactery charges. Unlimited resurrections.'
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -3584,7 +3637,11 @@ Many players enhance the Lichborne experience with:
           description: 'All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.',
           config: {
             durationType: 'hours',
-            recoveryMethod: 'save'
+            recoveryMethod: 'save',
+            saveType: 'constitution',
+            saveDC: 22,
+            duration: 10,
+            durationUnit: 'rounds'
           }
         }]
       },

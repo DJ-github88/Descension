@@ -786,7 +786,9 @@ Many players enhance the titan experience with:
           name: 'Blinded',
           description: 'Blinded creatures have disadvantage on attack rolls and attacks against them have advantage - cannot see, automatically fails sight-based checks',
           statusType: 'blinded',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Disadvantage on attack rolls, auto-fail sight checks'
         }]
       },
 
@@ -922,12 +924,17 @@ Many players enhance the titan experience with:
       resolution: 'NONE',
 
       buffConfig: {
-        effects: [
-          'All allies within 15 feet gain a shield that absorbs 50 damage',
-          'Celestial Champion: Shield absorbs 75 damage',
-          'Shield lasts until depleted',
-          'Allies can move freely while maintaining shield'
-        ]
+        effects: [{
+          id: 'lunar_shield_absorption',
+          name: 'Lunar Shield',
+          description: 'All allies within 15 feet gain a shield that absorbs damage.',
+          shieldValue: {
+            formula: '50',
+            shieldType: 'absorption',
+            championBonus: '75'
+          },
+          mechanicsText: 'Shield absorbs up to 50 damage (75 for Celestial Champion). Lasts until depleted.'
+        }]
       },
 
       effects: {
@@ -1075,7 +1082,8 @@ Many players enhance the titan experience with:
           name: 'Stunned',
           description: 'Stunned creatures cannot move or take actions - cannot act or move for the duration',
           statusType: 'stunned',
-          level: 'moderate'
+          level: 'moderate',
+          mechanicsText: 'Cannot move or take actions for the duration'
         }]
       },
 
@@ -1226,7 +1234,9 @@ Many players enhance the titan experience with:
           name: 'Prone',
           description: 'Knocked to the ground - disadvantage on attacks, advantage against melee, half movement to stand',
           statusType: 'prone',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }, { stat: 'movement_speed', value: -50, magnitudeType: 'percentage' }],
+          mechanicsText: 'Disadvantage on attacks, advantage vs melee, half movement to stand'
         }]
       },
 
@@ -1588,7 +1598,9 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'celestial_armor',
           name: 'Celestial Armor',
-          description: '+4 AC and resistance to your devotion\'s damage type'
+          description: '+4 AC and resistance to your devotion\'s damage type',
+          statModifier: { stat: 'armor', magnitude: 4, magnitudeType: 'flat' },
+          mechanicsText: '+4 AC and resistance to devotion damage type'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -1644,7 +1656,10 @@ Many players enhance the titan experience with:
           id: 'divine_challenge',
           name: 'Divine Challenge',
           description: 'Target must attack you. If they attack someone else, they take radiant damage.',
-          damageFormula: '3d6'
+          damageFormula: '3d6',
+          mechanicsText: 'Must attack caster or take 3d6 radiant damage',
+          dotFormula: '3d6',
+          dotDamageType: 'radiant'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1759,7 +1774,13 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'lunar_shield',
           name: 'Lunar Shield',
-          description: '+3 AC and regeneration'
+          description: '+3 AC and regeneration',
+          statModifier: {
+            stat: 'armorClass',
+            magnitude: 3,
+            magnitudeType: 'flat'
+          },
+          mechanicsText: '+3 AC and 2d6 HP regeneration per round'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1818,7 +1839,7 @@ Many players enhance the titan experience with:
       },
 
       resolution: 'DICE',
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'control'],
 
       damageConfig: {
         formula: '8d6 + strength',
@@ -1830,6 +1851,21 @@ Many players enhance the titan experience with:
           difficultyClass: 16,
           saveOutcome: 'halves'
         }
+      },
+
+      controlConfig: {
+        controlType: 'knockdown',
+        strength: 'moderate',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 16,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'knocked_prone',
+          name: 'Prone',
+          description: 'Knocked prone by meteor impact'
+        }]
       },
 
       cooldownConfig: {
@@ -1972,7 +2008,8 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'storm_speed',
           name: 'Storm Speed',
-          description: 'Gain an extra attack this turn'
+          description: 'Gain an extra attack this turn',
+          mechanicsText: 'Gain an extra attack this turn'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2023,7 +2060,8 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'celestial_convergence',
           name: 'Celestial Convergence',
-          description: 'Gain benefits from your current devotion AND one other of your choice'
+          description: 'Gain benefits from your current devotion AND one other of your choice',
+          mechanicsText: 'Gain benefits from current devotion AND one other of your choice'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2153,7 +2191,9 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'lunara_blessing',
           name: "Lunara's Blessing",
-          description: 'All allies gain +3 AC and regenerate HP each turn'
+          description: 'All allies gain +3 AC and regenerate HP each turn',
+          statModifier: { stat: 'armor', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 AC and HP regen each turn for all allies'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2595,7 +2635,9 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'divine_protection',
           name: 'Divine Protection',
-          description: 'All allies are immune to damage until start of your next turn'
+          description: 'All allies are immune to damage until start of your next turn',
+          mechanicsText: 'All allies immune to damage until start of your next turn',
+          damageImmunity: ['all']
         }],
         durationValue: 1,
         durationType: 'rounds',

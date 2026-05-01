@@ -891,7 +891,10 @@ START: Always New Moon
           name: 'Marked',
           description: 'Marked targets take +1d4 damage from your next spell',
           statusType: 'marked',
-          level: 'moderate'
+          level: 'moderate',
+          mechanicsText: '+1d4 damage from next spell for 2 rounds',
+          dotFormula: '+1d4',
+          dotDamageType: 'radiant'
         }]
       },
 
@@ -1108,7 +1111,9 @@ START: Always New Moon
           name: 'Blinded',
           description: 'Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks',
           statusType: 'blinded',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }],
+          mechanicsText: 'Disadvantage on attack rolls for 1 round'
         }]
       },
 
@@ -1918,7 +1923,8 @@ START: Always New Moon
           shieldValue: {
             formula: '50',
             shieldType: 'absorption'
-          }
+          },
+          mechanicsText: 'Absorbs up to 50 damage. Reflects 50% of absorbed damage back at attackers.'
         }],
         durationValue: 2,
         durationType: 'rounds',
@@ -2039,7 +2045,8 @@ START: Always New Moon
         effects: [{
           id: 'celestial_archery',
           name: 'Celestial Archery',
-          description: 'All ranged attacks automatically hit. Critical hits on 15-20. Double damage on crits.'
+          description: 'All ranged attacks automatically hit. Critical hits on 15-20. Double damage on crits.',
+          mechanicsText: 'Ranged attacks auto-hit. Crit on 15-20. Double damage on crits.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2097,7 +2104,9 @@ START: Always New Moon
         effects: [{
           id: 'full_moon_blessing',
           name: 'Full Moon Blessing',
-          description: 'All allies gain +4 to all stats, advantage on all rolls, and deal +2d6 radiant damage'
+          description: 'All allies gain +4 to all stats, advantage on all rolls, and deal +2d6 radiant damage',
+          statModifier: { stat: 'all_stats', magnitude: 4, magnitudeType: 'flat' },
+          mechanicsText: '+4 all stats, advantage on all rolls, +2d6 radiant damage'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2255,12 +2264,34 @@ START: Always New Moon
         castTimeType: 'IMMEDIATE'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'circle',
         aoeParameters: { radius: 30 }
+      },
+
+      effectTargeting: {
+        healing: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['ally'],
+          description: 'All allies in the moonwell zone are healed each round'
+        },
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'circle',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['enemy'],
+          description: 'All enemies in the moonwell zone take radiant damage each round'
+        }
       },
 
       resourceCost: {
@@ -2290,14 +2321,16 @@ START: Always New Moon
         hotFormula: '4d8',
         hotDuration: 0,
         hotTickType: 'round',
-        specialRules: 'Heals all allies in zone each round for rest of combat'
+        targetRestrictions: ['ally'],
+        description: 'Heals all allies in zone each round for rest of combat'
       },
 
       damageConfig: {
         formula: '3d8',
         elementType: 'radiant',
         damageType: 'persistent',
-        specialRules: 'Damages all enemies in zone each round'
+        targetRestrictions: ['enemy'],
+        description: 'Damages all enemies in zone each round'
       },
 
       cooldownConfig: {
@@ -2544,7 +2577,12 @@ START: Always New Moon
           name: 'Lunar Chains',
           description: 'Restrained by moonlight chains - cannot move or take actions',
           config: {
-            restraintType: 'magical_bind'
+            restraintType: 'magical_bind',
+            saveType: 'charisma',
+            saveDC: 17,
+            duration: 3,
+            durationUnit: 'rounds',
+            immobilize: true
           }
         }]
       },

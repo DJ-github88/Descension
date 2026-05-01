@@ -1386,7 +1386,7 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'dark_armor_resistance',
             name: 'Dark Armor Resistance',
-            description: 'Resistance to necrotic and shadow damage',
+            description: '50% resistance to necrotic damage (flat magnitude 1)',
             statModifier: {
               stat: 'damageResistance',
               magnitude: 1,
@@ -1437,12 +1437,26 @@ Many players enhance the dreadnaught experience with:
         type: 'none'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'melee',
         rangeDistance: 5,
         targetRestrictions: ['enemy'],
         maxTargets: 1,
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'melee',
+          rangeDistance: 5,
+          targetRestrictions: ['enemy'],
+          maxTargets: 1
+        },
+        healing: {
+          targetingType: 'self'
+        }
       },
 
       resourceCost: {
@@ -1595,7 +1609,8 @@ Many players enhance the dreadnaught experience with:
               elementType: 'necrotic',
               formula: '2d6',
               damageType: 'additional'
-            }
+            },
+            mechanicsText: '+2d6 necrotic damage on all attacks'
           }
         ],
         durationValue: 1,
@@ -1673,7 +1688,8 @@ Many players enhance the dreadnaught experience with:
               elementType: 'necrotic',
               formula: 'Damage Taken',
               healingType: 'conversion'
-            }
+            },
+            mechanicsText: 'Heal from necrotic damage instead of taking it for 1 minute'
           }
         ],
         durationValue: 1,
@@ -1807,7 +1823,9 @@ Many players enhance the dreadnaught experience with:
           damageReflection: {
             percentage: 50,
             elementType: 'necrotic'
-          }
+          },
+          mechanicsText: 'Block all damage for 1 turn. Reflect 50% back as necrotic.',
+          shieldValue: { formula: 'all', shieldType: 'complete' }
         }],
         durationValue: 1,
         durationType: 'turns',
@@ -1970,7 +1988,9 @@ Many players enhance the dreadnaught experience with:
           healingPrevention: {
             types: ['magical'],
             percentage: 100
-          }
+          },
+          mechanicsText: 'Cannot regain HP from healing magic',
+          healingReduction: 100
         }],
         durationValue: 1,
         durationType: 'minutes',
@@ -2215,6 +2235,8 @@ Many players enhance the dreadnaught experience with:
           name: 'Death Mark',
           description: 'Each time this target deals damage to the Dreadnaught, the Dreadnaught gains DRP equal to half the damage dealt (rounded down). The mark cannot be removed by the target.',
           statusType: 'marked',
+          mechanicsText: 'Dreadnaught gains DRP equal to half damage dealt by marked target',
+          statPenalty: { stat: 'death_mark', value: 50, magnitudeType: 'percentage' },
           config: {
             triggerOn: 'damage_dealt_to_caster',
             drpGainFormula: 'Math.floor(damageTaken / 2)',
@@ -2406,12 +2428,27 @@ Many players enhance the dreadnaught experience with:
         type: 'none'
       },
 
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
         aoeShape: 'sphere',
         aoeSize: 30
+      },
+
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'ranged',
+          rangeDistance: 60,
+          aoeShape: 'sphere',
+          aoeParameters: { radius: 30 },
+          targetRestrictions: ['enemy']
+        },
+        healing: {
+          targetingType: 'self'
+        }
       },
 
       resourceCost: {
@@ -2629,7 +2666,10 @@ Many players enhance the dreadnaught experience with:
           {
             id: 'eternal_night_drain',
             name: 'Life Drain',
-            description: 'Ongoing necrotic damage drains life from creatures in the area'
+            description: 'Ongoing necrotic damage drains life from creatures in the area',
+            dotFormula: '2d8',
+            dotDamageType: 'necrotic',
+            damagePerTurn: '2d8'
           }
         ],
         durationValue: 24,
@@ -2762,7 +2802,8 @@ Many players enhance the dreadnaught experience with:
             formula: 'Math.floor(Damage Taken * 0.5)',
             elementType: 'necrotic',
             damageType: 'direct'
-          }
+          },
+          mechanicsText: 'Spirits deal 50% of damage taken back at attacker as necrotic'
         }],
         durationValue: 1,
         durationType: 'hours',

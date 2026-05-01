@@ -694,7 +694,9 @@ MANA COSTS:
           name: 'Frozen Limbs',
           description: 'Movement speed reduced by 10 feet for 1 round as muscles stiffen from the cold.',
           statusType: 'slow',
-          level: 'minor'
+          level: 'minor',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -867,7 +869,13 @@ MANA COSTS:
           name: 'Entangled by Vines',
           description: 'Thorny vines wrap around your legs, immobilizing you. A Strength save breaks free.',
           config: {
-            restraintType: 'physical'
+            restraintType: 'physical',
+            saveType: 'strength',
+            saveDC: 13,
+            condition: 'restrained',
+            breakOnDamage: true,
+            duration: 3,
+            durationUnit: 'rounds'
           }
         }]
       },
@@ -935,7 +943,9 @@ MANA COSTS:
           name: 'Blinded by Steam',
           description: 'Thick steam clouds your vision completely. You automatically fail sight-based checks and attack with disadvantage for 1 round.',
           statusType: 'blinded',
-          level: 'minor'
+          level: 'minor',
+          statPenalty: { stat: 'attack', value: -99, magnitudeType: 'disadvantage' },
+          mechanicsText: 'Disadvantage on all attack rolls for 1 round'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -1196,7 +1206,9 @@ MANA COSTS:
           name: 'Slow',
           description: 'Movement speed reduced by 10 feet',
           statusType: 'slow',
-          level: 'minor'
+          level: 'minor',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }]
       },
 
@@ -1274,7 +1286,8 @@ MANA COSTS:
           name: 'Arcane Disorientation',
           description: 'Arcane energy overwhelms the senses. Suffer -2 to attack rolls and saving throws for 1 round.',
           statusType: 'dazed',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: [{ stat: 'attack', value: -2 }, { stat: 'saving_throws', value: -2 }]
         }]
       },
 
@@ -1423,7 +1436,9 @@ MANA COSTS:
           name: 'Frozen Solid',
           description: 'Movement speed reduced by half for 2 rounds as deep cold stiffens muscles and joints.',
           statusType: 'slow',
-          level: 'moderate'
+          level: 'moderate',
+          statPenalty: { stat: 'movement_speed', value: -50, magnitudeType: 'percentage' },
+          movementPenalty: -50
         }]
       },
 
@@ -2233,7 +2248,13 @@ MANA COSTS:
           description: 'The chaotic elemental barrage has overwhelmed your senses. Movement speed halved, -2 to attack rolls for 1 round.',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 17,
+            duration: 1,
+            durationUnit: 'rounds',
+            movementPenalty: -50,
+            accuracyPenalty: -2
           }
         }]
       },
@@ -2508,7 +2529,8 @@ MANA COSTS:
           name: 'Synthesis Drain',
           description: 'The caster has -2 to spell attack rolls for 1 round from the strain of balancing opposing elements.',
           mechanicsText: '',
-          isSelfDebuff: true
+          isSelfDebuff: true,
+          statPenalty: { stat: 'spell_attack', value: -2 }
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2590,7 +2612,7 @@ MANA COSTS:
           id: 'convergence_exhaustion',
           name: 'Convergence Exhaustion',
           description: 'The caster cannot cast spells requiring 3+ spheres until end of next turn. The immense strain of convergence leaves your body trembling.',
-          mechanicsText: '',
+          mechanicsText: 'Cannot cast spells requiring 3+ spheres until end of next turn',
           isSelfDebuff: true
         }],
         durationValue: 1,
@@ -2673,7 +2695,14 @@ MANA COSTS:
           description: 'Reality warps around you. Disadvantage on attacks, cannot take reactions, movement speed halved for 1 round.',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 18,
+            duration: 1,
+            durationUnit: 'rounds',
+            movementPenalty: -50,
+            accuracyPenalty: -99,
+            loseReactions: true
           }
         }]
       },

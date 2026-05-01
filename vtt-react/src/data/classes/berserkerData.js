@@ -904,7 +904,7 @@ When you cross a Rage State threshold, announce it dramatically:
         effects: [{
           id: 'primal_awakening',
           name: 'Primal Awakening',
-          description: 'Your attacks deal bonus damage. The beast within stirs, making your strikes more savage and your rage burn brighter',
+          description: '+1d4 bonus damage on all attacks',
           damageFormula: '+1d4',
           statModifier: {
             stat: 'damage',
@@ -1318,7 +1318,11 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Primal Terror',
           description: 'Enemies flee in blind panic',
           config: {
-            fearStrength: 'moderate'
+            fearStrength: 'moderate',
+            saveType: 'constitution',
+            saveDC: 14,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }],
         duration: 2,
@@ -1455,7 +1459,12 @@ When you cross a Rage State threshold, announce it dramatically:
           id: 'stun',
           name: 'Impact Stun',
           description: 'Enemies are stunned by the devastating impact',
-          config: {}
+          config: {
+            saveType: 'constitution',
+            saveDC: 15,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
         }],
         duration: 1,
         durationUnit: 'rounds',
@@ -1529,7 +1538,9 @@ When you cross a Rage State threshold, announce it dramatically:
           description: 'Enemies are pushed back by the unstoppable charge',
           config: {
             movementType: 'push',
-            distance: 10
+            distance: 10,
+            saveType: 'strength',
+            saveDC: 14
           }
         }],
         duration: 0,
@@ -1752,7 +1763,11 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Frightened',
           description: 'Enemies are overcome with terror',
           config: {
-            fearStrength: 'moderate'
+            fearStrength: 'moderate',
+            saveType: 'charisma',
+            saveDC: 16,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }],
         duration: 2,
@@ -1903,7 +1918,11 @@ When you cross a Rage State threshold, announce it dramatically:
           description: 'Target is stunned by the devastating blow',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 17,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }],
         duration: 2,
@@ -1961,7 +1980,8 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Unstoppable Force',
           description: 'Immune to all conditions and forced movement for 1 round',
           statusType: 'immunity',
-          level: 'major'
+          level: 'major',
+          mechanicsText: 'Immune to all crowd control conditions and forced movement for 1 round'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2476,7 +2496,14 @@ When you cross a Rage State threshold, announce it dramatically:
           id: 'repel',
           name: 'Whirlwind Force',
           description: 'Enemies are knocked back and down by the spinning fury',
-          config: {}
+          config: {
+            saveType: 'strength',
+            saveDC: 18,
+            pushDistance: 10,
+            knockdown: true,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
         }],
         duration: 1,
         durationUnit: 'rounds',
@@ -2614,7 +2641,11 @@ When you cross a Rage State threshold, announce it dramatically:
           description: 'Enemies are stunned by the apocalyptic force',
           config: {
             durationType: 'rounds',
-            recoveryMethod: 'automatic'
+            recoveryMethod: 'automatic',
+            saveType: 'constitution',
+            saveDC: 19,
+            duration: 2,
+            durationUnit: 'rounds'
           }
         }],
         duration: 2,
@@ -2672,7 +2703,8 @@ When you cross a Rage State threshold, announce it dramatically:
           name: 'Immortal Rage',
           description: 'Immune to death and all lethal damage for 3 rounds',
           statusType: 'immortality',
-          level: 'extreme'
+          level: 'extreme',
+          mechanicsText: 'Cannot die or take lethal damage for 3 rounds. HP cannot drop below 1.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2746,7 +2778,9 @@ When you cross a Rage State threshold, announce it dramatically:
           description: 'Enemies are pulled toward the rift',
           config: {
             movementType: 'pull',
-            distance: 20
+            distance: 20,
+            saveType: 'constitution',
+            saveDC: 19
           }
         }],
         duration: 0,
@@ -2830,7 +2864,9 @@ When you cross a Rage State threshold, announce it dramatically:
           description: 'Enemies are knocked prone by the shockwave',
           config: {
             durationType: 'instant',
-            recoveryMethod: 'stand_action'
+            recoveryMethod: 'stand_action',
+            saveType: 'strength',
+            saveDC: 18
           }
         }],
         duration: 0,
@@ -2948,6 +2984,17 @@ When you cross a Rage State threshold, announce it dramatically:
         buffType: 'custom',
         customName: 'Bloodrage Frenzy',
         customDescription: 'Heal for 25% of melee damage dealt. When toggled off or after 5 rounds (max), take exhaustion damage equal to 1d8 per round maintained.',
+        effects: [{
+          id: 'bloodrage_lifesteal',
+          name: 'Bloodrage Lifesteal',
+          description: 'Heal for 25% of melee damage dealt',
+          mechanicsText: '25% lifesteal on melee attacks',
+          statModifier: {
+            stat: 'lifesteal',
+            magnitude: 25,
+            magnitudeType: 'percentage'
+          }
+        }],
         durationValue: 5,
         durationType: 'rounds',
         durationUnit: 'rounds',

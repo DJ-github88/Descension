@@ -327,7 +327,7 @@ export const CHAOS_WEAVER_DATA = {
       },
       buffConfig: {
         buffType: 'custom',
-        effects: [{ id: 'incorporeal', name: 'Incorporeal', description: 'You become incorporeal for 1 round. You can move through objects and are immune to non-magical attacks.' }],
+        effects: [{ id: 'incorporeal', name: 'Incorporeal', description: 'You become incorporeal for 1 round. You can move through objects and are immune to non-magical attacks.', mechanicsText: 'Incorporeal for 1 round. Can move through objects. Immune to non-magical attacks.' }],
         durationType: 'rounds',
         durationValue: 1,
         durationUnit: 'rounds',
@@ -489,7 +489,9 @@ export const CHAOS_WEAVER_DATA = {
           description: 'Teleport the target up to 20 feet in any direction',
           config: {
             movementType: 'teleport',
-            distance: 20
+            distance: 20,
+            saveDC: 14,
+            saveType: 'dexterity'
           }
         }]
       },
@@ -553,7 +555,7 @@ export const CHAOS_WEAVER_DATA = {
           {
             id: 'strength_reduction',
             name: 'Strength Reduction',
-            description: 'Reduces target strength',
+            description: '-2 Strength',
             statModifier: {
               stat: 'strength',
               magnitude: 2,
@@ -783,7 +785,9 @@ export const CHAOS_WEAVER_DATA = {
           description: 'Swap positions with all creatures in the area randomly',
           config: {
             movementType: 'swap',
-            randomSwap: true
+            randomSwap: true,
+            saveDC: 15,
+            saveType: 'dexterity'
           }
         }]
       },
@@ -836,7 +840,7 @@ export const CHAOS_WEAVER_DATA = {
           {
             id: 'strength_reduction',
             name: 'Strength Reduction',
-            description: 'Reduces target strength',
+            description: '-3 Strength',
             statModifier: {
               stat: 'strength',
               magnitude: 3,
@@ -846,7 +850,7 @@ export const CHAOS_WEAVER_DATA = {
           {
             id: 'constitution_reduction',
             name: 'Constitution Reduction',
-            description: 'Reduces target constitution',
+            description: '-3 Constitution',
             statModifier: {
               stat: 'constitution',
               magnitude: 3,
@@ -1062,7 +1066,10 @@ export const CHAOS_WEAVER_DATA = {
         utilityType: 'defense',
         subtype: 'spell_reflection',
         description: 'Reflect spells back at their casters with chaotic modifications',
-        power: 'major'
+        power: 'major',
+        charges: 1,
+        duration: 1,
+        durationUnit: 'rounds'
       },
       triggerConfig: {
         global: {
@@ -1507,7 +1514,10 @@ export const CHAOS_WEAVER_DATA = {
           name: 'Entropy Plague',
           description: 'Target takes 2d6 necrotic damage at start of turn, spreads to adjacent creatures on failed CON save',
           statusType: 'disease',
-          level: 'severe'
+          level: 'severe',
+          dotFormula: '2d6',
+          dotDamageType: 'necrotic',
+          damagePerTurn: '2d6'
         }],
         durationType: 'rounds',
         durationValue: 3,
@@ -1707,7 +1717,9 @@ export const CHAOS_WEAVER_DATA = {
           name: 'Chaos Conduit',
           description: '+4 to spell damage, all chaos spells gain +1 die for 3 rounds, but you take 2d6 damage at start of each turn',
           statusType: 'empowerment',
-          level: 'major'
+          level: 'major',
+          mechanicsText: '+4 to spell damage, all chaos spells gain +1 die for 3 rounds. Take 2d6 damage at start of each turn.',
+          statModifier: { stat: 'spell_power', magnitude: 4, magnitudeType: 'flat' }
         }],
         durationType: 'rounds',
         durationValue: 3,

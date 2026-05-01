@@ -1169,7 +1169,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'defensive_flow_dodge',
           name: 'Flowing Defense',
-          description: 'Increases dodge chance and generates Momentum on successful dodges',
+          description: '+2 Dodge permanently. Generates +1 Momentum on successful dodges.',
           statModifier: {
             stat: 'dodge',
             magnitude: 2,
@@ -1399,7 +1399,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_dance_speed',
           name: 'Dancing Speed',
-          description: 'The fluid motion of flowing through stances grants you exceptional mobility. The seamless transitions between combat forms make you move like water, flowing effortlessly across the battlefield.',
+          description: '+10 Movement Speed for 1 round.',
           statModifier: {
             stat: 'movementSpeed',
             magnitude: 10,
@@ -1736,7 +1736,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'stance_mastery_power',
           name: 'Stance Mastery',
-          description: 'This mastery amplifies every aspect of your active stance, making your combat forms significantly more potent. Every ability, every movement, every strike is enhanced to its absolute peak.',
+          description: '+2 Stance Power for 2 rounds. Amplifies all active stance effects.',
           statModifier: {
             stat: 'stancePower',
             magnitude: 2,
@@ -1814,7 +1814,12 @@ Many players enhance the stance-dancing experience with:
           name: 'Bleeding Wound',
           description: 'The target bleeds from a deep wound, taking physical damage over time as blood continues to flow. The wound is severe and continues to cause harm.',
           statusType: 'bleeding',
-          level: 'moderate'
+          level: 'moderate',
+          dotFormula: '1d6',
+          dotDamageType: 'physical',
+          damagePerTurn: '1d6',
+          duration: 3,
+          durationUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2035,7 +2040,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'blade_barrier_defense',
           name: 'Blade Defense',
-          description: 'Enhanced AC from the protective barrier of blades',
+          description: '+3 Armor for 3 rounds. Requires concentration.',
           statModifier: {
             stat: 'armor',
             magnitude: 3,
@@ -2184,7 +2189,8 @@ Many players enhance the stance-dancing experience with:
           name: 'Shadow Veil',
           description: 'Become invisible for 1 round, gaining advantage on attacks',
           statusType: 'invisibility',
-          level: 'major'
+          level: 'major',
+          mechanicsText: 'Invisible for 1 round. Next attack has advantage.'
         }],
         durationValue: 1,
         durationType: 'rounds',
@@ -2480,7 +2486,7 @@ Many players enhance the stance-dancing experience with:
         effects: [{
           id: 'momentum_wave_boost',
           name: 'Momentum Surge',
-          description: 'Allies gain momentum and speed from the wave',
+          description: '+5 Momentum Generation for 2 rounds.',
           statModifier: {
             stat: 'momentumGeneration',
             magnitude: 5,

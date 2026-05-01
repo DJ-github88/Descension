@@ -803,7 +803,10 @@ Ogoun: ✓ (poison applied, ally nearby)
           name: 'Cursed',
           description: 'Cursed. Takes necrotic damage each turn for the duration.',
           statusType: 'cursed',
-          level: 'moderate'
+          level: 'moderate',
+          dotFormula: '1d8',
+          dotDamageType: 'necrotic',
+          damagePerTurn: '1d8'
         }],
         durationValue: 10,
         durationType: 'rounds',
@@ -899,7 +902,11 @@ Ogoun: ✓ (poison applied, ally nearby)
           name: 'Frightened',
           description: 'Frightened. Has disadvantage on ability checks and attack rolls while source of fear is in line of sight.',
           statusType: 'frightened',
-          level: 'moderate'
+          level: 'moderate',
+          saveType: 'charisma',
+          saveDC: 14,
+          duration: 3,
+          durationUnit: 'rounds'
         }]
       },
 
@@ -997,7 +1004,11 @@ Ogoun: ✓ (poison applied, ally nearby)
           name: 'Cursed',
           description: 'Cursed by Baron Samedi. Takes necrotic damage each round and has disadvantage on saves against necrotic effects.',
           statusType: 'cursed',
-          level: 'severe'
+          level: 'severe',
+          dotFormula: '2d8',
+          dotDamageType: 'necrotic',
+          damagePerTurn: '2d8',
+          statPenalty: { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage_necrotic' }
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1154,7 +1165,9 @@ Ogoun: ✓ (poison applied, ally nearby)
       utilityConfig: {
         utilityType: 'cure',
         cures: ['curse', 'disease', 'poison'],
-        description: 'Remove all negative conditions from target'
+        description: 'Remove all negative conditions from target',
+        charges: 1,
+        mechanicsText: 'Remove all curses, diseases, and poisons from target'
       },
 
       specialMechanics: {
@@ -1963,7 +1976,8 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'spirit_link',
           name: 'Spirit Link',
           description: 'Damage taken is split 50/50 between linked allies for 3 rounds',
-          customDescription: 'You are spiritually linked. When either of you takes damage, both of you share that damage equally.'
+          customDescription: 'You are spiritually linked. When either of you takes damage, both of you share that damage equally.',
+          mechanicsText: 'Damage taken is split 50/50 between linked allies for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2077,7 +2091,11 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'spirit_sight',
           name: 'Spirit Sight',
           description: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
-          customDescription: 'The veil between worlds thins. Invisible and hidden creatures within 60 ft become visible to you.'
+          customDescription: 'The veil between worlds thins. Invisible and hidden creatures within 60 ft become visible to you.',
+          mechanicsText: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
+          detectionRadius: 60,
+          duration: 3,
+          durationUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2279,15 +2297,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      damageConfig: {
-        formula: '2d8 + spirit',
-        elementType: 'necrotic',
-        damageType: 'direct'
-      },
-      healingConfig: {
-        formula: '2d8 + spirit/2',
-        healingType: 'instant'
-      },
+      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
@@ -2296,6 +2306,27 @@ Ogoun: ✓ (poison applied, ally nearby)
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'single',
+          rangeType: 'ranged',
+          rangeDistance: 25,
+          targetRestrictions: ['enemy'],
+          maxTargets: 1
+        },
+        healing: {
+          targetingType: 'self'
+        }
+      },
+      damageConfig: {
+        formula: '2d8 + spirit',
+        elementType: 'necrotic',
+        damageType: 'direct'
+      },
+      healingConfig: {
+        formula: '2d8 + spirit/2',
+        healingType: 'instant'
       },
       resourceCost: {
         resourceTypes: ['mana'],
@@ -2505,7 +2536,9 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'hex',
           name: 'Hex',
           description: 'Target takes 25% more damage from all sources for 4 rounds',
-          customDescription: 'You are hexed. All damage you take is increased by 25% for 4 rounds.'
+          customDescription: 'You are hexed. All damage you take is increased by 25% for 4 rounds.',
+          statPenalty: { stat: 'damage_taken', value: 25, magnitudeType: 'percentage_increase' },
+          mechanicsText: '25% increased damage from all sources for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2629,7 +2662,11 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'death_ward',
           name: 'Death Ward',
           description: 'When you would be reduced to 0 HP, instead be reduced to 1 HP. This effect can only trigger once and lasts for 5 rounds.',
-          customDescription: 'You are protected by a death ward. The next time you would be reduced to 0 HP within 5 rounds, you are instead reduced to 1 HP. This effect then ends.'
+          customDescription: 'You are protected by a death ward. The next time you would be reduced to 0 HP within 5 rounds, you are instead reduced to 1 HP. This effect then ends.',
+          mechanicsText: 'When reduced to 0 HP, instead reduced to 1 HP. Triggers once, lasts 5 rounds.',
+          charges: 1,
+          duration: 5,
+          durationUnit: 'rounds'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2865,7 +2902,10 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'diseased',
           name: 'Diseased',
-          description: 'Movement speed reduced by 20 feet and healing received reduced by 50%'
+          description: 'Movement speed reduced by 20 feet and healing received reduced by 50%',
+          statPenalty: [{ stat: 'movement_speed', value: -20 }, { stat: 'healing_received', value: -50, magnitudeType: 'percentage' }],
+          movementPenalty: -20,
+          healingReduction: 50
         }]
       },
       targetingConfig: {
@@ -3006,7 +3046,11 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'cursed',
           name: 'Voodoo Curse',
           description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls',
-          damageFormula: '3d8'
+          damageFormula: '3d8',
+          dotFormula: '3d8',
+          dotDamageType: 'necrotic',
+          damagePerTurn: '3d8',
+          statPenalty: { stat: 'all_rolls', value: -99, magnitudeType: 'disadvantage' }
         }]
       },
       targetingConfig: {
@@ -3134,7 +3178,9 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'eternal_voodoo',
           name: 'Eternal Voodoo',
           description: 'You have become one with the loa. Generate 5 Voodoo Essence per round, all voodoo spells deal double damage, and you are immune to curses',
-          customDescription: 'You have achieved eternal voodoo mastery. You generate 5 Voodoo Essence per round automatically. All of your voodoo spells deal double damage. You are immune to all curses and necrotic damage. Your loa invocations cost 50% less essence.'
+          customDescription: 'You have achieved eternal voodoo mastery. You generate 5 Voodoo Essence per round automatically. All of your voodoo spells deal double damage. You are immune to all curses and necrotic damage. Your loa invocations cost 50% less essence.',
+          mechanicsText: 'Generate 5 Voodoo Essence/round, double voodoo spell damage, immune to curses',
+          damageImmunity: ['curse']
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -3196,7 +3242,11 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'portal_trap',
           name: 'Portal Trap',
-          description: 'Enemies who enter portals are trapped for 1 round and take damage'
+          description: 'Enemies who enter portals are trapped for 1 round and take damage',
+          saveType: 'dexterity',
+          saveDC: 17,
+          duration: 1,
+          durationUnit: 'rounds'
         }]
       },
       targetingConfig: {
@@ -3251,7 +3301,10 @@ Ogoun: ✓ (poison applied, ally nearby)
           id: 'doom_curse',
           name: 'Doom Curse',
           description: 'If you survive the initial damage, you are doomed to die in 3 rounds unless this curse is removed by powerful magic',
-          customDescription: 'You are cursed with the ultimate doom. If you are still alive after 3 rounds, you die instantly. This curse can only be removed by legendary magic or intervention of the gods.'
+          customDescription: 'You are cursed with the ultimate doom. If you are still alive after 3 rounds, you die instantly. This curse can only be removed by legendary magic or intervention of the gods.',
+          mechanicsText: 'Doomed to die in 3 rounds unless removed by powerful magic',
+          duration: 3,
+          durationUnit: 'rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',

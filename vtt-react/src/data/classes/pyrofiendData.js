@@ -1019,7 +1019,9 @@ Many players enhance the experience by adding thematic elements:
           description: 'Pulls the target toward the caster',
           config: {
             movementType: 'pull',
-            distance: 15
+            distance: 15,
+            saveType: 'dexterity',
+            saveDC: 14
           }
         }]
       },
