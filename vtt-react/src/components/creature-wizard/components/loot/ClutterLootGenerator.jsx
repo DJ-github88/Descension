@@ -1114,7 +1114,7 @@ const ClutterLootGenerator = ({ onAddItems }) => {
                     <img
                       src={getCategoryIconPath(key, category.icon)}
                       alt={category.name}
-                      className="category-icon"
+                      className="clutter-item-icon"
                       onError={(e) => {
                         e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items');
                       }}

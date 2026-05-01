@@ -2,7 +2,7 @@ import React, { useState, Suspense, lazy } from 'react';
 import { useCreatureWizard, useCreatureWizardDispatch, wizardActionCreators } from '../../context/CreatureWizardContext';
 import '../../styles/WizardSteps.css';
 import './Step3Abilities.css';
-import AbilitySelectionWindow from '../windows/AbilitySelectionWindow';
+
 import BasicAbilityCreator from '../windows/BasicAbilityCreator';
 import UnifiedSpellCard from '../../../spellcrafting-wizard/components/common/UnifiedSpellCard';
 import '../../../spellcrafting-wizard/styles/pathfinder/main.css';
@@ -50,9 +50,7 @@ const Step3Abilities = () => {
   const [editingAbilityIndex, setEditingAbilityIndex] = useState(null);
   const [currentAbility, setCurrentAbility] = useState({ ...DEFAULT_ABILITY });
   const [showAbilityForm, setShowAbilityForm] = useState(false);
-  const [showAbilitySelector, setShowAbilitySelector] = useState(false);
   const [showBasicAbilityCreator, setShowBasicAbilityCreator] = useState(false);
-  const [recentlyAddedSpells, setRecentlyAddedSpells] = useState(new Set());
 
   // This function has been removed as we no longer support custom abilities
 
@@ -1127,11 +1125,6 @@ const Step3Abilities = () => {
 
   // We're now using our custom AbilitySelectionWindow instead of the SpellLibrary component
 
-  // Handle adding from spell library
-  const handleAddFromLibrary = () => {
-    setShowAbilitySelector(true);
-  };
-
   // Handle creating a basic ability
   const handleCreateBasicAbility = (ability) => {
     console.log("Step3Abilities: handleCreateBasicAbility called with ability:", ability);
@@ -1143,148 +1136,6 @@ const Step3Abilities = () => {
     };
     dispatch(wizardActionCreators.addAbility(abilityWithPriority));
     setShowBasicAbilityCreator(false);
-  };
-
-  // Handle selecting a spell from the library
-  const handleSelectSpell = (spell) => {
-    console.log("Step3Abilities: handleSelectSpell called with spell:", spell);
-
-    // Check if this spell is already added to avoid duplicates
-    const existingAbility = wizardState.abilities.find(ability => ability.spellId === spell.id);
-    if (existingAbility) {
-      // Show feedback that spell is already added
-      console.log("Spell already added:", spell.name);
-      // You could add a toast notification here
-      return;
-    }
-
-    // Convert spell to ability format
-    const newAbility = {
-      ...DEFAULT_ABILITY,
-      name: spell.name,
-      type: ABILITY_TYPES.SPELL,
-      description: spell.description || '',
-      damage: {
-        diceCount: 0,
-        diceType: 6,
-        bonus: 0,
-        damageType: 'physical'
-      },
-      range: spell.targetingConfig?.rangeDistance || spell.range || 0,
-      actionPointCost: spell.castingConfig?.actionPointCost || spell.actionPointCost || 1,
-      cooldown: spell.cooldown || 0,
-      // Store the original spell ID for reference
-      spellId: spell.id,
-      // Store the original spell icon
-      icon: spell.icon || spell.typeConfig?.icon || null,
-      // Store the original spell data for reference
-      originalSpell: spell,
-      // Default priority range (1-20 means always available)
-      priorityRange: { min: 1, max: 20, resolution: 'DICE', cardCount: 1, cardPattern: 'any', coinCount: 1, coinPattern: 'any' },
-      // Default trigger condition (none)
-      triggerCondition: null
-    };
-
-    // Process spell effects based on the spell format
-    if (spell.effects && spell.effects.length > 0) {
-      // Extract damage information from effects array
-      const damageEffect = spell.effects.find(e => e.type === 'damage' || e.type === 'DAMAGE');
-      if (damageEffect) {
-        const diceMatch = damageEffect.formula?.match(/(\d+)d(\d+)(?:\s*\+\s*(\d+))?/);
-        if (diceMatch) {
-          newAbility.damage = {
-            diceCount: parseInt(diceMatch[1], 10) || 1,
-            diceType: parseInt(diceMatch[2], 10) || 6,
-            bonus: parseInt(diceMatch[3], 10) || 0,
-            damageType: damageEffect.damageType || 'physical'
-          };
-        }
-      }
-
-      // Store all effects
-      newAbility.effects = spell.effects;
-    } else if (spell.damageConfig) {
-      // Extract damage information from damageConfig
-      const formula = spell.damageConfig.formula || spell.damageConfig.damageFormula;
-      if (formula) {
-        const diceMatch = formula.match(/(\d+)d(\d+)(?:\s*\+\s*(\d+))?/);
-        if (diceMatch) {
-          newAbility.damage = {
-            diceCount: parseInt(diceMatch[1], 10) || 1,
-            diceType: parseInt(diceMatch[2], 10) || 6,
-            bonus: parseInt(diceMatch[3], 10) || 0,
-            damageType: spell.damageConfig.damageType ||
-                       (spell.damageConfig.damageTypes && spell.damageConfig.damageTypes.length > 0 ?
-                        spell.damageConfig.damageTypes[0] : 'physical')
-          };
-        }
-      }
-
-      // Create effects array from damageConfig
-      newAbility.effects = [{
-        type: 'DAMAGE',
-        damageType: newAbility.damage.damageType,
-        formula: `${newAbility.damage.diceCount}d${newAbility.damage.diceType}${newAbility.damage.bonus > 0 ? ` + ${newAbility.damage.bonus}` : ''}`
-      }];
-    } else if (spell.primaryDamage) {
-      // Extract damage information from primaryDamage
-      newAbility.damage = {
-        diceCount: spell.primaryDamage.diceCount || 1,
-        diceType: spell.primaryDamage.diceType || 6,
-        bonus: spell.primaryDamage.flat || 0,
-        damageType: spell.primaryDamage.damageType || 'physical'
-      };
-
-      // Create effects array from primaryDamage
-      newAbility.effects = [{
-        type: 'DAMAGE',
-        damageType: newAbility.damage.damageType,
-        formula: `${newAbility.damage.diceCount}d${newAbility.damage.diceType}${newAbility.damage.bonus > 0 ? ` + ${newAbility.damage.bonus}` : ''}`
-      }];
-    }
-
-    // Add additional spell properties
-    if (spell.spellType) {
-      newAbility.spellType = spell.spellType;
-    }
-
-    if (spell.level) {
-      newAbility.level = spell.level;
-    }
-
-    if (spell.castingConfig) {
-      newAbility.castingConfig = spell.castingConfig;
-    }
-
-    if (spell.targetingConfig) {
-      newAbility.targetingConfig = spell.targetingConfig;
-    }
-
-    if (spell.durationConfig) {
-      newAbility.durationConfig = spell.durationConfig;
-    }
-
-    if (spell.rollableTable) {
-      newAbility.rollableTable = spell.rollableTable;
-    }
-
-    // Directly add the ability to the creature
-    dispatch(wizardActionCreators.addAbility(newAbility));
-
-    // Track as recently added for visual feedback
-    setRecentlyAddedSpells(prev => new Set([...prev, spell.id]));
-
-    // Remove from recently added after 3 seconds
-    setTimeout(() => {
-      setRecentlyAddedSpells(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(spell.id);
-        return newSet;
-      });
-    }, 3000);
-
-    // Show feedback that the spell was added (keep window open)
-    console.log("Added spell to creature:", spell.name);
   };
 
   // Render tactics and behavior section
@@ -1381,13 +1232,7 @@ const Step3Abilities = () => {
           <div className="abilities-header-section">
             <h2>Abilities & Spells</h2>
             <div className="abilities-header-buttons">
-              <button
-                type="button"
-                className="add-from-spell-library-btn"
-                onClick={handleAddFromLibrary}
-              >
-                <i className="fas fa-book"></i> Add From Spell Library
-              </button>
+
               <button
                 type="button"
                 className="create-basic-ability-btn"
@@ -1402,15 +1247,6 @@ const Step3Abilities = () => {
 
           {renderAbilityList()}
         </div>
-
-        {/* Ability Selection Window */}
-        <AbilitySelectionWindow
-          isOpen={showAbilitySelector}
-          onClose={() => setShowAbilitySelector(false)}
-          onSelectAbility={handleSelectSpell}
-          recentlyAddedSpells={recentlyAddedSpells}
-          existingAbilities={wizardState.abilities}
-        />
 
         {/* Basic Ability Creator */}
         <BasicAbilityCreator
