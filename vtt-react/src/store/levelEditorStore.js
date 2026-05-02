@@ -3328,6 +3328,37 @@ const useLevelEditorStore = create((set, get) => ({
         }
     },
 
+    reorderEnvironmentalObject: (objectId, action, mapId = null) => {
+        const state = get();
+        const objects = [...state.environmentalObjects];
+        const index = objects.findIndex(obj => obj.id === objectId);
+        
+        if (index === -1) return;
+        
+        const obj = objects.splice(index, 1)[0];
+        
+        switch (action) {
+            case 'to_front':
+                objects.push(obj);
+                break;
+            case 'to_back':
+                objects.unshift(obj);
+                break;
+            case 'forward':
+                objects.splice(Math.min(objects.length, index + 1), 0, obj);
+                break;
+            case 'backward':
+                objects.splice(Math.max(0, index - 1), 0, obj);
+                break;
+        }
+        
+        set({ environmentalObjects: objects });
+        
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('environmentalObjects', objects, mapId);
+        }
+    },
+
     selectEnvironmentalObject: (objectId) => {
         const state = get();
         set({

@@ -106,6 +106,76 @@ export const PROFESSIONAL_OBJECTS = {
         clickable: true,
         interactive: true
     },
+    rowboat: {
+        id: 'rowboat',
+        name: 'Rowboat',
+        category: 'furniture',
+        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
+        image: '/assets/objects/rowboat.png',
+        size: { width: 3, height: 1.5 },
+        description: 'A wooden rowboat',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    sailboat: {
+        id: 'sailboat',
+        name: 'Sailboat',
+        category: 'furniture',
+        icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
+        image: '/assets/objects/sailboat.png',
+        size: { width: 4, height: 2 },
+        description: 'A small sailboat',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    cauldron: {
+        id: 'cauldron',
+        name: 'Cauldron',
+        category: 'furniture',
+        icon: 'items/Misc/Profession Resources/Alchemy/potion-vial-glass-empty-unfilled',
+        image: '/assets/objects/cauldron.png',
+        size: { width: 1.2, height: 1.2 },
+        description: 'A bubbling iron cauldron',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    treasurePile: {
+        id: 'treasurePile',
+        name: 'Treasure Pile',
+        category: 'furniture',
+        icon: 'items/Misc/Quest Items/currency-gold-pile-wealth-coins',
+        image: '/assets/objects/treasure-pile.png',
+        size: { width: 2, height: 2 },
+        description: 'A pile of gold and gems',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    magicCircle: {
+        id: 'magicCircle',
+        name: 'Magic Circle',
+        category: 'structures',
+        icon: 'Arcane/Orb Manipulation',
+        image: '/assets/objects/magic-circle.png',
+        size: { width: 3, height: 3 },
+        description: 'A glowing arcane circle',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
     campfire: {
         id: 'campfire',
         name: 'Campfire',
@@ -274,9 +344,10 @@ const ObjectSystem = () => {
         isEditorMode,
         activeLayer,
         drawingLayers,
+        removeEnvironmentalObject,
         updateEnvironmentalObject,
         selectEnvironmentalObject,
-        removeEnvironmentalObject
+        reorderEnvironmentalObject
     } = useLevelEditorStore();
 
     const {
@@ -327,6 +398,11 @@ const ObjectSystem = () => {
             seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
             avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
 
+            // Check if background is vibrant (like magenta)
+            const isVibrantBg = (avgR > 200 && avgG < 100 && avgB > 200) || // Magenta
+                               (avgR < 100 && avgG > 200 && avgB < 100) || // Green
+                               (avgR < 100 && avgG < 100 && avgB > 200);   // Blue
+
             // 2. Flood Fill Transparency (from edges)
             const visited = new Uint8Array(width * height);
             const queue = [...seeds];
@@ -344,8 +420,8 @@ const ObjectSystem = () => {
                     }
                 }
                 
-                // Catch checkerboard colors (whites and light greys)
-                if (!isMatch && r > 180 && g > 180 && b > 180) {
+                // Catch checkerboard colors (whites and light greys) - only if NOT vibrant bg
+                if (!isMatch && !isVibrantBg && r > 180 && g > 180 && b > 180) {
                     const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
                     if (diff < 30) isMatch = true; 
                 }
@@ -372,7 +448,10 @@ const ObjectSystem = () => {
 
                 // ULTRA-AGGRESSIVE NUCLEAR TRANSPARENCY
                 // Clear anything that looks like background (grayscale haze)
-                if ((distToBg < 150 && diff < 60) || (r > 170 && g > 170 && b > 170 && diff < 35)) {
+                // If vibrant bg, only clear pixels very close to that color
+                if (isVibrantBg) {
+                    if (distToBg < 60) data[i + 3] = 0;
+                } else if ((distToBg < 150 && diff < 60) || (r > 170 && g > 170 && b > 170 && diff < 35)) {
                     data[i + 3] = 0;
                 }
             }
@@ -1146,17 +1225,17 @@ const ObjectSystem = () => {
             // In editor mode, allow context menu for all objects
             // In GM mode (but not editor mode), only allow context menu for GM notes
             if (isEditorMode || (isGMMode && clickedObject.type === 'gmNotes')) {
-                console.log('🎯 Showing context menu for object:', clickedObject);
+                console.log('🎯 Showing context menu for object:', clickedObject.id, clickedObject.type);
                 // Select the object and show context menu directly
                 selectEnvironmentalObject(clickedObject.id);
                 setSelectedObject(clickedObject);
                 setContextMenuPosition({ x: e.clientX, y: e.clientY });
                 setShowContextMenu(true);
             } else {
-                console.log('🎯 Context menu blocked: object type not allowed in current mode');
+                console.log('🎯 Context menu blocked: object type not allowed in current mode', { isEditorMode, isGMMode, type: clickedObject.type });
             }
         } else {
-            console.log('🎯 No object found at click position');
+            console.log('🎯 No object found at click position', { screenX, screenY });
         }
     }, [isEditorMode, isGMMode, getObjectAtScreenPosition, selectEnvironmentalObject]);
 
@@ -1164,6 +1243,15 @@ const ObjectSystem = () => {
     const handleRemoveObject = () => {
         if (selectedObject) {
             removeEnvironmentalObject(selectedObject.id, getExplicitCurrentMapId());
+            setShowContextMenu(false);
+            setSelectedObject(null);
+        }
+    };
+
+    // Handle reordering object
+    const handleReorderObject = (action) => {
+        if (selectedObject) {
+            reorderEnvironmentalObject(selectedObject.id, action, getExplicitCurrentMapId());
             setShowContextMenu(false);
             setSelectedObject(null);
         }
@@ -1642,7 +1730,14 @@ const ObjectSystem = () => {
                     }
                     handleMouseUp();
                 }}
-                onContextMenu={handleContextMenu}
+                onMouseDown={(e) => {
+                    console.log('🎯 Canvas MouseDown');
+                    handleMouseDown(e);
+                }}
+                onContextMenu={(e) => {
+                    console.log('🎯 Canvas ContextMenu');
+                    handleContextMenu(e);
+                }}
             />
 
             {/* Context Menu */}
@@ -1668,6 +1763,35 @@ const ObjectSystem = () => {
                                 type: 'separator'
                             }
                         ] : []),
+                        {
+                            icon: <i className="fas fa-layer-group"></i>,
+                            label: 'Layering',
+                            submenu: [
+                                {
+                                    icon: <i className="fas fa-angle-double-up"></i>,
+                                    label: 'Move to Front',
+                                    onClick: () => handleReorderObject('to_front')
+                                },
+                                {
+                                    icon: <i className="fas fa-angle-up"></i>,
+                                    label: 'Bring Forward',
+                                    onClick: () => handleReorderObject('forward')
+                                },
+                                {
+                                    icon: <i className="fas fa-angle-down"></i>,
+                                    label: 'Send Backward',
+                                    onClick: () => handleReorderObject('backward')
+                                },
+                                {
+                                    icon: <i className="fas fa-angle-double-down"></i>,
+                                    label: 'Move to Back',
+                                    onClick: () => handleReorderObject('to_back')
+                                }
+                            ]
+                        },
+                        {
+                            type: 'separator'
+                        },
                         {
                             icon: <i className="fas fa-trash"></i>,
                             label: 'Remove',
