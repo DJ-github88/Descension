@@ -4,7 +4,9 @@ import { getSpellRollableTable } from '../spellcrafting-wizard/core/utils/spellC
 import ClassResourceBar from '../hud/ClassResourceBar';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassResourceConfig } from '../../data/classResources';
+import SphereComboFinder from './SphereComboFinder';
 import './ClassDetailDisplay.css';
+import './SphereComboFinder.css';
 
 /**
  * Build a sensible demo classResource prop for the rules page preview.
@@ -590,7 +592,176 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
           {resourceSystem.mechanics && (
             <div className="guide-subsection mechanics-box">
               <h4><i className="fas fa-cogs"></i> {resourceSystem.mechanics.title || 'Mechanics'}</h4>
-              {renderStructuredContent(resourceSystem.mechanics.content)}
+              {resourceSystem.mechanics.content && renderStructuredContent(resourceSystem.mechanics.content)}
+              {classData.combinationMatrix && <SphereComboFinder combinationMatrix={classData.combinationMatrix} />}
+              {resourceSystem.mechanics.sections && (
+                <div className="mech-steps">
+                  {resourceSystem.mechanics.sections.map((section, i) => (
+                    <div key={i} className="mech-step-card">
+                      <div className="mech-step-number">{section.stepNumber}</div>
+                      <div className="mech-step-body">
+                        <div className="mech-step-title">{section.title}</div>
+                        {section.subtitle && <div className="mech-step-subtitle">{section.subtitle}</div>}
+                        <div className="mech-step-content" dangerouslySetInnerHTML={{
+                          __html: section.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {resourceSystem.mechanics.actionTable && (() => {
+                const at = resourceSystem.mechanics.actionTable;
+                return (
+                  <div className="mech-action-table-section">
+                    <div className="mech-action-title">{at.title}</div>
+                    {at.subtitle && <div className="mech-action-subtitle">{at.subtitle}</div>}
+                    {at.rule && <div className="mech-action-rule">{at.rule}</div>}
+                    <div className="mech-action-grid">
+                      {at.actions.map((action, i) => (
+                        <div key={i} className="mech-action-card">
+                          <div className="mech-action-card-header">
+                            <i className={`fas fa-${action.icon}`}></i>
+                            <span>{action.name}</span>
+                          </div>
+                          <div className="mech-action-card-stats">
+                            <div className="mech-action-stat"><span className="mech-action-label">Cost</span><span className="mech-action-val">{action.spheres} spheres + {action.mana} mana</span></div>
+                            <div className="mech-action-stat"><span className="mech-action-label">Range</span><span className="mech-action-val">{action.range}</span></div>
+                            <div className="mech-action-stat"><span className="mech-action-label">Target</span><span className="mech-action-val">{action.target}</span></div>
+                            <div className="mech-action-stat"><span className="mech-action-label">Effect</span><span className="mech-action-val">{action.damage}</span></div>
+                          </div>
+                          <div className="mech-action-card-note">{action.note}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+              {resourceSystem.mechanics.chaosEffectsTable && renderResourceTable(resourceSystem.mechanics.chaosEffectsTable, 'chaosEffectsTable')}
+              {resourceSystem.mechanics.singleSphereFallbacks && (() => {
+                const ssf = resourceSystem.mechanics.singleSphereFallbacks;
+                return (
+                  <div className="mech-non-recipe-section">
+                    <div className="mech-non-recipe-header">
+                      <div className="mech-non-recipe-title">{ssf.title}</div>
+                      {ssf.subtitle && <div className="mech-non-recipe-subtitle">{ssf.subtitle}</div>}
+                    </div>
+                    <div className="mech-ability-grid">
+                      {ssf.abilities.map((ability, i) => (
+                        <div key={i} className="mech-ability-card">
+                          <div className="mech-ability-header">
+                            <span className="mech-ability-name">{ability.name}</span>
+                            <span className="mech-ability-type">{ability.type}</span>
+                          </div>
+                          <div className="mech-ability-cost">{ability.cost}</div>
+                          <div className="mech-ability-desc">{ability.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+              {resourceSystem.mechanics.baseVsRecipes && (() => {
+                const bvr = resourceSystem.mechanics.baseVsRecipes;
+                return (
+                  <div className="mech-base-vs-recipes">
+                    <div className="mech-bvr-header">
+                      <div className="mech-bvr-title">{bvr.title}</div>
+                      {bvr.subtitle && <div className="mech-bvr-subtitle">{bvr.subtitle}</div>}
+                    </div>
+                    <div className="mech-bvr-columns">
+                      <div className="mech-bvr-col mech-bvr-can">
+                        <div className="mech-bvr-col-title"><i className="fas fa-check"></i> Base CAN</div>
+                        <ul className="mech-bvr-list">
+                          {bvr.baselineCan.map((item, i) => <li key={i}>{item}</li>)}
+                        </ul>
+                      </div>
+                      <div className="mech-bvr-col mech-bvr-cannot">
+                        <div className="mech-bvr-col-title"><i className="fas fa-times"></i> Base CANNOT</div>
+                        <ul className="mech-bvr-list">
+                          {bvr.baselineCannot.map((item, i) => <li key={i}>{item}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+                    {bvr.recipeExamples && (
+                      <div className="mech-bvr-recipes-preview">
+                        <div className="mech-bvr-recipes-title"><i className="fas fa-star"></i> What Recipes Unlock</div>
+                        <div className="mech-bvr-recipes-list">
+                          {bvr.recipeExamples.map((ex, i) => (
+                            <div key={i} className="mech-bvr-recipe-row">
+                              <span className="mech-bvr-recipe-level">{ex.level}</span>
+                              <span className="mech-bvr-recipe-name">{ex.name}</span>
+                              <span className="mech-bvr-recipe-upgrade">{ex.upgrade}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {bvr.recipesUnlock && (
+                      <div className="mech-bvr-unlock">
+                        <div className="mech-bvr-unlock-title"><i className="fas fa-star"></i> What Recipes Unlock</div>
+                        <div className="mech-bvr-unlock-subtitle">Effects impossible with raw sphere combinations</div>
+                        <ul className="mech-bvr-list mech-bvr-unlock-list">
+                          {bvr.recipesUnlock.map((item, i) => <li key={i}>{item}</li>)}
+                        </ul>
+                      </div>
+                    )}
+                    {bvr.comparison && (() => {
+                      const comp = bvr.comparison;
+                      return (
+                        <div className="mech-bvr-comparison">
+                          <div className="mech-bvr-comp-title">{comp.title}</div>
+                          {comp.examples.map((ex, i) => (
+                            <div key={i} className="mech-bvr-comp-example">
+                              <div className="mech-bvr-comp-combo">{ex.combo}</div>
+                              <div className="mech-bvr-comp-pair">
+                                <div className="mech-bvr-comp-base">
+                                  <div className="mech-bvr-comp-label">Base</div>
+                                  <div className="mech-bvr-comp-effect">{ex.baseEffect}</div>
+                                </div>
+                                <div className="mech-bvr-comp-arrow"><i className="fas fa-arrow-right"></i></div>
+                                <div className="mech-bvr-comp-recipe">
+                                  <div className="mech-bvr-comp-label">{ex.recipeName}</div>
+                                  <div className="mech-bvr-comp-effect">{ex.recipeEffect}</div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
+                  </div>
+                );
+              })()}
+              {resourceSystem.mechanics.comboTiers && (() => {
+                const ct = resourceSystem.mechanics.comboTiers;
+                return (
+                  <div className="mech-combo-tiers">
+                    <div className="mech-combo-tiers-title">{ct.title}</div>
+                    {ct.subtitle && <div className="mech-combo-tiers-subtitle">{ct.subtitle}</div>}
+                    <div className="mech-tier-cards">
+                      {ct.tiers.map((tier, i) => (
+                        <div key={i} className={`mech-tier-card ${tier.highlight ? 'mech-tier-highlight' : ''}`}>
+                          <div className="mech-tier-header">
+                            <span className="mech-tier-name">{tier.name}</span>
+                          </div>
+                          <div className="mech-tier-meta">
+                            <span className="mech-tier-cost"><i className="fas fa-circle"></i> {tier.sphereCost}</span>
+                            <span className="mech-tier-mana"><i className="fas fa-tint"></i> {tier.manaCost}</span>
+                            <span className="mech-tier-available"><i className="fas fa-unlock"></i> {tier.available}</span>
+                          </div>
+                          <div className="mech-tier-desc">{tier.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
+              {resourceSystem.mechanics.manaWarning && (
+                <div className="mech-warning" dangerouslySetInnerHTML={{
+                  __html: resourceSystem.mechanics.manaWarning.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                }} />
+              )}
             </div>
           )}
         </div>
@@ -645,6 +816,7 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         {resourceSystem.hexbreakerChargesTable && renderResourceTable(resourceSystem.hexbreakerChargesTable, 'hexbreakerChargesTable')}
         {resourceSystem.hexbreakerAbilitiesTable && renderResourceTable(resourceSystem.hexbreakerAbilitiesTable, 'hexbreakerAbilitiesTable')}
         {resourceSystem.detectionTrackingTable && renderResourceTable(resourceSystem.detectionTrackingTable, 'detectionTrackingTable')}
+        {resourceSystem.manaCostTable && renderResourceTable(resourceSystem.manaCostTable, 'manaCostTable')}
 
         {resourceSystem.strategicConsiderations && (
           <div className="guide-subsection strategy-box">

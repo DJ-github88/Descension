@@ -3,7 +3,6 @@
 // ============================================
 
 export const DEATHCALLER_BLOOD_REAVER = [
-  // Tier 0 - Foundation (Forward position for aggressive playstyle)
   {
     id: 'deathcaller_blood_t0_sanguine_mastery',
     name: 'Sanguine Mastery',
@@ -14,7 +13,6 @@ export const DEATHCALLER_BLOOD_REAVER = [
     requires: null,
   },
 
-  // Tier 1 - Melee enhancement (Aggressive forward positioning)
   {
     id: 'deathcaller_blood_t1_blood_rush',
     name: 'Blood Rush',
@@ -34,11 +32,10 @@ export const DEATHCALLER_BLOOD_REAVER = [
     requires: 'deathcaller_blood_t0_sanguine_mastery',
   },
 
-  // Tier 2 - Combat prowess (Offset positioning for dynamic movement)
   {
     id: 'deathcaller_blood_t2_rush_of_blood',
     name: 'Rush of Blood',
-    description: 'When you drop below 50% HP, life drain spells are cast as 1 action points per rank.',
+    description: 'When you drop below 50% HP, life drain spells cost 1 less AP per rank (minimum 0).',
     icon: 'spell_shadow_bloodboil',
     maxRanks: 2,
     position: { x: 4, y: 2 },
@@ -47,9 +44,9 @@ export const DEATHCALLER_BLOOD_REAVER = [
   {
     id: 'deathcaller_blood_t2_blood_token_mastery',
     name: 'Blood Token Mastery',
-    description: 'Blood Tokens enhance life drain spells by +2d6 damage per token per rank (instead of +1d6).',
+    description: 'Blood Tokens enhance life drain spells by +1d6 damage per 2 tokens spent (instead of +1d4 per token).',
     icon: 'spell_shadow_soulleech_3',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 2, y: 2 },
     requires: 'deathcaller_blood_t1_drain_efficiency',
   },
@@ -63,7 +60,6 @@ export const DEATHCALLER_BLOOD_REAVER = [
     requires: 'deathcaller_blood_t1_drain_efficiency',
   },
 
-  // Tier 3 - Advanced blood magic (Expanded offensive capabilities)
   {
     id: 'deathcaller_blood_t3_blood_fury',
     name: 'Blood Fury',
@@ -83,7 +79,6 @@ export const DEATHCALLER_BLOOD_REAVER = [
     requires: 'deathcaller_blood_t2_blood_token_mastery',
   },
 
-  // Tier 4 - Master blood manipulation (Elite blood control)
   {
     id: 'deathcaller_blood_t4_blood_storm',
     name: 'Blood Storm',
@@ -150,7 +145,7 @@ export const DEATHCALLER_SPECTRAL_MASTER = [
   {
     id: 'deathcaller_spectral_t2_spectral_mobility',
     name: 'Spectral Mobility',
-    description: 'Spectral summons gain +10ft movement speed per rank and can teleport 30ft once per turn.',
+    description: 'Spectral summons gain +10ft movement speed per rank.',
     icon: 'spell_shadow_unholyfrenzy',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -264,7 +259,7 @@ export const DEATHCALLER_VOID_CALLER = [
   {
     id: 'deathcaller_void_t3_psychic_storm',
     name: 'Psychic Storm',
-    description: 'Once per combat, unleash a psychic storm dealing 3d6 psychic damage per rank to all enemies within 20ft.',
+    description: 'Once per combat, unleash a psychic storm dealing 3d6 psychic damage to all enemies within 20ft.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 1,
     position: { x: 3, y: 3 },
@@ -275,7 +270,7 @@ export const DEATHCALLER_VOID_CALLER = [
   {
     id: 'deathcaller_void_t4_void_nova',
     name: 'Void Nova',
-    description: 'Once per combat, create a void nova that deals 4d6 psychic damage per rank to all enemies within 30ft and stuns them for 1 round.',
+    description: 'Once per combat, create a void nova that deals 4d6 psychic damage to all enemies within 30ft and stuns them for 1 round.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 1,
     position: { x: 2, y: 4 },

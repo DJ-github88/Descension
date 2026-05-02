@@ -804,6 +804,7 @@
     background: #e8dcc6;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
     cursor: pointer;
 }
 

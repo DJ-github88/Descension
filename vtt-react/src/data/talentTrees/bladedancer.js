@@ -194,7 +194,7 @@ export const BLADEDANCER_DUELIST = [
   {
     id: 'duelist_t6_perfect_duelist',
     name: 'Perfect Duelist',
-    description: 'Ultimate ability: Challenge all enemies within 30ft simultaneously. For 1 minute, you have advantage on all attacks and cannot be targeted by their attacks (they must attack you). Costs all Flourish tokens.',
+    description: 'Ultimate ability: Challenge all enemies within 30ft simultaneously. For 1 minute, you have advantage on all attacks and challenged enemies have disadvantage on attacks targeting anyone but you. Costs all Flourish tokens.',
     icon: 'ability_warrior_bladestorm',
     maxRanks: 1,
     position: { x: 2, y: 5 },

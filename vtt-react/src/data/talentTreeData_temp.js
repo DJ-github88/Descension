@@ -1,14 +1,15 @@
 ﻿// Talent tree constants are defined after TALENT_TREES
 export const TALENT_TREES = {
   'Chronarch': {
-    'stasis': CHRONARCH_TEMPORAL_CONTROL,
-    'displacement': CHRONARCH_TIME_MANIPULATION,
-    'rewinding': CHRONARCH_CHRONOS_ENERGY
+    'stasis': CHRONARCH_STASIS_TREE,
+    'displacement': CHRONARCH_DISPLACEMENT_TREE,
+    'rewinding': CHRONARCH_REWINDING_TREE
   },
   'Chaos Weaver': {
     'reality_bending': CHAOS_WEAVER_REALITY_BENDING,
     'entropy_control': CHAOS_WEAVER_ENTROPY_CONTROL,
-    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE
+    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE,
+    'wild_magic': CHAOS_WEAVER_WILD_MAGIC
   },
   'Fate Weaver': {
     'fortune_teller': FATE_WEAVER_FORTUNE_TELLER,

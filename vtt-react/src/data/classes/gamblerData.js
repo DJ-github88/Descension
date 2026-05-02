@@ -19,11 +19,11 @@ export const GAMBLER_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Gambler generates Fortune Points by successfully casting spells or landing attacks. Spend Fortune Points to adjust roll results by ±1 each (similar to Chaos Weaver's Mayhem Modifiers, but for YOUR rolls). Three specializations use different mechanics: coin flips, dice rolls, and card draws. Spells include rollable tables with multiple outcomes (Jackpot: 3d20 slot machine with 20 outcomes, Fate's Coin: 6 coin flip options, High Roller: 3 d20-based bets, Death Roll: competitive 5d20 game).
+    content: `**What You Need to Know**: The Gambler generates Fortune Points by successfully casting spells or landing attacks. Spend Fortune Points to adjust roll results by ±1 each (similar to Chaos Weaver's Mayhem Modifiers, but for YOUR rolls). Three specializations use different mechanics and have different Fortune Point caps: coin flips (Fortune's Favor, max 7), dice rolls (High Roller, max 21), and card draws (Card Sharp, max 13). Spells include rollable tables with multiple outcomes (Jackpot: 3d20 slot machine with 20 outcomes, Fate's Coin: 6 coin flip options, High Roller: 3 d20-based bets, Death Roll: competitive 5d20 game).
 
 **Core Mechanic**: Successful spell/attack → Generate Fortune Points → Spend to adjust YOUR roll results by ±1 per point
 
-**Resource**: Fortune Points (0-20, generated from successful actions)
+**Resource**: Fortune Points (Max varies by spec: 7 / 21 / 13)
 
 **Playstyle**: High-risk damage dealer, probability manipulation, rollable table specialist, luck-based utility
 
@@ -98,11 +98,11 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 3. **Spend Fortune Points** to adjust critical rolls
 4. **Capitalize on lucky streaks** while they last
 
-**Fortune Point Management**:
-- **Low Fortune (0-3)**: Play conservatively, focus on building points, avoid high-risk abilities
-- **Medium Fortune (4-8)**: Moderate risk-taking, can afford to adjust important rolls
-- **High Fortune (9-15)**: Take big risks, use ultimate abilities, adjust multiple rolls
-- **Maximum Fortune (16-20)**: Near-complete control, use highest-risk highest-reward abilities
+**Fortune Point Management** (thresholds scale with your spec's max):
+- **Low Fortune (0-25%)**: Play conservatively, focus on building points, avoid high-risk abilities
+- **Medium Fortune (25-50%)**: Moderate risk-taking, can afford to adjust important rolls
+- **High Fortune (50-75%)**: Take big risks, use powerful abilities, adjust multiple rolls
+- **Maximum Fortune (75-100%)**: Near-complete control, use highest-risk highest-reward abilities
 
 **Risk Assessment**:
 - **Low-Risk Abilities**: Consistent effects with minor random elements (Coin Toss, Gambler's Insight)
@@ -132,9 +132,9 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 
     immersiveCombatExample: {
       title: 'Combat Example: The House Always Wins',
-      content: `**The Setup**: You're a Gambler (High Roller specialization) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based—high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
+      content: `**The Setup**: You're a Gambler (High Roller specialization, Fortune Point max: 21) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based—high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
 
-**Starting State**: Fortune Points: 3/20 | Mana: 40/50 | HP: 60/70
+**Starting State**: Fortune Points: 3/21 | Mana: 40/50 | HP: 60/70
 
 **Turn 1 - Building Fortune (FP: 3 → 5)**
 
@@ -160,11 +160,11 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 **Your Party's Healer**: Heals you for 15 HP
 **Your HP**: 37 + 15 = 52/70
 
-**Current State**: FP: 4/20 | Mana: 35/50 | HP: 52/70
+**Current State**: FP: 4/21 | Mana: 35/50 | HP: 52/70
 
 **Turn 2 - The Gamble (FP: 4 → 6)**
 
-*You're at 4 Fortune Points. Time to use your signature spell: "Jackpot" - a 3d20 slot machine with 20 different outcomes. You roll 3d20 and match the results to a table. But the rolls are random. Unless...*
+*You're at 4 Fortune Points. Time to use your signature spell: "Jackpot" - a 3d20 slot machine with 20 different outcomes. You roll 3d20 and match the results to a table.*
 
 **Your Action**: Cast "Jackpot" on Ogre (8 mana, roll 3d20 and consult outcome table)
 **3d20 Roll**: [12], [7], [19]
@@ -173,9 +173,7 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 
 **Outcome Lookup**: 12-7-19 → "Moderate Win" → 4d10 damage + stun for 1 round
 
-*Not bad, but not great. You have 4 Fortune Points. You could spend them to adjust the rolls. If you change [12] to [20], [7] to [20], and [19] to [20], you'd get triple 20s—the JACKPOT outcome (10d10 damage + paralysis). That would cost 3 Fortune Points (12→20 = 8 points... wait, that's too expensive).*
-
-*Actually, let me check the table for better outcomes. If you change [7] to [20] (costs 13 Fortune Points—you don't have that many). Okay, different strategy. What if you adjust [12] to [15]? That's 3 Fortune Points. Let's see what 15-7-19 gives...*
+*Not bad, but you have 4 Fortune Points. Scanning the outcome table, you see [15, 7, 19] = "Big Win" for 6d10 damage + stun for 2 rounds + gain 2 Fortune Points. That costs 3 FP — affordable.*
 
 **Decision**: Spend 3 Fortune Points to change [12] to [15]
 **Fortune Points**: 4 - 3 = **1 FP**
@@ -192,7 +190,7 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 *The ogre is BLASTED by magical energy. It falls to one knee, stunned. The goblins back away, terrified.*
 
 **Mana**: 35 - 8 = 27/50
-**Current State**: FP: 4/20 | Mana: 27/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
+**Current State**: FP: 4/21 | Mana: 27/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
 
 **Turn 3 - Finishing the Goblins (FP: 4 → 6)**
 
@@ -213,7 +211,7 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 
 **Goblin #2's Turn**: Attacks you → [11] → Miss!
 
-**Current State**: FP: 6/20 | Mana: 23/50 | HP: 52/70
+**Current State**: FP: 6/21 | Mana: 23/50 | HP: 52/70
 
 **Turn 4 - The Ultimate Gamble (FP: 6 → 8)**
 
@@ -225,7 +223,7 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 **Your Roll**: 5d20 → [18, 12, 15, 9, 14] = **68 total**
 **Ogre's Roll**: 5d20 → [16, 11, 13, 10, 17] = **67 total**
 
-*You're winning by 1. But that's not enough damage to kill the ogre. You have 6 Fortune Points. You could spend them to increase your total or decrease the ogre's total. Let's increase your [9] to [15] (costs 6 Fortune Points).*
+*You're winning by 1. You have 6 Fortune Points. Spend them to increase your [9] to [15] — that's 6 FP for +6 to your total.*
 
 **Decision**: Spend 6 Fortune Points to change your [9] to [15]
 **Fortune Points**: 6 - 6 = **0 FP**
@@ -251,7 +249,7 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 **Your Party's Mage**: "But what if you'd rolled lower?"
 **You**: "Then I would have spent Fortune Points to adjust. That's the secret—build Fortune Points through successful actions, then spend them to turn near-wins into guaranteed wins. Luck is just probability you haven't manipulated yet."
 
-**Final State**: FP: 2/20 (banked for next fight) | Mana: 13/50 | HP: 52/70
+**Final State**: FP: 2/21 (banked for next fight) | Mana: 13/50 | HP: 52/70
 
 **The Lesson**: Gambler gameplay is about:
 1. **Fortune Point Generation**: Generated 8 FP total (4 from successful spells, 2 from Big Win, 2 from Death Roll win)
@@ -271,117 +269,30 @@ You're not a consistent damage dealer. You're a GAMBLER who manipulates probabil
     title: 'Fortune Points',
     subtitle: 'Manipulating Luck and Probability',
 
-    description: `Fortune Points represent the Gambler's accumulated luck and their ability to influence fate. As they succeed in combat, they build Fortune Points, which they can then spend to adjust the outcomes of their gambles. This system allows Gamblers to embrace luck-based abilities while maintaining strategic control over critical moments.`,
+    description: `Fortune Points represent the Gambler's accumulated luck and their ability to influence fate. Your maximum Fortune Points depend on your specialization: 7 for Fortune's Favor (the lucky number), 21 for High Roller (blackjack), or 13 for Card Sharp (cards in a suit). As they succeed in combat, they build Fortune Points, which they can then spend to adjust the outcomes of their gambles. This system allows Gamblers to embrace luck-based abilities while maintaining strategic control over critical moments.`,
 
     resourceBarExplanation: {
       title: 'Understanding Your Fortune Points Gauge',
-      content: `**What You See**: Your Fortune Points gauge displays as a horizontal bar with 20 segments, each representing 1 Fortune Point. The bar is styled like a golden coin stack with glowing poker chips. As you accumulate Fortune Points, the segments fill with shimmering gold energy, representing your accumulated luck.
+      content: `**What You See**: Your Fortune Points gauge displays as a segmented bar matching your spec's max: 7 (Fortune's Favor, coin-shaped), 21 (High Roller, poker chip stack), or 13 (Card Sharp, card suit symbols). Segments fill with gold energy as you accumulate Fortune Points.
 
-**Visual Representation by Fortune Point Level**:
-
-**0-2 Fortune Points (Minimal Control)**:
-- Bar: 0-2 segments filled with dim gold glow
-- Border: Red (warning)
-- Effect: Minimal visual effects, bar looks depleted
-- Status: "Low Fortune - Build Points"
-- Recommendation: "Focus on successful attacks/spells to build Fortune"
-- Dice Icon: Grayed out (not enough to adjust rolls meaningfully)
-
-**3-5 Fortune Points (Low Control)**:
-- Bar: 3-5 segments filled, gold glow brightening
-- Border: Orange (caution)
-- Effect: Faint golden sparkles around bar
-- Status: "Low Fortune"
-- Recommendation: "Can adjust minor rolls, save for important moments"
-- Dice Icon: Dim glow (can adjust rolls by ±3 to ±5)
-
-**6-10 Fortune Points (Moderate Control)**:
-- Bar: 6-10 segments filled, bright gold energy
-- Border: Yellow (moderate)
-- Effect: Golden coins appear to spin around the bar
-- Status: "Moderate Fortune"
-- Recommendation: "Comfortable using medium-risk abilities"
-- Dice Icon: Glowing (can adjust rolls by ±6 to ±10)
-- Ability Unlocks: Medium-risk abilities highlighted
-
-**11-15 Fortune Points (High Control)**:
-- Bar: 11-15 segments filled, intense golden glow
-- Border: Green (good)
-- Effect: Golden coins and poker chips swirl around bar, lucky symbols appear
-- Status: "High Fortune - Strong Control"
-- Recommendation: "Can afford multiple adjustments, safe to use high-risk abilities"
-- Dice Icon: Brightly glowing with lucky aura
-- Ability Unlocks: High-risk abilities highlighted
-
-**16-20 Fortune Points (Maximum Control)**:
-- Bar: 16-20 segments filled, maximum brightness
-- Border: Blue (excellent)
-- Effect: Bar overflows with golden energy, four-leaf clovers and lucky symbols orbit the bar
-- Status: "MAXIMUM FORTUNE - Near-Complete Control"
-- Recommendation: "Use ultimate abilities freely, adjust any roll"
-- Dice Icon: Pulsing with maximum power
-- Ability Unlocks: ALL abilities available, ultimate gambles recommended
-- Special Text: "THE HOUSE ALWAYS WINS"
-
-**Fortune Point Generation Animation**:
-When you generate Fortune Points:
-- **+1 FP (Successful Action)**: Single golden coin appears from your character, flies to bar, fills 1 segment with chime sound
-- **+2 FP (Critical Success)**: Two golden coins appear, spin together, fly to bar with louder chime
-- **+1 FP (Winning Gamble)**: Poker chip appears from spell effect, flies to bar with casino sound
-- **Text Popup**: "+1 Fortune Point (Successful Spell)" or "+2 FP (Critical Hit!)"
-
-**Fortune Point Spending Animation**:
-When you spend Fortune Points to adjust a roll:
-- **Spending Prompt**: After you roll, prompt appears: "Adjust roll? (You have 8 FP)"
-- **Adjustment Interface**: Slider appears showing current roll (e.g., "14") with +/- buttons
-- **Spending**: Click + to increase roll (costs 1 FP per +1), click - to decrease
-- **Visual**: Each FP spent shows a golden coin flying from bar to the dice, dice number CHANGES
-- **Confirmation**: "Spent 3 FP: 14 → 17" with golden flash
-- **Audio**: Coin spending sound, dice re-rolling sound
+**Gauge Color Coding**:
+- **0-25% (Red border)**: Low Fortune — build points before gambling
+- **25-50% (Orange border)**: Cautious — can adjust minor rolls
+- **50-75% (Yellow border)**: Comfortable — safe to use medium-risk abilities
+- **75-100% (Green/Blue border)**: Strong Control — ultimate abilities available, "THE HOUSE ALWAYS WINS"
 
 **Roll Adjustment Interface** (appears after any roll):
-- **Current Roll Display**: Large dice showing your roll (e.g., "14")
-- **Fortune Point Counter**: "You have 8 Fortune Points"
-- **Adjustment Slider**:
-  * Left side: "-8" (decrease by 8) → "6"
-  * Center: "0" (no change) → "14"
-  * Right side: "+8" (increase by 8) → "22"
-- **Cost Display**: "Spend 3 FP to change 14 → 17"
-- **Confirm Button**: "Adjust Roll" (spends FP and changes result)
-- **Cancel Button**: "Accept Roll" (no FP spent)
+After your dice land, an adjustment prompt appears showing your roll and available Fortune Points. Use +/- buttons to adjust the result by ±1 per point. Each adjustment shows the FP cost before you confirm: "Spend 3 FP to change 14 → 17."
 
-**Special Roll Indicators**:
-- **Natural 20**: If you roll natural 20, bar flashes gold, "+2 FP (CRITICAL!)" appears
-- **Near-Miss**: If you roll 18-19 (close to crit), tooltip suggests "Spend 1-2 FP for guaranteed crit?"
-- **Critical Fail**: If you roll natural 1, tooltip suggests "Spend FP to avoid critical failure?"
+**Key Visual Cues**:
+- **Natural 20**: Bar flashes gold, "+2 FP (CRITICAL!)"
+- **Near-Miss (18-19)**: Tooltip suggests "Spend 1-2 FP for guaranteed crit?"
+- **Critical Fail (1)**: Tooltip suggests "Spend FP to avoid critical failure?"
+- **High-Risk Ability + Low FP**: Warning popup before casting
 
-**Gambling Ability Integration**:
-When you cast gambling spells (Jackpot, Death Roll, Fate's Coin):
-- **Pre-Roll**: Fortune Point bar pulses, showing available FP for adjustment
-- **During Roll**: Dice/coins/cards appear with animation
-- **Post-Roll**: Adjustment interface appears immediately
-- **Example (Jackpot)**: Roll 3d20 → [12, 7, 19] → Prompt: "Spend FP to adjust? (3 FP to change 12→15)"
+**Outcome Table Integration** (Jackpot, etc.): Hover over outcomes in the table to preview the FP cost to reach them. Example: Current [12, 7, 19] = "Moderate Win" → Hover [15, 7, 19] = "Big Win - Cost: 3 FP"
 
-**Outcome Table Integration** (for Jackpot, etc.):
-- **Table Display**: Shows all possible outcomes with your current roll highlighted
-- **Adjustment Preview**: Hover over different outcomes to see FP cost to reach them
-- **Example**:
-  * Current: [12, 7, 19] = "Moderate Win" (4d10 damage)
-  * Hover [15, 7, 19]: "Big Win (6d10 damage) - Cost: 3 FP"
-  * Hover [20, 20, 20]: "JACKPOT (10d10 damage) - Cost: 21 FP (NOT ENOUGH)"
-
-**Persistence Indicator**:
-- **Between Combats**: Fortune Points bar shows "Banked: 8/20 FP - Persists until long rest"
-- **Visual**: Bar has a "locked" icon indicating FP won't decay
-- **Strategic Info**: "Fortune Points persist between combats - save for boss fights"
-
-**Risk Level Warnings**:
-When casting high-risk abilities with low Fortune Points:
-- **Warning Popup**: "HIGH RISK ABILITY - Only 3 Fortune Points available"
-- **Recommendation**: "Recommended: 7+ FP for safe adjustment"
-- **Confirm**: "Cast Anyway" or "Cancel"
-
-**Why This Matters**: The Fortune Points gauge isn't just a resource bar—it's your CONTROL PANEL for probability manipulation. When you roll a 14 and need a 17, you don't just accept it—you see the adjustment interface, slide the bar to +3, spend 3 Fortune Points, and watch the dice change from 14 to 17 with a golden flash. The visual feedback makes every adjustment feel powerful and intentional. When you're at 18 Fortune Points and the bar is overflowing with golden energy, you KNOW you have near-complete control over your rolls. And when you cast Jackpot and see the outcome table with FP costs to reach each outcome, you can make informed decisions: "I rolled Moderate Win, but for 3 FP I can get Big Win—worth it!" The gauge transforms randomness into strategy, showing you exactly how much control you have and what it costs to manipulate fate.`
+**Why This Matters**: The gauge is your control panel for probability manipulation. You see the roll, decide to adjust, watch the dice change with a golden flash. The visual feedback makes every adjustment feel powerful and intentional.`
     },
 
     mechanics: {
@@ -396,7 +307,7 @@ Fortune Points are generated through successful actions in combat:
 - **Winning a Gamble**: When a gambling ability produces a positive result, gain 1 Fortune Point
 - **Critical Success**: Rolling a natural 20 generates 2 Fortune Points instead of 1
 
-**Maximum Capacity**: You can hold up to 20 Fortune Points at once. Any excess is lost.
+**Maximum Capacity**: Your Fortune Point cap depends on your specialization: Fortune's Favor (7), High Roller (21), or Card Sharp (13). Any excess is lost.
 
 **Persistence**: Fortune Points persist between combats until spent or until you complete a long rest.
 
@@ -406,8 +317,9 @@ Fortune Points can be spent to adjust the results of any roll you make. Each For
 
 - **Spend 1 Point**: Adjust any roll by ±1
 - **Spend Multiple Points**: Each additional point adjusts by another ±1
+- **Post-Roll Decision**: After you see the result of any roll you make, you may spend Fortune Points to adjust that result by ±1 per point spent
 - **No Limit Per Roll**: You can spend as many Fortune Points as you want on a single roll (up to your current total)
-- **Declare Before Outcome**: You must decide how many points to spend and in which direction before the GM reveals the outcome
+- **Timing**: The adjustment prompt appears after your dice land but before the GM declares the outcome
 
 **Example**: You roll a 14 on a d20 attack roll. You have 8 Fortune Points. You could:
 - Spend 0 points and accept the 14
@@ -425,13 +337,13 @@ Some Gambler abilities specifically interact with Fortune Points:
     
     fortunePointTable: {
       title: 'Fortune Point Strategic Values',
-      headers: ['Point Count', 'Strategic Value', 'Recommended Usage'],
+      headers: ['Point Count (% of Max)', 'Strategic Value', 'Recommended Usage'],
       rows: [
-        ['0-2', 'Minimal Control', 'Focus on building points, avoid high-risk abilities'],
-        ['3-5', 'Low Control', 'Can adjust minor rolls, save for important moments'],
-        ['6-10', 'Moderate Control', 'Comfortable using medium-risk abilities, can guarantee some successes'],
-        ['11-15', 'High Control', 'Can afford multiple adjustments, safe to use high-risk abilities'],
-        ['16-20', 'Maximum Control', 'Near-complete control over outcomes, use ultimate abilities freely']
+        ['0-25% of max', 'Minimal Control', 'Focus on building points, avoid high-risk abilities'],
+        ['25-50% of max', 'Low Control', 'Can adjust minor rolls, save for important moments'],
+        ['50-75% of max', 'Moderate Control', 'Comfortable using medium-risk abilities, can guarantee some successes'],
+        ['75-90% of max', 'High Control', 'Can afford multiple adjustments, safe to use high-risk abilities'],
+        ['90-100% of max', 'Maximum Control', 'Near-complete control over outcomes, use ultimate abilities freely']
       ]
     },
     
@@ -461,11 +373,11 @@ Some Gambler abilities specifically interact with Fortune Points:
 - Consider the cost-benefit: is spending 5 points to turn a 15 into a 20 worth it?
 - Remember that unspent points persist between combats
 
-**Fortune Point Breakpoints**:
-- **5 Points**: Can turn most near-misses into hits
-- **10 Points**: Can guarantee critical hits (turn 10+ into 20)
-- **15 Points**: Can adjust multiple important rolls in one encounter
-- **20 Points**: Maximum control, can manipulate entire combat sequences
+**Fortune Point Breakpoints** (adjust for your spec's max):
+- **25% of Max**: Can turn most near-misses into hits
+- **50% of Max**: Can guarantee critical hits on rolls of 10+
+- **75% of Max**: Can adjust multiple important rolls in one encounter
+- **100% of Max**: Maximum control, can manipulate entire combat sequences
 
 **Risk Management**:
 - Always maintain a 3-5 point reserve for emergencies
@@ -483,196 +395,31 @@ Some Gambler abilities specifically interact with Fortune Points:
     playingInPerson: {
       title: 'Playing in Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Gambler is THE most immersive class to play in person because you use ACTUAL gambling implements—real coins, dice, and cards. This creates an authentic casino experience at your table. Here's how to bring the Gambler to life with physical materials:
+      content: `The Gambler is THE most immersive class to play in person because you use ACTUAL gambling implements. Here's what you need and how it works:
 
-**Required Materials**:
-- **20 poker chips or tokens** (for Fortune Points tracking)
-- **1 coin** (for coin flip abilities - a two-sided coin, preferably thematic)
-- **Standard polyhedral dice set** (d4, d6, d8, d10, d12, d20)
-- **Playing cards** (standard 52-card deck for Card Sharp specialization)
-- **Tracking mat or play area** with Fortune Point zone
+**Required Materials** (by specialization):
+- **Fortune's Favor**: A thematic coin (gold, lucky, or custom with sun/moon symbols) + 7 poker chips or tokens
+- **High Roller**: Full polyhedral dice set (keep 3-4 d20s handy) + 21 poker chips + dice tray
+- **Card Sharp**: Standard 52-card deck + 13 tokens + discard pile area
 
-**Fortune Points Tracking**:
+**Fortune Points = Physical Chips**: Start with 0 chips. Gain 1 chip per successful attack/spell (2 on crits, 1 for winning gambles). Spend chips to adjust rolls: remove chips equal to the adjustment. Max matches your spec (7/21/13). Chips persist between combats, reset on long rest.
 
-**The Poker Chip Method** (Highly Recommended):
+**Coin Flip** (Fortune's Favor): Flip a real coin. Don't like the result? Remove 1 chip from your pool to flip it.
 
-Use actual poker chips to represent Fortune Points:
-- **Starting State**: Begin with 0 chips in your Fortune Point pool
-- **Generating Points**: When you successfully cast a spell or land an attack, take 1 chip from the bank and add it to your pool
-- **Critical Success**: Take 2 chips instead of 1
-- **Spending Points**: When adjusting a roll, remove chips from your pool equal to the adjustment (e.g., adjust by +3 = remove 3 chips)
-- **Maximum**: 20 chips maximum in your pool
+**Dice Abilities** (High Roller): Roll physical dice. Spend chips to adjust individual dice by ±1 each. For Jackpot (3d20), roll 3 d20s and consult the table. For Death Roll, you and the GM roll off.
 
-**Setup**:
-Create two zones on your play mat:
-- **Fortune Point Pool** (your active chips)
-- **Bank** (unused chips, up to 20 total)
+**Card Draws** (Card Sharp): Draw from a real shuffled deck. Some abilities let you spend chips to redraw or swap cards.
 
-**Why Poker Chips Work Perfectly**: The tactile experience of earning chips when you succeed and spending them to adjust rolls creates the authentic feeling of gambling. You can SEE your fortune accumulate, FEEL the weight of spending 6 chips to guarantee a critical hit, and HEAR the satisfying clink of chips as you build your pool.
-
-**Alternative Tracking Methods**:
-- **d20 Die**: Set it to your current Fortune Point count (0-20)
-- **Tally Marks**: Write on paper (less immersive but functional)
-- **Colored Beads**: Use gold/yellow beads in a small bowl
-
-**Coin Flip Abilities** (Fortune's Favor Specialization):
-
-**The Real Coin Method**:
-
-For abilities like "Fate's Coin" and "Coin Toss":
-1. **Choose Your Effect**: Announce which of the 6 coin flip options you're choosing
-2. **Flip the Coin**: Physically flip a real coin
-3. **Call It**: "Heads" or "Tails" (or let the ability determine which side is favorable)
-4. **Result**: If it lands on the favorable side, you get the effect; if not, you don't
-5. **Fortune Point Adjustment**: If you don't like the result, spend 1 Fortune Point to flip the coin result (Heads becomes Tails, Tails becomes Heads)
-
-**Recommended Coin**: Use a thematic coin—a gold coin, a lucky coin, or even a custom-made Gambler coin with symbols instead of heads/tails.
-
-**Example In-Person Coin Flip**:
-- You cast "Fate's Coin" and choose "Advantage on next attack"
-- You flip your coin → Lands on Tails (unfavorable)
-- You have 5 Fortune Points (chips)
-- You decide to spend 1 chip to flip the result
-- Remove 1 chip from your pool → Result becomes Heads (favorable)
-- You gain advantage on your next attack!
-
-**Dice Rolling Abilities** (High Roller Specialization):
-
-**The Physical Dice Method**:
-
-For abilities like "Jackpot" (3d20 slot machine) and "High Roller" (3 d20 bets):
-1. **Roll the Dice**: Physically roll the required dice (e.g., 3d20 for Jackpot)
-2. **Check the Result**: Compare to the outcome table
-3. **Fortune Point Adjustment**: Spend Fortune Points to adjust individual dice by ±1 each
-4. **Final Result**: Apply the adjusted outcome
-
-**Example: Jackpot (3d20 Slot Machine)**:
-- You cast "Jackpot" (costs 10 mana)
-- Roll 3d20 physically → Results: [12, 15, 18]
-- Check the table: No match, so it's a low-tier outcome
-- You have 8 Fortune Points
-- You spend 3 chips: +3 to the 12 → [15, 15, 18]
-- Still no triple, but now you have a double (15-15)
-- Check the table for double 15s outcome
-- Remove 3 chips from your pool (now at 5 Fortune Points)
-
-**Example: Death Roll (Competitive Minigame)**:
-- You cast "Death Roll" on an enemy
-- Both you and the GM roll d20s
-- **Round 1**: You roll 15, Enemy rolls 12 → Max becomes 12
-- **Round 2**: You roll 8, Enemy rolls 11 → Enemy loses (rolled over max)
-- You win! Enemy takes damage and is stunned
-- You gain 2 Fortune Points (winning gamble) → Add 2 chips to your pool
-
-**Fortune Point Adjustment During Death Roll**:
-- If you're at risk of losing, spend Fortune Points to adjust your rolls
-- Example: You roll 13 (over max of 12) → Spend 1 chip to make it 12 (safe)
-- Example: Enemy rolls 8 (safe) → Spend 2 chips to make it 10 (still safe but sets higher max for them)
-
-**Card Drawing Abilities** (Card Sharp Specialization):
-
-**The Playing Card Method**:
-
-For Card Sharp abilities that involve card draws:
-1. **Shuffle a Deck**: Use a standard 52-card deck
-2. **Draw Cards**: Physically draw the required number of cards
-3. **Resolve Effect**: Apply the effect based on card suit, number, or combination
-4. **Fortune Point Adjustment**: Some abilities let you spend points to redraw or swap cards
-
-**Example Card-Based Ability**:
-- You cast "Deck of Fate" (hypothetical ability)
-- Draw 3 cards from your shuffled deck → [7♠, K♥, 3♦]
-- Effect depends on suits and values
-- You have 6 Fortune Points
-- Spend 2 chips to redraw the 3♦ → Draw again → [Q♣]
-- New hand: [7♠, K♥, Q♣]
-- Resolve the improved outcome
-
-**Quick Reference Card Template**:
+**Quick Reference**:
 \`\`\`
-GAMBLER FORTUNE POINTS TRACKER
-
-Current Fortune Points: [Count your chips]
-Maximum: 20 points
-
-GENERATING POINTS:
-• Successful attack/spell: +1 chip
-• Critical success (nat 20): +2 chips
-• Winning a gamble: +1 chip
-
-SPENDING POINTS:
-• Adjust any roll by ±1: 1 chip per ±1
-• Flip coin result: 1 chip
-• Reroll (Loaded Dice): 1 chip
-
-PERSISTENCE:
-• Fortune Points persist between combats
-• Reset to 0 after long rest
+GENERATING: Successful attack/spell = +1 chip | Crit = +2 | Win gamble = +1
+SPENDING: Adjust roll ±1 = 1 chip | Flip coin = 1 chip | Loaded Dice reroll = 1 chip
+PERSISTENCE: Chips persist between combats | Reset to 0 after long rest
 \`\`\`
 
-**Specialization-Specific Materials**:
+**Why It Works**: The tactile feedback of physically flipping coins, rolling dice, and stacking chips creates genuine suspense and celebration. You're not simulating gambling — you're DOING it. The class becomes a mini-casino at your table.
 
-**Fortune's Favor** (Coin Flip Specialist):
-- **Primary Tool**: A special coin (gold coin, lucky coin, custom coin)
-- **Backup**: Keep a second coin in case you lose the first
-- **Thematic Touch**: Use a coin with meaningful symbols (e.g., sun/moon, fortune/misfortune)
-
-**High Roller** (Dice Specialist):
-- **Primary Tools**: Full polyhedral dice set (d4, d6, d8, d10, d12, d20)
-- **Multiple d20s**: Keep 3-4 d20s for abilities like Jackpot (3d20) and Death Roll
-- **Dice Tray**: Use a dice tray to keep rolls contained and visible
-
-**Card Sharp** (Card Specialist):
-- **Primary Tool**: Standard 52-card deck (poker-sized)
-- **Card Sleeves**: Protect your cards with sleeves
-- **Discard Pile**: Keep a separate area for discarded cards
-- **Reshuffle**: Shuffle the deck between encounters or when it runs out
-
-**Example Full In-Person Turn**:
-
-*You have 4 poker chips in your Fortune Point pool*
-
-**Your Turn**:
-1. "I cast Lucky Strike at the ogre" (costs 5 mana)
-2. Roll d20 for attack → [14] → Hit!
-3. Add 1 chip to your pool (successful spell) → Now at 5 chips
-4. Roll damage: 2d8 → [5, 6] = 11 damage
-5. "Now I'll use Jackpot!" (costs 10 mana)
-6. Roll 3d20 → [11, 14, 19]
-7. "I want triple 19s for the jackpot. I'll spend 8 chips to adjust."
-8. Spend 8 chips: +8 to the 11 → [19, 14, 19]
-9. Spend 5 more chips... wait, I only have 5 chips left after spending 8
-10. "Actually, I can't afford triple 19s. I'll keep [19, 14, 19] for a double 19 outcome."
-11. Remove 8 chips from pool → Now at -3... wait, that's wrong
-12. *Recalculate*: Started with 5 chips, can only spend 5 chips max
-13. Spend 5 chips: +5 to the 14 → [11, 19, 19]
-14. Remove 5 chips → Now at 0 chips
-15. Check table for double 19s → Apply outcome
-16. If it's a "Big Win" outcome, gain 2 chips → Now at 2 chips
-
-**The Immersion Factor**:
-
-Playing Gambler in person is uniquely satisfying because:
-- **Tactile Feedback**: Physically flipping coins, rolling dice, and drawing cards creates visceral excitement
-- **Visual Drama**: Everyone at the table can SEE your Fortune Point pool grow and shrink
-- **Authentic Gambling**: You're not simulating gambling—you're ACTUALLY gambling with real implements
-- **Tension**: The moment before a coin flip or dice roll is genuinely suspenseful
-- **Celebration**: When you hit a jackpot or win a Death Roll, the physical evidence (chips, dice, cards) makes it feel real
-
-**Pro Tips**:
-- **Announce Clearly**: Always announce how many Fortune Points you're spending before adjusting rolls
-- **Keep Chips Visible**: Your Fortune Point pool should be visible to the GM and party (transparency builds trust)
-- **Thematic Flair**: Use casino-quality chips, weighted coins, and premium dice for maximum immersion
-- **Sound Effects**: Some groups enjoy adding casino sound effects (slot machine jingles, coin clinks) when using abilities
-- **Roleplay**: Physically flip the coin with a flourish, slam dice on the table dramatically, or shuffle cards like a dealer
-
-**Budget-Friendly Alternatives**:
-- **No poker chips?** Use pennies, buttons, or paper clips
-- **No coin?** Use a d2 (or d6: 1-3 = Heads, 4-6 = Tails)
-- **No playing cards?** Use a dice-based card simulation (d13 for value, d4 for suit)
-- **Minimalist**: Just use a d20 to track Fortune Points and standard dice for abilities
-
-**Why Gambler Is Perfect for In-Person Play**: Unlike classes with abstract resources (mana, rage), the Gambler's mechanics are DESIGNED around physical randomization tools. Every ability involves flipping, rolling, or drawing—actions that are MORE fun in person than digitally. The class becomes a mini-casino at your table, and you're the dealer, the player, and the house all at once.`
+**Budget Alternatives**: No chips? Use pennies, buttons, or paper clips. No coin? Roll d6 (1-3 = Heads, 4-6 = Tails). No cards? Use dice-based simulation (d13 for value, d4 for suit).`
     }
   },
 
@@ -681,7 +428,13 @@ Playing Gambler in person is uniquely satisfying because:
     title: 'Gambler Specializations',
     subtitle: 'Three Paths of Fortune',
 
-    description: `Every Gambler chooses one of three specializations that define their approach to luck manipulation and risk-taking. Each specialization offers unique passive abilities and influences your gambling style and spell selection.`,
+    description: `Every Gambler chooses one of three specializations that define their approach to luck manipulation and risk-taking. Each specialization has its own Fortune Point maximum, unique passive ability, and a dedicated talent tree that shares its name:
+
+- **Fortune's Favor** (Max 7 FP) — Coin flip specialist. Talent tree: Fortune's Favor (was Luck Manipulation)
+- **High Roller** (Max 21 FP) — Extreme risk/reward. Talent tree: High Roller (was Risk Management)
+- **Card Sharp** (Max 13 FP) — Strategic gambler. Talent tree: Card Sharp (was Fate Control)
+
+You may spend talent points in any tree, but your specialization's tree synergizes best with your passive ability.`,
 
     // Shared passive for all Gambler specializations
     sharedPassive: {
@@ -769,7 +522,7 @@ Playing Gambler in person is uniquely satisfying because:
         },
 
         keyAbilities: [
-          "All-In - Bet your current hit points. Roll a d100. 1-50: Double your current HP. 51-90: Heal to full health. 91-100: Drop to 0 HP. (10 mana, spend 10+ Fortune Points to guarantee heal to full)",
+          "All-In - Bet your current hit points. Roll a d100. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP: 1-50 double HP, 51-90 full heal, 91-100 drop to 0 HP. At 10 FP: death window eliminated. (10 mana, spend Fortune Points to guarantee survival)",
           "Double or Nothing - Make an attack roll. If it hits, it automatically becomes a critical hit dealing double damage. If it misses, you take the damage you would have dealt. (5 mana, spend Fortune Points to ensure hit)",
           "Betting Blitz - Bet up to half your max HP. If your next attack deals damage equal to or greater than double the bet amount, regain the health. Otherwise, lose the health bet. (5 mana, spend Fortune Points to increase damage)"
         ],
@@ -807,8 +560,8 @@ Playing Gambler in person is uniquely satisfying because:
         uniquePassive: {
           name: "Card Counting",
           icon: 'Utility/Ornate Staff',
-          description: 'You mentally track the "deck" of d20 results. After seeing 5 d20 rolls in combat (from any source), you gain advantage on predicting the next d20 result. This gives you advantage on abilities that require guessing or predicting rolls (Taunt the Odds, Evens and Odds, etc.).',
-          mechanicsNote: 'Represents the Card Sharp\'s ability to read patterns and predict outcomes. Resets after each prediction or at the end of combat.'
+          description: 'You mentally track d20 results during combat. After you observe 5 d20 rolls (from any source — yours, allies, or enemies), your next prediction-based ability (Taunt the Odds, or any ability requiring you to guess a d20 result) automatically treats your guess as if it were within the success threshold. Resets after use or at the end of combat.',
+          mechanicsNote: 'Track every d20 roll you see. After 5 rolls, your next Taunt the Odds automatically hits (no guess needed — the target takes 3d10 force damage with no risk of self-damage). This rewards attentiveness and makes Card Sharp the "counting cards" spec.'
         },
 
         keyAbilities: [
@@ -1036,7 +789,7 @@ Playing Gambler in person is uniquely satisfying because:
         school: 'Strategic Gambling',
         level: 8,
 
-        description: 'Roll 3d20 slot machine. Triple numbers grant powerful rewards. Each combination can only occur once per long rest. Spend Fortune Points to adjust individual dice.',
+        description: 'Roll 3d20 slot machine. Triple numbers grant powerful rewards. Each combination can only occur once per long rest. Spend Fortune Points to adjust individual dice. NOTE: Jackpot draws from ALL elements (fire, lightning, radiant, necrotic) — it is the only Gambler ability that breaks the force/psychic convention, because it doesn\'t play by any rules.',
 
         typeConfig: {
           castTime: 1,
@@ -1133,7 +886,7 @@ Playing Gambler in person is uniquely satisfying because:
         school: 'High Stakes Betting',
         level: 10,
 
-        description: 'Bet your current HP on d100 roll. 1-50: Double HP. 51-90: Full heal. 91-100: Drop to 0 HP. WARNING: Can instantly kill you. Requires 10+ Fortune Points for safety.',
+        description: 'Bet your current HP on d100 roll. Each Fortune Point spent (up to 10) shrinks the death window by 1%. At 0 FP spent: 1-50 double HP, 51-90 full heal, 91-100 DEATH. At 10 FP spent: death window eliminated, 51-100 always full heal.',
 
         typeConfig: {
           castTime: 1,
@@ -1180,26 +933,29 @@ Playing Gambler in person is uniquely satisfying because:
         specialMechanics: {
           fortunePoints: {
             critical: true,
-            recommendation: '10-15 points minimum',
-            usage: 'With 10 points, turn any 41+ into safe zone (51-90). With 40 points, can manipulate any result.'
+            recommendation: '5-10 points to shrink death window',
+            usage: 'Each FP spent (max 10) reduces death window by 1%. With 10 FP: death window shrinks from 91-100 to just 100, or is eliminated entirely if you spend all 10.'
           },
           lifeOrDeath: {
-            warning: 'Can instantly kill you',
-            safeZone: '51-90',
-            deathZone: '91-100'
+            warning: 'Can instantly kill you at 0 FP spent',
+            scalingDeathWindow: {
+              '0 FP spent': { safe: '1-90', death: '91-100' },
+              '5 FP spent': { safe: '1-95', death: '96-100' },
+              '10 FP spent': { safe: '1-100', death: 'ELIMINATED' }
+            }
           }
         },
 
         rollableTable: {
           enabled: true,
           name: 'All-In Results',
-          description: 'Roll 1d100 - your life is on the line',
+          description: 'Roll 1d100 - your life is on the line. Death window shrinks by 1% per Fortune Point spent (max 10).',
           resolutionType: 'DICE',
           resolutionConfig: { diceType: '1d100' },
           entries: [
             { range: { min: 1, max: 50 }, result: 'Double your current hit points', description: 'Moderate success' },
             { range: { min: 51, max: 90 }, result: 'Heal to full health', description: 'Optimal result - aim for this' },
-            { range: { min: 91, max: 100 }, result: 'Drop to 0 hit points', description: 'DEATH - avoid at all costs' }
+            { range: { min: 91, max: 100 }, result: 'Drop to 0 hit points (shrinks by 1% per FP spent)', description: 'DEATH window - spend FP to shrink or eliminate' }
           ]
         },
 
@@ -1415,7 +1171,7 @@ Playing Gambler in person is uniquely satisfying because:
             failureMargin: 4
           },
           synergy: {
-            cardCounting: 'Card Sharp passive gives advantage on guess'
+            cardCounting: 'Card Sharp passive: After observing 5 d20 rolls in combat, your next Taunt the Odds auto-hits (target takes 3d10 damage with no risk of self-damage). No guess needed — you already know the answer.'
           }
         },
 
@@ -2269,7 +2025,7 @@ Playing Gambler in person is uniquely satisfying because:
 
         damageConfig: {
           formula: '16d6 + charisma',
-        elementType: 'radiant',
+        elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2346,271 +2102,7 @@ Playing Gambler in person is uniquely satisfying because:
       tags: ['utility', 'coin flip', 'high risk', 'level 9', 'gambler']
     },
 
-    // ADDITIONAL LEVEL 3 SPELLS
-    {
-      id: 'gambler_lucky_shot',
-      name: 'Lucky Shot',
-      description: 'Take a lucky shot that deals damage based on a coin flip.',
-      level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
-
-      typeConfig: {
-        school: 'evocation',
-        icon: 'Utility/Utility',
-        tags: ['damage', 'coin flip', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
-      },
-
-      damageConfig: {
-        formula: '4d6',
-        elementType: 'force',
-        damageType: 'direct'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 10
-        },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
-
-      resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin flip', 'universal']
-    },
-
-    {
-      id: 'gambler_risky_maneuver',
-      name: 'Risky Maneuver',
-      description: 'Attempt a risky maneuver - on heads gain enhanced stats, on tails take damage.',
-      level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
-
-      typeConfig: {
-        school: 'enhancement',
-        icon: 'Social/Dice Roll',
-        tags: ['buff', 'coin flip', 'risky', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'risky_maneuver',
-          name: 'Risky Maneuver',
-          description: 'Gain +4 to all stats for 3 rounds (on heads)',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 4,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: true
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 10
-        },
-        actionPoints: 1
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
-
-      resolution: 'COIN_FLIP',
-      tags: ['buff', 'coin flip', 'risky', 'universal']
-    },
-
-    {
-      id: 'gambler_double_down',
-      name: 'Double Down',
-      description: 'Double down on your luck - on heads deal damage, on tails take damage.',
-      level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
-
-      typeConfig: {
-        school: 'evocation',
-        icon: 'Utility/Utility',
-        tags: ['damage', 'coin flip', 'high risk', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
-      },
-
-      damageConfig: {
-        formula: '4d6',
-        elementType: 'force',
-        damageType: 'direct'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 11
-        },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
-
-      resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin flip', 'high risk', 'universal']
-    },
-
     // ADDITIONAL LEVEL 4 SPELLS
-    {
-      id: 'gambler_fortune_favors',
-      name: 'Fortune Favors',
-      description: 'Call on fortune to favor you - on heads gain advantage on all rolls for 4 rounds, on tails gain disadvantage.',
-      level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
-
-      typeConfig: {
-        school: 'divination',
-        icon: 'Radiant/Divine Radiance',
-        tags: ['buff', 'coin flip', 'fortune', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'fortune_favors',
-          name: 'Fortune Favors',
-          description: 'Gain advantage on all rolls for 4 rounds (on heads)',
-          statModifier: {
-            stat: 'all_rolls',
-            magnitude: 1,
-            magnitudeType: 'advantage'
-          }
-        }],
-        durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: true
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 14
-        },
-        actionPoints: 1
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
-
-      resolution: 'COIN_FLIP',
-      tags: ['buff', 'coin flip', 'fortune', 'universal']
-    },
-
-    {
-      id: 'gambler_jackpot_strike',
-      name: 'Jackpot Strike',
-      description: 'Strike for the jackpot - on heads deal critical damage, on tails deal normal damage.',
-      level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
-
-      typeConfig: {
-        school: 'evocation',
-        icon: 'Utility/Utility',
-        tags: ['damage', 'coin flip', 'jackpot', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 50,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
-      },
-
-      damageConfig: {
-        formula: '6d6',
-        elementType: 'force',
-        damageType: 'direct',
-        criticalConfig: {
-          enabled: true,
-          critMultiplier: 2,
-          critDiceOnly: false
-        }
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 15
-        },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
-
-      resolution: 'COIN_FLIP',
-      tags: ['damage', 'coin flip', 'jackpot', 'universal']
-    },
-
     // ADDITIONAL LEVEL 7 SPELL
     {
       id: 'gambler_all_or_nothing',
@@ -2669,7 +2161,7 @@ Playing Gambler in person is uniquely satisfying because:
     {
       id: 'gambler_weighted_dice',
       name: 'Weighted Dice',
-      description: 'Use weighted dice to guarantee a devastating hit with no gamble.',
+      description: 'Spend Fortune Points to guarantee your damage roll hits maximum. Base: 14d6 force damage. Each Fortune Point spent treats one d6 as if it rolled 6 (max 7 dice weighted). No coin flip, no gamble — just results.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2677,7 +2169,7 @@ Playing Gambler in person is uniquely satisfying because:
       typeConfig: {
         school: 'evocation',
         icon: 'Social/Dice Roll',
-        tags: ['damage', 'guaranteed', 'universal'],
+        tags: ['damage', 'guaranteed', 'fortune point spending', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2701,6 +2193,14 @@ Playing Gambler in person is uniquely satisfying because:
         }
       },
 
+      specialMechanics: {
+        fortunePoints: {
+          usage: 'Each FP spent treats one d6 as if it rolled 6 (max 7 dice)',
+          example: 'Spend 5 FP: 5 of your 14d6 automatically count as 6. Roll the remaining 9d6 normally.',
+          guarantee: 'At 7 FP spent, half your dice are guaranteed maximum. The most reliable spell in the Gambler arsenal.'
+        }
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
@@ -2716,14 +2216,14 @@ Playing Gambler in person is uniquely satisfying because:
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'guaranteed', 'universal']
+      tags: ['damage', 'guaranteed', 'fortune point spending', 'universal']
     },
 
     // ADDITIONAL LEVEL 10 SPELL
     {
       id: 'gambler_divine_jackpot',
       name: 'Divine Jackpot',
-      description: 'Hit the divine jackpot - on heads instantly win the encounter, on tails take 20d6 force damage.',
+      description: 'Flip a coin wreathed in divine fire. Heads: deal 20d6 force damage to all enemies — those below 50% HP are instantly defeated, others are stunned 2 rounds. Tails: take 20d6 force damage but survive at 1 HP with advantage on all rolls for 1 round.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2751,8 +2251,22 @@ Playing Gambler in person is uniquely satisfying because:
         damageType: 'area',
         criticalConfig: {
           critType: 'effect',
-          critEffects: ['divine_victory', 'instant_win']
+          critEffects: ['divine_judgment', 'fortune_mercy']
         }
+      },
+
+      specialMechanics: {
+        coinFlip: {
+          heads: {
+            effect: 'divine_judgment',
+            description: 'Deal 20d6 force damage to all enemies in range. Enemies below 50% HP are instantly defeated. Enemies above 50% HP are stunned for 2 rounds.'
+          },
+          tails: {
+            effect: 'fortune_mercy',
+            description: 'Take 20d6 force damage. If this would reduce you to 0 HP, you survive at 1 HP instead and gain advantage on all rolls for 1 round as fortune spares you.'
+          }
+        },
+        loreNote: 'Fortune is a cruel mistress. She either destroys your enemies, or she teaches you why you should have folded.'
       },
 
       resourceCost: {

@@ -962,6 +962,8 @@ Many players enhance the Spellguard experience with:
       },
 
       healingConfig: {
+        healingType: 'shield',
+        formula: '10d6',
         useAbsorptionShield: true,
         shieldConfig: {
           shieldType: 'standard',
@@ -1072,6 +1074,8 @@ Many players enhance the Spellguard experience with:
       resolution: 'AUTOMATIC',
 
       healingConfig: {
+        healingType: 'shield',
+        formula: '8d6',
         useAbsorptionShield: true,
         shieldConfig: {
           shieldType: 'standard',

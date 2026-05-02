@@ -18,7 +18,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t1_fury_damage',
     name: 'Fury Damage',
-    description: 'Rank 1: Weapon damage +1 for each Rage State above Smoldering. Rank 2: Weapon damage +1 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack. Rank 3: Weapon damage +1 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack. Rank 4: Weapon damage +2 for each Rage State above Smoldering. You can spend 1 Rage to gain advantage on your next attack.',
+    description: '+1 weapon damage per Rage State above Smoldering. Rank 2+: Spend 1 Rage for advantage on your next attack. Rank 4: Bonus increases to +2 per State.',
     icon: 'ability_warrior_savageblow',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -154,7 +154,7 @@ export const BERSERKER_PRIMAL_RAGE = [
   {
     id: 'primal_rage_t7_berserker_god',
     name: 'Berserker God',
-    description: 'Unlocks Berserker God Mode - permanently stay in Obliteration state, but take 1d6 damage per round.',
+    description: 'Permanently locked in Obliteration state. Overheat no longer triggers. Instead, take 1d6 damage per round. Rage-spending abilities still consume Rage as normal — if Rage drops below 101, you leave Obliteration until you build back up.',
     icon: 'spell_shadow_unholystrength',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -448,7 +448,7 @@ export const BERSERKER_SAVAGE_INSTINCTS = [
   {
     id: 'savage_instincts_t3_combat_mastery',
     name: 'Combat Mastery',
-    description: 'You can make one additional attack per turn per rank.',
+    description: 'Reduces the Action Point cost of attacks by 1 per rank (minimum 1 AP).',
     icon: 'ability_warrior_bloodfrenzy',
     maxRanks: 2,
     position: { x: 4, y: 0 },

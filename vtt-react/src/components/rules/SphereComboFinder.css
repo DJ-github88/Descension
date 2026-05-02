@@ -1,0 +1,247 @@
+.scf-root {
+  margin-top: 20px;
+}
+
+.scf-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.scf-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: #8b6914;
+  margin-bottom: 16px;
+}
+
+/* ===== Sphere Selector ===== */
+.scf-spheres-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.scf-sphere-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 12px 8px;
+  border: 2px solid rgba(139, 69, 19, 0.15);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 64px;
+}
+
+.scf-sphere-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scf-sphere-btn.scf-sphere-sel1,
+.scf-sphere-btn.scf-sphere-sel2 {
+  border-width: 2px;
+  box-shadow: 0 0 12px var(--sphere-color, #d4af37)44;
+}
+
+.scf-sphere-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.scf-sphere-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #5a1e12;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ===== Selection Display ===== */
+.scf-selection {
+  text-align: center;
+  margin-top: 12px;
+  min-height: 32px;
+}
+
+.scf-selection-hint {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #8b6914;
+  font-style: italic;
+}
+
+.scf-selection-made {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.scf-selection-combo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #433422;
+}
+
+.scf-selection-name {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #8b6914;
+  font-style: italic;
+}
+
+.scf-reset-btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #8b4513;
+  background: none;
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 4px;
+  padding: 3px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: background 0.15s;
+}
+
+.scf-reset-btn:hover {
+  background: rgba(139, 69, 19, 0.06);
+}
+
+/* ===== Results ===== */
+.scf-results {
+  margin-top: 16px;
+  animation: scf-fade-in 0.2s ease-out;
+}
+
+@keyframes scf-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scf-chaos-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #433422;
+  padding: 8px 12px;
+  background: rgba(224, 86, 253, 0.06);
+  border: 1px solid rgba(224, 86, 253, 0.2);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.scf-chaos-note strong {
+  color: #9b59b6;
+}
+
+.scf-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.scf-action-card {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 8px;
+  transition: border-color 0.15s;
+}
+
+.scf-action-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.scf-action-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.08);
+}
+
+.scf-action-header i {
+  color: #d4af37;
+  font-size: 0.8rem;
+}
+
+.scf-action-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #5a1e12;
+  flex: 1;
+}
+
+.scf-action-cost {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #27ae60;
+}
+
+.scf-action-meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.scf-action-meta span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: #6b5b4a;
+}
+
+.scf-action-damage {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #c0392b;
+  margin-bottom: 6px;
+}
+
+.scf-action-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #433422;
+}
+
+.scf-no-result {
+  text-align: center;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  color: #8b6914;
+  font-style: italic;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .scf-spheres-row {
+    gap: 6px;
+  }
+  .scf-sphere-btn {
+    min-width: 52px;
+    padding: 8px 8px 6px;
+  }
+  .scf-sphere-icon {
+    font-size: 1.1rem;
+  }
+  .scf-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}

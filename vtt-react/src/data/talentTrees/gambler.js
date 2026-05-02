@@ -1,5 +1,9 @@
 // ============================================
 // GAMBLER TALENT TREES
+// Renamed to match specializations:
+//   Fortune's Favor (was Luck Manipulation)
+//   High Roller (was Risk Management)
+//   Card Sharp (was Fate Control)
 // ============================================
 
 export const GAMBLER_LUCK_MANIPULATION = [
@@ -96,7 +100,7 @@ export const GAMBLER_LUCK_MANIPULATION = [
   {
     id: 'luck_t4_jackpot',
     name: 'Jackpot',
-    description: 'Critical hits deal maximum damage. Natural 20s on attacks trigger this effect.',
+    description: 'Critical hits deal maximum damage on the base dice. Rank 1: base dice deal max on crits. Rank 2: crits also generate +2 Fortune Points instead of +1.',
     icon: 'inv_misc_coin_02',
     maxRanks: 2,
     position: { x: 3, y: 4 },
@@ -105,7 +109,7 @@ export const GAMBLER_LUCK_MANIPULATION = [
   {
     id: 'luck_t4_golden_touch',
     name: 'Golden Touch',
-    description: 'Your touch can turn items to gold. Once per day, transmute one non-magical item per rank.',
+    description: 'Your Fortune Point spending is more efficient. Reduce the FP cost of any adjustment by 1 (minimum 0) once per turn per rank. Rank 1: first adjustment each turn costs 1 less FP. Rank 2: first two adjustments each turn cost 1 less FP.',
     icon: 'inv_ingot_03',
     maxRanks: 2,
     position: { x: 0, y: 5 },
@@ -125,7 +129,7 @@ export const GAMBLER_LUCK_MANIPULATION = [
   }
 ];
 
-// Risk Management Specialization - Perfectly balanced scales pattern (symmetrical left-right mirror)
+// High Roller Specialization (formerly Risk Management) - Perfectly balanced scales pattern (symmetrical left-right mirror)
 export const GAMBLER_RISK_MANAGEMENT = [
   // Tier 0 - Scale center (pivot point)
   {
@@ -236,10 +240,10 @@ export const GAMBLER_RISK_MANAGEMENT = [
     requires: 'risk_t2_balanced_gamble',
   },
   {
-    id: 'risk_t3_risk_sharing',
-    name: 'Risk Sharing',
-    description: 'Share risks with allies. When you take damage, distribute 1d6 damage to each ally within 30ft.',
-    icon: 'spell_shadow_bloodboil',
+    id: 'risk_t3_hedged_bets',
+    name: 'Hedged Bets',
+    description: 'When you fail a saving throw, you may spend 2 Fortune Points to halve the damage or effect. Allies within 30ft gain resistance to that damage type for 1 round.',
+    icon: 'spell_holy_layonhands',
     maxRanks: 2,
     position: { x: 2, y: 5 },
     requires: 'risk_t2_mitigated_loss',
@@ -262,12 +266,12 @@ export const GAMBLER_RISK_MANAGEMENT = [
     icon: 'inv_misc_scalesofjustice',
     maxRanks: 1,
     position: { x: 2, y: 7 },
-    requires: ['risk_t3_perfect_timing', 'risk_t3_risk_sharing', 'risk_t3_ultimate_gamble'],
+    requires: ['risk_t3_perfect_timing', 'risk_t3_hedged_bets', 'risk_t3_ultimate_gamble'],
     requiresAll: true,
   }
 ];
 
-// Fate Control Specialization - Roulette wheel pattern (proper tier progression)
+// Card Sharp Specialization (formerly Fate Control) - Roulette wheel pattern (proper tier progression)
 export const GAMBLER_FATE_CONTROL = [
   // Tier 0 - Foundation (starting talent)
   {

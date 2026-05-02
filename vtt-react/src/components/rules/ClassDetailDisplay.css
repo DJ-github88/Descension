@@ -434,6 +434,695 @@
   color: #5a1e12;
 }
 
+/* ===== Action Table ===== */
+.mech-action-table-section {
+  margin-top: 20px;
+}
+
+.mech-action-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.mech-action-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  margin-bottom: 8px;
+}
+
+.mech-action-rule {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #433422;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: rgba(212, 175, 55, 0.08);
+  border-radius: 4px;
+}
+
+.mech-action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.mech-action-card {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 6px;
+}
+
+.mech-action-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.mech-action-card-header i {
+  color: #d4af37;
+  font-size: 0.8rem;
+}
+
+.mech-action-card-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.mech-action-stat {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.mech-action-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #8b6914;
+}
+
+.mech-action-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #433422;
+  text-align: right;
+}
+
+.mech-action-card-note {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #6b5b4a;
+  font-style: italic;
+}
+
+/* ===== Base vs Recipes (recipe examples rows) ===== */
+.mech-bvr-recipes-preview {
+  margin-bottom: 16px;
+}
+
+.mech-bvr-recipes-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #8b6914;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mech-bvr-recipes-title i {
+  color: #d4af37;
+}
+
+.mech-bvr-recipes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mech-bvr-recipe-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(212, 175, 55, 0.06);
+  border-radius: 4px;
+}
+
+.mech-bvr-recipe-level {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8b6914;
+  text-transform: uppercase;
+  white-space: nowrap;
+  min-width: 32px;
+}
+
+.mech-bvr-recipe-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #5a1e12;
+  white-space: nowrap;
+}
+
+.mech-bvr-recipe-upgrade {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.88rem;
+  color: #433422;
+  flex: 1;
+}
+
+/* ===== Mechanics Step Cards ===== */
+.mech-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.mech-step-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(139, 69, 19, 0.12);
+  border-radius: 8px;
+  align-items: flex-start;
+}
+
+.mech-step-number {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d4af37;
+  line-height: 1;
+  min-width: 32px;
+  text-align: center;
+  padding-top: 2px;
+}
+
+.mech-step-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mech-step-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.mech-step-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  margin-bottom: 6px;
+}
+
+.mech-step-content {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #433422;
+}
+
+.mech-step-content strong {
+  color: #5a1e12;
+}
+
+/* ===== Non-Recipe Abilities Section ===== */
+.mech-non-recipe-section {
+  margin-top: 24px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+}
+
+.mech-non-recipe-header {
+  margin-bottom: 10px;
+}
+
+.mech-non-recipe-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.mech-non-recipe-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+}
+
+.mech-non-recipe-intro {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #433422;
+  margin-bottom: 14px;
+}
+
+.mech-ability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.mech-ability-card {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+.mech-ability-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.mech-ability-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.mech-ability-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #5a1e12;
+}
+
+.mech-ability-type {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  background: rgba(212, 175, 55, 0.12);
+  padding: 2px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.mech-ability-cost {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4a7c59;
+  margin-bottom: 6px;
+}
+
+.mech-ability-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #433422;
+}
+
+/* ===== Combo Tiers ===== */
+.mech-combo-tiers {
+  margin-top: 24px;
+}
+
+.mech-combo-tiers-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.mech-combo-tiers-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  margin-bottom: 14px;
+}
+
+.mech-tier-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mech-tier-card {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 6px;
+}
+
+.mech-tier-card.mech-tier-highlight {
+  border-left: 4px solid #d4af37;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.mech-tier-header {
+  margin-bottom: 6px;
+}
+
+.mech-tier-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #5a1e12;
+}
+
+.mech-tier-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.mech-tier-meta span {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  color: #433422;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mech-tier-meta i {
+  font-size: 0.65rem;
+  color: #8b6914;
+}
+
+.mech-tier-cost i {
+  color: #c0392b;
+}
+
+.mech-tier-mana i {
+  color: #2980b9;
+}
+
+.mech-tier-available i {
+  color: #27ae60;
+}
+
+.mech-tier-desc {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #433422;
+}
+
+.mech-tier-desc strong {
+  color: #5a1e12;
+}
+
+/* ===== Mana Warning ===== */
+.mech-warning {
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: rgba(192, 57, 43, 0.06);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-left: 4px solid #c0392b;
+  border-radius: 6px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #433422;
+}
+
+.mech-warning strong {
+  color: #c0392b;
+}
+
+/* ===== Base vs Recipes ===== */
+.mech-base-vs-recipes {
+  margin-top: 24px;
+}
+
+.mech-bvr-header {
+  margin-bottom: 8px;
+}
+
+.mech-bvr-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 2px;
+}
+
+.mech-bvr-subtitle {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #6b5b4a;
+  font-style: italic;
+}
+
+.mech-bvr-intro {
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #433422;
+  margin-bottom: 14px;
+}
+
+.mech-bvr-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .mech-bvr-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mech-bvr-col {
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.mech-bvr-can {
+  background: rgba(39, 174, 96, 0.05);
+  border-color: rgba(39, 174, 96, 0.2);
+}
+
+.mech-bvr-cannot {
+  background: rgba(192, 57, 43, 0.05);
+  border-color: rgba(192, 57, 43, 0.2);
+}
+
+.mech-bvr-col-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mech-bvr-can .mech-bvr-col-title {
+  color: #27ae60;
+}
+
+.mech-bvr-cannot .mech-bvr-col-title {
+  color: #c0392b;
+}
+
+.mech-bvr-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mech-bvr-list li {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: #433422;
+  padding-left: 16px;
+  position: relative;
+}
+
+.mech-bvr-can .mech-bvr-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #27ae60;
+  font-weight: 700;
+}
+
+.mech-bvr-cannot .mech-bvr-list li::before {
+  content: '✗';
+  position: absolute;
+  left: 0;
+  color: #c0392b;
+  font-weight: 700;
+}
+
+.mech-bvr-unlock {
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.mech-bvr-unlock-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #8b6914;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mech-bvr-unlock-title i {
+  color: #d4af37;
+}
+
+.mech-bvr-unlock-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  margin-bottom: 10px;
+}
+
+.mech-bvr-unlock-list li::before {
+  content: '★' !important;
+  color: #d4af37 !important;
+}
+
+.mech-bvr-comparison {
+  margin-top: 16px;
+}
+
+.mech-bvr-comp-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 12px;
+}
+
+.mech-bvr-comp-example {
+  margin-bottom: 14px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+  border-radius: 8px;
+}
+
+.mech-bvr-comp-example:last-child {
+  margin-bottom: 0;
+}
+
+.mech-bvr-comp-combo {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 10px;
+}
+
+.mech-bvr-comp-pair {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .mech-bvr-comp-pair {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mech-bvr-comp-arrow {
+    display: none;
+  }
+}
+
+.mech-bvr-comp-base,
+.mch-bvr-comp-recipe {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.mech-bvr-comp-base {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  background: rgba(139, 69, 19, 0.04);
+  border: 1px solid rgba(139, 69, 19, 0.1);
+}
+
+.mech-bvr-comp-recipe {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+.mech-bvr-comp-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8b6914;
+  margin-bottom: 4px;
+}
+
+.mech-bvr-comp-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 6px;
+}
+
+.mech-bvr-comp-effect {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #433422;
+}
+
+.mech-bvr-comp-arrow {
+  display: flex;
+  align-items: center;
+  color: #d4af37;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
 .subsection-content {
   font-family: 'Crimson Text', serif;
   font-size: 1.05rem;
@@ -2045,6 +2734,7 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   flex: 1;
   min-height: 0;

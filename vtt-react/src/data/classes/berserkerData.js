@@ -62,12 +62,12 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
       content: `Playing a Berserker is about building and maintaining momentum. Key strategic considerations:
 
 **Rage State Management**: 
-- Smoldering (0-20): Building phase, basic abilities
-- Frenzied (21-40): Combat effectiveness increases
-- Primal (41-60): Significant power spike, self-sustain unlocked
-- Carnage (61-80): Elite damage and defense
-- Cataclysm (81-100): Peak performance, devastating abilities
-- Obliteration (101+): Ultimate power but must spend immediately or Overheat
+- Smoldering (0-20): Building phase, basic abilities only
+- Frenzied (21-40): +1 attack, +5 ft movement, initial power unlock
+- Primal (41-60): +2 attack, +10 ft movement, +1d4 bonus damage, first real power spike
+- Carnage (61-80): +3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance, elite combat form
+- Cataclysm (81-100): +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun
+- Obliteration (101+): +5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions, MUST SPEND OR OVERHEAT
 
 **Building Rage**: 
 - Attack consistently to generate 1d6 Rage per attack
@@ -119,7 +119,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Current Rage: 23** (Frenzied State - UNLOCKED!)
 
-*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State—you now have +1 to all attack rolls.*
+*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State—you now have +1 to all attack rolls and +5 ft movement.*
 
 **Turn 3 - Ascending Wrath (Rage: 23 → 47)**
 
@@ -135,7 +135,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Current Rage: 47** (Primal State - UNLOCKED!)
 
-*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust—you now regenerate health each turn. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
+*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust—you now regenerate health each turn. +2 to attack, +10 ft movement, +1d4 bonus damage. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
 
 **Turn 4 - Peak Carnage (Rage: 47 → 73)**
 
@@ -160,7 +160,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Current Rage: 65** (Carnage State - UNLOCKED!)
 
-*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State—+3 to attack rolls, damage resistance activated. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
+*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State—+3 to attack rolls, +15 ft movement, +1d6 bonus damage, 25% damage resistance. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
 
 **Turn 5 - The Overheat Danger (Rage: 65 → 98)**
 
@@ -191,26 +191,26 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Current Rage: 98** (Cataclysm State - DANGER ZONE!)
 
-*You're at the peak. Your body is beyond mortal limits. +4 to attack rolls. Immune to fear, stun, paralysis. But you're approaching the edge. Two more points and you'll hit Obliteration. Three more and you risk Overheat.*
+*You're at the peak. Your body is beyond mortal limits. +4 to attack rolls, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear and stun. But you're approaching the edge. Two more points and you'll hit Obliteration. Three more and you risk Overheat.*
 
-**Turn 6 - Controlled Destruction (Rage: 98 → 35)**
+**Turn 6 - Controlled Destruction (Rage: 98 → 75)**
 
 *You need to spend this Rage NOW or it will consume you.*
-
 **Action**: Cataclysmic Blow (ultimate Rage ability)
-**Rage Cost**: Spend 50 Rage (now at 48)
-**Effect**: 6d12 damage + knockback + stun
+
+**Rage Cost**: Spend 30 Rage (now at 68)
+**Effect**: 3d8 + strength + 2d6 damage + knockback + stun
 **Result**: Arena Master is staggered, armor cracked, bleeding heavily
 
-*You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Primal State (48 Rage), still dangerous.*
+*You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Carnage State (68 Rage), still dangerous.*
 
 **Action**: Attack while he's stunned → Hit!
-**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 51)
+**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 71)
 **Action**: Second attack → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 55)
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 75)
 **Result**: Arena Master falls to his knees, defeated
 
-*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (55 → 50 → 45...), but the battle is won.*
+*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (75 → 70 → 65...), but the battle is won.*
 
 **The Lesson**: The Berserker is about riding the wave of fury—building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.`
     }
@@ -277,11 +277,12 @@ Every combat action that involves aggression or pain generates Rage:
 
 **Spending Rage (How to Use Fury)**:
 
-Berserker abilities cost Rage to activate. Higher-tier abilities cost more but deal devastating damage:
+Berserker abilities cost Rage to activate. Every ability consumes Rage, creating the core tension of building and spending:
 
-- **Basic Abilities**: 5-10 Rage (Frenzied Slash, War Cry)
-- **Moderate Abilities**: 15-25 Rage (Primal Roar, Carnage Strike)
-- **Ultimate Abilities**: 40-60 Rage (Cataclysmic Blow, Obliterating Strike)
+- **Basic Abilities**: 5-10 Rage (Frenzied Slash, Bloodthirst, War Cry)
+- **Moderate Abilities**: 12-20 Rage (Primal Roar, Carnage Strike, Raging Defense)
+- **Powerful Abilities**: 20-30 Rage (Cataclysmic Blow, Unstoppable Force, Commanding Shout)
+- **Ultimate Abilities**: 30-100 Rage (Obliterating Strike, Wrath of the Berserker, Primal Apex)
 
 Example: You're at 68 Rage (Carnage State). You use Carnage Strike (costs 20 Rage) → Now at 48 Rage (dropped to Primal State)
 
@@ -306,23 +307,23 @@ Example: You're at 98 Rage, crit for 2d6 = [6, 5] = 11 → Now at 109 Rage (DANG
 
 Your current Rage determines which state you're in and what bonuses you receive:
 - 0-20: Smoldering (no bonuses)
-- 21-40: Frenzied (+1 attack)
-- 41-60: Primal (+2 attack, healing)
-- 61-80: Carnage (+3 attack, damage resistance)
-- 81-100: Cataclysm (+4 attack, condition immunity)
-- 101+: Obliteration (+5 attack, MUST SPEND OR OVERHEAT)`
+- 21-40: Frenzied (+1 attack, +5 ft movement)
+- 41-60: Primal (+2 attack, +10 ft movement, +1d4 bonus damage)
+- 61-80: Carnage (+3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance)
+- 81-100: Cataclysm (+4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun)
+- 101+: Obliteration (+5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions, MUST SPEND OR OVERHEAT)`
     },
     
     rageStatesTable: {
       title: 'Rage States & Abilities',
       headers: ['Rage State', 'Rage Range', 'Unlocked Abilities', 'State Benefits'],
       rows: [
-        ['Smoldering', '0-20', 'Basic Strike, Defensive Stance', 'Building fury, basic combat effectiveness'],
-        ['Frenzied', '21-40', 'Frenzied Slash, War Cry', '+1 to attack rolls, allies gain morale'],
-        ['Primal', '41-60', 'Primal Roar, Bloodlust', '+2 to attack rolls, self-healing unlocked'],
-        ['Carnage', '61-80', 'Carnage Strike, Raging Defense', '+3 to attack rolls, damage resistance'],
-        ['Cataclysm', '81-100', 'Cataclysmic Blow, Unstoppable Force', '+4 to attack rolls, condition immunity'],
-        ['Obliteration', '101+', 'Obliterating Strike, Wrath of the Berserker', '+5 to attack rolls, must spend or Overheat']
+        ['Smoldering', '0-20', 'Basic Strike, Defensive Stance, Rage Tap', 'No bonuses'],
+        ['Frenzied', '21-40', 'Frenzied Slash, War Cry, Bloodthirst', '+1 attack, +5 ft movement'],
+        ['Primal', '41-60', 'Primal Roar, Bloodlust, Savage Leap', '+2 attack, +10 ft movement, +1d4 bonus damage'],
+        ['Carnage', '61-80', 'Carnage Strike, Raging Defense, Intimidating Presence', '+3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance'],
+        ['Cataclysm', '81-100', 'Cataclysmic Blow, Unstoppable Force', '+4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun'],
+        ['Obliteration', '101+', 'Obliterating Strike, Wrath of the Berserker', '+5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions — MUST SPEND OR OVERHEAT']
       ]
     },
     
@@ -376,7 +377,7 @@ Some advanced Berserkers intentionally push into Overheat to use their most powe
 - You crit and roll 2d6 = [6, 5] = 11 → Now at 106 Rage (OVERHEAT!)
 - Dice turn purple-black and shake violently
 - You have ONE ROUND to act
-- Option A: Use Obliterating Strike (costs 60 Rage) → Drop to 46 Rage (Primal), avoid Overheat
+- Option A: Use Obliterating Strike (costs 30 Rage) → Drop to 76 Rage (Carnage), avoid Overheat
 - Option B: Do nothing → End of round: Take 2d6 damage, Rage resets to 0
 - Option C: Use a cheaper ability (costs 10 Rage) → Drop to 96 Rage, avoid Overheat but waste potential`
     },
@@ -386,20 +387,20 @@ Some advanced Berserkers intentionally push into Overheat to use their most powe
       content: `**Scenario**: You're at 87 Rage (Cataclysm State) fighting a boss with 40% HP remaining. Your party's healer is down to 20% HP.
 
 **Current State**:
-- Rage: 87 (Cataclysm - +4 attack, condition immunity)
+- Rage: 87 (Cataclysm - +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun)
 - Boss HP: ~40%
 - Healer HP: ~20% (in danger)
 - Your HP: 65%
 
 **Option A - Go for the Kill**:
-Use Cataclysmic Blow (costs 50 Rage, deals 6d12 damage)
+Use Cataclysmic Blow (costs 30 Rage, deals 3d8 + strength + 2d6 damage)
 - Pros: Massive damage, might finish the boss
-- Cons: Drops you to 37 Rage (Primal State), lose +4 attack bonus, lose condition immunity
+- Cons: Drops you to 57 Rage (Primal State), lose Cataclysm bonuses
 - Risk: If boss survives, you're weaker for the rest of the fight
 
 **Option B - Sustain and Build**:
-Use Primal Roar (costs 10 Rage, AoE damage + intimidate)
-- Pros: Stays at 77 Rage (still Carnage State), keeps high bonuses
+Use Primal Roar (costs 15 Rage, AoE damage + intimidate)
+- Pros: Stays at 72 Rage (still Cataclysm State), keeps high bonuses
 - Cons: Less burst damage, boss might kill healer
 - Risk: Healer dies, you lose support
 
@@ -416,7 +417,7 @@ Attack recklessly to push past 101, then immediately use Obliterating Strike (co
 - Risk: If you can't spend in time, you Overheat and reset to 0
 
 **Best Choice**: Option A (Cataclysmic Blow)
-- Why: Boss at 40% HP means one massive hit could end the fight. Healer survives if boss dies. Even if you drop to Primal State (37 Rage), the fight might be over. The risk of the boss surviving and killing your healer while you're at lower Rage is less than the reward of potentially ending the encounter immediately.
+- Why: Boss at 40% HP means one massive hit could end the fight. Healer survives if boss dies. Even if you drop to Primal State (57 Rage), the fight might be over. The risk of the boss surviving and killing your healer while you're at lower Rage is less than the reward of potentially ending the encounter immediately.
 
 **Alternative if Boss is Tankier**: Option C (Build to 95+, then Obliterating Strike)
 - Why: If you know the boss has high HP and won't die to Cataclysmic Blow, building to Obliteration State for the +5 attack bonus on your ultimate ability is worth the Overheat risk.
@@ -462,9 +463,10 @@ When you perform Rage-generating actions, roll the appropriate die and add to yo
 
 **Spending Rage**:
 When you use abilities, subtract the Rage cost and adjust dice:
-- **Primal Roar (10 Rage)**: At 77 Rage [7][7] → 77 - 10 = 67 → Set dice to [6][7]
-- **Carnage Strike (30 Rage)**: At 87 Rage [8][7] → 87 - 30 = 57 → Set dice to [5][7]
-- **Cataclysmic Blow (50 Rage)**: At 87 Rage [8][7] → 87 - 50 = 37 → Set dice to [3][7]
+- **Frenzied Slash (8 Rage)**: At 77 Rage [7][7] → 77 - 8 = 69 → Set dice to [6][9]
+- **Primal Roar (15 Rage)**: At 87 Rage [8][7] → 87 - 15 = 72 → Set dice to [7][2]
+- **Carnage Strike (20 Rage)**: At 87 Rage [8][7] → 87 - 20 = 67 → Set dice to [6][7]
+- **Cataclysmic Blow (30 Rage)**: At 87 Rage [8][7] → 87 - 30 = 57 → Set dice to [5][7]
 
 **Rage Decay**:
 If you don't attack for a full round, subtract 5 Rage:
@@ -477,32 +479,32 @@ If your Rage exceeds 100:
 - **Overheat**: If you don't spend in time, roll 2d6 damage to yourself and reset dice to [0][0]
 
 **Rage State Reference Card Template**:
-\`\`\`
+      \`\`\`
 BERSERKER RAGE STATES
 
 SMOLDERING (0-20)
 Bonuses: None
-Abilities: Basic attacks only
+Abilities: Basic Strike, Defensive Stance, Rage Tap
 
 FRENZIED (21-40)
-Bonuses: +1 attack, +5 movement
-Abilities: Frenzied Strike, Rage Shout
+Bonuses: +1 attack, +5 ft movement
+Abilities: Frenzied Slash, War Cry, Bloodthirst
 
 PRIMAL (41-60)
-Bonuses: +2 attack, +10 movement, +1d4 damage
-Abilities: Primal Roar, Savage Leap
+Bonuses: +2 attack, +10 ft movement, +1d4 bonus damage
+Abilities: Primal Roar, Bloodlust, Savage Leap
 
 CARNAGE (61-80)
-Bonuses: +3 attack, +15 movement, +1d6 damage, +2 AC
-Abilities: Carnage Strike, Intimidating Presence
+Bonuses: +3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance
+Abilities: Carnage Strike, Raging Defense, Intimidating Presence
 
 CATACLYSM (81-100)
-Bonuses: +4 attack, +20 movement, +1d8 damage, +3 AC
+Bonuses: +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun
 Abilities: Cataclysmic Blow, Unstoppable Force
 
 OBLITERATION (101+)
-Bonuses: +5 attack, +25 movement, +2d6 damage, +4 AC
-Abilities: Obliterating Strike (60 Rage)
+Bonuses: +5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions
+Abilities: Obliterating Strike, Wrath of the Berserker
 WARNING: Spend Rage or Overheat (2d6 damage, reset to 0)!
 \`\`\`
 
@@ -537,12 +539,12 @@ WARNING: Spend Rage or Overheat (2d6 damage, reset to 0)!
 8. New bonuses: +3 attack, +15 movement, +1d6 damage, +2 AC
 
 **Turn 4 - Spending Rage**:
-1. "I use Carnage Strike!" (costs 30 Rage)
-2. Subtract Rage: 63 - 30 = 33
-3. Adjust dice: [6][3] → [3][3]
-4. **RAGE STATE CHANGE**: Dropped to Frenzied State (21-40)
+1. "I use Carnage Strike!" (costs 20 Rage)
+2. Subtract Rage: 63 - 20 = 43
+3. Adjust dice: [6][3] → [4][3]
+4. **RAGE STATE CHANGE**: Dropped to Primal State (41-60)
 5. Roll damage with Carnage Strike bonus
-6. New bonuses: +1 attack, +5 movement (lost Carnage bonuses)
+6. New bonuses: +2 attack, +10 ft movement, +1d4 bonus damage (lost Carnage bonuses)
 
 **Alternative Tracking Methods**:
 
@@ -600,9 +602,9 @@ OVERHEAT:
 **Turn 5**: Attack (hit) → Roll [4] → 30 Rage [3][0] (Frenzied)
 **Turn 6**: Attack (hit) → Roll [6] → 36 Rage [3][6] (Frenzied)
 **Turn 7**: Attack (hit) → Roll [5] → 41 Rage [4][1] (Primal!)
-**Turn 8**: Use Primal Roar (10 Rage) → 31 Rage [3][1] (Frenzied)
-**Turn 9**: Attack (hit) → Roll [6] → 37 Rage [3][7] (Frenzied)
-**Turn 10**: Attack (crit!) → Roll [6, 5] = 11 → 48 Rage [4][8] (Primal!)
+**Turn 8**: Use Primal Roar (15 Rage) → 26 Rage [2][6] (Frenzied)
+**Turn 9**: Attack (hit) → Roll [6] → 32 Rage [3][2] (Frenzied)
+**Turn 10**: Attack (crit!) → Roll [6, 5] = 11 → 43 Rage [4][3] (Primal!)
 
 **State Transition Announcements**:
 
@@ -816,7 +818,8 @@ When you cross a Rage State threshold, announce it dramatically:
         school: 'bludgeoning',
         icon: 'Utility/Deflecting Shield',
         tags: ['defense', 'buff', 'rage generation', 'stance', 'toggleable', 'starter'],
-        toggleable: true
+        toggleable: true,
+        exclusiveGroup: 'berserker_stance'
       },
 
       targetingConfig: {
@@ -881,7 +884,8 @@ When you cross a Rage State threshold, announce it dramatically:
         school: 'bludgeoning',
         icon: 'Slashing/Bloody Slash',
         tags: ['buff', 'rage generation', 'damage', 'stance', 'toggleable', 'starter'],
-        toggleable: true
+        toggleable: true,
+        exclusiveGroup: 'berserker_stance'
       },
 
       targetingConfig: {
@@ -963,8 +967,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Frenzied' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Frenzied', rage_cost: 8 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Unleash a whirlwind of savage strikes, vision red with fury'
@@ -1053,8 +1057,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Frenzied' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Frenzied', rage_cost: 10 },
         actionPoints: 1,
         components: ['verbal'],
         verbalText: 'FOR GLORY AND FURY!'
@@ -1094,7 +1098,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '1d4',
-        elementType: 'lightning',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         description: 'Concussive sonic force batters nearby enemies.'
       },
@@ -1144,8 +1148,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Frenzied' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Frenzied', rage_cost: 5 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Strike with dark energy, draining life force as red mist flows into you'
@@ -1156,7 +1160,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '1d6 + strength',
-        elementType: 'necrotic',
+        elementType: 'slashing',
         damageType: 'direct',
         canCrit: true,
         critMultiplier: 2,
@@ -1175,17 +1179,16 @@ When you cross a Rage State threshold, announce it dramatically:
           procType: 'dice',
           diceThreshold: 16,
           procChance: 25,
-          customEffects: ['slow'],
-          slowConfig: {
-            speedReduction: 15,
-            speedReductionType: 'flat',
+          customEffects: ['bleeding'],
+          bleedingConfig: {
+            damagePerRound: '1d4',
             duration: 2,
             durationUnit: 'rounds',
             saveDC: 14,
             saveType: 'constitution'
           }
         },
-        description: 'Tears into your enemy with necrotic force, draining their vitality and siphoning it into yourself.'
+        description: 'Tears into your enemy with savage force, opening wounds that bleed freely while siphoning their vitality into yourself.'
       },
 
       healingConfig: {
@@ -1223,8 +1226,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Frenzied' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Frenzied', rage_cost: 10 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Inject yourself with adrenaline'
@@ -1289,8 +1292,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Primal' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Primal', rage_cost: 15 },
         actionPoints: 1,
         components: ['verbal'],
         verbalText: 'RAAAAGH!'
@@ -1301,7 +1304,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '2d6 + strength',
-        elementType: 'lightning',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -1363,8 +1366,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Primal' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Primal', rage_cost: 12 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Embrace the fury within'
@@ -1431,8 +1434,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Primal' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Primal', rage_cost: 15 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Leap with primal force'
@@ -1508,8 +1511,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Primal' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Primal', rage_cost: 12 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Charge with berserk momentum'
@@ -1587,8 +1590,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Carnage' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Carnage', rage_cost: 20 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Strike with overwhelming carnage'
@@ -1672,8 +1675,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Carnage' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Carnage', rage_cost: 15 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Brace against all harm'
@@ -1745,8 +1748,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Carnage' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Carnage', rage_cost: 18 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'FEAR ME!',
@@ -1808,8 +1811,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Carnage' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Carnage', rage_cost: 15 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Enter battle trance'
@@ -1873,8 +1876,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm', rage_cost: 30 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Channel all fury into one devastating blow'
@@ -1962,8 +1965,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm', rage_cost: 20 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'NOTHING STOPS ME!',
@@ -2041,8 +2044,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm', rage_cost: 25 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'RALLY TO ME!'
@@ -2123,8 +2126,8 @@ When you cross a Rage State threshold, announce it dramatically:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'rage_state'],
-        resourceValues: { mana: 0, rage_state: 'Cataclysm' },
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Cataclysm', rage_cost: 25 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'MY RAGE CONSUMES ALL!',
@@ -2136,7 +2139,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '3d6 + strength',
-        elementType: 'fire',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2145,7 +2148,13 @@ When you cross a Rage State threshold, announce it dramatically:
           saveOutcome: 'halves'
         },
         triggerCondition: 'activation',
-        triggerDescription: 'Deals damage to self and nearby enemies'
+        triggerDescription: 'Deals 3d6 + strength bludgeoning damage to all enemies within 15 ft'
+      },
+
+      selfDamageConfig: {
+        formula: '1d6',
+        damageType: 'bludgeoning',
+        description: 'The uncontrollable eruption of fury damages you as well'
       },
 
       cooldownConfig: {
@@ -2197,7 +2206,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '4d8 + strength + 3d6',
-        elementType: 'force',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2385,6 +2394,20 @@ When you cross a Rage State threshold, announce it dramatically:
         rangeType: 'self'
       },
 
+      effectTargeting: {
+        transformation: {
+          targetingType: 'self',
+          rangeType: 'self'
+        },
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 15 },
+          targetRestrictions: ['enemy']
+        }
+      },
+
       resourceCost: {
         resourceTypes: ['mana', 'rage_cost'],
         resourceValues: { mana: 0, rage_cost: 50 },
@@ -2424,7 +2447,7 @@ When you cross a Rage State threshold, announce it dramatically:
         elementType: 'bludgeoning',
         damageType: 'direct',
         triggerCondition: 'activation',
-        triggerDescription: 'Deals damage to self and nearby enemies when activated'
+        triggerDescription: 'Deals 2d6 bludgeoning damage to all enemies within 15 ft when activated'
       },
 
       cooldownConfig: {
@@ -2623,7 +2646,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '5d8 + strength + 4d6',
-        elementType: 'fire',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2722,16 +2745,16 @@ When you cross a Rage State threshold, announce it dramatically:
     },
 
     {
-      id: 'berserk_dimensional_rift',
-      name: 'Dimensional Rift',
-      description: 'Tear open a rift to another dimension, pulling enemies through and dealing chaotic damage.',
+      id: 'berserk_earthshaker_slam',
+      name: 'Earthshaker Slam',
+      description: 'Slam both fists into the ground with enough force to crack the earth, dragging enemies toward you and burying them under debris.',
       level: 8,
       spellType: 'ACTION',
-      icon: 'Arcane/Portal Archway',
+      icon: 'Bludgeoning/Mortal Strike',
 
       typeConfig: {
         school: 'bludgeoning',
-        icon: 'Arcane/Portal Archway',
+        icon: 'Bludgeoning/Mortal Strike',
         tags: ['aoe', 'damage', 'control'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2750,9 +2773,8 @@ When you cross a Rage State threshold, announce it dramatically:
         resourceTypes: ['mana', 'rage_cost'],
         resourceValues: { mana: 0, rage_cost: 75 },
         actionPoints: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'REALITY TEARS APART!',
-        somaticText: 'Rip open dimensional barriers'
+        components: ['somatic'],
+        somaticText: 'Slam fists into the earth with devastating force'
       },
 
       resolution: 'SAVE',
@@ -2760,7 +2782,7 @@ When you cross a Rage State threshold, announce it dramatically:
 
       damageConfig: {
         formula: '4d6 + strength + 3d6',
-        elementType: 'force',
+        elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2774,8 +2796,8 @@ When you cross a Rage State threshold, announce it dramatically:
         controlType: 'forcedMovement',
         effects: [{
           id: 'pull',
-          name: 'Dimensional Pull',
-          description: 'Enemies are pulled toward the rift',
+          name: 'Ground Drag',
+          description: 'The shockwave drags enemies toward the impact point',
           config: {
             movementType: 'pull',
             distance: 20,
@@ -3160,7 +3182,7 @@ When you cross a Rage State threshold, announce it dramatically:
     {
       id: 'berserk_primal_apex',
       name: 'Primal Apex',
-      description: 'Reach the absolute pinnacle of berserker rage - a state of pure, unthinking violence that few warriors ever achieve. The transformation is overwhelming, leaving you temporarily drained when it ends.',
+      description: 'Reach the absolute pinnacle of berserker rage - a state of pure, unthinking violence that few warriors ever achieve. All enemies within sight tremble. The transformation is overwhelming, leaving you temporarily drained when it ends.',
       level: 10,
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
@@ -3201,13 +3223,18 @@ When you cross a Rage State threshold, announce it dramatically:
         grantedAbilities: [
           {
             id: 'apex_damage',
-            name: '+8 Damage Bonus',
-            description: 'All attacks deal +8 additional damage'
+            name: '+12 Damage Bonus',
+            description: 'All attacks deal +12 additional damage'
+          },
+          {
+            id: 'apex_resistance',
+            name: 'Primal Resilience',
+            description: '50% damage resistance while transformed'
           },
           {
             id: 'apex_immunity',
-            name: 'Fear & Stun Immunity',
-            description: 'Immune to fear and stun effects'
+            name: 'Condition Immunity',
+            description: 'Immune to all conditions while transformed'
           },
           {
             id: 'apex_exhaustion',

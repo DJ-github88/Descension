@@ -123,7 +123,7 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
       title: 'Combat Example: The Duel at Crimson Bridge',
       content: `**The Setup**: You face a rival duelist on a narrow bridge. He's a brute—all power, no finesse. You'll show him what true mastery looks like.
 
-**Starting State**: Stance: Flowing Water | Momentum: 0 | Flourish: 3 tokens
+**Starting State**: Stance: Flowing Water | Momentum: 0 | Flourish: 2 tokens
 
 **Turn 1 - Reading the Opponent (Momentum: 0 → 3)**
 
@@ -137,7 +137,7 @@ Second attack → Hit!
 
 Flowing Water signature move - "Rippling Deflection"
 **Momentum**: +1 (now at 3)
-**Flourish**: +1 token (now at 4) - earned for signature move!
+**Flourish**: +1 token (now at 3) - earned for signature move!
 
 *You flow around his attacks like water around stone. The rhythm builds.*
 
@@ -155,7 +155,7 @@ Attack → CRITICAL HIT!
 
 Striking Serpent signature - "Viper's Fang" (costs 3 Momentum)
 **Momentum**: 3 - 3 = 0, then +2 for signature = 2
-**Flourish**: +1 (now at 5)
+**Flourish**: +1 (now at 4)
 **Effect**: Target bleeds, -2 to attacks
 
 *Your blade finds the gap in his armor. He roars in pain.*
@@ -187,7 +187,7 @@ Counter attack from parry → Hit!
 
 Rooted Stone signature - "Immovable Mountain"
 **Momentum**: 2 - 2 = 0, then +2 for signature = 2
-**Flourish**: +1 (now at 6)
+**Flourish**: +1 (now at 5, max!)
 **Effect**: Next attack reflected
 
 Enemy's third strike → Reflected!
@@ -197,7 +197,7 @@ Enemy's third strike → Reflected!
 
 **Turn 4 - Building for the Finale**
 
-*You have 6 Flourish tokens—enough for an ultimate. But Dancing Blade costs 4 Momentum to reach.*
+*You have 5 Flourish tokens — at maximum! Time for the ultimate.*
 
 Attack → Hit! **Momentum**: +1 (now at 4)
 Attack → Hit! **Momentum**: +1 (now at 5)
@@ -215,7 +215,7 @@ Attack → CRITICAL HIT!
 *He's bleeding, exhausted. Time to end this with style.*
 
 **Ultimate**: "Thousand Cuts Flourish" (costs 5 Flourish)
-**Flourish**: 6 - 5 = 1 remaining
+**Flourish**: 5 - 5 = 0 remaining
 
 *You move like lightning through all 6 stances in rapid succession:*
 *Flowing Water dodge → Striking Serpent thrust → Whirling Wind spin → Rooted Stone counter → Shadow Step vanish → Dancing Blade finale*
@@ -240,7 +240,7 @@ Attack → CRITICAL HIT!
       title: 'Understanding Your Resource Bars',
       content: `**Momentum Bar (Primary - Top Bar)**:
 
-**What You See**: A horizontal bar with 10 segments, filling from left to right as you build Momentum. The bar pulses with energy and changes color based on your current stance:
+**What You See**: A horizontal bar with 20 segments, filling from left to right as you build Momentum. The bar pulses with energy and changes color based on your current stance:
 - Flowing Water: Blue rippling effect
 - Striking Serpent: Green with serpentine patterns
 - Whirling Wind: White with swirling motion
@@ -288,7 +288,7 @@ A Bladedancer with high Momentum but no Flourish can transition freely and use a
       title: 'Detailed Mechanics',
       content: `**Momentum (Primary Resource)**
 
-**Maximum Capacity**: 10 points (visualized as 10 segments in your resource bar)
+**Maximum Capacity**: 20 points (visualized as 20 segments in your resource bar)
 
 **Generation (How to Build Momentum)**:
 - **Successful Attack (Hit)**: +1 Momentum
@@ -404,8 +404,8 @@ But you CANNOT go directly from Flowing Water to Whirling Wind—you'd need to g
 
     // Stance Abilities Table
     stanceAbilitiesTable: {
-      title: 'Stance-Specific Abilities',
-      description: 'Each stance grants access to unique abilities. Signature moves (★) generate 1 Flourish token when used.',
+      title: 'Stance-Locked Abilities (Quick Reference)',
+      description: 'Each stance grants access to unique abilities that can ONLY be used while in that stance. These are part of your spell list but require the matching stance. Signature moves (★) generate 1 Flourish token when used.',
       headers: ['Stance', 'Ability Name', 'Cost', 'Effect', 'Signature'],
       rows: [
         [
@@ -950,18 +950,18 @@ Many players enhance the stance-dancing experience with:
           description: 'All stance transitions cost 1 less Momentum (minimum 1). When you change stances, your next attack gains +1d6 damage.'
         },
 
-        keyAbilities: [
+        talentTreeSummary: [
           {
-            name: 'Momentum Surge',
-            description: 'Passive: Generate +1 additional Momentum from all sources.'
+            name: 'Momentum Flow',
+            description: 'Foundation: Reduces stance transition costs, slows Momentum decay, and boosts Flourish effectiveness.'
           },
           {
-            name: 'Chain Dance',
-            description: 'When you use an ability in one stance, you may immediately transition to a connected stance for free and use one of its abilities.'
+            name: 'Rapid Current / Combo Weaving',
+            description: 'Branch: Swift transitions with bonus Momentum, or combo chains that let you use abilities at reduced cost after stance changes.'
           },
           {
-            name: 'Endless Flow',
-            description: 'Ultimate: For 1 minute, all stance transitions are free and you can transition to any stance regardless of network restrictions. Costs 4 Flourish.'
+            name: 'Water Ascendant',
+            description: 'Capstone: Become a flowing water elemental for 1 minute — all attacks pass through you, half damage from all sources, 30ft teleport. Costs all Momentum.'
           }
         ]
       },
@@ -976,18 +976,18 @@ Many players enhance the stance-dancing experience with:
           description: 'While in Striking Serpent or Rooted Stone stance, gain +2 to attack rolls and increased critical hit chance (crit on max damage die -1 or max).'
         },
 
-        keyAbilities: [
+        talentTreeSummary: [
           {
-            name: 'Riposte Master',
-            description: 'Passive: Successful parries generate 2 Momentum instead of 1. Riposte damage is doubled.'
+            name: 'Precision Edge',
+            description: 'Foundation: Expands critical hit range, boosts initiative in Striking Serpent, and increases Rooted Stone riposte damage.'
           },
           {
-            name: 'Precision Strike',
-            description: 'Spend 5 Momentum to make an attack that automatically hits and deals maximum damage. If this kills the target, refund 3 Momentum.'
+            name: 'Perfect Timing / Defensive Stance',
+            description: 'Branch: Reaction attacks triggered by enemy actions, or enhanced Rooted Stone with saving throw bonuses and damage reduction.'
           },
           {
-            name: 'Duel\'s End',
-            description: 'Ultimate: Challenge a single enemy to a duel. For 1 minute, you both can only target each other. You gain +5 to all rolls, advantage on all attacks, and double Momentum generation. Costs 5 Flourish.'
+            name: 'Perfect Duelist',
+            description: 'Capstone: Challenge all enemies within 30ft — you gain advantage on all attacks, and challenged enemies have disadvantage attacking anyone but you. Costs all Flourish tokens.'
           }
         ]
       },
@@ -1002,18 +1002,18 @@ Many players enhance the stance-dancing experience with:
           description: 'You can enter Shadow Step stance from any stance (ignoring network restrictions) for 3 Momentum. While in Shadow Step, you are lightly obscured and have advantage on Stealth checks.'
         },
 
-        keyAbilities: [
+        talentTreeSummary: [
           {
-            name: 'Ambush Expert',
-            description: 'Passive: Attacks from Shadow Step deal +3d6 damage instead of +2d6. First attack each combat is always from Shadow Step.'
+            name: 'Shadow Essence',
+            description: 'Foundation: Enter stealth in combat via Shadow Step, generate bonus Flourish from stealth attacks, reduced Shadow Step transition costs.'
           },
           {
-            name: 'Vanishing Strike',
-            description: 'Spend 6 Momentum to teleport to any target within 60 ft, attack with advantage, then return to your original position. This does not provoke opportunity attacks.'
+            name: 'Shadow Cloak / Ambush Mastery',
+            description: 'Branch: Enhanced stealth with attack/damage bonuses, or devastating ambush strikes with massive burst damage on unaware targets.'
           },
           {
-            name: 'Dance of Shadows',
-            description: 'Ultimate: Become a shadow for 1 minute. You can teleport up to 30 ft for 1 AP, all attacks deal +4d6 damage, and you cannot be targeted by opportunity attacks. Costs 5 Flourish.'
+            name: 'Shadow Ascendant',
+            description: 'Capstone: Become a living shadow for 1 minute — immune to all damage, 60ft teleport, all attacks deal maximum damage. Costs all Momentum and 3 Flourish.'
           }
         ]
       }
@@ -1030,7 +1030,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_momentum_strike',
       name: 'Momentum Strike',
-      description: 'A precise strike that builds your combat rhythm, channeling your Momentum into devastating force.',
+      description: 'Every master begins with a single stroke — a decisive cut that feeds the rhythm, each landing blow a promise of the devastation to come.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Slashing/Sword Pierce',
@@ -1086,7 +1086,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_shift',
       name: 'Stance Shift',
-      description: 'Flow between combat stances, adapting your fighting style to any situation. Each stance offers unique abilities and passive effects.',
+      description: 'Flow between combat stances like water between stones — each transition reshapes your fighting style to match the moment.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Nature/Cat Face',
@@ -1137,7 +1137,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_defensive_flow',
       name: 'Defensive Flow',
-      description: 'Flow into a defensive stance, gaining enhanced evasion and counter-attack opportunities.',
+      description: 'Still waters run deep — your body learns to read attacks before they land, flowing around danger and converting every near-miss into renewed purpose.',
       level: 1,
       spellType: 'PASSIVE',
       icon: 'Utility/Deflecting Shield',
@@ -1193,7 +1193,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_quick_step',
       name: 'Quick Step',
-      description: 'A swift repositioning technique that allows you to move quickly and strike from unexpected angles.',
+      description: 'Close the distance before your enemy finishes drawing breath — a single step, and your blade is already where they least expect it.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Utility/Speed Boot',
@@ -1248,7 +1248,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flowing_strike',
       name: 'Flowing Strike',
-      description: 'A fluid attack that transitions between stances, dealing bonus damage based on your current Momentum level.',
+      description: 'Channel every ounce of built rhythm into a single devastating arc — the harder you have been fighting, the harder this strikes home.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Slashing/Quick Slash',
@@ -1280,7 +1280,7 @@ Many players enhance the stance-dancing experience with:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6 + agility + (CurrentMomentum * 1d4)',
+        formula: '2d6 + agility + floor(CurrentMomentum / 2)',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -1312,9 +1312,9 @@ Many players enhance the stance-dancing experience with:
     },
 
     {
-      id: 'bladedancer_dancing_blade',
-      name: 'Dancing Blade',
-      description: 'A mesmerizing series of strikes that flows between different attack patterns, building Momentum with each hit.',
+      id: 'bladedancer_blade_waltz',
+      name: 'Blade Waltz',
+      description: 'Steel sings as you weave between attack patterns — each motion feeds the next, a relentless waltz building toward a crescendo.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Slashing/Whirl',
@@ -1362,10 +1362,730 @@ Many players enhance the stance-dancing experience with:
       tags: ['melee', 'damage', 'multi-attack', 'momentum_generation', 'bladedancer']
     },
 
+    // ========================================
+    // STANCE-LOCKED ABILITIES (Merged from Stance System)
+    // Each ability requires being in the named stance to use.
+    // Signature moves (★) generate 1 Flourish token when used.
+    // ========================================
+
+    // --- Flowing Water Stance Abilities ---
+    {
+      id: 'bladedancer_stance_flowing_water_rippling_defense',
+      name: 'Rippling Defense',
+      description: 'Flow around an incoming attack like water around stone, automatically dodging it and converting the defensive motion into renewed Momentum.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'Utility/Deflecting Shield',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Utility/Deflecting Shield',
+        tags: ['melee', 'defense', 'dodge', 'momentum_generation', 'stance_flowing_water'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 3 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Flow around the attack'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'rippling_defense_dodge',
+          name: 'Rippling Dodge',
+          description: 'Automatically dodge the next attack targeting you. On successful dodge, gain +2 Momentum.',
+          statusType: 'dodge',
+          level: 'moderate',
+          mechanicsText: 'Dodge next attack. Gain +2 Momentum on successful dodge.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      stanceRequirement: 'flowing_water',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['melee', 'defense', 'dodge', 'momentum_generation', 'stance_flowing_water', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_flowing_water_embrace',
+      name: "Water's Embrace",
+      description: 'Become as untouchable as a river — dissolve into flowing motion, becoming completely untargetable while repositioning anywhere on the battlefield.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'Nature/Water',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Nature/Water',
+        tags: ['utility', 'dodge', 'reposition', 'untargetable', 'signature', 'stance_flowing_water'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 5 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Become the river'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'reposition',
+        selectedEffects: [{
+          id: 'waters_embrace_untargetable',
+          name: "Water's Embrace",
+          description: 'Become untargetable for 1 round. Reposition to any space within 30ft. Signature move: earns 1 Flourish token.'
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'major'
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'flowing_water',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['utility', 'dodge', 'reposition', 'untargetable', 'signature', 'stance_flowing_water', 'flourish_generation', 'bladedancer']
+    },
+
+    // --- Striking Serpent Stance Abilities ---
+    {
+      id: 'bladedancer_stance_striking_serpent_viper_strike',
+      name: 'Viper Strike',
+      description: 'Strike with the speed of a serpent, finding the gap in armor with unerring precision.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'Piercing/Spear Thrust',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Piercing/Spear Thrust',
+        tags: ['melee', 'damage', 'precision', 'stance_striking_serpent'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Strike like a viper'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility + 1d8',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Precise strike with advantage, enhanced by serpent-like speed'
+      },
+
+      stanceRequirement: 'striking_serpent',
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'precision', 'stance_striking_serpent', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_striking_serpent_fang',
+      name: "Serpent's Fang",
+      description: 'Drive your blade into a vital point with lethal precision, unleashing venom that courses through the wound.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Piercing/Poison Dagger',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Piercing/Poison Dagger',
+        tags: ['melee', 'damage', 'bleed', 'poison', 'critical', 'signature', 'stance_striking_serpent'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Fangs of the serpent'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      damageConfig: {
+        formula: '2d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        isGuaranteedCrit: true,
+        description: 'Guaranteed critical strike to a vital point'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'serpent_venom',
+          name: 'Serpent\'s Venom',
+          description: 'Poison courses through the wound, dealing ongoing damage and weakening the target.',
+          statusType: 'poisoned',
+          level: 'moderate',
+          dotFormula: '1d6',
+          dotDamageType: 'poison',
+          damagePerTurn: '1d6',
+          duration: 3,
+          durationUnit: 'rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        difficultyClass: 14,
+        savingThrowType: 'constitution',
+        saveOutcome: 'ends_early'
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'striking_serpent',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'bleed', 'poison', 'critical', 'signature', 'stance_striking_serpent', 'flourish_generation', 'bladedancer']
+    },
+
+    // --- Whirling Wind Stance Abilities ---
+    {
+      id: 'bladedancer_stance_whirling_wind_cyclone_slash',
+      name: 'Cyclone Slash',
+      description: 'Spin with devastating speed, your blade carving through every enemy within reach.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'Slashing/Cleave',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Cleave',
+        tags: ['melee', 'damage', 'aoe', 'stance_whirling_wind'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Spin through enemies'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Whirling blade strike hitting all nearby enemies'
+      },
+
+      stanceRequirement: 'whirling_wind',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['melee', 'damage', 'aoe', 'stance_whirling_wind', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_whirling_wind_tempest_dance',
+      name: 'Tempest Dance',
+      description: 'Become a living storm of steel, slashing everything nearby with such force that enemies are hurled away.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Slashing/Whirl',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Whirl',
+        tags: ['melee', 'damage', 'aoe', 'knockback', 'signature', 'stance_whirling_wind'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Unleash the tempest'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        chanceOnHitConfig: {
+          enabled: true,
+          procType: 'always',
+          customEffects: ['knockback'],
+          knockbackConfig: {
+            distance: 10
+          }
+        },
+        description: 'Devastating AoE whirlwind that sends enemies flying'
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'whirling_wind',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'aoe', 'knockback', 'signature', 'stance_whirling_wind', 'flourish_generation', 'bladedancer']
+    },
+
+    // --- Rooted Stone Stance Abilities ---
+    {
+      id: 'bladedancer_stance_rooted_stone_iron_parry',
+      name: 'Iron Parry',
+      description: 'Stand firm as a mountain, deflecting the incoming blow and converting its force into a devastating riposte.',
+      level: 2,
+      spellType: 'REACTION',
+      icon: 'Utility/Parry',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Utility/Parry',
+        tags: ['reaction', 'parry', 'counter', 'stance_rooted_stone'],
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 3 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Deflect and strike'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Counter-attack after a successful parry'
+      },
+
+      stanceRequirement: 'rooted_stone',
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['reaction', 'parry', 'counter', 'stance_rooted_stone', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_rooted_stone_mountains_rebuke',
+      name: "Mountain's Rebuke",
+      description: 'Channel the immovable fury of the earth itself — deflect every attack this round and return each with the force of an avalanche.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'Utility/Shield Bash',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Utility/Shield Bash',
+        tags: ['defense', 'parry', 'counter', 'signature', 'stance_rooted_stone'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 5 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'The mountain does not move'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'mountain_rebuke_parry',
+          name: "Mountain's Rebuke",
+          description: 'Parry all attacks this round. Riposte each attacker for 1d8 damage. Signature move: earns 1 Flourish token.',
+          statusType: 'parry_all',
+          level: 'major',
+          mechanicsText: 'Parry all attacks this round. Counter each for 1d8 physical damage.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'rooted_stone',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['defense', 'parry', 'counter', 'signature', 'stance_rooted_stone', 'flourish_generation', 'bladedancer']
+    },
+
+    // --- Dancing Blade Stance Abilities ---
+    {
+      id: 'bladedancer_stance_dancing_blade_double_flourish',
+      name: 'Double Flourish',
+      description: 'Execute two rapid strikes in the time most warriors manage one, each blade finding its mark with practiced precision.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'Slashing/Crossed Swords',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Crossed Swords',
+        tags: ['melee', 'damage', 'multi-attack', 'stance_dancing_blade'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Strike twice'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        hits: 2,
+        description: 'Two rapid strikes in a single action'
+      },
+
+      stanceRequirement: 'dancing_blade',
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'multi-attack', 'stance_dancing_blade', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_dancing_blade_dance_of_blades',
+      name: 'Dance of Blades',
+      description: 'The pinnacle of versatility — chain three different stance techniques into a single devastating combination, flowing between forms in the blink of an eye.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'Slashing/Whirl',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Whirl',
+        tags: ['melee', 'damage', 'combo', 'stance-transition', 'signature', 'stance_dancing_blade'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'multi',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        maxTargets: 3,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
+        actionPoints: 2,
+        components: ['somatic'],
+        somaticText: 'Chain three forms in one breath'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '3d8 + agility',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Three chained attacks, each from a different stance tradition'
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'dancing_blade',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'combo', 'stance-transition', 'signature', 'stance_dancing_blade', 'flourish_generation', 'bladedancer']
+    },
+
+    // --- Shadow Step Stance Abilities ---
+    {
+      id: 'bladedancer_stance_shadow_step_ambush_strike',
+      name: 'Ambush Strike',
+      description: 'Melt into shadow and reappear behind your target, blade already in motion before they register your presence.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'Piercing/Night Dagger',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Piercing/Night Dagger',
+        tags: ['melee', 'damage', 'teleport', 'burst', 'stance_shadow_step'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Step through shadow'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d8 + agility + 3d6',
+        elementType: 'physical',
+        damageType: 'direct',
+        canCrit: true,
+        critMultiplier: 2,
+        critDiceOnly: false,
+        description: 'Teleport-ambush strike enhanced by Shadow Step stance'
+      },
+
+      stanceRequirement: 'shadow_step',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+
+      tags: ['melee', 'damage', 'teleport', 'burst', 'stance_shadow_step', 'bladedancer']
+    },
+
+    {
+      id: 'bladedancer_stance_shadow_step_shadow_fade',
+      name: 'Shadow Fade',
+      description: 'Dissolve into darkness itself, becoming invisible to all sight. When you re-emerge, your blade finds its mark with lethal certainty.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Utility/Hide',
+
+      typeConfig: {
+        school: 'physical',
+        icon: 'Utility/Hide',
+        tags: ['melee', 'damage', 'invisibility', 'critical', 'signature', 'stance_shadow_step'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      resourceCost: {
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Become the shadow'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statusEffect',
+        effects: [{
+          id: 'shadow_fade_invisibility',
+          name: 'Shadow Veil',
+          description: 'Become invisible for 1 round. Your next attack is an automatic critical hit. Signature move: earns 1 Flourish token.',
+          statusType: 'invisibility',
+          level: 'major',
+          mechanicsText: 'Invisible for 1 round. Next attack is an automatic critical hit.'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+
+      isSignatureMove: true,
+      flourishGenerated: 1,
+      stanceRequirement: 'shadow_step',
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['melee', 'damage', 'invisibility', 'critical', 'signature', 'stance_shadow_step', 'flourish_generation', 'bladedancer']
+    },
+
     {
       id: 'bladedancer_stance_dance',
       name: 'Stance Dance',
-      description: 'Rapidly transition through multiple stances, gaining brief bonuses from each before returning to your original form.',
+      description: 'Touch the edge of every form in the span of a heartbeat — a rapid-fire tour through your repertoire that leaves you faster, sharper, and impossible to predict.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Nature/Roar',
@@ -1424,7 +2144,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_blade_flurry',
       name: 'Blade Flurry',
-      description: 'Unleash a rapid series of strikes, each building on the momentum of the last for devastating damage.',
+      description: 'Steel becomes a blur — strike after strike cascading in a torrent, each cut riding the force of the one before it.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Slashing/Crossed Swords',
@@ -1475,7 +2195,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_chain_dance',
       name: 'Chain Dance',
-      description: 'Flow through multiple stances in rapid succession, unleashing a devastating combo of attacks from each combat form.',
+      description: 'The dance becomes a chain — three forms, three strikes, one unbroken flow of violence that leaves no room for response.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Slashing/Whirl',
@@ -1537,7 +2257,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_perfect_riposte',
       name: 'Perfect Riposte',
-      description: 'Parry an incoming attack and counter with a devastating strike that generates extra Momentum.',
+      description: 'Read the blade before it arrives. Deflect. Counter. In the space between one heartbeat and the next, turn their aggression into your fuel.',
       level: 3,
       spellType: 'REACTION',
       icon: 'Utility/Parry',
@@ -1591,7 +2311,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_whirling_defense',
       name: 'Whirling Defense',
-      description: 'Spin with blinding speed, creating a defensive vortex that deflects incoming attacks and damages nearby enemies.',
+      description: 'Become a storm of steel — your spinning blades form a wall of edges that shreds anything foolish enough to stand close.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Slashing/Cleave',
@@ -1644,7 +2364,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flowing_dodge',
       name: 'Flowing Dodge',
-      description: 'Reaction: When targeted by an attack, gain +4 Dodge for 1 round. Stacks with your base Dodge stat. Successful dodges grant +1 Momentum.',
+      description: 'The attack arrives and you are simply not there — a fluid sidestep that leaves the enemy blade cutting air and your Momentum climbing.',
       level: 3,
       spellType: 'REACTION',
       icon: 'Utility/Phantom Dash',
@@ -1702,7 +2422,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_mastery',
       name: 'Stance Mastery',
-      description: 'Push your current stance to its limit, gaining +2 stance power for 2 rounds.',
+      description: 'Push your current form past its breaking point — a surge of martial clarity that amplifies every passive and every edge your stance provides.',
       level: 3,
       spellType: 'ACTION',
       icon: 'General/Rage',
@@ -1761,7 +2481,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_precision_strike',
       name: 'Precision Strike',
-      description: 'A perfectly aimed strike that targets a vital point, dealing massive damage and applying a bleeding wound.',
+      description: 'One blade. One opening. One wound that will not close — a surgical cut that finds the gap in armor and refuses to stop bleeding.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Piercing/Backstab',
@@ -1839,7 +2559,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_dancing_death',
       name: 'Dancing Death',
-      description: 'Weave through multiple enemies in a deadly dance, striking each with precision and building unstoppable momentum.',
+      description: 'Waltz through the battlefield like death itself — each enemy you pass receives a gift of steel, and each gift feeds the rhythm of the next.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Utility/Speed Boot',
@@ -1892,7 +2612,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_shadow_strike',
       name: 'Shadow Strike',
-      description: 'Teleport behind your target and strike from the shadows with devastating force, gaining advantage on the attack.',
+      description: 'One moment you are thirty feet away. The next your blade is at their spine — a strike from nothing, honed by the Shadow Step tradition.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Piercing/Night Dagger',
@@ -1982,7 +2702,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_blade_barrier',
       name: 'Blade Barrier',
-      description: 'Create a whirling barrier of blades around yourself, damaging enemies that approach and gaining defensive bonuses.',
+      description: 'Your blades orbit you like moons of sharpened steel — a whirling constellation that shreds the reckless and shields the dancer within.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Slashing/Whirl',
@@ -2065,7 +2785,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_momentum_burst',
       name: 'Momentum Burst',
-      description: 'Release all your stored Momentum in a single devastating explosion of speed and power.',
+      description: 'Every drop of rhythm, every built beat, every ounce of accumulated fury — released in a single catastrophic shockwave that empties you completely and levels everything nearby.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Bludgeoning/Blood Punch',
@@ -2122,7 +2842,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_vanishing_blade',
       name: 'Vanishing Blade',
-      description: 'Fade into invisibility for 1 round and strike with a devastating attack. The invisibility grants advantage on the attack.',
+      description: 'Slip between the seams of perception — invisible, untouchable, inevitable. When you re-emerge, your blade has already found its mark.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Utility/Hide',
@@ -2210,7 +2930,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_harmony',
       name: 'Stance Harmony',
-      description: 'Harmonize all stances simultaneously, maintaining passive benefits from multiple combat forms for 3 rounds. Requires concentration.',
+      description: 'Two forms become one — hold the passive essence of your current stance AND one other stance you have used this combat, a perfect harmony of martial traditions.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Nature/Tree',
@@ -2242,11 +2962,11 @@ Many players enhance the stance-dancing experience with:
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
-          id: 'stance_harmony_power',
-          name: 'Harmonic Power',
-          description: 'Combine and maintain benefits from multiple stances simultaneously. Perfect harmony creates a unified combat style transcending any single form. Requires concentration.',
+          id: 'stance_harmony_dual',
+          name: 'Dual Stance Harmony',
+          description: 'Gain the passive bonuses of your current stance PLUS one other stance you have used during this combat. Choose the second stance when activating. Both passives stack at full power. Requires concentration.',
           statModifier: {
-            stat: 'multiStanceBenefits',
+            stat: 'dualStanceActive',
             magnitude: 1,
             magnitudeType: 'flat'
           }
@@ -2269,7 +2989,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_reflecting_blades',
       name: 'Reflecting Blades',
-      description: 'Your blades move with such speed and precision that they can deflect projectiles and reflect spells back at attackers.',
+      description: 'Steel meets sorcery — your blades move fast enough to catch light, spells, and arrows, hurling them back at their source.',
       level: 6,
       spellType: 'REACTION',
       icon: 'Utility/Parry',
@@ -2325,7 +3045,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flow_master_rapid_transitions',
       name: 'Flow Master - Rapid Transitions',
-      description: 'Master the flow between stances, transitioning instantly and gaining enhanced Momentum generation.',
+      description: 'Your transitions become effortless — each stance change costs less, flows faster, and generates Momentum instead of consuming it.',
       level: 7,
       spellType: 'PASSIVE',
       icon: 'Arcane/Star Trail Path',
@@ -2390,7 +3110,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flow_combo',
       name: 'Flow Combo',
-      description: 'Execute a devastating combo that flows seamlessly between stances, dealing massive damage with perfect timing.',
+      description: 'The perfect combination — a sequence of strikes so fluid that stance boundaries cease to exist, each hit amplified by the memory of the last.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Slashing/Crossed Swords',
@@ -2442,7 +3162,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_momentum_wave',
       name: 'Momentum Wave',
-      description: 'Release a wave of pure momentum energy that damages enemies and boosts allies in a wide area.',
+      description: 'Expend fifteen units of hard-won rhythm in a single outward burst — a shockwave of force that crushes enemies and carries allies forward on the current.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Force/Sonic Boom',
@@ -2515,7 +3235,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_mastery_dancing_blade',
       name: 'Stance Mastery - Dancing Blade',
-      description: 'Achieve true mastery of all stances, allowing transitions to any stance and enhanced abilities.',
+      description: 'The Dancing Blade form unlocks its full potential — every stance is now reachable from the hub, and every ability costs less to perform.',
       level: 8,
       spellType: 'PASSIVE',
       icon: 'Slashing/Whirl',
@@ -2580,7 +3300,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_blade_dance',
       name: 'Blade Dance',
-      description: 'Perform an intricate dance of blades, teleporting between enemies and striking them with deadly precision.',
+      description: 'Blink between four targets in the span of a breath — a teleporting massacre that leaves each enemy nursing a wound they never saw coming.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Utility/Speed Boot',
@@ -2633,7 +3353,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_stance_echo',
       name: 'Stance Echo',
-      description: 'Your mastery creates echoes of your stance transitions, allowing you to maintain benefits from recently used stances.',
+      description: 'Your movements leave afterimages in martial memory — the last two stances you used linger as echoes, their passive bonuses ghosting alongside your current form.',
       level: 8,
       spellType: 'PASSIVE',
       icon: 'Healing/Renewal',
@@ -2693,7 +3413,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flourish_ultimate_thousand_cuts',
       name: 'Flourish Ultimate - Thousand Cuts',
-      description: 'Expend all your Flourish tokens to unleash a devastating storm of attacks through all 6 stances simultaneously.',
+      description: 'The culmination of every form mastered — burn through all six stances in a single impossible instant, each one landing its most devastating technique before flowing into the next. Five Flourish. One storm.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Slashing/Cross Slash',
@@ -2752,7 +3472,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_flourish_sixfold_strike',
       name: 'Flourish - Sixfold Strike',
-      description: 'Spend Flourish tokens to perform a single devastating attack that embodies the power of all six stances.',
+      description: 'Channel the essence of every stance into one blow — a single strike carrying the weight of Water\'s grace, Serpent\'s precision, Wind\'s fury, Stone\'s resolve, Blade\'s versatility, and Shadow\'s lethality.',
       level: 9,
       spellType: 'ACTION',
       icon: 'General/Rage',
@@ -2805,7 +3525,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_perfect_harmony',
       name: 'Perfect Harmony',
-      description: 'Achieve perfect synchronization with all combat stances, gaining enhanced abilities and flawless transitions.',
+      description: 'Stance transitions cost nothing but intent. Every ability hits harder. The dance is no longer something you perform — it is what you are.',
       level: 9,
       spellType: 'PASSIVE',
       icon: 'General/Rage',
@@ -2865,7 +3585,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_dance_of_the_six_winds',
       name: 'Dance of the Six Winds',
-      description: 'Enter a state of perfect martial focus, embodying all six stances simultaneously for a brief but devastating duration.',
+      description: 'For one transcendent minute, you become the dance itself — all six stances active at once, transitions instant and free, Momentum generation doubled. The battlefield is your stage.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Nature/Nature Primal',
@@ -2934,7 +3654,7 @@ Many players enhance the stance-dancing experience with:
     {
       id: 'bladedancer_zenith_blade_mastery',
       name: 'Zenith Blade Mastery',
-      description: 'Achieve the ultimate pinnacle of blade mastery, where every strike becomes a work of art and every stance a perfect expression of combat.',
+      description: 'Every cut carries the weight of total mastery — attacks hit harder, stance abilities deal devastating bonus damage, and every action generates twice the Momentum. Nothing left to learn.',
       level: 10,
       spellType: 'PASSIVE',
       icon: 'Slashing/Whirl',
@@ -2998,25 +3718,37 @@ Many players enhance the stance-dancing experience with:
     ],
     2: [
       'bladedancer_flowing_strike',
-      'bladedancer_dancing_blade',
+      'bladedancer_blade_waltz',
       'bladedancer_stance_dance',
-      'bladedancer_blade_flurry'
+      'bladedancer_blade_flurry',
+      'bladedancer_stance_flowing_water_rippling_defense',
+      'bladedancer_stance_striking_serpent_viper_strike',
+      'bladedancer_stance_whirling_wind_cyclone_slash',
+      'bladedancer_stance_rooted_stone_iron_parry'
     ],
     3: [
       'bladedancer_perfect_riposte',
       'bladedancer_whirling_defense',
       'bladedancer_flowing_dodge',
-      'bladedancer_stance_mastery'
+      'bladedancer_stance_mastery',
+      'bladedancer_stance_flowing_water_embrace',
+      'bladedancer_stance_rooted_stone_mountains_rebuke',
+      'bladedancer_stance_dancing_blade_double_flourish',
+      'bladedancer_stance_shadow_step_ambush_strike'
     ],
     4: [
       'bladedancer_chain_dance',
       'bladedancer_precision_strike',
-      'bladedancer_dancing_death'
+      'bladedancer_dancing_death',
+      'bladedancer_stance_striking_serpent_fang',
+      'bladedancer_stance_whirling_wind_tempest_dance',
+      'bladedancer_stance_shadow_step_shadow_fade'
     ],
     5: [
       'bladedancer_shadow_strike',
       'bladedancer_blade_barrier',
-      'bladedancer_momentum_burst'
+      'bladedancer_momentum_burst',
+      'bladedancer_stance_dancing_blade_dance_of_blades'
     ],
     6: [
       'bladedancer_vanishing_blade',

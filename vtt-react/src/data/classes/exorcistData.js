@@ -1,8 +1,9 @@
 /**
  * Exorcist Class Data
  * 
- * Complete class information for the Exorcist - a demon binder
- * who captures and controls demonic entities through rituals and willpower.
+ * Complete class information for the Exorcist — a divine agent who walks
+ * the razor's edge between holiness and heresy, binding demons through
+ * sacred ritual and commanding them with divine authority.
  */
 
 export const EXORCIST_DATA = {
@@ -10,76 +11,75 @@ export const EXORCIST_DATA = {
   name: 'Exorcist',
   icon: 'fas fa-cross',
   role: 'Summoner/Controller',
-  damageTypes: ['radiant', 'force'],
+  damageTypes: ['radiant', 'force', 'necrotic'],
 
-  // Overview section
   overview: {
     title: 'The Exorcist',
-    subtitle: 'Master of Demon Binding and Divine Control',
+    subtitle: 'Divine Authority Over Demonic Fury',
     
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Exorcist binds demons through elaborate rituals and commands them in battle using a Dominance Die system (d12 → d10 → d8 → d6 → 0). Every command weakens your hold—let the die reach zero and your demon may break free and turn hostile. Balance aggressive orders with Dominance replenishment spells or lose control of your most powerful weapons.
+      content: `**What You Need to Know**: The Exorcist is a divine paradox — a holy agent who wields the very demons they should be destroying. Through sacred binding rituals, you capture demonic entities and command them in battle using the **Divine Dominance** system. Each bound demon has a Dominance Die (d12 → d10 → d8 → d6 → 0) that tracks your control. Every command weakens your grip. Let the die reach zero and your demon may break free and turn hostile.
 
-**Core Mechanic**: Perform binding rituals → Command demons in battle → Dominance Die decreases with each action → Cast Reassert Dominance or Chain of Command to restore control → Risk demons escaping if control is lost
+**Core Mechanic**: Perform binding rituals → Command demons in battle → Dominance Die decreases with each action → Cast restoration spells to regain control → Risk demons escaping if control is lost
 
-**Resource**: Dominance Dice (d12 down to d6 per bound demon, up to 4 demons simultaneously)
+**Resource**: Divine Dominance (Dominance Dice: d12 down to d6 per bound demon, up to 4 demons simultaneously)
 
-**Playstyle**: Preparation-heavy summoner balancing power against rebellion
+**Playstyle**: High-tension summoner balancing devastating demonic power against the ever-present risk of rebellion
 
-**Best For**: Players who enjoy pet management, pre-combat preparation, and the constant tension of wielding dangerous allies that could turn at any moment`
+**Best For**: Players who thrive on risk management, pet micromanagement, and the constant adrenaline of wielding weapons that could turn on them at any moment`
     },
     
-    description: `The Exorcist walks the dangerous line between holy power and demonic corruption, binding demons to their will through complex rituals and unwavering dominance. Through the Dominance system, Exorcists maintain control over bound demons, commanding them in battle while constantly asserting their willpower to prevent the demons from breaking free.`,
+    description: `The Exorcist is a living contradiction — a divine agent who does the unthinkable: binding demons not to destroy them, but to weaponize them. Where clerics banish and paladins smite, the Exorcist captures, commands, and unleashes demonic fury against the very darkness that spawned it. Through sacred binding rituals infused with holy authority, they maintain iron-willed dominance over creatures that would see them dead — and through the Divine Dominance system, they hold the leash on power that could snap at any moment.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
-      content: `Exorcists are individuals who have dedicated their lives to understanding and controlling demonic forces. Unlike those who simply banish evil, Exorcists believe that demons can be bound and used as weapons against greater threats. This philosophy often puts them at odds with traditional holy orders, who view demon binding as heretical.
+      content: `Not all who fight darkness do so with pure light. Exorcists are divine agents who believe the most effective weapon against evil is evil itself — captured, restrained, and turned against its own kind. This philosophy makes them both revered and reviled: saviors to those they protect, and heretics to the holy orders who view demon-binding as corruption incarnate.
 
-Their power comes from knowledge of ancient binding rituals, each requiring specific ingredients, precise conditions, and unwavering willpower. The demons they bind are not allies—they are prisoners, constantly testing the Exorcist's resolve, seeking any weakness to exploit for their freedom.
+Their power flows from sacred binding rituals — ancient ceremonies that fuse divine authority with arcane containment. Each ritual demands specific components, precise celestial timing, and the Exorcist's unbreakable will. The demons they bind are not allies. They are prisoners in holy chains, testing their captor's resolve with every heartbeat, searching for the slightest crack in their divine armor.
 
-Physically, Exorcists often bear marks of their profession: ritual scars from binding ceremonies, tattoos of containment sigils, or eyes that have witnessed the abyss. Bound demons may manifest as shadowy forms hovering near them, spectral chains binding the creatures to their master's will.
+Physically, Exorcists bear the marks of their calling: ritual scars from binding ceremonies, glowing sigils tattooed across their arms, and eyes that flicker between holy gold and demonic crimson. Bound demons manifest as shadowy presences — spectral chains linking captor to captive, visible reminders of the power and peril the Exorcist wields.
 
 Common Exorcist archetypes include:
-- **The Demon Hunter**: Captures demons to prevent them from harming innocents
-- **The Forbidden Scholar**: Studies demonic lore despite religious prohibition
-- **The Desperate Protector**: Binds demons out of necessity to defend their home
-- **The Power Seeker**: Views demons as tools to achieve greater ambitions
-- **The Penitent Binder**: Atones for past sins by enslaving evil itself
+- **The Divine Warden**: Captures demons to prevent them from harming the innocent
+- **The Forbidden Scholar**: Studies demonic binding despite religious prohibition
+- **The Desperate Guardian**: Binds demons out of necessity, defending what cannot be defended otherwise
+- **The Walking Heresy**: Embraces both holy and demonic power, caring for neither heaven's approval nor hell's opinion
+- **The Penitent Inquisitor**: Atone for past sins by enslaving evil itself — and trust the demons to remind them of the debt
 
-Exorcists understand that every demon they bind is a gamble. The power is immense, but the cost of losing control could be catastrophic. They must constantly balance the benefits of their bound servants against the risk of rebellion.`
+Every demon bound is a gamble. The power is immense. The cost of failure is catastrophic. The Exorcist stands on the edge of a blade, holy light in one hand and demonic fire in the other, daring both to consume them.`
     },
     
     combatRole: {
       title: 'Combat Role',
-      content: `The Exorcist is a summoner/controller class that excels at:
+      content: `The Exorcist is a summoner/controller who dominates the battlefield through demonic proxies:
 
-**Demon Summoning**: Calling forth bound demons to fight alongside them
-**Battlefield Control**: Using demons to control space and enemy movement
-**Sustained Damage**: Demons provide consistent damage output over time
-**Dominance Management**: Maintaining control over multiple entities simultaneously
+**Demon Binding**: Capture and command demons through sacred ritual
+**Battlefield Control**: Position demons to control space, block chokepoints, and flank enemies
+**Sustained Damage**: Demons provide consistent damage output across multiple targets
+**Divine Dominance Management**: Juggle control over multiple entities — each one a ticking time bomb
 
 **Strengths**:
-- Can field multiple combatants (Exorcist + bound demons)
+- Fields multiple combatants simultaneously (Exorcist + bound demons)
 - Diverse demon abilities provide tactical flexibility
-- Strong action economy (demons act independently)
-- Excellent at controlling multiple enemies
-- Can adapt to situations by summoning different demons
+- Strong action economy (demons have their own action pools)
+- Excels at controlling multiple enemies at once
+- Can adapt mid-fight by summoning different demons
 
 **Weaknesses**:
-- Vulnerable when demons are dismissed or escape
-- Requires careful Dominance Die management
-- Binding rituals require preparation and resources
-- Demons can turn hostile if control is lost
-- Less effective in anti-magic zones
-- Fragile without demon protection
+- Extremely vulnerable when demons are dismissed or escape
+- Demands constant Dominance Die attention — look away and lose control
+- Binding rituals require pre-combat preparation and rare components
+- Demons can turn hostile if control slips, creating a second front
+- Fragile without demon protection — the chain goes both ways
+- Mana-hungry: balancing combat spells vs. Dominance restoration is a constant tension
 
-The Exorcist thrives when they can prepare binding rituals before combat and maintain Dominance over their demons throughout the battle.`
+The Exorcist thrives when they prepare rituals before combat and maintain Divine Dominance throughout the battle. They suffer when caught unprepared or forced to split attention between too many demons.`
     },
     
     playstyle: {
       title: 'Playstyle & Strategy',
-      content: `Playing an Exorcist is about preparation, control, and risk management. You're not just a spellcaster—you're a demon wrangler, constantly balancing the power of your bound servants against the risk of losing control. Every command you give, every hit your demon takes, brings them one step closer to breaking free.
+      content: `Playing an Exorcist is about preparation, control, and risk management. You're not just a spellcaster — you're a demon wrangler armed with divine authority, constantly balancing the power of your bound servants against the risk of losing control. Every command you give, every hit your demon takes, tightens the leash one notch closer to snapping.
 
 **Pre-Combat Preparation**:
 
@@ -97,9 +97,11 @@ Before battle even begins, the Exorcist's work has already started. You must per
 
 Each binding ritual requires a skill check (Arcana, Religion, or Persuasion depending on demon type) with DC ranging from 12 (Imp) to 18 (Greater Demons). Failure means the demon escapes, and you've wasted your components. Success means the demon is bound with its starting Dominance Die.
 
-**Dominance Die System - The Core Mechanic**:
+**If a bound demon dies in combat**, it is gone. You must perform the binding ritual again with fresh components and a new skill check. Protect your demons — their death is not just a tactical loss, it's a resource investment lost.
 
-Every bound demon has a Dominance Die (DD) that represents how firmly you control it. Think of it as a leash—the bigger the die, the longer the leash. But every action the demon takes, every hit it suffers, shortens that leash.
+**Divine Dominance — The Core Mechanic**:
+
+Every bound demon has a Dominance Die (DD) that represents how firmly your divine authority grips it. Think of it as a leash — the bigger the die, the longer the leash. But every action the demon takes, every hit it suffers, shortens that leash.
 
 **Dominance Die Degradation**:
 - d12 (Fully Submissive) → d10 (Obedient) → d8 (Resistant) → d6 (Rebellious) → 0 (Breaking Free)
@@ -114,24 +116,24 @@ Every bound demon has a Dominance Die (DD) that represents how firmly you contro
 - Turn 2: Brute takes 15 damage from enemy counterattack → DD becomes 0
 - Turn 2 (Immediate): Brute must make Constitution save DC 16 or escape!
 
-**Dominance Management - Your Lifeline**:
+**Dominance Restoration — Your Three Lifelines**:
 
-You have three spells to restore Dominance. Use them wisely—they cost mana you could be using for combat spells.
+You have three spells to restore Dominance. Use them wisely — they cost mana you could be spending on combat spells.
 
-1. **Reassert Dominance** (5 mana, 1 AP)
-   - Restores one demon's DD to maximum size
-   - Use when: Demon is at d6 or 0 and you need it to keep fighting
-   - Example: Your Shadow Hound is at d6 after multiple attacks. You cast Reassert Dominance, restoring it to d10. It can now act 4 more times before reaching 0 again.
+1. **Divine Rebuke** (3 mana, 1 AP)
+   - Restores one demon's DD by 1 step (e.g., d6 → d8)
+   - Use when: Demon has dipped to d6 and you want cheap insurance
+   - Example: Your Shadow Hound just hit d6 after a long fight. Divine Rebuke nudges it back to d8 for just 3 mana.
 
-2. **Chain of Command** (4 mana, 1 AP)
-   - Increases one demon's DD by one size for its next 3 actions
-   - Use when: You need a burst damage window with multiple demon attacks
-   - Example: Your Imp is at d10. You cast Chain of Command, temporarily boosting it to d12. You command it to attack 3 times in rapid succession, and it only degrades to d10 instead of d6.
-
-3. **Divine Bond** (6 mana, 1 AP)
+2. **Chain of Light** (5 mana, 1 AP)
    - Restores one demon's DD by 2 steps (e.g., d6 → d10)
-   - Use when: Demon is critically low but you can't afford full restoration cost
-   - Example: Your Banshee is at d6 after a brutal fight. Divine Bond restores it to d10, giving you breathing room without the full 5 mana cost of Reassert Dominance.
+   - Use when: Demon is critically low and you need meaningful recovery
+   - Example: Your Abyssal Brute is at d6 after two brutal rounds. Chain of Light restores it to d10, buying you several more actions.
+
+3. **Absolute Dominion** (7 mana, 1 AP)
+   - Restores one demon's DD to its maximum size (full reset)
+   - Use when: Demon is at 0 or d6 and you absolutely cannot risk losing it
+   - Example: Your only demon is at 0 DD and about to escape. Absolute Dominion is your emergency brake — expensive but definitive.
 
 **Demon Command Strategy**:
 
@@ -145,12 +147,12 @@ Commanding demons is an art. Weaker demons are easier to control but less impact
 - **Greater Demons** (d6 DD): Devastating attacks (4d10+), extreme maintenance, acts only 3 times before restoration
 
 **Optimal Demon Usage Pattern**:
-1. **Early Combat**: Command demon aggressively while DD is high (d12/d10)
-2. **Mid Combat**: Monitor DD, use Chain of Command for burst windows
-3. **Critical Moment**: When DD hits d6, decide: Restore now or push to 0 and risk the save?
-4. **Emergency**: If demon reaches 0, immediately cast Reassert Dominance or accept potential escape
+1. **Early Combat**: Command demons aggressively while DD is high (d12/d10)
+2. **Mid Combat**: Monitor DD, use Chain of Light for meaningful recovery
+3. **Critical Moment**: When DD hits d6, decide — restore now or push to 0 and risk the save?
+4. **Emergency**: If demon reaches 0, immediately cast Absolute Dominion or accept potential escape
 
-**Losing Control - The Consequences**:
+**Losing Control — The Consequences**:
 
 When a demon's DD reaches 0, it makes a saving throw specific to its type:
 - **Imp**: Charisma (Persuasion) DC 12 - "Please, master, I'll behave!"
@@ -171,7 +173,7 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
 **Specialization Synergies**:
 - **Demonologist**: Bind up to 4 weaker demons, spread Dominance management across multiple targets
 - **Demon Lord**: Bind only 1 demon but it's incredibly powerful, focus all Dominance on single entity
-- **Possessed**: No external demons, channel demon power internally, different resource system entirely
+- **Possessed**: Channel demon internally — Internal DD tracks your struggle for self-control
 
 **Team Dynamics**:
 - **Frontline Presence**: Demons tank damage meant for squishy allies
@@ -249,11 +251,11 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
 
 *Two cultists remain, plus the leader. Your Shadow Hound is at d6—one more action and it might escape too. You can't afford to lose both demons.*
 
-**Your Action**: Cast "Reassert Dominance" on Shadow Hound (5 mana, 1 AP)
+**Your Action**: Cast "Chain of Light" on Shadow Hound (5 mana, 1 AP)
 
-*You focus your will, pouring energy into the spectral chains. The hound yelps as the bindings tighten, its eyes dimming from red back to their normal yellow glow. It's fully under your control again.*
+*You channel divine light through the spectral chains. The hound yelps as golden energy pulses through the links, its eyes dimming from red back to yellow. The leash holds firm again.*
 
-**Result**: Shadow Hound's DD restored d6 → d10
+**Result**: Shadow Hound's DD restored d6 → d10 (+2 steps)
 
 **Your Action**: Command Shadow Hound to attack Cult Leader (1 AP)
 **Hound's Action**: Leaps at leader → Hit! → 2d6+3 = 12 damage
@@ -264,23 +266,23 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
 
 *The remaining cultists flee. You collapse to one knee, breathing heavily. Your Shadow Hound sits beside you, loyal once more. The Abyssal Brute is gone—you'll need to perform another binding ritual to reclaim it. But you survived.*
 
-**The Lesson**: The Exorcist walks a razor's edge. Every demon command is a gamble. Push too hard and they rebel. Restore too often and you run out of mana. The key is knowing when to spend Dominance spells, when to let a demon go, and when to fight without them. You're not just managing resources—you're managing living, hostile entities that want nothing more than to break free and tear you apart.`
+**The Lesson**: The Exorcist walks a razor's edge between divine authority and demonic rebellion. Every command is a gamble. Push too hard and they turn on you. Restore too often and you burn through mana. The key is knowing when to spend Dominance spells, when to let a demon go, and when to fight without them. You're not just managing resources — you're commanding living, hostile entities that want nothing more than to snap their chains and tear you apart. And the most terrifying part? You knew this when you signed up.`
     }
   },
   
   // Resource System
   resourceSystem: {
-    title: 'Dominance System',
-    subtitle: 'Willpower Over Demonic Forces',
+    title: 'Divine Dominance System',
+    subtitle: 'Holy Authority Over Demonic Fury',
     
-    description: `The Dominance system represents the Exorcist's control over bound demons. Each demon has a Dominance Die that reflects how submissive it is to the Exorcist's will. As demons act and take damage, their Dominance Die decreases, representing their growing resistance. The Exorcist must use Dominance Replenishment spells to maintain control, or risk the demon breaking free.`,
+    description: `The Divine Dominance system represents the Exorcist's sacred grip over bound demons. Each demon has a Dominance Die that reflects how tightly your divine authority holds it. As demons act and take damage, their Dominance Die decreases — their resistance grows, your chains weaken. The Exorcist must use Dominance restoration spells to maintain control, or risk the demon breaking free.`,
     
     mechanics: {
       title: 'Core Mechanics',
       content: `**Dominance Die (DD)**:
 - Each bound demon has a Dominance Die ranging from d6 to d12
-- **Higher die size**: More submissive, easier to control
-- **Lower die size**: More rebellious, harder to control
+- **Higher die size**: More submissive, tighter divine grip
+- **Lower die size**: More rebellious, chains weakening
 - Die size decreases by one step with each demon action or hit taken
 
 **Dominance Die Progression**:
@@ -298,16 +300,18 @@ The demon must make a Dominance Saving Throw specific to its type:
 - **Success**: Dominance Die restored to d6 (demon remains bound but weakened)
 - **Failure**: Demon escapes control and may turn hostile
 
-**Dominance Replenishment Spells**:
-- **Reassert Dominance** (5 mana): Restores DD to maximum size for one demon. Use when a demon is close to escaping
-- **Chain of Command** (4 mana): Increases DD by one size for next 3 actions. Use before commanding multiple demon actions
-- **Divine Bond** (6 mana): Restores DD by 2 steps (e.g., d6 → d10). Most powerful restoration, highest cost
+**Dominance Restoration Spells**:
+- **Divine Rebuke** (3 mana, 1 AP): Restore DD by 1 step. Cheap, efficient, your bread-and-butter maintenance.
+- **Chain of Light** (5 mana, 1 AP): Restore DD by 2 steps. Mid-range recovery for when things get dicey.
+- **Absolute Dominion** (7 mana, 1 AP): Reset DD to maximum. Your emergency brake — expensive but absolute.
+
+**Demon Death**: If a bound demon is killed in combat, it is gone permanently. You must perform the binding ritual again with fresh components and a new skill check. Protect your investments.
 
 **Binding Capacity**:
 - **Base**: Can bind up to 2 demons simultaneously
 - **Demonologist spec**: Can bind up to 4 demons
-- **Demon Lord spec**: Can bind up to 1 demon (but more powerful)
-- **Possessed spec**: No external demons (channels internally)
+- **Demon Lord spec**: Can bind up to 1 demon (but significantly more powerful)
+- **Possessed spec**: No external demons (channels internally — uses Internal DD)
 
 **Demon Types and Starting Dominance**:
 - **Tier 1 (Weak)**: Imp — d12 DD
@@ -323,8 +327,8 @@ The demon must make a Dominance Saving Throw specific to its type:
     },
     
     resourceBarExplanation: {
-      title: 'Understanding Your Dominance Gauge',
-      content: `**What You See**: Your Dominance gauge displays as individual demon control panels, one for each bound demon. Each panel shows a spectral chain connecting you to the demon, with the chain's appearance reflecting your control strength.
+      title: 'Understanding Your Divine Dominance Gauge',
+      content: `**What You See**: Your Dominance gauge displays as individual demon control panels, one for each bound demon. Each panel shows divine chains connecting you to the demon, with the chain's appearance reflecting your control strength.
 
 **Visual Representation for Each Demon**:
 
@@ -347,7 +351,7 @@ The demon must make a Dominance Saving Throw specific to its type:
 
 **Demon Abilities Panel**: Icons for demon's available abilities (Attack, Special Ability, Defend) with AP costs
 
-**Dominance Spell Quick-Cast**: Buttons for Reassert Dominance, Chain of Command, Divine Bond with mana costs displayed
+**Dominance Spell Quick-Cast**: Buttons for Divine Rebuke, Chain of Light, and Absolute Dominion with mana costs displayed
 
 **Multi-Demon Display**: When controlling multiple demons (Demonologist spec), panels stack vertically with the most critical demon (lowest DD) highlighted at top
 
@@ -362,428 +366,85 @@ The demon must make a Dominance Saving Throw specific to its type:
 
     strategicDepth: {
       title: 'Strategic Depth',
-      content: `The Dominance system creates constant tactical decisions:
+      content: `The Divine Dominance system creates constant tactical decisions:
 
 **Resource Management**:
-- Balance mana between Dominance spells and combat spells
-- Decide when to restore Dominance vs. letting demon escape and rebinding later
-- Choose which demons to maintain when controlling multiple
+- Balance mana between Dominance restoration and combat spells
+- Decide when to restore Dominance vs. letting a demon escape and rebinding later
+- Choose which demons to maintain when controlling multiple — sometimes sacrificing one saves the rest
 
 **Demon Selection**:
 - Weaker demons (d12 DD) are easier to maintain but less powerful
-- Stronger demons (d6-d8 DD) hit harder but require constant Dominance investment
-- Match demon type to combat situation (tank, DPS, control, etc.)
+- Stronger demons (d6-d8 DD) hit harder but demand constant Dominance investment
+- Match demon type to the fight: tank (Brute), DPS (Hound), control (Banshee), utility (Wraith)
 
 **Action Priority**:
-- Use demons aggressively early (high DD) then restore Dominance
-- Save Dominance spells for critical moments
+- Command demons aggressively early while DD is high (d12/d10)
+- Save Absolute Dominion for critical emergencies — it's too expensive for routine maintenance
 - Dismiss demons before they escape to avoid hostile encounters
 
 **Risk vs. Reward**:
-- Push demons to 0 DD for maximum actions before restoration
-- Use Chain of Command for burst damage windows
-- Accept demon escape if rebinding is easier than maintaining
+- Push demons to 0 DD for maximum actions before restoration — the ultimate gamble
+- Use Chain of Light for burst recovery windows — two steps up for 5 mana is the efficiency sweet spot
+- Accept demon escape if rebinding is easier than maintaining — sometimes strategic retreat wins wars
 
 **Advanced Techniques**:
-- "Demon Cycling": Let weak demons escape, bind stronger ones
-- "Controlled Release": Dismiss demons at low DD to avoid hostile turns
-- "Dominance Stacking": Use multiple restoration spells for extended control
-- "Sacrifice Play": Let demon turn hostile to damage enemies before escaping
+- **"Demon Cycling"**: Let weak demons escape, bind stronger ones mid-dungeon
+- **"Controlled Release"**: Dismiss demons at d6 DD to avoid hostile turns — better to lose them cleanly
+- **"Dominance Stacking"**: Chain restoration spells for extended control windows
+- **"Sacrifice Play"**: Let a demon turn hostile near enemies — it attacks EVERYONE, including your foes
+- **"Mana Banking"**: Keep 7 mana reserved at all times for an emergency Absolute Dominion
 
-The best Exorcists learn to read demon behavior and know exactly when to assert control versus when to let go.`
+The best Exorcists read demon behavior like a language, knowing exactly when to tighten the leash and when to let it slip.`
     },
 
     playingInPerson: {
       title: 'Playing Exorcist In Person',
-      content: `**Required Materials**:
-- **Dominance Dice** (d12, d10, d8, d6 for each bound demon)
-- **Demon Cards** (cards showing demon stats, abilities, and current DD)
-- **Demon Miniatures** (optional, for representing demons on battlefield)
-- **Binding Ritual Checklist** (components and conditions for each demon type)
-- **Dominance Restoration Tracker** (mana costs for restoration spells)
-- **Escape Save Tracker** (d20 for Charisma saves when DD reaches 0)
+      content: `**Required Materials**: Dominance Dice (d12/d10/d8/d6 per demon), Demon Cards (stats + DD tracker), d20 for escape saves.
 
-**Primary Tracking Method: Physical Dominance Dice**
-
-The Exorcist's Dominance Die system is tracked using actual physical dice placed next to each bound demon's card or miniature. As the demon acts or takes damage, you physically downgrade the die (d12 → d10 → d8 → d6 → 0), creating a tangible representation of your weakening control.
-
-**Setup**:
-\`\`\`
-BOUND DEMONS:
-
-[IMP] "Sizzle"
-Dominance Die: [d12] ← Physical die placed here
-Status: Fully Submissive
-Actions This Turn: 0
-
-[SHADOW HOUND] "Nightfang"
-Dominance Die: [d8] ← Physical die placed here
-Status: Resistant
-Actions This Turn: 1
-
-[ABYSSAL BRUTE] "Crusher"
-Dominance Die: [d6] ← Physical die placed here
-Status: Rebellious (WARNING!)
-Actions This Turn: 2
-\`\`\`
-
-**How It Works**:
-
-**Dominance Die Degradation**:
-- **d12** (Fully Submissive): Demon obeys without question
-- **d10** (Obedient): Demon follows commands reliably
-- **d8** (Resistant): Demon hesitates, control weakening
-- **d6** (Rebellious): Demon fights your will, one step from freedom
-- **0** (Breaking Free): Demon attempts escape, roll Charisma save
-
-**What Decreases Dominance**:
-1. **Demon Performs Action**: Attack, move, use ability → DD decreases 1 step
-2. **Demon Takes Damage**: Each hit from enemy → DD decreases 1 step
-3. **Demon Uses Special Ability**: Powerful abilities → DD decreases 2 steps
-
-**Example Dominance Degradation**:
-
-*You have an Abyssal Brute bound with d8 Dominance Die*
-
-**Turn 1 - Command Demon**:
-1. "Crusher, attack the orc!"
-2. Brute attacks → Hits for 2d8 + 4 damage
-3. **Dominance Degrades**: d8 → d6 (demon performed action)
-4. Replace d8 with d6 next to demon card
-
-**Turn 2 - Demon Takes Damage**:
-1. Orc counterattacks Crusher → 15 damage
-2. **Dominance Degrades**: d6 → 0 (demon took damage)
-3. Remove die completely → **BREAKING FREE!**
-4. Roll Charisma save (DC 15) to maintain control
-
-**Turn 3 - Escape Save**:
-1. Roll 1d20 + Charisma modifier → [12] + 3 = 15 (success!)
-2. Demon remains bound but at 0 DD
-3. Must restore Dominance or demon escapes next degradation
-
-**Restoring Dominance**:
-
-You can restore Dominance by casting restoration spells:
-
-**Restoration Spells**:
-- **Reassert Control** (4 mana): Increase DD by 1 step (0 → d6, d6 → d8, etc.)
-- **Chain of Dominance** (8 mana): Increase DD by 2 steps (0 → d8, d6 → d10, etc.)
-- **Absolute Command** (12 mana): Reset DD to maximum (any → d12)
-
-**Example Restoration**:
-
-*Crusher is at 0 DD, about to escape*
-
-**Your Turn**:
-1. "I cast Reassert Control on Crusher!" (4 mana)
-2. Place d6 next to Crusher's card → **d6 DD**
-3. Crusher is now Rebellious but under control
-4. Can command Crusher again (but DD will degrade)
-
-**Binding New Demons (Pre-Combat Ritual)**:
-
-Before combat, you must perform binding rituals to capture demons. Each demon type requires specific components and conditions:
-
-**Imp Binding** (d12 starting DD):
-\`\`\`
-COMPONENTS NEEDED:
-☐ Purified lava from volcanic region
-☐ Ash from burned holy text
-☐ Flame-touched gemstone
-
-CONDITIONS:
-☐ Perform at midnight
-☐ New moon phase
-☐ Ritual circle drawn with sulfur
-
-BINDING CHECK: Arcana DC 12
-SUCCESS: Imp bound with d12 DD
-FAILURE: Imp escapes, components lost
-\`\`\`
-
-**Shadow Hound Binding** (d10 starting DD):
-\`\`\`
-COMPONENTS NEEDED:
-☐ Nightshade essence
-☐ Cloak woven from shadows
-☐ Silver mirror (never reflected sunlight)
-
-CONDITIONS:
-☐ Complete darkness
-☐ No light sources within 30 ft
-☐ Ritual circle drawn with charcoal
-
-BINDING CHECK: Arcana DC 14
-SUCCESS: Shadow Hound bound with d10 DD
-FAILURE: Hound escapes, components lost
-\`\`\`
-
-**Abyssal Brute Binding** (d8 starting DD):
-\`\`\`
-COMPONENTS NEEDED:
-☐ Giant's blood (fresh, within 24 hours)
-☐ Iron chains forged in dragonfire
-☐ Stone from deepest earth
-
-CONDITIONS:
-☐ During thunderstorm
-☐ Outdoor location
-☐ Ritual circle drawn with iron filings
-
-BINDING CHECK: Persuasion DC 16
-SUCCESS: Abyssal Brute bound with d8 DD
-FAILURE: Brute attacks, components lost
-\`\`\`
+**Physical Dice Tracking**: Place a real die next to each bound demon's card or miniature. When the demon acts or takes damage, physically swap the die down the chain: d12 → d10 → d8 → d6 → remove entirely (Breaking Free!). The tactile act of replacing dice creates visceral tension everyone at the table can feel.
 
 **Demon Card Template**:
 \`\`\`
 ═══════════════════════════════════
-         ABYSSAL BRUTE
-         "Crusher"
+        ABYSSAL BRUTE "Crusher"
 ═══════════════════════════════════
 DOMINANCE DIE: [d8] ← Place die here
-
-HP: 60/60
-AC: 14
-Speed: 30 ft
+HP: 60/60  AC: 14  Speed: 30 ft
 
 ATTACKS:
 • Slam: +6 to hit, 2d8+4 bludgeoning
 • Rend: +6 to hit, 3d6+4 slashing (2 DD cost)
 
-SPECIAL ABILITIES:
-• Demonic Resilience: Resistance to fire
-• Brutal Strikes: Crits on 19-20
-
 DOMINANCE STATUS:
-d12: Fully Submissive
-d10: Obedient
+d12: Submissive  d10: Obedient
 d8: Resistant ← CURRENT
-d6: Rebellious
-0: Breaking Free (Charisma save DC 15)
-
-ACTIONS THIS TURN: [___]
+d6: Rebellious  0: ESCAPE SAVE!
 ═══════════════════════════════════
 \`\`\`
 
-**Example In-Person Turn**:
-
-*You have 2 demons bound: Imp (d10 DD) and Shadow Hound (d6 DD)*
-
-**Turn 1 - Command Both Demons**:
-1. "Sizzle, cast Fireball at the goblins!"
-   - Imp casts Fireball → 8d6 fire damage
-   - **DD Degrades**: d10 → d8 (replace die)
-
-2. "Nightfang, attack the orc!"
-   - Shadow Hound attacks → 2d6 + 3 damage
-   - **DD Degrades**: d6 → 0 (remove die)
-   - **BREAKING FREE!** Roll Charisma save
-
-3. Roll save for Nightfang: 1d20 + 3 → [14] + 3 = 17 (success!)
-   - Nightfang stays bound but at 0 DD
-
-**Turn 2 - Restore Dominance**:
-1. "I cast Reassert Control on Nightfang!" (4 mana)
-2. Place d6 next to Nightfang's card
-3. "I command Sizzle to attack again!"
-   - Imp attacks → 1d6 + 2 damage
-   - **DD Degrades**: d8 → d6 (replace die)
-
-**Turn 3 - Demon Takes Damage**:
-1. Orc attacks Nightfang → 12 damage
-2. **DD Degrades**: d6 → 0 (remove die)
-3. **BREAKING FREE AGAIN!** Roll Charisma save
-4. Roll: 1d20 + 3 → [8] + 3 = 11 (FAIL!)
-5. **DEMON ESCAPES!** Nightfang breaks free and flees
-
-**Alternative Tracking Methods**:
-
-**Method 1: Dice Stacking**
-- Stack multiple dice to show DD progression
-- Remove top die as DD degrades
-- Visual height shows control strength
-
-**Method 2: Demon Tokens**
-- Use tokens to mark DD level (4 tokens = d12, 3 = d10, 2 = d8, 1 = d6)
-- Remove tokens as DD degrades
-- Simple but less thematic than actual dice
-
-**Method 3: Demon Tracker Sheet**
-- Write current DD on paper next to demon name
-- Cross out and write new DD as it degrades
-- Minimalist approach
-
-**Method 4: Colored Dice**
-- Use different colored dice for different demons
-- Easy to identify which die belongs to which demon
-- Recommended for multiple demon control
-
-**Quick Reference Card Template**:
+**Quick Reference**:
 \`\`\`
-EXORCIST QUICK REFERENCE
-
-DOMINANCE DIE DEGRADATION:
-d12 → d10 → d8 → d6 → 0 (Breaking Free)
-
-WHAT DECREASES DD:
-• Demon performs action: -1 step
-• Demon takes damage: -1 step
-• Demon uses special ability: -2 steps
-
-ESCAPE MECHANICS:
-• At 0 DD: Roll Charisma save (DC 15)
-• Success: Demon stays bound at 0 DD
-• Failure: Demon escapes or turns hostile
-
-RESTORATION SPELLS:
-• Reassert Control (4 mana): +1 step
-• Chain of Dominance (8 mana): +2 steps
-• Absolute Command (12 mana): Reset to d12
-
-DEMON TYPES & STARTING DD:
-• Imp: d12 (easiest to control)
-• Shadow Hound: d10
-• Wraith: d10
-• Abyssal Brute: d8
-• Banshee: d8
-• Greater Demons: d6 (hardest to control)
+DIVINE DOMINANCE — QUICK REFERENCE
+DD CHAIN: d12 → d10 → d8 → d6 → 0 (Escape Save)
+DECREASES: Action = -1 step | Damage = -1 step | Special = -2 steps
+RESTORATION: Divine Rebuke (3 mana, +1 step) | Chain of Light (5 mana, +2 steps) | Absolute Dominion (7 mana, full reset)
+DEMON TIERS: Imp d12 | Hound/Wraith d10 | Brute/Banshee d8 | Greater d6
+DEMON DEATH = Gone. New binding ritual required (fresh components + skill check).
 \`\`\`
 
-**Thematic Enhancements**:
+**Tips for the Table**: Color-code dice per demon. Keep 7 mana banked for emergency Absolute Dominion. Dismiss at d6 rather than risk escape. Voice-act your demons — it makes the escape rolls dramatically better.
 
-Many players enhance the Exorcist experience with:
-- **Demon Miniatures**: Use actual demon minis on the battlefield
-- **Binding Chains**: Tiny chains wrapped around demon minis
-- **Ritual Components**: Keep props for binding rituals (candles, salt, etc.)
-- **Demon Voices**: Voice act demons with different personalities
-- **Escape Sound**: Make chain-breaking sound when demon escapes
-- **Dominance Tracker**: Custom board showing all demons and their DD
-
-**Dominance Management Tips**:
-
-**Building Strategy**:
-- **Bind Weak Demons First**: Imps (d12) are easiest to maintain
-- **Prepare Components**: Gather binding materials before adventures
-- **Know Your Limits**: Don't bind more demons than you can maintain
-- **Mana Reserve**: Keep mana available for Dominance restoration
-
-**Combat Strategy**:
-- **Use High DD Demons First**: Command demons with d12/d10 DD early
-- **Restore Before 0**: Cast restoration at d6 to avoid escape risk
-- **Dismiss Strategically**: Dismiss demons at low DD to avoid hostile turns
-- **Prioritize Targets**: Use demons on high-priority enemies
-
-**Multi-Demon Management**:
-- **Color-Code Dice**: Different colored dice for each demon
-- **Track Actions**: Mark which demons have acted this turn
-- **Stagger Commands**: Don't use all demons every turn
-- **Focus Restoration**: Restore one demon fully rather than all partially
-
-**Example Full Combat Sequence**:
-
-*Starting: Imp (d12), Shadow Hound (d10), Abyssal Brute (d8)*
-
-**Turn 1**: Command all 3 demons to attack
-- Imp: d12 → d10
-- Shadow Hound: d10 → d8
-- Abyssal Brute: d8 → d6
-
-**Turn 2**: Enemies attack demons
-- Imp takes damage: d10 → d8
-- Shadow Hound takes damage: d8 → d6
-- Abyssal Brute takes damage: d6 → 0 (roll save, success!)
-
-**Turn 3**: Restore Brute, command Imp and Hound
-- Cast Reassert Control on Brute: 0 → d6 (4 mana)
-- Command Imp: d8 → d6
-- Command Shadow Hound: d6 → 0 (roll save, FAIL!)
-- Shadow Hound escapes!
-
-**Turn 4**: Continue with Imp and Brute
-- Command Imp: d6 → 0 (roll save, success!)
-- Command Brute: d6 → 0 (roll save, success!)
-- Both at 0 DD, need restoration soon
-
-**Turn 5**: Restore both demons
-- Cast Chain of Dominance on Imp: 0 → d8 (8 mana)
-- Cast Reassert Control on Brute: 0 → d6 (4 mana)
-- Both stable again
-
-**Visual Organization**:
-
-**Demon Control Board Layout**:
-\`\`\`
-═══════════════════════════════════
-BOUND DEMONS (3/4)
-
-[IMP] Sizzle
-DD: [d10] HP: 25/30 Status: Obedient
-
-[SHADOW HOUND] Nightfang
-DD: [d6] HP: 40/50 Status: Rebellious ⚠
-
-[ABYSSAL BRUTE] Crusher
-DD: [d8] HP: 55/60 Status: Resistant
-
-MANA: 35/60
-RESTORATION AVAILABLE: Yes
-═══════════════════════════════════
-\`\`\`
-
-**Battlefield Tracking**:
-- **Demon Minis**: Place demon miniatures on battle map
-- **Dominance Dice**: Physical dice next to each mini
-- **Demon Cards**: Reference cards showing stats and abilities
-- **Binding Checklist**: Track which demons are bound and their DD
-
-**Why This System Works**: The physical act of downgrading dice (d12 → d10 → d8 → d6 → 0) creates a tangible sense of losing control. You can see and feel your grip on the demon weakening with each die replacement. The moment you remove the die completely and roll a Charisma save is tense—will you maintain control or will the demon break free? The system is simple (just replace dice) but creates constant strategic decisions about when to use demons aggressively versus when to restore Dominance. The binding ritual checklists add pre-combat preparation depth, making demon acquisition feel earned and meaningful.
-
-**Pro Tips**:
-- **Color-Code Demons**: Use different colored dice for each demon type
-- **Track DD Visually**: Keep dice visible so you know control status at a glance
-- **Restore Early**: Don't wait until 0 DD, restore at d6 to avoid escape risk
-- **Dismiss Before Escape**: Better to dismiss a demon than let it turn hostile
-- **Prepare Bindings**: Perform binding rituals during downtime, not mid-adventure
-- **Specialization Synergy**: Demonologist = multiple demons, Purifier = demon enhancement, Binder = stronger individual demons
-
-**Budget-Friendly Alternatives**:
-- **No extra dice?** Use tokens to mark DD level (4 tokens = d12, etc.)
-- **No demon cards?** Write demon stats on index cards
-- **No minis?** Use coins or tokens to represent demons
-- **Minimalist**: Track DD on paper next to demon names
-
-**Specialization-Specific Tracking**:
-
-**Demonologist**:
-- Can bind up to 4 demons simultaneously
-- Track 4 separate Dominance Dice
-- Restoration spells cost -2 mana
-- Use colored dice to distinguish demons
-
-**Purifier**:
-- Demons start with +1 DD step (Imp starts at d12+, degrades slower)
-- Track enhanced DD separately
-- Demons deal +1d6 radiant damage
-- Mark radiant damage bonus on demon cards
-
-**Binder**:
-- Can bind 1 demon with double DD (d12 → d12 → d10 → d8 → d6 → 0)
-- Use 2 dice to show double DD
-- Demon has enhanced stats
-- Focus all restoration on single powerful demon
-
-**Why Exorcist Is Perfect for In-Person Play**: The class is built around physical dice degradation, which is incredibly satisfying to track at the table. The act of replacing a d12 with a d10, then a d8, then a d6, creates a visual and tactile representation of your weakening control. The tension of rolling a Charisma save when a demon reaches 0 DD is dramatic and engaging. The binding ritual checklists add pre-combat preparation that feels like actual demon summoning. Managing multiple demons with multiple dice creates a complex but rewarding tactical puzzle. Every die on the table represents a bound demon under your control, making the Exorcist's power tangible and visible to everyone at the table.`
+**Why This Class Shines In Person**: Replacing a d12 with a d10, then d8, then d6 — watching your control physically shrink in your hand — is electric. The moment you remove the die and reach for a d20 for the escape save, the entire table holds its breath. Every die on the table is a demon you're holding by a thread.`
     }
   },
 
   // Specializations
   specializations: {
     title: 'Exorcist Specializations',
-    subtitle: 'Three Paths of Demon Mastery',
+    subtitle: 'Three Paths of Divine Dominion',
 
-    description: `Exorcists can specialize in different approaches to demon binding, each offering unique methods of control and power.`,
+    description: `Every Exorcist binds demons through divine authority — but how they wield that authority defines their path. Three specializations offer radically different relationships with the darkness they command.`,
 
     specs: [
       {
@@ -793,40 +454,40 @@ RESTORATION AVAILABLE: Yes
         color: '#8B0000',
         theme: 'Multiple Demon Control',
 
-        description: `Demonologists are masters of binding and controlling multiple demons simultaneously. They sacrifice individual demon power for quantity, creating a small army of bound servants. Their expertise in multi-demon management allows them to maintain Dominance over several entities at once.`,
+        description: `Demonologists are legion commanders — divine generals who split their willpower across multiple bound demons, sacrificing individual power for overwhelming numbers. Where others bind one demon, the Demonologist binds four, turning the battlefield into a zoo of chained horrors under their singular command.`,
 
-        playstyle: 'Summoner swarm, multiple weak demons, action economy advantage',
+        playstyle: 'Summoner swarm — multiple demons, overwhelming action economy, constant DD juggling',
 
         strengths: [
           'Can bind up to 4 demons simultaneously',
-          'Better Dominance management across multiple demons',
-          'Reduced Dominance spell costs',
-          'Excellent action economy with multiple demons'
+          'Reduced Dominance restoration spell costs (-2 mana)',
+          'Swarm bonus damage when multiple demons attack the same target',
+          'Excellent action economy with independent demon actions'
         ],
 
         weaknesses: [
           'Individual demons are weaker than other specs',
           'Cannot bind Tier 4 (Greater) demons',
-          'Complex management of multiple Dominance Dice',
-          'Vulnerable if all demons escape simultaneously'
+          'Managing 4 Dominance Dice simultaneously is demanding',
+          'Catastrophic if multiple demons escape in the same turn'
         ],
 
         passiveAbilities: [
           {
-            name: 'Demon Mastery',
+            name: 'Divine Authority',
             tier: 'Path Passive',
-            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to all Dominance saving throw DCs for that demon.',
+            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon\'s escape save DC. The chains tighten with time.',
             sharedBy: 'All Exorcists'
           },
           {
             name: 'Legion Commander',
             tier: 'Specialization Passive',
-            description: 'You can bind up to 4 demons simultaneously (instead of 2). All Dominance Replenishment spells cost -2 mana. When commanding multiple demons to attack the same target, they deal +1d6 bonus damage.',
+            description: 'You can bind up to 4 demons simultaneously (instead of 2). All DD restoration spells cost -2 mana. When 2+ demons attack the same target, each deals +1d6 bonus damage.',
             uniqueTo: 'Demonologist'
           }
         ],
 
-        recommendedFor: 'Players who enjoy summoner playstyles, managing multiple units, and overwhelming enemies with numbers'
+        recommendedFor: 'Players who enjoy RTS-style multi-unit management, overwhelming action economy, and the chaos of commanding a demonic squad'
       },
 
       {
@@ -834,42 +495,42 @@ RESTORATION AVAILABLE: Yes
         name: 'Demon Lord',
         icon: 'Utility/Resistance',
         color: '#4B0082',
-        theme: 'Single Powerful Demon',
+        theme: 'Single Powerful Demon + Self Empowerment',
 
-        description: `Demon Lords focus all their willpower on controlling a single, incredibly powerful demon. They can bind Greater Demons that other Exorcists cannot, creating a devastating partnership. Their bond with their demon is stronger, making it harder for the demon to escape.`,
+        description: `Demon Lords forge an unbreakable bond with a single demon — a partnership of mutual destruction. They channel demonic power into both their bound servant AND themselves, becoming something greater than either alone. Their singular focus means no backup plan: if the demon falls, the Exorcist stands alone.`,
 
-        playstyle: 'Single powerful summon, enhanced demon abilities, master-servant bond',
+        playstyle: 'One devastating demon + self buffs — high risk, highest single-target reward, master-servant symbiosis',
 
         strengths: [
           'Can bind Tier 4 Greater Demons (most powerful)',
-          'Bound demon has +2 to all stats and abilities',
-          'Dominance Die decreases slower (every 2 actions instead of 1)',
-          'Demon gains special empowered abilities'
+          'Bound demon has +2 to all stats, DD degrades every 2 actions',
+          'Demonic power bleeds into the Exorcist (armor, damage buffs)',
+          'Demon deals +2d8 bonus damage when at d6 DD or lower (desperation fury)'
         ],
 
         weaknesses: [
           'Can only bind 1 demon at a time',
-          'All eggs in one basket (if demon escapes, no backup)',
-          'Greater Demons start at d6 DD (very hard to control)',
-          'Higher mana investment required'
+          'All eggs in one basket — no backup if the demon escapes or dies',
+          'Greater Demons start at d6 DD (hardest to control)',
+          'Highest mana investment of any spec'
         ],
 
         passiveAbilities: [
           {
-            name: 'Demon Mastery',
+            name: 'Divine Authority',
             tier: 'Path Passive',
-            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to all Dominance saving throw DCs for that demon.',
+            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon\'s escape save DC. The chains tighten with time.',
             sharedBy: 'All Exorcists'
           },
           {
             name: 'Infernal Pact',
             tier: 'Specialization Passive',
-            description: 'Your bound demon gains +2 to all stats and abilities. Dominance Die decreases every 2 actions instead of every action. You can bind Tier 4 Greater Demons. When your demon is at d6 DD or lower, it deals +2d8 damage on all attacks.',
+            description: 'Your single bound demon gains +2 to all stats and its DD degrades every 2 actions instead of every action. You can bind Tier 4 Greater Demons. When your demon is at d6 DD or lower, it deals +2d8 damage on all attacks. Additionally, you gain +2 armor while your demon is bound.',
             uniqueTo: 'Demon Lord'
           }
         ],
 
-        recommendedFor: 'Players who enjoy powerful single summons, high-risk/high-reward gameplay, and master-servant dynamics'
+        recommendedFor: 'Players who enjoy boss-pet dynamics, high-risk/high-reward gameplay, and the fantasy of dominating a single terrifying entity'
       },
 
       {
@@ -879,40 +540,42 @@ RESTORATION AVAILABLE: Yes
         color: '#9400D3',
         theme: 'Internal Demon Channeling',
 
-        description: `The Possessed do not bind demons externally—they channel demonic essence directly into their own bodies. This creates an internal struggle where the Exorcist must maintain Dominance over the demon within themselves. They gain demonic powers but risk losing control of their own body.`,
+        description: `The Possessed don't bind demons into the world — they invite them in. By channeling demonic essence directly into their own flesh, they gain supernatural physical power at the cost of constant internal warfare. Their Dominance Die doesn't track a pet's obedience — it tracks who's driving the body.`,
 
-        playstyle: 'Hybrid melee/caster, self-buffs, internal struggle mechanics',
+        playstyle: 'Hybrid melee/caster — self-buffs, demonic transformations, internal DD tracking self-control',
+
+        internalDominanceRules: `**Internal Dominance Die Rules**: The Possessed uses an Internal DD (starting at d10) instead of external demon DD. It degrades when you: use demonic abilities (1 step), take damage (1 step), or use powerful demon abilities (2 steps). When Internal DD reaches 0, the demon takes control for 1 turn — you attack the nearest creature (ally or enemy) with enhanced damage. After the demon's turn, Internal DD resets to d6. DD restoration spells (Divine Rebuke, Chain of Light, Absolute Dominion) work on your Internal DD instead of targeting external demons.`,
 
         strengths: [
-          'Gain demonic physical enhancements (strength, speed, resilience)',
-          'Can use demon abilities directly without summoning',
-          'No external demons to manage (simpler gameplay)',
-          'Powerful self-buffs and transformations'
+          'Gain demonic physical enhancements (+2 Str, +2 Con, +10 speed)',
+          'Melee attacks deal additional 1d8 necrotic damage',
+          'No external demons to manage or position',
+          'Powerful self-buffs and demon form transformations'
         ],
 
         weaknesses: [
-          'Cannot summon external demons',
-          'Risk of losing control of own body',
-          'Internal Dominance failure causes self-harm',
-          'Less tactical flexibility (no positioning with summons)'
+          'Cannot summon external demons at all',
+          'Internal DD failure = demon takes control of your body for 1 turn',
+          'Self-harm risk: 3d6 psychic damage when Internal DD hits 0',
+          'No tactical positioning advantage from summon placement'
         ],
 
         passiveAbilities: [
           {
-            name: 'Demon Mastery',
+            name: 'Divine Authority',
             tier: 'Path Passive',
-            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to all Dominance saving throw DCs for that demon.',
+            description: 'When you successfully maintain Dominance over a demon for 5 consecutive rounds, gain +1 to that demon\'s escape save DC. The chains tighten with time.',
             sharedBy: 'All Exorcists'
           },
           {
             name: 'Demonic Fusion',
             tier: 'Specialization Passive',
-            description: 'You channel a demon internally instead of binding it externally. Gain +2 Strength, +2 Constitution, and +10 movement speed. Your melee attacks deal an additional 1d8 necrotic damage. When your Internal Dominance Die reaches 0, you take 3d6 psychic damage instead of the demon escaping.',
+            description: 'You channel a demon internally instead of binding it externally. Gain +2 Strength, +2 Constitution, and +10 movement speed. Your melee attacks deal an additional 1d8 necrotic damage. Your Internal DD starts at d10 and degrades when you use demonic abilities or take damage. At 0 DD, the demon takes control for 1 turn (attack nearest creature), then resets to d6. You take 3d6 psychic damage on loss of control.',
             uniqueTo: 'Possessed'
           }
         ],
 
-        recommendedFor: 'Players who enjoy hybrid melee/caster gameplay, self-buffs, and internal struggle narratives'
+        recommendedFor: 'Players who enjoy hybrid melee/caster gameplay, self-buff management, and the constant drama of wrestling a demon inside their own skull'
       }
     ]
   },
@@ -1307,13 +970,13 @@ RESTORATION AVAILABLE: Yes
 
     // DOMINANCE MANAGEMENT SPELLS
     {
-      id: 'exo_reassert_dominance',
-      name: 'Reassert Dominance',
-      description: 'Channel divine power to reinforce your control over a bound demon, restoring its Dominance Die to maximum.',
+      id: 'exo_divine_rebuke',
+      name: 'Divine Rebuke',
+      description: 'Channel a pulse of divine authority into a bound demon, restoring its Dominance Die by 1 step.',
       spellType: 'ACTION',
-      icon: 'Force/Force Field',
+      icon: 'Radiant/Radiant Bolt',
       school: 'Control',
-      level: 2,
+      level: 1,
 
       typeConfig: {
         castTime: 1,
@@ -1324,7 +987,7 @@ RESTORATION AVAILABLE: Yes
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: 'bound_demon'
+        validTargets: 'bound_demon_or_self'
       },
 
       durationConfig: {
@@ -1332,36 +995,37 @@ RESTORATION AVAILABLE: Yes
       },
 
       resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Imperium Divinum',
-        somaticText: 'Commanding gesture toward demon'
+        mana: 3,
+        components: ['verbal'],
+        verbalText: 'Recede!'
       },
 
       resolution: 'AUTOMATIC',
 
       effects: {
         dominance: {
-          type: 'restore_maximum',
-          description: 'Restores target demon\'s Dominance Die to its maximum size'
+          type: 'restore_steps',
+          amount: '1 step',
+          description: 'Restores target\'s Dominance Die by 1 step (e.g., d6 → d8, 0 → d6)'
         }
       },
 
       specialMechanics: {
         dominanceManagement: {
           enabled: true,
-          effect: 'Restore DD to maximum',
-          example: 'd6 → d12 (if Imp), d6 → d10 (if Shadow Hound), etc.'
+          effect: 'Restore DD by 1 step',
+          example: 'd6 → d8, or 0 → d6. For Possessed: works on Internal DD.',
+          note: 'Cheapest restoration. Your bread-and-butter maintenance spell.'
         }
       },
 
-      flavorText: 'Your will is absolute. The demon remembers its place.'
+      flavorText: 'A crack of divine light. The demon flinches. The leash holds.'
     },
 
     {
-      id: 'exo_chain_of_command',
-      name: 'Chain of Command',
-      description: 'Strengthen your grip over a bound demon, increasing its Dominance Die for the next 3 actions.',
+      id: 'exo_chain_of_light',
+      name: 'Chain of Light',
+      description: 'Forge a chain of holy radiance between you and a bound demon, restoring its Dominance Die by 2 steps.',
       spellType: 'ACTION',
       icon: 'Radiant/Divine Halo',
       school: 'Control',
@@ -1376,48 +1040,48 @@ RESTORATION AVAILABLE: Yes
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: 'bound_demon'
+        validTargets: 'bound_demon_or_self'
       },
 
       durationConfig: {
-        durationType: 'rounds',
-        durationAmount: 3
+        durationType: 'instant'
       },
 
       resourceCost: {
-        mana: 4,
-        components: ['verbal'],
-        verbalText: 'Catena Imperii'
+        mana: 5,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Catena Lucis!',
+        somaticText: 'Binding gesture with both hands'
       },
 
       resolution: 'AUTOMATIC',
 
       effects: {
         dominance: {
-          type: 'increase_temporary',
-          amount: '+1 die size',
-          duration: '3 actions',
-          description: 'Increases Dominance Die by one size for next 3 demon actions'
+          type: 'restore_steps',
+          amount: '2 steps',
+          description: 'Restores Dominance Die by 2 steps (e.g., d6 → d10, 0 → d8)'
         }
       },
 
       specialMechanics: {
         dominanceManagement: {
           enabled: true,
-          effect: 'Increase DD by 1 size for 3 actions',
-          example: 'd8 → d10 for 3 actions, then returns to normal progression'
+          effect: 'Restore DD by 2 steps',
+          example: 'd6 → d8 → d10. For Possessed: works on Internal DD.',
+          note: 'The efficiency sweet spot — meaningful recovery without breaking the mana bank.'
         }
       },
 
-      flavorText: 'The chains tighten. Obedience is ensured. For now.'
+      flavorText: 'Golden chains materialize from nothing. The demon screams. The light is absolute.'
     },
 
     {
-      id: 'exo_divine_bond',
-      name: 'Divine Bond',
-      description: 'Bolster the bond between you and a bound demon, restoring 2 steps of its Dominance Die.',
+      id: 'exo_absolute_dominion',
+      name: 'Absolute Dominion',
+      description: 'Unleash the full force of your divine authority, resetting a demon\'s Dominance Die to its maximum.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Bolt',
+      icon: 'Force/Force Field',
       school: 'Control',
       level: 3,
 
@@ -1430,7 +1094,7 @@ RESTORATION AVAILABLE: Yes
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: 'bound_demon'
+        validTargets: 'bound_demon_or_self'
       },
 
       durationConfig: {
@@ -1438,31 +1102,31 @@ RESTORATION AVAILABLE: Yes
       },
 
       resourceCost: {
-        mana: 6,
+        mana: 7,
         components: ['verbal', 'somatic'],
-        verbalText: 'Vinculum Divinum',
-        somaticText: 'Binding gesture with both hands'
+        verbalText: 'Imperium Absolutum!',
+        somaticText: 'Commanding gesture with holy symbol raised'
       },
 
       resolution: 'AUTOMATIC',
 
       effects: {
         dominance: {
-          type: 'restore_steps',
-          amount: '2 steps',
-          description: 'Restores Dominance Die by 2 steps (e.g., d6 → d10)'
+          type: 'restore_maximum',
+          description: 'Resets target\'s Dominance Die to its maximum size (full reset)'
         }
       },
 
       specialMechanics: {
         dominanceManagement: {
           enabled: true,
-          effect: 'Restore DD by 2 steps',
-          example: 'd6 → d8 → d10 (2 steps up)'
+          effect: 'Reset DD to maximum',
+          example: 'Any → d12 (Imp), Any → d10 (Shadow Hound), etc. For Possessed: resets Internal DD to d10.',
+          note: 'Your emergency brake. Expensive but absolute. Always keep 7 mana banked for this.'
         }
       },
 
-      flavorText: 'The bond strengthens. The demon\'s resistance weakens.'
+      flavorText: 'Your voice splits the air like a thunderclap. The demon drops to its knees. There is no debate.'
     },
 
     // DEMON COMMAND SPELLS
@@ -2165,7 +1829,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_bind_pit_fiend',
       name: 'Bind Pit Fiend',
-      description: 'Bind a powerful Pit Fiend to your service, a formidable demon with fire and melee attacks.',
+      description: 'Bind a powerful Pit Fiend through hellfire and iron will. Starts at d6 DD — extremely hard to control.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
@@ -2199,6 +1863,17 @@ RESTORATION AVAILABLE: Yes
         abilities: ['Fire Breath', 'Claw Attack', 'Intimidating Presence']
       },
 
+      specialMechanics: {
+        bindingRitual: {
+          enabled: true,
+          demonType: 'Pit Fiend',
+          startingDD: 'd6',
+          savingThrow: 'Constitution (Endurance) DC 18',
+          abilities: ['Fire Breath (6d6 fire, AoE)', 'Claw Attack (3d8+6 slashing)', 'Intimidating Presence (enemies frightened)'],
+          deathRule: 'If the Pit Fiend dies, you must perform this binding ritual again with fresh components.'
+        }
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
@@ -2214,7 +1889,8 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['summoning', 'binding', 'demon', 'pit fiend', 'demonologist']
+      tags: ['summoning', 'binding', 'demon', 'pit fiend', 'demonologist'],
+      flavorText: 'The ground cracks. Hellfire erupts. The Pit Fiend rises — and for one terrible moment, it looks you in the eye.'
     },
 
     {
@@ -2339,7 +2015,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_bind_balor',
       name: 'Bind Balor',
-      description: 'Bind a legendary Balor demon with immense power and devastating flame attacks.',
+      description: 'Bind a legendary Balor — a demon of annihilation. Starts at d6 DD with DC 18 escape. If it breaks free, it attacks EVERYTHING.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
@@ -2373,6 +2049,18 @@ RESTORATION AVAILABLE: Yes
         abilities: ['Flame Whip', 'Death Throes', 'Flaming Sword', 'Teleport']
       },
 
+      specialMechanics: {
+        bindingRitual: {
+          enabled: true,
+          demonType: 'Balor',
+          startingDD: 'd6',
+          savingThrow: 'Constitution (Endurance) DC 18',
+          abilities: ['Flame Whip (4d10+8 fire)', 'Death Throes (8d6 fire AoE on death)', 'Flaming Sword (5d10 slashing+fire)', 'Teleport (60ft)'],
+          deathRule: 'If the Balor dies, it explodes (Death Throes: 8d6 fire to all within 30ft) and must be rebound from scratch.',
+          escapeBehavior: 'On failed escape: always rolls hostile (5-6 on 1d6). A freed Balor does not flee.'
+        }
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: {
@@ -2388,7 +2076,8 @@ RESTORATION AVAILABLE: Yes
       },
 
       resolution: 'DICE',
-      tags: ['summoning', 'binding', 'demon', 'balor', 'demon lord']
+      tags: ['summoning', 'binding', 'demon', 'balor', 'demon lord'],
+      flavorText: 'The Balor opens its eyes. For the first time in a thousand years, it knows fear — of you.'
     },
 
     {
@@ -2511,7 +2200,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_infernal_legion',
       name: 'Infernal Legion',
-      description: 'Summon a legion of lesser demons to overwhelm your enemies with numbers.',
+      description: 'Summon 3 lesser demons, each bound with d10 Dominance Die. The swarm obeys — but each one chafes at the leash.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
@@ -2535,7 +2224,7 @@ RESTORATION AVAILABLE: Yes
         summonType: 'temporary',
         creatureName: 'Lesser Demon',
         creatureType: 'fiend',
-        quantity: 8,
+        quantity: 3,
         statsFormula: '3d8 + 10',
         attackFormula: '1d8 + 2',
         duration: 5,
@@ -2543,6 +2232,17 @@ RESTORATION AVAILABLE: Yes
         commandable: true,
         actionsPerTurn: 1,
         abilities: ['Claw Attack', 'Swarm Tactics']
+      },
+
+      specialMechanics: {
+        bindingRitual: {
+          enabled: true,
+          demonType: 'Lesser Demon',
+          startingDD: 'd10',
+          savingThrow: 'Charisma (Persuasion) DC 12',
+          abilities: ['Claw Attack (1d8+2 slashing)', 'Swarm Tactics (+1d4 when 2+ demons attack same target)'],
+          deathRule: 'Lesser demons despawn after 5 rounds. If killed, they are gone — no rebind needed.'
+        }
       },
 
       resourceCost: {
@@ -2865,7 +2565,7 @@ RESTORATION AVAILABLE: Yes
     {
       id: 'exo_bind_demon_prince',
       name: 'Bind Demon Prince',
-      description: 'Bind a Demon Prince, one of the most powerful entities in the infernal planes.',
+      description: 'Bind a Demon Prince — an entity of apocalyptic power. d6 DD, DC 20 escape. If it breaks free, it does not flee. Ever.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
@@ -2897,6 +2597,18 @@ RESTORATION AVAILABLE: Yes
         commandable: true,
         actionsPerTurn: 4,
         abilities: ['Apocalyptic Strike', 'Infernal Command', 'Reality Tear', 'Flame Storm', 'Teleport']
+      },
+
+      specialMechanics: {
+        bindingRitual: {
+          enabled: true,
+          demonType: 'Demon Prince',
+          startingDD: 'd6',
+          savingThrow: 'Constitution (Endurance) DC 20',
+          abilities: ['Apocalyptic Strike (6d10+10 mixed)', 'Infernal Command (buffs nearby demons)', 'Reality Tear (teleport + 4d12 force)', 'Flame Storm (8d6 fire AoE)', 'Teleport (120ft)'],
+          deathRule: 'If the Demon Prince dies, reality shudders. You must obtain Prince-tier components and succeed a DC 20 binding check to rebind.',
+          escapeBehavior: 'On failed escape: ALWAYS turns fully hostile. A freed Demon Prince does not flee. It conquers.'
+        }
       },
 
       resourceCost: {

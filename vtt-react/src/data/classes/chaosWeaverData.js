@@ -160,75 +160,58 @@ export const CHAOS_WEAVER_DOCS = {
       'chaos_weaver-chaos_dice-chaos_bolt',
       'chaos_weaver-reality_bending-reality_flicker',
       'chaos_weaver-entropy_control-entropic_touch',
-      'chaos_weaver-chaos_dice-chaotic_infusion',
-      'chaos_weaver-reality_bending-reality_step'
+      'chaos_weaver-shared-chaotic_infusion',
+      'chaos_weaver-wild_magic-wild_surge'
     ],
     2: [
       'chaos_weaver-chaos_dice-chaos_bolt',
       'chaos_weaver-reality_bending-reality_flicker',
       'chaos_weaver-entropy_control-entropic_touch',
-      'chaos_weaver-chaos_dice-chaotic_infusion',
-      'chaos_weaver-reality_bending-reality_step',
+      'chaos_weaver-shared-chaotic_infusion',
+      'chaos_weaver-wild_magic-wild_surge',
       'chaos_weaver-chaos_dice-chaotic_bolt',
       'chaos_weaver-reality_bending-dimensional_rift',
-      'chaos_weaver-entropy_control-chaotic_decay',
-      'chaos_weaver-chaos_dice-chaotic_conduit',
-      'chaos_weaver-wild_magic-wild_surge'
+      'chaos_weaver-entropy_control-chaotic_decay'
     ],
     3: [
       'chaos_weaver-chaos_dice-prismatic_chaos',
       'chaos_weaver-reality_bending-fractured_realms',
-      'chaos_weaver-entropy_control-chaos_burst',
-      'chaos_weaver-wild_magic-arcane_roulette',
-      'chaos_weaver-chaos_dice-mayhem_matrix'
+      'chaos_weaver-entropy_control-chaos_burst'
     ],
     4: [
       'chaos_weaver-reality_bending-reality_swap',
       'chaos_weaver-entropy_control-chaos_wave',
-      'chaos_weaver-chaos_dice-chaos_storm',
-      'chaos_weaver-wild_magic-mist_of_mayhem',
-      'chaos_weaver-reality_bending-whimsical_alteration'
+      'chaos_weaver-chaos_dice-chaos_storm'
     ],
     5: [
       'chaos_weaver-entropy_control-discordant_strike',
-      'chaos_weaver-chaos_dice-pandemonic_pulse',
+      'chaos_weaver-wild_magic-pandemonic_pulse',
       'chaos_weaver-reality_bending-chaotic_reflection',
-      'chaos_weaver-wild_magic-chaos_engine',
-      'chaos_weaver-entropy_control-corruption_blast'
+      'chaos_weaver-wild_magic-chaos_engine'
     ],
     6: [
-      'chaos_weaver-chaos_dice-reality_storm',
+      'chaos_weaver-reality_bending-reality_storm',
       'chaos_weaver-wild_magic-chaotic_eruption',
-      'chaos_weaver-reality_bending-pocket_dimension',
       'chaos_weaver-entropy_control-decay_cascade',
-      'chaos_weaver-chaos_dice-chaos_storm'
+      'chaos_weaver-reality_bending-chaos_gate'
     ],
     7: [
       'chaos_weaver-wild_magic-chaos_nova',
-      'chaos_weaver-reality_bending-chaos_gate',
-      'chaos_weaver-entropy_control-obliteration_wave',
-      'chaos_weaver-chaos_dice-ultimate_chaos',
-      'chaos_weaver-reality_bending-dimensional_anchor'
+      'chaos_weaver-chaos_dice-ultimate_chaos'
     ],
     8: [
       'chaos_weaver-entropy_control-entropy_plague',
       'chaos_weaver-wild_magic-chaos_cascade',
-      'chaos_weaver-chaos_dice-greater_chaos',
-      'chaos_weaver-reality_bending-chaos_realm',
-      'chaos_weaver-wild_magic-chaos_surge'
+      'chaos_weaver-reality_bending-chaos_conduit'
     ],
     9: [
-      'chaos_weaver-chaos_dice-chaos_cataclysm',
-      'chaos_weaver-reality_bending-chaos_conduit',
-      'chaos_weaver-entropy_control-chaos_wave',
-      'chaos_weaver-wild_magic-chaos_omega',
-      'chaos_weaver-chaos_dice-greater_surge'
+      'chaos_weaver-reality_bending-chaos_avatar',
+      'chaos_weaver-entropy_control-entropy_wave'
     ],
     10: [
-      'chaos_weaver-chaos_dice-ultimate_chaos_supreme',
-      'chaos_weaver-reality_bending-chaos_avatar',
-      'chaos_weaver-entropy_control-entropy_master',
-      'chaos_weaver-wild_magic-chaos_storm_ultimate'
+      'chaos_weaver-chaos_dice-table_mastery',
+      'chaos_weaver-wild_magic-chaos_storm_ultimate',
+      'chaos_weaver-entropy_control-entropy_master'
     ]
   }
 };
@@ -253,15 +236,18 @@ export const CHAOS_WEAVER_DATA = {
       'chaos_weaver-chaos_dice-chaos_bolt',
       'chaos_weaver-reality_bending-reality_flicker',
       'chaos_weaver-entropy_control-entropic_touch',
-      'chaos_weaver-chaos_dice-chaotic_infusion',
-      'chaos_weaver-reality_bending-reality_step'
+      'chaos_weaver-shared-chaotic_infusion',
+      'chaos_weaver-wild_magic-wild_surge'
     ],
     2: [
       'chaos_weaver-chaos_dice-chaos_bolt',
       'chaos_weaver-reality_bending-reality_flicker',
       'chaos_weaver-entropy_control-entropic_touch',
-      'chaos_weaver-chaos_dice-chaotic_infusion',
-      'chaos_weaver-reality_bending-reality_step'
+      'chaos_weaver-shared-chaotic_infusion',
+      'chaos_weaver-wild_magic-wild_surge',
+      'chaos_weaver-chaos_dice-chaotic_bolt',
+      'chaos_weaver-reality_bending-dimensional_rift',
+      'chaos_weaver-entropy_control-chaotic_decay'
     ]
   },
 
@@ -273,7 +259,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-chaos_dice-chaos_bolt',
       name: 'Chaos Bolt',
-      description: 'Launch a bolt of pure chaotic energy that deals force damage to a target.',
+      description: 'A crackling bolt of condensed chaos — straightforward force damage that feeds your Mayhem pool.',
       level: 1,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -315,7 +301,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-reality_flicker',
       name: 'Reality Flicker',
-      description: 'Briefly phase out of reality for 1 round, making yourself incorporeal. You can move through objects and are immune to non-magical attacks.',
+      description: 'Slip between dimensions for a heartbeat — become ghostly, pass through walls, and ignore non-magical attacks for 1 round.',
       level: 1,
       icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
@@ -354,7 +340,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropic_touch',
       name: 'Entropic Touch',
-      description: 'Infuse a target with entropic decay, dealing necrotic damage and reducing their armor.',
+      description: 'Rot your target\'s defenses — necrotic damage that carves away armor for 3 rounds.',
       level: 1,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -408,14 +394,95 @@ export const CHAOS_WEAVER_DATA = {
       tags: ['chaos', 'entropy', 'debuff', 'damage', 'necrotic', 'entropy control'],
       specialization: 'entropy_control'
     },
-
-    // ========================================
-    // LEVEL 2 SPELLS
-    // ========================================
+    {
+      id: 'chaos_weaver-shared-chaotic_infusion',
+      name: 'Chaotic Infusion',
+      description: 'Draw raw chaos into yourself, converting it into usable Mayhem. No damage — pure resource generation.',
+      level: 1,
+      icon: 'Arcane/Spellcasting Aura',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'Arcane/Spellcasting Aura',
+        tags: ['chaos', 'utility', 'mayhem', 'resource']
+      },
+      utilityConfig: {
+        utilityType: 'resource',
+        subtype: 'mayhem_generation',
+        description: 'Generate 1d4 Mayhem Modifiers',
+        power: 'minor',
+        resourceGain: '1d4',
+        resourceType: 'mayhem',
+        charges: 1
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mayhemGenerate', 'mana', 'actionPoints'],
+        resourceValues: { mana: 4, actionPoints: 1 },
+        resourceFormulas: { mayhemGenerate: '1d4' },
+        useFormulas: { mayhemGenerate: true },
+        components: ['somatic'],
+        somaticText: 'Draw chaos into your body'
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      tags: ['chaos', 'utility', 'mayhem', 'resource'],
+      specialization: 'chaos_dice'
+    },
+    {
+      id: 'chaos_weaver-wild_magic-wild_surge',
+      name: 'Wild Surge',
+      description: 'Pierce the veil of order and let raw magic bleed through — the surge generates Mayhem and triggers a random wild effect.',
+      level: 1,
+      icon: 'Nature/Nature Wild 1',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'Nature/Nature Wild 1',
+        tags: ['chaos', 'damage', 'utility', 'wild magic', 'rollable table']
+      },
+      rollableTable: {
+        enabled: true,
+        name: 'Wild Surge Effects',
+        description: 'Raw magic bleeds through in one of these forms',
+        resolutionType: 'DICE',
+        resolutionConfig: { diceType: 'd6', diceCount: 1 },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: 'Arcane Spark', effect: '1d8 force damage to a random enemy within 30ft', effectConfig: { damageFormula: '1d8', damageType: 'force', randomTarget: true, range: 30 } },
+          { range: { min: 2, max: 2 }, customName: 'Chaotic Heal', effect: 'Heal yourself for 1d8', effectConfig: { healingFormula: '1d8' } },
+          { range: { min: 3, max: 3 }, customName: 'Entropy Flash', effect: '1d6 necrotic damage to target + generate 1 extra Mayhem', effectConfig: { damageFormula: '1d6', damageType: 'necrotic', mayhemBonus: 1 } },
+          { range: { min: 4, max: 4 }, customName: 'Planar Echo', effect: 'Teleport yourself 10ft in a random direction', effectConfig: { teleportDistance: 10, randomDirection: true } },
+          { range: { min: 5, max: 5 }, customName: 'Magic Surge', effect: 'Generate 2 extra Mayhem Modifiers', effectConfig: { mayhemBonus: 2 } },
+          { range: { min: 6, max: 6 }, customName: 'Wild Echo', effect: 'Roll twice on this table and apply both effects', effectConfig: { rollTwice: true } }
+        ]
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mayhemGenerate', 'mana', 'actionPoints'],
+        resourceValues: { mana: 3, actionPoints: 1 },
+        resourceFormulas: { mayhemGenerate: '1d2' },
+        useFormulas: { mayhemGenerate: true },
+        components: ['verbal', 'somatic'],
+        verbalText: 'Let it surge!',
+        somaticText: 'Tear open the magical veil'
+      },
+      cooldownConfig: { type: 'turn_based', value: 1 },
+      resolution: 'DICE',
+      tags: ['chaos', 'damage', 'utility', 'wild magic', 'rollable table'],
+      specialization: 'wild_magic'
+    },
     {
       id: 'chaos_weaver-chaos_dice-chaotic_bolt',
       name: 'Chaotic Bolt',
-      description: 'Unleash a bolt of chaotic energy that rolls on a d20 table for unpredictable effects.',
+      description: 'A bolt that refuses to behave — each cast rolls a d20 to determine if it forks, explodes, pierces armor, or warps reality.',
       level: 2,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -464,7 +531,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-dimensional_rift',
       name: 'Dimensional Rift',
-      description: 'Tear open a rift to another dimension, allowing you to manipulate reality.',
+      description: 'Tear a hole in space and shove your target through it — they reappear up to 20ft away, disoriented.',
       level: 2,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -518,7 +585,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-chaotic_decay',
       name: 'Chaotic Decay',
-      description: 'Accelerate the decay of matter around your target.',
+      description: 'Accelerate entropy in a target — necrotic damage that shreds both strength and armor. Crits spread decay to nearby foes.',
       level: 2,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -607,7 +674,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-chaos_dice-prismatic_chaos',
       name: 'Prismatic Chaos',
-      description: 'Unleash a storm of prismatic energy with wildly unpredictable effects.',
+      description: 'A kaleidoscope of destruction — roll a d33 to unleash fire, frost, lightning, necrotic, radiant, psychic, or pure golden chaos across a 20ft zone.',
       level: 3,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -660,7 +727,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-fractured_realms',
       name: 'Fractured Realms',
-      description: 'Shatter the boundaries between realities, creating rifts with random planar effects.',
+      description: 'Shatter the boundary between planes — fire, ice, void, or storm rifts tear open in a 15ft zone, each with different hazards.',
       level: 3,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -708,7 +775,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-chaos_burst',
       name: 'Chaos Burst',
-      description: 'Release a burst of entropic energy that randomly damages and debuffs targets.',
+      description: 'An explosion of entropic energy — each burst randomly corrupts, poisons, blinds, or collapses matter with double-damage void hits.',
       level: 3,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -760,7 +827,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-reality_swap',
       name: 'Reality Swap',
-      description: 'Swap positions with random creatures in the area, creating utter confusion.',
+      description: 'Scramble everyone\'s position — all creatures in a 20ft zone are randomly teleported, swapping places in an instant.',
       level: 4,
       icon: 'Arcane/Quick Step',
       spellType: 'ACTION',
@@ -814,7 +881,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-chaos_wave',
       name: 'Chaos Wave',
-      description: 'Send a wave of entropic decay that damages and weakens all in its path.',
+      description: 'A cone of entropic decay that strips strength, constitution, and armor from everyone caught in its path.',
       level: 4,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -899,7 +966,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-chaos_dice-chaos_storm',
       name: 'Chaos Storm',
-      description: 'Summon a raging storm of chaotic energy that rolls on a massive d100 table.',
+      description: 'THE signature spell — a d100 table of catastrophe. Minor storms, void, fire, frost, entropy, or reality apocalypse await.',
       level: 4,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -956,7 +1023,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-discordant_strike',
       name: 'Discordant Strike',
-      description: 'Infuse your weapon with chaotic energy for random damage effects.',
+      description: 'Infuse your weapon with a random element — necrotic, acid, lightning, fire, or pure chaos — each with a different附加 effect.',
       level: 5,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1000,9 +1067,9 @@ export const CHAOS_WEAVER_DATA = {
       specialization: 'entropy_control'
     },
     {
-      id: 'chaos_weaver-chaos_dice-pandemonic_pulse',
+      id: 'chaos_weaver-wild_magic-pandemonic_pulse',
       name: 'Pandemonic Pulse',
-      description: 'Send out a pulse of demonic chaos that rolls on a d20 table for varying properties.',
+      description: 'Channel demonic energy through a wild magic lens — each pulse surges with a different hellish property.',
       level: 5,
       icon: 'Fire/Hellfire',
       spellType: 'ACTION',
@@ -1010,7 +1077,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Fire/Hellfire',
-        tags: ['chaos', 'damage', 'pulse', 'chaos dice', 'rollable table']
+        tags: ['chaos', 'damage', 'pulse', 'wild magic', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1046,13 +1113,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 3 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'pulse', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
+      tags: ['chaos', 'damage', 'pulse', 'wild magic', 'rollable table'],
+      specialization: 'wild_magic'
     },
     {
       id: 'chaos_weaver-reality_bending-chaotic_reflection',
       name: 'Chaotic Reflection',
-      description: 'Create a mirror of chaotic energy that reflects spells back at their casters.',
+      description: 'Snap a mirror of chaos into existence — the next spell aimed at you is flung back at its caster, twisted by chaos.',
       level: 5,
       icon: 'Arcane/Open Portal',
       spellType: 'REACTION',
@@ -1098,14 +1165,51 @@ export const CHAOS_WEAVER_DATA = {
       tags: ['chaos', 'utility', 'defense', 'reality bending'],
       specialization: 'reality_bending'
     },
-
-    // ========================================
-    // LEVEL 6 SPELLS
-    // ========================================
     {
-      id: 'chaos_weaver-chaos_dice-reality_storm',
+      id: 'chaos_weaver-wild_magic-chaos_engine',
+      name: 'Chaos Engine',
+      description: 'Turn your body into a living chaos conduit — sacrifice your own life force to supercharge your Mayhem reserves.',
+      level: 5,
+      icon: 'Nature/Nature Wild 1',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'Nature/Nature Wild 1',
+        tags: ['chaos', 'utility', 'mayhem', 'wild magic', 'resource']
+      },
+      utilityConfig: {
+        utilityType: 'resource',
+        subtype: 'mayhem_sacrifice',
+        description: 'Take 2d6 damage to generate 2d4 Mayhem Modifiers',
+        power: 'moderate',
+        resourceGain: '2d4',
+        resourceType: 'mayhem',
+        charges: 1
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mayhemGenerate', 'mana', 'actionPoints'],
+        resourceValues: { mana: 2, actionPoints: 1 },
+        resourceFormulas: { mayhemGenerate: '2d4' },
+        useFormulas: { mayhemGenerate: true },
+        selfDamageFormula: '2d6',
+        components: ['verbal', 'somatic'],
+        verbalText: 'Burn the engine!',
+        somaticText: 'Draw chaos through your veins'
+      },
+      cooldownConfig: { type: 'turn_based', value: 2 },
+      resolution: 'DICE',
+      tags: ['chaos', 'utility', 'mayhem', 'wild magic', 'resource'],
+      specialization: 'wild_magic'
+    },
+    {
+      id: 'chaos_weaver-reality_bending-reality_storm',
       name: 'Reality Storm',
-      description: 'Unleash a storm that warps reality itself, affecting all creatures in the area with random effects.',
+      description: 'Tear open the fabric of space — creatures caught inside age, shrink, phase between planes, or worse.',
       level: 6,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -1113,7 +1217,7 @@ export const CHAOS_WEAVER_DATA = {
       typeConfig: {
         school: 'chaos',
         icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'reality', 'chaos dice', 'rollable table']
+        tags: ['chaos', 'damage', 'control', 'reality', 'reality bending', 'rollable table']
       },
       rollableTable: {
         enabled: true,
@@ -1152,13 +1256,13 @@ export const CHAOS_WEAVER_DATA = {
       },
       cooldownConfig: { type: 'turn_based', value: 5 },
       resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'reality', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
+      tags: ['chaos', 'damage', 'control', 'reality', 'reality bending', 'rollable table'],
+      specialization: 'reality_bending'
     },
     {
       id: 'chaos_weaver-wild_magic-chaotic_eruption',
       name: 'Chaotic Eruption',
-      description: 'Cause a massive eruption of wild magic that can reshape the battlefield.',
+      description: 'Detonate a pocket of wild magic — meteors, void rifts, elemental fury, or reality quakes erupt from a single point.',
       level: 6,
       icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
@@ -1206,7 +1310,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-decay_cascade',
       name: 'Decay Cascade',
-      description: 'Trigger a cascade of entropic decay that chains between targets, dealing necrotic damage and reducing stats.',
+      description: 'Entropic chains — necrotic damage leaps between up to 5 targets, draining strength, constitution, and armor with each link.',
       level: 6,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1292,58 +1396,7 @@ export const CHAOS_WEAVER_DATA = {
       tags: ['chaos', 'damage', 'debuff', 'entropy control', 'cascade'],
       specialization: 'entropy_control'
     },
-    {
-      id: 'chaos_weaver-chaos_dice-chaos_armageddon',
-      name: 'Chaos Armageddon',
-      description: 'Unleash the ultimate chaos spell that rolls on a massive d100 table for apocalyptic effects.',
-      level: 6,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
-      typeConfig: {
-        school: 'chaos',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos dice', 'rollable table']
-      },
-      rollableTable: {
-        enabled: true,
-        name: 'Armageddon Effects',
-        description: 'The ultimate chaos manifests as one of these apocalyptic effects',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd100', diceCount: 1 },
-        entries: [
-          { range: { min: 1, max: 10 }, customName: 'Meteor Apocalypse', effect: '20 meteors rain down, 15d6 fire damage in 50ft radius', effectConfig: { damageFormula: '15d6', damageType: 'fire', areaShape: 'circle', areaRadius: 50, meteorCount: 20 } },
-          { range: { min: 11, max: 20 }, customName: 'Void Cataclysm', effect: 'Reality tears open, 18d6 necrotic damage + creatures sucked into void', effectConfig: { damageFormula: '18d6', damageType: 'necrotic', voidSuction: true } },
-          { range: { min: 21, max: 30 }, customName: 'Elemental Storm', effect: 'All elements rage, 20d6 random elemental damage in 45ft radius', effectConfig: { damageFormula: '20d6', damageType: 'elemental_random', areaShape: 'circle', areaRadius: 45 } },
-          { range: { min: 31, max: 40 }, customName: 'Reality Shred', effect: 'Space-time tears, 16d6 force damage + all creatures teleported randomly', effectConfig: { damageFormula: '16d6', damageType: 'force', randomTeleport: true } },
-          { range: { min: 41, max: 50 }, customName: 'Chaos Incarnate', effect: 'Pure chaos energy, 22d6 random damage + reality permanently altered', effectConfig: { damageFormula: '22d6', damageType: 'random', permanentRealityChange: true } },
-          { range: { min: 51, max: 60 }, customName: 'Entropy Apocalypse', effect: 'Everything decays, 19d6 necrotic damage + all stats reduced by 6', effectConfig: { damageFormula: '19d6', damageType: 'necrotic', statReduction: 6 } },
-          { range: { min: 61, max: 70 }, customName: 'Wild Magic Ragnarok', effect: 'Ultimate wild magic, roll 5 times on Wild Magic Surge table', effectConfig: { wildMagicSurgeRolls: 5 } },
-          { range: { min: 71, max: 80 }, customName: 'Dimensional Rift', effect: 'Opens gates to other planes, creatures from random planes appear', effectConfig: { planarInvasion: true } },
-          { range: { min: 81, max: 90 }, customName: 'Time Apocalypse', effect: 'Time warps, creatures age/decay rapidly or become immortal', effectConfig: { timeApocalypse: true } },
-          { range: { min: 91, max: 100 }, customName: 'True Chaos', effect: 'Roll 3 times on this table and combine all effects', effectConfig: { rollThrice: true } }
-        ]
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 50 }
-      },
-      resourceCost: {
-        resourceTypes: ['mayhemSpend', 'mana', 'actionPoints'],
-        resourceValues: { mana: 30, actionPoints: 2 },
-        mayhemRequired: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Armageddon!',
-        somaticText: 'Unleash ultimate chaos'
-      },
-      cooldownConfig: { type: 'turn_based', value: 6 },
-      resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'armageddon', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
-    },
+
 
     // ========================================
     // LEVEL 7 SPELLS
@@ -1351,7 +1404,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-wild_magic-chaos_nova',
       name: 'Chaos Nova',
-      description: 'Detonate a nova of pure wild magic that affects everything in the area.',
+      description: 'A spherical detonation of wild magic — lava, frost, lightning, void gravity, or reality-shattering force radiates outward in all directions.',
       level: 7,
       icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
@@ -1397,7 +1450,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-reality_bending-chaos_gate',
       name: 'Chaos Gate',
-      description: 'Open a massive gate to the chaos realm, flooding the area with chaotic entities.',
+      description: 'Rip open a portal to the chaos realm — 5 chaotic entities pour through and fight under your mental command.',
       level: 7,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -1435,7 +1488,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-chaos_dice-ultimate_chaos',
       name: 'Ultimate Chaos',
-      description: 'Channel the ultimate expression of chaos magic with unimaginable power.',
+      description: 'The final roll — planar teleportation, time warps, chaos elementals, void zones, or a chaos god avatar. Only the dice know.',
       level: 7,
       icon: 'Arcane/Spellcasting Aura',
       spellType: 'ACTION',
@@ -1487,7 +1540,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropy_plague',
       name: 'Entropy Plague',
-      description: 'Inflict a spreading plague of entropy that corrupts and weakens enemies.',
+      description: 'A spreading sickness of decay — infected targets take necrotic damage each turn and spread the plague to adjacent creatures on failed saves.',
       level: 8,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1546,7 +1599,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-wild_magic-chaos_cascade',
       name: 'Chaos Cascade',
-      description: 'Create a cascade of wild magic that triggers two chaotic effects in sequence.',
+      description: 'Roll TWICE on a volatile d8 table — two chaotic effects fire in sequence. Could be backfire-to-backfire, or a devastating double-strike.',
       level: 8,
       icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
@@ -1593,114 +1646,16 @@ export const CHAOS_WEAVER_DATA = {
       tags: ['chaos', 'damage', 'control', 'cascade', 'wild magic', 'rollable table'],
       specialization: 'wild_magic'
     },
-    {
-      id: 'chaos_weaver-chaos_dice-greater_chaos',
-      name: 'Greater Chaos',
-      description: 'Channel greater chaotic energies for powerful but unpredictable effects.',
-      level: 8,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
-      typeConfig: {
-        school: 'chaos',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table']
-      },
-      rollableTable: {
-        enabled: true,
-        name: 'Greater Chaos Effects',
-        description: 'Greater chaos magic manifests as one of these effects',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd10', diceCount: 1 },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Chaos Backfire', effect: 'Spell explodes - you take 5d8 random damage and are stunned for 1 round', effectConfig: { damageFormula: '5d8', damageType: 'random', selfDamage: true, stunDuration: 1 } },
-          { range: { min: 2, max: 2 }, customName: 'Reality Hiccup', effect: '4d10 force damage + all creatures swap positions randomly', effectConfig: { damageFormula: '4d10', damageType: 'force', positionSwap: true } },
-          { range: { min: 3, max: 3 }, customName: 'Elemental Maelstrom', effect: '6d8 random elemental damage in area', effectConfig: { damageFormula: '6d8', damageType: 'elemental_random' } },
-          { range: { min: 4, max: 4 }, customName: 'Entropy Burst', effect: '5d10 necrotic damage + targets weakened (-2 to attacks) for 2 rounds', effectConfig: { damageFormula: '5d10', damageType: 'necrotic', weakenDuration: 2 } },
-          { range: { min: 5, max: 5 }, customName: 'Chaos Rift', effect: '6d8 force damage + creates difficult terrain for 3 rounds', effectConfig: { damageFormula: '6d8', damageType: 'force', difficultTerrainDuration: 3 } },
-          { range: { min: 6, max: 6 }, customName: 'Wild Surge', effect: '5d10 random damage + roll on wild magic surge table', effectConfig: { damageFormula: '5d10', damageType: 'random', wildMagicSurge: true } },
-          { range: { min: 7, max: 7 }, customName: 'Chaos Storm', effect: '6d10 random damage to all enemies in area', effectConfig: { damageFormula: '6d10', damageType: 'random' } },
-          { range: { min: 8, max: 8 }, customName: 'Reality Fracture', effect: '7d8 force damage + targets blinded for 1 round', effectConfig: { damageFormula: '7d8', damageType: 'force', blindDuration: 1 } },
-          { range: { min: 9, max: 9 }, customName: 'Chaos Overdrive', effect: '7d10 random damage + generate 2d4 Mayhem', effectConfig: { damageFormula: '7d10', damageType: 'random', mayhemGenerate: '2d4' } },
-          { range: { min: 10, max: 10 }, customName: 'Perfect Chaos', effect: '8d10 random damage + you choose the damage type', effectConfig: { damageFormula: '8d10', damageType: 'choice' } }
-        ]
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
-      },
-      resourceCost: {
-        resourceTypes: ['mayhemSpend', 'mana', 'actionPoints'],
-        resourceValues: { mana: 30, actionPoints: 2 },
-        mayhemRequired: 10,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: { type: 'turn_based', value: 4 },
-      resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
-    },
+
 
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
-    {
-      id: 'chaos_weaver-chaos_dice-chaos_cataclysm',
-      name: 'Chaos Cataclysm',
-      description: 'Unleash a devastating surge of chaotic energy with powerful but unpredictable effects.',
-      level: 9,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
-      typeConfig: {
-        school: 'chaos',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table']
-      },
-      rollableTable: {
-        enabled: true,
-        name: 'Chaos Cataclysm Effects',
-        description: 'The cataclysm manifests as one of these powerful effects',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd8', diceCount: 1 },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Chaos Backlash', effect: 'Spell backfires - you take 6d10 random damage and are stunned for 1 round', effectConfig: { damageFormula: '6d10', damageType: 'random', selfDamage: true, stunDuration: 1 } },
-          { range: { min: 2, max: 2 }, customName: 'Elemental Cataclysm', effect: '6d10 random elemental damage + terrain becomes hazardous for 3 rounds', effectConfig: { damageFormula: '6d10', damageType: 'elemental_random', hazardousTerrain: 3 } },
-          { range: { min: 3, max: 3 }, customName: 'Reality Tear', effect: '7d8 force damage + targets teleported 20ft in random directions', effectConfig: { damageFormula: '7d8', damageType: 'force', randomTeleport: 20 } },
-          { range: { min: 4, max: 4 }, customName: 'Entropy Surge', effect: '6d10 necrotic damage + targets suffer -3 to all saves for 2 rounds', effectConfig: { damageFormula: '6d10', damageType: 'necrotic', saveReduction: 3, duration: 2 } },
-          { range: { min: 5, max: 5 }, customName: 'Chaos Storm', effect: '7d10 random damage + summon 2 chaos wisps (CR 3) for 3 rounds', effectConfig: { damageFormula: '7d10', damageType: 'random', summonWisps: 2, summonDuration: 3 } },
-          { range: { min: 6, max: 6 }, customName: 'Wild Eruption', effect: '8d8 random damage + all creatures (including allies) gain random buff/debuff', effectConfig: { damageFormula: '8d8', damageType: 'random', randomEffects: true } },
-          { range: { min: 7, max: 7 }, customName: 'Chaos Vortex', effect: '7d10 force damage + pulls all targets 15ft toward center and slows them', effectConfig: { damageFormula: '7d10', damageType: 'force', pullDistance: 15, slowDuration: 2 } },
-          { range: { min: 8, max: 8 }, customName: 'Perfect Storm', effect: '8d10 random damage + you choose the damage type + generate 2d6 Mayhem', effectConfig: { damageFormula: '8d10', damageType: 'choice', mayhemGenerate: '2d6' } }
-        ]
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 }
-      },
-      resourceCost: {
-        resourceTypes: ['mayhemSpend', 'mana', 'actionPoints'],
-        resourceValues: { mana: 35, actionPoints: 2 },
-        mayhemRequired: 12,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Greater chaos!',
-        somaticText: 'Channel greater chaotic energies'
-      },
-      cooldownConfig: { type: 'once_per_combat' },
-      resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
-    },
+
     {
       id: 'chaos_weaver-reality_bending-chaos_conduit',
       name: 'Chaos Conduit',
-      description: 'Become a living conduit for chaotic energy, gaining +4 spell damage and +1 die on chaos spells for 3 rounds, but taking 2d6 damage each turn.',
+      description: 'Become a living channel for chaos — +4 spell damage and +1 die on all chaos spells for 3 rounds, but raw energy burns you for 2d6 each turn.',
       level: 9,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -1744,7 +1699,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropy_wave',
       name: 'Entropy Wave',
-      description: 'Unleash a devastating wave of entropy that deals necrotic damage and reduces all stats and armor of enemies caught within.',
+      description: 'A crushing wave of pure decay — necrotic damage plus a blanket reduction to ALL enemy stats and armor.',
       level: 9,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'ACTION',
@@ -1818,60 +1773,11 @@ export const CHAOS_WEAVER_DATA = {
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
-    {
-      id: 'chaos_weaver-chaos_dice-ultimate_chaos_supreme',
-      name: 'Ultimate Chaos Supreme',
-      description: 'Channel the most powerful expression of chaos magic, unleashing devastating and unpredictable effects.',
-      level: 10,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
-      typeConfig: {
-        school: 'chaos',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table']
-      },
-      rollableTable: {
-        enabled: true,
-        name: 'Ultimate Chaos Effects',
-        description: 'Ultimate chaos manifests with tremendous power',
-        resolutionType: 'DICE',
-        resolutionConfig: { diceType: 'd10', diceCount: 1 },
-        entries: [
-          { range: { min: 1, max: 1 }, customName: 'Catastrophic Backfire', effect: 'Spell explodes violently - you take 8d10 random damage, stunned 2 rounds, lose all Mayhem', effectConfig: { damageFormula: '8d10', damageType: 'random', selfDamage: true, stunDuration: 2, loseMayhem: true } },
-          { range: { min: 2, max: 2 }, customName: 'Elemental Convergence', effect: '8d10 damage of ALL elements simultaneously', effectConfig: { damageFormula: '8d10', damageType: 'all_elements' } },
-          { range: { min: 3, max: 3 }, customName: 'Reality Fracture', effect: '7d12 force damage + all creatures teleported 30ft randomly + difficult terrain', effectConfig: { damageFormula: '7d12', damageType: 'force', randomTeleport: 30, difficultTerrain: true } },
-          { range: { min: 4, max: 4 }, customName: 'Entropy Collapse', effect: '8d10 necrotic damage + targets suffer -4 to all stats for 3 rounds', effectConfig: { damageFormula: '8d10', damageType: 'necrotic', statReduction: 4, duration: 3 } },
-          { range: { min: 5, max: 5 }, customName: 'Chaos Maelstrom', effect: '9d10 random damage + summon 3 chaos wisps (CR 4) for combat duration', effectConfig: { damageFormula: '9d10', damageType: 'random', summonWisps: 3 } },
-          { range: { min: 6, max: 6 }, customName: 'Wild Apocalypse', effect: '8d12 random damage + roll twice on wild magic surge table', effectConfig: { damageFormula: '8d12', damageType: 'random', wildMagicSurges: 2 } },
-          { range: { min: 7, max: 7 }, customName: 'Dimensional Tear', effect: '9d10 force damage + creatures must save or be banished for 1 round', effectConfig: { damageFormula: '9d10', damageType: 'force', banishDuration: 1, saveDC: 18 } },
-          { range: { min: 8, max: 8 }, customName: 'Chaos Nova', effect: '10d10 random damage in 35ft radius', effectConfig: { damageFormula: '10d10', damageType: 'random', areaRadius: 35 } },
-          { range: { min: 9, max: 9 }, customName: 'Perfect Chaos', effect: '9d10 damage, you choose the type + regain 15 Mayhem + next chaos spell has advantage', effectConfig: { damageFormula: '9d10', damageType: 'choice', mayhemRestore: 15, advantage: true } },
-          { range: { min: 10, max: 10 }, customName: 'Chaos Mastery', effect: '10d12 random damage + you can spend Mayhem to choose the result on next chaos roll', effectConfig: { damageFormula: '10d12', damageType: 'random', chooseNextResult: true } }
-        ]
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 35 }
-      },
-      resourceCost: {
-        resourceTypes: ['mayhemSpend', 'mana', 'actionPoints'],
-        resourceValues: { mana: 40, actionPoints: 3 },
-        mayhemRequired: 15,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: { type: 'once_per_combat' },
-      resolution: 'DICE',
-      tags: ['chaos', 'damage', 'control', 'ultimate', 'chaos dice', 'rollable table'],
-      specialization: 'chaos_dice'
-    },
+
     {
       id: 'chaos_weaver-reality_bending-chaos_avatar',
       name: 'Chaos Avatar',
-      description: 'Transform into a living avatar of chaos, gaining tremendous but volatile power.',
+      description: 'Transform into a being of living chaos for 3 rounds — +6 spell damage, chaos spells roll twice and take the better result, but raw chaos burns you each turn.',
       level: 10,
       icon: 'Arcane/Open Portal',
       spellType: 'ACTION',
@@ -1925,7 +1831,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-wild_magic-chaos_storm_ultimate',
       name: 'Storm of Chaos',
-      description: 'Unleash a devastating storm of wild magic that tears through the battlefield.',
+      description: 'Three chaotic storms strike simultaneously — roll 3d6 and apply ALL results. Fire, frost, lightning, force, void, and pure chaos collide.',
       level: 10,
       icon: 'Nature/Nature Wild 1',
       spellType: 'ACTION',
@@ -1971,7 +1877,7 @@ export const CHAOS_WEAVER_DATA = {
     {
       id: 'chaos_weaver-entropy_control-entropy_master',
       name: 'Entropy Master',
-      description: 'Become a master of entropy, causing decay and corruption with every action.',
+      description: 'Passive: All your necrotic damage gains +2d6, enemies you damage suffer -2 to saves, and each enemy hit generates 1 Mayhem.',
       level: 10,
       icon: 'Radiant/Radiant Divinity',
       spellType: 'PASSIVE',
@@ -2011,6 +1917,47 @@ export const CHAOS_WEAVER_DATA = {
       resolution: 'NONE',
       tags: ['chaos', 'buff', 'entropy control', 'passive'],
       specialization: 'entropy_control'
+    },
+    {
+      id: 'chaos_weaver-chaos_dice-table_mastery',
+      name: 'Table Mastery',
+      description: 'Passive: Every chaos table you roll on is rigged — results automatically shift up by 1 tier. Your Mayhem cap increases to 25.',
+      level: 10,
+      icon: 'Arcane/Spellcasting Aura',
+      spellType: 'PASSIVE',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'chaos',
+        icon: 'Arcane/Spellcasting Aura',
+        tags: ['chaos', 'buff', 'chaos dice', 'passive']
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'table_mastery',
+          name: 'Table Mastery',
+          description: 'All chaos table results automatically shift up by 1 tier. Mayhem Modifier cap increased to 25.',
+          tableTierShift: 1,
+          mayhemCapIncrease: 5
+        }],
+        durationType: 'permanent',
+        durationValue: 0,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
+      },
+      cooldownConfig: { type: 'none' },
+      resolution: 'NONE',
+      tags: ['chaos', 'buff', 'chaos dice', 'passive'],
+      specialization: 'chaos_dice'
     }
   ],
 
@@ -2213,6 +2160,23 @@ The Chaos Weaver holds the distinction of being the most powerful damage dealer 
     subtitle: 'Influencing the Chaos',
 
     description: `Generate modifiers through specific abilities, then spend them to adjust chaos spell table results by ±1 per modifier.`,
+
+    quickStart: {
+      title: 'Quick Start — Mayhem in 30 Seconds',
+      content: `**How Mayhem Works**:
+1. **Generate**: Cast spells like Chaotic Infusion or Wild Surge to gain Mayhem Modifiers (0–20 cap)
+2. **Roll**: Cast a chaos spell → roll on a random table (d20, d33, d100)
+3. **Adjust**: See your result, then spend Mayhem to shift it ±1 per modifier spent
+4. **Resolve**: Apply the final result
+
+**That's it.** Everything below is strategy for mastering the system.
+
+**Safety Guidelines**:
+- 0–3 Mayhem: Use small tables (d6–d10) only
+- 4–7 Mayhem: Safe for medium tables (d20–d33)
+- 8–12 Mayhem: Can use large tables (d100) with caution
+- 13–20 Mayhem: Full control, use any table freely`
+    },
 
     resourceBarExplanation: {
       title: 'Understanding Your Mayhem Modifier Bar',
@@ -2523,9 +2487,9 @@ TABLE SAFETY GUIDELINES:
   // Specializations
   specializations: {
     title: 'Chaos Weaver Specializations',
-    subtitle: 'Three Paths of Chaotic Power',
+    subtitle: 'Four Paths of Chaotic Power',
     
-    description: `Every Chaos Weaver chooses one of three specializations that define their approach to chaos magic. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
+    description: `Every Chaos Weaver chooses one of four specializations that define their approach to chaos magic. Each specialization offers unique passive abilities, a full talent tree, and influences your spell selection and playstyle.`,
     
     specs: [
       {
@@ -2566,9 +2530,10 @@ TABLE SAFETY GUIDELINES:
         },
         
         keyAbilities: [
-          'Fractured Realms - Create rifts with random planar effects',
-          'Reality Swap - Swap positions with random creatures',
-          'Whimsical Alteration - Alter object properties unpredictably'
+          'Reality Flicker - Phase through reality for 1 round of invulnerability',
+          'Reality Swap - Scramble all positions in a 20ft zone',
+          'Reality Storm - d33 table of reality-warping effects',
+          'Chaos Avatar - Transform into living chaos for 3 rounds'
         ]
       },
 
@@ -2610,9 +2575,10 @@ TABLE SAFETY GUIDELINES:
         },
 
         keyAbilities: [
-          'Mist of Mayhem - AOE that triggers Wild Magic Surge for all creatures',
-          'Arcane Roulette - d10 random spell effect',
-          'Pandemonic Pulse - d20 chaos bolt with varying properties'
+          'Wild Surge - Trigger a wild magic effect and generate Mayhem',
+          'Chaos Engine - Sacrifice HP to supercharge Mayhem reserves',
+          'Pandemonic Pulse - d20 demonic chaos with hellish properties',
+          'Chaos Cascade - Roll TWICE on a volatile d8 table'
         ]
       },
 
@@ -2654,9 +2620,10 @@ TABLE SAFETY GUIDELINES:
         },
 
         keyAbilities: [
-          'Entropic Blast - High damage with armor reduction',
-          'Chaos Burst - Random damage type burst',
-          'Discordant Strike - Weapon infusion with random damage'
+          'Entropic Touch - Necrotic damage that shreds armor',
+          'Chaos Wave - Cone AoE that strips strength, constitution, and armor',
+          'Decay Cascade - Entropic chains that leap between 5 targets',
+          'Entropy Plague - Spreading disease of decay'
         ]
       },
       {
@@ -2697,9 +2664,10 @@ TABLE SAFETY GUIDELINES:
         },
 
         keyAbilities: [
-          'Chaos Bolt - Basic chaos table spell',
-          'Prismatic Chaos - d33 prismatic effect table',
-          'Chaos Storm - d100 catastrophic storm effects'
+          'Chaotic Bolt - Your first d20 table spell, the gateway to chaos',
+          'Prismatic Chaos - d33 kaleidoscope of destruction',
+          'Chaos Storm - THE signature d100 catastrophe table',
+          'Table Mastery - Capstone: auto-raise all table results by 1 tier'
         ]
       }
     ]

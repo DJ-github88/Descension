@@ -19,9 +19,9 @@ export const FALSE_PROPHET_DATA = {
     
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by channeling eldritch void energy, with each point granting +1 shadow damage to all spells. The temptation is relentless—push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
+      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by preaching the void as divine truth, with each point granting +1 damage to all psychic, void, and necrotic spells. The temptation is relentless—push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
 
-**Core Mechanic**: Cast void spells → Roll dice for random Madness gains → Shadow damage scales with Madness (+1 per point) → Unlock thresholds at 6, 9, 12 Madness → Reach 20 and trigger Insanity Convulsion → Reset to 0
+**Core Mechanic**: Preach void sermons → Roll dice for random Madness gains → Damage scales with Madness (+1 per point to all spell damage types) → Unlock Temptation thresholds at 6, 9, 12 Madness → Reach 20 and trigger Insanity Convulsion → Reset to 0
 
 **Resource**: Madness Points (0-20 scale, random generation and spending)
 
@@ -30,7 +30,7 @@ export const FALSE_PROPHET_DATA = {
 **Best For**: Players who relish randomness, embrace chaos, and love the thrill of pushing their luck one spell too far`
     },
     
-    description: `The False Prophet channels chaotic energies from the eldritch void, accumulating Madness Points through their reality-bending spells. This madness empowers their shadow damage but threatens to consume them entirely. Walking the razor's edge between power and insanity, False Prophets tempt fate with forbidden knowledge and risk catastrophic consequences.`,
+    description: `The False Prophet preaches the void as divine truth, accumulating Madness Points through sermons and rituals that warp reality. This madness empowers their spell damage but threatens to consume them entirely. Walking the razor's edge between prophetic power and insanity, False Prophets tempt fate with forbidden revelations and risk catastrophic consequences.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -54,7 +54,7 @@ False Prophets understand that madness and power are inseparable. Each spell bri
 
 **Psychic Damage**: Shattering minds with eldritch horrors and maddening visions
 **Mind Control**: Bending wills, causing confusion, and turning enemies against each other
-**Shadow Magic**: Dealing escalating shadow damage as Madness Points accumulate
+**Shadow Magic**: Dealing escalating damage as Madness Points accumulate
 **Reality Manipulation**: Creating chaotic zones and unpredictable effects
 
 **Strengths**:
@@ -81,7 +81,7 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 **Building Madness**:
 - Madness-generating spells roll dice (1d4, 1d6, 1d8) to determine points gained
-- Each Madness Point increases shadow damage by +1
+- Each Madness Point increases your spell damage by +1
 - Randomness means you can't predict exact Madness levels
 - Some spells generate more Madness but have stronger effects
 
@@ -132,11 +132,11 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 *The bandits charge. You raise your hands, void energy crackling between your fingers. Time to embrace the darkness.*
 
-**Your Action**: Cast "Whispers of the Void" on Bandit #1 (6 mana, generates 1d6 Madness)
+**Your Action**: Cast "Void Scripture" on Bandit #1 (6 mana, generates 1d6 Madness)
 **Madness Roll**: 1d6 → [5] → +5 Madness Points
 **Madness**: 0 + 5 = **5 Madness**
-**Shadow Damage Bonus**: +5 to all shadow damage
-**Spell Damage**: 3d6 shadow + 5 (Madness bonus) → [4, 5, 6] + 5 = 20 damage
+**Damage Bonus**: +5 to all spell damage
+**Spell Damage**: 3d6 psychic + 5 (Madness bonus) → [4, 5, 6] + 5 = 20 damage
 **Result**: Bandit #1 takes 20 damage, frightened for 2 rounds
 
 *Dark whispers fill the bandit's mind. He screams, clutching his head. You feel the madness building—a sweet, intoxicating power.*
@@ -148,11 +148,11 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 *The bandits are wary now. The captain barks orders. You smile. They have no idea what's coming.*
 
-**Your Action**: Cast "Eldritch Bolt" on Bandit #2 (5 mana, generates 1d6 Madness)
+**Your Action**: Cast "Profane Bolt" on Bandit #2 (5 mana, generates 1d6 Madness)
 **Madness Roll**: 1d6 → [6] → +6 Madness Points
 **Madness**: 5 + 6 = **11 Madness**
-**Shadow Damage Bonus**: +11 to all shadow damage
-**Spell Damage**: 2d8 shadow + 11 (Madness bonus) → [7, 6] + 11 = 24 damage!
+**Damage Bonus**: +11 to all spell damage
+**Spell Damage**: 2d8 psychic + 11 (Madness bonus) → [7, 6] + 11 = 24 damage!
 **Result**: Bandit #2 takes 24 damage, DEAD (overkill)
 
 *The bolt of void energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness—past the 9 threshold. Eldritch Vision is now available.*
@@ -169,12 +169,12 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 **Your Decision**: Use Eldritch Vision (adds 1d6 Madness)
 **Madness Roll**: 1d6 → [5] → +5 Madness Points
 **Madness**: 11 + 5 = **16 Madness**
-**Shadow Damage Bonus**: +16 to all shadow damage
+**Damage Bonus**: +16 to all spell damage
 
 *Your eyes turn black. The walls become transparent. You see EVERYTHING. The captain hiding behind the crate. The bandit sneaking up behind your ally. The rats in the walls. The worms in the earth. TOO MUCH. But you can use this.*
 
 **Your Action**: Cast "Shadow Bolt" at bandit captain (behind cover, but you can see him!) (5 mana, no Madness generation)
-**Spell Damage**: 3d6 shadow + 16 (Madness bonus) → [5, 6, 4] + 16 = 31 damage!
+**Spell Damage**: 3d6 psychic + 16 (Madness bonus) → [5, 6, 4] + 16 = 31 damage!
 **Result**: Bandit captain takes 31 damage, severely wounded (down to 15 HP)
 
 *The captain screams as the bolt phases through the crate and strikes him. "How did you—?!" You don't answer. You're too busy fighting the voices in your head.*
@@ -190,11 +190,11 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 *You're a Voidcaller. You chose this path. MAXIMUM DAMAGE.*
 
-**Your Action**: Cast "Void Tendrils" on remaining bandits (7 mana, generates 1d4 Madness)
+**Your Action**: Cast "Preacher's Grasp" on remaining bandits (7 mana, generates 1d4 Madness)
 **Madness Roll**: 1d4 → [3] → +3 Madness Points
 **Madness**: 16 + 3 = **19 Madness**
-**Shadow Damage Bonus**: +19 to all shadow damage
-**Spell Damage**: 4d6 shadow + 19 (Madness bonus) → [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
+**Damage Bonus**: +19 to all spell damage
+**Spell Damage**: 4d6 necrotic + 19 (Madness bonus) → [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
 
 *Tendrils of pure void energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
 
@@ -230,7 +230,7 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 **The Lesson**: False Prophet gameplay is about:
 1. **Madness Generation**: Random dice rolls (1d4, 1d6, 1d8) mean you can't predict exact Madness levels
-2. **Damage Scaling**: At 19 Madness, +19 shadow damage turned 21 base damage into 40 damage (90% increase!)
+2. **Damage Scaling**: At 19 Madness, +19 damage turned 21 base damage into 40 damage (90% increase!)
 3. **Temptation Abilities**: Eldritch Vision cost 1d6 Madness but provided crucial tactical advantage
 4. **Risk Management**: Stayed at 19 Madness (one point from Convulsion) for maximum damage
 5. **Spending Strategy**: Used Siphon Sanity after combat to drop from 19 → 13, avoiding Convulsion
@@ -246,7 +246,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     title: 'Madness Points',
     subtitle: 'The Price of Forbidden Power',
     
-    description: `Madness Points represent the False Prophet's descent into eldritch insanity. As they channel void energies, their grip on reality weakens, but their power grows. Each point increases shadow damage by +1, tempting them to accumulate more. However, reaching 20 Madness Points triggers an Insanity Convulsion—a catastrophic release of chaotic energy.`,
+    description: `Madness Points represent the False Prophet's descent into eldritch insanity. As they preach the void god's truth, their grip on reality weakens, but their power grows. Each point increases spell damage by +1, tempting them to accumulate more. However, reaching 20 Madness Points triggers an Insanity Convulsion—a catastrophic release of chaotic energy.`,
     
     mechanics: {
       title: 'Core Mechanics',
@@ -263,10 +263,10 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
 - Spending is also random—strategic risk management required
 
 **Shadow Damage Scaling**:
-- **Per Point**: Each Madness Point increases shadow damage by +1
-- **At 10 Madness**: +10 shadow damage to all shadow spells
-- **At 19 Madness**: +19 shadow damage (maximum safe level)
-- **Scope**: Bonus applies to all shadow damage you deal
+- **Per Point**: Each Madness Point increases your spell damage by +1
+- **At 10 Madness**: +10 damage to all your spells
+- **At 19 Madness**: +19 damage (maximum safe level)
+- **Scope**: Bonus applies to all psychic, void, and necrotic damage you deal
 
 **Madness Thresholds**:
 - **6 Madness**: Unlock Veil of Shadows (invisibility, adds 1d4 Madness)
@@ -297,87 +297,18 @@ If triggered by Nightmare Echoes, roll 1d6:
     
     resourceBarExplanation: {
       title: 'Understanding Your Madness Gauge',
-      content: `**What You See**: Your Madness gauge is a horizontal bar with 20 individual segments, each representing 1 Madness Point. As you accumulate Madness, the segments fill with swirling purple-black void energy, pulsing and writhing like living darkness.
+      content: `Your Madness gauge is a 20-segment horizontal bar filled with swirling purple-black void energy.
 
-**Visual Representation by Madness Level**:
+**Danger Zones**:
+- **0-5 (Green)**: Safe. Building power. Clear screen.
+- **6-9 (Yellow)**: Temptation zone. Veil of Shadows unlocked. Faint whispers begin.
+- **10-14 (Orange)**: Power growing. Eldritch Vision (9) and Apocalyptic Revelation (12) unlocked. Screen flickers, whispers intensify.
+- **15-19 (Red, flashing)**: CRITICAL. Screen shakes, void tendrils at edges, screaming audio. Confirmation prompt before spells that could trigger Convulsion.
+- **20 (Black flash → purple explosion)**: INSANITY CONVULSION. Screen goes dark, explodes with void energy, Convulsion table rolls. Resets to 0.
 
-**0-5 Madness (Safe Zone)**:
-- Bar: 0-5 segments filled with dim purple glow
-- Border: Green (safe)
-- Effect: Minimal visual distortion, screen is clear
-- Shadow Damage Bonus: +0 to +5 displayed in small text
-- Status: "Building Power"
+**Visual Feedback**: Dice roll animations appear above the bar when generating/spending Madness. Damage bonus text grows larger and changes color as Madness increases. Warning text flashes at 15, 17, and 19 Madness.
 
-**6-8 Madness (First Threshold)**:
-- Bar: 6-8 segments filled, purple glow brightening
-- Border: Yellow (caution)
-- Effect: Slight screen edge vignette (purple tint at corners)
-- Temptation Unlocked: **Veil of Shadows** icon glows (invisibility ability)
-- Shadow Damage Bonus: +6 to +8 displayed in larger text
-- Status: "Temptation Available"
-- Audio: Faint whispers begin
-
-**9-11 Madness (Second Threshold)**:
-- Bar: 9-11 segments filled, bright purple with black tendrils
-- Border: Orange (warning)
-- Effect: Screen vignette intensifies, occasional visual flicker
-- Temptation Unlocked: **Eldritch Vision** icon glows (true sight ability)
-- Shadow Damage Bonus: +9 to +11 displayed in bold
-- Status: "Power Growing"
-- Audio: Whispers louder, occasional laughter
-
-**12-14 Madness (Third Threshold - Danger Zone)**:
-- Bar: 12-14 segments filled, violent purple-black swirling
-- Border: Red (danger)
-- Effect: Screen edges darken significantly, periodic screen shake
-- Temptation Unlocked: **Apocalyptic Revelation** icon glows (8d6 AoE ability)
-- Shadow Damage Bonus: +12 to +14 displayed in large, pulsing text
-- Status: "DANGER - High Madness"
-- Audio: Loud whispers, screaming, reality distortion sounds
-
-**15-19 Madness (Critical Zone)**:
-- Bar: 15-19 segments filled, chaotic energy crackling between segments
-- Border: Flashing red with black lightning
-- Effect: Heavy screen distortion, frequent screen shake, void tendrils appear at screen edges
-- All Temptations: Available but RISKY (any could push you to 20)
-- Shadow Damage Bonus: +15 to +19 displayed in HUGE pulsing text
-- Status: "CRITICAL - ONE POINT FROM CONVULSION"
-- Audio: SCREAMING, reality tearing sounds, heartbeat pounding
-- Warning Text: "MADNESS CRITICAL - CONVULSION IMMINENT" flashes on screen
-
-**20 Madness (INSANITY CONVULSION)**:
-- Bar: ALL 20 segments filled, EXPLODING with void energy
-- Border: Entire screen flashes white, then black
-- Effect: Screen goes completely dark for 1 second, then EXPLOSION of purple-black energy
-- Convulsion Table: 1d6 roll animation appears in center of screen
-- Audio: LOUD EXPLOSION, glass shattering, reality breaking
-- Status: "INSANITY CONVULSION TRIGGERED"
-- Result: Roll displayed with dramatic animation, effect applied, Madness resets to 0
-
-**Temptation Ability Icons** (appear at thresholds):
-- **Veil of Shadows** (6+ Madness): Shadowy cloak icon, glows purple when available
-- **Eldritch Vision** (9+ Madness): Eye with void pupil icon, glows when available
-- **Apocalyptic Revelation** (12+ Madness): Exploding void sphere icon, glows when available
-- Each icon shows: Ability name, Madness cost (1d4/1d6/2d6), current availability
-
-**Shadow Damage Bonus Display**:
-- Small text at 0-5 Madness: "+5 shadow damage"
-- Medium text at 6-11 Madness: "+10 shadow damage" (yellow)
-- Large text at 12-14 Madness: "+13 shadow damage" (orange)
-- HUGE pulsing text at 15-19 Madness: "+19 SHADOW DAMAGE" (red, pulsing)
-
-**Madness Generation/Spending Indicators**:
-- When you cast a Madness-generating spell: Dice roll animation (1d4/1d6/1d8) appears above bar, segments fill with animation
-- When you cast a Madness-spending spell: Dice roll animation appears, segments drain with reverse animation
-- Randomness emphasized: You see the dice roll BEFORE the Madness changes, reinforcing unpredictability
-
-**Warning Systems**:
-- At 15 Madness: Yellow warning text "Approaching Convulsion Threshold"
-- At 17 Madness: Orange warning text "DANGER - 3 Points from Convulsion"
-- At 19 Madness: Red flashing text "CRITICAL - 1 POINT FROM CONVULSION" + alarm sound
-- When casting spell that could trigger Convulsion: Confirmation prompt "This spell could trigger Insanity Convulsion. Proceed?"
-
-**Why This Matters**: The Madness gauge isn't just a resource bar—it's a visual representation of your descent into insanity. The screen effects, audio cues, and warning systems create tension and immersion. When you're at 19 Madness and the screen is shaking, whispers are screaming, and the warning text is flashing, you FEEL the danger. You know one bad dice roll will trigger Convulsion. That's the thrill of False Prophet—dancing on the edge of madness, watching the gauge fill, hearing the whispers grow louder, and deciding whether to push for one more spell or spend Madness to safety. The visual feedback makes every point of Madness feel meaningful and dangerous.`
+**Temptation Icons** glow at their thresholds (6, 9, 12) showing the ability name, Madness cost, and current availability. Using Temptation abilities ADDS more Madness — the power tempts you closer to the edge.`
     },
     
     strategicDepth: {
@@ -406,364 +337,64 @@ The best False Prophets learn to embrace chaos while maintaining just enough con
 
     playingInPerson: {
       title: 'Playing False Prophet In Person',
-      content: `**Required Materials**:
-- **20 Madness Tokens** (purple/black tokens, beads, or dice)
-- **Madness Generation Dice** (d4, d6, d8 for rolling Madness gains)
-- **Madness Spending Dice** (d4, d6, d8 for rolling Madness costs)
-- **Insanity Convulsion Table** (d6 reference card)
-- **Threshold Tracker** (card showing 6/9/12/20 thresholds)
-- **Shadow Damage Counter** (optional, for tracking current bonus)
+      content: `**Required Materials**: 20 Madness tokens (purple/black), Madness dice (d4, d6, d8), Insanity Convulsion table (d6 reference card), Threshold tracker card.
 
-**Primary Tracking Method: Madness Token Pool**
+**How Madness Works Physically**:
+1. **Generating**: Roll the spell's die (1d4/1d6/1d8), add that many tokens to your pool
+2. **Spending**: Roll the spell's die, remove that many tokens from your pool
+3. **Temptation**: At thresholds (6, 9, 12), unlock powerful abilities that ADD more Madness
+4. **Convulsion**: At 20 tokens, roll 1d6 on the Convulsion table, then remove ALL tokens
 
-The False Prophet's Madness Points are tracked using a pool of physical tokens that grow and shrink randomly as you cast spells. Unlike most resource systems, you don't know exactly how much Madness you'll gain or spend—you roll dice to determine the amounts, creating unpredictable, chaotic gameplay.
-
-**Setup**:
+**Quick Tracking Setup**:
 \`\`\`
-MADNESS POOL: [○][○][○][○][○][○][○][○][○][○] (10 Madness)
-
-SHADOW DAMAGE BONUS: +10 (1 per Madness Point)
+MADNESS: [○][○][○][○][○][●][●][●][●][●][●][●][●][●][●][○][○][○][○][○]
+Current: 10/20 | Damage Bonus: +10
 
 THRESHOLDS:
-☐ 6 Madness: Veil of Shadows unlocked
-☐ 9 Madness: Eldritch Vision unlocked
-☐ 12 Madness: Apocalyptic Revelation unlocked
-☐ 20 Madness: INSANITY CONVULSION!
-
-CURRENT MADNESS: [___] / 20
+☐ 6: Veil of Shadows (invisibility, +1d4 Madness)
+☐ 9: Eldritch Vision (true sight, +1d6 Madness)
+☐ 12: Apocalyptic Revelation (8d6 AoE, +2d6 Madness)
+☐ 20: INSANITY CONVULSION!
 \`\`\`
 
-**How It Works**:
-
-**Generating Madness (Random)**:
-1. Cast a Madness-generating spell
-2. Roll the specified die (1d4, 1d6, or 1d8)
-3. Add that many tokens to your Madness pool
-4. Shadow damage bonus increases by the rolled amount
-5. Check if you've crossed any thresholds
-
-**Spending Madness (Random)**:
-1. Cast a Madness-spending spell
-2. Roll the specified die (1d4, 1d6, or 1d8)
-3. Remove that many tokens from your Madness pool
-4. Shadow damage bonus decreases by the rolled amount
-5. If you don't have enough Madness, spell may fail or have reduced effect
-
-**Example Madness Generation**:
-
-*Starting: 0 Madness*
-
-**Turn 1**: Cast "Whispers of the Void" (generates 1d4 Madness)
-- Roll 1d4 → [3]
-- Add 3 purple tokens to pool → **3 Madness**
-- Shadow damage bonus: +3
-
-**Turn 2**: Cast "Eldritch Bolt" (generates 1d6 Madness)
-- Roll 1d6 → [5]
-- Add 5 purple tokens → **8 Madness**
-- Shadow damage bonus: +8
-- Threshold crossed: 6 Madness → Veil of Shadows unlocked!
-
-**Turn 3**: Cast "Mind Fracture" (generates 1d8 Madness)
-- Roll 1d8 → [7]
-- Add 7 purple tokens → **15 Madness**
-- Shadow damage bonus: +15
-- Thresholds crossed: 9 Madness (Eldritch Vision), 12 Madness (Apocalyptic Revelation)
-
-**Turn 4**: Cast "Shadow Drain" (spends 1d6 Madness)
-- Roll 1d6 → [4]
-- Remove 4 purple tokens → **11 Madness**
-- Shadow damage bonus: +11
-
-**The Danger Zone (15-19 Madness)**:
-
-When you're at 15-19 Madness, you're in the "Madness Surfing" zone—maximum damage potential but one bad roll away from Insanity Convulsion:
-
-*You have 17 Madness*
-
-**Option 1**: Cast another generating spell (1d4 Madness)
-- Roll 1d4 → [1] = 18 Madness (safe!)
-- Roll 1d4 → [2] = 19 Madness (still safe!)
-- Roll 1d4 → [3] = 20 Madness → **INSANITY CONVULSION!**
-- Roll 1d4 → [4] = 21 Madness → **INSANITY CONVULSION!**
-
-**Option 2**: Spend Madness to stay safe
-- Cast spending spell (1d6 Madness)
-- Roll 1d6 → [5] = 12 Madness (back to safe zone)
-
-**Insanity Convulsion (20 Madness)**:
-
-When you reach exactly 20 Madness (or exceed it), you immediately trigger an Insanity Convulsion:
-
-1. **Announce**: "I've reached 20 Madness! Insanity Convulsion!"
-2. **Roll 1d6** on the Insanity Convulsion Table
-3. **Apply Effect** (all effects are self-inflicting or chaotic)
-4. **Reset Madness**: Remove ALL tokens → 0 Madness
-5. **Shadow Damage Bonus**: Resets to +0
-
-**Insanity Convulsion Table**:
-\`\`\`
-Roll 1d6:
-
-1. SHADOW BURST
-   Deal 5d6 necrotic to yourself + all within 20 ft
-   Roll: 5d6 → [4,6,3,5,2] = 20 damage to everyone!
-
-2. MIND SHATTER
-   Stunned for 2 rounds
-   Cannot move, act, or react
-
-3. DARK WHISPERS
-   Disadvantage on attacks/saves for 3 rounds
-   Roll all d20s twice, take lower result
-
-4. CHAOTIC PULSE
-   Teleport randomly within 60 ft + 4d6 psychic
-   DM determines random location
-
-5. PSYCHIC SCREAM
-   All within 30 ft: WIS save or frightened 3 rounds
-   Enemies flee from you
-
-6. NIGHTMARE ECHOES
-   Take 6d6 psychic + Short-Term Madness 1d4 rounds
-   Roll on Short-Term Madness table
-\`\`\`
-
-**Short-Term Madness Table** (if triggered by result 6):
-\`\`\`
-Roll 1d6 for duration 1d4 rounds:
-
-1. PARANOIA: Attack nearest ally
-2. DELIRIUM: Disadvantage on all checks/saves
-3. FEARFUL: Flee from combat for 1 round
-4. CONFUSION: Cannot distinguish friend from foe
-5. DESPAIR: Cannot cast spells for 1 round
-6. HALLUCINATION: Perceive illusions, DM describes
-\`\`\`
-
-**Alternative Tracking Methods**:
-
-**Method 1: Dice Tower**
-- Stack d6s to show current Madness (3 dice = 18 Madness)
-- Add/remove dice as Madness changes
-- Visual height shows danger level
-- Quick to adjust, but limited to multiples of 6
-
-**Method 2: d20 Tracker**
-- Use a d20 to show current Madness Points
-- Rotate die as Madness changes
-- Simple and compact
-- Doesn't show individual token accumulation
-
-**Method 3: Tally Marks**
-- Write tally marks on paper as you gain Madness
-- Cross out marks as you spend Madness
-- Minimalist approach
-- Easy to track exact count
-
-**Method 4: Madness Dial**
-- Create a dial with numbers 0-20
-- Rotate pointer as Madness changes
-- Visual representation of danger zones
-- Requires crafting custom dial
-
-**Threshold Reference Card**:
-\`\`\`
-FALSE PROPHET MADNESS THRESHOLDS
-
-SHADOW DAMAGE BONUS:
-+1 per Madness Point (at 15 Madness = +15 shadow damage)
-
-TEMPTATION ABILITIES:
-6 Madness: Veil of Shadows (invisibility, +1d4 Madness)
-9 Madness: Eldritch Vision (true sight, +1d6 Madness)
-12 Madness: Apocalyptic Revelation (8d6 AoE, +2d6 Madness)
-
-DANGER ZONES:
-0-5: Safe, low damage
-6-11: Moderate, abilities unlocked
-12-19: High damage, high risk
-20+: INSANITY CONVULSION!
-
-MADNESS GENERATION SPELLS:
-• Whispers of Void: +1d4 Madness
-• Eldritch Bolt: +1d6 Madness
-• Mind Fracture: +1d8 Madness
-• Shadow Torrent: +2d6 Madness
-
-MADNESS SPENDING SPELLS:
-• Shadow Drain: -1d6 Madness
-• Clarity Burst: -1d8 Madness
-• Void Anchor: -1d4 Madness
-\`\`\`
-
-**Example In-Person Turn**:
-
-*You have 14 Madness, fighting a group of cultists*
-
-**Turn 1 - Generate More Madness**:
-1. "I cast Eldritch Bolt at the cultist leader!"
-2. Roll spell damage: 3d6 + 14 (Madness bonus) → [4,5,6] + 14 = 29 damage!
-3. Roll Madness generation: 1d6 → [4]
-4. Add 4 purple tokens → **18 Madness**
-5. Announce: "I'm at 18 Madness now. Shadow damage bonus is +18. I'm in the danger zone!"
-
-**Turn 2 - Temptation Ability**:
-1. "I use Apocalyptic Revelation! 8d6 AoE to all cultists!"
-2. Roll damage: 8d6 + 18 → [6,5,4,6,3,5,4,6] + 18 = 55 damage!
-3. Roll Madness cost: 2d6 → [3,5] = 8 Madness added
-4. Add 8 purple tokens → **26 Madness** → Over 20!
-5. "INSANITY CONVULSION!"
-
-**Turn 3 - Convulsion**:
-1. Roll 1d6 on Convulsion Table → [4] = Chaotic Pulse
-2. Teleport randomly within 60 ft (DM determines location)
-3. Take 4d6 psychic → [4,3,5,6] = 18 psychic damage to myself
-4. Remove ALL purple tokens → **0 Madness**
-5. Shadow damage bonus resets to +0
-6. Announce: "I'm back to 0 Madness. Time to build again..."
-
-**Quick Reference Card Template**:
-\`\`\`
-FALSE PROPHET QUICK REFERENCE
-
-MADNESS MECHANICS:
-• Generate: Roll die, add tokens (1d4/1d6/1d8)
-• Spend: Roll die, remove tokens (1d4/1d6/1d8)
-• Shadow Damage: +1 per Madness Point
-• Convulsion: At 20 Madness, roll 1d6 on table
-
-MADNESS STRATEGY:
-• Safe Zone (0-8): Build freely
-• Power Zone (9-14): Good damage, manageable risk
-• Danger Zone (15-19): Maximum damage, high risk
-• Convulsion (20+): Chaos unleashed, reset to 0
-
-TEMPTATION ABILITIES:
-6: Veil of Shadows (+1d4 Madness)
-9: Eldritch Vision (+1d6 Madness)
-12: Apocalyptic Revelation (+2d6 Madness)
-
-CONVULSION EFFECTS:
-1. Shadow Burst (5d6 to all nearby)
-2. Mind Shatter (stunned 2 rounds)
-3. Dark Whispers (disadvantage 3 rounds)
-4. Chaotic Pulse (teleport + 4d6 psychic)
-5. Psychic Scream (frighten all nearby)
-6. Nightmare Echoes (6d6 + Short-Term Madness)
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the False Prophet experience with:
-- **Purple/Black Tokens**: Use dark-colored beads or tokens for Madness
-- **Eldritch Dice**: Purple or black dice for Madness rolls
-- **Convulsion Sound**: Play eerie sound effect when hitting 20 Madness
-- **Madness Journal**: Write cryptic notes as Madness increases
-- **Eye Symbol**: Keep an eye symbol that "watches" as Madness grows
-- **Flickering Candle**: Candle that flickers more as Madness increases
-
-**Madness Management Tips**:
-
-**Building Strategy**:
-- **Start Slow**: Build to 6-9 Madness first for moderate power
-- **Track Thresholds**: Know when you unlock Temptation abilities
-- **Calculate Risk**: At 15+ Madness, every generating spell risks Convulsion
-- **Embrace Chaos**: Accept that you can't control exact Madness amounts
-
-**Spending Strategy**:
-- **Emergency Spending**: Use spending spells when approaching 20
-- **Madness Surfing**: Stay at 15-19 for maximum damage if you're brave
-- **Threshold Awareness**: Don't spend below thresholds you want to maintain
-- **Random Spending**: Remember spending is random—you might spend more than expected
-
-**Convulsion Management**:
-- **Controlled Detonation**: Sometimes triggering Convulsion is strategic
-- **Positioning**: Be aware of allies when near 20 (Shadow Burst hits everyone)
-- **Backup Plan**: Have low-Madness spells ready for post-Convulsion recovery
-- **Accept Chaos**: Convulsions are part of the class fantasy
-
-**Example Full Combat Sequence**:
-
-*Starting: 0 Madness*
-
-**Turn 1**: Cast Whispers (1d4) → Roll [3] → 3 Madness (+3 shadow damage)
-**Turn 2**: Cast Eldritch Bolt (1d6) → Roll [5] → 8 Madness (+8 shadow damage)
-**Turn 3**: Cast Mind Fracture (1d8) → Roll [6] → 14 Madness (+14 shadow damage)
-**Turn 4**: Cast Eldritch Bolt (1d6) → Roll [4] → 18 Madness (+18 shadow damage)
-**Turn 5**: Cast Whispers (1d4) → Roll [3] → 21 Madness → **CONVULSION!**
-**Turn 6**: Roll Convulsion → [2] = Mind Shatter → Stunned 2 rounds, reset to 0
-**Turn 7-8**: Stunned, cannot act
-**Turn 9**: Recovered, start building Madness again from 0
-
-**Visual Organization**:
-
-**Madness Display Layout**:
-\`\`\`
-MADNESS POOL: [●][●][●][●][●][●][●][●][●][●][●][●][●][●][●][○][○][○][○][○]
-Current: 15/20 (DANGER ZONE!)
-
-SHADOW DAMAGE: +15
-
-UNLOCKED ABILITIES:
-✓ Veil of Shadows (6)
-✓ Eldritch Vision (9)
-✓ Apocalyptic Revelation (12)
-
-NEXT THRESHOLD: 20 = CONVULSION!
-\`\`\`
-
-**Battlefield Tracking**:
-- **Madness Tokens**: Pool of purple/black tokens showing current Madness
-- **Threshold Card**: Reference showing 6/9/12/20 thresholds
-- **Convulsion Table**: d6 table ready for when you hit 20
-- **Shadow Damage Tracker**: Current bonus written on card
-
-**Why This System Works**: The randomness of Madness generation and spending creates genuine tension and unpredictability. You can't plan exact Madness amounts—you roll dice and react to the results. The physical act of adding tokens as you descend into madness, then watching the pile grow dangerously close to 20, creates visceral anxiety. The moment you hit 20 and roll on the Convulsion table is dramatic and chaotic, perfectly capturing the False Prophet's theme of "power through insanity." The reset to 0 after Convulsion creates a satisfying cycle of building, risking, exploding, and rebuilding.
-
-**Pro Tips**:
-- **Count Before Casting**: Always count current Madness before generating more
-- **Know Your Dice**: Understand average rolls (d4=2.5, d6=3.5, d8=4.5)
-- **Threshold Planning**: Decide which Temptation abilities you want before combat
-- **Convulsion Timing**: Sometimes triggering Convulsion when beneficial is smart
-- **Track Shadow Damage**: Keep current bonus visible so you don't forget to add it
-- **Specialization Synergy**: Voidcaller = aggressive generation, Deceiver = control focus, Harbinger = balanced approach
-
-**Budget-Friendly Alternatives**:
-- **No tokens?** Use coins, buttons, or dice to represent Madness
-- **No Convulsion table?** Write effects on index card
-- **No threshold tracker?** Just remember 6/9/12/20 thresholds
-- **Minimalist**: Track Madness count on paper, roll dice for generation/spending
-
-**Specialization-Specific Tracking**:
-
-**Voidcaller**:
-- Add +1 to all Madness generation rolls
-- If you roll 1d4 → [3], add 4 tokens (not 3)
-- At 15+ Madness, add +1d8 to shadow damage spells
-- Track bonus damage separately
-
-**Deceiver**:
-- Mind control spells don't generate Madness
-- Can spend Madness to enhance control duration
-- Track controlled enemies separately
-
-**Harbinger**:
-- Can choose to reroll Madness generation once per turn
-- Convulsion effects can target enemies instead of self
-- Mark when reroll is available
-
-**Why False Prophet Is Perfect for In-Person Play**: The class is built around dice rolls and randomness, which are already core to tabletop gaming. The physical act of rolling dice to determine Madness generation creates suspense—will you roll high and risk Convulsion, or low and stay safe? The growing pile of Madness tokens creates visual tension as you approach 20, and the dramatic moment of hitting 20 and rolling on the Convulsion table is pure chaos. The unpredictability makes every turn exciting, and the reset mechanic (Convulsion → 0 Madness) creates natural story arcs within combat. It's a class that embraces the randomness of dice, making it perfect for in-person play.`
+**Insanity Convulsion Table** (roll 1d6):
+1. **Shadow Burst**: 5d6 necrotic to self + all within 20ft
+2. **Mind Shatter**: Stunned 2 rounds
+3. **Dark Whispers**: Disadvantage on attacks/saves 3 rounds
+4. **Chaotic Pulse**: Random teleport 60ft + 4d6 psychic
+5. **Psychic Scream**: All within 30ft save or frightened 3 rounds
+6. **Nightmare Echoes**: 6d6 psychic + Short-Term Madness 1d4 rounds (roll sub-table)
+
+**Short-Term Madness** (if result 6, roll 1d6):
+1. Paranoia — attack nearest ally
+2. Delirium — disadvantage on all checks/saves
+3. Fearful — flee combat 1 round
+4. Confusion — can't distinguish friend from foe
+5. Despair — can't cast spells 1 round
+6. Rage — advantage on attacks but attack nearest creature
+
+**Example Turn**:
+*"I cast Void Scripture at the bandit!"* → Roll damage: 3d6 + Madness bonus → Roll Madness: 1d6 → add tokens → check thresholds → announce new Madness total.
+
+**Strategy Tips**:
+- At 15+ Madness, every generating spell risks Convulsion — count before casting
+- Spending spells are your safety valve — use them to stay in the sweet spot
+- Sometimes triggering Convulsion deliberately is the right play (Cultist spec can choose the result)
+- Embrace the randomness — you can't control exact Madness amounts, only respond to them
+
+**Specialization Differences**:
+- **Voidcaller**: +1 to all Madness generation rolls; at 15+ Madness, +1d8 damage to spells
+- **Deceiver**: Mind control spells don't generate Madness; extended control durations; gain 1d4 Madness on successful controls
+- **Cultist**: DoT effects last +2 rounds; spending Madness heals 2 HP per point + proficiency bonus; can choose Convulsion result (Tier 4 talent)`
     }
   },
 
   // Specializations
   specializations: {
     title: 'False Prophet Specializations',
-    subtitle: 'Three Paths to Madness',
+    subtitle: 'Three Sermons of the Void',
 
-    description: `False Prophets can specialize in different aspects of eldritch power, each offering unique approaches to managing madness and wielding void energies.`,
+    description: `Every False Prophet preaches the void as divine truth—but the style of their sermon defines their power. Some thunder hellfire from makeshift pulpits. Others whisper poison into willing ears. And some simply perform the old rites, patient and inevitable. Choose your sermon.`,
 
     specs: [
       {
@@ -771,22 +402,22 @@ NEXT THRESHOLD: 20 = CONVULSION!
         name: 'Voidcaller',
         icon: 'Void/Consumed by Void',
         color: '#9400D3',
-        theme: 'Aggressive Madness',
+        theme: 'Fire-and-Brimstone Preaching',
 
-        description: `Voidcallers embrace madness fully, generating it rapidly to maximize their shadow damage output. They are the most aggressive False Prophet specialization, willing to risk Insanity Convulsions for devastating power. Their connection to the void is strongest, allowing them to channel pure eldritch energy.`,
+        description: `Voidcallers are the loudest voice in the room—literally. They channel the void god's wrath through fiery, destructive sermons that shake the battlefield. Their preaching generates Madness faster than any other specialization, pushing them toward godlike power and catastrophic Convulsion in equal measure. When a Voidcaller opens their mouth, something dies.`,
 
-        playstyle: 'High-risk aggression, maximum shadow damage, rapid madness generation',
+        playstyle: 'High-risk aggression, maximum damage output, rapid Madness generation through destructive sermons',
 
         strengths: [
-          'Highest shadow damage potential of all specs',
+          'Highest damage potential of all specs',
           'Generates Madness faster for quicker power scaling',
           'Bonus damage when at high Madness levels',
-          'Powerful burst damage capabilities'
+          'Powerful burst damage through sermon AoE'
         ],
 
         weaknesses: [
           'Most likely to trigger Insanity Convulsions',
-          'Requires aggressive playstyle that increases risk',
+          'Aggressive playstyle increases risk every turn',
           'Less control over Madness accumulation',
           'Vulnerable during Convulsion recovery'
         ],
@@ -795,13 +426,13 @@ NEXT THRESHOLD: 20 = CONVULSION!
           {
             name: 'Eldritch Empowerment',
             tier: 'Path Passive',
-            description: 'When you reach 10 or more Madness Points, your next shadow damage spell deals an additional 2d6 shadow damage.',
+            description: 'When you reach 10 or more Madness Points, your next damage spell deals an additional 2d6 damage.',
             sharedBy: 'All False Prophets'
           },
           {
             name: 'Void Surge',
             tier: 'Specialization Passive',
-            description: 'Whenever you generate Madness Points, add +1 to the rolled amount. When you have 15 or more Madness Points, your shadow damage spells deal an additional 1d8 damage.',
+            description: 'Whenever you generate Madness Points, add +1 to the rolled amount. When you have 15 or more Madness Points, your spells deal an additional 1d8 damage.',
             uniqueTo: 'Voidcaller'
           }
         ],
@@ -814,17 +445,17 @@ NEXT THRESHOLD: 20 = CONVULSION!
         name: 'Deceiver',
         icon: 'Psychic/Mind Control',
         color: '#8B008B',
-        theme: 'Mind Control & Manipulation',
+        theme: 'Whispered Corruption',
 
-        description: `Deceivers use their madness to warp the minds of others, specializing in control, deception, and manipulation. They are masters of turning enemies against each other and creating illusions that blur the line between reality and nightmare. Their madness is a tool for domination.`,
+        description: `Deceivers don't preach to crowds—they whisper. They specialize in corrupting the faithful, planting doubt in devoted minds, and turning allies against each other with lies dressed as divine revelation. Their Madness fuels manipulation rather than destruction, bending wills and fracturing loyalties until the enemy does the work for them.`,
 
-        playstyle: 'Control-focused, mind manipulation, strategic madness spending',
+        playstyle: 'Control-focused, mind manipulation, strategic Madness spending to corrupt and convert',
 
         strengths: [
           'Powerful mind control and charm effects',
           'Can turn enemies into temporary allies',
           'Extended duration on confusion and fear effects',
-          'Excellent crowd control capabilities'
+          'Excellent crowd control through corrupted faith'
         ],
 
         weaknesses: [
@@ -838,7 +469,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
           {
             name: 'Eldritch Empowerment',
             tier: 'Path Passive',
-            description: 'When you reach 10 or more Madness Points, your next shadow damage spell deals an additional 2d6 shadow damage.',
+            description: 'When you reach 10 or more Madness Points, your next damage spell deals an additional 2d6 damage.',
             sharedBy: 'All False Prophets'
           },
           {
@@ -857,11 +488,11 @@ NEXT THRESHOLD: 20 = CONVULSION!
         name: 'Cultist',
         icon: 'Necrotic/Death Mark',
         color: '#4B0082',
-        theme: 'Corruption & Curses',
+        theme: 'Dark Ritual & Ceremony',
 
-        description: `Cultists spread corruption and curses, specializing in damage-over-time effects and sustained madness management. They perform dark rituals that empower themselves and their allies while slowly destroying their enemies. Their madness is channeled into methodical, inevitable destruction.`,
+        description: `Cultists are the patient shepherds of the void god's flock. They perform methodical dark rituals—curses, sacrifices, and ceremonies—that spread corruption slowly but inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies as easily as they wither enemies. A Cultist's sermon is not loud; it is patient. And it always finishes.`,
 
-        playstyle: 'Sustained damage, DoT effects, balanced madness management',
+        playstyle: 'Sustained damage through curses and DoT, balanced Madness management, ritual empowerment',
 
         strengths: [
           'Excellent sustained damage with DoT effects',
@@ -881,13 +512,13 @@ NEXT THRESHOLD: 20 = CONVULSION!
           {
             name: 'Eldritch Empowerment',
             tier: 'Path Passive',
-            description: 'When you reach 10 or more Madness Points, your next shadow damage spell deals an additional 2d6 shadow damage.',
+            description: 'When you reach 10 or more Madness Points, your next damage spell deals an additional 2d6 damage.',
             sharedBy: 'All False Prophets'
           },
           {
             name: 'Corrupting Presence',
             tier: 'Specialization Passive',
-            description: 'Your damage-over-time effects last 2 additional rounds. When you spend Madness Points, heal yourself for 5 HP per point spent. Enemies affected by your curses take an additional 1d4 necrotic damage per round.',
+            description: 'Your damage-over-time effects last 2 additional rounds. When you spend Madness Points, heal yourself for 2 HP per point spent plus your proficiency bonus. Enemies affected by your curses take an additional 1d4 necrotic damage per round.',
             uniqueTo: 'Cultist'
           }
         ],
@@ -901,9 +532,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
   exampleSpells: [
     // MADNESS GENERATORS - Basic Psychic Damage
     {
-      id: 'fp_dark_whisper',
-      name: 'Dark Whisper',
-      description: 'Send haunting whispers from the void to shatter a target\'s mind, dealing psychic damage.',
+      id: 'fp_void_scripture',
+      name: 'Void Scripture',
+      description: 'Read from the void god\'s forbidden text, sending words that shatter a target\'s mind with psychic damage.',
       spellType: 'ACTION',
       icon: 'Arcane/Orb Manipulation',
       school: 'Psychic',
@@ -963,9 +594,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_mind_fracture',
-      name: 'Mind Fracture',
-      description: 'Fracture a target\'s mind with eldritch energy, causing confusion and glimpses of the void.',
+      id: 'fp_shattered_faith',
+      name: 'Shattered Faith',
+      description: 'Shatter a target\'s beliefs with eldritch revelation, causing confusion and glimpses of the void\'s terrible truth.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['control'],
@@ -1025,9 +656,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_tormenting_visions',
-      name: 'Tormenting Visions',
-      description: 'Fill a target\'s vision with horrifying eldritch horrors, dealing psychic damage over time.',
+      id: 'fp_visions_of_heresy',
+      name: 'Visions of Heresy',
+      description: 'Condemn a target with visions of their own heresy, dealing psychic damage over time as the void god\'s judgment unfolds.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -1080,9 +711,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
     // MADNESS GENERATORS - Control & Debuffs
     {
-      id: 'fp_corrupt_mind',
-      name: 'Corrupt Mind',
-      description: 'Corrupt a target\'s mind with dark whispers, forcing them to attack their own allies.',
+      id: 'fp_corrupt_the_faithful',
+      name: 'Corrupt the Faithful',
+      description: 'Preach corruption into a target\'s soul, turning their devotion against their allies as the void god\'s truth takes hold.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
       school: 'Mind Control',
@@ -1144,9 +775,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_maddening_scripture',
-      name: 'Maddening Scripture',
-      description: 'Recite eldritch scripture that drives all who hear it toward madness and confusion.',
+      id: 'fp_maddening_sermon',
+      name: 'Maddening Sermon',
+      description: 'Deliver an eldritch sermon that drives all who hear it toward madness and confusion. The void god speaks through you.',
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
       school: 'Psychic',
@@ -1207,9 +838,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_abyssal_command',
-      name: 'Abyssal Command',
-      description: 'Command creatures from the abyss to rise and fight for you.',
+      id: 'fp_summon_congregation',
+      name: 'Summon the Congregation',
+      description: 'Call forth the void god\'s faithful—abyssal servants rise to enforce the dark sermon.',
       spellType: 'ACTION',
       icon: 'Necrotic/Demonic Empowerment',
       school: 'Summoning',
@@ -1262,9 +893,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
     // MADNESS SPENDERS - Buffs & Utility
     {
-      id: 'fp_dark_bidding',
-      name: 'Dark Bidding',
-      description: 'Channel Madness Points into raw power, boosting combat abilities temporarily.',
+      id: 'fp_dark_benediction',
+      name: 'Dark Benediction',
+      description: 'Bestow the void god\'s blessing upon yourself, channeling Madness Points into raw combat power.',
       spellType: 'ACTION',
       icon: 'General/Increase Strength',
       school: 'Enhancement',
@@ -1314,9 +945,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_feeding_darkness',
-      name: 'Feeding Darkness',
-      description: 'Feed on the darkness within, converting Madness Points into healing.',
+      id: 'fp_communion_of_void',
+      name: 'Communion of the Void',
+      description: 'Partake in communion with the void god, converting your madness into healing vitality.',
       spellType: 'ACTION',
       icon: 'Necrotic/Drain Soul',
       school: 'Restoration',
@@ -1374,9 +1005,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
     },
 
     {
-      id: 'fp_maddening_wrath',
-      name: 'Maddening Wrath',
-      description: 'Channel accumulated madness into a devastating attack of pure chaos.',
+      id: 'fp_wrath_of_void_god',
+      name: 'Wrath of the Void God',
+      description: 'Channel the void god\'s wrath through your body, unleashing accumulated madness as a devastating strike of pure chaotic fury.',
       spellType: 'ACTION',
       icon: 'Void/Black Hole',
       school: 'Evocation',
@@ -1419,7 +1050,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
           instant: {
             amount: '4d8 + INT + (2 × Madness spent)',
             type: 'necrotic',
-            description: 'Devastating shadow damage enhanced by spent Madness'
+            description: 'Devastating necrotic damage enhanced by spent Madness'
           }
         }
       },
@@ -1756,9 +1387,9 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
     // ADDITIONAL DIVERSE SPELLS
     {
-      id: 'fp_curse_of_flesh',
-      name: 'Curse of Flesh',
-      description: 'Curse a target, causing their flesh to decay and rot over time.',
+      id: 'fp_heresy_of_flesh',
+      name: 'Heresy of the Flesh',
+      description: 'Condemn a target\'s flesh as heretical, causing it to decay and rot as the void god rejects their mortal form.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
       school: 'Necromancy',
@@ -2168,7 +1799,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
         controlType: 'mind_control',
         duration: 2,
         durationUnit: 'rounds',
-        saveDC: 12,
+        saveDC: 13,
         saveType: 'spirit',
         savingThrow: true,
         effects: [{
@@ -2177,8 +1808,8 @@ NEXT THRESHOLD: 20 = CONVULSION!
           description: 'Charmed by false promises - cannot attack caster for 2 rounds',
           config: {
             charmType: 'friendly',
-            saveType: 'charisma',
-            saveDC: 15,
+            saveType: 'spirit',
+            saveDC: 13,
             duration: 2,
             durationUnit: 'rounds'
           }
@@ -2316,17 +1947,17 @@ NEXT THRESHOLD: 20 = CONVULSION!
 
     // ADDITIONAL LEVEL 2 SPELLS
     {
-      id: 'fp_false_healing',
-      name: 'False Healing',
-      description: 'Pretend to heal an ally - appears to heal but actually does nothing.',
+      id: 'fp_false_miracle',
+      name: 'False Miracle',
+      description: 'Perform a false miracle that appears to heal but secretly deals psychic damage over time. The target sees green light but feels the void consuming them.',
       level: 2,
       spellType: 'ACTION',
-      effectTypes: ['utility'],
+      effectTypes: ['damage'],
 
       typeConfig: {
         school: 'illusion',
         icon: 'Healing/Golden Heart',
-        tags: ['utility', 'deception', 'illusion', 'universal'],
+        tags: ['damage', 'psychic', 'dot', 'deception', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2335,21 +1966,21 @@ NEXT THRESHOLD: 20 = CONVULSION!
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30,
-        targetRestrictions: ['ally'],
+        targetRestrictions: ['enemy'],
         maxTargets: 1
       },
 
-      utilityConfig: {
-        utilityType: 'deception',
-        selectedEffects: [{
-          id: 'false_healing',
-          name: 'False Healing',
-          description: 'Appears to heal but does nothing - enemies believe target is healed'
-        }],
-        duration: 0,
-        durationUnit: 'instant',
-        concentration: false,
-        power: 'weak'
+      damageConfig: {
+        formula: '1d4',
+        elementType: 'psychic',
+        damageType: 'direct',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d4',
+          duration: 3,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        }
       },
 
       resourceCost: {
@@ -2367,7 +1998,7 @@ NEXT THRESHOLD: 20 = CONVULSION!
       },
 
       resolution: 'DICE',
-      tags: ['utility', 'deception', 'illusion', 'universal']
+      tags: ['damage', 'psychic', 'dot', 'deception', 'universal']
     },
 
     {

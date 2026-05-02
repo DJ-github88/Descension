@@ -209,7 +209,7 @@ const ClassResourceBar = ({
 
     const [huntressState, setHuntressState] = useState({
         localQuarryMarks: 3, // Start with 3 for demo
-        huntressSpec: 'bladestorm', // 'bladestorm' | 'beastmaster' | 'shadowdancer'
+        huntressSpec: 'bladestorm', // 'bladestorm' | 'beastmaster' | 'shadowblade'
         companionHP: 50, // Companion HP
         companionMaxHP: 50, // Companion max HP
         showQMMenu: false,
@@ -5386,8 +5386,8 @@ const ClassResourceBar = ({
                                             <i className="fas fa-paw"></i>
                                         </button>
                                         <button
-                                            className={`huntress-spec-btn ${huntressSpec === 'shadowdancer' ? 'active' : ''}`}
-                                            onClick={() => setHuntressSpec('shadowdancer')}
+                                            className={`huntress-spec-btn ${huntressSpec === 'shadowblade' ? 'active' : ''}`}
+                                            onClick={() => setHuntressSpec('shadowblade')}
                                             title="Shadowdancer"
                                         >
                                             <i className="fas fa-moon"></i>
@@ -9798,7 +9798,7 @@ const ClassResourceBar = ({
                                             <div className="passive-desc">
                                                 {huntressSpec === 'bladestorm' && 'Glaive chains to nearby enemies. +1 chain per 2 marks spent.'}
                                                 {huntressSpec === 'beastmaster' && 'Companion has +50% HP. Companion attacks twice per command.'}
-                                                {huntressSpec === 'shadowdancer' && '+2d6 damage from stealth. Companion can stealth.'}
+                                                {huntressSpec === 'shadowblade' && '+2d6 damage from stealth. Companion can stealth.'}
                                             </div>
                                         </div>
 

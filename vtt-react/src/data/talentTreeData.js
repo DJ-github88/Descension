@@ -61,15 +61,16 @@ import {
 } from './talentTrees/minstrel.js';
 
 import {
-  CHRONARCH_TEMPORAL_CONTROL,
-  CHRONARCH_TIME_MANIPULATION,
-  CHRONARCH_CHRONOS_ENERGY
+  CHRONARCH_STASIS_TREE,
+  CHRONARCH_DISPLACEMENT_TREE,
+  CHRONARCH_REWINDING_TREE
 } from './talentTrees/chronarch.js';
 
 import {
   CHAOS_WEAVER_REALITY_BENDING,
   CHAOS_WEAVER_ENTROPY_CONTROL,
-  CHAOS_WEAVER_CHAOS_DICE
+  CHAOS_WEAVER_CHAOS_DICE,
+  CHAOS_WEAVER_WILD_MAGIC
 } from './talentTrees/chaosweaver.js';
 
 import {
@@ -188,7 +189,7 @@ import {
 
 import {
   HUNTRESS_SHADOWBLADE,
-  HUNTRESS_SENTINEL,
+  HUNTRESS_BLADESTORM,
   HUNTRESS_BEASTMASTER
 } from './talentTrees/huntress.js';
 
@@ -267,7 +268,7 @@ export const getTreeBackdrop = (className, specId) => {
     },
     'Huntress': {
       'shadowblade': 'url(/assets/backdrops/huntress-shadowblade.jpg)',
-      'sentinel': 'url(/assets/backdrops/huntress-sentinel.jpg)',
+      'bladestorm': 'url(/assets/backdrops/huntress-bladestorm.jpg)',
       'beastmaster': 'url(/assets/backdrops/huntress-beastmaster.jpg)'
     },
     'Warden': {
@@ -281,9 +282,9 @@ export const getTreeBackdrop = (className, specId) => {
       'thread_weaver': 'url(/assets/backdrops/fate-thread.jpg)'
     },
     'Gambler': {
-      'luck_manipulation': 'url(/assets/backdrops/gambler-luck.jpg)',
-      'risk_management': 'url(/assets/backdrops/gambler-risk.jpg)',
-      'fate_control': 'url(/assets/backdrops/gambler-fate.jpg)'
+      'fortunes_favor': 'url(/assets/backdrops/gambler-luck.jpg)',
+      'high_roller': 'url(/assets/backdrops/gambler-risk.jpg)',
+      'card_sharp': 'url(/assets/backdrops/gambler-fate.jpg)'
     },
     'Martyr': {
       'protector': 'url(/assets/backdrops/martyr-protector.jpg)',
@@ -383,14 +384,15 @@ export const TALENT_TREES = {
     'dissonance': MINSTREL_MUSICAL_MAGIC
   },
   'Chronarch': {
-    'stasis': CHRONARCH_TEMPORAL_CONTROL,
-    'displacement': CHRONARCH_TIME_MANIPULATION,
-    'rewinding': CHRONARCH_CHRONOS_ENERGY
+    'stasis': CHRONARCH_STASIS_TREE,
+    'displacement': CHRONARCH_DISPLACEMENT_TREE,
+    'rewinding': CHRONARCH_REWINDING_TREE
   },
   'Chaos Weaver': {
     'reality_bending': CHAOS_WEAVER_REALITY_BENDING,
     'entropy_control': CHAOS_WEAVER_ENTROPY_CONTROL,
-    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE
+    'chaos_dice': CHAOS_WEAVER_CHAOS_DICE,
+    'wild_magic': CHAOS_WEAVER_WILD_MAGIC
   },
   'Fate Weaver': {
     'fortune_teller': FATE_WEAVER_FORTUNE_TELLER,
@@ -398,9 +400,9 @@ export const TALENT_TREES = {
     'thread_weaver': FATE_WEAVER_THREAD_WEAVER
   },
   'Gambler': {
-    'luck_manipulation': GAMBLER_LUCK_MANIPULATION,
-    'risk_management': GAMBLER_RISK_MANAGEMENT,
-    'fate_control': GAMBLER_FATE_CONTROL
+    'fortunes_favor': GAMBLER_LUCK_MANIPULATION,
+    'high_roller': GAMBLER_RISK_MANAGEMENT,
+    'card_sharp': GAMBLER_FATE_CONTROL
   },
   'Martyr': {
     'protector': MARTYR_PROTECTOR,
@@ -474,7 +476,7 @@ export const TALENT_TREES = {
   },
   'Huntress': {
     'shadowblade': HUNTRESS_SHADOWBLADE,
-    'sentinel': HUNTRESS_SENTINEL,
+    'bladestorm': HUNTRESS_BLADESTORM,
     'beastmaster': HUNTRESS_BEASTMASTER
   },
   'Warden': {

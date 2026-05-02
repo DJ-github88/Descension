@@ -1879,6 +1879,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
+        formula: '1d6 + spirit',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,
@@ -2359,6 +2360,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
+        formula: '2d6 + spirit',
         elementType: 'necrotic',
         damageType: 'dot',
         hasDotEffect: true,

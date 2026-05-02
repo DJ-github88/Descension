@@ -19,11 +19,16 @@ export const FORMBENDER_DATA = {
     
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Formbender channels primal energy through four distinct animal forms—Nightstalker (stealth/burst), Ironhide (tank/durability), Skyhunter (mobility/aerial), and Frostfang (pack tactics)—gathering Wild Instinct (0-15) through form-specific actions. Switch forms mid-combat to adapt to any situation, spending Wild Instinct on devastating abilities or transformation costs. Your first transformation is free; everything after has a price.
+      content: `**TL;DR**: The Formbender is a shapeshifting duelist who switches between four animal forms to adapt to any situation. Wild Instinct (0-15) fuels your transformations and abilities. First transform is free; every switch after costs 1 WI. Forms last until you switch, get knocked out, or choose to revert.
 
-**Core Mechanic**: Choose opening form (free) → Perform form-specific actions → Generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight → Escalate from Tier 1 to Tier 5 ultimate abilities
+**What You Need to Know**: The Formbender channels primal energy through four distinct animal forms—Nightstalker (stealth/burst), Ironhide (tank/durability), Skyhunter (mobility/aerial), and Frostfang (pack tactics)—gathering Wild Instinct (0-15) through form-specific actions. Switch forms mid-combat to adapt to any situation, spending Wild Instinct on devastating abilities or transformation costs. Your first transformation is free; everything after has a price.
 
-**Resource**: Wild Instinct (0-15 scale, generated through form-aligned combat actions)
+**Core Mechanic**: Choose opening form (free) → Perform form-specific actions → Generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight
+
+**Resource**: Wild Instinct (0-15 scale, generated through form-aligned combat actions). Organized in three bands:
+- **Instinct (1-5 WI)**: Form abilities and basic spells
+- **Surge (6-10 WI)**: Powerful class spells
+- **Apex (11-15 WI)**: Ultimate spells
 
 **Playstyle**: Adaptive shapeshifter with fluid role-switching mid-combat
 
@@ -34,7 +39,9 @@ export const FORMBENDER_DATA = {
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
-      content: `**Primal Connection**: Formbenders are deeply attuned to the wild, drawing power from the primal essence of nature's apex predators. They walk the line between civilization and savagery, channeling bestial instincts while maintaining their sense of self.
+      content: `**TL;DR**: You walk the line between civilization and savagery, channeling bestial instincts while keeping your sense of self. You are scout, guardian, hunter, and pack leader—all in one.
+
+**Primal Connection**: Formbenders are deeply attuned to the wild, drawing power from the primal essence of nature's apex predators. They walk the line between civilization and savagery, channeling bestial instincts while maintaining their sense of self.
 
 **Adaptive Warriors**: Unlike traditional spellcasters, Formbenders are physical combatants who shift their form to match the needs of battle. They are scouts, guardians, hunters, and pack leaders—all in one.
 
@@ -43,7 +50,9 @@ export const FORMBENDER_DATA = {
     
     combatRole: {
       title: 'Combat Role',
-      content: `**Adaptive Hybrid**: The Formbender's role changes based on their active form. Nightstalker excels at stealth and burst damage, Ironhide serves as a durable tank, Skyhunter provides mobility and aerial control, and Frostfang offers pack tactics and sustained damage.
+      content: `**TL;DR**: Your role changes based on your form. Nightstalker = stealth/burst. Ironhide = tank. Skyhunter = mobile/aerial. Frostfang = pack tactics. Switch forms to match the fight.
+
+**Adaptive Hybrid**: The Formbender's role changes based on their active form. Nightstalker excels at stealth and burst damage, Ironhide serves as a durable tank, Skyhunter provides mobility and aerial control, and Frostfang offers pack tactics and sustained damage.
 
 **Resource Management**: Success as a Formbender requires careful Wild Instinct management—knowing when to gather, when to spend, and when to switch forms. Each form generates Wild Instinct differently, rewarding players who embrace each form's unique playstyle.
 
@@ -52,7 +61,9 @@ export const FORMBENDER_DATA = {
     
     playstyle: {
       title: 'Playstyle',
-      content: `**Fluid Transformation**: Combat begins with choosing your opening form for free, then adapting as the battle evolves. Switching forms costs 1 Wild Instinct, so planning your transformations is crucial.
+      content: `**TL;DR**: Pick your opening form for free. Generate WI through form actions. Switch forms for 1 WI to adapt. All spells work in all forms, but matching your spell to your form saves 1 WI.
+
+**Fluid Transformation**: Combat begins with choosing your opening form for free, then adapting as the battle evolves. Switching forms costs 1 Wild Instinct, so planning your transformations is crucial.
 
 **Form-Specific Actions**: Each form has unique ways to generate Wild Instinct:
 - **Nightstalker**: Stealth, ambushes, and precision strikes
@@ -60,12 +71,14 @@ export const FORMBENDER_DATA = {
 - **Skyhunter**: Scouting, aerial attacks, and enhanced perception
 - **Frostfang**: Tracking, pack tactics, and coordinated strikes
 
-**Escalating Power**: Wild Instinct abilities scale from 1-5 WI, allowing you to choose between frequent small boosts or saving for devastating ultimate abilities. This creates meaningful moment-to-moment decisions in combat.`
+**Escalating Power**: Wild Instinct abilities scale across three bands—Instinct (1-5 WI), Surge (6-10 WI), and Apex (11-15 WI)—allowing you to choose between frequent small boosts or saving for devastating ultimate abilities.`
     },
 
     immersiveCombatExample: {
       title: 'Combat Example: The Shapeshifter\'s Dance',
-      content: `**The Setup**: You're a Formbender (Metamorph specialization) ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party is with you. Starting Wild Instinct: 6 (banked from previous encounter). Your goal: Use multiple forms strategically, generate Wild Instinct through form-specific actions, and adapt to the changing battle.
+      content: `**TL;DR**: Nightstalker ambush (free) → Ironhide tank (1 WI switch) → Skyhunter pursuit (1 WI switch). Generate WI in each form, spend on abilities. The lesson: switch forms to match the moment.
+
+**The Setup**: You're a Formbender (Metamorph specialization) ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party is with you. Starting Wild Instinct: 6 (banked from previous encounter). Your goal: Use multiple forms strategically, generate Wild Instinct through form-specific actions, and adapt to the changing battle.
 
 **Starting State**: Wild Instinct: 6/15 | HP: 75/75 | Form: Human (not transformed)
 
@@ -183,11 +196,15 @@ You're not locked into one role. You're a SHAPESHIFTER. Panther when you need st
     title: 'Wild Instinct System',
     subtitle: 'Primal Energy Through Form Mastery',
 
-    description: `Wild Instinct is the primal energy that fuels the Formbender's transformations and abilities. This resource is gathered through actions that align with each form's nature and spent to unleash powerful form-specific abilities or switch between forms mid-combat.`,
+    description: `**TL;DR**: Wild Instinct (0-15) fuels transformations and abilities. Generate it through form-specific combat actions. Spend it on abilities (1-15 WI) or form switches (1 WI). WI halves between combats. Three power bands: Instinct (1-5), Surge (6-10), Apex (11-15).
+
+Wild Instinct is the primal energy that fuels the Formbender's transformations and abilities. This resource is gathered through actions that align with each form's nature and spent to unleash powerful form-specific abilities or switch between forms mid-combat.`,
 
     resourceBarExplanation: {
       title: 'Understanding Your Wild Instinct Gauge',
-      content: `**What You See**: Your Wild Instinct gauge displays as a horizontal bar with 15 segments, each representing 1 Wild Instinct point. The bar's appearance changes based on your current form, with each form having a unique visual theme and color scheme.
+      content: `**TL;DR**: Your WI bar has 15 segments and changes color based on your active form. Three power bands: Instinct (1-5, yellow border), Surge (6-10, green border), Apex (11-15, blue border). First transform is free, rest cost 1 WI. WI halves between combats.
+
+**What You See**: Your Wild Instinct gauge displays as a horizontal bar with 15 segments, each representing 1 Wild Instinct point. The bar's appearance changes based on your current form, with each form having a unique visual theme and color scheme.
 
 **Form-Specific Visual Themes**:
 
@@ -293,22 +310,39 @@ Below the Wild Instinct bar, ability buttons show:
 - **Hover**: Shows form preview (stats, abilities, generation methods)
 
 **Persistence Indicator**:
-- **Between Combats**: Wild Instinct bar shows "Banked: 6/15 WI - Persists to next combat"
-- **Visual**: Bar has a "locked" icon indicating WI won't decay
-- **Strategic Info**: "Wild Instinct does not decay - save for crucial encounters"
+- **Between Combats**: Wild Instinct bar shows "Banked: 6/15 WI - Halves after combat (3 WI carried)"
+- **Visual**: Bar has a "decay" icon indicating WI will halve between fights
+- **Strategic Info**: "Wild Instinct halves between combats - plan your banking wisely"
 
-**Why This Matters**: The Wild Instinct gauge isn't just a resource bar—it's a visual representation of your primal connection. When you transform into Nightstalker, the bar turns shadowy purple and pulses with stealth energy. When you switch to Ironhide, it becomes rocky brown and glows with earth power. Each form FEELS different visually. The form-specific colors, icons, and particle effects make it immediately obvious which form you're in and how much power you have. When you hit 15 WI and the bar glows blue with "ULTIMATE AVAILABLE," you KNOW you can unleash Primal Fury. The transformation animations make each form switch feel impactful—you're not just changing stats, you're becoming a different CREATURE. And the persistence indicator reminds you that Wild Instinct banks between fights, encouraging strategic resource management across multiple encounters.`
+**Why This Matters**: The Wild Instinct gauge isn't just a resource bar—it's a visual representation of your primal connection. When you transform into Nightstalker, the bar turns shadowy purple and pulses with stealth energy. When you switch to Ironhide, it becomes rocky brown and glows with earth power. Each form FEELS different visually. The three power bands (Instinct/Surge/Apex) give you an instant read on your capability level without consulting a chart. The form-specific colors, icons, and particle effects make it immediately obvious which form you're in and how much power you have. When you hit Apex range and the bar glows blue, you KNOW you can unleash your ultimate. The transformation animations make each form switch feel impactful—you're not just changing stats, you're becoming a different CREATURE. And the half-decay mechanic between combats keeps resource management meaningful across multiple encounters.`
     },
 
     mechanics: {
       title: 'Core Mechanics',
-      content: `**Wild Instinct Capacity**:
+      content: `**TL;DR**: WI max is 15. First transform free, rest cost 1 WI. Forms last until you switch, get KO'd, or choose to revert. WI halves between combats. Form-matched spells cost 1 less WI.
+
+**Wild Instinct Capacity**:
 - **Maximum**: 15 points
-- **Persistence**: Does not decay between combats—can be banked for later encounters
+- **Persistence**: Wild Instinct **halves (rounded down)** between combats—a predator's bloodlust cools between hunts, but some energy lingers
+
+**WI Power Bands**:
+- **Instinct (1-5 WI)**: Form abilities and basic spells
+- **Surge (6-10 WI)**: Powerful class spells
+- **Apex (11-15 WI)**: Ultimate transformation spells
 
 **Form Transformation**:
 - **First Transformation**: Free at the start of combat—begin generating Wild Instinct immediately
 - **Subsequent Switches**: Each costs 1 Wild Instinct—plan transformations carefully
+- **Form Duration**: Forms last **indefinitely** until you switch to another form, are knocked to 0 HP (auto-revert to human), or choose to revert. No timers, no WI drain—the cost is the SWITCH, not the stay.
+
+**Form-Matched Spell Bonus**:
+- ALL spells can be cast in ANY form—you are never locked out
+- **Bonus**: Spells that match your current form cost **1 less WI** (minimum 1). This rewards smart switching without punishing flexibility.
+
+**Ironhide HP Mechanic**:
+- Entering Ironhide raises your **max HP by 20 AND instantly heals 20 HP**—a power surge that makes you feel unstoppable
+- Leaving Ironhide: your HP **cannot drop below your real max**. Any "borrowed" HP is lost, but excess damage does not carry over
+- Being KO'd (0 HP) in any form auto-reverts you to human
 
 **Wild Instinct Generation**:
 - **Nightstalker**: Sneaking and stealth actions (+1 WI), ambush from stealth (+2 WI)
@@ -333,21 +367,21 @@ Below the Wild Instinct bar, ability buttons show:
     },
     
     formAbilitiesTable: {
-      title: 'Wild Instinct Ability Costs',
-      headers: ['Ability Tier', 'WI Cost', 'Power Level', 'Example Effects'],
+      title: 'Wild Instinct Power Bands',
+      headers: ['Power Band', 'WI Range', 'Available At', 'Examples'],
       rows: [
-        ['Tier 1', '1 WI', 'Minor', '+1d4 damage, advantage on checks'],
-        ['Tier 2', '2 WI', 'Moderate', '+2d4 damage, status effects, invisibility'],
-        ['Tier 3', '3 WI', 'Strong', '+3d4 damage, stuns, teleportation'],
-        ['Tier 4', '4 WI', 'Major', '+4d4 damage, fear effects, illusions'],
-        ['Tier 5', '5 WI', 'Ultimate', '+5d4 damage, paralysis, immunity']
+        ['Instinct', '1-5 WI', 'Always (form abilities + basic spells)', 'Form abilities, Ambush Strike, Beast Claws'],
+        ['Surge', '6-10 WI', 'Mid-combat power spike', 'Savage Charge, Pack Leader, Titan Form'],
+        ['Apex', '11-15 WI', 'Full bar — ultimate moment', "Primordial Form, Nature's Apocalypse, World Beast"]
       ]
     },
 
     playingInPerson: {
       title: 'Playing in Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Formbender's Wild Instinct system (0-15 points) and four distinct forms create a dynamic, transformative in-person experience. Here's how to track your shapeshifting power at the table:
+      content: `**TL;DR**: Use 15 tokens for WI, 4 form cards for tracking. First transform free, rest cost 1 WI. WI halves between combats. Swap cards and minis when you transform.
+
+The Formbender's Wild Instinct system (0-15 points) and four distinct forms create a dynamic, transformative in-person experience. Here's how to track your shapeshifting power at the table:
 
 **Required Materials**:
 - **15 tokens or beads** (wild/primal color like green, brown, or amber)
@@ -410,17 +444,18 @@ Tier 4 (4 WI): Shadow Clone (create copy)
 Tier 5 (5 WI): Death from Above (massive damage)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-IRONHIDE FORM (Bear)
+IRONGRIDE FORM (Bear)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
 Passive Bonuses:
-• +20 max HP
+• +20 max HP (instantly heal 20 on entry)
+• HP cannot drop below real max on exit
 • +2 AC
 • Damage resistance (physical)
 • +5 ft reach
 
 WI Generation:
 • Taunt enemy: +1 WI per enemy
-• Take damage: +1 WI per 10 damage
+• Take damage for ally: +2 WI
 • Protect ally: +1 WI
 
 Abilities:
@@ -523,25 +558,30 @@ WILD INSTINCT:
 • Maximum: 15 WI
 • First transformation: FREE
 • Subsequent transformations: 1 WI
-• Abilities cost 1-5 WI (Tier 1-5)
+• WI halved between combats
+• Three bands: Instinct (1-5), Surge (6-10), Apex (11-15)
 
-FORMS:
+FORMS (last until switched/KO'd):
 🐆 Nightstalker (Panther): Stealth, burst damage
-🐻 Ironhide (Bear): Tank, durability
+🐻 Ironhide (Bear): Tank, durability (+20 max HP on entry)
 🦅 Skyhunter (Eagle): Mobility, aerial control
 🐺 Frostfang (Wolf): Pack tactics, tracking
 
+FORM-MATCHED BONUS:
+• All spells work in ALL forms
+• Spells matching your form cost 1 less WI
+
 WI GENERATION (Form-Specific):
-• Nightstalker: Ambush (+2), Crit (+1)
-• Ironhide: Taunt (+1/enemy), Tank (+1/10 dmg)
-• Skyhunter: Scout (+1), Dive (+1)
-• Frostfang: Pack attack (+1), Howl (+1/ally)
+• Nightstalker: Ambush (+2), Sneak (+1/rd)
+• Ironhide: Taunt (+1/enemy), Tank (+2)
+• Skyhunter: Scout (+1), Dive (+2)
+• Frostfang: Pack attack (+1), Track (+1)
 
 TRANSFORMATION STRATEGY:
 • Start combat: Transform for FREE
 • Generate WI in current form
 • Switch forms when needed (1 WI)
-• Spend WI on abilities (1-5 WI)
+• Spend WI on abilities across power bands
 \`\`\`
 
 **Thematic Enhancements**:
@@ -624,7 +664,9 @@ Frostfang
     title: 'Formbender Specializations',
     subtitle: 'Three Paths of Transformation Mastery',
 
-    description: `Formbenders can specialize in radically different transformation philosophies. Metamorphs create chimeric hybrid forms, Form Thieves steal and mimic the forms of their enemies, and Primordials channel ancient elemental transformations. Each path offers a completely unique approach to shapeshifting.`,
+    description: `**TL;DR**: Metamorph merges two forms into hybrids. Form Thief steals shapes from slain enemies. Primordial replaces animal forms with elemental ones. Each changes how you shapeshift entirely.
+
+Formbenders can specialize in radically different transformation philosophies. Metamorphs create chimeric hybrid forms, Form Thieves steal and mimic the forms of their enemies, and Primordials channel ancient elemental transformations. Each path offers a completely unique approach to shapeshifting.`,
 
     passiveAbility: {
       name: 'Primal Attunement',
@@ -763,7 +805,8 @@ Frostfang
       icon: 'Piercing/Backstab',
       school: 'Physical',
       level: 3,
-      specialization: 'nightstalker',
+      form: 'nightstalker',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -877,7 +920,8 @@ Frostfang
       icon: 'Psychic/Mind Control',
       school: 'Illusion',
       level: 2,
-      specialization: 'nightstalker',
+      form: 'nightstalker',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1011,7 +1055,8 @@ Frostfang
       icon: 'Nature/Roar',
       school: 'Physical',
       level: 4,
-      specialization: 'ironhide',
+      form: 'ironhide',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1104,7 +1149,8 @@ Frostfang
       icon: 'Nature/Roots',
       school: 'Abjuration',
       level: 3,
-      specialization: 'ironhide',
+      form: 'ironhide',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1182,7 +1228,8 @@ Frostfang
       icon: 'Nature/Ethereal Bird',
       school: 'Physical',
       level: 3,
-      specialization: 'skyhunter',
+      form: 'skyhunter',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1268,7 +1315,8 @@ Frostfang
       icon: 'Nature/Tornado Vortex',
       school: 'Evocation',
       level: 4,
-      specialization: 'skyhunter',
+      form: 'skyhunter',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1346,7 +1394,8 @@ Frostfang
       icon: 'Frost/Ice Orb',
       school: 'Evocation',
       level: 3,
-      specialization: 'frostfang',
+      form: 'frostfang',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1432,7 +1481,8 @@ Frostfang
       icon: 'Nature/Wolf Dash',
       school: 'Conjuration',
       level: 4,
-      specialization: 'frostfang',
+      form: 'frostfang',
+      specialization: null,
 
       typeConfig: {
         castTime: 1,
@@ -1514,6 +1564,7 @@ Frostfang
       icon: 'Nature/Thorny Entanglement',
       school: 'Conjuration',
       level: 1,
+      form: null,
       specialization: 'universal',
 
       typeConfig: {
@@ -1538,7 +1589,11 @@ Frostfang
       },
 
       resourceCost: {
-        mana: 2
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 2 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Command vines to erupt from the ground'
       },
 
       resolution: 'SAVING_THROW',
@@ -1568,12 +1623,13 @@ Frostfang
       icon: 'Healing/Heal Wound',
       school: 'Evocation',
       level: 2,
+      form: null,
       specialization: 'universal',
 
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['healing', 'support', 'universal', 'all specs', 'restoration shifter']
+        tags: ['healing', 'support', 'universal', 'all specs']
       },
 
       targetingConfig: {
@@ -1586,7 +1642,11 @@ Frostfang
       },
 
       resourceCost: {
-        mana: 2
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Channel healing energy through your touch'
       },
 
       resolution: 'AUTOMATIC',
@@ -1600,9 +1660,9 @@ Frostfang
       },
 
       specialMechanics: {
-        restorationShifterBonus: {
-          description: 'Restoration Shifters can cast this while shapeshifted for 1 less mana',
-          manaCost: 1
+        formBonus: {
+          description: 'Form-matched bonus: Costs 0 WI if cast in any form (normally 1 WI)',
+          note: 'Universal spell - no form match bonus applies'
         }
       },
 
@@ -1611,25 +1671,24 @@ Frostfang
     },
 
     {
-      id: 'fb_wild_shape_partial',
-      name: 'Wild Shape (Partial)',
-      description: 'Transform part of your body into an animal feature, gaining temporary abilities.',
+      id: 'fb_beast_aspect',
+      name: 'Beast Aspect',
+      description: 'Transform part of your body into an animal feature. Choose one: claws (climbing speed), wings (glide 60ft), gills (breathe underwater), or enhanced senses (advantage on Perception). At higher WI, manifest multiple traits.',
       spellType: 'ACTION',
       icon: 'Nature/Beast Mark',
       school: 'Transmutation',
       level: 2,
+      form: null,
       specialization: 'universal',
 
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['transformation', 'utility', 'universal', 'all specs', 'balance shifter']
+        tags: ['transformation', 'utility', 'universal', 'all specs']
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 0,
-        rangeUnit: 'self'
+        targetingType: 'self'
       },
 
       durationConfig: {
@@ -1640,38 +1699,40 @@ Frostfang
       },
 
       resourceCost: {
-        mana: 2
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 1 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Manifest a partial animal transformation'
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff', 'utility'],
 
       effects: {
-        claws: {
-          description: 'Grow claws for climbing',
-          benefit: 'Climbing speed equal to walking speed'
+        tier1: {
+          wiCost: 1,
+          effect: 'Choose one: claws (climbing speed = walking speed), wings (glide 60ft when falling), gills (breathe underwater 1 min), or enhanced senses (advantage on Perception 1 min)'
         },
-        wings: {
-          description: 'Sprout wings for gliding',
-          benefit: 'Glide up to 60 feet when falling'
+        tier2: {
+          wiCost: 2,
+          effect: 'Choose two traits simultaneously'
         },
-        gills: {
-          description: 'Develop gills for breathing underwater',
-          benefit: 'Breathe underwater for 1 minute'
-        },
-        enhancedSenses: {
-          description: 'Enhance senses like a predator',
-          benefit: 'Advantage on Perception checks for 1 minute'
+        tier3: {
+          wiCost: 3,
+          effect: 'Choose three traits simultaneously'
         }
       },
 
       specialMechanics: {
         partialTransformation: {
-          description: 'Unlike full forms, partial transformations don\'t prevent spellcasting',
-          note: 'Can be used alongside other abilities'
+          description: 'Unlike full forms, partial transformations don\'t prevent spellcasting or ability use',
+          note: 'Can be used alongside active forms for additional utility'
         }
       },
 
-      tags: ['transformation', 'utility', 'universal', 'all specs', 'balance shifter'],
+      tags: ['transformation', 'utility', 'universal', 'all specs'],
       flavorText: 'The wild flows through you, reshaping your form.'
     }
   ],
@@ -1684,6 +1745,7 @@ Frostfang
       name: 'Primal Strike',
       description: 'Channel primal energy into a devastating melee attack.',
       level: 1,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
@@ -1736,6 +1798,7 @@ Frostfang
       name: 'Wild Regeneration',
       description: 'Channel primal healing energy to restore your vitality.',
       level: 1,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['healing'],
       typeConfig: {
@@ -1787,6 +1850,7 @@ Frostfang
       school: 'Physical',
       level: 2,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -1846,6 +1910,7 @@ Frostfang
       school: 'Physical',
       level: 2,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -1905,6 +1970,7 @@ Frostfang
       school: 'Physical',
       level: 2,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -1965,6 +2031,7 @@ Frostfang
       school: 'Physical',
       level: 3,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -2024,6 +2091,7 @@ Frostfang
       school: 'Physical',
       level: 3,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -2083,6 +2151,7 @@ Frostfang
       school: 'Physical',
       level: 3,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -2161,6 +2230,7 @@ Frostfang
       school: 'Physical',
       level: 4,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -2238,6 +2308,7 @@ Frostfang
       school: 'Physical',
       level: 4,
       specialization: 'universal',
+      form: null,
 
       typeConfig: {
         castTime: 1,
@@ -2287,19 +2358,20 @@ Frostfang
     },
 
     {
-      id: 'formbender_beast_form_partial',
-      name: 'Beast Form (Partial)',
-      description: 'Adopt one form aspect for 1 minute without fully transforming: Nightstalker stealth, Ironhide armor, Skyhunter flight, or Frostfang pack tactics.',
+      id: 'formbender_primal_surge',
+      name: 'Primal Surge',
+      description: 'Channel a burst of primal energy that amplifies your current form. Gain double your form\'s passive bonus for 2 rounds and generate +2 Wild Instinct.',
       spellType: 'ACTION',
-      icon: 'Piercing/Backstab',
+      icon: 'Nature/Nature Primal',
       school: 'Physical',
       level: 4,
+      form: null,
       specialization: 'universal',
 
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['transformation', 'buff', 'partial', 'formbender']
+        tags: ['buff', 'enhancement', 'form-amp', 'formbender']
       },
 
       targetingConfig: {
@@ -2312,25 +2384,26 @@ Frostfang
         useFormulas: {},
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Take on beast aspects'
+        somaticText: 'Channel a primal surge through your current form'
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: 'AUTOMATIC',
+      effectTypes: ['buff', 'utility'],
 
       buffConfig: {
-        buffType: 'statEnhancement',
+        buffType: 'custom',
         effects: [{
-          id: 'beast_form_partial',
-          name: 'Beast Form (Partial)',
-          description: 'Gain benefits of one form aspect for 1 minute',
-          mechanicsText: 'Gain benefits of one form aspect for 1 minute',
-          duration: 1,
-          durationUnit: 'minutes'
+          id: 'primal_surge',
+          name: 'Primal Surge',
+          description: 'Double your current form\'s passive bonus for 2 rounds and generate +2 Wild Instinct',
+          customDescription: 'Your current form is amplified. Nightstalker: double stealth bonus and sneak attack. Ironhide: +20 additional HP and double resistance. Skyhunter: +30ft fly speed. Frostfang: double pack tactics range.',
+          mechanicsText: 'Double form passive bonuses for 2 rounds, gain +2 WI',
+          duration: 2,
+          durationUnit: 'rounds'
         }],
-        durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: false,
         canBeDispelled: true
       },
@@ -2340,7 +2413,7 @@ Frostfang
         value: 3
       },
 
-      tags: ['transformation', 'buff', 'partial', 'formbender']
+      tags: ['buff', 'enhancement', 'form-amp', 'formbender']
     },
 
     // ===== LEVEL 5 SPELLS =====
@@ -2349,6 +2422,7 @@ Frostfang
       name: 'Pack Leader',
       description: 'Summon 3 spectral wolves to fight alongside you for 5 rounds, empowering your pack tactics. You and the wolves gain +2 to attack rolls when adjacent to each other.',
       level: 5,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
@@ -2435,6 +2509,7 @@ Frostfang
       name: 'Primal Rage',
       description: 'Channel wild fury into a devastating multi-attack.',
       level: 5,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
@@ -2478,6 +2553,7 @@ Frostfang
       name: 'Adaptive Form',
       description: 'Shift between forms instantly without Wild Instinct cost for 3 rounds.',
       level: 5,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['buff', 'utility'],
       typeConfig: {
@@ -2528,6 +2604,7 @@ Frostfang
       name: 'Titan Form',
       description: 'Transform into a massive titan, gaining incredible size and strength.',
       level: 6,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
       typeConfig: {
@@ -2576,6 +2653,7 @@ Frostfang
       name: 'Primal Fury Leap',
       description: 'Leap high into the air and crash down, dealing massive AoE damage.',
       level: 6,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
@@ -2586,7 +2664,7 @@ Frostfang
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '6d8 + strength * 1.5',
+        formula: '6d8 + strength + agility',
         elementType: 'bludgeoning',
         damageType: 'direct',
         savingThrowConfig: {
@@ -2650,6 +2728,7 @@ Frostfang
       name: "Nature's Gift",
       description: 'Heal yourself or an ally with the regenerative power of nature.',
       level: 6,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['healing'],
       typeConfig: {
@@ -2698,6 +2777,7 @@ Frostfang
       name: 'Primal Avatar',
       description: 'Transform into a primal avatar, embodying all forms simultaneously.',
       level: 7,
+      form: null,
       spellType: 'STATE',
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
@@ -2765,6 +2845,7 @@ Frostfang
       name: 'Savage Roar',
       description: 'Unleash a roar that terrifies all enemies and empowers allies.',
       level: 7,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['control', 'buff'],
       typeConfig: {
@@ -2842,6 +2923,7 @@ Frostfang
       name: 'Apex Predator',
       description: 'Become the ultimate predator, gaining enhanced senses and lethal strikes.',
       level: 7,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['buff', 'damage'],
       typeConfig: {
@@ -2893,6 +2975,7 @@ Frostfang
       name: 'Savage Maelstrom',
       description: 'Transform into all forms rapidly, creating a whirlwind of savage attacks.',
       level: 8,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['damage'],
       typeConfig: {
@@ -2939,6 +3022,7 @@ Frostfang
       name: "Nature's Champion",
       description: 'Become an avatar of nature, gaining incredible resilience and power.',
       level: 8,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
@@ -3016,6 +3100,7 @@ Frostfang
       name: 'Wild Hunt',
       description: 'Summon the spirits of the wild hunt to chase down and destroy all enemies.',
       level: 8,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['summoning', 'damage'],
       typeConfig: {
@@ -3093,6 +3178,7 @@ Frostfang
       name: 'Primordial Form',
       description: 'Transform into a primordial beast of legend, gaining godlike power.',
       level: 9,
+      form: null,
       spellType: 'STATE',
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
@@ -3161,6 +3247,7 @@ Frostfang
       name: "Nature's Apocalypse",
       description: 'Unleash the fury of nature itself, devastating all enemies on the battlefield.',
       level: 9,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
       typeConfig: {
@@ -3236,6 +3323,7 @@ Frostfang
       name: 'Eternal Wild',
       description: 'Merge permanently with the wild, gaining limitless transformations.',
       level: 9,
+      form: null,
       spellType: 'PASSIVE',
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
@@ -3286,6 +3374,7 @@ Frostfang
       name: 'World Beast',
       description: 'Transform into a legendary beast of immense power. The transformation is overwhelming and leaves you exhausted when it ends.',
       level: 10,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['transformation'],
       typeConfig: {
@@ -3336,6 +3425,7 @@ Frostfang
       name: 'Genesis Storm',
       description: 'Summon a storm of creation that births countless primal creatures.',
       level: 10,
+      form: null,
       spellType: 'ACTION',
       effectTypes: ['summoning'],
       typeConfig: {
@@ -3423,6 +3513,7 @@ Frostfang
       name: 'Perfect Evolution',
       description: 'Master the art of shapeshifting to seamlessly blend form benefits.',
       level: 10,
+      form: null,
       spellType: 'PASSIVE',
       effectTypes: ['transformation'],
       typeConfig: {
@@ -3483,7 +3574,7 @@ Frostfang
     4: [
       'formbender_savage_charge',
       'formbender_primal_healing',
-      'formbender_beast_form_partial'
+      'formbender_primal_surge'
     ],
     5: [
       'formbender_pack_leader',

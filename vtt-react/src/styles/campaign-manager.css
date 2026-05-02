@@ -912,6 +912,7 @@ button.campaign-input:hover {
     font-size: 14px;
     color: var(--pf-text-primary, #2d1810);
     -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .player-level-input::-webkit-outer-spin-button,

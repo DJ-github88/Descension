@@ -937,11 +937,6 @@ body {
 
 /* ===== COMPONENT-SPECIFIC CHECKBOX VARIATIONS ===== */
 
-/* Creature Library Checkboxes */
-.creature-checkbox-container {
-  /* Inherits all base styles from .pf-checkbox-container */
-}
-
 /* Spell Library Checkboxes */
 .spell-checkbox-container {
   /* Inherits all base styles from .pf-checkbox-container */
@@ -984,6 +979,7 @@ body {
   gap: 8px;
   min-height: 32px;
 }
+
 /* Disable grid interactions when dragging a window */
 body.window-dragging #grid-overlay {
     pointer-events: none !important;

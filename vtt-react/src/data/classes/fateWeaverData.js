@@ -1,6 +1,9 @@
 /**
  * Fate Weaver Class Data
- * 
+ *
+ * "The Fate Weaver doesn't predict the future — they DEAL it.
+ *  Every failure is fuel; every thread is a weapon."
+ *
  * Complete class information for the Fate Weaver - a card-based destiny manipulator
  * who uses Threads of Destiny to control the flow of fate.
  */
@@ -12,8 +15,6 @@ export const FATE_WEAVER_DATA = {
   role: 'Support/Control',
   damageTypes: ['psychic', 'force'],
 
-  // Level-based spell pools for starter/auto-assignment
-  // Used when switching class to immediately grant known spells
   spellPools: {
     1: [
       'war-of-wills',
@@ -22,31 +23,32 @@ export const FATE_WEAVER_DATA = {
     ]
   },
 
-  // Overview section
   overview: {
     title: 'The Fate Weaver',
     subtitle: 'Master of Destiny and Cards',
-    
+
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Fate Weaver draws from a 52-card mystical deck to cast spells, using poker hands, blackjack scoring, and other card game mechanics to determine spell effects. Failed draws and negative outcomes generate Threads of Destiny (0-13), which can be spent to call specific cards from the deck—turning bad luck into strategic dominance. Every failure is fuel; every thread is a weapon.
+      content: `**The Fate Weaver doesn't predict the future — they DEAL it.** Every failure is fuel; every thread is a weapon.
 
-**Core Mechanic**: Draw cards for spell effects → Failures and negative outcomes generate Threads of Destiny → Spend 2 Threads to call any specific card → Stack the deck in your favor → Transform randomness into calculated strategy
+Draw cards from a 52-card mystical deck to cast spells. Poker hands deal damage, blackjack totals buff allies, war draws challenge enemies. When draws fail or backfire, you gain **Threads of Destiny** (0-13). Spend 2 Threads to call any card from the deck — once per turn. Build Threads through failure. Spend them for dominance. The worse your luck, the more dangerous you become.
 
-**Resource**: Threads of Destiny (0-13 scale, mirroring 13 cards per suit)
+**Core Loop**: Draw cards → Failures generate Threads → Spend Threads to call cards → Stack the deck → Turn bad luck into calculated strategy
 
-**Playstyle**: Strategic card-based support and control with calculated manipulation
+**Resource**: Threads of Destiny (0-13, mirroring 13 cards per suit)
 
-**Best For**: Players who love card game mechanics, tactical decision-making, and the satisfaction of turning failure into a decisive advantage`
+**Deck Rules**: 52-card deck, shuffled at combat start. Reshuffles discard pile when empty. You may call 1 specific card per turn for 2 Threads.
+
+**Best For**: Players who love card game mechanics, tactical resource management, and the thrill of turning a terrible hand into a winning play.`
     },
-    
+
     description: `Manipulates destiny through cosmic forces and cards. Uses Threads of Destiny to influence spell outcomes, predicting and controlling events in battle with strategic and mystical precision.`,
-    
+
     roleplayIdentity: {
       title: 'Roleplay Identity',
-      content: `Fate Weavers are individuals who have learned to see and manipulate the invisible threads that connect all events. They understand that destiny is not fixed but malleable—a tapestry that can be rewoven by those with the knowledge and power to do so. Through their mystical deck of cards, they read the future, alter the present, and learn from the past.
+      content: `Fate Weavers see the invisible threads connecting all events. Destiny is not fixed — it's a tapestry that can be rewoven by those bold enough to pull the threads.
 
-**The Fate Weaver's Philosophy**: Destiny is not predetermined—it is a game of cards where skill, strategy, and a touch of luck determine the outcome. Every draw is an opportunity, every failure a lesson, and every thread a tool for reshaping reality.
+**The Fate Weaver's Philosophy**: Destiny is not predetermined — it is a game of cards where skill, strategy, and a touch of luck determine the outcome. Every draw is an opportunity, every failure a lesson, and every thread a tool for reshaping reality.
 
 **Common Archetypes**:
 - **The Oracle**: A mystic who reads the cards to divine the future and guide allies toward favorable outcomes
@@ -55,7 +57,7 @@ export const FATE_WEAVER_DATA = {
 - **The Fortune Teller**: A mysterious figure who sees patterns in chaos and turns misfortune into opportunity
 - **The Deck Master**: A master of probability who stacks the deck in their favor through careful manipulation
 - **The Cosmic Gambler**: A risk-taker who embraces both success and failure, knowing each feeds their power`,
-      
+
       examples: [
         'A traveling fortune teller who discovered their readings were actually shaping reality',
         'A scholar who found an ancient deck of cards that revealed the threads of fate',
@@ -65,783 +67,409 @@ export const FATE_WEAVER_DATA = {
         'A tactician who uses cards to predict and counter enemy strategies'
       ]
     },
-    
+
     combatRole: {
       title: 'Combat Role',
       content: `**Primary Role**: Support/Control with card-based mechanics and destiny manipulation
 
 **Strengths**:
 - Strategic card-based gameplay with high skill ceiling
-- Ability to turn failures into resources (Threads of Destiny)
-- Versatile effects based on card combinations (poker hands, blackjack, etc.)
+- Turns failures into resources (Threads of Destiny)
+- Versatile effects based on card combinations (poker, blackjack, war, solitaire)
 - Strong control over randomness through Thread spending
-- Excellent at adapting to changing battle conditions
-- Unique support abilities through card sharing and bonding
+- Excels at adapting to changing battle conditions
 
 **Weaknesses**:
 - Dependent on card draws for spell effects
-- Requires understanding of card game mechanics
+- Requires understanding of basic card game mechanics
 - Less consistent than classes with fixed spell effects
 - Must manage both mana and Threads of Destiny
-- Vulnerable when Thread reserves are low
-- Some spells have negative outcomes that generate Threads`,
-      
+- Vulnerable when Thread reserves are low`,
+
       keyMechanics: [
-        'Card-based spell resolution (poker, blackjack, war, etc.)',
-        'Threads of Destiny generation from failures and negative outcomes',
-        'Strategic Thread spending to call specific cards from deck',
+        'Card-based spell resolution (poker, blackjack, war, solitaire)',
+        'Thread generation from failures and negative outcomes',
+        'Spend 2 Threads to call 1 specific card per turn',
         'Variable spell effects based on card combinations',
-        'Risk/reward balance between accepting failures for Threads vs. forcing success'
+        'Risk/reward: accept failures for Threads vs. spend Threads for success'
       ]
     },
-    
+
     playstyle: {
       title: 'Playstyle & Strategy',
       content: `Fate Weavers thrive in situations that require careful planning and foresight. Their card-based abilities provide a unique blend of chance and control, allowing them to adapt to changing circumstances and turn the tide of battle.
 
 **Core Strategy**:
-1. **Thread Management**: Balance between accepting failures to generate Threads and spending Threads to guarantee success
+1. **Thread Management**: Balance accepting failures to generate Threads vs. spending Threads to guarantee success
 2. **Card Knowledge**: Understanding poker hands, blackjack values, and other card game mechanics
-3. **Timing**: Knowing when to spend Threads to call specific cards vs. accepting random draws
-4. **Failure Conversion**: Embracing negative outcomes as opportunities to build Thread reserves
-5. **Deck Manipulation**: Using Threads strategically to ensure favorable draws when it matters most
+3. **Timing**: Know when to spend Threads to call specific cards vs. accepting random draws
+4. **Failure Conversion**: Embrace negative outcomes as opportunities to build Thread reserves
+5. **Deck Manipulation**: Use Threads strategically to ensure favorable draws when it matters most
 
 **Thread Economy**:
-- Generate 1 Thread when spells fail or have no effect
-- Generate 1-2 Threads when spells have negative outcomes (severity-dependent)
-- Spend 2 Threads to call a specific card from the deck (once per turn)
-- Maximum Thread capacity: 13 Threads (13 cards per suit: Ace through King)
+- Generate 1 Thread when spells fail or have minimal effect
+- Generate 2 Threads when spells produce major negative outcomes
+- Spend 2 Threads to call a specific card (once per turn)
+- Maximum: 13 Threads (Ace through King)
 
-**Optimal Play Patterns**:
-- Early combat: Accept some failures to build Thread reserves
-- Mid combat: Use Threads to guarantee key spell successes
-- Late combat: Spend remaining Threads for finishing moves
-- Always maintain 4-6 Threads as emergency reserve`,
-      
+**Deck Rules**:
+- Shuffle your 52-card deck at the start of each combat
+- Draw from deck when spells require cards
+- When deck runs out, reshuffle discard pile
+- Calling a card: search deck, add to hand, reshuffle remaining deck`,
+
       tips: [
         'Learn poker hand rankings to maximize Hand of Fate effectiveness',
-        'In blackjack-style spells (Draw of the Damned), aim for 18-20 for safety',
+        'In blackjack-style spells, aim for 18-20 for safety',
         'Save Threads for critical moments rather than spending immediately',
-        'Negative outcomes aren\'t always bad—they generate valuable Threads',
+        'Negative outcomes aren\'t always bad — they generate valuable Threads',
         'Coordinate with allies for Echo of Fate card matching',
-        'Track which cards have been drawn to predict remaining deck composition'
+        'You can only call 1 card per turn — plan your Royal Flush assembly across multiple turns'
       ]
     },
 
     immersiveCombatExample: {
       title: 'Combat Example: The Gambler\'s Paradox',
-      content: `**The Setup**: You're a Fate Weaver (Fortune Teller specialization) facing a powerful necromancer and two skeletal guards. Your party needs you to deal damage, but your spells are card-based—unpredictable. Starting Threads: 4. Starting Mana: 45/50. Your goal: Use card mechanics strategically, build Threads from failures, then spend them to guarantee success when it matters.
+      content: `**The Setup**: You're a Fate Weaver facing a powerful necromancer and two skeletal guards. Your party needs damage, but your spells are card-based — unpredictable. Starting Threads: 0. Starting Mana: 45/50.
 
-**Starting State**: Threads: 4/13 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
+**Starting State**: Threads: 0/13 | Mana: 45/50 | HP: 55/70 | Deck: Shuffled (52 cards)
 
-**Turn 1 - The Risky Play (Threads: 4 → 5)**
+**Turn 1 — The Empty Hand (Threads: 0 → 1)**
 
-*The necromancer raises his staff, dark energy crackling. The skeletal guards advance. You draw a card from your mystical deck. Time to see what fate has in store.*
+*The necromancer raises his staff. The skeletal guards advance. You draw from your mystical deck. Time to see what fate has in store.*
 
-**Your Action**: Cast "Hand of Fate" on Necromancer (8 mana, draw 5 cards for poker hand)
+**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
 **Cards Drawn**: [3♠, 7♦, J♣, 2♥, 9♠]
-**Poker Hand**: High Card (Jack) - WORST POSSIBLE HAND
-**Damage**: 2d6 (base for High Card) → [4, 5] = 9 damage
-**Thread Generation**: +1 Thread (spell succeeded but with minimal effect)
+**Poker Hand**: High Card (Jack) — weakest possible
+**Damage**: 1d4 → [3] = 3 damage
+**Thread Generation**: +1 Thread (minimal effect)
 
-*The cards shimmer and fade. A weak bolt of energy strikes the necromancer. He barely flinches. But you feel it—a Thread of Destiny forming from the failure. The universe owes you one.*
+*The cards shimmer and fade. A weak bolt of energy strikes the necromancer. He barely flinches. But you feel it — a Thread of Destiny forming from the disappointment. The universe owes you one.*
 
-**Threads**: 4 + 1 = **5 Threads**
-**Mana**: 45 - 8 = 37/50
+**Threads**: 0 + 1 = **1 Thread**
+**Mana**: 45 - 5 = 40/50
 
-**Necromancer's Turn**: Casts "Bone Spear" at you → 3d8 → [6, 7, 5] = 18 damage
+**Necromancer's Turn**: Casts "Bone Spear" → 18 damage
 **Your HP**: 55 - 18 = 37/70
 
-**Current State**: Threads: 5/13 | Mana: 37/50 | HP: 37/70
+**Current State**: Threads: 1/13 | Mana: 40/50 | HP: 37/70
 
-**Turn 2 - Building Threads (Threads: 5 → 8)**
+---
 
-*You're hurt, but you have a plan. You need more Threads. Time to take a risk.*
+**Turn 2 — Building Threads (Threads: 1 → 3)**
 
-**Your Action**: Cast "Draw of the Damned" on Skeletal Guard #1 (6 mana, blackjack-style)
-**Goal**: Get close to 21 for maximum damage, but don't bust
+*You're hurt. You need more Threads before you can call cards. Time to take a calculated risk.*
 
+**Your Action**: Cast "Draw of the Damned" on Skeletal Guard #1 (4 mana, blackjack — damage mode)
 **Card 1**: [K♥] = 10 → Total: 10
-**Decision**: Hit (draw another card)
 **Card 2**: [8♣] = 8 → Total: 18
-**Decision**: Hit (risky, but you want more damage)
+**Decision**: Hit (risky — but you need damage OR Threads)
 **Card 3**: [9♦] = 9 → Total: 27 → **BUST!**
 
-*The cards explode in your face. Dark energy backlashes, reducing your AC.*
+*The cards explode in your face. Dark energy backlashes.*
 
-**Result**: Bust (over 21) → AC reduced by 2 for 2 rounds, NO DAMAGE to target
+**Result**: Bust → Take 3d6 self-damage → [4, 3, 5] = 12 damage to you. No damage to target.
 **Thread Generation**: +2 Threads (major negative outcome)
-**Threads**: 5 + 2 = **7 Threads**
-**Mana**: 37 - 6 = 31/50
+
+**Your HP**: 37 - 12 = 25/70
+**Threads**: 1 + 2 = **3 Threads**
+**Mana**: 40 - 4 = 36/50
 
 *Your party's tank groans. "Did you just... hurt yourself?" You smile through the pain. "I'm building resources. Trust me."*
 
-**Skeletal Guard #1's Turn**: Attacks you (you have -2 AC!) → Hit! → 2d6+2 → [5, 4] + 2 = 11 damage
-**Your HP**: 37 - 11 = 26/70
+**Current State**: Threads: 3/13 | Mana: 36/50 | HP: 25/70
 
-**Your Party's Healer**: Heals you for 15 HP
-**Your HP**: 26 + 15 = 41/70
+---
 
-**Current State**: Threads: 7/13 | Mana: 31/50 | HP: 41/70 | AC: -2 (1 round remaining)
+**Turn 3 — More Fuel (Threads: 3 → 5)**
 
-**Turn 3 - The Setup (Threads: 7 → 9)**
+*Your healer patches you up. 15 HP restored. You're at 40/70 now. Still need more Threads. One more deliberate failure should do it.*
 
-*You're at 7 Threads. Not quite enough to guarantee the perfect hand, but getting close. One more failure should do it.*
+**Your Action**: Cast "Heart's Gamble" (3 mana, draw cards until non-heart)
+**Card 1**: [4♥] → Heart! Continue
+**Card 2**: [Q♥] → Face card heart! Continue
+**Card 3**: [7♠] → Non-heart → STOP
 
-**Your Action**: Cast "Heart's Gamble" on Skeletal Guard #2 (5 mana, draw cards until non-heart)
-**Goal**: Draw as few hearts as possible for maximum damage to enemy
+**Result**: Drew 2 hearts (one face card) → Take 2d6 damage → [5, 6] = 11 self-damage
+**Thread Generation**: +2 Threads (major negative — face card + self-damage)
 
-**Card 1**: [4♥] → Heart! → Continue drawing
-**Card 2**: [Q♥] → Heart (face card)! → Continue drawing
-**Card 3**: [7♠] → Non-heart! → STOP
+*The cards burn your hands. You scream, but you're SMILING. Two more Threads.*
 
-**Result**: Drew 2 hearts (one face card) → Take 2d6 damage yourself
-**Damage to Self**: 2d6 → [5, 6] = 11 damage
-**Damage to Enemy**: 0 (hearts cancel damage)
-**Thread Generation**: +2 Threads (major negative outcome - face card heart + self-damage)
-
-*The cards turn against you. Hearts burn your hands. You scream, but you're SMILING. Two more Threads. You're at 9 now.*
-
-**Your HP**: 41 - 11 = 30/70
-**Threads**: 7 + 2 = **9 Threads**
-**Mana**: 31 - 5 = 26/50
+**Your HP**: 40 - 11 = 29/70
+**Threads**: 3 + 2 = **5 Threads**
+**Mana**: 36 - 3 = 33/50
 
 **Your Party's Rogue**: "Are you TRYING to kill yourself?!"
-**You**: "No. I'm trying to kill HIM." *You point at the necromancer.* "Next turn. Watch."
+**You**: "No. I'm trying to kill HIM." *You point at the necromancer.* "Two turns. Watch."
 
-**Current State**: Threads: 9/13 | Mana: 26/50 | HP: 30/70
+**Current State**: Threads: 5/13 | Mana: 33/50 | HP: 29/70
 
-**Turn 4 - The Payoff (Threads: 9 → 1)**
+---
 
-*You're at 9 Threads. Enough to call 4 specific cards (2 Threads per card). Time to build a Royal Flush.*
+**Turn 4 — The First Call (Threads: 5 → 3)**
 
-**Your Action**: Cast "Hand of Fate" on Necromancer (8 mana, draw 5 cards)
-**Thread Spending**: Spend 8 Threads to call 4 specific cards (2 Threads each)
+*Five Threads. You can call 2 cards over 2 turns. Time to start building a hand.*
 
-**Called Cards**:
-- Call [A♠] (2 Threads)
-- Call [K♠] (2 Threads)
-- Call [Q♠] (2 Threads)
-- Call [J♠] (2 Threads)
+**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
+**Random Draw**: [3♠, 8♥, J♣, K♠, 2♦]
+**Thread Spend**: Call [A♠] — 2 Threads → Add to hand, discard 2♦
+**Hand**: [3♠, 8♥, J♣, K♠, A♠]
+**Poker Hand**: High Card (Ace) — still weak. But the Ace of Spades is now in your hand.
+**Damage**: 1d4 → [2] = 2 damage
+**Thread Generation**: +1 Thread (minimal effect)
 
-**Random 5th Card**: [10♠] → **ROYAL FLUSH!**
+**Threads**: 5 - 2 + 1 = **4 Threads**
+**Mana**: 33 - 5 = 28/50
 
-*The cards appear in your hand, glowing with golden light. Ace, King, Queen, Jack, Ten—all spades. The BEST POSSIBLE HAND. The necromancer's eyes widen.*
+*You called the Ace of Spades from the deck. It materialized in golden light. The necromancer raises an eyebrow. The rest of the hand is garbage — but you didn't need the whole hand yet.*
 
-**Poker Hand**: Royal Flush (best hand)
-**Damage**: 10d10 (Royal Flush damage) → [9, 8, 10, 7, 9, 6, 10, 8, 9, 7] = **83 damage!**
+---
 
-*The cards explode into pure radiant energy, engulfing the necromancer. He screams as the light consumes him. When it fades, he's DEAD. Obliterated.*
+**Turn 5 — The Second Call (Threads: 4 → 2)**
 
-**Threads**: 9 - 8 = **1 Thread**
-**Mana**: 26 - 8 = 18/50
+*Keep building. Call one more card.*
 
-**Your Party**: *Stunned silence*
-**Your Tank**: "...Okay, I take it back. That was worth it."
-**You**: "Told you. Fate favors the patient."
+**Your Action**: Cast "Hand of Fate" again (5 mana, draw 5 new cards)
+**Random Draw**: [6♣, 9♦, Q♠, 5♥, 10♠]
+**Thread Spend**: Call [K♠] — 2 Threads → Add to hand, discard 5♥
+**Hand**: [6♣, 9♦, Q♠, 10♠, K♠]
+**Poker Hand**: High Card (King). Still weak.
+**Damage**: 1d4 → [4] = 4 damage
+**Thread Generation**: +1 Thread
 
-**Skeletal Guards**: Without their master, the guards crumble to dust.
+**Threads**: 4 - 2 + 1 = **3 Threads**
+**Mana**: 28 - 5 = 23/50
 
-**Combat Over**
+*Two Spades face cards and the Ace still in the deck from your earlier call. The pieces are coming together.*
 
-**The Lesson**: Fate Weaver gameplay is about:
-1. **Thread Building**: Turns 1-3 generated 5 Threads (1 + 2 + 2) from failures and negative outcomes
-2. **Accepting Failure**: Deliberately took risky plays (Draw of the Damned bust, Heart's Gamble) to build Threads
-3. **Self-Damage Trade**: Took 11 damage from Heart's Gamble but gained 2 Threads—worth it for the setup
-4. **Thread Spending**: Spent 8 Threads to call 4 specific cards, guaranteeing 4/5 of a Royal Flush
-5. **Luck + Skill**: Random 5th card ([10♠]) completed the Royal Flush—but you stacked the odds
-6. **Damage Variance**: Turn 1 dealt 9 damage (High Card), Turn 4 dealt 83 damage (Royal Flush) - 9x multiplier!
-7. **Resource Conversion**: Converted 3 turns of failures/self-damage into 1 turn of massive burst
+---
 
-You're not a consistent damage dealer. You're a GAMBLER who turns bad luck into good luck. You take hits, you fail spells, you hurt yourself—all to build Threads. Then, when it matters, you spend those Threads to manipulate fate itself. You don't just draw cards. You CALL them. And when you call a Royal Flush, nothing survives.`
+**Turn 6 — Thread Banking (Threads: 3 → 5)**
+
+*You need 4 more Threads to call the remaining Royal Flush cards. Accept another failure.*
+
+**Your Action**: Cast "War of Wills" on Skeletal Guard #2 (2 mana, competitive draw)
+**Your Card**: [3♣] vs **Their Card**: [K♦] → **You LOSE**
+**Result**: Heal enemy for 2d8 → [5, 7] = 12 healing (enemy)
+**Thread Generation**: +1 Thread (spell failed)
+
+**Your Action**: Also cast "Marked Card" (1 mana, peek at top 3)
+**Top 3**: [7♠, J♠, 4♥] — you choose [J♠] to draw next turn
+**Thread Generation**: +1 Thread (minimal effect)
+
+**Threads**: 3 + 1 + 1 = **5 Threads**
+**Mana**: 23 - 2 - 1 = 20/50
+
+---
+
+**Turn 7 — The Third Call (Threads: 5 → 3)**
+
+*Five Threads. Call the Jack of Spades that you marked.*
+
+**Your Action**: Cast "Hand of Fate" (5 mana, draw 5 cards)
+**Random Draw**: [2♣, 7♥, 9♠, 4♦, 6♠]
+**Thread Spend**: Call [Q♠] — 2 Threads → Add to hand, discard 6♠
+**Hand**: [2♣, 7♥, 9♠, 4♦, Q♠]
+**Poker Hand**: High Card (Queen). Weak.
+**Damage**: 1d4 → [1] = 1 damage
+**Thread Generation**: +1 Thread
+
+**Threads**: 5 - 2 + 1 = **4 Threads**
+**Mana**: 20 - 5 = 15/50
+
+---
+
+**Turn 8 — The Final Thread Build (Threads: 4 → 6)**
+
+*Almost there. Need 2 more Threads to call the last card.*
+
+**Your Action**: Cast "Heart's Gamble" (3 mana, accept bad draws)
+**Draw**: [K♥] → Face card heart! → Take 2d6 → [6, 5] = 11 damage
+**Thread Generation**: +2 Threads
+
+**Your HP**: 29 - 11 = 18/70
+**Threads**: 4 + 2 = **6 Threads**
+**Mana**: 15 - 3 = 12/50
+
+*Your healer panics. "STOP HURTING YOURSELF!" You're at 18 HP. You laugh. "Next turn."*
+
+---
+
+**Turn 9 — THE PAYOFF (Threads: 6 → 0)**
+
+*Six Threads. You've been building for 8 turns. The Ace, King, Queen, and Jack of Spades are scattered through the deck. You need to call the 10 of Spades and pray your random draw fills the fifth slot. Let's go.*
+
+**Your Action**: Cast "Hand of Fate" on Necromancer (5 mana, draw 5 cards)
+**Thread Spend**: Call [10♠] — 2 Threads
+**Random Draw (4 cards)**: [3♦, 8♣, Q♥, A♠]
+
+Wait — A♠! The Ace of Spades came up randomly! And you already have the 10♠ from calling it!
+
+**Hand after call + draw**: [10♠, A♠, 3♦, 8♣, Q♥]
+
+Not a Royal Flush yet — you have the Ace and 10 of Spades, but need K♠, Q♠, J♠.
+
+**Thread Spend**: Call [K♠] — 2 Threads → Add to hand, discard Q♥
+**Thread Spend**: Call [Q♠] — 2 Threads → Add to hand, discard 8♣
+
+Wait — you can only call ONE card per turn. You spent 2 Threads on 10♠. You can't call more.
+
+**Hand**: [10♠, A♠, 3♦, K♠... wait, you called 10♠, that's your one call.]
+
+Let me recalculate. You call ONE card per turn. At 6 Threads:
+
+**Thread Spend**: Call [10♠] — 2 Threads
+**Random Draw (4 remaining cards from the 5-card draw)**: You draw 4 random + 1 called = 5 cards
+
+**Hand**: [10♠, 3♦, 8♣, Q♥, A♠]
+
+Two spades: 10♠ and A♠. That's a long way from a Royal Flush in one turn.
+
+*This is the REAL lesson of the Fate Weaver. You can't build a Royal Flush in one turn — you can only call ONE card per turn. The fantasy is the SLOW BUILD across multiple turns, calling one card at a time, accepting failures between each call.*
+
+---
+
+**The REAL Payoff Turn (after 4+ turns of calling one card per turn)**
+
+After calling A♠ on turn 4, K♠ on turn 5, Q♠ on turn 7, and finally J♠ and 10♠ via Marked Card setup...
+
+**Final Hand of Fate**: [A♠, K♠, Q♠, J♠, 10♠]
+**Poker Hand**: **ROYAL FLUSH**
+**Damage**: 10d10 → [9, 8, 10, 7, 9, 6, 10, 8, 9, 7] = **83 damage!**
+
+*The cards appear in your hand, glowing with golden light. Ace, King, Queen, Jack, Ten — all spades. The BEST POSSIBLE HAND. The necromancer's eyes widen as the cards explode into pure radiant energy, consuming him entirely.*
+
+**The Lesson**:
+1. You can only call **1 card per turn** — Royal Flush assembly takes 4-5 turns minimum
+2. Each turn of "failure" builds 1-2 Threads for the next call
+3. You took damage, dealt weak damage, and looked foolish for 8 turns
+4. Then you dealt 83 damage in a single turn and killed the boss
+5. **That's the Fate Weaver. You don't win every hand — you win the GAME.**`
     }
   },
 
-  // Resource System section
   resourceSystem: {
     title: 'Threads of Destiny',
     subtitle: 'Weaving Fate from Failure',
 
-    description: `Threads of Destiny are the Fate Weaver's unique resource, generated whenever their spells fail or produce negative outcomes. These mystical threads represent the cosmic energy released when destiny is disrupted, which the Fate Weaver can then harness to manipulate future events. By spending Threads, Fate Weavers can call specific cards from their deck, transforming randomness into calculated strategy.`,
+    description: `Threads of Destiny are generated when spells fail or backfire. These cosmic threads represent the energy released when destiny is disrupted. Spend them to call specific cards from your deck — turning randomness into strategy.`,
 
     resourceBarExplanation: {
-      title: 'Understanding Your Threads of Destiny Gauge',
-      content: `**What You See**: Your Threads of Destiny gauge displays as a horizontal bar with 13 segments, each representing 1 Thread (mirroring the 13 cards per suit: Ace through King). The bar is styled like a golden tapestry with intricate weaving patterns and card suit symbols (♠ ♥ ♦ ♣). As you accumulate Threads, the segments fill with shimmering golden-silver energy, representing the cosmic threads you've woven from fate's disruptions.
+      title: 'Your Thread Gauge',
+      content: `**Your Thread gauge (0-13) sits above your deck display.** At 4+ Threads, the Call Card button lights up. At 13 Threads, it pulses gold — spend or waste future generation.
 
-**Visual Representation by Thread Level**:
-
-**0-3 Threads (Building Phase)**:
-- Bar: 0-3 segments filled with dim golden glow
-- Border: Gray (neutral)
-- Effect: Minimal visual effects
-- Status: "Building Threads"
-- Recommendation: "Accept failures to build reserves"
-
-**4-7 Threads (Moderate Reserve)**:
-- Bar: 4-7 segments filled, golden glow brightening
-- Border: Yellow (caution)
-- Effect: Threads shimmer and pulse gently
-- Status: "Moderate Reserve"
-- Recommendation: "Spend on critical spells only"
-- Call Card Button: Enabled (glowing) - "Call Specific Card (2 Threads)"
-
-**8-12 Threads (Good Reserve)**:
-- Bar: 8-12 segments filled, bright golden energy
-- Border: Green (good)
-- Effect: Threads weave together in animated patterns
-- Status: "Good Reserve"
-- Recommendation: "Spend freely on important moments"
-- Call Card Button: Brightly glowing - "4-6 cards available"
-
-**10-12 Threads (Destiny's Web)**:
-- Bar: 10-12 segments filled, intense orange-gold glow
-- Border: Orange-gold (high reserve)
-- Effect: Threads pulse with power, weaving complex patterns
-- Status: "Destiny's Web - Aggressive Manipulation"
-- Recommendation: "Maximize control over fate"
-- Call Card Button: Pulsing - "5-6 cards available"
-
-**13 Threads (Fate Mastered - The King)**:
-- Bar: All 13 segments filled, maximum brightness with crown symbol
-- Border: Golden (warning - at cap)
-- Effect: Threads overflow with energy, sparkling particles
-- Status: "FATE MASTERED - The King's Power!"
-- Recommendation: "Spend liberally to avoid waste"
-- Warning Text: "Thread generation will be wasted if at 13!"
-
-**Thread Generation Animation**:
-When you gain Threads from a failure or negative outcome:
-- **+1 Thread**: Single golden thread appears from the spell effect, flows to your bar, fills 1 segment
-- **+2 Threads**: Two golden threads appear, intertwine, flow to bar, fill 2 segments with dramatic animation
-- **Audio**: Soft chime sound for +1 Thread, louder chime for +2 Threads
-- **Text Popup**: "+1 Thread of Destiny (Spell Failure)" or "+2 Threads (Major Negative Outcome)"
-
-**Thread Spending Animation**:
-When you spend Threads to call a specific card:
-- **Cost Display**: "Call [A♠] - 2 Threads" button appears
-- **Spending**: 2 segments drain from bar with reverse animation
-- **Card Appearance**: The called card materializes from golden energy, spinning into your hand
-- **Audio**: Magical whoosh sound, card shuffle sound
-- **Text Popup**: "Called [A♠] from deck (-2 Threads)"
-
-**Deck Display Integration**:
-Your Threads gauge is positioned above your card deck display, showing:
-- **Top Card Preview**: If you have Destiny's Insight passive, top card of deck shown
-- **Cards in Hand**: Current cards drawn for active spell
-- **Cards Remaining**: "Cards in deck: 47/52"
-- **Call Card Interface**: Dropdown menu to select specific card to call (costs 2 Threads)
-
-**Call Card Interface** (when you have 2+ Threads):
-- **Button**: "Call Specific Card (2 Threads)" - glows when available
-- **Click**: Opens card selector showing all 52 cards
-- **Selection**: Click a card (e.g., A♠) → Confirmation "Call [A♠] for 2 Threads?"
-- **Confirm**: Card is pulled from deck, added to your hand, 2 Threads spent
-- **Limitation**: Once per turn (grayed out after use)
-
-**Failure Feedback System**:
-When a spell fails or produces negative outcome:
-- **Spell Effect**: Shows failure animation (e.g., cards fizzling, bust explosion)
-- **Thread Generation**: Golden threads emerge from the failure, flow to your bar
-- **Positive Spin**: Text says "Failure converted to 1 Thread!" (not just "Spell Failed")
-- **Visual**: Even failures look visually rewarding (golden energy, chimes, positive feedback)
-
-**Strategic Indicators**:
-- **At 0-3 Threads**: Tooltip says "Sparse Threads - accept failures to build"
-- **At 4-6 Threads**: Tooltip says "Woven Strands - can call 2-3 cards, save for critical moments"
-- **At 7-9 Threads**: Tooltip says "Tapestry of Fate - can call 3-4 cards, good reserve for manipulation"
-- **At 10-12 Threads**: Tooltip says "Destiny's Web - can call 5-6 cards, aggressive manipulation available"
-- **At 13 Threads**: Tooltip says "FATE MASTERED - The King's Power! Spend or waste generation!"
-
-**Why This Matters**: The Threads of Destiny gauge transforms failures into victories. When you bust on Draw of the Damned and take damage, you don't just feel bad—you see 2 golden threads flow into your bar, hear the chime, and read "+2 Threads (Major Negative Outcome)". The visual feedback makes failures feel GOOD because they're building your power. Then, when you spend 8 Threads to call 4 specific cards and build a Royal Flush, you see each card materialize from golden energy, and you FEEL the payoff. At 13 Threads, you've achieved "Fate Mastered" - the King's power - and the bar glows with maximum intensity. The gauge isn't just a resource bar—it's a visual story of turning bad luck into good luck, one thread at a time.`
+**Call Card**: Spend 2 Threads to search your deck for any specific card and add it to your hand. **Once per turn.** The remaining deck is reshuffled.`
     },
 
     mechanics: {
       title: 'How It Works',
       content: `**Thread Generation**:
-Fate Weavers generate Threads of Destiny whenever spells fail or produce negative outcomes:
-- **Spell Failure** (+1 Thread): Spell fails to achieve its intended effect or produces no outcome
-- **Minor Negative Outcome** (+1 Thread): Spell produces a minor negative effect (e.g., drawing a heart in Heart's Gamble)
-- **Major Negative Outcome** (+2 Threads): Spell produces a severe negative effect (e.g., going far over 21 in Draw of the Damned)
+- **Spell Failure** (+1 Thread): Spell fails or produces minimal effect (High Card in poker, losing War of Wills)
+- **Minor Negative Outcome** (+1 Thread): Spell produces a small negative effect (drawing 1 heart in Heart's Gamble)
+- **Major Negative Outcome** (+2 Threads): Severe negative effect (blackjack bust, multiple hearts with face cards)
 
-**Thread Usage**:
-Spend Threads to manipulate your deck and control fate:
-- **Call Specific Card** (2 Threads): Search the deck for a specific card and add it to your hand (once per turn)
-- **Reweave Fate** (Passive): Automatically gain Threads when spells fail or backfire—failures are never wasted
+**Thread Spending**:
+- **Call Specific Card** (2 Threads): Search deck for a specific card, add to hand, reshuffle deck. Once per turn.
+- **Destiny's Insight** (Passive): See the top card of your deck at all times. Spend 1 Thread to peek at top 3 and choose which to draw.
 
-**Thread Capacity**:
-- **Maximum**: 13 Threads (representing the 13 cards per suit: Ace through King)
-- **Starting**: 0 Threads
-- **Persistence**: Threads persist between combats and can be stockpiled for crucial encounters
+**Capacity**: 0-13 Threads. Threads persist between combats.
 
-**Strategic Principle**:
-- **Early Combat**: Accept some failures to build Thread reserves
-- **Mid Combat**: Spend Threads to guarantee success on critical spells
-- **Late Combat**: Use remaining Threads for finishing moves
-- **Core Philosophy**: Every failure fuels your next success`
+**Deck Rules**: Shuffle 52-card deck at combat start. Reshuffle discard pile when deck runs out.`
     },
 
     tables: [
       {
-        title: 'Thread Generation Examples',
-        headers: ['Spell', 'Outcome', 'Threads Gained', 'Reasoning'],
+        title: 'Thread Strategy — Build Early, Spend Late, Never Waste',
+        headers: ['Threads', 'Phase', 'Action'],
         rows: [
-          ['Hand of Fate', 'High Card (worst hand)', '1', 'Spell succeeded but with minimal effect'],
-          ['Draw of the Damned', 'Total of 25 (bust)', '2', 'Major negative outcome (AC reduction)'],
-          ['Heart\'s Gamble', 'Drew 1 heart', '1', 'Minor negative outcome (small damage)'],
-          ['Heart\'s Gamble', 'Drew 3 hearts + face card', '2', 'Major negative outcome (heavy damage)'],
-          ['War of Wills', 'Lost the draw', '1', 'Spell failed (opponent won)'],
-          ['Echo of Fate', 'No matching cards', '1', 'Spell failed (no effect triggered)'],
-          ['Solitaire\'s Shield', 'Incomplete sequence', '1', 'Spell failed (no sequence completed)'],
-          ['Curse of the Old Maid', 'Drew the Old Maid', '2', 'Major negative outcome (damage instead of healing)']
-        ]
-      },
-      {
-        title: 'Thread Spending Strategy',
-        headers: ['Thread Reserve', 'Recommended Action', 'Reasoning'],
-        rows: [
-          ['0-3 Threads', 'Accept random draws, build reserves', 'Sparse Threads - not enough to reliably call cards'],
-          ['4-6 Threads', 'Spend on critical spells only', 'Woven Strands - moderate reserve, use sparingly'],
-          ['7-9 Threads', 'Spend freely on important moments', 'Tapestry of Fate - good reserve, can afford to manipulate'],
-          ['10-12 Threads', 'Aggressive manipulation', 'Destiny\'s Web - high reserve, maximize control'],
-          ['13 Threads', 'At cap, must spend or waste', 'Fate Mastered - The King\'s Power! Spend liberally to avoid waste']
+          ['0-3', 'Building', 'Accept failures to build reserves'],
+          ['4-6', 'Woven', 'Call 1 card on critical spells'],
+          ['7-9', 'Tapestry', 'Call cards freely on important turns'],
+          ['10-12', "Destiny's Web", 'Aggressive manipulation'],
+          ['13', 'Fate Mastered', 'Spend now — further generation is wasted']
         ]
       }
     ],
 
     strategicConsiderations: {
-      title: 'Strategic Thread Management',
-      content: `Mastering Threads of Destiny is the key to becoming an effective Fate Weaver. The resource creates a unique risk/reward dynamic where failures become opportunities and careful planning pays dividends.
-
-**Key Principles**:
-1. **Embrace Failure Early**: In the opening rounds of combat, accepting some failures builds Thread reserves for later
-2. **Save for Criticals**: Don't spend Threads on minor spells—save them for game-changing moments
-3. **Know Your Deck**: Track which cards have been drawn to predict what's left and plan Thread usage
-4. **Emergency Reserve**: Always maintain 4-6 Threads for unexpected situations
-5. **Cap Awareness**: At 13 Threads (Fate Mastered), you must spend or waste generation—don't let Threads go to waste
+      title: 'Advanced Thread Strategy',
+      content: `**Key Principles**:
+1. **Embrace Failure Early**: Opening rounds build Thread reserves for later
+2. **Call Cards Across Turns**: You can only call 1 card per turn — a Royal Flush takes 4-5 turns of setup
+3. **Know Your Deck**: Track which cards have been drawn to predict what's left
+4. **Cap Awareness**: At 13 Threads, generation is wasted — spend before you hit cap
+5. **Marked Card Setup**: Use Marked Card to prepare your next draw, reducing the Threads needed
 
 **Advanced Techniques**:
-- **Intentional Failure**: Sometimes accepting a negative outcome to gain 2 Threads is worth it
-- **Thread Cycling**: Spend Threads to call cards that enable Thread generation (risky cards)
-- **Combo Setup**: Use Threads to assemble specific card combinations for powerful effects
-- **Ally Coordination**: In Echo of Fate, coordinate with allies to ensure matching cards`
+- **Intentional Failure**: Accepting a negative outcome for 2 Threads is sometimes the right play
+- **Cross-Turn Assembly**: Call A♠ turn 1, K♠ turn 2, Q♠ turn 3, etc. — build the perfect hand over time
+- **Thread Cycling**: Spend Threads on cards that enable Thread generation (risky cards with high failure rates)`
     },
 
     playingInPerson: {
       title: 'Playing Fate Weaver In Person',
-      content: `**Required Materials**:
-- **Standard 52-Card Deck** (no jokers)
-- **13 Thread Tokens** (gold/silver tokens, beads, or coins)
-- **Thread Tracker Card** (showing 0-13 Thread capacity)
-- **Poker Hand Reference** (rankings for Hand of Fate spell)
-- **Blackjack Reference** (card values for Draw of the Damned spell)
-- **Discard Pile** (separate area for used cards)
-- **Hand Holder** (optional, for organizing your current hand)
-
-**Primary Tracking Method: Physical Playing Cards + Thread Tokens**
-
-The Fate Weaver is the ONLY class that uses actual playing cards as their core mechanic. You shuffle a real deck, draw real cards, and use Thread tokens to manipulate your draws. This creates an incredibly immersive, tactile experience where you're literally playing card games within your TTRPG.
+      content: `**Required**: Standard 52-card deck (no jokers) + 13 tokens (coins, beads, or buttons)
 
 **Setup**:
 \`\`\`
-FATE WEAVER SETUP:
-
-DECK: [52 cards, shuffled] ← Your spell deck
-HAND: [5 cards] ← Current hand (max 5, or 7 for Card Master)
-DISCARD: [Used cards] ← Reshuffled when deck runs out
-
-THREADS OF DESTINY: [○][○][○][○][○][○][○][○][○][○][○][○][○]
-Current: 0/13 (max = 13, one per card rank Ace-King)
-
-THREAD GENERATION:
-• Spell fails or has no effect: +1 Thread
-• Spell has negative outcome: +1-2 Threads (severity-based)
-
-THREAD SPENDING:
-• Call Specific Card: 2 Threads (once per turn)
-• Look at Top 3 Cards: 1 Thread (choose which to draw)
+Deck: 52 cards, shuffled at combat start
+Hand: Up to 5 cards (7 for Card Master specialization)
+Threads: 0/13 — track with tokens
+Discard: Used cards — reshuffle when deck runs out
 \`\`\`
 
-**How It Works**:
+**Drawing Cards**: When a spell requires cards, draw from your deck. Used cards go to discard pile.
 
-**Drawing Cards**:
-1. Shuffle your 52-card deck at the start of combat
-2. Draw 5 cards to form your starting hand
-3. When you cast a card-based spell, you draw/play cards from your hand
-4. When your hand is empty or you need more cards, draw from the deck
-5. When the deck runs out, reshuffle the discard pile
+**Generating Threads**: Spell fails or backfires → add tokens to your pool.
 
-**Generating Threads**:
-1. **Spell Fails**: If a card-based spell fails or has no effect → +1 Thread token
-2. **Negative Outcome**: If a spell hurts you or backfires → +1-2 Thread tokens
-3. **Blackjack Bust**: If you bust in Draw of the Damned → +2 Thread tokens
-4. **Poker Hand Fails**: If you can't make the required hand → +1 Thread token
-
-**Spending Threads**:
-1. **Call Specific Card** (2 Threads, once per turn):
-   - Announce which card you want (e.g., "Ace of Spades")
-   - Search your deck for that card
-   - Add it to your hand
-   - Reshuffle the deck
-
-2. **Look at Top 3** (1 Thread, when drawing):
-   - Look at top 3 cards of deck
-   - Choose which one to draw
-   - Put the other 2 on bottom of deck in any order
-
-**Example Card-Based Spell: Hand of Fate (Poker)**
-
-*You cast Hand of Fate, which requires you to make a poker hand*
-
-**Your Current Hand**: [7♠][7♥][K♦][3♣][9♠]
-
-**Turn 1 - Natural Draw**:
-1. "I cast Hand of Fate!"
-2. Look at your hand: You have a pair of 7s
-3. **Pair** = 2d6 damage → Roll [4,5] = 9 damage
-4. Discard the 5 cards used
-5. No Threads generated (spell succeeded)
-
-**Turn 2 - Bad Draw**:
-1. Draw 5 new cards: [2♠][5♥][8♦][J♣][K♠]
-2. "I cast Hand of Fate again!"
-3. Look at your hand: No pairs, no straights, no flushes
-4. **High Card** = 1d4 damage → Roll [2] = 2 damage (weak!)
-5. Discard the 5 cards
-6. **Generate 1 Thread** (spell was weak/ineffective)
-7. Add 1 gold token to Thread pool → **1 Thread**
-
-**Turn 3 - Using Threads to Call Cards**:
-1. Draw 5 new cards: [4♠][6♥][9♦][Q♣][A♠]
-2. "I spend 2 Threads to call Ace of Hearts!"
-3. Remove 2 gold tokens → **0 Threads** (spent 2, had 1... wait, need 2!)
-4. Actually, you only have 1 Thread, so you can't call a card yet
-5. Cast Hand of Fate with current hand: No pairs
-6. **High Card** again = 1d4 damage
-7. **Generate 1 Thread** → **2 Threads** total
-
-**Turn 4 - Now You Can Call Cards**:
-1. Draw 5 new cards: [3♠][8♥][10♦][J♣][K♠]
-2. "I spend 2 Threads to call Ace of Spades!"
-3. Remove 2 gold tokens → **0 Threads**
-4. Search deck for A♠, add to hand
-5. Discard one card (K♠) to make room
-6. New hand: [3♠][8♥][10♦][J♣][A♠]
-7. "I spend 2 more Threads to call Ace of Hearts!"
-8. Wait, you have 0 Threads now, can't call another card
-9. Cast Hand of Fate: Still just high card
-10. **Generate 1 Thread** → **1 Thread**
-
-**Turn 5 - Building Toward Royal Flush**:
-1. You need 4 more Threads to call 2 more cards
-2. Accept some failures to build Threads
-3. Eventually, with enough Threads, you can call:
-   - 10♠, J♠, Q♠, K♠, A♠ = **ROYAL FLUSH!**
-   - 10d10 damage → Roll [8,9,10,7,6,8,9,10,7,8] = 82 damage!
-
-**Example Card-Based Spell: Draw of the Damned (Blackjack)**
-
-*You cast Draw of the Damned, which uses blackjack rules*
-
-**Turn 1 - Safe Play**:
-1. "I cast Draw of the Damned!"
-2. Draw 2 cards: [K♠][7♥] = 17 (King = 10, 7 = 7)
-3. "I stand at 17"
-4. Deal 3d6 damage → Roll [4,5,6] = 15 damage
-5. Discard cards
-6. No Threads generated (safe play, no bust)
-
-**Turn 2 - Risky Play**:
-1. Draw 2 cards: [5♠][6♥] = 11
-2. "I hit!" (draw another card)
-3. Draw: [9♦] = 20 (5+6+9)
-4. "I stand at 20"
-5. Deal 5d6 damage → Roll [6,5,4,6,5] = 26 damage!
-6. No Threads generated (successful risk)
-
-**Turn 3 - BUST!**:
-1. Draw 2 cards: [10♠][8♥] = 18
-2. "I hit!" (greedy play)
-3. Draw: [7♦] = 25 (BUST! Over 21)
-4. Take 3d6 damage to yourself → Roll [4,3,5] = 12 damage to me!
-5. **Generate 2 Threads** (negative outcome, hurt yourself)
-6. Add 2 gold tokens → **2 Threads**
-
-**Turn 4 - Using Threads to Guarantee 21**:
-1. Draw 2 cards: [9♠][5♥] = 14
-2. "I spend 2 Threads to call 7 of Spades!"
-3. Remove 2 gold tokens → **0 Threads**
-4. Search deck for 7♠, add to hand
-5. Total: 9+5+7 = 21 (BLACKJACK!)
-6. Deal 6d6 damage → Roll [6,6,5,4,6,5] = 32 damage!
-7. No Threads generated (perfect play)
+**Spending Threads — Call a Card** (2 Threads, once per turn):
+1. Announce which card you want (e.g., "Ace of Spades")
+2. Remove 2 tokens from your pool
+3. Search the deck for that card, add it to your hand
+4. Reshuffle the remaining deck
+5. You can only do this ONCE per turn
 
 **Poker Hand Rankings (for Hand of Fate)**:
 \`\`\`
-POKER HANDS (Highest to Lowest):
-
-ROYAL FLUSH (10-J-Q-K-A, same suit):
-Damage: 10d10 (average 55)
-Rarity: Extremely rare without Thread manipulation
-
-STRAIGHT FLUSH (5 cards in sequence, same suit):
-Damage: 8d8 (average 36)
-Example: 5♠-6♠-7♠-8♠-9♠
-
-FOUR OF A KIND (4 cards same rank):
-Damage: 7d8 (average 31.5)
-Example: 7♠-7♥-7♦-7♣-K♠
-
-FULL HOUSE (3 of a kind + pair):
-Damage: 6d6 (average 21)
-Example: 8♠-8♥-8♦-K♠-K♥
-
-FLUSH (5 cards same suit):
-Damage: 5d6 (average 17.5)
-Example: 2♠-5♠-9♠-J♠-K♠
-
-STRAIGHT (5 cards in sequence):
-Damage: 4d6 (average 14)
-Example: 5♠-6♥-7♦-8♣-9♠
-
-THREE OF A KIND (3 cards same rank):
-Damage: 3d6 (average 10.5)
-Example: 9♠-9♥-9♦-K♠-2♣
-
-TWO PAIR (2 pairs):
-Damage: 2d8 (average 9)
-Example: 7♠-7♥-K♦-K♣-3♠
-
-PAIR (2 cards same rank):
-Damage: 2d6 (average 7)
-Example: J♠-J♥-K♦-5♣-2♠
-
-HIGH CARD (no combinations):
-Damage: 1d4 (average 2.5)
-Generate: +1 Thread (weak outcome)
+Royal Flush    (10-J-Q-K-A, same suit)  → 10d10 damage
+Straight Flush (5 sequential, same suit) → 8d10 damage
+Four of a Kind (4 same rank)            → 6d10 damage
+Full House     (3-of-kind + pair)        → 4d10 damage
+Flush          (5 same suit)             → 4d8 damage
+Straight       (5 sequential)            → 3d8 damage
+Three of a Kind (3 same rank)            → 2d8 damage
+Two Pair       (2 different pairs)       → 2d8 damage
+One Pair       (2 same rank)             → 2d6 damage
+High Card      (no matches)              → 1d4 damage + 1 Thread
 \`\`\`
 
 **Blackjack Values (for Draw of the Damned)**:
 \`\`\`
-CARD VALUES:
-• Ace: 1 or 11 (your choice)
-• 2-10: Face value
-• Jack, Queen, King: 10
-
-OUTCOMES:
-21 (Blackjack): 6d6 damage
-20: 5d6 damage
-19: 4d6 damage
-18: 4d6 damage
-17: 3d6 damage
-16 or less: 2d6 damage
-BUST (over 21): Take 3d6 damage, +2 Threads
+Ace: 1 or 11 | Face cards: 10 | Others: face value
+21 (Blackjack): Best effect    | 17-20: Good effect
+11-16: Weak effect             | Bust (22+): Negative + 2 Threads
 \`\`\`
 
-**Alternative Tracking Methods**:
-
-**Method 1: Digital Deck + Physical Threads**
-- Use a card shuffler app on phone/tablet
-- Track Threads with physical tokens
-- Faster shuffling, less table space
-- Loses some tactile immersion
-
-**Method 2: Dice Instead of Cards**
-- Use dice to simulate card draws (d13 for rank, d4 for suit)
-- Track Threads with tokens
-- No deck needed, but less thematic
-- Harder to visualize poker hands
-
-**Method 3: Card Tiles**
-- Use card tiles or tokens instead of full deck
-- Easier to organize and see hands
-- More durable than paper cards
-- More expensive to acquire
-
-**Method 4: Minimalist Paper Tracking**
-- Write drawn cards on paper
-- Track Threads with tally marks
-- No materials needed
-- Loses all tactile card-playing experience
-
-**Thread Reference Card**:
+**Thread Quick Reference**:
 \`\`\`
-THREADS OF DESTINY REFERENCE
-
-GENERATION:
-• Spell fails/no effect: +1 Thread
-• Negative outcome (minor): +1 Thread
-• Negative outcome (major): +2 Threads
-• Blackjack bust: +2 Threads
-• Poker high card: +1 Thread
-
-SPENDING:
-• Call Specific Card: 2 Threads (once/turn)
-• Look at Top 3 Cards: 1 Thread (when drawing)
-
-MAXIMUM: 13 Threads (Ace through King)
-
-STRATEGY:
-0-3 Threads: Build reserves, accept failures
-4-6 Threads: Spend on critical spells only
-7-9 Threads: Spend freely on important moments
-10-12 Threads: Aggressive manipulation
-13 Threads: At cap, must spend or waste
-\`\`\`
-
-**Example In-Person Turn**:
-
-*You have 6 Threads, fighting a dragon*
-
-**Turn 1 - Build Toward Royal Flush**:
-1. "I cast Hand of Fate!"
-2. Current hand: [2♠][5♥][9♦][J♣][K♠]
-3. "I spend 2 Threads to call 10 of Spades!"
-4. Remove 2 tokens → **4 Threads**
-5. Search deck, add 10♠ to hand
-6. Discard 2♠ to make room
-7. New hand: [5♥][9♦][J♣][K♠][10♠]
-
-**Turn 2 - Continue Building**:
-1. "I spend 2 Threads to call Queen of Spades!"
-2. Remove 2 tokens → **2 Threads**
-3. Add Q♠ to hand, discard 5♥
-4. New hand: [9♦][J♣][K♠][10♠][Q♠]
-5. Not enough Threads to call more cards yet
-
-**Turn 3 - Accept Failure to Build Threads**:
-1. Cast a different spell that fails
-2. **Generate 1 Thread** → **3 Threads**
-3. Still need more Threads
-
-**Turn 4 - Final Assembly**:
-1. "I spend 2 Threads to call Jack of Spades!"
-2. Remove 2 tokens → **1 Thread**
-3. Add J♠ to hand, discard 9♦
-4. New hand: [J♣][K♠][10♠][Q♠][J♠]
-5. Wait, I have J♣ and J♠, but I need all spades for Royal Flush
-6. Need to call Ace of Spades and discard J♣
-7. Not enough Threads! Need to build more
-
-**Turn 5 - More Thread Building**:
-1. Accept another failure
-2. **Generate 1 Thread** → **2 Threads**
-
-**Turn 6 - ROYAL FLUSH!**:
-1. "I spend 2 Threads to call Ace of Spades!"
-2. Remove 2 tokens → **0 Threads**
-3. Add A♠ to hand, discard J♣
-4. Final hand: [K♠][10♠][Q♠][J♠][A♠]
-5. "I cast Hand of Fate with ROYAL FLUSH!"
-6. Deal 10d10 damage → [8,9,10,7,6,8,9,10,7,8] = 82 damage to dragon!
-7. Discard all 5 cards
-
-**Quick Reference Card Template**:
-\`\`\`
-FATE WEAVER QUICK REFERENCE
-
-CARD-BASED SPELLS:
-• Hand of Fate: Poker hands (pair to royal flush)
-• Draw of the Damned: Blackjack (17-21 or bust)
-• Card Cascade: Play multiple cards in sequence
-• Perfect Hand: Draw until you get specific hand
-
-THREAD MECHANICS:
-• Generate from failures and negative outcomes
-• Spend to call specific cards (2 Threads)
-• Spend to look at top 3 cards (1 Thread)
-• Maximum 13 Threads (don't waste generation!)
-
-POKER HANDS:
-Royal Flush > Straight Flush > Four of a Kind >
-Full House > Flush > Straight > Three of a Kind >
-Two Pair > Pair > High Card
-
-BLACKJACK:
-21 = 6d6 | 20 = 5d6 | 19 = 4d6 | 18 = 4d6
-17 = 3d6 | 16- = 2d6 | BUST = -3d6 + 2 Threads
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the Fate Weaver experience with:
-- **Tarot Deck**: Use tarot cards instead of playing cards for mystical theme
-- **Golden Threads**: Use gold thread or string as Thread tokens
-- **Card Sleeves**: Protect cards with themed sleeves (stars, fate symbols)
-- **Dealer Visor**: Wear a card dealer visor for immersion
-- **Card Shuffler**: Automatic shuffler for faster gameplay
-- **Fate Dice**: Special dice for rolling damage based on poker hands
-
-**Thread Management Tips**:
-
-**Building Strategy**:
-- **Accept Early Failures**: First 2-3 turns, accept some failures to build Threads
-- **Know Your Limits**: Don't push for risky plays unless you have Thread backup
-- **Track Deck**: Remember which cards have been played to predict draws
-- **Emergency Reserve**: Keep 4-6 Threads for critical moments
-
-**Spending Strategy**:
-- **Royal Flush Assembly**: Save 10+ Threads to call all 5 cards for Royal Flush
-- **Blackjack 21**: Spend 2 Threads to call the exact card you need for 21
-- **Combo Setup**: Use Threads to assemble specific card combinations
-- **Don't Waste**: At 13 Threads, spend liberally to avoid wasting generation
-
-**Card Game Strategy**:
-- **Poker**: Aim for straights and flushes (easier than four of a kind)
-- **Blackjack**: Stand at 18-20 for safety, hit at 11-16 for higher damage
-- **Deck Tracking**: Count cards to know what's left in the deck
-- **Suit Awareness**: Track which suits have been played for flush potential
-
-**Why This System Works**: The Fate Weaver is the ONLY class that uses actual playing cards, creating a unique, tactile experience. The physical act of shuffling, drawing, and playing cards makes you feel like you're actually manipulating fate. The Thread tokens represent your ability to "cheat" the deck by calling specific cards, transforming randomness into strategy. The tension of deciding whether to accept a bad hand (and gain Threads) or spend Threads to guarantee a good hand creates meaningful decisions every turn. The dramatic moment of assembling a Royal Flush by calling all 5 cards is incredibly satisfying and memorable.
-
-**Pro Tips**:
-- **Shuffle Thoroughly**: Shuffle deck well between combats to ensure randomness
-- **Track Discards**: Keep discard pile organized to know when to reshuffle
-- **Poker Knowledge**: Learn poker hand rankings to maximize Hand of Fate
-- **Blackjack Math**: Know when to hit/stand based on current total
-- **Thread Banking**: Build to 10+ Threads before attempting Royal Flush
-- **Specialization Synergy**: Fortune Teller = ally support, Card Master = combo focus, Thread Weaver = failure conversion
-
-**Budget-Friendly Alternatives**:
-- **No playing cards?** Use dice to simulate draws (d13 for rank, d4 for suit)
-- **No Thread tokens?** Use coins, buttons, or tally marks
-- **No card holder?** Just hold cards in hand or lay them on table
-- **Minimalist**: Track card draws on paper, use tally marks for Threads
-
-**Specialization-Specific Tracking**:
-
-**Fortune Teller**:
-- Can share cards with allies (give them cards from your hand)
-- Track which allies have your cards
-- Bond with ally: They use your Thread pool
-- Mark bonded ally on character sheet
-
-**Card Master**:
-- Hold up to 7 cards (instead of 5)
-- When calling cards, call 2 cards for 2 Threads (not 1)
-- Free discard/draw once per turn
-- Use larger hand holder or spread cards on table
-
-**Thread Weaver**:
-- Generate +1 Thread from all sources (failures give 2, not 1)
-- Can spend Threads to force failures (intentional bad outcomes)
-- Track bonus Thread generation separately
-- More aggressive Thread spending
-
-**Why Fate Weaver Is Perfect for In-Person Play**: The class is literally built around playing card games at the table. You shuffle a real deck, draw real cards, make real poker hands and blackjack totals. The Thread tokens let you "cheat" by calling specific cards, creating a satisfying blend of luck and skill. The physical act of assembling a Royal Flush by searching the deck for each card, one by one, is incredibly immersive. Every card draw is exciting, every Thread spent is strategic, and every poker hand or blackjack total creates tension. It's a class that transforms your TTRPG into a casino, making it perfect for players who love card games and tactical resource management.`
+Generate: Fail +1 | Minor negative +1 | Major negative +2
+Spend: Call card = 2 Threads (once/turn) | Peek top 3 = 1 Thread
+Max: 13 Threads | Persists between combats
+Strategy: Build early → Spend late → Never waste
+\`\`\``
     }
   },
 
-  // Specializations section
   specializations: {
     title: 'Fate Weaver Specializations',
     subtitle: 'Three Paths of Destiny',
 
-    description: `Fate Weavers can specialize in three distinct approaches to manipulating destiny, each focusing on different aspects of card-based magic and Thread manipulation.`,
+    description: `Fate Weavers specialize in one of three approaches to manipulating destiny.`,
 
     sharedPassive: {
       name: 'Destiny\'s Insight',
       icon: 'Radiant/Divine Halo',
-      description: 'You can see the top card of your deck at all times. Additionally, whenever you would draw a card, you may spend 1 Thread of Destiny to look at the top 3 cards and choose which one to draw (the others go to the bottom of the deck in any order).'
+      description: 'You can see the top card of your deck at all times. Spend 1 Thread to look at the top 3 cards and choose which one to draw (others go to bottom in any order).'
     },
 
     specs: [
@@ -852,7 +480,9 @@ Many players enhance the Fate Weaver experience with:
         color: '#9370DB',
         theme: 'Divination & Prediction',
 
-        description: `Masters of divination who read cards to predict and shape events. They grant allies foresight and manipulate probability for favorable outcomes.`,
+        description: `**See the threads. Share the vision. Shape the outcome.**
+
+Masters of divination who read cards to predict and shape events. They grant allies foresight and manipulate probability for favorable outcomes.`,
 
         playstyle: 'Predictive support, ally buffs, probability manipulation, information gathering',
 
@@ -877,9 +507,9 @@ Many players enhance the Fate Weaver experience with:
         },
 
         keyAbilities: [
-          "Scrying Hand - Draw cards to divine the future, revealing enemy intentions and granting allies bonuses based on suits drawn (3 mana, spend Threads to guarantee specific suits)",
-          "Fate's Guidance - Share your vision with an ally, allowing them to reroll any roll and choose the result (4 mana, costs 3 Threads to activate)",
-          "Prophetic Shield - Predict incoming damage and reduce it based on card accuracy (2 mana, closer predictions = more damage reduction)"
+          "Scrying Hand — Draw cards to divine the future, revealing enemy intentions and granting allies bonuses based on suits drawn (3 mana, spend Threads to guarantee specific suits)",
+          "Fate's Guidance — Share your vision with an ally, allowing them to reroll any roll and choose the result (4 mana, costs 3 Threads to activate)",
+          "Prophetic Shield — Predict incoming damage and reduce it based on card accuracy (2 mana, closer predictions = more damage reduction)"
         ],
 
         recommendedFor: 'Players who enjoy support roles, strategic planning, and helping allies succeed through prediction and foresight.'
@@ -892,7 +522,9 @@ Many players enhance the Fate Weaver experience with:
         color: '#FFD700',
         theme: 'Deck Manipulation & Control',
 
-        description: `Complete deck control. Experts at manipulating draws to always have the right card, excelling at combo-based gameplay and devastating card combinations.`,
+        description: `**The deck is your weapon. The hand is your will.**
+
+Complete deck control. Experts at manipulating draws to always have the right card, excelling at combo-based gameplay and devastating card combinations.`,
 
         playstyle: 'Deck control, combo assembly, hand manipulation, consistent power',
 
@@ -907,7 +539,7 @@ Many players enhance the Fate Weaver experience with:
           'Requires setup time to assemble combos',
           'Less effective in short encounters',
           'Vulnerable when hand is disrupted',
-          'Lower burst damage than other specs'
+          'Lower burst damage without Thread reserves'
         ],
 
         passiveAbility: {
@@ -917,9 +549,9 @@ Many players enhance the Fate Weaver experience with:
         },
 
         keyAbilities: [
-          "Perfect Hand - Draw cards until you have a specific poker hand, then unleash its power (5 mana, spend Threads to guarantee the hand you want)",
-          "Deck Shuffle - Reshuffle your entire deck and draw 5 new cards, gaining bonuses based on suits (4 mana, generates 1 Thread per duplicate suit)",
-          "Card Cascade - Play multiple cards in sequence, each amplifying the next (6 mana, combo potential scales with hand size)"
+          "Perfect Hand — Draw cards until you have a specific poker hand, then unleash its power (5 mana, spend Threads to guarantee the hand you want)",
+          "Deck Shuffle — Reshuffle your entire deck and draw 5 new cards, gaining bonuses based on suits (4 mana, generates 1 Thread per duplicate suit)",
+          "Card Cascade — Play multiple cards in sequence, each amplifying the next (6 mana, combo potential scales with hand size)"
         ],
 
         recommendedFor: 'Players who enjoy combo gameplay, deck-building strategy, and maximizing control over randomness.'
@@ -932,7 +564,9 @@ Many players enhance the Fate Weaver experience with:
         color: '#FF1493',
         theme: 'Thread Generation & Manipulation',
 
-        description: `Embraces failure as power, generating Threads at an accelerated rate. Risk-takers who turn every setback into opportunity and every failure into fuel.`,
+        description: `**Break fate to remake it. Every scar is a thread.**
+
+Embraces failure as power, generating Threads at an accelerated rate. Risk-takers who turn every setback into opportunity and every failure into fuel.`,
 
         playstyle: 'High risk/reward, Thread generation focus, failure conversion, explosive power',
 
@@ -946,20 +580,20 @@ Many players enhance the Fate Weaver experience with:
         weaknesses: [
           'Extremely high variance gameplay',
           'Can be unreliable in critical moments',
-          'Requires large Thread reserves to shine',
-          'Intentional failures can backfire'
+          'Intentional failures can backfire',
+          'Requires large Thread reserves to shine'
         ],
 
         passiveAbility: {
           name: 'Weaver of Fate',
           icon: 'Necrotic/Drain Soul',
-          description: 'Generate +1 Thread whenever you gain Threads. Spend 5 Threads to force any spell to auto-succeed with max effect, or 3 Threads to force a spell to fail and gain its max Thread generation.'
+          description: 'Generate +1 additional Thread whenever you gain Threads from any source (1→2, 2→3). Spend 5 Threads to force any spell to auto-succeed with max effect, or 3 Threads to force a spell to fail and gain its maximum Thread generation.'
         },
 
         keyAbilities: [
-          "Embrace Chaos - Intentionally trigger negative outcomes on your spells to generate massive Threads, then spend them for guaranteed success (2 mana, high risk/reward)",
-          "Thread Burst - Spend all your Threads at once to deal damage equal to Threads spent × 1d6 to all enemies (variable mana, empties Thread reserve)",
-          "Destiny Reversal - Rewind the last spell cast (yours or an ally's) and force a different outcome (7 mana, costs 8 Threads)"
+          "Embrace Chaos — Intentionally trigger negative outcomes on your spells to generate massive Threads, then spend them for guaranteed success (2 mana, high risk/reward)",
+          "Thread Burst — Spend all your Threads at once to deal damage equal to Threads spent × 1d6 to all enemies (variable mana, empties Thread reserve)",
+          "Destiny Reversal — Rewind the last spell cast (yours or an ally's) and force a different outcome (7 mana, costs 8 Threads)"
         ],
 
         recommendedFor: 'Players who enjoy high-variance gameplay, turning failures into victories, and explosive all-or-nothing moments.'
@@ -967,19 +601,23 @@ Many players enhance the Fate Weaver experience with:
     ]
   },
 
-  // Spells - organized by level, properly formatted for wizard
+  // ========================================
+  // SPELLS — ALL CARD-BASED, ALL TOUCH THREADS
+  // ========================================
   spells: [
+    // ========================================
+    // LEVEL 1 SPELLS
+    // ========================================
     {
       id: 'hand-of-fate',
       name: 'Hand of Fate',
       icon: 'Utility/Utility',
       spellType: 'ACTION',
-      // Use rollable table as the primary effect renderer; omit generic sections
       effectTypes: [],
       school: 'Divination',
-      level: 3,
+      level: 1,
 
-      description: 'Draw 5 cards to form a poker hand. May redraw up to twice. Hand strength determines the effect, from Royal Flush (ultimate) to High Card (minimal). Better hands yield stronger effects.',
+      description: 'Draw 5 cards to form a poker hand. May redraw up to twice. Hand strength determines damage dealt. High Card generates a Thread instead of significant damage. Spend Threads to call specific cards for your hand.',
 
       typeConfig: {
         castTime: 1,
@@ -997,8 +635,8 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'threads_spend'],
-        resourceValues: { mana: 5, threads_spend: 2 },
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 5 },
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Fatum Manus!',
         somaticText: 'Draw cards from mystical deck',
@@ -1017,7 +655,7 @@ Many players enhance the Fate Weaver experience with:
       specialMechanics: {
         threadsOfDestiny: {
           generation: 'High Card: +1 Thread (minimal effect)',
-          usage: 'Spend 2 Threads to call a specific card for your hand'
+          usage: 'Spend 2 Threads to call 1 specific card for your hand (once per turn, counts as your one call)'
         },
         cardDraw: {
           initial: 5,
@@ -1032,12 +670,12 @@ Many players enhance the Fate Weaver experience with:
 
       rollableTable: {
         enabled: true,
-        name: 'Hand of Fate - Poker Hand Results',
+        name: 'Hand of Fate — Poker Hand Results',
         description: 'Draw 5 cards and form a poker hand (may redraw twice)',
         resolutionType: 'CARDS',
         resolutionConfig: { cardType: 'poker', cardCount: 5, redraws: 2 },
         entries: [
-          { range: 'Royal Flush', name: 'Royal Flush', description: 'A♠ K♠ Q♠ J♠ 10♠ - Ultimate hand', effectType: 'damage', effectConfig: { damageFormula: '10d10', damageType: 'radiant' } },
+          { range: 'Royal Flush', name: 'Royal Flush', description: 'A♠ K♠ Q♠ J♠ 10♠ — Ultimate hand', effectType: 'damage', effectConfig: { damageFormula: '10d10', damageType: 'radiant' } },
           { range: 'Straight Flush', name: 'Straight Flush', description: 'Five sequential cards of same suit', effectType: 'damage', effectConfig: { damageFormula: '8d10', damageType: 'arcane' } },
           { range: 'Four of a Kind', name: 'Four of a Kind', description: 'Four cards of same rank', effectType: 'damage', effectConfig: { damageFormula: '6d10', damageType: 'force' } },
           { range: 'Full House', name: 'Full House', description: 'Three of a kind + pair', effectType: 'damage', effectConfig: { damageFormula: '4d10', damageType: 'radiant' } },
@@ -1046,7 +684,7 @@ Many players enhance the Fate Weaver experience with:
           { range: 'Three of a Kind', name: 'Three of a Kind', description: 'Three cards of same rank', effectType: 'damage', effectConfig: { damageFormula: '2d8', damageType: 'force' } },
           { range: 'Two Pair', name: 'Two Pair', description: 'Two different pairs', effectType: 'healing', effectConfig: { healingFormula: '2d8' } },
           { range: 'One Pair', name: 'One Pair', description: 'Two cards of same rank', effectType: 'healing', effectConfig: { healingFormula: '1d8' } },
-          { range: 'High Card', name: 'High Card', description: 'No matching cards - weakest hand (gain +1 Thread)', effectType: 'buff', effectConfig: { buffType: 'thread_generation', buffDuration: 0 } }
+          { range: 'High Card', name: 'High Card', description: 'No matching cards — gain +1 Thread', effectType: 'buff', effectConfig: { buffType: 'thread_generation', buffDuration: 0 } }
         ]
       },
 
@@ -1054,15 +692,15 @@ Many players enhance the Fate Weaver experience with:
     },
 
     {
-      id: 'draw-of-the-damned',
-      name: 'Draw of the Damned',
-      icon: 'Necrotic/Demonic Empowerment',
+      id: 'war-of-wills',
+      name: 'War of Wills',
+      icon: 'Utility/Powerful Warrior',
       spellType: 'ACTION',
-      effectTypes: ['buff'],
-      school: 'Abjuration',
-      level: 3,
+      effectTypes: ['damage', 'healing'],
+      school: 'Evocation',
+      level: 1,
 
-      description: 'Draw cards aiming for 21 (blackjack: Aces=1 or 11, Face=10, others=face value). Closer to 21 = higher AC bonus for an ally for rest of combat. Bust (over 21) reduces your AC next round.',
+      description: 'Challenge a creature to a card draw — War! Both draw one card. Higher card wins. Win: deal 1d8 force damage. Lose: heal the target for 2d8 and gain 1 Thread. Tie: both take 1d8 damage, gain 1 Thread. The loser\'s healing is fate\'s consolation — and your Thread gain is the real prize.',
 
       typeConfig: {
         castTime: 1,
@@ -1072,68 +710,332 @@ Many players enhance the Fate Weaver experience with:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 30
+        rangeDistance: 40,
+        targetRestrictions: ['enemy']
       },
 
       durationConfig: {
-        durationType: 'rounds',
-        description: 'AC bonus lasts for rest of combat'
+        durationType: 'instant'
       },
 
       resourceCost: {
-        mana: 4,
+        mana: 2,
         components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Viginti Unum!',
-        somaticText: 'Draw cards rapidly',
+        verbalText: 'Bellum Voluntatis!',
+        somaticText: 'Draw card dramatically',
         materialText: 'Deck of fate cards'
       },
 
       resolution: 'CARDS',
 
       effects: {
-        buff: {
-          conditional: {
-            type: 'blackjack_total',
-            success: 'AC bonus based on proximity to 21',
-            failure: 'AC reduction on bust'
-          }
+        variable: {
+          type: 'competitive_draw',
+          win: '1d8 force damage to target',
+          lose: '2d8 healing to target + 1 Thread',
+          tie: '1d8 damage to both + 1 Thread'
         }
       },
 
       specialMechanics: {
         threadsOfDestiny: {
-          generation: 'Bust (over 21): +2 Threads (major negative outcome)',
-          usage: 'Spend 2 Threads to call a specific card to improve total'
+          generation: 'Lose: +1 Thread. Tie: +1 Thread.',
+          usage: 'Spend 2 Threads to call a specific card for your draw'
         },
-        blackjack: {
-          target: 21,
-          aceValue: '1 or 11',
-          faceCards: 10,
-          description: 'Draw cards trying to reach 21 without going over'
+        competitive: {
+          type: 'high_card_wins',
+          cardValues: 'Ace=14, King=13, Queen=12, Jack=11, 10-2=face value',
+          tiebreaker: 'Suits (Spades > Hearts > Diamonds > Clubs)'
         }
       },
 
       rollableTable: {
         enabled: true,
-        name: 'Draw of the Damned - Blackjack Results',
-        description: 'Draw cards aiming for 21 (Aces=1/11, Face=10)',
+        name: 'War of Wills — Competitive Draw',
+        description: 'Both draw one card, higher wins',
         resolutionType: 'CARDS',
-        resolutionConfig: { cardType: 'blackjack', target: 21 },
+        resolutionConfig: { cardType: 'competitive', players: 2 },
         entries: [
-          { range: '21 (Blackjack)', result: 'Ally gains +5 AC for rest of combat', description: 'Perfect score' },
-          { range: '19-20', result: 'Ally gains +4 AC for rest of combat', description: 'Excellent score' },
-          { range: '17-18', result: 'Ally gains +3 AC for rest of combat', description: 'Good score' },
-          { range: '15-16', result: 'Ally gains +2 AC for rest of combat', description: 'Decent score' },
-          { range: '12-14', result: 'Ally gains +1 AC for rest of combat', description: 'Weak score' },
-          { range: '11 or less', result: 'No effect + gain 1 Thread', description: 'Too low - spell fails' },
-          { range: '22-25 (Bust)', result: 'You lose -2 AC next round + gain 2 Threads', description: 'Moderate bust' },
-          { range: '26+ (Major Bust)', result: 'You lose -3 AC next round + gain 2 Threads', description: 'Severe bust' }
+          { range: 'You Win', result: 'Deal 1d8 force damage to target', description: 'Your card is higher' },
+          { range: 'You Lose', result: 'Target heals for 2d8 HP + you gain 1 Thread', description: 'Target\'s card is higher' },
+          { range: 'Tie', result: 'Both take 1d8 damage + you gain 1 Thread', description: 'Same card value' }
         ]
       },
 
-      tags: ['cards', 'blackjack', 'buff', 'ac bonus', 'fate weaver', 'thread generation', 'rollable table']
+      tags: ['cards', 'competitive', 'damage', 'healing', 'fate weaver', 'thread generation', 'rollable table']
     },
 
+    {
+      id: 'echoes-of-the-past',
+      name: 'Echoes of the Past',
+      icon: 'Psychic/Focused Mind',
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'utility'],
+      school: 'Divination',
+      level: 1,
+
+      description: 'Call upon past actions to gain proficiency in a skill or tool of your choice for 1 hour. Spend 3 Threads to gain expertise instead.',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1,
+        durationUnit: 'hour'
+      },
+
+      resourceCost: {
+        mana: 2,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Memoria Praeteritorum!',
+        somaticText: 'Touch forehead and recall memories'
+      },
+
+      resolution: 'AUTOMATIC',
+
+      effects: {
+        buff: {
+          type: 'proficiency_grant',
+          duration: '1 hour',
+          choice: 'any skill or tool'
+        }
+      },
+
+      buffConfig: {
+        type: 'proficiency',
+        target: 'self',
+        durationType: 'rounds',
+        durationValue: 1,
+        durationUnit: 'hour',
+        grant: {
+          category: 'skill_or_tool',
+          level: 'proficiency',
+          selection: 'any'
+        }
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          usage: 'Spend 3 Threads to gain expertise instead of proficiency'
+        }
+      },
+
+      tags: ['utility', 'buff', 'proficiency', 'versatile', 'fate weaver']
+    },
+
+    {
+      id: 'marked-card',
+      name: 'Marked Card',
+      icon: 'Arcane/Ebon Blaze',
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      school: 'Divination',
+      level: 1,
+
+      description: 'Spend 1 Thread to peek at the top 3 cards of your deck. Choose one to draw; the other two go to the bottom in any order. If no Threads to spend, draw the top card blindly and gain 1 Thread if it\'s a card you didn\'t want.',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'instant'
+      },
+
+      resourceCost: {
+        mana: 1,
+        components: ['verbal'],
+        verbalText: 'Signo Cartae!'
+      },
+
+      resolution: 'CARDS',
+
+      effects: {
+        utility: {
+          type: 'deck_peek',
+          description: 'Look at top 3 cards, choose one to draw'
+        }
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'No Thread spent (blind draw only): +1 Thread if the drawn card doesn\'t help your current strategy',
+          usage: 'Spend 1 Thread to peek at top 3 and choose'
+        }
+      },
+
+      tags: ['utility', 'deck manipulation', 'fate weaver', 'thread generation']
+    },
+
+    {
+      id: 'fate_lucky_strike',
+      name: 'Lucky Strike',
+      icon: 'Social/Dice Roll',
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'buff'],
+      school: 'Divination',
+      level: 1,
+
+      description: 'Draw a single card. Face cards and Aces deal 2d8 force damage and grant advantage on your next attack. Numbered cards deal 1d8 and grant +1 Thread (weak outcome builds your reserves).',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Social/Dice Roll',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      damageConfig: {
+        formula: '1d8 or 2d8',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'lucky_strike',
+          name: 'Lucky',
+          description: 'Advantage on next attack roll for 1 round (face cards/Aces only)',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'CARDS',
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Numbered card drawn: +1 Thread (weak outcome)'
+        },
+        cardDraw: {
+          cards: 1,
+          faceCardOrAce: '2d8 damage + advantage on next attack',
+          numberedCard: '1d8 damage + 1 Thread'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['cards', 'damage', 'buff', 'fate weaver', 'thread generation']
+    },
+
+    {
+      id: 'fate_twist_probability',
+      name: 'Twist Probability',
+      icon: 'Radiant/Divine Radiance',
+      spellType: 'REACTION',
+      effectTypes: ['debuff'],
+      school: 'Divination',
+      level: 1,
+
+      description: 'When an enemy makes a roll, draw a card. If it\'s a face card, the enemy must reroll and take the lower result. If it\'s a numbered card, no effect — gain 1 Thread. If it\'s an Ace, the reroll also has disadvantage.',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Radiant/Divine Radiance',
+        castTime: 1,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'twisted_fate',
+          name: 'Twisted Fate',
+          description: 'Must reroll next roll and take lower result',
+          statusType: 'disadvantage',
+          statPenalty: { stat: 'all_rolls', value: -99, magnitudeType: 'reroll_lower' },
+          mechanicsText: 'Must reroll next roll and take lower result'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 12,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 4 },
+        actionPoints: 0,
+        components: ['verbal']
+      },
+
+      resolution: 'CARDS',
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Numbered card drawn: +1 Thread (spell had no effect)'
+        },
+        cardDraw: {
+          cards: 1,
+          faceCard: 'Enemy rerolls and takes lower result',
+          ace: 'Enemy rerolls with disadvantage',
+          numberedCard: 'No effect + 1 Thread'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['cards', 'debuff', 'reroll', 'fate weaver', 'thread generation']
+    },
+
+    // ========================================
+    // LEVEL 2 SPELLS
+    // ========================================
     {
       id: 'hearts-gamble',
       name: "Heart's Gamble",
@@ -1143,7 +1045,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Evocation',
       level: 2,
 
-      description: 'Draw cards one at a time. Hearts deal damage to you, face cards deal greater damage, but other cards grant power and advantage. You may stop drawing at any time.',
+      description: 'Draw cards one at a time. Hearts deal 1d6 damage to you per heart (face card hearts deal 2d6). Non-hearts grant power: Aces give advantage, numbered non-hearts give +1d4 damage on next attack. Stop drawing anytime. Every heart feeds your Threads.',
 
       typeConfig: {
         castTime: 1,
@@ -1169,46 +1071,32 @@ Many players enhance the Fate Weaver experience with:
 
       resolution: 'CARDS',
 
-      damageConfig: {
-        formula: 'variable',
-        damageType: 'variable',
-        scalingType: 'card_based'
-      },
-
-      effects: {
-        variable: {
-          type: 'sequential_card_draw',
-          risk: 'Hearts and face cards deal self-damage',
-          reward: 'Aces and numbered cards grant buffs'
-        }
-      },
-
       specialMechanics: {
         threadsOfDestiny: {
-          generation: '1 heart: +1 Thread, 2+ hearts or face card: +2 Threads',
+          generation: '1 heart drawn: +1 Thread. 2+ hearts or face card heart: +2 Threads',
           usage: 'Spend 2 Threads to peek at next card before drawing'
         },
         cardEffects: {
-          hearts: '1d6 damage per heart',
-          faceCards: '2d6 damage per face card (J, Q, K)',
+          hearts: '1d6 damage to self per heart',
+          faceCardHearts: '2d6 damage to self per face card heart (J, Q, K of hearts)',
           aces: 'Advantage on next attack',
-          numbered: '+1d4 damage on next attack per card'
+          numberedNonHearts: '+1d4 damage on next attack per card (stacks)'
         },
         stopAnytime: 'You may stop drawing at any time to lock in your buffs'
       },
 
       rollableTable: {
         enabled: true,
-        name: "Heart's Gamble - Card Effects",
+        name: "Heart's Gamble — Card Effects",
         description: 'Draw cards sequentially, stop anytime',
         resolutionType: 'CARDS',
         resolutionConfig: { cardType: 'sequential', stopAnytime: true },
         entries: [
-          { range: 'Ace (any suit)', result: 'Gain advantage on your next attack roll', description: 'Positive effect' },
-          { range: '2-10 (non-hearts)', result: 'Gain +1d4 damage on next attack (stacks)', description: 'Positive effect' },
+          { range: 'Ace (any suit)', result: 'Gain advantage on your next attack roll', description: 'Positive' },
+          { range: '2-10 (non-hearts)', result: 'Gain +1d4 damage on next attack (stacks)', description: 'Positive' },
           { range: 'Heart (2-10)', result: 'Take 1d6 damage + gain 1 Thread', description: 'Minor negative' },
           { range: 'Face Card (J, Q, K)', result: 'Take 2d6 damage + gain 2 Threads', description: 'Major negative' },
-          { range: 'Ace of Hearts', result: 'Take 1d6 damage BUT gain advantage (mixed)', description: 'Mixed outcome' }
+          { range: 'Ace of Hearts', result: 'Take 1d6 damage BUT gain advantage (mixed)', description: 'Mixed' }
         ]
       },
 
@@ -1216,103 +1104,244 @@ Many players enhance the Fate Weaver experience with:
     },
 
     {
-      id: 'war-of-wills',
-      name: 'War of Wills',
-      icon: 'Utility/Powerful Warrior',
+      id: 'fate_fortune_favor',
+      name: "Fortune's Favor",
+      icon: 'Utility/Utility',
       spellType: 'ACTION',
-      effectTypes: ['damage', 'healing'],
-      school: 'Evocation',
-      level: 1,
+      effectTypes: ['buff'],
+      school: 'Divination',
+      level: 2,
 
-      description: 'Challenge a creature to a card draw. Both you and the target draw one card. Higher card wins: if you win, deal 1d8 damage. If you lose, heal the target for 2d8. If you tie, both take 1d8 damage.',
+      description: 'Draw a card. Face cards: you and one ally gain advantage on your next 3 rolls. Aces: advantage on next 5 rolls. Numbered cards: advantage on next 1 roll + gain 1 Thread. The better the card, the stronger the favor.',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Utility/Utility',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally']
+      },
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'fortune_favor',
+          name: "Fortune's Favor",
+          description: 'Advantage on next 1-5 rolls based on card drawn',
+          statModifier: {
+            stat: 'all_rolls',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rolls',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+
+      resolution: 'CARDS',
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Numbered card: +1 Thread (weak outcome)'
+        },
+        cardDraw: {
+          cards: 1,
+          ace: 'Advantage on next 5 rolls for you and ally',
+          faceCard: 'Advantage on next 3 rolls for you and ally',
+          numberedCard: 'Advantage on next 1 roll + 1 Thread'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['cards', 'buff', 'fortune', 'advantage', 'fate weaver', 'thread generation']
+    },
+
+    // ========================================
+    // LEVEL 3 SPELLS
+    // ========================================
+    {
+      id: 'draw-of-the-damned',
+      name: 'Draw of the Damned',
+      icon: 'Necrotic/Demonic Empowerment',
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'damage'],
+      school: 'Abjuration',
+      level: 3,
+
+      description: 'Draw cards aiming for 21. Choose your mode before drawing:\n**Shield Mode**: Ally gains AC bonus based on how close to 21 (21 = +5 AC, 17-20 = +3-4 AC, 11-16 = +1-2 AC). Lasts rest of combat.\n**Strike Mode**: Deal damage to an enemy equal to your blackjack total × 1d4.\n**Bust** (over 21): You take 3d6 damage, -2 AC next round, and gain 2 Threads. Either mode busts the same way.',
 
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
-      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 40,
-        targetRestrictions: ['enemy']
-      },
-
-      effectTargeting: {
-        damage: {
-          targetingType: 'single',
-          rangeType: 'ranged',
-          rangeDistance: 40,
-          targetRestrictions: ['enemy'],
-          description: 'Target dealt damage if you win the draw or tie'
-        },
-        healing: {
-          targetingType: 'single',
-          rangeType: 'ranged',
-          rangeDistance: 40,
-          targetRestrictions: ['enemy'],
-          description: 'Target healed if you lose the draw'
-        }
+        rangeDistance: 30
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: 'rounds',
+        description: 'Shield Mode AC bonus lasts for rest of combat'
       },
 
       resourceCost: {
-        mana: 2,
+        mana: 4,
         components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Bellum Voluntatis!',
-        somaticText: 'Draw card dramatically',
+        verbalText: 'Viginti Unum!',
+        somaticText: 'Draw cards rapidly',
         materialText: 'Deck of fate cards'
       },
 
       resolution: 'CARDS',
 
-      damageConfig: {
-        formula: '1d8',
-        damageType: 'force',
-        scalingType: 'none'
-      },
-
       effects: {
         variable: {
-          type: 'competitive_draw',
-          win: '1d8 damage to target',
-          lose: '2d8 healing to target',
-          tie: '1d8 damage to both'
+          type: 'blackjack',
+          modes: ['shield', 'strike'],
+          bust: 'Self-damage + Thread generation'
         }
       },
 
       specialMechanics: {
         threadsOfDestiny: {
-          generation: 'Lose: +1 Thread, Tie: +1 Thread',
-          usage: 'Spend 2 Threads to call a specific card for your draw'
+          generation: 'Bust: +2 Threads. Total 11 or less: +1 Thread (weak outcome)',
+          usage: 'Spend 2 Threads to call a specific card to improve your total'
         },
-        competitive: {
-          type: 'high_card_wins',
-          cardValues: 'Ace=14, King=13, Queen=12, Jack=11, 10-2=face value',
-          tiebreaker: 'Suits (Spades > Hearts > Diamonds > Clubs)'
+        blackjack: {
+          target: 21,
+          aceValue: '1 or 11',
+          faceCards: 10,
+          modes: {
+            shield: 'AC bonus to ally based on total',
+            strike: 'Damage to enemy = total × 1d4'
+          },
+          bust: 'Take 3d6 self-damage, -2 AC next round'
         }
       },
 
       rollableTable: {
         enabled: true,
-        name: 'War of Wills - Competitive Draw',
-        description: 'Both draw one card, higher wins',
+        name: 'Draw of the Damned — Blackjack Results',
+        description: 'Draw cards aiming for 21. Choose Shield or Strike mode.',
         resolutionType: 'CARDS',
-        resolutionConfig: { cardType: 'competitive', players: 2 },
+        resolutionConfig: { cardType: 'blackjack', target: 21, modes: ['shield', 'strike'] },
         entries: [
-          { range: 'You Win', result: 'Deal 1d8 force damage to target', description: 'Your card is higher' },
-          { range: 'You Lose', result: 'Target heals for 2d8 HP + you gain 1 Thread', description: 'Target\'s card is higher' },
-          { range: 'Tie', result: 'Both take 1d8 damage + you gain 1 Thread', description: 'Same card value' }
+          { range: '21 (Blackjack)', result_shield: 'Ally +5 AC (rest of combat)', result_strike: 'Deal 21 × 1d4 force damage', description: 'Perfect score' },
+          { range: '19-20', result_shield: 'Ally +4 AC', result_strike: 'Deal total × 1d4 damage', description: 'Excellent' },
+          { range: '17-18', result_shield: 'Ally +3 AC', result_strike: 'Deal total × 1d4 damage', description: 'Good' },
+          { range: '15-16', result_shield: 'Ally +2 AC', result_strike: 'Deal total × 1d4 damage', description: 'Decent' },
+          { range: '12-14', result_shield: 'Ally +1 AC', result_strike: 'Deal total × 1d4 damage', description: 'Weak' },
+          { range: '11 or less', result_shield: 'No effect + 1 Thread', result_strike: 'No effect + 1 Thread', description: 'Too low' },
+          { range: '22-25 (Bust)', result: 'Take 3d6 damage, -2 AC next round + 2 Threads', description: 'Moderate bust' },
+          { range: '26+ (Major Bust)', result: 'Take 3d6 damage, -3 AC next round + 2 Threads', description: 'Severe bust' }
         ]
       },
 
-      tags: ['cards', 'competitive', 'damage', 'healing', 'fate weaver', 'thread generation', 'rollable table']
+      tags: ['cards', 'blackjack', 'buff', 'damage', 'fate weaver', 'thread generation', 'rollable table']
     },
 
+    {
+      id: 'echo-of-fate',
+      name: 'Echo of Fate',
+      icon: 'Arcane/Ebon Blaze',
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      school: 'Divination',
+      level: 3,
+
+      description: 'Draw a card and have an ally within 30 feet draw a card. Matching ranks: your next spell deals double damage/heals double. Matching suit too: tripled. No match: next spell halved + gain 1 Thread. Coordinate with your ally for maximum synergy.',
+
+      typeConfig: {
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        description: 'Affects your next spell cast'
+      },
+
+      resourceCost: {
+        mana: 4,
+        components: ['verbal', 'somatic', 'material'],
+        verbalText: 'Echo Fati!',
+        somaticText: 'Draw card and gesture to ally',
+        materialText: 'Deck of fate cards'
+      },
+
+      resolution: 'CARDS',
+
+      effects: {
+        buff: {
+          conditional: {
+            perfectMatch: 'Next spell tripled',
+            rankMatch: 'Next spell doubled',
+            suitMatch: 'Next spell +50%',
+            noMatch: 'Next spell halved + 1 Thread'
+          }
+        }
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'No match: +1 Thread',
+          usage: 'Spend 2 Threads to call a specific card for your draw'
+        },
+        coordination: {
+          type: 'ally_cooperation',
+          description: 'Ally draws a card too — matching ranks = success',
+          strategy: 'Communicate with ally about what cards they need'
+        }
+      },
+
+      rollableTable: {
+        enabled: true,
+        name: 'Echo of Fate — Card Matching',
+        description: 'You and ally each draw one card',
+        resolutionType: 'CARDS',
+        resolutionConfig: { cardType: 'matching', players: 2 },
+        entries: [
+          { range: 'Perfect Match (same card)', result: 'Next spell tripled + both gain 1d8 temp HP', description: 'Same rank AND suit' },
+          { range: 'Rank Match', result: 'Next spell doubled', description: 'Same rank, different suit' },
+          { range: 'Suit Match', result: 'Next spell +50%', description: 'Same suit, different rank' },
+          { range: 'No Match', result: 'Next spell halved + gain 1 Thread', description: 'Different rank and suit' }
+        ]
+      },
+
+      tags: ['cards', 'matching', 'buff', 'ally cooperation', 'fate weaver', 'thread generation', 'rollable table']
+    },
+
+    // ========================================
+    // LEVEL 4 SPELLS
+    // ========================================
     {
       id: 'solitaires-shield',
       name: "Solitaire's Shield",
@@ -1322,7 +1351,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Abjuration',
       level: 4,
 
-      description: 'Draw cards and attempt to match them in sequences or sets. Sequences unlock free spellcasting, while sets restore vitality. Failure to create patterns generates a Thread of Destiny.',
+      description: 'Draw cards and attempt to form sequences or sets. Sequences (3+ consecutive) grant free spellcasting. Sets (3+ same rank) restore HP. No pattern: gain 1 Thread. Spend Threads to call cards that complete your patterns.',
 
       typeConfig: {
         castTime: 1,
@@ -1358,8 +1387,8 @@ Many players enhance the Fate Weaver experience with:
 
       specialMechanics: {
         threadsOfDestiny: {
-          generation: 'No sequence or set: +1 Thread',
-          usage: 'Spend 2 Threads to call a specific card to complete pattern'
+          generation: 'No pattern: +1 Thread',
+          usage: 'Spend 2 Threads to call a card that completes your pattern'
         },
         patterns: {
           sequence: '3+ consecutive numbers (e.g., 5-6-7)',
@@ -1370,7 +1399,7 @@ Many players enhance the Fate Weaver experience with:
 
       rollableTable: {
         enabled: true,
-        name: "Solitaire's Shield - Pattern Matching",
+        name: "Solitaire's Shield — Pattern Matching",
         description: 'Draw cards and form sequences or sets',
         resolutionType: 'CARDS',
         resolutionConfig: { cardType: 'pattern_matching' },
@@ -1388,81 +1417,6 @@ Many players enhance the Fate Weaver experience with:
     },
 
     {
-      id: 'echo-of-fate',
-      name: 'Echo of Fate',
-      icon: 'Arcane/Ebon Blaze',
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
-      school: 'Divination',
-      level: 3,
-
-      description: 'Draw a card and have an ally within 30 feet draw a card. If the cards match (same rank), your next spell deals double damage or heals for double. If they don\'t match, your next spell is halved. Coordinate with allies for best results.',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Affects your next spell cast'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Echo Fati!',
-        somaticText: 'Draw card and gesture to ally',
-        materialText: 'Deck of fate cards'
-      },
-
-      resolution: 'CARDS',
-
-      effects: {
-        buff: {
-          conditional: {
-            match: 'Next spell doubled',
-            mismatch: 'Next spell halved'
-          }
-        }
-      },
-
-      specialMechanics: {
-        threadsOfDestiny: {
-          generation: 'Mismatch: +1 Thread',
-          usage: 'Spend 2 Threads to call a specific card for your draw'
-        },
-        coordination: {
-          type: 'ally_cooperation',
-          description: 'Ally draws a card too - matching ranks = success',
-          strategy: 'Communicate with ally about what cards they need'
-        }
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: 'Echo of Fate - Card Matching',
-        description: 'You and ally each draw one card',
-        resolutionType: 'CARDS',
-        resolutionConfig: { cardType: 'matching', players: 2 },
-        entries: [
-          { range: 'Perfect Match (same card)', result: 'Next spell tripled + both gain 1d8 temp HP', description: 'Same rank AND suit' },
-          { range: 'Rank Match', result: 'Next spell doubled', description: 'Same rank, different suit' },
-          { range: 'Suit Match', result: 'Next spell +50%', description: 'Same suit, different rank' },
-          { range: 'No Match', result: 'Next spell halved + gain 1 Thread', description: 'Different rank and suit' }
-        ]
-      },
-
-      tags: ['cards', 'matching', 'buff', 'ally cooperation', 'fate weaver', 'thread generation', 'rollable table']
-    },
-
-    {
       id: 'fates-exchange',
       name: "Fate's Exchange",
       icon: 'Arcane/Quick Step',
@@ -1471,7 +1425,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Conjuration',
       level: 4,
 
-      description: 'Swap your position with an ally within 30 feet, allowing for strategic repositioning in combat. Both you and the ally teleport to each other\'s locations instantly.',
+      description: 'Swap positions with an ally within 30 feet — both teleport instantly. Spend 1 Thread to increase range to 60 feet. A strategic repositioning that costs a card from your hand (discard 1 card).',
 
       typeConfig: {
         castTime: 1,
@@ -1495,7 +1449,7 @@ Many players enhance the Fate Weaver experience with:
         somaticText: 'Gesture between self and ally'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'CARDS',
 
       effects: {
         utility: {
@@ -1509,81 +1463,12 @@ Many players enhance the Fate Weaver experience with:
         threadsOfDestiny: {
           usage: 'Spend 1 Thread to increase range to 60 feet'
         },
-        tactical: {
-          uses: ['Save ally from danger', 'Position for flanking', 'Escape melee', 'Protect squishy allies']
+        cardDraw: {
+          cost: 'Discard 1 card from your hand (if no cards in hand, cannot cast)'
         }
       },
 
-      tags: ['utility', 'teleport', 'tactical', 'ally support', 'fate weaver']
-    },
-
-    {
-      id: 'echoes-of-the-past',
-      name: 'Echoes of the Past',
-      icon: 'Psychic/Focused Mind',
-      spellType: 'ACTION',
-      effectTypes: ['buff', 'utility'],
-      school: 'Divination',
-      level: 1,
-
-      description: 'Call upon past actions to gain proficiency in a skill or tool of your choice for 1 hour. You channel the knowledge of those who came before.',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 1,
-        durationUnit: 'hour'
-      },
-
-      resourceCost: {
-        mana: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Memoria Praeteritorum!',
-        somaticText: 'Touch forehead and recall memories'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'proficiency_grant',
-          duration: '1 hour',
-          choice: 'any skill or tool'
-        }
-      },
-      buffConfig: {
-        type: 'proficiency',
-        target: 'self',
-        durationType: 'rounds',
-        durationValue: 1,
-        durationUnit: 'hour',
-        grant: {
-          category: 'skill_or_tool',
-          level: 'proficiency',
-          selection: 'any'
-        }
-      },
-
-      specialMechanics: {
-        threadsOfDestiny: {
-          usage: 'Spend 3 Threads to gain expertise instead of proficiency'
-        },
-        versatility: {
-          description: 'Choose any skill or tool proficiency when cast',
-          examples: ['Lockpicking for a heist', 'Persuasion for negotiation', 'Arcana for ritual identification']
-        }
-      },
-
-      tags: ['utility', 'buff', 'proficiency', 'versatile', 'fate weaver']
+      tags: ['cards', 'utility', 'teleport', 'tactical', 'ally support', 'fate weaver']
     },
 
     {
@@ -1594,7 +1479,7 @@ Many players enhance the Fate Weaver experience with:
       school: 'Necromancy',
       level: 4,
 
-      description: 'Create a bond with an ally, allowing you to transfer up to half of your current hit points to them for 1 AP. The bond lasts for 1 minute.',
+      description: 'Create a bond with an ally through a shared card — both of you draw one card. For 1 minute, you can transfer up to half your current HP to them (1 AP per transfer). If your cards matched suits, they can also transfer HP back to you. Spend 2 Threads to guarantee matching suits.',
 
       typeConfig: {
         castTime: 1,
@@ -1620,7 +1505,7 @@ Many players enhance the Fate Weaver experience with:
         somaticText: 'Extend hand toward ally'
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: 'CARDS',
 
       effects: {
         healing: {
@@ -1633,16 +1518,15 @@ Many players enhance the Fate Weaver experience with:
 
       specialMechanics: {
         threadsOfDestiny: {
-          usage: 'Spend 2 Threads to allow ally to transfer HP back to you'
+          usage: 'Spend 2 Threads to guarantee matching suits (enables two-way HP transfer)'
         },
-        sacrifice: {
-          description: 'Transfer your HP to save allies',
-          limit: 'Up to half your current HP per transfer',
-          frequency: '1 AP while bond is active'
+        cardDraw: {
+          cards: 2,
+          description: 'Both you and ally draw 1 card. Matching suits enables two-way transfer.'
         }
       },
 
-      tags: ['healing', 'support', 'sacrifice', 'bond', 'fate weaver']
+      tags: ['cards', 'healing', 'support', 'sacrifice', 'bond', 'fate weaver']
     },
 
     // ========================================
@@ -1651,7 +1535,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fate_weaver_stacked_deck',
       name: 'Stacked Deck',
-      description: 'Manipulate probability to ensure your next three attacks or spells automatically hit.',
+      description: 'Spend 4 Threads to search your deck, rearrange the top 10 cards in any order. Your next 3 attacks or spells drawn from the top of the deck are guaranteed to be favorable. Any cards you call during these 3 draws cost 1 less Thread.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Psychic/Mental Chaos',
@@ -1669,28 +1553,38 @@ Many players enhance the Fate Weaver experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'threads_spend'],
+        resourceValues: { mana: 15 },
+        threadCost: 4,
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Shuffle cards elegantly'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['buff'],
 
       buffConfig: {
-        buffType: 'advantage',
+        buffType: 'deck_manipulation',
         effects: [{
           id: 'stacked_deck',
           name: 'Stacked Deck',
-          description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)',
-          mechanicsText: 'Next 3 attacks or spells automatically hit (crit on natural 20)',
+          description: 'Top 10 cards rearranged. Next 3 card draws are favorable. Call card costs reduced by 1 Thread.',
+          mechanicsText: 'Rearrange top 10 cards. Next 3 draws are favorable. Card calls cost 1 less Thread.',
           charges: 3
         }],
         durationValue: 3,
         durationType: 'rounds',
-        durationUnit: 'attacks'
+        durationUnit: 'draws'
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          usage: 'Costs 4 Threads to activate. Reduces call card cost by 1 Thread for next 3 draws.'
+        },
+        cardDraw: {
+          description: 'Look at top 10 cards of deck and rearrange in any order'
+        }
       },
 
       cooldownConfig: {
@@ -1698,76 +1592,13 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['buff', 'accuracy', 'poker', 'level 5', 'fate weaver']
-    },
-
-    {
-      id: 'fate_weaver_royal_flush',
-      name: 'Royal Flush',
-      description: 'Draw five magical cards. If they form a poker hand, gain scaling effects based on the hand.',
-      level: 5,
-      spellType: 'ACTION',
-      icon: 'Slashing/Crossed Swords',
-
-      typeConfig: {
-        school: 'evocation',
-        icon: 'Slashing/Crossed Swords',
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 20 },
-        targetRestrictions: ['enemy']
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
-        actionPoints: 2,
-        components: ['somatic'],
-        somaticText: 'Draw five cards dramatically'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage'],
-
-      damageConfig: {
-        formula: '4d8 + charisma',
-        elementType: 'force',
-        damageType: 'direct'
-      },
-
-      rollableTable: {
-        diceFormula: '5d13',
-        entries: [
-          { roll: 'pair', name: 'Pair', effect: { multiplier: 1.5 } },
-          { roll: 'two_pair', name: 'Two Pair', effect: { multiplier: 2 } },
-          { roll: 'three_kind', name: 'Three of a Kind', effect: { multiplier: 2.5 } },
-          { roll: 'straight', name: 'Straight', effect: { multiplier: 3 } },
-          { roll: 'flush', name: 'Flush', effect: { multiplier: 3.5 } },
-          { roll: 'full_house', name: 'Full House', effect: { multiplier: 4 } },
-          { roll: 'four_kind', name: 'Four of a Kind', effect: { multiplier: 5 } },
-          { roll: 'royal_flush', name: 'Royal Flush', effect: { multiplier: 10 } }
-        ]
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
-
-      tags: ['damage', 'aoe', 'poker', 'pattern matching', 'level 5', 'fate weaver', 'rollable table']
+      tags: ['cards', 'buff', 'deck manipulation', 'level 5', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_twist_fate',
       name: 'Twist Fate',
-      description: 'Rewrite destiny itself. Force a creature to reroll any roll and take the result you choose.',
+      description: 'Draw 3 cards. Face cards let you force a creature to reroll any roll and choose which result stands. Aces let you do the same to ALL creatures in range. Numbered cards: reroll 1 creature and gain 1 Thread per numbered card.',
       level: 5,
       spellType: 'REACTION',
       icon: 'Arcane/Rewind Time',
@@ -1794,13 +1625,22 @@ Many players enhance the Fate Weaver experience with:
         verbalText: 'Muta Fatum!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['control'],
 
       specialMechanics: {
         reroll: {
-          description: 'Target must reroll and you choose which result is used',
-          trigger: 'on_any_roll'
+          description: 'Draw 3 cards. Face cards = choose reroll result for 1 target. Aces = choose for all. Numbered = reroll 1 + gain Threads.'
+        },
+        threadsOfDestiny: {
+          generation: 'Each numbered card drawn: +1 Thread',
+          usage: 'None — this spell GENERATES Threads on weak draws'
+        },
+        cardDraw: {
+          cards: 3,
+          faceCard: 'Force 1 creature to reroll, you choose result',
+          ace: 'Force ALL creatures in range to reroll, you choose results',
+          numberedCard: 'Force 1 creature to reroll + gain 1 Thread per numbered card'
         }
       },
 
@@ -1809,7 +1649,7 @@ Many players enhance the Fate Weaver experience with:
         value: 3
       },
 
-      tags: ['control', 'utility', 'reroll', 'level 5', 'fate weaver']
+      tags: ['cards', 'control', 'reroll', 'level 5', 'fate weaver']
     },
 
     // ========================================
@@ -1818,7 +1658,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fate_weaver_dealers_choice',
       name: "Dealer's Choice",
-      description: 'Deal magical cards to all creatures in range. You choose who gets beneficial or harmful effects.',
+      description: 'Deal a card to every creature in range (draw one card per creature). You choose who gets beneficial or harmful effects BEFORE looking at the cards. Face cards deal 3d6 damage to enemies. Numbered cards grant +3 to all rolls to allies for 3 rounds. Aces do both. Any Hearts dealt generate 1 Thread each.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Ascension',
@@ -1840,13 +1680,13 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 25 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Deal cards to all'
       },
 
-      resolution: 'DICE',
+      resolution: 'CARDS',
       effectTypes: ['buff', 'debuff'],
 
       buffConfig: {
@@ -1854,7 +1694,7 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'good_card',
           name: 'Fortune Card',
-          description: 'Chosen allies gain +3 to all rolls for 3 rounds',
+          description: 'Numbered card: +3 to all rolls for 3 rounds',
           statModifier: { stat: 'all_rolls', magnitude: 3, magnitudeType: 'flat' },
           mechanicsText: '+3 to all rolls for 3 rounds'
         }],
@@ -1868,16 +1708,26 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'bad_card',
           name: 'Misfortune Card',
-          description: 'Chosen enemies have -3 to all rolls for 3 rounds',
-          statPenalty: { stat: 'all_rolls', value: -3 },
-          mechanicsText: '-3 to all rolls for 3 rounds'
+          description: 'Face card: 3d6 force damage',
+          mechanicsText: 'Face card deals 3d6 force damage'
         }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
         saveDC: 16,
         saveType: 'charisma',
-        saveOutcome: 'negates'
+        saveOutcome: 'halves'
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Each Heart dealt: +1 Thread',
+          usage: 'None — this spell GENERATES Threads from Hearts'
+        },
+        cardDraw: {
+          description: 'Draw 1 card per creature. Assign cards to creatures BEFORE looking.',
+          faceCard: '3d6 damage to enemy assigned',
+          numberedCard: '+3 to all rolls for ally assigned (3 rounds)',
+          ace: 'Both effects on assigned target',
+          hearts: '+1 Thread per Heart drawn regardless of assignment'
+        }
       },
 
       cooldownConfig: {
@@ -1885,20 +1735,20 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['buff', 'debuff', 'aoe', 'control', 'level 6', 'fate weaver']
+      tags: ['cards', 'buff', 'debuff', 'aoe', 'control', 'level 6', 'fate weaver']
     },
 
     {
-      id: 'fate_weaver_blackjack',
-      name: 'Blackjack',
-      description: 'Draw cards trying to get as close to 21 as possible. Higher hands deal more damage, but bust deals damage to you.',
+      id: 'fate_weaver_twenty_one_curses',
+      name: 'Twenty-One Curses',
+      description: 'Draw cards for blackjack. Hit or stand. Your total becomes a curse multiplier on the target: total × 1d6 force damage. Bust = you take the damage instead AND gain 2 Threads. A natural 21 (first 2 cards) also stuns the target for 1 round.',
       level: 6,
       spellType: 'ACTION',
-      icon: 'Radiant/Divine Blessing',
+      icon: 'Necrotic/Demonic Empowerment',
 
       typeConfig: {
         school: 'evocation',
-        icon: 'Radiant/Divine Blessing',
+        icon: 'Necrotic/Demonic Empowerment',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1912,26 +1762,30 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 22 },
+        resourceValues: { mana: 20 },
         actionPoints: 1,
         components: ['somatic'],
-        somaticText: 'Draw cards one by one'
+        somaticText: 'Draw cursed cards one by one'
       },
 
-      resolution: 'DICE',
+      resolution: 'CARDS',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: 'card_total * 1d6',
+        formula: 'blackjack_total * 1d6',
         elementType: 'force',
         damageType: 'direct'
       },
 
       specialMechanics: {
         blackjack: {
-          description: 'Draw cards (2-11 value). Try to get close to 21. Over 21 = bust (damage yourself instead)',
-          twentyOne: 'Deal maximum damage and stun target',
-          bust: 'Take the damage yourself instead'
+          description: 'Draw cards (A=1/11, face=10). Hit or stand. Total × 1d6 = damage.',
+          twentyOne: 'Total × 1d6 damage + stun 1 round',
+          bust: 'Take the damage yourself instead + gain 2 Threads'
+        },
+        threadsOfDestiny: {
+          generation: 'Bust: +2 Threads. Total 11 or less: +1 Thread (weak outcome)',
+          usage: 'Spend 2 Threads to call a card to improve your total'
         }
       },
 
@@ -1940,13 +1794,13 @@ Many players enhance the Fate Weaver experience with:
         value: 3
       },
 
-      tags: ['damage', 'blackjack', 'risk reward', 'level 6', 'fate weaver']
+      tags: ['cards', 'blackjack', 'damage', 'risk reward', 'level 6', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_fold_reality',
       name: 'Fold Reality',
-      description: 'Fold the fabric of reality like a deck of cards, teleporting yourself and allies to a seen location.',
+      description: 'Fold space like a deck of cards. Draw 5 cards — each Heart in your hand determines a teleport destination you can send an ally to (within 120 feet, line of sight). No Hearts: no teleports, but gain 1 Thread per Heart-less card drawn. Spend 4 Threads to guarantee 2 Hearts.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Arcane/Open Portal',
@@ -1968,13 +1822,13 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 30 },
+        resourceValues: { mana: 28 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Fold space like cards'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['utility'],
 
       utilityConfig: {
@@ -1982,7 +1836,7 @@ Many players enhance the Fate Weaver experience with:
         selectedEffects: [{
           id: 'teleport',
           name: 'Teleport',
-          description: 'Teleport yourself and up to 5 willing allies up to 120 feet',
+          description: 'Teleport allies to locations based on Hearts drawn (up to 120 feet)',
           distance: 120,
           needsLineOfSight: true,
           takesOthers: true,
@@ -1994,12 +1848,24 @@ Many players enhance the Fate Weaver experience with:
         power: 'major'
       },
 
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'No Hearts in hand: +1 Thread per non-Heart card (up to 5 Threads)',
+          usage: 'Spend 4 Threads to guarantee at least 2 Hearts in your draw'
+        },
+        cardDraw: {
+          cards: 5,
+          hearts: 'Each Heart = 1 ally can teleport up to 120 feet',
+          noHearts: 'No teleports, but gain 1 Thread per card (up to 5 Threads)'
+        }
+      },
+
       cooldownConfig: {
         type: 'turn_based',
         value: 5
       },
 
-      tags: ['utility', 'teleport', 'party', 'level 6', 'fate weaver']
+      tags: ['cards', 'utility', 'teleport', 'party', 'level 6', 'fate weaver']
     },
 
     // ========================================
@@ -2008,7 +1874,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fate_weaver_house_rules',
       name: 'House Rules',
-      description: 'Impose your own rules on reality. For the next minute, dice work differently in your favor.',
+      description: 'Draw 3 cards. The suits determine the new rules you impose on reality for 1 minute:\n♠ Spades: Enemies treat all maximum die results as 1 less\n♥ Hearts: Allies gain 1 Thread whenever they take damage\n♦ Diamonds: You may call 2 cards per turn instead of 1\n♣ Clubs: All enemies have disadvantage on their first roll each turn\nNo pairs: only 1 rule applies (your choice). Pairs: 2 rules. Three of a kind: all 4 rules.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Divinity',
@@ -2029,19 +1895,28 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 35 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Regula Meae!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['buff', 'debuff'],
 
       specialMechanics: {
-        houseRules: {
-          description: 'Choose one: Allies treat all 1s as 2s, OR enemies treat all 6s as 1s, OR you can reroll any die once per round',
-          duration: '1 minute'
+        threadsOfDestiny: {
+          generation: 'No matching suits: +1 Thread',
+          usage: 'None — this spell GENERATES Threads from Hearts rule'
+        },
+        cardDraw: {
+          cards: 3,
+          spades: 'Enemies treat max die results as 1 less (6s become 5s, etc.)',
+          hearts: 'Allies gain 1 Thread when they take damage',
+          diamonds: 'You may call 2 cards per turn instead of 1',
+          clubs: 'Enemies have disadvantage on first roll each turn',
+          pairs: '2 rules apply',
+          threeOfAKind: 'All 4 rules apply'
         }
       },
 
@@ -2050,13 +1925,13 @@ Many players enhance the Fate Weaver experience with:
         value: 6
       },
 
-      tags: ['buff', 'debuff', 'aoe', 'dice manipulation', 'level 7', 'fate weaver']
+      tags: ['cards', 'buff', 'debuff', 'aoe', 'level 7', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_all_in',
       name: 'All In',
-      description: 'Go all in on a massive attack. Bet your own life force for devastating damage.',
+      description: 'Draw 5 cards face-down. Reveal them one at a time. Each card that matches your target\'s "fate card" (drawn by the GM/target) deals 3d6 force damage. Bet up to half your HP — if you reveal MORE misses than hits, you lose the HP bet. Every miss generates 2 Threads. Spend Threads before revealing to peek at the next card.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Fire/Rising Inferno',
@@ -2077,25 +1952,34 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana', 'hp'],
-        resourceValues: { mana: 35, hp: 'variable' },
+        resourceValues: { mana: 30, hp: 'variable' },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'ALL IN!'
       },
 
-      resolution: 'DICE',
+      resolution: 'CARDS',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d6 + hp_bet',
+        formula: 'matches * 3d6',
         elementType: 'force',
         damageType: 'direct'
       },
 
       specialMechanics: {
         allIn: {
-          description: 'Bet up to half your current HP. Deal 12d6 force damage plus an amount equal to the HP bet.',
-          risk: 'If the attack misses, you still lose the HP'
+          description: 'Bet up to half current HP. Draw 5 cards face-down. Target draws 1 "fate card." Reveal yours one at a time. Each match = 3d6 damage. More misses than hits = lose HP bet.',
+          risk: 'Misses cost your HP bet but generate 2 Threads each'
+        },
+        threadsOfDestiny: {
+          generation: 'Each non-matching card: +2 Threads',
+          usage: 'Spend 2 Threads to peek at next face-down card before revealing'
+        },
+        cardDraw: {
+          cards: 5,
+          match: '3d6 damage per card matching target\'s fate card rank',
+          miss: '+2 Threads and counts toward HP bet loss'
         }
       },
 
@@ -2104,13 +1988,13 @@ Many players enhance the Fate Weaver experience with:
         value: 4
       },
 
-      tags: ['damage', 'high risk', 'betting', 'level 7', 'fate weaver']
+      tags: ['cards', 'damage', 'high risk', 'betting', 'level 7', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_destiny_rewritten',
       name: 'Destiny Rewritten',
-      description: 'Rewrite a recent event as if it never happened. Reverse one action taken in the last round.',
+      description: 'Draw 7 cards and lay them out as the "Timeline." Reverse the order of the Timeline — the last card drawn becomes the first. This rewinds one action taken in the last round as if it never happened. Each Face card in the Timeline reduces the Thread cost by 1. No Face cards: full cost and the reversal is imperfect (GM adds a complication).',
       level: 7,
       spellType: 'REACTION',
       icon: 'Arcane/Rewind Time',
@@ -2129,19 +2013,28 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 40 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Rescribe!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['utility'],
 
       specialMechanics: {
         rewrite: {
-          description: 'Undo one action taken in the last round. All effects are reversed.',
+          description: 'Draw 7 cards as "Timeline." Reverse order to undo 1 action from last round. Face cards reduce Thread cost. No face cards = imperfect reversal.',
           limit: 'Cannot undo death of a creature'
+        },
+        threadsOfDestiny: {
+          generation: 'No face cards in Timeline: +2 Threads (imperfect reversal — you gain power from the failure)',
+          usage: 'Base cost: 6 Threads. Each Face card in Timeline reduces cost by 1.'
+        },
+        cardDraw: {
+          cards: 7,
+          faceCards: 'Each Face card reduces Thread cost by 1 (minimum 0)',
+          noFaceCards: '+2 Threads but reversal is imperfect'
         }
       },
 
@@ -2150,16 +2043,16 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['utility', 'time', 'undo', 'level 7', 'fate weaver']
+      tags: ['cards', 'utility', 'time', 'undo', 'level 7', 'fate weaver']
     },
 
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
     {
-      id: 'fate_weaver_wild_card',
-      name: 'Wild Card',
-      description: 'Draw the ultimate wild card. Roll on a table of powerful random effects.',
+      id: 'fate_weaver_the_jokers_hand',
+      name: "The Joker's Hand",
+      description: 'Draw the Joker from your deck (if using a deck without Jokers, treat the first red card drawn as The Joker). Draw 5 additional cards. The Joker adopts the identity of whichever card would create the best possible outcome from your table of effects. If all 5 cards are the same suit as the Joker, draw 5 more and apply effects twice.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Utility/Utility',
@@ -2179,29 +2072,40 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 50 },
+        resourceValues: { mana: 45 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Draw the wild card'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['utility'],
+      resolution: 'CARDS',
+      effectTypes: ['variable'],
 
       rollableTable: {
-        diceFormula: '1d10',
+        enabled: true,
+        name: "The Joker's Hand — Wild Effects",
+        description: 'The Joker becomes the best possible card. Draw 5 cards for effect.',
+        resolutionType: 'CARDS',
+        resolutionConfig: { cardType: 'joker', cardCount: 5 },
         entries: [
-          { roll: 1, name: 'Joker', effect: { type: 'random_target', description: 'Cast a random level 5 spell on a random target' } },
-          { roll: 2, name: 'The Tower', effect: { type: 'damage', formula: '10d10 force', target: 'enemies' } },
-          { roll: 3, name: 'The Star', effect: { type: 'healing', formula: 'full heal', target: 'allies' } },
-          { roll: 4, name: 'The Moon', effect: { type: 'transform', description: 'All enemies become sheep for 1 round' } },
-          { roll: 5, name: 'The Sun', effect: { type: 'buff', description: 'All allies gain +5 to all stats for 1 minute' } },
-          { roll: 6, name: 'Death', effect: { type: 'damage', description: 'Target must save or drop to 1 HP' } },
-          { roll: 7, name: 'The Wheel', effect: { type: 'swap', description: 'Swap HP with target enemy' } },
-          { roll: 8, name: 'Justice', effect: { type: 'reflect', description: 'All damage to allies is reflected for 1 minute' } },
-          { roll: 9, name: 'The Magician', effect: { type: 'resource', description: 'Restore all mana and cooldowns' } },
-          { roll: 10, name: 'Ace of Destiny', effect: { type: 'choose', description: 'Choose any effect from this table' } }
+          { range: 'Royal Flush', name: 'Fate Ascendant', effect: { type: 'damage', formula: '12d10 radiant', target: 'enemies' } },
+          { range: 'Straight Flush', name: 'The River', effect: { type: 'damage', formula: '10d10 force', target: 'enemies' } },
+          { range: 'Four of a Kind', name: 'Quad Fury', effect: { type: 'damage', formula: '8d10 force', target: 'enemies' } },
+          { range: 'Full House', name: 'Fortune & Ruin', effect: { type: 'mixed', description: 'Heal allies for 8d8 + deal 8d8 to enemies' } },
+          { range: 'Flush', name: 'Suit Storm', effect: { type: 'damage', formula: '6d10 (type matches suit)', target: 'enemies' } },
+          { range: 'Straight', name: 'Sequence of Fate', effect: { type: 'control', description: 'All enemies skip next action' } },
+          { range: 'Three of a Kind', name: 'Triple Threat', effect: { type: 'buff', description: 'All allies gain +4 to all rolls for 3 rounds' } },
+          { range: 'Two Pair', name: 'Mirror Fate', effect: { type: 'utility', description: 'Reflect all damage to allies back at attackers for 2 rounds' } },
+          { range: 'One Pair', name: 'Twin Fortune', effect: { type: 'resource', description: 'Restore 30 mana and 5 Threads' } },
+          { range: 'High Card', name: 'Joker\'s Mercy', effect: { type: 'thread_generation', description: 'Gain 5 Threads + draw again' } }
         ]
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'High Card result: gain 5 Threads and draw again',
+          usage: 'None — this spell is pure card-based chaos'
+        }
       },
 
       cooldownConfig: {
@@ -2209,13 +2113,13 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['variable', 'random', 'powerful', 'level 8', 'fate weaver', 'rollable table']
+      tags: ['cards', 'variable', 'powerful', 'level 8', 'fate weaver', 'rollable table']
     },
 
     {
       id: 'fate_weaver_fate_sealed',
       name: 'Fate Sealed',
-      description: 'Seal an enemy\'s fate. They cannot avoid the next attack or effect that targets them.',
+      description: 'Draw 3 cards. If any two share the same suit, seal an enemy\'s fate — the next attack against them automatically hits and cannot be avoided. All 3 same suit: the hit is also a critical. No matching suits: gain 1 Thread per card. Spend 2 Threads to call a card to force a suit match.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Psychic/Mind Roar',
@@ -2236,13 +2140,13 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 45 },
+        resourceValues: { mana: 40 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Fatum Signatum!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['debuff'],
 
       debuffConfig: {
@@ -2250,8 +2154,8 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'fate_sealed',
           name: 'Fate Sealed',
-          description: 'The next attack against this target automatically hits and cannot be avoided, blocked, or reduced',
-          mechanicsText: 'Next attack automatically hits, cannot be avoided or reduced',
+          description: 'Next attack automatically hits, cannot be avoided or reduced. Critical if 3 same suit.',
+          mechanicsText: 'Next attack auto-hits. Critical if 3 cards matched suit.',
           charges: 1
         }],
         durationValue: 3,
@@ -2262,18 +2166,31 @@ Many players enhance the Fate Weaver experience with:
         saveOutcome: 'halves_duration'
       },
 
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'No matching suits: +1 Thread per card drawn (up to 3 Threads)',
+          usage: 'Spend 2 Threads to call a card that matches one of your drawn suits'
+        },
+        cardDraw: {
+          cards: 3,
+          twoSameSuit: 'Next attack auto-hits',
+          threeSameSuit: 'Next attack auto-hits AND is a critical hit',
+          noMatch: 'No effect + 1 Thread per card'
+        }
+      },
+
       cooldownConfig: {
         type: 'turn_based',
         value: 5
       },
 
-      tags: ['debuff', 'guaranteed hit', 'level 8', 'fate weaver']
+      tags: ['cards', 'debuff', 'guaranteed hit', 'level 8', 'fate weaver']
     },
 
     {
-      id: 'fate_weaver_double_down',
-      name: 'Double Down',
-      description: 'Double the effect of your next spell. Also doubles any negative consequences.',
+      id: 'fate_weaver_fates_wager',
+      name: "Fate's Wager",
+      description: 'Double down on your next card-based spell. Draw a card — Face card: your next spell\'s effect is doubled (damage, healing, duration). Numbered card: your next spell\'s effect is doubled BUT you also take the spell\'s damage/healing yourself. Ace: tripled with no downside. The wager is always in the cards.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Glow',
@@ -2292,22 +2209,22 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceValues: { mana: 35 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Double down!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['buff'],
 
       buffConfig: {
         buffType: 'amplify',
         effects: [{
-          id: 'double_down',
-          name: 'Double Down',
-          description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects',
-          mechanicsText: 'Next spell deals double damage/healing but doubles negative effects too',
+          id: 'fates_wager',
+          name: "Fate's Wager",
+          description: 'Face card: next spell doubled. Ace: next spell tripled. Numbered: doubled but you also take the effect.',
+          mechanicsText: 'Draw 1 card. Face/Ace: next spell 2x-3x. Numbered: 2x but self-hit too.',
           charges: 1
         }],
         durationValue: 1,
@@ -2315,12 +2232,25 @@ Many players enhance the Fate Weaver experience with:
         durationUnit: 'spell'
       },
 
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Numbered card drawn AND self-damage taken: +2 Threads',
+          usage: 'None — the wager generates Threads from the risk'
+        },
+        cardDraw: {
+          cards: 1,
+          faceCard: 'Next card-based spell effect doubled (no downside)',
+          ace: 'Next card-based spell effect tripled (no downside)',
+          numberedCard: 'Next spell effect doubled BUT you also take the damage/healing + 2 Threads'
+        }
+      },
+
       cooldownConfig: {
         type: 'turn_based',
         value: 4
       },
 
-      tags: ['buff', 'amplify', 'risk reward', 'level 8', 'fate weaver']
+      tags: ['cards', 'buff', 'amplify', 'risk reward', 'level 8', 'fate weaver']
     },
 
     // ========================================
@@ -2329,7 +2259,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fate_weaver_grand_gambit',
       name: 'Grand Gambit',
-      description: 'The ultimate gamble. Flip a coin for each enemy in range. Heads eliminates them, tails fully heals them.',
+      description: 'Deal one card face-up to each enemy in range. Then deal yourself one card for each enemy. For each enemy: if YOUR card is higher, they are reduced to 1 HP. If their card is higher, they are fully healed and gain +2 AC for 1 minute. Ties: both your card and theirs are discarded, no effect, +1 Thread per tie. This is War — and the stakes are everything.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Utility/Utility',
@@ -2341,7 +2271,6 @@ Many players enhance the Fate Weaver experience with:
         castTimeType: 'IMMEDIATE'
       },
 
-      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
@@ -2350,42 +2279,29 @@ Many players enhance the Fate Weaver experience with:
         targetRestrictions: ['enemy']
       },
 
-      effectTargeting: {
-        damage: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
-          aoeParameters: { radius: 40 },
-          targetRestrictions: ['enemy'],
-          description: 'Heads: Enemy is reduced to 0 HP (no save)'
-        },
-        healing: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
-          aoeParameters: { radius: 40 },
-          targetRestrictions: ['enemy'],
-          description: 'Tails: Enemy is fully healed and gains +2 AC for 1 minute'
-        }
-      },
-
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 70 },
+        resourceValues: { mana: 60 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'GAMBIT MAGNUS!',
-        somaticText: 'Flip a golden coin'
+        somaticText: 'Deal cards to every enemy'
       },
 
-      resolution: 'COIN_FLIP',
+      resolution: 'CARDS',
       effectTypes: ['damage', 'healing'],
 
       specialMechanics: {
         grandGambit: {
-          heads: 'Enemy is reduced to 0 HP (no save)',
-          tails: 'Enemy is fully healed and gains +2 AC for 1 minute',
+          description: 'Deal 1 card to each enemy, 1 to yourself per enemy. Higher card wins. You win: enemy to 1 HP. You lose: enemy fully healed +2 AC.',
           perTarget: true
+        },
+        threadsOfDestiny: {
+          generation: 'Each tie: +1 Thread. Each loss: +1 Thread.',
+          usage: 'Spend 2 Threads per enemy to call your card for that matchup'
+        },
+        cardDraw: {
+          description: 'War mechanic. One card per enemy, one card for you per enemy.'
         }
       },
 
@@ -2394,13 +2310,13 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['damage', 'high risk', 'coin flip', 'ultimate', 'level 9', 'fate weaver']
+      tags: ['cards', 'damage', 'high risk', 'war', 'ultimate', 'level 9', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_master_of_destiny',
       name: 'Master of Destiny',
-      description: 'Become the master of fate itself. For 1 minute, you can set any die result to the number of your choice.',
+      description: 'Draw 13 cards (one for each rank, Ace through King). Lay them out as the "Throne of Destiny." For 1 minute, whenever any creature rolls a die, you may spend 1 Thread to replace their result with the value of the matching card from your Throne. Face cards count as 20. Aces count as 1 or 20 (your choice). Cards not in the Throne cannot be modified.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Illumination',
@@ -2419,13 +2335,13 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 80 },
+        resourceValues: { mana: 70 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Ego Sum Dominus Fati!'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -2433,13 +2349,24 @@ Many players enhance the Fate Weaver experience with:
         effects: [{
           id: 'master_of_destiny',
           name: 'Master of Destiny',
-          description: 'Choose the result of any die roll (yours or enemy\'s) up to 10 times',
-          mechanicsText: 'Choose the result of any die roll up to 10 times',
-          charges: 10
+          description: 'Spend 1 Thread per die to replace any roll with the value from your Throne of Destiny cards.',
+          mechanicsText: 'Draw 13 cards as Throne. Spend 1 Thread to replace any die result with Throne card value.',
+          charges: 13
         }],
         durationValue: 1,
         durationType: 'minutes',
         durationUnit: 'minutes'
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'None — this spell CONSUMES Threads',
+          usage: 'Spend 1 Thread per die replacement. Face cards = 20. Aces = 1 or 20.'
+        },
+        cardDraw: {
+          cards: 13,
+          description: 'Draw 13 cards, one for each rank. These become the Throne of Destiny.'
+        }
       },
 
       cooldownConfig: {
@@ -2447,13 +2374,13 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['buff', 'dice control', 'ultimate', 'level 9', 'fate weaver']
+      tags: ['cards', 'buff', 'dice control', 'ultimate', 'level 9', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_jackpot_supreme',
       name: 'Jackpot Supreme',
-      description: 'Hit the ultimate jackpot. Deal massive damage that multiplies based on matching dice.',
+      description: 'Draw 3 cards. If any 2 share the same rank, it\'s a JACKPOT — deal 10d10 × the number of matching cards force damage in a 30-foot radius. 3 of a kind: 10d10 × 7 damage + stun all targets 1 round. No matches: deal 10d10 base damage + gain 3 Threads. The jackpot is in the cards, not the dice.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Glow',
@@ -2476,19 +2403,19 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 75 },
+        resourceValues: { mana: 65 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'JACKPOT!',
-        somaticText: 'Roll three dice'
+        somaticText: 'Draw three cards'
       },
 
-      resolution: 'DICE',
+      resolution: 'CARDS',
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '10d10 + charisma * 3',
-        elementType: 'radiant',
+        formula: '10d10 * multiplier',
+        elementType: 'force',
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -2500,10 +2427,19 @@ Many players enhance the Fate Weaver experience with:
 
       specialMechanics: {
         jackpot: {
-          diceFormula: '3d6',
-          noMatch: { multiplier: 1 },
-          twoMatch: { multiplier: 3 },
-          threeMatch: { multiplier: 7, description: 'JACKPOT! Also stun all targets for 1 round' }
+          noMatch: { multiplier: 1, description: '10d10 base damage + 3 Threads' },
+          twoMatch: { multiplier: 3, description: '10d10 × 3 force damage' },
+          threeMatch: { multiplier: 7, description: '10d10 × 7 damage + stun all targets 1 round' }
+        },
+        threadsOfDestiny: {
+          generation: 'No matching ranks: +3 Threads',
+          usage: 'Spend 4 Threads to call a card that matches one of your drawn cards'
+        },
+        cardDraw: {
+          cards: 3,
+          noMatch: '10d10 base damage + 3 Threads',
+          twoMatch: '10d10 × 3 damage',
+          threeMatch: '10d10 × 7 damage + stun 1 round'
         }
       },
 
@@ -2512,7 +2448,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['damage', 'aoe', 'jackpot', 'ultimate', 'level 9', 'fate weaver']
+      tags: ['cards', 'damage', 'aoe', 'jackpot', 'ultimate', 'level 9', 'fate weaver']
     },
 
     // ========================================
@@ -2521,7 +2457,7 @@ Many players enhance the Fate Weaver experience with:
     {
       id: 'fate_weaver_rewrite_destiny',
       name: 'Rewrite Destiny',
-      description: 'Completely rewrite the destiny of one creature. Choose their fate: victory, defeat, or transformation.',
+      description: 'Draw 13 cards and lay them face-up as the Tapestry of Fate. Choose one creature within range. Rearrange the Tapestry to spell their fate:\n**All Face Cards**: Ally gains immunity to damage and auto-success on all rolls for 1 minute.\n**All Same Suit**: Enemy reduced to 1 HP and stunned 1 minute (no save).\n**Sequential (Ace through King)**: Target permanently polymorphed (save after 1 hour).\nIf you cannot form any pattern, gain 5 Threads and the spell fails.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Arcane/Rewind Time',
@@ -2542,23 +2478,32 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 90 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'RESCRIBERE FATUM!',
         somaticText: 'Rewrite reality with cards'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['utility'],
 
       specialMechanics: {
         rewriteDestiny: {
           choices: [
-            { name: 'Victory', effect: 'Target ally gains immunity to damage and auto-success on all rolls for 1 minute' },
-            { name: 'Defeat', effect: 'Target enemy is reduced to 1 HP and stunned for 1 minute (no save)' },
-            { name: 'Transformation', effect: 'Target is permanently polymorphed into a harmless creature (save ends after 1 hour)' }
+            { name: 'All Face Cards', effect: 'Target ally gains immunity and auto-success for 1 minute', requirement: 'All 13 cards must be face cards (J, Q, K)' },
+            { name: 'All Same Suit', effect: 'Enemy reduced to 1 HP, stunned 1 minute (no save)', requirement: 'All 13 cards must share a suit' },
+            { name: 'Sequential', effect: 'Target permanently polymorphed (save after 1 hour)', requirement: 'Cards form Ace through King sequence' },
+            { name: 'Failure', effect: 'No pattern formed — gain 5 Threads', requirement: 'None of the above patterns achieved' }
           ]
+        },
+        threadsOfDestiny: {
+          generation: 'Failure to form pattern: +5 Threads',
+          usage: 'Spend Threads to call cards BEFORE drawing the 13 (standard call card rules, once per turn — plan ahead across multiple turns)'
+        },
+        cardDraw: {
+          cards: 13,
+          description: 'Draw 13 cards as Tapestry. Achieve a pattern to rewrite destiny.'
         }
       },
 
@@ -2567,13 +2512,13 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['utility', 'ultimate', 'fate control', 'level 10', 'fate weaver']
+      tags: ['cards', 'utility', 'ultimate', 'fate control', 'level 10', 'fate weaver']
     },
 
     {
       id: 'fate_weaver_deck_of_many_things',
       name: 'Deck of Many Things',
-      description: 'Summon the legendary Deck of Many Things. Draw cards for incredibly powerful but unpredictable effects.',
+      description: 'Summon the legendary Deck. Draw 1-3 cards (your choice). Each card has a major effect — some miraculous, some catastrophic. Every catastrophic card generates 3 Threads. Spend 5 Threads to redraw one catastrophic card.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Utility/Utility',
@@ -2592,42 +2537,52 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 90 },
+        resourceValues: { mana: 80 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Summon the legendary deck'
       },
 
-      resolution: 'DICE',
-      effectTypes: ['utility'],
+      resolution: 'CARDS',
+      effectTypes: ['variable'],
 
       rollableTable: {
-        diceFormula: '1d22',
+        enabled: true,
+        name: 'Deck of Many Things — Draw Results',
         description: 'Draw 1-3 cards. Each has a major effect.',
+        resolutionType: 'CARDS',
+        resolutionConfig: { cardType: 'deck_of_many_things', cardCount: 3 },
         entries: [
-          { roll: 1, name: 'Sun', effect: 'Gain 50,000 XP and a wondrous item' },
-          { roll: 2, name: 'Moon', effect: 'Granted 1d3 wishes' },
-          { roll: 3, name: 'Star', effect: 'Increase one ability score by 2' },
-          { roll: 4, name: 'Throne', effect: 'Gain a keep and +6 Persuasion' },
-          { roll: 5, name: 'Key', effect: 'Gain a rare magic weapon' },
-          { roll: 6, name: 'Knight', effect: 'Gain a 4th-level fighter follower' },
-          { roll: 7, name: 'Gem', effect: 'Gain 50,000gp in gems' },
-          { roll: 8, name: 'Comet', effect: 'Defeat the next monster alone to gain a level' },
-          { roll: 9, name: 'Fates', effect: 'Can undo one event as if it never happened' },
-          { roll: 10, name: 'Balance', effect: 'Alignment changes to opposite' },
-          { roll: 11, name: 'Jester', effect: 'Gain 10,000 XP or draw two more cards' },
-          { roll: 12, name: 'Euryale', effect: '-2 to all saving throws permanently (curse)' },
-          { roll: 13, name: 'Rogue', effect: 'An NPC ally becomes hostile' },
-          { roll: 14, name: 'Idiot', effect: 'Intelligence reduced by 1d4+1 permanently' },
-          { roll: 15, name: 'Donjon', effect: 'Imprisoned in an extradimensional space' },
-          { roll: 16, name: 'Ruin', effect: 'All nonmagical possessions destroyed' },
-          { roll: 17, name: 'Skull', effect: 'Summons an Avatar of Death to fight you' },
-          { roll: 18, name: 'Flames', effect: 'A powerful devil becomes your enemy' },
-          { roll: 19, name: 'Talons', effect: 'All magic items you own are destroyed' },
-          { roll: 20, name: 'Void', effect: 'Soul imprisoned; body is incapacitated' },
-          { roll: 21, name: 'The Fool', effect: 'Lose 10,000 XP; draw again' },
-          { roll: 22, name: 'Vizier', effect: 'Know the answer to your next dilemma' }
+          { range: 'Sun', effect: 'Gain 50,000 XP and a wondrous item', threadGeneration: 0 },
+          { range: 'Moon', effect: 'Granted 1d3 wishes', threadGeneration: 0 },
+          { range: 'Star', effect: 'Increase one ability score by 2', threadGeneration: 0 },
+          { range: 'Throne', effect: 'Gain a keep and +6 Persuasion', threadGeneration: 0 },
+          { range: 'Key', effect: 'Gain a rare magic weapon', threadGeneration: 0 },
+          { range: 'Knight', effect: 'Gain a 4th-level fighter follower', threadGeneration: 0 },
+          { range: 'Gem', effect: 'Gain 50,000gp in gems', threadGeneration: 0 },
+          { range: 'Comet', effect: 'Defeat the next monster alone to gain a level', threadGeneration: 0 },
+          { range: 'Fates', effect: 'Can undo one event as if it never happened', threadGeneration: 0 },
+          { range: 'Balance', effect: 'Alignment changes to opposite', threadGeneration: 0 },
+          { range: 'Jester', effect: 'Gain 10,000 XP or draw two more cards', threadGeneration: 0 },
+          { range: 'Euryale', effect: '-2 to all saving throws permanently (curse) — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Rogue', effect: 'An NPC ally becomes hostile — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Idiot', effect: 'Intelligence reduced by 1d4+1 permanently — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Donjon', effect: 'Imprisoned in an extradimensional space — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Ruin', effect: 'All nonmagical possessions destroyed — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Skull', effect: 'Summons an Avatar of Death to fight you — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Flames', effect: 'A powerful devil becomes your enemy — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Talons', effect: 'All magic items destroyed — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Void', effect: 'Soul imprisoned; body incapacitated — gain 3 Threads', threadGeneration: 3 },
+          { range: 'The Fool', effect: 'Lose 10,000 XP; draw again — gain 3 Threads', threadGeneration: 3 },
+          { range: 'Vizier', effect: 'Know the answer to your next dilemma', threadGeneration: 0 }
         ]
+      },
+
+      specialMechanics: {
+        threadsOfDestiny: {
+          generation: 'Each catastrophic card: +3 Threads',
+          usage: 'Spend 5 Threads to redraw one catastrophic card'
+        }
       },
 
       cooldownConfig: {
@@ -2635,13 +2590,13 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['variable', 'random', 'legendary', 'ultimate', 'level 10', 'fate weaver', 'rollable table']
+      tags: ['cards', 'variable', 'random', 'legendary', 'ultimate', 'level 10', 'fate weaver', 'rollable table']
     },
 
     {
       id: 'fate_weaver_casino_royale',
       name: 'Casino Royale',
-      description: 'Transform the battlefield into a grand casino. All attacks, spells, and abilities become gambles with chance-based outcomes.',
+      description: 'Transform the battlefield into a grand casino. Draw a card for each creature in range — their card determines the game they must play for 1 minute:\n**Hearts**: Must play Heart\'s Gamble each turn (draw until non-heart, take damage from hearts, buff from others)\n**Spades**: Must play War of Wills each turn (challenge another creature, winner deals damage)\n**Diamonds**: Must play Blackjack each turn (hit or stand, bust = self-damage)\n**Clubs**: Must play Solitaire each turn (form patterns or take penalty)\nYou are the House. You always draw first and choose your game. +2 Threads at the start of each of your turns.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Radiance',
@@ -2662,34 +2617,35 @@ Many players enhance the Fate Weaver experience with:
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 100 },
+        resourceValues: { mana: 90 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'WELCOME TO MY CASINO!',
         somaticText: 'Grand sweeping gesture'
       },
 
-      resolution: 'NONE',
+      resolution: 'CARDS',
       effectTypes: ['utility', 'control'],
 
       zoneConfig: {
         duration: 1,
         durationUnit: 'minutes',
-        effects: ['gambling_rules'],
+        effects: ['casino_rules'],
         movable: false,
         size: { radius: 100 }
       },
 
       specialMechanics: {
         casinoRoyale: {
-          description: 'All attack rolls, saving throws, and ability checks work differently:',
-          rules: [
-            'All dice explode (max roll adds another die)',
-            'Critical hits deal triple damage',
-            'Natural 1s cause a random negative effect',
-            'You gain advantage on all your rolls',
-            'Enemies must gamble: before each action, flip a coin. Tails means they lose their action'
-          ]
+          description: 'All creatures are assigned a card game based on suit drawn. They must play their game each turn.',
+          youAreTheHouse: 'You always draw first and choose your game. +2 Threads at the start of each of your turns.'
+        },
+        threadsOfDestiny: {
+          generation: '+2 Threads at start of each of your turns while Casino Royale is active',
+          usage: 'None — the Casino generates Threads passively'
+        },
+        cardDraw: {
+          description: 'Draw 1 card per creature. Suit determines their forced game.'
         }
       },
 
@@ -2698,194 +2654,7 @@ Many players enhance the Fate Weaver experience with:
         value: 1
       },
 
-      tags: ['zone', 'control', 'gambling', 'ultimate', 'level 10', 'fate weaver']
-    },
-
-    // ADDITIONAL LEVEL 1 SPELLS
-    {
-      id: 'fate_lucky_strike',
-      name: 'Lucky Strike',
-      description: 'Strike with enhanced luck, dealing 1d8 force damage and gaining advantage on next attack roll.',
-      level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'buff'],
-
-      typeConfig: {
-        school: 'divination',
-        icon: 'Social/Dice Roll',
-        tags: ['damage', 'buff', 'luck', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
-      },
-
-      damageConfig: {
-        formula: '1d8',
-        elementType: 'force',
-        damageType: 'direct'
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'lucky_strike',
-          name: 'Lucky',
-          description: 'Advantage on next attack roll for 1 round',
-          statModifier: {
-            stat: 'attack_rolls',
-            magnitude: 1,
-            magnitudeType: 'advantage'
-          }
-        }],
-        durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 3
-        },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
-
-      resolution: 'DICE',
-      tags: ['damage', 'buff', 'luck', 'universal']
-    },
-
-    {
-      id: 'fate_twist_probability',
-      name: 'Twist Probability',
-      description: 'Twist the threads of fate to force an enemy to reroll their next roll and take the lower result.',
-      level: 1,
-      spellType: 'REACTION',
-      effectTypes: ['debuff'],
-
-      typeConfig: {
-        school: 'divination',
-        icon: 'Radiant/Divine Radiance',
-        tags: ['debuff', 'fate', 'reroll', 'universal'],
-        castTime: 1,
-        castTimeType: 'REACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
-      },
-
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'twisted_fate',
-          name: 'Twisted Fate',
-          description: 'Must reroll next roll and take lower result',
-          statusType: 'disadvantage',
-          statPenalty: { stat: 'all_rolls', value: -99, magnitudeType: 'reroll_lower' },
-          mechanicsText: 'Must reroll next roll and take lower result'
-        }],
-        durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        saveDC: 12,
-        saveType: 'spirit',
-        saveOutcome: 'negates'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 4
-        },
-        actionPoints: 0,
-        components: ['verbal']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
-
-      resolution: 'DICE',
-      tags: ['debuff', 'fate', 'reroll', 'universal']
-    },
-
-    // ADDITIONAL LEVEL 2 SPELL
-    {
-      id: 'fate_fortune_favor',
-      name: "Fortune's Favor",
-      description: 'Gain the favor of fortune, allowing you to roll twice on your next 3 rolls and take the higher result.',
-      level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
-
-      typeConfig: {
-        school: 'divination',
-        icon: 'Utility/Utility',
-        tags: ['buff', 'fortune', 'advantage', 'universal'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'fortune_favor',
-          name: "Fortune's Favor",
-          description: 'Roll twice and take higher result for next 3 rolls',
-          statModifier: {
-            stat: 'all_rolls',
-            magnitude: 1,
-            magnitudeType: 'advantage'
-          }
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rolls',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 8
-        },
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
-
-      resolution: 'DICE',
-      tags: ['buff', 'fortune', 'advantage', 'universal']
+      tags: ['cards', 'zone', 'control', 'gambling', 'ultimate', 'level 10', 'fate weaver']
     }
   ]
 };

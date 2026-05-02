@@ -19,135 +19,161 @@ export const ARCANONEER_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Arcanoneer is a versatile spellcaster who rolls 4d8 each turn to generate random elemental spheres (Arcane, Holy, Shadow, Fire, Ice, Nature, Healing, Chaos). You combine 2, 3, or 4 spheres to cast spells using a combination matrix—like mixing chemical elements to create reactions. You can save spheres between turns to build toward powerful combinations, but all spheres are lost when combat ends.
+      content: `**What You Need to Know**: You are an arcane chemist. Every turn, you roll 4d8 to generate random elemental spheres — tiny orbs of raw magic in 8 flavors (Arcane, Holy, Shadow, Fire, Ice, Nature, Healing, Chaos). You combine two spheres to cast spells from a **Combination Matrix** that you always know. Think of it like mixing chemicals: Fire + Ice always produces Steam. Fire + Fire always produces Flame Burst. **You never memorize spells — you combine ingredients.**
 
-**Core Mechanic**: Roll 4d8 → Get random spheres → Combine them to cast spells → Adapt to any situation
+**But here's the twist**: As you level up, you learn **Recipes** — enhanced versions of matrix combinations that add powerful effects. Anyone can combine Fire + Ice for basic Steam damage. But a Recipe like *Steam Burst* adds a blinding cone effect. The matrix is your floor. Recipes are your ceiling.
 
-**Resource**: Elemental Spheres (generated randomly each turn, can be banked during combat)
+**Core Loop**: Roll 4d8 → Get spheres → Bank or spend → Combine 2 spheres for a matrix combo (or use a learned Recipe for bonus effects) → Adapt to whatever the dice give you
 
-**Playstyle**: Highly adaptive, requires system mastery, RNG-dependent but strategically controllable
+**Resource**: Elemental Spheres (random each turn, bankable during combat, lost when combat ends) + Mana
 
-**Best For**: Players who enjoy improvisation, combo systems, and adapting to randomness`
+**Three Power Tiers**:
+- **2-Sphere Combos** (always available): Your bread and butter. 36 possible combinations, all defined in the matrix. 5 mana.
+- **3-Sphere Recipes** (learned, Level 6+): First power spike. Stronger effects, higher mana cost.
+- **4-Sphere Recipes** (learned, Level 8+): Devastating ultimates. Require banking spheres across turns.
+
+**Best For**: Players who love improvisation, combo systems, and turning chaos into strategy`
     },
 
-    description: `The Arcanoneer is a master of runes and arcane engineering, capable of combining different elemental spheres to create a vast array of magical effects. Unlike traditional spellcasters who memorize specific spells, Arcanoneers harness raw elemental energy that manifests randomly each turn, then combine these spheres in creative ways to craft spells, gadgets, and traps on the fly. This system provides immense versatility and strategic depth, allowing the Arcanoneer to adapt to any situation.`,
+    description: `The Arcanoneer doesn't memorize spells. The Arcanoneer *mixes* them.
+
+Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental reactions that occur when two elemental spheres collide. Fire + Ice = Steam. Shadow + Healing = Drain Life. Holy + Holy = Radiance. These combinations are as natural as chemistry: predictable, repeatable, and always available.
+
+But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Ice gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path. Same ingredients. Dramatically different results.
+
+The Arcanoneer's true power emerges at higher levels, when they unlock **3-sphere and 4-sphere Recipes** — complex combinations that produce effects no two-sphere reaction can match. These require patience, banking spheres across multiple turns, and careful planning. But when the moment arrives and you unleash *Elemental Maelstrom* with four banked spheres of Arcane, Fire, Ice, and Nature... the battlefield reshapes itself around your will.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
-      content: `Arcanoneers are arcane engineers and elemental theorists who view magic as a science of combination and reaction. They see the eight fundamental elements as building blocks that can be mixed like alchemical reagents to produce infinite variations. Their power comes not from memorization, but from understanding how elements interact and react with each other.
+      content: `Arcanoneers are arcane chemists — part scientist, part artist, part pyromaniac with a clipboard. They see the eight fundamental elements as reagents in an infinite laboratory, and the Combination Matrix as their periodic table. Every roll of the dice is a new experiment. Every combat is a chance to discover something the textbooks missed.
 
-In roleplay, Arcanoneers often carry notebooks filled with combination formulas, experiment with new sphere mixtures, and approach magic with scientific curiosity. They may mutter element names while casting, trace combination patterns in the air, or become excited when discovering new synergies.
+In roleplay, Arcanoneers carry worn notebooks filled with combination formulas, scribble corrections in the margins of their Recipe cards, and argue with other spellcasters about whether Fire + Shadow should be called "Hellfire" or "Umbral Ignition" (it's Hellfire, and they will die on this hill).
 
-Common Arcanoneer archetypes include:
-- **The Arcane Scientist**: Treats magic like chemistry, constantly experimenting
-- **The Combat Engineer**: Builds magical gadgets and battlefield devices
-- **The Chaos Theorist**: Embraces randomness and finds patterns in disorder
-- **The Elemental Savant**: Seeks to master all eight fundamental elements`
+Common Arcanoneer archetypes:
+- **The Arcane Chemist**: Treats magic like a lab experiment. Carries a notebook. Takes notes during combat.
+- **The Field Engineer**: Builds magical devices on the fly. Pragmatic, tactical, always has a backup plan.
+- **The Chaos Theorist**: Leans into the randomness. Treats bad rolls as "unexpected data." Terrifyingly cheerful.
+- **The Elemental Gourmand**: Obsessed with trying every combination. Has opinions about which 2-sphere combo is the most "elegant."`
     },
     
     combatRole: {
       title: 'Combat Role',
-      content: `**Primary Role**: Versatile damage dealer and utility caster
+      content: `**Primary Role**: Adaptive damage dealer and utility caster
 
-**Combat Identity**: The Arcanoneer excels at adapting to any situation by combining randomly generated elemental spheres into the perfect spell for the moment. They can deal massive AoE damage, provide healing support, create battlefield control effects, or unleash devastating single-target attacks - all depending on which spheres they roll each turn.
+**The Arcanoneer's Promise**: You will always have an answer. Not necessarily the *best* answer — that depends on what the dice give you — but always *an* answer. 36 matrix combinations cover every damage type, every targeting pattern, and both damage and healing. You are never caught completely helpless.
 
-**Tactical Approach**:
-- **Turn-by-Turn Adaptation**: Each turn brings new spheres, requiring quick thinking
-- **Combination Mastery**: Understanding which 2, 3, or 4-sphere combos to use
-- **Sphere Banking**: Saving specific spheres for powerful future combinations
-- **Risk Management**: Balancing immediate needs vs. saving for bigger combos
+**How You Fight**:
+1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers)
+2. **Read your hand** — What combos are available? Do you have a Recipe for any of them?
+3. **Decide**: Cast now with what you have, or bank spheres for a bigger play next turn?
+4. **Execute** — Select your spheres, choose your combo (or Recipe), pay the mana, watch the fireworks
 
 **Strengths**:
-- Unmatched versatility (can cast any element type)
-- Powerful AoE damage with multi-element combinations
-- Can adapt to any enemy weakness
-- Scales incredibly well with game knowledge
+- Can produce ANY damage type (8 elements = massive enemy weakness coverage)
+- Dual damage types on mixed combos (Fire+Ice hits both fire-weak AND ice-weak enemies)
+- Built-in healing and support options (Healing+Healing, Healing+Holy, etc.)
+- Chaos combos provide wild swing potential (high risk, high reward)
+- Scales with game knowledge — the more combos and recipes you know, the deadlier you become
 
 **Weaknesses**:
-- Highly dependent on RNG (random sphere generation)
-- Requires extensive system knowledge to optimize
-- Cannot guarantee specific spells when needed
-- Complex decision-making each turn`
+- RNG-dependent — bad rolls mean suboptimal turns
+- 2-sphere base damage is modest (1d8 + int/4) — you need Recipes or multi-sphere combos for big numbers
+- Complex decision-making every turn (analysis paralysis is real)
+- Sphere banking requires patience — turns spent saving are turns spent not casting`
     },
     
     playstyle: {
       title: 'Playstyle',
-      content: `**Moment-to-Moment Gameplay**:
+      content: `**The Moment-to-Moment**:
 
-Each turn, you roll 4d8 to generate your elemental spheres. You then decide:
-1. Do I spend these spheres immediately for a 2-sphere combo?
-2. Do I save them to combine with next turn's spheres for a 3 or 4-sphere ultimate?
-3. Which combination best fits the current tactical situation?
+Every turn begins the same way: you roll 4d8 and watch your spheres appear. Then the puzzle begins.
 
-**Example Turn Sequence**:
-- **Turn 1**: Roll 4d8 → Get Fire, Fire, Ice, Healing
-  - Option A: Cast Fire+Fire for pure fire damage
-  - Option B: Cast Fire+Ice for Steam Burst (mixed damage)
-  - Option C: Save all 4 for next turn to build toward a 4-sphere ultimate
-  
-- **Turn 2**: Roll 4d8 → Get Arcane, Shadow, Nature, Chaos
-  - If you saved Turn 1 spheres, you now have 8 spheres total
-  - Can cast a 4-sphere ultimate like "Elemental Fury" (Arcane+Fire+Ice+Nature)
-  - Or cast multiple 2-sphere combos
+**Turn 1 — The Hand You're Dealt**
 
-**Mastery Comes From**:
-- Memorizing the 8x8 combination matrix
-- Knowing when to save vs. spend spheres
-- Recognizing powerful 3 and 4-sphere recipes
-- Adapting combinations to enemy weaknesses`
+You roll: Fire, Fire, Ice, Healing. Your mind races through the matrix:
+- Fire + Fire = *Flame Burst* (single target fire damage)
+- Fire + Ice = *Steam* (cone of mixed damage + blind)
+- Fire + Healing = *Cauterize* (heal an ally with fire)
+- Ice + Healing = *Frost Mend* (heal + frost armor buff)
+
+Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Ice suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
+
+**Turn 2 — Banking for Power**
+
+You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos. You have 8 spheres total. Suddenly you can:
+- Cast a 2-sphere combo AND still have 6 spheres left
+- Start building toward a 3-sphere Recipe (need 1 more turn of banking)
+- Cast multiple 2-sphere combos if you have the action points
+
+**The Core Tension**: Spend now for immediate impact, or bank for devastating multi-sphere Recipes later? There is no wrong answer — only the answer that wins this particular fight.
+
+**Where Mastery Lives**:
+- Knowing the 36 matrix combos by heart (or at least the ones relevant to your spec)
+- Recognizing when your rolled spheres match a Recipe you've learned
+- Managing your sphere bank like a hand of cards — planning two turns ahead
+- Understanding which Chaos combos are worth the gamble`
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Siege of Thornwall Keep',
-      content: `**The Setup**: You and your party are defending Thornwall Keep against a wave of undead. Three skeletal warriors advance on your position while a necromancer channels dark energy from the rear. Your allies are engaged—you need to act fast.
+      title: 'Combat Example: The Ambush at Grimhollow Bridge',
+      content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees above. A fourth — their leader — stands at the far end, chanting. Your fighter charges forward. Your cleric holds the line. You stand at the center, fingers already twitching toward the elemental currents.
 
-**Turn 1 - Opening Salvo**
+**Turn 1 — The Opening Reaction**
 
-*You close your eyes and reach into the elemental currents, feeling the raw magic coalesce around you. Your fingers trace patterns in the air as you roll your fate dice...*
+*You reach into the aether and pull. The dice tumble...*
 
 **Roll 4d8**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
 
-*Two orbs of crackling flame materialize in your left hand, while frost crystals form in your right. A soft golden glow pulses at your chest—healing energy, waiting to be shaped.*
+*Two spheres of crackling flame materialize in your left hand, pale and hungry. A shard of enchanted ice forms in your right, humming with cold. A soft golden glow pulses at your sternum — healing energy, patient and warm.*
 
-**Your Decision**: The skeletal warriors are clustered together—perfect for area damage. You decide to combine Fire + Fire for a pure flame blast.
+**Your Mind Races**: Three bandits, clustered together on the bridge. No Recipe matches yet — you haven't learned any that use these spheres. But the **Combination Matrix** has you covered.
 
-*"Ignis multiplicare!"* you shout, slamming your palms together. The two fire spheres merge into a roiling ball of flame that you hurl at the skeletons. The explosion engulfs all three, their bones blackening and cracking from the intense heat.
+Fire + Ice = **Steam**. A cone of superheated vapor. Perfect for clustered enemies in a narrow space.
 
-**Result**: Cast "Flame Burst" (Fire + Fire) for 3d6 fire damage to all three skeletons. You still have Ice and Healing spheres banked for next turn.
+*You smash the fire and ice spheres together. They don't combine so much as *argue* — the fire screams, the ice hisses, and between them a roaring column of pressurized steam erupts in a 20-foot cone. The three bandits stagger backward, eyes streaming, skin blistering and flash-freezing in alternating waves.*
 
-**Turn 2 - Tactical Adaptation**
+**Result**: Cast **Steam** (Fire + Ice). 1d8 + INT/4 fire+frost damage in a 20-foot cone. All three bandits are hit. You still have Fire and Healing spheres banked.
 
-*The necromancer raises his staff, dark energy swirling. You need to disrupt his casting while keeping your defensive options open.*
+**Turn 2 — Reading the Battlefield**
+
+*The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged — he can't reach the caster in time. It's down to you.*
 
 **Roll 4d8**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
 
-*New spheres manifest: a sphere of pure arcane force, a writhing shadow orb, crackling nature energy, and a wildly fluctuating chaos sphere. Combined with your banked Ice and Healing from last turn, you now have 6 spheres total.*
+*New spheres blink into existence: a sphere of pure violet force, a writhing mass of shadow, crackling nature energy alive with lightning and thorn, and a chaos sphere that flickers through every color of the spectrum.*
 
-**Your Decision**: You could save everything for a massive 4-sphere ultimate next turn, but the necromancer needs to be stopped NOW. You combine Arcane + Shadow for a disruptive force blast.
+**Your Banked Spheres**: Fire, Healing (from Turn 1)
+**Total Available**: Fire, Healing, Arcane, Shadow, Nature, Chaos — 6 spheres
 
-*You weave the arcane and shadow spheres together, creating a bolt of void energy that streaks toward the necromancer. It strikes his staff, disrupting his channeling and causing him to stumble backward.*
+**The Decision**: You could spend Arcane + Shadow for **Void Bolt** (force + necrotic, good single-target damage). But the bandit leader is *channeling something*, and you notice something in your Recipe book — you've learned **Shadow Embrace**, a Recipe that enhances Shadow + Shadow with a weakening curse and necrotic drain over time.
 
-**Result**: Cast "Void Bolt" (Arcane + Shadow) for 2d8 force damage and interrupt his spell. You still have Ice, Healing, Nature, and Chaos banked (4 spheres total).
+Problem: you only have ONE Shadow sphere. You need another.
 
-**Turn 3 - The Ultimate Combination**
+*You bank everything. Six spheres wait in your aura like loaded bullets. The bandit leader grins, dark energy building.*
 
-*One skeleton remains, but it's badly damaged. The necromancer is preparing another spell. This is your moment.*
+**Turn 3 — The Recipe Unleashed**
 
-**Roll 4d8**: [2, 4, 5, 6] → Holy, Fire, Ice, Nature
+*The dark energy crests. You feel it building — something nasty. No more waiting.*
 
-*Divine light, flame, frost, and nature energy join your existing spheres. You now have 8 spheres total: Ice, Healing, Nature, Chaos, Holy, Fire, Ice, Nature.*
+**Roll 4d8**: [3, 3, 5, 2] → Shadow, Shadow, Ice, Holy
 
-**Your Decision**: You have the components for "Elemental Cataclysm" (Fire + Ice + Nature + Holy)—a devastating 4-sphere ultimate that combines all four primal elements.
+*Two shadow spheres materialize at once, dark and hungry. The dice have answered your prayer.*
 
-*You raise both hands to the sky, and all four spheres orbit around you in a complex pattern. Fire and ice spiral together, nature energy intertwines with holy light. The elements shouldn't mix—they should cancel each other out—but your mastery forces them into harmony.*
+**Your Total Spheres**: Fire, Healing, Arcane, Shadow, Nature, Chaos, Shadow, Shadow, Ice, Holy — 10 spheres.
 
-*"ELEMENTUM CATACLYSMOS!"*
+*Your hand goes to the Shadow + Shadow combination. The matrix calls this **Dark Bolt**. But you don't stop at the matrix. You reach deeper — into the Recipe.*
 
-*The four spheres collapse into a single point above your head, then explode outward in a prismatic wave of elemental fury. Fire burns, ice freezes, nature vines entangle, and holy light sears the undead flesh.*
+*"Umbra Amplexus."*
 
-**Result**: Cast "Elemental Cataclysm" (Fire + Ice + Nature + Holy) for 6d10 mixed elemental damage to all enemies in a 30-foot radius. The remaining skeleton is obliterated, and the necromancer is blasted off the battlements.
+*The two shadow spheres don't fly. They *unfold* — tendrils of living darkness that wrap around the bandit leader's arms, his blade, his throat. The necrotic energy drains the color from his skin. His dark chant chokes off into a gurgle. His muscles weaken as the shadow leeches his strength.*
 
-**The Lesson**: This is the Arcanoneer's power—adapting to each moment, banking resources for the perfect combination, and unleashing devastating elemental fury when the moment is right. Every turn is a puzzle, every roll is an opportunity, and mastery comes from knowing which pieces fit together.`
+**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). Base damage 1d8 + INT/4 necrotic. Recipe adds: 1d4 necrotic damage per round for 2 rounds AND Strength reduced by 2 for 2 rounds. His spell is interrupted.
+
+*The bandit leader staggers. His dark blade clatters to the stones. Your fighter finishes him with a clean strike.*
+
+**You still have 8 spheres banked**: Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy. Enough for four more combos — or the start of something much, much bigger if the fight continues.
+
+**The Lesson**: The Arcanoneer isn't about having the perfect spell. It's about reading what the dice give you, knowing your matrix, recognizing when your banked spheres match a Recipe, and having the patience to wait for the right moment. Every turn is a hand of cards. The master knows which ones to hold and which ones to play.`
     }
   },
   
@@ -160,7 +186,7 @@ Each turn, you roll 4d8 to generate your elemental spheres. You then decide:
 
     resourceBarExplanation: {
       title: 'Understanding Your Resource Bar',
-      content: `**What You See**: Your Arcanoneer resource bar displays your currently banked elemental spheres as colored orbs, each representing one of the eight elements. Unlike other classes with a single resource pool, you're managing multiple different "currencies" simultaneously.
+      content: `**What You See**: Your Arcanoneer resource bar displays your currently banked elemental spheres as colored orbs. Unlike other classes with a single resource pool, you're managing up to 8 different "currencies" simultaneously.
 
 **Visual Representation**:
 - **Arcane Spheres**: Purple orbs with swirling energy
@@ -168,66 +194,132 @@ Each turn, you roll 4d8 to generate your elemental spheres. You then decide:
 - **Shadow Spheres**: Dark orbs with wisps of darkness
 - **Fire Spheres**: Red-orange orbs with flickering flames
 - **Ice Spheres**: Pale blue orbs with frost crystals
-- **Nature Spheres**: Green orbs with crackling lightning
+- **Nature Spheres**: Green orbs crackling with storm energy
 - **Healing Spheres**: Soft yellow orbs with gentle glow
 - **Chaos Spheres**: Multicolored orbs that shift unpredictably
 
-**How It Changes**:
-- **Each Turn Start**: 4 new spheres appear (based on your 4d8 roll)
-- **When Casting**: Spheres you spend disappear from the bar
-- **Banking Spheres**: Unused spheres remain visible, accumulating over turns
-- **Combat End**: All spheres vanish (they don't persist between fights)
+**How It Changes Each Turn**:
+- **Turn Start**: 4 new spheres appear (from your 4d8 roll)
+- **When Casting**: Spent spheres disappear from the bar
+- **When Banking**: Unused spheres remain visible, accumulating over turns
+- **Combat End**: All spheres vanish — fresh start each fight
 
-**Why This Matters**: Your resource bar is your spell palette. The more spheres you have banked, the more options you have—but you're also limited by which specific elements you've rolled. A bar full of Fire spheres gives you different options than a diverse mix of elements. Learning to read your resource bar at a glance and quickly identify powerful combinations is key to mastering the Arcanoneer.
-
-**Strategic Depth**: Unlike a Pyrofiend who just watches their Inferno Veil level, or a Berserker tracking their Rage number, you're managing a dynamic inventory of magical components. Each sphere is a tool, and your job is to select the right tools for each situation.`
+**Reading the Bar at a Glance**: The bar is your hand of cards. A bar full of Fire spheres means pure-element combos. A diverse mix means utility and versatility. The skill is in recognizing, at a glance, which matrix combos and Recipes your current bank supports. With 36 matrix combinations and your learned Recipes, this pattern recognition becomes second nature — and deeply satisfying when you spot a combo others would miss.`
     },
 
     mechanics: {
-      title: 'Detailed Mechanics',
-      content: `**Sphere Generation (Start of Each Turn)**:
-Roll 4d8. Each die result generates one elemental sphere that appears in your resource bar:
-- **1 = Arcane** (Purple) - Raw magical force
-- **2 = Holy** (Gold) - Divine radiance
-- **3 = Shadow** (Black) - Necrotic darkness
-- **4 = Fire** (Red) - Burning flames
-- **5 = Ice** (Blue) - Freezing cold
-- **6 = Nature** (Green) - Thunder and vines
-- **7 = Healing** (Yellow) - Life energy
-- **8 = Chaos** (Rainbow) - Unpredictable magic
+      title: 'How It Works',
+      sections: [
+        {
+          type: 'step',
+          stepNumber: 1,
+          title: 'Roll Spheres',
+          subtitle: 'Start of Turn',
+          content: `Roll **4d8** (5d8 for Entropy Weavers). Each die produces one elemental sphere.`
+        },
+        {
+          type: 'step',
+          stepNumber: 2,
+          title: 'Bank or Spend',
+          subtitle: 'Your Choice',
+          content: `Spheres persist until spent or combat ends. Bank for later or spend now.`
+        },
+        {
+          type: 'step',
+          stepNumber: 3,
+          title: 'Pick Action + Elements',
+          subtitle: 'Combine & Cast',
+          content: `Choose an **action** (what shape) and your **spheres** (what element). Done.`
+        }
+      ],
+      actionTable: {
+        title: 'Your 5 Actions',
+        subtitle: 'Pick one. Your spheres fill in the damage types and effects.',
+        actions: [
+          { name: 'Attack', icon: 'crosshairs', spheres: '2', mana: '5', range: '30ft', target: 'One enemy', damage: '1d6 + INT/4', note: 'Your default. Cantrip-level damage + combo\'s minor effect.' },
+          { name: 'Defend', icon: 'shield-alt', spheres: '2', mana: '6', range: 'Self/Ally 30ft', target: 'One creature', damage: 'Absorbs level HP', note: 'Barrier + resistance to combo\'s damage types for 1 round.' },
+          { name: 'Buff', icon: 'magic', spheres: '2', mana: '4', range: 'Touch', target: 'One weapon', damage: '+1d4 next hit', note: 'Weapon gains combo\'s element. Works on allies too.' },
+          { name: 'Area', icon: 'burst', spheres: '2', mana: '7', range: '30ft center', target: '10ft radius', damage: '1d4 + INT/4 each', note: 'Spread thin — less damage but hits a group.' },
+          { name: 'Trap', icon: 'draw-polygon', spheres: '2', mana: '6', range: '30ft surface', target: '5ft zone', damage: '1d6 + INT/4', note: 'Hidden trigger. Lasts 1 minute.' }
+        ]
+      },
+      chaosEffectsTable: {
+        title: 'Chaos Effects Table (Player Rolls d20)',
+        subtitle: 'Roll whenever you use any Chaos combo',
+        headers: ['d20', 'Effect'],
+        rows: [
+          ['1', 'Fizzle — spell fails. Spheres spent, nothing happens.'],
+          ['2-3', 'Minor Backlash — you take 1d4 chaos damage. Spell still resolves.'],
+          ['4-5', 'Redirect — hits a random target within range (ally or enemy).'],
+          ['6-7', 'Elemental Surge — +1d4 damage of a random element (roll d8).'],
+          ['8-9', 'Lingering — minor effect lasts 1 extra round.'],
+          ['10-11', 'Normal — resolves as expected. No bonus, no penalty.'],
+          ['12-13', 'Double Effect — minor effect triggers twice (two saves, two pushes, etc.)'],
+          ['14-15', 'Mana Feedback — recover 1d4 mana after resolving.'],
+          ['16-17', 'Bouncing — Attack bounces to 1 extra target for half. Area gains +5ft radius.'],
+          ['18-19', 'Empowered — damage dice explode (reroll and add max-value dice).'],
+          ['20', 'Chaos Perfection — choose ANY effect from this table.']
+        ]
+      },
+      singleSphereFallbacks: {
+        title: 'Single-Sphere Fallbacks',
+        subtitle: 'Leftover sphere? Do something small with it.',
+        abilities: [
+          { name: 'Fling', cost: '1 Sphere + 2 Mana', type: 'Attack', description: '1d4 damage of that element. 30ft. A poke.' },
+          { name: 'Ward', cost: '1 Sphere + 3 Mana', type: 'Reaction', description: 'Grant resistance to that element for 1 round.' },
+          { name: 'Siphon', cost: '1 Sphere', type: 'Resource', description: 'Destroy sphere, recover 2 mana.' },
+          { name: 'Purge', cost: '2 Any + 4 Mana', type: 'Utility', description: 'Remove 1 debuff from self/ally. Touch range.' }
+        ]
+      },
+      baseVsRecipes: {
+        title: 'Why Learn Recipes?',
+        subtitle: 'Base combos are cantrips. Recipes are real spells.',
+        baselineCan: [
+          'Deal 1d6 + INT/4 per combo (only INT scales — die never grows)',
+          'Apply minor 1-round effects (blind, slow, push)',
+          'Choose any action type for any combo',
+          'Cover every damage type'
+        ],
+        baselineCannot: [
+          'DoT, stat reduction, persistent buffs, teleportation',
+          'Scale beyond 1d6 + INT/4',
+          'Anything lasting more than 1 round'
+        ],
+        recipeExamples: [
+          { level: 'Lv 2', name: 'Steam Burst', upgrade: 'Fire+Ice → 20ft cone (base is single-target)' },
+          { level: 'Lv 4', name: 'Firestorm', upgrade: 'Fire+Fire → 15ft AoE + 1d4 fire DoT 2 rounds' },
+          { level: 'Lv 6', name: 'Glacial Blessing', upgrade: 'Ice+Healing+Holy → 8d6 heal + armor + resist' },
+          { level: 'Lv 9', name: 'Primal Cataclysm', upgrade: 'All 8 elements → 18d6 damage (base Strike is 1d6)' }
+        ]
+      },
+      comboTiers: {
+        title: 'Combination Tiers',
+        tiers: [
+          { name: '2-Sphere Matrix', sphereCost: '2', manaCost: '4-7', available: 'Always', description: 'Your cantrips. Pick an action, pick your elements, done. If you\'ve learned a Recipe for that combo, spend its mana cost instead for the upgraded version.', highlight: true },
+          { name: '3-Sphere Recipe', sphereCost: '3', manaCost: '20-25', available: 'Level 6+', description: 'Recipe-only. Real spells — scaling dice, persistent effects, unique mechanics.' },
+          { name: '4-Sphere Recipe', sphereCost: '4', manaCost: '25-36', available: 'Level 8+', description: 'The big guns. Bank across turns. Battlefield-shaping power.' }
+        ]
+      },
+      manaWarning: 'Spheres + Mana. You need **both**. A full bank is useless without mana.'
+    },
 
-**Example Generation**: You roll [3, 4, 4, 7] → You receive Shadow, Fire, Fire, Healing spheres
-
-**Sphere Banking (Unlimited During Combat)**:
-- Spheres persist in your resource bar until spent or until combat ends
-- No maximum limit—you can accumulate dozens of spheres if you keep banking
-- All spheres vanish when combat ends (you start fresh each fight)
-- You can mix spheres from different turns freely
-
-**Example Banking**:
-- Turn 1: Roll Fire, Fire, Ice, Healing → Bank all 4 (don't cast)
-- Turn 2: Roll Arcane, Shadow, Nature, Chaos → Now have 8 total spheres
-- Turn 3: Roll Holy, Fire, Ice, Nature → Now have 12 total spheres
-- You can now cast a 4-sphere ultimate and still have 8 spheres remaining
-
-**Casting Spells (Spending Spheres)**:
-Select 2, 3, or 4 spheres from your resource bar and combine them:
-- **2-Sphere Spells**: Any combination from the 8x8 matrix (64 possible spells) - Cost: 5 mana
-- **3-Sphere Spells**: Special recipe combinations (limited specific combos) - Cost: 10 mana
-- **4-Sphere Spells**: Ultimate recipe combinations (limited specific combos) - Cost: 15 mana
-
-**Example Casting**: You have Fire, Fire, Ice, Healing banked
-- Option 1: Spend Fire + Fire → Cast "Flame Burst" (pure fire damage)
-- Option 2: Spend Fire + Ice → Cast "Steam Blast" (mixed damage + slow)
-- Option 3: Spend Fire + Healing → Cast "Cauterize" (damage + heal over time)
-- Option 4: Save all 4 for next turn to build toward a 4-sphere ultimate
-
-**Mana Costs** (You still need mana to cast):
-- 2-Sphere Spells: 5 mana
-- 3-Sphere Spells: 10 mana
-- 4-Sphere Spells: 15 mana
-
-**Important**: Having the spheres isn't enough—you also need the mana to cast. Manage both resources carefully.`
+    manaCostTable: {
+      title: 'Quick Cost Reference',
+      headers: ['Action', 'Spheres', 'Mana'],
+      rows: [
+        ['Attack', '2', '5'],
+        ['Defend', '2', '6'],
+        ['Buff', '2', '4'],
+        ['Area', '2', '7'],
+        ['Trap', '2', '6'],
+        ['Fling (1 sphere)', '1', '2'],
+        ['Ward (1 sphere)', '1', '3'],
+        ['Purge', '2 any', '4'],
+        ['Siphon', '1', '0 (gain 2)'],
+        ['Recipe (2-sphere)', '2', 'Varies'],
+        ['Recipe (3-sphere)', '3', '20-25'],
+        ['Recipe (4-sphere)', '4', '25-36']
+      ]
     },
     
     sphereGenerationTable: {
@@ -239,7 +331,7 @@ Select 2, 3, or 4 spheres from your resource bar and combine them:
         ['3', 'Shadow', 'Darkness/Necrotic', 'Shadow damage, curses, life drain, debuffs'],
         ['4', 'Fire', 'Flames', 'Fire damage, burning, ignition, explosions'],
         ['5', 'Ice', 'Frost', 'Ice damage, freezing, slowing, disorientation'],
-        ['6', 'Nature', 'Thunder/Vines', 'Nature damage, restraint, poison, terrain'],
+        ['6', 'Nature', 'Storm & Growth', 'Nature damage, lightning, vines, restraint, poison'],
         ['7', 'Healing', 'Life Energy', 'Healing, regeneration, buffs, cleansing'],
         ['8', 'Chaos', 'Unpredictability', 'Random effects, wild magic, variable damage']
       ]
@@ -247,29 +339,31 @@ Select 2, 3, or 4 spheres from your resource bar and combine them:
     
     strategicConsiderations: {
       title: 'Strategic Considerations',
-      content: `**When to Save Spheres**:
-- You rolled elements that don't synergize well
-- You're building toward a specific 3 or 4-sphere recipe
-- Combat is going well and you can afford to invest in future power
-- You want specific elements for next turn's combinations
+      content: `**When to Bank Spheres**:
+- You rolled elements that don't match any Recipe you've learned
+- You're 1-2 turns away from a powerful 3-sphere or 4-sphere Recipe
+- Combat is stable enough to invest in a future power spike
+- You're fishing for specific elements to complete a combination
 
 **When to Spend Immediately**:
-- You rolled a powerful 2-sphere combination
-- You need immediate damage or healing
-- You're low on mana and can't afford bigger combos
-- The tactical situation requires immediate action
+- Your rolled spheres match a Recipe you've learned — use the upgrade!
+- The tactical situation demands action NOW (enemy is casting, ally is dying)
+- You're low on mana and can only afford cheap matrix combos
+- You have more spheres than you need — spend the excess, bank the rest
 
-**Combination Priority**:
-- **Pure Element Combos** (Fire+Fire, Ice+Ice): High focused damage
-- **Opposing Elements** (Fire+Ice, Holy+Shadow): Unique mixed effects
-- **Healing Combos**: Essential for party support
-- **Chaos Combos**: High risk, high reward, unpredictable
+**Reading Your Options**:
+- **Pure combos** (Fire+Fire, Ice+Ice): Focused single-target damage. Reliable.
+- **Opposing combos** (Fire+Ice, Holy+Shadow): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
+- **Healing combos** (Healing+Healing, Healing+X): Essential for party support. Never underestimate a well-timed Frost Mend or Bloom.
+- **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
-**Advanced Tactics**:
-- Track which spheres you're banking for multi-turn setups
-- Learn enemy resistances and adapt element choices
-- Coordinate with party for combo opportunities
-- Save Chaos spheres for desperate situations`
+**The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Ice for Steam on the front line, then Healing+Healing for Rejuvenation on your tank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
+
+**Advanced: The Banking Mathematics**:
+- You generate 4 spheres per turn (5 for Entropy Weavers)
+- A 3-sphere Recipe needs 3 specific spheres — might take 2-3 turns of banking
+- A 4-sphere Recipe needs 4 specific spheres — might take 3-4 turns
+- **Critical insight**: While banking, you can still cast with your OTHER spheres. Bank what you need, spend what you don't.`
     },
 
     practicalExample: {
@@ -278,103 +372,145 @@ Select 2, 3, or 4 spheres from your resource bar and combine them:
 
 **Turn 1 Roll**: [4, 4, 5, 7] → Fire, Fire, Ice, Healing
 
-**Bad Decision**: "I'll cast Fire+Fire for maximum damage!"
-- Result: Wasted spheres on a fire-resistant enemy, minimal damage
+**Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum fire damage!"
+- Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
-**Good Decision**: "I'll cast Ice+Healing for a frost heal combo on our tank, and bank the two Fire spheres for the goblins next turn."
-- Result: Tank gets healed + frost armor buff, Fire spheres saved for fire-vulnerable goblins
+**Smart Play**: "Ice + Healing = **Frost Mend** on our tank. Give them a heal AND frost armor. Then bank the two Fire spheres — the goblins aren't fire-resistant."
+- Result: Tank gets healed + armor buff. Fire spheres banked for next turn.
 
 **Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
 
-**Your Banked Spheres**: Fire, Fire (from Turn 1)
+**Your Bank**: Fire, Fire (from Turn 1)
 **Total Available**: Fire, Fire, Arcane, Shadow, Nature, Chaos (6 spheres)
 
 **Decision Point**:
-- Option A: Fire+Fire on goblins (good damage, uses banked spheres effectively)
-- Option B: Arcane+Shadow+Nature+Chaos for a 4-sphere ultimate (massive AoE, hits everything)
-- Option C: Fire+Arcane on one goblin, save rest for Turn 3
+- **Option A**: Fire + Fire = **Flame Burst** on the goblins. Cheap (5 mana), decent damage, uses banked spheres effectively.
+- **Option B**: Bank everything. Next turn, you might have the spheres for a 3-sphere Recipe.
+- **Option C**: Arcane + Shadow = **Void Bolt** on the fire elemental. Force + necrotic bypasses fire resistance.
 
-**Best Choice**: Option A (Fire+Fire on goblins)
-- Why: Fire elemental is nearly dead, goblins are the real threat, Fire+Fire deals heavy damage to fire-vulnerable targets, conserves mana (only 5 mana vs 15 for ultimate), leaves you with 4 spheres banked for flexibility
+**The Right Call**: Option A on the goblins (they're the immediate threat), then Option C on the fire elemental if you have the AP and mana. You can multi-cast — spend 4 spheres, 2 spells, one turn.
 
-**The Lesson**: Don't just cast the biggest spell—cast the RIGHT spell for the situation. Your sphere bank is a toolbox, not a scoreboard.`
+**The Lesson**: Don't just cast the biggest spell. Cast the RIGHT spell for the situation. Use the matrix to exploit enemy weaknesses. Use your Recipes when they match. And never waste spheres on resistant enemies.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Arcanoneer's sphere system translates beautifully to physical tabletop play with simple materials. Here's how to track your elemental spheres without a digital interface:
+      content: `The Arcanoneer's sphere system translates beautifully to physical tabletop play. Here's everything you need.
 
 **Required Materials**:
-- **4d8 dice** (standard eight-sided dice for sphere generation)
-- **Colored tokens, beads, or glass stones** representing the 8 elements (at least 20 of each color)
-- **A sphere tracking mat or play area** (can be a simple piece of paper divided into sections)
-- **Reference card** with the d8-to-element conversion chart
+- **4d8 dice** (for sphere generation)
+- **Colored tokens or glass beads** (8 colors, at least 4 of each)
+- **A reference card** with the d8-to-element chart (see below)
+- **A printed Combination Matrix** (see the 8×8 table below)
 
 **Recommended Token Colors**:
-- **Arcane (1)**: Purple beads or tokens
-- **Holy (2)**: Gold/yellow beads or tokens
-- **Shadow (3)**: Black beads or tokens
-- **Fire (4)**: Red beads or tokens
-- **Ice (5)**: Blue beads or tokens
-- **Nature (6)**: Green beads or tokens
-- **Healing (7)**: White or light yellow beads or tokens
-- **Chaos (8)**: Rainbow/multicolored beads or clear iridescent tokens
+- Arcane (1): Purple
+- Holy (2): Gold/Yellow
+- Shadow (3): Black
+- Fire (4): Red
+- Ice (5): Blue
+- Nature (6): Green
+- Healing (7): White
+- Chaos (8): Rainbow/Iridescent
 
 **Turn-by-Turn Process**:
+1. Roll 4d8
+2. Take colored tokens matching each die result, place in your "Sphere Bank"
+3. Check: do your tokens match any matrix combo? Any learned Recipe?
+4. Remove spent tokens, pay mana, resolve the spell
+5. Unused tokens stay banked for next turn
 
-1. **Start of Your Turn**: Roll your 4d8 dice
-2. **Generate Spheres**: For each die result, take a token of the corresponding color and place it in your "Sphere Bank" area
-3. **Bank or Spend**: Decide whether to cast a spell (spend tokens) or save them for later
-4. **Casting a Spell**: Remove the required tokens from your bank and announce the combination (e.g., "Fire + Fire for Flame Burst")
-5. **End of Combat**: Clear all tokens from your Sphere Bank (they don't persist between fights)
+---
 
-**Tracking Setup Example**:
+**THE COMBINATION MATRIX (Print This)**
 
-Create a simple play mat with three zones:
-- **Generation Zone**: Where you place your 4d8 dice after rolling
-- **Sphere Bank**: Where you organize your accumulated tokens by color
-- **Spent Zone**: Where you place tokens after casting (to track what you've used)
+All 36 two-sphere base combos. Fixed cost: 5 mana. Fixed damage: 1d8 + INT/4.
 
-**Organization Tips**:
-- **Sort by Color**: Keep tokens organized in your Sphere Bank by element type for quick visual reference
-- **Use a Dice Tray**: Roll your 4d8 in a tray to prevent them from scattering
-- **Keep a Combination Matrix**: Have a printed reference sheet showing 2-sphere, 3-sphere, and 4-sphere combinations
-- **Track Mana Separately**: Use a d20 or separate counter for your mana pool (you need mana to cast even if you have spheres)
+| | Arcane | Holy | Shadow | Fire | Ice | Nature | Healing | Chaos |
+|---|---|---|---|---|---|---|---|---|
+| **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Arcane Mend | Wild Magic ★ |
+| **Holy** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Holy Mend | Chaos Light ★ |
+| **Shadow** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Drain Life | Entropy ★ |
+| **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterize | Chaos Flame ★ |
+| **Ice** | → | → | → | → | Frost Spike | Hailstorm | Frost Mend | Glitch Ice ★ |
+| **Nature** | → | → | → | → | → | Storm Surge | Bloom | Primal Chaos ★ |
+| **Healing** | → | → | → | → | → | → | Rejuvenation | Fate's Gift ★ |
+| **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
-**Budget-Friendly Alternatives**:
-- **No tokens?** Use different colored dice as markers (d6s work great)
-- **No colored items?** Use paper slips labeled with element names
-- **Minimalist approach**: Simply write tally marks on paper under each element name
-- **Digital hybrid**: Use a phone app to track spheres while playing in person
+★ = Chaos combo — roll for a random effect each cast
+† = Steam is a 20ft cone (only non-single-target base combo)
 
-**Quick Reference Card Template**:
+**Matrix Reading Guide** (use the upper-right triangle):
+- Same row + column = pure pair (e.g., Fire row + Fire column = Flame Burst)
+- Mixed = cross-reference (e.g., Fire row + Ice column = Steam)
+- Arrow (→) = see the mirror entry (Fire+Ice and Ice+Fire are both Steam)
+
+**Quick Effect Reference**:
+
+| Combo | Damage Types | Key Effect |
+|---|---|---|
+| Arcane Pulse | Force | Single target damage |
+| Radiance | Radiant | Single target + blind |
+| Dark Bolt | Necrotic | Single target damage |
+| Flame Burst | Fire | Single target damage |
+| Frost Spike | Frost | Single target + slow |
+| Storm Surge | Nature | Single target damage |
+| Rejuvenation | — | Heal single ally |
+| Chaos Bolt | Chaos | ★ Random effect |
+| Divine Bolt | Force, Radiant | Cannot miss |
+| Void Bolt | Force, Necrotic | Barrier-piercing |
+| Arcane Flame | Force, Fire | Barrier-piercing fire |
+| Crystal Shard | Force, Frost | Armor-piercing |
+| Thunderstrike | Force, Nature | Lightning bolt |
+| Arcane Mend | Force | Heal ally |
+| Wild Magic | Chaos | ★ Random effect |
+| Twilight | Radiant, Necrotic | Dual damage |
+| Solar Flare | Radiant, Fire | Heavy burn |
+| Aurora | Radiant, Frost | Damage + slow |
+| Verdant Light | Radiant, Nature | Burning vines |
+| Holy Mend | — | Heal + cleanse debuff |
+| Chaos Light | Chaos | ★ Random effect |
+| Hellfire | Necrotic, Fire | Shadow flames |
+| Frostbite | Necrotic, Frost | Rot + slow |
+| Blight | Necrotic, Nature | Poison thorns |
+| Drain Life | Necrotic | Damage + self-heal |
+| Entropy | Chaos | ★ Random effect |
+| Steam | Fire, Frost | 20ft cone + blind |
+| Wildfire | Fire, Nature | Burning vines |
+| Cauterize | Fire | Heal ally (fire) |
+| Chaos Flame | Chaos | ★ Random effect |
+| Hailstorm | Frost, Nature | 10ft AoE |
+| Frost Mend | — | Heal + armor buff |
+| Glitch Ice | Chaos | ★ Random effect |
+| Bloom | — | Heal + regen |
+| Primal Chaos | Chaos | ★ Random effect |
+| Fate's Gift | Chaos | ★ Random effect |
+
+---
+
+**Quick Reference Card**:
+
 \`\`\`
-ARCANONEER SPHERE GENERATION
+ARCANONEER — SPHERE GENERATION
 Roll 4d8 each turn:
 1 = Arcane (Purple)    5 = Ice (Blue)
 2 = Holy (Gold)        6 = Nature (Green)
 3 = Shadow (Black)     7 = Healing (White)
 4 = Fire (Red)         8 = Chaos (Rainbow)
 
-MANA COSTS:
-2-Sphere Spell = 5 mana
-3-Sphere Spell = 10 mana
-4-Sphere Spell = 15 mana
+BASE COMBO COST: 5 mana
+BASE COMBO DAMAGE: 1d8 + INT/4
+★ CHAOS COMBOS: Roll for random effect
+ALL SPHERES LOST WHEN COMBAT ENDS
 \`\`\`
 
-**Example In-Person Turn**:
+**Budget-Friendly Alternatives**:
+- **No tokens?** Use different colored d6 dice as markers
+- **No colored items?** Write tally marks on paper under each element name
+- **Minimalist approach**: Just remember your banked spheres — the matrix becomes second nature after a few sessions
 
-*You roll 4d8 and get: [4, 4, 5, 7]*
-
-1. Take 2 red tokens (Fire), 1 blue token (Ice), 1 white token (Healing)
-2. Place them in your Sphere Bank alongside any tokens from previous turns
-3. Decide: "I'll cast Fire + Ice for Steam Blast"
-4. Remove 1 red and 1 blue token from your bank, place them in the Spent Zone
-5. Pay 5 mana and resolve the spell
-6. Your remaining tokens (1 Fire, 1 Healing) stay in your bank for next turn
-
-**Why This Works**: The physical act of rolling dice and moving tokens creates a tactile, engaging experience that mirrors the digital resource bar. You can see your sphere collection grow, feel the weight of decision-making as you pick up tokens to spend them, and experience the randomness of sphere generation in a visceral way. Many players find the physical version even more satisfying than the digital one.`
+**Pro Tip for Physical Play**: Laminate the matrix table and use a dry-erase marker to circle your available combos each turn. This dramatically speeds up decision-making and helps new players learn the combinations faster.`
     }
   },
 
@@ -383,7 +519,7 @@ MANA COSTS:
     title: 'Arcanoneer Specializations',
     subtitle: 'Three Paths of Elemental Mastery',
 
-    description: `Every Arcanoneer chooses one of three specializations that define their approach to sphere combination. Each specialization focuses on a dramatically different aspect of the sphere system, creating distinct playstyles.`,
+    description: `Every Arcanoneer chooses one of three specializations that define how they approach the Combination Matrix. Each spec changes how you interact with your spheres, your matrix combos, and your Recipes — creating three dramatically different playstyles from the same 36-combo foundation.`,
 
     specs: [
       {
@@ -393,7 +529,7 @@ MANA COSTS:
         color: '#FF4500',
         theme: 'Pure Element Mastery',
 
-        description: `Prism Mages focus on mastering specific elements and pure element combinations. Rather than mixing everything together, they perfect the art of elemental purity, gaining tremendous power when using the same element multiple times. They can reroll unwanted spheres to fish for their preferred elements.`,
+        description: `Prism Mages obsess over elemental purity. While other Arcanoneers mix and match, Prism Mages perfect the art of the pure combo — Fire+Fire, Ice+Ice, Arcane+Arcane. They can reroll unwanted spheres to fish for their preferred element, and their pure-element matrix combos hit significantly harder. If you want consistency and the satisfaction of a perfectly focused build, this is your path.`,
 
         playstyle: 'Pure element focus, rerolling spheres, elemental specialization, consistent damage',
 
@@ -423,7 +559,7 @@ MANA COSTS:
           {
             name: 'Elemental Purity',
             tier: 'Specialization Passive',
-            description: 'You can reroll spheres to get desired elements (costs 1 mana per reroll). Pure element combinations (same element twice) deal 50% bonus damage. You gain resistance to the element type you\'ve used most this combat.',
+            description: 'You can reroll spheres to get desired elements (costs 1 mana per reroll). Pure element matrix combos (same element twice) deal 50% bonus damage. You gain resistance to the element type you\'ve used most this combat. Your focus is narrow but devastating.',
             uniqueTo: 'Prism Mage'
           }
         ],
@@ -438,7 +574,7 @@ MANA COSTS:
         color: '#9400D3',
         theme: 'Embrace Randomness',
 
-        description: `Entropy Weavers embrace the unpredictable nature of sphere generation, turning randomness into raw power. They roll extra spheres, make Chaos combinations devastatingly powerful, and can trigger wild magic surges that create unexpected battlefield effects. Where others see chaos, they see opportunity.`,
+        description: `Entropy Weavers don't fight the chaos — they weaponize it. They roll 5d8 instead of 4d8 (one extra sphere per turn), and every Chaos combo hits twice as hard. Where other Arcanoneers see Chaos spheres as a liability, Entropy Weavers see opportunity. If you want to be the most unpredictable, volatile, and potentially devastating Arcanoneer on the field, this is your path. Just... don't stand too close to your allies.`,
 
         playstyle: 'High variance, chaos magic, wild magic surges, explosive unpredictability',
 
@@ -468,7 +604,7 @@ MANA COSTS:
           {
             name: 'Chaos Mastery',
             tier: 'Specialization Passive',
-            description: 'Roll 5d8 for sphere generation (instead of 4d8). All Chaos element combinations deal double damage. When you use a Chaos sphere in any combination, roll on the Wild Magic Surge table for an additional random effect. Once per turn, you can convert any sphere to Chaos (costs 2 mana).',
+            description: 'Roll 5d8 for sphere generation (instead of 4d8). All Chaos matrix combos deal double damage. When you use a Chaos sphere in any combination, roll on the Wild Magic Surge table for an additional random effect. Once per turn, you can convert any sphere to Chaos (costs 2 mana). Chaos is your weapon.',
             uniqueTo: 'Entropy Weaver'
           }
         ],
@@ -483,7 +619,7 @@ MANA COSTS:
         color: '#4169E1',
         theme: 'Precise Control & Manipulation',
 
-        description: `Sphere Architects are masters of sphere manipulation and control. They can swap sphere types, store more spheres efficiently, and manipulate their combinations with surgical precision. Where Prism Mages focus on purity and Entropy Weavers embrace randomness, Sphere Architects control every aspect of their magic.`,
+        description: `Sphere Architects treat the Combination Matrix like an engineering problem. They swap sphere types to guarantee the combos they want, lock spheres between turns for guaranteed elements, and reduce the cost of multi-sphere Recipes. Where Prism Mages chase purity and Entropy Weavers embrace randomness, Sphere Architects impose *control* over the chaos. If you want to always have the right combo for the right moment, this is your path.`,
 
         playstyle: 'Sphere manipulation, precise control, efficient banking, tactical mastery',
 
@@ -513,12 +649,533 @@ MANA COSTS:
           {
             name: 'Runic Precision',
             tier: 'Specialization Passive',
-            description: 'Once per turn, you can swap any 2 spheres for different element types (costs 3 mana total). You can store up to 12 spheres efficiently. 3-sphere spells cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll.',
+            description: 'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll. Control the matrix, don\'t let it control you.',
             uniqueTo: 'Sphere Architect'
           }
         ],
 
         recommendedFor: 'Players who want precise control, tactical planning, and sphere manipulation mastery'
+      }
+    ]
+  },
+
+  // Elemental Combination Matrix
+  // The 36 base two-sphere combinations available to ALL Arcanoneers
+  combinationMatrix: {
+    title: 'Elemental Combination Matrix',
+    subtitle: 'The 36 Base Combinations',
+    description: `Every Arcanoneer inherently knows all 36 two-sphere combinations. No memorization required — combine any two elemental spheres and you produce a predictable magical effect. This is your foundation, your fallback, your Swiss Army knife. Learned recipes enhance specific combinations with additional effects, but the base matrix ensures you are NEVER powerless.`,
+    baseManaCost: 5,
+    baseDamageFormula: '1d6 + intelligence/4',
+    baseRange: 60,
+
+    entries: [
+      // ========================================
+      // PURE PAIRS (Same Element ×2) — 8 combos
+      // Focused, reliable, elementally pure
+      // ========================================
+      {
+        id: 'arcane_arcane',
+        name: 'Arcane Pulse',
+        elements: ['arcane', 'arcane'],
+        damageTypes: ['force'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A concentrated bolt of pure arcane force strikes a single target.',
+        flavorText: 'Raw magic condenses between your palms — a sphere of crackling violet energy that hums with barely contained power. You release it with a sharp gesture, and it streaks toward your target like a purple comet.'
+      },
+      {
+        id: 'holy_holy',
+        name: 'Radiance',
+        elements: ['holy', 'holy'],
+        damageTypes: ['radiant'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'blind',
+        effectDescription: 'A beam of concentrated divine light burns a single target and briefly blinds them.',
+        flavorText: 'Two golden spheres merge into a searing point of light. You direct the beam like a lance of pure sunlight, and it burns through the air with a sound like a choir hitting a single, piercing note.'
+      },
+      {
+        id: 'shadow_shadow',
+        name: 'Dark Bolt',
+        elements: ['shadow', 'shadow'],
+        damageTypes: ['necrotic'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A sphere of concentrated darkness drains life force from a single target.',
+        flavorText: 'The shadows around you thicken and writhe, drawn to your hands like moths to flame. You compress them into a writhing orb of pure darkness and hurl it — wherever it strikes, the light itself seems to die.'
+      },
+      {
+        id: 'fire_fire',
+        name: 'Flame Burst',
+        elements: ['fire', 'fire'],
+        damageTypes: ['fire'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A concentrated ball of flame detonates against a single target.',
+        flavorText: 'Fire answers fire. The two spheres spiral into each other like dueling serpents, then collapse into a single roaring sphere of flame. You hurl it with a shout, and it detonates on impact with a satisfying WHUMP.'
+      },
+      {
+        id: 'ice_ice',
+        name: 'Frost Spike',
+        elements: ['ice', 'ice'],
+        damageTypes: ['frost'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'slow',
+        effectDescription: 'A jagged spike of enchanted ice pierces a single target, leaving behind numbing cold.',
+        flavorText: 'Frost crystals bloom across your knuckles, growing and sharpening into a crystalline spike. The air cracks as you launch it — a shard of frozen fury that leaves frost trails in its wake.'
+      },
+      {
+        id: 'nature_nature',
+        name: 'Storm Surge',
+        elements: ['nature', 'nature'],
+        damageTypes: ['nature'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A surge of nature energy — crackling lightning wrapped in grasping thorns — strikes a single target.',
+        flavorText: 'The spheres crackle and spark, lightning arcing between them as thorny vines coil around your wrist. You release the surge with a thunderclap, and the target is wreathed in storm and thorn.'
+      },
+      {
+        id: 'healing_healing',
+        name: 'Rejuvenation',
+        elements: ['healing', 'healing'],
+        damageTypes: [],
+        targetType: 'single_ally',
+        range: 60,
+        primaryEffect: 'healing',
+        effectDescription: 'A warm pulse of restorative energy mends wounds on a single ally.',
+        flavorText: 'The two healing spheres merge into a soft golden glow that pulses like a heartbeat. You guide it toward your ally with an open palm, and it sinks into their skin like sunlight through water, closing wounds and easing pain.'
+      },
+      {
+        id: 'chaos_chaos',
+        name: 'Chaos Bolt',
+        elements: ['chaos', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'A wildly unstable bolt of chaos energy that produces a completely random effect each time.',
+        flavorText: 'Reality hiccups. The two chaos spheres don\'t merge so much as they argue — a swirling mass of conflicting energies that can\'t decide what it wants to be. You shrug and throw it anyway.',
+        randomEffects: [
+          { name: 'Chaos Nova', description: 'The bolt detonates in a 15-foot radius, dealing chaos damage to all nearby enemies.', damageTypes: ['chaos'], targetType: 'aoe', aoeRadius: 15 },
+          { name: 'Polymorphic Blast', description: 'The bolt transforms mid-flight, dealing a random damage type to a single target.', damageTypes: ['random'], targetType: 'single' },
+          { name: 'Entropy Drain', description: 'The bolt siphons vitality from the target, dealing chaos damage and healing you for the same amount.', damageTypes: ['chaos'], targetType: 'single', selfHeal: true },
+          { name: 'Wild Surge', description: 'The bolt fizzles harmlessly — then all your remaining banked spheres transform into random elements.', damageTypes: [], targetType: 'self', reshuffleSpheres: true }
+        ]
+      },
+
+      // ========================================
+      // ARCANE MIXED (7 combos)
+      // Raw magic amplified by other elements
+      // ========================================
+      {
+        id: 'arcane_holy',
+        name: 'Divine Bolt',
+        elements: ['arcane', 'holy'],
+        damageTypes: ['force', 'radiant'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A bolt of arcane-infused divine energy that cannot be dodged or blocked.',
+        flavorText: 'Arcane force and holy light intertwine into a spiraling lance of white and violet. It seeks its target with unerring precision — no shield can deflect it, no armor can turn it aside.'
+      },
+      {
+        id: 'arcane_shadow',
+        name: 'Void Bolt',
+        elements: ['arcane', 'shadow'],
+        damageTypes: ['force', 'necrotic'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A bolt of void energy that punches through magical barriers.',
+        flavorText: 'Where arcane force meets shadow, the void is born. The spheres collapse into a point of absolute blackness ringed by purple static. It tears through the air, leaving a faint afterimage of nothing.'
+      },
+      {
+        id: 'arcane_fire',
+        name: 'Arcane Flame',
+        elements: ['arcane', 'fire'],
+        damageTypes: ['force', 'fire'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A spiraling bolt of arcane fire that pierces through barriers.',
+        flavorText: 'Arcane energy wraps around fire like a fist around a torch. The result burns hotter and strikes harder — a spiraling comet of force and flame that punches through obstacles.'
+      },
+      {
+        id: 'arcane_ice',
+        name: 'Crystal Shard',
+        elements: ['arcane', 'ice'],
+        damageTypes: ['force', 'frost'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A razor-sharp shard of enchanted crystal that pierces armor.',
+        flavorText: 'Arcane energy crystallizes the frost into a prism of unnatural sharpness — harder than steel, colder than death. It whistles through the air and shatters on impact into a spray of stinging fragments.'
+      },
+      {
+        id: 'arcane_nature',
+        name: 'Thunderstrike',
+        elements: ['arcane', 'nature'],
+        damageTypes: ['force', 'nature'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A bolt of concentrated storm energy — arcane lightning that cracks with thunder.',
+        flavorText: 'The arcane sphere becomes a lightning rod, drawing the nature sphere\'s storm energy into a single crackling bolt. You point, thunder peals, and a fork of white-hot lightning arcs toward your target.'
+      },
+      {
+        id: 'arcane_healing',
+        name: 'Arcane Mend',
+        elements: ['arcane', 'healing'],
+        damageTypes: ['force'],
+        targetType: 'single_ally',
+        range: 30,
+        primaryEffect: 'healing',
+        secondaryEffect: 'damage',
+        effectDescription: 'Arcane energy accelerates the body\'s natural healing. Restores health to an ally.',
+        flavorText: 'Healing energy wrapped in arcane precision — the violet glow knits flesh with surgical accuracy while the golden warmth soothes the pain. A strange warmth that tingles like static.'
+      },
+      {
+        id: 'arcane_chaos',
+        name: 'Wild Magic',
+        elements: ['arcane', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Arcane structure meets chaos unpredictability — the result is anyone\'s guess.',
+        flavorText: 'You try to impose order on chaos. Chaos laughs at you. The result is... educational.',
+        randomEffects: [
+          { name: 'Spellmirror', description: 'A shimmering arcane shield reflects the next spell cast at you back at the caster.', damageTypes: [], targetType: 'self', reflectSpell: true },
+          { name: 'Manaburst', description: 'A cascade of raw arcane energy deals chaos damage and restores 1d4 mana to you.', damageTypes: ['chaos'], targetType: 'single', manaRestore: '1d4' },
+          { name: 'Dimensional Flicker', description: 'You teleport 15 feet in a random direction.', damageTypes: [], targetType: 'self', teleport: 15 },
+          { name: 'Arcane Storm', description: 'Lightning arcs from you to 1d4 random targets within 30 feet, dealing force damage.', damageTypes: ['force'], targetType: 'random_aoe', maxTargets: '1d4' }
+        ]
+      },
+
+      // ========================================
+      // HOLY MIXED (6 combos)
+      // Divine power fused with mortal elements
+      // ========================================
+      {
+        id: 'holy_shadow',
+        name: 'Twilight',
+        elements: ['holy', 'shadow'],
+        damageTypes: ['radiant', 'necrotic'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'Light and darkness collide, creating a bolt of twilight energy that burns with opposing forces.',
+        flavorText: 'Holy gold meets shadow black, and where they clash, twilight is born — a strange, shimmering grey that burns and chills in equal measure. It should not exist. It does anyway.'
+      },
+      {
+        id: 'holy_fire',
+        name: 'Solar Flare',
+        elements: ['holy', 'fire'],
+        damageTypes: ['radiant', 'fire'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'A searing burst of divine fire that burns body and soul alike.',
+        flavorText: 'The holy sphere ignites the fire sphere like sunlight through a magnifying glass. What emerges is not merely fire — it is judgment given form, a lance of white-hot righteousness.'
+      },
+      {
+        id: 'holy_ice',
+        name: 'Aurora',
+        elements: ['holy', 'ice'],
+        damageTypes: ['radiant', 'frost'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'slow',
+        effectDescription: 'A shimmering curtain of aurora light that freezes and dazzles.',
+        flavorText: 'The spheres dance together like the northern lights given physical form — ribbons of gold and blue that ripple through the air, beautiful and terrible. They wash over the target in a cascade of frozen light.'
+      },
+      {
+        id: 'holy_nature',
+        name: 'Verdant Light',
+        elements: ['holy', 'nature'],
+        damageTypes: ['radiant', 'nature'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'Divine light channels through nature, creating a beam of living radiance wrapped in thorny vines.',
+        flavorText: 'Light becomes life becomes weapon. Golden vines erupt from the holy sphere, wrapped in crackling nature energy. They lash forward like a living whip, burning and binding.'
+      },
+      {
+        id: 'holy_healing',
+        name: 'Holy Mend',
+        elements: ['holy', 'healing'],
+        damageTypes: [],
+        targetType: 'single_ally',
+        range: 60,
+        primaryEffect: 'healing',
+        secondaryEffect: 'cleanse',
+        effectDescription: 'A powerful surge of divine healing that also purifies one debuff or negative effect.',
+        flavorText: 'Golden light and warm healing merge into a single brilliant pulse. It washes over your ally like a warm sunrise, closing wounds and burning away corruption with equal tenderness.'
+      },
+      {
+        id: 'holy_chaos',
+        name: 'Chaos Light',
+        elements: ['holy', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Divine light refracted through chaos — the result ranges from miraculous to catastrophic.',
+        flavorText: 'You try to channel chaos through the lens of divinity. The result is... enlightening. Possibly literally.',
+        randomEffects: [
+          { name: 'Beacon of Chaos', description: 'A pillar of prismatic light erupts from the ground, dealing radiant damage to enemies and healing allies within 10 feet.', damageTypes: ['radiant'], targetType: 'aoe', aoeRadius: 10 },
+          { name: 'Purify', description: 'All debuffs are removed from a random ally.', damageTypes: [], targetType: 'random_ally', cleanseAll: true },
+          { name: 'Blinding Revelation', description: 'A flash of chaos light blinds all creatures within 20 feet for 1 round.', damageTypes: [], targetType: 'aoe', aoeRadius: 20, blind: true },
+          { name: 'Divine Favor', description: 'A random ally gains +2 to their next attack roll or saving throw.', damageTypes: [], targetType: 'random_ally', buff: true }
+        ]
+      },
+
+      // ========================================
+      // SHADOW MIXED (5 combos)
+      // Darkness that corrupts, drains, and decays
+      // ========================================
+      {
+        id: 'shadow_fire',
+        name: 'Hellfire',
+        elements: ['shadow', 'fire'],
+        damageTypes: ['necrotic', 'fire'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'Dark flames that burn the flesh and consume the soul.',
+        flavorText: 'Shadow feeds fire, and fire gives shadow form. The result is something that should not burn but does — black flames that cast no light and leave frost-bitten char wherever they touch.'
+      },
+      {
+        id: 'shadow_ice',
+        name: 'Frostbite',
+        elements: ['shadow', 'ice'],
+        damageTypes: ['necrotic', 'frost'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'slow',
+        effectDescription: 'A wave of unnatural cold that rots flesh while it freezes.',
+        flavorText: 'Not the clean cold of winter, but the deep chill of the grave. The shadow infects the ice with something malevolent — frost that spreads like disease, blackening skin as it creeps.'
+      },
+      {
+        id: 'shadow_nature',
+        name: 'Blight',
+        elements: ['shadow', 'nature'],
+        damageTypes: ['necrotic', 'nature'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'poison',
+        effectDescription: 'Thorny shadows inject necrotic poison into the target.',
+        flavorText: 'Nature twisted by shadow — black thorns that grow from darkness itself, dripping with poison that rots from within. They wrap around the target and squeeze, each thorn injecting decay.'
+      },
+      {
+        id: 'shadow_healing',
+        name: 'Drain Life',
+        elements: ['shadow', 'healing'],
+        damageTypes: ['necrotic'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        secondaryEffect: 'self_heal',
+        effectDescription: 'Siphons life force from an enemy, dealing necrotic damage and healing you for the same amount.',
+        flavorText: 'The shadow sphere hungers, and the healing sphere provides the conduit. Dark tendrils reach for your enemy, and where they touch, vitality flows back through the link like water through a pipe — from them, to you.'
+      },
+      {
+        id: 'shadow_chaos',
+        name: 'Entropy',
+        elements: ['shadow', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Shadow and chaos combine into pure entropic force — decay made unpredictable.',
+        flavorText: 'Entropy. The death of order. The spheres don\'t combine so much as unravel each other, producing a flickering mass of shadow and static that even you find unsettling.',
+        randomEffects: [
+          { name: 'Wither', description: 'A wave of decay reduces the target\'s armor by 2 for 2 rounds.', damageTypes: ['necrotic'], targetType: 'single', armorReduction: 2 },
+          { name: 'Soul Rend', description: 'Deals necrotic damage and applies a random debuff to the target.', damageTypes: ['necrotic'], targetType: 'single', randomDebuff: true },
+          { name: 'Shadow Step', description: 'You dissolve into shadow and reappear behind the target.', damageTypes: [], targetType: 'self', teleport: true },
+          { name: 'Dark Nova', description: 'Shadow energy erupts from you in a 10-foot radius, dealing necrotic damage to all nearby creatures (including allies).', damageTypes: ['necrotic'], targetType: 'aoe', aoeRadius: 10, friendlyFire: true }
+        ]
+      },
+
+      // ========================================
+      // FIRE MIXED (4 combos)
+      // Flame fused with other forces
+      // ========================================
+      {
+        id: 'fire_ice',
+        name: 'Steam',
+        elements: ['fire', 'ice'],
+        damageTypes: ['fire', 'frost'],
+        targetType: 'cone',
+        range: 30,
+        aoeShape: 'cone',
+        aoeParameters: { length: 20 },
+        primaryEffect: 'damage',
+        secondaryEffect: 'blind',
+        effectDescription: 'A hissing cone of superheated steam that burns, freezes, and blinds.',
+        flavorText: 'Fire and ice should cancel. They don\'t — they argue. The result is a screaming column of pressurized steam that hisses and spits, scouring everything in its path with alternating blasts of scalding heat and flash-freezing condensation.'
+      },
+      {
+        id: 'fire_nature',
+        name: 'Wildfire',
+        elements: ['fire', 'nature'],
+        damageTypes: ['fire', 'nature'],
+        targetType: 'single',
+        range: 60,
+        primaryEffect: 'damage',
+        effectDescription: 'Living flame wrapped in thorny vines — burns and constricts simultaneously.',
+        flavorText: 'Fire and nature have an ancient pact: nature provides the fuel, fire provides the transformation. Vines of living flame lash outward, burning as they bind.'
+      },
+      {
+        id: 'fire_healing',
+        name: 'Cauterize',
+        elements: ['fire', 'healing'],
+        damageTypes: ['fire'],
+        targetType: 'single_ally',
+        range: 30,
+        primaryEffect: 'healing',
+        secondaryEffect: 'minor_damage',
+        effectDescription: 'Burns a wound shut while healing energy accelerates recovery. The ally receives healing over time.',
+        flavorText: 'Healing through harm — the oldest medical technique, given magical form. The fire sphere sterilizes as the healing sphere regenerates. It hurts. It also saves your life.'
+      },
+      {
+        id: 'fire_chaos',
+        name: 'Chaos Flame',
+        elements: ['fire', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Unstable fire infused with chaos — it might explode, spread, or backfire.',
+        flavorText: 'Fire is already unpredictable. Adding chaos makes it... enthusiastic.',
+        randomEffects: [
+          { name: 'Infernal Burst', description: 'The chaos flame detonates in a 15-foot radius, dealing fire damage to all nearby enemies.', damageTypes: ['fire'], targetType: 'aoe', aoeRadius: 15 },
+          { name: 'Chain Fire', description: 'The bolt bounces to 1d4 additional targets within 20 feet, dealing fire damage to each.', damageTypes: ['fire'], targetType: 'chain', maxTargets: '1d4' },
+          { name: 'Fire Shield', description: 'Flames wrap around you, granting fire resistance and dealing 1d4 fire damage to melee attackers for 2 rounds.', damageTypes: ['fire'], targetType: 'self', selfBuff: true },
+          { name: 'Backfire', description: 'The flame sputters and backfires, dealing fire damage to you instead.', damageTypes: ['fire'], targetType: 'self', selfDamage: true }
+        ]
+      },
+
+      // ========================================
+      // ICE MIXED (3 combos)
+      // Frost tempered by other forces
+      // ========================================
+      {
+        id: 'ice_nature',
+        name: 'Hailstorm',
+        elements: ['ice', 'nature'],
+        damageTypes: ['frost', 'nature'],
+        targetType: 'aoe',
+        range: 60,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        primaryEffect: 'damage',
+        effectDescription: 'A localized storm of ice, lightning, and thorny hailstones pummels a small area.',
+        flavorText: 'Ice and nature conspire to create the worst weather imaginable — frozen thorns driven by howling wind, crackling with lightning. It\'s localized, at least. Small mercies.'
+      },
+      {
+        id: 'ice_healing',
+        name: 'Frost Mend',
+        elements: ['ice', 'healing'],
+        damageTypes: [],
+        targetType: 'single_ally',
+        range: 30,
+        primaryEffect: 'healing',
+        secondaryEffect: 'armor_buff',
+        effectDescription: 'Healing energy crystallizes into a thin layer of frost armor, mending wounds and providing protection.',
+        flavorText: 'The ice doesn\'t numb — it stabilizes. Healing energy flows through the frost, mending tissue while the ice hardens into a protective shell. Like a bandage made of winter.'
+      },
+      {
+        id: 'ice_chaos',
+        name: 'Glitch Ice',
+        elements: ['ice', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Ice that doesn\'t obey the rules — it might freeze, shatter, spread, or do something physics never intended.',
+        flavorText: 'Frost + chaos = the temperature equivalent of a rounding error. Reality\'s thermostat breaks.',
+        randomEffects: [
+          { name: 'Flash Freeze', description: 'A 10-foot radius of ground becomes slippery ice. All creatures in the area must save or fall prone.', damageTypes: ['frost'], targetType: 'aoe', aoeRadius: 10, knockdown: true },
+          { name: 'Ice Lance', description: 'A single-target ice attack that deals double base damage and ignores armor.', damageTypes: ['frost'], targetType: 'single', doubleDamage: true },
+          { name: 'Frost Armor', description: 'You gain +2 armor and frost resistance for 2 rounds.', damageTypes: [], targetType: 'self', armorBuff: 2 },
+          { name: 'Shatterstorm', description: 'Ice shards explode outward in a 15-foot radius, dealing frost damage to all creatures.', damageTypes: ['frost'], targetType: 'aoe', aoeRadius: 15 }
+        ]
+      },
+
+      // ========================================
+      // NATURE MIXED (2 combos)
+      // Storm & growth fused with other forces
+      // ========================================
+      {
+        id: 'nature_healing',
+        name: 'Bloom',
+        elements: ['nature', 'healing'],
+        damageTypes: [],
+        targetType: 'single_ally',
+        range: 30,
+        primaryEffect: 'healing',
+        secondaryEffect: 'regen',
+        effectDescription: 'Nature energy accelerates the body\'s natural healing, creating a bloom of restorative flowers that mend wounds over time.',
+        flavorText: 'Where healing meets nature, life flourishes. Tiny luminescent flowers bloom across your ally\'s wounds, their petals knitting flesh together with gentle, unstoppable growth.'
+      },
+      {
+        id: 'nature_chaos',
+        name: 'Primal Chaos',
+        elements: ['nature', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Nature\'s order disrupted by chaos — the wild becomes unpredictable, dangerous, and wilder.',
+        flavorText: 'Nature has rules. Chaos breaks them. The result is a feral, unpredictable surge of life energy that does whatever it wants.',
+        randomEffects: [
+          { name: 'Thornquake', description: 'Thorny vines erupt from the ground in a 15-foot radius, dealing nature damage and rooting enemies.', damageTypes: ['nature'], targetType: 'aoe', aoeRadius: 15, root: true },
+          { name: 'Chain Lightning', description: 'A bolt of lightning arcs from you to 1d4 targets within 30 feet, dealing nature damage.', damageTypes: ['nature'], targetType: 'chain', maxTargets: '1d4' },
+          { name: 'Poison Cloud', description: 'A cloud of noxious spores fills a 10-foot radius, dealing nature damage over 2 rounds.', damageTypes: ['nature'], targetType: 'aoe_dot', aoeRadius: 10 },
+          { name: 'Overgrowth', description: 'Thick vines entangle a single target, restraining them for 1 round.', damageTypes: [], targetType: 'single', restraint: true }
+        ]
+      },
+
+      // ========================================
+      // HEALING MIXED (1 combo)
+      // Life energy warped by chaos
+      // ========================================
+      {
+        id: 'healing_chaos',
+        name: "Fate's Gift",
+        elements: ['healing', 'chaos'],
+        damageTypes: ['chaos'],
+        targetType: 'random',
+        range: 60,
+        primaryEffect: 'random',
+        isChaosCombo: true,
+        effectDescription: 'Healing energy warped by chaos — it might heal, harm, buff, or do all three at once.',
+        flavorText: 'You offer healing to chaos. Chaos considers the offer. Then does whatever it wants.',
+        randomEffects: [
+          { name: "Fate's Blessing", description: 'A random ally is healed for double the base healing amount.', damageTypes: [], targetType: 'random_ally', doubleHeal: true },
+          { name: 'Chaos Cure', description: 'Remove all debuffs from yourself or a random ally, but take 1d4 chaos damage.', damageTypes: ['chaos'], targetType: 'self_or_random_ally', cleanseAll: true },
+          { name: 'Reversal', description: 'The healing inverts — deal necrotic damage to a random enemy equal to the base healing.', damageTypes: ['necrotic'], targetType: 'random_enemy' },
+          { name: 'Wild Growth', description: 'A random ally gains regeneration (1d4 HP per round) for 3 rounds.', damageTypes: [], targetType: 'random_ally', regen: true }
+        ]
       }
     ]
   },
@@ -601,6 +1258,7 @@ MANA COSTS:
       name: 'Spark Bolt',
       description: 'Fires a bolt of pure arcane force at a single target. Reliable and versatile.',
       level: 1,
+      enhancesCombo: 'arcane_arcane',
       spellType: 'ACTION',
       icon: 'Arcane/Ebon Blaze',
       
@@ -651,6 +1309,7 @@ MANA COSTS:
       name: 'Frost Touch',
       description: 'Channels freezing energy through your palm, dealing frost damage and slowing the target on contact.',
       level: 1,
+      enhancesCombo: 'ice_ice',
       spellType: 'ACTION',
       icon: 'Frost/Frost Touch',
       
@@ -719,6 +1378,7 @@ MANA COSTS:
       name: 'Healing Light',
       description: 'Channels restorative energy into a warm beam of golden light that mends wounds on a single ally.',
       level: 1,
+      enhancesCombo: 'healing_healing',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Bolt',
       
@@ -750,7 +1410,7 @@ MANA COSTS:
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '1d6 + spirit/3',
+        formula: '1d8 + spirit/4',
         healingType: 'direct',
         resolution: 'DICE',
         description: 'Golden light mends wounds and restores vitality to the target.'
@@ -769,6 +1429,7 @@ MANA COSTS:
       name: 'Arcane Missile',
       description: 'Combines arcane and holy energy into a small, unerring bolt of force that cannot be dodged or blocked.',
       level: 1,
+      enhancesCombo: 'arcane_holy',
       spellType: 'ACTION',
       icon: 'Arcane/Missile',
       
@@ -799,7 +1460,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d6 + intelligence/4',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['force'],
         resolution: 'DICE',
         description: 'An unerring missile strikes with pinpoint accuracy, delivering a concentrated burst of force.'
@@ -818,6 +1479,7 @@ MANA COSTS:
       name: 'Nature Vine',
       description: 'Causes thorny vines to erupt from the ground, entangling a single target and dealing nature damage.',
       level: 1,
+      enhancesCombo: 'nature_nature',
       spellType: 'ACTION',
       icon: 'Nature/Vines',
       
@@ -850,7 +1512,7 @@ MANA COSTS:
       effectTypes: ['damage', 'control'],
 
       damageConfig: {
-        formula: '1d6 + intelligence/4',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['nature'],
         resolution: 'DICE',
         description: 'Thorny vines dig into the target, dealing nature damage from thorns and constriction.'
@@ -896,6 +1558,7 @@ MANA COSTS:
       name: 'Steam Burst',
       description: 'Combines fire and ice spheres into a cone of superheated steam that burns and blinds enemies.',
       level: 2,
+      enhancesCombo: 'fire_ice',
       spellType: 'ACTION',
       icon: 'Frost/Frost Touch',
       
@@ -931,7 +1594,7 @@ MANA COSTS:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '2d8 + intelligence/3',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['frost', 'fire'],
         resolution: 'DICE'
       },
@@ -968,6 +1631,7 @@ MANA COSTS:
       name: 'Shadow Bolt',
       description: 'Hurls a sphere of concentrated shadow energy that drains life force on impact.',
       level: 2,
+      enhancesCombo: 'shadow_shadow',
       spellType: 'ACTION',
       icon: 'Void/Red Energy Burst',
       
@@ -1000,7 +1664,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d8 + intelligence/3',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['necrotic'],
         resolution: 'DICE',
         description: 'The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.'
@@ -1019,6 +1683,7 @@ MANA COSTS:
       name: 'Celestial Ray',
       description: 'Weaves arcane and holy energy into a beam of celestial light that damages enemies and heals allies in its path.',
       level: 2,
+      enhancesCombo: 'arcane_holy',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Bolt',
       
@@ -1072,14 +1737,14 @@ MANA COSTS:
       effectTypes: ['damage', 'healing'],
 
       damageConfig: {
-        formula: '2d6 + intelligence/3',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['radiant'],
         resolution: 'DICE',
         description: 'The celestial ray burns enemies with searing radiant energy, as if they\'ve been exposed to concentrated sunlight. Their flesh smokes and chars where the light touches, and they feel an intense burning sensation that seems to come from within their very soul.'
       },
 
       healingConfig: {
-        formula: '2d6 + spirit/3',
+        formula: '1d8 + spirit/4',
         healingType: 'direct',
         resolution: 'DICE'
       },
@@ -1100,6 +1765,7 @@ MANA COSTS:
       name: 'Fire Bolt',
       description: 'A concentrated bolt of fire that explodes on impact, dealing fire damage.',
       level: 3,
+      enhancesCombo: 'fire_fire',
       spellType: 'ACTION',
       icon: 'Fire/Fiery Bolt',
       
@@ -1140,7 +1806,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '3d6 + intelligence/2',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['fire']
       },
 
@@ -1157,6 +1823,7 @@ MANA COSTS:
       name: 'Ice Shard',
       description: 'A sharp shard of ice that pierces your target, dealing frost damage and slowing them.',
       level: 3,
+      enhancesCombo: 'ice_ice',
       spellType: 'ACTION',
       icon: 'Frost/Frost Touch',
       
@@ -1189,7 +1856,7 @@ MANA COSTS:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '3d6 + intelligence/2',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['frost']
       },
 
@@ -1225,6 +1892,7 @@ MANA COSTS:
       name: 'Arcane Detonation',
       description: 'Compresses pure arcane energy into an explosive burst that damages and disorients all targets in the area.',
       level: 3,
+      enhancesCombo: 'arcane_arcane',
       spellType: 'ACTION',
       icon: 'Arcane/Spiral Vortex',
       
@@ -1259,7 +1927,7 @@ MANA COSTS:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '4d6 + intelligence/2',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['force'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -1307,6 +1975,7 @@ MANA COSTS:
       name: 'Firestorm',
       description: 'Summons a massive vortex of fire that engulfs a large area, dealing fire damage and leaving burning ground.',
       level: 4,
+      enhancesCombo: 'fire_fire',
       spellType: 'ACTION',
       icon: 'Fire/Fire Storm',
       
@@ -1341,7 +2010,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d6 + intelligence',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -1376,6 +2045,7 @@ MANA COSTS:
       name: 'Frost Nova',
       description: 'Releases a wave of freezing energy in all directions, dealing frost damage and slowing all nearby enemies.',
       level: 4,
+      enhancesCombo: 'ice_ice',
       spellType: 'ACTION',
       icon: 'Frost/Ice Orb',
       
@@ -1409,7 +2079,7 @@ MANA COSTS:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '5d6 + intelligence',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['frost'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -1455,6 +2125,7 @@ MANA COSTS:
       name: 'Shadow Embrace',
       description: 'Dark tendrils of shadow wrap around your target, dealing necrotic damage and weakening them.',
       level: 4,
+      enhancesCombo: 'shadow_shadow',
       spellType: 'ACTION',
       icon: 'Void/Maw Gripping Fear',
       
@@ -1487,7 +2158,7 @@ MANA COSTS:
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '6d6 + intelligence',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['necrotic'],
         resolution: 'DICE',
         dotConfig: {
@@ -1536,6 +2207,7 @@ MANA COSTS:
       name: 'Elemental Blast',
       description: 'Combine Fire and Ice to create a devastating blast of mixed elemental energy.',
       level: 5,
+      enhancesCombo: 'fire_ice',
       spellType: 'ACTION',
       icon: 'Fire/Swirling Fireball',
       
@@ -1571,7 +2243,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '8d6 + intelligence',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['fire', 'frost'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -1597,6 +2269,7 @@ MANA COSTS:
       name: 'Divine Healing',
       description: 'A powerful burst of divine energy that restores significant health to your target.',
       level: 5,
+      enhancesCombo: 'holy_healing',
       spellType: 'ACTION',
       icon: 'Healing/Golden Heart',
       
@@ -1629,7 +2302,7 @@ MANA COSTS:
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '6d8 + spirit',
+        formula: '1d8 + spirit/4',
         healingType: 'direct',
         resolution: 'DICE'
       },
@@ -1647,6 +2320,7 @@ MANA COSTS:
       name: 'Chaos Bolt',
       description: 'A bolt of unpredictable chaos energy that deals random elemental damage.',
       level: 5,
+      enhancesCombo: 'chaos_chaos',
       spellType: 'ACTION',
       icon: 'Void/Corrupted Eye',
       
@@ -1679,7 +2353,7 @@ MANA COSTS:
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '6d8 + intelligence',
+        formula: '1d8 + intelligence/4',
         damageTypes: ['chaos']
       },
 

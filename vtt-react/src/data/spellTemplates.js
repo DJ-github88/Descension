@@ -466,7 +466,7 @@ const BASE_TEMPLATE = {
       'warden': 'vengeance',
       'elementalist': 'elementalHarmony',
       'chronomancer': 'temporalEnergy',
-      'shadowdancer': 'shadowEssence',
+      'shadowblade': 'shadowEssence',
       'beastmaster': 'beastBond',
       'runesmith': 'runeEnergy',
       'planeswalker': 'planarConnection',
@@ -503,7 +503,7 @@ const BASE_TEMPLATE = {
       'illusionist': ['arcane'],
       'witch': ['shadow', 'poison'],
       'celestial': ['holy'],
-      'shadowdancer': ['shadow'],
+      'shadowblade': ['shadow'],
       'chronomancer': ['arcane', 'temporal']
     };
     
@@ -517,7 +517,7 @@ const BASE_TEMPLATE = {
       'illusionist': 'arcane',
       'witch': 'shadow',
       'celestial': 'holy',
-      'shadowdancer': 'shadow',
+      'shadowblade': 'shadow',
       'chronomancer': 'temporal'
     };
     

@@ -1,443 +1,430 @@
 // ============================================
 // CHRONARCH TALENT TREES
 // ============================================
+//
+// Design: Spell modifiers + resource passives
+// No dice procs, card draws, chronal points, or paradox tokens.
+// Every talent modifies existing spells, Shard generation, or Strain costs.
+//
+// Tree 1: Arc of Stasis (Control)
+// Tree 2: Arc of Displacement (Mobility)
+// Tree 3: Arc of Rewinding (Undoing)
+// ============================================
 
-export const CHRONARCH_TEMPORAL_CONTROL = [
-  // Tier 0 - Foundation (Single central start)
+// ============================================
+// ARC OF STASIS - Control & Battlefield Lockdown
+// Enhances freeze/stun effects, extends control durations,
+// and improves save DCs on temporal control spells.
+// ============================================
+export const CHRONARCH_STASIS_TREE = [
+  // Tier 0 - Foundation
   {
-    id: 'temporal_t0_time_sense',
-    name: 'Temporal Awareness',
-    description: 'You can sense temporal anomalies within 30ft. Draw a card when casting spells. Face cards extend spell duration by 1 round.',
+    id: 'stasis_t0_temporal_precision',
+    name: 'Temporal Precision',
+    description: 'Stasis Field save DC increased by +1 per rank.',
     icon: 'spell_holy_borrowedtime',
     maxRanks: 2,
     position: { x: 2, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Basic time manipulation (Left and right expansion)
+  // Tier 1 - Branch
   {
-    id: 'temporal_t1_slow_time',
-    name: 'Temporal Slow',
-    description: 'Unlocks Temporal Slow - target creature\'s speed is halved. Roll 1d20 each round: on 11+ per rank, they lose an action.',
-    icon: 'spell_nature_slow',
-    maxRanks: 3,
+    id: 'stasis_t1_frozen_momentum',
+    name: 'Frozen Momentum',
+    description: 'Gain +1 Time Shard whenever you freeze or stun an enemy.',
+    icon: 'spell_frost_stun',
+    maxRanks: 1,
     position: { x: 1, y: 1 },
-    requires: 'temporal_t0_time_sense',
+    requires: 'stasis_t0_temporal_precision',
   },
   {
-    id: 'temporal_t1_haste',
-    name: 'Temporal Acceleration',
-    description: 'Unlocks Temporal Acceleration - ally gains double movement and an extra action. Draw a card: red cards extend duration by 1 round.',
-    icon: 'spell_nature_invisibilty',
+    id: 'stasis_t1_sustained_stasis',
+    name: 'Sustained Stasis',
+    description: 'Stasis Field and Temporal Shockwave duration +1 round per rank.',
+    icon: 'spell_nature_slow',
     maxRanks: 2,
     position: { x: 3, y: 1 },
-    requires: 'temporal_t0_time_sense',
+    requires: 'stasis_t0_temporal_precision',
   },
 
-  // Tier 2 - Advanced control (Further spread)
+  // Tier 2 - Spread
   {
-    id: 'temporal_t1_time_lock',
-    name: 'Chronal Lock',
-    description: 'Enemies within 20ft have disadvantage on initiative rolls. Roll 1d20 when they act: on 16+ per rank, their action is delayed.',
-    icon: 'spell_frost_stun',
-    maxRanks: 4,
+    id: 'stasis_t2_strain_efficiency',
+    name: 'Strain Efficiency',
+    description: 'Control-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
+    icon: 'spell_arcane_arcaneresilience',
+    maxRanks: 2,
     position: { x: 0, y: 2 },
-    requires: 'temporal_t1_slow_time',
+    requires: 'stasis_t1_frozen_momentum',
   },
   {
-    id: 'temporal_t2_time_bubble',
-    name: 'Temporal Bubble',
-    description: 'Create a 15ft bubble where time flows at half speed for enemies. Allies move at normal speed. Roll 1d20 each round: on 15+ per rank, enemies are stunned.',
-    icon: 'spell_holy_borrowedtime',
+    id: 'stasis_t2_chronal_lockdown',
+    name: 'Chronal Lockdown',
+    description: 'Enemies frozen or stunned by your spells have -2 to their save to break free per rank.',
+    icon: 'spell_frost_stun',
     maxRanks: 3,
     position: { x: 2, y: 2 },
-    requires: 'temporal_t1_haste',
+    requires: 'stasis_t1_sustained_stasis',
   },
   {
-    id: 'temporal_t3_reflexes',
-    name: 'Lightning Reflexes',
-    description: 'You and allies within 20ft roll initiative twice, take higher result. +1d6 to armor against attacks from slowed creatures.',
-    icon: 'spell_nature_invisibilty',
-    maxRanks: 3,
+    id: 'stasis_t2_barrier_strength',
+    name: 'Barrier Strength',
+    description: 'Temporal Barrier grants +5 temporary HP per rank and lasts +1 round.',
+    icon: 'spell_holy_borrowedtime',
+    maxRanks: 2,
     position: { x: 4, y: 2 },
-    requires: 'temporal_t1_haste',
+    requires: 'stasis_t1_sustained_stasis',
   },
 
-  // Tier 3 - Master control (Converging inward)
+  // Tier 3 - Converge
   {
-    id: 'temporal_t3_time_stop',
-    name: 'Temporal Dominion',
-    description: 'Unlocks Temporal Dominion - stop time in 30ft radius for 1 round. Roll 1d20: on 18+ per rank, duration increases by 1 round.',
-    icon: 'spell_nature_timestop',
+    id: 'stasis_t3_echo_dominance',
+    name: 'Echo Dominance',
+    description: 'Temporal Echoes spawns +1 illusory copy per rank and echo damage increased by +1d6.',
+    icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 1, y: 3 },
-    requires: 'temporal_t1_time_lock',
+    requires: 'stasis_t2_strain_efficiency',
   },
   {
-    id: 'temporal_t3_future_vision',
-    name: 'Chronal Foresight',
-    description: 'At combat start, draw 3 cards representing future events. Red cards grant advantage on attacks, black cards on defenses.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 3,
-    position: { x: 3, y: 3 },
-    requires: 'temporal_t3_reflexes',
-  },
-
-  // Tier 4 - Elite mastery (Back to center)
-  {
-    id: 'temporal_t4_chronal_mastery',
-    name: 'Chronal Mastery',
-    description: 'You can cast spells as reactions when time effects trigger. +2 to all rolls during time-stopped effects.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 2,
-    position: { x: 2, y: 4 },
-    requires: 'temporal_t3_future_vision',
-  },
-
-  // Tier 5 - Legendary control (Left and right spread again)
-  {
-    id: 'temporal_t5_paradox',
-    name: 'Paradox Weaver',
-    description: 'Create temporal paradoxes. Roll 1d20 when casting: on 19+ per rank, your next spell can target any point in time within 1 minute.',
+    id: 'stasis_t3_fracture_mastery',
+    name: 'Fracture Mastery',
+    description: 'Temporal Fracture DoT deals +1d6 necrotic damage per rank and lasts +1 round.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
-    position: { x: 1, y: 5 },
-    requires: 'temporal_t4_chronal_mastery',
-  },
-  {
-    id: 'temporal_t5_chronal_nova',
-    name: 'Chronal Nova',
-    description: 'Unlocks Chronal Nova - unleash temporal energy in 40ft radius. Enemies take 3d8 force damage per rank. Roll 1d20: on 18+, time stops for 1 round.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 3,
-    position: { x: 3, y: 5 },
-    requires: 'temporal_t4_chronal_mastery',
+    position: { x: 3, y: 3 },
+    requires: 'stasis_t2_barrier_strength',
   },
 
-  // Tier 6 - Ultimate temporal mastery (Center convergence)
+  // Tier 4 - Core power
   {
-    id: 'temporal_t6_chronos_avatar',
-    name: 'Avatar of Chronos',
-    description: 'Unlocks Avatar of Chronos - become a being of pure time for 1 minute. Time stops for everyone but you. Cast spells freely, teleport through time.',
+    id: 'stasis_t4_dominion_authority',
+    name: 'Dominion Authority',
+    description: 'Temporal Flux: Dominion affects a +10ft larger radius per rank and you are immune to its slow effect.',
+    icon: 'spell_nature_timestop',
+    maxRanks: 2,
+    position: { x: 2, y: 4 },
+    requires: 'stasis_t3_fracture_mastery',
+  },
+
+  // Tier 5 - Spread
+  {
+    id: 'stasis_t5_shockwave_resonance',
+    name: 'Shockwave Resonance',
+    description: 'Temporal Shockwave deals +2d6 force damage per rank and its freeze save DC increases by +2.',
+    icon: 'spell_arcane_arcanetorrent',
+    maxRanks: 2,
+    position: { x: 1, y: 5 },
+    requires: 'stasis_t4_dominion_authority',
+  },
+  {
+    id: 'stasis_t5_temporal_supremacy',
+    name: 'Temporal Supremacy',
+    description: 'Temporal Mastery Strain cost reduced by -2 per rank. Its slow radius increased by +10ft per rank.',
+    icon: 'spell_arcane_arcaneresilience',
+    maxRanks: 2,
+    position: { x: 3, y: 5 },
+    requires: 'stasis_t4_dominion_authority',
+  },
+
+  // Tier 6 - Ultimate
+  {
+    id: 'stasis_t6_avatar_of_stasis',
+    name: 'Avatar of Stasis',
+    description: 'Once per combat: freeze all enemies within 40ft for 1 round, no save. Costs 6 Time Shards, adds 5 Temporal Strain.',
     icon: 'spell_nature_timestop',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: ['temporal_t5_paradox', 'temporal_t5_chronal_nova'],
+    requires: ['stasis_t5_shockwave_resonance', 'stasis_t5_temporal_supremacy'],
     requiresAll: true,
   }
 ];
 
-// Time Manipulation Specialization - Reality-bending time effects (Zig-zag pattern)
-export const CHRONARCH_TIME_MANIPULATION = [
-  // Tier 0 - Foundation (Scattered across top)
+// ============================================
+// ARC OF DISPLACEMENT - Mobility & Repositioning
+// Enhances teleportation range, speed buffs, AoE sizes,
+// and Strain efficiency on movement-based Flux abilities.
+// ============================================
+export const CHRONARCH_DISPLACEMENT_TREE = [
+  // Tier 0 - Foundation (two entry points)
   {
-    id: 'manip_t0_temporal_threads',
-    name: 'Temporal Threads',
-    description: 'You can see and manipulate the threads of time. +1d4 to initiative rolls per rank.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 3,
+    id: 'disp_t0_swift_temporal',
+    name: 'Swift Temporal',
+    description: 'Temporal Step range increased by +10ft per rank.',
+    icon: 'spell_arcane_blink',
+    maxRanks: 2,
     position: { x: 0, y: 0 },
     requires: null,
   },
   {
-    id: 'manip_t0_probability_shift',
-    name: 'Probability Weaver',
-    description: 'When you or allies roll dice, roll 1d20. On 16+ per rank, reroll the die and take the higher result.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 4,
+    id: 'disp_t0_chronal_echo',
+    name: 'Chronal Echo Boost',
+    description: 'Chrono Echo radius increased by +5ft per rank and duration +1 round.',
+    icon: 'spell_nature_mirrorimage',
+    maxRanks: 2,
     position: { x: 4, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Basic manipulation (Zig to left side)
+  // Tier 1 - Branch
   {
-    id: 'manip_t1_reality_shift',
-    name: 'Reality Shift',
-    description: 'Unlocks Reality Shift - teleport creature 20ft through time. Roll 1d20: on 15+ per rank, they arrive 1 round early.',
-    icon: 'spell_arcane_blink',
-    maxRanks: 3,
+    id: 'disp_t1_repositioning_shards',
+    name: 'Repositioning Shards',
+    description: 'Gain +1 Time Shard whenever you teleport an ally or enemy.',
+    icon: 'spell_nature_timestop',
+    maxRanks: 1,
     position: { x: 1, y: 1 },
-    requires: 'manip_t0_temporal_threads',
+    requires: 'disp_t0_swift_temporal',
   },
   {
-    id: 'manip_t1_temporal_clone',
-    name: 'Temporal Duplicate',
-    description: 'Unlocks Temporal Duplicate - create a duplicate of yourself from 1 round ago. Draw a card: face cards make the duplicate permanent.',
-    icon: 'spell_nature_mirrorimage',
+    id: 'disp_t1_dilation_expansion',
+    name: 'Dilation Expansion',
+    description: 'Temporal Dilation AoE radius increased by +5ft per rank.',
+    icon: 'spell_arcane_arcaneresilience',
     maxRanks: 2,
     position: { x: 3, y: 1 },
-    requires: 'manip_t0_probability_shift',
+    requires: 'disp_t0_chronal_echo',
   },
 
-  // Tier 2 - Complex manipulation (Zag to right side)
+  // Tier 2 - Spread
   {
-    id: 'manip_t2_temporal_illusion',
-    name: 'Temporal Mirage',
-    description: 'Create illusions from alternate timelines. Enemies roll 1d20 to disbelieve: on 16+ per rank, they take psychic damage from paradox.',
-    icon: 'spell_nature_mirrorimage',
-    maxRanks: 4,
-    position: { x: 0, y: 2 },
-    requires: 'manip_t1_reality_shift',
-  },
-  {
-    id: 'manip_t2_causality_loop',
-    name: 'Causality Loop',
-    description: 'Unlocks Causality Loop - force enemy into a time loop. They repeat their last round. Roll 1d20: on 17+ per rank, loop lasts 2 rounds.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 3,
-    position: { x: 2, y: 2 },
-    requires: 'manip_t1_temporal_clone',
-  },
-  {
-    id: 'manip_t2_probability_storm',
-    name: 'Probability Storm',
-    description: 'Create chaos in 20ft radius. All rolls have advantage or disadvantage randomly. Roll 1d20 each round: on 16+ per rank, you choose the effect.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 3,
-    position: { x: 4, y: 2 },
-    requires: 'manip_t1_temporal_clone',
-  },
-
-  // Tier 3 - Advanced manipulation (Zig to left again)
-  {
-    id: 'manip_t3_timeline_split',
-    name: 'Timeline Divergence',
-    description: 'Unlocks Timeline Divergence - split reality into two timelines. Roll 1d20: on 18+ per rank, both timelines become real.',
+    id: 'disp_t2_phase_mastery',
+    name: 'Phase Mastery',
+    description: 'Temporal Flux: Speed grants +10ft additional movement speed per rank.',
     icon: 'spell_arcane_blink',
+    maxRanks: 2,
+    position: { x: 0, y: 2 },
+    requires: 'disp_t1_repositioning_shards',
+  },
+  {
+    id: 'disp_t2_crystal_tuning',
+    name: 'Crystal Tuning',
+    description: 'Time Crystal zone radius increased by +5ft per rank. Haste Mode speed bonus +0.25x per rank.',
+    icon: 'spell_nature_timestop',
+    maxRanks: 2,
+    position: { x: 2, y: 2 },
+    requires: 'disp_t1_dilation_expansion',
+  },
+  {
+    id: 'disp_t2_disruption_range',
+    name: 'Disruption Range',
+    description: 'Chronal Disruption AoE radius increased by +5ft per rank and damage +1d6 force per rank.',
+    icon: 'spell_arcane_arcanetorrent',
+    maxRanks: 2,
+    position: { x: 4, y: 2 },
+    requires: 'disp_t1_dilation_expansion',
+  },
+
+  // Tier 3 - Converge
+  {
+    id: 'disp_t3_vortex_durability',
+    name: 'Vortex Durability',
+    description: 'Temporal Vortex summon HP increased by +25 per rank and duration +1 round per rank.',
+    icon: 'spell_nature_mirrorimage',
     maxRanks: 2,
     position: { x: 1, y: 3 },
-    requires: 'manip_t2_temporal_illusion',
+    requires: 'disp_t2_phase_mastery',
   },
   {
-    id: 'manip_t3_paradox_engine',
-    name: 'Paradox Engine',
-    description: 'Harness paradox energy. When paradoxes occur, gain 1d8 temporary HP per rank. Roll 1d20: on 15+, create a paradox explosion.',
-    icon: 'spell_shadow_shadowwordpain',
-    maxRanks: 4,
+    id: 'disp_t3_anchor_weight',
+    name: 'Anchor Weight',
+    description: 'Temporal Anchor slow effect: enemies lose an additional -10ft speed per rank. Duration +1 round.',
+    icon: 'spell_arcane_arcaneresilience',
+    maxRanks: 2,
     position: { x: 3, y: 3 },
-    requires: 'manip_t2_causality_loop',
+    requires: 'disp_t2_disruption_range',
   },
 
-  // Tier 4 - Master manipulation (Zag to right)
+  // Tier 4 - Core power
   {
-    id: 'manip_t4_temporal_rewrite',
-    name: 'Temporal Rewrite',
-    description: 'Unlocks Temporal Rewrite - rewrite the last 1 minute of history. Roll 1d20: on 19+ per rank, you can change any event.',
+    id: 'disp_t4_chamber_amplification',
+    name: 'Chamber Amplification',
+    description: 'Temporal Echo Chamber echo damage increased by +1d6 force per rank and duration +1 round.',
+    icon: 'spell_arcane_arcanetorrent',
+    maxRanks: 2,
+    position: { x: 2, y: 4 },
+    requires: 'disp_t3_anchor_weight',
+  },
+
+  // Tier 5 - Spread
+  {
+    id: 'disp_t5_fate_intervention',
+    name: 'Fate Intervention',
+    description: 'Fate Manipulation AoE radius +10ft per rank. Save DC increased by +2 per rank.',
+    icon: 'spell_shadow_shadowwordpain',
+    maxRanks: 2,
+    position: { x: 1, y: 5 },
+    requires: 'disp_t4_chamber_amplification',
+  },
+  {
+    id: 'disp_t5_paradox_mastery',
+    name: 'Paradox Mastery',
+    description: 'Chronal Paradox confusion damage increased by +1d6 psychic per rank. Save DC +2 per rank.',
     icon: 'spell_nature_timestop',
     maxRanks: 2,
-    position: { x: 0, y: 4 },
-    requires: 'manip_t3_timeline_split',
-  },
-  {
-    id: 'manip_t4_reality_anchor',
-    name: 'Reality Anchor',
-    description: 'Become immune to time manipulation effects. When others try to manipulate time around you, roll 1d20: on 16+ per rank, you steal their time energy.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 3,
-    position: { x: 2, y: 4 },
-    requires: 'manip_t3_paradox_engine',
-  },
-  {
-    id: 'manip_t4_chronal_nexus',
-    name: 'Chronal Nexus',
-    description: 'Create a nexus of temporal energy. Allies within 40ft can cast spells as 1 action points. Roll 1d20 each round: on 18+ per rank, spells cost no slots.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 3,
-    position: { x: 4, y: 4 },
-    requires: 'manip_t2_probability_storm',
-  },
-
-  // Tier 5 - Legendary manipulation (Zig back to left)
-  {
-    id: 'manip_t5_dimension_shift',
-    name: 'Dimensional Shift',
-    description: 'Unlocks Dimensional Shift - move through alternate realities. Travel anywhere within 1000ft instantly. Roll 1d20: on 18+ per rank, bring allies along.',
-    icon: 'spell_arcane_blink',
-    maxRanks: 3,
-    position: { x: 1, y: 5 },
-    requires: 'manip_t4_temporal_rewrite',
-  },
-  {
-    id: 'manip_t5_paradox_master',
-    name: 'Paradox Sovereign',
-    description: 'Master paradox creation. When you create paradoxes, roll 1d20. On 16+ per rank, gain a paradox token (spend for free spell cast).',
-    icon: 'spell_shadow_shadowwordpain',
-    maxRanks: 4,
     position: { x: 3, y: 5 },
-    requires: 'manip_t4_reality_anchor',
+    requires: 'disp_t4_chamber_amplification',
   },
 
-  // Tier 6 - Ultimate reality manipulation (Center convergence)
+  // Tier 6 - Ultimate
   {
-    id: 'manip_t6_reality_weaver',
-    name: 'Reality Weaver',
-    description: 'Unlocks Reality Weaver - transcend time and space for 1 minute. Rewrite reality at will. Cast any spell, travel anywhere, control all time effects.',
+    id: 'disp_t6_chronal_vortex_master',
+    name: 'Chronal Vortex Master',
+    description: 'Chronal Vortex cost reduced by -3 Time Shards and -2 Temporal Strain. Allies healed are also granted +15 temporary HP.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: ['manip_t5_dimension_shift', 'manip_t5_paradox_master'],
+    requires: ['disp_t5_fate_intervention', 'disp_t5_paradox_mastery'],
     requiresAll: true,
   }
 ];
 
-// Chronos Energy Specialization - Harnessing temporal energy and chronal power (Diagonal flow)
-export const CHRONARCH_CHRONOS_ENERGY = [
-  // Tier 0 - Foundation (Bottom-left to top-right diagonal)
+// ============================================
+// ARC OF REWINDING - Undoing Anything
+// Enhances healing/rewind power, adds debuff removal,
+// enables stripping enemy buffs, and broadens
+// 'undoing' beyond just damage restoration.
+// ============================================
+export const CHRONARCH_REWINDING_TREE = [
+  // Tier 0 - Foundation
   {
-    id: 'energy_t0_chronal_conduit',
-    name: 'Chronal Conduit',
-    description: 'Channel temporal energy. Your time spells deal +1d6 force damage per rank.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 4,
+    id: 'rewind_t0_mending_threads',
+    name: 'Mending Threads',
+    description: 'Temporal Mend healing increased by +1d8 per rank.',
+    icon: 'spell_holy_borrowedtime',
+    maxRanks: 2,
     position: { x: 1, y: 0 },
     requires: null,
   },
   {
-    id: 'energy_t0_temporal_battery',
-    name: 'Temporal Battery',
-    description: 'Store temporal energy. Gain chronal points when time effects trigger. Maximum 3 points per rank.',
+    id: 'rewind_t0_rewind_depth',
+    name: 'Rewind Depth',
+    description: 'Temporal Rewind restores +10% of damage taken per rank (up to 70% at rank 2).',
     icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Basic energy manipulation (Continue diagonal)
+  // Tier 1 - Branch
   {
-    id: 'energy_t1_temporal_bolt',
-    name: 'Temporal Bolt',
-    description: 'Unlocks Temporal Bolt - fire bolt of time energy for 2d8 force damage per rank. Roll 1d20: on 16+, slow target for 1 round.',
+    id: 'rewind_t1_restoration_shards',
+    name: 'Restoration Shards',
+    description: 'Gain +1 Time Shard whenever you heal or restore an ally above 50% of the amount restored.',
     icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 4,
+    maxRanks: 1,
     position: { x: 0, y: 1 },
-    requires: 'energy_t0_chronal_conduit',
+    requires: 'rewind_t0_mending_threads',
   },
   {
-    id: 'energy_t1_energy_shield',
-    name: 'Chronal Shield',
-    description: 'Surround yourself with temporal energy. +2 armor per rank, absorb 1d8 force damage from time effects.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 3,
-    position: { x: 2, y: 1 },
-    requires: 'energy_t0_chronal_conduit',
-  },
-  {
-    id: 'energy_t1_time_wave',
-    name: 'Temporal Wave',
-    description: 'Unlocks Temporal Wave - 20ft cone deals 1d8 force damage per rank. Roll 1d20: on 15+, push creatures 10ft.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 4,
-    position: { x: 4, y: 1 },
-    requires: 'energy_t0_temporal_battery',
-  },
-
-  // Tier 2 - Advanced energy control (Cross-diagonal)
-  {
-    id: 'energy_t2_chronal_burst',
-    name: 'Chronal Burst',
-    description: 'Spend chronal points for burst effects. Each point spent adds +1d8 force damage to spells. Roll 1d20: on 17+ per rank, regain the point.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 3,
-    position: { x: 1, y: 2 },
-    requires: 'energy_t1_energy_shield',
-  },
-  {
-    id: 'energy_t2_temporal_field',
-    name: 'Temporal Field',
-    description: 'Create fields of temporal energy. Enemies in 25ft radius take 1d6 force damage per rank at start of their turns.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 4,
-    position: { x: 3, y: 2 },
-    requires: 'energy_t1_time_wave',
-  },
-
-  // Tier 3 - Master energy manipulation (Diagonal shift)
-  {
-    id: 'energy_t3_temporal_blade',
-    name: 'Temporal Blade',
-    description: 'Unlocks Temporal Blade - summon blade of time energy. Deals 2d8 force damage per rank. Roll 1d20: on 18+ per rank, ignore all resistances.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 3,
-    position: { x: 0, y: 3 },
-    requires: 'energy_t2_chronal_burst',
-  },
-  {
-    id: 'energy_t3_chronal_armor',
-    name: 'Chronal Armor',
-    description: 'Infuse armor with temporal energy. Immune to critical hits. +1d8 to saves per chronal point spent.',
-    icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 4,
-    position: { x: 2, y: 3 },
-    requires: 'energy_t2_temporal_field',
-  },
-  {
-    id: 'energy_t3_energy_nova',
-    name: 'Chronal Nova',
-    description: 'Unlocks Chronal Nova - explode with temporal energy. 30ft radius, 3d8 force damage per rank. Roll 1d20: on 17+, create temporal rift.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 3,
-    position: { x: 4, y: 3 },
-    requires: 'energy_t2_temporal_field',
-  },
-
-  // Tier 4 - Elite energy mastery (Reverse diagonal)
-  {
-    id: 'energy_t4_temporal_storm',
-    name: 'Temporal Storm',
-    description: 'Summon storm of temporal energy in 40ft radius. Enemies take 2d8 force damage per rank each round. Roll 1d20: on 16+ per rank, storm persists.',
-    icon: 'spell_arcane_arcanetorrent',
-    maxRanks: 4,
-    position: { x: 1, y: 4 },
-    requires: 'energy_t3_temporal_blade',
-  },
-  {
-    id: 'energy_t4_chronal_regeneration',
-    name: 'Chronal Regeneration',
-    description: 'Temporal energy heals you. Regenerate 1d8 HP per chronal point spent. Roll 1d20: on 15+ per rank, regenerate allies in 20ft.',
+    id: 'rewind_t1_purifying_rewind',
+    name: 'Purifying Rewind',
+    description: 'Temporal Flux: Rewind removes +1 additional debuff per rank from each ally.',
     icon: 'spell_holy_borrowedtime',
-    maxRanks: 3,
-    position: { x: 3, y: 4 },
-    requires: 'energy_t3_chronal_armor',
+    maxRanks: 2,
+    position: { x: 2, y: 1 },
+    requires: 'rewind_t0_mending_threads',
+  },
+  {
+    id: 'rewind_t1_strain_absorption',
+    name: 'Strain Absorption',
+    description: 'Healing-tagged Flux abilities cost -1 Temporal Strain per rank (minimum 1).',
+    icon: 'spell_arcane_arcaneresilience',
+    maxRanks: 2,
+    position: { x: 4, y: 1 },
+    requires: 'rewind_t0_rewind_depth',
   },
 
-  // Tier 5 - Legendary energy control (Final diagonal)
+  // Tier 2 - Spread
   {
-    id: 'energy_t5_temporal_singularity',
-    name: 'Temporal Singularity',
-    description: 'Unlocks Temporal Singularity - create a point of infinite time. Pull creatures within 60ft. Deal 4d8 force damage per rank each round.',
-    icon: 'spell_nature_timestop',
-    maxRanks: 3,
-    position: { x: 0, y: 5 },
-    requires: 'energy_t4_temporal_storm',
+    id: 'rewind_t2_shield_reinforcement',
+    name: 'Shield Reinforcement',
+    description: 'Temporal Flux: Shield grants +5 additional temporary HP per rank and healing +1d8 per rank.',
+    icon: 'spell_arcane_arcaneresilience',
+    maxRanks: 2,
+    position: { x: 1, y: 2 },
+    requires: 'rewind_t1_purifying_rewind',
   },
   {
-    id: 'energy_t5_chronal_dominion',
-    name: 'Chronal Dominion',
-    description: 'Master all temporal energy. Spells ignore time-based immunities. Roll 1d20 when casting: on 18+ per rank, all chronal points are regained.',
+    id: 'rewind_t2_buff_reversal',
+    name: 'Buff Reversal',
+    description: 'Your rewind spells (Temporal Rewind, Chronal Reversal) can also target enemies. When cast on an enemy, strip 1 buff per rank instead of healing.',
+    icon: 'spell_shadow_shadowwordpain',
+    maxRanks: 2,
+    position: { x: 3, y: 2 },
+    requires: 'rewind_t1_strain_absorption',
+  },
+
+  // Tier 3 - Converge
+  {
+    id: 'rewind_t3_reversal_power',
+    name: 'Reversal Power',
+    description: 'Chronal Reversal healing increased by +2d6 per rank. Cooldown reduced by -1 turn per rank.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
-    position: { x: 2, y: 5 },
-    requires: 'energy_t4_chronal_regeneration',
+    position: { x: 0, y: 3 },
+    requires: 'rewind_t2_shield_reinforcement',
   },
   {
-    id: 'energy_t5_reality_engine',
-    name: 'Reality Engine',
-    description: 'Unlocks Reality Engine - harness infinite temporal energy. For 1 minute, cast spells at will. Roll 1d20 each cast: on 19+ per rank, spell becomes legendary.',
+    id: 'rewind_t3_loop_mastery',
+    name: 'Loop Mastery',
+    description: 'Temporal Loop duration +1 round per rank and save DC +2 per rank.',
+    icon: 'spell_nature_timestop',
+    maxRanks: 2,
+    position: { x: 2, y: 3 },
+    requires: 'rewind_t2_buff_reversal',
+  },
+  {
+    id: 'rewind_t3_terrain_undo',
+    name: 'Terrain Undo',
+    description: 'Temporal Loop and Reality Fracture can also revert terrain hazards and environmental effects in their area.',
     icon: 'spell_arcane_arcaneresilience',
-    maxRanks: 3,
-    position: { x: 4, y: 5 },
-    requires: 'energy_t4_chronal_regeneration',
+    maxRanks: 1,
+    position: { x: 4, y: 3 },
+    requires: 'rewind_t2_buff_reversal',
   },
 
-  // Tier 6 - Ultimate chronal power (Center convergence)
+  // Tier 4 - Core power
   {
-    id: 'energy_t6_chronos_incarnate',
-    name: 'Chronos Incarnate',
-    description: 'Unlocks Chronos Incarnate - become living temporal energy for 1 minute. Infinite chronal points, immune to all damage, control time and space.',
+    id: 'rewind_t4_resurrection_mastery',
+    name: 'Resurrection Mastery',
+    description: 'Temporal Flux: Resurrection Time Shard cost reduced by -2 per rank. Resurrected ally gains +10 temporary HP per rank.',
+    icon: 'spell_holy_borrowedtime',
+    maxRanks: 2,
+    position: { x: 2, y: 4 },
+    requires: 'rewind_t3_loop_mastery',
+  },
+
+  // Tier 5 - Spread
+  {
+    id: 'rewind_t5_fracture_undo',
+    name: 'Fracture Undo',
+    description: 'Reality Fracture now also heals allies in its area for 3d6 + spirit. Strain cost reduced by -1 per rank.',
+    icon: 'spell_nature_timestop',
+    maxRanks: 2,
+    position: { x: 1, y: 5 },
+    requires: 'rewind_t4_resurrection_mastery',
+  },
+  {
+    id: 'rewind_t5_restoration_supreme',
+    name: 'Restoration Supreme',
+    description: 'Chronal Restoration healing increased by +3d6 per rank. Damage reduction increased to 65% at rank 1, 75% at rank 2.',
+    icon: 'spell_arcane_arcanetorrent',
+    maxRanks: 2,
+    position: { x: 3, y: 5 },
+    requires: 'rewind_t4_resurrection_mastery',
+  },
+
+  // Tier 6 - Ultimate
+  {
+    id: 'rewind_t6_chronos_restoration',
+    name: 'Temporal Undoing',
+    description: 'Once per combat: revert the entire battlefield to its state from 2 rounds ago — ally HP, enemy HP, positioning, and active effects all reset. Costs 8 Time Shards, adds 7 Temporal Strain.',
     icon: 'spell_nature_timestop',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: ['energy_t5_temporal_singularity', 'energy_t5_chronal_dominion', 'energy_t5_reality_engine'],
+    requires: ['rewind_t5_fracture_undo', 'rewind_t5_restoration_supreme'],
     requiresAll: true,
   }
 ];

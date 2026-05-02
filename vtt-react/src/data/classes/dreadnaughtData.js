@@ -19,15 +19,17 @@ export const DREADNAUGHT_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Dreadnaught is a tank who converts Damage Taken into Dark Resilience Points (DRP). Gain 1 DRP for every 5 Damage Taken (max 50 DRP). Spend DRP on powerful abilities: Shadow Shield (2:1 damage absorption), Wraith Strike (+1d6 necrotic per 5 DRP), Unholy Fortitude (+1 AC per 5 DRP), Necrotic Aura (15 DRP debuff). Passive benefits at 10+ DRP: resistance to one damage type + HP regeneration (1 HP per 10 DRP). Dark Rebirth auto-triggers at 0 HP: spend all DRP to regain HP equal to 2x DRP.
+      content: `You are a Dreadnaught. Pain is your fuel. Every hit you take charges your Dark Resilience Points (DRP). Spend them on shields and strikes — or save them to cheat death.
 
 **Core Mechanic**: Take damage → Generate DRP → Spend on abilities OR save for passive benefits + emergency Dark Rebirth
 
-**Resource**: Dark Resilience Points (0-50, generated from Damage Taken)
+**Resource**: Dark Resilience Points (0-50, generated from Damage Taken). *Spirit is your magical potency modifier — see Core Rules for calculation.*
 
 **Playstyle**: Frontline tank, damage-to-power conversion, adaptive defense, last stand specialist
 
-**Best For**: Players who enjoy tanking, converting pain into power, and managing a damage-based resource`
+**Best For**: Players who enjoy tanking, converting pain into power, and managing a damage-based resource
+
+**Note**: Some talent tree nodes reference card draws and coin flips — these are universal game mechanics. See Core Rules for details.`
     },
 
     description: `The Dreadnaught taps into their dark connection to fuel their resilience and power. As they take damage, they build up Dark Resilience Points (DRP), which can be used to enhance their defensive and offensive capabilities. This system emphasizes the Dreadnaught's ability to absorb and utilize Damage Taken, turning it into a powerful resource for both offense and defense.`,
@@ -82,13 +84,13 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 **Dark Rebirth**: 
 - Automatically triggers when reaching 0 HP
 - Spend all remaining DRP to regain HP equal to twice the DRP
-- Your ultimate survival tool—always keep some DRP in reserve
+- Your ultimate survival tool — see "The Dreadnaught's Gambit" for when to spend vs save
 
 **Resource Management**:
-- Don't spend all DRP immediately—save some for emergencies
 - Balance between offensive (Wraith Strike) and defensive (Shadow Shield) spending
 - Time Necrotic Aura for maximum impact when surrounded
-- Always keep 10+ DRP for passive benefits`
+- At 10+ DRP your passive benefits activate — weigh spending against losing them
+- For high-cost spells, see "The Dreadnaught's Gambit" — sometimes going all-in is the right play`
     },
 
     immersiveCombatExample: {
@@ -410,6 +412,29 @@ The key to mastering the Dreadnaught is knowing when to spend DRP versus saving 
         ['50', 'Regenerate 5 HP at start of turn', 'Maximum DRP capacity']
       ]
     },
+
+    passiveVsSpellComparison: {
+      title: 'Passive Benefits vs Spell Versions',
+      headers: ['Effect', 'Passive (Free at 10+ DRP)', 'Spell (Costs DRP, Stronger)'],
+      rows: [
+        ['Damage Resistance', '1 damage type, auto-active at 10+ DRP', 'Choose type, lasts 1 minute, can layer with passive'],
+        ['HP Regeneration', '1-5 HP/turn based on DRP tier', 'Spend 5 DRP to activate enhanced regen scaling with current DRP']
+      ]
+    },
+
+    theGambit: {
+      title: "The Dreadnaught's Gambit",
+      content: `At high levels, your spells cost 40-50 DRP — your entire resource pool. This is **the Gambit**: you trade your safety net (passive benefits, Dark Rebirth insurance) for devastating power.
+
+A Dreadnaught at 0 DRP is vulnerable. A Dreadnaught who just erased a battlefield with Void Annihilation is a god — for one moment. Then the bills come due.
+
+**The Gambit is not a mistake — it's the ultimate expression of your philosophy.** You don't hoard pain. You spend it. Every DRP you've built from suffering becomes a weapon. The question is never "should I spend?" — it's "when do I go all in?"
+
+**Gambit Rules of Thumb**:
+- **Low-level spells (5-15 DRP)**: Conservative play. Keep 10+ DRP for passives and Rebirth insurance.
+- **Mid-level spells (20-30 DRP)**: Calculated risk. You lose some passive scaling but gain decisive impact.
+- **High-level spells (40-50 DRP)**: The Gambit. You're spending everything. Make it count — you won't get a second chance.`
+    },
     
     strategicConsiderations: {
       title: 'Strategic Considerations',
@@ -417,9 +442,9 @@ The key to mastering the Dreadnaught is knowing when to spend DRP versus saving 
 
 **Mid Combat (16-30 DRP)**: Your sweet spot. You have enough DRP for meaningful abilities while maintaining passive benefits. Use Shadow Shield to mitigate burst damage and Wraith Strike for offensive pressure.
 
-**High DRP (31-50 DRP)**: Maximum power. You're regenerating significant HP each turn and have resources for multiple abilities. Consider using Necrotic Aura to control the battlefield.
+**High DRP (31-50 DRP)**: Maximum power. You're regenerating significant HP each turn and have resources for multiple abilities. Consider using Necrotic Aura to control the battlefield — or hold for a Gambit play.
 
-**Emergency Reserve**: Always keep at least 10-15 DRP in reserve for Dark Rebirth. This ensures you can survive a lethal blow and continue fighting.
+**The Gambit Decision**: When you're sitting on 40-50 DRP, ask yourself: "Do I need my safety net, or do I need to end this fight now?" There's no wrong answer — only consequences.
 
 **Damage Type Selection**: When choosing your Dark Resistance damage type at 10 DRP, consider the enemies you're facing. Change it strategically as combat evolves.`
     },
@@ -1340,78 +1365,6 @@ Many players enhance the dreadnaught experience with:
       tags: ['resource gain', 'drp', 'health', 'level 3', 'dreadnaught']
     },
 
-    {
-      id: 'dread_dark_armor',
-      name: 'Dark Armor',
-      description: 'Surround yourself with protective shadows that grant damage resistance and temporary hit points.',
-      level: 3,
-      spellType: 'ACTION',
-      icon: 'Necrotic/Protective Aura',
-      school: 'Abjuration',
-
-      typeConfig: {
-        school: 'abjuration',
-        icon: 'Necrotic/Protective Aura',
-
-        tags: ["buff","resistance","protection","drp"],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      cooldownConfig: {
-        type: 'none'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['drp'],
-        resourceValues: { drp: 15 },
-        useFormulas: {},
-        actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Arma Tenebra!',
-        somaticText: 'Shadows coalesce into armor'
-      },
-
-      resolution: 'NONE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'combined',
-        effects: [
-          {
-            id: 'dark_armor_resistance',
-            name: 'Dark Armor Resistance',
-            description: '50% resistance to necrotic damage (flat magnitude 1)',
-            statModifier: {
-              stat: 'damageResistance',
-              magnitude: 1,
-              magnitudeType: 'flat',
-              damageTypes: ['necrotic']
-            }
-          },
-          {
-            id: 'dark_armor_temp_hp',
-            name: 'Dark Armor Protection',
-            description: 'Temporary hit points equal to DRP spent',
-            tempHPFormula: 'DRP Spent',
-            tempHPType: 'temporary'
-          }
-        ],
-        durationValue: 1,
-        durationType: 'hours',
-        durationUnit: 'hours',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-
-      tags: ['buff', 'resistance', 'protection', 'drp', 'level 3', 'dreadnaught']
-    },
-
     // ========================================
     // LEVEL 4 SPELLS
     // ========================================
@@ -1773,68 +1726,6 @@ Many players enhance the dreadnaught experience with:
       },
 
       tags: ['damage', 'debuff', 'necrotic', 'aoe', 'line', 'drp', 'level 5', 'dreadnaught']
-    },
-
-    {
-      id: 'dread_abyssal_shield',
-      name: 'Abyssal Shield',
-      description: 'Create a powerful shield for 1 turn that blocks all damage and reflects 50% back at attackers as necrotic damage. Spend variable DRP to activate.',
-      level: 5,
-      spellType: 'REACTION',
-      icon: 'Necrotic/Protective Aura',
-      school: 'Abjuration',
-
-      typeConfig: {
-        school: 'abjuration',
-        icon: 'Necrotic/Protective Aura',
-
-        tags: ["defense","reflection","necrotic","drp","reaction"],
-        castTime: 1,
-        castTimeType: 'REACTION'
-      },
-
-      cooldownConfig: {
-        type: 'none'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['drp'],
-        resourceValues: { drp: 'variable' },
-        useFormulas: {},
-        actionPoints: 1,
-        components: ['somatic'],
-        somaticText: 'Abyssal shield forms'
-      },
-
-      resolution: 'NONE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'damageReflection',
-        effects: [{
-          id: 'abyssal_shield_reflection',
-          name: 'Abyssal Shield',
-          description: 'Block all damage for 1 turn and reflect 50% back at attacker as necrotic damage',
-          damageReflection: {
-            percentage: 50,
-            elementType: 'necrotic'
-          },
-          mechanicsText: 'Block all damage for 1 turn. Reflect 50% back as necrotic.',
-          shieldValue: { formula: 'all', shieldType: 'complete' }
-        }],
-        durationValue: 1,
-        durationType: 'turns',
-        durationUnit: 'turns',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-
-      tags: ['defense', 'reflection', 'damage', 'necrotic', 'drp', 'level 5', 'dreadnaught']
     },
 
     // ========================================

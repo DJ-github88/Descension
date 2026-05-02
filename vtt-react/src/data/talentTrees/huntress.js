@@ -1,26 +1,27 @@
 // ============================================
 // HUNTRESS TALENT TREES
+// Specializations: Shadowblade / Bladestorm / Beastmaster
 // ============================================
 
+// ============================================
+// SHADOWBLADE — Stealth & Glaive Lethality
+// ============================================
 export const HUNTRESS_SHADOWBLADE = [
-  // Foundation: The Shadow's Embrace (Central dark nexus)
   {
     id: 'shadowblade_t0_glaive_mastery',
     name: 'Glaive Mastery',
-    description: 'Shadow Glaive chains to +1 additional target. You can spend 1 action point to hide after a successful glaive attack. Quarry Marks build 25% faster against marked targets.',
+    description: 'Shadow Glaive chains to +1 additional target. You can spend 1 AP to hide after a successful glaive attack.',
     icon: 'ability_stealth',
-    maxRanks: 5,
+    maxRanks: 1,
     position: { x: 2, y: 0 },
     requires: null,
   },
-
-  // Left Shadow Tendrils: Stealth Enhancement (Dark branching paths)
   {
     id: 'shadowblade_t1_shadow_strike',
     name: 'Shadow Strike',
-    description: 'Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth using 1 action point while in combat.',
+    description: 'Glaive attacks from stealth deal +2d6 bonus damage and generate +1 extra Quarry Mark. You can enter stealth using 1 AP while in combat.',
     icon: 'ability_rogue_shadowstrike',
-    maxRanks: 4,
+    maxRanks: 1,
     position: { x: 1, y: 1 },
     requires: 'shadowblade_t0_glaive_mastery',
   },
@@ -29,7 +30,7 @@ export const HUNTRESS_SHADOWBLADE = [
     name: 'Dark Presence',
     description: 'Enemies within 10ft of you have disadvantage on Perception checks to detect you. Your companion can enter stealth with you.',
     icon: 'spell_shadow_nethercloak',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 0, y: 2 },
     requires: 'shadowblade_t1_shadow_strike',
   },
@@ -38,18 +39,16 @@ export const HUNTRESS_SHADOWBLADE = [
     name: 'Phantom Step',
     description: 'Spend 2 Quarry Marks to teleport 30ft to an enemy within 60ft, appearing in stealth and attacking with advantage.',
     icon: 'spell_shadow_shadowstep',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 1, y: 3 },
     requires: 'shadowblade_t2_dark_presence',
   },
-
-  // Right Shadow Tendrils: Glaive Specialization (Weapon mastery paths)
   {
     id: 'shadowblade_t1_chain_mastery',
     name: 'Chain Mastery',
     description: 'Shadow Glaive chains ignore difficult terrain and can chain through allies. Chained enemies take +1d4 damage per chain link.',
     icon: 'spell_shadow_lifedrain',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 3, y: 1 },
     requires: 'shadowblade_t0_glaive_mastery',
   },
@@ -58,7 +57,7 @@ export const HUNTRESS_SHADOWBLADE = [
     name: 'Glaive Dance',
     description: 'After a successful glaive attack, you can spend 1 Quarry Mark to immediately attack another enemy within range.',
     icon: 'ability_warrior_weaponmastery',
-    maxRanks: 4,
+    maxRanks: 1,
     position: { x: 4, y: 2 },
     requires: 'shadowblade_t1_chain_mastery',
   },
@@ -67,25 +66,23 @@ export const HUNTRESS_SHADOWBLADE = [
     name: 'Shadow Eruption',
     description: 'When you kill an enemy with a glaive attack, all enemies within 10ft take 2d6 shadow damage and cannot take reactions until your next turn.',
     icon: 'spell_shadow_shadowfury',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 3, y: 3 },
     requires: 'shadowblade_t2_glaive_dance',
   },
-
-  // Central Shadow Convergence: Ultimate Assassin (Dark power nexus)
   {
     id: 'shadowblade_t4_shadow_synergy',
     name: 'Shadow Synergy',
     description: 'Your companion attacks generate Quarry Marks as if they were your glaive attacks. Stealth attacks allow you to spend 1 Quarry Mark to mark the target automatically.',
     icon: 'ability_druid_predatoryinstincts',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 2, y: 2 },
     requires: ['shadowblade_t1_shadow_strike', 'shadowblade_t1_chain_mastery'],
   },
   {
     id: 'shadowblade_t5_apex_predator',
     name: 'Apex Predator',
-    description: 'While you have 5+ Quarry Marks, your glaive attacks crit on 18-20 and you can spend 1 Quarry Mark to attack twice as a reaction when an enemy attacks you.',
+    description: 'While you have 5 Quarry Marks, your glaive attacks crit on 18-20. You can spend 1 Quarry Mark to make a glaive attack as a reaction when an enemy attacks you.',
     icon: 'ability_hunter_assassinate',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -94,7 +91,7 @@ export const HUNTRESS_SHADOWBLADE = [
   {
     id: 'shadowblade_t6_shadow_assassin',
     name: 'Shadow Assassin',
-    description: 'Ultimate ability: Become a shadow entity for 1 minute. All attacks are silent and cannot be heard, you phase through walls, and glaive attacks deal maximum damage. Costs 5 Quarry Marks.',
+    description: 'Ultimate: Become a shadow entity for 1 minute. All attacks are silent and cannot be heard, you phase through walls, and glaive attacks deal maximum damage. Costs 5 Quarry Marks.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -102,125 +99,121 @@ export const HUNTRESS_SHADOWBLADE = [
   }
 ];
 
-export const HUNTRESS_SENTINEL = [
-  // Foundation: The Guardian's Vigil (Central protective ward)
+// ============================================
+// BLADESTORM — Chain Attack Mastery & Multi-Target Devastation
+// ============================================
+export const HUNTRESS_BLADESTORM = [
   {
-    id: 'sentinel_t0_wardens_vigil',
-    name: 'Warden\'s Vigil',
-    description: 'Allies within 30ft gain +1 armor while you have an active Quarry Mark. Your companion can protect allies, granting +1 armor to one ally using 1 action point.',
-    icon: 'spell_holy_devotionaura',
-    maxRanks: 5,
+    id: 'bladestorm_t0_whirling_blades',
+    name: 'Whirling Blades',
+    description: 'Your Shadow Glaive can chain to +1 additional target (total 5). Chain damage no longer reduces after the second target — all chained hits deal at least 1d6.',
+    icon: 'ability_warrior_weaponmastery',
+    maxRanks: 1,
     position: { x: 2, y: 0 },
     requires: null,
   },
-
-  // Left Guardian Circles: Protective Barriers (Concentric defense rings)
   {
-    id: 'sentinel_t1_aura_of_protection',
-    name: 'Aura of Protection',
-    description: 'Allies within 10ft of you or your companion gain resistance to the damage type of your last glaive attack for 1 round.',
-    icon: 'spell_holy_powerwordshield',
-    maxRanks: 4,
+    id: 'bladestorm_t1_momentum',
+    name: 'Momentum',
+    description: 'Each successful chain attack grants +1 to your next attack roll (max +3). Bonus resets if you miss. Hitting multiple enemies in one swing builds Momentum faster.',
+    icon: 'spell_shadow_shadowstep',
+    maxRanks: 1,
     position: { x: 1, y: 1 },
-    requires: 'sentinel_t0_wardens_vigil',
+    requires: 'bladestorm_t0_whirling_blades',
   },
   {
-    id: 'sentinel_t2_guardian_stance',
-    name: 'Guardian Stance',
-    description: 'When an ally within 30ft takes damage, you can spend 2 Quarry Marks to reduce the damage by 1d8 per mark spent and take half the remaining damage.',
-    icon: 'ability_warrior_shieldwall',
-    maxRanks: 3,
+    id: 'bladestorm_t2_extended_reach',
+    name: 'Extended Reach',
+    description: 'Glaive chain distance increased from 5ft to 10ft. You can position further from enemies while still chaining between grouped targets.',
+    icon: 'ability_hunter_aimedshot',
+    maxRanks: 1,
     position: { x: 0, y: 2 },
-    requires: 'sentinel_t1_aura_of_protection',
+    requires: 'bladestorm_t1_momentum',
   },
   {
-    id: 'sentinel_t3_sacred_ground',
-    name: 'Sacred Ground',
-    description: 'You can create a 20ft radius protective zone for 1 minute. Allies inside gain +2 armor and resistance to necrotic damage. Costs 3 Quarry Marks to activate.',
-    icon: 'spell_holy_circleofrenewal',
-    maxRanks: 2,
+    id: 'bladestorm_t3_chain_reaction',
+    name: 'Chain Reaction',
+    description: 'When your glaive chains to 3+ enemies in a single attack, your next glaive attack this turn chains to +1 additional target for free (no QM cost).',
+    icon: 'spell_shadow_shadowfury',
+    maxRanks: 1,
     position: { x: 1, y: 3 },
-    requires: 'sentinel_t2_guardian_stance',
+    requires: 'bladestorm_t2_extended_reach',
   },
-
-  // Right Guardian Circles: Active Defense (Offensive protection rings)
   {
-    id: 'sentinel_t1_retaliation',
-    name: 'Retaliation',
-    description: 'When an ally within 30ft is attacked, you can spend 1 Quarry Mark to make a glaive attack against the attacker as a reaction.',
-    icon: 'ability_parry',
-    maxRanks: 3,
+    id: 'bladestorm_t1_cleave',
+    name: 'Cleave',
+    description: 'Primary glaive target takes +1d8 damage. If the primary target drops to 0 HP from your attack, all chained targets take an additional 1d6 slashing damage.',
+    icon: 'ability_warrior_weaponmastery',
+    maxRanks: 1,
     position: { x: 3, y: 1 },
-    requires: 'sentinel_t0_wardens_vigil',
+    requires: 'bladestorm_t0_whirling_blades',
   },
   {
-    id: 'sentinel_t2_companion_bond',
-    name: 'Companion Bond',
-    description: 'Your companion can take the Defend action for allies within 30ft. When your companion protects an ally, it gains temporary HP equal to your proficiency bonus.',
-    icon: 'ability_hunter_beastcall',
-    maxRanks: 4,
+    id: 'bladestorm_t2_rising_storm',
+    name: 'Rising Storm',
+    description: 'Each enemy hit by your glaive chain increases your movement speed by +5ft until end of turn (max +15ft). Hit 3 enemies, move 15ft extra to reposition for next chain.',
+    icon: 'ability_hunter_huntervswild',
+    maxRanks: 1,
     position: { x: 4, y: 2 },
-    requires: 'sentinel_t1_retaliation',
+    requires: 'bladestorm_t1_cleave',
   },
   {
-    id: 'sentinel_t3_vigilant_strike',
-    name: 'Vigilant Strike',
-    description: 'Your glaive attacks against enemies that damaged your allies this turn deal +2d6 damage and generate +1 extra Quarry Mark.',
-    icon: 'ability_warrior_focusedrage',
-    maxRanks: 3,
+    id: 'bladestorm_t3_blade_frenzy',
+    name: 'Blade Frenzy',
+    description: 'Spend 2 QM to immediately make a second glaive chain attack after your first one resolves. Both attacks generate QM normally (subject to per-turn cap).',
+    icon: 'ability_warrior_cleave',
+    maxRanks: 1,
     position: { x: 3, y: 3 },
-    requires: 'sentinel_t2_companion_bond',
+    requires: 'bladestorm_t2_rising_storm',
   },
-
-  // Central Guardian Nexus: Protective Mastery (Interlocking wards)
   {
-    id: 'sentinel_t4_wardens_synergy',
-    name: 'Warden\'s Synergy',
-    description: 'When you or your companion protect an ally, all allies within 30ft gain +1 to their next attack roll or saving throw.',
-    icon: 'spell_holy_prayerofspirit',
-    maxRanks: 2,
+    id: 'bladestorm_t4_storm_synergy',
+    name: 'Storm Synergy',
+    description: 'When you hit 3+ enemies with a single glaive attack, you and your companion each gain +2 AC until your next turn. The storm of blades shields you both.',
+    icon: 'ability_druid_predatoryinstincts',
+    maxRanks: 1,
     position: { x: 2, y: 2 },
-    requires: ['sentinel_t1_aura_of_protection', 'sentinel_t1_retaliation'],
+    requires: ['bladestorm_t1_momentum', 'bladestorm_t1_cleave'],
   },
   {
-    id: 'sentinel_t5_eternal_guardian',
-    name: 'Eternal Guardian',
-    description: 'Your Sacred Ground becomes permanent and you can activate it using 1 action point. Allies inside cannot be frightened or charmed.',
-    icon: 'spell_holy_divineprovidence',
+    id: 'bladestorm_t5_hurricane',
+    name: 'Hurricane',
+    description: 'While you have 3+ Quarry Marks, your glaive attacks are AoE — all enemies within 5ft of each chain target also take half damage. Your glaive is a storm of steel.',
+    icon: 'spell_shadow_shadowfury',
     maxRanks: 1,
     position: { x: 2, y: 4 },
-    requires: ['sentinel_t3_sacred_ground', 'sentinel_t3_vigilant_strike'],
+    requires: ['bladestorm_t3_chain_reaction', 'bladestorm_t3_blade_frenzy'],
   },
   {
-    id: 'sentinel_t6_warden_of_light',
-    name: 'Warden of Light',
-    description: 'Ultimate ability: Create a massive ward for 1 minute that protects all allies within 40ft. They gain +3 armor, resistance to all damage, and cannot be targeted by enemy spells. Costs 5 Quarry Marks.',
-    icon: 'spell_holy_resurrection',
+    id: 'bladestorm_t6_hurricane_of_blades',
+    name: 'Hurricane of Blades',
+    description: 'Ultimate: Become a living storm of blades for 3 rounds. All glaive attacks chain to unlimited targets within 15ft, deal full damage to each, and generate +1 bonus QM per target hit (bypasses per-turn cap). Costs 5 Quarry Marks.',
+    icon: 'ability_druid_primaltenacity',
     maxRanks: 1,
     position: { x: 2, y: 5 },
-    requires: 'sentinel_t5_eternal_guardian',
+    requires: 'bladestorm_t5_hurricane',
   }
 ];
 
+// ============================================
+// BEASTMASTER — Companion Synergy & Pack Coordination
+// ============================================
 export const HUNTRESS_BEASTMASTER = [
-  // Foundation: The Primal Bond (Central companion nexus)
   {
     id: 'beastmaster_t0_primal_bond',
     name: 'Primal Bond',
-    description: 'Your companion gains +1d6 damage on attacks. When you spend Quarry Marks on abilities, your companion gains +1d4 damage for 1 minute. Your companion shares your Quarry Mark generation.',
+    description: 'Your companion deals +1d6 damage on all attacks. When you spend Quarry Marks on abilities, your companion gains +1d4 damage for 1 minute.',
     icon: 'ability_hunter_beastcall',
-    maxRanks: 5,
+    maxRanks: 1,
     position: { x: 2, y: 0 },
     requires: null,
   },
-
-  // Left Beast Pack: Companion Enhancement (Animal coordination patterns)
   {
-    id: 'beastmaster_t1_pack_tactics',
-    name: 'Pack Tactics',
-    description: 'When you or your companion attack the same enemy in the same round, both attacks gain advantage. Your companion can flank enemies 10ft away from you.',
+    id: 'beastmaster_t1_coordinated_strike',
+    name: 'Coordinated Strike',
+    description: 'When you and your companion attack the same enemy in the same round, both attacks gain advantage. Your companion can flank enemies 10ft away from you.',
     icon: 'ability_hunter_beastcall02',
-    maxRanks: 4,
+    maxRanks: 1,
     position: { x: 1, y: 1 },
     requires: 'beastmaster_t0_primal_bond',
   },
@@ -229,36 +222,34 @@ export const HUNTRESS_BEASTMASTER = [
     name: 'Beast Fury',
     description: 'Your companion can make 2 attacks per action instead of 1. When your companion crits, you gain +1 Quarry Mark.',
     icon: 'ability_druid_ferociousbite',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 0, y: 2 },
-    requires: 'beastmaster_t1_pack_tactics',
+    requires: 'beastmaster_t1_coordinated_strike',
   },
   {
     id: 'beastmaster_t3_savage_coordination',
     name: 'Savage Coordination',
-    description: 'Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target using 1 action point.',
+    description: 'Once per turn, when your companion attacks, you can spend 1 Quarry Mark to make a glaive attack against the same target using 1 AP.',
     icon: 'ability_hunter_animalhandler',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 1, y: 3 },
     requires: 'beastmaster_t2_beast_fury',
   },
-
-  // Right Beast Pack: Synergistic Abilities (Coordinated attacks)
   {
     id: 'beastmaster_t1_bestial_synergy',
     name: 'Bestial Synergy',
     description: 'When you or your companion damage an enemy, the other gains +1d4 damage on their next attack against that enemy.',
     icon: 'ability_druid_predatoryinstincts',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 3, y: 1 },
     requires: 'beastmaster_t0_primal_bond',
   },
   {
-    id: 'beastmaster_t2_companion_commands',
-    name: 'Companion Commands',
-    description: 'You can command your companion using 1 action point instead of an action. Your companion can use the Attack action twice per command.',
+    id: 'beastmaster_t2_primal_coordination',
+    name: 'Primal Coordination',
+    description: 'When you and your companion both hit the same target in one turn, that target takes +1d8 bonus damage and you generate +1 bonus Quarry Mark (bypasses per-turn cap).',
     icon: 'ability_hunter_beastsoothe',
-    maxRanks: 4,
+    maxRanks: 1,
     position: { x: 4, y: 2 },
     requires: 'beastmaster_t1_bestial_synergy',
   },
@@ -267,20 +258,18 @@ export const HUNTRESS_BEASTMASTER = [
     name: 'Primal Hunter',
     description: 'Your companion gains the ability to mark targets. Marked targets take +1d6 damage from your companion and cannot hide from it.',
     icon: 'ability_hunter_huntervswild',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 3, y: 3 },
-    requires: 'beastmaster_t2_companion_commands',
+    requires: 'beastmaster_t2_primal_coordination',
   },
-
-  // Central Beast Nexus: Ultimate Coordination (Pack alpha leadership)
   {
     id: 'beastmaster_t4_alpha_predator',
     name: 'Alpha Predator',
     description: 'Your companion can spend your Quarry Marks to enhance its abilities. When you spend Quarry Marks on companion enhancements, the effect is doubled.',
     icon: 'ability_hunter_beastmastery',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 2, y: 2 },
-    requires: ['beastmaster_t1_pack_tactics', 'beastmaster_t1_bestial_synergy'],
+    requires: ['beastmaster_t1_coordinated_strike', 'beastmaster_t1_bestial_synergy'],
   },
   {
     id: 'beastmaster_t5_primal_ascension',
@@ -294,7 +283,7 @@ export const HUNTRESS_BEASTMASTER = [
   {
     id: 'beastmaster_t6_beast_lord',
     name: 'Beast Lord',
-    description: 'Ultimate ability: You and your companion transform into apex predators for 1 minute. You both gain +2d6 damage, advantage on attacks, and can make 2 attacks per action. Costs 5 Quarry Marks.',
+    description: 'Ultimate: You and your companion transform into apex predators for 1 minute. Both gain +2d6 damage, advantage on attacks, and can make 2 attacks per action. Costs 5 Quarry Marks.',
     icon: 'ability_druid_primaltenacity',
     maxRanks: 1,
     position: { x: 2, y: 5 },

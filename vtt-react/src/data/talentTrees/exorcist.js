@@ -1,376 +1,377 @@
 // ============================================
 // EXORCIST TALENT TREES
+// Divine Dominance System — DD-Integrated
 // ============================================
 
 export const EXORCIST_DEMONOLOGIST = [
-  // Tier 0 - Ritual center (pentagram core)
+  // Tier 0 - Foundation
   {
-    id: 'demo_t0_summoning_sigil',
-    name: 'Summoning Sigil',
-    description: 'Draw a summoning sigil that binds demonic entities. Once per day, summon a bound demon.',
+    id: 'demo_t0_binding_sigil',
+    name: 'Binding Sigil',
+    description: 'Your binding rituals are more efficient. Reduce mana cost of all binding spells by 5 per rank.',
     icon: 'spell_shadow_summonfelguard',
     maxRanks: 3,
     position: { x: 2, y: 1 },
     requires: null,
   },
 
-  // Tier 1 - Star points (pentagram vertices)
+  // Tier 1 - Multi-demon fundamentals
   {
-    id: 'demo_t1_binding_runes',
-    name: 'Binding Runes',
-    description: 'Inscribe binding runes that weaken demons. Demons within 30ft have -1d6 to attack rolls per rank.',
-    icon: 'spell_shadow_curseofsargeras',
-    maxRanks: 4,
+    id: 'demo_t1_legion_mind',
+    name: 'Legion Mind',
+    description: 'Your mind splits to track multiple demons. +1 demon slot per rank (max 4 total).',
+    icon: 'spell_shadow_enslavedemon',
+    maxRanks: 2,
     position: { x: 0, y: 0 },
-    requires: 'demo_t0_summoning_sigil',
+    requires: 'demo_t0_binding_sigil',
   },
   {
-    id: 'demo_t1_demonology_lore',
-    name: 'Demonology Lore',
-    description: 'Master demonic lore. +1d6 damage to demons and advantage on saves against demonic effects.',
-    icon: 'spell_shadow_grimward',
-    maxRanks: 3,
-    position: { x: 4, y: 0 },
-    requires: 'demo_t0_summoning_sigil',
-  },
-  {
-    id: 'demo_t1_containment_ward',
-    name: 'Containment Ward',
-    description: 'Create containment wards that trap demons. Demons cannot teleport within 20ft.',
+    id: 'demo_t1_steady_rein',
+    name: 'Steady Rein',
+    description: 'Dominance Die degrades every 2 actions instead of every action for demons you command. Your grip holds longer.',
     icon: 'spell_holy_exorcism',
     maxRanks: 2,
-    position: { x: 1, y: 2 },
-    requires: 'demo_t0_summoning_sigil',
+    position: { x: 4, y: 0 },
+    requires: 'demo_t0_binding_sigil',
   },
   {
-    id: 'demo_t1_warding_circle',
-    name: 'Warding Circle',
-    description: 'Draw powerful warding circles. Demons cannot enter or attack within 15ft.',
+    id: 'demo_t1_mass_restoration',
+    name: 'Mass Restoration',
+    description: 'When you cast a DD restoration spell, all bound demons gain +1 DD step as well (half effect on non-targeted demons).',
     icon: 'spell_holy_circleofrenewal',
     maxRanks: 2,
+    position: { x: 1, y: 2 },
+    requires: 'demo_t0_binding_sigil',
+  },
+  {
+    id: 'demo_t1_swarm_tactics',
+    name: 'Swarm Tactics',
+    description: 'When 3+ demons attack the same target, each deals +1d6 bonus damage per rank. The legion overwhelms.',
+    icon: 'spell_shadow_curseofsargeras',
+    maxRanks: 3,
     position: { x: 3, y: 2 },
-    requires: 'demo_t0_summoning_sigil',
+    requires: 'demo_t0_binding_sigil',
   },
 
-  // Tier 2 - Star intersections (pentagram crossings)
+  // Tier 2 - Dominance efficiency
   {
-    id: 'demo_t2_demon_binding',
-    name: 'Demon Binding',
-    description: 'Bind demons to your will. Control summoned demons with +1 HD per rank.',
-    icon: 'spell_shadow_enslavedemon',
+    id: 'demo_t2_economical_dominance',
+    name: 'Economical Dominance',
+    description: 'Reduce mana cost of all DD restoration spells by 1 per rank. Control becomes cheaper with experience.',
+    icon: 'spell_shadow_grimward',
     maxRanks: 3,
     position: { x: 2, y: 0 },
-    requires: 'demo_t1_binding_runes',
+    requires: 'demo_t1_steady_rein',
   },
   {
-    id: 'demo_t2_banishment',
-    name: 'Banishment',
-    description: 'Master banishment rituals. Banish demons back to their plane on a failed save.',
+    id: 'demo_t2_quick_dismiss',
+    name: 'Quick Dismiss',
+    description: 'Dismissing a demon at d6 DD or higher refunds 50% of its binding mana cost. Strategic retreat has its rewards.',
     icon: 'spell_shadow_demonicfortitude',
     maxRanks: 2,
     position: { x: 2, y: 2 },
-    requires: 'demo_t1_containment_ward',
+    requires: 'demo_t1_mass_restoration',
   },
 
-  // Tier 3 - Inner star circle (ritual strengthening)
+  // Tier 3 - Advanced control
   {
-    id: 'demo_t3_greater_binding',
-    name: 'Greater Binding',
-    description: 'Create greater bindings. Bound demons have disadvantage on saves.',
+    id: 'demo_t3_chain_resonance',
+    name: 'Chain Resonance',
+    description: 'When one demon escapes, all remaining demons\' DD improves by 1 step. Fear of loss strengthens your remaining grip.',
     icon: 'spell_shadow_antimagicshell',
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 1, y: 1 },
-    requires: 'demo_t2_demon_binding',
+    requires: 'demo_t2_economical_dominance',
   },
   {
-    id: 'demo_t3_exorcists_ward',
-    name: 'Exorcist\'s Ward',
-    description: 'Create ultimate exorcist wards. Immune to possession and demonic charm.',
+    id: 'demo_t3_demon_synergy',
+    name: 'Demon Synergy',
+    description: 'Each demon beyond the first grants +1d4 damage to all other demons\' attacks. They compete for your favor.',
     icon: 'spell_holy_powerwordbarrier',
     maxRanks: 3,
     position: { x: 3, y: 1 },
-    requires: 'demo_t2_banishment',
+    requires: 'demo_t2_quick_dismiss',
   },
 
-  // Tier 4 - Star apex (ritual mastery)
+  // Tier 4 - Mastery
   {
-    id: 'demo_t4_demon_lord_binding',
-    name: 'Demon Lord Binding',
-    description: 'Bind demon lords themselves. Control demon lords for 1 minute per rank.',
-    icon: 'spell_shadow_summonfelguard',
-    maxRanks: 1,
+    id: 'demo_t4_iron_will',
+    name: 'Iron Will',
+    description: 'When a demon reaches 0 DD, it gains advantage on its escape save (you roll twice, take better result for the demon). Wait — this helps YOU. The demon has disadvantage on escape saves.',
+    icon: 'spell_shadow_enslavedemon',
+    maxRanks: 2,
     position: { x: 0, y: 3 },
-    requires: 'demo_t3_greater_binding',
+    requires: 'demo_t3_chain_resonance',
   },
   {
-    id: 'demo_t4_abyssal_banishment',
-    name: 'Abyssal Banishment',
-    description: 'Master abyssal banishment. Banish any demon regardless of HD.',
+    id: 'demo_t4_demon_cyclone',
+    name: 'Demon Cyclone',
+    description: 'Once per combat: Command all demons to attack simultaneously. Each degrades DD by 1 step but deals +2d6 damage.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 1,
     position: { x: 4, y: 3 },
-    requires: 'demo_t3_exorcists_ward',
+    requires: 'demo_t3_demon_synergy',
   },
 
-  // Tier 5 - Ritual convergence (ultimate star binding)
+  // Tier 5 - Ultimate
   {
-    id: 'demo_t5_planar_mastery',
-    name: 'Planar Mastery',
-    description: 'Achieve planar mastery. Control all demons within 100ft and banish them at will.',
+    id: 'demo_t5_infernal_general',
+    name: 'Infernal General',
+    description: 'Your demons no longer degrade DD on the first action each turn. Only subsequent actions cost DD. You are the undisputed commander of the legion.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 4 },
-    requires: ['demo_t4_demon_lord_binding', 'demo_t4_abyssal_banishment', 'demo_t2_demon_binding'],
+    requires: ['demo_t4_iron_will', 'demo_t4_demon_cyclone', 'demo_t2_economical_dominance'],
     requiresAll: true,
   }
 ];
 
-// Demon Lord Specialization - Throne ascension pattern (demonic hierarchy steps)
+// Demon Lord Specialization — Single powerful demon + Exorcist empowerment
 export const EXORCIST_DEMON_LORD = [
-  // Tier 0 - Throne base (foundation stone)
+  // Tier 0 - Foundation
   {
     id: 'dlord_t0_infernal_pact',
     name: 'Infernal Pact',
-    description: 'Form an infernal pact with a demon lord. Gain resistance to fire and poison damage.',
+    description: 'Forge a deeper bond with your single demon. It gains +1d6 damage per rank and you gain resistance to its damage type.',
     icon: 'ability_warlock_demonicpower',
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - First throne step (power foundation)
+  // Tier 1 - Enhanced bond
   {
-    id: 'dlord_t1_demon_strength',
-    name: 'Demon Strength',
-    description: 'Draw strength from demonic pacts. +1d6 damage with melee weapons per rank.',
+    id: 'dlord_t1_iron_grip',
+    name: 'Iron Grip',
+    description: 'Your demon\'s DD degrades every 2 actions instead of every action. Your singular focus yields stronger control.',
     icon: 'spell_shadow_felarmour',
-    maxRanks: 4,
+    maxRanks: 2,
     position: { x: 1, y: 1 },
     requires: 'dlord_t0_infernal_pact',
   },
   {
-    id: 'dlord_t1_demon_armor',
-    name: 'Demon Armor',
-    description: 'Armor forged in demon fires. +2 armor and resistance to fire damage.',
+    id: 'dlord_t1_shared_will',
+    name: 'Shared Will',
+    description: 'When your demon takes damage, you may redirect up to half to yourself. Pain shared is dominance maintained.',
     icon: 'spell_shadow_ragingscream',
     maxRanks: 2,
     position: { x: 3, y: 1 },
     requires: 'dlord_t0_infernal_pact',
   },
 
-  // Tier 2 - Second throne step (power elevation)
+  // Tier 2 - Dual empowerment
   {
-    id: 'dlord_t2_hellfire_blast',
-    name: 'Hellfire Blast',
-    description: 'Unleash hellfire blasts. Deal 2d8 fire damage to one target per rank.',
+    id: 'dlord_t2_empowered_strikes',
+    name: 'Empowered Strikes',
+    description: 'Your demon\'s attacks deal +1d8 damage per rank. When your demon crits, restore 1 DD step.',
     icon: 'spell_fire_firebolt',
     maxRanks: 3,
     position: { x: 0, y: 2 },
-    requires: 'dlord_t1_demon_strength',
+    requires: 'dlord_t1_iron_grip',
   },
   {
     id: 'dlord_t2_fel_presence',
     name: 'Fel Presence',
-    description: 'Emit fel presence. Creatures within 10ft take 1d6 fire damage per turn.',
+    description: 'Enemies within 10ft of your demon have disadvantage on attacks against it. Your demon radiates terrifying authority.',
     icon: 'spell_shadow_mindsteal',
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 2, y: 2 },
-    requires: 'dlord_t1_demon_strength',
+    requires: 'dlord_t1_iron_grip',
   },
   {
-    id: 'dlord_t2_infernal_rage',
-    name: 'Infernal Rage',
-    description: 'Tap into infernal rage. When reduced below 50% HP, deal +1d6 damage per rank.',
+    id: 'dlord_t2_demon_armor',
+    name: 'Demon Armor',
+    description: 'Gain +2 armor per rank while your demon is bound. Its power bleeds into you, fortifying your mortal frame.',
     icon: 'ability_warrior_endlessrage',
-    maxRanks: 4,
+    maxRanks: 2,
     position: { x: 4, y: 2 },
-    requires: 'dlord_t1_demon_armor',
+    requires: 'dlord_t1_shared_will',
   },
 
-  // Tier 3 - Third throne step (lordly elevation)
+  // Tier 3 - Deepening mastery
   {
-    id: 'dlord_t3_demon_lord_aspect',
-    name: 'Demon Lord Aspect',
-    description: 'Take on aspects of demon lords. Gain flight and +2 to all saves.',
+    id: 'dlord_t3_dominant_wrath',
+    name: 'Dominant Wrath',
+    description: 'When your demon is at d8 DD or lower, it deals +2d8 damage. Desperation sharpens its fury — and your grip.',
     icon: 'spell_shadow_metamorphosis',
     maxRanks: 2,
     position: { x: 1, y: 3 },
     requires: 'dlord_t2_fel_presence',
   },
   {
-    id: 'dlord_t3_soul_drain',
-    name: 'Soul Drain',
-    description: 'Drain souls for power. Killing enemies restores 2d6 HP per rank.',
+    id: 'dlord_t3_soul_tether',
+    name: 'Soul Tether',
+    description: 'When your demon kills an enemy, restore 1 DD step. Each soul claimed reinforces the chain between you.',
     icon: 'spell_shadow_soulleech',
     maxRanks: 3,
     position: { x: 3, y: 3 },
-    requires: 'dlord_t2_fel_presence',
+    requires: 'dlord_t2_demon_armor',
   },
 
-  // Tier 4 - Throne arms (power extension)
+  // Tier 4 - Apex bond
   {
-    id: 'dlord_t4_abyssal_command',
-    name: 'Abyssal Command',
-    description: 'Command abyssal forces. Summon demon minions that obey your commands.',
+    id: 'dlord_t4_greater_binding',
+    name: 'Greater Binding',
+    description: 'Your demon\'s starting DD improves by 1 step (d6→d8, d8→d10). Can bind Tier 4 Greater Demons.',
     icon: 'spell_shadow_summoninfernal',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 0, y: 3 },
-    requires: 'dlord_t3_demon_lord_aspect',
+    requires: 'dlord_t3_dominant_wrath',
   },
   {
-    id: 'dlord_t4_eternal_flames',
-    name: 'Eternal Flames',
-    description: 'Wreathe yourself in eternal flames. Deal 2d6 fire damage to melee attackers.',
+    id: 'dlord_t4_infernal_surge',
+    name: 'Infernal Surge',
+    description: 'Once per combat: Your demon takes 3 actions in a single turn without DD degradation. The leash snaps tight.',
     icon: 'spell_fire_immolation',
-    maxRanks: 2,
+    maxRanks: 1,
     position: { x: 4, y: 3 },
-    requires: 'dlord_t3_soul_drain',
+    requires: 'dlord_t3_soul_tether',
   },
 
-  // Tier 5 - Throne seat (crown of demonic power)
+  // Tier 5 - Ultimate
   {
-    id: 'dlord_t5_demon_lord_wrath',
-    name: 'Demon Lord Wrath',
-    description: 'Unleash demon lord wrath. 30ft radius deals 4d6 fire damage.',
+    id: 'dlord_t5_throne_of_will',
+    name: 'Throne of Will',
+    description: 'Your demon cannot escape while you have more than 50% HP. At 0 DD, instead of escaping, it becomes stunned for 1 turn then resets to d6. You are its god.',
     icon: 'spell_fire_fire',
-    maxRanks: 3,
+    maxRanks: 1,
     position: { x: 2, y: 4 },
-    requires: ['dlord_t4_abyssal_command', 'dlord_t4_eternal_flames', 'dlord_t2_hellfire_blast'],
+    requires: ['dlord_t4_greater_binding', 'dlord_t4_infernal_surge', 'dlord_t2_empowered_strikes'],
     requiresAll: true,
   },
 
-  // Tier 6 - Throne pinnacle (ultimate demonic ascension)
+  // Tier 6 - Ascension
   {
     id: 'dlord_t6_become_demon_lord',
     name: 'Become Demon Lord',
-    description: 'Ascend to demon lord status. Transform into a demon lord with immense power.',
+    description: 'Transform into a Demon Lord for 6 rounds. Gain +6 Str, +4 Con, immunity to fear, and your bound demon doubles all damage. When it ends, take 4d10 psychic damage.',
     icon: 'spell_shadow_demonform',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: 'dlord_t5_demon_lord_wrath',
+    requires: 'dlord_t5_throne_of_will',
   }
 ];
 
-// Possessed Specialization - Corruption tendrils pattern (spreading metamorphosis)
+// Possessed Specialization — Internal demon channeling with Internal DD
 export const EXORCIST_POSSESSED = [
-  // Tier 0 - Infection core (central corruption)
+  // Tier 0 - Foundation
   {
     id: 'poss_t0_demonic_embrace',
     name: 'Demonic Embrace',
-    description: 'Embrace demonic possession. Gain +1d6 necrotic damage to attacks but take 1d6 damage per turn.',
+    description: 'Channel a demon within yourself. Your Internal DD starts at d10. Melee attacks deal +1d6 necrotic damage per rank but degrade your Internal DD by 1 step.',
     icon: 'spell_shadow_possession',
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Initial tendrils (first corruption spread)
+  // Tier 1 - Internal control
   {
-    id: 'poss_t1_corruption_touch',
-    name: 'Corruption Touch',
-    description: 'Spread corruption through touch. Target takes 2d6 necrotic damage and becomes poisoned.',
+    id: 'poss_t1_held_leash',
+    name: 'Held Leash',
+    description: 'Internal DD only degrades every 2 demon-ability uses instead of every use. Your iron will holds the beast at bay.',
     icon: 'spell_shadow_creepingplague',
-    maxRanks: 4,
+    maxRanks: 2,
     position: { x: 3, y: 0 },
     requires: 'poss_t0_demonic_embrace',
   },
   {
     id: 'poss_t1_mutated_form',
     name: 'Mutated Form',
-    description: 'Your form mutates with demonic power. +2 Strength and resistance to poison.',
+    description: 'Your body adapts to the demon within. +2 Strength per rank and resistance to necrotic damage.',
     icon: 'spell_shadow_auraofdarkness',
     maxRanks: 3,
     position: { x: 1, y: 1 },
     requires: 'poss_t0_demonic_embrace',
   },
 
-  // Tier 2 - Tendril growth (expanding corruption)
+  // Tier 2 - Power and recovery
   {
     id: 'poss_t2_demonic_regeneration',
     name: 'Demonic Regeneration',
-    description: 'Regenerate through demonic power. Regain 1d8 HP per rank at the start of your turn.',
+    description: 'At the start of your turn, if Internal DD is d8 or higher, regenerate 1d8 HP per rank. The demon sustains its vessel.',
     icon: 'spell_shadow_lifedrain',
-    maxRanks: 4,
+    maxRanks: 3,
     position: { x: 4, y: 1 },
-    requires: 'poss_t1_corruption_touch',
+    requires: 'poss_t1_held_leash',
   },
   {
     id: 'poss_t2_corruption_aura',
     name: 'Corruption Aura',
-    description: 'Emit corruption aura. Enemies within 10ft take 1d6 necrotic damage per turn.',
+    description: 'Enemies within 10ft take 1d6 necrotic damage per rank at the start of their turn. The demon bleeds into the world around you.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 0, y: 2 },
     requires: 'poss_t1_mutated_form',
   },
   {
-    id: 'poss_t3_tendril_strike',
+    id: 'poss_t2_tendril_strike',
     name: 'Tendril Strike',
-    description: 'Strike with demonic tendrils. Deal weapon damage + 2d6 necrotic damage in 15ft reach.',
+    description: 'Attack with demonic tendrils (15ft reach) for weapon damage + 2d6 necrotic. Degrades Internal DD by 1 step.',
     icon: 'ability_rogue_disembowel',
     maxRanks: 2,
     position: { x: 2, y: 2 },
-    requires: 'poss_t1_corruption_touch',
+    requires: 'poss_t1_held_leash',
   },
 
-  // Tier 3 - Tendril network (interconnected corruption)
+  // Tier 3 - Deepening possession
   {
-    id: 'poss_t3_psychic_corruption',
-    name: 'Psychic Corruption',
-    description: 'Corrupt minds as well as bodies. Creatures within 30ft have disadvantage on Spirit saves.',
+    id: 'poss_t3_inner_peace',
+    name: 'Inner Peace',
+    description: 'When your Internal DD reaches 0 and the demon takes over, you regain control after 1 turn instead of 2. Additionally, the demon\'s turn deals +2d6 damage to enemies (not allies) per rank.',
     icon: 'spell_shadow_mindrot',
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 3, y: 2 },
     requires: 'poss_t2_demonic_regeneration',
   },
   {
     id: 'poss_t3_demon_form',
     name: 'Demon Form',
-    description: 'Transform into demon form. Gain +2 armor, darkvision, and immunity to poison.',
+    description: 'Activate as a bonus action: Enter demon form for 3 rounds. +2 armor, darkvision, immunity to poison. Internal DD degrades by 1 step per round while active.',
     icon: 'spell_shadow_demonform',
     maxRanks: 2,
     position: { x: 1, y: 3 },
     requires: 'poss_t2_corruption_aura',
   },
 
-  // Tier 4 - Tendril dominance (overgrown corruption)
+  // Tier 4 - Mastery of the internal
   {
     id: 'poss_t4_corruption_nova',
     name: 'Corruption Nova',
-    description: 'Unleash corruption nova. 20ft radius deals 3d6 necrotic damage and poisons creatures.',
+    description: 'Unleash the demon\'s fury in a 20ft burst. Deal 3d6 necrotic damage per rank. Resets Internal DD to d6 regardless of current level. The beast exhausts itself.',
     icon: 'spell_shadow_shadowfury',
-    maxRanks: 3,
+    maxRanks: 2,
     position: { x: 4, y: 3 },
-    requires: 'poss_t3_psychic_corruption',
+    requires: 'poss_t3_inner_peace',
   },
   {
-    id: 'poss_t4_complete_possession',
-    name: 'Complete Possession',
-    description: 'Achieve complete demonic possession. Immune to charm, fear, and psychic damage.',
+    id: 'poss_t4_harmonious_duality',
+    name: 'Harmonious Duality',
+    description: 'When you restore your Internal DD, gain temporary HP equal to the die size × 2 (d10 = 20 temp HP). Control brings vitality.',
     icon: 'spell_shadow_antimagicshell',
     maxRanks: 1,
     position: { x: 2, y: 3 },
-    requires: 'poss_t3_psychic_corruption',
+    requires: 'poss_t3_inner_peace',
   },
   {
     id: 'poss_t4_abyssal_armor',
     name: 'Abyssal Armor',
-    description: 'Armor forged from abyssal corruption. +3 armor and resistance to all damage.',
+    description: 'Gain +3 armor and resistance to all damage while Internal DD is d8 or higher. The demon shields its prison.',
     icon: 'spell_shadow_nethercloak',
     maxRanks: 2,
     position: { x: 0, y: 4 },
     requires: 'poss_t3_demon_form',
   },
 
-  // Tier 5 - Tendril supremacy (ultimate corruption spread)
+  // Tier 5 - Ultimate
   {
     id: 'poss_t5_demon_prince',
     name: 'Demon Prince',
-    description: 'Ascend to demon prince status. Control corruption in a 60ft radius and corrupt reality itself.',
+    description: 'You no longer lose control when Internal DD reaches 0. Instead, enter Ascended Form for 3 rounds: +8 Str, +6 Con, attacks deal 4d10 necrotic. After Ascended Form ends, take 4d10 psychic damage and Internal DD resets to d6.',
     icon: 'spell_shadow_summonfelguard',
     maxRanks: 1,
     position: { x: 2, y: 5 },
-    requires: ['poss_t4_corruption_nova', 'poss_t4_complete_possession', 'poss_t4_abyssal_armor'],
+    requires: ['poss_t4_corruption_nova', 'poss_t4_harmonious_duality', 'poss_t4_abyssal_armor'],
     requiresAll: true,
   }
 ];

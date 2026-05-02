@@ -339,35 +339,44 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Threads of Destiny',
         shortName: 'Threads',
         type: 'threads',
-        description: 'Cosmic threads woven from fate\'s disruptions, used to manipulate destiny',
+        description: 'Every failure is fuel. Every thread is a weapon. Woven from fate\'s disruptions to manipulate destiny.',
+        deckRules: {
+            deckSize: 52,
+            shuffleOnCombatStart: true,
+            reshuffleWhenEmpty: true,
+            callCardLimit: 'once per turn',
+            callCardCost: 2
+        },
         visual: {
             type: 'threads-of-destiny',
-            count: 13, // 13 cards per suit (Ace through King)
+            count: 13,
             arrangement: 'horizontal',
-            baseColor: '#1a0d2e', // Deep mystical purple
-            threadColor: '#FFD700', // Golden thread
-            shimmerColor: '#F0E68C', // Pale gold shimmer
-            accentColor: '#9370DB', // Medium purple
-            glowColor: '#FFA500', // Orange-gold glow
+            baseColor: '#1a0d2e',
+            threadColor: '#FFD700',
+            shimmerColor: '#F0E68C',
+            accentColor: '#9370DB',
+            glowColor: '#FFA500',
             segmentBorder: '#2d1b4e',
             cardSuits: ['♠', '♥', '♦', '♣'],
             icon: 'fas fa-scroll',
             effects: ['mystical', 'fate', 'tarot']
         },
         mechanics: {
-            max: 13, // Maximum Threads (13 cards per suit: Ace-King)
-            current: 0, // Start with 0
+            max: 13,
+            current: 0,
             regen: 0,
             consumeVerb: 'spend',
             gainVerb: 'weave',
+            persistence: 'Threads persist between combats',
+            callCardPerTurnLimit: 1,
             threadGeneration: {
-                minorFailure: 1, // High Card, minor negative
-                majorFailure: 2  // Bust, major negative
+                minorFailure: 1,
+                majorFailure: 2
             },
             threadSpending: {
-                callCard: 2,      // Call specific card
-                forceFailure: 3,  // Force spell to fail (max Threads)
-                forceSuccess: 5   // Force spell to succeed (max effect)
+                callCard: 2,
+                forceFailure: 3,
+                forceSuccess: 5
             }
         },
         tooltip: {
@@ -380,28 +389,26 @@ export const CLASS_RESOURCE_TYPES = {
                     type: 'mechanics',
                     title: 'Thread Generation',
                     content: [
-                        { label: 'Minor Failure', value: '+1 Thread' },
-                        { label: 'Major Failure', value: '+2 Threads' },
-                        { label: 'Spell Fails', value: '+1-2 Threads' }
+                        { label: 'Spell Fails / Minimal Effect', value: '+1 Thread' },
+                        { label: 'Major Negative (Bust, Self-Damage)', value: '+2 Threads' }
                     ]
                 },
                 {
                     type: 'mechanics',
                     title: 'Thread Spending',
                     content: [
-                        { label: 'Call Specific Card', value: '2 Threads' },
-                        { label: 'Force Failure (max Threads)', value: '3 Threads' },
-                        { label: 'Force Success (max effect)', value: '5 Threads' }
+                        { label: 'Call Specific Card', value: '2 Threads (once/turn)' },
+                        { label: 'Peek Top 3 Cards', value: '1 Thread' }
                     ]
                 },
                 {
-                    type: 'specialization',
-                    title: 'Destiny Weaver Bonus',
-                    content: '+1 Thread on all generation (1→2, 2→3)'
+                    type: 'deck-rules',
+                    title: 'Deck Rules',
+                    content: '52-card deck, shuffled at combat start. Reshuffle discard when empty.'
                 },
                 {
                     type: 'mechanics-note',
-                    content: 'Threads are woven from failures. Embrace chaos to gain control.'
+                    content: 'Build early. Spend late. Never waste. You can only call 1 card per turn.'
                 }
             ]
         },
@@ -703,7 +710,7 @@ export const CLASS_RESOURCE_TYPES = {
             regen: 0,
             consumeVerb: 'spend',
             gainVerb: 'accumulate',
-            damageBonus: 1 // +1 shadow damage per Madness Point
+            damageBonus: 1 // +1 damage per Madness Point to all False Prophet damage types (psychic, void, necrotic)
         },
         tooltip: {
             sections: [
@@ -715,7 +722,7 @@ export const CLASS_RESOURCE_TYPES = {
                     type: 'mechanics',
                     title: 'Current Effects',
                     content: [
-                        { label: 'Shadow Damage Bonus', value: '+{current}' },
+                        { label: 'Damage Bonus', value: '+{current}' },
                         { label: 'Danger Level', value: '{dangerLevel}' },
                         { label: 'Next Threshold', value: '{nextThreshold}' }
                     ]
@@ -746,7 +753,7 @@ export const CLASS_RESOURCE_TYPES = {
                 },
                 {
                     type: 'mechanics-note',
-                    content: 'Spells generate Madness (1d4-2d6). Some spells spend Madness for power.'
+                    content: 'Spells generate Madness (1d4-2d6). Each point adds +1 to psychic, void, and necrotic damage. Some spells spend Madness for power.'
                 }
             ]
         },
@@ -760,11 +767,11 @@ export const CLASS_RESOURCE_TYPES = {
     },
 
     'Exorcist': {
-        id: 'dominanceSystem',
-        name: 'Dominance System',
+        id: 'divineDominance',
+        name: 'Divine Dominance',
         shortName: 'Dominance',
         type: 'demon_control',
-        description: 'Control over bound demons through Dominance Dice - maintain willpower or demons escape',
+        description: 'Control over bound demons through Dominance Dice — maintain divine authority or demons escape',
         visual: {
             type: 'dominance-die',
             count: 1, // Single bar showing selected demon
@@ -1473,7 +1480,7 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
                 borderColor: '#8B4513',
                 description: 'Tank & Durability',
                 generation: '+1 WI per enemy taunted, +2 WI from protecting allies',
-                passive: '+20 HP, damage resistance to physical'
+                passive: '+20 max HP (instant heal on entry, safe exit on leave), damage resistance to physical'
             },
             skyhunter: {
                 id: 'skyhunter',
@@ -1490,7 +1497,7 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
             frostfang: {
                 id: 'frostfang',
                 name: 'Frostfang',
-                icon: 'fas fa-wolf-pack-battalion',
+                icon: 'fas fa-paw',
                 color: '#4F7CAC',
                 activeColor: '#6B9BD1',
                 glowColor: '#B0E0E6',
@@ -1501,29 +1508,29 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
             }
         },
         specializations: {
-            'feral-hunter': {
-                name: 'Feral Hunter',
-                icon: 'fas fa-wolf-pack-battalion',
-                baseColor: '#2D1B4E',
-                activeColor: '#4B2D7A',
-                glowColor: '#7B4FBD',
-                theme: 'Pack tactics and coordinated hunting'
+            'metamorph': {
+                name: 'Metamorph',
+                icon: 'fas fa-dna',
+                baseColor: '#9932CC',
+                activeColor: '#B060E0',
+                glowColor: '#D090FF',
+                theme: 'Chimeric hybrid forms and adaptive evolution'
             },
-            'primal-guardian': {
-                name: 'Primal Guardian',
-                icon: 'fas fa-shield-alt',
-                baseColor: '#5C4033',
-                activeColor: '#8B6F47',
-                glowColor: '#A0826D',
-                theme: 'Defensive shapeshifting and protection'
+            'form-thief': {
+                name: 'Form Thief',
+                icon: 'fas fa-mask',
+                baseColor: '#8B0000',
+                activeColor: '#B02020',
+                glowColor: '#E04040',
+                theme: 'Form theft and enemy mimicry'
             },
-            'sky-predator': {
-                name: 'Sky Predator',
-                icon: 'fas fa-dove',
-                baseColor: '#4682B4',
-                activeColor: '#5F9EA0',
-                glowColor: '#87CEEB',
-                theme: 'Aerial combat and mobility'
+            'primordial': {
+                name: 'Primordial',
+                icon: 'fas fa-fire',
+                baseColor: '#FF4500',
+                activeColor: '#FF6A30',
+                glowColor: '#FF9060',
+                theme: 'Ancient elemental transformations'
             }
         }
     },
@@ -1535,7 +1542,8 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
         consumeVerb: 'shift',
         gainVerb: 'attune',
         transformCost: 1,
-        freeFirstTransform: true
+        freeFirstTransform: true,
+        betweenCombatDecay: 'half'
     },
     tooltip: {
         title: 'Wild Instinct: {current}/{max}',
@@ -2212,11 +2220,11 @@ CLASS_RESOURCE_TYPES['Huntress'] = {
                 icon: 'fa-paw',
                 name: 'Beastmaster'
             },
-            shadowdancer: {
+            shadowblade: {
                 activeColor: '#6A1B9A',
                 glowColor: '#BA68C8',
                 icon: 'fa-moon',
-                name: 'Shadowdancer'
+                name: 'Shadowblade'
             }
         },
         companion: {

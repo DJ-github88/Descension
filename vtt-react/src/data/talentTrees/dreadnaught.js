@@ -7,7 +7,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t0_fortress_heart',
     name: 'Fortress Heart',
-    description: 'The dark citadel within you beats stronger. Gain +1 HP per rank. When you take damage, draw a card: spades grant +1 bonus to your next Shadow Shield.',
+    description: 'Primary: Gain +1 HP per rank. Proc: When you take damage, draw a card — spades grant +1 bonus to your next Shadow Shield.',
     icon: 'spell_shadow_twilight',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -27,7 +27,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t1_obsidian_armor',
     name: 'Obsidian Armor',
-    description: 'When you have 20+ DRP, your armor increases by +1 per rank. Roll a d6 when hit: on 5+ per rank, the attacker takes 1d6 shadow damage from ricocheting obsidian shards.',
+    description: 'Primary: When you have 20+ DRP, gain +1 armor per rank. Proc: When hit, roll a d6 — on 5+ per rank, attacker takes 1d6 necrotic damage from ricocheting obsidian shards.',
     icon: 'spell_shadow_shadowfiend',
     maxRanks: 3,
     position: { x: 4, y: 1 },
@@ -47,7 +47,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t2_central_dungeon',
     name: 'Central Dungeon',
-    description: 'Your HP regeneration from DRP increases by 50%. When you regenerate HP, flip a coin: heads grants +1d6 temporary HP per rank from the citadel\'s dark reserves.',
+    description: 'Primary: Your HP regeneration from DRP increases by 50%. Proc: When you regenerate HP, flip a coin — heads grants +1d6 temporary HP per rank from the citadel\'s dark reserves.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -56,7 +56,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t2_southwest_bastion',
     name: 'Southwest Bastion',
-    description: 'You can resist two damage types instead of one. When both resistances trigger, draw a card: clubs deal 1d8 shadow damage to the attacker per rank from falling debris.',
+    description: 'Primary: You can resist two damage types instead of one. Proc: When both resistances trigger in the same hit, draw a card — clubs deal 1d8 necrotic damage to the attacker per rank from falling debris.',
     icon: 'spell_shadow_antimagicshell',
     maxRanks: 3,
     position: { x: 3, y: 2 },
@@ -67,7 +67,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t3_void_portcullis',
     name: 'Void Portcullis',
-    description: 'Shadow Shield can be cast as a reaction and absorbs 50% more damage. When Shadow Shield breaks, deal 2d6 shadow damage per rank to all enemies within 10 feet as the gates slam shut.',
+    description: 'Shadow Shield can be cast as a reaction and absorbs 50% more damage. When Shadow Shield breaks, deal 2d6 necrotic damage per rank to all enemies within 10 feet as the gates slam shut.',
     icon: 'spell_shadow_sealofkings',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -85,7 +85,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t3_reflective_towers',
     name: 'Reflective Towers',
-    description: 'When you resist damage, the attacker must succeed on a DC 13 Agility save or take shadow damage equal to half the resisted damage per rank from tower reflections.',
+    description: 'When you resist damage, the attacker must succeed on a DC 13 Agility save or take necrotic damage equal to half the resisted damage per rank from tower reflections.',
     icon: 'spell_shadow_shadowworddominate',
     maxRanks: 3,
     position: { x: 4, y: 3 },
@@ -125,7 +125,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t5_impenetrable_palace',
     name: 'Impenetrable Palace',
-    description: 'Create an impenetrable fortress around yourself. For 1 minute per rank, no damage can penetrate your defenses as the royal palace manifests. Costs all remaining DRP.',
+    description: 'Primary: For 1 minute per rank, all damage you take is converted to healing at a 1:1 ratio — you still generate DRP from this damage. Costs all remaining DRP. Proc: While active, draw a card each turn — face cards grant +1d8 temporary HP.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 2,
     position: { x: 2, y: 5 },
@@ -145,7 +145,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t5_cataclysmic_siege',
     name: 'Cataclysmic Siege',
-    description: 'Ultimate ability: Spend all DRP to unleash the citadel\'s siege weapons. Deal 4d12 shadow damage per rank in 30-foot radius. You become immune to all damage for the next round.',
+    description: 'Primary: Spend all DRP to unleash the citadel\'s siege weapons — deal 4d12 necrotic damage per rank in a 30-foot radius. Proc: For the next round, all damage you take is converted to DRP at a 1:1 ratio instead of the normal 5:1, as the citadel feeds on the chaos.',
     icon: 'spell_shadow_shadowembrace',
     maxRanks: 2,
     position: { x: 1, y: 6 },
@@ -156,7 +156,7 @@ export const DREADNAUGHT_SHADOW_CITADEL = [
   {
     id: 'citadel_t6_eternal_fortress',
     name: 'Eternal Fortress',
-    description: 'You can no longer be reduced below 1 HP by single-target effects. When you would die, the citadel automatically triggers Dark Rebirth with maximum DRP, rebuilding itself around your immortal form.',
+    description: 'Primary: When you would die, the citadel automatically triggers Dark Rebirth as if you had maximum DRP, rebuilding itself around your immortal form. Proc: When this triggers, draw a card — if it\'s a face card, you revive with full HP instead.',
     icon: 'spell_shadow_twilight',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -169,7 +169,7 @@ export const DREADNAUGHT_SUFFERING_WEAVER = [
   {
     id: 'weaver_t0_suffering_nexus',
     name: 'Suffering Nexus',
-    description: 'The web of agony begins to form within you. Deal +1d4 necrotic damage per rank with weapon attacks. When you deal necrotic damage, draw a card: diamonds weave +1 bonus damage into your next strike.',
+    description: 'Primary: Deal +1d4 necrotic damage per rank with weapon attacks. Proc: When you deal necrotic damage, draw a card — diamonds weave +1 bonus damage into your next strike.',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -200,7 +200,7 @@ export const DREADNAUGHT_SUFFERING_WEAVER = [
   {
     id: 'weaver_t2_soul_bindings',
     name: 'Soul Bindings',
-    description: 'Enemies you damage with necrotic effects take 1d6 necrotic damage per rank at the start of their turn as the web tightens. Flip a coin when you heal: tails steal additional HP from nearby enemies through the bindings.',
+    description: 'Primary: Enemies you damage with necrotic effects take 1d6 necrotic damage per rank at the start of their turn as the web tightens. Proc: When you heal, flip a coin — tails steals additional HP from nearby enemies through the bindings.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -240,7 +240,7 @@ export const DREADNAUGHT_SUFFERING_WEAVER = [
   {
     id: 'weaver_t3_necrotic_tapestry',
     name: 'Necrotic Tapestry',
-    description: 'Wraith Strike can be used at range (30 feet) and deals maximum damage on critical hits. Draw a card when casting: hearts double the necrotic damage as the tapestry amplifies your power.',
+    description: 'Primary: Wraith Strike can be used at range (30 feet) and deals maximum damage on critical hits. Proc: Draw a card when casting — hearts double the necrotic damage as the tapestry amplifies your power.',
     icon: 'spell_shadow_contagion',
     maxRanks: 4,
     position: { x: 4, y: 3 },
@@ -322,7 +322,7 @@ export const DREADNAUGHT_SUFFERING_WEAVER = [
   {
     id: 'weaver_t6_immortal_weaver',
     name: 'Immortal Weaver',
-    description: 'You cannot die from HP loss as the web sustains you. Instead, you enter a woven state and can only be destroyed by unraveling the entire tapestry with radiant damage or special means.',
+    description: 'Primary: When you would reach 0 HP, enter Woven State — remain at 1 HP and regenerate 5d10 HP per turn for 3 rounds. Proc: During Woven State, you take double damage from all sources, generating double DRP from each hit.',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -335,7 +335,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t0_doom_harbinger',
     name: 'Doom Harbinger',
-    description: 'The first cracks of doom appear in reality around you. Deal +1d4 shadow damage per rank to attackers. When hit, roll a d6: on 4+ per rank, the cracks widen and grant +1 to your next attack roll.',
+    description: 'The first cracks of doom appear in reality around you. Deal +1d4 necrotic damage per rank to attackers. When hit, roll a d6: on 4+ per rank, the cracks widen and grant +1 to your next attack roll.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -346,7 +346,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t1_vengeance_fissures',
     name: 'Vengeance Fissures',
-    description: 'Attackers take an additional 1d4 shadow damage per rank as cracks appear beneath them. Necrotic Aura costs 2 less DRP and lasts 1 additional round, widening the fractures.',
+    description: 'Attackers take an additional 1d4 necrotic damage per rank as cracks appear beneath them. Necrotic Aura costs 2 less DRP and lasts 1 additional round, widening the fractures.',
     icon: 'spell_shadow_shadowfiend',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -355,7 +355,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t1_wrathful_resurrection',
     name: 'Wrathful Resurrection',
-    description: 'Dark Rebirth grants +1 to attack and damage rolls per rank for 1 minute. You can choose to unleash shadow damage equal to your DRP when you rebirth, shattering the ground around you.',
+    description: 'Dark Rebirth grants +1 to attack and damage rolls per rank for 1 minute. You can choose to unleash necrotic damage equal to your DRP when you rebirth, shattering the ground around you.',
     icon: 'spell_shadow_psychicscream',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -366,7 +366,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t2_retribution_strikes',
     name: 'Retribution Strikes',
-    description: 'When you take damage, your next attack deals +1d6 shadow damage per rank as cracks channel your wrath. Draw a card after being hit: clubs cause the cracks to spread advantage on your next attack.',
+    description: 'Primary: When you take damage, your next attack deals +1d6 necrotic damage per rank as cracks channel your wrath. Proc: Draw a card after being hit — clubs grant advantage on your next attack as the cracks spread.',
     icon: 'spell_shadow_curse',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -375,7 +375,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t2_apocalyptic_echoes',
     name: 'Apocalyptic Echoes',
-    description: 'When you use Wraith Strike, all enemies within 10 feet take 1d4 shadow damage per rank from echoing cracks. Flip a coin when you deal damage: heads double the echo damage as the fractures multiply.',
+    description: 'Primary: When you use Wraith Strike, all enemies within 10 feet take 1d4 necrotic damage per rank from echoing cracks. Proc: Flip a coin when you deal damage — heads doubles the echo damage as the fractures multiply.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 3,
     position: { x: 4, y: 2 },
@@ -386,7 +386,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t2_doom_tempest',
     name: 'Doom Tempest',
-    description: 'Necrotic Aura deals 1d4 shadow damage per rank per turn to affected enemies as cracks tear at them. Enemies in the aura have disadvantage on concentration saves as reality frays.',
+    description: 'Necrotic Aura deals 1d4 necrotic damage per rank per turn to affected enemies as cracks tear at them. Enemies in the aura have disadvantage on concentration saves as reality frays.',
     icon: 'spell_shadow_shadesofdarkness',
     maxRanks: 4,
     position: { x: 2, y: 2 },
@@ -397,7 +397,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t3_wrathful_rebuke',
     name: 'Wrathful Rebuke',
-    description: 'When hit by an attack, you can use your reaction to attack the attacker through a fracture. Deal +1d8 shadow damage per rank and they have disadvantage on their attack as cracks impede them.',
+    description: 'When hit by an attack, you can use your reaction to attack the attacker through a fracture. Deal +1d8 necrotic damage per rank and they have disadvantage on their attack as cracks impede them.',
     icon: 'spell_shadow_unholyfrenzy',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -417,7 +417,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t3_aura_of_ruin',
     name: 'Aura of Ruin',
-    description: 'Enemies within 15 feet provoke opportunity attacks from you through fractures. When they move, roll a d20: on 10+ per rank, they take 1d8 shadow damage as cracks erupt beneath them.',
+    description: 'Enemies within 15 feet provoke opportunity attacks from you through fractures. When they move, roll a d20: on 10+ per rank, they take 1d8 necrotic damage as cracks erupt beneath them.',
     icon: 'spell_shadow_auraofdarkness',
     maxRanks: 4,
     position: { x: 0, y: 4 },
@@ -426,7 +426,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t4_eternal_curse',
     name: 'Eternal Curse',
-    description: 'Enemies that kill you are marked with doom fractures. They take 2d10 shadow damage per rank at the start of each turn until they die or you are defeated, as the cracks pursue them eternally.',
+    description: 'Enemies that kill you are marked with doom fractures. They take 2d10 necrotic damage per rank at the start of each turn until they die or you are defeated, as the cracks pursue them eternally.',
     icon: 'spell_shadow_curseofachimonde',
     maxRanks: 3,
     position: { x: 4, y: 4 },
@@ -437,7 +437,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t4_final_reckoning',
     name: 'Final Reckoning',
-    description: 'Track damage taken from each enemy through fracture marks. Once per round per rank, you can unleash reckoning: deal shadow damage equal to damage they dealt you as cracks swallow them.',
+    description: 'Track damage taken from each enemy through fracture marks. Once per round per rank, you can unleash reckoning: deal necrotic damage equal to damage they dealt you as cracks swallow them.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 3,
     position: { x: 2, y: 4 },
@@ -448,7 +448,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t4_apocalypse_bringer',
     name: 'Apocalypse Bringer',
-    description: 'Necrotic Aura causes enemies to take maximum damage from your attacks as cracks amplify your strikes. When they die in the aura, their bodies explode for 2d8 shadow damage per rank in 10-foot radius.',
+    description: 'Necrotic Aura causes enemies to take maximum damage from your attacks as cracks amplify your strikes. When they die in the aura, their bodies explode for 2d8 necrotic damage per rank in 10-foot radius.',
     icon: 'spell_shadow_contagion',
     maxRanks: 2,
     position: { x: 1, y: 5 },
@@ -457,7 +457,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t5_doom_shield',
     name: 'Doom Shield',
-    description: 'You can redirect any attack made against an ally through a fracture to yourself. The attacker takes 1d12 shadow damage per rank as punishment and falls into a temporary fracture.',
+    description: 'You can redirect any attack made against an ally through a fracture to yourself. The attacker takes 1d12 necrotic damage per rank as punishment and falls into a temporary fracture.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -468,7 +468,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t5_cataclysmic_wrath',
     name: 'Cataclysmic Wrath',
-    description: 'When you take damage, all enemies within 20 feet take shadow damage equal to half the damage you took per rank through massive fractures. This damage cannot be reduced or resisted.',
+    description: 'When you take damage, all enemies within 20 feet take necrotic damage equal to half the damage you took per rank through massive fractures. This damage cannot be reduced or resisted.',
     icon: 'spell_shadow_shadowfury',
     maxRanks: 2,
     position: { x: 0, y: 6 },
@@ -477,7 +477,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t5_armageddon',
     name: 'Armageddon',
-    description: 'Ultimate ability: Spend all DRP to trigger global apocalypse. All enemies that damaged you this combat take 3d12 shadow damage per rank as reality fractures around them completely.',
+    description: 'Ultimate ability: Spend all DRP to trigger global apocalypse. All enemies that damaged you this combat take 3d12 necrotic damage per rank as reality fractures around them completely.',
     icon: 'spell_shadow_focusedpower',
     maxRanks: 3,
     position: { x: 2, y: 5 },
@@ -488,7 +488,7 @@ export const DREADNAUGHT_DOOM_BRINGER = [
   {
     id: 'bringer_t6_eternal_doom',
     name: 'Eternal Doom',
-    description: 'No enemy can escape the fractures you create. Enemies that flee or teleport away from you take 4d12 shadow damage per rank and are pulled back within 5 feet by inescapable cracks in reality.',
+    description: 'Primary: Enemies that move more than 10 feet away from you are slowed and take 4d12 necrotic damage per rank. Proc: Flip a coin — on heads, they are also pulled 10 feet back toward you as the fractures drag at their feet.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 6 },

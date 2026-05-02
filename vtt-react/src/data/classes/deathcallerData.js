@@ -19,13 +19,15 @@ export const DEATHCALLER_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Deathcaller uses health as a resource, sacrificing HP to cast powerful necrotic spells. You progress through 7 sequential Necrotic Ascension Paths (Shrouded Veil → Crimson Pact → Spectral Command → Frostwalker → Silent Shroud → Life Leech → Deep Void), each granting powerful boons but inflicting permanent curses. Spells cost both mana AND health (using dice formulas like 1d6 HP, 2d8 HP). Blood Tokens generated from Health Sacrificed enhance necrotic damage (+1d6 per token) but burst for 1d10 damage each if unused within 10 minutes.
+      content: `*You cut your palm and the blood ignites. Your vision darkens, your veins turn black, and the air fills with the scent of copper and rot. This is what you signed up for.*
 
-**Core Mechanic**: Sacrifice health → Cast spells → Generate Blood Tokens → Spend tokens for bonus damage OR let them burst
+**The Deathcaller** pays for power in flesh. Every spell costs mana AND health — roll the dice, watch the HP drain, and feel the dark power surge through you. That sacrifice generates **Blood Tokens** (crimson orbs orbiting you) that supercharge your next spell... but if you don't spend them fast enough, they explode in your face.
 
-**Resources**: Health (primary resource), Mana (secondary), Blood Tokens (0-20, temporary), Necrotic Ascension Paths (7 sequential, permanent)
+**Core Loop**: Sacrifice HP → Cast Spell → Generate Blood Tokens → Spend tokens for massive damage (or let them burst and hurt you)
 
-**Playstyle**: High-risk damage dealer, health sacrifice, blood magic, spectral summons, permanent power-for-curse trades
+**Ascension Paths** (optional, permanent): Seven dark bargains you can activate as you level, each granting immense power at a permanent cost. The first — Shrouded Veil — adds +2d6 to every spell but cuts your max HP by 10%. Activate none, some, or all. Each one is forever.
+
+**Resources**: Health (primary fuel), Mana (secondary), Blood Tokens (0-20, temporary, ticking time bombs), Ascension Paths (7 sequential, permanent)
 
 **Best For**: Players who enjoy risk-reward mechanics, managing health as a resource, and making permanent character-altering decisions`
     },
@@ -89,20 +91,20 @@ export const DEATHCALLER_DATA = {
 
     immersiveCombatExample: {
       title: 'Combat Example: The Price of Power',
-      content: `**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Deathcaller with 3 Ascension Paths active (Shrouded Veil, Crimson Pact, Spectral Command). You have 60/80 HP, 40/50 mana, and 0 Blood Tokens.
+      content: `**The Setup**: Your party faces a powerful undead knight and three skeletal archers. You're a Deathcaller with 3 Ascension Paths active (Shrouded Veil, Crimson Pact, Spectral Command). You have 60/72 HP, 40/50 mana, and 0 Blood Tokens.
 
 **Active Ascension Paths**:
-- **Shrouded Veil**: +2d6 necrotic damage, -10 max HP (max HP is 70, not 80)
-- **Crimson Pact**: Blood Tokens last 15 min (not 10), -5ft movement speed
-- **Spectral Command**: Summon 2 specters (not 1), specters drain 1d4 HP/turn from you
+- **Shrouded Veil**: +2d6 necrotic damage to all spells, advantage on Stealth, -10% max HP (max HP is 72, not 80)
+- **Crimson Pact**: Blood Tokens last 15 min (not 10), each token adds +1d6 damage (instead of +1d4)
+- **Spectral Command**: Spectral allies deal +1d6 necrotic damage, specters drain 1d4 HP/turn from you each
 
-**Starting State**: HP: 60/70 | Mana: 40/50 | Blood Tokens: 0 | Specters: 0
+**Starting State**: HP: 60/72 | Mana: 40/50 | Blood Tokens: 0 | Specters: 0
 
 **Turn 1 - Blood Sacrifice (HP: 60 → 52, Tokens: 0 → 8)**
 
 *The undead knight charges. You raise your hand, and dark energy crackles around your fingers. This will hurt.*
 
-**Action**: Cast "Necrotic Bolt" (8 mana, costs 1d6 HP)
+**Action**: Cast "Necrotic Bolt" (4 mana, costs 1d6 HP)
 **Health Cost Roll**: 1d6 → [4] = 4 HP sacrificed
 **Blood Tokens**: +4 (now at 4 tokens)
 **HP**: 60 - 4 = 56 HP
@@ -117,7 +119,7 @@ export const DEATHCALLER_DATA = {
 **Health Cost Roll**: 1d4 → [3] = 3 HP sacrificed
 **Blood Tokens**: +3 (now at 7 tokens)
 **HP**: 56 - 3 = 53 HP
-**Mana**: 40 - 8 - 10 = 22 mana
+**Mana**: 40 - 4 - 10 = 26 mana
 
 *Two ghostly specters rise from the ground (Spectral Command boon). They hover beside you, cold and hungry.*
 
@@ -129,23 +131,23 @@ export const DEATHCALLER_DATA = {
 
 *The specters feed on your life force. You feel weaker, but they grow stronger.*
 
-**Current State**: HP: 48/70 | Mana: 22/50 | Blood Tokens: 7 | Specters: 2
+**Current State**: HP: 48/72 | Mana: 26/50 | Blood Tokens: 7 | Specters: 2
 
 **Turn 2 - Blood Token Burst Damage (HP: 48 → 42, Tokens: 7 → 0)**
 
 *The undead knight is wounded but still dangerous. The skeletal archers are firing at your tank. You have 7 Blood Tokens—time to unleash them.*
 
-**Action**: Cast "Death's Embrace" (12 mana, costs 2d8 HP, AoE necrotic damage)
+**Action**: Cast "Death's Embrace" (10 mana, costs 2d8 HP, AoE necrotic damage)
 **Health Cost Roll**: 2d8 → [6, 5] = 11 HP sacrificed
 **Blood Tokens**: +11 (now at 18 tokens)
 **HP**: 48 - 11 = 37 HP
-**Mana**: 22 - 12 = 10 mana
+**Mana**: 26 - 10 = 16 mana
 
 *You scream, and blood pours from your hands. Eighteen Blood Tokens swirl around you, a crimson storm.*
 
 **Decision**: Spend ALL 18 Blood Tokens to enhance the spell (+18d6 necrotic damage!)
 
-**Spell Damage**: 4d10 (base) + 2d6 (Shrouded Veil) + **18d6 (Blood Tokens)** → [8, 9, 7, 6] + [5, 4] + [6, 5, 4, 6, 5, 3, 4, 5, 6, 4, 3, 5, 6, 4, 5, 3, 4, 5] = 30 + 9 + 81 = **120 necrotic damage to ALL enemies!**
+**Spell Damage**: 4d6 (base) + 2d6 (Shrouded Veil) + **18d6 (Blood Tokens)** → [8, 9, 7, 6] + [5, 4] + [6, 5, 4, 6, 5, 3, 4, 5, 6, 4, 3, 5, 6, 4, 5, 3, 4, 5] = 30 + 9 + 81 = **120 necrotic damage to ALL enemies!**
 
 *The explosion of necrotic energy obliterates the skeletal archers instantly. The undead knight staggers, its armor cracking.*
 
@@ -159,58 +161,49 @@ export const DEATHCALLER_DATA = {
 **Drain Roll**: 1d4 + 1d4 → [3] + [2] = 5 HP drained
 **HP**: 37 - 5 = 32 HP
 
-*You're at 32/70 HP. You've sacrificed nearly half your health, but the battlefield is yours.*
+*You're at 32/72 HP. You've sacrificed nearly half your health, but the battlefield is yours.*
 
-**Current State**: HP: 32/70 | Mana: 10/50 | Blood Tokens: 0 | Specters: 2
+**Current State**: HP: 32/72 | Mana: 16/50 | Blood Tokens: 0 | Specters: 2
 
 **Turn 3 - Life Drain Recovery (HP: 32 → 45)**
 
 *You're dangerously low on health. The undead knight is nearly dead. Time to drain life back.*
 
-**Action**: Cast "Life Leech" (8 mana, costs 1d4 HP, drains HP from enemy)
-**Health Cost Roll**: 1d4 → [2] = 2 HP sacrificed
+**Action**: Cast "Life Leech" (14 mana, costs 2d6 HP, drains HP from enemy)
+**Health Cost Roll**: 2d6 → [2] = 2 HP sacrificed
 **Blood Tokens**: +2 (now at 2 tokens)
 **HP**: 32 - 2 = 30 HP
-**Mana**: 10 - 8 = 2 mana
+**Mana**: 16 - 14 = 2 mana
 
-**Spell Effect**: Drain 3d8 HP from undead knight
-**Drain Roll**: 3d8 → [7, 6, 8] = 21 HP drained
-**Undead Knight**: 30 - 21 = 9 HP remaining
-**Your HP**: 30 + 21 = 51 HP (healed!)
+**Spell Effect**: Drain 5d6 HP from undead knight
+**Drain Roll**: 5d6 → [7, 6, 8, 5, 4] = 30 HP drained
+**Undead Knight**: 30 - 30 = DEAD
+**Your HP**: 30 + 30 = 60 HP (healed!)
 
 *The undead knight's life force flows into you. You feel strength returning.*
 
 **End of Turn Drain**: Specters drain life
 **Drain Roll**: 1d4 + 1d4 → [4] + [1] = 5 HP drained
-**HP**: 51 - 5 = 46 HP
+**HP**: 60 - 5 = 55 HP
 
-**Current State**: HP: 46/70 | Mana: 2/50 | Blood Tokens: 2 | Specters: 2
+**Current State**: HP: 55/72 | Mana: 2/50 | Blood Tokens: 2 | Specters: 2
 
-**Turn 4 - Finishing Blow (HP: 46 → 41)**
+**Turn 4 - Mopping Up (HP: 55 → 50)**
 
-*The undead knight is at 9 HP. Your specters can finish it.*
+*The undead knight is dead. The specters finish off the remaining skeletal archers.*
 
-**Specters' Turn**: Both attack undead knight
-**Damage**: 2d6 + 2d6 → [5, 4] + [6, 3] = 18 damage
-**Undead Knight**: 9 - 18 = DEAD
-
-*The undead knight falls. The battle is over. Your specters fade, their hunger sated.*
+**Specters' Turn**: Both attack skeletal archers
 
 **Blood Token Burst**: You have 2 Blood Tokens unused. They've been active for 3 turns (not 10 minutes yet), so they don't burst.
 
 **End of Combat Drain**: Specters dissipate (no more drain)
 
-**Final State**: HP: 46/70 | Mana: 2/50 | Blood Tokens: 2 (will burst in 7 minutes if not used)
+**Final State**: HP: 55/72 | Mana: 2/50 | Blood Tokens: 2 (will burst in 7 minutes if not used)
 
 **Post-Combat**:
-*You stand among the corpses, blood dripping from your hands. You sacrificed 20 HP total (4 + 3 + 11 + 2), drained 15 HP from specters (5 + 5 + 5), and healed 21 HP from Life Leech. Net HP change: -14 HP (60 → 46).*
+*You stand among the corpses, blood dripping from your hands. The battle is over. Your specters fade, their hunger sated.*
 
-**Your Healer**: "You're bleeding. Again."
-**You**: "It's fine. The dead don't feel pain."
-**Your Healer**: "You're not dead yet."
-**You**: "Give it time."
-
-*The 2 Blood Tokens pulse around you. In 7 minutes, they'll burst for 2d10 damage if you don't use them. You'll need to cast another spell soon, or suffer the consequences.*
+**The 2 Blood Tokens pulse around you. In 7 minutes, they'll burst for 2d10 damage if you don't use them. You'll need to cast another spell soon, or suffer the consequences.**
 
 **The Lesson**: Deathcaller gameplay is about:
 1. **Health as Resource**: You sacrificed 20 HP across 4 spells—health is your primary resource
@@ -245,7 +238,9 @@ Unlike other classes where health is just survivability, Deathcallers use health
 - **When You Life Drain**: Health restores from draining enemies
 - **Visual Feedback**: Health bar flashes dark purple when sacrificed for spells (different from red damage flash)
 
-**Blood Token Counter (Secondary Resource - Crimson Orbs)**:
+**Blood Token Counter (Core Mechanic - Crimson Orbs)**:
+
+Blood Tokens are generated every time you sacrifice HP to cast a spell. Crimson Pact (level 3) enhances them — longer timer and stronger damage per token.
 
 **What You See**: Floating crimson orbs around your character, each representing 1 Blood Token. They pulse with dark energy and have a timer showing how long until they burst.
 
@@ -334,21 +329,19 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
 - **Ultimate Spells**: 4d10 HP or 5d10 HP
 
 **Example Spell Costs**:
-- "Necrotic Bolt" (8 mana, 1d6 HP): Roll 1d6 → [4] = Sacrifice 4 HP
+- "Necrotic Bolt" (4 mana, 1d6 HP): Roll 1d6 → [4] = Sacrifice 4 HP
 - "Death's Embrace" (12 mana, 2d8 HP): Roll 2d8 → [6, 5] = Sacrifice 11 HP
 - "Soul Rend" (15 mana, 3d8 HP): Roll 3d8 → [7, 8, 6] = Sacrifice 21 HP
 
 **Blood Tokens (Secondary Mechanic)**
-
-**Prerequisite**: Crimson Pact Ascension Path (unlocked at level 3)
 
 **Generation**:
 - **Ratio**: 1 HP sacrificed = 1 Blood Token
 - **Example**: Sacrifice 11 HP → Generate 11 Blood Tokens
 
 **Spending**:
-- **Cost**: 1 token = +1d6 necrotic damage to a spell
-- **Example**: Spend 10 tokens on "Necrotic Bolt" = +10d6 damage (~35 bonus damage)
+- **Cost**: 1 token = +1d4 necrotic damage to a spell (+1d6 with Crimson Pact active)
+- **Example**: Spend 10 tokens on "Necrotic Bolt" = +10d4 damage (~25 bonus damage, or ~35 with Crimson Pact)
 
 **Maximum**: No hard limit, but risk increases exponentially
 - 20+ tokens = 20d10 burst damage (~110 damage if they explode!)
@@ -380,7 +373,7 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
    - Curse: -10 max HP (perpetual shadow drain)
 
 2. **Crimson Pact** (Level 3):
-   - Boon: Generate Blood Tokens (1 HP = 1 Token), tokens last 15 min (not 10)
+   - Boon: Blood Tokens last 15 min (not 10), and each token adds +1d6 damage (instead of +1d4)
    - Curse: Tokens burst for 1d10 damage each if unused
 
 3. **Spectral Command** (Level 5):
@@ -412,16 +405,22 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
 - **Mid Game**: Activate paths 3-5 (power spike, moderate risk)
 - **Late Game**: Activate paths 6-7 (maximum power, extreme fragility)
 
-**Important**: Each path is a PERMANENT decision. Once activated, you can never go back. Choose carefully — your character will be forever changed.`
+**Important**: Each path is a PERMANENT decision. Once activated, you can never go back. Choose carefully — your character will be forever changed.
+
+**Permanent HP Costs (Level 10 Spells)**:
+
+Only the most powerful Deathcaller spells (level 10) demand PERMANENT health sacrifice. When a spell lists a permanentHealth cost, your maximum HP is permanently reduced by the amount rolled. This stacks with Ascension Path penalties and cannot be restored by any means. These are the ultimate price of forbidden power — think carefully before casting.
+
+**Example**: Shadow God costs 10d8 HP + 2d10 permanent HP. If you roll 8 on the 2d10, your max HP is permanently reduced by 8.`
     },
     
     ascensionPathsTable: {
       title: 'Necrotic Ascension Paths',
       headers: ['Path', 'Boon', 'Curse', 'Unlock Level'],
       rows: [
-        ['Shrouded Veil', 'Resistance to necrotic damage + advantage on Stealth', '-10% max HP (perpetual shadow drain)', '1'],
-        ['Crimson Pact', 'Generate Blood Tokens from health sacrifice (1 HP = 1 Token)', 'Unused tokens burst after 10 min (1d10 per token)', '3'],
-        ['Spectral Command', 'Spectral allies deal +1d6 necrotic damage', '-25 ft speed per spectral ally summoned', '5'],
+        ['Shrouded Veil', '+2d6 necrotic damage to all spells + advantage on Stealth', '-10% max HP (perpetual shadow drain)', '1'],
+        ['Crimson Pact', 'Blood Tokens last 15 min (not 10), each token adds +1d6 damage (instead of +1d4)', 'Unused tokens burst after 10 min (1d10 per token)', '3'],
+        ['Spectral Command', 'Spectral allies deal +1d6 necrotic damage', 'Specters drain 1d4 HP from you per turn each', '5'],
         ['Frostwalker', 'Aura: 15ft radius, -10ft enemy speed, 1d4 frost/turn', '+50% fire damage taken (vulnerability)', '7'],
         ['Silent Shroud', 'Advantage on Stealth and silent movement', '-2 Perception (muffled senses)', '9'],
         ['Life Leech', 'Melee attacks restore 1d6 HP', '-5% max HP (unquenchable thirst)', '11'],
@@ -433,7 +432,7 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
       title: 'Blood Token Mechanics',
       headers: ['Mechanic', 'Effect', 'Notes'],
       rows: [
-        ['Generation', '1 HP sacrificed = 1 Blood Token', 'Requires Crimson Pact path active'],
+        ['Generation', '1 HP sacrificed = 1 Blood Token', 'Blood Tokens are a core mechanic from level 1'],
         ['Enhancement', 'Spend tokens to add 1d6 necrotic damage per token', 'Can spend multiple tokens on one spell'],
         ['Burst Timer', 'Tokens expire after 10 minutes', 'Timer resets when new tokens are generated'],
         ['Burst Damage', '1d10 necrotic damage per unused token', 'Cannot be prevented or reduced'],
@@ -463,10 +462,10 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
 
     practicalExample: {
       title: 'Practical Decision-Making Example',
-      content: `**Scenario**: Boss fight, Turn 8. You have 3 Ascension Paths active (Shrouded Veil, Crimson Pact, Spectral Command). You're at 35/70 HP with 12 Blood Tokens that will burst in 2 minutes. The boss has 40% HP. Your tank is at 20% HP (critical). You have 2 specters active (draining 1d4 HP/turn from you).
+      content: `**Scenario**: Boss fight, Turn 8. You have 3 Ascension Paths active (Shrouded Veil, Crimson Pact, Spectral Command). You're at 35/72 HP with 12 Blood Tokens that will burst in 2 minutes. The boss has 40% HP. Your tank is at 20% HP (critical). You have 2 specters active (draining 1d4 HP/turn from you).
 
 **Current State**:
-- HP: 35/70 (50%, moderate danger)
+- HP: 35/72 (50%, moderate danger)
 - Mana: 25/50
 - Blood Tokens: 12 (burst in 2 minutes!)
 - Specters: 2 (draining 1d4 HP/turn each)
@@ -474,14 +473,14 @@ Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with
 - Tank HP: ~20% (critical)
 
 **Active Curses**:
-- Shrouded Veil: -10 max HP (max is 70, not 80)
+- Shrouded Veil: -10% max HP (max is 72, not 80)
 - Crimson Pact: Tokens burst for 1d10 each if unused (12d10 = ~66 damage!)
 - Spectral Command: Specters drain 1d4 HP/turn each (~5 HP/turn total)
 
 **Option A - Spend All Blood Tokens (Burst Damage)**:
 Cast "Death's Embrace" (12 mana, 2d8 HP cost, AoE), spend all 12 tokens
 - Health Cost: 2d8 → Average 9 HP (35 → 26 HP)
-- Damage: 4d10 (base) + 2d6 (Shrouded Veil) + **12d6 (tokens)** = ~65 total damage
+- Damage: 4d6 (base) + 2d6 (Shrouded Veil) + **12d6 (tokens)** = ~65 total damage
 - Pros: Massive damage to boss, tokens don't burst
 - Cons: You drop to 26 HP (dangerous), specters still draining
 - Risk: Boss might kill you before you can life drain back
@@ -502,7 +501,7 @@ Cast "Life Leech" (8 mana, 1d4 HP cost) to heal, then spend tokens next turn
 - Risk: Tokens burst while you're healing
 
 **Option D - Partial Token Spend (Balanced)**:
-Cast "Necrotic Bolt" (8 mana, 1d6 HP cost), spend 6 tokens (save 6 for later)
+Cast "Necrotic Bolt" (4 mana, 1d6 HP cost), spend 6 tokens (save 6 for later)
 - Health Cost: 1d6 → Average 3 HP (35 → 32 HP)
 - Damage: 3d8 (base) + 2d6 (Shrouded Veil) + **6d6 (tokens)** = ~37 damage
 - Pros: Moderate damage, 6 tokens left for next spell, timer resets
@@ -531,7 +530,7 @@ Cast "Necrotic Bolt" (8 mana, 1d6 HP cost), spend 6 tokens (save 6 for later)
 - Specters drain: 1d4 + 1d4 → [3] + [2] = 5 HP
 - HP: 23 - 5 = 18 HP (CRITICAL!)
 
-**Result**: Boss nearly dead, you're at 18/70 HP (critical danger), but tokens are gone (no burst).
+**Result**: Boss nearly dead, you're at 18/72 HP (critical danger), but tokens are gone (no burst).
 
 **Next Turn Strategy**:
 - **Immediate**: Cast "Life Leech" to drain HP from boss (heal ~13 HP, go to 31 HP)
@@ -597,7 +596,7 @@ This helps you track how much HP you've sacrificed vs. how much you've lost to e
 **The Token Method** (Recommended):
 
 Use physical red tokens to represent Blood Tokens:
-- **Starting State**: 0 tokens (requires Crimson Pact Ascension Path to generate)
+- **Starting State**: 0 tokens (Blood Tokens are a core mechanic from level 1)
 - **Generating Tokens**: When you sacrifice HP for a spell, add tokens equal to HP lost
   - Example: Cast spell, roll 2d8 HP cost → [6, 5] = 11 HP → Add 11 red tokens
 - **Spending Tokens**: When you spend tokens for bonus damage, remove them
@@ -629,33 +628,33 @@ Create a reference card with the 7 Ascension Paths:
 \`\`\`
 Necrotic Ascension PATHS
 
-☐ 1. SHROUDED VEIL (Lvl 1)
-   Boon: +2d6 necrotic damage to all spells
-   Curse: -10 max HP (permanent)
+ ☐ 1. SHROUDED VEIL (Lvl 1)
+    Boon: +2d6 necrotic damage to all spells, advantage on Stealth
+    Curse: -10% max HP (perpetual shadow drain)
 
-☐ 2. CRIMSON PACT (Lvl 3)
-   Boon: Generate Blood Tokens (1 HP = 1 token)
-   Curse: Tokens burst for 1d10 each after 10 min
+ ☐ 2. CRIMSON PACT (Lvl 3)
+    Boon: Blood Tokens last 15 min, each adds +1d6 damage (instead of +1d4)
+    Curse: Tokens burst for 1d10 each after 10 min
 
-☐ 3. SPECTRAL COMMAND (Lvl 5)
-   Boon: Summon specters (drain enemies)
-   Curse: Specters drain 1d4 HP/turn from YOU
+ ☐ 3. SPECTRAL COMMAND (Lvl 5)
+    Boon: Spectral allies deal +1d6 necrotic damage
+    Curse: Specters drain 1d4 HP/turn from YOU per specter
 
-☐ 4. FROSTWALKER (Lvl 7)
-   Boon: 10ft frost aura (1d6 frost/turn)
-   Curse: Vulnerable to fire (+50% fire damage)
+ ☐ 4. FROSTWALKER (Lvl 7)
+    Boon: 15ft frost aura (-10ft enemy speed, 1d4 frost/turn)
+    Curse: Vulnerable to fire (+50% fire damage)
 
-☐ 5. SILENT SHROUD (Lvl 9)
-   Boon: Advantage on stealth, silence aura
-   Curse: Cannot speak (verbal components harder)
+ ☐ 5. SILENT SHROUD (Lvl 9)
+    Boon: Advantage on Stealth, silent movement
+    Curse: -2 Perception (muffled senses)
 
-☐ 6. LIFE LEECH (Lvl 11)
-   Boon: Life drain heals +50% more
-   Curse: Natural healing halved (rest = half HP)
+ ☐ 6. LIFE LEECH (Lvl 11)
+    Boon: Melee attacks restore 1d6 HP
+    Curse: -5% max HP (unquenchable thirst)
 
-☐ 7. DEEP VOID (Lvl 13)
-   Boon: +3d8 necrotic damage, fear aura
-   Curse: -2 to all saves (permanent)
+ ☐ 7. DEEP VOID (Lvl 13)
+    Boon: 1/long rest - Negate any spell targeting you
+    Curse: 2d6 psychic damage when used (void consumption)
 \`\`\`
 
 **Tracking Activated Paths**:
@@ -667,7 +666,7 @@ Necrotic Ascension PATHS
 
 **Example In-Person Turn**:
 
-*You have Crimson Pact active, 45/70 HP, 8 Blood Tokens (timer: 3 minutes left)*
+*You have Crimson Pact active, 45/72 HP, 8 Blood Tokens (timer: 3 minutes left)*
 
 **Turn 1 - Casting a Spell**:
 1. "I cast Death's Embrace" (costs 12 mana, 2d8 HP)
@@ -703,7 +702,7 @@ HEALTH AS RESOURCE:
 • Roll health cost dice when casting
 • Track HP sacrificed vs. damage taken
 
-Blood Tokens (Requires Crimson Pact):
+Blood Tokens (Core Mechanic):
 • 1 HP sacrificed = 1 Blood Token
 • Spend tokens: +1d6 damage per token
 • Burst timer: 10 min (15 with upgrade)
@@ -752,24 +751,24 @@ Many players enhance the blood magic experience with:
 
 **Tracking Active Curses**:
 Keep a note of which curses are affecting you:
-- Shrouded Veil: Remember your max HP is reduced (e.g., 70 instead of 80)
+- Shrouded Veil: Remember your max HP is reduced by 10% (e.g., 72 instead of 80)
 - Crimson Pact: Remember to set timers for Blood Tokens
-- Spectral Command: Remember to roll specter drain at end of turn
+- Spectral Command: Remember to roll specter HP drain at end of turn (1d4 per specter)
 - Frostwalker: Remember you take +50% fire damage
-- Silent Shroud: Remember verbal components are harder
-- Life Leech: Remember rests only heal half HP
-- Deep Void: Remember -2 to all saves
+- Silent Shroud: Remember -2 Perception on all checks
+- Life Leech: Remember your max HP is reduced by 5% (stacks with Shrouded Veil)
+- Deep Void: Remember you take 2d6 psychic damage when using the negate ability
 
 **Example Full Combat Sequence**:
 
-*Starting: 70/70 HP, Crimson Pact active, 0 Blood Tokens*
+*Starting: 70/72 HP, Crimson Pact active, 0 Blood Tokens*
 
 **Turn 1**: Cast Necrotic Bolt (1d6 HP) → Roll [4] → 66 HP, 4 tokens, timer set
 **Turn 2**: Cast Shadow Step (1d6 HP) → Roll [5] → 61 HP, 9 tokens, timer reset
 **Turn 3**: Cast Death's Embrace (2d8 HP), spend 9 tokens → Roll [7, 5] = 12 HP → 49 HP, 12 new tokens (21 total), timer reset
 **Turn 4**: Spend 15 tokens on Necrotic Bolt → Roll [3] HP → 46 HP, 6 tokens remain
 **Turn 5**: Spend 6 tokens on Shadow Bolt → Roll [2] HP → 44 HP, 0 tokens
-**End of Combat**: 44/70 HP, 0 tokens, no burst
+**End of Combat**: 44/72 HP, 0 tokens, no burst
 
 **Why This System Works**: The physical act of rolling health costs, adding/removing Blood Tokens, and watching a timer count down creates TENSION. You're not just tracking abstract numbers—you're watching your life drain away, accumulating dangerous power (tokens), and racing against time to spend them before they explode. The permanent Ascension Paths add weight to your decisions: once you check that box, there's no going back. This creates a visceral, high-stakes experience that perfectly captures the Deathcaller's theme of sacrificing everything for dark power.
 
@@ -863,7 +862,7 @@ Keep a note of which curses are affecting you:
         passiveAbility: {
           name: 'Spectral Dominion',
           icon: 'Necrotic/Arise',
-          description: 'Your spectral allies have +25% health and deal additional necrotic damage. The speed penalty from Spectral Command is reduced by 10 feet per summon.',
+          description: 'Your spectral allies have +25% health and deal additional necrotic damage equal to your proficiency modifier. Specter HP drain from Spectral Command is reduced by 1 per turn (minimum 0).',
           damageFormula: '1d4'
         },
 
@@ -902,7 +901,7 @@ Keep a note of which curses are affecting you:
         passiveAbility: {
           name: 'Void Touched',
           icon: 'Psychic/Mind Strike',
-          description: 'Your psychic damage spells ignore resistance. Additionally, when you activate Deep Void to negate a spell, you gain a stack of Void Power (max 3), increasing your next psychic spell damage per stack.',
+          description: 'Your psychic damage spells ignore resistance. When you negate a spell using Deep Void, you gain 1 Void Power stack (max 3). Each stack adds +1d6 psychic damage to your next psychic spell. Stacks are consumed when you cast a psychic spell.',
           damageFormula: '2d6'
         },
 
@@ -921,7 +920,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_necrotic_bolt',
       name: 'Necrotic Bolt',
-      description: 'Fire a bolt of necrotic energy dealing 3d8 damage. Reduces target\'s damage dealt by 3 for 1 round. Costs 1d6 HP to cast. Deals necrotic damage and generates Blood Tokens from Health Sacrificed.',
+      description: 'Fire a bolt of necrotic energy dealing 3d8 damage. Reduces target\'s damage dealt by 3 for 1 round. Costs 1d6 HP to cast. Generates Blood Tokens equal to HP sacrificed.',
       level: 1,
       effectTypes: ['damage'],
       typeConfig: {
@@ -941,7 +940,7 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'opportunistic'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -996,7 +995,7 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1047,7 +1046,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 4 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1115,7 +1114,7 @@ Keep a note of which curses are affecting you:
         }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 7 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1195,7 +1194,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 8 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1245,7 +1244,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 6 },
         actionPoints: 1,
         components: ['somatic'],
@@ -1303,7 +1302,7 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'standard'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 10 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1440,7 +1439,7 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'opportunistic'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 10 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1729,7 +1728,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 20 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1776,7 +1775,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_life_link',
       name: 'Life Link',
-      description: 'Link your life force with an ally for 1 minute. 50% of damage they take is redirected to you. While linked, you both gain +2 Armor.',
+      description: 'Link your life force with an ally for 1 minute. 50% of damage they take is redirected to you and generates Blood Tokens equal to damage absorbed. While linked, you both gain +2 Armor.',
       level: 5,
       effectTypes: ['utility'],
       typeConfig: {
@@ -1791,7 +1790,7 @@ Keep a note of which curses are affecting you:
         targetType: 'ally'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -1805,7 +1804,7 @@ Keep a note of which curses are affecting you:
         selectedEffects: [{
           id: 'life_link',
           name: 'Life Link',
-          description: 'All damage split evenly between linked targets',
+          description: 'All damage split evenly between linked targets. Redirected damage generates Blood Tokens',
           duration: 1,
           durationUnit: 'minutes'
         }],
@@ -1815,8 +1814,8 @@ Keep a note of which curses are affecting you:
     },
 
     {
-      id: 'dc_hexbreaker_execution',
-      name: 'Hexbreaker Execution',
+      id: 'dc_deaths_sentence',
+      name: 'Death\'s Sentence',
       description: 'Attempt to instantly execute a wounded enemy with necrotic power.',
       level: 5,
       effectTypes: ['control'],
@@ -1831,7 +1830,7 @@ Keep a note of which curses are affecting you:
         rangeDistance: 5
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 18 },
         actionPoints: 1,
         components: ['verbal', 'somatic'],
@@ -1871,8 +1870,8 @@ Keep a note of which curses are affecting you:
 
     // ===== LEVEL 6 SPELLS =====
     {
-      id: 'dc_hexbreaker_fury',
-      name: 'Hexbreaker Fury',
+      id: 'dc_blood_cataclysm',
+      name: 'Blood Cataclysm',
       description: 'Unleash all accumulated Blood Tokens in a cataclysmic burst of necrotic energy.',
       level: 6,
       effectTypes: ['damage', 'control'],
@@ -1888,7 +1887,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 25 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 22, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -1959,7 +1958,7 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'contagion'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 22 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2005,7 +2004,7 @@ Keep a note of which curses are affecting you:
     {
       id: 'dc_eternal_agony',
       name: 'Eternal Agony',
-      description: 'Inflict escalating psychic pain that grows more severe each turn.',
+      description: 'Inflict escalating psychic pain that grows more severe each turn for 3 turns. Target may attempt a Constitution save each turn to end the effect early.',
       level: 6,
       effectTypes: ['damage'],
       typeConfig: {
@@ -2025,7 +2024,7 @@ Keep a note of which curses are affecting you:
         propagationBehavior: 'aggressive'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 22 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2046,16 +2045,16 @@ Keep a note of which curses are affecting you:
         damageType: 'dot',
         hasDotEffect: true,
         dotConfig: {
-          dotFormula: 'turn_number * 1d6 * health_sacrificed',
-          duration: 5,
+          dotFormula: 'turn_number * 1d6',
+          duration: 3,
           tickFrequency: 'round',
           isProgressiveDot: true,
+          allowSaveEachTurn: true,
+          saveType: 'constitution',
           progressiveStages: [
-            { round: 1, formula: '1d6 × health_sacrificed', description: 'Initial agony wracks the target\'s mind as the psychic torment begins to take hold.' },
-            { round: 2, formula: '2d6 × health_sacrificed', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
-            { round: 3, formula: '3d6 × health_sacrificed', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' },
-            { round: 4, formula: '4d6 × health_sacrificed', description: 'Excruciating pain tears at their sanity, the curse reaching near-unbearable intensity.' },
-            { round: 5, formula: '5d6 × health_sacrificed', description: 'Unbearable agony reaches its peak, the psychic torment at its most devastating.' }
+            { round: 1, formula: '1d6', description: 'Initial agony wracks the target\'s mind as the psychic torment begins.' },
+            { round: 2, formula: '2d6', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
+            { round: 3, formula: '3d6', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' }
           ]
         }
       },
@@ -2065,8 +2064,8 @@ Keep a note of which curses are affecting you:
 
     // ===== LEVEL 7 SPELLS =====
     {
-      id: 'dc_hexbreaker_storm',
-      name: 'Hexbreaker Storm',
+      id: 'dc_necrotic_storm',
+      name: 'Necrotic Storm',
       description: 'Summon a raging storm of necrotic energy that damages enemies over time.',
       level: 7,
       effectTypes: ['damage', 'debuff'],
@@ -2082,7 +2081,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 30 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 25, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2157,7 +2156,7 @@ Keep a note of which curses are affecting you:
         propagationMethod: 'none'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required'],
+        resourceTypes: ['mana', 'health'],
         resourceValues: { mana: 25 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2204,7 +2203,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 25, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2304,7 +2303,7 @@ Keep a note of which curses are affecting you:
         }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2360,7 +2359,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2450,7 +2449,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 40 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 28, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2492,8 +2491,8 @@ Keep a note of which curses are affecting you:
 
     // ===== LEVEL 9 SPELLS =====
     {
-      id: 'dc_hexbreaker_apocalypse',
-      name: 'Hexbreaker Apocalypse',
+      id: 'dc_necrotic_apocalypse',
+      name: 'Necrotic Apocalypse',
       description: 'Unleash 15d6 necrotic damage in a 50ft radius. Enemies take 6d6 ongoing damage and have -5 All Resistances for 1 minute.',
       level: 9,
       effectTypes: ['damage', 'debuff'],
@@ -2509,7 +2508,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 50 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 32, bloodTokens: 6 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
@@ -2586,7 +2585,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 32, bloodTokens: 6 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
@@ -2598,8 +2597,8 @@ Keep a note of which curses are affecting you:
         }
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'phaseshift',
@@ -2633,7 +2632,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'bloodTokens'],
         resourceValues: { mana: 32, bloodTokens: 6 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
@@ -2645,8 +2644,8 @@ Keep a note of which curses are affecting you:
         }
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'physical',
@@ -2666,8 +2665,8 @@ Keep a note of which curses are affecting you:
 
     // ===== LEVEL 10 SPELLS =====
     {
-      id: 'dc_hexbreaker_armageddon',
-      name: 'Hexbreaker Armageddon',
+      id: 'dc_necrotic_armageddon',
+      name: 'Necrotic Armageddon',
       description: 'End the age of magic itself, unleashing total necrotic annihilation.',
       level: 10,
       effectTypes: ['damage', 'utility'],
@@ -2683,7 +2682,7 @@ Keep a note of which curses are affecting you:
         aoeParameters: { radius: 100 }
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'permanentHealth', 'bloodTokens'],
         resourceValues: { mana: 36, bloodTokens: 6 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
@@ -2695,8 +2694,8 @@ Keep a note of which curses are affecting you:
         }
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       damageConfig: {
         formula: '18d6',
@@ -2743,7 +2742,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'permanentHealth', 'bloodTokens'],
         resourceValues: { mana: 36, bloodTokens: 6 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
@@ -2757,8 +2756,8 @@ Keep a note of which curses are affecting you:
         }
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'physical',
@@ -2787,7 +2786,7 @@ Keep a note of which curses are affecting you:
         rangeType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana', 'health', 'ascension_required', 'permanentHealth', 'bloodTokens'],
+        resourceTypes: ['mana', 'health', 'permanentHealth', 'bloodTokens'],
         resourceValues: { mana: 36, bloodTokens: 6 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
@@ -2801,8 +2800,8 @@ Keep a note of which curses are affecting you:
         }
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       transformationConfig: {
         transformationType: 'physical',
