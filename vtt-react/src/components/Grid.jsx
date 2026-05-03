@@ -3071,9 +3071,6 @@ function GridComponent({
 
     return (
         <>
-            {/* Professional VTT Editor */}
-            <ProfessionalVTTEditor />
-
             <div
                 id="grid-overlay"
                 ref={gridRef}
@@ -3087,7 +3084,8 @@ function GridComponent({
                     // CRITICAL FIX: Enable pointer events for players so they can drag the grid
                     // ALSO enable when dragging tokens (character or creature) to allow placement
                     // CRITICAL FIX: Always enable pointer events for GMs to ensure tokens/items are interactive
-                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCharacterToken || isDraggingCreature || isDraggingCamera || shouldEnableCameraDrag || isGMMode || !isGMMode) ? "all" : "none",
+                    // REMOVED: !isGMMode check that was blocking UI
+                    pointerEvents: (isGridAlignmentMode || isBackgroundManipulationMode || isDraggingItem || isDraggingCharacterToken || isDraggingCreature || isDraggingCamera || shouldEnableCameraDrag) ? "all" : "none",
                     overflow: "hidden",
                     zIndex: 0,
                     cursor: isGridAlignmentMode ? 'crosshair' :
@@ -3785,6 +3783,9 @@ function GridComponent({
                 />
 
             </div>
+
+            {/* Professional VTT Editor - Rendered after grid to ensure UI is on top */}
+            <ProfessionalVTTEditor />
         </>
     );
 }

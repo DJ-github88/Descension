@@ -6,6 +6,41 @@ import { rafThrottle } from '../../utils/performanceUtils';
 
 const CanvasWallSystem = () => {
     const canvasRef = useRef(null);
+    const wallTexturesRef = useRef(new Map());
+
+    // Load wall textures
+    useEffect(() => {
+        const wallTypes = ['stone_wall', 'wooden_wall', 'brick_wall', 'metal_wall', 'wooden_door', 'stone_door'];
+        wallTypes.forEach(type => {
+            const img = new Image();
+            const path = (type.includes('door')) 
+                ? `/assets/textures/walls/${type.replace('_door', '_wall')}.png` 
+                : `/assets/textures/walls/${type}.png`;
+            
+            img.src = path;
+            img.onload = () => {
+                // Store both image and a null pattern placeholder (will be created lazily with ctx)
+                wallTexturesRef.current.set(type, { img, pattern: null });
+                if (throttledRenderWallsRef.current) {
+                    throttledRenderWallsRef.current();
+                }
+            };
+        });
+    }, []);
+
+    // Helper to get/create pattern lazily
+    const getWallPattern = useCallback((type, ctx) => {
+        const entry = wallTexturesRef.current.get(type);
+        if (!entry || !entry.img) return null;
+        if (!entry.pattern) {
+            try {
+                entry.pattern = ctx.createPattern(entry.img, 'repeat');
+            } catch (e) {
+                return null;
+            }
+        }
+        return entry.pattern;
+    }, []);
 
     // Get state from stores
     const {
@@ -534,19 +569,40 @@ const CanvasWallSystem = () => {
                     ctx.fillRect(-doorWidth / 2 - 2, -doorHeight / 2 - 2, doorWidth + 4, doorHeight + 4);
 
                     // Main door panel
-                    ctx.fillStyle = isGreyedOut ? '#5A5550' : palette.main;
-                    ctx.fillRect(-doorWidth / 2, -doorHeight / 2, doorWidth, doorHeight);
+                    const entry = wallTexturesRef.current.get(wallType);
+                    const pattern = entry ? getWallPattern(wallType, ctx) : null;
+                    
+                    if (pattern && entry.img && !isGreyedOut) {
+                        const matrix = new DOMMatrix();
+                        matrix.translateSelf(midX, midY);
+                        matrix.rotateSelf(angle * 180 / Math.PI);
+                        
+                        // Scale texture to look good on the wall (256px base for a tile)
+                        const baseTextureSize = 256;
+                        const textureScale = (gridSize * effectiveZoom) / baseTextureSize;
+                        matrix.scaleSelf(textureScale, textureScale);
+                        
+                        pattern.setTransform(matrix);
+                        ctx.fillStyle = pattern;
+                        ctx.fillRect(-doorWidth / 2, -doorHeight / 2, doorWidth, doorHeight);
+                    } else {
+                        ctx.fillStyle = isGreyedOut ? '#5A5550' : palette.main;
+                        ctx.fillRect(-doorWidth / 2, -doorHeight / 2, doorWidth, doorHeight);
+                    }
 
-                    // Door panel inset (wood grain effect)
+                    // Door panel inset (wood grain effect / depth)
                     const insetMargin = doorHeight * 0.18;
                     ctx.fillStyle = isGreyedOut ? '#4A4540' : palette.dark;
+                    ctx.globalAlpha = 0.5;
                     ctx.fillRect(-doorWidth / 2 + insetMargin, -doorHeight / 2 + insetMargin,
                         doorWidth - insetMargin * 2, doorHeight - insetMargin * 2);
 
                     // Inner panel (lighter center)
                     ctx.fillStyle = isGreyedOut ? '#6A6560' : palette.light;
+                    ctx.globalAlpha = 0.3;
                     ctx.fillRect(-doorWidth / 2 + insetMargin * 2, -doorHeight / 2 + insetMargin * 2,
                         doorWidth - insetMargin * 4, doorHeight - insetMargin * 4);
+                    ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;
 
                     // Horizontal wood grain lines
                     ctx.strokeStyle = isGreyedOut ? '#555' : palette.dark;
@@ -587,45 +643,63 @@ const CanvasWallSystem = () => {
                 // === WALL RENDERING ===
                 ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;
                 ctx.save();
+                const dx = screenPos2.x - screenPos1.x;
+                const dy = screenPos2.y - screenPos1.y;
+                const angle = Math.atan2(dy, dx);
+                
+                // Use integer coordinates for the midpoint to prevent sub-pixel sliding
+                const midX = Math.round((screenPos1.x + screenPos2.x) / 2);
+                const midY = Math.round((screenPos1.y + screenPos2.y) / 2);
+
+                const wallWidth = Math.round(length);
+                const wallHeight = Math.round(wallThickness);
+
+                ctx.save();
                 ctx.translate(midX, midY);
                 ctx.rotate(angle);
 
-                const wallWidth = length + 2; // Slight overlap for better corner joins
-                const wallHeight = wallThickness;
-
-                // Wall shadow
-                ctx.fillStyle = '#1A1510';
+                // 1. Wall shadow - rendered inside rotated space to fix 'black line' artifact
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
                 ctx.fillRect(-wallWidth / 2 + 2, -wallHeight / 2 + 2, wallWidth, wallHeight);
 
-                // Main wall body
-                ctx.fillStyle = isGreyedOut ? '#555' : palette.main;
+                // 2. Main wall body
+                const entry = wallTexturesRef.current.get(wallType);
+                const pattern = entry ? getWallPattern(wallType, ctx) : null;
+
+                if (pattern && entry.img && !isGreyedOut) {
+                    const matrix = new DOMMatrix();
+                    const baseTextureSize = 256;
+                    const textureScale = (gridSize * effectiveZoom) / baseTextureSize;
+                    
+                    // Pin the pattern to the segment start to prevent sliding
+                    // We also ensure it's seamless by using the world-relative phase
+                    const worldStartX = x1;
+                    const worldStartY = y1;
+                    
+                    // Offset by the world start to keep texture alignment consistent
+                    // Normalized to texture space (0..1 per grid cell)
+                    const phaseX = (worldStartX % 1);
+                    const phaseY = (worldStartY % 1);
+
+                    matrix.translateSelf(-wallWidth / 2 - (phaseX * 256 * textureScale), -(phaseY * 256 * textureScale));
+                    matrix.scaleSelf(textureScale, textureScale);
+                    
+                    pattern.setTransform(matrix);
+                    ctx.fillStyle = pattern;
+                } else {
+                    ctx.fillStyle = isGreyedOut ? '#555' : palette.main;
+                }
+                
                 ctx.fillRect(-wallWidth / 2, -wallHeight / 2, wallWidth, wallHeight);
 
-                // Top edge highlight (3D effect)
+                // 3. Edges and Highlights
                 ctx.fillStyle = isGreyedOut ? '#777' : palette.light;
+                ctx.globalAlpha = 0.3;
                 ctx.fillRect(-wallWidth / 2, -wallHeight / 2, wallWidth, Math.max(2, wallHeight * 0.15));
 
-                // Bottom edge shadow
                 ctx.fillStyle = isGreyedOut ? '#333' : palette.dark;
                 ctx.fillRect(-wallWidth / 2, wallHeight / 2 - Math.max(2, wallHeight * 0.15), wallWidth, Math.max(2, wallHeight * 0.15));
-
-                // Stone/brick texture pattern
-                if (wallHeight > 5 && !isGreyedOut) {
-                    ctx.fillStyle = palette.mortar || palette.dark;
-                    ctx.globalAlpha = 0.4;
-
-                    // Horizontal mortar line
-                    ctx.fillRect(-wallWidth / 2, -0.5, wallWidth, 1);
-
-                    // Vertical mortar lines (stone blocks)
-                    const blockWidth = wallHeight * 2;
-                    let offset = 0;
-                    for (let x = -wallWidth / 2 + blockWidth / 2; x < wallWidth / 2; x += blockWidth) {
-                        ctx.fillRect(x + offset - 0.5, -wallHeight / 2, 1, wallHeight);
-                        offset = offset === 0 ? blockWidth / 2 : 0; // Stagger blocks
-                    }
-                    ctx.globalAlpha = isGreyedOut ? 0.4 : 1.0;
-                }
+                ctx.globalAlpha = 1.0;
 
                 ctx.restore();
             }
@@ -674,6 +748,8 @@ const CanvasWallSystem = () => {
             if (data.count < 2) return; // Only draw corners where 2+ walls meet
 
             let screenPos;
+            const [gx, gy] = key.split(',').map(Number);
+            
             if (gridType === 'hex' && data.worldPos) {
                 // For hex grids, use the actual world position of the vertex
                 const gridSystem = getGridSystem();
@@ -681,15 +757,16 @@ const CanvasWallSystem = () => {
                 screenPos = gridSystem.worldToScreen(data.worldPos.x, data.worldPos.y, viewport.width, viewport.height);
             } else {
                 // Square grid: use grid coordinates
-                const [gx, gy] = key.split(',').map(Number);
-
                 // Check if corner is in visible bounds
                 if (gx < startX || gx > endX || gy < startY || gy > endY) return;
-
                 screenPos = gridToScreen(gx, gy, window.innerWidth, window.innerHeight);
             }
 
+            const midX = Math.round(screenPos.x);
+            const midY = Math.round(screenPos.y);
             const wallThickness = Math.max(8, gridSize * effectiveZoom * 0.15);
+            const size = wallThickness + 2;
+            const halfSize = size / 2;
 
             // Get the primary wall type for coloring
             const primaryType = data.wallTypes.values().next().value;
@@ -697,36 +774,47 @@ const CanvasWallSystem = () => {
 
             ctx.save();
 
-            const size = wallThickness + 2;
-            const halfSize = size / 2;
+            // 1. Corner block shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            ctx.fillRect(midX - halfSize + 2, midY - halfSize + 2, size, size);
 
-            // Corner block shadow
-            ctx.fillStyle = '#1A1510';
-            ctx.fillRect(screenPos.x - halfSize + 2, screenPos.y - halfSize + 2, size, size);
+            // 2. Main corner block
+            const entry = wallTexturesRef.current.get(primaryType);
+            const pattern = entry ? getWallPattern(primaryType, ctx) : null;
 
-            // Main corner block
-            ctx.fillStyle = palette.main;
-            ctx.fillRect(screenPos.x - halfSize, screenPos.y - halfSize, size, size);
+            if (pattern && entry.img) {
+                const matrix = new DOMMatrix();
+                const baseTextureSize = 256;
+                const textureScale = (gridSize * effectiveZoom) / baseTextureSize;
+                
+                // Pin the corner pattern to the world origin
+                matrix.translateSelf(midX, midY);
+                matrix.scaleSelf(textureScale, textureScale);
+                matrix.translateSelf(-gx * baseTextureSize, -gy * baseTextureSize);
+                
+                pattern.setTransform(matrix);
+                ctx.fillStyle = pattern;
+            } else {
+                ctx.fillStyle = palette.main;
+            }
+            
+            ctx.fillRect(midX - halfSize, midY - halfSize, size, size);
 
-            // Top edge highlight
+            // 3. Edges and Highlights
             ctx.fillStyle = palette.light;
-            ctx.fillRect(screenPos.x - halfSize, screenPos.y - halfSize, size, 2);
+            ctx.globalAlpha = 0.3;
+            ctx.fillRect(midX - halfSize, midY - halfSize, size, 2); // Top
+            ctx.fillRect(midX - halfSize, midY - halfSize, 2, size); // Left
 
-            // Left edge highlight  
-            ctx.fillRect(screenPos.x - halfSize, screenPos.y - halfSize, 2, size);
-
-            // Bottom edge shadow
             ctx.fillStyle = palette.dark;
-            ctx.fillRect(screenPos.x - halfSize, screenPos.y + halfSize - 2, size, 2);
-
-            // Right edge shadow
-            ctx.fillRect(screenPos.x + halfSize - 2, screenPos.y - halfSize, 2, size);
-
+            ctx.fillRect(midX - halfSize, midY + halfSize - 2, size, 2); // Bottom
+            ctx.fillRect(midX + halfSize - 2, midY - halfSize, 2, size); // Right
+            
             // Inner detail - small cross pattern for stone look
             ctx.fillStyle = palette.mortar || palette.dark;
             ctx.globalAlpha = 0.3;
-            ctx.fillRect(screenPos.x - 0.5, screenPos.y - halfSize + 2, 1, size - 4);
-            ctx.fillRect(screenPos.x - halfSize + 2, screenPos.y - 0.5, size - 4, 1);
+            ctx.fillRect(midX - 0.5, midY - halfSize + 2, 1, size - 4);
+            ctx.fillRect(midX - halfSize + 2, midY - 0.5, size - 4, 1);
             ctx.globalAlpha = 1.0;
 
             ctx.restore();

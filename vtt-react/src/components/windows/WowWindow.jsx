@@ -178,9 +178,6 @@ const WowWindow = forwardRef((props, ref) => {
     }, [isDragging, windowId, bringToFront]);
 
     const handleWindowMouseDown = useCallback((e) => {
-        // Prevent event from bubbling to the grid/map underneath
-        e.stopPropagation();
-
         if (!isDragging && windowElementRef.current && windowElementRef.current.contains(e.target)) {
             const target = e.target;
             if (target.tagName !== 'BUTTON' &&
