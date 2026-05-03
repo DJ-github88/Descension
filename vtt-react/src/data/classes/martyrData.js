@@ -128,19 +128,20 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Your HP**: 100 - 20 = 80/100
 **Total Damage Taken**: 20 damage
 
-**Devotion Check**: 20 damage taken ≥ 10 damage threshold → **Devotion Level 1 achieved!**
+**Devotion Check**: 20 damage taken ≥ 20 damage threshold → **Devotion Level 2 achieved!**
+**Intervene Bonus**: Damage intercepted contributes to total damage thresholds normally. The 20 damage you took for your ally crosses the Level 2 threshold instantly.
 
 *Golden light flares around you. Your first wound glows with radiant energy. You feel the divine power awakening.*
 
 **Devotion Level**: 0 → **1**
-**Passive Benefit (Level 1)**: +1 AC to all allies within 10 ft
+**Passive Benefit (Level 1)**: Resistance to the first instance of damage each round
 
 **Your Party's Mage**: "You... you took that hit for me."
 **You**: "That's what I'm here for. My pain is your protection."
 
-**Current State**: HP: 80/100 | Devotion Level: 1 (20 damage) | Mana: 50/60
+**Current State**: HP: 80/100 | Devotion Level: 2 (20 damage) | Mana: 50/60
 
-**Turn 2 - Building Devotion (HP: 80 → 60, Devotion: 1 → 2)**
+**Turn 2 - Building Devotion (HP: 80 → 59, Devotion: 2 → 3)**
 
 *Two lesser demons attack you. Good. Let them come.*
 
@@ -152,12 +153,12 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Your HP**: 70 - 11 = 59/100
 **Total Damage Taken**: 30 + 11 = 41 damage
 
-**Devotion Check**: 41 damage ≥ 40 damage threshold → **Devotion Level 2 achieved!**
+**Devotion Check**: 41 damage ≥ 40 damage threshold → **Devotion Level 3 achieved!**
 
 *More wounds. More light. Your scars glow brighter. The divine power SURGES.*
 
-**Devotion Level**: 1 → **2**
-**Passive Benefit (Level 2)**: +1 AC to allies + Allies within 10 ft gain resistance to first damage type taken
+**Devotion Level**: 2 → **3**
+**Passive Benefit (Level 3)**: All allies within 10 ft gain +1 Armor
 
 **Your Action**: Cast "Sacred Shield" on your mage (6 mana)
 **Effect**: Grant 15 temporary HP
@@ -168,9 +169,9 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 **Your Party's Mage**: "I can feel your protection. Thank you."
 
-**Current State**: HP: 59/100 | Devotion Level: 2 (41 damage) | Mana: 44/60
+**Current State**: HP: 59/100 | Devotion Level: 3 (41 damage) | Mana: 44/60
 
-**Turn 3 - Reaching Peak Devotion (HP: 59 → 39, Devotion: 2 → 3)**
+**Turn 3 - Reaching Peak Devotion (HP: 59 → 29, Devotion: 3 → 4)**
 
 *The demon lord strikes you with a massive flaming sword.*
 
@@ -178,12 +179,12 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Your HP**: 59 - 30 = 29/100
 **Total Damage Taken**: 41 + 30 = 71 damage
 
-**Devotion Check**: 71 damage ≥ 60 damage threshold → **Devotion Level 3 achieved!**
+**Devotion Check**: 71 damage ≥ 60 damage threshold → **Devotion Level 4 achieved!**
 
 *You fall to one knee, bleeding. But the light around you is BLINDING. Your wounds are RADIANT. You've never felt more powerful.*
 
-**Devotion Level**: 2 → **3**
-**Passive Benefit (Level 3)**: +2 AC to allies + Resistance to first damage type + Allies heal 1d6 HP per turn within 10 ft
+**Devotion Level**: 3 → **4**
+**Passive Benefit (Level 4)**: Allies within 10 ft gain resistance to the first damage type they take each round
 
 **Your Party's Tank**: "You're glowing like the sun! Are you okay?"
 **You**: "I'm at 29 HP. But I'm at Devotion Level 3. I can save us all now."
@@ -196,9 +197,9 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 **Mana**: 44 - 8 = 36/60
 
-**Current State**: HP: 29/100 | Devotion Level: 3 (71 damage) | Mana: 36/60
+**Current State**: HP: 29/100 | Devotion Level: 4 (71 damage) | Mana: 36/60
 
-**Turn 4 - Amplified Healing (HP: 29 → 24, Devotion: 3 → 1)**
+**Turn 4 - Amplified Healing (HP: 29 → 24, Devotion: 4 → 2)**
 
 *You're at 29 HP. Your party's mage is at 20 HP. Your tank is at 40 HP. Time to HEAL.*
 
@@ -207,7 +208,7 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 *You raise your arms. Your wounds BLAZE with golden light. The radiance flows outward, healing everyone.*
 
 **Amplification Cost**: 2 Devotion Levels
-**Devotion Level**: 3 - 2 = **1**
+**Devotion Level**: 4 - 2 = **2**
 
 **Base Healing**: 3d8 to all allies → [6, 7, 8] = 21 HP to each ally
 **Amplification Bonus**: +2d8 per Devotion Level spent (2 levels) = +4d8 → [7, 6, 8, 5] = +26 HP
@@ -228,9 +229,9 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 *You stagger from the self-inflicted pain. But your party is healed. Worth it.*
 
-**Devotion Check**: 76 damage ≥ 60 threshold → Still at Devotion Level 1 (lost 2 levels from spending, but still above 60 damage total)
+**Devotion Check**: 76 damage ≥ 60 threshold → Still at Devotion Level 2 (lost 2 levels from spending, but still above 60 damage total)
 
-**Current State**: HP: 71/100 | Devotion Level: 1 (76 damage) | Mana: 24/60
+**Current State**: HP: 71/100 | Devotion Level: 2 (76 damage) | Mana: 24/60
 
 **Turn 5 - Finishing the Fight**
 
@@ -244,11 +245,11 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Your HP**: 71 - 9 = 62/100
 **Total Damage Taken**: 76 + 9 = 85 damage
 
-**Devotion Check**: 85 damage ≥ 80 threshold → **Devotion Level 4 achieved!**
+**Devotion Check**: 85 damage ≥ 80 threshold → **Devotion Level 5 achieved!**
 
 *Even more light. Your wounds are like stars.*
 
-**Devotion Level**: 1 → **4**
+**Devotion Level**: 2 → **5**
 
 **Your Action**: Cast "Smite" at Lesser Demon #3 (6 mana)
 **Attack Roll**: d20+5 → [18] = Hit!
@@ -266,12 +267,12 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 **Your Party's Rogue**: "You took 85 damage total. You're at Devotion Level 4 now."
 **You**: "Every wound is a blessing. Every sacrifice brings me closer to the divine. That's the Martyr's way."
 
-**Final State**: HP: 62/100 | Devotion Level: 4 (85 damage) | Mana: 18/60
+**Final State**: HP: 62/100 | Devotion Level: 5 (85 damage) | Mana: 18/60
 
 **The Lesson**: Martyr gameplay is about:
 1. **Building Devotion**: Took 85 damage total, reached Devotion Level 4 (thresholds: 10/20/40/60/80/100)
-2. **Martyr's Intervene**: Redirected attack from mage to yourself Turn 1, gained 20 damage toward Devotion
-3. **Passive Benefits**: Devotion Level 3 gave +2 AC to allies, resistance to first damage type, 1d6 HP regen per turn
+2. **Martyr's Intervene**: Redirected attack from mage to yourself Turn 1, took 20 damage and crossed the Level 2 threshold instantly
+3. **Passive Benefits**: Devotion Level 3 gave all allies within 10 ft +1 Armor, then spent 2 levels for amplified healing
 4. **Amplified Healing**: Spent 2 Devotion Levels to amplify Mass Healing Prayer: 21 HP → 47 HP (+26 from amplification)
 5. **Self-Damage Cost**: Amplified spell cost 2d6 self-damage (5 damage), but healed party for 47 HP each
 6. **Resource Management**: Spent 2 Devotion Levels (3 → 1) for critical healing, then rebuilt to Level 4
@@ -314,7 +315,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You WANT to take dam
 - **Bar**: First segment fills with faint golden glow
 - **Character**: Faint shimmer around body
 - **Status**: "Devotion Level 1 - Flickering Faith"
-- **Passive**: "Gain 5 temp HP when ally within 5 ft takes damage"
+- **Passive**: "Resistance to the first instance of damage each round"
 - **Border**: White
 - **Visual Effect**: Small golden particles around character
 
@@ -322,7 +323,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You WANT to take dam
 - **Bar**: Second segment fills, brighter glow
 - **Character**: Wounds begin to glow faintly
 - **Status**: "Devotion Level 2 - Steadfast Conviction"
-- **Passive**: "All healing +5 HP"
+- **Passive**: "Regain 1d6 HP at the start of each of your turns"
 - **Border**: Light blue
 - **Visual Effect**: Wounds have faint golden outline
 
@@ -330,7 +331,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You WANT to take dam
 - **Bar**: Third segment fills, moderate radiance
 - **Character**: Noticeable golden aura, wounds glow brightly
 - **Status**: "Devotion Level 3 - Radiant Sacrifice"
-- **Passive**: "Allies within 10 ft gain +1 AC"
+- **Passive**: "Allies within 10 ft gain +1 Armor"
 - **Border**: Blue
 - **Visual Effect**: Golden aura extends 10 ft, allies have faint protective shimmer
 - **Audio**: Soft angelic choir hum
@@ -339,7 +340,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You WANT to take dam
 - **Bar**: Fourth segment fills, bright radiance
 - **Character**: Strong golden glow, stigmata appear (glowing wounds on hands/feet)
 - **Status**: "Devotion Level 4 - Divine Ascendance"
-- **Passive**: "Advantage on all saving throws"
+- **Passive**: "Allies within 10 ft gain resistance to the first damage type they take each round"
 - **Border**: Green
 - **Visual Effect**: Stigmata glow intensely, character surrounded by swirling golden light
 - **Audio**: Louder angelic choir
@@ -348,7 +349,7 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You WANT to take dam
 - **Bar**: Fifth segment fills, intense radiance
 - **Character**: BLAZING with golden light, phantom wings appear
 - **Status**: "Devotion Level 5 - Holy Martyrdom"
-- **Passive**: "+10 radiant damage on all attacks"
+- **Passive**: "+10 radiant damage on all attacks, allies within 10 ft gain temp HP when you take damage"
 - **Border**: Gold
 - **Visual Effect**: Translucent golden wings, radiant aura pulses, wounds are like stars
 - **Audio**: Powerful angelic choir, bell chimes
@@ -376,7 +377,7 @@ When you reach a new Devotion Level:
 - **Gauge Segment**: New level segment LIGHTS UP with radiant glow
 - **Character Transformation**: New visual effects appear (glow intensifies, wings appear, etc.)
 - **Text Notification**: "DEVOTION LEVEL 3 ACHIEVED - Radiant Sacrifice"
-- **Passive Activation**: "NEW PASSIVE: Allies within 10 ft gain +1 AC"
+- **Passive Activation**: "NEW PASSIVE: Allies within 10 ft gain +1 Armor"
 - **Audio**: Dramatic bell chime, angelic choir surge
 - **Particle Burst**: Golden light explodes from character
 
@@ -385,7 +386,7 @@ When you use Martyr's Intervene:
 - **Movement**: You DASH to ally's position (up to 10 ft)
 - **Shield Raise**: You raise shield/arms to intercept attack
 - **Damage Redirect**: Attack hits you instead of ally, damage number appears on you
-- **Devotion Gain**: "+1 Devotion Level (Intervene)" notification
+- **Devotion Gain**: "+2 Devotion Levels (Intervene: 20 damage / 10)" notification
 - **Gauge Update**: Devotion bar jumps up one full level
 - **Audio**: Shield impact sound, protective chime
 - **Visual**: Golden barrier briefly appears between you and ally
@@ -395,7 +396,7 @@ When you have Devotion Levels to spend:
 - **Spell Buttons**: Show amplification option "Mass Healing Prayer (12 mana + 2 Devotion)"
 - **Cost Display**: "Spend 2 Devotion Levels for +4d8 healing"
 - **Warning**: "⚠️ Will reduce Devotion Level 3 → 1"
-- **Passive Loss Warning**: "You will lose: +1 AC aura"
+- **Passive Loss Warning**: "You will lose: +1 Armor aura"
 
 **Amplified Spell Cast Animation**:
 When you cast an amplified spell:
@@ -410,16 +411,16 @@ When you cast an amplified spell:
 **Passive Effect Indicators**:
 Active passive effects are shown as buff icons:
 
-**Level 1**: Shield icon "5 temp HP when ally hit"
-**Level 2**: Cross icon "Healing +5 HP"
-**Level 3**: Aura icon "+1 AC to allies (10 ft)"
-**Level 4**: Star icon "Advantage on saves"
-**Level 5**: Sword icon "+10 radiant damage"
+**Level 1**: Shield icon "Resistance to first damage each round"
+**Level 2**: Cross icon "Regain 1d6 HP at start of turn"
+**Level 3**: Aura icon "+1 Armor to allies (10 ft)"
+**Level 4**: Star icon "Allies resist first damage type each round"
+**Level 5**: Sword icon "+10 radiant damage + allies gain temp HP"
 **Level 6**: Wings icon "Allies resist ALL damage (15 ft)"
 
 **Ally Benefit Visualization**:
 When allies are affected by your Devotion passives:
-- **Level 3 (+1 AC)**: Allies within 10 ft have faint golden shimmer, "+1 AC (Martyr)" buff icon
+- **Level 3 (+1 Armor)**: Allies within 10 ft have faint golden shimmer, "+1 Armor (Martyr)" buff icon
 - **Level 6 (Resistance)**: Allies within 15 ft have golden shields, "Resist ALL (Martyr)" buff icon
 - **Range Indicator**: 10 ft or 15 ft radius circle shown on ground around you
 
@@ -435,11 +436,11 @@ When considering amplified spell:
 - **Current State**: "Devotion Level 4 - Divine Ascendance"
 - **Spell Cost**: "Spend 2 Devotion Levels"
 - **Result**: "Will be Devotion Level 2 - Steadfast Conviction"
-- **Passive Loss**: "Will lose: +1 AC aura, Advantage on saves"
+- **Passive Loss**: "Will lose: +1 Armor aura, Advantage on saves"
 - **Passive Kept**: "Will keep: Healing +5 HP"
 - **Confirm Button**: "AMPLIFY SPELL (2 Devotion)"
 
-**Why This Matters**: The Devotion Gauge makes you FEEL like a living sacrifice. When you take 20 damage and the first segment LIGHTS UP with golden glow, you see "Devotion Level 1 - Flickering Faith" and your character starts to shimmer. When you reach Level 3 and your wounds begin to GLOW, you see the "+1 AC to allies" buff appear on your party members—your suffering is PROTECTING them. When you hit Level 6 at 100 damage and your character TRANSFORMS with angelic wings and a halo, the "Allies resist ALL damage" notification appears, and you see golden shields on your entire party—you've become a CELESTIAL PROTECTOR. The amplified spell interface makes the decision clear: spend 2 Devotion Levels for massive healing, but lose your passive benefits. When you cast that amplified Mass Healing Prayer and see "47 HP healed!" on all allies, you KNOW the sacrifice was worth it. Every wound is power. Every sacrifice is salvation.`
+**Why This Matters**: The Devotion Gauge makes you FEEL like a living sacrifice. When you take 20 damage and the first segment LIGHTS UP with golden glow, you see "Devotion Level 1 - Flickering Faith" and your character starts to shimmer—you now resist the first hit each round. When you reach Level 3 and your wounds begin to GLOW, you see the "+1 Armor to allies" buff appear on your party members—your suffering is PROTECTING them. When you hit Level 6 at 100 damage and your character TRANSFORMS with angelic wings and a halo, the "Allies resist ALL damage" notification appears, and you see golden shields on your entire party—you've become a CELESTIAL PROTECTOR. The amplified spell interface makes the decision clear: spend 2 Devotion Levels for massive healing, but lose your passive benefits. When you cast that amplified Mass Healing Prayer and see "47 HP healed!" on all allies, you KNOW the sacrifice was worth it. Every wound is power. Every sacrifice is salvation.`
     },
 
     mechanics: {
@@ -448,7 +449,7 @@ When considering amplified spell:
 
 **Building Devotion**:
 - **Taking Damage**: Accumulate damage to reach thresholds (10/20/40/60/80/100)
-- **Martyr's Intervene**: Rush in front of an ally to take damage meant for them (advances 1 level per use)
+- **Martyr's Intervene**: Rush in front of an ally to take damage meant for them. The intercepted damage counts toward your damage thresholds normally, and grants additional Devotion equal to the damage taken divided by 10 (rounded down, minimum 1)
 - **Self-Sacrifice Spells**: Some spells inflict self-damage to build Devotion while providing benefits
 - **Damage Tracking**: Total damage taken persists through combat to track Devotion Level
 
@@ -459,7 +460,7 @@ When considering amplified spell:
 
 **Passive Effects**:
 - Each Devotion Level grants a permanent passive benefit while at that level
-- Higher levels provide stronger passives (AC auras, resistance, radiant damage)
+- Higher levels provide stronger passives (Armor auras, resistance, radiant damage)
 
 **Amplified Spells**:
 - Spend Devotion Levels to cast enhanced versions of spells
@@ -467,7 +468,7 @@ When considering amplified spell:
 - Some amplified effects are worth more than passive benefits in critical moments
 
 **Martyr's Intervene**:
-As a reaction, rush in front of an ally within 10 feet who is about to take damage, taking the damage instead. This action increases the Devotion Gauge by 1 level each time it is used, regardless of damage amount.`
+As a reaction, rush in front of an ally within 10 feet who is about to take damage, taking the damage instead. The intercepted damage counts toward your damage thresholds. Additionally, you gain bonus Devotion Levels equal to the damage taken divided by 10 (rounded down, minimum 1). Intercepting a 30-damage hit grants +3 bonus Devotion Levels.`
     },
     
     devotionLevelsTable: {
@@ -475,12 +476,12 @@ As a reaction, rush in front of an ally within 10 feet who is about to take dama
       headers: ['Level', 'Accumulation Requirement', 'Passive Effect', 'Thematic Identity'],
       rows: [
         ['0', 'Starting state', 'None', 'Mortal Resolve'],
-        ['1', '10 damage taken OR 1 Intervene', 'Gain 5 temporary HP when an ally within 5 feet takes damage', 'Flickering Faith'],
-        ['2', '20 damage taken OR 2 Intervenes', 'All healing effects you perform are increased by 5 HP', 'Steadfast Conviction'],
-        ['3', '40 damage taken OR 3 Intervenes', 'All allies within 10 feet gain +1 to their AC', 'Radiant Sacrifice'],
-        ['4', '60 damage taken OR 4 Intervenes', 'You gain advantage on all saving throws', 'Divine Ascendance'],
-        ['5', '80 damage taken OR 5 Intervenes', 'Deal 10 additional radiant damage on all attacks', 'Holy Martyrdom'],
-        ['6', '100 damage taken OR 6 Intervenes', 'All allies within 15 feet gain resistance to all damage types', 'Celestial Protector']
+        ['1', '10 damage taken', 'Resistance to the first instance of damage each round', 'Flickering Faith'],
+        ['2', '20 damage taken', 'Regain 1d6 HP at the start of each of your turns', 'Steadfast Conviction'],
+        ['3', '40 damage taken', 'All allies within 10 feet gain +1 Armor', 'Radiant Sacrifice'],
+        ['4', '60 damage taken', 'Allies within 10 ft gain resistance to the first damage type they take each round', 'Divine Ascendance'],
+        ['5', '80 damage taken', '+10 radiant damage on attacks, allies within 10 ft gain temp HP when you take damage', 'Holy Martyrdom'],
+        ['6', '100 damage taken', 'All allies within 15 feet gain resistance to all damage types', 'Celestial Protector']
       ]
     },
     
@@ -492,9 +493,10 @@ As a reaction, rush in front of an ally within 10 feet who is about to take dama
 
 **Intervene Strategy**: 
 - Use proactively to protect squishy allies (mages, healers)
-- Fastest way to build Devotion (1 level per use regardless of damage)
+- Grants bonus Devotion based on damage intercepted (damage / 10, min 1)
+- Best used against heavy hits — intercepting a 40-damage blow grants +4 Devotion
 - Requires positioning within 10 feet of allies
-- Can advance from Level 1 to Level 2 even if you've only taken 11 damage total
+- Works synergistically with damage thresholds — big saves build Devotion fast
 
 **Amplified Spell Timing**:
 - Save 3-5 Devotion spending for boss fights and emergencies
@@ -526,15 +528,15 @@ The Martyr's Devotion Gauge is tracked using 6 physical tokens arranged vertical
 \`\`\`
 DEVOTION GAUGE (Vertical Stack):
 
-[6] ○ - Level 6: Celestial Protector (100 dmg / 6 Intervenes)
-[5] ○ - Level 5: Holy Martyrdom (80 dmg / 5 Intervenes)
-[4] ○ - Level 4: Divine Ascendance (60 dmg / 4 Intervenes)
-[3] ○ - Level 3: Radiant Sacrifice (40 dmg / 3 Intervenes)
-[2] ○ - Level 2: Steadfast Conviction (20 dmg / 2 Intervenes)
-[1] ○ - Level 1: Flickering Faith (10 dmg / 1 Intervene)
+[6] ○ - Level 6: Celestial Protector (100 dmg)
+[5] ○ - Level 5: Holy Martyrdom (80 dmg)
+[4] ○ - Level 4: Divine Ascendance (60 dmg)
+[3] ○ - Level 3: Radiant Sacrifice (40 dmg)
+[2] ○ - Level 2: Steadfast Conviction (20 dmg)
+[1] ○ - Level 1: Flickering Faith (10 dmg)
 
 DAMAGE TAKEN: [___] / 100
-INTERVENE COUNT: [___]
+INTERVENE TRACKER: Track damage intercepted for Devotion calculation
 \`\`\`
 
 **How It Works**:
@@ -546,10 +548,10 @@ INTERVENE COUNT: [___]
 4. Each active token grants its passive effect immediately
 
 **Building Devotion Through Intervene**:
-1. When you use Martyr's Intervene (take damage for an ally), mark it
-2. Each Intervene use advances Devotion by 1 level regardless of damage
-3. Flip the next token to "active"
-4. This is the fastest way to build Devotion
+1. When you use Martyr's Intervene (take damage for an ally), calculate Devotion gained
+2. Devotion gained = damage taken / 10 (rounded down, minimum 1)
+3. Advance your Devotion Level by that amount
+4. Intercepting a 30-damage hit grants +3 Devotion; a 5-damage hit grants +1
 
 **Example Devotion Building**:
 
@@ -558,24 +560,23 @@ INTERVENE COUNT: [___]
 **Turn 1**: Take 12 damage from orc attack
 - Damage: 12/100
 - Flip token [1] face up → **Level 1: Flickering Faith**
-- **Passive Active**: Gain 5 temp HP when ally within 5 ft takes damage
+- **Passive Active**: Resistance to the first instance of damage each round
 
 **Turn 2**: Use Intervene to protect mage from goblin attack (take 8 damage)
 - Damage: 20/100
-- Intervene Count: 1
+- Intervene Devotion: 8/10 = 0, but damage threshold crossed (20 ≥ 20)
 - Flip token [2] face up → **Level 2: Steadfast Conviction**
-- **Passive Active**: All healing +5 HP
+- **Passive Active**: Regain 1d6 HP at start of turn
 
 **Turn 3**: Take 25 damage from troll smash
 - Damage: 45/100
 - Flip token [3] face up → **Level 3: Radiant Sacrifice**
-- **Passive Active**: Allies within 10 ft gain +1 AC
+- **Passive Active**: All allies within 10 ft gain +1 Armor
 
 **Turn 4**: Use Intervene to protect rogue (take 10 damage)
 - Damage: 55/100
-- Intervene Count: 2
 - Flip token [4] face up → **Level 4: Divine Ascendance**
-- **Passive Active**: Advantage on all saving throws
+- **Passive Active**: Allies within 10 ft gain resistance to first damage type each round
 
 **Current State**: Level 4, 55 damage taken, 4 passive effects active
 
@@ -613,22 +614,22 @@ When you cast an amplified spell, you spend Devotion Levels by flipping tokens b
 \`\`\`
 MARTYR DEVOTION LEVELS
 
-LEVEL 1 (10 dmg / 1 Intervene):
-Passive: +5 temp HP when ally within 5 ft takes damage
+LEVEL 1 (10 dmg):
+Passive: Resistance to the first instance of damage each round
 
-LEVEL 2 (20 dmg / 2 Intervenes):
-Passive: All healing +5 HP
+LEVEL 2 (20 dmg):
+Passive: Regain 1d6 HP at the start of each of your turns
 
-LEVEL 3 (40 dmg / 3 Intervenes):
-Passive: Allies within 10 ft gain +1 AC
+LEVEL 3 (40 dmg):
+Passive: Allies within 10 ft gain +1 Armor
 
-LEVEL 4 (60 dmg / 4 Intervenes):
-Passive: Advantage on all saving throws
+LEVEL 4 (60 dmg):
+Passive: Allies within 10 ft gain resistance to first damage type each round
 
-LEVEL 5 (80 dmg / 5 Intervenes):
-Passive: +10 radiant damage on all attacks
+LEVEL 5 (80 dmg):
+Passive: +10 radiant damage on attacks, allies gain temp HP when you take damage
 
-LEVEL 6 (100 dmg / 6 Intervenes):
+LEVEL 6 (100 dmg):
 Passive: Allies within 15 ft gain resistance to all damage
 
 AMPLIFIED SPELL COSTS:
@@ -644,15 +645,15 @@ AMPLIFIED SPELL COSTS:
 **Turn 1 - Intervene**:
 1. "The dragon breathes fire at our mage! I use Martyr's Intervene!"
 2. Take 30 damage for the mage → Total damage: 55
-3. Intervene Count: 1
-4. Flip token [3] face up → **Level 3**
-5. Announce: "I'm now at Devotion Level 3! All allies within 10 feet gain +1 AC!"
+3. Devotion gained: 30/10 = +3 Levels
+4. Flip tokens → **Level 3**
+5. Announce: "I'm now at Devotion Level 3! All allies within 10 feet gain +1 Armor!"
 
 **Turn 2 - Build More Devotion**:
 1. Troll attacks you directly → Take 18 damage
 2. Total damage: 73
 3. Flip token [4] face up → **Level 4**
-4. Announce: "Devotion Level 4! I have advantage on all saving throws!"
+4. Announce: "Devotion Level 4! Allies within 10 ft gain resistance to the first damage type they take each round!"
 
 **Turn 3 - Amplified Healing**:
 1. "Our tank is at 15 HP! I cast Amplified Divine Healing for 3 Devotion Levels!"
@@ -670,12 +671,12 @@ DEVOTION BUILDING:
 • Self-Damage Spells: Some spells hurt you to build Devotion
 
 DEVOTION THRESHOLDS:
-Level 1: 10 damage OR 1 Intervene
-Level 2: 20 damage OR 2 Intervenes
-Level 3: 40 damage OR 3 Intervenes
-Level 4: 60 damage OR 4 Intervenes
-Level 5: 80 damage OR 5 Intervenes
-Level 6: 100 damage OR 6 Intervenes
+Level 1: 10 damage
+Level 2: 20 damage
+Level 3: 40 damage
+Level 4: 60 damage
+Level 5: 80 damage
+Level 6: 100 damage
 
 AMPLIFIED SPELL STRATEGY:
 • Save 3+ levels for emergencies
@@ -686,8 +687,8 @@ AMPLIFIED SPELL STRATEGY:
 INTERVENE ABILITY:
 • Reaction: Rush to ally within 10 ft
 • Take damage meant for them
-• Instantly gain +1 Devotion Level
-• Fastest way to build power
+• Gain Devotion = damage taken / 10 (min 1)
+• Fastest way to build power from big hits
 \`\`\`
 
 **Thematic Enhancements**:
@@ -725,7 +726,7 @@ Many players enhance the Martyr experience with:
 - Announce bonus when healing
 
 **Level 3 Active**:
-- Allies within 10 ft gain +1 AC
+- Resistance to first damage each round
 - Remind allies of bonus when they're attacked
 
 **Level 4 Active**:
@@ -746,7 +747,7 @@ Many players enhance the Martyr experience with:
 
 **Turn 1**: Take 15 damage → Level 1 (temp HP when ally hit)
 **Turn 2**: Intervene for mage → Level 2 (all healing +5)
-**Turn 3**: Take 25 damage → Level 3 (allies +1 AC)
+**Turn 3**: Take 25 damage → Level 3 (allies +1 Armor)
 **Turn 4**: Intervene for rogue → Level 4 (advantage on saves)
 **Turn 5**: Take 22 damage → Level 5 (+10 radiant damage)
 **Turn 6**: Intervene for tank → Level 6 (allies resist all damage)
@@ -762,7 +763,7 @@ DEVOTION GAUGE: [●][●][●][○][○][○] (Level 3)
 ACTIVE PASSIVES:
 ✓ Level 1: +5 temp HP when ally hit
 ✓ Level 2: All healing +5 HP
-✓ Level 3: Allies within 10 ft +1 AC
+✓ Level 3: All allies within 10 ft +1 Armor
 
 DAMAGE TAKEN: 45/100
 INTERVENE COUNT: 1
@@ -846,9 +847,9 @@ INTERVENE COUNT: 1
         
         passiveAbilities: [
           {
-            name: 'Sacred Devotion',
+            name: "Suffering's Gift",
             tier: 'Path Passive',
-            description: 'When you reach Devotion Level 3 or higher, your next healing spell heals for an additional 1d6 HP.',
+            description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level.",
             sharedBy: 'All Martyrs'
           },
           {
@@ -889,9 +890,9 @@ INTERVENE COUNT: 1
         
         passiveAbilities: [
           {
-            name: 'Sacred Devotion',
+            name: "Suffering's Gift",
             tier: 'Path Passive',
-            description: 'When you reach Devotion Level 3 or higher, your next healing spell heals for an additional 1d6 HP.',
+            description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level.",
             sharedBy: 'All Martyrs'
           },
           {
@@ -932,9 +933,9 @@ INTERVENE COUNT: 1
         
         passiveAbilities: [
           {
-            name: 'Sacred Devotion',
+            name: "Suffering's Gift",
             tier: 'Path Passive',
-            description: 'When you reach Devotion Level 3 or higher, your next healing spell heals for an additional 1d6 HP.',
+            description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level.",
             sharedBy: 'All Martyrs'
           },
           {
@@ -1041,7 +1042,7 @@ INTERVENE COUNT: 1
     {
       id: 'martyr_intervene',
       name: 'Intervene',
-      description: 'Step in front of an ally to intercept an attack, taking the damage yourself.',
+      description: 'Step in front of an ally to intercept an attack, taking the damage yourself. Grants bonus Devotion equal to damage taken divided by 10 (minimum 1).',
       level: 1,
       spellType: 'REACTION',
       icon: 'Utility/Shield',
@@ -2343,7 +2344,7 @@ INTERVENE COUNT: 1
     },
 
     // ========================================
-    // LEVEL 7 SPELLS
+    // LEVEL 7 SPELLS (Minor Ultimates - 5-6 Turn Cooldown)
     // ========================================
     {
       id: 'martyr_mass_resurrection',
@@ -2371,7 +2372,7 @@ INTERVENE COUNT: 1
 
       resourceCost: {
         resourceTypes: ['mana', 'hp'],
-        resourceValues: { mana: 50, hp: 30 },
+        resourceValues: { mana: 40, hp: 20 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Resurge Omnes!',
@@ -2387,12 +2388,12 @@ INTERVENE COUNT: 1
         hasHotEffect: false
       },
 
-      devotionRequired: 6,
+      devotionRequired: 5,
       devotionGain: 0,
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        type: 'turn_based',
+        value: 6
       },
 
       tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level 7']
@@ -2448,12 +2449,12 @@ INTERVENE COUNT: 1
         canBeDispelled: true
       },
 
-      devotionRequired: 4,
+      devotionRequired: 3,
       devotionGain: 0,
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        type: 'turn_based',
+        value: 5
       },
 
       tags: ['buff', 'protection', 'cheat death', 'level 7']
@@ -2527,14 +2528,14 @@ INTERVENE COUNT: 1
 
       cooldownConfig: {
         type: 'turn_based',
-        value: 5
+        value: 6
       },
 
       tags: ['damage', 'radiant', 'aoe', 'devotion spend', 'level 7']
     },
 
     // ========================================
-    // LEVEL 8 SPELLS
+    // LEVEL 8 SPELLS (Minor Ultimates - 6 Turn Cooldown)
     // ========================================
     {
       id: 'martyr_divine_intervention',
@@ -2577,12 +2578,12 @@ INTERVENE COUNT: 1
         }
       },
 
-      devotionRequired: 5,
+      devotionRequired: 4,
       devotionGain: 0,
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        type: 'turn_based',
+        value: 6
       },
 
       tags: ['protection', 'reaction', 'negate', 'level 8']
@@ -2639,7 +2640,7 @@ INTERVENE COUNT: 1
         saveOutcome: 'negates'
       },
 
-      devotionRequired: 4,
+      devotionRequired: 3,
       devotionGain: 3,
 
       cooldownConfig: {
@@ -2650,60 +2651,8 @@ INTERVENE COUNT: 1
       tags: ['debuff', 'damage', 'link', 'psychic', 'level 8']
     },
 
-    {
-      id: 'martyr_supreme_sacrifice',
-      name: 'Supreme Sacrifice',
-      description: 'Sacrifice a massive amount of health to fully heal all allies in range.',
-      level: 8,
-      spellType: 'ACTION',
-      icon: 'Healing/Reaching Hand',
-
-      typeConfig: {
-        school: 'necromancy',
-        icon: 'Healing/Reaching Hand',
-        tags: ['healing', 'sacrifice', 'self damage', 'aoe', 'level 8'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
-        targetRestrictions: ['ally']
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'hp'],
-        resourceValues: { mana: 40, hp: 50 },
-        actionPoints: 2,
-        components: ['verbal'],
-        verbalText: 'Sacrificium Supremum!'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['healing'],
-
-      healingConfig: {
-        formula: 'max_hp',
-        healingType: 'full_heal',
-        hasHotEffect: false
-      },
-
-      devotionRequired: 6,
-      devotionGain: 0,
-
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
-
-      tags: ['healing', 'sacrifice', 'self damage', 'aoe', 'level 8']
-    },
-
     // ========================================
-    // LEVEL 9 SPELLS
+    // LEVEL 9 SPELLS (Major Ultimates - Long Rest)
     // ========================================
     {
       id: 'martyr_avatar_of_sacrifice',
@@ -2921,12 +2870,12 @@ INTERVENE COUNT: 1
     },
 
     // ========================================
-    // LEVEL 10 SPELLS
+    // LEVEL 10 SPELLS (True Ultimates - Long Rest + Max Devotion)
     // ========================================
     {
       id: 'martyr_ultimate_sacrifice',
       name: 'Ultimate Sacrifice',
-      description: 'The ultimate act of martyrdom. Sacrifice yourself to fully resurrect and empower all fallen allies.',
+      description: 'The ultimate act of martyrdom. Full Sacrifice: reduce yourself to 0 HP to fully resurrect and empower all fallen allies. Partial Sacrifice: sacrifice 50 HP to fully heal all living allies within range.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Healing/Ressusitate',
@@ -2980,8 +2929,13 @@ INTERVENE COUNT: 1
 
       specialMechanics: {
         selfSacrifice: {
-          description: 'You are reduced to 0 HP. All dead allies are resurrected at full health.',
+          description: 'Full Sacrifice: You are reduced to 0 HP. All dead allies are resurrected at full health with +5 to all stats for 10 rounds.',
           resurrection: true
+        },
+        partialSacrifice: {
+          description: 'Partial Sacrifice: Instead of sacrificing all HP, you may sacrifice 50 HP to fully heal all living allies within range. Does not resurrect fallen allies.',
+          hpCost: 50,
+          fullHeal: true
         }
       },
 
@@ -2994,71 +2948,6 @@ INTERVENE COUNT: 1
       },
 
       tags: ['resurrection', 'sacrifice', 'ultimate', 'level 10']
-    },
-
-    {
-      id: 'martyr_divine_apotheosis',
-      name: 'Divine Apotheosis',
-      description: 'Transcend mortality and become one with the divine. Gain godlike power for a brief time.',
-      level: 10,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Glow',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Radiant/Radiant Glow',
-        tags: ['transformation', 'buff', 'ultimate', 'level 10'],
-        castTime: 2,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'devotion'],
-        resourceValues: { mana: 100, devotion: 'all' },
-        actionPoints: 3,
-        components: ['verbal'],
-        verbalText: 'APOTHEOSIS!'
-      },
-
-      resolution: 'NONE',
-      effectTypes: ['transformation'],
-
-      transformationConfig: {
-        transformType: 'divine',
-        formName: 'Divine Apotheosis',
-        formDescription: 'You become a being of pure divine light.',
-        duration: 3,
-        durationUnit: 'rounds',
-        statModifiers: [
-          { stat: 'all', magnitude: 10, magnitudeType: 'flat' },
-          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
-          { stat: 'spellPower', magnitude: 100, magnitudeType: 'percentage' }
-        ],
-        resistances: [
-          { type: 'all', resistanceAmount: 'immunity' }
-        ],
-        specialAbilities: [{
-          name: 'Divine Form',
-          description: 'All spells cost no mana. All healing is doubled. All damage is tripled. Immune to all damage.'
-        }],
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-
-      devotionRequired: 6,
-      devotionGain: 0,
-
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
-
-      tags: ['transformation', 'buff', 'ultimate', 'level 10']
     },
 
     {

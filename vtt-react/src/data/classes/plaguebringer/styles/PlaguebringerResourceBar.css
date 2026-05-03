@@ -63,8 +63,8 @@
     font-weight: 500;
 }
 
-/* Corruption Bar (Top) */
-.corruption-bar {
+/* Virulence Bar (Top) */
+.virulence-bar {
     position: relative;
     display: flex;
     align-items: center;
@@ -78,11 +78,11 @@
     overflow: hidden;
 }
 
-.corruption-bar.clickable {
+.virulence-bar.clickable {
     cursor: pointer;
 }
 
-.corruption-bar:hover {
+.virulence-bar:hover {
     background: linear-gradient(180deg, rgba(26, 46, 26, 0.5) 0%, rgba(26, 46, 26, 0.8) 100%);
     border-color: rgba(85, 107, 47, 0.7);
 }
@@ -141,8 +141,8 @@
     50% { opacity: 0.8; transform: scale(1.1); }
 }
 
-/* Corruption Fill - Progress bar */
-.corruption-fill {
+/* Virulence Fill - Progress bar */
+.virulence-fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -152,8 +152,8 @@
     box-shadow: inset 0 0 8px rgba(154, 205, 50, 0.4);
 }
 
-/* Corruption Overlay - Text on top of bar */
-.corruption-overlay {
+/* Virulence Overlay - Text on top of bar */
+.virulence-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -167,13 +167,33 @@
     z-index: 10;
 }
 
-.corruption-number {
+.virulence-number {
     font-family: 'Cinzel', serif;
     font-size: 0.85rem;
     font-weight: 700;
     color: #ffffff;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 1);
     letter-spacing: 0.5px;
+}
+
+.virulence-tier-name {
+    font-family: 'Crimson Text', serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.virulence-tier-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.3;
 }
 
 .afflictions-count {
@@ -353,12 +373,12 @@
 
 
 /* Size Variants */
-.corruption-bar.small {
+.virulence-bar.small {
     height: 18px;
     padding: 1px;
 }
 
-.corruption-bar.small .corruption-number {
+.virulence-bar.small .virulence-number {
     font-size: 0.7rem;
 }
 
@@ -376,8 +396,8 @@
 
 
 /* Force compact sizing in account context */
-.character-card .corruption-bar,
-.character-card-compact .corruption-bar {
+.character-card .virulence-bar,
+.character-card-compact .virulence-bar {
     height: 14px !important;
     min-height: 14px !important;
     padding: 1px !important;
@@ -399,8 +419,8 @@
     height: 8px !important;
 }
 
-.character-card .corruption-number,
-.character-card-compact .corruption-number {
+.character-card .virulence-number,
+.character-card-compact .virulence-number {
     font-size: 0.65rem !important;
 }
 
@@ -414,12 +434,12 @@
     font-size: 0.65rem !important;
 }
 
-.corruption-bar.large {
+.virulence-bar.large {
     height: 24px;
     padding: 3px;
 }
 
-.corruption-bar.large .corruption-number {
+.virulence-bar.large .virulence-number {
     font-size: 0.8rem;
 }
 

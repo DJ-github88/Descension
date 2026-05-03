@@ -6,7 +6,7 @@ import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PlaguebringerResourceBar.css';
 
 const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
-    const [localCorruption, setLocalCorruption] = useState(65);
+    const [localVirulence, setLocalVirulence] = useState(65);
     const [localAfflictions, setLocalAfflictions] = useState(4);
     const [selectedSpec, setSelectedSpec] = useState('virulentSpreader');
     const [showTooltip, setShowTooltip] = useState(false);
@@ -15,18 +15,15 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
     const barRef = useRef(null);
     const tooltipRef = useRef(null);
     
-    // Get chat store for combat notifications
     const { addCombatNotification } = useChatStore();
     const isGMMode = useGameStore(state => state.isGMMode);
     const currentPlayerName = useCharacterStore(state => state.name || 'Player');
     
-    // Helper function to get the actor name
     const getActorName = () => {
         const actorName = currentPlayerName || 'Player';
         return isGMMode ? `${actorName} (GM)` : actorName;
     };
     
-    // Helper function to log class resource changes
     const logClassResourceChange = (resourceName, amount, isPositive, resourceType = 'classResource') => {
         const absAmount = Math.abs(amount);
         const actorName = getActorName();
@@ -36,17 +33,17 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
         if (isPositive) {
             const messages = [
                 `${characterName} gained ${absAmount} ${resourceName}`,
-                `${characterName} acquired ${absAmount} ${resourceName}`,
-                `${absAmount} ${resourceName} was added to ${characterName}`,
-                `${characterName} received ${absAmount} ${resourceName}`
+                `${characterName} cultivated ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} grew from ${characterName}'s garden`,
+                `${characterName} nurtured ${absAmount} ${resourceName}`
             ];
             message = messages[Math.floor(Math.random() * messages.length)];
         } else {
             const messages = [
-                `${characterName} spent ${absAmount} ${resourceName}`,
-                `${characterName} used ${absAmount} ${resourceName}`,
-                `${absAmount} ${resourceName} was consumed by ${characterName}`,
-                `${characterName} expended ${absAmount} ${resourceName}`
+                `${characterName} lost ${absAmount} ${resourceName}`,
+                `${absAmount} ${resourceName} withered from ${characterName}`,
+                `${characterName}'s ${resourceName} decayed by ${absAmount}`,
+                `${characterName} diminished ${absAmount} ${resourceName}`
             ];
             message = messages[Math.floor(Math.random() * messages.length)];
         }
@@ -69,7 +66,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             glow: '#9ACD32', 
             icon: 'fa-virus', 
             passive: 'Epidemic Mastery', 
-            passiveDesc: 'Fester/Infect spells +10 ft range. Spread afflictions retain 2/3 development steps.' 
+            passiveDesc: 'Base afflictions apply to 2 adjacent targets. Stage 2+ afflictions auto-spread. +1 spread target per 25 Virulence.' 
         },
         tormentWeaver: { 
             name: 'Torment Weaver', 
@@ -77,7 +74,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             glow: '#9370DB', 
             icon: 'fa-brain', 
             passive: 'Psychic Resonance', 
-            passiveDesc: 'Torment spells +1d6 damage. Psychic afflictions: 5-6 on 1d6 causes target to attack nearest ally.' 
+            passiveDesc: 'Same affliction on multiple targets creates Psychic Links. Cultivating one cultivates all linked. +1 link per 25 Virulence.' 
         },
         decayHarbinger: { 
             name: 'Decay Harbinger', 
@@ -85,15 +82,22 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             glow: '#556B2F', 
             icon: 'fa-skull', 
             passive: 'Accelerated Decay', 
-            passiveDesc: 'Decay spells reduce max HP by +1d6. Afflictions reduce healing by 1d8 per heal received.' 
+            passiveDesc: 'No final form. Post-Stage 3 adds permanent stacks. +1d6 necrotic per stack per 25 Virulence. Stacks persist until Greater Restoration.' 
         }
     };
 
     const currentSpec = specConfigs[selectedSpec];
-    const maxCorruption = 100;
+    const maxVirulence = 100;
     const maxAfflictions = 10;
-    const evolutionStage = localCorruption >= 75 ? 4 : localCorruption >= 50 ? 3 : localCorruption >= 25 ? 2 : 1;
-    const isEvolutionReady = localCorruption >= 75;
+
+    const getVirulenceTier = (virulence) => {
+        if (virulence >= 75) return { name: 'Peak Harvest', color: '#FFD700', bonus: '+2 dmg dice, ignore first dispel' };
+        if (virulence >= 50) return { name: 'Blooming', color: '#9ACD32', bonus: '+1 duration round, +5ft spread' };
+        if (virulence >= 25) return { name: 'Sprouting', color: '#6B8E23', bonus: '+1 dmg die to all afflictions' };
+        return { name: 'Seedling', color: '#556B2F', bonus: 'No bonus' };
+    };
+
+    const virulenceTier = getVirulenceTier(localVirulence);
 
     useEffect(() => {
         if (showTooltip && barRef.current && tooltipRef.current) {
@@ -103,7 +107,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             const viewportHeight = window.innerHeight;
             const margin = 10;
             
-            // Find the HUD container to position tooltip below it
             let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
             let hudBottom = barRect.bottom;
             
@@ -112,19 +115,15 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 hudBottom = hudRect.bottom;
             }
             
-            // Position tooltip below the HUD container, centered horizontally
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
             let top = hudBottom + margin;
             
-            // Adjust horizontal position
             if (left < margin) left = margin;
             if (left + tooltipRect.width > window.innerWidth - margin) {
                 left = window.innerWidth - tooltipRect.width - margin;
             }
             
-            // Ensure tooltip doesn't go off bottom of viewport
             if (top + tooltipRect.height > viewportHeight - margin) {
-                // If there's not enough space below, position above the HUD instead
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
                     top = hudRect.top - tooltipRect.height - margin;
@@ -132,7 +131,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 } else {
                     top = barRect.top - tooltipRect.height - margin;
                 }
-                // But ensure it doesn't go off top either
                 if (top < margin) {
                     top = margin;
                 }
@@ -143,36 +141,36 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
         }
-    }, [showTooltip, localCorruption, localAfflictions, selectedSpec]);
-
-
+    }, [showTooltip, localVirulence, localAfflictions, selectedSpec]);
 
     return (
         <div className={`plaguebringer-resource-wrapper ${size}`}>
-
-            {/* Dual Resource Display */}
             <div className="plaguebringer-dual-bars">
-
-                {/* Corruption Bar (Top) */}
                 <div
                     ref={barRef}
-                    className={`corruption-bar ${size} clickable`}
+                    className={`virulence-bar ${size} clickable`}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
                     onClick={() => { if (isOwner) setShowControls(!showControls); }}
                 >
-                    <div className="corruption-fill" style={{
-                        width: `${(localCorruption / maxCorruption) * 100}%`,
-                        background: `linear-gradient(90deg, ${currentSpec.color} 0%, ${currentSpec.glow} 100%)`
+                    <div className="virulence-fill" style={{
+                        width: `${(localVirulence / maxVirulence) * 100}%`,
+                        background: `linear-gradient(90deg, ${currentSpec.color} 0%, ${virulenceTier.color} 100%)`
                     }} />
-                    <div className="corruption-overlay">
-                        <div className="corruption-number">
-                            {localCorruption}/{maxCorruption}
+                    <div className="virulence-tier-indicator" style={{
+                        borderLeft: localVirulence >= 25 ? `2px solid ${virulenceTier.color}` : 'none',
+                        borderRight: localVirulence >= 50 ? `2px solid ${virulenceTier.color}` : 'none'
+                    }} />
+                    <div className="virulence-overlay">
+                        <div className="virulence-number">
+                            {localVirulence}/{maxVirulence}
+                        </div>
+                        <div className="virulence-tier-name" style={{ color: virulenceTier.color }}>
+                            {virulenceTier.name}
                         </div>
                     </div>
                 </div>
 
-                {/* Afflictions Bar (Bottom) */}
                 <div className="afflictions-bar">
                     {Array.from({ length: maxAfflictions }, (_, index) => (
                         <div
@@ -199,26 +197,32 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 </div>
             </div>
             
-            {/* Simple Tooltip */}
             {showTooltip && ReactDOM.createPortal(
                 <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
                     <div className="tooltip-header">Plaguebringer</div>
 
                     <div className="tooltip-section">
                         <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                            <strong>Corruption:</strong> {localCorruption}/{maxCorruption}
+                            <strong>Virulence:</strong> {localVirulence}/{maxVirulence}
+                            <span style={{ color: virulenceTier.color, fontWeight: 'bold', marginLeft: '8px' }}>
+                                [{virulenceTier.name}]
+                            </span>
                         </div>
-                        <div style={{ fontSize: '0.9rem' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#5a4a3a' }}>
+                            Passive: {virulenceTier.bonus}
+                        </div>
+                    </div>
+
+                    <div className="tooltip-section">
+                        <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
                             <strong>Active Afflictions:</strong> {localAfflictions}/{maxAfflictions}
                         </div>
                     </div>
 
-                    <div className="tooltip-section">
-                        <div className="tooltip-label">Evolution Stage: {evolutionStage}/4</div>
-                    </div>
+                    <div className="tooltip-divider" />
 
                     <div className="tooltip-section">
-                        <div className="tooltip-label">{currentSpec.name}</div>
+                        <div className="tooltip-label" style={{ color: currentSpec.glow }}>{currentSpec.name}</div>
                         <div className="passive-desc" style={{ fontSize: '0.8rem', lineHeight: '1.3' }}>
                             {currentSpec.passiveDesc}
                         </div>
@@ -227,7 +231,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 document.body
             )}
             
-            {/* Plaguebringer Menu */}
             {showControls && barRef.current && ReactDOM.createPortal(
                 <div
                     className={`unified-context-menu compact plaguebringer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
@@ -255,18 +258,17 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                     }}
                 >
                     <div className="context-menu-main plaguebringer-menu">
-                        {/* Corruption Section */}
-                        <div className="menu-title">Corruption: {localCorruption}/{maxCorruption}</div>
+                        <div className="menu-title">Virulence: {localVirulence}/{maxVirulence} <span style={{ color: virulenceTier.color }}>[{virulenceTier.name}]</span></div>
                         <div className="plaguebringer-controls">
                             <button 
                                 className="plaguebringer-action-btn"
                                 onClick={() => {
-                                    const newValue = Math.max(0, localCorruption - 10);
-                                    const amount = localCorruption - newValue;
-                                    setLocalCorruption(newValue);
+                                    const newValue = Math.max(0, localVirulence - 10);
+                                    const amount = localVirulence - newValue;
+                                    setLocalVirulence(newValue);
                                     if (amount > 0) {
-                                        logClassResourceChange('Corruption', amount, false, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                        logClassResourceChange('Virulence', amount, false, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', newValue);
                                     }
                                 }}
                             >
@@ -275,12 +277,12 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <button 
                                 className="plaguebringer-action-btn"
                                 onClick={() => {
-                                    const newValue = Math.min(maxCorruption, localCorruption + 10);
-                                    const amount = newValue - localCorruption;
-                                    setLocalCorruption(newValue);
+                                    const newValue = Math.min(maxVirulence, localVirulence + 10);
+                                    const amount = newValue - localVirulence;
+                                    setLocalVirulence(newValue);
                                     if (amount > 0) {
-                                        logClassResourceChange('Corruption', amount, true, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                        logClassResourceChange('Virulence', amount, true, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', newValue);
                                     }
                                 }}
                             >
@@ -291,12 +293,12 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <button 
                                 className="plaguebringer-quick-btn"
                                 onClick={() => {
-                                    const newValue = Math.max(0, localCorruption - 5);
-                                    const amount = localCorruption - newValue;
-                                    setLocalCorruption(newValue);
+                                    const newValue = Math.max(0, localVirulence - 5);
+                                    const amount = localVirulence - newValue;
+                                    setLocalVirulence(newValue);
                                     if (amount > 0) {
-                                        logClassResourceChange('Corruption', amount, false, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                        logClassResourceChange('Virulence', amount, false, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', newValue);
                                     }
                                 }}
                             >
@@ -305,12 +307,12 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <button 
                                 className="plaguebringer-quick-btn"
                                 onClick={() => {
-                                    const newValue = Math.min(maxCorruption, localCorruption + 5);
-                                    const amount = newValue - localCorruption;
-                                    setLocalCorruption(newValue);
+                                    const newValue = Math.min(maxVirulence, localVirulence + 5);
+                                    const amount = newValue - localVirulence;
+                                    setLocalVirulence(newValue);
                                     if (amount > 0) {
-                                        logClassResourceChange('Corruption', amount, true, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', newValue);
+                                        logClassResourceChange('Virulence', amount, true, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', newValue);
                                     }
                                 }}
                             >
@@ -319,11 +321,11 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <button 
                                 className="plaguebringer-quick-btn"
                                 onClick={() => {
-                                    const resetAmount = localCorruption;
-                                    setLocalCorruption(0);
+                                    const resetAmount = localVirulence;
+                                    setLocalVirulence(0);
                                     if (resetAmount > 0) {
-                                        logClassResourceChange('Corruption', resetAmount, false, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', 0);
+                                        logClassResourceChange('Virulence', resetAmount, false, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', 0);
                                     }
                                 }}
                             >
@@ -332,11 +334,11 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             <button 
                                 className="plaguebringer-quick-btn"
                                 onClick={() => {
-                                    const gainAmount = maxCorruption - localCorruption;
-                                    setLocalCorruption(maxCorruption);
+                                    const gainAmount = maxVirulence - localVirulence;
+                                    setLocalVirulence(maxVirulence);
                                     if (gainAmount > 0) {
-                                        logClassResourceChange('Corruption', gainAmount, true, 'corruption');
-                                        if (onClassResourceUpdate) onClassResourceUpdate('corruption', maxCorruption);
+                                        logClassResourceChange('Virulence', gainAmount, true, 'virulence');
+                                        if (onClassResourceUpdate) onClassResourceUpdate('virulence', maxVirulence);
                                     }
                                 }}
                             >
@@ -344,7 +346,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             </button>
                         </div>
 
-                        {/* Afflictions Section */}
                         <div className="menu-title" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
                             Active Afflictions: {localAfflictions}/{maxAfflictions}
                         </div>
@@ -393,7 +394,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             </button>
                         </div>
 
-                        {/* Specialization Section */}
                         <div className="menu-title" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
                             Specialization
                         </div>
@@ -415,7 +415,6 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                             })}
                         </div>
 
-                        {/* Close Button */}
                         <div className="plaguebringer-quick-actions" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
                             <button 
                                 className="plaguebringer-quick-btn"
@@ -434,4 +433,3 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
 };
 
 export default PlaguebringerResourceBar;
-

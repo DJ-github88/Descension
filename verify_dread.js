@@ -1,0 +1,11 @@
+const fs = require('fs');
+const code = fs.readFileSync('vtt-react/src/data/classes/dreadnaughtData.js', 'utf8');
+console.log('cooldownConfig count:', (code.match(/cooldownConfig/g)||[]).length);
+console.log('typeConfig school count:', (code.match(/school: 'necromancy'/g)||[]).length + (code.match(/school: 'abjuration'/g)||[]).length);
+console.log('Death Mark:', code.includes("name: 'Death Mark'") ? 'YES' : 'NO');
+console.log('Void Incarnate:', code.includes("name: 'Void Incarnate'") ? 'YES' : 'NO');
+console.log('Void Annihilation:', code.includes("name: 'Void Annihilation'") ? 'YES' : 'NO');
+console.log('Retribution fix:', code.includes('damage_taken * 0.5') ? 'fixed' : 'NOT fixed');
+console.log('Death Embrace fix:', code.includes('Resistance to all damage types') ? 'fixed' : 'NOT fixed');
+console.log('Immortal Fortress fix:', code.includes("'slashing','piercing','bludgeoning','fire'") ? 'fixed' : 'NOT fixed');
+console.log('Soul Rend 1hr still:', code.includes("'soul_rend_prevention'") && code.indexOf('hours', code.indexOf("soul_rend_prevention")) < code.indexOf("soul_rend_prevention") + 600 ? 'YES (check)' : 'OK');

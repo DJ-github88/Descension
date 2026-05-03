@@ -1,0 +1,52 @@
+- generic [ref=e51]:
+  - generic [ref=e52]:
+    - button "" [ref=e53] [cursor=pointer]:
+      - generic [ref=e54]: 
+    - heading "Mythrill D&D" [level=1] [ref=e55]
+    - paragraph [ref=e56]: Join or create a multiplayer session
+  - generic [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]: "Your Name:"
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - textbox "Your Name:" [ref=e63]:
+            - /placeholder: Enter your display name
+            - text: Player
+          - button "" [ref=e64] [cursor=pointer]:
+            - generic [ref=e65]: 
+        - generic [ref=e66]:
+          - generic [ref=e67]: 
+          - generic [ref=e68]: No champion chosen—visit Account → Characters to select one.
+    - generic [ref=e69]:
+      - generic [ref=e70]: "Chat Color:"
+      - generic "Click to change your chat color" [ref=e71] [cursor=pointer]:
+        - generic [ref=e72]:
+          - generic [ref=e73]: Player
+          - generic [ref=e75]: 
+  - generic [ref=e76]:
+    - button "Join Room" [ref=e77] [cursor=pointer]
+    - button "Create Room" [ref=e78] [cursor=pointer]
+    - button "My Rooms" [ref=e79] [cursor=pointer]
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - generic [ref=e82]:
+        - generic [ref=e83]: "Room ID:"
+        - textbox "Room ID:" [ref=e84]:
+          - /placeholder: Enter room ID
+      - generic [ref=e85]:
+        - generic [ref=e86]: "Room Password (Optional):"
+        - generic [ref=e87]:
+          - textbox "Room Password (Optional):" [ref=e88]:
+            - /placeholder: Leave empty if room has no password
+          - button "Join" [disabled] [ref=e89]
+    - generic [ref=e90]:
+      - heading "Available Rooms" [level=3] [ref=e91]
+      - button "Refresh" [ref=e92] [cursor=pointer]
+      - generic [ref=e93]:
+        - generic [ref=e95]: 
+        - heading "No Active Rooms" [level=4] [ref=e96]
+        - paragraph [ref=e97]: The tavern stands empty. Be the first to light the hearth and gather your adventurers!
+        - button " Create a Room" [ref=e98] [cursor=pointer]:
+          - generic [ref=e99]: 
+          - text: Create a Room
+  - text:      

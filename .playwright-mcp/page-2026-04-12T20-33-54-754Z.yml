@@ -1,0 +1,72 @@
+- generic [ref=e51]:
+  - generic [ref=e52]:
+    - button "" [ref=e53] [cursor=pointer]:
+      - generic [ref=e54]: 
+    - heading "Mythrill D&D" [level=1] [ref=e55]
+    - paragraph [ref=e56]: Join or create a multiplayer session
+  - generic [ref=e58]:
+    - generic [ref=e59]:
+      - generic [ref=e60]: "Your Name:"
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - textbox "Your Name:" [ref=e63]:
+            - /placeholder: Enter your display name
+            - text: Player
+          - button "" [ref=e64] [cursor=pointer]:
+            - generic [ref=e65]: 
+        - generic [ref=e66]:
+          - generic [ref=e67]: 
+          - generic [ref=e68]: No champion chosen—visit Account → Characters to select one.
+    - generic [ref=e69]:
+      - generic [ref=e70]: "Chat Color:"
+      - generic "Click to change your chat color" [ref=e71] [cursor=pointer]:
+        - generic [ref=e72]:
+          - generic [ref=e73]: Player
+          - generic [ref=e75]: 
+  - generic [ref=e76]:
+    - button "Join Room" [ref=e77] [cursor=pointer]
+    - button "Create Room" [active] [ref=e78] [cursor=pointer]
+    - button "My Rooms" [ref=e79] [cursor=pointer]
+  - text:  
+  - generic [ref=e100]:
+    - heading "Create New Room" [level=3] [ref=e101]
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - text: "Room Name:"
+        - button "" [ref=e104] [cursor=pointer]:
+          - generic [ref=e105]: 
+      - generic [ref=e106]:
+        - 'textbox "Room Name: " [ref=e107]':
+          - /placeholder: Enter room name
+        - button "" [ref=e108] [cursor=pointer]:
+          - generic [ref=e109]: 
+    - generic [ref=e110]:
+      - generic [ref=e111]: "Description (Optional):"
+      - textbox "Description (Optional):" [ref=e112]:
+        - /placeholder: Describe your campaign or session
+    - generic [ref=e114] [cursor=pointer]:
+      - generic [ref=e115]:
+        - generic [ref=e116]: 
+        - text: Password Protection
+      - checkbox " Password Protection" [ref=e118]
+    - generic [ref=e121] [cursor=pointer]:
+      - generic [ref=e122]:
+        - generic [ref=e123]: 
+        - text: Permanent Room
+      - text: Saves across server restarts
+      - checkbox " Permanent Room Saves across server restarts" [ref=e125]
+    - generic [ref=e127]:
+      - button " Create Temporary Room" [disabled] [ref=e128]:
+        - generic [ref=e129]: 
+        - text: Create Temporary Room
+      - button " Create Permanent Room" [disabled] [ref=e130]:
+        - generic [ref=e131]: 
+        - text: Create Permanent Room
+    - generic [ref=e132]:
+      - paragraph [ref=e133]:
+        - strong [ref=e134]: "Note:"
+        - text: You will be the Game Master (GM) of this room.
+      - paragraph [ref=e135]: As GM, you have full control over the game state and can manage players.
+      - paragraph [ref=e136]:
+        - strong [ref=e137]: "Open Room:"
+        - text: Anyone with the room code can join without a password.

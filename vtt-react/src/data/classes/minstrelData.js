@@ -90,6 +90,9 @@ The Minstrel shines in group content where they can orchestrate the flow of batt
 - **Circle of Fifths (V-I-VI-V)**: Damage over time - apply early in fights
 - **Plagal Cadence (VI-V-I-III)**: Speed boost - use for repositioning or pursuit
 - **Half Cadence (VII-V-IV-VI)**: Shield - preemptive defense before big attacks
+- **Authentic Cadence (I-VI-III-I)**: Healing and damage reduction - sustain through burst
+- **Phrygian Cadence (V-IV-I-VII)**: Attack advantage - empower damage dealers
+- **Neapolitan Sixth (III-I-IV-V)**: Crit chance boost - stack with Perfect Cadence
 
 **Instrument Selection**:
 Different instruments provide different bonuses and affect your playstyle:
@@ -99,9 +102,9 @@ Different instruments provide different bonuses and affect your playstyle:
 - **Voice**: No equipment required, bonus to all effects but shorter range
 
 **Specialization Synergies**:
-- **Battlechoir**: Aggressive support, damage amplification, war songs
-- **Soulsinger**: Healing focus, emotional manipulation, protective melodies
-- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds
+- **Battlechoir**: Aggressive support, damage amplification, war songs — Perfect Cadence, Circle of Fifths, Phrygian Cadence, Neapolitan Sixth
+- **Soulsinger**: Healing focus, emotional manipulation, protective melodies — Authentic Cadence, Picardy Third, Plagal Cadence
+- **Dissonance**: Debuffs and control, chaotic magic, reality-warping sounds — Deceptive Cadence, Half Cadence, Tritone Substitution
 
 **Team Dynamics**:
 - Works best with coordinated teams who can capitalize on buffs
@@ -481,15 +484,15 @@ Your chosen instrument modifies your abilities:
       headers: ['Progression', 'Name', 'Sequence', 'Effect', 'Tactical Use'],
       rows: [
         ['Perfect Cadence', 'Harmonious Resolution', 'I→IV→V→I', 'Ally\'s next attack is guaranteed critical hit', 'Save for boss damage phases'],
-        ['Deceptive Cadence', 'Enchanter\'s Trick', 'IV→VII→V→IV', 'Stun enemy (DC 15 save)', 'Interrupt dangerous casts'],
-        ['Circle of Fifths', 'Eternal Torment', 'V→I→VI→V', '2d4 DoT for 3 turns (30 ft radius)', 'Apply early to groups'],
-        ['Plagal Cadence', 'Sacred Ascent', 'VI→V→I→III', '+20 ft speed, +2 Dex for 2 turns', 'Repositioning or pursuit'],
-        ['Half Cadence', 'Arcane Shield', 'VII→V→IV→VI', '2d6 shield for 2 turns (15 ft radius)', 'Pre-cast before big attacks'],
-        ['Authentic Cadence', 'Grand Finale', 'I→VI→III→I', '-4 damage taken, restore 1d8 HP (20 ft radius)', 'Survive burst damage'],
+        ['Deceptive Cadence', 'Enchanter\'s Trick', 'IV→VII→V→IV', 'Stun enemy (DC 15 Spirit save)', 'Interrupt dangerous casts'],
+        ['Circle of Fifths', 'Eternal Torment', 'V→I→VI→V', '3d6+spirit DoT for 3 turns (30 ft radius)', 'Apply early to groups'],
+        ['Plagal Cadence', 'Sacred Ascent', 'VI→V→I→III', '+20 ft speed, +2 Dex for 2 rounds', 'Repositioning or pursuit'],
+        ['Half Cadence', 'Arcane Shield', 'VII→V→IV→VI', '2d6+spirit shield for 2 rounds (15 ft radius)', 'Pre-cast before big attacks'],
+        ['Authentic Cadence', 'Grand Finale', 'I→VI→III→I', '-4 damage taken, restore 4d6+spirit HP (20 ft radius)', 'Survive burst damage'],
         ['Phrygian Cadence', 'Ancient Resolve', 'V→IV→I→VII', 'Advantage on attacks for 2 turns', 'Boost damage dealers'],
-        ['Neapolitan Sixth', 'Mystical Precision', 'III→I→IV→V', '+2 crit chance next turn', 'Stack with other crit buffs'],
-        ['Tritone Substitution', 'Dissonant Chains', 'IV→I→V→VI', 'Paralyze enemy (DC 18 save, 30 ft)', 'Lock down priority targets'],
-        ['Picardy Third', 'Triumph of Light', 'I→VII→V→III', '+2 to saves, restore 2d6 HP (20 ft)', 'Counter debuff-heavy enemies']
+        ['Neapolitan Sixth', 'Mystical Precision', 'III→I→IV→V', '+2 crit chance for 2 rounds', 'Stack with other crit buffs'],
+        ['Tritone Substitution', 'Dissonant Chains', 'IV→I→V→VI', 'Paralyze enemy (DC 18 Spirit save, 30 ft)', 'Lock down priority targets'],
+        ['Picardy Third', 'Triumph of Light', 'I→VII→V→III', '+2 to saves, restore 6d6+spirit HP (20 ft)', 'Counter debuff-heavy enemies']
       ]
     },
 
@@ -583,24 +586,54 @@ VII: -     (0 notes)
 MINSTREL CADENCE QUICK REFERENCE
 
 PERFECT CADENCE (I-IV-V-I)
-Cost: I(1), IV(1), V(1), I(1) = 4 notes total
+Cost: I(2), IV(1), V(1) = 4 notes total
 Effect: Ally's next attack = CRITICAL HIT
 Use: Boss damage phases, guaranteed kills
 
 CIRCLE OF FIFTHS (V-I-VI-V)
-Cost: V(1), I(1), VI(1), V(1) = 4 notes total
-Effect: 2d4 DoT for 3 turns (30 ft radius)
+Cost: V(2), I(1), VI(1) = 4 notes total
+Effect: 3d6+spirit DoT for 3 turns (30 ft radius)
 Use: Apply early to enemy groups
 
 DECEPTIVE CADENCE (IV-VII-V-IV)
-Cost: IV(1), VII(1), V(1), IV(1) = 4 notes total
-Effect: Stun enemy (DC 15 save)
+Cost: IV(2), VII(1), V(1) = 4 notes total
+Effect: Stun enemy (DC 15 Spirit save)
 Use: Interrupt dangerous casts
 
 AUTHENTIC CADENCE (I-VI-III-I)
-Cost: I(1), VI(1), III(1), I(1) = 4 notes total
-Effect: -4 damage taken, restore 1d8 HP (20 ft)
+Cost: I(2), VI(1), III(1) = 4 notes total
+Effect: -4 damage taken, restore 4d6+spirit HP (20 ft)
 Use: Survive burst damage
+
+PLAGAL CADENCE (VI-V-I-III)
+Cost: VI(1), V(1), I(1), III(1) = 4 notes total
+Effect: +20 ft speed, +2 Dex for 2 rounds
+Use: Repositioning or pursuit
+
+HALF CADENCE (VII-V-IV-VI)
+Cost: VII(1), V(1), IV(1), VI(1) = 4 notes total
+Effect: 2d6+spirit shield for 2 rounds (15 ft radius)
+Use: Pre-cast before big attacks
+
+PHRYGIAN CADENCE (V-IV-I-VII)
+Cost: V(1), IV(1), I(1), VII(1) = 4 notes total
+Effect: Advantage on attacks for 2 rounds
+Use: Boost damage dealers
+
+NEAPOLITAN SIXTH (III-I-IV-V)
+Cost: III(1), I(1), IV(1), V(1) = 4 notes total
+Effect: +2 crit chance for 2 rounds
+Use: Stack with Perfect Cadence
+
+TRITONE SUBSTITUTION (IV-I-V-VI)
+Cost: IV(1), I(1), V(1), VI(1) = 4 notes total
+Effect: Paralyze enemy (DC 18 Spirit save)
+Use: Lock down priority targets
+
+PICARDY THIRD (I-VII-V-III)
+Cost: I(1), VII(1), V(1), III(1) = 4 notes total
+Effect: +2 to saves, restore 6d6+spirit HP (20 ft)
+Use: Counter debuff-heavy enemies
 
 [Print all 10 cadences on card]
 \`\`\`
@@ -648,20 +681,26 @@ Keep a list of which spells generate which notes:
 \`\`\`
 BUILDER SPELLS (Generate Notes):
 • Opening Chord → I (Tonic)
-• Inspiring Rhythm → II (Supertonic)
+• Inspiring Rhythm → V (Dominant)
 • Harmonic Strike → III (Mediant)
-• Resonant Chord → IV (Subdominant)
-• Power Chord → V (Dominant)
+• Uplifting Rhythm → II (Supertonic)
 • Melancholy Melody → VI (Submediant)
 • Climactic Crescendo → VII (Leading Tone)
+• Resonant Chord → I (Tonic)
+• Healing Hymn → IV (Subdominant)
+• War Drum Beat → V (Dominant) + VI (Submediant)
+• Power Chord → V (Dominant)
+• Dissonant Shriek → VII (Leading Tone)
+• Song of Rest → I (Tonic) + IV (Subdominant)
 \`\`\`
 
 **Cadence Planning**:
 
 Before combat, decide which cadences you want to prioritize:
-- **Offensive Build**: Focus on generating V, I, VI for Circle of Fifths
-- **Defensive Build**: Focus on generating I, VI, III for Authentic Cadence
-- **Control Build**: Focus on generating IV, VII, V for Deceptive Cadence
+- **Offensive Build**: Focus on generating V, I for Perfect Cadence and Circle of Fifths
+- **Defensive Build**: Focus on generating I, VI, III for Authentic Cadence and Plagal Cadence
+- **Control Build**: Focus on generating IV, VII, V for Deceptive Cadence and Half Cadence
+- **Critical Build**: Focus on generating III, I, IV for Neapolitan Sixth, stack with Perfect Cadence
 - **Versatile Build**: Maintain 2-3 of each note for flexibility
 
 **Example Full Combat Sequence**:
@@ -849,28 +888,35 @@ Before combat, decide which cadences you want to prioritize:
     ],
     2: [
       'minstrel_healing_hymn',
-      'minstrel_war_drum'
+      'minstrel_war_drum',
+      'minstrel_melancholy_melody'
     ],
     3: [
       'minstrel_dissonant_shriek',
-      'minstrel_song_of_rest'
+      'minstrel_song_of_rest',
+      'minstrel_climactic_crescendo'
     ],
     4: [
       'minstrel_perfect_cadence',
-      'minstrel_harmony_strike'
+      'minstrel_harmony_strike',
+      'minstrel_deceptive_cadence',
+      'minstrel_plagal_cadence'
     ],
     5: [
       'minstrel_circle_of_fifths',
-      'minstrel_authentic_cadence'
+      'minstrel_authentic_cadence',
+      'minstrel_half_cadence',
+      'minstrel_phrygian_cadence'
     ],
     6: [
       'minstrel_tritone_substitution',
-      'minstrel_picardy_third'
+      'minstrel_picardy_third',
+      'minstrel_neapolitan_sixth'
     ],
     7: [
       'minstrel_symphony_of_destruction',
       'minstrel_song_of_heroes',
-      'minstrel_discordant_shriek'
+      'minstrel_cacophonous_blast'
     ],
     8: [
       'minstrel_magnum_opus',
@@ -1273,8 +1319,8 @@ Before combat, decide which cadences you want to prioritize:
         musicalCombo: {
           type: 'builder',
           generates: [
-            { note: 'II', count: 2 },
-            { note: 'VI', count: 1 }
+            { note: 'II', count: 1 },
+            { note: 'VI', count: 2 }
           ]
         }
       },
@@ -1549,7 +1595,8 @@ Before combat, decide which cadences you want to prioritize:
         musicalCombo: {
           type: 'builder',
           generates: [
-            { note: 'V', count: 3 }
+            { note: 'V', count: 1 },
+            { note: 'VI', count: 2 }
           ]
         },
         instrumentBonus: {
@@ -1557,7 +1604,7 @@ Before combat, decide which cadences you want to prioritize:
         }
       },
 
-      tags: ['builder', 'aoe', 'damage', 'dominant generator', 'battlechoir', 'area effect', 'level 2']
+      tags: ['builder', 'aoe', 'damage', 'dominant generator', 'submediant generator', 'battlechoir', 'area effect', 'level 2']
     },
 
     {
@@ -1623,7 +1670,7 @@ Before combat, decide which cadences you want to prioritize:
         musicalCombo: {
           type: 'builder',
           generates: [
-            { note: 'VII', count: 2 },
+            { note: 'VII', count: 3 },
             { note: 'II', count: 1 }
           ]
         }
@@ -2085,6 +2132,516 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     // ========================================
+    // NEW BUILDER SPELLS — VI & VII Generation
+    // ========================================
+    {
+      id: 'minstrel_melancholy_melody',
+      name: 'Melancholy Melody',
+      description: 'Play a haunting melody that generates submediant and subdominant notes, weakening nearby enemies with sorrow.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Control',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'Psychic/Mind Control',
+        tags: ['builder', 'debuff', 'submediant generator', 'soulsinger', 'dissonance', 'level 2'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Doloroso...',
+        somaticText: 'Play haunting melody'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['debuff'],
+
+      damageConfig: {
+        formula: '1d6 + spirit/4',
+        elementType: 'psychic',
+        damageType: 'direct'
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'melancholy',
+          name: 'Melancholy',
+          description: 'Enemy has -1 to attack rolls for 2 rounds.',
+          statPenalty: [{ stat: 'attack', value: -1 }],
+          mechanicsText: '-1 to attack rolls for 2 rounds'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'VI', count: 2 },
+          { note: 'IV', count: 1 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['builder', 'debuff', 'submediant generator', 'soulsinger', 'dissonance', 'level 2']
+    },
+
+    {
+      id: 'minstrel_climactic_crescendo',
+      name: 'Climactic Crescendo',
+      description: 'Build to a thrilling crescendo that generates leading tone and dominant notes while buffing ally attack power.',
+      level: 3,
+      spellType: 'ACTION',
+      icon: 'Fire/Rising Inferno',
+
+      typeConfig: {
+        school: 'evocation',
+        icon: 'Fire/Rising Inferno',
+        tags: ['builder', 'buff', 'leading tone generator', 'battlechoir', 'dissonance', 'level 3'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self_centered'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Crescendo!',
+        somaticText: 'Build intensity with instrument'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'crescendo_power',
+          name: 'Crescendo Power',
+          description: 'Allies within 20 feet gain +2 to damage rolls for 2 rounds.',
+          statModifier: {
+            stat: 'damage',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          },
+          mechanicsText: '+2 to damage rolls for 2 rounds'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        stackingRule: 'replace',
+        maxStacks: 1
+      },
+
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'VII', count: 2 },
+          { note: 'V', count: 1 }
+        ]
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['builder', 'buff', 'leading tone generator', 'battlechoir', 'dissonance', 'level 3']
+    },
+
+    // ========================================
+    // NEW CADENCE SPELLS — Missing 5 Cadences
+    // ========================================
+    {
+      id: 'minstrel_deceptive_cadence',
+      name: 'Deceptive Cadence',
+      description: 'Play a deceptive progression (IV→VII→V→IV) that stuns an enemy, breaking their concentration and resolve.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Strike',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'Psychic/Mind Strike',
+        tags: ['resolver', 'cadence', 'control', 'stun', 'dissonance', 'level 4'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Fallax Resolutio!',
+        somaticText: 'Deceptive hand movement'
+      },
+
+      resolution: 'SAVE',
+
+      effects: {
+        condition: {
+          type: 'stunned',
+          duration: 1,
+          saveType: 'spirit',
+          saveDC: 15
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'IV', count: 2 },
+            { note: 'VII', count: 1 },
+            { note: 'V', count: 1 }
+          ],
+          cadenceName: 'Deceptive Cadence'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'control', 'stun', 'dissonance', 'level 4']
+    },
+
+    {
+      id: 'minstrel_plagal_cadence',
+      name: 'Plagal Cadence',
+      description: 'Perform a sacred ascent (VI→V→I→III) that grants allies swiftness and agility, enhancing their movement and reflexes.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Radiant/Radiant Warrior',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'Radiant/Radiant Warrior',
+        tags: ['resolver', 'cadence', 'buff', 'speed', 'soulsinger', 'level 4'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Surge Sanctus!',
+        somaticText: 'Ascending melodic gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'plagal_swiftness',
+          name: 'Plagal Swiftness',
+          description: 'Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.',
+          statModifier: [
+            { stat: 'movement_speed', magnitude: 20, magnitudeType: 'flat' },
+            { stat: 'dexterity', magnitude: 2, magnitudeType: 'flat' }
+          ],
+          mechanicsText: '+20 ft speed, +2 Dex for 2 rounds'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'VI', count: 1 },
+            { note: 'V', count: 1 },
+            { note: 'I', count: 1 },
+            { note: 'III', count: 1 }
+          ],
+          cadenceName: 'Plagal Cadence'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'buff', 'speed', 'soulsinger', 'level 4']
+    },
+
+    {
+      id: 'minstrel_half_cadence',
+      name: 'Half Cadence',
+      description: 'An unresolved progression (VII→V→IV→VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'Force/Force Field',
+
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'Force/Force Field',
+        tags: ['resolver', 'cadence', 'shield', 'defensive', 'dissonance', 'level 5'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['ally']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Semper Custos!',
+        somaticText: 'Protective harmonic gesture'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['shield'],
+
+      damageConfig: {
+        formula: '2d6 + spirit',
+        elementType: 'force',
+        damageType: 'shield',
+        shieldConfig: {
+          shieldType: 'absorption',
+          shieldValueFormula: '2d6 + spirit',
+          duration: 2,
+          durationUnit: 'rounds'
+        }
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'VII', count: 1 },
+            { note: 'V', count: 1 },
+            { note: 'IV', count: 1 },
+            { note: 'VI', count: 1 }
+          ],
+          cadenceName: 'Half Cadence'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'shield', 'defensive', 'dissonance', 'level 5']
+    },
+
+    {
+      id: 'minstrel_phrygian_cadence',
+      name: 'Phrygian Cadence',
+      description: 'An ancient progression (V→IV→I→VII) that channels the resolve of warriors past, granting allies advantage on all attacks.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'Radiant/Divine Halo',
+
+      typeConfig: {
+        school: 'enchantment',
+        icon: 'Radiant/Divine Halo',
+        tags: ['resolver', 'cadence', 'buff', 'advantage', 'battlechoir', 'level 5'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Virtus Antiqua!',
+        somaticText: 'Resolute conducting gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'phrygian_resolve',
+          name: 'Phrygian Resolve',
+          description: 'Allies gain advantage on all attack rolls for 2 rounds.',
+          statModifier: {
+            stat: 'attack_advantage',
+            magnitude: 1,
+            magnitudeType: 'advantage'
+          },
+          mechanicsText: 'Advantage on attack rolls for 2 rounds'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'V', count: 1 },
+            { note: 'IV', count: 1 },
+            { note: 'I', count: 1 },
+            { note: 'VII', count: 1 }
+          ],
+          cadenceName: 'Phrygian Cadence'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'buff', 'advantage', 'battlechoir', 'level 5']
+    },
+
+    {
+      id: 'minstrel_neapolitan_sixth',
+      name: 'Neapolitan Sixth',
+      description: 'A precise and unexpected progression (III→I→IV→V) that sharpens ally precision, increasing critical hit chance.',
+      level: 6,
+      spellType: 'ACTION',
+      icon: 'Radiant/Radiant Bolt',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Radiant/Radiant Bolt',
+        tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 6'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2,
+        durationUnit: 'turns'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Exactio Perfecta!',
+        somaticText: 'Precise harmonic gesture'
+      },
+
+      resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'neapolitan_precision',
+          name: 'Neapolitan Precision',
+          description: 'Allies gain +2 to critical hit chance for 2 rounds.',
+          statModifier: {
+            stat: 'crit_chance',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          },
+          mechanicsText: '+2 crit chance for 2 rounds'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      specialMechanics: {
+        musicalCombo: {
+          type: 'resolver',
+          consumes: [
+            { note: 'III', count: 1 },
+            { note: 'I', count: 1 },
+            { note: 'IV', count: 1 },
+            { note: 'V', count: 1 }
+          ],
+          cadenceName: 'Neapolitan Sixth'
+        }
+      },
+
+      tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 6']
+    },
+
+    // ========================================
     // LEVEL 7 SPELLS
     // ========================================
     {
@@ -2231,7 +2788,8 @@ Before combat, decide which cadences you want to prioritize:
         type: 'builder',
         generates: [
           { note: 'I', count: 2 },
-          { note: 'III', count: 2 }
+          { note: 'III', count: 1 },
+          { note: 'VII', count: 1 }
         ]
       },
 
@@ -2244,9 +2802,9 @@ Before combat, decide which cadences you want to prioritize:
     },
 
     {
-      id: 'minstrel_discordant_shriek',
-      name: 'Discordant Shriek',
-      description: 'Unleash a piercing shriek that disrupts enemy spellcasting and causes psychic damage to all who hear it.',
+      id: 'minstrel_cacophonous_blast',
+      name: 'Cacophonous Blast',
+      description: 'Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes psychic damage to all who hear it.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Psychic/Agonizing Scream',
@@ -2254,7 +2812,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Agonizing Scream',
-        tags: ['damage', 'control', 'psychic', 'level 7'],
+        tags: ['damage', 'control', 'psychic', 'dissonance', 'level 7'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2420,7 +2978,7 @@ Before combat, decide which cadences you want to prioritize:
       typeConfig: {
         school: 'enchantment',
         icon: 'Psychic/Mind Control',
-        tags: ['debuff', 'control', 'aoe', 'level 8'],
+        tags: ['debuff', 'control', 'aoe', 'dissonance', 'level 8'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },

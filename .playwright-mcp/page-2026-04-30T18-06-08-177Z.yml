@@ -1,0 +1,247 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic:
+      - generic:
+        - generic [ref=e53] [cursor=pointer]:
+          - generic [ref=e54]:
+            - generic [ref=e57]: 
+            - generic [ref=e59]: 
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - generic [ref=e62]: Player (Level 1)
+              - generic [ref=e63]:
+                - generic [ref=e64]: Unknown Race
+                - generic [ref=e65]: Unknown Class
+                - generic [ref=e67]: Neutral Good
+            - generic [ref=e68]:
+              - generic [ref=e69]:
+                - generic: 45/50
+              - generic [ref=e71]:
+                - generic: 45/50
+              - generic [ref=e73]:
+                - generic: 1/3 AP
+        - generic [ref=e78]:
+          - generic [ref=e80] [cursor=pointer]: "1"
+          - generic [ref=e82] [cursor=pointer]: "2"
+          - generic [ref=e84] [cursor=pointer]: "3"
+          - generic [ref=e86] [cursor=pointer]: "4"
+          - generic [ref=e88] [cursor=pointer]: "5"
+          - generic [ref=e90] [cursor=pointer]: "6"
+          - generic [ref=e92] [cursor=pointer]: "7"
+          - generic [ref=e94] [cursor=pointer]: "8"
+          - generic [ref=e96] [cursor=pointer]: "9"
+          - generic [ref=e98] [cursor=pointer]: "10"
+        - generic [ref=e100]:
+          - generic:
+            - generic: "0"
+            - generic: /
+            - generic: "300"
+            - generic: XP
+        - button " Dialogue" [ref=e102] [cursor=pointer]:
+          - generic [ref=e103]: 
+          - generic [ref=e104]: Dialogue
+        - button "" [ref=e106] [cursor=pointer]:
+          - generic [ref=e107]: 
+      - generic [ref=e109]:
+        - button "C" [ref=e110] [cursor=pointer]:
+          - img [ref=e111]
+          - generic [ref=e113]: C
+        - button "B" [ref=e114] [cursor=pointer]:
+          - img [ref=e115]
+          - generic [ref=e117]: B
+        - button "R" [ref=e118] [cursor=pointer]:
+          - img [ref=e119]
+          - generic [ref=e121]: R
+        - button "S" [ref=e122] [cursor=pointer]:
+          - img [ref=e123]
+          - generic [ref=e125]: S
+        - button "T" [ref=e126] [cursor=pointer]:
+          - img [ref=e127]
+          - generic [ref=e134]: T
+        - button "I" [ref=e135] [cursor=pointer]:
+          - img [ref=e136]
+          - generic [ref=e138]: I
+        - button "Q" [ref=e139] [cursor=pointer]:
+          - img [ref=e140]
+          - generic [ref=e142]: Q
+        - button "P" [ref=e143] [cursor=pointer]:
+          - img [ref=e144]
+          - generic [ref=e148]: P
+        - button "H" [ref=e149] [cursor=pointer]:
+          - img [ref=e150]
+          - generic [ref=e152]: H
+        - button "X" [ref=e153] [cursor=pointer]:
+          - img [ref=e154]
+          - generic [ref=e157]: X
+        - button "L" [ref=e158] [cursor=pointer]:
+          - img [ref=e159]
+          - generic [ref=e162]: L
+        - button "G" [ref=e163] [cursor=pointer]:
+          - img [ref=e164]
+          - generic [ref=e167]: G
+        - button "W" [ref=e168] [cursor=pointer]:
+          - img [ref=e169]
+          - generic [ref=e172]: W
+        - button "E" [ref=e173] [cursor=pointer]:
+          - img [ref=e174]
+          - generic [ref=e177]: E
+        - button "M" [ref=e178] [cursor=pointer]:
+          - img [ref=e179]
+          - generic [ref=e182]: M
+        - button "N" [ref=e183] [cursor=pointer]:
+          - img [ref=e184]
+          - generic [ref=e186]: "N"
+        - button "ESC" [ref=e187] [cursor=pointer]:
+          - img [ref=e188]
+          - generic [ref=e190]: ESC
+      - generic "Click to center on origin (0, 0)" [ref=e192] [cursor=pointer]:
+        - generic [ref=e193]: 
+        - generic [ref=e194]: "X: 0.0"
+        - generic [ref=e195]: "|"
+        - generic [ref=e196]: "Y: 0.0"
+        - generic "Jump to coordinates" [ref=e197]: 
+  - generic [ref=e205]:
+    - generic [ref=e208]:
+      - generic [ref=e209]:
+        - button " Library" [ref=e210] [cursor=pointer]:
+          - generic [ref=e211]: 
+          - generic [ref=e212]: Library
+        - button " Create New" [active] [ref=e213] [cursor=pointer]:
+          - generic [ref=e214]: 
+          - generic [ref=e215]: Create New
+        - button " Community" [ref=e216] [cursor=pointer]:
+          - generic [ref=e217]: 
+          - generic [ref=e218]: Community
+      - button "×" [ref=e219] [cursor=pointer]
+    - generic [ref=e222]:
+      - text:                        
+      - generic [ref=e600]:
+        - generic [ref=e601]:
+          - generic [ref=e602]:
+            - generic "Define creature identity and appearance" [ref=e603] [cursor=pointer]:
+              - generic [ref=e605]: "1"
+              - generic [ref=e607]: Basic Info
+            - generic "Set creature stats and abilities" [ref=e609] [cursor=pointer]:
+              - generic [ref=e611]: "2"
+              - generic [ref=e613]: Statistics
+            - generic "Configure special abilities and powers" [ref=e615] [cursor=pointer]:
+              - generic [ref=e617]: "3"
+              - generic [ref=e619]: Abilities
+            - generic "Set up treasure and rewards" [ref=e621] [cursor=pointer]:
+              - generic [ref=e623]: "4"
+              - generic [ref=e625]: Loot Table
+            - generic "Configure merchant settings" [ref=e627] [cursor=pointer]:
+              - generic [ref=e629]: "5"
+              - generic [ref=e631]: Shop Config
+          - button "Next Step " [ref=e633] [cursor=pointer]:
+            - text: Next Step
+            - generic [ref=e634]: 
+        - generic [ref=e636]:
+          - generic [ref=e638]:
+            - generic [ref=e639]:
+              - heading "Essential Details" [level=3] [ref=e640]
+              - generic [ref=e641]:
+                - generic [ref=e642]: ◆Creature Name*
+                - textbox "◆Creature Name*" [ref=e643]:
+                  - /placeholder: Enter creature name
+                - generic [ref=e644]:
+                  - generic [ref=e645]: 0/50
+                  - generic [ref=e646]: Name is required
+              - generic [ref=e647]:
+                - generic [ref=e648]:
+                  - generic [ref=e649]: ◆Type*
+                  - combobox "◆Type*" [ref=e650]:
+                    - option "Aberration"
+                    - option "Beast"
+                    - option "Celestial"
+                    - option "Construct"
+                    - option "Dragon"
+                    - option "Elemental"
+                    - option "Fey"
+                    - option "Fiend"
+                    - option "Giant"
+                    - option "Humanoid" [selected]
+                    - option "Monstrosity"
+                    - option "Ooze"
+                    - option "Plant"
+                    - option "Undead"
+                - generic [ref=e651]:
+                  - generic [ref=e652]: ◆Size*
+                  - combobox "◆Size*" [ref=e653]:
+                    - option "Tiny"
+                    - option "Small"
+                    - option "Medium" [selected]
+                    - option "Large"
+                    - option "Huge"
+                    - option "Gargantuan"
+              - generic [ref=e654]:
+                - generic [ref=e655]: ◆Description & Lore(Optional)
+                - textbox "◆Description & Lore(Optional)" [ref=e656]:
+                  - /placeholder: Describe appearance, behavior, habitat, and lore...
+                - generic [ref=e658]: 0/1000
+            - generic [ref=e659]:
+              - heading "Token Appearance" [level=3] [ref=e660]
+              - generic [ref=e661]:
+                - button "📷 Change Icon" [ref=e664] [cursor=pointer]:
+                  - generic [ref=e665]: 📷
+                  - generic [ref=e666]: Change Icon
+                - generic [ref=e667]:
+                  - heading "Unnamed Creature" [level=4] [ref=e668]
+                  - paragraph [ref=e669]: Medium Humanoid
+              - generic [ref=e670]:
+                - generic [ref=e671]: ◆Border Color
+                - generic [ref=e672]:
+                  - 'generic "Select #ffffff border" [ref=e673] [cursor=pointer]':
+                    - generic [ref=e674]: ✓
+                  - 'generic "Select #ff0000 border" [ref=e675] [cursor=pointer]'
+                  - 'generic "Select #00ff00 border" [ref=e676] [cursor=pointer]'
+                  - 'generic "Select #0000ff border" [ref=e677] [cursor=pointer]'
+                  - 'generic "Select #ffff00 border" [ref=e678] [cursor=pointer]'
+                  - 'generic "Select #ff00ff border" [ref=e679] [cursor=pointer]'
+                  - 'generic "Select #00ffff border" [ref=e680] [cursor=pointer]'
+                  - 'generic "Select #ff9900 border" [ref=e681] [cursor=pointer]'
+                  - 'generic "Select #9900ff border" [ref=e682] [cursor=pointer]'
+                  - 'generic "Select #00cc00 border" [ref=e683] [cursor=pointer]'
+                  - 'generic "Select #cc0000 border" [ref=e684] [cursor=pointer]'
+                  - 'generic "Select #0066cc border" [ref=e685] [cursor=pointer]'
+                  - 'generic "Select #663300 border" [ref=e686] [cursor=pointer]'
+                  - 'generic "Select #999999 border" [ref=e687] [cursor=pointer]'
+                  - 'generic "Select #000000 border" [ref=e688] [cursor=pointer]'
+              - generic [ref=e689]:
+                - generic [ref=e690]: ◆Custom Token Image
+                - generic [ref=e692]:
+                  - generic [ref=e694] [cursor=pointer]:
+                    - text: ◆
+                    - generic [ref=e695]: 
+                    - text: Upload Image
+                  - generic [ref=e696]: or
+                  - textbox "Paste image URL..." [ref=e698]
+          - generic [ref=e699]:
+            - heading "Tags & Organization" [level=3] [ref=e700]
+            - generic [ref=e701]:
+              - generic [ref=e702]: ◆Descriptive Tags(Optional)
+              - textbox "◆Descriptive Tags(Optional)" [ref=e704]:
+                - /placeholder: Type a tag and press Enter (e.g., undead, fire, boss, aquatic, flying)
+      - text:   
+  - generic [ref=e708]:
+    - generic [ref=e709]:
+      - generic [ref=e710]: Unnamed Creature
+      - generic [ref=e711]: Medium Humanoid • 1×1
+    - generic [ref=e712]:
+      - generic [ref=e713]:
+        - generic [ref=e714]:
+          - generic [ref=e715]: HP
+          - generic [ref=e716]: 100/100
+        - generic [ref=e717]:
+          - generic [ref=e718]: ARMOR
+          - generic [ref=e719]: "15"
+        - generic [ref=e720]:
+          - generic [ref=e721]: INIT
+          - generic [ref=e722]: "+2"
+      - generic [ref=e723]:
+        - generic [ref=e724]:
+          - generic [ref=e725]: MANA
+          - generic [ref=e726]: 50/50
+        - generic [ref=e727]:
+          - generic [ref=e728]: AP
+          - generic [ref=e729]: 6/6

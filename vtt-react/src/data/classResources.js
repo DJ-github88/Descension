@@ -53,7 +53,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#FF6B6B',
                     description: 'Stability and home',
                     generatedBy: 'Basic attacks, defensive spells',
-                    usedIn: ['Perfect Cadence', 'Plagal Cadence', 'Circle of Fifths', 'Authentic Cadence']
+                    usedIn: ['Perfect Cadence', 'Plagal Cadence', 'Circle of Fifths', 'Authentic Cadence', 'Neapolitan Sixth']
                 },
                 {
                     numeral: 'II',
@@ -63,7 +63,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#FFA500',
                     description: 'Creates dissonance',
                     generatedBy: 'Debuff and control spells',
-                    usedIn: ['Suspended Cadence']
+                    usedIn: ['Half Cadence']
                 },
                 {
                     numeral: 'III',
@@ -73,7 +73,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#FFED4E',
                     description: 'Emotional depth',
                     generatedBy: 'Charm and emotion spells',
-                    usedIn: ['Plagal Cadence', 'Authentic Cadence', 'Picardy Third']
+                    usedIn: ['Plagal Cadence', 'Authentic Cadence', 'Picardy Third', 'Neapolitan Sixth']
                 },
                 {
                     numeral: 'IV',
@@ -83,7 +83,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#90EE90',
                     description: 'Forward motion',
                     generatedBy: 'Support and healing spells',
-                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Half Cadence']
+                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Half Cadence', 'Neapolitan Sixth']
                 },
                 {
                     numeral: 'V',
@@ -93,7 +93,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#6495ED',
                     description: 'Demands resolution',
                     generatedBy: 'Offensive spells',
-                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Circle of Fifths', 'Half Cadence', 'Plagal Cadence']
+                    usedIn: ['Perfect Cadence', 'Deceptive Cadence', 'Circle of Fifths', 'Half Cadence', 'Plagal Cadence', 'Phrygian Cadence']
                 },
                 {
                     numeral: 'VI',
@@ -103,7 +103,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#BA55D3',
                     description: 'Melancholy and depth',
                     generatedBy: 'Fear and sorrow spells',
-                    usedIn: ['Circle of Fifths', 'Half Cadence', 'Authentic Cadence']
+                    usedIn: ['Circle of Fifths', 'Half Cadence', 'Authentic Cadence', 'Plagal Cadence']
                 },
                 {
                     numeral: 'VII',
@@ -113,7 +113,7 @@ export const CLASS_RESOURCE_TYPES = {
                     glow: '#DA70D6',
                     description: 'Pulls to tonic',
                     generatedBy: 'Finisher and climax spells',
-                    usedIn: ['Deceptive Cadence', 'Half Cadence']
+                    usedIn: ['Deceptive Cadence', 'Half Cadence', 'Phrygian Cadence', 'Picardy Third']
                 }
             ],
             specializations: [
@@ -639,19 +639,19 @@ export const CLASS_RESOURCE_TYPES = {
         },
         stages: [
             { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
-            { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: '5 temp HP when ally within 5 ft takes damage' },
-            { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'All healing effects +5 HP' },
-            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'Allies within 10 ft gain +1 Armor' },
-            { name: 'Divine Ascendance', level: 4, requirement: '60 damage', passive: 'Advantage on all saving throws' },
-            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 radiant damage on attacks' },
+            { name: 'Flickering Faith', level: 1, requirement: '10 damage', passive: 'Resistance to the first instance of damage each round' },
+            { name: 'Steadfast Conviction', level: 2, requirement: '20 damage', passive: 'Regain 1d6 HP at the start of each of your turns' },
+            { name: 'Radiant Sacrifice', level: 3, requirement: '40 damage', passive: 'All allies within 10 ft gain +1 Armor' },
+            { name: 'Divine Ascendance', level: 4, requirement: '60 damage', passive: 'Allies within 10 ft gain resistance to the first damage type they take each round' },
+            { name: 'Holy Martyrdom', level: 5, requirement: '80 damage', passive: '+10 radiant damage on attacks, allies within 10 ft gain temp HP when you take damage' },
             { name: 'Celestial Protector', level: 6, requirement: '100 damage', passive: 'Allies within 15 ft resist all damage' }
         ],
         specializations: {
             redemption: {
                 name: 'Redemption',
                 sharedPassive: {
-                    name: 'Sacred Devotion',
-                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                    name: "Suffering's Gift",
+                    description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
                 },
                 uniquePassive: {
                     name: 'Redemptive Grace',
@@ -661,8 +661,8 @@ export const CLASS_RESOURCE_TYPES = {
             zealot: {
                 name: 'Zealot',
                 sharedPassive: {
-                    name: 'Sacred Devotion',
-                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                    name: "Suffering's Gift",
+                    description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
                 },
                 uniquePassive: {
                     name: 'Zealous Wrath',
@@ -672,8 +672,8 @@ export const CLASS_RESOURCE_TYPES = {
             ascetic: {
                 name: 'Ascetic',
                 sharedPassive: {
-                    name: 'Sacred Devotion',
-                    description: 'At Devotion Level 3+, your next healing spell heals for +1d6 HP'
+                    name: "Suffering's Gift",
+                    description: "At Devotion Level 3 or higher, whenever you take damage, all allies within 10 feet gain temporary HP equal to your current Devotion Level."
                 },
                 uniquePassive: {
                     name: 'Ascetic Endurance',
@@ -823,19 +823,18 @@ export const CLASS_RESOURCE_TYPES = {
 
     // HARROW PATH
     'Plaguebringer': {
-        id: 'afflictionCultivation',
-        name: 'Affliction Cultivation',
-        shortName: 'Corruption',
-        type: 'corruption-bar',
-        description: 'Build corruption through afflictions and evolve them to devastating final forms',
+        id: 'virulenceCultivation',
+        name: 'Virulence',
+        shortName: 'Virulence',
+        type: 'virulence-bar',
+        description: 'Passive buff gauge that grows as you cultivate afflictions. Never spent — only gained. Higher Virulence passively strengthens all afflictions.',
         visual: {
-            type: 'corruption-bar',
+            type: 'virulence-bar',
             arrangement: 'segmented-horizontal',
             baseColor: '#1A2E1A',
             activeColor: '#556B2F',
             glowColor: '#9ACD32',
             segments: 4,
-            // Specialization configurations
             virulentSpreader: {
                 name: 'Virulent Spreader',
                 color: '#556B2F',
@@ -856,24 +855,30 @@ export const CLASS_RESOURCE_TYPES = {
             }
         },
         mechanics: {
-            maxCorruption: 100,
-            currentCorruption: 0,
+            maxVirulence: 100,
+            currentVirulence: 0,
             maxAfflictions: 10,
             activeAfflictions: 0,
-            corruptionGain: {
+            virulenceGain: {
                 baseAffliction: 10,
                 categorySpell: 5,
                 finalForm: 25
             },
-            corruptionDecay: 2, // per turn
-            evolutionThresholds: [25, 50, 75, 100],
-            categories: ['Weaken', 'Torment', 'Fester', 'Amplify Pain', 'Decay', 'Nurture', 'Corrupt', 'Infect']
+            virulenceDecay: 2,
+            thresholds: {
+                seedling: { min: 0, max: 24, bonus: 'None' },
+                sprouting: { min: 25, max: 49, bonus: '+1 to all affliction damage dice' },
+                blooming: { min: 50, max: 74, bonus: '+1 duration round, +5ft spread range' },
+                peakHarvest: { min: 75, max: 100, bonus: 'Ignore first dispel, +2 damage dice' }
+            },
+            categories: ['Weaken', 'Torment', 'Fester', 'Decay', 'Amplify'],
+            lastCategoryDeterminesFinal: true
         },
         tooltip: {
-            title: 'Corruption: {corruption}/100',
-            showCorruption: true,
+            title: 'Virulence: {virulence}/100',
+            showVirulence: true,
             showAfflictions: true,
-            showEvolutionStages: true,
+            showVirulenceTier: true,
             showSpecPassive: true
         },
         sharedPassive: {
@@ -883,15 +888,15 @@ export const CLASS_RESOURCE_TYPES = {
         specPassives: {
             virulentSpreader: {
                 name: 'Epidemic Mastery',
-                description: 'Fester/Infect spells +10 ft range. Spread afflictions retain 2/3 development steps.'
+                description: 'Base afflictions apply to 2 adjacent targets. Stage 2+ afflictions auto-spread. +1 spread target per 25 Virulence.'
             },
             tormentWeaver: {
                 name: 'Psychic Resonance',
-                description: 'Torment spells +1d6 damage. Psychic afflictions: 5-6 on 1d6 causes target to attack nearest ally.'
+                description: 'Same affliction on multiple targets creates Psychic Links. Cultivating one cultivates all. +1 link per 25 Virulence.'
             },
             decayHarbinger: {
                 name: 'Accelerated Decay',
-                description: 'Decay spells reduce max HP by +1d6. Afflictions reduce healing by 1d8 per heal received.'
+                description: 'No final form. Post-Stage 3 adds permanent stacks. +1d6 necrotic per stack per 25 Virulence.'
             }
         }
     },
@@ -1167,10 +1172,10 @@ CLASS_RESOURCE_TYPES['Titan'] = {
 
 CLASS_RESOURCE_TYPES['Inscriptor'] = {
     id: 'runesInscriptions',
-    name: 'Runes & Inscriptions',
-    shortName: 'R&I',
+    name: 'Runes & Resonance',
+    shortName: 'R&R',
     type: 'dual-runic',
-    description: 'Dual mechanic system: Runic Wrapping for battlefield control and Inscription Placement for equipment enhancement',
+    description: 'Place runes on the battlefield to build Runic Resonance. Spend Resonance to empower inscriptions, spells, and detonations.',
     visual: {
         type: 'runes-inscriptions',
         arrangement: 'horizontal-split',
@@ -1188,19 +1193,25 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
             segmentBorder: '#4A2C1A',
             icon: 'fa-feather-alt'
         },
-        // Specialization configurations
+        resonance: {
+            baseColor: '#1A0F2E',
+            activeColor: '#9B59B6',
+            glowColor: '#BB77DD',
+            icon: 'fa-bolt',
+            max: 10
+        },
         runebinder: {
             name: 'Runebinder',
-            maxRunes: 12,
-            maxInscriptions: 1,
+            maxRunes: 10,
+            maxInscriptions: 3,
             color: '#4169E1',
             glow: '#6495ED',
             icon: 'fa-circle-nodes'
         },
         enchanter: {
             name: 'Enchanter',
-            maxRunes: 3,
-            maxInscriptions: 6,
+            maxRunes: 6,
+            maxInscriptions: 5,
             color: '#FFD700',
             glow: '#FFA500',
             icon: 'fa-wand-magic-sparkles'
@@ -1208,7 +1219,7 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
         glyphweaver: {
             name: 'Glyphweaver',
             maxRunes: 8,
-            maxInscriptions: 2,
+            maxInscriptions: 4,
             color: '#DC143C',
             glow: '#FF6347',
             icon: 'fa-burst'
@@ -1224,30 +1235,43 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
     },
     mechanics: {
         runes: {
-            max: 8, // Base max, varies by specialization
+            max: 8,
             current: 0,
-            cost: 3, // mana per rune
-            actionCost: 1, // action to place
-            zoneThreshold: 3, // minimum runes to form zone
-            generation: 'Place for 3 mana, 1 action each',
-            usage: '3+ runes form zone, detonate for effects'
+            cost: 2,
+            actionCost: 1,
+            zoneThreshold: 3,
+            generation: 'Place for 2 mana, 1 action each. +1 Resonance per rune.',
+            usage: '3+ runes form zone, detonate for burst + Resonance'
         },
         inscriptions: {
-            max: 3, // Base max, varies by specialization
+            max: 3,
             current: 0,
-            timing: 'At combat start',
+            timing: 'At combat start or during downtime',
             slots: ['weapon', 'armor', 'boots', 'cape', 'belt', 'pants'],
-            generation: 'At combat start, choose slots',
+            generation: '4 mana or 3 Resonance per inscription',
             usage: 'Enhance equipment, cannot stack same slot'
+        },
+        resonance: {
+            max: 10,
+            current: 0,
+            generation: '+1 per rune placed, +1 per rune detonated (+2 for Glyphweaver)',
+            decay: 'Lose 1 per round when no runes active',
+            thresholds: {
+                3: 'Next inscription costs no mana',
+                5: 'Next spell in zone deals +2d6 bonus damage',
+                7: 'Next detonation affects all enemies in zone',
+                10: 'All runes refresh duration and trigger individual effects'
+            }
         },
         consumeVerb: 'detonate/remove',
         gainVerb: 'place/inscribe'
     },
     tooltip: {
-        title: 'Runes: {runes}/{maxRunes} | Inscriptions: {inscriptions}/{maxInscriptions}',
-        description: 'Dual mechanic: Runic zones + Equipment enhancement',
+        title: 'Runes: {runes}/{maxRunes} | Resonance: {resonance}/10 | Inscriptions: {inscriptions}/{maxInscriptions}',
+        description: 'Build Resonance by placing runes. Spend on inscriptions, empowered spells, and enhanced detonations.',
         showRunes: true,
         showInscriptions: true,
+        showResonance: true,
         showSpecialization: true
     }
 };
@@ -2321,12 +2345,12 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
             icon: 'fa-book-open',
             theme: 'Past Sight & Hidden Knowledge'
         },
-        fateweaver: {
-            name: 'Fateweaver',
+        fateseer: {
+            name: 'Fateseer',
             activeColor: '#DAA520',
             glowColor: '#FFD700',
             icon: 'fa-dice',
-            theme: 'Destiny Manipulation & Rerolls'
+            theme: 'Prediction-First Fate Manipulation'
         }
     },
     mechanics: {
@@ -2334,6 +2358,7 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
             max: 10,
             current: 3, // Start with 3 after long rest
             generation: {
+                passivePerTurn: 1,
                 simpleCorrectPrediction: 1,
                 moderateCorrectPrediction: 2,
                 complexCorrectPrediction: 3,

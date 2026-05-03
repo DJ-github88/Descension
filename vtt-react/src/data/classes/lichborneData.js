@@ -19,18 +19,18 @@ export const LICHBORNE_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Lichborne channels an Eternal Frost Aura that amplifies frost magic at the cost of their own health, balanced by a Phylactery that stores HP and grants resurrection.
+      content: `**What You Need to Know**: The Lichborne switches between two casting modes — Normal Mode (spells cost Mana) and Aura Mode (spells cost HP instead of Mana, dealing enhanced damage). Their Phylactery charges by killing enemies and provides resurrection on death.
 
-**Core Mechanic**: Toggle Eternal Frost Aura → Enhanced frost damage + chill effects → Drains 1d6 HP/turn → Phylactery stores HP for resurrection
+**Core Mechanic**: Toggle Eternal Frost Aura → Spells cost HP instead of Mana → +1d6 frost damage + chill on all spells → Phylactery charges per kill → Resurrect on death
 
-**Resource**: HP (drained by aura), Phylactery HP storage, Mana
+**Resources**: Mana (Normal Mode), HP (Aura Mode), Phylactery HP (harvested from kills)
 
-**Playstyle**: High-risk, high-reward frost damage and control
+**Playstyle**: Dual-mode caster — safe and sustainable in Normal Mode, glass cannon in Aura Mode. Death is a tactical reset, not a failure.
 
-**Best For**: Players who enjoy risk-reward management, undead fantasy, and self-sustaining aggressive play`,
+**Best For**: Players who enjoy risk-reward management, undead fantasy, life-draining aggression, and turning death into a weapon`,
     },
 
-    description: `The Lichborne harnesses the power of frost through their Eternal Frost Aura, a powerful but taxing ability that amplifies their frost magic at the cost of their own vitality. This mechanic is complemented by the Lichborne's Phylactery, an ancient artifact that anchors their soul and provides a lifeline in dire situations. Together, these systems create a dynamic, high-risk, high-reward playstyle that emphasizes strategic decision-making and careful management of resources.`,
+    description: `The Lichborne is a frost-wielding undead who turns death itself into a resource. Their core mechanic is **Dual-Mode Casting**: in Normal Mode, frost spells cost Mana like any caster. But when the Eternal Frost Aura is activated, all frost spells cost **HP instead of Mana** and deal enhanced damage (+1d6 frost, chill on hit). The Lichborne's Phylactery charges by **killing enemies** — each kill adds 1d6 HP to the Phylactery pool, which can be spent to resurrect when the Lichborne dies. This creates a predator's loop: kill to charge your Phylactery, burn your own HP for devastating power, die, resurrect from your harvested life force, and do it again.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -66,181 +66,216 @@ export const LICHBORNE_DATA = {
     
     playstyle: {
       title: 'Playstyle',
-      content: `**Core Mechanic**: Eternal Frost Aura. Activate to enhance frost spells (+1d6 damage, chilling effects) but lose 1d6 HP per turn. Phylactery stores HP and provides resurrection.
+      content: `**Core Mechanic**: Dual-Mode Casting. Switch between Normal Mode (Mana costs) and Aura Mode (HP costs, enhanced damage).
+
+**Normal Mode (Aura OFF)**:
+- Frost spells cost Mana as normal
+- Sustainable, safe casting
+- Use for conserving HP or when healer is unavailable
+
+**Aura Mode (Aura ON)**:
+- Frost spells cost HP instead of Mana
+- All frost spells deal +1d6 frost damage
+- Enemies hit must save DC 17 Con or be Chilled (-10 ft speed)
+- Aura itself drains HP at start of each turn (scales with level: 1d6 Lv1-4, 1d8 Lv5-7, 1d10 Lv8-10)
+- Toggle is free — no AP or Mana cost
+
+**Phylactery Harvester**:
+- Enemies killed by your frost spells add 1d6 HP to your Phylactery (max 50 HP)
+- When you die, spend all stored Phylactery HP to resurrect at that value
+- Once per combat
+- **Death Trigger**: On Phylactery resurrection, freeze all enemies within 15ft for 1 round
 
 **Decision Points**:
-- When to activate/deactivate Eternal Frost Aura
-- How much HP to store in Phylactery vs. keep available
-- Which targets to freeze vs. chill
-- When to use Phylactery resurrection vs. save it
+- When to switch between Normal and Aura Mode
+- Whether to stay aggressive (killing to charge Phylactery) or play safe
+- Whether to use Phylactery as resurrection insurance or spend it on Phylactery Burst
+- When dying is actually the right play (death trigger freeze can save a wipe)
 
 **Skill Expression**:
-- Managing health drain from Eternal Frost Aura
-- Timing aura activation for maximum damage windows
-- Strategic Phylactery HP storage and usage
-- Exploiting frozen targets with bonus damage spells
+- Managing HP as both your life and your spell resource in Aura Mode
+- Timing mode switches for maximum damage windows
+- Aggressive play to charge Phylactery through kills
+- Using death strategically for the Death Trigger freeze
 
-**Aura Management Strategy**:
-- **Aggressive**: Keep aura active constantly, rely on Phylactery resurrection
-- **Balanced**: Toggle aura on/off based on combat intensity
-- **Conservative**: Only activate aura for burst windows, preserve HP
+**Mode Management Strategy**:
+- **Aggressive**: Aura Mode constantly, burn HP for damage, kill to charge Phylactery, die and resurrect with Death Trigger
+- **Balanced**: Switch modes based on combat intensity and healer availability
+- **Conservative**: Aura Mode only for burst windows, Normal Mode for sustain
 
 **Team Dynamics**:
-- Benefits from healers who can offset aura drain
-- Synergizes with classes that can group enemies for AoE freeze
-- Can control battlefield with ice walls and frozen enemies
-- Phylactery resurrection allows aggressive plays`
+- Healers offset your Aura drain, letting you stay in Aura Mode longer
+- Synergizes with classes that group enemies for AoE frost kills (charges Phylactery fast)
+- Death Trigger freeze can set up devastating team combos
+- Phylactery resurrection means you can take risks no other caster can`,
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Undying Frost',
-      content: `**The Setup**: You're a Lichborne facing a group of fire elementals (3 elementals + 1 fire elemental lord). Your party is with you. Starting HP: 80/80. Phylactery HP: 30 (stored from previous ritual). Eternal Frost Aura: Inactive. Starting Mana: 50/60. Your goal: Activate Eternal Frost Aura for enhanced frost damage, manage the health drain, and use your Phylactery strategically.
+      title: 'Combat Example: Death Is Fuel',
+      content: `**The Setup**: You're a Lichborne facing a group of fire elementals (3 elementals + 1 fire elemental lord). Starting HP: 80/80. Phylactery HP: 10 (from a previous kill). Eternal Frost Aura: OFF (Normal Mode). Starting Mana: 50/60. Your goal: Switch to Aura Mode for devastating frost damage, kill enemies to charge your Phylactery, and use death as a tactical weapon.
 
-**Starting State**: HP: 80/80 | Phylactery HP: 30 | Aura: Inactive | Mana: 50/60
+**Starting State**: HP: 80/80 | Phylactery HP: 10 | Mode: Normal | Mana: 50/60
 
-**Turn 1 - Activating the Aura (HP: 80 → 74, Aura: Active)**
+**Turn 1 — Switching to Aura Mode**
 
 *The fire elementals blaze before you, their heat oppressive. You close your eyes and reach for the cold within. Your phylactery—a frozen crystal hanging from your neck—pulses with dark energy.*
 
-**Your Action**: Activate Eternal Frost Aura (1 AP, no mana cost)
+**Your Action**: Switch to Aura Mode (Free action — no AP or Mana cost)
 
-*Frost spreads from your body in waves. The temperature DROPS. Ice crystals form in the air around you. Your skin turns pale blue, your breath visible. The aura is ACTIVE.*
+*Frost spreads from your body in waves. The temperature DROPS. Ice crystals form in the air around you. Your skin turns pale blue, your breath visible. You are now in AURA MODE.*
 
-**Eternal Frost Aura**: ACTIVE
-**Effect**: All frost spells deal +1d6 frost damage, enemies hit must save DC 15 Con or -10 ft speed
-**Health Drain**: Will lose 1d6 HP at start of each turn
+**Aura Mode: ACTIVE**
+**Effect**: Frost spells cost HP instead of Mana. All frost spells deal +1d6 frost damage. Enemies hit: DC 17 Con save or Chilled (-10 ft speed).
+**Aura Drain**: Will lose 1d6 HP at start of each turn
 
-**Your Action**: Cast "Ice Shard" at Fire Elemental #1 (6 mana)
+**Your Action**: Cast "Ice Lance" at Fire Elemental #1 — costs HP instead of Mana!
+**HP Cost**: 12 HP (would have been 12 Mana in Normal Mode)
+**Your HP**: 80 - 12 = 68/80
+
 **Attack Roll**: d20+6 → [16] = Hit!
-**Base Damage**: 3d6 frost → [5, 6, 4] = 15 damage
+**Base Damage**: 4d6 frost → [5, 6, 4, 3] = 18 damage
 **Aura Bonus**: +1d6 frost → [5] = +5 damage
-**Total Damage**: 15 + 5 = **20 frost damage!**
+**Total Damage**: 18 + 5 = **23 frost damage!**
 
-*The ice shard strikes the fire elemental. It HISSES, steam rising from the impact. Fire and ice clash.*
+*The ice lance pierces the fire elemental. It HISSES, steam rising from the impact.*
 
-**Chilling Effect**: Fire Elemental #1 must save DC 15 Constitution
+**Chilling Effect**: Fire Elemental #1 must save DC 17 Constitution
 **Save Roll**: [11] → FAIL!
 **Effect**: Movement speed reduced by 10 ft until end of its next turn
 
-*The elemental's flames dim slightly, slowed by the supernatural cold.*
-
-**Mana**: 50 - 6 = 44/60
+**Current State**: HP: 68/80 | Phylactery HP: 10 | Mode: Aura | Mana: 50/60
 
 **Fire Elemental #1's Turn**: Attacks you → [17] → Hit! → 2d8+4 fire → [7, 6] + 4 = 17 fire damage
-**Your HP**: 80 - 17 = 63/80
+**Your HP**: 68 - 17 = 51/80
 
-**Current State**: HP: 63/80 | Phylactery HP: 30 | Aura: Active | Mana: 44/60
+**Current State**: HP: 51/80 | Phylactery HP: 10 | Mode: Aura | Mana: 50/60
 
-**Turn 2 - The Drain Begins (HP: 63 → 57 → 50)**
+**Turn 2 — Kill to Charge (HP: 51 → 46, Phylactery: 10 → 16)**
 
 *You feel the aura draining your life force. The cold is consuming you from within. But the power... the POWER is worth it.*
 
-**Start of Turn**: Eternal Frost Aura health drain
-**Drain Roll**: 1d6 → [6] = 6 HP lost
-**Your HP**: 63 - 6 = 57/80
+**Start of Turn**: Aura drain (Level 4 = 1d6)
+**Drain Roll**: 1d6 → [5] = 5 HP lost
+**Your HP**: 51 - 5 = 46/80
 
-*You stagger, frost spreading across your skin. Your phylactery glows, sensing your weakening state.*
+**Your Action**: Cast "Frozen Orb" at all 3 fire elementals — costs HP!
+**HP Cost**: 10 HP
+**Your HP**: 46 - 10 = 36/80
 
-**Your Action**: Cast "Frozen Orb" at all 3 fire elementals (10 mana, AoE)
 **Damage Roll**: 4d6 frost → [6, 5, 4, 6] = 21 damage
 **Aura Bonus**: +1d6 frost → [4] = +4 damage
 **Total Damage**: 21 + 4 = **25 frost damage to ALL 3 elementals!**
 
 *A sphere of absolute zero explodes among the elementals. They shriek, their flames guttering.*
 
-**Chilling Effect**: All 3 elementals must save DC 15 Constitution
+**Chilling Effect**: All 3 elementals must save DC 17 Constitution
 **Elemental #1**: [9] → FAIL! → -10 ft speed
 **Elemental #2**: [12] → FAIL! → -10 ft speed
 **Elemental #3**: [14] → FAIL! → -10 ft speed
 
 *All three elementals are CHILLED, their movement slowed.*
 
-**Mana**: 44 - 10 = 34/60
+**Mana**: 50/60 (didn't spend any! Aura Mode uses HP instead)
 
 **Fire Elemental Lord's Turn**: Casts "Flame Strike" at you → 4d6 fire → [5, 6, 4, 5] = 20 fire damage
-**Your HP**: 57 - 20 = 37/80
+**Your HP**: 36 - 20 = 16/80
 
-*The fire lord's flames sear you. You're at 37/80 HP. The aura is draining you, and the enemies are hitting hard.*
+*The fire lord's flames sear you. You're at 16/80 HP. The aura is draining you, and the enemies are hitting hard.*
 
-**Current State**: HP: 37/80 | Phylactery HP: 30 | Aura: Active | Mana: 34/60
+**Current State**: HP: 16/80 | Phylactery HP: 10 | Mode: Aura | Mana: 50/60
 
-**Turn 3 - Critical Decision (HP: 37 → 32 → 0 → PHYLACTERY RESURRECTION)**
+**Turn 3 — Kill to Charge + Strategic Death (HP: 16 → 11 → 0 → RESURRECTION!)**
 
-**Start of Turn**: Eternal Frost Aura health drain
+**Start of Turn**: Aura drain
 **Drain Roll**: 1d6 → [5] = 5 HP lost
-**Your HP**: 37 - 5 = 32/80
+**Your HP**: 16 - 5 = 11/80
 
-*You're at 32 HP. The aura is killing you. But you're so close to victory. You keep it active.*
+*You're at 11 HP. The aura is killing you. But Fire Elemental #2 is almost dead from the earlier Frozen Orb damage...*
 
-**Your Action**: Cast "Ice Lance" at Fire Elemental Lord (8 mana)
-**Attack Roll**: d20+6 → [18] = Hit!
-**Base Damage**: 4d8 frost → [7, 8, 6, 7] = 28 damage
-**Aura Bonus**: +1d6 frost → [6] = +6 damage
-**Total Damage**: 28 + 6 = **34 frost damage!**
+**Your Action**: Cast "Frost Bolt" at Fire Elemental #2 — costs HP!
+**HP Cost**: 4 HP
+**Your HP**: 11 - 4 = 7/80
 
-*The ice lance pierces the fire lord. It roars in pain, flames flickering.*
+**Damage Roll**: 1d8+Int frost → [7] + 3 = 10 damage
+**Aura Bonus**: +1d6 frost → [4] = +4 damage
+**Total Damage**: 10 + 4 = **14 frost damage!**
 
-**Mana**: 34 - 8 = 26/60
+*Frost Bolt strikes the weakened elemental. It SHATTERS — extinguished.*
 
-**Fire Elemental #2's Turn**: Attacks you → [19] → Hit! → 2d8+4 → [8, 7] + 4 = 19 damage
-**Your HP**: 32 - 19 = 13/80
+**Fire Elemental #2 is DEAD!**
 
-**Fire Elemental #3's Turn**: Attacks you → [18] → Hit! → 2d8+4 → [6, 8] + 4 = 18 damage
-**Your HP**: 13 - 18 = **-5 HP** → YOU DIE!
+**PHYLACTERY HARVESTER TRIGGERS!**
+*Soul energy flows from the dying elemental into your phylactery.*
+**Phylactery Charge**: +1d6 HP → [4] = +4 HP
+**Phylactery HP**: 10 + 4 = **14 HP**
+
+**Fire Elemental #3's Turn**: Attacks you → [18] → Hit! → 2d8+4 → [8, 7] + 4 = 19 damage
+**Your HP**: 7 - 19 = **-12 HP** → YOU DIE!
 
 *The flames consume you. You fall, your body burning. But your phylactery PULSES.*
 
 **PHYLACTERY RESURRECTION TRIGGERS!**
 
-*Your phylactery shatters, releasing the stored life force. Your body REFORMS from ice and shadow.*
+*Your phylactery SHATTERS, releasing the harvested life force. Your body REFORMS from ice and shadow.*
 
-**Phylactery Effect**: Spend all stored HP (30 HP) to resurrect at that HP total
-**Your HP**: 0 → **30 HP** (resurrected!)
-**Phylactery HP**: 30 → **0** (depleted, must be recharged via ritual)
+**Phylactery Resurrection**: Spend all stored HP (14 HP)
+**Your HP**: 0 → **14 HP** (resurrected!)
+**Phylactery HP**: 14 → **0** (depleted)
 
-*You rise from the ashes, frost spreading from your reformed body. The fire elementals back away, terrified. You DIED and came back. That's what Lichborne do.*
+**DEATH TRIGGER ACTIVATES!**
+*Ice ERUPTS from the ground around you as you reform. All enemies within 15ft are FROZEN.*
 
-**Your Party's Healer**: "You... you died. I saw you die."
-**You**: "Death is temporary. My phylactery anchors my soul. I'll reform it later."
+**Death Trigger**: All enemies within 15ft Frozen for 1 round (no save)
+**Fire Elemental #1**: FROZEN!
+**Fire Elemental #3**: FROZEN!
 
-**Current State**: HP: 30/80 | Phylactery HP: 0 (depleted) | Aura: Still Active | Mana: 26/60
+*You rise from the ashes, frost spreading from your reformed body. Two elementals are FROZEN SOLID. The fire lord stumbles back, terrified.*
 
-**Turn 4 - Deactivating the Aura (HP: 30 → 25 → 40)**
+**Your Party's Healer**: "You... you DIED. And then you froze everything?!"
+**You**: "Death is fuel. My phylactery harvested that elemental's soul. I spent it to come back. And the cold of my resurrection... freezes everything around me."
 
-**Start of Turn**: Eternal Frost Aura health drain
-**Drain Roll**: 1d6 → [5] = 5 HP lost
-**Your HP**: 30 - 5 = 25/80
+**Current State**: HP: 14/80 | Phylactery HP: 0 (depleted) | Mode: Aura (still active) | Mana: 50/60
 
-*You're at 25 HP. The aura is still draining you. Time to turn it OFF.*
+**Turn 4 — Switching to Normal Mode to Recover**
 
-**Your Action**: Deactivate Eternal Frost Aura (0 AP)
+**Start of Turn**: Aura drain
+**Drain Roll**: 1d6 → [3] = 3 HP lost
+**Your HP**: 14 - 3 = 11/80
 
-*You release the cold. The frost aura dissipates. The temperature rises. You can breathe again.*
+*You're at 11 HP with no Phylactery backup. Time to play safe.*
 
-**Eternal Frost Aura**: INACTIVE
-**Effect**: No more +1d6 frost damage, no more health drain
+**Your Action**: Switch to Normal Mode (Free action)
+
+*You release the cold. The frost aura dissipates. You can breathe again. Spells now cost Mana.*
+
+**Your Action**: Cast "Siphon Soul" at frozen Fire Elemental #1 (6 Mana — now in Normal Mode, uses Mana!)
+**Attack Roll**: d20+6 → [18] = Hit!
+**Damage**: 2d6 frost → [5, 4] = 9 damage
+**Healing**: Heal for half = 4 HP
+**Your HP**: 11 + 4 = 15/80
+
+*You drain the frozen elemental's life force. Warmth floods back into your undead body.*
+
+**Mana**: 50 - 6 = 44/60
+
+**Fire Elemental #1 is DEAD from the damage!**
+
+**PHYLACTERY HARVESTER TRIGGERS!**
+**Phylactery Charge**: +1d6 HP → [3] = +3 HP
+**Phylactery HP**: 0 + 3 = **3 HP** (starting to recharge!)
 
 **Your Party's Healer**: Heals you for 15 HP
-**Your HP**: 25 + 15 = 40/80
+**Your HP**: 15 + 15 = 30/80
 
-**Your Action**: Cast "Ice Shard" at Fire Elemental #2 (6 mana, no aura bonus)
-**Attack Roll**: d20+6 → [15] = Hit!
-**Damage**: 3d6 frost → [6, 5, 4] = **15 damage** (no aura bonus)
-**Result**: Fire Elemental #2 DEAD (was already wounded)
+**Your Party's Tank**: Shatters frozen Fire Elemental #3 → DEAD
+**Fire Elemental Lord**: Still alive, badly wounded from earlier
 
-**Mana**: 26 - 6 = 20/60
+**Current State**: HP: 30/80 | Phylactery HP: 3 | Mode: Normal | Mana: 44/60
 
-**Your Party's Mage**: Casts Fireball → Kills Fire Elemental #3
-**Your Party's Tank**: Attacks Fire Elemental Lord → 18 damage
+**Turn 5 — Finishing the Fight**
 
-**Fire Elemental Lord**: 34 + 18 = 52 damage taken, badly wounded
-
-**Current State**: HP: 40/80 | Phylactery HP: 0 | Aura: Inactive | Mana: 20/60
-
-**Turn 5 - Finishing the Fight**
-
-**Your Action**: Cast "Frozen Tomb" on Fire Elemental Lord (12 mana)
-**Effect**: Target must save DC 15 Constitution or be frozen solid (paralyzed) for 3 rounds
+**Your Action**: Cast "Frozen Tomb" on Fire Elemental Lord (28 Mana)
+**Effect**: Target must save DC 18 Constitution or be Frozen for 5 rounds
 
 **Fire Lord's Save**: [8] → FAIL!
 
@@ -250,52 +285,51 @@ export const LICHBORNE_DATA = {
 
 **Combat Over**
 
-*You stand among the melted remains of the fire elementals, breathing heavily. Your phylactery is dark, depleted. You'll need to perform the ritual again to recharge it.*
+*You stand among the melted remains of the fire elementals. Your phylactery is recharging — you harvested 3 HP from the last kill. You'll need to kill more enemies to fully recharge it.*
 
-**Your Party's Tank**: "You died. Actually died. And came back."
-**You**: "The phylactery stores life force. I spent 30 HP worth to resurrect. Now it's empty. I'll need to perform a 1-hour ritual to recharge it—transfer 10 HP at a time."
-**Your Party's Mage**: "And that aura? You were glowing with frost, but you were also... dying."
-**You**: "Eternal Frost Aura. +1d6 frost damage to all my spells, enemies get chilled. But it drains 1d6 HP per turn. I lost 16 HP total from the drain (6 + 5 + 5). Worth it for the damage boost."
-**Your Party's Healer**: "You're insane."
-**You**: "I'm undead. Sanity is optional."
+**Your Party's Tank**: "You died. Actually died. Froze everything when you came back. Then drained that elemental's soul to heal."
+**You**: "That's what Lichborne do. I burned my own life for power, killed to charge my phylactery, died, and my resurrection froze the battlefield. My death wasn't a mistake — it was the plan."
 
-**Final State**: HP: 40/80 | Phylactery HP: 0 (needs recharge) | Aura: Inactive | Mana: 8/60
+**Final State**: HP: 30/80 | Phylactery HP: 3 (needs more kills) | Mode: Normal | Mana: 16/60
 
 **The Lesson**: Lichborne gameplay is about:
-1. **Aura Activation**: Activated Eternal Frost Aura Turn 1, gained +1d6 frost damage on all spells
-2. **Health Drain**: Lost 1d6 HP per turn (6 + 5 + 5 = 16 HP total) while aura was active
-3. **Damage Amplification**: Ice Shard: 15 → 20 damage (+5), Frozen Orb: 21 → 25 damage (+4), Ice Lance: 28 → 34 damage (+6)
-4. **Chilling Effects**: All enemies hit by frost spells had to save or lose 10 ft movement speed
-5. **Phylactery Resurrection**: Died at -5 HP, phylactery triggered, resurrected at 30 HP (spent all stored phylactery HP)
-6. **Aura Management**: Deactivated aura Turn 4 when HP got too low (25 HP)
-7. **Risk/Reward**: Aura gave +20 total damage but cost 16 HP from drain + death at -5 HP = worth it for the power
+1. **Dual-Mode Casting**: Switched to Aura Mode Turn 1 — spells cost HP instead of Mana, dealt +1d6 damage
+2. **Aura Drain**: Lost HP each turn from the aura itself (5 + 5 + 3 = 13 HP total from drain)
+3. **HP as Spell Cost**: Spent 26 HP total on spells in Aura Mode (12 + 10 + 4) — no Mana used during Aura Mode!
+4. **Kill Charging**: Killed Fire Elemental #2 → Phylactery gained +4 HP from Harvester
+5. **Strategic Death**: Died to enemy attacks → Phylactery resurrected at 14 HP → Death Trigger FROZE 2 enemies (no save!)
+6. **Mode Switching**: Switched to Normal Mode Turn 4 to recover — spells cost Mana again
+7. **Life Drain**: Used Siphon Soul to deal damage AND heal AND charge Phylactery from the kill
+8. **Mana Conservation**: Spent 0 Mana during 3 turns of Aura Mode — all 50 Mana preserved for Normal Mode
 
-You're not a safe, sustainable caster. You're an UNDEAD FROST MAGE who sacrifices your own life force for power. The Eternal Frost Aura makes you stronger but KILLS you slowly. The Phylactery lets you die and come back. You're playing with death itself—draining your HP for damage, dying, resurrecting, then doing it again. The key is knowing when to activate the aura (for burst damage), when to deactivate it (when HP gets critical), and when to use your phylactery resurrection (when you actually die). Death isn't the end. It's just another resource.`
-    }
+You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your own life for devastating power, kills enemies to fuel your resurrection, and uses death itself as a tactical weapon. The key decisions: when to switch modes (Normal for safety, Aura for devastation), when to kill (to charge Phylactery), and when dying is actually the right play (Death Trigger freeze). Death isn't the end. It's your strongest move.`,
+    },
   },
   
   // Resource System
   resourceSystem: {
-    title: 'Eternal Frost Aura & Phylactery',
-    subtitle: 'Power Through Sacrifice, Resurrection Through Preparation',
+    title: 'Dual-Mode Casting & Harvester Phylactery',
+    subtitle: 'Burn Your Life for Power, Harvest the Dead to Return',
 
-    description: `The Lichborne's unique dual-mechanic system combines the Eternal Frost Aura (active power boost with health drain) and the Phylactery (HP storage and resurrection). Mastering both mechanics is essential to becoming an effective Lichborne.`,
+    description: `The Lichborne's unique dual-mechanic system combines Dual-Mode Casting (switching between Mana and HP as spell resource) and the Harvester Phylactery (charges by killing enemies, provides resurrection and Death Trigger freeze). Mastering both systems is essential to becoming an effective Lichborne.`,
 
     resourceBarExplanation: {
-      title: 'Understanding Your Eternal Frost Aura & Phylactery Interface',
-      content: `**What You See**: The Lichborne has a DUAL interface—one for the Eternal Frost Aura (toggle ability) and one for the Phylactery (HP storage and resurrection). Both are displayed prominently on your HUD.
+      title: 'Understanding Your Dual-Mode Casting & Phylactery Interface',
+      content: `**What You See**: The Lichborne has a DUAL interface — one for the Eternal Frost Aura mode toggle and one for the Phylactery (HP harvested from kills and resurrection). Both are displayed prominently on your HUD.
 
 **ETERNAL FROST AURA INTERFACE** (Top Section):
 
-**Aura Status Display**:
-- **Inactive State**: Gray frost icon with "Eternal Frost Aura: INACTIVE" text
-- **Active State**: Glowing blue-white frost icon with "Eternal Frost Aura: ACTIVE" text, pulsing animation
-- **Toggle Button**: Large button "ACTIVATE AURA (1 AP)" or "DEACTIVATE AURA (0 AP)"
+**Mode Status Display**:
+- **Normal Mode (Aura OFF)**: Gray frost icon with "Normal Mode" text. Spells cost Mana.
+- **Aura Mode (Aura ON)**: Glowing blue-white frost icon with "Aura Mode: ACTIVE" text, pulsing animation. Spells cost HP instead of Mana.
+
+**Toggle Button**: Large button "ACTIVATE AURA (Free)" or "DEACTIVATE AURA (Free)" — switching modes costs no AP or Mana.
 
 **Aura Effect Indicators** (when active):
-- **Damage Bonus**: "+1d6 Frost Damage" displayed in bright blue text
-- **Chilling Effect**: "Enemies Chilled (DC 15 Con save or -10 ft speed)" in icy blue
-- **Health Drain Warning**: "⚠️ DRAINING 1d6 HP PER TURN" in red, pulsing
+- **Damage Bonus**: "+1d6 Frost Damage on all frost spells" displayed in bright blue text
+- **HP Casting**: "Frost spells cost HP instead of Mana" in icy blue
+- **Chilling Effect**: "Enemies Chilled (DC 17 Con save or -10 ft speed)" in icy blue
+- **Health Drain Warning**: "⚠️ AURA DRAIN: 1d6 HP/turn (Lv1-4) | 1d8 HP/turn (Lv5-7) | 1d10 HP/turn (Lv8-10)" in red, pulsing
 
 **Visual Effects** (when aura is active):
 - **Character Model**: Surrounded by swirling frost particles, icy blue glow
@@ -304,25 +338,20 @@ You're not a safe, sustainable caster. You're an UNDEAD FROST MAGE who sacrifice
 - **Skin Tone**: Character's skin turns pale blue-white
 - **Eyes**: Glow with cold blue light
 
-**Health Drain Tracker**:
-- **Turn Counter**: "Aura Active: Turn 3" (tracks how long aura has been active)
-- **Total HP Drained**: "Total Drained: 16 HP (6 + 5 + 5)" running total
-- **Next Drain**: "Next Drain: 1d6 HP at start of your turn" countdown
-
-**Aura Activation Animation**:
+**Aura Mode Activation Animation**:
 When you activate the aura:
 - **Frost Explosion**: Frost spreads from your body in a wave
 - **Temperature Drop**: Screen tints slightly blue, frost particles appear
 - **Audio**: Deep, resonant ice cracking sound + wind howling
-- **Status Update**: "ETERNAL FROST AURA ACTIVATED" text appears
+- **Status Update**: "AURA MODE ACTIVATED — Spells now cost HP" text appears
 - **Buff Icon**: Frost aura icon appears in your buff bar
 
-**Aura Deactivation Animation**:
+**Aura Mode Deactivation Animation**:
 When you deactivate the aura:
 - **Frost Dissipation**: Frost particles fade away, blue glow dims
 - **Temperature Rise**: Screen tint returns to normal
 - **Audio**: Fading wind sound, ice melting
-- **Status Update**: "Eternal Frost Aura Deactivated" text
+- **Status Update**: "Normal Mode — Spells now cost Mana" text
 - **Buff Icon**: Frost aura icon removed from buff bar
 
 **PHYLACTERY INTERFACE** (Bottom Section):
@@ -331,6 +360,7 @@ When you deactivate the aura:
 - **Phylactery Icon**: Image of your phylactery (frozen crystal, skull amulet, etc.)
 - **Stored HP Bar**: Shows HP stored in phylactery (0-50 HP max)
 - **HP Counter**: "Phylactery HP: 30/50" in glowing text
+- **Kill Charge Indicator**: "+1d6 HP per kill" reminder text
 
 **Phylactery HP Bar Visualization**:
 - **0 HP (Empty)**: Dark, lifeless phylactery icon, "DEPLETED" in red
@@ -340,333 +370,260 @@ When you deactivate the aura:
 - **46-50 HP (Maximum)**: Maximum glow, phylactery radiating power, gold border, "FULLY CHARGED"
 
 **Resurrection Status**:
-- **Available**: "Resurrection Available (10 HP cost)" in green
-- **Used This Combat**: "Resurrection Used - Recharge Required" in red
-- **Insufficient HP**: "Insufficient Phylactery HP (need 10 HP)" in orange
+- **Available**: "Resurrection Available — Restores stored HP on death" in green
+- **Used This Combat**: "Resurrection Used — Charge by killing enemies" in red
+- **Death Trigger**: "On Resurrection: Freeze enemies within 15ft for 1 round" in blue
 
-**Phylactery Storage Ritual Interface**:
-When performing the 1-hour ritual:
-- **Ritual Progress Bar**: "Storing HP in Phylactery... 45:00 remaining"
-- **HP Transfer**: "Transferring 10 HP → Phylactery" with animation
-- **Your HP**: Shows your current HP decreasing by 10
-- **Phylactery HP**: Shows phylactery HP increasing by 10
-- **Completion**: "Ritual Complete - 10 HP Stored" notification
+**Kill Charge Animation**:
+When you kill an enemy with a frost spell:
+- **Soul Drain**: Wispy blue-white energy flows from the dying enemy to your Phylactery
+- **HP Gain**: "+1d6 Phylactery HP (Kill Charge)" appears above the phylactery icon
+- **Phylactery Pulse**: Phylactery icon glows brighter as it charges
 
 **Resurrection Trigger Animation**:
 When you die and phylactery resurrects you:
 - **Death**: Screen goes dark, "YOU HAVE FALLEN" text appears
 - **Phylactery Activation**: Phylactery icon PULSES with brilliant light
 - **Resurrection**: Your body reforms from ice and shadow, frost spreading outward
+- **Death Trigger**: All enemies within 15ft are FROZEN for 1 round — ice erupts from the ground
 - **HP Restoration**: "PHYLACTERY RESURRECTION! +30 HP" (or whatever was stored)
 - **Phylactery Depletion**: Phylactery HP bar drains to 0, icon goes dark
-- **Status Update**: "Resurrected by Phylactery - Recharge Required"
-- **Audio**: Shattering ice sound, then deep resonant hum as you reform
+- **Status Update**: "Resurrected by Phylactery — Death Trigger: Enemies Frozen!"
+- **Audio**: Shattering ice sound, then deep resonant hum as you reform, then CRACK as enemies freeze
 
 **Combined Interface Display**:
-- **Top Half**: Eternal Frost Aura status (active/inactive, damage bonus, health drain)
-- **Bottom Half**: Phylactery status (stored HP, resurrection availability)
+- **Top Half**: Eternal Frost Aura mode status (Normal/Aura, current casting cost, health drain)
+- **Bottom Half**: Phylactery status (stored HP, kill charge tracker, resurrection availability)
 - **HP Bar**: Your current HP shown prominently with drain indicator when aura is active
-- **Mana Bar**: Standard mana pool for casting spells
+- **Mana Bar**: Standard mana pool — only relevant in Normal Mode
 
-**Aura + Phylactery Synergy Indicators**:
-When both systems are active:
-- **Risk Assessment**: "⚠️ Aura Draining HP - Phylactery at 30 HP (3 resurrections available)"
-- **Safety Net**: "Phylactery Resurrection Ready - Safe to Aggressive Play"
-- **Warning**: "⚠️ LOW PHYLACTERY HP - Deactivate Aura or Recharge!"
-
-**Health Drain Visual Feedback**:
-At the start of each turn while aura is active:
-- **Drain Animation**: Frost particles flow FROM your body, HP bar decreases
-- **Damage Number**: "-6 HP (Aura Drain)" appears above your character in red
-- **Audio**: Chilling wind sound, ice cracking
-- **HP Bar Flash**: HP bar flashes red briefly
-- **Phylactery Pulse**: Phylactery icon pulses, reminding you it's your safety net
-
-**Spell Amplification Feedback**:
-When you cast a frost spell with aura active:
-- **Spell Cast**: Normal spell animation
-- **Aura Amplification**: Frost aura SURGES, spell grows larger and brighter
-- **Damage Display**: "Ice Shard: 15 damage + 5 (Aura) = 20 damage!"
-- **Chilling Effect**: "Target Chilled (DC 15 save)" notification
-- **Visual**: Enemy covered in frost, movement speed indicator shows -10 ft
-
-**Chilling Effect Visualization**:
-When enemy fails save against chilling:
-- **Frost Coating**: Enemy model covered in ice crystals
-- **Movement Debuff**: "-10 ft Speed" icon appears above enemy
-- **Duration**: "Chilled (1 turn remaining)" countdown
-- **Visual Trail**: Enemy leaves frost trail when moving (slower movement)
-
-**Phylactery Recharge Reminder**:
-When phylactery is depleted:
-- **Notification**: "⚠️ Phylactery Depleted - Perform 1-hour ritual to recharge"
-- **Ritual Availability**: "Ritual Available During Short/Long Rest"
-- **HP Cost**: "Transfer 10 HP per ritual (max 50 HP total)"
-
-**Why This Matters**: The Lichborne's dual interface makes you feel like you're PLAYING WITH DEATH. When you activate the Eternal Frost Aura, you see frost spread from your body, your skin turns pale blue, and the "DRAINING 1d6 HP PER TURN" warning pulses in red. Every turn, you watch your HP drain with the frost particle animation and damage number. But you also see the "+1d6 Frost Damage" bonus on every spell, and when you cast Ice Shard and it shows "15 + 5 (Aura) = 20 damage!", you KNOW the sacrifice is worth it. The Phylactery interface shows your safety net—when it's at 30 HP and glowing green, you can play aggressively because you have resurrection available. When you actually DIE and the phylactery triggers, the screen goes dark, then your body REFORMS from ice and shadow with the "PHYLACTERY RESURRECTION!" text—it's dramatic and powerful. The combined interface makes the risk/reward clear: drain your HP for power, but keep an eye on your phylactery because that's your lifeline.`
+**Why This Matters**: The Lichborne's dual interface makes you feel like you're PLAYING WITH DEATH. When you switch to Aura Mode, you watch your HP become your spell resource — every cast drains your life, but the damage output is devastating. The "+1d6 Frost Damage" bonus on every spell and the "Spells cost HP instead of Mana" indicator make the tradeoff visceral. When you kill an enemy and see the soul energy flow into your Phylactery, you KNOW you're building your safety net. And when you actually DIE and the Death Trigger freezes every enemy around you — that moment is pure lich fantasy. You didn't just die. You died ON PURPOSE, and now everyone around you is frozen because of it.`,
     },
 
     mechanics: {
       title: 'How It Works',
-      content: `**Eternal Frost Aura**:
-- **Activation**: 1 AP to activate, 0 AP to deactivate
-- **Duration**: Up to 1 minute while active
-- **Enhanced Frost Damage**: All frost spells deal +1d6 frost damage
-- **Chilling Effects**: Enemies hit by frost spells must save (DC 15 Constitution) or have movement speed reduced by 10 ft until end of their next turn
-- **Health Drain**: Lose 1d6 HP at the start of each turn while active (cannot be mitigated)
-- **Sustaining**: Use healing spells/abilities to offset drain
+      content: `**Dual-Mode Casting**:
+- **Normal Mode (Aura OFF)**: Frost spells cost Mana. Standard caster behavior. Sustainable and safe.
+- **Aura Mode (Aura ON)**: Frost spells cost HP instead of Mana. All frost spells deal +1d6 frost damage and apply Chilled (DC 17 Con save or -10 ft speed) on hit.
+- **Toggle**: Free action — no AP or Mana cost to switch modes. Can switch once per turn.
+- **Aura Drain**: At the start of each turn while in Aura Mode, lose HP from the aura itself. Scales with level: 1d6 (Lv1-4), 1d8 (Lv5-7), 1d10 (Lv8-10). Cannot be mitigated or resisted.
 
-**Phylactery Mechanics**:
-- **HP Storage**: Ritual (1 hour) to transfer 10 HP into Phylactery
-- **Maximum Storage**: 50 HP total
-- **Resurrection**: When reduced to 0 HP, spend 10 HP from Phylactery to revive with 10 HP
-- **Limit**: Once per combat
-- **Recharging**: Sacrifice HP during short/long rest (max 10 HP per rest)
+**Phylactery Harvester**:
+- **Kill Charge**: Each enemy killed by your frost spells adds 1d6 HP to your Phylactery (max 50 HP base)
+- **Resurrection**: When reduced to 0 HP, spend all stored Phylactery HP to resurrect at that HP value. Once per combat.
+- **Death Trigger**: On Phylactery resurrection, all enemies within 15ft are Frozen for 1 round (no save)
+- **Manual Charge**: You may still transfer your own HP to the Phylactery during a short rest (10 HP per rest) as a fallback
 
 **Strategic Depth**:
-- Balance aura damage boost against health drain
-- Pre-store HP in Phylactery before dangerous encounters
-- Time aura activation for burst damage windows
-- Coordinate with healers to maintain aura longer`
+- Switch to Aura Mode for burst damage windows — spells are free of Mana cost but drain your life
+- Kill enemies aggressively to charge your Phylactery for resurrection insurance
+- The Death Trigger freeze makes dying a tactical weapon — sometimes dying IS the play
+- Coordinate with healers to extend your Aura Mode uptime
+- In Normal Mode, you're a standard frost caster — conserve HP when you need to survive`,
     },
 
     keyAbilities: [
       {
-        name: 'Eternal Frost Aura',
-        type: 'Toggle Ability',
-        description: 'Activate to enhance frost spells (+1d6 damage, chilling effects) but lose 1d6 HP per turn'
+        name: 'Dual-Mode Casting',
+        type: 'Toggle (Free Action)',
+        description: 'Switch between Normal Mode (Mana cost) and Aura Mode (HP cost, +1d6 damage, chill on hit). Aura drains HP per turn while active.'
       },
       {
-        name: 'Phylactery Storage',
-        type: 'Ritual (1 hour)',
-        description: 'Transfer 10 HP into Phylactery (max 50 HP stored)'
+        name: 'Phylactery Harvester',
+        type: 'Passive',
+        description: 'Enemies killed by your frost spells charge your Phylactery (+1d6 HP per kill, max 50 HP)'
       },
       {
         name: 'Phylactery Resurrection',
         type: 'Passive',
-        description: 'When reduced to 0 HP, spend 10 HP from Phylactery to revive with 10 HP (once per combat)'
+        description: 'When reduced to 0 HP, spend all stored Phylactery HP to resurrect at that value (once per combat). Freezes all enemies within 15ft for 1 round on resurrection.'
       }
     ],
 
     strategicConsiderations: {
       title: 'Strategic Considerations',
-      content: `**Phylactery 0-20 HP (Low Reserve)**:
-- Avoid risky plays, conserve HP
-- Deactivate aura unless necessary
-- Focus on chilling/freezing for control
-- Recharge Phylactery at next rest
+      content: `**Phylactery 0-15 HP (Low Reserve)**:
+- Switch to Normal Mode to conserve HP
+- Focus on killing weak enemies to charge Phylactery
+- Use Phylactery Shield if available for emergency defense
+- Avoid risky plays — you don't have resurrection insurance
 
-**Phylactery 20-40 HP (Moderate Reserve)**:
-- Can afford moderate aura usage
-- Balance offense and defense
-- Use resurrection as safety net
-- Maintain some HP buffer
+**Phylactery 16-35 HP (Moderate Reserve)**:
+- Aura Mode viable for 2-3 turn burst windows
+- Balance kills between damage output and Phylactery charging
+- Aggressive play is acceptable with resurrection available
+- Coordinate with healer for extended Aura Mode uptime
 
-**Phylactery 40-50 HP (Full Reserve)**:
-- Aggressive aura usage viable
-- Can afford risky plays with resurrection backup
-- Maximum damage output
+**Phylactery 36-50 HP (Full Reserve)**:
+- Maximum aggression — stay in Aura Mode, burn HP for devastating damage
+- Death is a tactical option: Death Trigger freeze can save a wipe
+- Consider Phylactery Burst for massive damage dump
 - Coordinate burst windows with team
 
-**Aura Management**:
-- **Turn 1-2**: Activate aura for opening burst
-- **Turn 3-5**: Toggle based on healing availability
-- **Turn 6+**: Deactivate if low HP, reactivate for finishers
+**Mode Switching Strategy**:
+- **Opening**: Start in Normal Mode, assess threat level
+- **Turn 1-2**: Switch to Aura Mode for opening burst, begin killing to charge Phylactery
+- **Turn 3-5**: Maintain Aura Mode if healer supports, or toggle based on HP
+- **Turn 6+**: Switch to Normal Mode if HP critical, Aura Mode for finishing burst
 
 **Healing Coordination**:
-- Communicate aura status to healers
-- Time aura activation after receiving heals
-- Use self-healing spells strategically
-- Deactivate aura if no healing available`
+- Communicate Aura Mode status to healers
+- Switch to Aura Mode after receiving heals for maximum value
+- Self-sustain with Siphon Soul for HP recovery
+- Use Normal Mode when no healing is available`,
     },
 
     playingInPerson: {
       title: 'Playing Lichborne In Person',
       content: `**Required Materials**:
-- **Eternal Frost Aura Toggle** (card or token showing Active/Inactive)
+- **Eternal Frost Aura Toggle** (card or token showing Normal Mode / Aura Mode)
 - **HP Tracker** (d100 or paper for current HP)
-- **Phylactery HP Tracker** (separate tracker for stored HP)
-- **Aura Damage Die** (d6 for rolling aura drain each turn)
-- **Frost Damage Bonus Tracker** (showing +1d6 when aura active)
+- **Phylactery HP Tracker** (separate tracker for harvested HP)
+- **Aura Drain Die** (d6 for Lv1-4, d8 for Lv5-7, d10 for Lv8-10)
+- **Frost Damage Bonus Tracker** (showing +1d6 when in Aura Mode)
 - **Resurrection Tracker** (marking when Phylactery resurrection is available)
 
-**Primary Tracking Method: Dual HP Tracking + Aura Toggle**
+**Primary Tracking Method: Mode Toggle + Dual HP Tracking**
 
-The Lichborne's resource system uses two separate HP pools (your HP and Phylactery HP) plus an Eternal Frost Aura toggle. The aura enhances frost spells but drains your HP each turn, creating a risk/reward balance. The Phylactery stores HP and provides resurrection when you die.
+The Lichborne's resource system uses a mode toggle (Normal vs Aura) plus two HP pools (your HP and Phylactery HP). In Normal Mode, spells cost Mana. In Aura Mode, spells cost HP instead. The Phylactery charges by killing enemies and provides resurrection when you die.
 
 **Setup**:
 \`\`\`
 LICHBORNE RESOURCE TRACKING:
 
 YOUR HP: [___] / 80
-PHYLACTERY HP: [___] / 80 (stored HP)
+PHYLACTERY HP: [___] / 50 (harvested from kills)
+MANA: [___] / 60 (only used in Normal Mode)
 
-ETERNAL FROST AURA: [INACTIVE] / [ACTIVE]
-When Active:
+CASTING MODE: [NORMAL] / [AURA]
+When Aura Mode:
+• Frost spells cost HP instead of Mana
 • All frost spells: +1d6 frost damage
-• Enemies hit: CON save DC 15 or -10 ft speed (chilled)
-• You lose 1d6 HP at start of each turn
+• Enemies hit: CON save DC 17 or -10 ft speed (chilled)
+• You lose 1d6/1d8/1d10 HP at start of each turn (scales with level)
 
-PHYLACTERY RESURRECTION:
-• When you die: Resurrect at Phylactery location
-• HP restored: Equal to Phylactery HP stored
-• Phylactery HP: Resets to 0 after resurrection
-• Cooldown: Once per long rest
+PHYLACTERY HARVESTER:
+• Kill enemy with frost spell → +1d6 HP to Phylactery
+• Max: 50 HP stored
+• When you die: Resurrect at Phylactery HP value
+• Death Trigger: Freeze all enemies within 15ft for 1 round (no save)
+• Cooldown: Once per combat
 \`\`\`
 
 **How It Works**:
 
-**Eternal Frost Aura (Toggle)**:
-1. **Activate** (1 AP, no mana): Flip aura card to "ACTIVE"
-2. **While Active**: All frost spells deal +1d6 damage, enemies chilled
-3. **HP Drain**: At start of each turn, roll 1d6 and lose that much HP
-4. **Deactivate** (1 AP, no mana): Flip aura card to "INACTIVE"
+**Dual-Mode Casting**:
+1. **Normal Mode** (Aura OFF): Cast frost spells using Mana. Standard caster.
+2. **Switch to Aura Mode**: Free action. No AP or Mana cost. Can switch once per turn.
+3. **Aura Mode** (Aura ON): Frost spells cost HP instead of Mana. +1d6 damage. Chill on hit.
+4. **Aura Drain**: At start of each turn in Aura Mode, lose 1d6 HP (Lv1-4), 1d8 HP (Lv5-7), or 1d10 HP (Lv8-10).
+5. **Switch to Normal Mode**: Free action. Spells cost Mana again.
 
-**Phylactery HP Storage**:
-1. **Store HP** (ritual, 10 minutes): Transfer HP from yourself to Phylactery
-2. **Maximum**: Phylactery can store up to your max HP (80)
-3. **Resurrection**: When you die, resurrect at Phylactery with stored HP
-4. **Reset**: Phylactery HP resets to 0 after resurrection
+**Phylactery Harvester**:
+1. **Kill Charge**: Each enemy killed by your frost spells → add 1d6 HP to Phylactery
+2. **Maximum**: Phylactery stores up to 50 HP (75 for Phylactery Guardian spec)
+3. **Resurrection**: When you die → resurrect at stored Phylactery HP value
+4. **Death Trigger**: On resurrection → freeze all enemies within 15ft for 1 round (no save!)
+5. **Reset**: Phylactery HP goes to 0 after resurrection. Charge it by killing more enemies.
+6. **Once Per Combat**: Can only resurrect once per combat encounter
 
-**Example Aura Management**:
+**Example Mode Switching**:
 
-*You have 80 HP, Phylactery has 30 HP stored, Aura is Inactive*
+*You have 80 HP, Phylactery has 10 HP, Normal Mode, 50 Mana*
 
-**Turn 1 - Activate Aura**:
-1. "I activate Eternal Frost Aura!"
-2. Flip aura card to "ACTIVE"
-3. Aura is now active (no HP drain yet, happens at start of next turn)
+**Turn 1 - Switch to Aura Mode**:
+1. "I switch to Aura Mode!"
+2. Flip mode card to "AURA MODE"
+3. Frost spells now cost HP instead of Mana
 
-**Turn 2 - Aura Drain Begins**:
+**Turn 2 - Aura Drain + Cast Spell**:
 1. Start of turn: Roll aura drain → 1d6 → [4] = 4 HP lost
 2. Your HP: 80 - 4 = **76 HP**
-3. "I cast Ice Shard at the orc!"
-4. Spell damage: 3d6 (base) + 1d6 (aura bonus) = 4d6
-5. Roll: [5,4,6,3] = 18 frost damage
-6. Orc must save CON DC 15 or -10 ft speed (chilled)
+3. "I cast Ice Lance at the orc! Costs 12 HP in Aura Mode."
+4. Your HP: 76 - 12 = **64 HP**
+5. Spell damage: 4d6 (base) + 1d6 (aura bonus) = 5d6
+6. Roll: [5,4,6,3,5] = 23 frost damage
+7. Orc must save CON DC 17 or -10 ft speed (chilled)
+8. Mana: Still 50/60 (didn't spend any!)
 
-**Turn 3 - More Aura Drain**:
+**Turn 3 - Kill to Charge Phylactery**:
 1. Start of turn: Roll aura drain → 1d6 → [5] = 5 HP lost
-2. Your HP: 76 - 5 = **71 HP**
-3. Cast another frost spell with +1d6 bonus
+2. Your HP: 64 - 5 = **59 HP**
+3. "I cast Frozen Orb at the group! Costs 10 HP."
+4. Your HP: 59 - 10 = **49 HP**
+5. Damage kills two goblins!
+6. **PHYLACTERY HARVEST**: 2 kills × 1d6 each → [3] + [5] = **+8 HP to Phylactery**
+7. Phylactery HP: 10 + 8 = **18 HP**
 
-**Turn 4 - Deactivate Aura**:
-1. "I deactivate Eternal Frost Aura!"
-2. Flip aura card to "INACTIVE"
-3. No more HP drain
-4. No more +1d6 frost damage bonus
+**Turn 4 - Strategic Death**:
+1. Boss attacks you → 30 damage
+2. Your HP: 49 - 30 = **19 HP**
+3. Minion attacks you → 22 damage
+4. Your HP: 19 - 22 = **-3 HP** → YOU DIE!
 
-**Example Phylactery Resurrection**:
-
-*You have 15 HP, Phylactery has 40 HP stored, Aura is Active*
-
-**Turn 1 - Aura Drain**:
-1. Start of turn: Roll aura drain → 1d6 → [6] = 6 HP lost
-2. Your HP: 15 - 6 = **9 HP** (low!)
-
-**Turn 2 - Enemy Attack**:
-1. Dragon breathes fire → 25 damage
-2. Your HP: 9 - 25 = **-16 HP** (DEAD!)
-
-**Turn 3 - Phylactery Resurrection**:
-1. "My Phylactery activates! I resurrect!"
-2. Your body crumbles to ice, then reforms at Phylactery location
-3. **HP Restored**: 40 HP (equal to Phylactery HP)
+**Phylactery Resurrection**:
+1. "My Phylactery activates! I resurrect at 18 HP!"
+2. Your body crumbles to ice, then reforms
+3. **HP Restored**: 18 HP (equal to Phylactery HP)
 4. **Phylactery HP**: Resets to 0
-5. **Location**: Teleport to Phylactery (wherever you placed it)
-6. **Cooldown**: Cannot resurrect again until long rest
+5. **Death Trigger**: "All enemies within 15ft are FROZEN for 1 round! No save!"
+6. Boss and minion are both FROZEN
+7. **Cooldown**: Cannot resurrect again this combat
 
-**Phylactery HP Storage Ritual**:
-
-*You have 80 HP, Phylactery has 10 HP stored*
-
-**During Downtime (10-minute ritual)**:
-1. "I perform the Phylactery Storage ritual"
-2. Choose how much HP to transfer (e.g., 30 HP)
-3. Your HP: 80 - 30 = **50 HP**
-4. Phylactery HP: 10 + 30 = **40 HP**
-5. Ritual complete
-
-**Why Store HP?**:
-- **Resurrection Insurance**: If you die, you resurrect with Phylactery HP
-- **Strategic Reserve**: Keep HP in Phylactery for emergencies
-- **Aura Aggression**: Can activate aura more aggressively if you have resurrection backup
+**Turn 5 - Switch to Normal Mode**:
+1. Start of turn: Roll aura drain → 1d6 → [2] = 2 HP lost
+2. Your HP: 18 - 2 = **16 HP**
+3. "I switch to Normal Mode to recover!"
+4. Flip mode card to "NORMAL MODE"
+5. "I cast Siphon Soul on the frozen boss! Costs 6 Mana."
+6. Mana: 50 - 6 = 44/60
+7. Deal damage AND heal for half!
 
 **Aura Toggle Card Template**:
 \`\`\`
-═══════════════════════════════════
-    ETERNAL FROST AURA
-═══════════════════════════════════
-STATUS: [INACTIVE] ← Flip to show Active/Inactive
+═════════════════════════════════════
+     ETERNAL FROST AURA
+═════════════════════════════════════
+MODE: [NORMAL] ← Flip to show Mode
 
-WHEN ACTIVE:
+NORMAL MODE (Aura OFF):
+• Frost spells cost Mana
+• No damage bonus, no chill
+• No HP drain
+
+AURA MODE (Aura ON):
+✓ Frost spells cost HP instead of Mana
 ✓ All frost spells: +1d6 frost damage
-✓ Enemies hit: CON save DC 15 or -10 ft speed
-✗ You lose 1d6 HP at start of each turn
+✓ Enemies hit: CON save DC 17 or -10 ft speed
+✗ You lose 1d6/1d8/1d10 HP at start of each turn
 
-ACTIVATION: 1 AP, no mana
-DEACTIVATION: 1 AP, no mana
-
-VISUAL: Frost spreads from your body, ice crystals
-form in the air, temperature drops dramatically
-═══════════════════════════════════
+SWITCH MODE: Free action (once per turn)
+═════════════════════════════════════
 \`\`\`
 
 **Phylactery Tracker Card Template**:
 \`\`\`
-═══════════════════════════════════
-       PHYLACTERY
-═══════════════════════════════════
-STORED HP: [___] / 80
+═════════════════════════════════════
+       PHYLACTERY HARVESTER
+═════════════════════════════════════
+STORED HP: [___] / 50
+
+CHARGING:
+• Kill enemy with frost spell → +1d6 HP
+• Charge from kills in combat!
 
 RESURRECTION:
-☐ Available (once per long rest)
-☐ Used (need long rest to recharge)
+☐ Available (once per combat)
+☐ Used (need new combat to reset)
 
 WHEN YOU DIE:
-1. Resurrect at Phylactery location
-2. HP restored = Phylactery HP
-3. Phylactery HP resets to 0
+1. Resurrect at Phylactery HP value
+2. Phylactery HP resets to 0
+3. DEATH TRIGGER: Freeze all enemies
+   within 15ft for 1 round (NO SAVE!)
 4. Mark resurrection as "Used"
-
-STORAGE RITUAL (10 minutes):
-Transfer HP from yourself to Phylactery
-Maximum: 80 HP stored
-═══════════════════════════════════
+═════════════════════════════════════
 \`\`\`
-
-**Example In-Person Turn**:
-
-*You have 60 HP, Phylactery has 35 HP, Aura is Inactive*
-
-**Turn 1 - Activate Aura**:
-1. "I activate Eternal Frost Aura!"
-2. Flip aura card to "ACTIVE"
-3. No drain yet (happens at start of next turn)
-
-**Turn 2 - Aura Drain + Frost Spell**:
-1. Start of turn: Roll 1d6 → [3] = 3 HP lost
-2. Your HP: 60 - 3 = **57 HP**
-3. "I cast Frozen Orb at the enemies!"
-4. Spell damage: 5d6 (base) + 1d6 (aura) = 6d6
-5. Roll: [6,5,4,6,3,5] = 29 frost damage to all enemies!
-6. All enemies: CON save DC 15 or -10 ft speed
-
-**Turn 3 - More Drain**:
-1. Start of turn: Roll 1d6 → [5] = 5 HP lost
-2. Your HP: 57 - 5 = **52 HP**
-3. Cast another frost spell with aura bonus
-
-**Turn 4 - Taking Damage**:
-1. Start of turn: Roll 1d6 → [4] = 4 HP lost
-2. Your HP: 52 - 4 = **48 HP**
-3. Enemy attacks → 20 damage
-4. Your HP: 48 - 20 = **28 HP** (getting low!)
-
-**Turn 5 - Deactivate Aura**:
-1. "I deactivate Eternal Frost Aura to preserve HP!"
-2. Flip aura card to "INACTIVE"
-3. No more drain, but no more +1d6 bonus
 
 **Alternative Tracking Methods**:
 
@@ -678,46 +635,35 @@ Maximum: 80 HP stored
 **Method 2: HP Tokens**
 - Use tokens to represent HP (1 token = 10 HP)
 - Separate piles for your HP and Phylactery HP
-- Remove tokens as you lose HP
+- Blue tokens for Phylactery, red for HP
 
-**Method 3: Paper Tracking**
-- Write both HP values on paper
-- Cross out and rewrite as they change
-- Minimalist approach
-
-**Method 4: Aura Die**
-- Use a d6 placed on "Active" or "Inactive" side of card
-- Roll the same die for aura drain each turn
-- Dual-purpose die
+**Method 3: Mode Coin**
+- Use a coin (heads = Aura Mode, tails = Normal Mode)
+- Flip when switching modes
+- Simple and tactile
 
 **Quick Reference Card Template**:
 \`\`\`
 LICHBORNE QUICK REFERENCE
 
-ETERNAL FROST AURA:
-• Activate: 1 AP, no mana
-• Deactivate: 1 AP, no mana
-• Bonus: +1d6 frost damage to all frost spells
-• Chill: Enemies hit save CON DC 15 or -10 ft speed
-• Drain: Lose 1d6 HP at start of each turn
+DUAL-MODE CASTING:
+• Switch: Free action, once per turn
+• Normal Mode: Spells cost Mana
+• Aura Mode: Spells cost HP, +1d6 frost, chill DC 17
+• Aura Drain: 1d6 HP/turn (Lv1-4), 1d8 (Lv5-7), 1d10 (Lv8-10)
 
-PHYLACTERY:
-• Store HP: 10-minute ritual, transfer HP
-• Maximum: 80 HP stored
-• Resurrection: When you die, resurrect with Phylactery HP
-• Cooldown: Once per long rest
-• Location: Teleport to Phylactery when resurrecting
+PHYLACTERY HARVESTER:
+• Kill enemy → +1d6 Phylactery HP
+• Max: 50 HP (75 for Guardian)
+• Die → Resurrect at stored HP value
+• Death Trigger: Freeze 15ft radius, 1 round, no save
+• Once per combat
 
-AURA STRATEGY:
-• Aggressive: Keep active, rely on Phylactery resurrection
-• Balanced: Toggle on/off based on combat intensity
-• Conservative: Only activate for burst windows
-
-HP MANAGEMENT:
-• Monitor your HP closely when aura is active
-• Store HP in Phylactery before dangerous fights
-• Deactivate aura if HP gets too low
-• Coordinate with healers
+MODE STRATEGY:
+• Normal: Safe, sustainable, uses Mana
+• Aura: Devastating, uses HP, aggressive
+• Kill enemies to charge Phylactery
+• Die strategically for Death Trigger freeze
 \`\`\`
 
 **Thematic Enhancements**:
@@ -725,66 +671,42 @@ HP MANAGEMENT:
 Many players enhance the Lichborne experience with:
 - **Phylactery Prop**: Small crystal or gem representing the Phylactery
 - **Frost Dice**: Blue/white dice for frost damage rolls
-- **Aura Indicator**: LED tea light that glows when aura is active
-- **HP Crystals**: Blue crystals or beads for tracking HP
+- **Mode Token**: LED tea light that glows blue when in Aura Mode
+- **HP Crystals**: Blue crystals or beads for tracking Phylactery HP
 - **Resurrection Token**: Special token marking resurrection availability
-- **Temperature Drop**: Mention room getting colder when aura activates
+- **Kill Counter**: Small counter for tracking kills per combat for Phylactery charging
+- **Temperature Drop**: Mention room getting colder when switching to Aura Mode
 
-**Aura Management Tips**:
+**Mode Management Tips**:
 
-**Activation Strategy**:
-- **Early Combat**: Activate aura when combat starts for maximum damage
-- **Burst Windows**: Activate for 2-3 turns, then deactivate
-- **Boss Fights**: Keep active if you have Phylactery resurrection ready
-- **Trash Mobs**: Toggle on/off to conserve HP
+**When to Use Aura Mode**:
+- Start of combat for burst damage
+- When you have full HP and healer support
+- When Phylactery is charged (resurrection available)
+- When enemies are grouped for AoE frost kills (charges Phylactery fast)
 
-**HP Management**:
-- **Monitor Drain**: Track total HP lost to aura each combat
-- **Deactivate Early**: Don't wait until HP is critical
-- **Healing Coordination**: Time aura activation after receiving heals
-- **Phylactery Insurance**: Keep 30-40 HP in Phylactery for resurrection
+**When to Use Normal Mode**:
+- When HP is low and no healer available
+- When Phylactery is depleted (no resurrection insurance)
+- When you need to sustain for a long fight
+- Between combat encounters
 
 **Phylactery Strategy**:
-- **Pre-Combat Storage**: Store HP before dangerous fights
-- **Resurrection Timing**: Use resurrection aggressively if available
-- **Location Placement**: Place Phylactery in safe location before combat
-- **Cooldown Awareness**: Track when resurrection is available
+- **Aggressive**: Kill weak enemies first to charge Phylactery fast
+- **Death Trigger**: Sometimes dying IS the play — freeze all enemies for your team
+- **Recharging**: After resurrection, switch to Normal Mode and kill to rebuild
+- **Guardian Spec**: 75 HP Phylactery means you can be even more aggressive
 
-**Why This System Works**: The dual HP tracking (your HP and Phylactery HP) creates a unique resource management challenge. The Eternal Frost Aura toggle is simple (flip a card) but creates constant decisions about when to activate for damage versus when to deactivate to preserve HP. The Phylactery resurrection mechanic provides a safety net that encourages aggressive aura usage, knowing you can resurrect if you die. The physical act of rolling 1d6 for aura drain each turn creates tension—will you roll low (1-2) or high (5-6)? The system is easy to track but creates deep strategic gameplay.
+**Why This System Works**: The mode toggle is simple — flip a card or coin — but creates fundamentally different gameplay. In Normal Mode you're a standard caster. In Aura Mode you're a glass cannon burning your own life for devastating power. The Phylactery Harvester creates a positive feedback loop: kill enemies → charge Phylactery → die and resurrect with Death Trigger freeze → kill more enemies to recharge. The physical act of rolling the aura drain die each turn creates tension, and the kill-charge mechanic makes every enemy death feel rewarding. The Death Trigger is the ultimate expression of the class philosophy — when you die, EVERYONE around you suffers. Death isn't a failure. It's your strongest move.
 
 **Pro Tips**:
-- **Aura Timing**: Activate aura at start of combat, deactivate when enemies are low
-- **Phylactery Placement**: Place Phylactery in safe location before combat
-- **HP Banking**: Store 40-50 HP in Phylactery before boss fights
-- **Drain Tracking**: Keep running total of HP lost to aura
-- **Resurrection Awareness**: Know when resurrection is available
-- **Specialization Synergy**: Frost Lord = aura focus, Undying = resurrection focus, Eternal = balanced approach
-
-**Budget-Friendly Alternatives**:
-- **No aura card?** Use a coin (heads = active, tails = inactive)
-- **No HP trackers?** Write both HP values on paper
-- **No Phylactery prop?** Just track Phylactery HP on paper
-- **Minimalist**: Track your HP, Phylactery HP, and aura status on paper
-
-**Specialization-Specific Tracking**:
-
-**Frost Lord**:
-- Aura drain reduced to 1d4 (instead of 1d6)
-- Frost damage bonus increased to +2d6 (instead of +1d6)
-- Track enhanced bonuses on aura card
-
-**Undying**:
-- Phylactery resurrection available twice per long rest
-- Track two resurrection uses instead of one
-- Mark both uses on Phylactery card
-
-**Eternal**:
-- Aura can be active permanently (no drain)
-- But frost damage bonus reduced to +1d4
-- No need to track aura drain
-
-**Why Lichborne Is Perfect for In-Person Play**: The class is built around simple, tangible mechanics (HP tracking and aura toggle) that create deep strategic gameplay. The physical act of flipping the aura card to "ACTIVE" and then rolling 1d6 for drain each turn creates tension and excitement. The dual HP tracking (your HP and Phylactery HP) is easy to manage with two dice or trackers. The Phylactery resurrection mechanic provides dramatic moments when you die and resurrect at your Phylactery location. The risk/reward of keeping the aura active (more damage but HP drain) creates constant decision-making. Every turn with the aura active is a gamble—will you roll low drain or high drain? The system is simple enough to track mid-combat but creates meaningful strategic choices.`
-    }
+- **Mode Timing**: Switch to Aura Mode when you have a kill opportunity (charges Phylactery)
+- **Kill Priority**: Weak enemies = fast Phylactery charges. Save big spells for bosses.
+- **Death Trigger Setup**: Position near enemies before "dying" to maximize the 15ft freeze
+- **Mana Conservation**: Use Aura Mode for 2-3 turns, then switch to Normal Mode with full Mana
+- **Siphon Soul**: Life drain spell heals you AND charges Phylactery on kill
+- **Spec Synergy**: Frostbound = freeze/shatter loop, Reaper = kill army, Guardian = maximum resurrections`,
+    },
   },
 
   // Specializations
@@ -797,7 +719,7 @@ Many players enhance the Lichborne experience with:
     sharedPassive: {
       name: 'Undying Frost',
       icon: 'Frost/Frozen in Ice',
-      description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.'
+      description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. When you resurrect via Phylactery, all enemies within 15ft are Frozen for 1 round (Death Trigger, no save).'
     },
 
     specs: [
@@ -806,48 +728,48 @@ Many players enhance the Lichborne experience with:
         name: 'Frostbound Tyrant',
         icon: 'Frost/Frozen in Ice',
         color: '#4A90E2',
-        description: 'Masters of freezing enemies and controlling the battlefield',
-        theme: 'Control and crowd control through freezing',
+        description: 'Masters of freezing enemies and shattering them for devastating burst damage',
+        theme: 'Freeze → Shatter → Refreeze loop',
 
         passive: {
           name: 'Permafrost Mastery',
-          description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells.'
+          description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. When a frozen enemy takes damage, there is a 50% chance they Shatter (takes an additional 3d6 frost damage but the freeze ends immediately).'
         },
 
         strengths: [
           'Exceptional crowd control through extended freezes',
-          'High bonus damage to frozen targets',
-          'Strong area denial with AoE freezes',
+          'Shatter mechanic creates an active freeze → damage → refreeze loop',
+          'Strong bonus damage to frozen targets',
           'Can lock down multiple dangerous enemies'
         ],
 
         weaknesses: [
-          'Lower damage against unfrozen targets',
-          'Requires setup time to freeze enemies',
+          'Shatter ends the freeze — must choose between damage and control',
+          'Requires setup time to freeze enemies before dealing bonus damage',
           'Less effective against freeze-immune enemies',
           'Relies on landing freeze saves'
         ],
 
-        playstyle: 'Focus on freezing multiple enemies and exploiting frozen targets for bonus damage. Excels at locking down dangerous foes.',
+        playstyle: 'Freeze enemies, then Shatter them for massive burst damage. The Shatter ends the freeze, so you must refreeze to repeat the loop. Creates an active, engaging play pattern where you constantly balance crowd control against burst damage.',
 
         playstyleTips: [
-          'Prioritize freezing high-threat targets first',
-          'Use AoE freezes to control grouped enemies',
-          'Follow up freezes with high-damage spells',
-          'Coordinate with team to exploit frozen enemies'
+          'Freeze high-threat targets, then Shatter for burst damage',
+          'Use AoE freezes to set up multi-target Shatters',
+          'Refreeze after Shatter to maintain crowd control',
+          'Save Shatters for enemies you can finish off'
         ],
 
         passiveAbilities: [
           {
             name: 'Undying Frost',
             tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.',
             sharedBy: 'All Lichborne'
           },
           {
             name: 'Permafrost Mastery',
             tier: 'Specialization Passive',
-            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells.',
+            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. 50% chance to Shatter frozen targets on damage (3d6 additional frost, ends freeze).',
             uniqueTo: 'Frostbound Tyrant'
           }
         ]
@@ -857,48 +779,48 @@ Many players enhance the Lichborne experience with:
         name: 'Spectral Reaper',
         icon: 'Necrotic/Drain Soul',
         color: '#9370DB',
-        description: 'Combines frost and necrotic damage for devastating hybrid attacks',
-        theme: 'Frost/necrotic hybrid damage',
+        description: 'Commands an army of spectral minions raised from slain enemies',
+        theme: 'Kill enemies → raise spectral army → overwhelm',
 
         passive: {
           name: 'Deathly Chill',
-          description: 'Your frost spells deal +1d6 necrotic damage. Enemies killed by your spells have a 1 in 1d6 chance (roll 6) to rise as spectral minions for 1d4 rounds.'
+          description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4 minions). Minions have 10 HP and deal 1d6 necrotic damage per turn on your command (1 AP to command all).'
         },
 
         strengths: [
-          'Hybrid damage bypasses single-type resistances',
-          'Can summon minions for additional damage/tanking',
-          'Strong sustained damage output',
-          'Effective against both living and undead enemies'
+          'Guaranteed minion army — no RNG dependence',
+          'Hybrid frost/necrotic damage bypasses single-type resistances',
+          'Minions provide additional damage, body-blocking, and area denial',
+          'Strong sustained damage from personal spells + minion attacks'
         ],
 
         weaknesses: [
-          'Minion summoning is RNG-dependent',
+          'Minions are fragile (10 HP each) and temporary',
+          'Requires kills to build army — weak in long single-target fights',
           'Lower crowd control than Frostbound Tyrant',
-          'Minions are temporary and fragile',
           'Less survivability than Phylactery Guardian'
         ],
 
-        playstyle: 'Hybrid damage dealer who combines frost and necrotic energy. Can summon temporary minions from slain enemies.',
+        playstyle: 'Aggressive hybrid damage dealer who commands a growing army of spectral minions. Kill weak enemies first to build your army, then overwhelm stronger targets with combined personal + minion damage.',
 
         playstyleTips: [
-          'Focus on killing low-HP enemies to trigger minion summons',
+          'Prioritize killing weak enemies to build your minion army fast',
+          'Command minions to body-block dangerous enemies or flank',
           'Use hybrid spells to bypass resistances',
-          'Position minions to body-block or flank',
-          'Maintain Eternal Frost Aura for maximum damage'
+          'Maintain Aura Mode for maximum kill potential'
         ],
 
         passiveAbilities: [
           {
             name: 'Undying Frost',
             tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.',
             sharedBy: 'All Lichborne'
           },
           {
             name: 'Deathly Chill',
             tier: 'Specialization Passive',
-            description: 'Your frost spells deal +1d6 necrotic damage. Enemies killed by your spells have a 1 in 1d6 chance (roll 6) to rise as spectral minions for 1d4 rounds.',
+            description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn (1 AP to command all).',
             uniqueTo: 'Spectral Reaper'
           }
         ]
@@ -913,43 +835,43 @@ Many players enhance the Lichborne experience with:
 
         passive: {
           name: 'Fortified Phylactery',
-          description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection costs 8 HP (instead of 10) and revives you with 15 HP (instead of 10).'
+          description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection revives you with the full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft).'
         },
 
         strengths: [
-          'Highest survivability of all specs',
-          'Can afford aggressive aura usage',
-          'More frequent resurrections',
-          'Better HP buffer for risky plays'
+          'Highest survivability of all specs — 75 HP Phylactery',
+          'Death Trigger freeze in 25ft radius (larger than other specs)',
+          'Can afford aggressive Aura Mode usage with massive resurrection buffer',
+          'More frequent and safer resurrections'
         ],
 
         weaknesses: [
           'Lower damage output than other specs',
-          'No crowd control bonuses',
-          'Still vulnerable to burst damage',
+          'No crowd control or minion bonuses',
+          'Still vulnerable to burst damage above Phylactery capacity',
           'Resurrection limited to once per combat'
         ],
 
-        playstyle: 'Tankier Lichborne with enhanced resurrection mechanics. Can afford more aggressive aura usage.',
+        playstyle: 'Tankiest Lichborne with enhanced Phylactery mechanics. Larger Death Trigger radius and 75 HP Phylactery makes dying a powerful tactical weapon. Can afford maximum Aura Mode aggression.',
 
         playstyleTips: [
-          'Keep Phylactery at high HP before dangerous encounters',
-          'Use aggressive aura uptime with resurrection backup',
-          'Don\'t be afraid to take risks with full Phylactery',
-          'Coordinate resurrections with team for maximum impact'
+          'Keep Phylactery at high HP before dangerous encounters by killing enemies',
+          'Use Aura Mode aggressively — your 75 HP Phylactery can absorb the risk',
+          'Position near enemies before dying for maximum Death Trigger coverage',
+          'Coordinate resurrections with team for devastating freeze setups'
         ],
 
         passiveAbilities: [
           {
             name: 'Undying Frost',
             tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage.',
+            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 25ft for 1 round.',
             sharedBy: 'All Lichborne'
           },
           {
             name: 'Fortified Phylactery',
             tier: 'Specialization Passive',
-            description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection costs 8 HP (instead of 10) and revives you with 15 HP (instead of 10).',
+            description: 'Your Phylactery can store up to 75 HP (instead of 50). Resurrect at full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft).',
             uniqueTo: 'Phylactery Guardian'
           }
         ]
@@ -1323,45 +1245,39 @@ Many players enhance the Lichborne experience with:
       tags: ['frost', 'summon', 'terrain', 'utility', 'control', 'lichborne']
     },
 
-    // AOE DEVASTATION SPELLS
     {
-      id: 'lb_spectral_orb',
-      name: 'Spectral Orb',
-      level: 3,
-      description: 'Summon a spinning orb of ice that damages and chills enemies in its path.',
-      category: 'aoe_devastation',
+      id: 'lb_siphon_soul',
+      name: 'Siphon Soul',
+      level: 2,
+      description: 'Drain the life force from a target, dealing frost damage and healing yourself for half the damage dealt. If the target dies, gain +1d6 Phylactery HP.',
+      category: 'basic_frost',
       spellType: 'ACTION',
-      icon: 'Frost/Frozen in Ice',
-      school: 'Evocation',
+      icon: 'Necrotic/Drain Soul',
+      school: 'Necromancy',
 
       resourceCost: {
         actionPoints: 2,
-        mana: 18,
+        mana: 8,
         components: ['verbal', 'somatic'],
-        verbalText: 'Orbis Gelidus!',
-        somaticText: 'Spin hands in circle, orb forms and launches'
+        verbalText: 'Anima Rapio!',
+        somaticText: 'Reach out with spectral hand, draining life force'
       },
 
       castTime: 'Action',
       range: 30,
-      targetType: 'Line - 30 ft',
+      targetType: 'Single Enemy',
 
       resolution: 'SAVE',
 
       saveConfig: {
         saveType: 'constitution',
         saveDC: 15,
-        onSaveEffect: 'half_damage_no_chill'
+        onSaveEffect: 'half_damage_no_heal'
       },
 
       damageConfig: {
         baseDamage: '2d8',
         damageType: 'frost',
-        aoe: {
-          shape: 'line',
-          length: 30,
-          width: 5
-        },
         bonusDamage: {
           condition: 'target_frozen',
           amount: '+1d6',
@@ -1369,46 +1285,29 @@ Many players enhance the Lichborne experience with:
         }
       },
 
-      debuffConfig: {
-        effects: [
-          'Targets have movement speed halved',
-          'Chilled effect lasts until end of next turn'
-        ]
-      },
-
-      effects: {
-        damage: {
-          base: '2d8',
-          type: 'frost',
-          aoe: {
-            shape: 'line',
-            length: 30,
-            width: 5
-          },
-          conditional: {
-            frozen: '+1d6'
-          }
-        },
-        debuff: {
-          type: 'chilled',
-          duration: 1,
-          movementReduction: 'half'
-        }
-      },
-
-      savingThrowEffect: {
-        onSuccess: 'Takes 1d8 frost damage, not Chilled',
-        onFailure: 'Takes 2d8 frost damage and movement speed halved'
+      healingConfig: {
+        formula: 'half_damage_dealt',
+        healingType: 'self',
+        description: 'Heal yourself for half the damage dealt'
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage per target hit',
-          description: 'Aura enhances line AoE damage'
+          active: 'Deals +1d6 frost damage (total 3d8 base). Healing increases proportionally.',
+          description: 'Aura enhances the life drain'
+        },
+        phylacteryHarvester: {
+          trigger: 'Target dies from this spell',
+          effect: 'Gain +1d6 Phylactery HP in addition to normal kill charge',
+          description: 'Double phylactery charge on Siphon Soul kills'
+        },
+        frozenInteraction: {
+          condition: 'Target has Frozen condition',
+          effect: 'Deals additional 1d6 frost damage'
         }
       },
 
-      tags: ['frost', 'damage', 'aoe', 'chill', 'lichborne']
+      tags: ['frost', 'damage', 'healing', 'drain', 'phylactery', 'lichborne']
     },
 
     // HYBRID FROST/NECROTIC SPELLS
@@ -1763,77 +1662,87 @@ Many players enhance the Lichborne experience with:
     },
 
     {
-      id: 'lb_cryostatic_tomb',
-      name: 'Cryostatic Tomb',
-      level: 5,
-      description: 'Place yourself or an ally in a protective ice block, healing and shielding them from harm.',
-      category: 'utility_support',
+      id: 'lb_frost_fever',
+      name: 'Frost Fever',
+      level: 3,
+      description: 'Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating. In Aura Mode, this spell is at its peak.',
+      category: 'basic_frost',
       spellType: 'ACTION',
-      icon: 'Frost/Frost Manipulation',
-      school: 'Abjuration',
+      icon: 'Frost/Frostbite Effect',
+      school: 'Necromancy',
 
       resourceCost: {
-        actionPoints: 3,
-        mana: 25,
+        actionPoints: 2,
+        mana: 10,
         components: ['verbal', 'somatic'],
-        verbalText: 'Sepulcrum Glaciale!',
-        somaticText: 'Encase target in ice cocoon'
+        verbalText: 'Febris Glacialis!',
+        somaticText: 'Touch brow, then point at target — frost spreads from your fingers'
       },
 
       castTime: 'Action',
-      range: 10,
-      targetType: 'Self or Ally',
+      range: 40,
+      targetType: 'Single Enemy',
 
-      resolution: 'AUTOMATIC',
+      resolution: 'DICE',
 
-      healingConfig: {
-        formula: '3d6',
-        healingType: 'instant',
-        description: 'Heals target immediately'
+      damageConfig: {
+        baseDamage: '2d6',
+        damageType: 'frost',
+        bonusDamage: {
+          condition: 'caster_low_hp',
+          amount: '+1d6 per 25% HP missing',
+          description: 'Damage increases based on how low your HP is. Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.'
+        }
       },
 
-      shieldConfig: {
-        type: 'temporary_hp',
-        amount: 'equal_to_healing',
-        duration: '1 minute or until destroyed',
-        hp: 50
+      debuffConfig: {
+        effects: [
+          'Target is Slowed',
+          'Movement speed reduced by 10 feet',
+          'Suffers Frostbite: takes 1d4 frost damage for every 5 feet moved',
+          'Lasts 2 rounds'
+        ]
       },
 
       effects: {
-        healing: {
-          instant: {
-            formula: '3d6',
-            target: 'single'
+        damage: {
+          base: '2d6',
+          type: 'frost',
+          scaling: {
+            below_75pct_hp: '+1d6',
+            below_50pct_hp: '+2d6',
+            below_25pct_hp: '+3d6'
           }
         },
-        shield: {
-          temporaryHp: 'equal to healing rolled',
-          iceBlock: {
-            hp: 50,
-            duration: '1 minute',
-            immunities: ['all_damage_while_encased'],
-            restriction: 'Cannot move or take actions while encased'
+        debuff: {
+          type: 'slowed',
+          duration: 2,
+          movementReduction: 10,
+          frostbite: {
+            damage: '1d4',
+            trigger: 'per 5 ft moved'
           }
         }
       },
 
       specialMechanics: {
-        iceBlock: {
-          hp: 50,
-          duration: '1 minute',
-          description: 'Target is encased in ice block with 50 HP',
-          immunities: 'Immune to all damage while encased',
-          restriction: 'Cannot move or take actions',
-          breakable: 'Allies can break ice block early by dealing 50 damage to it'
+        eternalFrostAura: {
+          active: 'Deals +1d6 frost damage. The Aura drain itself lowers your HP, which FUELS this spell further.',
+          description: 'Self-damaging synergy — Aura drain pushes you into higher damage brackets'
         },
-        tacticalUse: {
-          description: 'Use on dying ally to stabilize and protect',
-          alternative: 'Use on self when low HP to heal and reset'
+        desperationScaling: {
+          description: 'This spell rewards being at low HP — the core Lichborne risk/reward',
+          brackets: {
+            above_75pct: '2d6 base only',
+            below_75pct: '2d6 + 1d6 = 3d6',
+            below_50pct: '2d6 + 2d6 = 4d6',
+            below_25pct: '2d6 + 3d6 = 5d6'
+          }
         }
       },
 
-      tags: ['frost', 'healing', 'shield', 'utility', 'support', 'lichborne']
-    }
+      tags: ['frost', 'damage', 'debuff', 'slow', 'desperation', 'lichborne']
+    },
   ],
 
   // Comprehensive Spell List (Levels 1-10, 3 spells each)
@@ -2001,16 +1910,17 @@ Many players enhance the Lichborne experience with:
 
     // ===== LEVEL 2 SPELLS =====
     {
-      id: 'lichborne_ice_shard',
-      name: 'Ice Shard',
-      description: 'Hurl a razor-sharp shard of ice that pierces through your enemy.',
+      id: 'lichborne_siphon_soul',
+      name: 'Siphon Soul',
+      description: 'Drain the life force from a target, dealing frost damage and healing yourself for half. If target dies, gain bonus Phylactery HP.',
       level: 2,
       spellType: 'ACTION',
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'healing'],
       typeConfig: {
         school: 'frost',
-        icon: 'Frost/Ice Shards',
-        tags: ['attack', 'damage', 'frost', 'lichborne'],
+        secondaryElement: 'necrotic',
+        icon: 'Necrotic/Drain Soul',
+        tags: ['attack', 'damage', 'healing', 'drain', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2018,18 +1928,26 @@ Many players enhance the Lichborne experience with:
         formula: '2d8 + intelligence',
         elementType: 'frost',
         damageType: 'direct',
-        criticalConfig: {
+        savingThrowConfig: {
           enabled: true,
-          critType: 'dice',
-          critMultiplier: 2,
-          critDiceOnly: false,
-          explodingDice: false
+          savingThrowType: 'constitution',
+          difficultyClass: 13,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
         }
+      },
+      healingConfig: {
+        formula: 'half_damage_dealt',
+        healingType: 'instant',
+        hasHotEffect: false,
+        hasShieldEffect: false,
+        description: 'Heal yourself for half the damage dealt'
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 80,
+        rangeDistance: 30,
         targetRestrictions: ['enemy'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
@@ -2037,17 +1955,17 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 7 },
+        resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 0
+        value: 1
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'frost', 'lichborne']
+      tags: ['attack', 'damage', 'healing', 'drain', 'phylactery', 'lichborne']
     },
 
     {
@@ -2280,50 +2198,47 @@ Many players enhance the Lichborne experience with:
     },
 
     {
-      id: 'lichborne_permafrost',
-      name: 'Permafrost',
-      description: 'Create an area of permanent ice that slows all enemies who enter.',
+      id: 'lichborne_frost_fever',
+      name: 'Frost Fever',
+      description: 'Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating.',
       level: 3,
-      spellType: 'STATE',
-      effectTypes: ['control', 'utility'],
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'frost',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['control', 'terrain', 'frost', 'zone', 'lichborne'],
-        zoneDuration: 3,
-        zoneDurationUnit: 'rounds',
-        leaveTrail: false
+        icon: 'Frost/Frostbite Effect',
+        tags: ['attack', 'damage', 'debuff', 'desperation', 'frost', 'lichborne'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
       },
-      controlConfig: {
-        controlType: 'restraint',
-        strength: 'moderate',
-        duration: 3,
+      damageConfig: {
+        formula: '2d6 + intelligence + desperation_bonus',
+        elementType: 'frost',
+        damageType: 'direct',
+        description: 'Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.'
+      },
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 2,
+        durationType: 'rounds',
         durationUnit: 'rounds',
         saveDC: 14,
-        saveType: 'agility',
-        savingThrow: true,
+        saveType: 'constitution',
+        saveOutcome: 'negates',
         effects: [{
-          id: 'slow',
-          name: 'Slowed by Ice',
-          description: 'Movement speed reduced by 50% while in zone',
-          config: {
-            restraintType: 'physical',
-            saveType: 'constitution',
-            saveDC: 14,
-            duration: 5,
-            durationUnit: 'rounds',
-            movementPenalty: -50
-          }
+          id: 'frostbite',
+          name: 'Frost Fever',
+          description: 'Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
         }]
       },
       targetingConfig: {
-        targetingType: 'area',
+        targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 40,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 15 },
         targetRestrictions: ['enemy'],
-        maxTargets: 10,
+        maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
       },
@@ -2331,15 +2246,15 @@ Many players enhance the Lichborne experience with:
         resourceTypes: ['mana'],
         resourceValues: { mana: 10 },
         useFormulas: {},
-        actionPoints: 2,
+        actionPoints: 1,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 4
+        value: 1
       },
       resolution: 'DICE',
-      tags: ['control', 'terrain', 'frost', 'zone', 'lichborne']
+      tags: ['attack', 'damage', 'debuff', 'desperation', 'frost', 'lichborne']
     },
 
     // ===== LEVEL 4 SPELLS =====
@@ -2592,55 +2507,60 @@ Many players enhance the Lichborne experience with:
     },
 
     {
-      id: 'lichborne_ice_wall',
-      name: 'Ice Wall',
-      description: 'Create a massive wall of solid ice that blocks movement and line of sight.',
+      id: 'lichborne_deaths_return',
+      name: "Death's Return",
+      description: 'When you resurrect via Phylactery, the cold of your return freezes all nearby enemies. This passive enhances your Death Trigger: increased freeze radius and duration.',
       level: 5,
-      spellType: 'ACTION',
-      effectTypes: ['utility', 'control'],
+      spellType: 'PASSIVE',
+      effectTypes: ['control', 'utility'],
       typeConfig: {
         school: 'frost',
-        icon: 'Frost/Icey wall',
-        tags: ['utility', 'control', 'terrain', 'frost', 'lichborne'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        icon: 'Frost/Frozen in Ice',
+        tags: ['control', 'passive', 'phylactery', 'frost', 'lichborne'],
+        toggleable: false
       },
       utilityConfig: {
-        utilityType: 'environment',
+        utilityType: 'special',
         selectedEffects: [{
-          id: 'barrier',
-          name: 'Ice Wall',
-          description: 'Creates a wall of ice 30 feet long, 10 feet high, 5 feet thick. HP: 100. Blocks movement and line of sight.'
+          id: 'death_trigger_enhanced',
+          name: "Death's Return",
+          description: 'Death Trigger freeze radius increased to 20ft (from 15ft). Freeze duration increased to 2 rounds (from 1). Enemies frozen by Death Trigger take +1d6 frost damage.'
         }],
-        duration: 5,
-        durationUnit: 'rounds',
+        duration: 0,
+        durationUnit: 'permanent',
         concentration: false,
         power: 'major'
       },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'death_trigger_enhancement',
+          name: "Death's Return",
+          description: 'Enhanced Death Trigger on Phylactery resurrection',
+          customDescription: 'Your Phylactery resurrection is devastating. When you die and resurrect, the cold of your return freezes all enemies within 20ft for 2 rounds and deals 1d6 frost damage to each.'
+        }],
+        durationValue: 0,
+        durationType: 'permanent',
+        durationUnit: 'permanent',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'wall',
-        aoeParameters: { length: 30, height: 10, width: 5 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceTypes: [],
+        resourceValues: {},
         useFormulas: {},
-        actionPoints: 2,
-        components: ['verbal', 'somatic']
+        actionPoints: 0,
+        components: []
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 5
+        value: 0
       },
       resolution: 'DICE',
-      tags: ['utility', 'control', 'terrain', 'frost', 'lichborne']
+      tags: ['control', 'passive', 'phylactery', 'frost', 'lichborne']
     },
 
     {
@@ -2825,53 +2745,50 @@ Many players enhance the Lichborne experience with:
     },
 
     {
-      id: 'lichborne_phylactery_transfer',
-      name: 'Phylactery Transfer',
-      description: 'Transfer life force between your phylactery and your body.',
+      id: 'lichborne_phylactery_burst',
+      name: 'Phylactery Burst',
+      description: 'Release all stored Phylactery HP as a devastating explosion of necrotic frost. Empties Phylactery completely.',
       level: 6,
       spellType: 'ACTION',
-      effectTypes: ['healing', 'utility'],
+      effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
-        icon: 'Necrotic/Ritual',
-        tags: ['healing', 'utility', 'phylactery', 'lichborne'],
+        secondaryElement: 'frost',
+        icon: 'Necrotic/Necrotic Death',
+        tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      healingConfig: {
-        formula: 'phylactery_hp',
-        healingType: 'instant',
-        hasHotEffect: false,
-        hasShieldEffect: false
-      },
-      utilityConfig: {
-        utilityType: 'special',
-        selectedEffects: [{
-          id: 'phylactery_transfer',
-          name: 'Transfer Life Force',
-          description: 'Transfer all HP from phylactery to yourself or vice versa'
-        }],
-        duration: 0,
-        durationUnit: 'instant',
-        concentration: false,
-        power: 'major'
+      damageConfig: {
+        formula: '8d6 + intelligence + phylactery_hp_x2',
+        elementType: 'frost',
+        secondaryElementType: 'necrotic',
+        damageType: 'direct',
+        description: 'Deals base damage plus DOUBLE your stored Phylactery HP. Empties Phylactery after use.'
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 25 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 10,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
       },
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
-        actionPoints: 1,
-        components: ['somatic']
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
       cooldownConfig: {
         type: 'short_rest',
         value: 1
       },
       resolution: 'DICE',
-      tags: ['healing', 'utility', 'phylactery', 'lichborne']
+      tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'lichborne']
     },
 
     // ===== LEVEL 7 SPELLS =====
@@ -3692,14 +3609,14 @@ Many players enhance the Lichborne experience with:
       'lichborne_phylactery_store'
     ],
     2: [
-      'lichborne_ice_shard',
+      'lichborne_siphon_soul',
       'lichborne_freezing_touch',
       'lichborne_frost_ward'
     ],
     3: [
       'lichborne_frozen_orb',
       'lichborne_ice_lance',
-      'lichborne_permafrost'
+      'lichborne_frost_fever'
     ],
     4: [
       'lichborne_glacial_spike',
@@ -3708,13 +3625,13 @@ Many players enhance the Lichborne experience with:
     ],
     5: [
       'lichborne_blizzard',
-      'lichborne_ice_wall',
+      'lichborne_deaths_return',
       'lichborne_cryonic_preservation'
     ],
     6: [
-      'lichborne_glacial_cascade',
+      'lichborne_phylactery_burst',
       'lichborne_absolute_zero',
-      'lichborne_phylactery_transfer'
+      'lichborne_glacial_cascade'
     ],
     7: [
       'lichborne_eternal_winter',

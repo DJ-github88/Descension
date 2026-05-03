@@ -402,18 +402,24 @@ When you have high Visions (7+):
       content: `**Generating Visions**
 You gain Prophetic Visions through:
 
-- **Correct Predictions**: Declare a prediction before an event (e.g., "The next attack will miss"). If correct, gain 1-3 Visions based on specificity
+- **Fate's Whisper (Passive)**: At the start of each of your turns in combat, gain 1 Prophetic Vision (max 10). This provides a reliable floor—you always have SOMETHING to spend.
+- **Correct Predictions**: Declare a prediction before an event (e.g., "The next attack will miss"). If correct, gain 1-3 Visions based on specificity. This is your BURST generation on top of the passive floor.
 - **Revealing Truths**: Use divination abilities to uncover hidden information (traps, lies, weaknesses) — gain 1 Vision per revelation
 - **Fulfilling Prophecies**: At the start of each session, make 3 prophecies about what will happen. Each that comes true grants 2 Visions
 - **Witnessing Fate**: When a critical hit or critical miss occurs within 30 feet, gain 1 Vision
+
+**Resource Split: Mana vs Visions**
+Oracle uses two resources with distinct purposes:
+- **Mana**: Pays for baseline spells (Divine Insight, Prophetic Shield, Detect Fate, Fate Strike, etc.). If it's a spell that any caster could conceptually cast, it costs Mana.
+- **Prophetic Visions**: Pays exclusively for fate manipulation (Force Reroll, Alter Fate, Twist Destiny, Sever Thread) and spec-defining empowered effects. No spell costs BOTH Mana and Visions—each ability uses one or the other.
 
 **Spending Visions**
 Visions can be spent to:
 
 - **Alter Fate** (1-3 Visions): Force a reroll, grant advantage/disadvantage, or add/subtract from a roll
-- **Cast Divination Spells**: Many Oracle spells cost Visions instead of or in addition to mana
+- **Activate Fate Manipulation Spells**: Powerful fate-bending abilities cost Visions instead of Mana
 - **Activate Prophecies**: Trigger powerful effects by spending accumulated Visions
-- **Weave Destiny**: Manipulate the threads of fate to create specific outcomes
+- **Trigger Spec Abilities**: Each spec has unique abilities powered by Visions
 
 **Vision Storage**
 - **Maximum Visions**: 10
@@ -461,8 +467,8 @@ Predictions must be made before the event occurs and are resolved immediately wh
 
 **Specialization Synergy**
 - **Seers** excel at future predictions and gain bonus Visions from correct forecasts
-- **Truthseekers** focus on revealing hidden information and past events
-- **Fateweavers** spend Visions aggressively to manipulate outcomes directly`
+- **Truthseekers** reveal hidden information and expose enemy weaknesses, stripping defenses and buffing allies against revealed targets
+- **Fateseers** manipulate outcomes through predictions—all fate alteration flows through foresight`
     },
 
     playingInPerson: {
@@ -643,7 +649,7 @@ WITNESSING FATE:
 SPECIALIZATION BONUSES:
 • Seer: +1 Vision for correct future predictions
 • Truthseeker: +1 Vision for revealing secrets
-• Fateweaver: +1 Vision when spending Visions
+• Fateseer: +1 Vision from correct prediction-conditional manipulations
 ═══════════════════════════════════
 \`\`\`
 
@@ -805,7 +811,7 @@ Many players enhance the Oracle experience with:
 - **Game-Changer**: Save 5 Visions for Twist Destiny
 - **Ultimate**: Save 10 Visions for Divine Intervention
 - **Don't Hoard**: Spend Visions when they matter most
-- **Fateweaver Spec**: Spend aggressively for bonus Visions
+- **Fateseer Spec**: All manipulation flows through predictions—chain correct predictions into fate effects
 
 **Prediction Strategy**:
 - **Observe Patterns**: Watch enemy behavior for prediction clues
@@ -843,10 +849,10 @@ Many players enhance the Oracle experience with:
 - Focus on uncovering hidden information
 - Gain bonus Visions from revelation
 
-**Fateweaver**:
-- Track +1 Vision bonus when spending Visions
-- Spend Visions aggressively
-- Gain bonus Visions from manipulation
+**Fateseer**:
+- Track prediction-conditional abilities (all fate manipulation requires correct predictions)
+- Chain correct predictions into fate effects via Premonition passive
+- Place Fate Triggers for future contingencies
 
 **Why Oracle Is Perfect for In-Person Play**: The class is built around active engagement and prediction. Writing predictions on cards creates tangible accountability and excitement when they resolve. The Vision token system provides satisfying feedback—correct predictions generate visible resources. The fate manipulation abilities create dramatic moments (rerolls, advantage, outcome changes). The Witnessing mechanic rewards positioning and awareness. The prediction mechanic encourages reading the table, observing patterns, and engaging with combat narratively. Every prediction is a gamble, and every correct prediction is a payoff. The system transforms passive observation into active participation.`
     }
@@ -857,7 +863,7 @@ Many players enhance the Oracle experience with:
     title: 'Oracle Specializations',
     subtitle: 'Three Paths of Prophetic Mastery',
     
-    description: `Oracles can specialize in different aspects of divination and fate manipulation. Seers focus on future sight and prediction, Truthseekers uncover hidden knowledge and past events, while Fateweavers actively manipulate destiny threads to create desired outcomes.`,
+    description: `Oracles can specialize in different aspects of divination and fate manipulation. Seers focus on future sight and prediction, Truthseekers weaponize hidden knowledge through Reveal/Expose/Exploit, while Fateseers manipulate outcomes through prediction-conditional fate alteration.`,
     
     passiveAbility: {
       name: 'Third Eye',
@@ -909,77 +915,82 @@ Many players enhance the Oracle experience with:
         name: 'Truthseeker',
         icon: 'Radiant/Radiant Beam',
         color: '#FFD700',
-        theme: 'Past Sight & Hidden Knowledge',
+        theme: 'Information Warfare & Exposed Weakness',
 
-        description: `Truthseekers peer into the past and uncover hidden truths—reading object histories, seeing through lies and illusions, revealing buried secrets. Knowledge is their power.`,
+        description: `Truthseekers don't just uncover secrets—they weaponize them. They pierce through enemy defenses, expose hidden weaknesses, and strip away every advantage their opponents thought they had. In combat: Reveal → Expose → Exploit. Out of combat: unmatched investigation and revelation.`,
 
-        playstyle: 'Information gathering, lie detection, secret revelation, investigation',
+        playstyle: 'Information warfare, enemy debilitation, weakness exploitation, unmatched out-of-combat investigation',
 
         strengths: [
-          'Automatically detect lies and illusions within 30 feet',
-          'Can read the history of objects and locations',
-          'Reveal hidden enemies, traps, and secret doors',
+          'See enemy HP, buffs, resistances, and active cooldowns mid-combat',
+          'Strip enemy buffs, immunities, and concealment',
+          'Expose vulnerabilities that grant allies advantage and bonus damage',
+          'Unmatched out-of-combat investigation (detect lies, read objects, see through illusions)',
           'Gain Visions from uncovering secrets (1 per revelation)'
         ],
 
         weaknesses: [
-          'Less effective in straightforward combat',
-          'Abilities require time and investigation',
-          'Knowledge doesn\'t always translate to power',
-          'Minimal offensive capabilities'
+          'Relies on enemies having secrets to expose (less effective against mindless foes)',
+          'Limited direct damage—empowers allies instead',
+          'Requires an action to study enemies before exploiting weaknesses',
+          'Out-of-combat abilities don\'t help in pure slugfests'
         ],
 
         specPassive: {
           name: 'All-Seeing Eye',
-          description: 'Auto-detect lies, illusions, and hidden creatures within 30 ft. Gain 1 Vision when revealing a hidden truth. Touch an object to see its last 24 hours.'
+          description: 'Auto-detect lies, illusions, and hidden creatures within 30 ft. Gain 1 Vision when revealing a hidden truth. In combat: when you use an action to study a creature, you see its HP, active buffs, resistances, and abilities on cooldown.'
         },
 
         keyAbilities: [
-          'Reveal Truth: Force a creature to answer one question truthfully (3 Visions, Spirit save to resist)',
-          'Past Sight: Touch an object to see its complete history (2 Visions, 1 minute ritual)',
-          'Piercing Gaze: See through all illusions and disguises within 60 feet for 1 minute (2 Visions)'
+          'Unmask: Strip one buff or immunity from a studied target (2 Visions)',
+          'Reveal Weakness: Expose a target\'s vulnerability—attacks against them gain advantage and deal +1d6 damage for 3 rounds (3 Visions)',
+          'Exploit Truth: Deal psychic damage to a target equal to the number of debuffs currently affecting them ×2d6 (4 Visions)'
         ],
 
-        recommendedFor: 'Players who love investigation, uncovering secrets, and gathering information'
+        combatLoop: 'Study enemy (learn secrets) → Unmask (strip buffs) → Reveal Weakness (expose vulnerability) → Allies exploit the exposed target',
+
+        recommendedFor: 'Players who love turning knowledge into power, dismantling enemy strategies, and making allies devastating'
       },
 
       {
-        id: 'fateweaver',
-        name: 'Fateweaver',
+        id: 'fateseer',
+        name: 'Fateseer',
         icon: 'Arcane/Ebon Blaze',
         color: '#FF1493',
-        theme: 'Destiny Manipulation & Fate Alteration',
+        theme: 'Prediction-First Fate Manipulation',
 
-        description: `Fateweavers reshape destiny itself. By manipulating fate's threads, they force rerolls, alter outcomes, and bend probability, aggressively spending Visions to rewrite events.`,
+        description: `Fateseers don't blindly twist probability—they SEE the future first, then reshape what they've foreseen. Every fate manipulation must flow through a prediction. You cannot alter what you haven't foreseen. This is what separates you from a Fate Weaver: they manipulate chance blindly; you manipulate fate through foresight.`,
 
-        playstyle: 'Fate manipulation, reroll forcing, outcome alteration, aggressive Vision spending',
+        playstyle: 'Predict outcomes → Spend Visions to reshape what you predicted → Set fate triggers for future events',
 
         strengths: [
-          'Can force enemies to reroll successful attacks',
-          'Grant allies rerolls on failed saves or attacks',
-          'Manipulate dice results by adding or subtracting values',
-          'Create "fate locks" that guarantee specific outcomes'
+          'Fate manipulation is gated through correct predictions (rewarding accuracy)',
+          'Can pre-place "fate triggers" — conditional effects that fire when predicted events occur',
+          'Echo correct predictions to repeat their effects',
+          'Strongest late-game fate control when prediction accuracy is high'
         ],
 
         weaknesses: [
-          'Burns through Visions quickly',
-          'Less Vision generation than other specs',
-          'Requires constant Vision management',
-          'Reactive playstyle dependent on enemy actions'
+          'Cannot manipulate fate without first predicting it—vulnerable when predictions fail',
+          'Requires prediction accuracy to unlock manipulation (high skill ceiling)',
+          "Less immediate impact than specs that don't depend on predictions",
+          'Burns through Visions quickly when manipulating multiple fate threads'
         ],
 
         specPassive: {
-          name: 'Threads of Destiny',
-          description: 'Once per round as a reaction, spend 1 Vision to force a creature within 60 ft to reroll an attack, save, or check. You choose which result is used.'
+          name: 'Premonition',
+          description: 'Once per round, when one of your predictions resolves as correct, you may spend 1 Vision to immediately apply one fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction. This fate manipulation is free from action point cost.'
         },
 
         keyAbilities: [
-          'Twist Fate: Spend 2 Visions to add or subtract 1d6 from any roll within 60 feet',
-          'Sever Thread: Spend 3 Visions to turn a critical hit into a normal hit (or vice versa)',
-          'Destiny Lock: Spend 5 Visions to guarantee the next attack against a target hits and crits (once per long rest)'
+          'Fate Trigger: Spend 2 Visions to place a conditional effect—"When X happens, Y occurs." Triggers last until used or 1 minute. (2 Visions per trigger)',
+          'Fate Echo: When a correct prediction resolves, repeat its effect on a new target for free (3 Visions)',
+          'Destiny Lock: After making a correct precise prediction, spend 5 Visions to guarantee the predicted outcome is maximized (crits deal max damage, saves auto-fail, etc.)'
         ],
 
-        recommendedFor: 'Players who want to actively manipulate combat outcomes and control probability'
+        combatLoop: 'Predict an outcome → If correct, trigger Premonition for free fate effect → Place Fate Triggers for future contingencies → Echo successful predictions to double impact',
+
+        recommendedFor: 'Players who want the Oracle\'s prediction system to be the engine that drives ALL their power—high skill ceiling, enormous payoff'
       }
     ]
   },
@@ -1105,9 +1116,8 @@ Many players enhance the Oracle experience with:
       resourceCost: {
         actionPoints: 2,
         visions: 3,
-        mana: 4,
         components: ['verbal', 'somatic'],
-        description: 'Spend 3 Visions and 4 mana to curse with prophecy'
+        description: 'Spend 3 Visions to curse with prophecy'
       },
 
       duration: {
@@ -1223,9 +1233,9 @@ Many players enhance the Oracle experience with:
 
       resourceCost: {
         actionPoints: 2,
-        visions: 3,
+        mana: 15,
         components: ['verbal', 'somatic'],
-        description: 'Spend 3 Visions to force truth'
+        description: 'Spend 15 mana to force truth'
       },
 
       duration: {
@@ -1277,9 +1287,9 @@ Many players enhance the Oracle experience with:
 
       resourceCost: {
         actionPoints: 2,
-        visions: 2,
+        mana: 12,
         components: ['verbal', 'somatic'],
-        description: 'Spend 2 Visions to peer into the past'
+        description: 'Spend 12 mana to peer into the past'
       },
 
       duration: {
@@ -1322,9 +1332,9 @@ Many players enhance the Oracle experience with:
 
       resourceCost: {
         actionPoints: 2,
-        visions: 2,
+        mana: 14,
         components: ['verbal', 'somatic'],
-        description: 'Spend 2 Visions to pierce all veils'
+        description: 'Spend 14 mana to pierce all veils'
       },
 
       duration: {
@@ -1344,16 +1354,16 @@ Many players enhance the Oracle experience with:
       tags: ['truthseeker', 'divination', 'detection', 'anti illusion']
     },
 
-    // ===== FATEWEAVER SPECIALIZATION =====
+    // ===== FATESEER SPECIALIZATION =====
     {
       id: 'oracle_twist_fate',
       name: 'Twist Fate',
-      description: 'Reach out and twist the threads of destiny, altering the outcome of an event.',
+      description: 'Having foreseen this moment, you reach out and twist the threads of destiny. You must have made a correct prediction this combat to use this ability.',
       spellType: 'REACTION',
       icon: 'Arcane/Ebon Blaze',
       school: 'Divination',
       level: 2,
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         castTime: 1,
@@ -1391,18 +1401,18 @@ Many players enhance the Oracle experience with:
         tertiary: 'Can turn a success into a failure or vice versa'
       },
 
-      tags: ['fateweaver', 'divination', 'reaction', 'manipulation']
+      tags: ['fateseer', 'divination', 'reaction', 'manipulation', 'prediction-conditional']
     },
 
     {
       id: 'oracle_sever_thread',
       name: 'Sever Thread',
-      description: 'Cut the thread of fate at a critical moment, preventing or ensuring a critical outcome.',
+      description: 'Having predicted this critical moment, you cut the thread of fate. You must have predicted a critical hit or critical miss this round to use this ability.',
       spellType: 'REACTION',
       icon: 'Necrotic/Drain Soul',
       school: 'Divination',
       level: 4,
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         castTime: 1,
@@ -1440,18 +1450,18 @@ Many players enhance the Oracle experience with:
         tertiary: 'OR turn a normal roll into a critical (natural 20) or critical fail (natural 1)'
       },
 
-      tags: ['fateweaver', 'divination', 'reaction', 'critical', 'manipulation']
+      tags: ['fateseer', 'divination', 'reaction', 'critical', 'manipulation', 'prediction-conditional']
     },
 
     {
       id: 'oracle_destiny_lock',
       name: 'Destiny Lock',
-      description: 'Lock a creature\'s fate, ensuring their next action results in a specific outcome.',
+      description: 'Lock a creature\'s fate after a correct precise prediction. You must have made a correct precise (3 Vision) prediction this combat to cast this.',
       spellType: 'ACTION',
       icon: 'Force/Force Field',
       school: 'Divination',
       level: 5,
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         castTime: 1,
@@ -1470,10 +1480,9 @@ Many players enhance the Oracle experience with:
       resourceCost: {
         actionPoints: 3,
         visions: 5,
-        mana: 5,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A golden thread worth 100gp',
-        description: 'Spend 5 Visions and 5 mana to lock destiny (once per long rest)'
+        description: 'Spend 5 Visions to lock destiny (requires correct precise prediction this combat)'
       },
 
       duration: {
@@ -1491,11 +1500,126 @@ Many players enhance the Oracle experience with:
       },
 
       specialMechanics: {
-        limitation: 'Can only be used once per long rest',
-        note: 'This is the ultimate fate manipulation - use wisely'
+        limitation: 'Requires a correct precise prediction this combat. Can only be used once per combat.',
+        note: 'This is the ultimate prediction-driven fate manipulation'
       },
 
-      tags: ['fateweaver', 'divination', 'ultimate', 'guaranteed outcome']
+      tags: ['fateseer', 'divination', 'guaranteed outcome', 'prediction-conditional']
+    },
+
+    // ===== NEW TRUTHSEEKER COMBAT SPELLS =====
+    {
+      id: 'oracle_unmask',
+      name: 'Unmask',
+      description: 'Pierce through a target\'s defenses, stripping one magical buff, immunity, or concealment effect from them.',
+      level: 2,
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Read',
+      school: 'Divination',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Psychic/Mind Read',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 2 },
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'I see through you!'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['debuff'],
+
+      debuffConfig: {
+        debuffType: 'dispel',
+        effects: [{
+          id: 'unmasked',
+          name: 'Unmasked',
+          description: 'One magical buff, immunity, or concealment effect is stripped from the target. You choose which.',
+          mechanicsText: 'Strip one buff/immunity/concealment. Spirit save to resist.'
+        }],
+        saveDC: 14,
+        saveType: 'spirit',
+        saveOutcome: 'negates'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['truthseeker', 'debuff', 'strip', 'level 2']
+    },
+
+    {
+      id: 'oracle_past_sins',
+      name: 'Past Sins',
+      description: 'Channel the weight of a target\'s hidden past against them. The more debuffs and exposed weaknesses they have, the more devastating this attack.',
+      level: 5,
+      spellType: 'ACTION',
+      icon: 'Psychic/Agonizing Scream',
+      school: 'Divination',
+      specialization: 'truthseeker',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Psychic/Agonizing Scream',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
+        actionPoints: 1,
+        components: ['verbal'],
+        verbalText: 'Your past sins condemn you!'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '2d6 per debuff affecting the target (max 8d6)',
+        elementType: 'psychic',
+        damageType: 'direct',
+        specialRules: 'Counts all debuffs, exposed weaknesses, and stripped buffs on the target. Minimum 2d6 even with no debuffs.',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 16,
+          saveOutcome: 'halves'
+        }
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+
+      tags: ['truthseeker', 'damage', 'psychic', 'scaling', 'level 5']
     },
 
     // ===== UNIVERSAL ABILITIES =====
@@ -1522,9 +1646,9 @@ Many players enhance the Oracle experience with:
 
       resourceCost: {
         actionPoints: 2,
-        visions: 1,
+        mana: 8,
         components: ['verbal', 'somatic'],
-        description: 'Spend 1 Vision to sense destiny'
+        description: 'Spend 8 mana to sense destiny'
       },
 
       duration: {
@@ -1569,10 +1693,10 @@ Many players enhance the Oracle experience with:
 
       resourceCost: {
         actionPoints: 2,
-        visions: 2,
+        mana: 12,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Divination tools (bones, cards, or runes)',
-        description: 'Spend 2 Visions to read the omens'
+        description: 'Spend 12 mana to read the omens'
       },
 
       duration: {
@@ -1619,8 +1743,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 25, visions: 2 },
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Point at where enemy will be'
@@ -1647,8 +1771,8 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_reveal_weakness',
       name: 'Reveal Weakness',
-      description: 'Peer into a target\'s timeline to discover their greatest weakness, making them vulnerable to all damage.',
-      level: 6,
+      description: 'Peer into a target\'s timeline to discover their greatest weakness. All attacks against them gain advantage and deal +1d6 bonus damage.',
+      level: 3,
       spellType: 'ACTION',
       icon: 'Utility/All Seeing Eye',
       specialization: 'truthseeker',
@@ -1668,8 +1792,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 22, visions: 2 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
         actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Reveal your weakness!'
@@ -1700,17 +1824,17 @@ Many players enhance the Oracle experience with:
         value: 4
       },
 
-      tags: ['truthseeker', 'debuff', 'vulnerability', 'level 6']
+      tags: ['truthseeker', 'debuff', 'vulnerability', 'level 3']
     },
 
     {
       id: 'oracle_destiny_shift',
       name: 'Destiny Shift',
-      description: 'Alter the threads of fate to change the outcome of a recent action.',
+      description: 'Having foreseen this outcome, alter the threads of fate. You must have made a correct prediction this combat to use this ability.',
       level: 6,
       spellType: 'REACTION',
       icon: 'Arcane/Rewind Time',
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         school: 'divination',
@@ -1727,8 +1851,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 28, visions: 3 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Fate, shift!'
@@ -1749,7 +1873,7 @@ Many players enhance the Oracle experience with:
         value: 2
       },
 
-      tags: ['fateweaver', 'utility', 'reroll', 'level 6']
+      tags: ['fateseer', 'utility', 'reroll', 'level 6', 'prediction-conditional']
     },
 
     // ========================================
@@ -1777,8 +1901,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 30, visions: 3 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Focus on the future'
@@ -1834,8 +1958,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 35, visions: 4 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 4 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Your secrets are mine!',
@@ -1900,11 +2024,11 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_threads_of_fate',
       name: 'Threads of Fate',
-      description: 'Manipulate the threads of destiny connecting multiple creatures. Link their fates together.',
+      description: 'Having foreseen how these fates intertwine, link them together. You must have made a correct prediction targeting at least one of these creatures this combat.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Force/Force Shield',
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         school: 'enchantment',
@@ -1922,8 +2046,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 40, visions: 4 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 4 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Weave fate threads'
@@ -1944,7 +2068,7 @@ Many players enhance the Oracle experience with:
         value: 5
       },
 
-      tags: ['fateweaver', 'utility', 'link', 'level 7']
+      tags: ['fateseer', 'utility', 'link', 'level 7', 'prediction-conditional']
     },
 
     // ========================================
@@ -1972,8 +2096,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 45, visions: 5 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 5 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Close eyes and see'
@@ -2027,8 +2151,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 50, visions: 5 },
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
         actionPoints: 2,
         components: ['verbal'],
         verbalText: 'Face your truth!'
@@ -2070,11 +2194,11 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_alter_destiny',
       name: 'Alter Destiny',
-      description: 'Fundamentally alter a creature\'s destiny. Change the outcome of any action they take.',
+      description: 'Having predicted this exact outcome, you rewrite it completely. You must have made a correct specific or precise prediction about this target this combat to use this ability.',
       level: 8,
       spellType: 'REACTION',
       icon: 'Arcane/Rewind Time',
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         school: 'transmutation',
@@ -2091,8 +2215,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 55, visions: 6 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 6 },
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'Destiny, bend!'
@@ -2113,7 +2237,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'utility', 'fate control', 'level 8']
+      tags: ['fateseer', 'utility', 'fate control', 'level 8', 'prediction-conditional']
     },
 
     // ========================================
@@ -2141,8 +2265,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 70, visions: 8 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 8 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Timeline, split!',
@@ -2206,8 +2330,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 80, visions: 10 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 10 },
         actionPoints: 0,
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'Reveal all truths',
@@ -2236,11 +2360,11 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_weave_destiny',
       name: 'Weave Destiny',
-      description: 'Take complete control of fate for a brief moment. Determine the outcome of any situation.',
+      description: 'Having foreseen every thread of fate in this moment, you seize control of them all. You must have made at least 3 correct predictions this combat to use this ability.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Illumination',
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         school: 'transmutation',
@@ -2257,8 +2381,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 75, visions: 10 },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 10 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'I AM FATE!',
@@ -2280,7 +2404,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'control', 'fate', 'ultimate', 'level 9']
+      tags: ['fateseer', 'control', 'fate', 'ultimate', 'level 9', 'prediction-conditional']
     },
 
     // ========================================
@@ -2309,8 +2433,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 100, visions: 'all' },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 'all' },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'COME, MY FUTURE SELF!',
@@ -2379,8 +2503,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 100, visions: 'all' },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 'all' },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'BEHOLD THE TRUTH!'
@@ -2431,11 +2555,11 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_master_of_fate',
       name: 'Master of Fate',
-      description: 'Become the absolute master of fate itself. For 1 minute, you control destiny.',
+      description: 'Become the absolute master of fate itself. Your predictions have been so accurate that fate itself bends to your will. Requires at least 5 correct predictions this combat.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Glow',
-      specialization: 'fateweaver',
+      specialization: 'fateseer',
 
       typeConfig: {
         school: 'transmutation',
@@ -2450,8 +2574,8 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'visions'],
-        resourceValues: { mana: 100, visions: 'all' },
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 'all' },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'I AM THE MASTER OF FATE!'
@@ -2484,7 +2608,7 @@ Many players enhance the Oracle experience with:
         value: 1
       },
 
-      tags: ['fateweaver', 'transformation', 'ultimate', 'level 10']
+      tags: ['fateseer', 'transformation', 'ultimate', 'level 10', 'prediction-conditional']
     },
 
     // ADDITIONAL LEVEL 1 SPELL
@@ -2706,9 +2830,9 @@ Many players enhance the Oracle experience with:
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['visions'],
         resourceValues: {
-          mana: 28
+          visions: 4
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']

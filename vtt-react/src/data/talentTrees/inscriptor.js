@@ -7,7 +7,7 @@ export const INSCRIPTOR_RUNEBINDER = [
   {
     id: 'runebinder_t0_runic_mastery',
     name: 'Runic Mastery',
-    description: 'Passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Gain 1 AEP for every 2 points of physical damage taken.',
+    description: 'Gain 1 Runic Resonance whenever you place a rune. While you have 5+ Resonance, runes deal +1 force damage per rank to enemies entering their radius.',
     icon: 'inv_misc_rune_01',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -130,8 +130,7 @@ export const INSCRIPTOR_ENCHANTER = [
   {
     id: 'enchanter_t0_enchantment_mastery',
     name: 'Enchantment Mastery',
-    description: 'Passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Gain 1 AEP for every 2 points of physical damage taken.',
-    icon: 'spell_holy_greaterblessingofkings',
+    description: 'Gain 1 Runic Resonance whenever an inscription effect triggers (weapon hit, armor block, etc.). While you have 5+ Resonance, inscriptions are 10% more effective per rank.',
     maxRanks: 5,
     position: { x: 2, y: 0 },
     requires: null,
@@ -264,8 +263,7 @@ export const INSCRIPTOR_GLYPHWEAVER = [
   {
     id: 'glyphweaver_t0_glyph_mastery',
     name: 'Glyph Mastery',
-    description: 'Passively absorb magical damage. Gain 2 AEP for every point of fire, cold, lightning, or necrotic damage taken. Gain 1 AEP for every 2 points of physical damage taken.',
-    icon: 'spell_holy_sealofwisdom',
+    description: 'Gain 2 Runic Resonance whenever you detonate a rune. While you have 5+ Resonance, detonation radius increases by 5 ft per rank.',
     maxRanks: 5,
     position: { x: 2, y: 0 },
     requires: null,

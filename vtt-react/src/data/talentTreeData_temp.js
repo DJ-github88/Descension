@@ -47,9 +47,9 @@ export const TALENT_TREES = {
     'restoration': PLACEHOLDER_TREE
   },
   'Martyr': {
-    'protector': MARTYR_PROTECTOR,
-    'redeemer': MARTYR_REDEEMER,
-    'avenger': MARTYR_AVENGER
+    'redemption': MARTYR_REDEMPTION,
+    'zealot': MARTYR_ZEALOT,
+    'ascetic': MARTYR_ASCETIC
   },
   'Monk': {
     'inner_harmony': PLACEHOLDER_TREE,
@@ -69,7 +69,7 @@ export const TALENT_TREES = {
   'Oracle': {
     'seer': ORACLE_SEER,
     'truthseeker': ORACLE_TRUTHSEEKER,
-    'destiny_weaver': ORACLE_DESTINY_WEAVER
+    'fateseer': ORACLE_FATESEER
   },
   'Plaguebringer': {
     'virulent_spreader': PLAGUEBRINGER_VIRULENT_SPREADER,

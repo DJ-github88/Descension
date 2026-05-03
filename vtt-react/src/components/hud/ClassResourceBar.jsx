@@ -290,7 +290,7 @@ const ClassResourceBar = ({
 
     const [oracleState, setOracleState] = useState({
         localVisions: 6, // Start with 6 for demo
-        oracleSpec: 'seer', // 'seer' | 'truthseeker' | 'fateweaver'
+        oracleSpec: 'seer', // 'seer' | 'truthseeker' | 'fateseer'
         predictionAccuracy: { total: 5, correct: 4, chain: 2 }, // Tracking predictions
         lastVisionGain: [
             { source: 'Correct Prediction (Moderate)', amount: 2 },
@@ -1275,7 +1275,7 @@ const ClassResourceBar = ({
                 return renderMusicalNotesCombo();
             case 'prophetic-visions':
                 return renderPropheticVisions();
-            case 'corruption-bar':
+            case 'virulence-bar':
                 return <PlaguebringerResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
             case 'inferno-veil':
                 return <PyrofiendResourceBar classResource={finalClassResource} size={size} config={finalConfig} context={context} isOwner={isOwner} onClassResourceUpdate={onClassResourceUpdate} />;
@@ -5898,11 +5898,11 @@ const ClassResourceBar = ({
         const getSpecPassive = () => {
             switch (lichborneSpec) {
                 case 'frostbound_tyrant':
-                    return 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage.';
+                    return 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage. 50% Shatter chance on hit (3d6 burst, ends freeze).';
                 case 'spectral_reaper':
-                    return 'Frost spells deal +1d6 necrotic damage. Enemies killed have 1/6 chance to rise as spectral minions (1d4 rounds).';
+                    return 'Frost spells deal +1d6 necrotic. Every kill raises a spectral minion (max 4). Minions: 10 HP, 1d6 dmg/turn.';
                 case 'phylactery_guardian':
-                    return 'Phylactery stores 75 HP. Resurrection costs 8 HP, revives at 15 HP.';
+                    return 'Phylactery stores 75 HP. Death Trigger freeze radius 25ft (vs 15ft).';
                 default:
                     return '';
             }
@@ -6014,7 +6014,7 @@ const ClassResourceBar = ({
                                         <button
                                             className={`context-menu-button compact-action ${auraActive ? 'active' : ''}`}
                                             onClick={handleToggleAura}
-                                            title={auraActive ? 'Active: +1d6 frost damage, chilling DC 17, drains 1d6 HP/turn' : 'Inactive'}
+                                            title={auraActive ? 'Aura Mode: Spells cost HP instead of Mana, +1d6 frost damage, chill DC 17, drains HP/turn' : 'Normal Mode: Spells cost Mana'}
                                         >
                                             <i className={`fas ${auraActive ? 'fa-snowflake' : 'fa-circle'}`}></i> {auraActive ? 'ON' : 'OFF'}
                                         </button>
@@ -6841,7 +6841,7 @@ const ClassResourceBar = ({
                                 <div className="menu-title">Visions: {visionsValue}/{maxVisions}</div>
 
                                 <div className="oracle-specs">
-                                    {['seer', 'truthseeker', 'fateweaver'].map((spec) => {
+                                    {['seer', 'truthseeker', 'fateseer'].map((spec) => {
                                         const specConfig = specs[spec];
                                         const isSelected = oracleSpec === spec;
                                         return (
@@ -8727,7 +8727,7 @@ const ClassResourceBar = ({
             finalConfig.visual?.type === 'eternal-frost-phylactery' ||
             finalConfig.visual?.type === 'lunar-phases' ||
             finalConfig.visual?.type === 'prophetic-visions' ||
-            finalConfig.visual?.type === 'corruption-bar' ||
+            finalConfig.visual?.type === 'virulence-bar' ||
             finalConfig.visual?.type === 'dual-resource' ||
             finalConfig.visual?.type === 'vengeance-points';
 
@@ -9938,10 +9938,10 @@ const ClassResourceBar = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">Phylactery Management</div>
                                             <div className="level-management">
-                                                <strong>Store:</strong>
-                                                <span>Ritual transfer 10 HP (1 hour), +10 HP per rest</span>
+                                                <strong>Charge:</strong>
+                                                <span>+1d6 HP per enemy killed by frost spells</span>
                                                 <strong>Resurrect:</strong>
-                                                <span>{lichborneSpec === 'phylactery_guardian' ? '8 HP' : '10 HP'} cost, once per combat</span>
+                                                <span>Spend all stored HP, once per combat. Death Trigger: Freeze 15ft for 1 round.</span>
                                             </div>
                                         </div>
 
@@ -9950,9 +9950,9 @@ const ClassResourceBar = ({
                                         <div className="tooltip-section">
                                             <div className="tooltip-label">{specName}</div>
                                             <div className="passive-desc">
-                                                {lichborneSpec === 'frostbound_tyrant' && 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage.'}
-                                                {lichborneSpec === 'spectral_reaper' && 'Frost spells deal +1d6 necrotic damage. Enemies killed have 1/6 chance to rise as spectral minions (1d4 rounds).'}
-                                                {lichborneSpec === 'phylactery_guardian' && 'Phylactery stores 75 HP. Resurrection costs 8 HP, revives at 15 HP.'}
+                                                {lichborneSpec === 'frostbound_tyrant' && 'Freeze effects last +1d4 rounds. Frozen enemies take +1d6 damage. 50% Shatter chance (3d6 burst, ends freeze).'}
+                                                {lichborneSpec === 'spectral_reaper' && 'Frost spells deal +1d6 necrotic. Every kill raises a spectral minion (max 4). 10 HP, 1d6 dmg/turn.'}
+                                                {lichborneSpec === 'phylactery_guardian' && 'Phylactery stores 75 HP. Death Trigger freeze radius 25ft (vs 15ft).'}
                                             </div>
                                         </div>
                                     </>
@@ -10164,7 +10164,7 @@ const ClassResourceBar = ({
                                             <div className="passive-desc">
                                                 {oracleSpec === 'seer' && 'Gain +1 Vision per correct prediction. Predictions cost no action points. Advantage on initiative.'}
                                                 {oracleSpec === 'truthseeker' && 'Detect lies and illusions. Uncover hidden knowledge for +1 Vision each.'}
-                                                {oracleSpec === 'fateweaver' && 'Once per round: spend 1 Vision to force reroll within 60ft. You choose which result.'}
+                                                {oracleSpec === 'fateseer' && 'Premonition: When a prediction resolves correctly, spend 1 Vision to immediately apply a fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction.'}
                                             </div>
                                         </div>
                                     </>
@@ -10328,7 +10328,7 @@ const ClassResourceBar = ({
     const isMartyr = finalConfig.visual?.type === 'devotion-gauge';
     const isMinstrel = finalConfig.visual?.type === 'musical-notes-combo';
     const isOracle = finalConfig.visual?.type === 'prophetic-visions';
-    const isPlaguebearer = finalConfig.visual?.type === 'corruption-bar';
+    const isPlaguebearer = finalConfig.visual?.type === 'virulence-bar';
     const isPrimalist = finalConfig.visual?.type === 'totemic-synergy';
     const isPyrofiend = finalConfig.visual?.type === 'inferno-veil';
     const isSpellguard = finalConfig.visual?.type === 'arcane-absorption';

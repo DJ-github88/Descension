@@ -82,9 +82,9 @@ const buildDemoClassResource = (className) => {
     };
   }
 
-  // Plaguebringer: corruption uses maxCorruption
-  if (m.maxCorruption !== undefined) {
-    return { current: 65, max: m.maxCorruption || 100, spheres: [] };
+  // Plaguebringer: virulence uses maxVirulence
+  if (m.maxVirulence !== undefined) {
+    return { current: 65, max: m.maxVirulence || 100, spheres: [] };
   }
 
   // Gambler: varies by spec - use 21 (High Roller) as demo

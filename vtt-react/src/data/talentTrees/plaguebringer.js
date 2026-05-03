@@ -1,91 +1,91 @@
 // ============================================
-// PLAGUEBRINGER TALENT TREES
+// PLAGUEBRINGER TALENT TREES — v2
+// Each spec changes HOW you garden, not just which buttons you press.
+// Virulent Spreader = Field Farmer (play WIDE)
+// Torment Weaver = Spider (play CONNECTED)
+// Decay Harbinger = Eternal Tree (play DEEP)
 // ============================================
 
 export const PLAGUEBRINGER_VIRULENT_SPREADER = [
-  // Tier 0 - Foundation (Wide spread base)
   {
-    id: 'virulent_t0_contagious_touch',
-    name: 'Contagious Touch',
-    description: 'Your base afflictions spread to adjacent enemies on a 15+ per rank. Spread afflictions retain 2 development steps.',
+    id: 'virulent_t0_field_seeding',
+    name: 'Field Seeding',
+    description: 'Base affliction spells apply to 1 additional adjacent target per rank. Both targets receive the same Seed.',
     icon: 'ability_creature_disease_05',
-    maxRanks: 4,
+    maxRanks: 3,
     position: { x: 0, y: 0 },
     requires: null,
   },
   {
-    id: 'virulent_t0_rapid_infection',
-    name: 'Rapid Infection',
-    description: 'Apply afflictions as a 1 action point. +1 affliction target per rank when spreading.',
+    id: 'virulent_t0_rapid_contagion',
+    name: 'Rapid Contagion',
+    description: 'Fester category spells have +10ft spread range per rank. Contagion triggers deal +1d4 damage per rank.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
   },
   {
-    id: 'virulent_t0_virulence',
-    name: 'Virulence',
-    description: 'Fester and Infect category spells have +5% spread chance per rank.',
+    id: 'virulent_t0_virulence_surge',
+    name: 'Virulence Surge',
+    description: '+2 Virulence gained per rank when afflictions spread through contagion.',
     icon: 'ability_creature_poison_06',
     maxRanks: 3,
     position: { x: 4, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Early contagion abilities
   {
-    id: 'virulent_t1_epidemic_focus',
-    name: 'Epidemic Focus',
-    description: 'When an affliction spreads, you gain +1d4 mana per rank. Maximum 3 stacks.',
+    id: 'virulent_t1_auto_contagion',
+    name: 'Auto-Contagion',
+    description: 'When an affliction reaches Stage 2+, it auto-spreads to 1 adjacent enemy as a Stage 0 Seed. +1 target per rank.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 3,
     position: { x: 1, y: 1 },
-    requires: 'virulent_t0_contagious_touch',
+    requires: 'virulent_t0_field_seeding',
   },
   {
-    id: 'virulent_t1_chain_reaction',
-    name: 'Chain Reaction',
+    id: 'virulent_t1_chain_infection',
+    name: 'Chain Infection',
     description: 'Spread afflictions can trigger secondary spreads. +10% chance per rank.',
     icon: 'spell_nature_corrosivebreath',
     maxRanks: 4,
     position: { x: 3, y: 1 },
-    requires: 'virulent_t0_virulence',
+    requires: 'virulent_t0_rapid_contagion',
   },
 
-  // Tier 2 - Multi-target spread
   {
     id: 'virulent_t2_pandemic_wave',
     name: 'Pandemic Wave',
-    description: 'Fester category spells affect all enemies within 10ft per rank of the target.',
+    description: 'Fester category spells affect all enemies within 10ft per rank of the primary target.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 0, y: 2 },
-    requires: 'virulent_t0_contagious_touch',
+    requires: 'virulent_t0_field_seeding',
   },
   {
     id: 'virulent_t2_viral_burst',
     name: 'Viral Burst',
-    description: 'When an affliction reaches Stage 3, it explodes, spreading to all enemies within 15ft.',
+    description: 'When any affliction reaches its final form, it spreads to all enemies within 15ft as Stage 0 Seeds.',
     icon: 'spell_fire_selfdestruct',
     maxRanks: 1,
     position: { x: 2, y: 2 },
-    requires: 'virulent_t1_epidemic_focus',
+    requires: 'virulent_t1_auto_contagion',
   },
   {
     id: 'virulent_t2_infectious_aura',
     name: 'Infectious Aura',
-    description: 'Enemies within 10ft of afflicted targets gain a Stage 1 affliction. +5ft radius per rank.',
+    description: 'Enemies within 10ft of any target with a Stage 1+ affliction gain a Stage 0 Seed. +5ft radius per rank.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 3,
     position: { x: 4, y: 2 },
-    requires: 'virulent_t0_virulence',
+    requires: 'virulent_t0_virulence_surge',
   },
 
-  // Tier 3 - Advanced contagion
   {
-    id: 'virulent_t3_epidemic_mastery',
-    name: 'Epidemic Mastery',
-    description: 'Afflictions spread through walls and obstacles. +1 spread target per rank.',
+    id: 'virulent_t3_wide_harvest',
+    name: 'Wide Harvest',
+    description: 'Harvest finales (Amplify ending) also deal 50% of their damage to all enemies within 15ft per rank of the target.',
     icon: 'ability_creature_disease_01',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -94,150 +94,139 @@ export const PLAGUEBRINGER_VIRULENT_SPREADER = [
   {
     id: 'virulent_t3_plague_zone',
     name: 'Plague Zone',
-    description: 'Create a 20ft zone that automatically afflicts enemies entering it. Zone lasts 2 rounds per rank.',
+    description: 'Create a 20ft zone lasting 2 rounds per rank. Enemies entering gain a random Stage 0 Seed affliction.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 3, y: 3 },
     requires: 'virulent_t2_infectious_aura',
   },
 
-  // Tier 4 - Elite contagion control
   {
     id: 'virulent_t4_global_pandemic',
     name: 'Global Pandemic',
-    description: 'All active afflictions spread to new targets every round. +1 target per rank.',
+    description: 'Once per combat: All active afflictions spread to 1 new target each per rank. Spread afflictions retain their current stage.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 2,
     position: { x: 2, y: 4 },
-    requires: 'virulent_t3_epidemic_mastery',
+    requires: 'virulent_t3_wide_harvest',
     requiresPoints: 20,
   }
 ];
 
-// Torment Weaver Specialization - Spiral mental domination pattern (psychic spiral)
 export const PLAGUEBRINGER_TORMENT_WEAVER = [
-  // Tier 0 - Foundation (Center mental seed)
   {
-    id: 'torment_t0_psychic_seed',
-    name: 'Psychic Seed',
-    description: 'Plant a seed of torment in enemy minds. Roll 1d20: on 15+ per rank, seed grows into psychic agony.',
+    id: 'torment_t0_psychic_link',
+    name: 'Psychic Link',
+    description: 'When multiple targets have the same base affliction, they become linked. Cultivating one advances all linked targets. Max 2 + 1 per rank linked targets.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Basic mental manipulation (Spiral outward)
   {
-    id: 'torment_t1_mind_fracture',
-    name: 'Mind Fracture',
-    description: 'Torment category spells deal +1d6 psychic damage per rank. Critical hits cause confusion.',
+    id: 'torment_t1_resonance_damage',
+    name: 'Resonance Damage',
+    description: 'When any linked affliction is activated (advanced, ticks, spreads), all linked targets take +1d4 psychic damage per rank.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 4,
     position: { x: 1, y: 1 },
-    requires: 'torment_t0_psychic_seed',
+    requires: 'torment_t0_psychic_link',
   },
   {
-    id: 'torment_t1_hallucinogenic_spores',
-    name: 'Hallucinogenic Spores',
-    description: 'Enemies affected by your afflictions must roll 1d20 at start of turn: on 15+ per rank, they attack an ally.',
+    id: 'torment_t1_shared_torment',
+    name: 'Shared Torment',
+    description: 'Torment category effects on one linked target also apply to 1 additional linked target per rank at 50% potency.',
     icon: 'spell_nature_mirrorimage',
     maxRanks: 3,
     position: { x: 3, y: 1 },
-    requires: 'torment_t0_psychic_seed',
+    requires: 'torment_t0_psychic_link',
   },
 
-  // Tier 2 - Advanced psychic control (Continue spiral)
   {
-    id: 'torment_t2_psychic_cascade',
-    name: 'Psychic Cascade',
-    description: 'When you apply Torment, it chains to 1 additional target per rank within 20ft.',
+    id: 'torment_t2_web_cultivation',
+    name: 'Web Cultivation',
+    description: 'Casting any category spell on a linked target costs 1 less mana per rank (minimum 1).',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 3,
     position: { x: 0, y: 2 },
-    requires: 'torment_t1_mind_fracture',
+    requires: 'torment_t1_resonance_damage',
   },
   {
     id: 'torment_t2_nightmare_fuel',
     name: 'Nightmare Fuel',
-    description: 'Psychic afflictions reduce enemy spell attack rolls by 1 per rank.',
+    description: 'Psychic afflictions reduce enemy spell attack rolls by 1 per rank. Linked targets have shared reduced Spirit saves.',
     icon: 'spell_shadow_mindsteal',
     maxRanks: 3,
     position: { x: 4, y: 2 },
-    requires: 'torment_t1_hallucinogenic_spores',
+    requires: 'torment_t1_shared_torment',
   },
 
-  // Tier 3 - Master mental domination (Spiral back inward)
   {
-    id: 'torment_t3_mental_domination',
-    name: 'Mental Domination',
-    description: 'Enemies with psychic afflictions have disadvantage on all mental saves. +1 per rank to confusion chance.',
+    id: 'torment_t3_cascade_finale',
+    name: 'Cascade Finale',
+    description: 'When a final form triggers on a linked target, all linked targets suffer 50% of the finale effect per rank.',
     icon: 'spell_shadow_mindsteal',
     maxRanks: 2,
     position: { x: 1, y: 3 },
-    requires: 'torment_t2_psychic_cascade',
+    requires: 'torment_t2_web_cultivation',
   },
   {
     id: 'torment_t3_psychic_storm',
     name: 'Psychic Storm',
-    description: 'Create a 30ft storm of psychic energy. Enemies take 1d8 psychic damage per rank per round.',
+    description: 'Create a 30ft storm for 3 rounds. Linked targets inside take 1d8 psychic/turn per rank. Non-linked enemies take half.',
     icon: 'spell_shadow_mindtwisting',
     maxRanks: 4,
     position: { x: 3, y: 3 },
     requires: 'torment_t2_nightmare_fuel',
   },
 
-  // Tier 4 - Elite mental control (Spiral convergence)
   {
     id: 'torment_t4_psychic_nexus',
     name: 'Psychic Nexus',
-    description: 'All psychic afflictions become linked. When one triggers, all others deal +2d6 damage per rank.',
+    description: 'Once per combat: All psychic links become permanent (persist even if base affliction type differs). Linked finales now trigger at 75% potency on all linked targets.',
     icon: 'spell_arcane_arcanetorrent',
     maxRanks: 2,
     position: { x: 2, y: 4 },
-    requires: 'torment_t3_mental_domination',
+    requires: 'torment_t3_cascade_finale',
     requiresPoints: 20,
   }
 ];
 
-// Decay Harbinger Specialization - Hexagonal crystal lattice pattern (decay crystal)
 export const PLAGUEBRINGER_DECAY_HARBINGER = [
-  // Tier 0 - Foundation (Central decay focus)
   {
-    id: 'decay_t0_necrotic_focus',
-    name: 'Necrotic Focus',
-    description: 'Your Decay category spells reduce enemy maximum HP by +1d6 per rank.',
+    id: 'decay_t0_infinite_growth',
+    name: 'Infinite Growth',
+    description: 'Afflictions have no final form. After Stage 3, each category spell adds permanent stacks instead. +1 permanent stack type unlocked per rank.',
     icon: 'spell_shadow_deathanddecay',
-    maxRanks: 5,
+    maxRanks: 3,
     position: { x: 2, y: 0 },
     requires: null,
   },
 
-  // Tier 1 - Early decay (Central expansion)
   {
     id: 'decay_t1_accelerated_rot',
     name: 'Accelerated Rot',
-    description: 'Necrotic afflictions deal damage 1 round faster. +1 damage dice per rank.',
+    description: 'Permanent stacks from Decay category deal +1d4 necrotic/turn per rank. All permanent stacks last until Greater Restoration.',
     icon: 'spell_shadow_contagion',
     maxRanks: 3,
     position: { x: 1, y: 1 },
-    requires: 'decay_t0_necrotic_focus',
+    requires: 'decay_t0_infinite_growth',
   },
   {
     id: 'decay_t1_dark_rejuvenation',
     name: 'Dark Rejuvenation',
-    description: 'Convert healing received by afflicted enemies into necrotic damage to allies. +1d6 damage per rank.',
+    description: 'When any permanent stack is applied, you heal for 1d4 HP per rank. Afflicted enemies\' healing is reduced by 1d6 per rank.',
     icon: 'spell_shadow_darkritual',
     maxRanks: 4,
     position: { x: 3, y: 1 },
-    requires: 'decay_t0_necrotic_focus',
+    requires: 'decay_t0_infinite_growth',
   },
 
-  // Tier 2 - Branching decay paths (Left and right expansion)
   {
     id: 'decay_t2_withering_touch',
     name: 'Withering Touch',
-    description: 'Decay category spells reduce healing received by 20% per rank for 3 rounds.',
+    description: 'Decay category permanent stacks also reduce healing received by 10% per rank for 3 rounds. Stacks with itself.',
     icon: 'spell_shadow_soulleech',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -246,7 +235,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t2_necrotic_burst',
     name: 'Necrotic Burst',
-    description: 'When Decay afflictions reach Stage 3, they burst for 2d8 necrotic damage in 15ft radius per rank.',
+    description: 'When a target reaches 5+ permanent stacks, they burst for 2d8 necrotic in 15ft radius per rank. Can trigger once per target per combat.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 3,
     position: { x: 2, y: 2 },
@@ -255,47 +244,45 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t2_life_drain',
     name: 'Life Drain',
-    description: 'When afflicted enemies take damage, you heal for 1d6 HP per rank.',
+    description: 'When stacked enemies take damage from any source, you heal for 1d6 HP per rank per 5 permanent stacks on that target.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 4,
     position: { x: 4, y: 2 },
     requires: 'decay_t1_dark_rejuvenation',
   },
 
-  // Tier 3 - Specialization (Further expansion)
   {
     id: 'decay_t3_withering_aura',
     name: 'Withering Aura',
-    description: 'Create a 20ft aura that prevents healing and deals 1d6 necrotic damage per rank per round.',
+    description: 'Targets with 5+ permanent stacks emit a 20ft aura: no healing, 1d6 necrotic/turn per rank to enemies within.',
     icon: 'spell_shadow_plaguecloud',
     maxRanks: 3,
     position: { x: 1, y: 3 },
     requires: 'decay_t2_withering_touch',
   },
   {
-    id: 'decay_t3_necrotic_eruption',
-    name: 'Necrotic Eruption',
-    description: 'Consume all Decay afflictions to deal 3d8 necrotic damage per affliction in 30ft radius.',
-    icon: 'spell_shadow_deathanddecay',
-    maxRanks: 2,
+    id: 'decay_t3_eternal_rot',
+    name: 'Eternal Rot',
+    description: 'Permanent stacks from any category persist even AFTER combat ends. +1 additional permanent stack per rank applied per category spell post-Stage 3.',
+    icon: 'spell_shadow_contagion',
+    maxRanks: 3,
     position: { x: 2, y: 3 },
     requires: 'decay_t2_necrotic_burst',
   },
   {
     id: 'decay_t3_vampiric_decay',
     name: 'Vampiric Decay',
-    description: 'Life Drain heals for double amount when triggered by Decay category spells.',
+    description: 'Life Drain heals for double when triggered by Decay category spells. Gain 5 temporary HP per rank per permanent stack on the target.',
     icon: 'spell_shadow_lifedrain02',
     maxRanks: 3,
     position: { x: 3, y: 3 },
     requires: 'decay_t2_life_drain',
   },
 
-  // Tier 4 - Advanced abilities (Outer expansion)
   {
     id: 'decay_t4_necrotic_dominion',
     name: 'Necrotic Dominion',
-    description: 'All enemies within 40ft have healing reduced by 50%. You gain 25% lifesteal on all damage.',
+    description: 'All enemies within 40ft of targets with 10+ permanent stacks have healing reduced by 50%. You gain 25% lifesteal on all damage to stacked targets.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 2,
     position: { x: 0, y: 4 },
@@ -303,19 +290,19 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
     requiresPoints: 15,
   },
   {
-    id: 'decay_t4_eternal_rot',
-    name: 'Eternal Rot',
-    description: 'Decay afflictions persist until cured by Greater Restoration. +1 maximum HP reduction per rank.',
-    icon: 'spell_shadow_contagion',
-    maxRanks: 3,
+    id: 'decay_t4_total_collapse',
+    name: 'Total Collapse',
+    description: 'When a target with 10+ permanent stacks dies, all their stacks spread to enemies within 20ft as fresh Stage 0 Seeds with 3 permanent stacks each.',
+    icon: 'spell_shadow_deathanddecay',
+    maxRanks: 2,
     position: { x: 2, y: 4 },
-    requires: 'decay_t3_necrotic_eruption',
+    requires: 'decay_t3_eternal_rot',
     requiresPoints: 20,
   },
   {
     id: 'decay_t4_apocalyptic_decay',
     name: 'Apocalyptic Decay',
-    description: 'All Decay category spells affect all enemies within 25ft of the target.',
+    description: 'All Decay category spells affect all enemies within 25ft of the target. Each enemy hit gains permanent stacks independently.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 2,
     position: { x: 4, y: 4 },

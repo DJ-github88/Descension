@@ -1,0 +1,3010 @@
+=== HOLLOW SPELL DATA AUDIT (v2 - accurate line numbers) ===
+Total findings: 253
+Files with findings: 32
+
+=== PATTERN SUMMARY ===
+  P5: 85 (Control effect with no concrete mechanics)
+  P2: 77 (Debuff effect with no mechanical fields)
+  P1: 76 (Buff effect with no mechanical fields)
+  P6: 8 (Utility effect with no concrete values)
+  P3: 5 (DamageConfig with no formula)
+  P8: 1 (BuffConfig has buffType but empty effects)
+  P4: 1 (HealingConfig with no formula)
+
+
+================================================================================
+FILE: arcanistPath.js (2 findings)
+================================================================================
+
+--- [P1] Spell: "spell_shield" | buffConfig @ line 107 ---
+  Issue: buffConfig effect 'Arcane Shield' has no standard mechanical fields
+  Current code:
+    {
+                            id: 'arcane_shield',
+                            name: 'Arcane Shield',
+                            description: 'An arcane barrier absorbs the incoming spell. Flip two coins — on two heads, the spell is reflected back at the caster at full power.',
+                            statusTy
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "spell_steal" | buffConfig @ line 712 ---
+  Issue: buffConfig effect 'Stolen Effect' has no standard mechanical fields
+  Current code:
+    {
+                                    id: 'stolen_buff',
+                                    name: 'Stolen Effect',
+                                    description: 'Gain the beneficial effect stolen from target',
+                                    statusEffect: {
+                                        level: 'variab
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: arcanoneerData.js (10 findings)
+================================================================================
+
+--- [P2] Spell: "arc_frost_touch" | debuffConfig @ line 690 ---
+  Issue: debuffConfig effect 'Frozen Limbs' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slowed',
+              name: 'Frozen Limbs',
+              description: 'Movement speed reduced by 10 feet for 1 round as muscles stiffen from the cold.',
+              statusType: 'slow',
+              level: 'minor'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "arc_nature_vine" | controlConfig @ line 857 ---
+  Issue: controlConfig effect 'Entangled by Vines' has no concrete control mechanics
+  Current code:
+    {
+              id: 'snare',
+              name: 'Entangled by Vines',
+              description: 'Thorny vines wrap around your legs, immobilizing you. A Strength save breaks free.',
+              config: {
+                restraintType: 'physical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "arc_steam_burst" | debuffConfig @ line 931 ---
+  Issue: debuffConfig effect 'Blinded by Steam' has no standard mechanical fields
+  Current code:
+    {
+              id: 'disoriented',
+              name: 'Blinded by Steam',
+              description: 'Thick steam clouds your vision completely. You automatically fail sight-based checks and attack with disadvantage for 1 round.',
+              statusType: 'blinded',
+              level: 'minor'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "arc_ice_shard" | debuffConfig @ line 1186 ---
+  Issue: debuffConfig effect 'Slow' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Slow',
+              description: 'Movement speed reduced by 10 feet',
+              statusType: 'slow',
+              level: 'minor'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "arc_arcane_detonation" | debuffConfig @ line 1264 ---
+  Issue: debuffConfig effect 'Arcane Disorientation' has no standard mechanical fields
+  Current code:
+    {
+              id: 'disoriented',
+              name: 'Arcane Disorientation',
+              description: 'Arcane energy overwhelms the senses. Suffer -2 to attack rolls and saving throws for 1 round.',
+              statusType: 'dazed',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "arc_frost_nova" | debuffConfig @ line 1413 ---
+  Issue: debuffConfig effect 'Frozen Solid' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Frozen Solid',
+              description: 'Movement speed reduced by half for 2 rounds as deep cold stiffens muscles and joints.',
+              statusType: 'slow',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "arc_elemental_maelstrom" | controlConfig @ line 2222 ---
+  Issue: controlConfig effect 'Elemental Disorientation' has no concrete control mechanics
+  Current code:
+    {
+              id: 'elemental_disorientation',
+              name: 'Elemental Disorientation',
+              description: 'The chaotic elemental barrage has overwhelmed your senses. Movement speed halved, -2 to attack rolls for 1 round.',
+              config: {
+                durationType: 'rounds',
+              
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "elemental_synthesis" | debuffConfig @ line 2504 ---
+  Issue: debuffConfig effect 'Synthesis Drain' has no standard mechanical fields
+  Current code:
+    {
+              id: 'synthesis_drain',
+              name: 'Synthesis Drain',
+              description: 'The caster has -2 to spell attack rolls for 1 round from the strain of balancing opposing elements.',
+              mechanicsText: '',
+              isSelfDebuff: true
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "arc_elemental_convergence" | debuffConfig @ line 2587 ---
+  Issue: debuffConfig effect 'Convergence Exhaustion' has no standard mechanical fields
+  Current code:
+    {
+              id: 'convergence_exhaustion',
+              name: 'Convergence Exhaustion',
+              description: 'The caster cannot cast spells requiring 3+ spheres until end of next turn. The immense strain of convergence leaves your body trembling.',
+              mechanicsText: '',
+              isSelfDeb
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "arc_dimensional_rift" | controlConfig @ line 2662 ---
+  Issue: controlConfig effect 'Void Disorientation' has no concrete control mechanics
+  Current code:
+    {
+              id: 'void_disorientation',
+              name: 'Void Disorientation',
+              description: 'Reality warps around you. Disadvantage on attacks, cannot take reactions, movement speed halved for 1 round.',
+              config: {
+                durationType: 'rounds',
+                recoveryMetho
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: berserkerData.js (12 findings)
+================================================================================
+
+--- [P5] Spell: "berserk_primal_roar" | controlConfig @ line 1314 ---
+  Issue: controlConfig effect 'Primal Terror' has no concrete control mechanics
+  Current code:
+    {
+              id: 'fear',
+              name: 'Primal Terror',
+              description: 'Enemies flee in blind panic',
+              config: {
+                fearStrength: 'moderate'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_savage_leap" | controlConfig @ line 1452 ---
+  Issue: controlConfig effect 'Impact Stun' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Impact Stun',
+              description: 'Enemies are stunned by the devastating impact',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_berserk_charge" | controlConfig @ line 1524 ---
+  Issue: controlConfig effect 'Charge Impact' has no concrete control mechanics
+  Current code:
+    {
+              id: 'push',
+              name: 'Charge Impact',
+              description: 'Enemies are pushed back by the unstoppable charge',
+              config: {
+                movementType: 'push',
+                distance: 10
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_intimidating_presence" | controlConfig @ line 1748 ---
+  Issue: controlConfig effect 'Frightened' has no concrete control mechanics
+  Current code:
+    {
+              id: 'fear',
+              name: 'Frightened',
+              description: 'Enemies are overcome with terror',
+              config: {
+                fearStrength: 'moderate'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_cataclysmic_blow" | controlConfig @ line 1898 ---
+  Issue: controlConfig effect 'Cataclysmic Impact' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Cataclysmic Impact',
+              description: 'Target is stunned by the devastating blow',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "berserk_unstoppable_force" | buffConfig @ line 1957 ---
+  Issue: buffConfig effect 'Unstoppable Force' has no standard mechanical fields
+  Current code:
+    {
+              id: 'condition_immunity',
+              name: 'Unstoppable Force',
+              description: 'Immune to all conditions and forced movement for 1 round',
+              statusType: 'immunity',
+              level: 'major'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "berserk_fury_of_the_ancients" | controlConfig @ line 2473 ---
+  Issue: controlConfig effect 'Whirlwind Force' has no concrete control mechanics
+  Current code:
+    {
+              id: 'repel',
+              name: 'Whirlwind Force',
+              description: 'Enemies are knocked back and down by the spinning fury',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_ragnarok_fury" | controlConfig @ line 2609 ---
+  Issue: controlConfig effect 'Apocalyptic Shock' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Apocalyptic Shock',
+              description: 'Enemies are stunned by the apocalyptic force',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "berserk_immortal_rage" | buffConfig @ line 2668 ---
+  Issue: buffConfig effect 'Immortal Rage' has no standard mechanical fields
+  Current code:
+    {
+              id: 'immortal_rage',
+              name: 'Immortal Rage',
+              description: 'Immune to death and all lethal damage for 3 rounds',
+              statusType: 'immortality',
+              level: 'extreme'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "berserk_dimensional_rift" | controlConfig @ line 2741 ---
+  Issue: controlConfig effect 'Dimensional Pull' has no concrete control mechanics
+  Current code:
+    {
+              id: 'pull',
+              name: 'Dimensional Pull',
+              description: 'Enemies are pulled toward the rift',
+              config: {
+                movementType: 'pull',
+                distance: 20
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "berserk_primal_cataclysm" | controlConfig @ line 2825 ---
+  Issue: controlConfig effect 'Ground Tremor' has no concrete control mechanics
+  Current code:
+    {
+              id: 'trip',
+              name: 'Ground Tremor',
+              description: 'Enemies are knocked prone by the shockwave',
+              config: {
+                durationType: 'instant',
+                recoveryMethod: 'stand_action'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P8] Spell: "berserk_bloodrage_frenzy" | buffConfig @ line 2947 ---
+  Issue: buffConfig has buffType but no effects array
+  Current code:
+    buffConfig: {
+            buffType: 'custom',
+            customName: 'Bloodrage Frenzy',
+            customDescription: 'Heal for 25% of melee damage dealt. When toggled off or after 5 rounds (max), take exhaustion damage equal to 1d8 per round maintained.',
+            durationValue: 5,
+            durationType: 'rou
+  Missing: effects array with concrete effects
+
+
+================================================================================
+FILE: bladedancerData.js (2 findings)
+================================================================================
+
+--- [P2] Spell: "bladedancer_precision_strike" | debuffConfig @ line 1810 ---
+  Issue: debuffConfig effect 'Bleeding Wound' has no standard mechanical fields
+  Current code:
+    {
+              id: 'bleeding',
+              name: 'Bleeding Wound',
+              description: 'The target bleeds from a deep wound, taking physical damage over time as blood continues to flow. The wound is severe and continues to cause harm.',
+              statusType: 'bleeding',
+              level: 'moderate
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "bladedancer_vanishing_blade" | buffConfig @ line 2180 ---
+  Issue: buffConfig effect 'Shadow Veil' has no standard mechanical fields
+  Current code:
+    {
+              id: 'vanishing_invisibility',
+              name: 'Shadow Veil',
+              description: 'Become invisible for 1 round, gaining advantage on attacks',
+              statusType: 'invisibility',
+              level: 'major'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: chaosWeaverData.js (6 findings)
+================================================================================
+
+--- [P1] Spell: "chaos_weaver-reality_bending-reality_flicker" | buffConfig @ line 328 ---
+  Issue: buffConfig effect 'Incorporeal' has no standard mechanical fields
+  Current code:
+    { id: 'incorporeal', name: 'Incorporeal', description: 'You become incorporeal for 1 round. You can move through objects and are immune to non-magical attacks.' }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "chaos_weaver-reality_bending-dimensional_rift" | controlConfig @ line 477 ---
+  Issue: controlConfig effect 'Teleport' has no concrete control mechanics
+  Current code:
+    {
+              id: 'teleport',
+              name: 'Teleport',
+              description: 'Teleport the target up to 20 feet in any direction',
+              config: {
+                movementType: 'teleport',
+                distance: 20
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "chaos_weaver-reality_bending-reality_swap" | controlConfig @ line 771 ---
+  Issue: controlConfig effect 'Position Swap' has no concrete control mechanics
+  Current code:
+    {
+              id: 'swap',
+              name: 'Position Swap',
+              description: 'Swap positions with all creatures in the area randomly',
+              config: {
+                movementType: 'swap',
+                randomSwap: true
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P6] Spell: "chaos_weaver-reality_bending-chaotic_reflection" | utilityConfig @ line 1061 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'defense',
+            subtype: 'spell_reflection',
+            description: 'Reflect spells back at their casters with chaotic modifications',
+            power: 'major'
+          },
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P2] Spell: "chaos_weaver-entropy_control-entropy_plague" | debuffConfig @ line 1503 ---
+  Issue: debuffConfig effect 'Entropy Plague' has no standard mechanical fields
+  Current code:
+    {
+              id: 'entropy_plague',
+              name: 'Entropy Plague',
+              description: 'Target takes 2d6 necrotic damage at start of turn, spreads to adjacent creatures on failed CON save',
+              statusType: 'disease',
+              level: 'severe'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "chaos_weaver-reality_bending-chaos_conduit" | buffConfig @ line 1703 ---
+  Issue: buffConfig effect 'Chaos Conduit' has no standard mechanical fields
+  Current code:
+    {
+              id: 'chaos_conduit',
+              name: 'Chaos Conduit',
+              description: '+4 to spell damage, all chaos spells gain +1 die for 3 rounds, but you take 2d6 damage at start of each turn',
+              statusType: 'empowerment',
+              level: 'major'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: chronarchData.js (26 findings)
+================================================================================
+
+--- [P5] Spell: "stasis_field" | controlConfig @ line 573 ---
+  Issue: controlConfig effect 'Temporal Stasis' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Temporal Stasis',
+              description: 'Freezes targets in time for 1 round, preventing all actions and movement',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "chrono_echo" | controlConfig @ line 719 ---
+  Issue: controlConfig effect 'Chrono Echo' has no concrete control mechanics
+  Current code:
+    {
+              id: 'chrono_echo',
+              name: 'Chrono Echo',
+              description: 'Creates temporal echoes that grant allies advantage on attacks and flanking bonuses through fragments of past and future actions.',
+              config: {
+                echoType: 'tactical',
+                flankingBonus: t
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "temporal_dilation" | buffConfig @ line 790 ---
+  Issue: buffConfig effect 'Time Acceleration' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_acceleration',
+              name: 'Time Acceleration',
+              description: 'Allies in area gain +1 action point per turn for 3 rounds',
+              statusType: 'haste',
+              level: 'moderate',
+              config: {
+                extraActions: 1
+              }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "temporal_acceleration" | debuffConfig @ line 809 ---
+  Issue: debuffConfig effect 'Time Dilation' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_slow',
+              name: 'Time Dilation',
+              description: 'Enemies in area have halved movement speed and attack speed',
+              statusType: 'slow',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "temporal_foresight" | buffConfig @ line 957 ---
+  Issue: buffConfig effect 'Temporal Foresight' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_foresight',
+              name: 'Temporal Foresight',
+              description: 'Gain advantage on initiative rolls and attack rolls for 3 rounds. You can also use a reaction to interrupt enemy actions.',
+              statusType: 'enhancement',
+              level: 'moderate',
+              
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "temporal_paradox" | controlConfig @ line 1101 ---
+  Issue: controlConfig effect 'Temporal Paradox' has no concrete control mechanics
+  Current code:
+    {
+              id: 'temporal_paradox',
+              name: 'Temporal Paradox',
+              description: 'Enemies experience multiple timelines simultaneously, causing confusion',
+              config: {
+                controlType: 'confusion',
+                confusionDuration: 3
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "temporal_anchor" | buffConfig @ line 1386 ---
+  Issue: buffConfig effect 'Time Acceleration' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_acceleration',
+              name: 'Time Acceleration',
+              description: 'Allies in area gain +1 action point per turn',
+              statusType: 'haste',
+              level: 'moderate',
+              config: {
+                extraActions: 1
+              }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "temporal_acceleration" | debuffConfig @ line 1405 ---
+  Issue: debuffConfig effect 'Temporal Decay' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_decay',
+              name: 'Temporal Decay',
+              description: 'Enemies take 2d6 necrotic damage per round from accelerated aging',
+              damageFormula: '2d6',
+              damageType: 'necrotic',
+              tickRate: 1,
+              tickUnit: 'rounds'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "temporal_barrier" | debuffConfig @ line 1469 ---
+  Issue: debuffConfig effect 'Temporal Aging' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_barrier_effect',
+              name: 'Temporal Aging',
+              description: 'Attackers age rapidly, taking 1d6 necrotic damage and having disadvantage on attacks against the protected target',
+              damageFormula: '1d6',
+              damageType: 'necrotic',
+              tickRat
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "temporal_flux_shield" | buffConfig @ line 1543 ---
+  Issue: buffConfig effect 'Temporal Shield' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_shield_flux',
+              name: 'Temporal Shield',
+              description: 'Gain 15 temporary hit points for 3 rounds',
+              statusType: 'protection',
+              level: 'moderate',
+              config: {
+                temporaryHP: 15
+              }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "temporal_flux_speed" | buffConfig @ line 1609 ---
+  Issue: buffConfig effect 'Temporal Speed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_speed',
+              name: 'Temporal Speed',
+              description: 'Grants +1 action point per turn and doubles movement speed for 3 rounds (requires concentration, costs 3 time shards)',
+              statusType: 'haste',
+              level: 'major',
+              config: {
+               
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "temporal_fracture" | debuffConfig @ line 1687 ---
+  Issue: debuffConfig effect 'Temporal Decay' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_decay',
+              name: 'Temporal Decay',
+              description: 'Take 2d6 necrotic damage at the start of each turn for 4 rounds as accelerated aging weakens the body',
+              damageFormula: '2d6',
+              damageType: 'necrotic',
+              tickRate: 1,
+              tickU
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "temporal_echoes" | controlConfig @ line 1755 ---
+  Issue: controlConfig effect 'Temporal Echoes' has no concrete control mechanics
+  Current code:
+    {
+              id: 'temporal_echoes',
+              name: 'Temporal Echoes',
+              description: 'Target is surrounded by temporal echoes that repeat their actions, dealing damage and creating tactical duplicates',
+              config: {
+                echoType: 'action_repetition',
+                damageEchoes: 
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "temporal_loop" | controlConfig @ line 1826 ---
+  Issue: controlConfig effect 'Time Loop' has no concrete control mechanics
+  Current code:
+    {
+              id: 'temporal_loop',
+              name: 'Time Loop',
+              description: 'Enemies are trapped in a loop, forced to repeat their last turn\'s actions exactly',
+              config: {
+                loopType: 'action_repetition',
+                copiesPreviousTurn: true,
+                preventsNewActio
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "chronal_disruption" | controlConfig @ line 1927 ---
+  Issue: controlConfig effect 'Temporal Chaos' has no concrete control mechanics
+  Current code:
+    {
+              id: 'chronal_disruption',
+              name: 'Temporal Chaos',
+              description: 'Creatures in area suffer random temporal effects: accelerated aging, time dilation, or temporal echoes',
+              config: {
+                randomEffects: true,
+                possibleEffects: ['aging_damage', 
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "temporal_echo_chamber" | controlConfig @ line 2051 ---
+  Issue: controlConfig effect 'Echo Chamber' has no concrete control mechanics
+  Current code:
+    {
+              id: 'echo_chamber',
+              name: 'Echo Chamber',
+              description: 'Every action taken in the chamber creates damaging echoes that repeat for 4 rounds',
+              config: {
+                echoType: 'action_echo',
+                damageEchoes: true,
+                echoDamage: '2d6 force',
+     
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "temporal_flux_dominion" | controlConfig @ line 2120 ---
+  Issue: controlConfig effect 'Temporal Dominion' has no concrete control mechanics
+  Current code:
+    {
+              id: 'temporal_dominion',
+              name: 'Temporal Dominion',
+              description: 'Complete control over time in the area - dictate turn order, speed, and duration',
+              config: {
+                dominionType: 'complete_control',
+                controlTurnOrder: true,
+                contr
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "fate_manipulation" | buffConfig @ line 2242 ---
+  Issue: buffConfig effect 'Favorable Fate' has no standard mechanical fields
+  Current code:
+    {
+              id: 'favorable_fate',
+              name: 'Favorable Fate',
+              description: 'Allies automatically succeed on attack rolls and saving throws for 2 rounds',
+              statusType: 'luck',
+              level: 'extreme',
+              config: {
+                autoSuccess: true,
+                affectsAt
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "favorable_fate" | debuffConfig @ line 2263 ---
+  Issue: debuffConfig effect 'Cursed Fate' has no standard mechanical fields
+  Current code:
+    {
+              id: 'cursed_fate',
+              name: 'Cursed Fate',
+              description: 'Enemies automatically fail attack rolls and saving throws',
+              statusType: 'curse',
+              level: 'extreme'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "temporal_shockwave" | controlConfig @ line 2339 ---
+  Issue: controlConfig effect 'Temporal Freeze' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Temporal Freeze',
+              description: 'Enemies are frozen in time for 2 rounds, preventing all actions and movement (save ends early)',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'save_ends'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "reality_fracture" | controlConfig @ line 2416 ---
+  Issue: controlConfig effect 'Reality Fracture' has no concrete control mechanics
+  Current code:
+    {
+              id: 'reality_fracture',
+              name: 'Reality Fracture',
+              description: 'Creates unstable fractures that randomly teleport creatures and cause damage over time',
+              config: {
+                fractureType: 'temporal_rift',
+                randomTeleportation: true,
+                d
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "chronal_paradox" | controlConfig @ line 2481 ---
+  Issue: controlConfig effect 'Temporal Paradox' has no concrete control mechanics
+  Current code:
+    {
+              id: 'temporal_loop',
+              name: 'Temporal Paradox',
+              description: 'Enemies are trapped in a time loop, forced to repeat their last action each turn instead of taking new ones',
+              config: {
+                loopType: 'action_repetition',
+                durationType: 'rounds'
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "temporal_loop" | debuffConfig @ line 2502 ---
+  Issue: debuffConfig effect 'Paradox Confusion' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_confusion',
+              name: 'Paradox Confusion',
+              description: 'Take 3d6 psychic damage each round from the strain of experiencing the same moment repeatedly',
+              damageFormula: '3d6',
+              damageType: 'psychic',
+              tickRate: 1,
+              tickUni
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "temporal_mastery" | buffConfig @ line 2569 ---
+  Issue: buffConfig effect 'Temporal Mastery' has no standard mechanical fields
+  Current code:
+    {
+              id: 'temporal_mastery',
+              name: 'Temporal Mastery',
+              description: 'Time flows at your command: +3 to all temporal spell DCs, Temporal Flux abilities cost 2 less Strain, enemies in 30ft are slowed',
+              statusType: 'empowerment',
+              level: 'major'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "chronal_restoration" | buffConfig @ line 2638 ---
+  Issue: buffConfig effect 'Chronal Restoration' has no standard mechanical fields
+  Current code:
+    {
+              id: 'chronal_restoration',
+              name: 'Chronal Restoration',
+              description: 'Allies are protected by temporal echoes: take 50% less damage for 2 rounds',
+              statusType: 'protection',
+              level: 'major'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "chronal_vortex" | controlConfig @ line 2729 ---
+  Issue: controlConfig effect 'Temporal Displacement' has no concrete control mechanics
+  Current code:
+    {
+              id: 'chronal_vortex',
+              name: 'Temporal Displacement',
+              description: 'Pulls creatures through time, randomly aging or rejuvenating them',
+              config: {
+                vortexType: 'time_pull',
+                randomEffects: true,
+                possibleEffects: ['age_damage',
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: covenbaneData.js (17 findings)
+================================================================================
+
+--- [P6] Spell: "cov_dark_pursuit" | utilityConfig @ line 549 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'movement',
+            utilitySubtype: 'speed',
+            selectedEffects: [
+              {
+                id: 'shadow_dash',
+                name: 'Shadow Dash',
+                description: 'Dash 30 feet without provoking opportunity attacks. Ignore difficult terrain until end o
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P2] Spell: "cov_hex_weakness" | debuffConfig @ line 621 ---
+  Issue: debuffConfig effect 'Weakened Magic' has no standard mechanical fields
+  Current code:
+    {
+                id: 'weakened_magic',
+                name: 'Weakened Magic',
+                description: 'Spell attack rolls reduced by 2, spell save DC reduced by 1',
+                mechanicsText: '-2 Spell Attack, -1 Spell DC'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "cov_hex_weakness" | debuffConfig @ line 621 ---
+  Issue: debuffConfig effect 'Radiant Vulnerability' has no standard mechanical fields
+  Current code:
+    {
+                id: 'radiant_vulnerability',
+                name: 'Radiant Vulnerability',
+                description: 'Vulnerable to radiant damage from all sources — radiant damage taken is doubled',
+                mechanicsText: 'Radiant damage doubled'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "cov_hex_weakness" | debuffConfig @ line 621 ---
+  Issue: debuffConfig effect 'Concentration Disruption' has no standard mechanical fields
+  Current code:
+    {
+                id: 'concentration_disruption',
+                name: 'Concentration Disruption',
+                description: 'Evil magic users must Con save when taking damage or lose concentration on maintained spells',
+                mechanicsText: 'Con save on damage or lose concentration'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P6] Spell: "cov_anti_magic_barrier" | utilityConfig @ line 864 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'environment',
+            selectedEffects: [
+              {
+                id: 'spell_disruption_zone',
+                name: 'Spell Disruption Zone',
+                description: 'Enemy spellcasters in zone must Con save DC 14 or spell fails. Allies gain +2 to saves vs magic.',
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P5] Spell: "cov_spirit_shackle" | controlConfig @ line 937 ---
+  Issue: controlConfig effect 'Spirit Bind' has no concrete control mechanics
+  Current code:
+    {
+                id: 'spirit_bind',
+                name: 'Spirit Bind',
+                description: 'Restrained and silenced. Speed reduced to 0. Attacks against target have advantage. Spirit save at end of each turn to break free.',
+                mechanicsText: 'Speed 0, no verbal spells'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "cov_silver_storm" | debuffConfig @ line 1089 ---
+  Issue: debuffConfig effect 'Silver Mark' has no standard mechanical fields
+  Current code:
+    {
+                id: 'storm_mark',
+                name: 'Silver Mark',
+                description: 'Attacks against this creature have advantage until end of caster\'s next turn',
+                mechanicsText: ''
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "cov_hexbreaker_execution" | controlConfig @ line 1157 ---
+  Issue: controlConfig effect 'Divine Execution' has no concrete control mechanics
+  Current code:
+    {
+                id: 'divine_execution',
+                name: 'Divine Execution',
+                description: 'Instantly kill evil magic users at 25 HP or lower. On kill: gain 2 Hexbreaker Charges.',
+                mechanicsText: 'DC 16 Con save or die'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P6] Spell: "cov_anti_magic_field" | utilityConfig @ line 1220 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'environment',
+            selectedEffects: [
+              {
+                id: 'anti_magic_zone',
+                name: 'Anti-Magic Zone',
+                description: '15ft sphere. No spells cast, summoned creatures vanish, magic items suppressed, concentration ends on entry. M
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P5] Spell: "cov_hunters_net" | controlConfig @ line 1289 ---
+  Issue: controlConfig effect 'Silver Chains' has no concrete control mechanics
+  Current code:
+    {
+                id: 'silver_net',
+                name: 'Silver Chains',
+                description: 'Restrained, silenced, speed reduced to 5ft. Takes 2d6 radiant damage at start of each turn. Str save at end of each turn to break free.',
+                mechanicsText: '2d6 radiant/turn'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "cov_hexbreaker_fury" | controlConfig @ line 1369 ---
+  Issue: controlConfig effect 'Anti-Magic Burst' has no concrete control mechanics
+  Current code:
+    {
+                id: 'anti_magic_burst',
+                name: 'Anti-Magic Burst',
+                description: 'Stunned for 1 round on failed save. Half damage on successful save.',
+                mechanicsText: '8d6 necrotic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "cov_shadow_eruption" | debuffConfig @ line 1446 ---
+  Issue: debuffConfig effect 'Shadow Blindness' has no standard mechanical fields
+  Current code:
+    {
+                id: 'shadow_blindness',
+                name: 'Shadow Blindness',
+                description: 'Blinded for 2 rounds. Cannot see, automatically fails sight-based checks, disadvantage on attack rolls. Moves in a random direction at start of each turn.',
+                mechanicsText: '',
+              
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "cov_spell_nullification" | controlConfig @ line 1523 ---
+  Issue: controlConfig effect 'Spell Seal' has no concrete control mechanics
+  Current code:
+    {
+                id: 'spell_seal',
+                name: 'Spell Seal',
+                description: 'One known spell becomes completely inaccessible for 1 hour. The sealed spell cannot be cast, prepared, or recalled. 3d8 psychic damage to evil magic users.',
+                mechanicsText: 'DC 17 Spirit save'
+         
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "cov_hexbreaker_storm" | debuffConfig @ line 1605 ---
+  Issue: debuffConfig effect 'Anti-Magic Weakening' has no standard mechanical fields
+  Current code:
+    {
+                id: 'anti_magic_weakening',
+                name: 'Anti-Magic Weakening',
+                description: 'Spellcasting at disadvantage. Cannot regain mana or spell slots. 3d8 radiant damage per round.',
+                mechanicsText: '3d8 radiant/round'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "cov_anti_magic_storm" | debuffConfig @ line 1912 ---
+  Issue: debuffConfig effect 'Magic Suppression' has no standard mechanical fields
+  Current code:
+    {
+                id: 'magic_suppression_field',
+                name: 'Magic Suppression',
+                description: 'All spells cast in area require 2 additional spell slots or fail. Magic items lose all enchantment bonuses. 10d6 necrotic damage.',
+                mechanicsText: '10d6 necrotic'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P6] Spell: "cov_hexbreaker_apocalypse" | utilityConfig @ line 1991 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'environment',
+            selectedEffects: [
+              {
+                id: 'apocalypse_field',
+                name: 'Apocalypse Field',
+                description: '60ft sphere. All magical effects, enchantments, and summons destroyed. Magic items rendered inert for 1 hour
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P6] Spell: "cov_hexbreaker_armageddon" | utilityConfig @ line 2172 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'environment',
+            selectedEffects: [
+              {
+                id: 'permanent_magic_ending',
+                name: 'Permanent Magic Death',
+                description: '100ft sphere. All magic permanently destroyed. Spells fail, enchantments end, magic items become 
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+
+================================================================================
+FILE: deathcallerData.js (5 findings)
+================================================================================
+
+--- [P5] Spell: "dc_spirit_shackle" | controlConfig @ line 1686 ---
+  Issue: controlConfig effect 'Spirit Bind' has no concrete control mechanics
+  Current code:
+    {
+              id: 'spirit_bind',
+              name: 'Spirit Bind',
+              description: 'Dark tendrils immobilize the target',
+              config: {
+                restraintType: 'immobilize'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "dc_hexbreaker_execution" | controlConfig @ line 1843 ---
+  Issue: controlConfig effect 'Instant Death' has no concrete control mechanics
+  Current code:
+    {
+              id: 'instant_death',
+              name: 'Instant Death',
+              description: 'Attempt to instantly kill wounded targets'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "dc_hexbreaker_fury" | controlConfig @ line 1904 ---
+  Issue: controlConfig effect 'Anti-Magic Burst' has no concrete control mechanics
+  Current code:
+    {
+              id: 'anti_magic_burst',
+              name: 'Anti-Magic Burst',
+              description: 'Stuns enemies with cataclysmic necrotic energy'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "dc_binding_pain" | controlConfig @ line 1966 ---
+  Issue: controlConfig effect 'Pain Paralysis' has no concrete control mechanics
+  Current code:
+    {
+              id: 'pain_paralysis',
+              name: 'Pain Paralysis',
+              description: 'Paralyzed by overwhelming pain'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "dc_hexbreaker_storm" | debuffConfig @ line 2095 ---
+  Issue: debuffConfig effect 'Anti-Magic Weakening' has no standard mechanical fields
+  Current code:
+    {
+              id: 'anti_magic_weakening',
+              name: 'Anti-Magic Weakening',
+              description: 'Target takes 50% reduced spell damage and cannot regenerate mana for 1 minute. Requires concentration.',
+              statusType: 'weakened',
+              level: 'major'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: dreadnaughtData.js (7 findings)
+================================================================================
+
+--- [P1] Spell: "dread_dark_empowerment" | buffConfig @ line 1591 ---
+  Issue: buffConfig effect 'Necrotic Touch' has no standard mechanical fields
+  Current code:
+    {
+                id: 'dark_empowerment_necrotic',
+                name: 'Necrotic Touch',
+                description: 'All attacks deal +2d6 necrotic damage',
+                damageModifier: {
+                  elementType: 'necrotic',
+                  formula: '2d6',
+                  damageType: 'additional'
+         
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "dread_death_embrace" | buffConfig @ line 1668 ---
+  Issue: buffConfig effect 'Necrotic Healing' has no standard mechanical fields
+  Current code:
+    {
+                id: 'death_embrace_healing',
+                name: 'Necrotic Healing',
+                description: 'Heal from necrotic damage instead of taking it for 1 minute (requires concentration)',
+                healingModifier: {
+                  elementType: 'necrotic',
+                  formula: 'Damage
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "dread_abyssal_shield" | buffConfig @ line 1815 ---
+  Issue: buffConfig effect 'Abyssal Shield' has no standard mechanical fields
+  Current code:
+    {
+              id: 'abyssal_shield_reflection',
+              name: 'Abyssal Shield',
+              description: 'Block all damage for 1 turn and reflect 50% back at attacker as necrotic damage',
+              damageReflection: {
+                percentage: 50,
+                elementType: 'necrotic'
+              }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "dread_soul_rend" | debuffConfig @ line 1978 ---
+  Issue: debuffConfig effect 'Soul Wounded' has no standard mechanical fields
+  Current code:
+    {
+              id: 'soul_rend_prevention',
+              name: 'Soul Wounded',
+              description: 'Cannot regain hit points from healing magic',
+              healingPrevention: {
+                types: ['magical'],
+                percentage: 100
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "dread_soul_harvest" | debuffConfig @ line 2225 ---
+  Issue: debuffConfig effect 'Death Mark' has no standard mechanical fields
+  Current code:
+    {
+              id: 'death_mark',
+              name: 'Death Mark',
+              description: 'Each time this target deals damage to the Dreadnaught, the Dreadnaught gains DRP equal to half the damage dealt (rounded down). The mark cannot be removed by the target.',
+              statusType: 'marked',
+           
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "dread_eternal_night" | debuffConfig @ line 2645 ---
+  Issue: debuffConfig effect 'Life Drain' has no standard mechanical fields
+  Current code:
+    {
+                id: 'eternal_night_drain',
+                name: 'Life Drain',
+                description: 'Ongoing necrotic damage drains life from creatures in the area'
+              }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "dread_retribution_aura" | buffConfig @ line 2784 ---
+  Issue: buffConfig effect 'Spirit Retribution' has no standard mechanical fields
+  Current code:
+    {
+              id: 'retribution_aura_retaliation',
+              name: 'Spirit Retribution',
+              description: 'Spirits deal necrotic damage equal to Damage Taken back at attacker',
+              retaliationDamage: {
+                formula: 'Math.floor(Damage Taken * 0.5)',
+                elementType: 'ne
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: exorcistData.js (2 findings)
+================================================================================
+
+--- [P2] Spell: "exo_holy_brand" | debuffConfig @ line 2006 ---
+  Issue: debuffConfig effect 'Holy Brand' has no standard mechanical fields
+  Current code:
+    {
+              id: 'holy_brand',
+              name: 'Holy Brand',
+              description: 'Marked with holy light - takes +1d6 radiant damage from next attack for 2 rounds',
+              statusType: 'marked'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "exo_binding_circle" | controlConfig @ line 2118 ---
+  Issue: controlConfig effect 'Binding Circle' has no concrete control mechanics
+  Current code:
+    {
+              id: 'binding_circle',
+              name: 'Binding Circle',
+              description: 'Holy circle prevents demons from crossing - movement blocked for fiends',
+              config: {
+                creatureType: 'fiend',
+                blocksEntry: true,
+                blocksExit: true
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: falseProphetData.js (6 findings)
+================================================================================
+
+--- [P5] Spell: "fp_mind_fracture" | controlConfig @ line 988 ---
+  Issue: controlConfig effect 'Confused' has no concrete control mechanics
+  Current code:
+    {
+              id: 'confused',
+              name: 'Confused',
+              description: 'Cannot distinguish friend from foe, acts erratically for 3 rounds',
+              config: {
+                confusionType: 'complete'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "fp_false_promise" | controlConfig @ line 2163 ---
+  Issue: controlConfig effect 'Charmed' has no concrete control mechanics
+  Current code:
+    {
+              id: 'charmed',
+              name: 'Charmed',
+              description: 'Charmed by false promises - cannot attack caster for 2 rounds',
+              config: {
+                charmType: 'friendly'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "fp_deceptive_strike" | controlConfig @ line 2395 ---
+  Issue: controlConfig effect 'Confused' has no concrete control mechanics
+  Current code:
+    {
+              id: 'confused',
+              name: 'Confused',
+              description: 'Confused by deception - may attack random target for 1 round',
+              config: {
+                confusionType: 'random_target'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "fp_grand_deception" | controlConfig @ line 2456 ---
+  Issue: controlConfig effect 'Grand Confusion' has no concrete control mechanics
+  Current code:
+    {
+              id: 'grand_confusion',
+              name: 'Grand Confusion',
+              description: 'All enemies confused - may attack allies or do nothing for 3 rounds',
+              config: {
+                confusionType: 'complete'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "fp_reality_distortion" | debuffConfig @ line 2537 ---
+  Issue: debuffConfig effect 'Disoriented' has no standard mechanical fields
+  Current code:
+    {
+              id: 'disoriented',
+              name: 'Disoriented',
+              description: 'Disoriented by reality distortion - disadvantage on all rolls for 2 rounds',
+              statusType: 'disoriented'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "fp_mass_manipulation" | controlConfig @ line 2597 ---
+  Issue: controlConfig effect 'Mass Manipulation' has no concrete control mechanics
+  Current code:
+    {
+              id: 'mass_control',
+              name: 'Mass Manipulation',
+              description: 'All enemies controlled - must follow your commands for 2 rounds',
+              config: {
+                controlType: 'full'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: fateWeaverData.js (7 findings)
+================================================================================
+
+--- [P1] Spell: "fate_weaver_stacked_deck" | buffConfig @ line 1682 ---
+  Issue: buffConfig effect 'Stacked Deck' has no standard mechanical fields
+  Current code:
+    {
+              id: 'stacked_deck',
+              name: 'Stacked Deck',
+              description: 'Your next 3 attacks or spells automatically hit (critical on natural 20)'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "fate_weaver_dealers_choice" | buffConfig @ line 1850 ---
+  Issue: buffConfig effect 'Fortune Card' has no standard mechanical fields
+  Current code:
+    {
+              id: 'good_card',
+              name: 'Fortune Card',
+              description: 'Chosen allies gain +3 to all rolls for 3 rounds'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "good_card" | debuffConfig @ line 1862 ---
+  Issue: debuffConfig effect 'Misfortune Card' has no standard mechanical fields
+  Current code:
+    {
+              id: 'bad_card',
+              name: 'Misfortune Card',
+              description: 'Chosen enemies have -3 to all rolls for 3 rounds'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "fate_weaver_fate_sealed" | debuffConfig @ line 2242 ---
+  Issue: debuffConfig effect 'Fate Sealed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'fate_sealed',
+              name: 'Fate Sealed',
+              description: 'The next attack against this target automatically hits and cannot be avoided, blocked, or reduced'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "fate_weaver_double_down" | buffConfig @ line 2296 ---
+  Issue: buffConfig effect 'Double Down' has no standard mechanical fields
+  Current code:
+    {
+              id: 'double_down',
+              name: 'Double Down',
+              description: 'Your next spell deals double damage/healing but also doubles any self-damage or negative effects'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "fate_weaver_master_of_destiny" | buffConfig @ line 2421 ---
+  Issue: buffConfig effect 'Master of Destiny' has no standard mechanical fields
+  Current code:
+    {
+              id: 'master_of_destiny',
+              name: 'Master of Destiny',
+              description: 'Choose the result of any die roll (yours or enemy\'s) up to 10 times'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "fate_twist_probability" | debuffConfig @ line 2784 ---
+  Issue: debuffConfig effect 'Twisted Fate' has no standard mechanical fields
+  Current code:
+    {
+              id: 'twisted_fate',
+              name: 'Twisted Fate',
+              description: 'Must reroll next roll and take lower result',
+              statusType: 'disadvantage'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: formbenderData.js (10 findings)
+================================================================================
+
+--- [P2] Spell: "fb_ambush_strike" | debuffConfig @ line 807 ---
+  Issue: debuffConfig effect 'Bleeding' has no standard mechanical fields
+  Current code:
+    {
+              id: 'bleeding',
+              name: 'Bleeding',
+              description: '1d4 damage per round for 3 rounds (Tier 2+)'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "bleeding" | controlConfig @ line 819 ---
+  Issue: controlConfig effect 'Stun' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Stun',
+              description: 'Target is stunned for 1 round (Tier 3: Stun, Tier 5: Paralyze)',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "fb_shadowmeld" | buffConfig @ line 895 ---
+  Issue: buffConfig effect 'Shadow Invisibility' has no standard mechanical fields
+  Current code:
+    {
+              id: 'invisibility',
+              name: 'Shadow Invisibility',
+              description: 'Become invisible for 1 minute or until you attack or take damage'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "formbender_savage_charge" | controlConfig @ line 2192 ---
+  Issue: controlConfig effect 'Knocked Down' has no concrete control mechanics
+  Current code:
+    {
+              id: 'knockdown',
+              name: 'Knocked Down',
+              description: 'Target is knocked prone for 1 round',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "formbender_beast_form_partial" | buffConfig @ line 2305 ---
+  Issue: buffConfig effect 'Beast Form (Partial)' has no standard mechanical fields
+  Current code:
+    {
+              id: 'beast_form_partial',
+              name: 'Beast Form (Partial)',
+              description: 'Gain benefits of one form aspect for 1 minute'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "formbender_adaptive_form" | buffConfig @ line 2471 ---
+  Issue: buffConfig effect 'Adaptive Form' has no standard mechanical fields
+  Current code:
+    {
+              id: 'adaptive_form',
+              name: 'Adaptive Form',
+              description: 'Form transformations are free (cost 0 Wild Instinct) for 3 rounds',
+              customDescription: 'You can shift between all forms freely without paying the normal 1 Wild Instinct cost. This allows rapid adaptat
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "formbender_primal_fury_leap" | controlConfig @ line 2579 ---
+  Issue: controlConfig effect 'Staggered' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stagger',
+              name: 'Staggered',
+              description: 'Target is knocked prone and must use movement to stand',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "formbender_savage_roar" | controlConfig @ line 2749 ---
+  Issue: controlConfig effect 'Terrified' has no concrete control mechanics
+  Current code:
+    {
+              id: 'fear',
+              name: 'Terrified',
+              description: 'Enemies are frightened and must move away from you for 3 rounds',
+              config: {
+                fearStrength: 'strong'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "formbender_natures_apocalypse" | controlConfig @ line 3154 ---
+  Issue: controlConfig effect 'Devastated' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stagger',
+              name: 'Devastated',
+              description: 'Target is knocked prone and stunned for 3 rounds',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "formbender_eternal_wild" | buffConfig @ line 3208 ---
+  Issue: buffConfig effect 'Eternal Wild' has no standard mechanical fields
+  Current code:
+    {
+              id: 'eternal_wild',
+              name: 'Eternal Wild',
+              description: 'Gain unlimited Wild Instinct, instant form transformations, and regenerate 3d10 HP per round in any form',
+              customDescription: 'You have become one with the wild. You generate 5 Wild Instinct per round a
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: gamblerData.js (11 findings)
+================================================================================
+
+--- [P1] Spell: "fates-coin" | buffConfig @ line 948 ---
+  Issue: buffConfig effect 'Fate' has no standard mechanical fields
+  Current code:
+    {
+                id: 'fates_favor',
+                name: "Fate's Favor",
+                description: 'Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.'
+              }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "death-roll" | controlConfig @ line 1256 ---
+  Issue: controlConfig effect 'Stunned' has no concrete control mechanics
+  Current code:
+    {
+                id: 'stun',
+                name: 'Stunned',
+                description: 'Loser is stunned for 1 round, unable to take actions or reactions',
+                config: {
+                  durationType: 'rounds',
+                  recoveryMethod: 'automatic'
+                }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "gamblers-insight" | buffConfig @ line 1545 ---
+  Issue: buffConfig effect 'Gambler' has no standard mechanical fields
+  Current code:
+    {
+                id: 'gamblers_insight',
+                name: "Gambler's Insight",
+                description: 'Gain advantage on Insight and Perception checks against target for 10 minutes',
+                skillModifier: {
+                  skills: ['Insight', 'Perception'],
+                  magnitude: 1,
+               
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_lucky_toss" | buffConfig @ line 1686 ---
+  Issue: buffConfig effect 'Minor Luck' has no standard mechanical fields
+  Current code:
+    {
+              id: 'minor_luck',
+              name: 'Minor Luck',
+              description: '+1 to your next roll'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_beginners_luck" | buffConfig @ line 1739 ---
+  Issue: buffConfig effect 'Beginner' has no standard mechanical fields
+  Current code:
+    {
+              id: 'beginners_advantage',
+              name: "Beginner's Advantage",
+              description: 'Gain advantage on your next ability check or attack roll'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_hot_streak" | buffConfig @ line 1835 ---
+  Issue: buffConfig effect 'Hot Streak' has no standard mechanical fields
+  Current code:
+    {
+              id: 'hot_streak',
+              name: 'Hot Streak',
+              description: 'Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_mirage_flip" | buffConfig @ line 1886 ---
+  Issue: buffConfig effect 'Mirage Flip Double' has no standard mechanical fields
+  Current code:
+    {
+                id: 'mirage_flip_double',
+                name: 'Mirage Flip Double',
+              description: 'On heads: double damage. On tails: zero damage.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_fate_reroll" | buffConfig @ line 1942 ---
+  Issue: buffConfig effect 'Fate Reroll' has no standard mechanical fields
+  Current code:
+    {
+                id: 'fate_reroll',
+                name: 'Fate Reroll',
+              description: 'Reroll any dice this turn and take the better result.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "gambler_house_advantage" | debuffConfig @ line 2001 ---
+  Issue: debuffConfig effect 'Stolen Luck' has no standard mechanical fields
+  Current code:
+    {
+              id: 'stolen_luck',
+              name: 'Stolen Luck',
+              description: 'Enemies have disadvantage on attack rolls and saving throws.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "stolen_luck" | buffConfig @ line 2016 ---
+  Issue: buffConfig effect 'House Advantage' has no standard mechanical fields
+  Current code:
+    {
+              id: 'house_advantage',
+              name: 'House Advantage',
+              description: 'You have advantage on all rolls for the duration.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "gambler_poker_face" | buffConfig @ line 2134 ---
+  Issue: buffConfig effect 'Poker Face' has no standard mechanical fields
+  Current code:
+    {
+              id: 'poker_face',
+              name: 'Poker Face',
+              description: 'Immune to charm, fear, and mind-reading effects.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: harrowPath.js (3 findings)
+================================================================================
+
+--- [P2] Spell: "terrifying_presence" | debuffConfig @ line 190 ---
+  Issue: debuffConfig effect 'Frightened' has no standard mechanical fields
+  Current code:
+    {
+                            id: 'fear',
+                            name: 'Frightened',
+                            description: 'Frightened for 4 rounds with disadvantage on attacks and ability checks. Must move away each turn.'
+                        }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "dread_terrifying_presence" | debuffConfig @ line 406 ---
+  Issue: debuffConfig effect 'Frightened' has no standard mechanical fields
+  Current code:
+    {
+                                    id: 'frightened',
+                                    name: 'Frightened',
+                                    description: 'Frightened with -2 STR penalty, cannot approach source of fear.'
+                                }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "plaguebringer_touch" | debuffConfig @ line 642 ---
+  Issue: debuffConfig effect 'Diseased' has no standard mechanical fields
+  Current code:
+    {
+                                    id: 'diseased',
+                                    name: 'Diseased',
+                                    description: 'Suffering from virulent plague, taking damage over time.'
+                                }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: hexerPath.js (3 findings)
+================================================================================
+
+--- [P2] Spell: "curse_backlash" | debuffConfig @ line 107 ---
+  Issue: debuffConfig effect 'Reflected Curse' has no standard mechanical fields
+  Current code:
+    {
+                            id: 'reflected_curse',
+                            name: 'Reflected Curse',
+                            description: 'The attacker receives their own curse effect. They take 2d6 necrotic damage and have disadvantage on their next attack roll.'
+                        }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "hex" | debuffConfig @ line 190 ---
+  Issue: debuffConfig effect 'Hexed' has no standard mechanical fields
+  Current code:
+    {
+                            id: 'hexed',
+                            name: 'Hexed',
+                            description: 'Target takes 20% increased damage from all sources for 10 rounds. The curse can be removed by dispel magic or similar effects.'
+                        }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "spirit_hex" | debuffConfig @ line 406 ---
+  Issue: debuffConfig effect 'Spirit Hexed' has no standard mechanical fields
+  Current code:
+    {
+                                    id: 'spirit_hexed',
+                                    name: 'Spirit Hexed',
+                                    description: 'Target takes 20% increased damage from all sources. The curse can be removed by dispel magic or similar effects.'
+                                }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: huntressData.js (1 findings)
+================================================================================
+
+--- [P2] Spell: "huntress_moonlit_strike" | debuffConfig @ line 1493 ---
+  Issue: debuffConfig effect 'Blinded' has no standard mechanical fields
+  Current code:
+    {
+              id: 'blinded',
+              name: 'Blinded',
+              description: 'Blinded creatures have disadvantage on attack rolls - cannot see, automatically fails sight-based checks',
+              statusType: 'blinded',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: inscriptorData.js (13 findings)
+================================================================================
+
+--- [P5] Spell: "inscriptor_glyph_of_binding" | controlConfig @ line 1816 ---
+  Issue: controlConfig effect 'Bound' has no concrete control mechanics
+  Current code:
+    {
+              id: 'bind',
+              name: 'Bound',
+              description: 'Movement speed reduced to 0 for 2 rounds',
+              config: {
+                restraintType: 'magical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "inscriptor_glyph_mastery" | buffConfig @ line 2055 ---
+  Issue: buffConfig effect 'Glyph Mastery' has no standard mechanical fields
+  Current code:
+    {
+              id: 'glyph_mastery',
+              name: 'Glyph Mastery',
+              description: 'All your glyphs and runes deal +50% damage and have +2 DC for 4 rounds',
+              customDescription: 'All your placed glyphs, runes, and inscriptions are enhanced. Damage increased by 50%, saving throw DCs inc
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "inscriptor_runic_array" | controlConfig @ line 2171 ---
+  Issue: controlConfig effect 'Slowed by Runes' has no concrete control mechanics
+  Current code:
+    {
+              id: 'slow',
+              name: 'Slowed by Runes',
+              description: 'Movement speed reduced by 20 feet for 3 rounds',
+              config: {
+                restraintType: 'magical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "inscriptor_glyph_nexus" | buffConfig @ line 2299 ---
+  Issue: buffConfig effect 'Glyph Nexus' has no standard mechanical fields
+  Current code:
+    {
+              id: 'glyph_nexus',
+              name: 'Glyph Nexus',
+              description: 'All your glyphs are connected. Triggering one triggers all nearby glyphs (within 30 feet) for 5 rounds',
+              customDescription: 'Creates a magical network linking all your placed glyphs and runes. When any gl
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P4] Spell: "fortress_protection" | healingConfig @ line 2432 ---
+  Issue: healingConfig has no formula, baseHealing, or shieldFormula
+  Current code:
+    healingConfig: {
+            healingType: 'hot',
+            hasHotEffect: true,
+            hotFormula: '3d8',
+            hotDuration: 5,
+            hotTickType: 'round',
+            isProgressiveHot: false
+          },
+  Missing: formula (e.g. "1d8 + WIS mod") or baseHealing
+
+--- [P1] Spell: "inscriptor_master_inscriber" | buffConfig @ line 2480 ---
+  Issue: buffConfig effect 'Master Inscriber' has no standard mechanical fields
+  Current code:
+    {
+              id: 'master_inscriber',
+              name: 'Master Inscriber',
+              description: 'All inscription, glyph, and rune spells cost 50% less mana, have +3 DC, and deal +100% damage for 5 rounds',
+              customDescription: 'You achieve mastery over all forms of inscription magic. All your
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "inscriptor_primordial_glyph" | controlConfig @ line 2541 ---
+  Issue: controlConfig effect 'Stunned by Primordial Power' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Stunned by Primordial Power',
+              description: 'Target is stunned, unable to act or react for 3 rounds',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "inscriptor_eternal_inscription" | buffConfig @ line 2652 ---
+  Issue: buffConfig effect 'Eternal Inscription' has no standard mechanical fields
+  Current code:
+    {
+              id: 'eternal_inscription',
+              name: 'Eternal Inscription',
+              description: 'Your next 3 inscriptions are permanent and cannot be dispelled',
+              customDescription: 'The next 3 inscriptions you place become permanent and immune to dispelling. They persist indefinitely 
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "inscriptor_worldscript" | buffConfig @ line 2701 ---
+  Issue: buffConfig effect 'Worldscript' has no standard mechanical fields
+  Current code:
+    {
+              id: 'worldscript',
+              name: 'Worldscript',
+              description: 'Allies gain +5 to all stats, immunity to control effects, and regenerate 5d10 HP per round in the zone for 10 rounds',
+              customDescription: 'You have inscribed the laws of reality itself. Within the zone, a
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "inscriptor_master_of_runes" | buffConfig @ line 2766 ---
+  Issue: buffConfig effect 'Master of Runes' has no standard mechanical fields
+  Current code:
+    {
+              id: 'master_of_runes',
+              name: 'Master of Runes',
+              description: 'All rune, glyph, and inscription spells cost 0 mana. You can place unlimited runes. All rune damage tripled.',
+              customDescription: 'You have achieved ultimate mastery over runic magic. All rune, gl
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "inscriptor_omniscript" | controlConfig @ line 2879 ---
+  Issue: controlConfig effect 'Paralyzed by Omniscript' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'Paralyzed by Omniscript',
+              description: 'Target is paralyzed, unable to move or act for 5 rounds',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "paralyze" | buffConfig @ line 2897 ---
+  Issue: buffConfig effect 'Omniscript' has no standard mechanical fields
+  Current code:
+    {
+              id: 'omniscript_power',
+              name: 'Omniscript',
+              description: 'Allies gain +10 to all stats, immunity to everything, and limitless power for 15 rounds',
+              customDescription: 'The entire battlefield is inscribed with omnipotent runes. Allies gain +10 to all stats, c
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "inscriptor_universal_inscription" | buffConfig @ line 3021 ---
+  Issue: buffConfig effect 'Universal Inscription' has no standard mechanical fields
+  Current code:
+    {
+              id: 'universal_inscription',
+              name: 'Universal Inscription',
+              description: 'The universe itself is your canvas. All spells cost 0 resources. All your inscriptions are reality-warping.',
+              customDescription: 'You have inscribed your will upon the fabric of realit
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: lichborneData.js (16 findings)
+================================================================================
+
+--- [P2] Spell: "lb_grave_chill" | debuffConfig @ line 1003 ---
+  Issue: debuffConfig effect 'Chilled' has no standard mechanical fields
+  Current code:
+    {
+              id: 'chilled',
+              name: 'Chilled',
+              description: 'Movement speed reduced by 10 feet',
+              statusType: 'slow',
+              level: 'minor'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "lichborne_frost_bolt" | debuffConfig @ line 1866 ---
+  Issue: debuffConfig effect 'Chilled' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Chilled',
+              description: 'Movement speed reduced by 10 feet for 1 round'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "lichborne_freezing_touch" | controlConfig @ line 2063 ---
+  Issue: controlConfig effect 'Frozen' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'Frozen',
+              description: 'Target is frozen solid and cannot move or take actions for 1 round',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "lichborne_frozen_orb" | debuffConfig @ line 2180 ---
+  Issue: debuffConfig effect 'Chilled' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Chilled',
+              description: 'Movement speed reduced by 15 feet for 1 round'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "lichborne_permafrost" | controlConfig @ line 2287 ---
+  Issue: controlConfig effect 'Slowed by Ice' has no concrete control mechanics
+  Current code:
+    {
+              id: 'slow',
+              name: 'Slowed by Ice',
+              description: 'Movement speed reduced by 50% while in zone',
+              config: {
+                restraintType: 'physical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "lichborne_frost_nova" | controlConfig @ line 2403 ---
+  Issue: controlConfig effect 'Frozen in Place' has no concrete control mechanics
+  Current code:
+    {
+              id: 'bind',
+              name: 'Frozen in Place',
+              description: 'Target is rooted and cannot move for 2 rounds',
+              config: {
+                restraintType: 'physical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "lichborne_blizzard" | debuffConfig @ line 2525 ---
+  Issue: debuffConfig effect 'Chilled by Blizzard' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Chilled by Blizzard',
+              description: 'Movement speed reduced by 20 feet while in blizzard'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "lichborne_absolute_zero" | controlConfig @ line 2756 ---
+  Issue: controlConfig effect 'Frozen Solid' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'Frozen Solid',
+              description: 'Target is frozen solid and cannot take actions or reactions for 2 rounds',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "lichborne_eternal_winter" | debuffConfig @ line 2896 ---
+  Issue: debuffConfig effect 'Winter Storm' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slow',
+              name: 'Winter Storm',
+              description: 'Movement speed reduced by 50% and visibility heavily obscured'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "lichborne_frost_chains" | controlConfig @ line 2948 ---
+  Issue: controlConfig effect 'Frost Chains' has no concrete control mechanics
+  Current code:
+    {
+              id: 'bind',
+              name: 'Frost Chains',
+              description: 'Target is bound by frost chains and cannot move or take actions for 3 rounds. Can attempt DC 17 Strength save at end of each turn to break free.',
+              config: {
+                restraintType: 'magical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "lichborne_glacier_formation" | controlConfig @ line 3063 ---
+  Issue: controlConfig effect 'Trapped in Glacier' has no concrete control mechanics
+  Current code:
+    {
+              id: 'bind',
+              name: 'Trapped in Glacier',
+              description: 'Target is trapped within the glacier and restrained for 3 rounds. Requires DC 18 Strength check to break free.',
+              config: {
+                restraintType: 'physical'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "lichborne_frozen_tomb" | controlConfig @ line 3121 ---
+  Issue: controlConfig effect 'Frozen Tomb' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'Frozen Tomb',
+              description: 'Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.',
+              config: {
+                du
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "lichborne_ice_age" | controlConfig @ line 3258 ---
+  Issue: controlConfig effect 'Frozen by Ice Age' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'Frozen by Ice Age',
+              description: 'Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.',
+              config: {
+                durationType: 'rounds',
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "lichborne_apocalyptic_freeze" | controlConfig @ line 3444 ---
+  Issue: controlConfig effect 'Time Frozen' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stun',
+              name: 'Time Frozen',
+              description: 'All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.',
+              config: {
+                durationType: 'rounds',
+                recoveryMeth
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "eternal_phylactery" | buffConfig @ line 3513 ---
+  Issue: buffConfig effect 'Eternal Phylactery' has no standard mechanical fields
+  Current code:
+    {
+              id: 'phylactery_eternal',
+              name: 'Eternal Phylactery',
+              description: 'Phylactery automatically refills and provides unlimited resurrections',
+              customDescription: 'Your phylactery has become eternal. When you die, you resurrect at 50 HP without consuming phylact
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "lichborne_world_freeze" | controlConfig @ line 3573 ---
+  Issue: controlConfig effect 'World Freeze' has no concrete control mechanics
+  Current code:
+    {
+              id: 'paralyze',
+              name: 'World Freeze',
+              description: 'All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.',
+              config: {
+                durationType: 'hours',
+                recoveryMethod: 'save'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: lunarchData.js (5 findings)
+================================================================================
+
+--- [P2] Spell: "lunarch_sentinels_shot" | debuffConfig @ line 884 ---
+  Issue: debuffConfig effect 'Marked' has no standard mechanical fields
+  Current code:
+    {
+              id: 'marked',
+              name: 'Marked',
+              description: 'Marked targets take +1d4 damage from your next spell',
+              statusType: 'marked',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "lunarch_celestial_beam" | debuffConfig @ line 1098 ---
+  Issue: debuffConfig effect 'Blinded' has no standard mechanical fields
+  Current code:
+    {
+              id: 'blinded',
+              name: 'Blinded',
+              description: 'Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks',
+              statusType: 'blinded',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "lunarch_celestial_archery" | buffConfig @ line 2037 ---
+  Issue: buffConfig effect 'Celestial Archery' has no standard mechanical fields
+  Current code:
+    {
+              id: 'celestial_archery',
+              name: 'Celestial Archery',
+              description: 'All ranged attacks automatically hit. Critical hits on 15-20. Double damage on crits.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "lunarch_full_moon_blessing" | buffConfig @ line 2095 ---
+  Issue: buffConfig effect 'Full Moon Blessing' has no standard mechanical fields
+  Current code:
+    {
+              id: 'full_moon_blessing',
+              name: 'Full Moon Blessing',
+              description: 'All allies gain +4 to all stats, advantage on all rolls, and deal +2d6 radiant damage'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "lunarch_lunar_chains" | controlConfig @ line 2559 ---
+  Issue: controlConfig effect 'Lunar Chains' has no concrete control mechanics
+  Current code:
+    {
+              id: 'lunar_chains',
+              name: 'Lunar Chains',
+              description: 'Restrained by moonlight chains - cannot move or take actions',
+              config: {
+                restraintType: 'magical_bind'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: martyrData.js (10 findings)
+================================================================================
+
+--- [P1] Spell: "martyr_sacrificial_bond" | buffConfig @ line 1615 ---
+  Issue: buffConfig effect 'Sacrificial Bond' has no standard mechanical fields
+  Current code:
+    {
+              id: 'sacrificial_bond',
+              name: 'Sacrificial Bond',
+              description: 'You take 50% of damage dealt to bonded ally'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "martyr_martyrs_mark" | debuffConfig @ line 1902 ---
+  Issue: debuffConfig effect 'Martyr' has no standard mechanical fields
+  Current code:
+    {
+              id: 'martyrs_mark',
+              name: "Martyr's Mark",
+              description: 'Allies heal for 25% of damage dealt to marked target'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "martyr_righteous_suffering" | buffConfig @ line 1963 ---
+  Issue: buffConfig effect 'Righteous Immunity' has no standard mechanical fields
+  Current code:
+    {
+              id: 'righteous_immunity',
+              name: 'Righteous Immunity',
+              description: 'You become immune to stun, fear, and charm'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "martyr_blood_pact" | buffConfig @ line 2031 ---
+  Issue: buffConfig effect 'Blood Pact' has no standard mechanical fields
+  Current code:
+    {
+              id: 'blood_pact',
+              name: 'Blood Pact',
+              description: 'All damage is distributed evenly among linked allies'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "martyr_willing_vessel" | buffConfig @ line 2254 ---
+  Issue: buffConfig effect 'Willing Vessel' has no standard mechanical fields
+  Current code:
+    {
+              id: 'willing_vessel',
+              name: 'Willing Vessel',
+              description: 'All ally damage redirects to you. You take 50% reduced damage.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "martyr_guardian_spirit" | buffConfig @ line 2429 ---
+  Issue: buffConfig effect 'Guardian Spirit' has no standard mechanical fields
+  Current code:
+    {
+              id: 'guardian_spirit',
+              name: 'Guardian Spirit',
+              description: 'If target would die, restore them to 50% health instead'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "martyr_shared_agony" | debuffConfig @ line 2618 ---
+  Issue: debuffConfig effect 'Shared Agony' has no standard mechanical fields
+  Current code:
+    {
+              id: 'shared_agony',
+              name: 'Shared Agony',
+              description: 'Enemy takes psychic damage equal to damage you take'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "martyr_eternal_bond" | buffConfig @ line 2888 ---
+  Issue: buffConfig effect 'Eternal Bond' has no standard mechanical fields
+  Current code:
+    {
+              id: 'eternal_bond',
+              name: 'Eternal Bond',
+              description: 'Linked allies cannot die unless all linked allies would die simultaneously'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "martyr_ultimate_sacrifice" | buffConfig @ line 2957 ---
+  Issue: buffConfig effect 'Martyr' has no standard mechanical fields
+  Current code:
+    {
+              id: 'martyrs_blessing',
+              name: "Martyr's Blessing",
+              description: 'Resurrected allies gain +5 to all stats for 10 rounds'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "martyr_final_blessing" | buffConfig @ line 3088 ---
+  Issue: buffConfig effect 'Final Blessing' has no standard mechanical fields
+  Current code:
+    {
+              id: 'final_blessing',
+              name: 'Final Blessing',
+              description: 'Allies cannot be reduced below 1 HP for the rest of the encounter.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: mercenaryPath.js (1 findings)
+================================================================================
+
+--- [P2] Spell: "exploit_weakness" | debuffConfig @ line 184 ---
+  Issue: debuffConfig effect 'Marked Target' has no standard mechanical fields
+  Current code:
+    {
+                            id: 'marked_target',
+                            name: 'Marked Target',
+                            description: 'Target\'s weakness is exploited: -3 armor and you deal 25% more damage to them for 8 rounds.'
+                        }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: minstrelData.js (13 findings)
+================================================================================
+
+--- [P1] Spell: "minstrel_inspiring_rhythm" | buffConfig @ line 1046 ---
+  Issue: buffConfig effect 'Inspiring Rhythm' has no standard mechanical fields
+  Current code:
+    {
+              id: 'inspiring_rhythm',
+              name: 'Inspiring Rhythm',
+              description: 'Allies within 15ft gain +1 to attack rolls for 1 round.',
+              customDescription: 'Allies within 15ft gain +1 to attack rolls for 1 round.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P3] Spell: "minstrel_mending_cadence" | damageConfig @ line 1392 ---
+  Issue: damageConfig has no formula or baseDamage/dice fields
+  Current code:
+    damageConfig: {
+            damageType: 'radiant'
+          },
+  Missing: formula (e.g. "2d6 + INT mod") or baseDamage
+
+--- [P3] Spell: "minstrel_healing_hymn" | damageConfig @ line 1466 ---
+  Issue: damageConfig has no formula or baseDamage/dice fields
+  Current code:
+    damageConfig: {
+            damageType: 'radiant'
+          },
+  Missing: formula (e.g. "2d6 + INT mod") or baseDamage
+
+--- [P3] Spell: "minstrel_authentic_cadence" | damageConfig @ line 1813 ---
+  Issue: damageConfig has no formula or baseDamage/dice fields
+  Current code:
+    damageConfig: {
+            damageType: 'radiant'
+          },
+  Missing: formula (e.g. "2d6 + INT mod") or baseDamage
+
+--- [P3] Spell: "minstrel_picardy_third" | damageConfig @ line 1953 ---
+  Issue: damageConfig has no formula or baseDamage/dice fields
+  Current code:
+    damageConfig: {
+            damageType: 'radiant'
+          },
+  Missing: formula (e.g. "2d6 + INT mod") or baseDamage
+
+--- [P3] Spell: "minstrel_song_of_rest" | damageConfig @ line 2029 ---
+  Issue: damageConfig has no formula or baseDamage/dice fields
+  Current code:
+    damageConfig: {
+            damageType: 'radiant'
+          },
+  Missing: formula (e.g. "2d6 + INT mod") or baseDamage
+
+--- [P5] Spell: "minstrel_discordant_shriek" | controlConfig @ line 2256 ---
+  Issue: controlConfig effect 'Disrupted' has no concrete control mechanics
+  Current code:
+    {
+              id: 'disrupted',
+              name: 'Disrupted',
+              description: 'Enemies cannot cast spells until the end of their next turn',
+              config: {
+                durationType: 'rounds',
+                recoveryMethod: 'automatic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "minstrel_serenade_of_shadows" | debuffConfig @ line 2413 ---
+  Issue: debuffConfig effect 'Entranced' has no standard mechanical fields
+  Current code:
+    {
+              id: 'entranced',
+              name: 'Entranced',
+              description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "entranced" | controlConfig @ line 2428 ---
+  Issue: controlConfig effect 'Frightened' has no concrete control mechanics
+  Current code:
+    {
+              id: 'fear',
+              name: 'Frightened',
+              description: 'Enemies are frightened and must move away from you',
+              config: {
+                fearStrength: 'moderate'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "minstrel_requiem_of_the_fallen" | buffConfig @ line 2625 ---
+  Issue: buffConfig effect 'Spirit of Heroes' has no standard mechanical fields
+  Current code:
+    {
+              id: 'spirit_of_heroes',
+              name: 'Spirit of Heroes',
+              description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "minstrel_tempo_mastery" | buffConfig @ line 2693 ---
+  Issue: buffConfig effect 'Accelerated Tempo' has no standard mechanical fields
+  Current code:
+    {
+              id: 'accelerated_tempo',
+              name: 'Accelerated Tempo',
+              description: 'Allies gain an extra action on each of their turns for 3 rounds.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "accelerated_tempo" | debuffConfig @ line 2707 ---
+  Issue: debuffConfig effect 'Slowed Tempo' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slowed_tempo',
+              name: 'Slowed Tempo',
+              description: 'Enemies lose their reaction and have their speed halved for 3 rounds.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "musical_avatar" | buffConfig @ line 2905 ---
+  Issue: buffConfig effect 'Creative Energy' has no standard mechanical fields
+  Current code:
+    {
+              id: 'creative_energy',
+              name: 'Creative Energy',
+              description: 'Allies gain +3 to all ability scores for the duration of the summon'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: oracleData.js (6 findings)
+================================================================================
+
+--- [P2] Spell: "oracle_prophecy_of_doom" | debuffConfig @ line 1129 ---
+  Issue: debuffConfig effect 'Prophesied Doom' has no standard mechanical fields
+  Current code:
+    {
+              id: 'prophesied_doom',
+              name: 'Prophesied Doom',
+              description: 'Cursed with a dire prophecy - if the predicted event occurs, suffer the doom',
+              statusType: 'cursed',
+              level: 'major'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "oracle_reveal_weakness" | debuffConfig @ line 1680 ---
+  Issue: debuffConfig effect 'Revealed Weakness' has no standard mechanical fields
+  Current code:
+    {
+              id: 'revealed_weakness',
+              name: 'Revealed Weakness',
+              description: 'Target takes 50% more damage from all sources for 4 rounds (or 2 rounds if save succeeds)'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "oracle_prescient_dodge" | buffConfig @ line 1787 ---
+  Issue: buffConfig effect 'Prescient Dodge' has no standard mechanical fields
+  Current code:
+    {
+              id: 'prescient_dodge',
+              name: 'Prescient Dodge',
+              description: 'Enemies have disadvantage on all attacks against you for 3 rounds (requires concentration). You automatically succeed on Agility saving throws.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "oracle_expose_secrets" | debuffConfig @ line 1844 ---
+  Issue: debuffConfig effect 'Exposed Secrets' has no standard mechanical fields
+  Current code:
+    {
+              id: 'exposed_secrets',
+              name: 'Exposed Secrets',
+              description: 'All attacks against target have advantage for 1 minute. Target cannot benefit from invisibility, cover, or concealment.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "oracle_perfect_foresight" | buffConfig @ line 1979 ---
+  Issue: buffConfig effect 'Perfect Foresight' has no standard mechanical fields
+  Current code:
+    {
+              id: 'perfect_foresight',
+              name: 'Perfect Foresight',
+              description: 'You know all enemy actions for the next round. You have advantage on all rolls. Enemies have disadvantage against you.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "oracle_absolute_truth" | controlConfig @ line 2397 ---
+  Issue: controlConfig effect 'Truth Revealed' has no concrete control mechanics
+  Current code:
+    {
+              id: 'truth_revealed',
+              name: 'Truth Revealed',
+              description: 'Stunned and cannot benefit from any magical protection or concealment'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: plaguebringerData.js (7 findings)
+================================================================================
+
+--- [P5] Spell: "pb_hallucinogenic_spores" | controlConfig @ line 1275 ---
+  Issue: controlConfig effect 'Confused' has no concrete control mechanics
+  Current code:
+    {
+                    id: 'confused',
+                    name: 'Confused',
+                    description: 'Target attacks nearest ally on next turn',
+                    statusType: 'confused',
+                    level: 'moderate'
+                  }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "pb_agonizing_wail" | controlConfig @ line 1360 ---
+  Issue: controlConfig effect 'Paralyzed by Fear' has no concrete control mechanics
+  Current code:
+    {
+                    id: 'paralyzed_fear',
+                    name: 'Paralyzed by Fear',
+                    description: 'Paralyzed with fear, loses next action',
+                    statusType: 'paralyzed',
+                    level: 'severe'
+                  }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "pb_mass_affliction" | debuffConfig @ line 2600 ---
+  Issue: debuffConfig effect 'Base Affliction' has no standard mechanical fields
+  Current code:
+    {
+                    id: 'mass_affliction',
+                    name: 'Base Affliction',
+                    description: 'All targets afflicted with base plague for cultivation - takes 1d4 poison damage per round for 4 rounds',
+                    statusType: 'afflicted'
+                  }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "pb_mental_anguish" | controlConfig @ line 2771 ---
+  Issue: controlConfig effect 'Stunned' has no concrete control mechanics
+  Current code:
+    {
+                    id: 'stunned',
+                    name: 'Stunned',
+                    description: 'Target is stunned from mental anguish - cannot act for 1 round',
+                    config: {
+                      stunType: 'mental'
+                    }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "pb_mind_plague" | controlConfig @ line 2950 ---
+  Issue: controlConfig effect 'Confused' has no concrete control mechanics
+  Current code:
+    {
+                    id: 'confused',
+                    name: 'Confused',
+                    description: 'Targets are confused - 50% chance to attack ally, 50% chance to do nothing for 2 rounds',
+                    config: {
+                      confusionType: 'random_actions'
+                    }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "pb_torment_mastery" | controlConfig @ line 3189 ---
+  Issue: controlConfig effect 'Terrorized' has no concrete control mechanics
+  Current code:
+    {
+                    id: 'terrorized',
+                    name: 'Terrorized',
+                    description: 'Targets are terrorized - must flee or cower in fear for 3 rounds',
+                    config: {
+                      fearType: 'flee_or_cower'
+                    }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "pb_ultimate_affliction" | debuffConfig @ line 3545 ---
+  Issue: debuffConfig effect 'Ultimate Affliction' has no standard mechanical fields
+  Current code:
+    {
+                    id: 'ultimate_affliction',
+                    name: 'Ultimate Affliction',
+                    description: 'Target suffers all affliction types simultaneously - takes 5d10 damage per round, reduced healing, stat penalties, and spreading contagion for 6 rounds',
+                    statusType
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+
+================================================================================
+FILE: primalistData.js (3 findings)
+================================================================================
+
+--- [P5] Spell: "primalist_earthquake_strike" | controlConfig @ line 2004 ---
+  Issue: controlConfig effect 'Knocked Prone' has no concrete control mechanics
+  Current code:
+    {
+              id: 'trip',
+              name: 'Knocked Prone',
+              description: 'Target is knocked prone and must use movement to stand',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "primalist_cataclysm" | controlConfig @ line 2857 ---
+  Issue: controlConfig effect 'Staggered by Cataclysm' has no concrete control mechanics
+  Current code:
+    {
+              id: 'stagger',
+              name: 'Staggered by Cataclysm',
+              description: 'Target is knocked prone and stunned for 2 rounds. Requires DC 19 Strength save to negate.',
+              config: {}
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "primalist_primal_ascension" | buffConfig @ line 3017 ---
+  Issue: buffConfig effect 'Primal Ascension' has no standard mechanical fields
+  Current code:
+    {
+              id: 'primal_ascension',
+              name: 'Primal Ascension',
+              description: 'Enhanced totem mastery with damage resistance while totems are active',
+              customDescription: 'You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem d
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: pyrofiendData.js (1 findings)
+================================================================================
+
+--- [P5] Spell: "pyro_flame_lash" | controlConfig @ line 1007 ---
+  Issue: controlConfig effect 'Pull' has no concrete control mechanics
+  Current code:
+    {
+              id: 'pull',
+              name: 'Pull',
+              description: 'Pulls the target toward the caster',
+              config: {
+                movementType: 'pull',
+                distance: 15
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: spellguardData.js (6 findings)
+================================================================================
+
+--- [P1] Spell: "spellguard_arcane_bastion" | buffConfig @ line 1831 ---
+  Issue: buffConfig effect 'Arcane Bastion' has no standard mechanical fields
+  Current code:
+    {
+              id: 'arcane_bastion',
+              name: 'Arcane Bastion',
+              description: 'Allies take 50% reduced spell damage and gain advantage on saving throws against magic for 5 rounds.',
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "spellguard_supreme_reflection" | buffConfig @ line 2007 ---
+  Issue: buffConfig effect 'Supreme Reflection' has no standard mechanical fields
+  Current code:
+    {
+              id: 'supreme_reflection',
+              name: 'Supreme Reflection',
+              description: 'The next spell targeting you is reflected back at the caster with full effect'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "spellguard_mage_bane" | debuffConfig @ line 2126 ---
+  Issue: debuffConfig effect 'Mage Bane' has no standard mechanical fields
+  Current code:
+    {
+              id: 'mage_bane',
+              name: 'Mage Bane',
+              description: 'Target takes 5d10 force damage whenever they cast a spell',
+              damageFormula: '5d10'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "spellguard_impenetrable_ward" | buffConfig @ line 2183 ---
+  Issue: buffConfig effect 'Impenetrable Ward' has no standard mechanical fields
+  Current code:
+    {
+              id: 'impenetrable_ward',
+              name: 'Impenetrable Ward',
+              description: 'Complete immunity to all damage and effects until the start of your next turn.',
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "spellguard_arcane_prison" | controlConfig @ line 2354 ---
+  Issue: controlConfig effect 'Arcane Prison' has no concrete control mechanics
+  Current code:
+    {
+              id: 'arcane_prison',
+              name: 'Arcane Prison',
+              description: 'Target is trapped in a prison of arcane energy. They cannot act or be targeted. At end of each turn, can repeat save.'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "spellguard_arcane_barrier" | buffConfig @ line 2607 ---
+  Issue: buffConfig effect 'Arcane Barrier' has no standard mechanical fields
+  Current code:
+    {
+              id: 'arcane_barrier',
+              name: 'Arcane Barrier',
+              description: 'Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you.',
+              temporaryHP: 50,
+              reflectDamage: '2d8',
+              reflectType: 'force'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: titanData.js (11 findings)
+================================================================================
+
+--- [P2] Spell: "titan_solar_flare" | debuffConfig @ line 779 ---
+  Issue: debuffConfig effect 'Blinded' has no standard mechanical fields
+  Current code:
+    {
+              id: 'blinded',
+              name: 'Blinded',
+              description: 'Blinded creatures have disadvantage on attack rolls and attacks against them have advantage - cannot see, automatically fails sight-based checks',
+              statusType: 'blinded',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "titan_starfall" | debuffConfig @ line 1068 ---
+  Issue: debuffConfig effect 'Stunned' has no standard mechanical fields
+  Current code:
+    {
+              id: 'stunned',
+              name: 'Stunned',
+              description: 'Stunned creatures cannot move or take actions - cannot act or move for the duration',
+              statusType: 'stunned',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "titan_earthquake" | debuffConfig @ line 1219 ---
+  Issue: debuffConfig effect 'Prone' has no standard mechanical fields
+  Current code:
+    {
+              id: 'prone',
+              name: 'Prone',
+              description: 'Knocked to the ground - disadvantage on attacks, advantage against melee, half movement to stand',
+              statusType: 'prone',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "titan_celestial_armor" | buffConfig @ line 1586 ---
+  Issue: buffConfig effect 'Celestial Armor' has no standard mechanical fields
+  Current code:
+    {
+              id: 'celestial_armor',
+              name: 'Celestial Armor',
+              description: '+4 AC and resistance to your devotion\'s damage type'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "titan_divine_challenge" | debuffConfig @ line 1641 ---
+  Issue: debuffConfig effect 'Divine Challenge' has no standard mechanical fields
+  Current code:
+    {
+              id: 'divine_challenge',
+              name: 'Divine Challenge',
+              description: 'Target must attack you. If they attack someone else, they take radiant damage.',
+              damageFormula: '3d6'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "titan_lunar_sanctuary" | buffConfig @ line 1757 ---
+  Issue: buffConfig effect 'Lunar Shield' has no standard mechanical fields
+  Current code:
+    {
+              id: 'lunar_shield',
+              name: 'Lunar Shield',
+              description: '+3 AC and regeneration'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "titan_tectonic_upheaval" | controlConfig @ line 1893 ---
+  Issue: controlConfig effect 'Prone' has no concrete control mechanics
+  Current code:
+    {
+              id: 'prone',
+              name: 'Prone',
+              description: 'Enemies are knocked prone'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P1] Spell: "titan_lightning_storm" | buffConfig @ line 1970 ---
+  Issue: buffConfig effect 'Storm Speed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'storm_speed',
+              name: 'Storm Speed',
+              description: 'Gain an extra attack this turn'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "titan_celestial_convergence" | buffConfig @ line 2021 ---
+  Issue: buffConfig effect 'Celestial Convergence' has no standard mechanical fields
+  Current code:
+    {
+              id: 'celestial_convergence',
+              name: 'Celestial Convergence',
+              description: 'Gain benefits from your current devotion AND one other of your choice'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "titan_lunara_blessing" | buffConfig @ line 2151 ---
+  Issue: buffConfig effect 'Lunara' has no standard mechanical fields
+  Current code:
+    {
+              id: 'lunara_blessing',
+              name: "Lunara's Blessing",
+              description: 'All allies gain +3 AC and regenerate HP each turn'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "titan_divine_protection" | buffConfig @ line 2593 ---
+  Issue: buffConfig effect 'Divine Protection' has no standard mechanical fields
+  Current code:
+    {
+              id: 'divine_protection',
+              name: 'Divine Protection',
+              description: 'All allies are immune to damage until start of your next turn'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+
+================================================================================
+FILE: toxicologistData.js (10 findings)
+================================================================================
+
+--- [P2] Spell: "tox_venom_strike" | debuffConfig @ line 1042 ---
+  Issue: debuffConfig effect 'Poisoned' has no standard mechanical fields
+  Current code:
+    {
+              id: 'poisoned',
+              name: 'Poisoned',
+              description: 'Disadvantage on attack rolls and ability checks for 4 rounds',
+              statusType: 'poisoned',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "tox_poison_trap" | debuffConfig @ line 1220 ---
+  Issue: debuffConfig effect 'Slowed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slowed',
+              name: 'Slowed',
+              description: 'Movement speed reduced by 10 feet for 2 rounds',
+              statusType: 'slowed',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "tox_chaos_grenade" | controlConfig @ line 1564 ---
+  Issue: controlConfig effect 'Confused' has no concrete control mechanics
+  Current code:
+    {
+              id: 'confused',
+              name: 'Confused',
+              description: 'Attack random target (ally or enemy) for 2 rounds',
+              config: {
+                confusionType: 'random_target'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "tox_total_shutdown" | controlConfig @ line 1642 ---
+  Issue: controlConfig effect 'Total Shutdown' has no concrete control mechanics
+  Current code:
+    {
+              id: 'total_shutdown',
+              name: 'Total Shutdown',
+              description: 'Cannot take actions or reactions, armor reduced to 0, automatically fail all saves, vulnerable to all damage types',
+              statusType: 'incapacitated',
+              level: 'severe'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P6] Spell: "tox_antidote" | utilityConfig @ line 1769 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'cure',
+            cures: ['poison', 'disease'],
+            description: 'Cure all poison and disease effects'
+          },
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P2] Spell: "tox_pandemic" | debuffConfig @ line 1993 ---
+  Issue: debuffConfig effect 'Pandemic Plague' has no standard mechanical fields
+  Current code:
+    {
+              id: 'pandemic_plague',
+              name: 'Pandemic Plague',
+              description: 'Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.',
+              damageFormula: '3d6'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "tox_sabotage_supreme" | debuffConfig @ line 2120 ---
+  Issue: debuffConfig effect 'Supreme Sabotage' has no standard mechanical fields
+  Current code:
+    {
+              id: 'supreme_sabotage',
+              name: 'Supreme Sabotage',
+              description: 'Enemies deal half damage, have -5 to hit, and all their gear malfunctions'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "tox_total_system_failure" | debuffConfig @ line 2308 ---
+  Issue: debuffConfig effect 'Total System Failure' has no standard mechanical fields
+  Current code:
+    {
+              id: 'total_system_failure',
+              name: 'Total System Failure',
+              description: 'All enemy magical items stop working. All buffs are removed. Cannot cast spells for 1 round. -10 AC.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "tox_apocalypse_plague" | debuffConfig @ line 2385 ---
+  Issue: debuffConfig effect 'Apocalypse Plague' has no standard mechanical fields
+  Current code:
+    {
+              id: 'apocalypse_plague',
+              name: 'Apocalypse Plague',
+              description: 'All enemies are poisoned, weakened, and take ongoing damage. Spreads infinitely between enemies.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "tox_toxic_shock" | controlConfig @ line 2765 ---
+  Issue: controlConfig effect 'Toxic Shock' has no concrete control mechanics
+  Current code:
+    {
+              id: 'toxic_shock',
+              name: 'Toxic Shock',
+              description: 'Stunned by toxins - cannot act for 1 round',
+              config: {
+                stunType: 'toxic'
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: wardenData.js (8 findings)
+================================================================================
+
+--- [P2] Spell: "warden_cage_of_vengeance" | debuffConfig @ line 1107 ---
+  Issue: debuffConfig effect 'Caged' has no standard mechanical fields
+  Current code:
+    {
+              id: 'caged',
+              name: 'Caged',
+              description: 'Trapped in spectral cage for 3 rounds (or 1 round if save succeeds) - cannot move beyond boundaries or teleport - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
+              statusType: 'restrained'
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "warden_prison_of_eternity" | debuffConfig @ line 1281 ---
+  Issue: debuffConfig effect 'Imprisoned' has no standard mechanical fields
+  Current code:
+    {
+              id: 'imprisoned',
+              name: 'Imprisoned',
+              description: 'Trapped in spectral prison - cannot leave area or use movement abilities - speed becomes 0, disadvantage on attacks, advantage on attacks against them',
+              statusType: 'restrained',
+              level: 'strong'
+     
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "warden_whirling_glaive" | debuffConfig @ line 1679 ---
+  Issue: debuffConfig effect 'Slowed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'slowed',
+              name: 'Slowed',
+              description: 'Movement speed reduced by 10 feet for 1 round',
+              statusType: 'slow',
+              level: 'minor'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "warden_cage_trap" | controlConfig @ line 2076 ---
+  Issue: controlConfig effect 'Caged' has no concrete control mechanics
+  Current code:
+    {
+              id: 'caged',
+              name: 'Caged',
+              description: 'Trapped in spectral cage - cannot move beyond 10 feet radius',
+              config: {
+                restraintType: 'cage',
+                radius: 10
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "warden_shadow_cage" | controlConfig @ line 2361 ---
+  Issue: controlConfig effect 'Shadow Cage' has no concrete control mechanics
+  Current code:
+    {
+              id: 'caged',
+              name: 'Shadow Cage',
+              description: 'Trapped in shadow cage - cannot leave area, teleportation blocked, disadvantage on attacks',
+              config: {
+                restraintType: 'cage',
+                blocksTelepor: true,
+                radius: 15
+              }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "warden_eternal_cage" | controlConfig @ line 2529 ---
+  Issue: controlConfig effect 'Eternal Cage' has no concrete control mechanics
+  Current code:
+    {
+              id: 'eternal_cage',
+              name: 'Eternal Cage',
+              description: 'Trapped in unbreakable cage - cannot move, cannot teleport, cannot be freed without dispel magic',
+              config: {
+                restraintType: 'cage',
+                unbreakable: true,
+                blocksEscape: t
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "warden_cage_mastery" | controlConfig @ line 2688 ---
+  Issue: controlConfig effect 'Mass Cage' has no concrete control mechanics
+  Current code:
+    {
+              id: 'mass_cage',
+              name: 'Mass Cage',
+              description: 'All enemies caged individually - cannot move, teleportation blocked, take increased damage',
+              config: {
+                restraintType: 'cage',
+                individual: true,
+                damageBonus: '1d8'
+             
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P5] Spell: "warden_prison_realm" | controlConfig @ line 2861 ---
+  Issue: controlConfig effect 'Prison Realm' has no concrete control mechanics
+  Current code:
+    {
+              id: 'prison_realm',
+              name: 'Prison Realm',
+              description: 'Trapped in massive spectral prison - cannot move, cannot escape, take massive increased damage from all sources',
+              config: {
+                restraintType: 'prison',
+                unbreakable: true,
+              
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+
+================================================================================
+FILE: witchDoctorData.js (13 findings)
+================================================================================
+
+--- [P2] Spell: "wd_curse_of_agony" | debuffConfig @ line 799 ---
+  Issue: debuffConfig effect 'Cursed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'cursed',
+              name: 'Cursed',
+              description: 'Cursed. Takes necrotic damage each turn for the duration.',
+              statusType: 'cursed',
+              level: 'moderate'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P5] Spell: "wd_ritual_of_death" | controlConfig @ line 890 ---
+  Issue: controlConfig effect 'Frightened' has no concrete control mechanics
+  Current code:
+    {
+              id: 'frightened',
+              name: 'Frightened',
+              description: 'Frightened. Has disadvantage on ability checks and attack rolls while source of fear is in line of sight.',
+              statusType: 'frightened',
+              level: 'moderate'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "wd_baron_samedi_invocation" | debuffConfig @ line 993 ---
+  Issue: debuffConfig effect 'Cursed' has no standard mechanical fields
+  Current code:
+    {
+              id: 'cursed',
+              name: 'Cursed',
+              description: 'Cursed by Baron Samedi. Takes necrotic damage each round and has disadvantage on saves against necrotic effects.',
+              statusType: 'cursed',
+              level: 'severe'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P6] Spell: "wd_ritual_of_cleansing" | utilityConfig @ line 1154 ---
+  Issue: utilityConfig has no concrete utility values
+  Current code:
+    utilityConfig: {
+            utilityType: 'cure',
+            cures: ['curse', 'disease', 'poison'],
+            description: 'Remove all negative conditions from target'
+          },
+  Missing: revealDistance, revealDuration, teleportDistance, summonCount, summonType, barrierHP, barrierDuration, lightRadius, lightDuration, detectionRadius, statModifier, movementBonus, duration, charges, resourceGain, resourceType, cooldownReduction
+
+--- [P1] Spell: "witch_doctor_spirit_link" | buffConfig @ line 1960 ---
+  Issue: buffConfig effect 'Spirit Link' has no standard mechanical fields
+  Current code:
+    {
+              id: 'spirit_link',
+              name: 'Spirit Link',
+              description: 'Damage taken is split 50/50 between linked allies for 3 rounds',
+              customDescription: 'You are spiritually linked. When either of you takes damage, both of you share that damage equally.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P1] Spell: "witch_doctor_spirit_sight" | buffConfig @ line 2074 ---
+  Issue: buffConfig effect 'Spirit Sight' has no standard mechanical fields
+  Current code:
+    {
+              id: 'spirit_sight',
+              name: 'Spirit Sight',
+              description: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
+              customDescription: 'The veil between worlds thins. Invisible and hidden creatures within 60 ft become visible to you.'
+            }
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "witch_doctor_hex" | debuffConfig @ line 2515 ---
+  Issue: debuffConfig effect 'Hex' has no standard mechanical fields
+  Current code:
+    {
+              id: 'hex',
+              name: 'Hex',
+              description: 'Target takes 25% more damage from all sources for 4 rounds',
+              customDescription: 'You are hexed. All damage you take is increased by 25% for 4 rounds.'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "witch_doctor_death_ward" | buffConfig @ line 2639 ---
+  Issue: buffConfig effect 'Death Ward' has no standard mechanical fields
+  Current code:
+    {
+              id: 'death_ward',
+              name: 'Death Ward',
+              description: 'When you would be reduced to 0 HP, instead be reduced to 1 HP. This effect can only trigger once and lasts for 5 rounds.',
+              customDescription: 'You are protected by a death ward. The next time you would be r
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P2] Spell: "witch_doctor_plague_storm" | debuffConfig @ line 2873 ---
+  Issue: debuffConfig effect 'Diseased' has no standard mechanical fields
+  Current code:
+    {
+              id: 'diseased',
+              name: 'Diseased',
+              description: 'Movement speed reduced by 20 feet and healing received reduced by 50%'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P2] Spell: "witch_doctor_voodoo_apocalypse" | debuffConfig @ line 3010 ---
+  Issue: debuffConfig effect 'Voodoo Curse' has no standard mechanical fields
+  Current code:
+    {
+              id: 'cursed',
+              name: 'Voodoo Curse',
+              description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls',
+              damageFormula: '3d8'
+            }
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+
+--- [P1] Spell: "witch_doctor_eternal_voodoo" | buffConfig @ line 3144 ---
+  Issue: buffConfig effect 'Eternal Voodoo' has no standard mechanical fields
+  Current code:
+    {
+              id: 'eternal_voodoo',
+              name: 'Eternal Voodoo',
+              description: 'You have become one with the loa. Generate 5 Voodoo Essence per round, all voodoo spells deal double damage, and you are immune to curses',
+              customDescription: 'You have achieved eternal voodoo maste
+  Missing: statModifier, shieldValue, mechanicsText, tempHPFormula, damageReduction, damageImmunity, resistance, buffAmount, spellPowerBonus, critChanceBonus, critMultiplier, armorBonus, dodgeChance, movementBonus
+
+--- [P5] Spell: "papa_legba" | controlConfig @ line 3204 ---
+  Issue: controlConfig effect 'Portal Trap' has no concrete control mechanics
+  Current code:
+    {
+              id: 'portal_trap',
+              name: 'Portal Trap',
+              description: 'Enemies who enter portals are trapped for 1 round and take damage'
+            }
+  Missing: saveDC, saveType, condition, duration, immobilize, stun, silence, disarm, slow, knockdown, pushDistance, pullDistance, statusEffects, statPenalty, movementPenalty, accuracyPenalty, breakOnDamage
+
+--- [P2] Spell: "witch_doctor_ultimate_curse" | debuffConfig @ line 3261 ---
+  Issue: debuffConfig effect 'Doom Curse' has no standard mechanical fields
+  Current code:
+    {
+              id: 'doom_curse',
+              name: 'Doom Curse',
+              description: 'If you survive the initial damage, you are doomed to die in 3 rounds unless this curse is removed by powerful magic',
+              customDescription: 'You are cursed with the ultimate doom. If you are still alive after 
+  Missing: statModifier, statPenalty, statusEffects, damagePerTurn, movementPenalty, accuracyPenalty, armorReduction, healingReduction, dotDamage, dotFormula
+

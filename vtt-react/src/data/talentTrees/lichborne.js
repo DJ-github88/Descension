@@ -85,11 +85,11 @@ export const LICHBORNE_FROSTBOUND_TYRANT = [
 
   // Tier 4 - Elite freezing mastery (Convergence)
   {
-    id: 'frostbound_t4_frozen_eternity',
-    name: 'Frozen Eternity',
-    description: 'Freeze effects become permanent until dispelled. Frozen targets cannot take actions or reactions.',
-    icon: 'spell_frost_frozencore',
-    maxRanks: 1,
+    id: 'frostbound_t4_shatter_protocol',
+    name: 'Shatter Protocol',
+    description: 'When a frozen enemy takes damage, there is a 50% chance they Shatter, taking an additional 3d6 frost damage per rank but the freeze ends immediately. Creates an active freeze-shatter-refreeze loop.',
+    icon: 'spell_frost_frostnova',
+    maxRanks: 2,
     position: { x: 2, y: 4 },
     requires: 'frostbound_t3_permafrost_dominion',
     requiresPoints: 20,
@@ -102,7 +102,7 @@ export const LICHBORNE_SPECTRAL_REAPER = [
   {
     id: 'spectral_t0_necrotic_essence',
     name: 'Necrotic Essence',
-    description: 'Your frost spells deal +1d4 necrotic damage per rank. Enemies killed by your spells rise as spectral minions.',
+    description: 'Your frost spells deal +1d4 necrotic damage per rank. Every enemy killed by your spells rises as a spectral minion (guaranteed, max 4 minions, lasts 1d4 rounds).',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 4,
     position: { x: 2, y: 0 },
@@ -142,7 +142,7 @@ export const LICHBORNE_SPECTRAL_REAPER = [
   {
     id: 'spectral_t2_spectral_swarm',
     name: 'Spectral Swarm',
-    description: 'When you have 3+ spectral minions, they form a swarm, dealing 2d6 necrotic damage per rank to enemies in 15ft. Swarm radius increases by 5ft per rank.',
+    description: 'When you have 3+ spectral minions, they form a swarm, dealing 2d6 necrotic damage per rank to enemies in 15ft. Swarm radius increases by 5ft per rank. Minions gain +2 HP per rank.',
     icon: 'spell_shadow_gathershadows',
     maxRanks: 3,
     position: { x: 1, y: 2 },
@@ -202,7 +202,7 @@ export const LICHBORNE_SPECTRAL_REAPER = [
   {
     id: 'spectral_t4_apocalyptic_harvest',
     name: 'Apocalyptic Harvest',
-    description: 'When you kill an enemy, all spectral minions deal their damage again. +1 max minion per rank.',
+    description: 'When you kill an enemy, all spectral minions deal their damage again to nearby enemies. +1 max minion per rank (up to 6 total).',
     icon: 'spell_shadow_unholyfrenzy',
     maxRanks: 2,
     position: { x: 2, y: 4 },
@@ -217,7 +217,7 @@ export const LICHBORNE_PHYLACTERY_GUARDIAN = [
   {
     id: 'phylactery_t0_soul_anchor',
     name: 'Soul Anchor',
-    description: 'Phylactery resurrection cooldown reduced by 1 round per rank. +2 HP stored per successful ritual.',
+    description: 'Phylactery kill charge increased to +1d8 HP per rank (instead of +1d6). +2 HP maximum storage per rank. Death Trigger freeze radius increased by 5ft per rank.',
     icon: 'spell_frost_frozencore',
     maxRanks: 3,
     position: { x: 2, y: 0 },
@@ -228,7 +228,7 @@ export const LICHBORNE_PHYLACTERY_GUARDIAN = [
   {
     id: 'phylactery_t1_vital_reserve',
     name: 'Vital Reserve',
-    description: 'Store 1d6 additional HP per rank in Phylactery during rituals. Maximum Phylactery HP increased by 10 per rank.',
+    description: 'Maximum Phylactery HP increased by 10 per rank. Kill charge grants an additional +1d4 HP per rank. Store HP from kills more efficiently.',
     icon: 'spell_shadow_lifedrain',
     maxRanks: 3,
     position: { x: 1, y: 1 },
@@ -297,7 +297,7 @@ export const LICHBORNE_PHYLACTERY_GUARDIAN = [
   {
     id: 'phylactery_t3_soul_siphon',
     name: 'Soul Siphon',
-    description: 'When enemies die within 30ft, automatically store 1d4 HP per rank in Phylactery (maximum once per round). Siphon range increases by 10ft per rank.',
+    description: 'When enemies die within 30ft (regardless of who killed them), automatically store 1d4 HP per rank in Phylactery (maximum once per round). Siphon range increases by 10ft per rank.',
     icon: 'spell_shadow_soulleech_3',
     maxRanks: 2,
     position: { x: 3, y: 3 },

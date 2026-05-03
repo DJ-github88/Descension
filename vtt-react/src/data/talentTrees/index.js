@@ -59,9 +59,9 @@ export {
 } from './gambler.js';
 
 export {
-  MARTYR_PROTECTOR,
-  MARTYR_REDEEMER,
-  MARTYR_AVENGER
+  MARTYR_REDEMPTION,
+  MARTYR_ZEALOT,
+  MARTYR_ASCETIC
 } from './martyr.js';
 
 export {
@@ -79,7 +79,7 @@ export {
 export {
   ORACLE_SEER,
   ORACLE_TRUTHSEEKER,
-  ORACLE_DESTINY_WEAVER
+  ORACLE_FATESEER
 } from './oracle.js';
 
 export {

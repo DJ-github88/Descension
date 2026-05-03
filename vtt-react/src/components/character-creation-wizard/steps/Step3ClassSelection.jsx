@@ -39,7 +39,7 @@ const Step3ClassSelection = () => {
         { name: 'Gambler', imageIcon: '/assets/icons/classes/gambler.png', icon: 'fas fa-dice', description: 'Daring risk-taker manipulating luck and probability', theme: 'luck' },
         { name: 'Huntress', imageIcon: '/assets/icons/classes/huntress.png', icon: 'fas fa-moon', description: 'Tracker with precision targeting and pursuit', theme: 'hunter' },
         { name: 'Inscriptor', imageIcon: '/assets/icons/classes/inscriptor.png', icon: 'fas fa-scroll', description: 'Tactical battlefield controller using runes and inscriptions', theme: 'runes' },
-        { name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: 'fas fa-skull', description: 'Frost-wielding undead with life-draining aura and resurrection', theme: 'undead' },
+        { name: 'Lichborne', imageIcon: '/assets/icons/classes/lichborne.png', icon: 'fas fa-skull', description: 'Dual-mode frost caster who burns HP for devastating power, kills to charge Phylactery, and resurrects with a death freeze', theme: 'undead' },
         { name: 'Lunarch', imageIcon: '/assets/icons/classes/lunarch.png', icon: 'fas fa-moon', description: 'Lunar mage with phase-based energy cycles', theme: 'lunar' },
         { name: 'Martyr', imageIcon: '/assets/icons/classes/martyr.png', icon: 'fas fa-plus', description: 'Self-sacrificing warrior earning power through suffering', theme: 'sacrifice' },
         { name: 'Minstrel', imageIcon: '/assets/icons/classes/minstrel.png', icon: 'fas fa-music', description: 'Musical spellcaster combining notes into powerful chords', theme: 'music' },

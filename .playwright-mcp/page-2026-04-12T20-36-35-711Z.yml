@@ -1,0 +1,240 @@
+- generic [ref=e1]:
+  - generic [ref=e139]:
+    - generic [ref=e143] [cursor=pointer]:
+      - generic [ref=e144]:
+        - generic [ref=e146]: 
+        - generic [ref=e148]: 
+      - generic [ref=e149]:
+        - generic [ref=e150]:
+          - generic [ref=e151]: Player (Level 1)
+          - generic [ref=e152]:
+            - generic [ref=e153]: Unknown Race
+            - generic [ref=e154]: Unknown Class
+            - generic [ref=e156]: Neutral Good
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic: 45/50
+          - generic [ref=e160]:
+            - generic: 45/50
+          - generic [ref=e162]:
+            - generic: 1/3 AP
+    - generic [ref=e167]:
+      - generic [ref=e169] [cursor=pointer]: "1"
+      - generic [ref=e171] [cursor=pointer]: "2"
+      - generic [ref=e173] [cursor=pointer]: "3"
+      - generic [ref=e175] [cursor=pointer]: "4"
+      - generic [ref=e177] [cursor=pointer]: "5"
+      - generic [ref=e179] [cursor=pointer]: "6"
+      - generic [ref=e181] [cursor=pointer]: "7"
+      - generic [ref=e183] [cursor=pointer]: "8"
+      - generic [ref=e185] [cursor=pointer]: "9"
+      - generic [ref=e187] [cursor=pointer]: "10"
+    - generic [ref=e189]:
+      - generic:
+        - generic: "0"
+        - generic: /
+        - generic: "300"
+        - generic: XP
+    - button " Dialogue" [ref=e191] [cursor=pointer]:
+      - generic [ref=e192]: 
+      - generic [ref=e193]: Dialogue
+    - button "" [ref=e195] [cursor=pointer]:
+      - generic [ref=e196]: 
+    - generic [ref=e198]:
+      - button "C" [ref=e199] [cursor=pointer]:
+        - img [ref=e200]
+        - generic [ref=e202]: C
+      - button "B" [ref=e203] [cursor=pointer]:
+        - img [ref=e204]
+        - generic [ref=e206]: B
+      - button "R" [ref=e207] [cursor=pointer]:
+        - img [ref=e208]
+        - generic [ref=e210]: R
+      - button "S" [ref=e211] [cursor=pointer]:
+        - img [ref=e212]
+        - generic [ref=e214]: S
+      - button "T" [ref=e215] [cursor=pointer]:
+        - img [ref=e216]
+        - generic [ref=e223]: T
+      - button "I" [ref=e224] [cursor=pointer]:
+        - img [ref=e225]
+        - generic [ref=e227]: I
+      - button "Q" [ref=e228] [cursor=pointer]:
+        - img [ref=e229]
+        - generic [ref=e231]: Q
+      - button "P" [ref=e232] [cursor=pointer]:
+        - img [ref=e233]
+        - generic [ref=e237]: P
+      - button "H" [ref=e238] [cursor=pointer]:
+        - img [ref=e239]
+        - generic [ref=e241]: H
+      - button "X" [ref=e242] [cursor=pointer]:
+        - img [ref=e243]
+        - generic [ref=e246]: X
+      - button "L" [ref=e247] [cursor=pointer]:
+        - img [ref=e248]
+        - generic [ref=e251]: L
+      - button "G" [ref=e252] [cursor=pointer]:
+        - img [ref=e253]
+        - generic [ref=e256]: G
+      - button "W" [ref=e257] [cursor=pointer]:
+        - img [ref=e258]
+        - generic [ref=e261]: W
+      - button "E" [ref=e262] [cursor=pointer]:
+        - img [ref=e263]
+        - generic [ref=e266]: E
+      - button "M" [ref=e267] [cursor=pointer]:
+        - img [ref=e268]
+        - generic [ref=e271]: M
+      - button "N" [ref=e272] [cursor=pointer]:
+        - img [ref=e273]
+        - generic [ref=e275]: "N"
+      - button "ESC" [ref=e276] [cursor=pointer]:
+        - img [ref=e277]
+        - generic [ref=e279]: ESC
+    - generic "Click to center on origin (0, 0)" [ref=e281] [cursor=pointer]:
+      - generic [ref=e282]: 
+      - generic [ref=e283]: "X: 0.0"
+      - generic [ref=e284]: "|"
+      - generic [ref=e285]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=e286]: 
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - generic [ref=e289]: 
+        - generic [ref=e290]: Connected (1 players)
+      - generic "Switch/View Maps" [ref=e291] [cursor=pointer]:
+        - generic [ref=e292]: 
+        - generic [ref=e293]: Default Map
+  - generic [ref=e295]:
+    - generic [ref=e298]:
+      - generic [ref=e299]:
+        - button " Library" [ref=e300] [cursor=pointer]:
+          - generic [ref=e301]: 
+          - generic [ref=e302]: Library
+        - button " Create New" [active] [ref=e303] [cursor=pointer]:
+          - generic [ref=e304]: 
+          - generic [ref=e305]: Create New
+        - button " Community" [ref=e306] [cursor=pointer]:
+          - generic [ref=e307]: 
+          - generic [ref=e308]: Community
+      - button "×" [ref=e309] [cursor=pointer]
+    - generic [ref=e312]:
+      - text:                        
+      - generic [ref=e691]:
+        - generic [ref=e694]:
+          - generic [ref=e696]:
+            - generic [ref=e697]:
+              - heading "Essential Details" [level=3] [ref=e698]
+              - generic [ref=e699]:
+                - generic [ref=e700]: ◆Creature Name*
+                - textbox "◆Creature Name*" [ref=e701]:
+                  - /placeholder: Enter creature name
+                - generic [ref=e702]:
+                  - generic [ref=e703]: 0/50
+                  - generic [ref=e704]: Name is required
+              - generic [ref=e705]:
+                - generic [ref=e706]:
+                  - generic [ref=e707]: ◆Type*
+                  - combobox "◆Type*" [ref=e708]:
+                    - option "Aberration"
+                    - option "Beast"
+                    - option "Celestial"
+                    - option "Construct"
+                    - option "Dragon"
+                    - option "Elemental"
+                    - option "Fey"
+                    - option "Fiend"
+                    - option "Giant"
+                    - option "Humanoid" [selected]
+                    - option "Monstrosity"
+                    - option "Ooze"
+                    - option "Plant"
+                    - option "Undead"
+                - generic [ref=e709]:
+                  - generic [ref=e710]: ◆Size*
+                  - combobox "◆Size*" [ref=e711]:
+                    - option "Tiny"
+                    - option "Small"
+                    - option "Medium" [selected]
+                    - option "Large"
+                    - option "Huge"
+                    - option "Gargantuan"
+              - generic [ref=e712]:
+                - generic [ref=e713]: ◆Description & Lore(Optional)
+                - textbox "◆Description & Lore(Optional)" [ref=e714]:
+                  - /placeholder: Describe appearance, behavior, habitat, and lore...
+                - generic [ref=e716]: 0/1000
+            - generic [ref=e717]:
+              - heading "Token Appearance" [level=3] [ref=e718]
+              - generic [ref=e719]:
+                - button "📷 Change Icon" [ref=e722] [cursor=pointer]:
+                  - generic [ref=e723]: 📷
+                  - generic [ref=e724]: Change Icon
+                - generic [ref=e725]:
+                  - heading "Unnamed Creature" [level=4] [ref=e726]
+                  - paragraph [ref=e727]: Medium Humanoid
+              - generic [ref=e728]:
+                - generic [ref=e729]: ◆Border Color
+                - generic [ref=e730]:
+                  - 'generic "Select #ffffff border" [ref=e731] [cursor=pointer]':
+                    - generic [ref=e732]: ✓
+                  - 'generic "Select #ff0000 border" [ref=e733] [cursor=pointer]'
+                  - 'generic "Select #00ff00 border" [ref=e734] [cursor=pointer]'
+                  - 'generic "Select #0000ff border" [ref=e735] [cursor=pointer]'
+                  - 'generic "Select #ffff00 border" [ref=e736] [cursor=pointer]'
+                  - 'generic "Select #ff00ff border" [ref=e737] [cursor=pointer]'
+                  - 'generic "Select #00ffff border" [ref=e738] [cursor=pointer]'
+                  - 'generic "Select #ff9900 border" [ref=e739] [cursor=pointer]'
+                  - 'generic "Select #9900ff border" [ref=e740] [cursor=pointer]'
+                  - 'generic "Select #00cc00 border" [ref=e741] [cursor=pointer]'
+                  - 'generic "Select #cc0000 border" [ref=e742] [cursor=pointer]'
+                  - 'generic "Select #0066cc border" [ref=e743] [cursor=pointer]'
+                  - 'generic "Select #663300 border" [ref=e744] [cursor=pointer]'
+                  - 'generic "Select #999999 border" [ref=e745] [cursor=pointer]'
+                  - 'generic "Select #000000 border" [ref=e746] [cursor=pointer]'
+              - generic [ref=e747]:
+                - generic [ref=e748]: ◆Custom Token Image
+                - generic [ref=e750]:
+                  - generic [ref=e752] [cursor=pointer]:
+                    - text: ◆
+                    - generic [ref=e753]: 
+                    - text: Upload Image
+                  - generic [ref=e754]: or
+                  - textbox "Paste image URL..." [ref=e756]
+          - generic [ref=e757]:
+            - heading "Tags & Organization" [level=3] [ref=e758]
+            - generic [ref=e759]:
+              - generic [ref=e760]: ◆Descriptive Tags(Optional)
+              - textbox "◆Descriptive Tags(Optional)" [ref=e762]:
+                - /placeholder: Type a tag and press Enter (e.g., undead, fire, boss, aquatic, flying)
+        - generic [ref=e764]:
+          - generic [ref=e767]:
+            - generic [ref=e769] [cursor=pointer]: "1"
+            - generic [ref=e771] [cursor=pointer]: "2"
+            - generic [ref=e773] [cursor=pointer]: "3"
+            - generic [ref=e775] [cursor=pointer]: "4"
+            - generic [ref=e777] [cursor=pointer]: "5"
+          - button "Next" [ref=e779] [cursor=pointer]
+      - text:  
+  - generic [ref=e781]:
+    - generic [ref=e782]:
+      - generic [ref=e783]: Unnamed Creature
+      - generic [ref=e784]: Medium Humanoid • 1×1
+    - generic [ref=e785]:
+      - generic [ref=e786]:
+        - generic [ref=e787]:
+          - generic [ref=e788]: HP
+          - generic [ref=e789]: 100/100
+        - generic [ref=e790]:
+          - generic [ref=e791]: ARMOR
+          - generic [ref=e792]: "15"
+        - generic [ref=e793]:
+          - generic [ref=e794]: INIT
+          - generic [ref=e795]: "+2"
+      - generic [ref=e796]:
+        - generic [ref=e797]:
+          - generic [ref=e798]: MANA
+          - generic [ref=e799]: 50/50
+        - generic [ref=e800]:
+          - generic [ref=e801]: AP
+          - generic [ref=e802]: 6/6

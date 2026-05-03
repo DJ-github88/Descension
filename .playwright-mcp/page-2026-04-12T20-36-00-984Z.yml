@@ -1,0 +1,506 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e139]:
+    - generic [ref=e143] [cursor=pointer]:
+      - generic [ref=e144]:
+        - generic [ref=e146]: 
+        - generic [ref=e148]: 
+      - generic [ref=e149]:
+        - generic [ref=e150]:
+          - generic [ref=e151]: Player (Level 1)
+          - generic [ref=e152]:
+            - generic [ref=e153]: Unknown Race
+            - generic [ref=e154]: Unknown Class
+            - generic [ref=e156]: Neutral Good
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic: 45/50
+          - generic [ref=e160]:
+            - generic: 45/50
+          - generic [ref=e162]:
+            - generic: 1/3 AP
+    - generic [ref=e167]:
+      - generic [ref=e169] [cursor=pointer]: "1"
+      - generic [ref=e171] [cursor=pointer]: "2"
+      - generic [ref=e173] [cursor=pointer]: "3"
+      - generic [ref=e175] [cursor=pointer]: "4"
+      - generic [ref=e177] [cursor=pointer]: "5"
+      - generic [ref=e179] [cursor=pointer]: "6"
+      - generic [ref=e181] [cursor=pointer]: "7"
+      - generic [ref=e183] [cursor=pointer]: "8"
+      - generic [ref=e185] [cursor=pointer]: "9"
+      - generic [ref=e187] [cursor=pointer]: "10"
+    - generic [ref=e189]:
+      - generic:
+        - generic: "0"
+        - generic: /
+        - generic: "300"
+        - generic: XP
+    - button " Dialogue" [ref=e191] [cursor=pointer]:
+      - generic [ref=e192]: 
+      - generic [ref=e193]: Dialogue
+    - button "" [ref=e195] [cursor=pointer]:
+      - generic [ref=e196]: 
+    - generic [ref=e198]:
+      - button "C" [ref=e199] [cursor=pointer]:
+        - img [ref=e200]
+        - generic [ref=e202]: C
+      - button "B" [ref=e203] [cursor=pointer]:
+        - img [ref=e204]
+        - generic [ref=e206]: B
+      - button "R" [ref=e207] [cursor=pointer]:
+        - img [ref=e208]
+        - generic [ref=e210]: R
+      - button "S" [ref=e211] [cursor=pointer]:
+        - img [ref=e212]
+        - generic [ref=e214]: S
+      - button "T" [ref=e215] [cursor=pointer]:
+        - img [ref=e216]
+        - generic [ref=e223]: T
+      - button "I" [ref=e224] [cursor=pointer]:
+        - img [ref=e225]
+        - generic [ref=e227]: I
+      - button "Q" [ref=e228] [cursor=pointer]:
+        - img [ref=e229]
+        - generic [ref=e231]: Q
+      - button "P" [ref=e232] [cursor=pointer]:
+        - img [ref=e233]
+        - generic [ref=e237]: P
+      - button "H" [ref=e238] [cursor=pointer]:
+        - img [ref=e239]
+        - generic [ref=e241]: H
+      - button "X" [ref=e242] [cursor=pointer]:
+        - img [ref=e243]
+        - generic [ref=e246]: X
+      - button "L" [ref=e247] [cursor=pointer]:
+        - img [ref=e248]
+        - generic [ref=e251]: L
+      - button "G" [ref=e252] [cursor=pointer]:
+        - img [ref=e253]
+        - generic [ref=e256]: G
+      - button "W" [ref=e257] [cursor=pointer]:
+        - img [ref=e258]
+        - generic [ref=e261]: W
+      - button "E" [ref=e262] [cursor=pointer]:
+        - img [ref=e263]
+        - generic [ref=e266]: E
+      - button "M" [ref=e267] [cursor=pointer]:
+        - img [ref=e268]
+        - generic [ref=e271]: M
+      - button "N" [ref=e272] [cursor=pointer]:
+        - img [ref=e273]
+        - generic [ref=e275]: "N"
+      - button "ESC" [ref=e276] [cursor=pointer]:
+        - img [ref=e277]
+        - generic [ref=e279]: ESC
+    - generic "Click to center on origin (0, 0)" [ref=e281] [cursor=pointer]:
+      - generic [ref=e282]: 
+      - generic [ref=e283]: "X: 0.0"
+      - generic [ref=e284]: "|"
+      - generic [ref=e285]: "Y: 0.0"
+      - generic "Jump to coordinates" [ref=e286]: 
+    - generic [ref=e287]:
+      - generic [ref=e288]:
+        - generic [ref=e289]: 
+        - generic [ref=e290]: Connected (1 players)
+      - generic "Switch/View Maps" [ref=e291] [cursor=pointer]:
+        - generic [ref=e292]: 
+        - generic [ref=e293]: Default Map
+  - generic [ref=e295]:
+    - generic [ref=e298]:
+      - generic [ref=e299]:
+        - button " Library" [ref=e300] [cursor=pointer]:
+          - generic [ref=e301]: 
+          - generic [ref=e302]: Library
+        - button " Create New" [ref=e303] [cursor=pointer]:
+          - generic [ref=e304]: 
+          - generic [ref=e305]: Create New
+        - button " Community" [ref=e306] [cursor=pointer]:
+          - generic [ref=e307]: 
+          - generic [ref=e308]: Community
+      - button "×" [ref=e309] [cursor=pointer]
+    - generic [ref=e312]:
+      - generic [ref=e314]:
+        - generic [ref=e315]:
+          - generic [ref=e316]:
+            - heading "My Creatures" [level=1] [ref=e317]
+            - generic [ref=e320]:
+              - 'button "Type: All " [ref=e323] [cursor=pointer]':
+                - text: "Type: All"
+                - generic [ref=e324]: 
+              - 'button "Size: All " [ref=e327] [cursor=pointer]':
+                - text: "Size: All"
+                - generic [ref=e328]: 
+              - 'button "Sort: Name  " [ref=e331] [cursor=pointer]':
+                - text: "Sort: Name"
+                - generic [ref=e332]: 
+                - generic [ref=e333]: 
+              - generic [ref=e334]: Showing 18 of 18 creatures
+            - generic [ref=e336]:
+              - button "" [ref=e337] [cursor=pointer]:
+                - generic [ref=e338]: 
+              - button "" [ref=e339] [cursor=pointer]:
+                - generic [ref=e340]: 
+          - textbox "Search creatures..." [ref=e342]
+        - main [ref=e344]:
+          - generic [ref=e345]:
+            - generic [ref=e349] [cursor=pointer]:
+              - generic [ref=e350]:
+                - generic [ref=e353]:
+                  - heading "Dire Wolf" [level=2] [ref=e354]
+                  - generic [ref=e355]:
+                    - generic [ref=e356]: Beast
+                    - generic [ref=e357]: Large (2x2)
+                - generic [ref=e358]:
+                  - generic [ref=e359]:
+                    - generic [ref=e360]: 75/75
+                    - generic [ref=e361]: HP
+                  - generic [ref=e362]:
+                    - generic [ref=e363]: "14"
+                    - generic [ref=e364]: Armor
+                  - generic [ref=e365]:
+                    - generic [ref=e366]: "+2"
+                    - generic [ref=e367]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e368] [cursor=pointer]:
+              - generic [ref=e369]:
+                - generic [ref=e372]:
+                  - heading "Elven Archer" [level=2] [ref=e373]
+                  - generic [ref=e374]:
+                    - generic [ref=e375]: Humanoid
+                    - generic [ref=e376]: Medium (1x1)
+                - generic [ref=e377]:
+                  - generic [ref=e378]:
+                    - generic [ref=e379]: 55/55
+                    - generic [ref=e380]: HP
+                  - generic [ref=e381]:
+                    - generic [ref=e382]: "14"
+                    - generic [ref=e383]: Armor
+                  - generic [ref=e384]:
+                    - generic [ref=e385]: "+4"
+                    - generic [ref=e386]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e387] [cursor=pointer]:
+              - generic [ref=e388]:
+                - generic [ref=e391]:
+                  - heading "Fire Elemental" [level=2] [ref=e392]
+                  - generic [ref=e393]:
+                    - generic [ref=e394]: Elemental
+                    - generic [ref=e395]: Large (2x2)
+                - generic [ref=e396]:
+                  - generic [ref=e397]:
+                    - generic [ref=e398]: 120/120
+                    - generic [ref=e399]: HP
+                  - generic [ref=e400]:
+                    - generic [ref=e401]: "15"
+                    - generic [ref=e402]: Armor
+                  - generic [ref=e403]:
+                    - generic [ref=e404]: "+3"
+                    - generic [ref=e405]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e406] [cursor=pointer]:
+              - generic [ref=e407]:
+                - generic [ref=e410]:
+                  - heading "Gareth Ironhand" [level=2] [ref=e411]
+                  - generic [ref=e412]:
+                    - generic [ref=e413]: Humanoid
+                    - generic [ref=e414]: Medium (1x1)
+                - generic [ref=e415]:
+                  - generic [ref=e416]:
+                    - generic [ref=e417]: 95/95
+                    - generic [ref=e418]: HP
+                  - generic [ref=e419]:
+                    - generic [ref=e420]: "16"
+                    - generic [ref=e421]: Armor
+                  - generic [ref=e422]:
+                    - generic [ref=e423]: "+1"
+                    - generic [ref=e424]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e425] [cursor=pointer]:
+              - generic [ref=e426]:
+                - generic [ref=e429]:
+                  - heading "Giant Spider" [level=2] [ref=e430]
+                  - generic [ref=e431]:
+                    - generic [ref=e432]: Beast
+                    - generic [ref=e433]: Large (2x2)
+                - generic [ref=e434]:
+                  - generic [ref=e435]:
+                    - generic [ref=e436]: 50/50
+                    - generic [ref=e437]: HP
+                  - generic [ref=e438]:
+                    - generic [ref=e439]: "14"
+                    - generic [ref=e440]: Armor
+                  - generic [ref=e441]:
+                    - generic [ref=e442]: "+3"
+                    - generic [ref=e443]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e444] [cursor=pointer]:
+              - generic [ref=e445]:
+                - generic [ref=e448]:
+                  - heading "Goblin Rogue" [level=2] [ref=e449]
+                  - generic [ref=e450]:
+                    - generic [ref=e451]: Humanoid
+                    - generic [ref=e452]: Small (1x1)
+                - generic [ref=e453]:
+                  - generic [ref=e454]:
+                    - generic [ref=e455]: 35/35
+                    - generic [ref=e456]: HP
+                  - generic [ref=e457]:
+                    - generic [ref=e458]: "14"
+                    - generic [ref=e459]: Armor
+                  - generic [ref=e460]:
+                    - generic [ref=e461]: "+4"
+                    - generic [ref=e462]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e463] [cursor=pointer]:
+              - generic [ref=e464]:
+                - generic [ref=e467]:
+                  - heading "Human Mage" [level=2] [ref=e468]
+                  - generic [ref=e469]:
+                    - generic [ref=e470]: Humanoid
+                    - generic [ref=e471]: Medium (1x1)
+                - generic [ref=e472]:
+                  - generic [ref=e473]:
+                    - generic [ref=e474]: 50/50
+                    - generic [ref=e475]: HP
+                  - generic [ref=e476]:
+                    - generic [ref=e477]: "12"
+                    - generic [ref=e478]: Armor
+                  - generic [ref=e479]:
+                    - generic [ref=e480]: "+2"
+                    - generic [ref=e481]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e482] [cursor=pointer]:
+              - generic [ref=e483]:
+                - generic [ref=e486]:
+                  - heading "Imp" [level=2] [ref=e487]
+                  - generic [ref=e488]:
+                    - generic [ref=e489]: Fiend
+                    - generic [ref=e490]: Tiny (1x1)
+                - generic [ref=e491]:
+                  - generic [ref=e492]:
+                    - generic [ref=e493]: 20/20
+                    - generic [ref=e494]: HP
+                  - generic [ref=e495]:
+                    - generic [ref=e496]: "13"
+                    - generic [ref=e497]: Armor
+                  - generic [ref=e498]:
+                    - generic [ref=e499]: "+3"
+                    - generic [ref=e500]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e501] [cursor=pointer]:
+              - generic [ref=e502]:
+                - generic [ref=e505]:
+                  - heading "Lyra Moonwhisper" [level=2] [ref=e506]
+                  - generic [ref=e507]:
+                    - generic [ref=e508]: Humanoid
+                    - generic [ref=e509]: Medium (1x1)
+                - generic [ref=e510]:
+                  - generic [ref=e511]:
+                    - generic [ref=e512]: 70/70
+                    - generic [ref=e513]: HP
+                  - generic [ref=e514]:
+                    - generic [ref=e515]: "13"
+                    - generic [ref=e516]: Armor
+                  - generic [ref=e517]:
+                    - generic [ref=e518]: "+3"
+                    - generic [ref=e519]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e520] [cursor=pointer]:
+              - generic [ref=e521]:
+                - generic [ref=e524]:
+                  - heading "Mind Flayer" [level=2] [ref=e525]
+                  - generic [ref=e526]:
+                    - generic [ref=e527]: Aberration
+                    - generic [ref=e528]: Medium (1x1)
+                - generic [ref=e529]:
+                  - generic [ref=e530]:
+                    - generic [ref=e531]: 71/71
+                    - generic [ref=e532]: HP
+                  - generic [ref=e533]:
+                    - generic [ref=e534]: "15"
+                    - generic [ref=e535]: Armor
+                  - generic [ref=e536]:
+                    - generic [ref=e537]: "+2"
+                    - generic [ref=e538]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e539] [cursor=pointer]:
+              - generic [ref=e540]:
+                - generic [ref=e543]:
+                  - heading "Orc Berserker" [level=2] [ref=e544]
+                  - generic [ref=e545]:
+                    - generic [ref=e546]: Humanoid
+                    - generic [ref=e547]: Medium (1x1)
+                - generic [ref=e548]:
+                  - generic [ref=e549]:
+                    - generic [ref=e550]: 85/85
+                    - generic [ref=e551]: HP
+                  - generic [ref=e552]:
+                    - generic [ref=e553]: "14"
+                    - generic [ref=e554]: Armor
+                  - generic [ref=e555]:
+                    - generic [ref=e556]: "+2"
+                    - generic [ref=e557]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e558] [cursor=pointer]:
+              - generic [ref=e559]:
+                - generic [ref=e562]:
+                  - heading "Skeleton Warrior" [level=2] [ref=e563]
+                  - generic [ref=e564]:
+                    - generic [ref=e565]: Undead
+                    - generic [ref=e566]: Medium (1x1)
+                - generic [ref=e567]:
+                  - generic [ref=e568]:
+                    - generic [ref=e569]: 45/45
+                    - generic [ref=e570]: HP
+                  - generic [ref=e571]:
+                    - generic [ref=e572]: "13"
+                    - generic [ref=e573]: Armor
+                  - generic [ref=e574]:
+                    - generic [ref=e575]: "+1"
+                    - generic [ref=e576]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e577] [cursor=pointer]:
+              - generic [ref=e578]:
+                - generic [ref=e581]:
+                  - heading "Stone Golem" [level=2] [ref=e582]
+                  - generic [ref=e583]:
+                    - generic [ref=e584]: Construct
+                    - generic [ref=e585]: Large (2x2)
+                - generic [ref=e586]:
+                  - generic [ref=e587]:
+                    - generic [ref=e588]: 178/178
+                    - generic [ref=e589]: HP
+                  - generic [ref=e590]:
+                    - generic [ref=e591]: "17"
+                    - generic [ref=e592]: Armor
+                  - generic [ref=e593]:
+                    - generic [ref=e594]: "-1"
+                    - generic [ref=e595]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e596] [cursor=pointer]:
+              - generic [ref=e597]:
+                - generic [ref=e600]:
+                  - heading "Thaddeus Quickcoin" [level=2] [ref=e601]
+                  - generic [ref=e602]:
+                    - generic [ref=e603]: Humanoid
+                    - generic [ref=e604]: Small (1x1)
+                - generic [ref=e605]:
+                  - generic [ref=e606]:
+                    - generic [ref=e607]: 65/65
+                    - generic [ref=e608]: HP
+                  - generic [ref=e609]:
+                    - generic [ref=e610]: "13"
+                    - generic [ref=e611]: Armor
+                  - generic [ref=e612]:
+                    - generic [ref=e613]: "+3"
+                    - generic [ref=e614]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e615] [cursor=pointer]:
+              - generic [ref=e616]:
+                - generic [ref=e619]:
+                  - heading "Treant" [level=2] [ref=e620]
+                  - generic [ref=e621]:
+                    - generic [ref=e622]: Plant
+                    - generic [ref=e623]: Huge (3x3)
+                - generic [ref=e624]:
+                  - generic [ref=e625]:
+                    - generic [ref=e626]: 138/138
+                    - generic [ref=e627]: HP
+                  - generic [ref=e628]:
+                    - generic [ref=e629]: "16"
+                    - generic [ref=e630]: Armor
+                  - generic [ref=e631]:
+                    - generic [ref=e632]: "-1"
+                    - generic [ref=e633]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e634] [cursor=pointer]:
+              - generic [ref=e635]:
+                - generic [ref=e638]:
+                  - heading "Veteran Guard" [level=2] [ref=e639]
+                  - generic [ref=e640]:
+                    - generic [ref=e641]: Humanoid
+                    - generic [ref=e642]: Medium (1x1)
+                - generic [ref=e643]:
+                  - generic [ref=e644]:
+                    - generic [ref=e645]: 65/65
+                    - generic [ref=e646]: HP
+                  - generic [ref=e647]:
+                    - generic [ref=e648]: "15"
+                    - generic [ref=e649]: Armor
+                  - generic [ref=e650]:
+                    - generic [ref=e651]: "+1"
+                    - generic [ref=e652]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e653] [cursor=pointer]:
+              - generic [ref=e654]:
+                - generic [ref=e657]:
+                  - heading "Young Red Dragon" [level=2] [ref=e658]
+                  - generic [ref=e659]:
+                    - generic [ref=e660]: Dragon
+                    - generic [ref=e661]: Large (2x2)
+                - generic [ref=e662]:
+                  - generic [ref=e663]:
+                    - generic [ref=e664]: 178/178
+                    - generic [ref=e665]: HP
+                  - generic [ref=e666]:
+                    - generic [ref=e667]: "18"
+                    - generic [ref=e668]: Armor
+                  - generic [ref=e669]:
+                    - generic [ref=e670]: "+0"
+                    - generic [ref=e671]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+            - generic [ref=e672] [cursor=pointer]:
+              - generic [ref=e673]:
+                - generic [ref=e676]:
+                  - heading "Zombie" [level=2] [ref=e677]
+                  - generic [ref=e678]:
+                    - generic [ref=e679]: Undead
+                    - generic [ref=e680]: Medium (1x1)
+                - generic [ref=e681]:
+                  - generic [ref=e682]:
+                    - generic [ref=e683]: 55/55
+                    - generic [ref=e684]: HP
+                  - generic [ref=e685]:
+                    - generic [ref=e686]: "8"
+                    - generic [ref=e687]: Armor
+                  - generic [ref=e688]:
+                    - generic [ref=e689]: "-2"
+                    - generic [ref=e690]: INIT
+              - generic "Drag creature to grid":
+                - generic: 
+                - generic: Drag to Grid
+      - text: ◆ ◆ ◆ ◆ ◆ ◆ ◆  ◆  

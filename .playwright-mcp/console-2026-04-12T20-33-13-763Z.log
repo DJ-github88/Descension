@@ -1,0 +1,147 @@
+[    1437ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3000/static/js/bundle.js:205108
+[    1476ms] [LOG] ✅ Firebase configured with project: mythrill-ff7c6 @ http://localhost:3000/static/js/bundle.js:319084
+[    1916ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:515597
+[    1918ms] [LOG] Firebase Performance Monitoring initialized @ http://localhost:3000/static/js/bundle.js:510218
+[    1918ms] [LOG] Error tracking initialized @ http://localhost:3000/static/js/bundle.js:510264
+[    1918ms] [LOG] Performance collection started @ http://localhost:3000/static/js/bundle.js:510309
+[    1920ms] [LOG] 🔄 Updating creature store with new library creatures... @ http://localhost:3000/static/js/bundle.js:542449
+[    1921ms] [LOG] ✅ Loaded 18 creatures from library @ http://localhost:3000/static/js/bundle.js:542466
+[    1921ms] [LOG] 🔄 Starting authentication initialization... @ http://localhost:3000/static/js/bundle.js:248927
+[    1927ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:515597
+[    1927ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:516394
+[    1927ms] [LOG] ⚠️ Character system needs attention: 0 characters available @ http://localhost:3000/static/js/bundle.js:249720
+[    1955ms] [LOG] [EffectProcessing] Starting real-time effect processing @ http://localhost:3000/static/js/src_services_effectProcessingService_js.chunk.js:494
+[    2750ms] [LOG] 🔄 Authenticated but no socket. Initializing global socket... @ http://localhost:3000/static/js/bundle.js:293390
+[    2750ms] [LOG] 🟢 Initializing presence on authentication for: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:293433
+[    2751ms] [LOG] 🟢 Setting user online: i5cl9LusaKPvMlJTwHzdBP8KjZg1 Adventurer @ http://localhost:3000/static/js/bundle.js:504925
+[    2753ms] [LOG] User returned to landing page - restarting session timers @ http://localhost:3000/static/js/bundle.js:497915
+[    2753ms] [LOG] Offline support initialized @ http://localhost:3000/static/js/bundle.js:509813
+[    2754ms] [LOG] Analytics tracking initialized @ http://localhost:3000/static/js/bundle.js:499589
+[    2770ms] [LOG] 📊 Event tracked: session_start {userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, timestamp: 2026-04-12T20:33:16.516Z, userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb…KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36, screenResolution: 1920x1080, timezone: Europe/Copenhagen} @ http://localhost:3000/static/js/bundle.js:499615
+[    2771ms] [LOG] 💾 Authenticated user - character data will persist to Firebase @ http://localhost:3000/static/js/bundle.js:281122
+[    2773ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:281343
+[    2777ms] [LOG] 🔌 Initializing global socket at: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:532122
+[    2801ms] [LOG] ⚠️ Authenticated user - persistence offline or unavailable @ http://localhost:3000/static/js/bundle.js:281343
+[    2817ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[    2822ms] [LOG] 🔌 Socket connected: bOINNcr-TJhlf-djAABb url: http://localhost:3001 @ http://localhost:3000/static/js/bundle.js:532053
+[    3191ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[    3197ms] [LOG] 📂 Journal loaded for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:496451
+[    3207ms] [LOG] 💾 Authenticated user - full data persistence enabled @ http://localhost:3000/static/js/bundle.js:281337
+[    3207ms] [LOG] 📊 Storage usage: 0.00MB used @ http://localhost:3000/static/js/bundle.js:281340
+[    3247ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:505150
+[    3924ms] [LOG] 🔄 Auth initialization timeout - marking as initialized @ http://localhost:3000/static/js/bundle.js:512387
+[    3928ms] [LOG] [Icon Migration] Starting migration for 18 creatures... @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:120
+[    3928ms] [LOG] [Icon Migration] Saved migrated creatures to store @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:125
+[    3928ms] [LOG] [Icon Migration] Complete: {migrated: 18, skipped: 0, errors: 0, total: 18} @ http://localhost:3000/static/js/src_utils_migrateCreatureIcons_js.chunk.js:127
+[    5678ms] [LOG] 💾 Journal saved for user i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/bundle.js:496408
+[   18943ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:497768
+[   18943ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:497918
+[   19702ms] [LOG] 🎮 RoomLobby: Loading characters... @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:11699
+[   19702ms] [LOG] [CharacterStore] Account type change from dev to authenticated, clearing storage @ http://localhost:3000/static/js/bundle.js:515498
+[   19702ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:515597
+[   19708ms] [LOG] 🎮 RoomLobby: Characters loaded: 0 @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:11701
+[   19708ms] [LOG] 🔌 [MultiplayerApp] Multiplayer socket created and exposed to window.multiplayerSocket @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3800
+[   19710ms] [LOG] ⏭️ [setSocket] Skipping socket disconnect - in multiplayer mode @ http://localhost:3000/static/js/bundle.js:532341
+[   19756ms] [LOG] 🔌 [MultiplayerApp] Multiplayer socket CONNECTED: Opf4krsiih_aBuXgAABd @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3806
+[   19758ms] [LOG] 🔍 [Auto-Join] checkAutoJoin triggered: {hasSelectedRoom: false, hasInvitation: false, isJoining: false, inRoom: false} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3532
+[   19758ms] [LOG] 🔄 [Auto-Join] Already attempted or in progress, skipping @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3521
+[   19760ms] [LOG] 🔄 [Auto-Join] Already attempted or in progress, skipping @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3521
+[   33256ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[   33364ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:505150
+[   63241ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[   63424ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:505150
+[   71067ms] [LOG] 🔄 [MultiplayerApp] startJoiningRoom called at: 22.34.24 @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3035
+[   71137ms] [LOG] ✅ [MultiplayerApp] room_created received: {room: Object} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4346
+[   71137ms] [LOG] 🔍 Room structure check: {hasRoom: true, hasPersistentRoomId: false, roomId: a706173e-ca64-4665-b3a3-3b7353971d88, persistentRoomId: undefined} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4347
+[   71137ms] [LOG] ✅ Room created/resumed successfully, waiting for room_joined: a706173e-ca64-4665-b3a3-3b7353971d88 @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4383
+[   71138ms] [LOG] ✅ [MultiplayerApp] room_joined received: {room: Object, player: Object, isGM: true, isGMReconnect: false} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4218
+[   71138ms] [LOG] 🔍 [MultiplayerApp] Detecting auto-continue intent: {isAutoJoinSequence: true, hasPendingInvitation: false, receivedJoinId: a706173e-ca64-4665-b3a3-3b7353971d88} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4271
+[   71138ms] [LOG] ✅ [MultiplayerApp] Room data stored and isRoomReady set to true {room: Test Room, isInvitationJoin: true, isGM: true} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:4330
+[   71139ms] [LOG] ⏱️ [MultiplayerApp] Progress Effect: {isRoomReady: true, isJoiningRoom: true, isFadingOut: false, showContinue: false, elapsed: 73} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3215
+[   71139ms] [LOG] ✨ [MultiplayerApp] Auto-continue triggered: {isInvitation: true, isGMCreating: true} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3237
+[   71143ms] [LOG] Session timers bypassed - user is in a room/game or not on landing page @ http://localhost:3000/static/js/bundle.js:497768
+[   71143ms] [LOG] User navigated away from landing page - clearing session timers @ http://localhost:3000/static/js/bundle.js:497918
+[   72571ms] [LOG] 🚀 [MultiplayerApp] User clicked Continue, starting RPG fade out... @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10783
+[   72632ms] [LOG] 🛠️ [MultiplayerApp] Executing handleJoinRoom... @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10808
+[   72635ms] [LOG] 🧹 Clearing all stores for clean room initialization {preserveMapEntities: false} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3335
+[   72635ms] [LOG] ✅ All stores cleared @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3399
+[   72636ms] [LOG] 🔄 [MultiplayerApp] startJoiningRoom called at: 22.34.26 @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:3035
+[   72636ms] [LOG] 🆔 handleJoinRoom - Setting up current player: {playerObject: Object, playerObjectId: 30891163-5d4f-4847-b011-111f4c38e073, playerObjectName: Player, activeCharacterName: undefined, isGameMaster: true} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:9547
+[   72636ms] [LOG] 🆔 Set current player ID for per-player memories: i5cl9LusaKPvMlJTwHzdBP8KjZg1 @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:9607
+[   72636ms] [LOG] [CharacterStore] Loaded 0 characters from mythrill-characters @ http://localhost:3000/static/js/bundle.js:515597
+[   72638ms] [LOG] [CharacterStore] loadActiveCharacter: Found 0 characters @ http://localhost:3000/static/js/bundle.js:516394
+[   72638ms] [LOG] 📚 Populated creature library with 0 creatures from legacy tokens @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:9927
+[   72638ms] [LOG] 📍 Initializing player on map: default @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:9987
+[   72638ms] [LOG] 🔍 [handleJoinRoom] Room structure received from server: {roomId: a706173e-ca64-4665-b3a3-3b7353971d88, hasGameState: true, gameStateKeys: Array(12), mapsCount: 1, mapsKeys: Array(1)} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10069
+[   72638ms] [LOG] 🔍 [handleJoinRoom] Grid items data: {mapId: default, gridItemsRawType: object, gridItemsRawIsArray: false, gridItemsRawKeys: Array(0), initialGridItemsCount: 0} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10166
+[   72639ms] [LOG] 👑 Party leader set: 30891163-5d4f-4847-b011-111f4c38e073 isGM: true @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10326
+[   72639ms] [LOG] 🎮 Current player member data: {id: 30891163-5d4f-4847-b011-111f4c38e073, socketId: Opf4krsiih_aBuXgAABd, userId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, name: Player, isGM: true} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10397
+[   72639ms] [LOG] ➕ Adding new party member: Player @ http://localhost:3000/static/js/bundle.js:530986
+[   72639ms] [LOG] 🎮 Initializing game state manager for room: a706173e-ca64-4665-b3a3-3b7353971d88 {isPermanentRoom: false, isGM: true, hasSavedState: false} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10627
+[   72639ms] [LOG] 🎮 Skipping Firebase game state load for non-permanent room @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10639
+[   72641ms] [LOG] 🛠️ [MultiplayerApp] handleJoinRoom execution completed @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10813
+[   72641ms] [LOG] 🗺️ MapStore initialized with maps: [default] @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:9950
+[   72641ms] [LOG] 📦 Loaded 0 grid items for map default @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10187
+[   72641ms] [LOG] 📤 Syncing character with multiplayer: {characterId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, name: Character Name, class: , race: , subrace: } @ http://localhost:3000/static/js/bundle.js:513610
+[   72642ms] [LOG] 🚀 Triggered initial character sync upon room entry @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10669
+[   72701ms] [LOG] 🧹 [TileOverlay] Cleared tooltips for map change to: default @ http://localhost:3000/static/js/src_components_Grid_jsx.chunk.js:39211
+[   72739ms] [LOG] 🧹 [MemorySnapshotManager] Map changed, clearing tracking refs: default @ http://localhost:3000/static/js/src_components_level-editor_MemorySnapshotManager_jsx.chunk.js:621
+[   72739ms] [LOG] 📡 [DialogueSystem] Registered dialogue_message listener @ http://localhost:3000/static/js/bundle.js:256315
+[   72741ms] [LOG] 🖱️ CursorTracker: Cursor tracking disabled in settings @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:1986
+[   72741ms] [LOG] 🌐 Room context: Entered multiplayer room: a706173e-ca64-4665-b3a3-3b7353971d88 @ http://localhost:3000/static/js/bundle.js:366559
+[   72760ms] [INFO] 📡 [character_updated] Received: {senderSocketId: Opf4krsiih_aBuXgAABd, serverPlayerId: 30891163-5d4f-4847-b011-111f4c38e073, senderUserId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, characterName: Character Name, updatedBy: Opf4krsiih_aBuXgAABd} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:6952
+[   72761ms] [LOG] 🔄 [character_updated] Skipping own update echo: {senderUserId: i5cl9LusaKPvMlJTwHzdBP8KjZg1, myUserId: i5cl9LusaKPvMlJTwHzdBP8KjZg1} @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:6970
+[   74762ms] [WARNING] Cannot save action bar: no character selected @ http://localhost:3000/static/js/src_hooks_useActionBarPersistence_js.chunk.js:90
+[   75148ms] [LOG] ✨ [MultiplayerApp] RPG fade out complete @ http://localhost:3000/static/js/src_components_multiplayer_MultiplayerApp_jsx.chunk.js:10831
+[   93292ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[   93415ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:505150
+[  123293ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  123416ms] [LOG] 👥 Online users updated: 2 users @ http://localhost:3000/static/js/bundle.js:505150
+[  128564ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  153298ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  153481ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  183295ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  183489ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  213255ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  213420ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  243288ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  243456ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  273286ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  273443ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  303253ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  303344ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  305740ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  305854ms] [LOG] 🔄 Updated status for user: i5cl9LusaKPvMlJTwHzdBP8KjZg1 away @ http://localhost:3000/static/js/bundle.js:505057
+[  305864ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  333287ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  333522ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  363292ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  363416ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  393294ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  393468ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  423300ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  423418ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  453301ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  453469ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  483286ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  483396ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  513302ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  513652ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  543251ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  543354ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  573255ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  573353ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  603290ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  603625ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  633288ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  633661ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  663293ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  663388ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  693249ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  693428ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  723293ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  723427ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  753290ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  753447ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150
+[  783252ms] [LOG] 👥 Online users updated: 0 users @ http://localhost:3000/static/js/bundle.js:505150
+[  783372ms] [LOG] 👥 Online users updated: 1 users @ http://localhost:3000/static/js/bundle.js:505150

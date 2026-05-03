@@ -86,9 +86,9 @@ import {
 } from './talentTrees/gambler.js';
 
 import {
-  MARTYR_PROTECTOR,
-  MARTYR_REDEEMER,
-  MARTYR_AVENGER
+  MARTYR_REDEMPTION,
+  MARTYR_ZEALOT,
+  MARTYR_ASCETIC
 } from './talentTrees/martyr.js';
 
 import {
@@ -106,7 +106,7 @@ import {
 import {
   ORACLE_SEER,
   ORACLE_TRUTHSEEKER,
-  ORACLE_DESTINY_WEAVER
+  ORACLE_FATESEER
 } from './talentTrees/oracle.js';
 
 import {
@@ -287,9 +287,9 @@ export const getTreeBackdrop = (className, specId) => {
       'card_sharp': 'url(/assets/backdrops/gambler-fate.jpg)'
     },
     'Martyr': {
-      'protector': 'url(/assets/backdrops/martyr-protector.jpg)',
-      'redeemer': 'url(/assets/backdrops/martyr-redeemer.jpg)',
-      'avenger': 'url(/assets/backdrops/martyr-avenger.jpg)'
+      'redemption': 'url(/assets/backdrops/martyr-protector.jpg)',
+      'zealot': 'url(/assets/backdrops/martyr-redeemer.jpg)',
+      'ascetic': 'url(/assets/backdrops/martyr-avenger.jpg)'
     },
     'False Prophet': {
       'voidcaller': 'url(/assets/backdrops/falseprophet-voidcaller.jpg)',
@@ -304,7 +304,7 @@ export const getTreeBackdrop = (className, specId) => {
     'Oracle': {
       'seer': 'url(/assets/backdrops/oracle-seer.jpg)',
       'truthseeker': 'url(/assets/backdrops/oracle-truthseeker.jpg)',
-      'destiny_weaver': 'url(/assets/backdrops/oracle-destinyweaver.jpg)'
+      'fateseer': 'url(/assets/backdrops/oracle-fateseer.jpg)'
     },
     'Plaguebringer': {
       'virulent_spreader': 'url(/assets/backdrops/plaguebringer-virulent.jpg)',
@@ -405,9 +405,9 @@ export const TALENT_TREES = {
     'card_sharp': GAMBLER_FATE_CONTROL
   },
   'Martyr': {
-    'protector': MARTYR_PROTECTOR,
-    'redeemer': MARTYR_REDEEMER,
-    'avenger': MARTYR_AVENGER
+    'redemption': MARTYR_REDEMPTION,
+    'zealot': MARTYR_ZEALOT,
+    'ascetic': MARTYR_ASCETIC
   },
   'False Prophet': {
     'voidcaller': FALSE_PROPHET_VOIDCALLER,
@@ -422,7 +422,7 @@ export const TALENT_TREES = {
   'Oracle': {
     'seer': ORACLE_SEER,
     'truthseeker': ORACLE_TRUTHSEEKER,
-    'destiny_weaver': ORACLE_DESTINY_WEAVER
+    'fateseer': ORACLE_FATESEER
   },
   'Plaguebringer': {
     'virulent_spreader': PLAGUEBRINGER_VIRULENT_SPREADER,

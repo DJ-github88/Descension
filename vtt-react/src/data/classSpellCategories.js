@@ -601,9 +601,9 @@ export const CLASS_SPECIALIZATIONS = {
         icon: 'spell_holy_searinglightpriest'
       },
       {
-        id: 'destiny_weaver',
-        name: 'Destiny Weaver',
-        description: 'Destiny manipulation and fate alteration',
+        id: 'fateseer',
+        name: 'Fateseer',
+        description: 'Prediction-first fate manipulation through foresight',
         color: '#FF1493',
         icon: 'spell_arcane_prismaticcloak'
       }
