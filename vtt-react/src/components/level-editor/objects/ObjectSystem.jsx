@@ -310,6 +310,177 @@ export const PROFESSIONAL_OBJECTS = {
         lightRadius: 2,
         lightColor: '#aa00ff',
         showLight: true
+    },
+    weaponRack: {
+        id: 'weaponRack',
+        name: 'Weapon Rack',
+        category: 'furniture',
+        icon: 'items/Misc/Quest Items/weapon-rack-wooden-swords-axes',
+        image: '/assets/objects/weapon-rack.png',
+        size: { width: 1.5, height: 0.8 },
+        description: 'A wooden rack for weapons',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    rug: {
+        id: 'rug',
+        name: 'Ornate Rug',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/rug-ornate-red-gold',
+        image: '/assets/objects/rug.png',
+        size: { width: 3, height: 2 },
+        description: 'An ornate oriental rug',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    fountain: {
+        id: 'fountain',
+        name: 'Stone Fountain',
+        category: 'structures',
+        icon: 'items/Misc/Quest Items/fountain-stone-water',
+        image: '/assets/objects/fountain.png',
+        size: { width: 2, height: 2 },
+        description: 'A decorative stone fountain',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    sarcophagus: {
+        id: 'sarcophagus',
+        name: 'Sarcophagus',
+        category: 'structures',
+        icon: 'items/Misc/Quest Items/sarcophagus-stone-ornate',
+        image: '/assets/objects/sarcophagus.png',
+        size: { width: 1, height: 2 },
+        description: 'A heavy stone sarcophagus',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    altar: {
+        id: 'altar',
+        name: 'Stone Altar',
+        category: 'structures',
+        icon: 'items/Misc/Quest Items/altar-stone-runes',
+        image: '/assets/objects/altar.png',
+        size: { width: 2, height: 1 },
+        description: 'A ritual stone altar',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    well: {
+        id: 'well',
+        name: 'Stone Well',
+        category: 'structures',
+        icon: 'items/Misc/Quest Items/well-stone-roof',
+        image: '/assets/objects/well.png',
+        size: { width: 1.5, height: 1.5 },
+        description: 'A stone well with a roof',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    wagon: {
+        id: 'wagon',
+        name: 'Merchant Wagon',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/wagon-wooden-canvas',
+        image: '/assets/objects/wagon.png',
+        size: { width: 3, height: 2 },
+        description: 'A wooden merchant wagon',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    tent: {
+        id: 'tent',
+        name: 'Adventurer Tent',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/tent-canvas-blue',
+        image: '/assets/objects/tent.png',
+        size: { width: 2, height: 2 },
+        description: 'A simple canvas tent',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    stump: {
+        id: 'stump',
+        name: 'Tree Stump',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/stump-mossy-wood',
+        image: '/assets/objects/stump.png',
+        size: { width: 1, height: 1 },
+        description: 'A mossy tree stump',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    boulder: {
+        id: 'boulder',
+        name: 'Large Boulder',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/boulder-stone-gray',
+        image: '/assets/objects/boulder.png',
+        size: { width: 2, height: 2 },
+        description: 'A large gray boulder',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    bones: {
+        id: 'bones',
+        name: 'Scattered Bones',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/bones-human-skeleton',
+        image: '/assets/objects/bones.png',
+        size: { width: 1, height: 1 },
+        description: 'Scattered ancient bones',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    candelabra: {
+        id: 'candelabra',
+        name: 'Candelabra',
+        category: 'props',
+        icon: 'items/Misc/Quest Items/candelabra-golden-lit',
+        image: '/assets/objects/candelabra.png',
+        size: { width: 0.6, height: 0.6 },
+        description: 'A golden lit candelabra',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 2.5,
+        lightColor: '#ffeeaa',
+        showLight: true
     }
 };
 
@@ -339,6 +510,13 @@ const ObjectSystem = () => {
     const [gmNoteTooltipPosition, setGmNoteTooltipPosition] = useState({ x: 0, y: 0 });
 
     // Store connections
+    const [pickParentMode, setPickParentMode] = useState(false);
+    const [pendingChildId, setPendingChildId] = useState(null);
+    const pickParentModeRef = useRef(false);
+    const pendingChildIdRef = useRef(null);
+    const setPickParent = (val) => { setPickParentMode(val); pickParentModeRef.current = val; };
+    const setPendingChild = (val) => { setPendingChildId(val); pendingChildIdRef.current = val; };
+
     const {
         environmentalObjects,
         isEditorMode,
@@ -347,7 +525,11 @@ const ObjectSystem = () => {
         removeEnvironmentalObject,
         updateEnvironmentalObject,
         selectEnvironmentalObject,
-        reorderEnvironmentalObject
+        reorderEnvironmentalObject,
+        attachChildToParent,
+        detachFromParent,
+        getChildrenOfParent,
+        objectManipulationEnabled
     } = useLevelEditorStore();
 
     const {
@@ -415,7 +597,8 @@ const ObjectSystem = () => {
                 
                 let isMatch = false;
                 for (const s of seedColors) {
-                    if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
+                    // Increased tolerance slightly (from 45 to 50) for initial flood fill
+                    if (Math.abs(r - s[0]) < 50 && Math.abs(g - s[1]) < 50 && Math.abs(b - s[2]) < 50) {
                         isMatch = true; break;
                     }
                 }
@@ -446,31 +629,53 @@ const ObjectSystem = () => {
                 const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
                 const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
 
-                // ULTRA-AGGRESSIVE NUCLEAR TRANSPARENCY
-                // Clear anything that looks like background (grayscale haze)
-                // If vibrant bg, only clear pixels very close to that color
+                // Priority 1: If it matches a seed color (background), CLEAR IT regardless of saturation
+                let isMatch = false;
+                for (const s of seedColors) {
+                    // Increased tolerance (from 35 to 45) to catch remnants like magenta ropes
+                    if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
+                        isMatch = true; break;
+                    }
+                }
+                if (isMatch) {
+                    data[i + 3] = 0;
+                    continue;
+                }
+
+                // Priority 2: If it's very saturated (vibrant colors like fire), PROTECT IT from global cleanup
+                const isVerySaturated = diff > 60; // Lowered from 70 to protect more fire detail
+                if (isVerySaturated) continue;
+
+                // Priority 3: Clear anything that looks like grayscale background haze
                 if (isVibrantBg) {
-                    if (distToBg < 60) data[i + 3] = 0;
-                } else if ((distToBg < 150 && diff < 60) || (r > 170 && g > 170 && b > 170 && diff < 35)) {
+                    if (distToBg < 70) data[i + 3] = 0; // Increased for better vibrant cleanup
+                } else if (distToBg < 45 && diff < 30) {
+                    // Removed generic white check to protect sheets/pillows
                     data[i + 3] = 0;
                 }
             }
 
-            // 4. Post-Process: Desaturate and clean edges
+            // 4. Post-Process: Clean edges but preserve vibrant highlights
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i+3] === 0) continue;
                 const r = data[i], g = data[i+1], b = data[i+2];
-                if (r > 200 && g > 200 && b > 200) {
-                    const x = (i/4) % width;
-                    const y = Math.floor((i/4) / width);
-                    let hasTransNeighbor = false;
-                    if (x > 0 && data[i - 4 + 3] === 0) hasTransNeighbor = true;
-                    else if (x < width - 1 && data[i + 4 + 3] === 0) hasTransNeighbor = true;
-                    else if (y > 0 && data[i - width * 4 + 3] === 0) hasTransNeighbor = true;
-                    else if (y < height - 1 && data[i + width * 4 + 3] === 0) hasTransNeighbor = true;
-                    if (hasTransNeighbor) {
-                        const diff = Math.abs(r-g) + Math.abs(g-b);
-                        if (diff < 20) data[i + 3] = Math.max(0, data[i + 3] - 150);
+                
+                // Only clean if it's very bright AND very desaturated (grayscale/white haze)
+                if (r > 215 && g > 215 && b > 215) {
+                    const diff = Math.abs(r-g) + Math.abs(g-b);
+                    // If it's truly white/gray (low diff), soften the edges
+                    if (diff < 15) {
+                        const x = (i/4) % width;
+                        const y = Math.floor((i/4) / width);
+                        let hasTransNeighbor = false;
+                        if (x > 0 && data[i - 4 + 3] === 0) hasTransNeighbor = true;
+                        else if (x < width - 1 && data[i + 4 + 3] === 0) hasTransNeighbor = true;
+                        else if (y > 0 && data[i - width * 4 + 3] === 0) hasTransNeighbor = true;
+                        else if (y < height - 1 && data[i + width * 4 + 3] === 0) hasTransNeighbor = true;
+                        
+                        if (hasTransNeighbor) {
+                            data[i + 3] = Math.max(0, data[i + 3] - 120);
+                        }
                     }
                 }
             }
@@ -524,6 +729,37 @@ const ObjectSystem = () => {
             return { x: screenX, y: screenY };
         }
     }, [gridSize, gridOffsetX, gridOffsetY, cameraX, cameraY, effectiveZoom]);
+
+    const moveChildrenWithParent = useCallback((parentId, newWorldX, newWorldY, mapId) => {
+        const state = useLevelEditorStore.getState();
+        const children = state.environmentalObjects.filter(o => o.parentObjectId === parentId);
+        children.forEach(child => {
+            const offsetX = child.attachOffsetX || 0;
+            const offsetY = child.attachOffsetY || 0;
+            state.updateEnvironmentalObject(child.id, {
+                ...child,
+                worldX: newWorldX + offsetX,
+                worldY: newWorldY + offsetY
+            }, mapId);
+        });
+    }, []);
+
+    const updateAttachmentOffset = useCallback((objId, newWorldX, newWorldY, mapId) => {
+        const state = useLevelEditorStore.getState();
+        const obj = state.environmentalObjects.find(o => o.id === objId);
+        if (obj && obj.parentObjectId) {
+            const parent = state.environmentalObjects.find(o => o.id === obj.parentObjectId);
+            if (parent) {
+                state.updateEnvironmentalObject(objId, {
+                    ...obj,
+                    worldX: newWorldX,
+                    worldY: newWorldY,
+                    attachOffsetX: newWorldX - parent.worldX,
+                    attachOffsetY: newWorldY - parent.worldY
+                }, mapId);
+            }
+        }
+    }, []);
 
     // Render objects on canvas
     const renderObjects = useCallback(() => {
@@ -626,19 +862,71 @@ const ObjectSystem = () => {
 
             // Render selection highlight if selected
             if (obj.selected) {
-                renderSelectionHighlight(ctx, screenPos, objWidth, objHeight);
+                const rotRad = (obj.rotation || 0) * Math.PI / 180;
+                renderSelectionHighlight(ctx, screenPos, objWidth, objHeight, rotRad);
             }
 
             // Render drag handles if selected and draggable
             if (obj.selected && objectDef.draggable && (isEditorMode || isGMMode)) {
-                renderDragHandles(ctx, screenPos, objWidth, objHeight);
+                const rotRad = (obj.rotation || 0) * Math.PI / 180;
+                renderDragHandles(ctx, screenPos, objWidth, objHeight, rotRad);
+            }
+
+            // Render attachment line if this object has a parent
+            if (obj.parentObjectId && (isEditorMode || isGMMode)) {
+                const parentObj = environmentalObjects.find(o => o.id === obj.parentObjectId);
+                if (parentObj) {
+                    const parentDef = PROFESSIONAL_OBJECTS[parentObj.type];
+                    if (parentDef) {
+                        let parentScreenPos;
+                        try {
+                            const gs = getGridSystem();
+                            const vp = gs.getViewportDimensions();
+                            parentScreenPos = gs.worldToScreen(parentObj.worldX, parentObj.worldY, vp.width, vp.height);
+                        } catch (err) {
+                            parentScreenPos = null;
+                        }
+                        if (parentScreenPos) {
+                            ctx.save();
+                            ctx.strokeStyle = '#44aaff';
+                            ctx.lineWidth = 2;
+                            ctx.setLineDash([6, 4]);
+                            ctx.globalAlpha = 0.7;
+                            ctx.beginPath();
+                            ctx.moveTo(screenPos.x, screenPos.y);
+                            ctx.lineTo(parentScreenPos.x, parentScreenPos.y);
+                            ctx.stroke();
+                            ctx.setLineDash([]);
+                            ctx.restore();
+                        }
+                    }
+                }
+            }
+
+            // Render pick-parent highlight on hoverable objects
+            if (pickParentMode && obj.id !== pendingChildId) {
+                ctx.save();
+                ctx.strokeStyle = '#44ff44';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([4, 4]);
+                ctx.globalAlpha = 0.6 + Math.sin(Date.now() / 300) * 0.3;
+                ctx.strokeRect(screenPos.x - objWidth / 2 - 6, screenPos.y - objHeight / 2 - 6, objWidth + 12, objHeight + 12);
+                ctx.setLineDash([]);
+                ctx.restore();
             }
         });
-    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers]);
+    }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId]);
 
     // Render object based on its category
     const renderObjectByCategory = (ctx, obj, objectDef, screenPos, width, height) => {
         ctx.save();
+
+        const rotation = (obj.rotation || 0) * Math.PI / 180;
+        if (rotation !== 0) {
+            ctx.translate(screenPos.x, screenPos.y);
+            ctx.rotate(rotation);
+            ctx.translate(-screenPos.x, -screenPos.y);
+        }
 
         switch (objectDef.category) {
             case 'gm':
@@ -702,7 +990,22 @@ const ObjectSystem = () => {
     const renderGenericObject = (ctx, objectDef, screenPos, width, height) => {
         const img = imageCache.current.get(objectDef.image);
         if (img) {
-            ctx.drawImage(img, screenPos.x - width / 2, screenPos.y - height / 2, width, height);
+            // Calculate aspect-correct dimensions to prevent stretching
+            const imgAspect = img.width / img.height;
+            const targetAspect = width / height;
+            
+            let drawWidth = width;
+            let drawHeight = height;
+            
+            if (imgAspect > targetAspect) {
+                // Image is wider than target area - limit by width
+                drawHeight = width / imgAspect;
+            } else {
+                // Image is taller than target area - limit by height
+                drawWidth = height * imgAspect;
+            }
+            
+            ctx.drawImage(img, screenPos.x - drawWidth / 2, screenPos.y - drawHeight / 2, drawWidth, drawHeight);
         } else {
             // Fallback while image loads
             ctx.fillStyle = 'rgba(136, 136, 136, 0.5)';
@@ -725,8 +1028,14 @@ const ObjectSystem = () => {
         ctx.restore();
     };
 
-    const renderSelectionHighlight = (ctx, screenPos, width, height) => {
+    const renderSelectionHighlight = (ctx, screenPos, width, height, rotation) => {
         ctx.save();
+
+        if (rotation) {
+            ctx.translate(screenPos.x, screenPos.y);
+            ctx.rotate(rotation);
+            ctx.translate(-screenPos.x, -screenPos.y);
+        }
         
         // Draw glow
         ctx.shadowColor = '#d4af37';
@@ -753,11 +1062,18 @@ const ObjectSystem = () => {
         ctx.restore();
     };
 
-    const renderDragHandles = (ctx, screenPos, width, height) => {
+    const renderDragHandles = (ctx, screenPos, width, height, rotation) => {
         ctx.save();
-        const handleSize = 14; 
+        const handleSize = 14;
         const halfWidth = width / 2;
         const halfHeight = height / 2;
+
+        if (rotation) {
+            ctx.translate(screenPos.x, screenPos.y);
+            ctx.rotate(rotation);
+            ctx.translate(-screenPos.x, -screenPos.y);
+        }
+
         const handles = [
             { x: screenPos.x - halfWidth, y: screenPos.y - halfHeight },
             { x: screenPos.x + halfWidth, y: screenPos.y - halfHeight },
@@ -773,7 +1089,7 @@ const ObjectSystem = () => {
             ctx.lineWidth = 2;
             ctx.strokeRect(handle.x - handleSize/2, handle.y - handleSize/2, handleSize, handleSize);
         });
-        
+
         // Delete handle
         const dx = screenPos.x;
         const dy = screenPos.y - halfHeight - 25;
@@ -781,7 +1097,7 @@ const ObjectSystem = () => {
         ctx.beginPath(); ctx.arc(dx, dy, 12, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
         ctx.fillStyle = '#ffffff'; ctx.font = 'bold 14px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText('×', dx, dy + 1);
+        ctx.fillText('\u00d7', dx, dy + 1);
         ctx.restore();
     };
 
@@ -810,13 +1126,11 @@ const ObjectSystem = () => {
 
             let screenPos;
             if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
-                // Use the same coordinate system as rendering for free-positioned objects
                 try {
                     const gridSystem = getGridSystem();
                     const viewport = gridSystem.getViewportDimensions();
                     screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
                 } catch (error) {
-                    // Fallback to manual calculation
                     const canvasWidth = canvasRef.current?.width || window.innerWidth;
                     const canvasHeight = canvasRef.current?.height || window.innerHeight;
                     const screenObjX = (obj.worldX - cameraX) * effectiveZoom + canvasWidth / 2;
@@ -824,7 +1138,6 @@ const ObjectSystem = () => {
                     screenPos = { x: screenObjX, y: screenObjY };
                 }
             } else if (obj.gridX !== undefined && obj.gridY !== undefined) {
-                // Handle grid-aligned objects
                 screenPos = gridToScreen(obj.gridX, obj.gridY);
             } else {
                 continue;
@@ -835,14 +1148,24 @@ const ObjectSystem = () => {
             const objWidth = objectDef.size.width * tileSize * scale;
             const objHeight = objectDef.size.height * tileSize * scale;
 
-            // Make clickable area slightly larger for easier interaction
-            const padding = Math.max(10, tileSize * 0.1); // 10px minimum padding
+            const padding = Math.max(10, tileSize * 0.1);
+
+            let testX = screenX;
+            let testY = screenY;
+            const rotation = (obj.rotation || 0) * Math.PI / 180;
+            if (rotation !== 0) {
+                const dx = screenX - screenPos.x;
+                const dy = screenY - screenPos.y;
+                testX = screenPos.x + dx * Math.cos(-rotation) - dy * Math.sin(-rotation);
+                testY = screenPos.y + dx * Math.sin(-rotation) + dy * Math.cos(-rotation);
+            }
+
             const left = screenPos.x - objWidth / 2 - padding;
             const right = screenPos.x + objWidth / 2 + padding;
             const top = screenPos.y - objHeight / 2 - padding;
             const bottom = screenPos.y + objHeight / 2 + padding;
 
-            if (screenX >= left && screenX <= right && screenY >= top && screenY <= bottom) {
+            if (testX >= left && testX <= right && testY >= top && testY <= bottom) {
                 return obj;
             }
         }
@@ -875,14 +1198,24 @@ const ObjectSystem = () => {
         const objH = (objectDef.size.height || 1) * tileSize * scale;
 
         const handles = [
-            { id: 'tl', x: screenPos.x - objW / 2, y: screenPos.y - objH / 2 },
-            { id: 'tr', x: screenPos.x + objW / 2, y: screenPos.y - objH / 2 },
-            { id: 'bl', x: screenPos.x - objW / 2, y: screenPos.y + objH / 2 },
-            { id: 'br', x: screenPos.x + objW / 2, y: screenPos.y + objH / 2 }
+            { id: 'tl', lx: -objW / 2, ly: -objH / 2 },
+            { id: 'tr', lx: objW / 2, ly: -objH / 2 },
+            { id: 'bl', lx: -objW / 2, ly: objH / 2 },
+            { id: 'br', lx: objW / 2, ly: objH / 2 }
         ];
 
+        const rotation = (obj.rotation || 0) * Math.PI / 180;
+
         for (const handle of handles) {
-            const dist = Math.sqrt(Math.pow(screenX - handle.x, 2) + Math.pow(screenY - handle.y, 2));
+            let hx = screenPos.x + handle.lx;
+            let hy = screenPos.y + handle.ly;
+            if (rotation !== 0) {
+                const rx = handle.lx * Math.cos(rotation) - handle.ly * Math.sin(rotation);
+                const ry = handle.lx * Math.sin(rotation) + handle.ly * Math.cos(rotation);
+                hx = screenPos.x + rx;
+                hy = screenPos.y + ry;
+            }
+            const dist = Math.sqrt(Math.pow(screenX - hx, 2) + Math.pow(screenY - hy, 2));
             if (dist < 40) return handle.id;
         }
 
@@ -915,7 +1248,9 @@ const ObjectSystem = () => {
     // Handle mouse events
     const handleMouseDown = useCallback((e) => {
         // Allow mouse interactions in editor mode OR for GM notes objects when in GM mode
+        // BUT respect the objectManipulationEnabled toggle
         if (!isEditorMode && !isGMMode) return;
+        if (!objectManipulationEnabled) return;
 
         // Check if the click is on a connection element - if so, let it handle the event
         const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
@@ -1024,6 +1359,21 @@ const ObjectSystem = () => {
         // Only handle left clicks for dragging/selection
         if (e.button !== 0) return;
 
+        // Handle pick-parent mode
+        if (pickParentModeRef.current) {
+            const canvasRect = canvasRef.current.getBoundingClientRect();
+            const px = e.clientX - canvasRect.left;
+            const py = e.clientY - canvasRect.top;
+            const clickedObj = getObjectAtScreenPosition(px, py);
+            if (clickedObj && clickedObj.id !== pendingChildId) {
+                const mapId = getExplicitCurrentMapId();
+                attachChildToParent(pendingChildId, clickedObj.id, mapId);
+            }
+            setPickParent(false);
+            setPendingChild(null);
+            return;
+        }
+
         const canvasRect = canvasRef.current.getBoundingClientRect();
         const screenX = e.clientX - canvasRect.left;
         const screenY = e.clientY - canvasRect.top;
@@ -1110,6 +1460,8 @@ const ObjectSystem = () => {
                                     { ...targetObj, worldX: newWorldX, worldY: newWorldY },
                                     mapId
                                 );
+                                updateAttachmentOffset(dragStateRef.current.dragObjectId, newWorldX, newWorldY, mapId);
+                                moveChildrenWithParent(dragStateRef.current.dragObjectId, newWorldX, newWorldY, mapId);
                             }
                         };
 
@@ -1135,17 +1487,19 @@ const ObjectSystem = () => {
                 }
             });
         }
-    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject]);
+    }, [isEditorMode, isGMMode, getObjectAtScreenPosition, getResizeHandle, selectEnvironmentalObject, screenToWorld, environmentalObjects, updateEnvironmentalObject, pickParentMode, pendingChildId, attachChildToParent, moveChildrenWithParent]);
 
     // Handle context menu (right-click)
     const handleContextMenu = useCallback((e) => {
         console.log('🎯 ObjectSystem context menu triggered:', { isEditorMode, isGMMode });
 
         // Allow context menu in editor mode OR for GM notes objects when in GM mode
+        // BUT respect the objectManipulationEnabled toggle
         if (!isEditorMode && !isGMMode) {
             console.log('🎯 Context menu blocked: not in editor or GM mode');
             return;
         }
+        if (!objectManipulationEnabled) return;
 
         // Check if the right-click is on a token, HUD element, or connection - if so, ignore it here
         // Use elementsFromPoint to get ALL elements at the click position (including those under the canvas)
@@ -1222,22 +1576,32 @@ const ObjectSystem = () => {
         console.log('🎯 Clicked object:', clickedObject);
 
         if (clickedObject) {
-            // In editor mode, allow context menu for all objects
-            // In GM mode (but not editor mode), only allow context menu for GM notes
-            if (isEditorMode || (isGMMode && clickedObject.type === 'gmNotes')) {
+            if (isEditorMode || isGMMode) {
                 console.log('🎯 Showing context menu for object:', clickedObject.id, clickedObject.type);
-                // Select the object and show context menu directly
                 selectEnvironmentalObject(clickedObject.id);
                 setSelectedObject(clickedObject);
                 setContextMenuPosition({ x: e.clientX, y: e.clientY });
                 setShowContextMenu(true);
             } else {
-                console.log('🎯 Context menu blocked: object type not allowed in current mode', { isEditorMode, isGMMode, type: clickedObject.type });
+                console.log('🎯 Context menu blocked: not in editor or GM mode', { isEditorMode, isGMMode, type: clickedObject.type });
             }
         } else {
             console.log('🎯 No object found at click position', { screenX, screenY });
         }
     }, [isEditorMode, isGMMode, getObjectAtScreenPosition, selectEnvironmentalObject]);
+
+    // Handle Escape to cancel pick-parent mode
+    useEffect(() => {
+        if (!pickParentModeRef.current) return;
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') {
+                setPickParent(false);
+                setPendingChild(null);
+            }
+        };
+        document.addEventListener('keydown', handleEsc);
+        return () => document.removeEventListener('keydown', handleEsc);
+    }, [pickParentMode]);
 
     // Handle removing selected object
     const handleRemoveObject = () => {
@@ -1267,6 +1631,46 @@ const ObjectSystem = () => {
             document.dispatchEvent(openGMNotesEvent);
             setShowContextMenu(false);
             setSelectedObject(null);
+        }
+    };
+
+    const handleRotateObject = (degrees) => {
+        if (selectedObject) {
+            const currentRotation = selectedObject.rotation || 0;
+            const newRotation = (currentRotation + degrees + 360) % 360;
+            updateEnvironmentalObject(selectedObject.id, {
+                ...selectedObject,
+                rotation: newRotation
+            }, getExplicitCurrentMapId());
+            setSelectedObject({ ...selectedObject, rotation: newRotation });
+            setShowContextMenu(false);
+        }
+    };
+
+    const handleSetRotation = (degrees) => {
+        if (selectedObject) {
+            updateEnvironmentalObject(selectedObject.id, {
+                ...selectedObject,
+                rotation: degrees
+            }, getExplicitCurrentMapId());
+            setSelectedObject({ ...selectedObject, rotation: degrees });
+            setShowContextMenu(false);
+        }
+    };
+
+    const handleStartPickParent = () => {
+        if (selectedObject) {
+            setPendingChild(selectedObject.id);
+            setPickParent(true);
+            setShowContextMenu(false);
+        }
+    };
+
+    const handleDetachFromParent = () => {
+        if (selectedObject && selectedObject.parentObjectId) {
+            detachFromParent(selectedObject.id, getExplicitCurrentMapId());
+            setSelectedObject({ ...selectedObject, parentObjectId: undefined, attachOffsetX: undefined, attachOffsetY: undefined });
+            setShowContextMenu(false);
         }
     };
 
@@ -1388,14 +1792,18 @@ const ObjectSystem = () => {
             const worldPos = screenToWorld(screenX, screenY);
             const newWorldX = worldPos.x - dragOffset.x;
             const newWorldY = worldPos.y - dragOffset.y;
+            const mapId = getExplicitCurrentMapId();
 
             updateEnvironmentalObject(selectedObject.id, {
                 ...selectedObject,
                 worldX: newWorldX,
                 worldY: newWorldY
-            }, getExplicitCurrentMapId());
+            }, mapId);
+
+            updateAttachmentOffset(selectedObject.id, newWorldX, newWorldY, mapId);
+            moveChildrenWithParent(selectedObject.id, newWorldX, newWorldY, mapId);
         }
-    }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, isGMMode, isOverConnection, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle, getObjectAtScreenPosition, hoveredGMNote]);
+    }, [isDragging, isResizing, resizeHandle, initialScale, initialMousePos, isEditorMode, isGMMode, isOverConnection, screenToWorld, environmentalObjects, dragOffset, updateEnvironmentalObject, getResizeHandle, getObjectAtScreenPosition, hoveredGMNote, moveChildrenWithParent, updateAttachmentOffset]);
 
     const handleMouseUp = useCallback(() => {
         // Don't handle mouse up if a token is being dragged
@@ -1420,6 +1828,31 @@ const ObjectSystem = () => {
     // Global mouse move listener to detect connections and disable canvas pointer-events
     useEffect(() => {
         const handleGlobalMouseMove = (e) => {
+            // Optimization: Skip heavy checks if the mouse isn't even over the canvas area
+            // or if we're not in a state where we can interact with objects/connections
+            if (!isEditorMode && !isGMMode) return;
+
+            const canvas = canvasRef.current;
+            if (!canvas) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const isInCanvas = (
+                e.clientX >= rect.left && 
+                e.clientX <= rect.right && 
+                e.clientY >= rect.top && 
+                e.clientY <= rect.bottom
+            );
+
+            if (!isInCanvas) {
+                // If we were over a connection but moved out of the canvas, reset
+                if (isOverConnection) {
+                    canvas.style.pointerEvents = (isEditorMode || isGMMode) ? 'auto' : 'none';
+                    setIsOverConnection(false);
+                    connectionElementRef.current = null;
+                }
+                return;
+            }
+
             const allElementsAtPoint = document.elementsFromPoint(e.clientX, e.clientY);
             const connectionElement = allElementsAtPoint.find(el => isConnectionElement(el));
 
@@ -1455,10 +1888,50 @@ const ObjectSystem = () => {
 
         const handleDocMouseDown = (e) => {
             if (e.button !== 0) return;
+            if (!objectManipulationEnabled) return; // Respect the interaction lock
             if (window.multiplayerDragState && window.multiplayerDragState.size > 0) return;
 
             const canvas = canvasRef.current;
             if (!canvas) return;
+
+            // Handle pick-parent mode
+            if (pickParentModeRef.current) {
+                const canvasRect = canvas.getBoundingClientRect();
+                const px = e.clientX - canvasRect.left;
+                const py = e.clientY - canvasRect.top;
+                const objects = useLevelEditorStore.getState().environmentalObjects;
+                const gridSystem = getGridSystem();
+                const viewport = gridSystem.getViewportDimensions();
+                const currentZoom = useGameStore.getState().zoomLevel * useGameStore.getState().playerZoom;
+                let clickedObj = null;
+                for (const obj of objects) {
+                    const objectDef = PROFESSIONAL_OBJECTS[obj.type];
+                    if (!objectDef) continue;
+                    let screenPos;
+                    if (obj.freePosition && obj.worldX !== undefined && obj.worldY !== undefined) {
+                        screenPos = gridSystem.worldToScreen(obj.worldX, obj.worldY, viewport.width, viewport.height);
+                    } else { continue; }
+                    const tileSize = useGameStore.getState().gridSize * currentZoom;
+                    const scale = obj.scale || 1;
+                    const objW = (objectDef.size.width || 1) * tileSize * scale;
+                    const objH = (objectDef.size.height || 1) * tileSize * scale;
+                    const padding = Math.max(10, tileSize * 0.1);
+                    if (px >= screenPos.x - objW/2 - padding && px <= screenPos.x + objW/2 + padding &&
+                        py >= screenPos.y - objH/2 - padding && py <= screenPos.y + objH/2 + padding) {
+                        clickedObj = obj;
+                        break;
+                    }
+                }
+                if (clickedObj && clickedObj.id !== pendingChildIdRef.current) {
+                    const mapId = useMapStore.getState().currentMapId || 'default';
+                    useLevelEditorStore.getState().attachChildToParent(pendingChildIdRef.current, clickedObj.id, mapId);
+                }
+                setPickParent(false);
+                setPendingChild(null);
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
 
             const canvasRect = canvas.getBoundingClientRect();
             const screenX = e.clientX - canvasRect.left;
@@ -1513,6 +1986,8 @@ const ObjectSystem = () => {
                     const newWorldX = moveWorldPos.x - dragStateRef.current.dragOffsetX;
                     const newWorldY = moveWorldPos.y - dragStateRef.current.dragOffsetY;
                     updateEnvironmentalObject(targetObj.id, { ...targetObj, worldX: newWorldX, worldY: newWorldY }, mapId);
+                    updateAttachmentOffset(targetObj.id, newWorldX, newWorldY, mapId);
+                    moveChildrenWithParent(targetObj.id, newWorldX, newWorldY, mapId);
                 }
             };
 
@@ -1790,6 +2265,69 @@ const ObjectSystem = () => {
                             ]
                         },
                         {
+                            icon: <i className="fas fa-sync-alt"></i>,
+                            label: 'Rotate',
+                            submenu: [
+                                {
+                                    icon: <i className="fas fa-undo"></i>,
+                                    label: 'Rotate Left 45\u00B0',
+                                    onClick: () => handleRotateObject(-45)
+                                },
+                                {
+                                    icon: <i className="fas fa-redo"></i>,
+                                    label: 'Rotate Right 45\u00B0',
+                                    onClick: () => handleRotateObject(45)
+                                },
+                                {
+                                    icon: <i className="fas fa-undo"></i>,
+                                    label: 'Rotate Left 90\u00B0',
+                                    onClick: () => handleRotateObject(-90)
+                                },
+                                {
+                                    icon: <i className="fas fa-redo"></i>,
+                                    label: 'Rotate Right 90\u00B0',
+                                    onClick: () => handleRotateObject(90)
+                                },
+                                { type: 'separator' },
+                                {
+                                    icon: <i className="fas fa-arrow-up"></i>,
+                                    label: '0\u00B0',
+                                    onClick: () => handleSetRotation(0)
+                                },
+                                {
+                                    icon: <i className="fas fa-arrow-right"></i>,
+                                    label: '90\u00B0',
+                                    onClick: () => handleSetRotation(90)
+                                },
+                                {
+                                    icon: <i className="fas fa-arrow-down"></i>,
+                                    label: '180\u00B0',
+                                    onClick: () => handleSetRotation(180)
+                                },
+                                {
+                                    icon: <i className="fas fa-arrow-left"></i>,
+                                    label: '270\u00B0',
+                                    onClick: () => handleSetRotation(270)
+                                }
+                            ]
+                        },
+                        {
+                            type: 'separator'
+                        },
+                        ...(selectedObject.parentObjectId ? [
+                            {
+                                icon: <i className="fas fa-unlink"></i>,
+                                label: 'Detach from Parent',
+                                onClick: handleDetachFromParent
+                            }
+                        ] : []),
+                        {
+                            icon: <i className="fas fa-link"></i>,
+                            label: 'Attach to Object...',
+                            onClick: handleStartPickParent,
+                            tooltip: selectedObject.parentObjectId ? 'Change parent' : 'Click another object to attach'
+                        },
+                        {
                             type: 'separator'
                         },
                         {
@@ -1811,6 +2349,34 @@ const ObjectSystem = () => {
                         }
                     ]}
                 />
+            )}
+
+            {/* Pick-parent mode overlay hint */}
+            {pickParentMode && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 60,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        background: 'rgba(0, 40, 80, 0.92)',
+                        color: '#fff',
+                        padding: '10px 24px',
+                        borderRadius: 8,
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                        zIndex: 999999999,
+                        pointerEvents: 'none',
+                        border: '2px solid #44aaff',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10
+                    }}
+                >
+                    <i className="fas fa-link" style={{ color: '#44aaff' }}></i>
+                    Click an object to attach to (or press Escape to cancel)
+                </div>
             )}
         </>
     );

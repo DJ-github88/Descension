@@ -4,6 +4,7 @@ import { getIconUrl } from '../../../utils/assetManager';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useMapStore from '../../../store/mapStore';
 import ConnectionRenameDialog from '../ConnectionRenameDialog';
+import NuclearObjectImage from '../objects/NuclearObjectImage';
 import './styles/ObjectTools.css';
 
 const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange }) => {
@@ -13,7 +14,12 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
     const [editingConnection, setEditingConnection] = useState(null);
     const [showRenameDialog, setShowRenameDialog] = useState(false);
 
-    const { dndElements, updateDndElement } = useLevelEditorStore();
+    const { 
+        dndElements, 
+        updateDndElement,
+        objectManipulationEnabled,
+        setObjectManipulationEnabled
+    } = useLevelEditorStore();
     const { maps, getCurrentMapId } = useMapStore();
     const currentMapId = getCurrentMapId();
     const currentMap = maps.find(m => m.id === currentMapId);
@@ -96,20 +102,28 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
     }, {});
 
     return (
-        <div className="object-tools">
-            <div className="tool-section">
-                <h4>Quick Actions</h4>
-                <div className="quick-actions">
-                    <button
-                        className={`action-btn primary ${selectedTool === 'object_place' ? 'active' : ''}`}
-                        onClick={() => handleToolSelect('object_place')}
-                        title="Place objects on the grid"
-                        style={{ width: '100%' }}
-                    >
-                        Place Object
-                    </button>
+        <div className="object-tools" onMouseDown={(e) => e.stopPropagation()}>
+            {/* Master Interaction Control */}
+            <div className="object-master-header">
+                <div className="interaction-lock-banner">
+                    <div className="lock-info">
+                        <i className={`fas ${objectManipulationEnabled ? 'fa-lock-open' : 'fa-lock'}`}></i>
+                        <div className="lock-text">
+                            <span className="lock-status">{objectManipulationEnabled ? 'Interaction Unlocked' : 'Interaction Locked'}</span>
+                            <span className="lock-desc">{objectManipulationEnabled ? 'Edit mode active' : 'Play mode active'}</span>
+                        </div>
+                    </div>
+                    <div className="interaction-switch-wrapper">
+                        <button 
+                            className={`interaction-switch ${objectManipulationEnabled ? 'active' : ''}`}
+                            onClick={() => setObjectManipulationEnabled(!objectManipulationEnabled)}
+                        >
+                            <div className="switch-knob"></div>
+                        </button>
+                    </div>
                 </div>
             </div>
+
 
             {selectedTool === 'object_place' && (
                 <div className="tool-section">
@@ -143,7 +157,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                     className={`object-card mini ${settings?.selectedObjectType === obj.id ? 'selected' : ''}`}
                                     onClick={() => handleObjectSelect(obj.id)}
                                 >
-                                    <img src={getIconUrl(obj.icon, 'abilities')} alt={obj.name} className="mini-img" />
+                                    <NuclearObjectImage src={obj.image} alt={obj.name} className="mini-img" />
                                     <div className="mini-info">
                                         <span className="mini-name">{obj.name}</span>
                                         <span className="mini-badge">GM ONLY</span>
@@ -164,11 +178,10 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                                         className={`object-card mini ${settings?.selectedObjectType === obj.id ? 'selected' : ''}`}
                                         onClick={() => handleObjectSelect(obj.id)}
                                     >
-                                        <img
-                                            src={getIconUrl(obj.icon, 'abilities')}
+                                        <NuclearObjectImage
+                                            src={obj.image}
                                             alt={obj.name}
                                             className="mini-img"
-                                            onError={(e) => { e.target.src = getIconUrl('Utility/Utility', 'abilities'); }}
                                         />
                                         <div className="mini-info">
                                             <span className="mini-name">{obj.name}</span>

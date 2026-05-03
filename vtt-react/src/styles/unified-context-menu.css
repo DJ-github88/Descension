@@ -215,18 +215,43 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 8px;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  margin: 2px 0;
+  background: rgba(240, 230, 210, 0.6);
+  border: 1px solid rgba(160, 140, 112, 0.5);
+  border-radius: 4px;
+  color: #3a3a3a;
+  font-size: 10px;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  color: #2d1810;
-  background: rgba(139, 115, 85, 0.1);
-  border-radius: 3px;
+  transition: all 0.2s ease;
+  line-height: 1.3;
+  position: relative;
+  overflow: hidden;
+}
+
+.group-header:hover {
+  background: rgba(213, 203, 176, 0.8);
+  border-color: #8b7355;
+  color: #2a2a2a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
 }
 
 .group-header i:first-child {
-  width: 14px;
+  width: 18px;
   text-align: center;
+  flex-shrink: 0;
+  font-size: 16px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  transition: transform 0.25s ease;
+}
+
+.group-header:hover i:first-child {
+  transform: scale(1.1);
 }
 
 .group-header .expand-icon {
@@ -267,8 +292,7 @@
   transform: translateX(0);
 }
 
-/* First level submenu - always visible, no hover needed */
-/* This targets only the immediate submenu child of context-menu-main, not nested submenus */
+/* First level submenu - visible inline container */
 .context-menu-main > .context-menu-group > .submenu {
   position: static !important;
   opacity: 1 !important;

@@ -389,61 +389,65 @@ const CreatureLibrary = ({ onEdit, onCreateNew }) => {
       ref={libraryRef}
       className="creature-library"
     >
-      {/* Header with controls */}
       <div className="creature-library-header">
-        <div className="creature-library-title-row">
-          <h1>My Creatures</h1>
-          <div className="creature-library-filters-center">
-            <CreatureFilters
-              filteredCount={filteredCreatures.length}
-              totalCount={library.creatures.length}
+        <div className="creature-library-toolbar">
+          <h1 className="library-title">My Creatures</h1>
+          
+          <div className="creature-library-search">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={library.filters.query || ''}
+              onChange={(e) => dispatch(libraryActionCreators.filterCreatures({ query: e.target.value }))}
             />
-          </div>
-          <div className="creature-library-controls">
-            <div className="view-mode-controls">
+            {library.filters.query && (
               <button
-                className={`view-mode-button ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid View"
+                className="clear-search-button"
+                onClick={() => dispatch(libraryActionCreators.filterCreatures({ query: '' }))}
+                title="Clear Search"
               >
-                <i className="fas fa-th-large"></i>
-              </button>
-              <button
-                className={`view-mode-button ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="List View"
-              >
-                <i className="fas fa-list"></i>
-              </button>
-            </div>
-            {onCreateNew && (
-              <button
-                className="create-creature-btn"
-                onClick={onCreateNew}
-                title="Create a new creature"
-              >
-                <i className="fas fa-plus"></i>
-                <span>Create Creature</span>
+                <i className="fas fa-times"></i>
               </button>
             )}
           </div>
-        </div>
 
-        <div className="creature-library-search">
-          <input
-            type="text"
-            placeholder="Search creatures..."
-            value={library.filters.query || ''}
-            onChange={(e) => dispatch(libraryActionCreators.filterCreatures({ query: e.target.value }))}
+          <div className="toolbar-spacer"></div>
+
+          <CreatureFilters
+            filteredCount={filteredCreatures.length}
+            totalCount={library.creatures.length}
           />
-          <button
-            className="clear-search-button"
-            onClick={() => dispatch(libraryActionCreators.filterCreatures({ query: '' }))}
-            title="Clear Search"
-            style={{ visibility: library.filters.query ? 'visible' : 'hidden' }}
-          >
-            <i className="fas fa-times"></i>
-          </button>
+          
+          <div className="toolbar-divider"></div>
+
+          <div className="view-mode-controls">
+            <button
+              className={`view-mode-button ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title="Grid View"
+            >
+              <i className="fas fa-th-large"></i>
+            </button>
+            <button
+              className={`view-mode-button ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title="List View"
+            >
+              <i className="fas fa-list"></i>
+            </button>
+          </div>
+
+          {onCreateNew && (
+            <button
+              className="create-creature-btn"
+              onClick={onCreateNew}
+              title="Create a new creature"
+            >
+              <i className="fas fa-plus"></i>
+              <span>Create</span>
+            </button>
+          )}
         </div>
       </div>
 

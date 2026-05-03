@@ -808,6 +808,8 @@ const initialState = {
     activeWallType: null,
     brushType: 'paint',
     brushSize: 'medium',
+    objectManipulationEnabled: true, // Default to true for the editor
+
 
     // Professional VTT features
     selectedTool: 'select',
@@ -985,6 +987,9 @@ const useLevelEditorStore = create((set, get) => ({
     setBrushSize: (brushSize) => {
         set({ brushSize });
     },
+
+    setObjectManipulationEnabled: (enabled) => set({ objectManipulationEnabled: enabled }),
+
 
     // Layer visibility
     toggleLayer: (layer) => {
@@ -3302,7 +3307,15 @@ const useLevelEditorStore = create((set, get) => ({
 
     removeEnvironmentalObject: (objectId, mapId = null) => {
         const state = get();
-        const newObjects = state.environmentalObjects.filter(obj => obj.id !== objectId);
+        const newObjects = state.environmentalObjects
+            .filter(obj => obj.id !== objectId)
+            .map(obj => {
+                if (obj.parentObjectId === objectId) {
+                    const { parentObjectId, attachOffsetX, attachOffsetY, ...rest } = obj;
+                    return rest;
+                }
+                return obj;
+            });
         set({
             environmentalObjects: newObjects
         });
@@ -3373,6 +3386,47 @@ const useLevelEditorStore = create((set, get) => ({
         set({
             environmentalObjects: state.environmentalObjects.map(obj => ({ ...obj, selected: false }))
         });
+    },
+
+    attachChildToParent: (childId, parentId, mapId = null) => {
+        const state = get();
+        const parentObj = state.environmentalObjects.find(o => o.id === parentId);
+        const childObj = state.environmentalObjects.find(o => o.id === childId);
+        if (!parentObj || !childObj) return;
+
+        const offsetWorldX = childObj.worldX - parentObj.worldX;
+        const offsetWorldY = childObj.worldY - parentObj.worldY;
+
+        const newObjects = state.environmentalObjects.map(obj => {
+            if (obj.id === childId) {
+                return { ...obj, parentObjectId: parentId, attachOffsetX: offsetWorldX, attachOffsetY: offsetWorldY };
+            }
+            return obj;
+        });
+        set({ environmentalObjects: newObjects });
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
+        }
+    },
+
+    detachFromParent: (childId, mapId = null) => {
+        const state = get();
+        const newObjects = state.environmentalObjects.map(obj => {
+            if (obj.id === childId) {
+                const { parentObjectId, attachOffsetX, attachOffsetY, ...rest } = obj;
+                return rest;
+            }
+            return obj;
+        });
+        set({ environmentalObjects: newObjects });
+        if (!window._isReceivingMapUpdate) {
+            mapUpdateBatcher.addUpdate('environmentalObjects', newObjects, mapId);
+        }
+    },
+
+    getChildrenOfParent: (parentId) => {
+        const state = get();
+        return state.environmentalObjects.filter(o => o.parentObjectId === parentId);
     },
 
     getObjectAtPosition: (gridX, gridY) => {
