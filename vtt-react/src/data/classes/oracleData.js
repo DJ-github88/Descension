@@ -72,12 +72,14 @@ The class has a unique prediction mechanic where you declare what you think will
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Seer\'s Gambit',
-      content: `**The Setup**: You're an Oracle (Fate Weaver specialization) facing a group of assassins (4 assassins + 1 assassin master). Your party is with you. Starting Prophetic Visions: 3 (baseline). Starting Mana: 50/60. Your goal: Make predictions about combat events, gain Visions when correct, then spend Visions to manipulate fate and turn the tide of battle.
+      title: 'Combat Example: The Fateseer\'s Gambit',
+      content: `**The Setup**: You're an Oracle (Fateseer specialization) facing a group of assassins (3 assassins + 1 assassin master). Your party is with you. Starting Prophetic Visions: 3 (baseline). Starting Mana: 50/60. Your goal: Make predictions about combat events, gain Visions when correct, then spend Visions to twist fate and turn the tide of battle.
 
 **Starting State**: Prophetic Visions: 3/10 | Mana: 50/60 | HP: 55/55
 
-**Turn 1 - First Prediction (Visions: 3 → 4)**
+---
+
+**Turn 1 — First Prediction (Visions: 3 → 4)**
 
 *The assassins emerge from the shadows, blades drawn. You close your eyes and SEE. The future unfolds before you like a tapestry.*
 
@@ -92,147 +94,204 @@ The class has a unique prediction mechanic where you declare what you think will
 
 *Your prediction was CORRECT. The master attacked the tank.*
 
-**Prediction Result**: CORRECT! → +1 Prophetic Vision
+**Prediction Result**: CORRECT! → +1 Prophetic Vision (Simple)
 **Prophetic Visions**: 3 + 1 = **4/10**
 
-**Your Action**: Cast "Omen of Weakness" on Assassin Master (6 mana)
-**Effect**: Target has disadvantage on next attack roll
+**Fateseer Passive — Premonition**: Your prediction was correct! Spend 1 Vision to apply a fate effect immediately.
+**Choice**: Subtract 1d6 from the assassin master's next attack roll.
+**Cost**: 1 Vision
 
-*You point at the assassin master. "I see your blade faltering. Your next strike will fail."*
+*You whisper a single word. The assassin master's next strike will falter—you've seen it, and now you've woven it.*
 
-**Mana**: 50 - 6 = 44/60
+**Prophetic Visions**: 4 - 1 = **3/10**
 
-**Current State**: Visions: 4/10 | Mana: 44/60
+**Your Action**: Cast **Divine Insight** on Assassin Master (1 AP, 10 mana)
+**Effect**: All allies gain +2 to attack rolls against target for 3 rounds
 
-**Turn 2 - Witnessing Fate (Visions: 4 → 5)**
+*You fix your gaze on the master. "I see how you move. Your patterns are mine."*
+
+**Mana**: 50 - 10 = 40/60
+
+**Current State**: Visions: 3/10 | Mana: 40/60
+
+---
+
+**Turn 2 — Witnessing Fate (Visions: 3 → 6)**
 
 **Your Party's Tank**: Attacks Assassin #1 → [20] → **CRITICAL HIT!** → 4d8+5 → [7, 8, 6, 7] + 5 = 33 damage → Assassin #1 DEAD
 
 *A critical hit occurs within 30 feet of you. You WITNESS the threads of fate aligning.*
 
-**Witnessing Fate**: Critical hit within 30 ft → +1 Prophetic Vision
-**Prophetic Visions**: 4 + 1 = **5/10**
+**Witnessing Fate**: Natural 20 within 30 ft → +1 Prophetic Vision
+**Prophetic Visions**: 3 + 1 = **4/10**
 
 **Your Action (1 AP)**: Make a Moderate Prediction
-**Prediction**: "The assassin master's next attack will miss due to my Omen of Weakness."
+**Prediction**: "The assassin master's next attack will miss."
 
 *You speak with certainty. "The master's blade will find only air."*
 
-**Assassin Master's Turn**: Attacks your tank (has disadvantage from Omen of Weakness)
-**Attack Roll**: d20+7 with DISADVANTAGE → [17, 9] → Take 9 → 9 + 7 = 16 → Miss! (tank's Armor is 17)
+**Assassin Master's Turn**: Attacks your tank
+**Attack Roll**: d20+7 → [9] → 9 + 7 = 16 → Miss! (tank's Armor is 17)
 
-*The assassin master's blade swings wide, just as you predicted.*
+*The assassin master's blade swings wide—just as you predicted. Your Premonition from last turn subtracted 1d6, but it wasn't even needed. Fate agreed with you.*
 
-**Prediction Result**: CORRECT! → +2 Prophetic Visions (moderate prediction)
-**Prophetic Visions**: 5 + 2 = **7/10**
+**Prediction Result**: CORRECT! → +2 Prophetic Visions (Moderate)
+**Prophetic Visions**: 4 + 2 = **6/10**
+
+**Fateseer Passive — Premonition**: Correct prediction! Spend 1 Vision for an immediate fate effect.
+**Choice**: Grant your tank advantage on their next attack.
+**Cost**: 1 Vision
+
+**Prophetic Visions**: 6 - 1 = **5/10**
 
 **Your Party's Mage**: "You... you KNEW he would miss?"
 **You**: "I saw it. The future is clear to me."
 
-**Current State**: Visions: 7/10 | Mana: 44/60
+**Current State**: Visions: 5/10 | Mana: 40/60
 
-**Turn 3 - Altering Fate (Visions: 7 → 4)**
+---
 
-*Assassin #2 attacks your mage. She's low on HP—this could kill her.*
+**Turn 3 — Altering Fate (Visions: 5 → 2)**
+
+*Assassin #2 attacks your mage. She's at 20 HP—this could kill her.*
 
 **Assassin #2's Turn**: Attacks your mage → [18] → Hit! → 2d6+3 → [6, 5] + 3 = 14 damage
 
-*Your mage is at 20 HP. This attack will bring her to 6 HP. But you can CHANGE this.*
+*Your mage drops to 6 HP. She's barely standing. But you saw this moment before combat even began—you have a Fate Trigger prepared.*
 
-**Your Action (Reaction)**: Spend 3 Prophetic Visions to "Alter Fate"
-**Effect**: Force enemy to reroll attack with disadvantage
+**Fate Trigger** (pre-placed earlier): "When an ally drops below 10 HP, they gain +4 Armor until end of round."
+**Cost**: Already paid (2 Visions)
+**Result**: Mage's Armor becomes 15 + 4 = 19. The attack that "hit" now MISSES.
 
-*You raise your hand. "No. That is not how this ends. I have SEEN a different future."*
+*You raise your hand. "No. That is not how this ends. I placed this thread before the fight began."*
 
-**Prophetic Visions**: 7 - 3 = **4/10**
+*The assassin's blade deflects off invisible force. Your mage stands, unharmed.*
 
-**Assassin #2's Reroll**: d20+7 with DISADVANTAGE → [14, 7] → Take 7 → 7 + 7 = 14 → Miss! (mage's Armor is 15)
+**Your Party's Mage**: "I... I should be dead."
+**You**: "I placed a fate trigger before combat. When you fell below 10 HP, my woven thread caught you."
 
-*The assassin's blade passes through empty air. Your mage is unharmed. You changed fate itself.*
+**Your Action (Reaction)**: Cast **Twist Fate** on Assassin #2's next roll (1 AP, 2 Visions)
+**Effect**: Add or subtract 1d6 from the target's next roll—you choose after seeing the result.
 
-**Your Party's Mage**: "I... I should be dead. You saved me."
-**You**: "I saw you fall. I wove a different thread. You live."
+*You reach into the timestream and twist. "Your next roll belongs to me."*
 
-**Your Action**: Cast "Prophetic Strike" on your tank (8 mana + 1 Vision)
-**Effect**: Tank's next attack has advantage and deals +2d6 damage
-**Cost**: 8 mana + 1 Prophetic Vision
+**Prophetic Visions**: 5 - 2 = **3/10**
 
-*You touch your tank's shoulder. "I see your blade striking true. Trust the vision."*
+**Your Action**: Cast **Divine Insight** on Assassin #2 (1 AP, 10 mana)
+**Effect**: All allies gain +2 to attack rolls against target for 3 rounds
 
-**Mana**: 44 - 8 = 36/60
-**Prophetic Visions**: 4 - 1 = **3/10**
+**Mana**: 40 - 10 = 30/60
 
-**Current State**: Visions: 3/10 | Mana: 36/60
+**Current State**: Visions: 3/10 | Mana: 30/60
 
-**Turn 4 - Prediction Payoff (Visions: 3 → 5)**
+---
 
-**Your Action (1 AP)**: Make a Complex Prediction
-**Prediction**: "Our tank will land a critical hit on the assassin master with Prophetic Strike active."
+**Turn 4 — Grand Prediction (Visions: 3 → 7)**
+
+**Your Action (1 AP)**: Make a Grand Prediction
+**Prediction**: "Our tank will land a critical hit on the assassin master this turn."
 
 *You speak with absolute certainty. "The master will fall to our tank's blade. I have SEEN it."*
 
-**Your Party's Tank's Turn**: Attacks Assassin Master (has advantage from Prophetic Strike)
+**Your Party's Tank's Turn**: Attacks Assassin Master (has advantage from Premonition, +2 from Divine Insight)
 **Attack Roll**: d20+6 with ADVANTAGE → [19, 12] → Take 19 → **CRITICAL HIT!** (19-20 crit range)
 **Damage**: 2d8+5 → [8, 7] + 5 = 20 damage → DOUBLED = 40 damage
-**Prophetic Strike Bonus**: +2d6 → [5, 6] = +11 damage
-**Total Damage**: 40 + 11 = **51 damage!**
+**Total Damage**: **40!**
 
-*The tank's blade GLOWS with prophetic energy. The strike is PERFECT. The assassin master falls, dead.*
+*The tank's blade strikes PERFECT. The assassin master staggers, mortally wounded.*
+
+**Assassin Master**: 42 HP remaining → 2 HP (barely alive)
+
+**Prediction Result**: CORRECT! → +3 Prophetic Visions (Grand)
+**Prophetic Visions**: 3 + 3 = **6/10**
+
+**Witnessing Fate**: Natural 20 within 30 ft → +1 Prophetic Vision
+**Prophetic Visions**: 6 + 1 = **7/10**
+
+**Fateseer Passive — Premonition**: Correct prediction! Spend 1 Vision for immediate fate effect.
+**Choice**: Force the assassin master to reroll his next attack with disadvantage.
+**Cost**: 1 Vision
+
+**Prophetic Visions**: 7 - 1 = **6/10**
+
+**Your Party's Tank**: "I've never struck that true. That was YOUR doing?"
+**You**: "I saw it. I predicted it. And my Premonition made sure fate delivered."
+
+**Current State**: Visions: 6/10 | Mana: 30/60
+
+---
+
+**Turn 5 — Rewriting Fate (Visions: 6 → 1)**
+
+*The assassin master, barely alive, lunges at your mage. You predicted he would attack—you were right.*
+
+**Assassin Master's Turn**: Attacks your mage (rerolling with disadvantage from Premonition)
+**Attack Roll**: d20+7 with DISADVANTAGE → [4, 11] → Take 4 → 4 + 7 = 11 → Miss! (mage's Armor is 15)
+
+*Your Premonition ensured he would miss. Now you end this.*
+
+**Your Action**: Cast **Fate Strike** on Assassin Master (1 AP, 22 mana)
+**Effect**: 5d8 force damage, guaranteed to hit—no attack roll needed
+
+*You point at the dying master. "Your fate was sealed the moment I saw it."*
+
+**Damage**: 5d8 → [6, 7, 5, 8, 4] = 30 force damage
 
 **Assassin Master**: DEAD
 
-**Prediction Result**: CORRECT! → +3 Prophetic Visions (complex prediction)
-**Prophetic Visions**: 3 + 3 = **6/10**
+*The assassin master crumples. Two remain.*
 
-**Witnessing Fate**: Critical hit within 30 ft → +1 Prophetic Vision
+**Mana**: 30 - 22 = 8/60
+
+**Assassin #2's Turn**: Attacks your tank → [14] → 14 + 5 = 19 → Hit! → 8 damage
+*But you have Twist Fate active! You choose to subtract 1d6 from the roll.*
+**Twist Fate**: Subtract [4] → 19 - 4 = 15 → Now MISSES! (tank's Armor is 17)
+
+*The blade veers off course—your Twist Fate pulled it aside at the last moment.*
+
+**Your Action (1 AP)**: Simple Prediction — "Assassin #3 will flee."
+*Assassin #3, seeing the master fall, bolts for the door.*
+
+**Prediction Result**: CORRECT! → +1 Prophetic Vision
 **Prophetic Visions**: 6 + 1 = **7/10**
 
-**Your Party's Tank**: "I... I've never hit that hard. Fifty-one damage. What did you DO?"
-**You**: "I saw the future where you struck true. I made it real. Prophetic Strike gave you advantage and +2d6 damage. You rolled a 19—a critical hit. I predicted it. And it came to pass."
+*But you're not letting him escape. You spend 3 Visions.*
 
-**Current State**: Visions: 7/10 | Mana: 36/60
+**Your Action**: Cast **Twist Fate** as a reaction on Assassin #3's Agility check to open the door (2 Visions)
+**Effect**: Subtract 1d6 → [5] from their check. They fail to open the door.
 
-**Turn 5 - Finishing the Fight**
+*The assassin claws at the handle. You've seen this moment—you twist fate, and the door stays shut.*
 
-*Three assassins remain. You have 7 Visions. Time to end this.*
+**Prophetic Visions**: 7 - 2 = **5/10**
 
-**Your Action**: Spend 5 Prophetic Visions to cast "Doom Prophecy" (10 mana + 5 Visions)
-**Effect**: All enemies within 30 ft must save DC 16 Spirit or take 6d8 psychic damage and be frightened
-
-*You raise both hands. Your eyes GLOW with prophetic power. "I have seen your deaths. They are INEVITABLE."*
-
-**Mana**: 36 - 10 = 26/60
-**Prophetic Visions**: 7 - 5 = **2/10**
-
-**Assassin #2 Save**: [9] → FAIL! → 6d8 psychic → [7, 6, 8, 5, 6, 7] = 39 damage → DEAD + Frightened
-**Assassin #3 Save**: [11] → FAIL! → 39 damage → DEAD + Frightened
-**Assassin #4 Save**: [14] → FAIL! → 39 damage → DEAD + Frightened
-
-*All three assassins clutch their heads, screaming. They see their own deaths in vivid detail. Then they fall, dead, their minds shattered by the prophecy.*
+**Assassin #2**, surrounded, surrenders.
 
 **Combat Over**
 
 *You lower your hands. Your eyes stop glowing. The battlefield is silent.*
 
-**Your Party's Mage**: "You... you killed them with a VISION. They saw their own deaths and it killed them."
-**You**: "I showed them the truth. Their fates were sealed. I merely revealed it."
-**Your Party's Tank**: "And you saved our mage by changing fate. You made the assassin miss."
-**You**: "I saw two futures. In one, she died. In the other, she lived. I spent 3 Visions to make the second future real."
+**Your Party's Mage**: "You saved me twice. The fate trigger when I would have died, and the Twist Fate that made the master miss."
+**You**: "I foresaw both moments before combat began. I placed a Fate Trigger for your survival, and used Premonition to turn my correct predictions into immediate fate effects. Every time I was right, I got to twist reality."
+**Your Party's Tank**: "And that guaranteed hit—Fate Strike—on the master?"
+**You**: "5d8 force damage. No roll needed. I SAW him die. Fate just needed a push."
 **Your Party's Rogue**: "How many Visions do you have now?"
-**You**: "Two. I started with 3, gained 7 through correct predictions and witnessing critical hits, spent 9 total. But I'll regenerate to 3 at our next long rest."
+**You**: "Five. I started with 3, gained 8 through correct predictions, witnessing fate, and Premonition triggers, spent 6 total. I'll reset to 3 at our next long rest."
 
-**Final State**: Visions: 2/10 | Mana: 26/60 | HP: 55/55
+**Final State**: Visions: 5/10 | Mana: 8/60 | HP: 55/55
 
-**The Lesson**: Oracle gameplay is about:
-1. **Making Predictions**: Made 3 predictions (simple, moderate, complex), gained 1/2/3 Visions when correct
-2. **Witnessing Fate**: Gained +1 Vision each time a critical hit occurred within 30 ft (2 crits = +2 Visions)
-3. **Altering Fate**: Spent 3 Visions to force assassin to reroll with disadvantage, saved mage's life
-4. **Vision-Powered Spells**: Prophetic Strike (8 mana + 1 Vision), Doom Prophecy (10 mana + 5 Visions)
-5. **Prediction Accuracy**: All 3 predictions were correct, gained 6 Visions total from predictions
-6. **Vision Economy**: Started with 3, gained 7, spent 9, ended with 2
-7. **Fate Manipulation**: Changed the future by forcing rerolls and granting advantage
+---
 
-You're not a damage dealer. You're a SEER who manipulates FATE. You make predictions about what will happen, and when you're right, you gain Prophetic Visions. You spend those Visions to CHANGE reality—force rerolls, grant advantage, unleash devastating prophecies. The key is reading the battlefield, making accurate predictions, and spending Visions at critical moments. When you spend 3 Visions to make an assassin miss and save your mage, you're REWRITING FATE. When you spend 5 Visions to cast Doom Prophecy and kill three enemies by showing them their own deaths, you're wielding DESTINY as a weapon. You see the future. And you make it real.`
+**The Lesson — How the Fateseer Oracle Plays**:
+
+1. **Predict** → Made 4 predictions (Simple, Moderate, Grand, Simple). Gained 1/2/3/1 Visions when correct.
+2. **Witness Fate** → Gained +1 Vision each time a Natural 20 occurred within 30 ft (2 crits = +2 Visions).
+3. **Premonition (Fateseer Passive)** → Each correct prediction let me spend 1 Vision for a free fate effect: subtract 1d6 from an enemy, grant advantage, force disadvantage. This is the Fateseer's engine—accuracy fuels manipulation.
+4. **Fate Triggers** → Pre-placed conditional effects ("When X happens, Y occurs") that fire automatically. I placed one before combat that saved the mage.
+5. **Twist Fate (Reaction Spell)** → Spend 2 Visions to add/subtract 1d6 from any roll after seeing the result. I used it to turn a hit into a miss and to stop a fleeing enemy.
+6. **Fate Strike (Universal Spell)** → Guaranteed 5d8 damage for 22 mana. When I need something dead without trusting the dice.
+7. **Vision Economy**: Started with 3, gained 8, spent 6, ended with 5. The key insight: correct predictions feed your fate manipulation through Premonition, creating a virtuous cycle.
+
+**You're not a damage dealer. You're a FATESEER.** You predict outcomes, and when you're right, fate itself bends to your will. The Fateseer's unique power is that every correct prediction isn't just a reward—it's an opportunity to immediately reshape reality. Predict accurately, and you become the most powerful force on the battlefield. Predict poorly, and you're vulnerable. Skill matters more than luck. Read the battlefield. See the future. Make it real.`
     }
   },
   
@@ -251,7 +310,7 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
       },
       {
         title: 'Prediction Engine',
-        stats: 'Simple / Complex / Grand',
+        stats: 'Simple / Moderate / Grand',
         details: 'Declare what will happen next. Correct forecasts grant 1–3 Visions immediately, rewarding tactical insight over blind luck.'
       },
       {
@@ -266,18 +325,18 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
       }
     ],
 
-    generationTable: {
-      headers: ['Action/Event', 'Vision Gain', 'Notes'],
-      rows: [
-        ['Fate’s Whisper', '+1 per Turn', 'Passive floor (max 10)'],
-        ['Simple Prediction', '+1 Vision', 'e.g., "The next attack will hit"'],
-        ['Complex Prediction', '+2 Visions', 'e.g., "The boss will cast a spell"'],
-        ['Grand Prediction', '+3 Visions', 'e.g., "Our rogue will crit this turn"'],
-        ['Witnessing Fate', '+1 Vision', 'Triggers on any Natural 20 or 1'],
-        ['Revealing Truth', '+1 Vision', 'Use divination to expose hidden traps/lies'],
-        ['Long Rest', 'Reset to 3', 'Baseline prophetic insight level']
-      ]
-    },
+      generationTable: {
+        headers: ['Action/Event', 'Vision Gain', 'Notes'],
+        rows: [
+          ['Fate\'s Whisper', '+1 per Turn', 'Passive floor (only while at 5 or fewer Visions)'],
+          ['Simple Prediction', '+1 Vision', 'e.g., "The next attack will hit"'],
+          ['Moderate Prediction', '+2 Visions', 'e.g., "The boss will cast a spell next turn"'],
+          ['Grand Prediction', '+3 Visions', 'e.g., "Our rogue will crit this turn"'],
+          ['Witnessing Fate', '+1 Vision', 'Triggers on any Natural 20 or Natural 1 within 30 ft'],
+          ['Revealing Truth', '+1 Vision', 'Use divination to expose hidden traps/lies'],
+          ['Long Rest', 'Reset to 3', 'Baseline prophetic insight level']
+        ]
+      },
 
     forecastDice: {
       title: 'Forecast Dice',
@@ -311,7 +370,7 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
 
     usage: {
       momentum: 'Use Simple Predictions to steadily climb to 5+ Visions. Once your Eye is bright, you have the "Fate Bank" to save allies from lethal critical hits.',
-      flourish: '⚠️ Prediction AP: Predictions cost 1 Action Point. Always leave 1 AP in your tank if you need to generate Visions for a big turn.'
+      flourish: '⚠️ Prediction AP: Predictions cost 1 Action Point (0 AP for Seers). Always leave 1 AP in your tank if you need to generate Visions for a big turn.'
     },
 
     overheatRules: {
@@ -345,7 +404,9 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
 
 **The Witnessing Loop**: Positioning is key. Stay within 30ft of the frontline. You gain +1 Vision every time *anyone* (ally or enemy) rolls a Natural 20 or Natural 1. The more chaotic the fight, the faster you gain power.
 
-**Prediction Pro-Tip**: Coordinate with your team. If the Rogue tells you they are going to use their "Hidden Blade" for a crit attempt, make that your Grand Prediction. You guarantee the payoff for both of you.`
+**Prediction Pro-Tip**: Coordinate with your team. If the Rogue tells you they are going to use their "Hidden Blade" for a crit attempt, make that your Grand Prediction. You guarantee the payoff for both of you.
+
+**Prediction Adjudication**: Predictions are ruled by the GM. A prediction is "correct" if the predicted event occurs within the stated timeframe, even if minor details differ. Example: Predicting "the boss will cast a spell" is correct regardless of which spell. GMs should aim to reward creative, specific predictions over vague ones.`
     },
 
     playingInPerson: {
