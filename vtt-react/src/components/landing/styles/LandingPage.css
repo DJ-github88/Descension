@@ -1373,6 +1373,28 @@ body svg[data-icon] {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .rules-section-wrapper {
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 1 !important;
+  }
+
+  .rules-section-wrapper .rules-page {
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .landing-main {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .landing-page {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+
   .hero-section {
     padding: 20px 10px;
     min-height: 60vh;

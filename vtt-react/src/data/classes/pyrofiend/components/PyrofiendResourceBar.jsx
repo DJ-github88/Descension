@@ -11,16 +11,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     const infernoLevel = classResource?.current ?? 0;
     const maxInfernoLevel = classResource?.max ?? 9;
     
-    // Log when classResource prop changes
-    useEffect(() => {
-        console.log('🔥 PyrofiendResourceBar - classResource prop changed:', {
-            isOwner,
-            infernoLevel,
-            maxInfernoLevel,
-            fullClassResource: classResource,
-            context
-        });
-    }, [classResource, isOwner, context]);
     
     const [selectedSpec, setSelectedSpec] = useState('inferno');
     const [showTooltip, setShowTooltip] = useState(false);
@@ -39,7 +29,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             glowColor: '#FF6347',
             icon: 'fa-fire-flame-curved',
             passive: 'Burning Ambition',
-            passiveDesc: 'At Inferno Level 7+: Fire spells crit on the 2 highest die numbers instead of just the highest, and crits deal +1d10 fire damage.'
+            passiveDesc: 'At Inferno Level 3+: Fire spells deal +1 damage per die rolled. At Level 7+: Fire spells crit on the 2 highest die numbers, crits deal +1d10 fire damage.'
         },
         wildfire: { 
             name: 'Wildfire', 
@@ -65,77 +55,74 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && tooltipRef.current && barRef.current) {
-            tooltipRef.current.style.opacity = '0';
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
 
-            const updatePosition = () => {
-                const tooltip = tooltipRef.current;
-                const bar = barRef.current;
-                if (!tooltip || !bar) return;
+        const updatePosition = () => {
+            const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
+
             tooltip.style.opacity = '0';
-                
-                const barRect = bar.getBoundingClientRect();
-                const tooltipRect = tooltip.getBoundingClientRect();
-                
-                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                    requestAnimationFrame(updatePosition);
-                    return;
-                }
-                
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-                const margin = 8;
-                
-                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                let hudBottom = barRect.bottom;
-                
+            tooltip.style.position = 'fixed';
+
+            const barRect = bar.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const margin = 8;
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
+            }
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    hudBottom = hudRect.bottom;
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
                 }
-                
-                let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-                let top = hudBottom + margin;
-                
-                if (left < margin) left = margin;
-                if (left + tooltipRect.width > viewportWidth - margin) {
-                    left = viewportWidth - tooltipRect.width - margin;
-                }
-                
-                if (top + tooltipRect.height > viewportHeight - margin) {
-                    if (hudContainer) {
-                        const hudRect = hudContainer.getBoundingClientRect();
-                        top = hudRect.top - tooltipRect.height - margin;
-                    } else {
-                        top = barRect.top - tooltipRect.height - margin;
-                    }
-                    if (top < margin) {
-                        top = margin;
-                    }
-                }
-                
-                tooltip.style.position = 'fixed';
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-                tooltip.style.transform = 'none';
-                tooltip.style.zIndex = '2147483647';
-                tooltip.style.opacity = '1';
-            };
-            
-            updatePosition();
-            requestAnimationFrame(() => {
-                requestAnimationFrame(updatePosition);
-            });
-            
-            const timeoutId = setTimeout(updatePosition, 50);
-            
-            return () => {
-                clearTimeout(timeoutId);
-                if (tooltipRef.current) {
-                    tooltipRef.current.style.opacity = '';
-                }
-            };
-        }
+                if (top < margin) top = margin;
+            }
+
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+            tooltip.style.transform = 'none';
+            tooltip.style.zIndex = '2147483647';
+            tooltip.style.opacity = '1';
+        };
+
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, infernoLevel, selectedSpec]);
 
     // Close controls menu when clicking outside
@@ -274,15 +261,15 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     const getDrawbackText = (level) => {
         const drawbacks = {
             0: 'None',
-            1: '-2 hit chance (visual distortions)',
-            2: '1d4 psychic/turn (lustful intensity)',
-            3: '-10 ft speed, constant fatigue',
-            4: '+2d6 damage taken from all attacks',
-            5: '1d6 bleeding/turn, weakened defenses',
-            6: 'Disadvantage on sight-based checks',
-            7: '2d6 fire/turn to self (uncontrollable flames)',
-            8: '1d8 necrotic/turn, -2 all saves',
-            9: '3d6 fire/turn, allies within 10 ft take 1d6 fire/turn'
+            1: '-2 Hit chance (distortions)',
+            2: '1d4 Psychic dmg/turn',
+            3: '-10ft Movement, Fatigue',
+            4: '+1d6 Damage taken from all sources',
+            5: '1d6 Bleeding dmg/turn',
+            6: 'Cannot be healed by others, Disadv Insight/Perception',
+            7: '-15ft Speed, 1d6 Suffocation',
+            8: '2d4 Self-dmg, Disadv Dex',
+            9: '4d8 Self-dmg, Death in 3 Turns'
         };
         return drawbacks[level] || 'Unknown';
     };
@@ -326,7 +313,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     };
 
     return (
-        <div className={`pyrofiend-resource-wrapper ${size}`}>
+        <div className={`pyrofiend-resource-wrapper ${size} ${infernoLevel >= 9 ? 'catastrophic-warning' : ''}`}>
             {/* Spec Selector Dropdown */}
             {showSpecSelector && (
                 <div className="spec-selector-dropdown">
@@ -351,13 +338,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 onMouseLeave={() => setShowTooltip(false)}
                 onClick={(e) => {
                     e.stopPropagation();
-                    console.log('🔥 PyrofiendResourceBar clicked:', {
-                        isOwner,
-                        infernoLevel,
-                        showControls,
-                        willOpen: isOwner && !showControls,
-                        willClose: isOwner && showControls
-                    });
                     if (isOwner) setShowControls(!showControls);
                 }}
             >
@@ -405,7 +385,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                             <strong>Ascend:</strong>
                             <span>Cast fire spells (varies by spell)</span>
                             <strong>Descend:</strong>
-                            <span>Cooling Ember (1d4 levels), -1 per minute out of combat</span>
+                            <span>Cooling Ember (-2 levels, fixed), -1 per minute out of combat</span>
                         </div>
                     </div>
 

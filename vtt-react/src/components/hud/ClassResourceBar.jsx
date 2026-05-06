@@ -267,6 +267,7 @@ const ClassResourceBar = ({
         martyrHoverSection: null // 'devotion' | null
     });
     const devotionBarRef = useRef(null);
+    const martyrTooltipRef = useRef(null);
 
     const [minstrelState, setMinstrelState] = useState({
         localNotes: [3, 1, 2, 0, 2, 1, 0], // Start with some notes for demo (I, II, III, IV, V, VI, VII)
@@ -797,6 +798,10 @@ const ClassResourceBar = ({
             const br = resourceBarWrapperRef.current;
             if (!tt || !br) return;
 
+            // Set fixed position early so getBoundingClientRect returns correct intrinsic dimensions 
+            // instead of stretching to 100% of body width
+            tt.style.position = 'fixed';
+
             const tooltipRect = tt.getBoundingClientRect();
             const barRect = br.getBoundingClientRect();
 
@@ -874,6 +879,78 @@ const ClassResourceBar = ({
         };
 
     }, [showTooltip, berserkerRage, bladedancerMomentum, bladedancerFlourish, bladedancerHoverSection, chaosWeaverHoverSection, chronarchHoverSection, chronarchTimeShards, chronarchTemporalStrain, covenbaneHoverSection, covenbaneHexbreakerCharges, covenbaneAttackCounter, dreadnaughtHoverSection, localDRP, selectedResistanceType, size, minstrelHoverSection, oracleHoverSection, gamblerHoverSection, huntressHoverSection, inscriptorHoverSection, lichborneHoverSection, lunarchHoverSection, fateWeaverHoverSection, formbenderHoverSection, falseProphetHoverSection, exorcistHoverSection, deathcallerHoverSection, arcanoneerState.showRollTooltip]);
+
+    // Dedicated Martyr tooltip positioning (avoids TooltipPortal render delay)
+    useEffect(() => {
+        if (!showTooltip || martyrHoverSection !== 'devotion' || !martyrTooltipRef.current || !devotionBarRef.current) return;
+
+        const updatePosition = () => {
+            const tooltip = martyrTooltipRef.current;
+            const bar = devotionBarRef.current;
+            if (!tooltip || !bar) return;
+
+            tooltip.style.opacity = '0';
+            tooltip.style.position = 'fixed';
+
+            const barRect = bar.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const margin = 8;
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
+            }
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
+                }
+                if (top < margin) top = margin;
+            }
+
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+            tooltip.style.transform = 'none';
+            tooltip.style.zIndex = '2147483647';
+            tooltip.style.opacity = '1';
+        };
+
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (martyrTooltipRef.current) martyrTooltipRef.current.style.opacity = '';
+        };
+    }, [showTooltip, martyrHoverSection, localDevotionLevel, localDevotionDamage, martyrSpec]);
 
     const handleRageBarLeave = () => setShowTooltip(false);
 
@@ -7310,58 +7387,57 @@ const ClassResourceBar = ({
                 </div>
 
                 {/* Tooltip */}
-                {showTooltip && martyrHoverSection === 'devotion' && (
-                    <TooltipPortal>
-                        <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
-                            <div className="tooltip-header">Devotion</div>
+                {showTooltip && martyrHoverSection === 'devotion' && ReactDOM.createPortal(
+                    <div ref={martyrTooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
+                        <div className="tooltip-header">Devotion</div>
 
-                            <div className="tooltip-section">
-                                <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
-                                    <strong>Level:</strong> {currentLevel} ({currentStage.name})
-                                </div>
-                                <div style={{ fontSize: '0.9rem' }}>
-                                    <strong>Damage:</strong> {currentDamage}/{nextThreshold}
-                                </div>
+                        <div className="tooltip-section">
+                            <div style={{ fontSize: '0.9rem', marginBottom: '4px' }}>
+                                <strong>Level:</strong> {currentLevel} ({currentStage.name})
                             </div>
-
-                            <div className="tooltip-divider"></div>
-
-                            <div className="tooltip-section">
-                                <div className="tooltip-label">Devotion Management</div>
-                                <div className="level-management">
-                                    <strong>Gain:</strong>
-                                    <span>Take damage, +1 per Intervene</span>
-                                    <strong>Spend:</strong>
-                                    <span>Amplify spells (1-5 levels)</span>
-                                </div>
+                            <div style={{ fontSize: '0.9rem' }}>
+                                <strong>Damage:</strong> {currentDamage}/{nextThreshold}
                             </div>
-
-                            {currentLevel > 0 && (
-                                <div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">Level {currentLevel} Passive</div>
-                                        <div className="passive-desc">
-                                            {currentStage.passive}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {specData && (
-                                <div>
-                                    <div className="tooltip-divider"></div>
-                                    <div className="tooltip-section">
-                                        <div className="tooltip-label">{specData.name} Passives</div>
-                                        <div className="passive-desc">
-                                            <strong>Shared:</strong> {specData.sharedPassive.description}<br />
-                                            <strong>Unique:</strong> {specData.uniquePassive.description}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
                         </div>
-                    </TooltipPortal>
+
+                        <div className="tooltip-divider"></div>
+
+                        <div className="tooltip-section">
+                            <div className="tooltip-label">Devotion Management</div>
+                            <div className="level-management">
+                                <strong>Gain:</strong>
+                                <span>Take damage, +1 per Intervene</span>
+                                <strong>Spend:</strong>
+                                <span>Amplify spells (1-5 levels)</span>
+                            </div>
+                        </div>
+
+                        {currentLevel > 0 && (
+                            <div>
+                                <div className="tooltip-divider"></div>
+                                <div className="tooltip-section">
+                                    <div className="tooltip-label">Level {currentLevel} Passive</div>
+                                    <div className="passive-desc">
+                                        {currentStage.passive}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {specData && (
+                            <div>
+                                <div className="tooltip-divider"></div>
+                                <div className="tooltip-section">
+                                    <div className="tooltip-label">{specData.name} Passives</div>
+                                    <div className="passive-desc">
+                                        <strong>Shared:</strong> {specData.sharedPassive.description}<br />
+                                        <strong>Unique:</strong> {specData.uniquePassive.description}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>,
+                    document.body
                 )}
             </div>
         );
@@ -7697,7 +7773,7 @@ const ClassResourceBar = ({
                     {size !== 'large' && (
                         <div className="sphere-side-controls">
                             <button
-                                className="context-menu-button context-menu-button"
+                                className="sphere-icon-btn"
                                 onClick={isOwner ? handleDiceButtonClick : undefined}
                                 onContextMenu={(e) => {
                                     if (!isOwner) return;
@@ -7722,7 +7798,7 @@ const ClassResourceBar = ({
                             </button>
 
                             <button
-                                className="context-menu-button context-menu-button"
+                                className="sphere-icon-btn"
                                 onClick={isOwner ? (e) => {
                                     e.stopPropagation();
                                     clearSpheres();
@@ -7739,7 +7815,7 @@ const ClassResourceBar = ({
                     {size === 'large' && (
                         <div className="sphere-side-controls">
                             <button
-                                className="context-menu-button context-menu-button"
+                                className="sphere-icon-btn"
                                 onClick={isOwner ? handleDiceButtonClick : undefined}
                                 onContextMenu={(e) => {
                                     if (!isOwner) return;
@@ -7764,7 +7840,7 @@ const ClassResourceBar = ({
                             </button>
 
                             <button
-                                className="context-menu-button context-menu-button"
+                                className="sphere-icon-btn"
                                 onClick={isOwner ? (e) => {
                                     e.stopPropagation();
                                     clearSpheres();

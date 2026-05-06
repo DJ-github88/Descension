@@ -15,10 +15,10 @@
 }
 
 /* Disable transition during dragging for performance */
-.draggable-window.dragging {
+.draggable-window.dragging,
+[ref="nodeRef"].dragging .draggable-window {
     transition: none !important;
     will-change: transform;
-    pointer-events: none;
     contain: layout style;
     transform-origin: top left !important;
 }
@@ -42,7 +42,9 @@
 
 /* Re-enable pointer events for the drag handle */
 .draggable-window.dragging .window-header,
-.draggable-window.dragging .draggable-window-handle {
+.draggable-window.dragging .draggable-window-handle,
+.dragging .window-header,
+.dragging .draggable-window-handle {
     pointer-events: auto;
 }
 

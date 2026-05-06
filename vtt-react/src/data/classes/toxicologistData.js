@@ -85,39 +85,37 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 
 **Resource Management**:
 - **Toxin Vials**: INT mod + 3 (min 4), regain 1d4 per short rest
-- **Contraption Parts**: Max 5, regain 1 per short rest
-- **Vial Costs**: 1-2 for poisons, 2-3 for concoctions, 3 for explosives
+- **Contraption Parts**: Max 5, recovered after combat (reclaimed); destroyed contraptions recover 1 part per short rest
+- **Weapon Poisons**: 1 vial each, quick-apply to weapon for 3 attacks
+- **Brewed Concoctions**: 1-3 vials, more powerful crafted items
 - **Part Costs**: 1-2 per contraption
 - **Strategy**: Balance poison crafting with contraption deployment
 
-**Poison Selection** (8 Types):
-- **Paralytic**: Slow + disadvantage on DEX saves
-- **Necrotic**: 2d6 necrotic DoT over 3 rounds
-- **Corrosive**: Reduce armor by 2
-- **Hallucinogenic**: Disadvantage on attacks
-- **Hemorrhagic**: Prevent healing for 2 rounds
-- **Soporific**: CON save or fall unconscious
-- **Caustic**: 3d8 instant poison damage
-- **Virulent**: Spread to adjacent enemies
+**Weapon Poisons** (1 vial each, applied to weapon, lasts 3 attacks):
+- **Neurotoxin**: +1d8 poison damage, -2 to attack rolls for 2 rounds
+- **Hemotoxin**: +1d6 poison damage/round for 3 rounds (bleeding DoT)
+- **Cytotoxin**: +2d6 necrotic damage, -1d4 max HP (temporary)
+- **Myotoxin**: +1d6 poison damage, -10ft movement, disadvantage on STR checks
+- **Cardiotoxin**: +2d8 poison damage, stunned 1 round on failed CON save (DC 16)
 
-**Contraption Deployment** (6 Types):
-- **Poison Gas Trap**: 10ft poison cloud when triggered
-- **Caltrops Field**: Difficult terrain + damage
-- **Smoke Bomb**: Vision obscurement
-- **Alarm Bell**: Alert to enemy movement
-- **Net Launcher**: Restrain single target
-- **Explosive Mine**: 3d10 fire damage AoE
+**Contraption Deployment** (Uses Contraption Parts, deployed as an action):
+- **Poison Gas Trap** (1 part): 2d6 poison damage, -10ft movement, triggered when enemy enters 5ft radius
+- **Spike Trap** (1 part): 3d6 piercing damage, immobilized 1 round (DC 14 DEX save)
+- **Healing Mist Dispenser** (2 parts): Heal 1d8 HP, remove 1 poison/disease when ally enters
+- **Smoke Grenade Launcher** (1 part): 15ft smoke cloud, obscures vision for 3 rounds
+- **Acid Sprayer** (2 parts): 2d8 poison damage, -3 armor for 3 rounds
+- **Alarm Bell** (1 part): Alert allies, +2 initiative for allies within 30ft
 
-**Concoction Crafting** (Mid-Combat):
-- **Antidote** (2 vials): Cure poison/disease + resistance
-- **Explosive Concoction** (3 vials): 4d6 fire damage AoE
-- **Smoke Bomb** (2 vials): Obscure vision for escape
-- **Acid Flask** (2 vials): 3d8 poison + armor reduction
+**Concoction Crafting** (Mid-Combat, 1 AP each):
+- **Antidote** (1 vial): Cure poison/disease, +2 CON saves vs poison for 1 hour
+- **Explosive Concoction** (3 vials): 3d8 fire damage in 10ft radius (DEX save DC 15)
+- **Smoke Bomb** (1 vial): 15ft smoke cloud, obscures vision for 3 rounds
+- **Healing Mist** (2 vials): Heal 2d6 HP to all allies in 10ft radius
 
 **Specialization Synergies**:
-- **Venomancer**: +1d6 poison damage, poison duration +1 round, poison save DC +2
-- **Gadgeteer**: Deploy contraptions for 1 AP, +1 contraption part max, contraptions harder to detect
-- **Saboteur**: Poisons reduce enemy damage by 1d6, contraptions slow enemies, debuff duration +1 round
+- **Venomancer**: +1d6 poison damage on all effects, poison duration +2 rounds
+- **Gadgeteer**: Deploy contraptions for 1 AP instead of an action, +1 contraption part max, contraptions deal +1d6 damage
+- **Saboteur**: Debuffs last +2 rounds, enemies affected by your poisons/contraptions have -2 to all saves
 
 **Combat Flow**:
 - **Pre-Combat**: Deploy contraptions at choke points and key locations
@@ -138,65 +136,68 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
       title: 'Combat Example: The Alchemist\'s Laboratory',
       content: `**The Setup**: You're a Toxicologist (Venomancer specialization) facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Resources: Toxin Vials: 7/7, Contraption Parts: 5/5. Starting Mana: 40/50. Your goal: Deploy contraptions to control the battlefield, apply poisons to your weapon, and craft concoctions mid-combat to adapt to the situation.
 
+*This example assumes you have 1 minute of pre-combat preparation to deploy contraptions before initiative is rolled.*
+
 **Starting State**: Toxin Vials: 7/7 | Contraption Parts: 5/5 | Mana: 40/50 | HP: 50/50 | Weapon Poison: None
 
-**Turn 1 - Setting the Trap (Vials: 7 → 6, Parts: 5 → 3)**
+**Pre-Combat - Setting the Trap (Parts: 5 → 3)**
 
 *Five bandits and their leader approach. You smile. They're walking into YOUR laboratory.*
 
-**Your Action (Pre-Combat Setup)**: Deploy "Caltrops" (1 contraption part, 1 AP)
-**Effect**: 10 ft area, enemies take 1d4 damage and speed reduced by 10 ft
+**Action**: Deploy "Spike Trap" at the choke point (1 contraption part)
+**Effect**: 3d6 piercing damage when triggered, target immobilized 1 round (DC 14 DEX save)
 
-*You scatter caltrops across the ground at the choke point.*
+*You place a concealed spike trap at the choke point where enemies must pass through.*
 
 **Contraption Parts**: 5 - 1 = **4/5**
 
-**Your Action**: Deploy "Poison Gas Trap" (2 contraption parts)
-**Effect**: When triggered, releases poison cloud (15 ft radius, 2d6 poison damage per turn, lasts 3 rounds)
+**Action**: Deploy "Poison Gas Trap" behind the spikes (2 contraption parts)
+**Effect**: When triggered, releases poison cloud (5ft radius, 2d6 poison damage, -10ft movement for 2 rounds)
 
 *You place a small device on the ground. When an enemy steps on it, it will release a devastating poison cloud.*
 
 **Contraption Parts**: 4 - 2 = **2/5**
 
-**Your Action (1 AP)**: Apply "Paralytic Poison" to weapon (1 toxin vial)
-**Effect**: Weapon attacks deal +1d6 poison damage, target has disadvantage on DEX saves for 2 rounds
+**Your Party's Tank**: "What are all these... devices?"
+**You**: "Contraptions. A spike trap at the choke point. A poison gas trap behind it. Once combat starts, I'll coat my blade with Neurotoxin. Let them come."
+
+**Current State**: Vials: 7/7 | Parts: 2/5 | Mana: 40/50 | Weapon: None
+
+**Turn 1 - Opening Strike (Vials: 7 → 3)**
+
+*Roll initiative. The bandits charge. Two of them trigger the spike trap. One stumbles into the poison gas trap.*
+
+**Bandits #1, #2**: Trigger Spike Trap
+**Damage**: 3d6 → [4, 5, 3] = 12 piercing damage each
+**Save**: DC 14 DEX → Bandit #1 fails (immobilized 1 round), Bandit #2 succeeds (half damage = 6)
+
+**Bandit #3**: Triggers Poison Gas Trap
+**Effect**: Poison cloud erupts (5ft radius)
+**Damage**: 2d6 → [5, 4] = 9 poison damage
+**Effect**: -10ft movement for 2 rounds
+
+**Bandits #3, #4** (adjacent): Caught in poison cloud, take 9 poison damage each
+
+*The poison cloud ERUPTS. The bandits caught inside CHOKE and GASP.*
+
+**Action (1 AP)**: Apply "Neurotoxin" to weapon (1 toxin vial)
+**Effect**: Weapon attacks deal +1d8 poison damage, target has -2 to attack rolls for 2 rounds
 
 *You coat your blade with a viscous green poison. It GLISTENS with toxicity.*
 
 **Toxin Vials**: 7 - 1 = **6/7**
 
-**Your Party's Tank**: "What are all these... devices?"
-**You**: "Contraptions. Caltrops to slow them. A poison gas trap for when they group up. And my weapon is coated with paralytic poison. Let them come."
-
-**Current State**: Vials: 6/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Paralytic Poison
-
-**Turn 2 - Springing the Trap (Vials: 6 → 3)**
-
-*The bandits charge. Three of them step on the caltrops. One triggers the poison gas trap.*
-
-**Bandits #1, #2, #3**: Step on caltrops
-**Damage**: 1d4 → [3] = 3 damage each
-**Effect**: Speed reduced by 10 ft
-
-**Bandit #4**: Triggers Poison Gas Trap
-**Effect**: Poison cloud erupts (15 ft radius)
-
-**Bandits #4, #5, Leader**: All caught in poison cloud
-**Poison Damage**: 2d6 → [5, 4] = 9 poison damage each per turn for 3 rounds
-
-*The poison cloud ERUPTS. The bandits caught inside CHOKE and GASP.*
-
-**Your Action**: Melee attack Bandit #1 (has paralytic poison on weapon)
+**Action**: Melee attack Bandit #1 (immobilized, has Neurotoxin on weapon)
 **Attack Roll**: d20+5 → [16] = Hit!
-**Base Damage**: 2d6+3 → [5, 4] + 3 = 12 damage
-**Paralytic Poison**: +1d6 poison → [5] = +5 poison damage
-**Total Damage**: 12 + 5 = **17 damage**
-**Effect**: Bandit #1 has disadvantage on DEX saves for 2 rounds
+**Base Damage**: 2d6+3 → [5, 4] + 3 = 12 slashing damage
+**Neurotoxin**: +1d8 poison → [6] = +6 poison damage
+**Total Damage**: 12 + 6 = **18 damage**
+**Effect**: Bandit #1 has -2 to attack rolls for 2 rounds
 
-**Bandit #1**: Takes 17 damage → HEAVILY DAMAGED
+**Bandit #1**: Takes 18 damage → HEAVILY DAMAGED
 
-**Your Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
-**Effect**: Throwable explosive, 4d6 fire damage in 10 ft radius
+**Action (1 AP)**: Craft "Explosive Concoction" (3 toxin vials)
+**Effect**: Throwable explosive, 3d8 fire damage in 10ft radius (DEX save DC 15 for half)
 
 *You quickly mix chemicals from your vials. The concoction BUBBLES and SMOKES.*
 
@@ -205,104 +206,107 @@ The Toxicologist shines in tactical combats where they can prepare the battlefie
 **Your Party's Mage**: "You're crafting explosives MID-COMBAT?!"
 **You**: "Explosive Concoction. Costs 3 toxin vials. I'll throw it next turn."
 
-**Current State**: Vials: 3/7 | Parts: 2/5 | Mana: 40/50 | Explosive ready
+**Current State**: Vials: 3/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Neurotoxin | Explosive ready
 
-**Turn 3 - The Explosion (Vials: 3 → 2)**
+**Turn 2 - The Explosion (Vials: 3 → 2)**
 
-*The poison cloud continues. Bandits #4, #5, and Leader take another 9 poison damage each.*
+*The poison cloud continues. Bandits #3 and #4 take another 9 poison damage.*
 
-**Poison Cloud** (Turn 2 of 3): Bandits #4, #5, Leader take 9 poison damage each
+**Poison Cloud** (Turn 2 of 2): Bandits #3, #4 take 9 poison damage each
+**Poison Cloud**: Expires after this turn
 
-**Your Action**: Throw "Explosive Concoction" at grouped bandits (no cost, already crafted)
+**Action**: Throw "Explosive Concoction" at grouped bandits (no additional cost, already crafted)
 **Targets**: Bandits #2, #3, #4 (grouped together)
-**Damage**: 4d6 fire → [6, 5, 6, 4] = **21 fire damage each**
+**Damage**: 3d8 fire → [7, 5, 6] = **18 fire damage each**
+**Save**: Bandit #2 succeeds (9 damage), Bandit #3 fails (18 damage), Bandit #4 fails (18 damage)
 
 *You hurl the concoction. It EXPLODES in a massive fireball.*
 
-**Bandit #2**: Takes 21 fire damage → **DEAD**
-**Bandit #3**: Takes 21 fire damage → **DEAD**
-**Bandit #4**: Takes 21 fire damage → **DEAD**
+**Bandit #2**: Takes 9 fire damage (saved) + 6 from spike trap earlier = DAMAGED
+**Bandit #3**: Takes 18 fire damage + 18 from poison cloud (2 turns) = **DEAD**
+**Bandit #4**: Takes 18 fire damage + 18 from poison cloud (2 turns) = **DEAD**
 
-**Your Party's Rogue**: "THREE bandits with ONE explosive!"
-**You**: "Explosive Concoction. 4d6 fire damage in 10 feet. They were grouped perfectly."
+**Your Party's Rogue**: "Two bandits down with ONE explosive and the gas trap!"
+**You**: "Explosive Concoction plus Poison Gas Trap synergy. They were grouped perfectly."
 
-**Your Action (1 AP)**: Apply "Necrotic Poison" to weapon (1 toxin vial)
-**Effect**: Weapon attacks deal +1d8 necrotic damage, target's max HP reduced by damage dealt
+**Action (1 AP)**: Apply "Cytotoxin" to weapon (1 toxin vial)
+**Effect**: Weapon attacks deal +2d6 necrotic damage, -1d4 max HP (temporary)
 
 *You coat your blade with a BLACK poison that seems to absorb light.*
 
 **Toxin Vials**: 3 - 1 = **2/7**
 
-**Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Necrotic Poison
+**Current State**: Vials: 2/7 | Parts: 2/5 | Mana: 40/50 | Weapon: Cytotoxin
 
-**Turn 4 - Finishing Touches (Vials: 2 → 0)**
+**Turn 3 - Finishing Touches (Vials: 2 → 0)**
 
-*Only Bandit #1, #5, and the Leader remain. The poison cloud continues (Turn 3 of 3).*
+*Only Bandit #1, #2, #5, and the Leader remain.*
 
-**Poison Cloud** (Turn 3 of 3): Bandit #5 and Leader take 9 poison damage each
-**Poison Cloud**: Expires after this turn
-
-**Your Action**: Melee attack Bandit #1 (has necrotic poison on weapon)
+**Action**: Melee attack Bandit #1 (has Cytotoxin on weapon)
 **Attack Roll**: d20+5 → [17] = Hit!
-**Base Damage**: 2d6+3 → [6, 5] + 3 = 14 damage
-**Necrotic Poison**: +1d8 necrotic → [7] = +7 necrotic damage
-**Total Damage**: 14 + 7 = **21 damage**
-**Effect**: Bandit #1's max HP reduced by 7
+**Base Damage**: 2d6+3 → [6, 5] + 3 = 14 slashing damage
+**Cytotoxin**: +2d6 necrotic → [5, 4] = +9 necrotic damage
+**Total Damage**: 14 + 9 = **23 damage**
+**Effect**: Bandit #1's max HP reduced by 4 (1d4 → [4])
 
-**Bandit #1**: Takes 21 damage → **DEAD**
+**Bandit #1**: Takes 23 damage → **DEAD**
 
-**Your Action (1 AP)**: Craft "Antidote" (2 toxin vials)
-**Effect**: Cure poison/disease on ally, grant poison resistance for 1 hour
+**Action (1 AP)**: Craft "Antidote" (1 toxin vial)
+**Effect**: Cure poison/disease on ally, +2 CON saves vs poison for 1 hour
 
-*You mix a healing concoction, just in case.*
+*You mix a healing concoction, just in case your Tank got hit by residual gas.*
 
-**Toxin Vials**: 2 - 2 = **0/7**
+**Toxin Vials**: 2 - 1 = **1/7**
 
-**Your Party's Healer**: "You're out of vials!"
-**You**: "I'll regain 1d4 vials on a short rest. But I've already killed 4 bandits and dealt massive poison damage to the others."
+**Your Party's Healer**: "You're almost out of vials!"
+**You**: "I still have 1 vial left, and I'll regain 1d4 on a short rest. Plus my contraption parts come back after combat."
 
-**Current State**: Vials: 0/7 | Parts: 2/5 | Mana: 40/50
+**Current State**: Vials: 1/7 | Parts: 2/5 | Mana: 40/50
 
-**Turn 5 - Cleanup**
+**Turn 4 - Cleanup**
 
-*Bandit #5 and the Leader remain, both heavily damaged from poison cloud (27 poison damage total over 3 turns).*
+*Bandit #2, #5, and the Leader remain, all damaged from various sources.*
 
-**Your Party's Tank**: Attacks Bandit #5 → DEAD
-**Your Party's Mage**: Casts Magic Missile at Leader → DEAD
+**Your Party's Tank**: Attacks Bandit #2 → DEAD
+**Your Party's Mage**: Casts Magic Missile at Leader → HEAVILY DAMAGED
+**Your Party's Rogue**: Attacks Bandit #5 → DEAD
+
+**Action**: Melee attack Leader (still has Cytotoxin on weapon)
+**Attack Roll**: d20+5 → [14] = Hit!
+**Base Damage**: 2d6+3 → [4, 3] + 3 = 10 slashing damage
+**Cytotoxin**: +2d6 necrotic → [6, 2] = +8 necrotic damage
+**Total Damage**: 10 + 8 = **18 damage**
+
+**Leader**: Takes 18 damage → **DEAD**
 
 **Combat Over**
 
-*You collect your contraption parts from the caltrops and poison gas trap (reusable).*
+*You collect your contraption parts from the spike trap and poison gas trap (reusable — parts are recovered after combat).*
 
 **Contraption Parts**: 2 + 3 (recovered) = **5/5** (back to max)
 
-**Your Party's Rogue**: "You killed three bandits with one explosive, poisoned two others to death with the gas trap, and your weapon poisons dealt massive damage."
-**You**: "Toxicologist gameplay. I started with 7 toxin vials and 5 contraption parts. I spent 1 part on caltrops, 2 parts on the poison gas trap. I spent 1 vial on paralytic poison for my weapon, 3 vials on the explosive concoction, 1 vial on necrotic poison, and 2 vials on an antidote."
-**Your Party's Mage**: "And the poison gas trap?"
-**You**: "Dealt 2d6 poison damage per turn for 3 turns to everyone in 15 feet. That's 9 damage per turn × 3 turns = 27 total poison damage to Bandits #4, #5, and the Leader. Bandit #4 also took 21 fire damage from the explosive, so he took 30 total damage from my abilities alone."
-**Your Party's Tank**: "And you recovered your contraption parts?"
-**You**: "Contraptions are reusable. I recover the parts after combat. Toxin vials regenerate 1d4 per short rest."
+**Your Party's Rogue**: "You killed two bandits with the explosive + gas combo, poisoned the leader to death, and your weapon poisons dealt massive damage."
+**You**: "Toxicologist gameplay. I deployed 2 contraptions before combat (1 part on spike trap, 2 parts on gas trap). I applied Neurotoxin (1 vial) and Cytotoxin (1 vial) to my weapon. I crafted an Explosive Concoction (3 vials) and an Antidote (1 vial). 6 vials spent, 1 remaining, and I recover all contraption parts after combat."
 
-**Final State**: Vials: 0/7 (will regain 1d4 on short rest) | Parts: 5/5 (recovered) | Mana: 40/50 | HP: 50/50
+**Final State**: Vials: 1/7 (will regain 1d4 on short rest) | Parts: 5/5 (recovered) | Mana: 40/50 | HP: 50/50
 
 **Damage Breakdown**:
-- Paralytic Poison (weapon): 5 poison damage to Bandit #1
-- Necrotic Poison (weapon): 7 necrotic damage to Bandit #1
-- Explosive Concoction: 21 fire damage × 3 bandits = 63 total fire damage
-- Poison Gas Trap: 9 poison damage/turn × 3 turns × 3 bandits = 81 total poison damage
-- Caltrops: 3 damage × 3 bandits = 9 total damage
-- **Grand Total**: ~165 damage from poisons, contraptions, and concoctions
+- Neurotoxin (weapon): 6 poison damage to Bandit #1
+- Cytotoxin (weapon): 9 + 8 = 17 necrotic damage
+- Explosive Concoction: ~15 average fire damage × 3 bandits = ~45 total fire damage
+- Poison Gas Trap: 9 poison damage/turn × 2 turns × 2 bandits = 36 total poison damage
+- Spike Trap: ~9 average piercing damage × 2 bandits = ~18 total piercing damage
+- **Grand Total**: ~122 damage from poisons, contraptions, and concoctions
 
 **The Lesson**: Toxicologist gameplay is about:
-1. **Contraption Deployment**: Placed caltrops (1 part) and poison gas trap (2 parts) before combat
-2. **Poison Application**: Applied paralytic poison (1 vial) and necrotic poison (1 vial) to weapon
-3. **Mid-Combat Crafting**: Crafted explosive concoction (3 vials) and antidote (2 vials) for 1 AP each
-4. **Resource Management**: Started with 7 vials and 5 parts, spent all vials strategically
-5. **Contraption Recovery**: Recovered 3 parts after combat (contraptions are reusable)
-6. **Poison Synergy**: Poison gas trap dealt 27 damage over 3 turns to multiple enemies
-7. **Explosive Burst**: Explosive concoction dealt 21 damage to 3 grouped enemies (63 total)
+1. **Pre-Combat Setup**: Deploy contraptions at choke points BEFORE initiative (spike trap, gas trap)
+2. **Weapon Poison Application**: Switch between Neurotoxin (attack debuff) and Cytotoxin (max HP reduction) based on target
+3. **Mid-Combat Crafting**: Craft Explosive Concoction (3 vials) and Antidote (1 vial) for 1 AP each
+4. **Resource Management**: Spent 6 of 7 vials, recovered all contraption parts after combat
+5. **Contraption Synergy**: Spike trap immobilized one bandit, gas trap dealt ongoing poison to grouped enemies
+6. **Explosive + Gas Combo**: Explosive Concoction killed enemies already weakened by the gas trap
 
-You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and adaptation. You deploy contraptions (caltrops, poison gas traps) to control enemy movement and deal damage. You apply poisons to your weapon (paralytic, necrotic) for enhanced attacks. You craft concoctions MID-COMBAT (explosives, antidotes) to adapt to the situation. The poison gas trap alone dealt 81 total damage over 3 turns. The explosive concoction killed 3 bandits in one throw. You're not a simple damage dealer—you're a TACTICAL ALCHEMIST who turns the battlefield into your laboratory.`
+You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and adaptation. You deploy contraptions (spike traps, gas traps) to control enemy movement BEFORE combat starts. You apply poisons to your weapon (Neurotoxin, Cytotoxin) for enhanced attacks. You craft concoctions MID-COMBAT (explosives, antidotes) to adapt to the situation. You're not a simple damage dealer—you're a TACTICAL ALCHEMIST who turns the battlefield into your laboratory.`
     }
   },
 
@@ -311,7 +315,13 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
     title: 'Alchemical Arsenal',
     subtitle: 'Toxin Vials & Contraption Parts',
 
-    description: `The Toxicologist's unique mechanic revolves around managing two distinct resources: **Toxin Vials** (for crafting poisons and concoctions) and **Contraption Parts** (for deploying battlefield devices). This dual-resource system rewards strategic planning and tactical adaptation.`,
+    description: `The Toxicologist's unique mechanic revolves around managing two distinct resources: **Toxin Vials** (for crafting poisons and concoctions) and **Contraption Parts** (for deploying battlefield devices). This dual-resource system rewards strategic planning and tactical adaptation.
+
+**Two Crafting Systems:**
+- **Weapon Poisons** (1 vial, 1 AP): Quick-apply poisons to your weapon. Lasts 3 attacks or until end of combat. Choose from 5 poison types (Neurotoxin, Hemotoxin, Cytotoxin, Myotoxin, Cardiotoxin).
+- **Brewed Concoctions** (1-3 vials, 1 AP): More powerful crafted items — Explosive Concoctions, Smoke Bombs, Antidotes, Healing Mist. These have stronger effects but higher vial costs.
+
+**Active Contraption Limit:** A Toxicologist can have up to 3 active contraptions on the battlefield at once (Gadgeteer specialization: up to 4). Contraption parts are **recovered after combat** when you reclaim your devices — you do not lose parts permanently by deploying contraptions that survive the encounter. Destroyed or triggered consumable contraptions ( Explosive Mine) have their parts spent until recovered on rest.`,
 
     cards: [
       {
@@ -322,7 +332,7 @@ You're an ALCHEMIST WARRIOR who controls the battlefield through preparation and
       {
         title: 'Contraption Parts',
         stats: 'Max 5',
-        details: 'Deployed as battlefield traps and devices. Each contraption takes 1 action to place. Recover 1 per short rest, full on long rest.'
+        details: 'Deployed as battlefield traps and devices. Each contraption takes 1 action to place. Parts are recovered after combat when you reclaim your devices. Destroyed contraptions recover 1 part per short rest, all per long rest.'
       },
       {
         title: 'Poison Stacking',
@@ -350,7 +360,8 @@ No parts means no new traps. Existing contraptions remain active, but you cannot
 Both resources compete for your limited rest economy. Spending 3 vials on an Explosive Concoction AND 2 parts on a Spike Trap in the same fight can leave you depleted for the next encounter. The key is knowing when to go all-in and when to hold back.
 
 **Recovery Planning**:
-- **Short Rest**: Recover 1d4 vials + 1 contraption part. Plan short rests when you are low on both resources.
+- **After Combat**: Reclaim undestroyed contraptions to recover their parts immediately.
+- **Short Rest**: Recover 1d4 vials + 1 contraption part (for destroyed contraptions). Plan short rests when you are low on both resources.
 - **Long Rest**: Full recovery. If you burned through everything in a boss fight, the long rest afterward resets you completely.
 - **Pacing Rule of Thumb**: Spend no more than half your vials in any single non-boss encounter. Save the heavy recipes for fights that matter.`
     },
@@ -613,7 +624,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
         passiveAbility: {
           name: 'Potent Toxins',
-          description: 'All poison damage you deal is increased by +1d6. Poison effects you apply last 2 additional rounds. Enemies have disadvantage on saves against your poisons.'
+          description: 'All poison damage you deal is increased by +1d6. Poison effects you apply last 2 additional rounds. You have advantage on rolls to craft poisons.'
         },
 
         keyAbilities: [
@@ -669,7 +680,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
         passiveAbility: {
           name: 'Debilitating Expertise',
-          description: 'All debuffs you apply last 2 additional rounds and require a coin flip (heads) to dispel successfully. Enemies affected by your poisons or contraptions have -2 to all saves and skill checks.'
+          description: 'All debuffs you apply last 2 additional rounds and require a DC 16 Spirit save to dispel (dispel attempts use the higher of caster\'s spell DC or DC 16). Enemies affected by your poisons or contraptions have -2 to all saves and skill checks.'
         },
 
         keyAbilities: [
@@ -684,9 +695,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
             effect: 'Throw a grenade that combines poison and mechanical chaos. 20ft radius: 2d8 poison + 2d8 fire damage, enemies are confused (attack random target) for 2 rounds. DC 17 INT save to negate confusion.'
           },
           {
-            name: 'Total Shutdown',
+             name: 'Total Shutdown',
             cost: '4 Toxin Vials + 2 Contraption Parts',
-            effect: 'Target enemy is completely debilitated. They cannot take actions or reactions for 2 rounds, have 0 armor, and automatically fail all saves. DC 19 CON save to reduce duration to 1 round and retain reactions.'
+            effect: 'Target enemy is severely debilitated. They cannot take actions for 1 round (reactions only), have -3 armor, and have disadvantage on all saves. DC 19 CON save to reduce to: no action penalty, -1 armor, and disadvantage on saves for 1 round only.'
           }
         ]
       }
@@ -1360,7 +1371,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
 
       controlConfig: {
         controlType: 'incapacitation',
-        duration: 2,
+        duration: 1,
         durationUnit: 'rounds',
         saveDC: 19,
         saveType: 'constitution',
@@ -1368,21 +1379,21 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         effects: [{
           id: 'total_shutdown',
           name: 'Total Shutdown',
-          description: 'Cannot take actions or reactions, armor reduced to 0, automatically fail all saves, vulnerable to all damage types',
+          description: 'Cannot take actions (reactions only), -3 armor, disadvantage on all saves for 1 round',
           statusType: 'incapacitated',
           level: 'severe',
           saveType: 'constitution',
-          saveDC: 18,
+          saveDC: 19,
           duration: 1,
           durationUnit: 'rounds',
-          stun: true
+          stun: false
         }]
       },
 
       specialMechanics: {
         saboteurBonus: {
           enabled: true,
-          effect: 'Saboteurs increase save DC by +2 (total DC 21) and target takes 2d10 poison damage per round while incapacitated'
+          effect: 'Saboteurs increase save DC by +2 (total DC 21) and target takes 2d8 poison damage per round while incapacitated'
         },
         ultimateDebuff: {
           description: 'This is the ultimate debuff ability - use strategically on high-priority targets'
@@ -2277,7 +2288,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: 'tox_poison_dart',
       name: 'Poison Dart',
-      description: 'Fire a poison dart that deals 1d6 poison damage and applies minor poison.',
+      description: 'Fire a poison dart that deals 1d6 poison damage and applies a weakening effect.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2300,15 +2311,34 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       damageConfig: {
-        formula: '1d6',
+        formula: '1d6 + intelligence',
         elementType: 'poison',
         damageType: 'direct'
       },
 
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'weakened_dart',
+          name: 'Weakened',
+          description: '-1 to attack rolls for 1 round',
+          statModifier: {
+            stat: 'attack_rolls',
+            magnitude: -1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
+      },
+
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 4
+          mana: 2,
+          toxinVials: 1
         },
         actionPoints: 1
       },
@@ -2325,7 +2355,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: 'tox_noxious_fumes',
       name: 'Noxious Fumes',
-      description: 'Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius.',
+      description: 'Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius and leaves a lingering hazard for 2 rounds.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2347,16 +2377,30 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         aoeParameters: { radius: 10 }
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2,
+        durationUnit: 'rounds'
+      },
+
       damageConfig: {
-        formula: '1d6',
+        formula: '1d6 + intelligence',
         elementType: 'poison',
-        damageType: 'area'
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d4',
+          duration: 2,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        }
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 4
+          mana: 2,
+          toxinVials: 1
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2403,9 +2447,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 4
+          mana: 2,
+          toxinVials: 1
         },
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material']
@@ -2424,7 +2469,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: 'tox_venom_blast',
       name: 'Venom Blast',
-      description: 'Strike with concentrated venom that deals poison damage.',
+      description: 'Strike with concentrated venom that deals poison damage and reduces the target\'s armor.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2447,15 +2492,34 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       damageConfig: {
-        formula: '4d6',
+        formula: '4d6 + intelligence',
         elementType: 'poison',
         damageType: 'direct'
       },
 
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'venom_blast_armor',
+          name: 'Armor Corrosion',
+          description: '-2 armor for 2 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: -2,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
+      },
+
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 12
+          mana: 8,
+          toxinVials: 1
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2523,9 +2587,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 12
+          mana: 8,
+          toxinVials: 2
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2544,7 +2609,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: 'tox_poison_bomb',
       name: 'Poison Bomb',
-      description: 'Throw a poison bomb that explodes, dealing poison damage to all enemies in a radius.',
+      description: 'Throw a poison bomb that explodes, dealing poison damage and reducing armor for all enemies in a radius.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2568,7 +2633,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       damageConfig: {
-        formula: '6d6',
+        formula: '5d6 + intelligence',
         elementType: 'poison',
         damageType: 'area',
         savingThrowConfig: {
@@ -2581,10 +2646,29 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      debuffConfig: {
+        debuffType: 'statReduction',
+        effects: [{
+          id: 'poison_bomb_corrosion',
+          name: 'Corroded',
+          description: '-1 armor for 2 rounds',
+          statModifier: {
+            stat: 'armor',
+            magnitude: -1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
+      },
+
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 16
+          mana: 10,
+          toxinVials: 2
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2639,9 +2723,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 20
+          mana: 12,
+          toxinVials: 2
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -2660,7 +2745,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
     {
       id: 'tox_toxic_wave',
       name: 'Toxic Wave',
-      description: 'Send a wave of toxic energy that deals poison damage to all enemies in a line.',
+      description: 'Send a wave of toxic energy that deals poison damage and slows all enemies in a line.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2684,7 +2769,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       damageConfig: {
-        formula: '8d6',
+        formula: '7d6 + intelligence',
         elementType: 'poison',
         damageType: 'area',
         criticalConfig: {
@@ -2693,10 +2778,28 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'toxic_wave_slow',
+          name: 'Slowed',
+          description: 'Movement speed reduced by 10 feet for 2 rounds',
+          statusType: 'slowed',
+          level: 'minor',
+          statPenalty: { stat: 'movement_speed', value: -10 },
+          movementPenalty: -10
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true
+      },
+
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 24
+          mana: 14,
+          toxinVials: 2
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']
@@ -2749,9 +2852,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ['mana', 'toxinVials'],
         resourceValues: {
-          mana: 28
+          mana: 16,
+          toxinVials: 3
         },
         actionPoints: 2,
         components: ['verbal', 'somatic']

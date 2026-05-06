@@ -2477,6 +2477,24 @@ div.class-detail-content::-webkit-scrollbar-thumb,
 }
 
 @media (max-width: 768px) {
+  .class-detail-display {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .class-detail-content {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  .parchment-content {
+    max-height: none !important;
+    overflow-y: visible !important;
+    padding: var(--pf-space-mobile-4, 0.75rem);
+  }
+
   .pip-materials-grid {
     grid-template-columns: 1fr;
   }
@@ -3090,6 +3108,19 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   
   .spellbook-page {
     padding: 20px 15px;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .spellbook-container {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .spellbook-pages {
+    height: auto !important;
+    min-height: 0 !important;
   }
   
   .spellbook-spell-icon-image {

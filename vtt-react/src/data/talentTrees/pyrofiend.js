@@ -397,7 +397,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t2_immortal',
     name: 'Immortal',
-    description: 'At Inferno Level 5+, you cannot die from HP loss. Instead, you enter a weakened state at 1 HP.',
+    description: 'At Inferno Level 5+, you cannot die from HP loss. Instead, you enter a weakened state at 1 HP. This does not protect against The Demon\'s Bargain (Inferno Level 9 death clock).',
     icon: 'spell_shadow_requiem',
     maxRanks: 2,
     position: { x: 2, y: 2 },
@@ -506,7 +506,7 @@ export const PYROFIEND_HELLFIRE = [
   {
     id: 'hellfire_t6_prince_of_hell',
     name: 'Prince of Hell',
-    description: 'Unlocks Hell Portal - open a portal to the Abyss. Summon unlimited demonic minions and deal 6d8 fire damage in 60ft radius per round.',
+    description: 'Unlocks Hell Portal - open a portal to the Abyss. Summon up to 3 demonic minions and deal 6d8 fire damage in 60ft radius per round. Demons last for 1 minute.',
     icon: 'spell_shadow_soulburn',
     maxRanks: 1,
     position: { x: 2, y: 6 },

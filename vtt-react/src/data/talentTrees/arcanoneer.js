@@ -18,7 +18,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t1_elemental_resonance',
     name: 'Elemental Resonance',
-    description: 'When you roll 3 or more spheres of the same element, draw a card. Red cards grant +1d4 temporary mana per rank.',
+    description: 'When you roll 3 or more spheres of the same element, make a Fortune Roll (1d6, odd = Red). Red result grants +1d4 temporary mana per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -136,7 +136,7 @@ export const ARCANONEER_PRISM_MAGE = [
   {
     id: 'prism_mage_t6_prismatic_cataclysm',
     name: 'Prismatic Cataclysm',
-    description: 'Unlocks Prismatic Cataclysm - consume all spheres of one element to deal 4d12 damage per sphere consumed in a 50ft radius. Damage type matches the element.',
+    description: 'Unlocks Prismatic Cataclysm - consume up to 6 spheres of one element to deal 4d12 damage per sphere consumed in a 50ft radius. Damage type matches the element.',
     icon: 'spell_fire_flamestrike',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -149,7 +149,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t0_chaos_generation',
     name: 'Chaos Generation',
-    description: 'Roll 5d8 for sphere generation instead of 4d8 (one extra sphere per turn). When you roll Chaos spheres, draw a card - red cards double their effects.',
+    description: 'Roll 5d8 for sphere generation instead of 4d8 (one extra sphere per turn). When you roll Chaos spheres, make a Fortune Roll (1d6, odd = Red) per Chaos sphere. Red result doubles that sphere\'s effect.',
     icon: 'spell_shadow_shadowwordpain',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -278,7 +278,7 @@ export const ARCANONEER_ENTROPY_WEAVER = [
   {
     id: 'entropy_weaver_t6_apocalypse',
     name: 'Apocalypse',
-    description: 'Unlocks Apocalypse - consume all Chaos spheres to deal 5d12 chaos damage per sphere consumed in a 60ft radius. All enemies affected trigger Wild Magic Surge.',
+    description: 'Unlocks Apocalypse - consume up to 6 Chaos spheres to deal 5d12 chaos damage per sphere consumed in a 60ft radius. All enemies affected trigger Wild Magic Surge.',
     icon: 'spell_fire_felhellfire',
     maxRanks: 1,
     position: { x: 2, y: 6 },
@@ -291,7 +291,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: 'sphere_architect_t0_runic_precision',
     name: 'Runic Precision',
-    description: '3-sphere spells cost 3 less mana (10→7 mana). You can store up to 12 spheres efficiently. Draw a card when you cast spells - red cards restore 1 mana per rank.',
+    description: '3-sphere spells cost 3 less mana (10→7 mana). You can store up to 15 spheres. Make a Fortune Roll (1d6, odd = Red) when you cast spells. Red result restores 1 mana per rank.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -311,7 +311,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: 'sphere_architect_t1_efficient_banking',
     name: 'Efficient Banking',
-    description: 'Spheres you bank persist between encounters (up to your maximum). You gain +1 maximum spheres per rank to store.',
+    description: 'Spheres you bank persist between encounters (up to your maximum). You gain +1 maximum spheres per rank to store (base 15 → 16/17/18).',
     icon: 'inv_misc_rune_01',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -398,7 +398,7 @@ export const ARCANONEER_SPHERE_ARCHITECT = [
   {
     id: 'sphere_architect_t4_arcane_efficiency',
     name: 'Arcane Efficiency',
-    description: '4-sphere spells cost 5 less mana per rank (15→10→5 mana). You can cast spells without verbal components.',
+    description: '4-sphere spells cost 3 less mana per rank, to a maximum reduction of 8 (28→22→19→20). You can cast spells without verbal components.',
     icon: 'spell_arcane_arcane04',
     maxRanks: 3,
     position: { x: 4, y: 4 },

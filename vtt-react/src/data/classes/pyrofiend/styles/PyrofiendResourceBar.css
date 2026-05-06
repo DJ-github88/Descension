@@ -621,3 +621,38 @@
 .character-card-compact .inferno-level-number {
     font-size: 0.65rem !important;
 }
+
+/* Level 9 Death Clock - Emergency Visual Indicator */
+.pyrofiend-resource-bar.intensity-catastrophic .inferno-segments {
+    animation: deathClockPulse 1s ease-in-out infinite;
+}
+
+@keyframes deathClockPulse {
+    0%, 100% {
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.4) drop-shadow(0 0 8px rgba(255, 0, 0, 0.6));
+    }
+}
+
+.pyrofiend-resource-wrapper.catastrophic-warning::before {
+    content: '⚠ DEATH CLOCK';
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #FF4444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    animation: deathClockWarning 0.8s ease-in-out infinite;
+    white-space: nowrap;
+    text-shadow: 0 0 4px rgba(255, 0, 0, 0.8);
+}
+
+@keyframes deathClockWarning {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}

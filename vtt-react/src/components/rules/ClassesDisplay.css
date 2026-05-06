@@ -44,8 +44,8 @@
 }
 
 .classes-intro-icon {
-    width: 52px;
-    height: 52px;
+    width: 72px;
+    height: 72px;
     border-radius: 12px;
     background: #ffffff;
     display: flex;
@@ -338,15 +338,15 @@
 }
 
 .class-card-icon {
-    width: 60px;
-    height: 60px;
+    width: 84px;
+    height: 84px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
     border: 2px solid #d4af37;
-    border-radius: 4px;
-    margin-bottom: 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
     overflow: hidden;
     position: relative;
     box-shadow: 
@@ -376,8 +376,8 @@
 }
 
 .tooltip-pixel-icon {
-    width: 56px;
-    height: 56px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     image-rendering: auto;
     mix-blend-mode: multiply;
@@ -483,17 +483,17 @@
 }
 
 .class-tooltip-icon {
-    font-size: 1.7rem;
+    font-size: 2.2rem;
     flex-shrink: 0;
-    width: 56px;
-    height: 56px;
+    width: 90px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1.5px solid rgba(139, 105, 20, 0.2);
+    border: 2px solid rgba(139, 105, 20, 0.3);
 }
 
 .class-tooltip-title {

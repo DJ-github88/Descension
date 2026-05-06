@@ -351,11 +351,6 @@
     letter-spacing: 0.5px;
 }
 
-/* Remove the AWAKENED indicator completely */
-.synergy-spirit-awakened {
-    display: none !important; /* Remove the annoying AWAKENED indicator entirely */
-}
-
 /* Subtle AWAKENED status indication in synergy text */
 .class-resource-bar.totemic-synergy .energy-value.awakened {
     color: #FFD700; /* Gold color for awakened status */

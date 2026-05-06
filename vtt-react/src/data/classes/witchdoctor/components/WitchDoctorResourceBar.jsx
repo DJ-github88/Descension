@@ -147,27 +147,72 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
     
     // Auto-position tooltip
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
+
+        const updatePosition = () => {
             const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
+
             tooltip.style.opacity = '0';
-            const barRect = barRef.current.getBoundingClientRect();
+            tooltip.style.position = 'fixed';
+
+            const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
-            
-            let x = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            let y = barRect.top - tooltipRect.height - 10;
-            
-            if (x < 10) x = 10;
-            if (x + tooltipRect.width > viewportWidth - 10) x = viewportWidth - tooltipRect.width - 10;
-            if (y < 10) y = barRect.bottom + 10;
-            
-            tooltip.style.left = `${x}px`;
-            tooltip.style.top = `${y}px`;
-            tooltip.style.opacity = '1';
+            const margin = 10;
 
-            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
-        }
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
+            }
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
+                }
+                if (top < margin) top = margin;
+            }
+
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+            tooltip.style.opacity = '1';
+        };
+
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localEssence, selectedSpec, cursesActive, totemsActive, poisonsApplied]);
     
     // Trigger loa flash effect
@@ -283,7 +328,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                         </div>
                     )}
                     
-                    {/* War Priest fiery core */}
+                    {/* Houngan fiery core */}
                     {selectedSpec === 'houngan' && poisonsApplied > 0 && (
                         <div className="fiery-core"></div>
                     )}

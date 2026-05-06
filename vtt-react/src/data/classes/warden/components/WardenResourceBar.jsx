@@ -8,7 +8,8 @@ import '../../../../styles/unified-context-menu.css';
 
 const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
-    const [localVP, setLocalVP] = useState(7);
+    const vpFromProps = classResource?.current ?? 0;
+    const [localVP, setLocalVP] = useState(vpFromProps);
     const [selectedSpec, setSelectedSpec] = useState('shadowblade');
     const [isInStealth, setIsInStealth] = useState(false);
     const [activeCages, setActiveCages] = useState(0);
@@ -22,6 +23,12 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     const tooltipRef = useRef(null);
 
     const maxVP = 10;
+
+    useEffect(() => {
+        if (classResource?.current !== undefined && classResource.current !== localVP) {
+            setLocalVP(classResource.current);
+        }
+    }, [classResource?.current]);
 
     // Specialization configurations
     const specConfigs = {
@@ -45,7 +52,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             sharedPassive: 'Relentless Hunter',
             sharedPassiveDesc: 'Advantage on Survival/Perception to track. Move at full speed while tracking.',
             uniquePassive: 'Master Jailer + Condemned',
-            uniquePassiveDesc: 'Cages cost -2 VP (3 instead of 5). Maintain 2 cages simultaneously. Caged enemies take +1d6 damage from all sources (+2d6 if marked).'
+            uniquePassiveDesc: 'Cages cost -2 VP (4 instead of 6). Maintain 2 cages simultaneously. Caged enemies take +1d6 damage from all sources (+2d6 if marked).'
         },
         vengeanceSeeker: {
             name: 'Vengeance Seeker',
@@ -64,34 +71,72 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && tooltipRef.current && barRef.current) {
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
+
+        const updatePosition = () => {
             const tooltip = tooltipRef.current;
-            tooltip.style.opacity = '0';
             const bar = barRef.current;
+            if (!tooltip || !bar) return;
+
+            tooltip.style.opacity = '0';
+            tooltip.style.position = 'fixed';
+
             const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
-            
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
-            
+            const margin = 8;
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
-            let top = barRect.top - tooltipRect.height - 8;
-            
-            if (left < 8) left = 8;
-            if (left + tooltipRect.width > viewportWidth - 8) {
-                left = viewportWidth - tooltipRect.width - 8;
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
             }
-            
-            if (top < 8) {
-                top = barRect.bottom + 8;
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
+                if (hudContainer) {
+                    const hudRect = hudContainer.getBoundingClientRect();
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
+                }
+                if (top < margin) top = margin;
             }
-            
+
             tooltip.style.left = `${left}px`;
             tooltip.style.top = `${top}px`;
             tooltip.style.opacity = '1';
+        };
 
-            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
-        }
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localVP, selectedSpec, isInStealth, activeCages, isInAvatar]);
 
     // Get chat store for combat notifications
@@ -211,7 +256,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
         const info = [];
         info.push('Successful attack: +1 VP');
         info.push('Evasion: +1 VP');
-        info.push('Critical hit: +1 VP');
+        info.push('Critical hit: +2 VP');
         
         if (isMarked) {
             info.push('Attack on marked target: +2 VP');
@@ -231,14 +276,14 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     // Get VP spending info
     const getVPSpendingInfo = () => {
         const info = [];
-        info.push('1 VP: Vengeful Strike (+1d6 damage)');
-        info.push('2 VP: Whirling Glaive (multi-target)');
-        info.push("3 VP: Hunter's Resolve (heal + Armor)");
+        info.push('2 VP: Vengeful Strike (+2d6 damage)');
+        info.push('3 VP: Whirling Glaive (multi-target)');
+        info.push("4 VP: Hunter's Resolve (heal + Armor)");
         
         if (selectedSpec === 'jailer') {
-            info.push('3 VP: Cage of Vengeance (Master Jailer)');
+            info.push('4 VP: Cage of Vengeance (Master Jailer)');
         } else {
-            info.push('5 VP: Cage of Vengeance');
+            info.push('6 VP: Cage of Vengeance');
         }
         
         info.push('10 VP: Avatar of Vengeance (ultimate)');
@@ -378,9 +423,9 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                 </button>
                                 <button 
                                     className="context-menu-button spend" 
-                                    onClick={(e) => { e.stopPropagation(); handleVPChange(selectedSpec === 'jailer' ? -3 : -5); }}
+                                    onClick={(e) => { e.stopPropagation(); handleVPChange(selectedSpec === 'jailer' ? -4 : -6); }}
                                 >
-                                    <i className="fas fa-minus"></i> {selectedSpec === 'jailer' ? '-3' : '-5'}
+                                    <i className="fas fa-minus"></i> {selectedSpec === 'jailer' ? '-4' : '-6'}
                                 </button>
                             </div>
 
@@ -478,12 +523,13 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                     className="context-menu-button danger" 
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        const resetAmount = localVP;
+                                        if (localVP < maxVP) return;
                                         handleVPChange(-10);
                                         setIsInAvatar(true);
                                         setShowControls(false);
                                     }}
-                                    style={{flex: 1}}
+                                    disabled={localVP < maxVP}
+                                    style={{flex: 1, opacity: localVP < maxVP ? 0.5 : 1}}
                                 >
                                     <i className="fas fa-star"></i> Avatar
                                 </button>
@@ -542,11 +588,11 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                     <div className="tooltip-divider"></div>
 
                     <div className="tooltip-section">
-                        <strong>Generation:</strong> Attack +1 VP, Marked +2 VP, Evasion +1 VP, Crit +1 VP
+                        <strong>Generation:</strong> Attack +1 VP, Marked +2 VP, Evasion +1 VP, Crit +2 VP
                     </div>
 
                     <div className="tooltip-section">
-                        <strong>Spending:</strong> 1 VP (+1d6 dmg) • 2 VP (multi-target) • 3 VP (heal+Armor) • {selectedSpec === 'jailer' ? '3' : '5'} VP (cage) • 10 VP (Avatar)
+                        <strong>Spending:</strong> 2 VP (+2d6 dmg) • 3 VP (multi-target) • 4 VP (heal+Armor) • {selectedSpec === 'jailer' ? '4' : '6'} VP (cage) • 10 VP (Avatar)
                     </div>
 
                     <div className="tooltip-divider"></div>

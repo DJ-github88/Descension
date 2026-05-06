@@ -266,26 +266,32 @@ const CommunityItemsTab = () => {
 
   return (
     <div className="community-items-tab">
-      {/* Search Bar */}
-      <div className="community-tab-search-section community-search-section">
-        <form onSubmit={handleSearch} className="community-tab-search-form search-form">
-          <div className="community-tab-search-input-group search-input-group">
+      {/* Search Bar & Controls */}
+      <div className="premium-community-controls">
+        {selectedCategory && (
+          <button onClick={clearSelection} className="community-go-back-btn">
+            <i className="fas fa-arrow-left"></i> Back to Categories
+          </button>
+        )}
+        
+        <form onSubmit={handleSearch} className="premium-search-form">
+          <div className="premium-search-input-group">
             <input
               type="text"
               placeholder="Search community items..."
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="community-tab-search-input search-input"
+              className="premium-search-input"
             />
-            <button type="submit" className="community-tab-search-btn search-btn">
+            <button type="submit" className="premium-search-btn">
               <i className="fas fa-search"></i>
             </button>
           </div>
         </form>
 
-        {(selectedCategory || searchTerm) && (
-          <button onClick={clearSelection} className="community-tab-clear-btn clear-selection-btn">
-            <i className="fas fa-times"></i> Clear Selection
+        {searchTerm && (
+          <button onClick={() => { clearSelection(); setSearchInput(''); }} className="premium-clear-btn">
+            <i className="fas fa-times"></i> Clear Search
           </button>
         )}
       </div>

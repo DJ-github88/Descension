@@ -1,5 +1,19 @@
 /* Spellguard Resource Bar Styles */
 
+/* ===== Custom Properties ===== */
+:root {
+    --sg-parchment-bg: rgba(240, 230, 210, 0.98);
+    --sg-parchment-dark: rgba(213, 203, 176, 0.98);
+    --sg-parchment-border: #a08c70;
+    --sg-parchment-border-light: rgba(160, 140, 112, 0.4);
+    --sg-ink: #000000;
+    --sg-ink-secondary: #5e2e23;
+    --sg-ink-muted: #3a3a3a;
+    --sg-negative: #d32f2f;
+    --sg-positive: #2e7d32;
+    --sg-serif: 'Bookman Old Style', 'Garamond', serif;
+}
+
 .spellguard-resource-container {
     position: relative;
     width: 100%;
@@ -235,10 +249,16 @@
 
 .spellguard-resource-bar.optimal .aep-fill {
     animation: optimalPulse 1s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 10px rgba(255, 255, 255, 0.2),
+        0 0 15px var(--spec-glow-color, #6495ED);
 }
 
 .spellguard-resource-bar.maximum .aep-fill {
     animation: maximumPulse 0.8s ease-in-out infinite;
+    box-shadow:
+        inset 0 0 15px rgba(255, 255, 255, 0.3),
+        0 0 20px var(--spec-glow-color, #6495ED);
 }
 
 @keyframes lowPulse {
@@ -262,30 +282,18 @@
 @keyframes optimalPulse {
     0%, 100% {
         filter: brightness(1.1) saturate(1.1);
-        box-shadow: 
-            inset 0 0 10px rgba(255, 255, 255, 0.2),
-            0 0 15px var(--spec-glow-color, #6495ED);
     }
     50% {
         filter: brightness(1.25) saturate(1.2);
-        box-shadow: 
-            inset 0 0 15px rgba(255, 255, 255, 0.3),
-            0 0 20px var(--spec-glow-color, #6495ED);
     }
 }
 
 @keyframes maximumPulse {
     0%, 100% {
         filter: brightness(1.2) saturate(1.2);
-        box-shadow: 
-            inset 0 0 15px rgba(255, 255, 255, 0.3),
-            0 0 20px var(--spec-glow-color, #6495ED);
     }
     50% {
         filter: brightness(1.4) saturate(1.3);
-        box-shadow: 
-            inset 0 0 20px rgba(255, 255, 255, 0.4),
-            0 0 25px var(--spec-glow-color, #6495ED);
     }
 }
 
@@ -474,15 +482,15 @@
 
 /* Tooltip Styles */
 .unified-resourcebar-tooltip {
-    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
-    border: 2px solid #a08c70;
+    background: linear-gradient(135deg, var(--sg-parchment-bg) 0%, var(--sg-parchment-dark) 100%);
+    border: 2px solid var(--sg-parchment-border);
     border-radius: 0;
     padding: 10px 12px;
     min-width: 240px;
     max-width: 300px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    color: #000000;
+    font-family: var(--sg-serif);
+    color: var(--sg-ink);
     pointer-events: none;
     font-size: 11px;
 }
@@ -497,7 +505,7 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid #a08c70;
+    border-top: 8px solid var(--sg-parchment-border);
 }
 
 .unified-resourcebar-tooltip.bottom::after {
@@ -510,16 +518,16 @@
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #a08c70;
+    border-bottom: 8px solid var(--sg-parchment-border);
 }
 
 .tooltip-header {
     font-size: 12px;
     font-weight: 700;
-    color: #000000;
+    color: var(--sg-ink);
     margin-bottom: 8px;
     padding-bottom: 5px;
-    border-bottom: 1px solid rgba(160, 140, 112, 0.4);
+    border-bottom: 1px solid var(--sg-parchment-border-light);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
@@ -541,13 +549,13 @@
 
 .tooltip-compact-label {
     font-weight: 600;
-    color: #000000;
+    color: var(--sg-ink);
     flex-shrink: 0;
     min-width: 70px;
 }
 
 .tooltip-compact-value {
-    color: #000000;
+    color: var(--sg-ink);
     flex: 1;
     word-wrap: break-word;
 }
@@ -555,7 +563,7 @@
 .tooltip-compact-item.spec-compact {
     margin-top: 5px;
     padding-top: 6px;
-    border-top: 1px solid rgba(160, 140, 112, 0.3);
+    border-top: 1px solid var(--sg-parchment-border-light);
     padding-left: 2px;
 }
 
@@ -566,14 +574,14 @@
     left: 0;
     right: 0;
     margin-top: 8px;
-    background: linear-gradient(135deg, rgba(240, 230, 210, 0.98) 0%, rgba(213, 203, 176, 0.98) 100%);
-    border: 2px solid #a08c70;
+    background: linear-gradient(135deg, var(--sg-parchment-bg) 0%, var(--sg-parchment-dark) 100%);
+    border: 2px solid var(--sg-parchment-border);
     border-radius: 8px;
     padding: 10px;
     z-index: 1000;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     min-width: 220px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
 }
 
 /* Party Context Dev Controls */
@@ -589,11 +597,11 @@
     align-items: center;
     margin-bottom: 10px;
     padding-bottom: 6px;
-    border-bottom: 2px solid rgba(160, 140, 112, 0.4);
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    border-bottom: 2px solid var(--sg-parchment-border-light);
+    font-family: var(--sg-serif);
     font-weight: 700;
     font-size: 11px;
-    color: #000000;
+    color: var(--sg-ink);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -615,7 +623,7 @@
 
 .controls-header button:hover {
     opacity: 1;
-    color: #5e2e23;
+    color: var(--sg-ink-secondary);
 }
 
 .control-group {
@@ -625,16 +633,16 @@
 .control-group label {
     display: block;
     margin-bottom: 6px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
     font-size: 10px;
     font-weight: 600;
-    color: #3a3a3a;
+    color: var(--sg-ink-muted);
 }
 
 .spec-selector-group {
     margin-bottom: 8px;
     padding-bottom: 6px;
-    border-bottom: 1px solid rgba(160, 140, 112, 0.3);
+    border-bottom: 1px solid var(--sg-parchment-border-light);
 }
 
 .spellguard-dev-controls .spec-cycle-btn {
@@ -649,7 +657,7 @@
     background: rgba(240, 230, 210, 0.6);
     border: 1px solid;
     border-radius: 4px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
     font-size: 10px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -676,7 +684,7 @@
     gap: 6px;
     border: 1px solid;
     border-radius: 4px;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
     font-size: 10px;
     font-weight: 500;
     cursor: pointer;
@@ -692,9 +700,9 @@
 }
 
 .aep-info {
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
     font-size: 9px;
-    color: #5e2e23;
+    color: var(--sg-ink-secondary);
     line-height: 1.4;
     margin-bottom: 10px;
     font-style: italic;
@@ -702,7 +710,7 @@
     background: rgba(160, 140, 112, 0.1);
     padding: 6px 8px;
     border-radius: 4px;
-    border: 1px solid rgba(160, 140, 112, 0.2);
+    border: 1px solid var(--sg-parchment-border-light);
 }
 
 /* Party Context AEP Info */
@@ -726,10 +734,10 @@
     flex: 1;
     padding: 6px 8px;
     background: rgba(240, 230, 210, 0.6);
-    border: 1px solid rgba(160, 140, 112, 0.5);
+    border: 1px solid var(--sg-parchment-border-light);
     border-radius: 4px;
-    color: #3a3a3a;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    color: var(--sg-ink-muted);
+    font-family: var(--sg-serif);
     font-size: 10px;
     font-weight: 500;
     cursor: pointer;
@@ -762,10 +770,10 @@
 }
 
 .section-label {
-    font-family: 'Bookman Old Style', 'Garamond', serif;
+    font-family: var(--sg-serif);
     font-size: 9px;
     font-weight: 600;
-    color: #5e2e23;
+    color: var(--sg-ink-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
@@ -797,11 +805,11 @@
 .adjust-btn {
     padding: 6px 4px;
     background: rgba(240, 230, 210, 0.6);
-    border: 1px solid rgba(160, 140, 112, 0.5);
+    border: 1px solid var(--sg-parchment-border-light);
     border-radius: 4px;
-    color: #3a3a3a;
-    font-family: 'Bookman Old Style', 'Garamond', serif;
-    font-size: 9px;
+    color: var(--sg-ink-muted);
+    font-family: var(--sg-serif);
+    font-size: 10px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -816,11 +824,11 @@
 }
 
 .adjust-btn.negative {
-    color: #d32f2f;
+    color: var(--sg-negative);
 }
 
 .adjust-btn.positive {
-    color: #2e7d32;
+    color: var(--sg-positive);
 }
 
 /* Party Context Button Styles */

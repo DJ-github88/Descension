@@ -36,7 +36,7 @@ export const PRIMALIST_EARTHWARDEN = [
   {
     id: 'earthwarden_t3_protective_synergy',
     name: 'Protective Synergy',
-    description: 'When you activate a synergy, flip a coin per rank. On heads, the synergy lasts +1 turn.',
+    description: 'When you activate a synergy, roll 1d4 per rank. On 3+, the synergy lasts +1 turn.',
     icon: 'spell_nature_stoneclawtotem',
     maxRanks: 3,
     position: { x: 1, y: 3 },
@@ -83,7 +83,7 @@ export const PRIMALIST_EARTHWARDEN = [
   {
     id: 'earthwarden_t4_totemic_mastery',
     name: 'Totemic Mastery',
-    description: 'You can maintain +1 additional totem per rank. Draw a card when placing totems - hearts cards increase totem radius by 5ft.',
+    description: 'You can maintain +1 additional totem per rank. When placing totems, roll 1d6 per rank — on 5+, increase totem radius by 5ft.',
     icon: 'spell_nature_nullward',
     maxRanks: 2,
     position: { x: 4, y: 4 },
@@ -227,7 +227,7 @@ export const PRIMALIST_STORMBRINGER = [
   {
     id: 'stormbringer_t3_reduced_threshold',
     name: 'Reduced Threshold',
-    description: 'You can trigger synergies with 1 fewer totem per rank (minimum 2 totems).',
+    description: 'You can trigger synergies with 1 fewer totem per rank (minimum 3 totems).',
     icon: 'spell_nature_earthbindtotem',
     maxRanks: 2,
     position: { x: 2, y: 3 },
@@ -276,7 +276,7 @@ export const PRIMALIST_STORMBRINGER = [
   {
     id: 'stormbringer_t5_primal_rage',
     name: 'Primal Rage',
-    description: 'When you activate Elemental Fury, flip a coin per rank. On heads, enemies take an additional 2d6 damage of each element.',
+    description: 'When you activate Elemental Fury, roll 1d4 per rank. On 3+, enemies take an additional 2d6 damage of each element.',
     icon: 'spell_fire_sealoffire',
     maxRanks: 3,
     position: { x: 1, y: 5 },
@@ -286,7 +286,7 @@ export const PRIMALIST_STORMBRINGER = [
   {
     id: 'stormbringer_t5_storm_lord',
     name: 'Storm Lord',
-    description: 'Draw a card when placing elemental totems. Face cards allow you to place that totem for 0 mana.',
+    description: 'When placing elemental totems, roll 1d6 per rank. On 6, you can place that totem for 0 mana.',
     icon: 'spell_nature_stormreach',
     maxRanks: 2,
     position: { x: 3, y: 5 },
@@ -342,7 +342,7 @@ export const PRIMALIST_SPIRITCALLER = [
   {
     id: 'spiritcaller_t1_ancestral_bond',
     name: 'Ancestral Bond',
-    description: 'Draw a card when placing totems. Hearts cards grant +1 to totem HP per rank.',
+    description: 'When placing totems, roll 1d6 per rank. On 5+, grant +1 to totem HP per rank.',
     icon: 'spell_nature_spiritarmor',
     maxRanks: 4,
     position: { x: 4, y: 1 },
@@ -356,13 +356,13 @@ export const PRIMALIST_SPIRITCALLER = [
     description: 'Enemies within totem range have -1 to attack rolls and saves per rank.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 3,
-    position: { x: 1, y: 2 },
+    position: { x: 0, y: 2 },
     requires: 'spiritcaller_t1_expanded_reach',
   },
   {
     id: 'spiritcaller_t3_ancestral_guidance',
     name: 'Ancestral Guidance',
-    description: 'Totems reveal invisible enemies within range. Draw a card when placing totems - spades cards reveal all hidden enemies.',
+    description: 'Totems reveal invisible enemies within range. When placing totems, roll 1d6 per rank — on 6, reveal all hidden enemies within 30ft.',
     icon: 'spell_nature_spiritarmor',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -460,7 +460,7 @@ export const PRIMALIST_SPIRITCALLER = [
   {
     id: 'spiritcaller_t5_spirit_bind',
     name: 'Spirit Bind',
-    description: 'Enemies within totem range cannot teleport or plane shift. Flip a coin when they attempt to - on tails, they take 3d6 psychic damage.',
+    description: 'Enemies within totem range cannot teleport or plane shift. When they attempt to, roll 1d4 — on 1, they take 3d6 psychic damage instead.',
     icon: 'spell_nature_spiritwolf',
     maxRanks: 3,
     position: { x: 0, y: 5 },

@@ -8,8 +8,8 @@ import '../../../../styles/unified-context-menu.css';
 
 const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
-    const [localToxinVials, setLocalToxinVials] = useState(6);
-    const [localContraptionParts, setLocalContraptionParts] = useState(3);
+    const [localToxinVials, setLocalToxinVials] = useState(classResource?.toxinVials ?? 6);
+    const [localContraptionParts, setLocalContraptionParts] = useState(classResource?.contraptionParts ?? 3);
     const [selectedSpec, setSelectedSpec] = useState('venomancer');
     const [activePoisonsCount, setActivePoisonsCount] = useState(2);
     const [deployedContraptionsCount, setDeployedContraptionsCount] = useState(1);
@@ -80,7 +80,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             glowColor: '#76FF03',
             icon: 'fa-skull-crossbones',
             passive: 'Potent Toxins',
-            passiveDesc: 'All poison damage +1d6. Poison effects last 2 additional rounds. Enemies have disadvantage on saves against your poisons.'
+            passiveDesc: 'All poison damage +1d6. Poison effects last 2 additional rounds. Advantage on rolls to craft poisons.'
         },
         gadgeteer: {
             name: 'Gadgeteer',
@@ -98,52 +98,60 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             glowColor: '#7C4DFF',
             icon: 'fa-user-secret',
             passive: 'Debilitating Expertise',
-            passiveDesc: 'All debuffs last 2 additional rounds. Debuffs require coin flip (heads) to dispel. Enemies affected by poisons/contraptions have -2 to all saves.'
+            passiveDesc: 'All debuffs last 2 additional rounds. Debuffs require DC 16 Spirit save to dispel. Enemies affected by poisons/contraptions have -2 to all saves.'
         }
     };
 
     const currentSpec = specConfigs[selectedSpec];
-    const maxToxinVials = selectedSpec === 'gadgeteer' ? 8 : 10; // Base INT mod + 3
-    const maxContraptionParts = selectedSpec === 'gadgeteer' ? 6 : 5;
+    const maxToxinVials = classResource?.toxinVialsMax || (Math.max(4, 3)); // Fallback; real value comes from classResource
+    const maxContraptionParts = classResource?.contraptionPartsMax || 5;
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
-            const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
+
+        const updatePosition = () => {
             const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
+
             tooltip.style.opacity = '0';
-            
+            tooltip.style.position = 'fixed';
+
+            const barRect = bar.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             const padding = 10;
-            
-            // Find the HUD container to position tooltip below it
-            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
             let hudBottom = barRect.bottom;
-            
+
             if (hudContainer) {
                 const hudRect = hudContainer.getBoundingClientRect();
                 hudBottom = hudRect.bottom;
             }
-            
-            // Position tooltip below the HUD container, centered horizontally
+
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
             let top = hudBottom + padding;
-            
-            // Check if tooltip goes off left
-            if (left < padding) {
-                left = padding;
-            }
-            
-            // Check if tooltip goes off right
+
+            if (left < padding) left = padding;
             if (left + tooltipRect.width > viewportWidth - padding) {
                 left = viewportWidth - tooltipRect.width - padding;
             }
-            
-            // Check if tooltip goes off bottom
+
             if (top + tooltipRect.height > viewportHeight - padding) {
-                // If there's not enough space below, position above the HUD instead
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
                     top = hudRect.top - tooltipRect.height - padding;
@@ -151,18 +159,24 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                 } else {
                     top = viewportHeight - tooltipRect.height - padding;
                 }
-                // But ensure it doesn't go off top either
-                if (top < padding) {
-                    top = padding;
-                }
+                if (top < padding) top = padding;
             } else {
                 tooltip.classList.add('below');
             }
-            
+
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
             tooltip.style.opacity = '1';
-        }
+        };
+
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localToxinVials, localContraptionParts, selectedSpec, hoverSection]);
 
     // Close menus when clicking outside

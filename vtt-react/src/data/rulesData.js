@@ -2051,8 +2051,8 @@ Both dice use the weapon type to pick the correct outcome text.`
                 ['Alchemical Vials', 'Toxicologist', 'Toxin Vials for poisons/concoctions; Contraption Parts for battlefield devices'],
                 ['Vengeance Points', 'Warden', 'Build vengeance when allies take damage; spend on protective and retaliatory abilities'],
                 ['Voodoo Essence & Loa Invocation', 'Witch Doctor', 'Build essence through curses; invoke powerful Loa spirits'],
-                ['Benediction & Malediction', 'Augur', 'Even d20 results generate Benediction (boons/blessings), odd results generate Malediction (curses/debuffs). Spec-dependent maxes: 10/10, 15/5, or 5/15. Unused resources cause Omen Debt.'],
-                ['Havoc', 'Doomsayer', 'Earned from fulfilled prophecies (Prophesized outcomes). Spent to widen prophecy ranges and cast stronger spells. Prophecy Range: roll 2 dice → inside = Prophesized, boundary = Base, outside = Backlash.']
+                ['Benediction & Malediction', 'Augur', 'Even d20 results generate Benediction (boons/blessings), odd results generate Malediction (curses/debuffs). Only applies to visible creatures within 60ft. Advantage/disadvantage: both dice generate. Spec-dependent maxes: 10/10, 15/5, or 5/15. Overflow at max is lost. Short rest resets to 0 (no penalty). Unused resources at long rest cause Omen Debt (-1/point to all rolls, cap -10).'],
+                ['Havoc', 'Doomsayer', 'Earned from fulfilled prophecies (Prophesied outcomes). Spent to widen prophecy ranges and cast stronger spells. Prophecy Range: roll 2 dice → lower = Low boundary, higher = High boundary → inside = Prophesied, boundary = Base, outside = Backlash.']
               ]
             }
           ]

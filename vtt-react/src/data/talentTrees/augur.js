@@ -27,7 +27,7 @@ export const AUGUR_AUSPICE = [
   {
     id: 'auspice_t1_dual_reading',
     name: 'Dual Reading',
-    description: 'When you generate Benediction or Malediction from a d20, gain +1 of the opposite type as well per rank.',
+    description: 'When you generate Benediction or Malediction from a d20, gain +1 of the same type as well per rank. Stacks with Harmonic Interpretation (passive: opposite type).',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 2,
     position: { x: 3, y: 0 },

@@ -197,7 +197,7 @@ export const PLAGUEBRINGER_DECAY_HARBINGER = [
   {
     id: 'decay_t0_infinite_growth',
     name: 'Infinite Growth',
-    description: 'Afflictions have no final form. After Stage 3, each category spell adds permanent stacks instead. +1 permanent stack type unlocked per rank.',
+    description: 'Afflictions have no final form. After Stage 3, each category spell adds permanent stacks instead. Max 15 stacks per target. +1 permanent stack type unlocked per rank.',
     icon: 'spell_shadow_deathanddecay',
     maxRanks: 3,
     position: { x: 2, y: 0 },

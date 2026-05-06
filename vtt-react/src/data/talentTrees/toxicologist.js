@@ -149,7 +149,7 @@ export const TOXICOLOGIST_GADGETEER = [
   {
     id: 'gadget_core_mechanical',
     name: 'Mechanical Core',
-    description: 'Your body houses intricate machinery. Gain proficiency with all tools and advantage on checks to repair or modify mechanical devices. You can spend 1 1 action point to deploy a simple contraption.',
+    description: 'Your body houses intricate machinery. Gain proficiency with all tools and advantage on checks to repair or modify mechanical devices. You can spend 1 action point to deploy a simple contraption.',
     icon: 'inv_misc_wrench_01',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -291,7 +291,7 @@ export const TOXICOLOGIST_SABOTEUR = [
   {
     id: 'sabotage_core_disruption',
     name: 'Disruption Core',
-    description: 'Your presence sows chaos and disorder. Enemies within 30 feet have disadvantage on concentration saves per rank. You can spend 1 1 action point to create a zone of confusion in a 10-foot radius.',
+    description: 'Your presence sows chaos and disorder. Enemies within 30 feet have disadvantage on concentration saves per rank. You can spend 1 action point to create a zone of confusion in a 10-foot radius.',
     icon: 'ability_rogue_wrongfullyaccused',
     maxRanks: 5,
     position: { x: 2, y: 0 },

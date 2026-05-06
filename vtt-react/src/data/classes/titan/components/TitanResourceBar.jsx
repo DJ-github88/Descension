@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
+import { DEVOTIONS, SPECIALIZATIONS } from '../titanConstants';
 import '../styles/TitanResourceBar.css';
 
 const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
@@ -19,83 +20,35 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
     const maxCharge = 100;
 
-    // Devotion configurations - five celestial beings
-    const devotionConfigs = {
-        solara: {
-            name: 'Solara',
-            title: 'The Radiant Sun',
-            baseColor: '#B8860B',
-            activeColor: '#FFD700',
-            glowColor: '#FFA500',
-            icon: 'fa-sun',
-            benefit: '+1d6 radiant damage on melee attacks',
-            ultimate: 'Solar Flare: 3d8 radiant damage to all enemies within 10 ft, blind for 1 turn',
-            restriction: 'Enemies have advantage on attacks against you in bright light'
-        },
-        lunara: {
-            name: 'Lunara',
-            title: 'The Moon Guardian',
-            baseColor: '#4682B4',
-            activeColor: '#87CEEB',
-            glowColor: '#B0E0E6',
-            icon: 'fa-moon',
-            benefit: '+2 armor, regenerate 5 HP at start of each turn',
-            ultimate: 'Lunar Shield: Absorb 50 damage for all allies within 15 ft',
-            restriction: 'Healing received from external sources is halved'
-        },
-        astraeus: {
-            name: 'Astraeus',
-            title: 'The Star Sage',
-            baseColor: '#6A5ACD',
-            activeColor: '#9370DB',
-            glowColor: '#BA55D3',
-            icon: 'fa-star',
-            benefit: '+10 ft movement, advantage on Dexterity saves',
-            ultimate: 'Starfall: 4d6 force damage to target, stun for 1 turn',
-            restriction: 'Take +1d6 damage from non-magical attacks'
-        },
-        terranox: {
-            name: 'Terranox',
-            title: 'The Earth Titan',
-            baseColor: '#654321',
-            activeColor: '#8B4513',
-            glowColor: '#A0522D',
-            icon: 'fa-mountain',
-            benefit: '+3 armor, resistance to physical damage',
-            ultimate: 'Earthshatter: 3d6 bludgeoning damage, knock prone all enemies within 20 ft',
-            restriction: 'Movement speed reduced by 10 ft'
-        },
-        zephyra: {
-            name: 'Zephyra',
-            title: 'The Wind Spirit',
-            baseColor: '#5F9EA0',
-            activeColor: '#00CED1',
-            glowColor: '#AFEEEE',
-            icon: 'fa-wind',
-            benefit: '+1 attack per turn, +1d4 lightning damage on attacks',
-            ultimate: 'Tempest Strike: Teleport 30 ft, deal 3d6 lightning damage in 5 ft radius',
-            restriction: 'When hit by melee attack, pushed back 5 ft'
-        }
-    };
+    const devotionConfigs = Object.fromEntries(
+        Object.entries(DEVOTIONS).map(([key, d]) => [
+            key,
+            {
+                name: d.name,
+                title: d.title,
+                baseColor: d.colors.base,
+                activeColor: d.colors.active,
+                glowColor: d.colors.glow,
+                icon: d.icon,
+                benefit: d.benefit,
+                ultimate: `${d.ultimateName}: ${d.ultimateShort}`,
+                restriction: d.restriction
+            }
+        ])
+    );
 
-    // Specialization configurations
-    const specConfigs = {
-        celestialChampion: {
-            name: 'Celestial Champion',
-            passive: 'Divine Amplification',
-            passiveDesc: 'Devotion benefits increased by 50%. Ultimate abilities recharge on short rest. At 80+ charge: double flare effect when channeling divine energy.'
-        },
-        divineConduit: {
-            name: 'Divine Conduit',
-            passive: 'Balanced Channeling',
-            passiveDesc: 'Devotion restrictions reduced by 50%. Can partially attune to a second devotion at 50% effectiveness. At 60+ charge: gentle dual-glow showing both devotions.'
-        },
-        astralWarrior: {
-            name: 'Astral Warrior',
-            passive: 'Combat Versatility',
-            passiveDesc: 'Can switch devotions using action points (3 uses per long rest). Switching triggers burst effect. At devotion switch: short burst flash animation.'
-        }
-    };
+    const specConfigs = Object.fromEntries(
+        Object.entries(SPECIALIZATIONS).map(([key, s]) => [
+            key,
+            {
+                name: s.name,
+                passive: s.passive,
+                passiveDesc: s.passiveDesc
+            }
+        ])
+    );
+
+
 
     const currentDevotion = devotionConfigs[selectedDevotion];
     const currentSpec = specConfigs[selectedSpec];
@@ -115,87 +68,74 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && tooltipRef.current && barRef.current) {
-            tooltipRef.current.style.opacity = '0';
-            const updatePosition = () => {
-                const tooltip = tooltipRef.current;
-                const bar = barRef.current;
-                if (!tooltip || !bar) {
-                    requestAnimationFrame(updatePosition);
-                    return;
-                }
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
 
-                const tooltipRect = tooltip.getBoundingClientRect();
-                const barRect = bar.getBoundingClientRect();
+        const updatePosition = () => {
+            const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
 
-                if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
-                    requestAnimationFrame(updatePosition);
-                    return;
-                }
+            tooltip.style.opacity = '0';
+            tooltip.style.position = 'fixed';
 
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-                const margin = 8;
+            const barRect = bar.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
 
-                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                let hudBottom = barRect.bottom;
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
 
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const margin = 8;
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
+            }
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    hudBottom = hudRect.bottom;
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
                 }
+                if (top < margin) top = margin;
+            }
 
-                const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
-                const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+            tooltip.style.transform = 'none';
+            tooltip.style.zIndex = '2147483647';
+            tooltip.style.opacity = '1';
+        };
 
-                let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
-                let top = hudBottom + margin;
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
 
-                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                    requestAnimationFrame(updatePosition);
-                }
-
-                if (left < margin) {
-                    left = margin;
-                }
-                if (left + tooltipWidth > viewportWidth - margin) {
-                    left = viewportWidth - tooltipWidth - margin;
-                }
-
-                if (top + tooltipHeight > viewportHeight - margin) {
-                    if (hudContainer) {
-                        const hudRect = hudContainer.getBoundingClientRect();
-                        top = hudRect.top - tooltipHeight - margin;
-                    } else {
-                        top = barRect.top - tooltipHeight - margin;
-                    }
-                    if (top < margin) {
-                        top = margin;
-                    }
-                }
-
-                tooltip.style.position = 'fixed';
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-                tooltip.style.transform = 'none';
-                tooltip.style.zIndex = '2147483647';
-                tooltip.style.borderRadius = '0';
-                tooltip.style.padding = '10px 12px';
-                tooltip.style.opacity = '1';
-            };
-
-            updatePosition();
-            requestAnimationFrame(() => {
-                requestAnimationFrame(updatePosition);
-            });
-
-            const timeoutId = setTimeout(updatePosition, 50);
-
-            return () => {
-                clearTimeout(timeoutId);
-                if (tooltipRef.current) { tooltipRef.current.style.opacity = ''; }
-            };
-        }
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localCharge, selectedDevotion, selectedSpec]);
 
     // Simulate charging effect

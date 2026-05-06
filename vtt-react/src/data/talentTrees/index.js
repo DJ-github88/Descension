@@ -113,9 +113,9 @@ export {
 } from './arcanoneer.js';
 
 export {
-  WITCH_DOCTOR_SHADOW_PRIEST,
-  WITCH_DOCTOR_SPIRIT_HEALER,
-  WITCH_DOCTOR_WAR_PRIEST
+  WITCH_DOCTOR_BOKOR,
+  WITCH_DOCTOR_MAMBO,
+  WITCH_DOCTOR_HOUNGAN
 } from './witchdoctor.js';
 
 export {

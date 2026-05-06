@@ -146,9 +146,11 @@ import {
 } from './talentTrees/formbender.js';
 
 import {
-  WITCH_DOCTOR_SHADOW_PRIEST,
-  WITCH_DOCTOR_SPIRIT_HEALER,
-  WITCH_DOCTOR_WAR_PRIEST
+  WITCH_DOCTOR_BOKOR,
+
+  WITCH_DOCTOR_MAMBO,
+
+  WITCH_DOCTOR_HOUNGAN
 } from './talentTrees/witchdoctor.js';
 
 import {
@@ -208,7 +210,7 @@ import {
 import {
   WARDEN_SHADOWBLADE,
   WARDEN_JAILER,
-  WARDEN_AVENGER
+  WARDEN_VENGEANCE_SEEKER
 } from './talentTrees/warden.js';
 export const getTreeBackdrop = (className, specId) => {
   // Map class and specialization to backdrop images
@@ -427,9 +429,9 @@ export const TALENT_TREES = {
     'card_sharp': GAMBLER_FATE_CONTROL
   },
   'Martyr': {
-    'redemption': MARTYR_REDEMPTION,
-    'zealot': MARTYR_ZEALOT,
-    'ascetic': MARTYR_ASCETIC
+    'redemption': MARTYR_ZEALOT,
+    'zealot': MARTYR_ASCETIC,
+    'ascetic': MARTYR_REDEMPTION
   },
   'False Prophet': {
     'voidcaller': FALSE_PROPHET_VOIDCALLER,
@@ -477,9 +479,9 @@ export const TALENT_TREES = {
     'primordial': FORMBENDER_PRIMORDIAL
   },
   'Witch Doctor': {
-    'bokor': WITCH_DOCTOR_SHADOW_PRIEST,
-    'mambo': WITCH_DOCTOR_SPIRIT_HEALER,
-    'houngan': WITCH_DOCTOR_WAR_PRIEST
+    'bokor': WITCH_DOCTOR_BOKOR,
+    'mambo': WITCH_DOCTOR_MAMBO,
+    'houngan': WITCH_DOCTOR_HOUNGAN
   },
   'Covenbane': {
     'shadowbane': COVENBANE_SHADOWBANE,
@@ -504,7 +506,8 @@ export const TALENT_TREES = {
   'Warden': {
     'shadowblade': WARDEN_SHADOWBLADE,
     'jailer': WARDEN_JAILER,
-    'avenger': WARDEN_AVENGER
+    'avenger': WARDEN_VENGEANCE_SEEKER,
+    'vengeance-seeker': WARDEN_VENGEANCE_SEEKER
   },
   'Berserker': {
     'primal_rage': BERSERKER_PRIMAL_RAGE,

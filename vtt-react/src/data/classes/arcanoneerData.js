@@ -23,14 +23,16 @@ export const ARCANONEER_DATA = {
 
 **But here's the twist**: As you level up, you learn **Recipes** — enhanced versions of matrix combinations that add powerful effects. Anyone can combine Fire + Ice for basic Steam damage. But a Recipe like *Steam Burst* adds a blinding cone effect. The matrix is your floor. Recipes are your ceiling.
 
-**Core Loop**: Roll 4d8 → Get spheres → Bank or spend → Combine 2 spheres for a matrix combo (or use a learned Recipe for bonus effects) → Adapt to whatever the dice give you
+**Core Loop**: Roll 4d8 → Get spheres → Bank or spend → Choose an **Action** (Attack, Defend, Buff, Area, or Trap) → Pick 2 spheres to combine → If you've learned a **Recipe** for that combo, cast it instead for its mana cost and enhanced effects
+
+**How Actions and Recipes Work Together**: When you combine spheres, you use the base **Action** system (pick a shape — Attack, Defend, Buff, Area, or Trap — and your spheres fill in the damage type and minor effect). If you've learned a **Recipe** that matches your sphere combination, you may cast the Recipe instead — it overrides the base action with a pre-defined, more powerful effect at its own mana cost. You choose: base action for flexibility, or recipe for raw power.
 
 **Resource**: Elemental Spheres (random each turn, bankable during combat, lost when combat ends) + Mana
 
 **Three Power Tiers**:
-- **2-Sphere Combos** (always available): Your bread and butter. 36 possible combinations, all defined in the matrix. 5 mana.
-- **3-Sphere Recipes** (learned, Level 6+): First power spike. Stronger effects, higher mana cost.
-- **4-Sphere Recipes** (learned, Level 8+): Devastating ultimates. Require banking spheres across turns.
+- **2-Sphere Combos** (always available): Your bread and butter. 36 possible combinations, all defined in the matrix. 5 mana base (varies by Action type: 4-7 mana).
+- **3-Sphere Recipes** (learned, Level 6+): First power spike. Scaling damage dice, persistent effects, unique mechanics. 20-25 mana.
+- **4-Sphere Recipes** (learned, Level 8+): Devastating ultimates. Require banking spheres across turns. 25-36 mana.
 
 **Best For**: Players who love improvisation, combo systems, and turning chaos into strategy`
     },
@@ -77,7 +79,7 @@ Common Arcanoneer archetypes:
 
 **Weaknesses**:
 - RNG-dependent — bad rolls mean suboptimal turns
-- 2-sphere base damage is modest (1d8 + int/4) — you need Recipes or multi-sphere combos for big numbers
+- 2-sphere base damage is modest (1d8 + INT/4) — you need Recipes or multi-sphere combos for big numbers. Recipes scale: 2d8 + INT/3 at level 3-4, 3d8 + INT/2 at level 5.
 - Complex decision-making every turn (analysis paralysis is real)
 - Sphere banking requires patience — turns spent saving are turns spent not casting`
     },
@@ -167,7 +169,7 @@ Problem: you only have ONE Shadow sphere. You need another.
 
 *The two shadow spheres don't fly. They *unfold* — tendrils of living darkness that wrap around the bandit leader's arms, his blade, his throat. The necrotic energy drains the color from his skin. His dark chant chokes off into a gurgle. His muscles weaken as the shadow leeches his strength.*
 
-**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). Base damage 1d8 + INT/4 necrotic. Recipe adds: 1d4 necrotic damage per round for 2 rounds AND Strength reduced by 2 for 2 rounds. His spell is interrupted.
+**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). Base damage 2d8 + INT/3 necrotic. Recipe adds: 1d6 necrotic damage per round for 2 rounds AND Strength reduced by 2 for 2 rounds. His spell is interrupted.
 
 *The bandit leader staggers. His dark blade clatters to the stones. Your fighter finishes him with a clean strike.*
 
@@ -201,7 +203,8 @@ Problem: you only have ONE Shadow sphere. You need another.
 **How It Changes Each Turn**:
 - **Turn Start**: 4 new spheres appear (from your 4d8 roll)
 - **When Casting**: Spent spheres disappear from the bar
-- **When Banking**: Unused spheres remain visible, accumulating over turns
+- **When Banking**: Unused spheres remain visible, accumulating over turns (max **12 banked**)
+- **Overflow**: If rolling would exceed 12, you choose which new spheres to keep. Excess are lost.
 - **Combat End**: All spheres vanish — fresh start each fight
 
 **Reading the Bar at a Glance**: The bar is your hand of cards. A bar full of Fire spheres means pure-element combos. A diverse mix means utility and versatility. The skill is in recognizing, at a glance, which matrix combos and Recipes your current bank supports. With 36 matrix combinations and your learned Recipes, this pattern recognition becomes second nature — and deeply satisfying when you spot a combo others would miss.`
@@ -222,7 +225,7 @@ Problem: you only have ONE Shadow sphere. You need another.
           stepNumber: 2,
           title: 'Bank or Spend',
           subtitle: 'Your Choice',
-          content: `Spheres persist until spent or combat ends. Bank for later or spend now.`
+          content: `Spheres persist until spent or combat ends (max **12 banked**). Bank for later or spend now.`
         },
         {
           type: 'step',
@@ -236,16 +239,16 @@ Problem: you only have ONE Shadow sphere. You need another.
         title: 'Your 5 Actions',
         subtitle: 'Pick one. Your spheres fill in the damage types and effects.',
         actions: [
-          { name: 'Attack', icon: 'crosshairs', spheres: '2', mana: '5', range: '30ft', target: 'One enemy', damage: '1d6 + INT/4', note: 'Your default. Cantrip-level damage + combo\'s minor effect.' },
+          { name: 'Attack', icon: 'crosshairs', spheres: '2', mana: '5', range: '30ft', target: 'One enemy', damage: '1d8 + INT/4', note: 'Your default. Cantrip-level damage + combo\'s minor effect.' },
           { name: 'Defend', icon: 'shield-alt', spheres: '2', mana: '6', range: 'Self/Ally 30ft', target: 'One creature', damage: 'Absorbs level HP', note: 'Barrier + resistance to combo\'s damage types for 1 round.' },
-          { name: 'Buff', icon: 'magic', spheres: '2', mana: '4', range: 'Touch', target: 'One weapon', damage: '+1d4 next hit', note: 'Weapon gains combo\'s element. Works on allies too.' },
-          { name: 'Area', icon: 'burst', spheres: '2', mana: '7', range: '30ft center', target: '10ft radius', damage: '1d4 + INT/4 each', note: 'Spread thin — less damage but hits a group.' },
-          { name: 'Trap', icon: 'draw-polygon', spheres: '2', mana: '6', range: '30ft surface', target: '5ft zone', damage: '1d6 + INT/4', note: 'Hidden trigger. Lasts 1 minute.' }
+          { name: 'Buff', icon: 'magic', spheres: '2', mana: '4', range: 'Touch', target: 'One weapon', damage: '+1d6 next hit', note: 'Weapon gains combo\'s element. Works on allies too.' },
+          { name: 'Area', icon: 'burst', spheres: '2', mana: '7', range: '30ft center', target: '10ft radius', damage: '1d6 + INT/4 each', note: 'Spread thin — less damage but hits a group.' },
+          { name: 'Trap', icon: 'draw-polygon', spheres: '2', mana: '6', range: '30ft surface', target: '5ft zone', damage: '1d8 + INT/4', note: 'Hidden trigger. Lasts 1 minute.' }
         ]
       },
       chaosEffectsTable: {
         title: 'Chaos Effects Table (Player Rolls d20)',
-        subtitle: 'Roll whenever you use any Chaos combo',
+        subtitle: 'The default resolution for Chaos combos. When a specific Chaos combo has its own random effect table (marked with ★ in the Combination Matrix), use that table instead of rolling here. If a Chaos combo has no specific table, roll on this d20 table.',
         headers: ['d20', 'Effect'],
         rows: [
           ['1', 'Fizzle — spell fails. Spheres spent, nothing happens.'],
@@ -275,21 +278,23 @@ Problem: you only have ONE Shadow sphere. You need another.
         title: 'Why Learn Recipes?',
         subtitle: 'Base combos are cantrips. Recipes are real spells.',
         baselineCan: [
-          'Deal 1d6 + INT/4 per combo (only INT scales — die never grows)',
+          'Deal 1d8 + INT/4 per combo (only INT scales — die never grows)',
           'Apply minor 1-round effects (blind, slow, push)',
           'Choose any action type for any combo',
           'Cover every damage type'
         ],
         baselineCannot: [
           'DoT, stat reduction, persistent buffs, teleportation',
-          'Scale beyond 1d6 + INT/4',
+          'Scale beyond 1d8 + INT/4',
           'Anything lasting more than 1 round'
         ],
         recipeExamples: [
-          { level: 'Lv 2', name: 'Steam Burst', upgrade: 'Fire+Ice → 20ft cone (base is single-target)' },
-          { level: 'Lv 4', name: 'Firestorm', upgrade: 'Fire+Fire → 15ft AoE + 1d4 fire DoT 2 rounds' },
+          { level: 'Lv 2', name: 'Steam Burst', upgrade: 'Fire+Ice → 20ft cone (base Attack is single-target)' },
+          { level: 'Lv 3', name: 'Arcane Detonation', upgrade: 'Arcane+Arcane → 10ft AoE + disorient (2d8 + INT/3)' },
+          { level: 'Lv 4', name: 'Firestorm', upgrade: 'Fire+Fire → 15ft AoE + 1d6 fire DoT 2 rounds (2d8 + INT/3)' },
+          { level: 'Lv 5', name: 'Elemental Blast', upgrade: 'Fire+Ice → 10ft AoE (3d8 + INT/2)' },
           { level: 'Lv 6', name: 'Glacial Blessing', upgrade: 'Ice+Healing+Holy → 8d6 heal + armor + resist' },
-          { level: 'Lv 9', name: 'Primal Cataclysm', upgrade: 'All 8 elements → 18d6 damage (base Strike is 1d6)' }
+          { level: 'Lv 9', name: 'Primal Cataclysm', upgrade: 'All 8 elements → 18d6 damage (base Attack is 1d8)' }
         ]
       },
       comboTiers: {
@@ -300,7 +305,15 @@ Problem: you only have ONE Shadow sphere. You need another.
           { name: '4-Sphere Recipe', sphereCost: '4', manaCost: '25-36', available: 'Level 8+', description: 'The big guns. Bank across turns. Battlefield-shaping power.' }
         ]
       },
-      manaWarning: 'Spheres + Mana. You need **both**. A full bank is useless without mana.'
+      manaWarning: 'Spheres + Mana. You need **both**. A full bank is useless without mana.',
+      actionPointsRule: {
+        title: 'Action Points',
+        content: `You gain **2 Action Points (AP)** per turn. Most 2-sphere combos cost 1 AP. 3-sphere Recipes cost 1-2 AP. 4-sphere Recipes cost 2-3 AP. If you have the AP and the spheres, you can cast multiple combos in one turn.`
+      },
+      fortuneRollRule: {
+        title: 'Fortune Rolls',
+        content: `Some talents reference a **Fortune Roll** — roll 1d6. Odd (1, 3, 5) = **Red** (beneficial trigger). Even (2, 4, 6) = **Black** (no effect). Fortune rolls are free and do not cost an action.`
+      },
     },
 
     manaCostTable: {
@@ -316,10 +329,13 @@ Problem: you only have ONE Shadow sphere. You need another.
         ['Ward (1 sphere)', '1', '3'],
         ['Purge', '2 any', '4'],
         ['Siphon', '1', '0 (gain 2)'],
-        ['Recipe (2-sphere)', '2', 'Varies'],
+        ['Recipe (2-sphere, Lv 1-2)', '2', '4-7'],
+        ['Recipe (2-sphere, Lv 3-4)', '2', '10-14'],
+        ['Recipe (2-sphere, Lv 5)', '2', '18'],
         ['Recipe (3-sphere)', '3', '20-25'],
         ['Recipe (4-sphere)', '4', '25-36']
-      ]
+      ],
+      footnote: 'Max 12 banked spheres. All spheres lost when combat ends. You gain 2 Action Points per turn.'
     },
     
     sphereGenerationTable: {
@@ -361,9 +377,11 @@ Problem: you only have ONE Shadow sphere. You need another.
 
 **Advanced: The Banking Mathematics**:
 - You generate 4 spheres per turn (5 for Entropy Weavers)
+- Your bank holds a maximum of **12 spheres** (15 for Sphere Architects)
 - A 3-sphere Recipe needs 3 specific spheres — might take 2-3 turns of banking
 - A 4-sphere Recipe needs 4 specific spheres — might take 3-4 turns
-- **Critical insight**: While banking, you can still cast with your OTHER spheres. Bank what you need, spend what you don't.`
+- **Critical insight**: While banking, you can still cast with your OTHER spheres. Bank what you need, spend what you don't.
+- **Overflow rule**: If rolling would push you over your max, choose which new spheres to keep. Excess are lost.`
     },
 
     practicalExample: {
@@ -438,7 +456,7 @@ All 36 two-sphere base combos. Fixed cost: 5 mana. Fixed damage: 1d8 + INT/4.
 | **Healing** | → | → | → | → | → | → | Rejuvenation | Fate's Gift ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
-★ = Chaos combo — roll for a random effect each cast
+★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
 † = Steam is a 20ft cone (only non-single-target base combo)
 
 **Matrix Reading Guide** (use the upper-right triangle):
@@ -501,8 +519,9 @@ Roll 4d8 each turn:
 
 BASE COMBO COST: 5 mana
 BASE COMBO DAMAGE: 1d8 + INT/4
+RECIPE SCALING: Lv3-4 → 2d8+INT/3 | Lv5 → 3d8+INT/2
 ★ CHAOS COMBOS: Roll for random effect
-ALL SPHERES LOST WHEN COMBAT ENDS
+MAX BANKED SPHERES: 12
 \`\`\`
 
 **Budget-Friendly Alternatives**:
@@ -625,7 +644,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
 
         strengths: [
           'Can swap any 2 spheres for different elements (once per turn, costs 3 mana)',
-          'Can store up to 12 spheres (instead of unlimited but inefficient)',
+          'Can store up to 15 spheres (instead of the standard 12 cap)',
           'Reduce mana cost of 3-sphere spells by 3 (10→7 mana)',
           'Can "lock" 1 sphere type to guarantee it next turn',
           'Most consistent and controllable spec'
@@ -649,7 +668,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
           {
             name: 'Runic Precision',
             tier: 'Specialization Passive',
-            description: 'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll. Control the matrix, don\'t let it control you.',
+            description: 'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll. Your sphere bank capacity is 15 instead of 12. Control the matrix, don\'t let it control you.',
             uniqueTo: 'Sphere Architect'
           }
         ],
@@ -666,7 +685,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
     subtitle: 'The 36 Base Combinations',
     description: `Every Arcanoneer inherently knows all 36 two-sphere combinations. No memorization required — combine any two elemental spheres and you produce a predictable magical effect. This is your foundation, your fallback, your Swiss Army knife. Learned recipes enhance specific combinations with additional effects, but the base matrix ensures you are NEVER powerless.`,
     baseManaCost: 5,
-    baseDamageFormula: '1d6 + intelligence/4',
+    baseDamageFormula: '1d8 + intelligence/4',
     baseRange: 60,
 
     entries: [
@@ -762,7 +781,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
         range: 60,
         primaryEffect: 'random',
         isChaosCombo: true,
-        effectDescription: 'A wildly unstable bolt of chaos energy that produces a completely random effect each time.',
+        effectDescription: 'A wildly unstable bolt of chaos energy. Roll on this combo\'s specific effect table below (overrides the general Chaos d20 table).',
         flavorText: 'Reality hiccups. The two chaos spheres don\'t merge so much as they argue — a swirling mass of conflicting energies that can\'t decide what it wants to be. You shrug and throw it anyway.',
         randomEffects: [
           { name: 'Chaos Nova', description: 'The bolt detonates in a 15-foot radius, dealing chaos damage to all nearby enemies.', damageTypes: ['chaos'], targetType: 'aoe', aoeRadius: 15 },
@@ -1806,7 +1825,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['fire']
       },
 
@@ -1856,7 +1875,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['frost']
       },
 
@@ -1927,7 +1946,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['force'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -2010,7 +2029,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['fire'],
         resolution: 'DICE',
         dotConfig: {
@@ -2079,7 +2098,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['frost'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -2158,12 +2177,12 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '2d8 + intelligence/3',
         damageTypes: ['necrotic'],
         resolution: 'DICE',
         dotConfig: {
           enabled: true,
-          damagePerTick: '1d4',
+          damagePerTick: '1d6',
           damageType: 'necrotic',
           tickFrequency: 'round',
           duration: 2,
@@ -2243,7 +2262,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '3d8 + intelligence/2',
         damageTypes: ['fire', 'frost'],
         resolution: 'DICE',
         savingThrowConfig: {
@@ -2302,7 +2321,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '1d8 + spirit/4',
+        formula: '3d8 + spirit/2',
         healingType: 'direct',
         resolution: 'DICE'
       },
@@ -2353,7 +2372,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + intelligence/4',
+        formula: '3d8 + intelligence/2',
         damageTypes: ['chaos']
       },
 
@@ -2944,7 +2963,7 @@ ALL SPHERES LOST WHEN COMBAT ENDS
     {
       id: 'arc_chaos_storm',
       name: 'Chaos Storm',
-      description: 'Concentrates three chaos spheres into a whirlwind of random elemental forces that deals unpredictable damage over a wide area.',
+      description: 'Concentrates chaos energy with two other elemental spheres into a whirlwind of random elemental forces that deals unpredictable damage over a wide area.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Void/Corrupted Eye',
@@ -2968,13 +2987,13 @@ ALL SPHERES LOST WHEN COMBAT ENDS
 
       resourceCost: {
         resourceTypes: ['mana', 'chaos_sphere'],
-        resourceValues: { mana: 28, chaos_sphere: 3 },
+        resourceValues: { mana: 28, chaos_sphere: 2 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempestas Chaos!',
-        somaticText: 'Compress three chaos spheres into a single unstable point and release it',
-        spheres: ['Chaos', 'Chaos', 'Chaos']
+        somaticText: 'Compress two chaos spheres into a single unstable point and release it',
+        spheres: ['Chaos', 'Chaos']
       },
 
       effectTypes: ['damage'],

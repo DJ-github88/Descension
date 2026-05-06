@@ -82,7 +82,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             glow: '#556B2F', 
             icon: 'fa-skull', 
             passive: 'Accelerated Decay', 
-            passiveDesc: 'No final form. Post-Stage 3 adds permanent stacks. +1d6 necrotic per stack per 25 Virulence. Stacks persist until Greater Restoration.' 
+            passiveDesc: 'No final form. Post-Stage 3 adds permanent stacks (max 15/target). +1d6 necrotic per stack per 25 Virulence. Stacks persist until Greater Restoration. Stacks above 10 require concentration.' 
         }
     };
 
@@ -100,30 +100,48 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
     const virulenceTier = getVirulenceTier(localVirulence);
 
     useEffect(() => {
-        if (showTooltip && barRef.current && tooltipRef.current) {
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
+
+        const updatePosition = () => {
             const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
+
             tooltip.style.opacity = '0';
-            const barRect = barRef.current.getBoundingClientRect();
+            tooltip.style.position = 'fixed';
+
+            const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
             const viewportHeight = window.innerHeight;
             const margin = 10;
-            
-            let hudContainer = barRef.current.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
             let hudBottom = barRect.bottom;
-            
+
             if (hudContainer) {
                 const hudRect = hudContainer.getBoundingClientRect();
                 hudBottom = hudRect.bottom;
             }
-            
+
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
             let top = hudBottom + margin;
-            
+
             if (left < margin) left = margin;
             if (left + tooltipRect.width > window.innerWidth - margin) {
                 left = window.innerWidth - tooltipRect.width - margin;
             }
-            
+
             if (top + tooltipRect.height > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
@@ -132,19 +150,24 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                 } else {
                     top = barRect.top - tooltipRect.height - margin;
                 }
-                if (top < margin) {
-                    top = margin;
-                }
+                if (top < margin) top = margin;
             } else {
                 tooltip.classList.add('below');
             }
-            
+
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
             tooltip.style.opacity = '1';
+        };
 
-            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
-        }
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
+
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localVirulence, localAfflictions, selectedSpec]);
 
     return (

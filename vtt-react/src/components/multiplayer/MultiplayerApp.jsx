@@ -917,6 +917,31 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           const roomData = currentRoomRef.current;
           console.log('🔄 Socket connected, auto-rejoining room:', roomData.id);
 
+          // Update current player's socketId in party store immediately
+          try {
+            const partyState = usePartyStore.getState();
+            const selfIds = new Set(['current-player']);
+            try {
+              const gs = require('../../store/gameStore').default.getState();
+              if (gs?.currentPlayer?.id) selfIds.add(gs.currentPlayer.id);
+            } catch (e) {}
+            const authUid = useAuthStore.getState().user?.uid;
+            if (authUid) selfIds.add(authUid);
+
+            const selfMember = partyState.partyMembers.find(m =>
+              selfIds.has(m.id) || selfIds.has(m.userId) || selfIds.has(m.socketId)
+            );
+            if (selfMember && newSocket.id) {
+              usePartyStore.getState().updatePartyMember(selfMember.id, {
+                socketId: newSocket.id,
+                isConnected: true
+              });
+              console.log('🔄 Updated self socketId in party store:', newSocket.id);
+            }
+          } catch (e) {
+            console.warn('⚠️ Failed to update socketId on reconnect:', e);
+          }
+
           newSocket.emit('join_room', {
             roomId: roomData.persistentRoomId || roomData.id,
             playerName: currentPlayerRef.current?.name || 'Reconnecting...',
@@ -934,6 +959,13 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
             clearCharacterTokens();
             console.log('🧹 Cleared tokens for room rejoin');
           }
+
+          // Update gameStore with new socket so PartyHUD's mySocketId stays current
+          useGameStore.getState().set({
+            multiplayerSocket: newSocket,
+            isInMultiplayer: true
+          });
+          console.log('🔄 Updated multiplayerSocket in gameStore for reconnect');
         }
 
         // Show connection success notification
@@ -1319,9 +1351,91 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
     socket.on('room_joined', (data) => {
       console.log('✅ [MultiplayerApp] room_joined received:', data);
 
-      // Guard: If we're already in a room, ignore (RoomLobby might have handled it)
+      // Guard: If we're already in a room, this is a RECONNECT scenario
+      // Instead of ignoring, refresh party members from the server's room data
       if (currentRoomRef.current) {
-        console.log('⚠️ [MultiplayerApp] Already in room, ignoring room_joined');
+        console.log('🔄 [MultiplayerApp] Already in room, refreshing party members from reconnect');
+
+        if (data.room) {
+          const serverPlayerCount = data.playerCount || 1;
+          setActualPlayerCount(serverPlayerCount);
+
+          // Re-add current player with updated socket info
+          const currentUserId = useAuthStore.getState().user?.uid;
+          const currentSocketId = socket?.id;
+          const existingSelf = usePartyStore.getState().partyMembers.find(m => {
+            const selfIds = new Set(['current-player']);
+            try {
+              const gs = require('../../store/gameStore').default.getState();
+              if (gs?.currentPlayer?.id) selfIds.add(gs.currentPlayer.id);
+            } catch (e) {}
+            if (currentUserId) selfIds.add(currentUserId);
+            return selfIds.has(m.id) || selfIds.has(m.userId);
+          });
+
+          if (existingSelf && currentSocketId) {
+            usePartyStore.getState().updatePartyMember(existingSelf.id, {
+              socketId: currentSocketId,
+              isConnected: true
+            });
+          }
+
+          // Re-add/update all room players from server data
+          const allRoomPlayers = [];
+          if (data.room.gm) allRoomPlayers.push({ ...data.room.gm, isGM: true });
+          if (data.room.players) {
+            const players = Array.isArray(data.room.players)
+              ? data.room.players
+              : Object.values(data.room.players || {});
+            allRoomPlayers.push(...players);
+          }
+
+          allRoomPlayers.forEach(player => {
+            const isCurrentPlayer = player.id === currentPlayerRef.current?.id ||
+              player.socketId === currentSocketId ||
+              player.userId === currentUserId;
+
+            if (isCurrentPlayer) return;
+
+            const playerCharacterName = player.character?.name || player.name;
+            const playerMember = {
+              id: player.id,
+              socketId: player.socketId || player.id,
+              userId: player.userId,
+              name: playerCharacterName,
+              isGM: player.isGM || false,
+              isConnected: true,
+              character: {
+                class: player.character?.class || 'Unknown',
+                level: player.character?.level || 1,
+                health: player.character?.health || { current: 45, max: 50 },
+                mana: player.character?.mana || { current: 45, max: 50 },
+                actionPoints: player.character?.actionPoints || { current: 1, max: 3 },
+                race: player.character?.race || 'Unknown',
+                raceDisplayName: player.character?.raceDisplayName || 'Unknown',
+                lore: player.character?.lore || {},
+                tokenSettings: player.character?.tokenSettings || {}
+              }
+            };
+            if (player.character?.classResource?.max) {
+              playerMember.character.classResource = player.character.classResource;
+            }
+            usePartyStore.getState().addPartyMember(playerMember);
+          });
+
+          // Mark any members NOT in the server's player list as disconnected
+          const serverPlayerIds = new Set(allRoomPlayers.map(p => p.id));
+          if (existingSelf) serverPlayerIds.add(existingSelf.id);
+          const currentMembers = usePartyStore.getState().partyMembers;
+          currentMembers.forEach(member => {
+            if (!serverPlayerIds.has(member.id) && !serverPlayerIds.has(member.userId)) {
+              usePartyStore.getState().updatePartyMember(member.id, { isConnected: false });
+            }
+          });
+
+          setConnectionStatus('connected');
+          console.log('✅ [MultiplayerApp] Party members refreshed from reconnect:', serverPlayerCount, 'players');
+        }
         return;
       }
 

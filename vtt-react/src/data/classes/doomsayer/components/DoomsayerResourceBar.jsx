@@ -91,10 +91,17 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
             const tooltip = tooltipRef.current;
             const bar = barRef.current;
             if (!tooltip || !bar) return;
+
             tooltip.style.opacity = '0';
+            tooltip.style.position = 'fixed';
 
             const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
+
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
 
             if (tooltipRect.width === 0 || tooltipRect.height === 0) {
                 requestAnimationFrame(updatePosition);
@@ -131,7 +138,6 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 if (top < margin) top = margin;
             }
 
-            tooltip.style.position = 'fixed';
             tooltip.style.left = `${left}px`;
             tooltip.style.top = `${top}px`;
             tooltip.style.transform = 'none';
@@ -143,7 +149,10 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
         requestAnimationFrame(() => requestAnimationFrame(updatePosition));
         const timeoutId = setTimeout(updatePosition, 50);
 
-        return () => clearTimeout(timeoutId);
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, havoc, specialization]);
 
     return (

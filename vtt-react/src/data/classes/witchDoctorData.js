@@ -18,7 +18,7 @@ export const WITCH_DOCTOR_DATA = {
   id: 'witch-doctor',
   name: 'Witch Doctor',
   icon: 'fas fa-skull',
-  role: 'Support/Damage',
+  role: 'Support/Control',
   damageTypes: ['necrotic', 'nature', 'poison'],
 
   overview: {
@@ -95,15 +95,15 @@ export const WITCH_DOCTOR_DATA = {
 
     immersiveCombatExample: {
       title: 'Combat Example: The Loa\'s Chosen',
-      content: `**The Setup**: You're a Witch Doctor (Bokor specialization) facing a group of undead (6 zombies + 1 necromancer). Your party is with you. Starting Voodoo Essence: 0. Starting Mana: 50/60. Your goal: Build Voodoo Essence through curses, totems, and rituals, then invoke Baron Samedi (loa of death) to devastate the undead.
+      content: `**The Setup**: You're a Level 8 Witch Doctor (Bokor specialization) facing a group of undead (6 zombies + 1 necromancer). Your party is with you. Starting Voodoo Essence: 0. Starting Mana: 55/60. Your goal: Build Voodoo Essence through curses and spells, then invoke Baron Samedi (loa of death) to devastate the undead.
 
-**Starting State**: Voodoo Essence: 0/15 | Mana: 50/60 | HP: 45/45 | Cursed Enemies: 0
+**Starting State**: Voodoo Essence: 0/15 | Mana: 55/60 | HP: 45/45 | Cursed Enemies: 0
 
-**Turn 1 - Building Essence (Essence: 0 → 3)**
+**Turn 1 - Cursing the Priority Target (Essence: 0 → 2)**
 
 *Six zombies shamble toward you, led by a necromancer. You begin the ritual. The loa are watching.*
 
-**Your Action**: Cast "Withering Hex" on Necromancer (5 mana)
+**Your Action**: Cast "Withering Hex" on Necromancer (5 mana, 1 AP)
 **Effect**: Target takes 1d6+spirit necrotic damage per round for 3 rounds
 
 *You gesture at the necromancer. Dark voodoo energy WRAPS around him like chains.*
@@ -111,46 +111,45 @@ export const WITCH_DOCTOR_DATA = {
 **Voodoo Essence Generated**: +1 (curse cast) = **1/15**
 **Cursed Enemies**: 1 (Necromancer)
 
-**Mana**: 50 - 5 = 45/60
+**Mana**: 55 - 5 = 50/60
 
-**Your Action (Action Points)**: Place "Totem of Healing" (7 mana)
-**Effect**: Totem heals allies for 2d4 HP per turn in 10 ft radius
+**Your Action (remaining AP)**: Cast "Grave Bane" on Zombie #1 (8 mana, 1 AP)
+**Effect**: 2d6+spirit necrotic damage, -2 Agility for 3 rounds
 
-*A wooden totem carved with healing symbols rises from the ground, pulsing with spiritual energy.*
+*You hurl grave dirt at the lead zombie. It staggers, its movements slowing.*
 
-**Voodoo Essence Generated**: +1 (totem placed) = **2/15**
+**Voodoo Essence Generated**: +1 (curse cast) = **2/15**
+**Cursed Enemies**: 2 (Necromancer, Zombie #1)
 
-**Mana**: 45 - 7 = 38/60
+**Mana**: 50 - 8 = 42/60
 
-**Your Action (Free)**: Apply poison to weapon (no cost)
-**Effect**: Weapon deals +2d4 poison damage
+**Current State**: Essence: 2/15 | Mana: 42/60 | Cursed: 2
 
-**Voodoo Essence Generated**: +1 (poison applied) = **3/15**
+**Turn 2 - Cursed Enemy Down (Essence: 2 → 6)**
 
-**Current State**: Essence: 3/15 | Mana: 38/60 | Cursed: 1
-
-**Turn 2 - More Curses (Essence: 3 → 8)**
-
-*The zombies attack. Your totem heals your party for 2d4 → [5] = 5 HP each.*
+*The zombies attack. Your party's rogue flanks Zombie #1.*
 
 **Necromancer**: Takes 1d6+spirit → [4+3] = 7 necrotic damage from Withering Hex
 
-**Your Action**: Cast "Grave Bane" on Zombie #1 (8 mana)
-**Effect**: 2d6+spirit necrotic damage, -2 Agility for 3 rounds
-
-**Voodoo Essence Generated**: +1 (curse cast) = **4/15**
-**Cursed Enemies**: 2 (Necromancer, Zombie #1)
-
-**Mana**: 38 - 8 = 30/60
-
 **Your Party's Rogue**: Attacks Zombie #1 (cursed) → 18 damage → **DEAD**
 
-**Cursed Enemy Defeated**: Zombie #1 was cursed and defeated
-**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **7/15**
+**Cursed Enemy Defeated**: Zombie #1 was cursed and defeated!
+**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **5/15**
 
-**Current State**: Essence: 7/15 | Mana: 30/60 | Cursed: 1
+*The cursed zombie collapses. Spirits feed on its cursed soul, flooding you with essence.*
 
-**Turn 3 - Ritual (Essence: 7 → 13)**
+**Your Action**: Cast "Withering Hex" on Zombie #2 (5 mana, 1 AP)
+
+*You spread another curse. More chains of voodoo energy.*
+
+**Voodoo Essence Generated**: +1 (curse cast) = **6/15**
+**Cursed Enemies**: 2 (Necromancer, Zombie #2)
+
+**Mana**: 42 - 5 = 37/60
+
+**Current State**: Essence: 6/15 | Mana: 37/60 | Cursed: 2
+
+**Turn 3 - AoE Pressure & Curse Stacking (Essence: 6 → 8)**
 
 **Your Action**: Cast "Bone Shrapnel" (12 mana, 2 AP)
 **Effect**: 3d6+spirit necrotic to all enemies in 15 ft
@@ -160,50 +159,63 @@ export const WITCH_DOCTOR_DATA = {
 **Zombies #3, #4**: Each take [4+5+3+3] = 15 necrotic → #4 **DEAD**
 **Necromancer**: Takes 15 necrotic → HEAVILY DAMAGED
 
-**Mana**: 30 - 12 = 18/60
+**Mana**: 37 - 12 = 25/60
 
-**Your Action**: Cast "Withering Hex" on Zombie #5 (5 mana)
+**Your Action**: Cast "Grave Bane" on Zombie #5 (8 mana, 1 AP)
 
-**Voodoo Essence Generated**: +1 (curse cast) = **8/15**
-**Cursed Enemies**: 2 (Necromancer, Zombie #5)
+**Voodoo Essence Generated**: +1 (curse cast) = **7/15**
+**Cursed Enemies**: 3 (Necromancer, Zombie #2, Zombie #5)
 
-**Mana**: 18 - 5 = 13/60
+**Mana**: 25 - 8 = 17/60
+
+**Current State**: Essence: 7/15 | Mana: 17/60 | Cursed: 3
+
+**Turn 4 - Essence Cascade (Essence: 7 → 10)**
 
 **Your Party's Tank**: Attacks Necromancer (cursed) → 20 damage → **DEAD**
 
-**Cursed Enemy Defeated**: Necromancer was cursed and defeated
-**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **11/15**
+**Cursed Enemy Defeated**: Necromancer was cursed and defeated!
+**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **10/15**
 
-**Your Action**: Begin "Ritual of Death" (8 mana)
+*The necromancer crumbles. Your essence SURGES. You feel Baron Samedi stirring.*
 
-**Voodoo Essence Generated**: +2 (ritual completed) = **13/15**
+**Your Action**: Cast "Withering Hex" on Zombie #3 (5 mana, 1 AP)
 
-**Mana**: 13 - 8 = 5/60
+**Voodoo Essence Generated**: +1 (curse cast) = **11/15**
+**Cursed Enemies**: 3 (Zombie #2, Zombie #5, Zombie #3)
 
-**Current State**: Essence: 13/15 | Mana: 5/60 | Cursed: 1 (Zombie #5)
+**Mana**: 17 - 5 = 12/60
 
-**Turn 4 - INVOKE BARON SAMEDI (Essence: 13 → 3)**
+**Current State**: Essence: 11/15 | Mana: 12/60 | Cursed: 3
 
-*You have 13 Voodoo Essence. Baron Samedi's precursor: 3+ cursed enemies... wait — only 1 cursed enemy remains!*
+**Turn 5 - INVOKE BARON SAMEDI (Essence: 11 → 3)**
 
-*But you're a BOKOR. Your spec passive reduces the precursor to only 2 cursed enemies. You had 2 cursed enemies this combat (Zombie #5 still cursed, and Necromancer was cursed when he died this turn — your Bokor passive counts recently-killed cursed enemies).*
+*You have 11 Voodoo Essence. Baron Samedi's precursor: 3+ cursed enemies. You have EXACTLY 3. The stars align.*
+
+*And you're a BOKOR — Baron Samedi costs only 8 Essence instead of 10.*
 
 **Baron Samedi Requirements**:
 - **Essence Cost**: 10 Voodoo Essence (Bokor: 8)
-- **Precursor**: 3+ cursed enemies on the field (Bokor: 2+)
+- **Precursor**: 3+ cursed enemies on the field ✓ (Zombie #2, #3, #5 all cursed)
 
-**Your Action**: "INVOKE BARON SAMEDI" (8 Voodoo Essence as Bokor)
+**Your Action**: "INVOKE BARON SAMEDI" (8 Voodoo Essence as Bokor, 32 mana, 3 AP)
 
 *You raise your staff to the sky. You CHANT the invocation. The air grows COLD. A spectral figure appears — BARON SAMEDI, loa of death, wearing a top hat and skull face paint, smoking a cigar.*
 
-**Voodoo Essence**: 13 - 8 = **5/15**
+**Voodoo Essence**: 11 - 8 = **3/15**
 
 **Baron Samedi**: "You called, child? Let me show you DEATH."
 
-**Damage**: 14d6+spirit*3 necrotic to all enemies in 40 ft → devastates remaining zombies
-**Effect**: Triple damage to cursed enemies. Zombie #5 takes triple → obliterated.
+**Damage**: 14d6+spirit*3 necrotic hits all enemies within 40 ft. Cursed enemies take TRIPLE damage.
 
-*Baron Samedi tips his hat to you, then fades into the spirit realm.*
+*Roll 14d6: [6+4+5+3+2+6+4+5+3+6+4+5+2+3] = 58. + spirit(3)*3 = +9. Total base: 67 necrotic to all enemies.*
+
+**Zombie #2 (cursed)**: 67 × 3 = 201 necrotic → **OBLITERATED**
+**Zombie #3 (cursed)**: 67 × 3 = 201 necrotic → **OBLITERATED**
+**Zombie #5 (cursed)**: 67 × 3 = 201 necrotic → **OBLITERATED**
+**Zombie #6 (uncursed)**: 67 necrotic → **DESTROYED**
+
+*Every zombie disintegrates. Baron Samedi tips his hat to you, then fades into the spirit realm.*
 
 **Baron Samedi**: "Well done, child. Call me again when you need DEATH."
 
@@ -211,23 +223,22 @@ export const WITCH_DOCTOR_DATA = {
 
 **Essence Generation Breakdown**:
 - Withering Hex (Necromancer): +1 Essence
-- Totem of Healing: +1 Essence
-- Poison application: +1 Essence
 - Grave Bane (Zombie #1): +1 Essence
 - Zombie #1 defeated (cursed): +3 Essence
-- Withering Hex (Zombie #5): +1 Essence
+- Withering Hex (Zombie #2): +1 Essence
+- Grave Bane (Zombie #5): +1 Essence
 - Necromancer defeated (cursed): +3 Essence
-- Ritual of Death completed: +2 Essence
-- **Total Generated**: 13 Essence
+- Withering Hex (Zombie #3): +1 Essence
+- **Total Generated**: 12 Essence
 - **Spent on Baron Samedi (Bokor discount)**: -8 Essence
-- **Remaining**: 5 Essence
+- **Remaining**: 3 Essence (carried into next fight)
 
 **The Lesson**: Witch Doctor gameplay is about:
-1. **Voodoo Essence Generation** — built through curses, totems, poisons, and rituals
-2. **Curse Management** — each curse = +1 Essence AND counts toward Baron Samedi's precursor
-3. **Precursor Awareness** — Baron Samedi needs cursed enemies; Bokor reduces the requirement
+1. **Curse Early, Curse Often** — every curse is +1 Essence now and +3 when the enemy dies
+2. **Curse Management** — each curse counts toward Baron Samedi's precursor (3+ enemies)
+3. **Precursor Awareness** — Baron Samedi needs cursed enemies ALIVE when you invoke
 4. **Loa Invocation** — the payoff moment where a god descends and rewrites the fight
-5. **Strategic Timing** — wait for essence AND precursor to align for maximum impact
+5. **Essence Carry-Over** — remaining Essence carries to the next fight, giving you a head start
 
 You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Voodoo Essence through curses, totems, poisons, and rituals. When you have enough Essence and the battlefield conditions are right, you INVOKE THE LOA. Each loa is a DIVINE INTERVENTION that changes the course of battle. You don't just cast spells — you COMMUNE WITH GODS.`
     }
@@ -270,6 +281,9 @@ You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Vo
 **Essence Cap (15 Maximum)**:
 Any Essence generated beyond 15 is wasted. If you are at 14 Essence and defeat a cursed enemy (+3), you only gain 1. This means you should plan your loa invocations to avoid waste — if you are near 15, either invoke a loa or switch to non-essence actions.
 
+**Essence Generation Cap (5 per Action)**:
+No single action can generate more than 5 Voodoo Essence. This prevents Mass Curse on a Bokor with full Cursed Essence talents from generating 15 Essence in one cast. Base generation + spec bonus + talent bonuses are all combined, but the total per action is capped at 5. The exception is defeating cursed enemies (+3 each) — this is per enemy, not per action.
+
 **Loa Exhaustion (Post-Invocation)**:
 After invoking a loa, your Essence drops significantly (5-10 points). You return to the early game of building Essence back up. This creates a natural combat arc: build, invoke, rebuild. Plan for the post-invocation window — you will have limited resources while recovering.
 
@@ -287,12 +301,13 @@ Essence carries between encounters (no reset on short rest). If you finish a fig
       title: 'Voodoo Essence Generation',
       headers: ['Action', 'Essence Gained', 'Notes'],
       rows: [
-        ['Cast Curse', '1', 'Any curse spell applied to enemy'],
-        ['Apply Poison', '1', 'Weapon poison or poison attack'],
-        ['Place Totem', '1', 'Any totem type'],
-        ['Perform Ritual', '2', 'Ritual must complete successfully'],
-        ['Defeat Cursed Enemy', '3', 'Enemy must have your curse active when defeated']
-      ]
+         ['Cast Curse', '1', 'Any curse spell applied to enemy (Withering Hex, Grave Bane, Hex, Mass Curse)'],
+         ['Apply Poison', '1', 'Weapon poison spell (Venomous Sting, Venomous Weapon)'],
+         ['Place Totem', '1', 'Any totem spell (Totem of Warding, Totem of Healing)'],
+         ['Perform Ritual', '2', 'Ritual must complete successfully (Ritual of Death)'],
+         ['Defeat Cursed Enemy', '3', 'Enemy must have your curse active when defeated'],
+         ['Per-Action Cap', '5 max', 'No single action generates more than 5 Essence (cursed enemy defeats are per-enemy, not per-action)']
+       ]
     },
 
     loaInvocationTable: {
@@ -300,12 +315,24 @@ Essence carries between encounters (no reset on short rest). If you finish a fig
       headers: ['Loa', 'Essence Cost', 'Precursor', 'Effect Summary'],
       rows: [
         ['Simbi', '5', '1+ ally below half HP', 'Healing rain: 4d8 HP, cure diseases/poisons in 30ft'],
-        ['Papa Legba', '6', '5+ Essence generated this combat', 'Telepathy for 1hr + teleport 5 allies within 1 mile'],
-        ['Erzulie', '7', '2+ allies within 15ft of you', '+2 armor, fear immunity, heal 3d8 to all allies in 30ft'],
-        ['Ogoun', '8', 'Poison active on any target', '+2 attack, physical resistance, +2d6 fire damage for 1min'],
-        ['Baron Samedi', '10', '3+ enemies currently cursed', '14d6+spirit*3 necrotic to all cursed enemies, triple damage to cursed']
-      ]
-    },
+         ['Papa Legba', '6', '5+ Essence generated this combat', 'Telepathy for 1hr + teleport 5 allies within 1 mile'],
+         ['Ogoun', '8', 'Poison active on any target', '+2 attack, physical resistance, +2d6 fire damage for 1min'],
+         ['Baron Samedi', '10', '3+ enemies currently cursed', '14d6+spirit*3 necrotic to all enemies, triple damage to cursed']
+       ]
+     },
+
+     loaTrackingNote: {
+       title: 'Tracking Loa Precursors',
+       content: `**Papa Legba's Precursor**: "5+ Essence generated this combat" tracks your TOTAL Essence generated across the entire fight — not your current Essence. This is a running total that never decreases, even when you spend Essence. Keep a separate counter or tally mark for each Essence point generated.
+
+**Baron Samedi's Precursor**: "3+ enemies currently cursed" counts only living enemies on the battlefield who have your curse active RIGHT NOW. Cursed enemies who die no longer count. Plan your curses to ensure enough remain alive when you invoke.
+
+**Simbi's Precursor**: "1+ ally below half HP" is checked at the time of invocation. If all allies heal above half before you invoke, the precursor is no longer met.
+
+**Erzulie's Precursor**: "2+ allies within 15ft of you" is based on physical positioning. Communicate with your party to cluster before invoking.
+
+**Ogoun's Precursor**: "Poison active on any target" means your poison buff is currently applied to your weapon or a poison debuff is active on any enemy. Venomous Sting (Level 1) and Venomous Weapon (Level 5) both satisfy this.`
+     },
 
     strategicConsiderations: {
       title: 'The Ritual — Combat Phase Tactics',
@@ -365,7 +392,9 @@ Place a small skull token on each cursed enemy's miniature. At a glance, you and
 \`\`\`
 ESSENCE GENERATION (Max 15):
   Cast Curse: +1    | Apply Poison: +1    | Place Totem: +1
+  Apply Poison: +1 | Place Totem: +1
   Complete Ritual: +2 | Defeat Cursed Enemy: +3
+  (Per-action cap: 5 Essence max, except cursed enemy defeats)
 
 LOA INVOCATIONS (Cost + Precursor):
   Simbi (5):         1+ ally below half HP
@@ -509,8 +538,8 @@ SPEC DISCOUNTS:
         },
 
         keyAbilities: [
-          'Venomous Weapon: Apply potent poison adding damage to your attacks',
-          'Totem of Courage: War totem granting attack bonus and fear immunity',
+          'Venomous Sting: Apply voodoo venom to your weapon, dealing poison damage and generating Essence',
+          'Venomous Weapon: Apply a potent poison adding damage to your attacks for an extended duration',
           'Invoke Ogoun: Empower all allies with combat prowess and fire damage'
         ]
       }
@@ -577,36 +606,47 @@ SPEC DISCOUNTS:
     },
 
     {
-      id: 'witch_doctor_voodoo_bolt',
-      name: 'Voodoo Bolt',
-      description: 'Hurl a bolt of voodoo energy at your target.',
+      id: 'witch_doctor_venomous_sting',
+      name: 'Venomous Sting',
+      description: 'Coat your weapon with a mild voodoo toxin. Your next attack deals additional poison damage and weakens the target.',
       level: 1,
       spellType: 'ACTION',
-      effectTypes: ['damage'],
+      effectTypes: ['buff'],
       typeConfig: {
-        school: 'necrotic',
-        icon: 'Void/Black Hole',
-        tags: ['attack', 'damage', 'necrotic', 'witch doctor'],
+        school: 'nature',
+        icon: 'Poison/Poison Fang',
+        tags: ['buff', 'poison', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      damageConfig: {
-        formula: '2d6 + spirit',
-        elementType: 'necrotic',
-        damageType: 'direct'
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'venomous_sting',
+          name: 'Venomous Sting',
+          description: 'Next weapon attack deals +1d4 poison damage and reduces target Strength by 1 for 2 rounds',
+          customDescription: 'Your weapon drips with voodoo venom. Your next strike will poison your foe.',
+          mechanicsText: 'Next weapon attack deals +1d4 poison damage. Target gets -1 Strength for 2 rounds.'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true,
+        charges: 1
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetingType: 'self',
+        rangeType: 'self',
+        rangeDistance: 0,
+        targetRestrictions: ['self'],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -615,11 +655,12 @@ SPEC DISCOUNTS:
         type: 'turn_based',
         value: 0
       },
-      resolution: 'DICE',
+      resolution: 'AUTOMATIC',
       specialMechanics: {
-        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
+        precursor: { enables: 'ogoun', description: 'Poison active contributes toward Ogoun precursor' }
       },
-      tags: ['attack', 'damage', 'necrotic', 'witch doctor']
+      tags: ['buff', 'poison', 'witch doctor']
     },
 
     {
@@ -745,62 +786,77 @@ SPEC DISCOUNTS:
     },
 
     {
-      id: 'witch_doctor_spirit_sight',
-      name: 'Spirit Sight',
-      description: 'Open your third eye to the spirit world, allowing you to perceive hidden enemies and spectral entities.',
+      id: 'witch_doctor_totem_of_warding',
+      name: 'Totem of Warding',
+      description: 'Place a small totem that shields nearby allies from harm.',
       level: 2,
       spellType: 'ACTION',
-      effectTypes: ['utility'],
+      effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
-        icon: 'Utility/All Seeing Eye',
-        tags: ['utility', 'divination', 'spirit', 'witch doctor'],
+        icon: 'Nature/Nature Natural',
+        tags: ['buff', 'totem', 'support', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
       buffConfig: {
         buffType: 'custom',
         effects: [{
-          id: 'spirit_sight',
-          name: 'Spirit Sight',
-          description: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
-          customDescription: 'The veil between worlds thins. Invisible and hidden creatures within 60 ft become visible to you.',
-          mechanicsText: 'Reveal invisible and hidden enemies within 60 ft for 3 rounds',
-          detectionRadius: 60,
-          duration: 3,
-          durationUnit: 'rounds'
+          id: 'totem_warding',
+          name: 'Totem of Warding',
+          description: 'Allies within 10 ft gain +1 to saving throws for 5 rounds',
+          customDescription: 'A carved totem pulses with protective energy, shielding nearby allies from harmful magic.',
+          mechanicsText: 'Allies within 10 ft gain +1 to saving throws for 5 rounds'
         }],
-        durationValue: 3,
+        durationValue: 5,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: false,
         canBeDispelled: true
       },
+      summoningConfig: {
+        creatureType: 'totem',
+        creatures: [{
+          id: 'warding_totem',
+          name: 'Warding Totem',
+          description: 'A small totem that grants +1 to saving throws for allies within 10 ft. Can be destroyed (8 HP, 8 Armor).',
+          size: 'Small',
+          type: 'construct',
+          hp: 8,
+          ac: 8
+        }],
+        duration: 5,
+        durationUnit: 'rounds',
+        maxSummons: 1
+      },
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self',
-        rangeDistance: 0,
-        targetRestrictions: ['self'],
-        maxTargets: 1,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 20,
+        aoeType: 'circle',
+        aoeSize: 10,
+        targetRestrictions: ['ally'],
+        maxTargets: 4,
         targetSelectionMethod: 'auto',
         requiresLineOfSight: false
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Carved wooden totem'
       },
       cooldownConfig: {
         type: 'turn_based',
-        value: 2
+        value: 3
       },
-      resolution: 'DICE',
+      resolution: 'AUTOMATIC',
       specialMechanics: {
-        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
       },
-      tags: ['utility', 'divination', 'spirit', 'witch doctor']
+      tags: ['buff', 'totem', 'support', 'witch doctor']
     },
 
     {
@@ -1811,7 +1867,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_baron_samedi',
       name: 'Invoke Baron Samedi',
-      description: 'Invoke Baron Samedi, the loa of death, to obliterate all cursed enemies. Deals triple damage to cursed targets.',
+      description: 'Invoke Baron Samedi, the loa of death, to unleash necrotic devastation across the battlefield. All enemies within range take massive necrotic damage. Cursed enemies take TRIPLE damage.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -1826,7 +1882,7 @@ SPEC DISCOUNTS:
         formula: '14d6 + spirit * 3',
         elementType: 'necrotic',
         damageType: 'direct',
-        description: 'Deals triple damage to cursed enemies'
+        description: 'Hits all enemies in range. Cursed enemies take triple damage instead.'
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2236,9 +2292,9 @@ SPEC DISCOUNTS:
         effects: [{
           id: 'eternal_voodoo',
           name: 'Eternal Voodoo',
-          description: 'Generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 2). Immune to curses.',
-          customDescription: 'You have achieved eternal voodoo mastery. You generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 2). You are immune to all curses.',
-          mechanicsText: 'Generate 3 Voodoo Essence/round, loa cost -3, immune to curses',
+          description: 'Generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 4). Immune to curses.',
+          customDescription: 'You have achieved eternal voodoo mastery. You generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 4). You are immune to all curses.',
+          mechanicsText: 'Generate 3 Voodoo Essence/round, loa cost -3 (min 4), immune to curses',
           damageImmunity: ['curse']
         }],
         durationValue: 0,
@@ -2415,12 +2471,12 @@ SPEC DISCOUNTS:
   spellPools: {
     1: [
       'witch_doctor_withering_hex',
-      'witch_doctor_voodoo_bolt',
+      'witch_doctor_venomous_sting',
       'witch_doctor_spirit_link'
     ],
     2: [
       'witch_doctor_grave_bane',
-      'witch_doctor_spirit_sight',
+      'witch_doctor_totem_of_warding',
       'witch_doctor_mending_wax'
     ],
     3: [

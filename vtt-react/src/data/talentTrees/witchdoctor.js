@@ -7,7 +7,7 @@
 // Every talent delivers its bonus predictably when its condition is met.
 // ============================================
 
-export const WITCH_DOCTOR_SHADOW_PRIEST = [
+export const WITCH_DOCTOR_BOKOR = [
   // Tier 0 - Foundation: The Dark Altar
   {
     id: 'shadow_priest_t0_cursed_essence',
@@ -142,7 +142,7 @@ export const WITCH_DOCTOR_SHADOW_PRIEST = [
   }
 ];
 
-export const WITCH_DOCTOR_SPIRIT_HEALER = [
+export const WITCH_DOCTOR_MAMBO = [
   // Tier 0 - The Source: River Spring
   {
     id: 'spirit_healer_t0_healing_essence',
@@ -284,7 +284,7 @@ export const WITCH_DOCTOR_SPIRIT_HEALER = [
   }
 ];
 
-export const WITCH_DOCTOR_WAR_PRIEST = [
+export const WITCH_DOCTOR_HOUNGAN = [
   // Tier 0 - The Command Tent
   {
     id: 'war_priest_t0_warrior_essence',

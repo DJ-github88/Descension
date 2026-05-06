@@ -375,7 +375,7 @@
 
 /* Specialization-Specific Effects */
 
-/* Shadow Priest: Life/Death Flicker */
+/* Bokor: Life/Death Flicker */
 .witchdoctor-resource-bar.bokor.shadow-flicker .essence-segment.filled {
     animation: shadow-flicker 2s ease-in-out infinite;
 }
@@ -389,7 +389,7 @@
     }
 }
 
-/* Spirit Healer: Rhythmic Pulse */
+/* Mambo: Rhythmic Pulse */
 .witchdoctor-resource-bar.mambo.spirit-pulse {
     animation: spirit-pulse 2s ease-in-out infinite;
 }
@@ -408,7 +408,7 @@
     }
 }
 
-/* War Priest: Fiery Core */
+/* Houngan: Fiery Core */
 .fiery-core {
     position: absolute;
     top: 50%;

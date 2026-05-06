@@ -858,6 +858,7 @@ export const CLASS_RESOURCE_TYPES = {
             maxVirulence: 100,
             currentVirulence: 0,
             maxAfflictions: 10,
+            maxAfflictionsPerTarget: 2,
             activeAfflictions: 0,
             virulenceGain: {
                 baseAffliction: 10,
@@ -883,7 +884,7 @@ export const CLASS_RESOURCE_TYPES = {
         },
         sharedPassive: {
             name: 'Plague Mastery',
-            description: 'Afflictions last 1d4 additional rounds and resist dispel (5-6 on 1d6). Gain 1d4 mana when afflicted target dies.'
+            description: 'Afflictions last 2 additional rounds and resist dispel (5-6 on 1d6). Gain 1d4 mana when afflicted target dies.'
         },
         specPassives: {
             virulentSpreader: {
@@ -896,7 +897,7 @@ export const CLASS_RESOURCE_TYPES = {
             },
             decayHarbinger: {
                 name: 'Accelerated Decay',
-                description: 'No final form. Post-Stage 3 adds permanent stacks. +1d6 necrotic per stack per 25 Virulence.'
+                description: 'No final form. Post-Stage 3 adds permanent stacks (max 15/target). +1d6 necrotic per stack per 25 Virulence. Stacks above 10 require concentration.'
             }
         }
     },
@@ -1293,13 +1294,14 @@ CLASS_RESOURCE_TYPES['Arcanoneer'] = {
         effects: ['elemental', 'combination', 'magicka']
     },
     mechanics: {
-        max: 'unlimited', // Can bank spheres (Runesmith limits to 12)
+        max: 12, // Max banked spheres (prevents hoarding exploits)
         current: 0,
         spheres: [], // Array of element names: ['fire', 'fire', 'ice', 'healing']
         generation: '4d8', // Roll 4d8 each turn
         regen: 0,
         consumeVerb: 'combine',
-        gainVerb: 'generate'
+        gainVerb: 'generate',
+        bankingRule: 'Spheres generated this turn that exceed your max bank of 12 are lost. Spend or Siphon excess spheres before banking.'
     },
     tooltip: {
         title: 'Elemental Spheres',
@@ -2450,7 +2452,7 @@ CLASS_RESOURCE_TYPES['Augur'] = {
     name: 'Benediction & Malediction',
     shortName: 'B/M',
     type: 'dual-omen',
-    description: 'Read the signs in every die roll — even results generate Benediction, odd results generate Malediction. Spend Benediction on boons and blessings, Malediction on curses and debuffs.',
+    description: 'Read the signs in every die roll — even results generate Benediction, odd results generate Malediction. Spend Benediction on boons and blessings, Malediction on curses and debuffs. Only applies to rolls by creatures within 60ft that you can see and are aware of.',
     visual: {
         type: 'dual-omen',
         benediction: {
@@ -2484,8 +2486,10 @@ CLASS_RESOURCE_TYPES['Augur'] = {
                 evenD20: 1,
                 natural20: 2,
                 combatStart: '1d4',
-                omenRitual: 2
+                omenRitual: 2,
+                advantageDisadvantage: 'Both d20 rolls from advantage/disadvantage generate resources independently'
             },
+            overflow: 'Resources at max are lost — no further generation for that type',
             spending: {
                 buff: 'variable',
                 terrain: 'variable',
@@ -2499,8 +2503,10 @@ CLASS_RESOURCE_TYPES['Augur'] = {
                 oddD20: 1,
                 natural1: 2,
                 combatStart: '1d4',
-                omenRitual: 2
+                omenRitual: 2,
+                advantageDisadvantage: 'Both d20 rolls from advantage/disadvantage generate resources independently'
             },
+            overflow: 'Resources at max are lost — no further generation for that type',
             spending: {
                 debuff: 'variable',
                 terrain: 'variable',
@@ -2511,26 +2517,28 @@ CLASS_RESOURCE_TYPES['Augur'] = {
             penalty: -1,
             perUnused: 1,
             cap: -10,
+            triggerPoint: 'long rest only (NOT short rest)',
             duration: 'until next long rest'
         },
         specPassives: {
-            auspex: 'Harmonic Interpretation: +1 generation to matching type. Balanced spells enhanced 50%.',
+            auspex: 'Harmonic Interpretation: Each roll generates +1 of the opposite type (even → 1 Ben + 1 Mal, odd → 1 Mal + 1 Ben). Balanced spells enhanced 50%.',
             harbinger: 'Dark Portent: +1 bonus Malediction on odd rolls. Ill Omen stacking debuff.',
             hierophant: 'Cosmic Channel: +1 bonus Benediction on even rolls. Terrain effects last +2 rounds.'
         },
-        persistence: 'Resources persist through combat. Omen Debt applied at long rest for unused resources.'
+        persistence: 'Resources persist through combat and reset to 0 on short rest (no Omen Debt). Omen Debt is only applied at long rest for unused resources.'
     },
     tooltip: {
         title: 'Benediction: {benediction}/{benedictionMax} | Malediction: {malediction}/{maledictionMax}',
-        description: 'Even d20 rolls → Benediction. Odd d20 rolls → Malediction. Unused resources at day end cause Omen Debt (-1 per point to all rolls next day).',
+        description: 'Even d20 rolls → Benediction. Odd d20 rolls → Malediction. Only applies to visible creatures within 60ft. Advantage/disadvantage: both rolls generate. At max: overflow is lost. Unused resources at long rest cause Omen Debt (-1 per point to all rolls next day, cap -10). Short rest resets to 0 with no debt.',
         showGeneration: true,
         showSpending: true,
         showSpecPassive: true,
         showOmenDebt: true
     },
     generation: [
-        { action: 'Any d20 (even result)', benediction: 1, malediction: 0 },
-        { action: 'Any d20 (odd result)', benediction: 0, malediction: 1 },
+        { action: 'Any d20 (even result, visible within 60ft)', benediction: 1, malediction: 0 },
+        { action: 'Any d20 (odd result, visible within 60ft)', benediction: 0, malediction: 1 },
+        { action: 'Advantage/Disadvantage (both dice)', benediction: '1 per even die', malediction: '1 per odd die' },
         { action: 'Natural 20 (even)', benediction: 2, malediction: 0 },
         { action: 'Natural 1 (odd)', benediction: 0, malediction: 2 },
         { action: 'Combat start passive', benediction: '1d4', malediction: '1d4' },
@@ -2568,7 +2576,7 @@ CLASS_RESOURCE_TYPES['Doomsayer'] = {
         max: 15,
         current: 0,
         generation: {
-            prophesized: { base: 2, spellBonus: 'variable' },
+            prophesied: { base: 2, spellBonus: 'variable' },
             baseOutcome: 1,
             outsideOutcome: 0,
             doomCountdownTick: 1,
@@ -2581,7 +2589,7 @@ CLASS_RESOURCE_TYPES['Doomsayer'] = {
             prophecyManipulation: 'variable'
         },
         prophecyRange: {
-            mechanic: 'Roll 2 dice (type per spell) to create range. Inside = Prophesized, On boundary = Base, Outside = Backlash',
+            mechanic: 'Roll 2 dice (type per spell) to create range. Inside = Prophesied, On boundary = Base, Outside = Backlash',
             backlash: 'Self-damage or negative effects when rolling outside range'
         },
         specOverrides: {
@@ -2600,7 +2608,7 @@ CLASS_RESOURCE_TYPES['Doomsayer'] = {
         showProphecyBacklash: true
     },
     generation: [
-        { action: 'Prophesized (inside range)', havoc: '2-5', notes: 'Base 2 + spell bonus' },
+        { action: 'Prophesied (inside range)', havoc: '2-5', notes: 'Base 2 + spell bonus' },
         { action: 'Base (on boundary)', havoc: 1, notes: 'Prophecy partially fulfilled' },
         { action: 'Outside (backlash)', havoc: 0, notes: 'No Havoc earned' },
         { action: 'Doom Countdown tick', havoc: 1, notes: 'Per round ticking' },

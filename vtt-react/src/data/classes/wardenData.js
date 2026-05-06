@@ -75,11 +75,11 @@ Wardens excel at medium range (10-20 feet), using mobility to close gaps and str
       content: `**Vengeance Points Management**:
 The key to mastering the Warden is building and spending Vengeance Points efficiently. Generate VP through successful attacks and evasions, then spend them strategically:
 
-- **2 VP**: Empower next attack (+2d6 damage)
+- **2 VP**: Vengeful Strike (next attack +2d6 damage)
 - **3 VP**: Whirling Glaive (multi-target cone + slow)
-- **4 VP**: Hunter's Resolve (heal + damage resistance)
-- **6 VP**: Cage of Vengeance (trap target)
-- **10 VP**: Avatar of Vengeance (ultimate transformation)
+- **4 VP**: Hunter's Resolve (heal 2d8 HP + +2 Armor for 2 rounds)
+- **6 VP**: Cage of Vengeance (trap target for 3 rounds)
+- **10 VP**: Avatar of Vengeance (ultimate transformation for 4 rounds)
 
 **Mark and Hunt**:
 Start combat by marking high-priority targets with Mark of the Hunt. This provides:
@@ -89,7 +89,7 @@ Start combat by marking high-priority targets with Mark of the Hunt. This provid
 
 **Cage Control**:
 Use Cage of Vengeance to trap dangerous enemies or prevent escapes:
-- Costs 5 VP
+- Costs 6 VP (4 VP for Jailer specialization)
 - Traps target for 3 rounds
 - Prevents movement and teleportation
 - Caged enemies take increased damage
@@ -120,17 +120,17 @@ Don't just focus on offense - successful dodges generate VP:
 
 **Starting State**: VP: 0/10 | Mana: 45/50 | HP: 65/65 | Marked Target: None
 
-**Turn 1 - Mark of the Hunt (VP: 0 → 2)**
+**Turn 1 - Mark and Strike (VP: 0 → 2)**
 
 *The criminal mastermind stands surrounded by his guards. You've hunted him for months. Today, justice is served.*
 
-**Your Action (Action Points)**: "Mark of the Hunt" on Criminal Mastermind (no cost)
+**Your Action (Action Points)**: "Mark of the Hunt" on Criminal Mastermind (no VP cost)
 **Effect**: Target is marked. You gain +1 VP per attack against marked target (total 2 VP per hit), deal +1d6 damage to marked target, can sense marked target's location
 
 *You focus on the criminal. A spectral mark appears above his head, visible only to you. He is MARKED.*
 
 **Your Party's Tank**: "What's that symbol above him?"
-**You**: "Mark of the Hunt. He's my prey now. I'll gain 2 VP per attack against him instead of 1, and I deal +1d6 damage to him."
+**You**: "Mark of the Hunt. He's my prey now. I gain 2 VP per attack against him instead of 1, and I deal +1d6 damage to him."
 
 **Your Action**: Glaive attack on Criminal Mastermind (marked)
 **Attack Roll**: d20+7 → [16] = Hit!
@@ -140,7 +140,7 @@ Don't just focus on offense - successful dodges generate VP:
 
 *Your glaive SLASHES across the criminal's chest. He staggers back.*
 
-**VP Generated**: +2 (marked target) = **2/10**
+**VP Generated**: +2 (marked target hit) = **2/10**
 
 **Criminal Mastermind**: "You! The Warden! I thought I'd escaped you!"
 **You**: "No one escapes justice. I've tracked you for six months. Your hunt ends today."
@@ -155,10 +155,10 @@ Don't just focus on offense - successful dodges generate VP:
 **Attack Roll**: d20+5 → [14] = Hit!
 **Damage**: 2d8+3 → [7, 6] + 3 = 16 damage
 
-**Your Reaction**: "Evasive Maneuvers" (no cost, reaction)
-**Effect**: Dodge the attack, gain +1 VP
+**Your Reaction**: "Evasive Maneuvers" (reaction)
+**Effect**: +2 Armor against this attack. If attack misses, gain 1 VP.
 
-*You TWIST away from the blade. It misses by inches.*
+*You TWIST away from the blade. The attack misses.*
 
 **Damage**: 0 (dodged)
 **VP Generated**: +1 (successful evasion) = **3/10**
@@ -176,66 +176,42 @@ Don't just focus on offense - successful dodges generate VP:
 
 **Criminal Mastermind**: Takes 21 damage → HEAVILY DAMAGED (41 total damage so far)
 
-**Your Action (Action Points)**: Spend 1 VP to empower next attack
-**Effect**: Next attack deals +1d6 damage
+**Current State**: VP: 5/10 | Mana: 45/50 | HP: 65/65
 
-**VP**: 5 - 1 = **4/10**
-
-**Current State**: VP: 4/10 | Mana: 45/50 | HP: 65/65
-
-**Turn 3 - Cage of Vengeance (VP: 4 → 1)**
+**Turn 3 - Cage of Vengeance (VP: 5 → 7 → 1)**
 
 *The criminal tries to flee. Not on your watch.*
 
-**Criminal Mastermind's Turn**: Attempts to run (Dash action)
-
-**Your Reaction**: "Cage of Vengeance" (5 VP, reaction)
-**Effect**: Spectral cage traps target for 3 rounds, prevents movement and teleportation, caged enemies take +1d8 damage from all sources
-
-*Spectral bars ERUPT from the ground, forming a CAGE around the criminal. He's TRAPPED.*
-
-**VP**: 4 - 5 = Would go negative, but you can't spend more VP than you have
-
-*Wait, I need to recalculate. Let me fix this.*
-
-**Actually**: You have 4 VP, Cage costs 5 VP. You need 1 more VP.
-
-**Your Action**: Glaive attack on Criminal Mastermind (marked, empowered from last turn)
+**Your Action**: Glaive attack on Criminal Mastermind (marked)
 **Attack Roll**: d20+7 → [17] = Hit!
 **Base Damage**: 2d6+4 → [6, 5] + 4 = 15 damage
 **Mark Bonus**: +1d6 → [5] = +5 damage
-**Empowered Bonus**: +1d6 → [6] = +6 damage
-**Total Damage**: 15 + 5 + 6 = **26 damage**
+**Total Damage**: 15 + 5 = **20 damage**
 
-**VP Generated**: +2 (marked target) = **6/10**
+**VP Generated**: +2 (marked target) = **7/10**
 
-*Now you have 6 VP. The criminal tries to flee.*
+*Criminal Mastermind's Turn*: Attempts to run (Dash action)
 
-**Criminal Mastermind's Turn**: Attempts to run (Dash action)
-
-**Your Reaction**: "Cage of Vengeance" (5 VP)
-**Effect**: Spectral cage traps target for 3 rounds
+**Your Reaction**: "Cage of Vengeance" (6 VP, reaction)
+**Effect**: Spectral cage traps target for 3 rounds, prevents movement and teleportation, caged enemies take +1d8 damage from all sources
 
 *Spectral bars ERUPT from the ground, forming a CAGE around the criminal. He SLAMS into the bars, trapped.*
 
-**VP**: 6 - 5 = **1/10**
+**VP**: 7 - 6 = **1/10**
 
 **Criminal Mastermind**: "NO! Let me OUT!"
 **You**: "You're caged. Like the criminals you imprisoned in your dungeons. Justice."
 
 **Current State**: VP: 1/10 | Mana: 45/50 | HP: 65/65 | Criminal: Caged (3 rounds)
 
-**Turn 4 - Building to Avatar (VP: 1 → 5)**
+**Turn 4 - Building to Avatar (VP: 1 → 7)**
 
 *The criminal is caged. The guards attack desperately.*
 
 **Elite Guard #2's Turn**: Attacks you
 **Attack Roll**: d20+5 → [13] = Hit!
-**Damage**: 2d8+3 → [6, 7] + 3 = 16 damage
 
-**Your Reaction**: Evasive Maneuvers
-**Effect**: Dodge, gain +1 VP
-
+**Your Reaction**: Evasive Maneuvers → Dodge, +1 VP
 **Damage**: 0 (dodged)
 **VP**: 1 + 1 = **2/10**
 
@@ -243,26 +219,27 @@ Don't just focus on offense - successful dodges generate VP:
 **Attack Roll**: d20+7 → [19] = Hit!
 **Base Damage**: 2d6+4 → [6, 6] + 4 = 16 damage
 **Mark Bonus**: +1d6 → [5] = +5 damage
-**Cage Bonus**: +1d8 → [7] = +7 damage (caged enemies take extra damage)
+**Cage Bonus**: +1d8 → [7] = +7 damage
 **Total Damage**: 16 + 5 + 7 = **28 damage**
 
 **VP Generated**: +2 (marked target) = **4/10**
 
-**Your Action (Action Points)**: Glaive Throw (2 VP, hits multiple enemies)
-**Effect**: Throw glaive at 2 targets, returns to hand
+**Your Action (Action Points)**: Whirling Glaive (3 VP, cone AoE)
+**Effect**: Throw glaive in a sweeping arc, hitting multiple enemies and slowing them
 
-**VP**: 4 - 2 = **2/10**
+**VP**: 4 - 3 = **1/10**
 
-**Glaive Throw**: Hits Elite Guard #1 and #2
+**Whirling Glaive**: Hits Elite Guard #1 and #2
 **Damage to Each**: 2d6+4 → [5, 6] + 4 = **15 damage each**
 
-**VP Generated**: +1 (Guard #1) + 1 (Guard #2) = **+2 VP**
-**VP**: 2 + 2 = **4/10**
+**VP Generated**: +1 (Guard #1 hit) + 1 (Guard #2 hit) = **+2 VP**
+**VP**: 1 + 2 = **3/10**
 
 *Your glaive SPINS through the air, slashing both guards, then returns to your hand.*
 
-**Your Party's Mage**: "Your glaive came back to you!"
-**You**: "Glaive Throw. Costs 2 VP, hits multiple targets. I'm building VP for Avatar of Vengeance."
+**Elite Guard #3's Turn**: Attacks you
+**Your Reaction**: Evasive Maneuvers → Dodge, +1 VP
+**VP**: 3 + 1 = **4/10**
 
 **Current State**: VP: 4/10 | Mana: 45/50 | HP: 65/65
 
@@ -279,18 +256,24 @@ Don't just focus on offense - successful dodges generate VP:
 
 **VP Generated**: +2 (marked target) = **6/10**
 
-**Elite Guard #3's Turn**: Attacks you
+**Your Party's Tank**: Attacks Elite Guard #1 → DEAD
+
+**Elite Guard #4's Turn**: Attacks you
 **Your Reaction**: Evasive Maneuvers → Dodge, +1 VP
 **VP**: 6 + 1 = **7/10**
 
-**Your Party's Tank**: Attacks Elite Guard #1 → DEAD
-
-**Your Turn (Extra Attack)**: Glaive attack on Criminal Mastermind
+**Your Action (Extra Attack)**: Glaive attack on Criminal Mastermind (marked, caged)
 **Attack Roll**: d20+7 → [16] = Hit!
-**Damage**: 29 damage (similar roll)
-**VP Generated**: +2 = **9/10**
+**Base Damage**: 2d6+4 → [5, 6] + 4 = 15 damage
+**Mark Bonus**: +1d6 → [5] = +5 damage
+**Cage Bonus**: +1d8 → [7] = +7 damage
+**Total Damage**: 15 + 5 + 7 = **27 damage**
 
-**Elite Guard #4's Turn**: Attacks you
+**VP Generated**: +2 (marked target) = **9/10**
+
+*One more. You need one more VP. A guard lunges.*
+
+**Elite Guard #3's Turn**: Attacks you
 **Your Reaction**: Evasive Maneuvers → Dodge, +1 VP
 **VP**: 9 + 1 = **10/10** (MAXIMUM!)
 
@@ -299,7 +282,7 @@ Don't just focus on offense - successful dodges generate VP:
 
 *You ROAR. Spectral energy ERUPTS from your body. Your glaives BLAZE with vengeful power. You become the AVATAR OF VENGEANCE.*
 
-**VP**: 10 - 10 = **0/10** (but Avatar active for 4 rounds)
+**VP**: 10 - 10 = **0/10** (Avatar active for 4 rounds)
 
 **Your Party (in awe)**: "What... what ARE you?!"
 **You (voice echoing with power)**: "AVATAR OF VENGEANCE. JUSTICE INCARNATE."
@@ -327,22 +310,22 @@ Don't just focus on offense - successful dodges generate VP:
 *The Avatar form fades. The criminal is dead. Justice is served.*
 
 **Your Party's Healer**: "You... you dealt 72 damage in ONE HIT."
-**You**: "Avatar of Vengeance. Costs 10 VP, lasts 4 rounds. I had +4 to all stats, +2d8 damage on attacks, and damage resistance. The critical hit doubled everything. Base damage, mark bonus, cage bonus, all doubled. Plus Avatar's +2d8."
+**You**: "Avatar of Vengeance. Costs 10 VP, lasts 4 rounds. I had +4 to all stats, +2d8 damage on attacks, and damage resistance. The critical hit doubled everything — base damage, mark bonus, cage bonus. Plus Avatar's +2d8."
 **Your Party's Rogue**: "How did you build to 10 VP so fast?"
-**You**: "I marked the criminal at the start, so I gained 2 VP per attack against him instead of 1. I dodged attacks with Evasive Maneuvers, gaining 1 VP per dodge. I attacked him 5 times (2 VP each = 10 VP) and dodged 3 times (1 VP each = 3 VP). Total: 13 VP generated, spent 5 VP on Cage of Vengeance and 2 VP on Glaive Throw, leaving me with 6 VP. Then I built the final 4 VP through more attacks and dodges to reach 10 VP for Avatar."
+**You**: "I marked the criminal at the start, so I gained 2 VP per attack against him instead of 1. I dodged attacks with Evasive Maneuvers, gaining 1 VP per dodge. I attacked him 6 times (2 VP each = 12 VP) and dodged 5 times (1 VP each = 5 VP). Total: 17 VP generated. I spent 6 VP on Cage of Vengeance and 3 VP on Whirling Glaive, leaving me with enough to reach 10 VP for Avatar."
 
 **Final State**: VP: 0/10 | Mana: 45/50 | HP: 65/65
 
 **The Lesson**: Warden gameplay is about:
 1. **Mark of the Hunt**: Marked criminal for +2 VP per attack and +1d6 damage
 2. **VP Generation**: Built VP through successful attacks (+1 VP, +2 if marked) and evasions (+1 VP)
-3. **Cage of Vengeance**: Spent 5 VP to trap criminal, preventing escape and adding +1d8 damage
-4. **Glaive Throw**: Spent 2 VP to hit multiple targets with returning glaive
+3. **Cage of Vengeance**: Spent 6 VP to trap criminal, preventing escape and adding +1d8 damage
+4. **Whirling Glaive**: Spent 3 VP to hit multiple targets and slow them
 5. **Avatar of Vengeance**: Spent 10 VP for ultimate transformation (+4 stats, +2d8 damage, 4 rounds)
 6. **Critical Strike**: Avatar form critical hit dealt 72 damage in one strike
-7. **Evasive Maneuvers**: Dodged 3 attacks, gaining 3 VP and taking 0 damage
+7. **Evasive Maneuvers**: Dodged 5 attacks, gaining 5 VP and taking 0 damage
 
-You're a RELENTLESS HUNTER who marks prey and builds Vengeance Points through combat. You mark high-priority targets for bonus VP and damage. You dodge attacks to build VP defensively. You cage enemies to trap them and amplify damage. When you reach 10 VP, you transform into the AVATAR OF VENGEANCE—a spectral warrior with massive stat boosts who deals devastating damage. The criminal tried to run. You caged him. He tried to fight. You became the Avatar and dealt 72 damage in one critical strike. No one escapes the Warden. JUSTICE IS INEVITABLE.`
+You're a RELENTLESS HUNTER who marks prey and builds Vengeance Points through combat. You mark high-priority targets for bonus VP and damage. You dodge attacks to build VP defensively. You cage enemies to trap them and amplify damage. When you reach 10 VP, you transform into the AVATAR OF VENGEANCE — a spectral warrior with massive stat boosts who deals devastating damage. The criminal tried to run. You caged him. He tried to fight. You became the Avatar and dealt 72 damage in one critical strike. No one escapes the Warden. JUSTICE IS INEVITABLE.`
     }
   },
   
@@ -385,6 +368,9 @@ You are at your weakest. No VP means no Vengeful Strikes, no Whirling Glaives, n
 
 **The 10 VP Ceiling**:
 VP caps at 10. Any VP generated beyond 10 is wasted. If you are at 9 VP and crit a marked target (+2 VP), you only gain 1. This means you should plan your VP spends to avoid waste — if you are close to 10, either spend down or switch to non-marked targets.
+
+**VP Decay**:
+At the start of each of your turns, if you did not attack or take damage on your previous turn, you lose 1 VP (minimum 0). Vengeance is fueled by conflict — passivity drains your resolve.
 
 **Avatar Crash (Post-Avatar)**:
 After Avatar ends, you have 0 VP and your transformation bonuses disappear. This is the most dangerous moment for a Warden — you went from unstoppable to ordinary in an instant. Plan for this: position near cover, ensure your party is ready to support you, and mark a new target immediately to start rebuilding.
@@ -469,7 +455,7 @@ Mark of the Hunt is your single most important ability. A marked target gives yo
 Focus purely on VP generation. Attack your marked target every round. Use Evasive Maneuvers to dodge enemy attacks and gain VP on defense. At 2 VP per hit (marked) plus 1 VP per dodge, you can reach 10 VP in 4-5 rounds of aggressive play. Do NOT spend VP during this phase unless someone is about to die — you need the bank for Avatar.
 
 **Spending Phase (Rounds 4-6)**:
-Start spending if the fight demands it. Whirling Glaive (3 VP) is your best multi-target tool — use it when 2+ enemies are clustered. Hunter's Resolve (4 VP) is your sustain option — pop it when you drop below half HP. Cage of Vengeance (6 VP) is for priority targets that are fleeing or need to be locked down.
+Start spending if the fight demands it. Whirling Glaive (3 VP) is your best multi-target tool — use it when 2+ enemies are clustered. Hunter's Resolve (4 VP) is your sustain option — pop it when you drop below half HP. Cage of Vengeance (6 VP, or 4 VP for Jailer spec) is for priority targets that are fleeing or need to be locked down.
 
 **Avatar Timing**:
 Avatar of Vengeance (10 VP, 4 rounds) is your ultimate. The timing determines fights:
@@ -478,7 +464,7 @@ Avatar of Vengeance (10 VP, 4 rounds) is your ultimate. The timing determines fi
 - **Rule of Thumb**: If the fight will last 4+ more rounds and the boss is above 50% HP, go Avatar.
 
 **The Jailer's Cage Combo**:
-If you are Jailer spec, Cage a marked target (6 VP) — they take +1d6 from all sources while caged. Tell your party to focus fire the caged target. The cage turns a 3-round lockdown into a kill window.
+If you are Jailer spec, Cage a marked target (4 VP instead of 6) — they take +1d6 from all sources while caged. Tell your party to focus fire the caged target. The cage turns a 3-round lockdown into a kill window.
 
 **Post-Avatar Recovery**:
 After Avatar crashes, you have 0 VP. Mark a new target immediately and play defensively for 2-3 rounds while you rebuild. Use Evasive Maneuvers to generate VP without overextending. Your party should know to cover you during this window.
@@ -521,7 +507,7 @@ VP ABILITIES:
   2 VP  | Vengeful Strike  | +2d6 next attack
   3 VP  | Whirling Glaive  | Multi-target cone + slow
   4 VP  | Hunter's Resolve | Heal 2d8, +2 Armor 2 rounds
-  6 VP  | Cage of Vengeance | Trap target 3 rounds
+  6 VP  | Cage of Vengeance | Trap target 3 rounds (4 VP Jailer)
   10 VP | Avatar of Vengeance | Ultimate, 4 rounds
 
 AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
@@ -537,6 +523,76 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 - Call out your VP count at the start of your turn: "I'm at 7 VP, going Avatar next round." This lets your party plan around your power spike.
 - If you are Jailer spec, tell the party when you Cage: "Boss is caged for 3 rounds — focus fire now." The cage is a team kill window, not just your ability.
 - Keep your Mark Token visible at all times. If the DM forgets your mark bonus, the physical reminder keeps it honest.`
+    }
+  },
+  
+  // Character Creation
+  characterCreation: {
+    title: 'Creating a Warden',
+    subtitle: 'Forging an Agent of Justice',
+    
+    abilityPriorities: {
+      primary: 'Dexterity',
+      primaryDesc: 'Glaive attacks, Armor Class, and initiative — your primary combat stat.',
+      secondary: 'Wisdom',
+      secondaryDesc: 'Perception for tracking, saving throws, and Mark of the Hunt awareness.',
+      tertiary: 'Constitution',
+      tertiaryDesc: 'Survivability during aggressive VP-building playstyle.'
+    },
+    
+    startingEquipment: {
+      weapons: [
+        { name: 'Twin Glaives', damage: '2d6 slashing', properties: 'Finesse, two-handed. Can be thrown 30 ft (returns magically via Glaive Mastery).' },
+        { name: 'Dagger (backup)', damage: '1d4 piercing', properties: 'Finesse, light, thrown.' }
+      ],
+      armor: [
+        { name: 'Studded Leather Armor', ac: '12 + DEX mod', properties: 'Light armor. Silent, no disadvantage on Stealth.' }
+      ],
+      gear: [
+        'Hunter\'s Kit (trackers, chalk, whetstone, 50 ft hempen rope)',
+        'Criminal bounty posters (flavor item — your current targets)',
+        'Traveler\'s clothes with a dark cloak',
+        'Pouch with 10 gold pieces',
+        'Twin glaive harness (worn on back)'
+      ]
+    },
+    
+    startingStats: {
+      hp: '10 + Constitution modifier',
+      hitDice: '1d10 per Warden level',
+      armorClass: '12 + DEX modifier (studded leather)',
+      speed: '30 ft',
+      savingThrows: ['Dexterity', 'Wisdom'],
+      skills: ['Choose 3 from: Acrobatics, Athletics, Insight, Intimidation, Perception, Stealth, Survival']
+    },
+    
+    startingAbilities: [
+      { name: 'Mark of the Hunt', type: 'Action', desc: 'Mark a target as prey for bonus VP and damage.' },
+      { name: 'Glaive Mastery', type: 'Passive', desc: '+1 to hit with glaives, throw range 30 ft, returns to hand.' },
+      { name: 'Evasive Maneuvers', type: 'Reaction', desc: '+2 Armor vs one attack. If it misses, gain 1 VP.' },
+      { name: 'Vengeful Strike', type: '2 VP', desc: 'Empower next attack with +2d6 damage.' }
+    ],
+    
+    specializationChoice: {
+      level: 3,
+      description: 'At 3rd level, choose your specialization: Shadowblade (stealth assassin), Jailer (cage control), or Vengeance Seeker (relentless pursuit). This choice grants two passive abilities and shapes your talent tree.'
+    },
+    
+    levelProgression: {
+      title: 'Warden Level Progression',
+      headers: ['Level', 'VP Max', 'Feature Unlocked'],
+      rows: [
+        ['1', '10', 'Mark of the Hunt, Glaive Mastery, Evasive Maneuvers, Vengeful Strike'],
+        ['2', '10', 'Whirling Glaive, Hunter\'s Resolve'],
+        ['3', '10', 'Specialization Choice + Spec Passives'],
+        ['4', '10', 'Ability Score Improvement'],
+        ['5', '10', 'Avatar of Vengeance (ultimate transformation)'],
+        ['6', '10', 'Glaive Storm, Cage Slam'],
+        ['7', '10', 'Mark of Execution, Hunter\'s Wrath, Shadow Cage'],
+        ['8', '10', 'Ability Score Improvement, Vengeance Incarnate, Eternal Cage, Relentless Assault'],
+        ['9', '10', 'Justice Strikes, Cage Mastery, Shadowstep Strike'],
+        ['10', '10', 'Avatar Perfected, Ultimate Vengeance, Prison Realm']
+      ]
     }
   },
   
@@ -952,7 +1008,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       resourceCost: {
         actionPoints: 1,
-        vengeancePoints: 4,
+        vengeancePoints: 6,
         components: ['verbal', 'somatic'],
         verbalText: 'Carcer aeternus!',
         somaticText: 'Summon spectral cage'
@@ -1005,11 +1061,11 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       specialMechanics: {
         vengeancePoints: {
-          cost: 4,
-          description: 'Costs 4 VP for Jailer spec (reduced from 6 VP by Master Jailer passive)'
+          cost: 6,
+          description: 'Costs 6 VP (reduced to 4 VP by Master Jailer passive)'
         },
         jailerPassive: {
-          description: 'Master Jailer passive reduces cost by 2 VP',
+          description: 'Master Jailer passive reduces cost by 2 VP (from 6 to 4)',
           multiCage: 'Can maintain up to 2 cages simultaneously'
         },
         condemned: {
@@ -1056,12 +1112,6 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resolution: 'DICE',
-
-      damageConfig: {
-        formula: '2d6',
-        damageType: 'necrotic',
-        scalingType: 'chain_bonus'
-      },
 
       effects: {
         damage: {
@@ -1759,7 +1809,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
-        actionPoints: 1,
+        actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Dodge and weave'
       },
@@ -2176,7 +2226,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         criticalConfig: {
           enabled: true,
           critType: 'dice',
-          critMultiplier: 2.5,
+          critMultiplier: 2,
           critDiceOnly: false,
           extraDice: '4d10',
           critEffects: ['execute'],
@@ -2631,7 +2681,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeType: 'ranged',
         rangeDistance: 60,
         targetRestrictions: ['enemy'],
-        maxTargets: 1
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       damageConfig: {
@@ -2646,7 +2697,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
           id: 'teleport',
           name: 'Shadowstep',
           distance: 60,
-          needsLineOfSight: false
+          needsLineOfSight: true
         }],
         duration: 0,
         durationUnit: 'instant',

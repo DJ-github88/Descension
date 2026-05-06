@@ -112,21 +112,29 @@
 
 .augur-debt-badge {
     position: absolute;
-    top: -4px;
-    right: -4px;
+    top: -6px;
+    right: -6px;
     display: flex;
     align-items: center;
     gap: 2px;
     background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
     border: 1px solid #FF4444;
     border-radius: 6px;
-    padding: 1px 4px;
+    padding: 1px 5px;
+    min-width: 24px;
+    min-height: 16px;
     font-size: 8px;
     font-weight: 700;
     color: #FFD700;
     z-index: 3;
     box-shadow: 0 0 6px rgba(255, 68, 68, 0.5);
     pointer-events: none;
+    animation: debt-pulse 2s ease-in-out infinite;
+}
+
+@keyframes debt-pulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(255, 68, 68, 0.5); }
+    50% { box-shadow: 0 0 14px rgba(255, 68, 68, 0.9); }
 }
 
 .augur-debt-badge i {
@@ -240,4 +248,40 @@
     background: rgba(220, 53, 69, 0.2);
     color: #ff6b6b;
     border-color: rgba(220, 53, 69, 0.5);
+}
+
+/* Center divider glow */
+.augur-track .center-divider {
+    width: 3px;
+    background: linear-gradient(180deg,
+        rgba(218, 165, 32, 0.3),
+        rgba(255, 255, 255, 0.6),
+        rgba(139, 90, 139, 0.3));
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth fill for high-segment bars (10+ segments) */
+.augur-track .malediction-half,
+.augur-track .benediction-half {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.augur-track .augur-segment {
+    min-width: 3px;
+    max-width: 12px;
+}
+
+/* When segments get too narrow (15 segments), switch to tighter spacing */
+.augur-track .augur-segment:nth-last-child(n+10) {
+    border-radius: 0;
+}
+
+/* Tooltip improvements for Augur */
+.unified-resourcebar-tooltip .augur-spec-compare {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(139, 69, 19, 0.3);
+    font-size: 0.75rem;
+    color: rgba(58, 42, 26, 0.6);
 }

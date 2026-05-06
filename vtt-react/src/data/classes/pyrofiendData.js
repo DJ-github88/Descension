@@ -19,7 +19,7 @@ export const PYROFIEND_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Pyrofiend ascends through 10 levels of demonic corruption (Inferno Veil 0-9), gaining escalating fire damage bonuses at the cost of increasingly catastrophic drawbacks inspired by the circles of Hell. Climb too high and the corruption will kill you—descend too fast and you waste your power.
+      content: `**What You Need to Know**: The Pyrofiend ascends through 10 levels of demonic corruption (Inferno Veil 0-9), gaining escalating fire damage bonuses at the cost of increasingly catastrophic drawbacks inspired by the circles of Hell. Climb too high and the corruption will kill you—stay too low and you waste your demonic potential.
 
 **Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +8, then +10 at Level 9 "The Demon's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation) → Use Cooling Ember to descend and heal
 
@@ -47,7 +47,7 @@ Common Pyrofiend archetypes include:
     
     combatRole: {
       title: 'Combat Role',
-      content: `The Pyrofiend is one of the highest damage dealers in the game, second only to the intentionally unbalanced Chaos Weaver. They excel at:
+      content: `The Pyrofiend is one of the highest damage dealers in the game. They excel at:
 
 **Burst Damage**: Ascending to high Inferno Levels unleashes devastating fire damage
 **Sustained Pressure**: Burn effects and damage-over-time keep enemies under constant threat  
@@ -260,27 +260,39 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 **Mana**: 14 - 4 = 10/60
 **HP**: 25 + 7 = 32/45
 
-*The demonic transformation begins to RECEDE. Your horns shrink. The suffocating heat in your lungs eases. You're still partially demonic (Level 6), but no longer at the dangerous peak.*
+*The demonic transformation begins to RECEDE. Your horns shrink. The suffocating heat in your lungs eases.*
 
-**Your Party's Healer**: Heals you for 15 HP
-**HP**: 32 + 15 = 45/45 (back to full with healer help — at Level 6, you CAN accept healing)
+*But you're still at Level 6 — Heresy's curse. You cannot be healed by others. You cast Cooling Ember again.*
+
+**Second Cooling Ember** (4 mana, descends -2 Inferno):
+**Inferno Descent**: 6 → **4**
+**Fire Damage Bonus**: +6 → **+4**
+**Healing**: 1d6 + spirit/3 → [3] + 2 = 5 HP
+
+**Mana**: 10 - 4 = 6/60
+**HP**: 32 + 5 = 37/45
+
+*The corruption recedes further. At Level 4, you can finally accept outside healing again.*
+
+**Your Party's Healer**: Heals you for 8 HP
+**HP**: 37 + 8 = 45/45 (back to full with healer help — at Level 4, you CAN accept healing from others again)
 
 **Your Party's Tank**: "That was... terrifying. You did 72 damage with one spell."
-**You**: "Hellfire Wave. +5 from Inferno Level 5, plus 2d6 Infernal Surge bonus. The demon gives everything. But at Level 7, I was suffocating. At Level 8, I was burning myself alive. If I'd hit Level 9... the demon takes over. Death in 3 turns."
+**You**: "Hellfire Wave. +5 from Inferno Level 5, plus 2d6 Infernal Surge bonus. The demon gives everything. But at Level 7, I was suffocating. At Level 8, I was burning myself alive. If I'd hit Level 9... the demon takes over. Death in 3 of my turns."
 **Your Party's Mage**: "And Cooling Ember?"
-**You**: "Descends me -2 Inferno Levels. Went from 8 to 6. Removed the worst drawbacks so the healer could top me off. I'm still at Level 6 — Gluttony fatigue and Heresy blazing eyes — but I can manage those."
+**You**: "Descends me -2 Inferno Levels per cast. I used it twice — from 8 to 6, then 6 to 4. Had to get below Level 6 because at that level, the demon's heresy blocks others from healing me. Now I'm at Level 4 — manageable."
 
-**Final State**: Inferno: 6/9 | Fire Bonus: +6 | Mana: 10/60 | HP: 45/45
+**Final State**: Inferno: 4/9 | Fire Bonus: +4 | Mana: 6/60 | HP: 45/45
 
 **The Lesson**: Pyrofiend gameplay is about:
 1. **Inferno Ascension**: Started at Level 0, ascended to Level 8 through fire spells
 2. **Damage Scaling**: Level 0 (+0) → Level 1 (+1) → Level 3 (+3) → Level 5 (+5) → Level 7 (+7) → Level 8 (+8)
 3. **Spell Synergy**: Ember Spark (starter DoT) → Cinder Bolt (AoE clear) → Fireball (big AoE) → Hellfire Wave (massive cone nuke)
 4. **Infernal Surge**: The shared Path Passive triggered at Level 5+, adding +2d6 to the Hellfire Wave for 72 total damage
-5. **Drawback Escalation**: Level 1 (hit chance) → Level 3 (movement) → Level 5 (bleeding) → Level 7 (suffocation) → Level 8 (self-damage + Dex loss)
-6. **The Demon's Bargain**: Level 9 gives +10 instead of +9 — disproportionate power for the final, deadliest drawback (death in 3 turns)
-7. **Cooling Ember**: Descended from 8 → 6 to remove the worst drawbacks, enabling healer support
-8. **Resource Tension**: Nearly ran out of mana (10/60 remaining). Ascension costs spells, and spells cost mana.
+5. **Drawback Escalation**: Level 1 (hit chance) → Level 3 (movement) → Level 5 (bleeding) → Level 7 (suffocation) → Level 8 (self-damage + Dex loss). **Note: Drawbacks do NOT stack** — you only suffer the penalty of your current level.
+6. **The Demon's Bargain**: Level 9 gives +10 instead of +9 — disproportionate power for the final, deadliest drawback (death in 3 of your turns)
+7. **Cooling Ember**: Descended from 8 → 6 → 4 with two casts, removing the worst drawbacks and getting below Level 6 (which blocks outside healing) so the healer could top us off
+8. **Resource Tension**: Nearly ran out of mana (6/60 remaining). Ascension costs spells, and spells cost mana.
 
 You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno Levels, each one adding +1 fire damage (+10 at the deadly Level 9) but imposing escalating drawbacks based on the circles of Hell. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. You're not a safe class. You're a DEMONIC GLASS CANNON who trades their own blood for DEVASTATING POWER.`
     }
@@ -311,9 +323,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       rows: [
         ['Cast Fire Spell', '+1 to +3', 'Most offensive spells cause ascension'],
         ['Infernal Surge (Lv 5+)', 'Bonus Damage', 'Next fire spell deals +2d6 damage'],
-        ['Cooling Ember', '-1d4 Levels', 'The essential release valve; heals per level reduced'],
-        ['The Demon\'s Bargain', 'Level 9 (+10)', 'Disproportionate power; death in 3 turns if not cleared'],
-        ['Rest / Out of Combat', 'Resets to 0', 'The corruption fades with time and meditation']
+        ['Cooling Ember', '-2 Levels (fixed)', 'The essential release valve; heals 1d6 + spirit/3 HP'],
+        ['The Demon\'s Bargain', 'Level 9 (+10)', 'Disproportionate power; death in 3 of your turns if not cleared'],
+        ['Rest / Out of Combat', '-1 per minute', 'Short Rest resets to 0; corruption fades with meditation']
       ]
     },
 
@@ -326,12 +338,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       title: 'The Demon\'s Bargain (Level 9)',
       content: `Reaching Inferno Level 9 represents total surrender to the infernal forces.
 
-**You have THREE ROUNDS** to descend below Level 9. If you don't:
+**You have THREE OF YOUR TURNS** to descend below Level 9. At the start of each of your turns while at Inferno Level 9, the death clock ticks down. If you have not descended below Level 9 after 3 of your turns:
 - You are **consumed by fire** (Immediate Death)
 - Your soul is **claimed** (Standard resurrection may fail)
 
 **Survival Guide**:
-- Use **Cooling Ember** immediately to drop 1d4 levels.
+- Use **Cooling Ember** immediately to drop 2 levels (fixed).
 - Hellfire spec can use **Demonic Vitality** to survive the self-damage.
 - Do NOT reach Level 9 unless the boss is at <10% HP.`
     },
@@ -344,9 +356,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         ['1', '+1', '-2 Hit chance (distortions)', 'Limbo'],
         ['2', '+2', '1d4 Psychic dmg/turn', 'Lust'],
         ['3', '+3', '-10ft Movement, Fatigue', 'Gluttony'],
-        ['4', '+4', '+2d6 Damage taken', 'Greed'],
+        ['4', '+4', '+1d6 Damage taken from all sources', 'Greed'],
         ['5', '+5', '1d6 Bleeding dmg/turn', 'Wrath'],
-        ['6', '+6', 'Disadv on Sight checks', 'Heresy'],
+        ['6', '+6', 'Cannot be healed by others, Disadv on Insight/Perception', 'Heresy'],
         ['7', '+7', '-15ft Speed, 1d6 Suffocation', 'Violence'],
         ['8', '+8', '2d4 Self-dmg, Disadv Dex', 'Fraud'],
         ['9', '+10', '4d8 Self-dmg, Death in 3 Turns', 'Treachery']
@@ -355,13 +367,23 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
 
     strategicConsiderations: {
       title: 'Managing the Flame',
-      content: `**The Safe Zone (Lv 0–3)**: Minimal drawbacks. Use this for clearing minor enemies or during exploration. You are consistent but not devastating.
+      content: `**Important — Drawbacks Do Not Stack**: You only suffer the drawback of your current Inferno Level. Lower-level drawbacks are superseded, not cumulative. For example, at Level 5 you suffer 1d6 bleeding per turn — you do NOT also suffer the Level 1 hit penalty, Level 2 psychic damage, Level 3 movement penalty, or Level 4 damage vulnerability.
+
+**Important — Drawback Timing**: Drawbacks take effect immediately upon ascending to a new Inferno Level. If you ascend from Level 4 to Level 6 in a single turn, you suffer only the Level 6 drawback (not Level 5's bleeding or Level 6's penalty separately — just Level 6). The self-damage drawbacks (Levels 2, 5, 7, 8, 9) apply at the start of each of your turns while at that level.
+
+**Important — Inferno Level Cap**: Your Inferno Level cannot exceed 9. If a spell would cause you to ascend past Level 9, the excess ascension is lost and your level remains at 9.
+
+**Important — Inferno Required (Spell Gating)**: Many spells list an "Inferno Required" cost in addition to mana. You must be at or above that Inferno Level to cast the spell. For example, Hellfire Wave (Level 5) requires Inferno Level 2+. If you are at Level 1, you cannot cast it. Plan your ascension so you reach the required level before you need your strongest spells.
+
+**The Safe Zone (Lv 0–3)**: Minimal drawbacks. Use this for clearing minor enemies or during exploration. You are consistent but not devastating.
 
 **The Power Zone (Lv 4–6)**: The optimal state. High damage bonuses with manageable penalties. Most specializations (like Wildfire) thrive here.
 
 **The Danger Zone (Lv 7–9)**: Reserved for finales. The self-damage and speed penalties are brutal. Only enter this zone if you have a clear shot at finishing the encounter or a healer ready to dump resources into you.
 
-**The Release Valve**: Never enter a turn with 0 Mana if you are above Level 5. You MUST save enough for **Cooling Ember** (4 Mana) to descend if the corruption becomes life-threatening.`
+**The Release Valve**: Never enter a turn with 0 Mana if you are above Level 5. You MUST save enough for **Cooling Ember** (4 Mana) to descend if the corruption becomes life-threatening.
+
+**Out of Combat Recovery**: When combat ends, your Inferno Level decreases by 1 per minute of rest. After a Short Rest, it resets to 0. The corruption fades with time and meditation — but it does not vanish instantly.`
     },
 
     playingInPerson: {
@@ -388,6 +410,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     subtitle: 'Three Paths of Infernal Power',
     
     description: `Every Pyrofiend chooses one of three specializations that define their approach to demonic fire magic. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
+    
+    sharedPassive: {
+      name: 'Infernal Surge',
+      tier: 'Path Passive',
+      description: 'When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 fire damage. This effect can only trigger once per ascension event.'
+    },
     
     specs: [
       {
@@ -417,15 +445,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         
         passiveAbilities: [
           {
-            name: 'Infernal Surge',
-            tier: 'Path Passive',
-            description: 'When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 fire damage.',
-            sharedBy: 'All Pyrofiends'
-          },
-          {
             name: 'Burning Ambition',
             tier: 'Specialization Passive',
-            description: 'While at Inferno Level 7 or higher, your fire spells crit on the 2 highest die numbers instead of just the highest, and critical hits deal an additional 1d10 fire damage.',
+            description: 'While at Inferno Level 3 or higher, your fire spells deal +1 damage per die rolled. Additionally, while at Inferno Level 7 or higher, your fire spells crit on the 2 highest die numbers instead of just the highest, and critical hits deal an additional 1d10 fire damage.',
             uniqueTo: 'Inferno'
           }
         ],
@@ -460,15 +482,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         
         passiveAbilities: [
           {
-            name: 'Infernal Surge',
-            tier: 'Path Passive',
-            description: 'When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 fire damage.',
-            sharedBy: 'All Pyrofiends'
-          },
-          {
             name: 'Wildfire Spread',
             tier: 'Specialization Passive',
-            description: 'When an enemy affected by your burn effect dies, the burn spreads to all enemies within 10 feet, dealing 2d6 fire damage and applying a new burn effect (1d6 fire damage per turn for 3 turns).',
+            description: 'When an enemy affected by your burn effect dies, the burn spreads to all enemies within 10 feet, dealing 2d6 fire damage and applying a new burn effect (1d6 fire damage per turn for 3 turns). This effect can only trigger once per round and cannot chain from spread burns.',
             uniqueTo: 'Wildfire'
           }
         ],
@@ -503,15 +519,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         
         passiveAbilities: [
           {
-            name: 'Infernal Surge',
-            tier: 'Path Passive',
-            description: 'When you ascend to Inferno Level 5 or higher, your next fire spell deals an additional 2d6 fire damage.',
-            sharedBy: 'All Pyrofiends'
-          },
-          {
             name: 'Demonic Vitality',
             tier: 'Specialization Passive',
-            description: 'You heal for 25% of all fire damage you deal. Additionally, when you descend Inferno Levels (through Cooling Ember or other means), you gain temporary hit points equal to 3 times the number of levels descended.',
+            description: 'You heal for 20% of all fire damage you deal (maximum 40% of a single spell\'s total damage). Additionally, when you descend Inferno Levels (through Cooling Ember or other means), you gain temporary hit points equal to 3 times the number of levels descended.',
             uniqueTo: 'Hellfire'
           }
         ],
@@ -526,6 +536,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
   spellPools: {
     1: [
       // Level 1 starting spells (pick 3)
+      // IMPORTANT: Cooling Ember is strongly recommended — without it, you cannot reduce your Inferno Level
       'pyro_ember_spark',
       'pyro_smoldering_touch',
       'pyro_flicker',
@@ -661,7 +672,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_smoldering_touch',
       name: 'Smoldering Touch',
-      description: 'Your hand glows with heat as you touch an enemy, dealing instant damage and leaving a lingering smolder.',
+      description: 'Your hand glows with heat as you touch an enemy, dealing instant damage and leaving a lingering smolder that burns intensely.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Fire/Fire Bolt',
@@ -698,10 +709,10 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         resolution: 'DICE',
         dotConfig: {
           enabled: true,
-          damagePerTick: '1',
+          damagePerTick: '1d4',
           damageType: 'fire',
           tickFrequency: 'round',
-          duration: 1,
+          duration: 2,
           canStack: false,
           maxStacks: 1
         }
@@ -709,7 +720,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
 
       durationConfig: {
         durationType: 'rounds',
-        durationValue: 1,
+        durationValue: 2,
         durationUnit: 'rounds'
       },
 
@@ -724,9 +735,9 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_flicker',
       name: 'Flicker',
-      description: 'A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. A basic spell perfect for quick attacks.',
+      description: 'A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. This spell is cast as a bonus action, allowing you to weave it between other attacks.',
       level: 1,
-      spellType: 'ACTION',
+      spellType: 'BONUS_ACTION',
       icon: 'Fire/Fiery Symbol',
       
       typeConfig: {
@@ -1037,7 +1048,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '2d6 + intelligence',
+        formula: '2d6 + intelligence/2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -1901,8 +1912,8 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
             isConditional: true,
             defaultEnabled: true,
             baseFormula: '12d6 + intelligence * 2',
-            conditionalFormulas: {
-              'resource_threshold_70': '14d6 + intelligence * 3'
+              conditionalFormulas: {
+              'resource_threshold_70': '16d6 + intelligence * 2'
             }
           }
         }
@@ -2329,7 +2340,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '12d10 + intelligence * 4',
+        formula: '16d10 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -2454,7 +2465,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       },
 
       damageConfig: {
-        formula: '4d6 + intelligence * 1.5',
+        formula: '6d6 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },
@@ -2488,7 +2499,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_demonic_ascension',
       name: 'Demonic Ascension',
-      description: 'Reach the pinnacle of demonic power, transforming into a true demon of fire with overwhelming power.',
+      description: 'Reach the pinnacle of demonic power, transforming into a true demon of fire with overwhelming power. **WARNING:** This spell requires Inferno Level 9. Demonic Ascension does NOT pause the Level 9 death clock — you must still descend below Level 9 within 3 of your turns or die, even while transformed.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Fire/Fire Demon',
@@ -2579,7 +2590,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '15d10 + intelligence * 5',
+        formula: '20d10 + intelligence * 2',
         damageTypes: ['fire'],
         resolution: 'DICE'
       },

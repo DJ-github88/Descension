@@ -66,87 +66,74 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
     // Auto-adjust tooltip position
     useEffect(() => {
-        if (showTooltip && tooltipRef.current && barRef.current) {
-            tooltipRef.current.style.opacity = '0';
-            const updatePosition = () => {
-                const tooltip = tooltipRef.current;
-                const bar = barRef.current;
-                if (!tooltip || !bar) {
-                    requestAnimationFrame(updatePosition);
-                    return;
-                }
+        if (!showTooltip || !tooltipRef.current || !barRef.current) return;
 
-                const tooltipRect = tooltip.getBoundingClientRect();
-                const barRect = bar.getBoundingClientRect();
+        const updatePosition = () => {
+            const tooltip = tooltipRef.current;
+            const bar = barRef.current;
+            if (!tooltip || !bar) return;
 
-                if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
-                    requestAnimationFrame(updatePosition);
-                    return;
-                }
+            tooltip.style.opacity = '0';
+            tooltip.style.position = 'fixed';
 
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-                const margin = 8;
+            const barRect = bar.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
 
-                let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
-                let hudBottom = barRect.bottom;
+            if (barRect.width === 0 && barRect.height === 0 && barRect.left === 0 && barRect.top === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
 
+            if (tooltipRect.width === 0 || tooltipRect.height === 0) {
+                requestAnimationFrame(updatePosition);
+                return;
+            }
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const margin = 8;
+
+            let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
+            let hudBottom = barRect.bottom;
+
+            if (hudContainer) {
+                const hudRect = hudContainer.getBoundingClientRect();
+                hudBottom = hudRect.bottom;
+            }
+
+            let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
+            let top = hudBottom + margin;
+
+            if (left < margin) left = margin;
+            if (left + tooltipRect.width > viewportWidth - margin) {
+                left = viewportWidth - tooltipRect.width - margin;
+            }
+
+            if (top + tooltipRect.height > viewportHeight - margin) {
                 if (hudContainer) {
                     const hudRect = hudContainer.getBoundingClientRect();
-                    hudBottom = hudRect.bottom;
+                    top = hudRect.top - tooltipRect.height - margin;
+                } else {
+                    top = barRect.top - tooltipRect.height - margin;
                 }
+                if (top < margin) top = margin;
+            }
 
-                const tooltipWidth = tooltipRect.width > 0 ? tooltipRect.width : 300;
-                const tooltipHeight = tooltipRect.height > 0 ? tooltipRect.height : 200;
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+            tooltip.style.transform = 'none';
+            tooltip.style.zIndex = '2147483647';
+            tooltip.style.opacity = '1';
+        };
 
-                let left = barRect.left + (barRect.width / 2) - (tooltipWidth / 2);
-                let top = hudBottom + margin;
+        updatePosition();
+        requestAnimationFrame(() => requestAnimationFrame(updatePosition));
+        const timeoutId = setTimeout(updatePosition, 50);
 
-                if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                    requestAnimationFrame(updatePosition);
-                }
-
-                if (left < margin) {
-                    left = margin;
-                }
-                if (left + tooltipWidth > viewportWidth - margin) {
-                    left = viewportWidth - tooltipWidth - margin;
-                }
-
-                if (top + tooltipHeight > viewportHeight - margin) {
-                    if (hudContainer) {
-                        const hudRect = hudContainer.getBoundingClientRect();
-                        top = hudRect.top - tooltipHeight - margin;
-                    } else {
-                        top = barRect.top - tooltipHeight - margin;
-                    }
-                    if (top < margin) {
-                        top = margin;
-                    }
-                }
-
-                tooltip.style.position = 'fixed';
-                tooltip.style.left = `${left}px`;
-                tooltip.style.top = `${top}px`;
-                tooltip.style.transform = 'none';
-                tooltip.style.zIndex = '2147483647';
-                tooltip.style.borderRadius = '0';
-                tooltip.style.padding = '10px 12px';
-                tooltip.style.opacity = '1';
-            };
-
-            updatePosition();
-            requestAnimationFrame(() => {
-                requestAnimationFrame(updatePosition);
-            });
-
-            const timeoutId = setTimeout(updatePosition, 50);
-
-            return () => {
-                clearTimeout(timeoutId);
-                if (tooltipRef.current) { tooltipRef.current.style.opacity = ''; }
-            };
-        }
+        return () => {
+            clearTimeout(timeoutId);
+            if (tooltipRef.current) tooltipRef.current.style.opacity = '';
+        };
     }, [showTooltip, localAEP, selectedSpec]);
 
     // Simulate absorption effect
@@ -316,7 +303,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                         <div className="tooltip-label">AEP Management</div>
                         <div className="level-management">
                             <strong>Generate:</strong>
-                            <span>Magical +2, Physical +1/2, Mana +1</span>
+                            <span>Magical +1/dmg, Physical +1/3, Mana Drain +1</span>
                             <strong>Spend:</strong>
                             <span>Arcane shields, spell reflections, magical strikes</span>
                         </div>

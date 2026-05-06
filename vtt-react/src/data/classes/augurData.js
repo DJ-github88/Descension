@@ -128,7 +128,7 @@ The class creates a unique rhythm where you're constantly generating resources f
 
 **Current State**: Benediction: 4/5 | Malediction: 0/15 | Mana: 27/55
 
-**Turn 3 - Turning the Tide (Benediction: 4→6→5, Malediction: 0→2)**
+**Turn 3 - Turning the Tide (Benediction: 4→5→2, Malediction: 0→2)**
 
 *Your party's Fighter and Ranger are taking hits. The hobgoblins are tough. But the signs keep coming.*
 
@@ -156,7 +156,7 @@ The class creates a unique rhythm where you're constantly generating resources f
 
 **Current State**: Benediction: 2/5 | Malediction: 2/15 | Mana: 21/55
 
-**Turn 4 - The Final Portent (Benediction: 2→3, Malediction: 2→6)**
+**Turn 4 - The Final Portent (Benediction: 2→3, Malediction: 2→4→1)**
 
 **Your Party's Mage**: Casts Lightning Bolt at Warchief → d20+5 → [11] → odd → +1 Malediction (now 3/15)
 **Damage**: 6d6 → [5, 4, 6, 3, 5, 4] = 27 lightning damage
@@ -169,16 +169,21 @@ The class creates a unique rhythm where you're constantly generating resources f
 
 *The warchief's blade slides off the blessed armor. Your Sign of Protection held. The portent of weakness made him roll poorly. The omens are overwhelming.*
 
-**Your Action**: Cast "Grand Malediction" on Warchief (12 mana + 4 Malediction)
-**Effect**: Target must make a Spirit save DC 16 or take 4d8 psychic damage and be paralyzed for 1 round
+**Your Action**: You want Grand Malediction (20 mana, 6 Malediction) but you only have 4 Malediction. **This is the core tension**—you spent your Malediction on earlier debuffs. Instead, recast "Portent of Weakness" (8 mana + 3 Malediction) to keep the warchief suppressed.
 
-*You raise both hands, eyes blazing with divine light. "THE SIGNS HAVE SPOKEN. YOUR DOOM IS WRITTEN." The accumulated ill omens converge on the warchief in a burst of maledictory energy.*
+**Mana**: 21 - 8 = 13/55
+**Malediction**: 4 - 3 = **1/15**
 
-**Warchief's Save**: d20+3 → [6] → FAIL!
-**Damage**: 4d8 → [7, 8, 5, 6] = **26 psychic damage** → Warchief FALLS, paralyzed then dead
+*You renew the portent. The dark sigil intensifies. He won't land another clean hit.*
 
-**Mana**: 21 - 12 = 9/55
-**Malediction**: 4 - 4 = **0/15**
+**Warchief's Save**: d20+3 → [14] → 14+3 = 17 vs DC 16 → FAIL (barely)!
+**Effect**: Disadvantage on attacks and -2 Armor for 3 more rounds.
+
+**Your Party's Fighter**: Finishing blow on the weakened Warchief → d20+6 → [16] → Hit!
+**Damage**: 2d8+4 → [8, 7] + 4 = 19 damage → Warchief FALLS
+
+**Omen Reading**: 16 is even → +1 Benediction
+**Benediction**: 3 + 1 = **4/5**
 
 **Combat Effectively Over**
 
@@ -187,14 +192,14 @@ The class creates a unique rhythm where you're constantly generating resources f
 **Your Party's Ranger**: "You... you read every roll. You knew when to curse and when to bless."
 **You**: "I didn't know. I interpreted. The 17 on your hit—odd—I read it as a sign of weakness in our enemies, so I fueled my Malediction. The 12 on the warchief's attack—even—I read it as a sign of fortune for our side, fueling my Benediction. Every number is a message. I simply listened."
 
-**Final State**: Benediction: 3/5 | Malediction: 0/15 | Mana: 9/55 | HP: 50/50
+**Final State**: Benediction: 4/5 | Malediction: 1/15 | Mana: 13/55 | HP: 50/50
 
 **The Lesson**: Augur gameplay is about:
 1. **Omen Generation**: Every d20 roll feeds your bars. 17 (odd) → +1 Malediction. 12 (even) → +1 Benediction. Combat generates resources constantly.
 2. **Resource Interpretation**: The dice decide what you have more of. Adapt your strategy—if Malediction is full, debuff; if Benediction is full, buff.
 3. **Battlefield Control**: Terrain of Ruin turned a 20ft area into a hazard zone. Portent of Weakness made the warchief roll with disadvantage.
-4. **Dual Spending**: Spent 7 Malediction (3 on Portent of Weakness, 4 on Terrain of Ruin... wait, 3+4+4=11 total) and 3 Benediction (on Sign of Protection). The signs gave you the tools; you used them.
-5. **Omen Debt**: At the end of the day, if you have unused Benediction/Malediction, you'll suffer Omen Debt—stacking -1 to all rolls per unused point the next day. The signs demand to be used.`
+4. **Resource Budgeting**: You spent 10 Malediction total (Turn 1: 3 on Portent of Weakness, Turn 2: 4 on Terrain of Ruin, Turn 4: 3 on renewed Portent of Weakness) and 3 Benediction (on Sign of Protection). You couldn't afford Grand Malediction (6 Mal) because you'd spent your Malediction on earlier debuffs. **This is the core tension**—spend resources as they come, or save for a big finish?
+5. **Omen Debt**: At the end of the day, if you have unused Benediction/Malediction, you'll suffer Omen Debt—stacking -1 to all rolls per unused point the next day (cap -10). The signs demand to be used. In this fight you ended with 1 Malediction and 4 Benediction unused—if the day ended now, you'd face -5 to all rolls tomorrow. Better find another fight or spend those resources on Omen Rituals.`
     }
   },
 
@@ -202,7 +207,11 @@ The class creates a unique rhythm where you're constantly generating resources f
     title: 'Benediction & Malediction',
     subtitle: 'The Omen Interpreter\'s Dual Resource',
 
-    description: `The Augur's power flows from interpreting the signs embedded in every die roll. When any d20 is rolled within the Augur's awareness, the result carries an omen: **even numbers generate Benediction** (positive, blessing energy) while **odd numbers generate Malediction** (negative, cursing energy). These twin resources power every Augur ability—Benediction fuels boons, terrain blessings, and protective signs, while Malediction fuels curses, debuffs, battlefield hazards, and ill portents.`,
+    description: `The Augur's power flows from interpreting the signs embedded in every die roll. When any d20 is rolled by a creature within 60 feet that you can see and are aware of, the result carries an omen: **even numbers generate Benediction** (positive, blessing energy) while **odd numbers generate Malediction** (negative, cursing energy). These twin resources power every Augur ability—Benediction fuels boons, terrain blessings, and protective signs, while Malediction fuels curses, debuffs, battlefield hazards, and ill portents.
+
+**Overflow**: When a resource is at its maximum, further generation of that resource is lost—only the unfilled resource benefits from future rolls.
+
+**Advantage/Disadvantage**: When a creature rolls with advantage or disadvantage, both d20 rolls generate resources independently (two rolls = two potential resource gains).`,
 
     cards: [
       {
@@ -225,13 +234,15 @@ The class creates a unique rhythm where you're constantly generating resources f
     generationTable: {
       headers: ['Source', 'Gain', 'Notes'],
       rows: [
-        ['Any d20 Roll (Even Result)', '+1 Benediction', 'Any d20 rolled by anyone you can see—yours, allies, enemies'],
+        ['Any d20 Roll (Even Result)', '+1 Benediction', 'Any d20 rolled by a creature within 60ft that you can see and are aware of—yours, allies, enemies'],
         ['Any d20 Roll (Odd Result)', '+1 Malediction', 'Includes attacks, saves, ability checks, death saves'],
+        ['Advantage/Disadvantage', '+1 per die', 'Both d20 rolls from advantage/disadvantage generate resources independently'],
         ['Combat Start Passive', '1d4 Benediction + 1d4 Malediction', 'Roll at start of each combat encounter'],
         ['Omen Ritual (Out of Combat)', '+2 to either', 'Spend 10 minutes reading signs (once per short rest)'],
-        ['Critical Hit (even natural)', '+2 Benediction', 'Natural 20 is the ultimate good omen'],
-        ['Critical Fail (odd natural)', '+2 Malediction', 'Natural 1 is the ultimate ill omen'],
-        ['Short Rest', 'Reset to 0', 'Resources clear; Omen Debt applies if any were unused']
+        ['Critical Hit (natural 20)', '+2 Benediction', 'Natural 20 is the ultimate good omen'],
+        ['Critical Fail (natural 1)', '+2 Malediction', 'Natural 1 is the ultimate ill omen'],
+        ['Short Rest', 'Reset to 0', 'Resources reset to 0. No Omen Debt is incurred.'],
+        ['Long Rest (End of Day)', 'Omen Debt check', 'Unused resources incur Omen Debt (see below)']
       ]
     },
 
@@ -269,7 +280,9 @@ The class creates a unique rhythm where you're constantly generating resources f
 
 **End-of-Day Management**: As the day winds down, be aggressive with your remaining resources. Better to spend them on minor effects than suffer Omen Debt tomorrow.
 
-**Specialization Impact**: Auspex (10/10 balanced) adapts easily. Harbinger (5/15) will almost always have more Malediction—embrace the dark omens. Hierophant (15/5) will overflow with Benediction—become a beacon of good fortune.`
+**Specialization Impact**: Auspex (10/10 balanced) adapts easily. Harbinger (5/15) will almost always have more Malediction—embrace the dark omens. Hierophant (15/5) will overflow with Benediction—become a beacon of good fortune.
+
+**Concentration Management**: Many of the Augur's most powerful effects (Terrain of Ruin, Portent of Weakness, Sacred Ground, Field of Misfortune, Hierophant's Domain) require concentration. You can only maintain ONE concentration spell at a time. This means you cannot stack terrain effects with sustained debuffs. Choose wisely: a persistent zone effect that damages and slows enemies, or a focused debuff that shuts down a single target. Non-concentration spells (Sign of Protection, Grand Malediction, Omen Bolt) can be cast freely while concentrating.`
     },
 
     playingInPerson: {
@@ -317,7 +330,7 @@ The class creates a unique rhythm where you're constantly generating resources f
         strengths: [
           'Equal Benediction and Malediction caps (10/10) provide maximum flexibility',
           'Can efficiently use ANY spell regardless of resource cost',
-          'Passive: Benediction and Malediction generation rate increased by 1 (gain +1 to whichever the roll generates)',
+          'Passive: When a d20 roll generates one resource type, gain +1 of the opposite type as well (even roll → 1 Benediction + 1 Malediction; odd roll → 1 Malediction + 1 Benediction)',
           'Access to unique "Balanced Sign" abilities that spend equal amounts of both resources',
           'Best at adapting strategy mid-combat based on omen flow'
         ],
@@ -331,7 +344,7 @@ The class creates a unique rhythm where you're constantly generating resources f
 
         specPassive: {
           name: 'Harmonic Interpretation',
-          description: 'When you generate Benediction or Malediction from a d20 roll, gain +1 of the same type (effectively doubling generation). Additionally, when you spend both Benediction and Malediction on the same spell, the spell\'s effects are enhanced by 50% (rounded up for dice, +50% for flat values).'
+          description: 'When a d20 roll generates Benediction or Malediction, you also gain +1 of the opposite resource type (even roll → 1 Benediction + 1 Malediction; odd roll → 1 Malediction + 1 Benediction). This means every d20 roll generates both resources equally. Additionally, when you spend both Benediction and Malediction on the same spell, the spell\'s effects are enhanced by 50% (rounded up for dice, +50% for flat values).'
         },
 
         keyAbilities: [
@@ -472,6 +485,54 @@ The class creates a unique rhythm where you're constantly generating resources f
       },
 
       tags: ['divination', 'information', 'universal', 'omen']
+    },
+
+    {
+      id: 'augur_omen_shield',
+      name: 'Omen Shield',
+      description: 'Intercept an incoming attack with a flash of omen energy, reducing the damage based on your interpretation of the signs.',
+      spellType: 'REACTION',
+      icon: 'Radiant/Radiant Golden Shield',
+      school: 'Abjuration',
+      level: 1,
+      specialization: 'universal',
+
+      typeConfig: {
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        type: 'SINGLE',
+        range: 30,
+        rangeUnit: 'feet',
+        requiresLineOfSight: true,
+        allowFriendly: true,
+        allowSelf: true
+      },
+
+      resourceCost: {
+        actionPoints: 0,
+        mana: 3,
+        benediction: 1,
+        components: ['somatic'],
+        description: 'Reaction: Spend 1 Benediction to shield against damage'
+      },
+
+      duration: {
+        value: 0,
+        unit: 'instant',
+        concentration: false
+      },
+
+      resolution: 'AUTOMATIC',
+
+      effects: {
+        primary: 'Reduce the next damage the target takes by 1d8 + your Spirit modifier.',
+        secondary: 'If the reduced damage would have been lethal, the target is stabilized at 1 HP instead.'
+      },
+
+      tags: ['reaction', 'protection', 'universal', 'omen']
     },
 
     {
@@ -2154,7 +2215,7 @@ The class creates a unique rhythm where you're constantly generating resources f
   ],
 
   spellPools: {
-    1: ['augur_read_the_signs', 'augur_minor_portent', 'augur_sign_of_clarity', 'augur_omen_bolt'],
+    1: ['augur_read_the_signs', 'augur_omen_shield', 'augur_minor_portent', 'augur_sign_of_clarity', 'augur_omen_bolt'],
     2: ['augur_portent_of_weakness', 'augur_terrain_of_ruin', 'augur_sign_of_protection'],
     3: ['augur_omen_bolt', 'augur_harbinger_gaze', 'augur_sacred_ground'],
     4: ['augur_grand_malediction', 'augur_balanced_sign', 'augur_hierophants_ward'],

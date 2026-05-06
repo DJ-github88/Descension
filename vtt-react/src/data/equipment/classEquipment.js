@@ -45,7 +45,7 @@ export const PYROFIEND_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A leather-bound tome with pages that feel warm to the touch. Contains basic fire incantations.',
+        description: 'A leather-bound tome with pages that feel warm to the touch. Contains basic fire incantations. Can be used as a spellcasting focus for fire spells, granting +1 to fire spell attack rolls when held.',
         iconId: 'inv_misc_book_09',
         value: { platinum: 0, gold: 7, silver: 60, copper: 75 },
         weight: 3,
@@ -53,6 +53,9 @@ export const PYROFIEND_ITEMS = [
         height: 2,
         rotation: 0,
         stackable: false,
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Pyrofiend']
         }
@@ -115,7 +118,7 @@ export const PYROFIEND_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TRADE_GOODS',
         quality: 'common',
-        description: 'A pouch containing sulfur and other combustible materials.',
+        description: 'A pouch containing sulfur and other combustible materials. Can be used as a material component for fire spells that require reagents, and may be thrown as an improvised weapon dealing 1 fire damage in a 5ft square (range 20ft).',
         iconId: 'inv_misc_bag_11',
         value: { platinum: 0, gold: 2, silver: 80, copper: 50 },
         weight: 2,
@@ -1505,7 +1508,7 @@ export const PLAGUEBRINGER_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A vial containing concentrated plague essence for spreading disease.',
+        description: 'A vial containing concentrated plague essence for spreading disease. Once per combat, spend a Plague Vial to apply a free Fester category advancement to any affliction without mana cost.',
         iconId: 'inv_flask_01',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 0.5,
@@ -1544,7 +1547,7 @@ export const PLAGUEBRINGER_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A decaying book containing recipes for creating and spreading plagues.',
+        description: 'A decaying book containing recipes for creating and spreading plagues. While carried, your first base affliction each combat costs 1 less mana (minimum 2).',
         iconId: 'inv_misc_book_09',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
         weight: 2,
@@ -1907,7 +1910,7 @@ export const SPELLGUARD_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A book containing defensive spells and ward formulas.',
+        description: 'A book containing defensive spells and ward formulas. Study it during a short rest to recover 1d4 AEP.',
         iconId: 'inv_misc_book_09',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 2,
@@ -1915,6 +1918,12 @@ export const SPELLGUARD_ITEMS = [
         height: 2,
         rotation: 0,
         stackable: false,
+        combatStats: {
+            aepRecovery: { value: '1d4', isPercentage: false, trigger: 'short_rest', description: 'Recover 1d4 AEP when studied during a short rest' }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Spellguard']
         }
@@ -2200,7 +2209,7 @@ export const WITCH_DOCTOR_ITEMS = [
             armor: { value: 1, isPercentage: false }
         },
         baseStats: {
-            spirit: { value: 2, isPercentage: false }
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Witch Doctor']
@@ -2220,7 +2229,7 @@ export const WITCH_DOCTOR_ITEMS = [
         height: 1,
         slots: ['trinket1', 'trinket2'],
         baseStats: {
-            spirit: { value: 2, isPercentage: false }
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Witch Doctor']
@@ -2785,7 +2794,7 @@ export const TOXICOLOGIST_ITEMS = [
         type: 'weapon',
         subtype: 'DAGGER',
         quality: 'uncommon',
-        description: 'A dagger with a hollow blade designed to deliver poison.',
+        description: 'A dagger with a hollow blade designed to deliver poison. When you apply a weapon poison, the first attack with this dagger deals an additional 1d4 poison damage.',
         iconId: 'inv_weapon_shortblade_15',
         value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
         weight: 1,
@@ -2801,6 +2810,7 @@ export const TOXICOLOGIST_ITEMS = [
                 damageType: 'piercing'
             }
         },
+        specialEffect: 'When a weapon poison is active, the first attack each turn deals +1d4 poison damage.',
         baseStats: {
             agility: { value: 1, isPercentage: false },
             intelligence: { value: 1, isPercentage: false }
@@ -3145,18 +3155,18 @@ export const BLADEDANCER_ITEMS = [
     }
 ];
 
-// Arcanoneer - Arcane gunslinger
+// Arcanoneer - Arcane chemist
 export const ARCANONEER_ITEMS = [
     {
-        id: 'arcanoneer-arcane-pistol',
-        name: 'Arcane Pistol',
+        id: 'arcanoneer-arcane-focus',
+        name: 'Arcane Focus',
         type: 'weapon',
-        subtype: 'GUN',
+        subtype: 'WAND',
         quality: 'uncommon',
-        description: 'A magical firearm that shoots bolts of arcane energy instead of bullets.',
-        iconId: 'inv_weapon_rifle_01',
+        description: 'A crystalline wand that channels elemental spheres into focused magical attacks. +1d4 bonus damage when casting 2-sphere combos.',
+        iconId: 'inv_wand_05',
         value: { platinum: 0, gold: 18, silver: 0, copper: 0 },
-        weight: 3,
+        weight: 1,
         width: 1,
         height: 2,
         slots: ['mainHand'],
@@ -3165,52 +3175,52 @@ export const ARCANONEER_ITEMS = [
         weaponStats: {
             baseDamage: {
                 diceCount: 1,
-                diceType: 8,
+                diceType: 6,
                 damageType: 'arcane'
             }
         },
         baseStats: {
-            agility: { value: 1, isPercentage: false },
-            intelligence: { value: 2, isPercentage: false }
+            intelligence: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Arcanoneer']
         }
     },
     {
-        id: 'arcanoneer-magical-leathers',
-        name: 'Magical Leathers',
+        id: 'arcanoneer-woven-robes',
+        name: 'Woven Arcane Robes',
         type: 'armor',
-        subtype: 'LEATHER',
+        subtype: 'CLOTH',
         quality: 'common',
-        description: 'Light armor with pockets for arcane components and ammunition.',
-        iconId: 'inv_chest_leather_05',
+        description: 'Light robes inscribed with elemental runes, with pockets for arcane components and reagents.',
+        iconId: 'inv_chest_cloth_33',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
-        weight: 10,
+        weight: 6,
         width: 2,
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 2, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
-            agility: { value: 1, isPercentage: false },
-            intelligence: { value: 1, isPercentage: false }
+            intelligence: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Arcanoneer']
         }
     },
     {
-        id: 'arcanoneer-arcane-ammo-pouch',
-        name: 'Arcane Ammo Pouch',
+        id: 'arcanoneer-component-satchel',
+        name: 'Component Satchel',
         type: 'miscellaneous',
         subtype: 'TOOL',
-        quality: 'common',
-        description: 'A pouch containing magical crystals used as ammunition.',
+        quality: 'uncommon',
+        description: 'A leather satchel containing elemental reagents and a worn notebook of combination formulas. Once per combat, reroll 1 sphere for free.',
         iconId: 'inv_misc_bag_11',
-        value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
-        weight: 1,
+        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
+        weight: 2,
         width: 1,
         height: 1,
         rotation: 0,
@@ -3220,35 +3230,35 @@ export const ARCANONEER_ITEMS = [
         }
     },
     {
-        id: 'arcanoneer-precision-sight',
-        name: 'Precision Sight',
+        id: 'arcanoneer-elemental-codex',
+        name: 'Elemental Codex',
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A magical sight that enhances your aim and accuracy.',
-        iconId: 'inv_misc_enggizmos_19',
+        description: 'A reference tome containing the full Combination Matrix. Grants +2 to identify enemy elemental weaknesses.',
+        iconId: 'inv_misc_book_09',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
-        weight: 0.5,
+        weight: 1,
         width: 1,
         height: 1,
         slots: ['trinket1', 'trinket2'],
         baseStats: {
-            agility: { value: 2, isPercentage: false }
+            intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
             classes: ['Arcanoneer']
         }
     },
     {
-        id: 'arcanoneer-gunslinger-manual',
-        name: 'Gunslinger\'s Manual',
+        id: 'arcanoneer-sphere-crystal',
+        name: 'Sphere Crystal',
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A manual containing techniques for wielding arcane firearms.',
-        iconId: 'inv_misc_book_09',
-        value: { platinum: 0, gold: 7, silver: 0, copper: 0 },
-        weight: 1,
+        description: 'A resonating crystal that stores 1 banked sphere between combats. Stored sphere is available at the start of your next combat.',
+        iconId: 'inv_misc_gem_diamond_01',
+        value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
+        weight: 0.5,
         width: 1,
         height: 1,
         rotation: 0,
@@ -3392,7 +3402,7 @@ export const PRIMALIST_ITEMS = [
         slots: ['trinket1', 'trinket2'],
         baseStats: {
             intelligence: { value: 1, isPercentage: false },
-            spirit: { value: 1, isPercentage: false },
+            wisdom: { value: 1, isPercentage: false },
             spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -4205,9 +4215,9 @@ export const AUGUR_ITEMS = [
         type: 'trinket',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A set of bone dice used for formal omen reading. Even results seem to glow faintly.',
+        description: 'A set of bone dice used for formal omen reading, housed in a leather pouch containing sacred bones, feathers, and dried herbs for omen rituals. Even results seem to glow faintly.',
         iconId: 'inv_misc_dice_01',
-        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
         height: 1,
@@ -4215,23 +4225,6 @@ export const AUGUR_ITEMS = [
         baseStats: {
             spirit: { value: 1, isPercentage: false }
         },
-        availableFor: {
-            classes: ['Augur']
-        }
-    },
-    {
-        id: 'augur-omen-pouch',
-        name: 'Omen Component Pouch',
-        type: 'trinket',
-        subtype: 'TRINKET',
-        quality: 'common',
-        description: 'A leather pouch containing sacred bones, feathers, and dried herbs used in omen rituals.',
-        iconId: 'inv_misc_bag_10',
-        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
-        weight: 1,
-        width: 1,
-        height: 1,
-        slots: ['trinket'],
         availableFor: {
             classes: ['Augur']
         }
@@ -4319,14 +4312,17 @@ export const DOOMSAYER_ITEMS = [
         name: 'Ashen Reagent Pouch',
         type: 'trinket',
         subtype: 'TRINKET',
-        quality: 'common',
-        description: 'A scorched leather pouch containing grave dust, burnt offerings, and prophecy bones.',
+        quality: 'uncommon',
+        description: 'A scorched leather pouch containing grave dust, burnt offerings, and prophecy bones. The ashes shimmer with latent doom energy.',
         iconId: 'inv_misc_bag_14',
         value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
         weight: 1,
         width: 1,
         height: 1,
         slots: ['trinket'],
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Doomsayer']
         }

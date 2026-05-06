@@ -29,6 +29,8 @@ const DraggableWindow = forwardRef(({
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
         };
+        // Initial check on mount to ensure we have the correct state
+        handleResize();
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -62,8 +64,8 @@ const DraggableWindow = forwardRef(({
 
     const [position, setPosition] = useState(() => {
         if (centered && typeof window !== 'undefined') {
-            const windowWidth = 400;
-            const windowHeight = 600;
+            const windowWidth = defaultSize?.width || 400;
+            const windowHeight = defaultSize?.height || 600;
             return {
                 x: Math.max(0, Math.floor((window.innerWidth - windowWidth) / 2)),
                 y: Math.max(0, Math.floor((window.innerHeight - windowHeight) / 2))
@@ -221,12 +223,12 @@ const DraggableWindow = forwardRef(({
             handle={disableDragging ? '' : `.${handleClassName}`}
             position={disableDragging ? { x: 0, y: 0 } : position}
             nodeRef={nodeRef}
-            bounds={disableDragging ? false : false}
+            bounds={disableDragging ? false : bounds}
             grid={[1, 1]}
             onStart={disableDragging ? undefined : handleDragStart}
             onDrag={disableDragging ? undefined : handleDrag}
             onStop={disableDragging ? undefined : handleDragStop}
-            scale={1}
+            scale={windowScale}
             enableUserSelectHack={!disableDragging}
             disabled={disableDragging}
         >

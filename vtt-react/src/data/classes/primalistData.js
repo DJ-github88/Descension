@@ -68,7 +68,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 
     immersiveCombatExample: {
       title: 'Combat Example: The Totem Circle',
-      content: `**The Setup**: You're a Primalist (Earthcaller specialization) facing a group of demons (5 lesser demons + 1 demon lord). Your party is with you. Starting Totems: None. Starting Mana: 50/60. Totemic Synergy: 0. Your goal: Place totems strategically, build Totemic Synergy, then activate powerful synergy effects when you have 4 totems active.
+      content: `**The Setup**: You're a Primalist (Earthwarden specialization) facing a group of demons (5 lesser demons + 1 demon lord). Your party is with you. Starting Totems: None. Starting Mana: 50/60. Totemic Synergy: 0. Your goal: Place totems strategically, build Totemic Synergy, then activate powerful synergy effects when you have 4 totems active and enough Synergy.
 
 **Starting State**: Totems: 0/8 | Totemic Synergy: 0 | Mana: 50/60 | HP: 55/55
 
@@ -76,7 +76,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 
 *The demons charge. You kneel, pressing your hands to the earth. The spirits answer your call.*
 
-**Your Action**: Place Healing Totem (3 mana, 1 action)
+**Your Action (1 AP)**: Place Healing Totem (3 mana)
 **Effect**: Totem appears, 10 ft radius, heals allies 1d6 HP per turn
 
 *A wooden totem carved with healing runes rises from the ground, glowing with green energy.*
@@ -98,7 +98,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Guardian Totem Effect**: All allies within 10 ft gain 5-damage shield
 
 **Your Party's Tank**: "I feel... stronger. Protected."
-**You**: "The spirits watch over us. Two totems active. I need four for synergy."
+**You**: "The spirits watch over us. Two totems active. I need four for synergy — and enough Synergy points to pay for it."
 
 **Current State**: Totems: 2/8 | Synergy: 2 | Mana: 44/60
 
@@ -109,7 +109,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Start of Turn**: Each active totem generates +1 Synergy
 **Totemic Synergy**: 2 + 2 (2 totems active) = **4**
 
-**Your Action**: Place Earth Totem (3 mana)
+**Your Action (1 AP)**: Place Earth Totem (3 mana)
 **Effect**: Totem appears, 10 ft radius, grants +2 Armor and resistance to non-magical damage
 
 *A massive stone totem erupts from the ground, its surface covered in earth runes. The ground trembles.*
@@ -130,98 +130,112 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 *The four totems RESONATE. Their energies intertwine, creating a CIRCLE OF POWER.*
 
 **Synergy Available**: "Healing Sanctuary" (Healing + Rejuvenation + Guardian + Earth)
-**Effect**: Heals allies for +1d6 HP, reduces damage taken by 50%, lasts 2 turns
+**Cost**: 12 Totemic Synergy | **Current Synergy: 6** — *Not enough yet!*
 
 **Your Party's Mage**: "The totems... they're glowing together!"
-**You**: "Four totems. The circle is complete. I can activate Healing Sanctuary now."
+**You**: "Four totems. The circle is complete — but I need more Synergy to activate Healing Sanctuary. It costs 12. I'll wait one more turn."
 
 **Current State**: Totems: 4/8 | Synergy: 6 | Mana: 38/60
 
-**Turn 3 - Activating Synergy (Synergy: 6 → 0)**
+**Turn 3 - Gathering Power (Synergy: 6 → 10)**
 
-*The demons continue their assault. But you have four totems. Time to activate the synergy.*
+*The demons continue their assault. Your party holds — the totems provide steady healing and protection — but you need more Synergy before you can unleash the sanctuary.*
 
 **Start of Turn**: Each active totem generates +1 Synergy
 **Totemic Synergy**: 6 + 4 (4 totems active) = **10**
 
-**Your Action**: Activate "Healing Sanctuary" Synergy (costs 6 Synergy)
+**Demon Lord's Turn**: Attacks your tank → 18 damage → Guardian shield absorbs 5 = 13 damage taken → Earth Totem grants +2 Armor → effectively 11 damage
+**Healing**: Tank heals 1d6 + 1d4 → [5] + [3] = **8 HP healed** → Net damage: 3 HP lost
+
+**Your Action (1 AP)**: Cast "Primal Strike" at a lesser demon (8 mana)
+**Attack Roll**: d20+6 → [15] = Hit!
+**Damage**: 3d8 nature → [6, 5, 7] = **18 nature damage**
+
+**Mana**: 38 - 8 = 30/60
+
+**Your Action (1 AP)**: Cast "Earth Bolt" at same demon (5 mana)
+**Attack Roll**: d20+6 → [12] = Hit!
+**Damage**: 1d8+3 nature → [7] + 3 = **10 nature damage**
+
+**Mana**: 30 - 5 = 25/60
+
+*The lesser demon falls. Three remain.*
+
+**Synergy**: 10 — *Still not enough for Healing Sanctuary (costs 12). One more turn.*
+
+**You**: "Hold the line. The sanctuary is almost ready."
+
+**Current State**: Totems: 4/8 | Synergy: 10 | Mana: 25/60
+
+**Turn 4 - Activating Synergy (Synergy: 10 → 14 → 2)**
+
+*The demons press harder. Two lesser demons flank your mage. But now — you have enough Synergy.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 10 + 4 (4 totems active) = **14**
+
+**Your Action (1 AP)**: Activate "Healing Sanctuary" Synergy (costs 12 Synergy)
 **Required Totems**: Healing, Rejuvenation, Guardian, Earth (all present ✓)
-**Effect**: Heals allies for +1d6 HP per turn, reduces damage taken by 50%, lasts 2 turns
+**Effect**: Heals all allies for 3d6 HP, grants +3 Armor, reduces damage taken by 25%, lasts 2 turns
 
 *You raise your staff. The four totems BLAZE with power. Their energies merge into a SANCTUARY.*
 
-**Totemic Synergy**: 10 - 6 (synergy cost) = **4**
+**Totemic Synergy**: 14 - 12 (synergy cost) = **2**
 
 **Healing Sanctuary Active**: 2 turns remaining
 **Effect**: All allies within totem range (10 ft) gain:
-- +1d6 HP per turn (from synergy)
+- 3d6 instant heal (from synergy) → [4] + [5] + [3] = **12 HP healed immediately**
+- +3 Armor (from synergy)
+- 25% damage reduction (from synergy)
 - +1d6 HP per turn (from Healing Totem)
 - +1d4 HP per turn (from Rejuvenation Totem)
-- 50% damage reduction (from synergy)
 - 5-damage shield per attack (from Guardian Totem)
 - +2 Armor (from Earth Totem)
 - Resistance to non-magical damage (from Earth Totem)
 
 *A dome of golden-green energy surrounds your party. The totems hum with power.*
 
-**Your Party's Tank**: Takes hit from demon → 15 damage → Reduced by 50% (synergy) = 7 damage → Shield absorbs 5 = **2 damage taken**
-**Healing**: Tank heals 1d6 + 1d6 + 1d4 → [5] + [6] + [3] = **14 HP healed**
+**Demon Lord's Turn**: Attacks your tank → 25 damage → Reduced by 25% (synergy) = 18 damage → Shield absorbs 5 = 13 damage → Armor bonus absorbs more (total +5 Armor) → effectively ~10 damage
+**Healing**: Tank heals 1d6 + 1d4 → [6] + [4] = **10 HP healed** → Net damage: nearly zero
 
-**Your Party's Healer**: "We're... we're invincible! The demons can't hurt us!"
-**You**: "The Healing Sanctuary. Four totems working as one. This is the power of synergy."
+**Your Party's Healer**: "The sanctuary is holding! We can outlast them now."
+**You**: "Two turns. We have two turns of sanctuary. Make them count."
 
-**Current State**: Totems: 4/8 | Synergy: 4 | Mana: 38/60 | Healing Sanctuary: 2 turns
+**Current State**: Totems: 4/8 | Synergy: 2 | Mana: 25/60 | Healing Sanctuary: 2 turns
 
-**Turn 4 - Maintaining the Sanctuary (Synergy: 4 → 8)**
+**Turn 5 - Pressing the Advantage (Synergy: 2 → 6)**
 
-*The demons attack furiously, but the Healing Sanctuary makes your party nearly invincible. Damage is reduced by 50%, shields absorb hits, and massive healing keeps everyone topped off.*
+*The demons attack furiously, but the Healing Sanctuary absorbs the worst of it. Your party barely feels the hits.*
 
 **Start of Turn**: Each active totem generates +1 Synergy
-**Totemic Synergy**: 4 + 4 (4 totems active) = **8**
+**Totemic Synergy**: 2 + 4 (4 totems active) = **6**
 
 **Healing Sanctuary**: 1 turn remaining
 
-**Demon Lord's Turn**: Attacks your tank → 25 damage → Reduced by 50% = 12 damage → Shield absorbs 5 = **7 damage taken**
-**Healing**: Tank heals 1d6 + 1d6 + 1d4 → [6] + [5] + [4] = **15 HP healed**
+**Your Party's Tank**: Attacks Demon Lord → 2d8+5 → [7, 6] + 5 = 18 damage
+**Your Party's Mage**: Casts Fireball → 40 damage to 2 lesser demons → DEAD
 
-*Your tank takes 7 damage, then heals 15 HP. Net result: +8 HP.*
-
-**Your Party's Tank**: "I'm GAINING health while being attacked!"
-**You**: "That's the power of the totems. The spirits protect us."
-
-**Your Action**: Cast "Primal Strike" at Demon Lord (8 mana)
-**Attack Roll**: d20+6 → [17] = Hit!
-**Damage**: 3d8 nature → [7, 6, 8] = **21 nature damage**
-
-**Mana**: 38 - 8 = 30/60
-
-**Your Party's Mage**: Casts Fireball → 40 damage to 3 demons → 2 demons DEAD
-
-**Current State**: Totems: 4/8 | Synergy: 8 | Mana: 30/60 | Healing Sanctuary: 1 turn
-
-**Turn 5 - Sanctuary Ends, Totems Remain (Synergy: 8 → 12)**
-
-**Start of Turn**: Each active totem generates +1 Synergy
-**Totemic Synergy**: 8 + 4 (4 totems active) = **12**
-
-**Healing Sanctuary**: Expires (2 turns elapsed)
-
-*The golden-green dome fades. But the totems remain, still providing their individual benefits.*
-
-**Active Totem Effects** (still active):
-- Healing Totem: +1d6 HP per turn
-- Rejuvenation Totem: +1d4 HP per turn
-- Guardian Totem: 5-damage shield per attack
-- Earth Totem: +2 Armor, resistance to non-magical damage
-
-**Your Action**: Place Flamecaller Totem (3 mana)
+**Your Action (1 AP)**: Place Flamecaller Totem (3 mana)
 **Effect**: Totem appears, 10 ft radius, adds 1d6 fire damage to allies' weapon attacks
 
 *A totem wreathed in flames rises from the ground, crackling with fire.*
 
 **Totems Active**: 5/8 (Healing, Guardian, Earth, Rejuvenation, Flamecaller)
-**Totemic Synergy**: 12 + 1 (totem placed) = **13**
-**Mana**: 30 - 3 = 27/60
+**Totemic Synergy**: 6 + 1 (totem placed) = **7**
+**Mana**: 25 - 3 = 22/60
+
+**Current State**: Totems: 5/8 | Synergy: 7 | Mana: 22/60 | Healing Sanctuary: 1 turn
+
+**Turn 6 - Finishing the Fight (Synergy: 7 → 12)**
+
+*Only the Demon Lord remains. Your party is battered but standing. The Healing Sanctuary expires — but your totems still protect you, and the Flamecaller empowers your attacks.*
+
+**Start of Turn**: Each active totem generates +1 Synergy
+**Totemic Synergy**: 7 + 5 (5 totems active) = **12**
+
+**Healing Sanctuary**: Expires (2 turns elapsed)
+
+*The golden-green dome fades. But the totems remain, still providing their individual benefits.*
 
 **Your Party's Tank**: Attacks Demon Lord (has Flamecaller bonus)
 **Attack Roll**: [18] = Hit!
@@ -231,55 +245,42 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 
 *The tank's sword BLAZES with fire from the Flamecaller Totem.*
 
-**Current State**: Totems: 5/8 | Synergy: 13 | Mana: 27/60
-
-**Turn 6 - Finishing the Fight**
-
-*Three demons remain: Demon Lord + 2 lesser demons. Your party is fully healed and buffed.*
-
-**Start of Turn**: Each active totem generates +1 Synergy
-**Totemic Synergy**: 13 + 5 (5 totems active) = **18**
-
-**Your Party's Rogue**: Sneak attacks Lesser Demon → +1d6 fire (Flamecaller) → DEAD
-**Your Party's Mage**: Casts Lightning Bolt → Lesser Demon DEAD
-
-**Only Demon Lord remains**
-
-**Your Action**: Cast "Earthen Wrath" at Demon Lord (10 mana)
+**Your Action (1 AP)**: Cast "Earthen Wrath" at Demon Lord (10 mana)
 **Effect**: 4d10 nature damage + stun (DC 15 save)
 **Damage**: 4d10 → [9, 8, 7, 10] = **34 nature damage**
 **Save**: [11] → FAIL! → Stunned for 1 round
 
-**Mana**: 27 - 10 = 17/60
+**Mana**: 22 - 10 = 12/60
 
-**Your Party's Tank**: Attacks stunned Demon Lord (advantage, +1d6 fire)
+**Your Party's Rogue**: Attacks stunned Demon Lord (advantage, +1d6 fire)
 **Attack Roll**: d20+6 with advantage → [19, 14] → Take 19 = Hit!
-**Damage**: 2d8+5 + 1d6 fire → [8, 7] + 5 + [6] = **26 damage**
+**Damage**: 2d6+4 + 1d6 fire → [5, 4] + 4 + [6] = **19 damage**
 **Result**: Demon Lord DEAD
 
 **Combat Over**
 
 *You dismiss the totems. They sink back into the earth, their work done.*
 
-**Your Party's Healer**: "We barely took any damage. That Healing Sanctuary... we were healing faster than they could hurt us."
-**You**: "I placed four totems: Healing, Guardian, Earth, Rejuvenation. When all four were active, I activated Healing Sanctuary synergy. It cost 6 Totemic Synergy and lasted 2 turns. During those turns, we had +1d6 HP/turn from synergy, +1d6 from Healing Totem, +1d4 from Rejuvenation Totem, 50% damage reduction, shields, and +2 Armor."
+**Your Party's Healer**: "That Healing Sanctuary turned the fight. We were taking hits but barely feeling them."
+**You**: "I placed four totems: Healing, Guardian, Earth, Rejuvenation. When all four were active, I waited until I had 12 Totemic Synergy, then activated Healing Sanctuary. It healed everyone for 3d6, gave us +3 Armor, and reduced damage by 25% for 2 turns. Combined with the individual totem effects, we had enough healing and armor to outlast them."
 **Your Party's Tank**: "And the fire damage on my sword?"
-**You**: "Flamecaller Totem. I placed it after the sanctuary ended. It added +1d6 fire damage to all weapon attacks within 10 feet."
+**You**: "Flamecaller Totem. I placed it after the sanctuary was winding down. It added +1d6 fire damage to all weapon attacks within 10 feet. Let me rebuild synergy for another combo if more enemies show up."
 **Your Party's Mage**: "How much Totemic Synergy did you have at the end?"
-**You**: "Eighteen. Each totem placed generates +1 Synergy. Each turn a totem is active generates +1 Synergy per totem. I had 5 totems active for multiple turns, so Synergy built up quickly."
+**You**: "Twelve. Each totem placed generates +1 Synergy. Each turn a totem is active generates +1 Synergy per totem. I had 5 totems active, so Synergy built up quickly — but spending 12 on Healing Sanctuary is a big investment. Timing matters."
 
-**Final State**: Totems: 0/8 (dismissed) | Synergy: 18 | Mana: 17/60 | HP: 55/55
+**Final State**: Totems: 0/8 (dismissed) | Synergy: 12 | Mana: 12/60 | HP: 45/55
 
 **The Lesson**: Primalist gameplay is about:
 1. **Totem Placement**: Placed 5 totems total (Healing, Guardian, Earth, Rejuvenation, Flamecaller)
 2. **Synergy Building**: Each totem placed = +1 Synergy, each totem active per turn = +1 Synergy
-3. **Synergy Activation**: Activated Healing Sanctuary (required 4 specific totems, cost 6 Synergy)
-4. **Sanctuary Power**: 50% damage reduction + massive healing (1d6 + 1d6 + 1d4 = ~11 HP/turn)
-5. **Damage Mitigation**: Tank took 15 damage → reduced to 7 → shield absorbed 5 → only 2 damage taken
-6. **Totem Stacking**: Individual totem effects stack (Healing + Rejuvenation + Guardian + Earth all active simultaneously)
-7. **Synergy Economy**: Started with 0, built to 18 by maintaining multiple totems over multiple turns
+3. **Patience**: Had 4 totems on Turn 2 but only 6 Synergy — not enough to activate Healing Sanctuary (costs 12). Had to wait until Turn 4
+4. **Synergy Activation**: Activated Healing Sanctuary (required 4 specific totems, cost 12 Synergy)
+5. **Sanctuary Power**: 25% damage reduction + 3d6 heal + +3 Armor, stacking with individual totem buffs
+6. **Damage Mitigation**: Tank took 25 damage → reduced to ~10 after 25% DR, shield, and Armor bonuses
+7. **Totem Stacking**: Individual totem effects stack (Healing + Rejuvenation + Guardian + Earth all active simultaneously)
+8. **Synergy Economy**: Started with 0, spent 12 on Healing Sanctuary, rebuilt to 12 by maintaining 5 totems
 
-You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that provide individual benefits, then when you have 4 totems active, you activate SYNERGIES that combine their powers into devastating effects. Healing Sanctuary made your party nearly invincible—50% damage reduction, massive healing, shields, and Armor bonuses all at once. The key is strategic totem placement, building Totemic Synergy, and activating synergies at critical moments. Each totem is a spirit ally. Together, they create SANCTUARIES OF POWER.`
+You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that provide individual benefits, then when you have 4 totems active AND enough Synergy saved up, you activate SYNERGIES that combine their powers into devastating effects. The key is strategic totem placement, patient synergy building, and activating synergies at the critical moment. Each totem is a spirit ally. Together, they create SANCTUARIES OF POWER.`
     }
   },
   
@@ -338,7 +339,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       title: 'Synergy Combinations (4 Totems Required)',
       headers: ['Synergy', 'Required Totems', 'Cost', 'Effect'],
       rows: [
-        ['Healing Sanctuary', 'Healing, Rejuvenation, Guardian, Earth', '12', '50% Dmg Reduc, +3 Armor, 3d6 Heal'],
+        ['Healing Sanctuary', 'Healing, Rejuvenation, Guardian, Earth', '12', '25% Dmg Reduc, +3 Armor, 3d6 Heal'],
         ['Elemental Fury', 'Flamecaller, Storm, Frost, Wind', '15', '8d6 Multi-elemental blast'],
         ['Protective Bastion', 'Guardian, Earth, Frost, Wind', '12', 'Resist all damage, +10ft speed'],
         ['Storm of Wrath', 'Flamecaller, Storm, Frost, Healing', '15', '+Elemental Dmg, Lifesteal'],
@@ -403,8 +404,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         strengths: [
           'Enhanced healing totem effects (+50% healing)',
           'Totems have +5 HP and +2 Armor',
-          'Can place 5th totem for enhanced synergies',
-          'Healing Sanctuary synergy heals for 2d6 instead of 1d6'
+          'Healing and defensive totems can overlap with any synergy',
+          'Healing Sanctuary synergy heals for 1d6 extra'
         ],
         
         weaknesses: [
@@ -415,7 +416,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         
         specPassive: {
           name: 'Earth\'s Embrace',
-          description: 'Your healing totems (Healing, Rejuvenation) heal for 50% more. Your defensive totems (Guardian, Earth) grant +1 additional Armor. You can place a 5th totem to create enhanced synergies.'
+          description: 'Your healing totems (Healing, Rejuvenation) heal for 50% more. Your defensive totems (Guardian, Earth) grant +1 additional Armor. Healing and defensive totems can overlap their effects with any synergy, even if they would normally be mutually exclusive.'
         },
         
         keyAbilities: [
@@ -450,7 +451,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         
         specPassive: {
           name: 'Elemental Wrath',
-          description: 'Your elemental totems (Flamecaller, Storm, Frost, Wind) deal +1d6 damage. You can trigger synergy effects with only 3 active totems instead of 4. Elemental Fury deals 3d6 per element instead of 2d6.'
+          description: 'Your elemental totems (Flamecaller, Storm, Frost, Wind) deal +1d6 damage. You can trigger synergy effects with only 3 active totems instead of 4 (minimum 3). Elemental Fury deals 3d6 per element instead of 2d6.'
         },
         
         keyAbilities: [
@@ -1096,8 +1097,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
 
       resourceCost: {
-        totemicSynergy: 4,
-        description: 'Requires 4 active totems: Healing, Rejuvenation, Guardian, Earth'
+        totemicSynergy: 12,
+        description: 'Requires 4 active totems: Healing, Rejuvenation, Guardian, Earth. Costs 12 Totemic Synergy.'
       },
 
       resolution: {
@@ -1105,16 +1106,23 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         effects: [
           {
             type: 'HEALING',
-            amount: '2d8',
-            description: 'Heals all allies for 2d8 HP'
+            amount: '3d6',
+            description: 'Heals all allies for 3d6 HP'
+          },
+          {
+            type: 'BUFF',
+            stat: 'armor',
+            amount: 3,
+            duration: '2 turns',
+            description: 'Grants +3 Armor for 2 turns'
           },
           {
             type: 'BUFF',
             stat: 'damageReduction',
-            amount: 50,
+            amount: 25,
             unit: 'PERCENT',
             duration: '2 turns',
-            description: 'Reduces damage taken by 50%'
+            description: 'Reduces damage taken by 25% for 2 turns'
           }
         ]
       },
@@ -1125,8 +1133,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           description: 'All 4 totems must be active to trigger this synergy'
         },
         earthwardenBonus: {
-          description: 'Earthwarden specialization: Heals for 2d6 additional HP, lasts 3 turns instead of 2',
-          bonus: '+2d6 healing, +1 turn duration'
+          description: 'Earthwarden specialization: Heals for 1d6 additional HP, lasts 3 turns instead of 2',
+          bonus: '+1d6 healing, +1 turn duration'
         }
       },
 
@@ -1162,8 +1170,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
 
       resourceCost: {
-        totemicSynergy: 4,
-        description: 'Requires 4 active totems: Flamecaller, Storm, Frost, Wind'
+        totemicSynergy: 15,
+        description: 'Requires 4 active totems: Flamecaller, Storm, Frost, Wind. Costs 15 Totemic Synergy.'
       },
 
       resolution: {
@@ -1568,7 +1576,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 7 },
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -1579,6 +1587,364 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       resolution: 'DICE',
       tags: ['buff', 'support', 'nature', 'primalist']
+    },
+
+    // ===== LEVEL 2 SPELLS =====
+    {
+      id: 'primalist_storm_gale',
+      name: 'Storm Gale',
+      description: 'Summon a powerful gust of wind that pushes enemies back and creates difficult terrain.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['control', 'utility'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Wind Gust',
+        tags: ['control', 'utility', 'air', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      controlConfig: {
+        controlType: 'push',
+        strength: 'moderate',
+        distance: 10,
+        distanceUnit: 'feet',
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 13,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'push_back',
+          name: 'Pushed Back',
+          description: 'Target is pushed 10 feet away and the area becomes difficult terrain',
+          config: {
+            saveType: 'strength',
+            saveDC: 13,
+            push: true,
+            distance: 10,
+            difficultTerrain: true,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'cone',
+        aoeParameters: { length: 15, width: 15 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 4,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['control', 'utility', 'air', 'primalist']
+    },
+
+    {
+      id: 'primalist_earthen_shield',
+      name: 'Earthen Shield',
+      description: 'Encase yourself or an ally in a shell of stone that absorbs incoming damage.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Earth Shield',
+        tags: ['buff', 'defense', 'earth', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'earthen_shield_absorb',
+          name: 'Earthen Shield',
+          description: 'Absorbs the next 10 damage dealt to the target over 3 rounds',
+          statModifier: {
+            stat: 'damage_absorption',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'defense', 'earth', 'primalist']
+    },
+
+    {
+      id: 'primalist_spirit_sight',
+      name: 'Spirit Sight',
+      description: 'Open your senses to the spirit world, revealing hidden enemies and magical effects in the area.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Utility/Hide',
+        tags: ['utility', 'detection', 'spirit', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      utilityConfig: {
+        utilityType: 'detection',
+        selectedEffects: [{
+          id: 'spirit_sight_reveal',
+          name: 'Spirit Sight',
+          description: 'Reveals invisible creatures, hidden doors, and magical effects within 30 feet for 3 rounds'
+        }],
+        duration: 3,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'minor'
+      },
+      targetingConfig: {
+        targetingType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      tags: ['utility', 'detection', 'spirit', 'primalist']
+    },
+
+    // ===== LEVEL 3 SPELLS =====
+    {
+      id: 'primalist_venomous_totem',
+      name: 'Venomous Totem',
+      description: 'Place a totem that poisons enemies within range, dealing nature damage each turn.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'summoning'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Thorned Flower',
+        tags: ['damage', 'totem', 'poison', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '1d6 + spirit/2',
+        elementType: 'poison',
+        damageType: 'area',
+        description: 'Enemies within range take poison damage at the start of each turn'
+      },
+      summonConfig: {
+        creatures: [{
+          id: 'venomous_totem',
+          name: 'Venomous Totem',
+          description: 'A totem seeping with natural toxins',
+          size: 'Small',
+          type: 'construct',
+          tokenIcon: 'spell_nature_corrosivebreath',
+          stats: {
+            maxHp: 10,
+            armor: 12,
+            maxMana: 0
+          },
+          config: {
+            quantity: 1,
+            duration: 4,
+            durationUnit: 'rounds',
+            hasDuration: true,
+            concentration: false,
+            controlType: 'autonomous',
+            controlRange: 0
+          }
+        }],
+        duration: 4,
+        durationUnit: 'rounds',
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: 'autonomous'
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'DICE',
+      tags: ['damage', 'totem', 'poison', 'primalist']
+    },
+
+    {
+      id: 'primalist_natures_grasp',
+      name: "Nature's Grasp",
+      description: 'Thorny vines erupt from the ground, rooting a single enemy in place.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['control'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Roots',
+        tags: ['control', 'root', 'nature', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      controlConfig: {
+        controlType: 'root',
+        strength: 'moderate',
+        duration: 2,
+        durationUnit: 'rounds',
+        saveDC: 14,
+        saveType: 'strength',
+        savingThrow: true,
+        effects: [{
+          id: 'entangled',
+          name: 'Entangled',
+          description: 'Target is rooted in place and cannot move. Can still attack and cast spells.',
+          config: {
+            saveType: 'strength',
+            saveDC: 14,
+            root: true,
+            duration: 2,
+            durationUnit: 'rounds'
+          }
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+      resolution: 'DICE',
+      tags: ['control', 'root', 'nature', 'primalist']
+    },
+
+    {
+      id: 'primalist_ancestral_bond',
+      name: 'Ancestral Bond',
+      description: 'Call upon ancestral spirits to grant an ally resistance to one damage type for a short duration.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Nature/Nature Natural',
+        tags: ['buff', 'defense', 'spirit', 'primalist'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'ancestral_resistance',
+          name: 'Ancestral Bond',
+          description: 'Gain resistance to one damage type chosen by the caster for 3 rounds',
+          statModifier: {
+            stat: 'resistance_choice',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+      resolution: 'DICE',
+      tags: ['buff', 'defense', 'spirit', 'primalist']
     },
 
     // ===== LEVEL 4 SPELLS =====
@@ -1987,7 +2353,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
     {
       id: 'primalist_stone_skin',
       name: 'Stone Skin',
-      description: 'Transform your skin into stone, granting massive damage reduction.',
+      description: 'Transform your skin into stone, granting significant damage reduction.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -2003,12 +2369,12 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         effects: [{
           id: 'stone_skin_armor',
           name: 'Stone Skin',
-          description: 'Reduces incoming damage by 50% (percentage reduction) for 3 rounds',
-          statModifier: {
-            stat: 'damage_reduction',
-            magnitude: 50,
-            magnitudeType: 'percentage'
-          }
+            description: 'Reduces incoming damage by 25% (percentage reduction) for 3 rounds',
+            statModifier: {
+              stat: 'damage_reduction',
+              magnitude: 25,
+              magnitudeType: 'percentage'
+            }
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2539,9 +2905,10 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           type: 'construct',
           tokenIcon: 'spell_nature_strengthofearth',
           stats: {
-            maxHp: 99999,
-            armor: 30,
-            maxMana: 0
+            maxHp: 500,
+            armor: 25,
+            maxMana: 0,
+            indestructible: true
           },
           config: {
             quantity: 1,
@@ -2565,11 +2932,11 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         effects: [{
           id: 'eternal_empowerment',
           name: 'Eternal Empowerment',
-          description: 'All allies gain +4 to all stats, regenerate HP per round, and gain immunity to one damage type of their choice for 10 rounds',
-          healingFormula: '3d10',
+          description: 'All allies gain +2 to all stats, regenerate HP per round, and gain resistance to one damage type of their choice for 10 rounds',
+          healingFormula: '2d10',
           statModifier: {
             stat: 'all_stats',
-            magnitude: 4,
+            magnitude: 2,
             magnitudeType: 'flat'
           }
         }],
@@ -2748,7 +3115,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
             tokenIcon: 'ability_druid_treeoflife',
             stats: { maxHp: 100, armor: 18, maxMana: 0 },
             config: {
-              quantity: 3,
+              quantity: 1,
               duration: 10,
               durationUnit: 'rounds',
               hasDuration: true,
@@ -2766,7 +3133,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
             tokenIcon: 'spell_nature_strength',
             stats: { maxHp: 80, armor: 16, maxMana: 0 },
             config: {
-              quantity: 5,
+              quantity: 2,
               duration: 10,
               durationUnit: 'rounds',
               hasDuration: true,
@@ -2784,7 +3151,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
             tokenIcon: 'ability_druid_catform',
             stats: { maxHp: 60, armor: 14, maxMana: 0 },
             config: {
-              quantity: 10,
+              quantity: 4,
               duration: 10,
               durationUnit: 'rounds',
               hasDuration: true,
@@ -2836,8 +3203,16 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       'primalist_basic_healing_totem',
       'primalist_natures_blessing'
     ],
-    2: [],
-    3: [],
+    2: [
+      'primalist_storm_gale',
+      'primalist_earthen_shield',
+      'primalist_spirit_sight'
+    ],
+    3: [
+      'primalist_venomous_totem',
+      'primalist_natures_grasp',
+      'primalist_ancestral_bond'
+    ],
     4: [
       'primalist_earthquake_strike',
       'primalist_spirit_wolves',

@@ -1,6 +1,15 @@
 // ============================================
 // TITAN TALENT TREES
 // ============================================
+// TODO: These talent trees are currently earth/geology themed, which conflicts
+// with the Titan's celestial devotion identity. A future redesign should align
+// these trees with the devotion system:
+//   - Replace "Colossal Strength" with "Celestial Might" (devotion-enhanced melee)
+//   - Replace "Earth Dominion" with "Divine Resilience" (devotion-enhanced defense)
+//   - Replace "Strain Endurance" with "Astral Versatility" (devotion switching/support)
+// Each tree should have branches that synergize with specific devotions
+// (e.g., Solara-boosting talents, Lunara-boosting talents) rather than
+// generic earth magic.
 
 export const TITAN_COLOSSAL_STRENGTH = [
   // Mantle Core: The superheated center of the earth

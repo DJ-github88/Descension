@@ -37,6 +37,8 @@ import { TITAN_DATA } from '../../../data/classes/titanData';
 import { TOXICOLOGIST_DATA } from '../../../data/classes/toxicologistData';
 import { WARDEN_DATA } from '../../../data/classes/wardenData';
 import { WITCH_DOCTOR_DATA } from '../../../data/classes/witchDoctorData';
+import { AUGUR_DATA } from '../../../data/classes/augurData';
+import { DOOMSAYER_DATA } from '../../../data/classes/doomsayerData';
 import '../../spellcrafting-wizard/styles/pathfinder/main.css';
 import '../../spellcrafting-wizard/styles/pathfinder/components/wow-spellbook.css';
 import './Step4SpellSelection.css';
@@ -187,7 +189,9 @@ const CLASS_DATA_MAP = {
     'Titan': TITAN_DATA,
     'Toxicologist': TOXICOLOGIST_DATA,
     'Warden': WARDEN_DATA,
-    'Witch Doctor': WITCH_DOCTOR_DATA
+    'Witch Doctor': WITCH_DOCTOR_DATA,
+    'Augur': AUGUR_DATA,
+    'Doomsayer': DOOMSAYER_DATA
 };
 
 // All classes that have spells
@@ -441,7 +445,7 @@ const Step4SpellSelection = () => {
         if (characterClass === 'Arcanoneer') {
             return 'Select 3 spells from the Level 1 spell pool to begin your journey as an Arcanoneer. These spells will form the foundation of your sphere-combining arsenal.';
         } else if (characterClass === 'Pyrofiend') {
-            return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Pyrofiend. These spells will help you master the Inferno Veil and demonic fire.';
+            return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Pyrofiend. **Tip:** Cooling Ember is strongly recommended — it is the only spell that reduces your Inferno Level, and without it you cannot descend from corruption. These spells will help you master the Inferno Veil and demonic fire.';
         } else if (characterClass === 'Minstrel') {
             return 'Select 3 spells from the Level 1 spell pool to begin your journey as a Minstrel. These spells will help you build musical notes and perform powerful cadences.';
         } else if (characterClass === 'Chronarch') {

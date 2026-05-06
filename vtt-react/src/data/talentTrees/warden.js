@@ -60,7 +60,7 @@ export const WARDEN_SHADOWBLADE = [
     icon: 'ability_rogue_deadliness',
     maxRanks: 4,
     position: { x: 4, y: 2 },
-    requires: 'shadowblade_warden_t1_burst_damage',
+    requires: 'shadowblade_warden_t1_precision_strike',
   },
   {
     id: 'shadowblade_warden_t3_deadly_precision',
@@ -107,7 +107,7 @@ export const WARDEN_JAILER = [
   {
     id: 'jailer_t0_spectral_warden',
     name: 'Spectral Warden',
-    description: 'Cage of Vengeance costs 1 less VP. Caged enemies take +1d6 damage from all sources and have disadvantage on escape attempts. VP decays 50% slower.',
+    description: 'Cage of Vengeance costs 1 less VP. Caged enemies take +1d6 damage from all sources and have disadvantage on escape attempts. VP decay is reduced to once every 2 turns instead of every turn.',
     icon: 'spell_shadow_shackleundead',
     maxRanks: 5,
     position: { x: 2, y: 0 },
@@ -202,10 +202,10 @@ export const WARDEN_JAILER = [
   }
 ];
 
-export const WARDEN_AVENGER = [
+export const WARDEN_VENGEANCE_SEEKER = [
   // Foundation: The Vengeful Flame (Central burning core)
   {
-    id: 'avenger_t0_unyielding_vengeance',
+    id: 'vengeance_seeker_t0_unyielding_vengeance',
     name: 'Unyielding Vengeance',
     description: 'Vengeance Points max at 15 instead of 10. When you take damage, gain +1 VP. Avatar of Vengeance lasts 1 round longer and grants +1 damage per die.',
     icon: 'spell_fire_elemental_totem',
@@ -216,88 +216,88 @@ export const WARDEN_AVENGER = [
 
   // Left Fury Spirals: Damage Amplification (Burning vengeance coils)
   {
-    id: 'avenger_t1_wrathful_strikes',
+    id: 'vengeance_seeker_t1_wrathful_strikes',
     name: 'Vengeful Strikes',
     description: 'While at 5+ VP, your attacks deal +1d6 necrotic damage. At 8+ VP, this increases to +2d6 necrotic damage.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 4,
     position: { x: 1, y: 1 },
-    requires: 'avenger_t0_unyielding_vengeance',
+    requires: 'vengeance_seeker_t0_unyielding_vengeance',
   },
   {
-    id: 'avenger_t2_vengeful_retribution',
+    id: 'vengeance_seeker_t2_vengeful_retribution',
     name: 'Spectral Retribution',
-    description: 'When you take damage, the attacker takes 2d6 necrotic damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6).',
+    description: 'When you take damage, the attacker takes 2d6 necrotic damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6). This effect can trigger once per round.',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 0, y: 2 },
-    requires: 'avenger_t1_wrathful_strikes',
+    requires: 'vengeance_seeker_t1_wrathful_strikes',
   },
   {
-    id: 'avenger_t3_burning_vengeance',
+    id: 'vengeance_seeker_t3_burning_vengeance',
     name: 'Haunting Vengeance',
-    description: 'Enemies that damage you are marked with haunting vengeance. They take 3d6 necrotic damage at the start of each of their turns until you defeat them.',
+    description: 'Enemies that damage you are marked with haunting vengeance. They take 3d6 necrotic damage at the start of each of their turns for 3 rounds. The target can attempt a CON save (DC 10 + your proficiency) at the end of each of their turns to end this effect early.',
     icon: 'spell_fire_incinerate',
     maxRanks: 2,
     position: { x: 1, y: 3 },
-    requires: 'avenger_t2_vengeful_retribution',
+    requires: 'vengeance_seeker_t2_vengeful_retribution',
   },
 
   // Right Fury Spirals: Power Scaling (Escalating vengeance waves)
   {
-    id: 'avenger_t1_fury_buildup',
+    id: 'vengeance_seeker_t1_fury_buildup',
     name: 'Fury Buildup',
     description: 'You gain +1 VP when you kill an enemy. When you reach maximum VP, your next attack deals +4d6 force damage and knocks the target back 20ft.',
     icon: 'ability_warrior_battleshout',
     maxRanks: 3,
     position: { x: 3, y: 1 },
-    requires: 'avenger_t0_unyielding_vengeance',
+    requires: 'vengeance_seeker_t0_unyielding_vengeance',
   },
   {
-    id: 'avenger_t2_avatar_synergy',
+    id: 'vengeance_seeker_t2_avatar_synergy',
     name: 'Avatar Synergy',
     description: 'During Avatar of Vengeance, you gain +2 VP per round instead of +1. Avatar abilities cost 2 VP less to use. Avatar lasts 2 rounds longer.',
     icon: 'spell_fire_elementaldevastation',
     maxRanks: 4,
     position: { x: 4, y: 2 },
-    requires: 'avenger_t1_fury_buildup',
+    requires: 'vengeance_seeker_t1_fury_buildup',
   },
   {
-    id: 'avenger_t3_vengeful_immolation',
+    id: 'vengeance_seeker_t3_vengeful_immolation',
     name: 'Spectral Conflagration',
     description: 'When you activate Avatar of Vengeance, all enemies within 20ft take 4d6 necrotic damage and are haunted, taking 2d6 necrotic damage per round for 3 rounds.',
     icon: 'spell_fire_volcano',
     maxRanks: 3,
     position: { x: 3, y: 3 },
-    requires: 'avenger_t2_avatar_synergy',
+    requires: 'vengeance_seeker_t2_avatar_synergy',
   },
 
   // Central Fury Nexus: Maximum Vengeance (Burning power core)
   {
-    id: 'avenger_t4_eternal_wrath',
+    id: 'vengeance_seeker_t4_eternal_wrath',
     name: 'Eternal Wrath',
     description: 'VP cannot decay below 5. When you would be reduced to 0 HP, you can spend 5 VP to automatically stabilize and enter Avatar of Vengeance.',
     icon: 'spell_fire_elemental_totem',
     maxRanks: 2,
     position: { x: 2, y: 2 },
-    requires: ['avenger_t1_wrathful_strikes', 'avenger_t1_fury_buildup'],
+    requires: ['vengeance_seeker_t1_wrathful_strikes', 'vengeance_seeker_t1_fury_buildup'],
   },
   {
-    id: 'avenger_t5_avatar_perfection',
+    id: 'vengeance_seeker_t5_avatar_perfection',
     name: 'Avatar Perfection',
     description: 'During Avatar of Vengeance, you are immune to necrotic damage, your attacks deal maximum necrotic damage, and you can teleport 30ft between attacks.',
     icon: 'spell_fire_immolation',
     maxRanks: 1,
     position: { x: 2, y: 4 },
-    requires: ['avenger_t3_burning_vengeance', 'avenger_t3_vengeful_immolation'],
+    requires: ['vengeance_seeker_t3_burning_vengeance', 'vengeance_seeker_t3_vengeful_immolation'],
   },
   {
-    id: 'avenger_t6_vengeance_incarnate',
+    id: 'vengeance_seeker_t6_vengeance_incarnate',
     name: 'Warden Eternal',
     description: 'Ultimate ability: Become the living embodiment of vengeance for 1 minute. All damage you deal becomes force or necrotic (your choice), you take half damage from all sources, and enemies that damage you explode for 8d6 force damage in 20ft radius. Costs all VP.',
     icon: 'spell_fire_elementaldevastation',
     maxRanks: 1,
     position: { x: 2, y: 5 },
-    requires: 'avenger_t5_avatar_perfection',
+    requires: 'vengeance_seeker_t5_avatar_perfection',
   }
 ];
