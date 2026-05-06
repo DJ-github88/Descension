@@ -32,7 +32,9 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
         utility: { name: 'Utility & GM Tools', icon: 'Utility/Utility' },
         furniture: { name: 'Furniture', icon: 'items/Container/Crate/wooden-crate-brown-planks-isometric' },
         props: { name: 'Props & Decorations', icon: 'Fire/Fire Logs' },
-        structures: { name: 'Structures', icon: 'Utility/Falling Block' }
+        structures: { name: 'Structures', icon: 'Utility/Falling Block' },
+        nature: { name: 'Nature', icon: 'inv_misc_tree_01' },
+        lighting: { name: 'Lighting', icon: 'inv_misc_lantern_01' }
     };
 
     const handleToolSelect = (toolId) => {
@@ -168,7 +170,7 @@ const ObjectTools = ({ selectedTool, onToolSelect, settings, onSettingsChange })
                     </div>
 
                     {/* Content Sections */}
-                    {['furniture', 'props', 'structures'].map(cat => (
+                    {['furniture', 'props', 'structures', 'nature', 'lighting'].map(cat => (
                         <div key={cat} className="object-category-section">
                             <h5 className="category-header">{categoryMetadata[cat].name}</h5>
                             <div className="objects-grid">

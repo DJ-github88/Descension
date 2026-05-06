@@ -40,8 +40,7 @@ const ExternalCreaturePreview = ({ creatureData, isOpen, activeView }) => {
         currentMana: creatureData.stats?.currentMana || creatureData.stats?.maxMana || 50,
         maxActionPoints: creatureData.stats?.maxActionPoints || 6,
         currentActionPoints: creatureData.stats?.currentActionPoints || creatureData.stats?.maxActionPoints || 6,
-        armorClass: creatureData.stats?.armorClass || 15,
-        armor: creatureData.stats?.armor || creatureData.stats?.armorClass || 15, // For tooltip compatibility
+        armor: creatureData.stats?.armor || 15,
         initiative: creatureData.stats?.initiative || 2,
 
         // Movement

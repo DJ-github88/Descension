@@ -835,6 +835,8 @@ export default function CharacterPanel() {
                                     <option value="Lunarch">Lunarch</option>
                                     <option value="Huntress">Huntress</option>
                                     <option value="Warden">Warden</option>
+                                    <option value="Augur">Augur</option>
+                                    <option value="Doomsayer">Doomsayer</option>
                                 </select>
                             </div>
 

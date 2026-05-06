@@ -105,7 +105,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 *The shadow wraiths emerge from the darkness, their forms shifting and ethereal. You raise your bow, moonlight gathering around you. The moon is NEW—dark, hidden, a time for recovery and preparation.*
 
 **New Moon Bonuses**:
-- +2 AC (defensive bonus)
+- +2 Armor (defensive bonus)
 - +1d6 HP regeneration per turn
 - Advantage on stealth checks
 
@@ -122,7 +122,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Mana**: 50 - 6 = 44/60
 
-**Shadow Wraith #1's Turn**: Attacks you → [14] → Miss! (your AC is 16 + 2 = 18 from New Moon)
+**Shadow Wraith #1's Turn**: Attacks you → [14] → Miss! (your Armor is 16 + 2 = 18 from New Moon)
 
 *The wraith's claws pass through empty air. The new moon's protection shields you.*
 
@@ -243,7 +243,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Your Party's Tank**: "And at the end? Your spells cost less mana?"
 **You**: "Waning Moon phase. All spell costs reduced by 2 mana. I cast Moonbeam for 4 mana instead of 6, and Lunar Arrow for 2 mana instead of 4. Saved 4 mana total."
 **Your Party's Healer**: "And at the start? The wraiths couldn't hit you."
-**You**: "New Moon phase. +2 AC, +1d6 HP regeneration per turn. I started defensive, then shifted to Full Moon for damage, then naturally cycled to Waning Moon for efficiency."
+**You**: "New Moon phase. +2 Armor, +1d6 HP regeneration per turn. I started defensive, then shifted to Full Moon for damage, then naturally cycled to Waning Moon for efficiency."
 
 **Final State**: Phase: Waning Moon (Round 2/3) | Mana: 16/60 | HP: 65/65
 
@@ -256,348 +256,111 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 6. **Phase Duration**: Each phase lasts 3 rounds naturally, manual shift resets timer
 7. **Strategic Shifting**: Skipped Waxing Moon (healing) because didn't need it, went straight to Full Moon for damage
 
-You're not a static caster. You're a LUNAR MAGE who flows through moon phases. New Moon for defense and recovery. Waxing Moon for healing and support. Full Moon for MAXIMUM DAMAGE. Waning Moon for mana efficiency and control. The key is knowing when to let phases cycle naturally (free) and when to manually shift (8 mana). If you need damage NOW, shift to Full Moon. If you need healing, shift to Waxing Moon. If you're low on mana, let it cycle to Waning Moon. The moon is always changing, and so are you.`
+You're not a static caster. You're a LUNAR MAGE who flows through moon phases. New Moon for defense and recovery. Waxing Moon for healing and support. Full Moon for MAXIMUM DAMAGE. Waning Moon for mana efficiency and control. The key is knowing when to let phases cycle naturally (free) and when to manually shift (8 mana). If you need damage NOW, shift to Full Moon. If you're low on mana, let it cycle to Waning Moon. The moon is always changing, and so are you.`
     }
   },
-  
-  // Resource System
+
   resourceSystem: {
-    title: 'Lunar Phases',
-    subtitle: 'Phase Shift Mechanic',
+    title: 'The Lunar Cycle',
+    subtitle: 'Flowing Through the Four Phases',
 
-    description: `The Lunarch's power flows with the phases of the moon. Unlike static resource systems, the Lunar Phase mechanic is cyclical and ever-changing, reflecting the natural ebb and flow of lunar energy. Lunarchs begin each combat in the New Moon phase and can either allow phases to cycle naturally every 3 rounds or manually shift to any phase by spending mana.`,
+    description: `The Lunarch is a celestial master who channels the shifting phases of the moon to adapt their combat role. By flowing through the Lunar Cycle—from the defensive stillness of the New Moon to the radiant fury of the Full Moon—they adapt to the battlefield's needs. Whether they are healing wounds under a Waxing Moon or conserving mana during the Waning phase, the Lunarch's strength lies in their rhythmic mastery of time and celestial alignment.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Lunar Phase Interface',
-      content: `**What You See**: The Lunarch's interface displays a beautiful LUNAR CYCLE WHEEL showing all four moon phases arranged in a circle. Your current phase is highlighted and glowing, with a timer showing how many rounds remain before the natural cycle advances.
-
-**LUNAR PHASE WHEEL** (Center of HUD):
-
-**Wheel Layout**:
-- **Top**: New Moon (dark circle, barely visible)
-- **Right**: Waxing Moon (crescent moon, growing)
-- **Bottom**: Full Moon (bright full circle, radiant)
-- **Left**: Waning Moon (crescent moon, shrinking)
-- **Center**: Current phase indicator with large glowing moon icon
-
-**Current Phase Display**:
-- **Active Phase**: Large moon icon in center showing current phase
-- **Phase Name**: "NEW MOON" / "WAXING MOON" / "FULL MOON" / "WANING MOON" in glowing text
-- **Phase Timer**: "Round 2/3" countdown showing when natural cycle will advance
-- **Next Phase Arrow**: Glowing arrow pointing to next phase in cycle
-
-**Phase Visualization by Type**:
-
-**New Moon (Dark, Defensive)**:
-- **Icon**: Nearly black circle with faint silver outline
-- **Glow**: Subtle dark blue aura
-- **Character Effect**: Character model has faint protective shimmer
-- **Bonuses Displayed**: "+2 AC | +1d6 HP Regen | Stealth Advantage"
-- **Color Theme**: Dark blue/black
-
-**Waxing Moon (Growing, Supportive)**:
-- **Icon**: Crescent moon growing from left, silver-white
-- **Glow**: Soft green-white aura
-- **Character Effect**: Character model has gentle healing glow
-- **Bonuses Displayed**: "+1d6 Healing | +10 ft Movement | +1d4 Spell Damage"
-- **Color Theme**: Green-white
-
-**Full Moon (Bright, Offensive)**:
-- **Icon**: Brilliant full circle, blazing silver-white
-- **Glow**: Intense radiant aura, pulsing
-- **Character Effect**: Character model GLOWS with moonlight, weapons shine
-- **Bonuses Displayed**: "+2d6 Radiant Damage | Crit 19-20 | Attack Advantage"
-- **Color Theme**: Bright silver-white/gold
-
-**Waning Moon (Shrinking, Efficient)**:
-- **Icon**: Crescent moon shrinking from right, pale silver
-- **Glow**: Calm purple-blue aura
-- **Character Effect**: Character model has subtle arcane shimmer
-- **Bonuses Displayed**: "Spell Cost -2 Mana | Debuffs +1 Round | +10 ft Range"
-- **Color Theme**: Purple-blue
-
-**Phase Cycle Animation** (Natural Cycling):
-When phase naturally advances every 3 rounds:
-- **Current Phase**: Fades and dims
-- **Wheel Rotation**: Wheel rotates clockwise, next phase moves to center
-- **New Phase**: Brightens and pulses with energy
-- **Audio**: Soft chime, phase-specific sound (wind for New, chime for Waxing, bell for Full, whisper for Waning)
-- **Text Notification**: "Phase Cycle: NEW MOON → WAXING MOON"
-- **Timer Reset**: "Round 1/3" appears
-
-**Manual Phase Shift Interface**:
-- **Shift Buttons**: Four buttons around the wheel, one for each phase
-- **Cost Display**: "Shift to FULL MOON (8 mana)" on each button
-- **Highlight**: Button for current phase is grayed out (can't shift to current phase)
-- **Cooldown**: No cooldown, can shift every turn if you have mana
-
-**Manual Phase Shift Animation**:
-When you manually shift phases:
-- **Mana Drain**: Mana bar decreases by 8
-- **Wheel Spin**: Wheel SPINS rapidly to target phase
-- **Energy Burst**: Explosion of lunar energy from character
-- **Phase Change**: New phase icon appears in center with dramatic glow
-- **Audio**: Powerful whoosh sound, phase-specific activation sound
-- **Text Notification**: "MANUAL SHIFT: NEW MOON → FULL MOON (8 mana)"
-- **Timer Reset**: "Round 1/3" (manual shift resets 3-round timer)
-- **Screen Effect**: Brief flash of phase color (dark for New, green for Waxing, bright for Full, purple for Waning)
-
-**Phase Bonus Indicators**:
-Below the lunar wheel, active bonuses are displayed:
-
-**New Moon Bonuses**:
-- **AC Bonus**: Shield icon "+2 AC" in blue
-- **Regeneration**: Heart icon "+1d6 HP/turn" in green
-- **Stealth**: Eye icon "Advantage on Stealth" in dark blue
-
-**Waxing Moon Bonuses**:
-- **Healing Boost**: Cross icon "+1d6 Healing" in green
-- **Movement**: Boot icon "+10 ft Speed" in white
-- **Spell Damage**: Wand icon "+1d4 Spell Damage" in green
-
-**Full Moon Bonuses**:
-- **Damage Boost**: Sword icon "+2d6 Radiant Damage" in gold
-- **Crit Range**: Star icon "Crit 19-20" in bright white
-- **Attack Advantage**: Crosshair icon "Advantage on Attacks" in silver
-
-**Waning Moon Bonuses**:
-- **Mana Efficiency**: Droplet icon "Spell Cost -2" in purple
-- **Debuff Extension**: Clock icon "Debuffs +1 Round" in blue
-- **Range Boost**: Arrow icon "+10 ft Range" in purple
-
-**Phase-Specific Spell Effects**:
-When you cast spells, the interface shows phase bonuses:
-
-**Example (Full Moon - Moonbeam)**:
-- **Spell Cast**: "Moonbeam (6 mana)"
-- **Base Damage**: "2d10 radiant = 17 damage"
-- **Full Moon Bonus**: "+2d6 radiant = +11 damage" (shown in gold)
-- **Total**: "28 damage!" (combined total)
-- **Visual**: Moonbeam spell is BRIGHTER and LARGER during Full Moon
-
-**Example (Waning Moon - Moonbeam)**:
-- **Spell Cast**: "Moonbeam (6 mana - 2 = 4 mana)" (cost reduction shown)
-- **Mana Saved**: "Saved 2 mana (Waning Moon)" notification
-- **Visual**: Spell has purple-blue tint during Waning Moon
-
-**Phase Timer Countdown**:
-- **Round 1/3**: Green border, "2 rounds until phase cycle"
-- **Round 2/3**: Yellow border, "1 round until phase cycle"
-- **Round 3/3**: Red border, "Phase cycling NEXT TURN"
-- **Cycle Warning**: When timer hits 3/3, "⚠️ PHASE CYCLING NEXT TURN" warning appears
-
-**Phase Cycle Preview**:
-- **Next Phase Indicator**: Arrow pointing to next phase in cycle
-- **Preview Text**: "Next: WAXING MOON (in 1 round)" or "Next: WAXING MOON (manual shift: 8 mana)"
-- **Strategic Info**: Hovering over next phase shows its bonuses
-
-**Combat Integration**:
-- **Damage Numbers**: When you deal damage, phase bonus is shown separately
-  * "Moonbeam: 17 damage + 11 (Full Moon) = 28 total!"
-- **Healing Numbers**: When you heal, phase bonus is shown
-  * "Moonlight Heal: 2d8 = 12 HP + 6 (Waxing Moon) = 18 HP healed!"
-- **Mana Costs**: When you cast spells in Waning Moon, cost reduction is shown
-  * "Moonbeam: 6 mana - 2 (Waning Moon) = 4 mana"
-
-**Phase Lock Indicator**:
-Some abilities lock you in current phase for 1 round:
-- **Lock Icon**: Padlock appears on phase wheel
-- **Text**: "PHASE LOCKED (1 round)" in red
-- **Effect**: Cannot manually shift, natural cycle paused
-- **Duration**: "Lock expires in 1 round"
-
-**Lunar Eclipse Ultimate**:
-When you use Lunar Eclipse ultimate (gain New Moon + Full Moon benefits):
-- **Dual Phase Display**: Both New Moon and Full Moon icons appear in center
-- **Combined Bonuses**: "+2 AC (New Moon) | +2d6 Damage (Full Moon) | +1d6 HP Regen (New Moon) | Crit 19-20 (Full Moon)"
-- **Duration**: "Lunar Eclipse: 2 rounds remaining"
-- **Visual**: Character glows with BOTH dark protective aura AND bright offensive aura
-- **Audio**: Dramatic dual-tone sound (deep hum + bright chime)
-
-**Why This Matters**: The Lunar Phase Wheel makes you feel like you're CHANNELING THE MOON. When you're in New Moon, you see the dark circle, the "+2 AC" shield icon, and your character has a protective shimmer. When you manually shift to Full Moon, the wheel SPINS, your character EXPLODES with radiant light, and the "+2d6 Radiant Damage" appears in gold. When you cast Moonbeam during Full Moon and see "17 + 11 (Full Moon) = 28 damage!", you KNOW the phase shift was worth the 8 mana. The timer countdown keeps you aware of when phases will naturally cycle, so you can plan ahead. The phase-specific visual effects make each phase feel distinct—New Moon is dark and defensive, Waxing Moon is gentle and supportive, Full Moon is BLAZING and offensive, Waning Moon is calm and efficient. You're not just tracking a resource—you're FLOWING with the lunar cycle.`
-    },
-
-    mechanics: {
-      title: 'How It Works',
-      content: `**Phase Cycling**:
-- **Starting Phase**: All Lunarchs begin combat in New Moon phase
-- **Natural Cycling**: Phases automatically advance every 3 rounds (New Moon → Waxing Moon → Full Moon → Waning Moon → New Moon)
-- **Manual Shifting**: Spend 8 mana to immediately shift to any phase of your choice
-- **Phase Tracking**: Current phase is displayed on your character sheet and affects all applicable spells and abilities
-
-**Phase Duration**:
-- Each phase lasts 3 rounds when cycling naturally
-- Manual shifts reset the 3-round timer (new phase lasts 3 full rounds from that point)
-
-**Mana Management**:
-- Manual phase shifting costs 8 mana—a significant investment
-- Natural cycling is more efficient in longer combats
-- Manual shifting can be game-changing in burst situations
-- Consider whether the tactical advantage of shifting immediately is worth the cost
-
-**Phase Stacking**:
-- You can only be in one phase at a time
-- Certain ultimate abilities (like Lunar Eclipse) can temporarily grant benefits from multiple phases simultaneously`
-    },
-
-    resourceTables: [
+    cards: [
       {
-        title: 'Lunar Phase Effects',
-        headers: ['Phase', 'Duration', 'Primary Benefit', 'Secondary Benefit', 'Tertiary Benefit'],
-        rows: [
-          ['New Moon', '3 rounds', 'Mana Regen: +1d4 per turn', 'Damage Reduction: -1d4 incoming', 'Stealth: +2 to checks'],
-          ['Waxing Moon', '3 rounds', 'Spell Damage: +1d4', 'Healing Boost: +1d6', 'Movement: +10 feet'],
-          ['Full Moon', '3 rounds', 'All Damage: +1d6', 'Crit Range: +2', 'Radiant Aura: 1d4 damage'],
-          ['Waning Moon', '3 rounds', 'Debuff Duration: +1d4 rounds', 'Mana Cost: -1d4 (min 1)', 'Spirit Saves: Advantage']
-        ]
+        title: '🌑 New Moon (Defensive)',
+        stats: '+2 Armor | +1d6 HP Regen',
+        details: 'The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.'
       },
       {
-        title: 'Phase Shift Costs & Timing',
-        headers: ['Action', 'Mana Cost', 'Action Type', 'Notes'],
-        rows: [
-          ['Natural Phase Cycle', '0 mana', 'Automatic', 'Occurs every 3 rounds'],
-          ['Manual Phase Shift', '8 mana', '1 AP', 'Shift to any phase immediately'],
-          ['Lunar Eclipse (Ultimate)', '15 mana', 'Action', 'Gain New Moon + Full Moon benefits for 2 rounds'],
-          ['Phase Lock (Passive)', '0 mana', 'Passive', 'Some abilities lock you in current phase for 1 round']
-        ]
+        title: '🌒 Waxing Moon (Growth)',
+        stats: '+1d6 Healing | +10ft Speed',
+        details: 'The phase of expansion. Your supportive spells and movement are enhanced, allowing you to reposition and mend allies.'
       },
       {
-        title: 'Strategic Phase Usage',
-        headers: ['Combat Situation', 'Recommended Phase', 'Reasoning'],
-        rows: [
-          ['Combat Start', 'New Moon (default)', 'Regenerate mana, reduce initial damage'],
-          ['Burst Damage Window', 'Full Moon', 'Maximize damage output with +1d6 and crit bonus'],
-          ['Ally Needs Healing', 'Waxing Moon', 'Enhanced healing +1d6 per spell'],
-          ['Extended Control', 'Waning Moon', 'Extend debuffs, reduce mana costs'],
-          ['Low Mana', 'New Moon or Waning Moon', 'Regenerate mana or reduce spell costs'],
-          ['Boss Execute Phase', 'Full Moon', 'Maximum damage for finishing blow']
-        ]
+        title: '🌕 Full Moon (Radiance)',
+        stats: '+2d6 Radiant DMG | Crit 19-20',
+        details: 'The phase of peak power. Unleash your most devastating attacks. Advantage on all attack rolls while the moon is full.'
+      },
+      {
+        title: '🌘 Waning Moon (Efficiency)',
+        stats: '-2 Mana Costs | +1 Rnd Debuffs',
+        details: 'The phase of release. Conserve your mana and ensure your control effects linger longer on the battlefield.'
       }
     ],
 
-    keyAbilities: {
-      title: 'Key Phase Abilities',
-      abilities: [
-        {
-          name: 'Phase Shift',
-          cost: '8 mana',
-          type: '1 AP',
-          description: 'Immediately shift to any lunar phase of your choice. The new phase lasts for 3 rounds before naturally cycling to the next phase.'
-        },
-        {
-          name: 'Lunar Attunement',
-          cost: 'Passive',
-          type: 'Passive',
-          description: 'You are always attuned to one of the four lunar phases. Your current phase affects all spells and abilities that have phase-specific effects.'
-        },
-        {
-          name: 'Moonlight Infusion',
-          cost: '4 mana',
-          type: 'Reaction',
-          description: 'When you cast a spell, you can spend 4 additional mana to double the phase bonus for that spell only. (Example: Full Moon +1d6 becomes +2d6 for one spell)'
-        }
+    generationTable: {
+      headers: ['Action', 'Cost', 'Effect'],
+      rows: [
+        ['Natural Cycle', 'Free', 'Auto-advances to next phase every 3 rounds'],
+        ['Phase Shift', '8 Mana', 'Manually jump to any phase (resets 3-rnd timer)'],
+        ['Lunar Eclipse', '15 Mana', 'Gain benefits of New + Full Moon for 2 rounds'],
+        ['Moonlight Infusion', '4 Mana', 'Double the current phase bonus for one spell'],
+        ['Phase Lock', 'Passive', 'Some abilities freeze the cycle for 1 round']
       ]
     },
 
-    strategicTips: {
-      title: 'Strategic Tips',
-      content: `**Early Combat (Rounds 1-3)**:
-Start in New Moon to build mana reserves and reduce incoming damage. Use this time to assess the battlefield and plan your phase transitions.
+    usage: {
+      momentum: 'Coordinate your burst with the Full Moon. If the timer is almost up, spend the mana to "Shift" back into Full Moon to reset the 3-round clock and stay in the offensive pocket.',
+      flourish: '⚠️ Phase Awareness: Don’t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.'
+    },
 
-**Mid Combat (Rounds 4-6)**:
-Shift to Full Moon for burst damage or Waxing Moon for healing, depending on team needs. This is when phase management becomes critical.
+    overheatRules: {
+      title: 'Celestial Alignment',
+      content: `Your current lunar phase determines your **Stance**, significantly altering your role on the battlefield. 
 
-**Late Combat (Rounds 7+)**:
-Use Waning Moon to extend control effects and conserve mana, or cycle back to Full Moon for execute damage on low-health enemies.
+**🌑 New Moon (Defensive Stance)**:
+- **Focus**: High survivability and recovery.
+- **Strategy**: Use this time for mana-free utility or to reposition safely. The +2 Armor bonus makes you a difficult target for ranged enemies.
 
-**Emergency Situations**:
-- Ally at critical health: Manual shift to Waxing Moon immediately
-- Boss enrage phase: Manual shift to Full Moon for maximum damage
-- Surrounded by enemies: Manual shift to New Moon for damage reduction
-- Running low on mana: Stay in New Moon or shift to Waning Moon
+**🌒 Waxing Moon (Support Stance)**:
+- **Focus**: Enhancing allies and mobility.
+- **Strategy**: Move to the frontline to distribute heals. The speed bonus allows you to kite enemies while keeping your tank healthy.
 
-**Mana Conservation**:
-Avoid manual shifting unless absolutely necessary. Three rounds is enough time for most tactical situations. Save your mana for spells rather than constant phase shifting.`
+**🌕 Full Moon (Offensive Stance)**:
+- **Focus**: Maximum aggression and burst.
+- **Strategy**: This is your "Go" window. Spend your mana on your most expensive spells. The expanded crit range and bonus radiant damage make your damage output peak here.
+
+**🌘 Waning Moon (Efficiency Stance)**:
+- **Focus**: Crowd control and stabilization.
+- **Strategy**: Use the reduced mana costs to spam control spells. The increased debuff duration ensures your slowing and blinding effects stabilize the field before the cycle resets.`
+    },
+
+    strategicConsiderations: {
+      title: 'The Rhythmic Archer',
+      content: `**The 3-Round Rhythm**: Every combat has a pulse. You have 3 rounds to maximize each phase. Don't waste "Full Moon" rounds moving; move during "Waxing Moon" so you're planted and ready to fire when the light peaks.
+
+**The Mana-Rich Shift**: Shifting costs 8 Mana—more than many spells. Only shift when the situation is desperate or when skipping a phase (like Waning) allows you to secure a kill that ends the fight early.
+
+**Defensive Pivoting**: If you are focused by a boss, shift to New Moon immediately. The +2 Armor and HP regeneration can be the difference between a wipe and a recovery.
+
+**Worked Example (Shift Timing)**:
+- **Round 2 of Waxing Moon**: Your tank is hit for 50 damage.
+- **The Play**: Don't wait for the cycle. Spend 8 Mana to Shift to Waxing Moon *again* (resetting the timer) or stay and use your enhanced +1d6 healing immediately. 
+- **The Result**: You maximize the support window when it's needed most, rather than being forced into an offensive phase next round.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
-      subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Lunarch's Lunar Phase system—cycling through 4 moon phases every 3 rounds—creates a rhythmic, adaptive in-person experience. Here's how to track your celestial power at the table:
+      subtitle: 'The Phase Dial',
+      content: `Tracking a 4-phase cycle that changes every 3 rounds can be tricky. Use physical props to keep the rhythm.
 
 **Required Materials**:
-- **4 phase cards or tokens** (one for each moon phase)
-- **Round counter** (d4 die or tokens to track rounds 1-3)
-- **Phase reference card** with phase bonuses
-- **Optional: Moon phase wheel** (printed diagram)
+- **Lunar Phase Wheel** — A paper plate or card with the 4 phases. Use a clothespin to mark the current phase.
+- **Cycle d6** — Use a die to track rounds. (1-2 = Rnd 1, 3-4 = Rnd 2, 5-6 = Rnd 3).
 
-**Lunar Phase Tracking**:
-
-**The Phase Card Method** (Recommended):
-
-Use physical cards to represent the four moon phases. Place the current phase card face-up in front of you, with a d4 die showing which round (1, 2, or 3) you're in for that phase.
-
-**Phase Cards Template**:
-
-\`\`\`
-🌑 NEW MOON (Defensive)
-+2 AC | +1d6 HP regen/turn | Stealth advantage
-Duration: 3 rounds → Waxing Moon
-
-🌒 WAXING MOON (Supportive)
-+1d6 healing | +10 ft move | +1d4 spell damage
-Duration: 3 rounds → Full Moon
-
-🌕 FULL MOON (Offensive)
-+2d6 radiant damage | Crit 19-20 | Attack advantage
-Duration: 3 rounds → Waning Moon
-
-🌘 WANING MOON (Efficient)
-Spell cost -2 mana | Debuff +1 round | +10 ft range
-Duration: 3 rounds → New Moon
-\`\`\`
-
-**Natural Phase Cycling**:
-
-Use a d4 die to track rounds within each phase:
-- **d4 = 1**: Round 1 of current phase
-- **d4 = 2**: Round 2 of current phase
-- **d4 = 3**: Round 3 of current phase (last round)
-- **After Round 3**: Swap to next phase card, reset d4 to 1
-
-**Example Tracking**:
-- Combat starts: New Moon card, d4 = [1]
-- End of Round 1: Advance d4 to [2]
-- End of Round 2: Advance d4 to [3]
-- End of Round 3: Swap to Waxing Moon card, reset d4 to [1]
-
-**Manual Phase Shifting** (8 mana):
-1. Announce: "I shift to Full Moon!" (spend 8 mana)
-2. Swap current phase card for Full Moon card
-3. Reset d4 to [1] (new phase starts at round 1)
-
-**Example In-Person Combat**:
-
-*Starting: New Moon, d4 = [1]*
-
-**Round 1**: New Moon [1] → Regen 1d6 HP, attack → Advance d4 to [2]
-**Round 2**: New Moon [2] → Regen 1d6 HP, attack → Advance d4 to [3]
-**Round 3**: New Moon [3] → Regen 1d6 HP, attack → Swap to Waxing Moon, d4 = [1]
-**Round 4**: Waxing Moon [1] → +10 ft move, attack +1d4 → Advance d4 to [2]
-**Round 5**: "Boss is low! I shift to Full Moon!" (8 mana) → Swap to Full Moon, d4 = [1]
-**Round 6**: Full Moon [1] → Attack +2d6 radiant, crit on 19-20!
+**The Physical Hack**:
+- **The Moon Coin**: Use a large silver coin or token. When you shift to Full Moon, place it prominently on your character sheet. When it cycles to Waning, move it half-off the sheet.
+- **LED Pulse**: If playing with lights, a blue light for New/Waning and a bright white light for Waxing/Full helps the whole table see your current "stance" without asking.
 
 **Quick Reference**:
 \`\`\`
-PHASE CYCLE: New → Waxing → Full → Waning → (repeat)
-DURATION: 3 rounds per phase (automatic)
-MANUAL SHIFT: 8 mana (1 AP, any phase)
-START: Always New Moon
+CYCLE: New 🌑 → Waxing 🌒 → Full 🌕 → Waning 🌘
+TIMER: 3 Rounds per Phase (Auto-Advances)
+SHIFT: 8 Mana to change immediately (Resets Timer)
 \`\`\`
 
-**Why This Works**: The d4 die and phase cards create a simple, visual tracking system. You always know which phase you're in (card) and when it will change (d4). The physical act of swapping cards every 3 rounds creates rhythm, and the strategic decision of when to spend 8 mana to shift manually adds depth.
-
-**Budget Alternative**: Just write phase name and round number on paper (e.g., "Full Moon 2/3").`
+**Tactile Tip**: When you "Shift" manually, physically spin your phase dial. It emphasizes the magical effort of bending the heavens to your will.`
     }
   },
   
@@ -768,7 +531,7 @@ START: Always New Moon
             name: 'Lunar Sanctuary',
             tier: 'Specialization Passive',
             icon: 'Healing/Prayer',
-            description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 AC. This bonus is lost if you move more than 15 feet away from them.',
+            description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 Armor. This bonus is lost if you move more than 15 feet away from them.',
             uniqueTo: 'Lunar Guardian'
           }
         ],
@@ -1336,8 +1099,8 @@ START: Always New Moon
       specialMechanics: {
         phaseInteraction: {
           waxingMoon: 'Shield amount increases to 2d8+1d6',
-          fullMoon: 'Shield also grants +1 AC while active',
-          newMoon: 'If cast on ally within 15 feet, they also gain Lunar Sanctuary +1 AC bonus'
+          fullMoon: 'Shield also grants +1 Armor while active',
+          newMoon: 'If cast on ally within 15 feet, they also gain Lunar Sanctuary +1 Armor bonus'
         }
       },
 

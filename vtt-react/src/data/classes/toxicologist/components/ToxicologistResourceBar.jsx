@@ -112,6 +112,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             const barRect = barRef.current.getBoundingClientRect();
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
             const tooltip = tooltipRef.current;
+            tooltip.style.opacity = '0';
             
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
@@ -160,19 +161,20 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
+            tooltip.style.opacity = '1';
         }
     }, [showTooltip, localToxinVials, localContraptionParts, selectedSpec, hoverSection]);
 
     // Close menus when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (showSpecMenu && !event.target.closest('.toxicologist-spec-menu') && !event.target.closest('.spec-button')) {
+            if (showSpecMenu && !event.target.closest('.toxicologist-context-menu-main') && !event.target.closest('.spec-button')) {
                 setShowSpecMenu(false);
             }
-            if (showToxinMenu && !event.target.closest('.toxicologist-resource-menu') && !event.target.closest('.toxin-half')) {
+            if (showToxinMenu && !event.target.closest('.toxicologist-context-menu-main') && !event.target.closest('.toxin-half')) {
                 setShowToxinMenu(false);
             }
-            if (showContraptionMenu && !event.target.closest('.toxicologist-resource-menu') && !event.target.closest('.contraption-half')) {
+            if (showContraptionMenu && !event.target.closest('.toxicologist-context-menu-main') && !event.target.closest('.contraption-half')) {
                 setShowContraptionMenu(false);
             }
         };
@@ -362,7 +364,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
 
             {/* Tooltip */}
             {showTooltip && hoverSection && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     {hoverSection === 'toxins' && (
                         <>
                             <div className="tooltip-header">Toxin Vials</div>
@@ -430,8 +432,9 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             {/* Specialization Menu */}
             {showSpecMenu && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact toxicologist-spec-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                    onClick={(e) => e.stopPropagation()}
+                    className={`unified-context-menu compact toxicologist-context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={{
                         position: 'fixed',
                         top: (() => {
@@ -454,13 +457,13 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main toxicologist-menu">
+                    <div className="context-menu-main">
                         <div className="menu-title">Specialization</div>
                         <div className="toxicologist-spec-grid">
                             {Object.entries(specConfigs).map(([specKey, spec]) => (
                                 <button
                                     key={specKey}
-                                    className={`toxicologist-spec-btn ${selectedSpec === specKey ? 'active' : ''}`}
+                                    className={`context-menu-button ${selectedSpec === specKey ? 'active' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         setSelectedSpec(specKey);
@@ -479,7 +482,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     e.stopPropagation();
                                     setShowSpecMenu(false);
                                 }} 
-                                className="toxicologist-quick-btn"
+                                className="context-menu-button"
                                 title="Close"
                             >
                                 <i className="fas fa-times"></i>
@@ -494,7 +497,8 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             {/* Toxin Vials Menu */}
             {showToxinMenu && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact toxicologist-toxin-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact toxicologist-context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => e.stopPropagation()}
                     onClick={(e) => e.stopPropagation()}
                     style={{
                         position: 'fixed',
@@ -518,7 +522,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main toxicologist-menu">
+                    <div className="context-menu-main">
                         <div className="menu-title">Toxin Vials: {localToxinVials}/{maxToxinVials}</div>
 
                         <div className="toxicologist-info-text">
@@ -617,7 +621,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         if (onClassResourceUpdate) onClassResourceUpdate('toxinVials', maxToxinVials);
                                     }
                                 }} 
-                                className="toxicologist-quick-btn"
+                                className="context-menu-button"
                                 title="Reset to Max"
                             >
                                 <i className="fas fa-undo"></i>
@@ -628,7 +632,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     e.stopPropagation();
                                     setShowToxinMenu(false);
                                 }} 
-                                className="toxicologist-quick-btn"
+                                className="context-menu-button"
                                 title="Close"
                             >
                                 <i className="fas fa-times"></i>
@@ -643,7 +647,8 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
             {/* Contraption Parts Menu */}
             {showContraptionMenu && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact toxicologist-contraption-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact toxicologist-context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => e.stopPropagation()}
                     onClick={(e) => e.stopPropagation()}
                     style={{
                         position: 'fixed',
@@ -667,7 +672,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main toxicologist-menu">
+                    <div className="context-menu-main">
                         <div className="menu-title">Contraption Parts: {localContraptionParts}/{maxContraptionParts}</div>
 
                         <div className="toxicologist-info-text">
@@ -750,7 +755,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                         if (onClassResourceUpdate) onClassResourceUpdate('contraptionParts', maxContraptionParts);
                                     }
                                 }} 
-                                className="toxicologist-quick-btn"
+                                className="context-menu-button"
                                 title="Reset to Max"
                             >
                                 <i className="fas fa-undo"></i>
@@ -761,7 +766,7 @@ const ToxicologistResourceBar = ({ classResource = {}, size = 'normal', config =
                                     e.stopPropagation();
                                     setShowContraptionMenu(false);
                                 }} 
-                                className="toxicologist-quick-btn"
+                                className="context-menu-button"
                                 title="Close"
                             >
                                 <i className="fas fa-times"></i>

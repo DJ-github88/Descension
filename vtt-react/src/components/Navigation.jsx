@@ -33,6 +33,7 @@ import useCreatureStore from '../store/creatureStore';
 import useInventoryStore from '../store/inventoryStore';
 import ErrorBoundary from './ErrorBoundary';
 import SocialEncounterGenerator from './gm-tools/SocialEncounterGenerator';
+import JukeboxPanel from './jukebox/JukeboxPanel';
 // REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
 
 import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
@@ -213,7 +214,7 @@ function CreatureWindowWrapper({ isOpen, onClose }) {
                     <CreatureWizardProvider>
                         {/* Main content area - always render components for pre-loading */}
                         <div className="creature-window-content">
-                            <div style={{ display: activeView === 'library' ? 'block' : 'none' }}>
+                            <div style={{ display: activeView === 'library' ? 'flex' : 'none', flex: 1, minHeight: 0, flexDirection: 'column' }}>
                                 <CreatureLibrary onEdit={handleEditCreature} />
                             </div>
                             <div style={{
@@ -470,6 +471,19 @@ const NAVIGATION_BUTTONS = [
         gmOnly: true,
         svg: <>
             <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </>
+    },
+    {
+        id: 'jukebox',
+        title: 'Lutebox',
+        shortcut: 'K',
+        gmOnly: true,
+        svg: <>
+            <path d="M12 3v10M8 21h8M8 21c0-2 2-3 4-3s4 1 4 3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <ellipse cx="12" cy="17" rx="5" ry="4" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+            <line x1="12" y1="13" x2="12" y2="3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="9" y1="5" x2="15" y2="5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            <line x1="9" y1="8" x2="15" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
         </>
     },
 ];
@@ -1155,6 +1169,19 @@ export default function Navigation({ onReturnToLanding }) {
                         defaultPosition={{ x: 200, y: 30 }}
                     >
                         <SocialEncounterGenerator />
+                    </WowWindow>
+                );
+            case 'jukebox':
+                return shouldRender && (
+                    <WowWindow
+                        key={button.id}
+                        title={safeTitle || 'Lutebox'}
+                        isOpen={true}
+                        onClose={() => handleButtonClick(button.id)}
+                        defaultSize={{ width: 480, height: 640 }}
+                        defaultPosition={{ x: window.innerWidth - 520, y: 30 }}
+                    >
+                        <JukeboxPanel isGM={true} />
                     </WowWindow>
                 );
             case 'settings':

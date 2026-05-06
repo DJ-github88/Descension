@@ -8,7 +8,7 @@ import '../styles/WitchDoctorResourceBar.css';
 const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev controls
     const [localEssence, setLocalEssence] = useState(8);
-    const [selectedSpec, setSelectedSpec] = useState('shadow-priest');
+    const [selectedSpec, setSelectedSpec] = useState('bokor');
     const [showTooltip, setShowTooltip] = useState(false);
     const [showControls, setShowControls] = useState(false);
     const [showSpecSelector, setShowSpecSelector] = useState(false);
@@ -84,8 +84,8 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
     
     // Specialization configurations
     const specs = {
-        'shadow-priest': {
-            name: 'Shadow Priest',
+        'bokor': {
+            name: 'Bokor',
             icon: 'fas fa-skull',
             baseColor: '#2D1B4E',
             activeColor: '#8B008B',
@@ -100,8 +100,8 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                 description: "Baron Samedi invocations cost 2 less essence. Curses generate +1 additional essence. Bar flickers between life and death hues when curses are active."
             }
         },
-        'spirit-healer': {
-            name: 'Spirit Healer',
+        'mambo': {
+            name: 'Mambo',
             icon: 'fas fa-hand-holding-heart',
             baseColor: '#1A472A',
             activeColor: '#32CD32',
@@ -116,8 +116,8 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                 description: "Erzulie and Simbi invocations cost 2 less essence. Totems generate +1 additional essence. Bar pulses rhythmically while totems are active."
             }
         },
-        'war-priest': {
-            name: 'War Priest',
+        'houngan': {
+            name: 'Houngan',
             icon: 'fas fa-fire',
             baseColor: '#4A1C1C',
             activeColor: '#DC143C',
@@ -148,21 +148,25 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
     // Auto-position tooltip
     useEffect(() => {
         if (showTooltip && barRef.current && tooltipRef.current) {
+            const tooltip = tooltipRef.current;
+            tooltip.style.opacity = '0';
             const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             
             let x = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
             let y = barRect.top - tooltipRect.height - 10;
             
-            // Adjust if off-screen
             if (x < 10) x = 10;
             if (x + tooltipRect.width > viewportWidth - 10) x = viewportWidth - tooltipRect.width - 10;
             if (y < 10) y = barRect.bottom + 10;
             
-            tooltipRef.current.style.left = `${x}px`;
-            tooltipRef.current.style.top = `${y}px`;
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+            tooltip.style.opacity = '1';
+
+            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
         }
     }, [showTooltip, localEssence, selectedSpec, cursesActive, totemsActive, poisonsApplied]);
     
@@ -194,7 +198,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
         if (!showTooltip) return null;
 
         const tooltipContent = (
-            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+            <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                 <div className="tooltip-header">
                     <div className="tooltip-title">⚝ ☥ ⚶ {localEssence}/{maxEssence} - {currentSpec.name}</div>
                 </div>
@@ -207,27 +211,27 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
 
                         <div className="gen-info">
                             <strong>Generation:</strong> +1 curse/totem, +2 ritual
-                            {selectedSpec === 'shadow-priest' && <span className="spec-bonus"> (+1 curses)</span>}
-                            {selectedSpec === 'spirit-healer' && <span className="spec-bonus"> (+1 totems)</span>}
-                            {selectedSpec === 'war-priest' && <span className="spec-bonus"> (+1 poisons)</span>}
+                            {selectedSpec === 'bokor' && <span className="spec-bonus"> (+1 curses)</span>}
+                            {selectedSpec === 'mambo' && <span className="spec-bonus"> (+1 totems)</span>}
+                            {selectedSpec === 'houngan' && <span className="spec-bonus"> (+1 poisons)</span>}
                         </div>
 
                         <div className="loa-info">
-                            <strong>Loa:</strong> Samedi {selectedSpec === 'shadow-priest' ? '8' : '10'},
-                            Erzulie {selectedSpec === 'spirit-healer' ? '4' : '6'},
-                            Ogoun {selectedSpec === 'war-priest' ? '7' : '9'},
-                            Simbi {selectedSpec === 'spirit-healer' ? '4' : '6'},
-                            Legba {selectedSpec === 'war-priest' ? '5' : '7'}
+                            <strong>Loa:</strong> Samedi {selectedSpec === 'bokor' ? '8' : '10'},
+                            Erzulie {selectedSpec === 'mambo' ? '5' : '7'},
+                            Ogoun {selectedSpec === 'houngan' ? '6' : '8'},
+                            Simbi {selectedSpec === 'mambo' ? '3' : '5'},
+                            Legba {selectedSpec === 'houngan' ? '4' : '6'}
                         </div>
 
-                        {((selectedSpec === 'shadow-priest' && cursesActive) ||
-                          (selectedSpec === 'spirit-healer' && totemsActive) ||
-                          (selectedSpec === 'war-priest' && poisonsApplied > 0)) && (
+                        {((selectedSpec === 'bokor' && cursesActive) ||
+                          (selectedSpec === 'mambo' && totemsActive) ||
+                          (selectedSpec === 'houngan' && poisonsApplied > 0)) && (
                             <div className="active-info">
                                 <strong>Active:</strong>
-                                {selectedSpec === 'shadow-priest' && cursesActive && " Curses (life/death flicker)"}
-                                {selectedSpec === 'spirit-healer' && totemsActive && " Totems (rhythmic pulse)"}
-                                {selectedSpec === 'war-priest' && poisonsApplied > 0 && ` ${poisonsApplied} poisons (${Math.min(poisonsApplied * 20, 100)}% intensity)`}
+                                {selectedSpec === 'bokor' && cursesActive && " Curses (life/death flicker)"}
+                                {selectedSpec === 'mambo' && totemsActive && " Totems (rhythmic pulse)"}
+                                {selectedSpec === 'houngan' && poisonsApplied > 0 && ` ${poisonsApplied} poisons (${Math.min(poisonsApplied * 20, 100)}% intensity)`}
                             </div>
                         )}
                     </div>
@@ -244,7 +248,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                 {/* Main Resource Bar */}
                 <div
                     ref={barRef}
-                    className={`witchdoctor-resource-bar ${size} stage-${stage} ${selectedSpec} ${loaFlash ? `loa-flash-${loaFlash}` : ''} ${selectedSpec === 'shadow-priest' && cursesActive ? 'shadow-flicker' : ''} ${selectedSpec === 'spirit-healer' && totemsActive ? 'spirit-pulse' : ''} ${selectedSpec === 'war-priest' && poisonsApplied > 0 ? 'war-core' : ''} clickable`}
+                    className={`witchdoctor-resource-bar ${size} stage-${stage} ${selectedSpec} ${loaFlash ? `loa-flash-${loaFlash}` : ''} ${selectedSpec === 'bokor' && cursesActive ? 'shadow-flicker' : ''} ${selectedSpec === 'mambo' && totemsActive ? 'spirit-pulse' : ''} ${selectedSpec === 'houngan' && poisonsApplied > 0 ? 'war-core' : ''} clickable`}
                     onMouseEnter={() => setShowTooltip(true)}
                     onMouseLeave={() => setShowTooltip(false)}
                     onClick={() => { if (isOwner) setShowControls(!showControls); }}
@@ -280,7 +284,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                     )}
                     
                     {/* War Priest fiery core */}
-                    {selectedSpec === 'war-priest' && poisonsApplied > 0 && (
+                    {selectedSpec === 'houngan' && poisonsApplied > 0 && (
                         <div className="fiery-core"></div>
                     )}
                     
@@ -297,7 +301,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
             {/* Specialization Selector */}
             {showSpecSelector && (
                 <div className="spec-selector-overlay" onClick={() => setShowSpecSelector(false)}>
-                    <div className="spec-selector-menu" onClick={(e) => e.stopPropagation()}>
+                    <div className="spec-context-menu-main" onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}>
                         <div className="spec-selector-header">Select Specialization</div>
                         {Object.entries(specs).map(([key, spec]) => (
                             <div
@@ -391,32 +395,32 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                         {/* Row 2: Specialization Selection */}
                         <div className="compact-row">
                             <div className="compact-spec-section">
-                                <div className="compact-spec-buttons">
+                                <div className="spec-option-buttons">
                                     <button
-                                        className={`spec-select-btn ${selectedSpec === 'shadow-priest' ? 'active' : ''}`}
-                                        onClick={() => setSelectedSpec('shadow-priest')}
-                                        title="Shadow Priest - Necromancy & Death Magic"
+                                        className={`spec-select-btn ${selectedSpec === 'bokor' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('bokor')}
+                                        title="Bokor - Necromancy & Death Magic"
                                     >
                                         <i className="fas fa-skull"></i>
-                                        <span>Shadow Priest</span>
+                                        <span>Bokor</span>
                                         <small>Death Magic</small>
                                     </button>
                                     <button
-                                        className={`spec-select-btn ${selectedSpec === 'spirit-healer' ? 'active' : ''}`}
-                                        onClick={() => setSelectedSpec('spirit-healer')}
-                                        title="Spirit Healer - Totems & Protection"
+                                        className={`spec-select-btn ${selectedSpec === 'mambo' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('mambo')}
+                                        title="Mambo - Totems & Protection"
                                     >
                                         <i className="fas fa-hand-holding-heart"></i>
-                                        <span>Spirit Healer</span>
+                                        <span>Mambo</span>
                                         <small>Protection</small>
                                     </button>
                                     <button
-                                        className={`spec-select-btn ${selectedSpec === 'war-priest' ? 'active' : ''}`}
-                                        onClick={() => setSelectedSpec('war-priest')}
-                                        title="War Priest - Aggressive Channeling"
+                                        className={`spec-select-btn ${selectedSpec === 'houngan' ? 'active' : ''}`}
+                                        onClick={() => setSelectedSpec('houngan')}
+                                        title="Houngan - Aggressive Channeling"
                                     >
                                         <i className="fas fa-fire"></i>
-                                        <span>War Priest</span>
+                                        <span>Houngan</span>
                                         <small>Combat</small>
                                     </button>
                                 </div>
@@ -457,7 +461,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                             <div className="compact-effects-section">
                                 <span className="compact-section-label">Effects:</span>
                                 <div className="compact-effect-controls">
-                                    {selectedSpec === 'shadow-priest' && (
+                                    {selectedSpec === 'bokor' && (
                                         <label className="compact-toggle">
                                             <input
                                                 type="checkbox"
@@ -467,7 +471,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                                             <span title="Curses Active (life/death flicker)">C</span>
                                         </label>
                                     )}
-                                    {selectedSpec === 'spirit-healer' && (
+                                    {selectedSpec === 'mambo' && (
                                         <label className="compact-toggle">
                                             <input
                                                 type="checkbox"
@@ -477,7 +481,7 @@ const WitchDoctorResourceBar = ({ classResource = {}, size = 'normal', config = 
                                             <span title="Totems Active (rhythmic pulse)">T</span>
                                         </label>
                                     )}
-                                    {selectedSpec === 'war-priest' && (
+                                    {selectedSpec === 'houngan' && (
                                         <div className="compact-war-controls">
                                             <span className="compact-war-label" title={`Poisons: ${poisonsApplied} (${Math.min(poisonsApplied * 20, 100)}% intensity)`}>
                                                 P:{poisonsApplied}

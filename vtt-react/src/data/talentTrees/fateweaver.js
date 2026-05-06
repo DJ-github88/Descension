@@ -240,7 +240,7 @@ export const FATE_WEAVER_CARD_MASTER = [
   {
     id: 'card_t2_flush_power',
     name: 'Flush Power',
-    description: 'Each card in a flush grants a bonus per rank: Hearts heal +1d8, Diamonds deal +1d8 force damage, Clubs reduce enemy AC by 1, Spades grant +1 to your AC.',
+    description: 'Each card in a flush grants a bonus per rank: Hearts heal +1d8, Diamonds deal +1d8 force damage, Clubs reduce enemy Armor by 1, Spades grant +1 to your Armor.',
     icon: 'inv_misc_tarot_01',
     maxRanks: 3,
     position: { x: 0, y: 3 },
@@ -393,7 +393,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
   {
     id: 'thread_t2_thread_armor',
     name: 'Thread Armor',
-    description: 'Spend Threads at the start of your turn to weave armor: +1 AC per 2 Threads spent per rank. Lasts until you spend Threads again. The more Threads you spend, the stronger the weave.',
+    description: 'Spend Threads at the start of your turn to weave armor: +1 Armor per 2 Threads spent per rank. Lasts until you spend Threads again. The more Threads you spend, the stronger the weave.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 4,
     position: { x: 3, y: 2 },
@@ -507,7 +507,7 @@ export const FATE_WEAVER_THREAD_WEAVER = [
   {
     id: 'thread_t5_fate_tapestry',
     name: 'Fate Tapestry',
-    description: 'Spend 8 Threads and draw 5 cards. Arrange them as the Tapestry — allies in 50ft gain advantage matching the suits present (Hearts = attack advantage, Diamonds = save advantage, Clubs = skill advantage, Spades = AC +2). Number of matching suits = number of advantages active. Lasts 5 rounds.',
+    description: 'Spend 8 Threads and draw 5 cards. Arrange them as the Tapestry — allies in 50ft gain advantage matching the suits present (Hearts = attack advantage, Diamonds = save advantage, Clubs = skill advantage, Spades = Armor +2). Number of matching suits = number of advantages active. Lasts 5 rounds.',
     icon: 'spell_arcane_arcanepower',
     maxRanks: 3,
     position: { x: 3, y: 8 },

@@ -68,7 +68,7 @@ const CreatureSelectionModal = ({
     const stats = creature.stats || {};
     return {
       hp: stats.maxHp || 30,
-      armor: stats.armor || stats.armorClass || 10,
+      armor: stats.armor || 10,
       damage: `${Math.floor((stats.strength || 10) / 2)}d6`,
       speed: stats.speed || 30,
       type: creature.type || 'Unknown',

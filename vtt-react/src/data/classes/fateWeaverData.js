@@ -348,115 +348,82 @@ After calling A♠ on turn 4, K♠ on turn 5, Q♠ on turn 7, and finally J♠ a
     }
   },
 
+  // Resource System
   resourceSystem: {
     title: 'Threads of Destiny',
-    subtitle: 'Weaving Fate from Failure',
+    subtitle: 'Fueling the Grand Tapestry',
 
-    description: `Threads of Destiny are generated when spells fail or backfire. These cosmic threads represent the energy released when destiny is disrupted. Spend them to call specific cards from your deck — turning randomness into strategy.`,
+    description: `The Fate Weaver doesn't predict the future—they deal it. Your core resource is **Threads of Destiny** (0-13), cosmic energy woven from the friction of failure. While other casters dread a missed spell, you thrive on it. Every "High Card" or "Blackjack Bust" generates the threads you need to eventually reach into your deck and pull out the exact card you need to end the fight.`,
 
-    resourceBarExplanation: {
-      title: 'Your Thread Gauge',
-      content: `**Your Thread gauge (0-13) sits above your deck display.** At 4+ Threads, the Call Card button lights up. At 13 Threads, it pulses gold — spend or waste future generation.
-
-**Call Card**: Spend 2 Threads to search your deck for any specific card and add it to your hand. **Once per turn.** The remaining deck is reshuffled.`
-    },
-
-    mechanics: {
-      title: 'How It Works',
-      content: `**Thread Generation**:
-- **Spell Failure** (+1 Thread): Spell fails or produces minimal effect (High Card in poker, losing War of Wills)
-- **Minor Negative Outcome** (+1 Thread): Spell produces a small negative effect (drawing 1 heart in Heart's Gamble)
-- **Major Negative Outcome** (+2 Threads): Severe negative effect (blackjack bust, multiple hearts with face cards)
-
-**Thread Spending**:
-- **Call Specific Card** (2 Threads): Search deck for a specific card, add to hand, reshuffle deck. Once per turn.
-- **Destiny's Insight** (Passive): See the top card of your deck at all times. Spend 1 Thread to peek at top 3 and choose which to draw.
-
-**Capacity**: 0-13 Threads. Threads persist between combats.
-
-**Deck Rules**: Shuffle 52-card deck at combat start. Reshuffle discard pile when deck runs out.`
-    },
-
-    tables: [
+    cards: [
       {
-        title: 'Thread Strategy — Build Early, Spend Late, Never Waste',
-        headers: ['Threads', 'Phase', 'Action'],
-        rows: [
-          ['0-3', 'Building', 'Accept failures to build reserves'],
-          ['4-6', 'Woven', 'Call 1 card on critical spells'],
-          ['7-9', 'Tapestry', 'Call cards freely on important turns'],
-          ['10-12', "Destiny's Web", 'Aggressive manipulation'],
-          ['13', 'Fate Mastered', 'Spend now — further generation is wasted']
-        ]
+        title: 'Threads (0-13)',
+        stats: 'Ace through King',
+        details: 'Generated through failure and bad luck. Capped at 13—excess generation triggers a Destiny Surge.'
+      },
+      {
+        title: 'The Mystical Deck',
+        stats: '52-Card System',
+        details: 'Your spells require drawing from a standard deck. Reshuffle only when the deck is empty.'
+      },
+      {
+        title: 'The Call (2 Threads)',
+        stats: 'Once per Turn',
+        details: 'Spend 2 Threads to search your deck for ONE specific card. This is how you assemble Royal Flushes.'
       }
     ],
 
-    strategicConsiderations: {
-      title: 'Advanced Thread Strategy',
-      content: `**Key Principles**:
-1. **Embrace Failure Early**: Opening rounds build Thread reserves for later
-2. **Call Cards Across Turns**: You can only call 1 card per turn — a Royal Flush takes 4-5 turns of setup
-3. **Know Your Deck**: Track which cards have been drawn to predict what's left
-4. **Cap Awareness**: At 13 Threads, generation is wasted — spend before you hit cap
-5. **Marked Card Setup**: Use Marked Card to prepare your next draw, reducing the Threads needed
+    generationTable: {
+      headers: ['Event', 'Thread Change', 'Notes'],
+      rows: [
+        ['Spell Failure', '+1 Thread', 'High Card in poker, losing War'],
+        ['Minor Backfire', '+1 Thread', 'Drawing a single heart in Gamble'],
+        ['Major Backfire', '+2 Threads', 'Blackjack Bust, face-card damage'],
+        ['The Call', '-2 Threads', 'Search deck for 1 specific card'],
+        ['Destiny Shift', '-1 Thread', 'Peek at top 3 cards of the deck']
+      ]
+    },
 
-**Advanced Techniques**:
-- **Intentional Failure**: Accepting a negative outcome for 2 Threads is sometimes the right play
-- **Cross-Turn Assembly**: Call A♠ turn 1, K♠ turn 2, Q♠ turn 3, etc. — build the perfect hand over time
-- **Thread Cycling**: Spend Threads on cards that enable Thread generation (risky cards with high failure rates)`
+    usage: {
+      momentum: 'Start combat by taking risks. Use "Heart\'s Gamble" to build 4-5 Threads early. Use those Threads to call Spades face-cards one turn at a time.',
+      flourish: '⚠️ The Gambler\'s Rule: You cannot call more than one card per turn. Even if you have 13 Threads, a Royal Flush takes 4-5 turns of deliberate assembly.'
+    },
+
+    overheatRules: {
+      title: 'Destiny Surge (13+)',
+      content: `If you generate a Thread while already at your cap of 13, you trigger a **Destiny Surge**. Roll 1d6:
+
+1. **Fraying Threads**: Lose 1d6 Threads and take 4d6 psychic damage.
+2. **Knot in Time**: You are Stunned for 1 turn.
+3. **Stacked Deck**: The DM takes the top 5 cards of your deck and discards them.
+4. **Resonance**: Your next spell deals double damage but hits a random target.
+5. **Clear Vision**: You may call one card for FREE this turn (does not count toward limit).
+6. **Royal Boon**: Immediately draw 5 cards; if they contain any Ace, you gain a free Action.`
+    },
+
+    strategicConsiderations: {
+      title: 'The Long Game',
+      content: `**Thread Weaver Spec**: You gain +1 Thread whenever you generate any. You reach your cap twice as fast, triggering Surges constantly.
+
+**Banking**: Threads persist between combats. If you end a fight at 6 Threads, you can start the next fight by immediately calling your first "Royal" card.`
     },
 
     playingInPerson: {
-      title: 'Playing Fate Weaver In Person',
-      content: `**Required**: Standard 52-card deck (no jokers) + 13 tokens (coins, beads, or buttons)
+      title: 'Playing in Person',
+      subtitle: 'The Call Token',
+      content: `Fate Weaver is the most components-heavy class. Use these physical hacks to stay organized:
 
-**Setup**:
-\`\`\`
-Deck: 52 cards, shuffled at combat start
-Hand: Up to 5 cards (7 for Card Master specialization)
-Threads: 0/13 — track with tokens
-Discard: Used cards — reshuffle when deck runs out
-\`\`\`
+**Required Materials**:
+- **A Standard 52-Card Deck**: (No Jokers).
+- **13 Poker Chips**: (To track Threads).
+- **The Call Token**: A large, distinct gold coin or medal.
 
-**Drawing Cards**: When a spell requires cards, draw from your deck. Used cards go to discard pile.
+**The Physical Hack (Friction Points)**:
+- **The Call Token**: Place the coin on your character sheet. When you spend 2 Threads to "Call" a card, **flip the coin to its "Used" side**. You cannot flip it back until the start of your next turn. This prevents the most common rule-break: calling multiple cards in one go.
+- **The Failure Pile**: Keep your Thread tokens in a separate pile from your mana. When a spell fails, physically *grab* that token. It makes losing feel like a reward.
+- **Marking the Deck**: If you use a "Marked Card" spell to peek at the top, physically tilt the top card of the deck 45 degrees. It reminds you (and the DM) that the next draw is predetermined.
 
-**Generating Threads**: Spell fails or backfires → add tokens to your pool.
-
-**Spending Threads — Call a Card** (2 Threads, once per turn):
-1. Announce which card you want (e.g., "Ace of Spades")
-2. Remove 2 tokens from your pool
-3. Search the deck for that card, add it to your hand
-4. Reshuffle the remaining deck
-5. You can only do this ONCE per turn
-
-**Poker Hand Rankings (for Hand of Fate)**:
-\`\`\`
-Royal Flush    (10-J-Q-K-A, same suit)  → 10d10 damage
-Straight Flush (5 sequential, same suit) → 8d10 damage
-Four of a Kind (4 same rank)            → 6d10 damage
-Full House     (3-of-kind + pair)        → 4d10 damage
-Flush          (5 same suit)             → 4d8 damage
-Straight       (5 sequential)            → 3d8 damage
-Three of a Kind (3 same rank)            → 2d8 damage
-Two Pair       (2 different pairs)       → 2d8 damage
-One Pair       (2 same rank)             → 2d6 damage
-High Card      (no matches)              → 1d4 damage + 1 Thread
-\`\`\`
-
-**Blackjack Values (for Draw of the Damned)**:
-\`\`\`
-Ace: 1 or 11 | Face cards: 10 | Others: face value
-21 (Blackjack): Best effect    | 17-20: Good effect
-11-16: Weak effect             | Bust (22+): Negative + 2 Threads
-\`\`\`
-
-**Thread Quick Reference**:
-\`\`\`
-Generate: Fail +1 | Minor negative +1 | Major negative +2
-Spend: Call card = 2 Threads (once/turn) | Peek top 3 = 1 Thread
-Max: 13 Threads | Persists between combats
-Strategy: Build early → Spend late → Never waste
-\`\`\``
+**Pro Tip**: If you assemble a partial Royal Flush in your hand across turns, keep those cards face-down in a separate "Destiny Hand" so you don't accidentally discard them.`
     }
   },
 
@@ -1188,7 +1155,7 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
       school: 'Abjuration',
       level: 3,
 
-      description: 'Draw cards aiming for 21. Choose your mode before drawing:\n**Shield Mode**: Ally gains AC bonus based on how close to 21 (21 = +5 AC, 17-20 = +3-4 AC, 11-16 = +1-2 AC). Lasts rest of combat.\n**Strike Mode**: Deal damage to an enemy equal to your blackjack total × 1d4.\n**Bust** (over 21): You take 3d6 damage, -2 AC next round, and gain 2 Threads. Either mode busts the same way.',
+      description: 'Draw cards aiming for 21. Choose your mode before drawing:\n**Shield Mode**: Ally gains Armor bonus based on how close to 21 (21 = +5 Armor, 17-20 = +3-4 Armor, 11-16 = +1-2 Armor). Lasts rest of combat.\n**Strike Mode**: Deal damage to an enemy equal to your blackjack total × 1d4.\n**Bust** (over 21): You take 3d6 damage, -2 Armor next round, and gain 2 Threads. Either mode busts the same way.',
 
       typeConfig: {
         castTime: 1,
@@ -1203,7 +1170,7 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
 
       durationConfig: {
         durationType: 'rounds',
-        description: 'Shield Mode AC bonus lasts for rest of combat'
+        description: 'Shield Mode Armor bonus lasts for rest of combat'
       },
 
       resourceCost: {
@@ -1234,10 +1201,10 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
           aceValue: '1 or 11',
           faceCards: 10,
           modes: {
-            shield: 'AC bonus to ally based on total',
+            shield: 'Armor bonus to ally based on total',
             strike: 'Damage to enemy = total × 1d4'
           },
-          bust: 'Take 3d6 self-damage, -2 AC next round'
+          bust: 'Take 3d6 self-damage, -2 Armor next round'
         }
       },
 
@@ -1248,14 +1215,14 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         resolutionType: 'CARDS',
         resolutionConfig: { cardType: 'blackjack', target: 21, modes: ['shield', 'strike'] },
         entries: [
-          { range: '21 (Blackjack)', result_shield: 'Ally +5 AC (rest of combat)', result_strike: 'Deal 21 × 1d4 force damage', description: 'Perfect score' },
-          { range: '19-20', result_shield: 'Ally +4 AC', result_strike: 'Deal total × 1d4 damage', description: 'Excellent' },
-          { range: '17-18', result_shield: 'Ally +3 AC', result_strike: 'Deal total × 1d4 damage', description: 'Good' },
-          { range: '15-16', result_shield: 'Ally +2 AC', result_strike: 'Deal total × 1d4 damage', description: 'Decent' },
-          { range: '12-14', result_shield: 'Ally +1 AC', result_strike: 'Deal total × 1d4 damage', description: 'Weak' },
+          { range: '21 (Blackjack)', result_shield: 'Ally +5 Armor (rest of combat)', result_strike: 'Deal 21 × 1d4 force damage', description: 'Perfect score' },
+          { range: '19-20', result_shield: 'Ally +4 Armor', result_strike: 'Deal total × 1d4 damage', description: 'Excellent' },
+          { range: '17-18', result_shield: 'Ally +3 Armor', result_strike: 'Deal total × 1d4 damage', description: 'Good' },
+          { range: '15-16', result_shield: 'Ally +2 Armor', result_strike: 'Deal total × 1d4 damage', description: 'Decent' },
+          { range: '12-14', result_shield: 'Ally +1 Armor', result_strike: 'Deal total × 1d4 damage', description: 'Weak' },
           { range: '11 or less', result_shield: 'No effect + 1 Thread', result_strike: 'No effect + 1 Thread', description: 'Too low' },
-          { range: '22-25 (Bust)', result: 'Take 3d6 damage, -2 AC next round + 2 Threads', description: 'Moderate bust' },
-          { range: '26+ (Major Bust)', result: 'Take 3d6 damage, -3 AC next round + 2 Threads', description: 'Severe bust' }
+          { range: '22-25 (Bust)', result: 'Take 3d6 damage, -2 Armor next round + 2 Threads', description: 'Moderate bust' },
+          { range: '26+ (Major Bust)', result: 'Take 3d6 damage, -3 Armor next round + 2 Threads', description: 'Severe bust' }
         ]
       },
 
@@ -2259,7 +2226,7 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
     {
       id: 'fate_weaver_grand_gambit',
       name: 'Grand Gambit',
-      description: 'Deal one card face-up to each enemy in range. Then deal yourself one card for each enemy. For each enemy: if YOUR card is higher, they are reduced to 1 HP. If their card is higher, they are fully healed and gain +2 AC for 1 minute. Ties: both your card and theirs are discarded, no effect, +1 Thread per tie. This is War — and the stakes are everything.',
+      description: 'Deal one card face-up to each enemy in range. Then deal yourself one card for each enemy. For each enemy: if YOUR card is higher, they are reduced to 1 HP. If their card is higher, they are fully healed and gain +2 Armor for 1 minute. Ties: both your card and theirs are discarded, no effect, +1 Thread per tie. This is War — and the stakes are everything.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Utility/Utility',
@@ -2293,7 +2260,7 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
 
       specialMechanics: {
         grandGambit: {
-          description: 'Deal 1 card to each enemy, 1 to yourself per enemy. Higher card wins. You win: enemy to 1 HP. You lose: enemy fully healed +2 AC.',
+          description: 'Deal 1 card to each enemy, 1 to yourself per enemy. Higher card wins. You win: enemy to 1 HP. You lose: enemy fully healed +2 Armor.',
           perTarget: true
         },
         threadsOfDestiny: {

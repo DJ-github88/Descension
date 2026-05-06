@@ -2400,52 +2400,55 @@ const TileOverlay = () => {
                 />
             )}
 
-            {/* Unified Context Menu */}
-            <UnifiedContextMenu
-                visible={showContextMenu}
-                x={contextMenuPosition.x}
-                y={contextMenuPosition.y}
-                onClose={() => {
-                    setShowContextMenu(false);
-                    setSelectedObject(null);
-                }}
-                title={selectedObject ? `${OBJECT_TYPES[selectedObject.type]?.name || selectedObject.type}` : null}
-                items={selectedObject ? [
-                    ...(selectedObject.type === 'gmNotes' ? [
-                        {
-                            icon: <i className="fas fa-scroll"></i>,
-                            label: 'Open GM Notes',
-                            onClick: () => {
-                                setSelectedGMNotes(selectedObject);
-                                setShowGMNotesWindow(true);
-                                setShowContextMenu(false);
-                                setSelectedObject(null);
+            {/* Unified Context Menu - Portaled for grid interaction stability */}
+            {showContextMenu && selectedObject && createPortal(
+                <UnifiedContextMenu
+                    visible={showContextMenu}
+                    x={contextMenuPosition.x}
+                    y={contextMenuPosition.y}
+                    onClose={() => {
+                        setShowContextMenu(false);
+                        setSelectedObject(null);
+                    }}
+                    title={selectedObject ? `${OBJECT_TYPES[selectedObject.type]?.name || selectedObject.type}` : null}
+                    items={selectedObject ? [
+                        ...(selectedObject.type === 'gmNotes' ? [
+                            {
+                                icon: <i className="fas fa-scroll"></i>,
+                                label: 'Open GM Notes',
+                                onClick: () => {
+                                    setSelectedGMNotes(selectedObject);
+                                    setShowGMNotesWindow(true);
+                                    setShowContextMenu(false);
+                                    setSelectedObject(null);
+                                },
+                                className: 'primary-action'
                             },
-                            className: 'primary-action'
+                            {
+                                type: 'separator'
+                            }
+                        ] : []),
+                        {
+                            icon: <i className="fas fa-trash"></i>,
+                            label: 'Remove',
+                            onClick: handleRemoveObject,
+                            className: 'danger-action'
                         },
                         {
                             type: 'separator'
+                        },
+                        {
+                            icon: <i className="fas fa-times"></i>,
+                            label: 'Cancel',
+                            onClick: () => {
+                                setShowContextMenu(false);
+                                setSelectedObject(null);
+                            }
                         }
-                    ] : []),
-                    {
-                        icon: <i className="fas fa-trash"></i>,
-                        label: 'Remove',
-                        onClick: handleRemoveObject,
-                        className: 'danger-action'
-                    },
-                    {
-                        type: 'separator'
-                    },
-                    {
-                        icon: <i className="fas fa-times"></i>,
-                        label: 'Cancel',
-                        onClick: () => {
-                            setShowContextMenu(false);
-                            setSelectedObject(null);
-                        }
-                    }
-                ] : []}
-            />
+                    ] : []}
+                />,
+                document.body
+            )}
 
             {/* Portal Transfer Dialog */}
             <PortalTransferDialog

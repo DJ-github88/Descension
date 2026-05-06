@@ -64,7 +64,7 @@ export const ACOLYTE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             spirit: { value: 1, isPercentage: false }
@@ -110,7 +110,7 @@ export const CRIMINAL_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -214,7 +214,7 @@ export const FOLK_HERO_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         availableFor: {
             backgrounds: ['folkHero']
@@ -282,7 +282,7 @@ export const NOBLE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false }
@@ -389,7 +389,7 @@ export const SAGE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             intelligence: { value: 1, isPercentage: false }
@@ -476,7 +476,7 @@ export const SOLDIER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -789,7 +789,7 @@ export const OUTLANDER_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -877,7 +877,7 @@ export const CHARLATAN_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false }
@@ -1290,7 +1290,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['mystic']
@@ -1373,7 +1373,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['zealot']
@@ -1429,7 +1429,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['trickster']
@@ -1502,7 +1502,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'BACK',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['harrow']
@@ -1557,7 +1557,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['harrow']
@@ -1635,7 +1635,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['arcanist']
@@ -1735,7 +1735,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'BACK',
         armorStats: {
-            armorClass: 10
+            armor: 10
         },
         availableFor: {
             backgrounds: ['hexer']
@@ -1820,7 +1820,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 12
+            armor: 12
         },
         availableFor: {
             backgrounds: ['reaver']
@@ -1962,7 +1962,7 @@ export const ALL_BACKGROUND_EQUIPMENT = [
         height: 3,
         armorSlot: 'CHEST',
         armorStats: {
-            armorClass: 16
+            armor: 16
         },
         availableFor: {
             backgrounds: ['sentinel']

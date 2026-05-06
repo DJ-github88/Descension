@@ -57,12 +57,13 @@ function resolveTierKey(rawTier) {
 
 // Size limits for individual items (to prevent abuse)
 export const ITEM_SIZE_LIMITS = {
-  MAX_CHARACTER_SIZE: 1024 * 1024, // 1MB per character
-  MAX_ROOM_SIZE: 5 * 1024 * 1024, // 5MB per room
-  MAX_JOURNAL_SIZE: 10 * 1024 * 1024, // 10MB per journal
-  MAX_CAMPAIGN_SIZE: 20 * 1024 * 1024, // 20MB per campaign
-  MAX_MESSAGE_SIZE: 10 * 1024, // 10KB per chat message
-  MAX_IMAGE_SIZE: 5 * 1024 * 1024 // 5MB per image
+  MAX_CHARACTER_SIZE: 1024 * 1024,
+  MAX_ROOM_SIZE: 5 * 1024 * 1024,
+  MAX_JOURNAL_SIZE: 10 * 1024 * 1024,
+  MAX_CAMPAIGN_SIZE: 20 * 1024 * 1024,
+  MAX_MESSAGE_SIZE: 10 * 1024,
+  MAX_IMAGE_SIZE: 5 * 1024 * 1024,
+  MAX_AUDIO_FILE_SIZE: 20 * 1024 * 1024
 };
 
 /**
@@ -124,6 +125,7 @@ class StorageLimitService {
         rooms: 0,
         journals: 0,
         campaigns: 0,
+        audioFiles: 0,
         lastUpdated: Date.now()
       };
 
@@ -189,6 +191,11 @@ class StorageLimitService {
       case 'message':
         if (dataSize > ITEM_SIZE_LIMITS.MAX_MESSAGE_SIZE) {
           throw new Error(`Message too large: ${(dataSize / 1024).toFixed(2)}KB (max: ${(ITEM_SIZE_LIMITS.MAX_MESSAGE_SIZE / 1024).toFixed(2)}KB)`);
+        }
+        break;
+      case 'audio':
+        if (dataSize > ITEM_SIZE_LIMITS.MAX_AUDIO_FILE_SIZE) {
+          throw new Error(`Audio file too large: ${(dataSize / 1024 / 1024).toFixed(2)}MB (max: ${(ITEM_SIZE_LIMITS.MAX_AUDIO_FILE_SIZE / 1024 / 1024).toFixed(2)}MB)`);
         }
         break;
     }
@@ -268,7 +275,8 @@ class StorageLimitService {
         characters: usage.characters || 0,
         rooms: usage.rooms || 0,
         journals: usage.journals || 0,
-        campaigns: usage.campaigns || 0
+        campaigns: usage.campaigns || 0,
+        audioFiles: usage.audioFiles || 0
       },
       limits: {
         characters: limits.characters,

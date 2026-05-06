@@ -150,7 +150,7 @@ export const MINSTREL_HARMONIC_WEAVING = [
   {
     id: 'minstrel_t5_grand_symphony',
     name: 'Grand Symphony',
-    description: 'Unlocks Grand Symphony — consume 7 notes of any type to heal all allies within 30 feet for 3d8 + spirit modifier per rank and grant +2 AC for 3 rounds. Once per combat.',
+    description: 'Unlocks Grand Symphony — consume 7 notes of any type to heal all allies within 30 feet for 3d8 + spirit modifier per rank and grant +2 Armor for 3 rounds. Once per combat.',
     icon: 'spell_holy_divineprovidence',
     maxRanks: 2,
     position: { x: 2, y: 5 },

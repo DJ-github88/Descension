@@ -180,7 +180,7 @@ const QuestReward = ({ reward, type, onRemove }) => {
                 // Stats
                 baseStats: reward.baseStats || {},
                 combatStats: reward.combatStats || {
-                  armorClass: { value: reward.armorClass || 0 },
+                  armor: { value: reward.armor || 0 },
                   resistances: reward.resistances || {}
                 },
                 utilityStats: reward.utilityStats || {},

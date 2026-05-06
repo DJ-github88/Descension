@@ -594,7 +594,7 @@ const ItemLibrary = ({ onClose, contentOnly = false }) => {
                     maxMana: { value: parseInt(itemToEdit.combatStats?.maxMana?.value) || 0, isPercentage: itemToEdit.combatStats?.maxMana?.isPercentage || false },
                     manaRegen: { value: parseInt(itemToEdit.combatStats?.manaRegen?.value) || 0, isPercentage: itemToEdit.combatStats?.manaRegen?.isPercentage || false },
                     initiative: { value: parseInt(itemToEdit.combatStats?.initiative?.value) || 0, isPercentage: itemToEdit.combatStats?.initiative?.isPercentage || false },
-                    armorClass: { value: parseInt(itemToEdit.combatStats?.armorClass?.value) || 0, isPercentage: itemToEdit.combatStats?.armorClass?.isPercentage || false },
+                    armor: { value: parseInt(itemToEdit.combatStats?.armor?.value) || 0, isPercentage: itemToEdit.combatStats?.armor?.isPercentage || false },
 
                     spellDamage: {
                         types: itemToEdit.combatStats?.spellDamage?.types || {}

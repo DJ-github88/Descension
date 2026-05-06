@@ -259,24 +259,26 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
     title: 'Celestial Devotion System',
     subtitle: 'Attune to Divine Beings',
     
-    description: `The Celestial Devotion system allows the Titan to attune to one of five celestial beings each day. Each devotion provides powerful benefits and unique abilities, but also imposes meaningful restrictions. The Titan can switch their devotion during a long rest, allowing them to adapt to different challenges and playstyles.`,
+    description: `Each long rest, choose one of five celestial beings to attune to. Gain their divine passive bonuses and a powerful once-per-long-rest ultimate — but also inherit their restriction. Your role changes daily based on your choice.`,
     
-    mechanics: {
-      title: 'How It Works',
-      content: `**Choosing a Devotion**: During a long rest, meditate and choose one celestial being to attune to
-**Duration**: The devotion lasts until your next long rest
-**Switching**: You can change devotions during any long rest
-**Benefits**: Gain passive bonuses and a powerful once-per-long-rest ability
-**Restrictions**: Accept meaningful drawbacks that require strategic play
+    cards: [
+      {
+        title: 'Devotion Attunement',
+        stats: '1/Long Rest',
+        details: 'Choose one of five celestial beings at the end of each long rest. Gain their passive, their ultimate, and their restriction for the entire day.'
+      },
+      {
+        title: 'Devotion Swap',
+        stats: 'Special Action (Spec-Dependent)',
+        details: 'Certain specializations allow switching devotions mid-combat at a cost — usually sacrificing your stored ultimate charge or spending Action Points.'
+      },
+      {
+        title: 'Ultimate Ability',
+        stats: '1/Long Rest',
+        details: 'Each devotion grants a devastating once-per-rest ultimate. Using it is irreversible until your next long rest. Timing is everything.'
+      }
+    ],
 
-**The Five Celestial Beings**:
-- **Solara, the Radiant Sun**: Offensive radiant damage, visibility drawback
-- **Lunara, the Moon Guardian**: Defense and regeneration, reduced external healing
-- **Astraeus, the Star Sage**: Speed and mobility, vulnerability to non-magical damage
-- **Terranox, the Earth Titan**: Maximum tankiness, reduced movement speed
-- **Zephyra, the Wind Spirit**: Attack speed and lightning, knockback risk`
-    },
-    
     celestialDevotionsTable: {
       title: 'Celestial Devotions',
       headers: ['Devotion', 'Passive Benefits', 'Ultimate Ability (1/Long Rest)', 'Restriction'],
@@ -289,7 +291,7 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
         ],
         [
           'Lunara (Moon Guardian)',
-          '+2 AC, regenerate 5 HP at start of each turn',
+          '+2 Armor, regenerate 5 HP at start of each turn',
           'Lunar Shield: Absorb 50 damage for all allies within 15 feet',
           'Healing received from external sources is halved'
         ],
@@ -313,249 +315,98 @@ You're a CELESTIAL WARRIOR who channels divine power through devotion. Each morn
         ]
       ]
     },
-    
+
+    usage: {
+      momentum: 'Your devotion choice determines your entire combat identity. Solara players are aggressive damage dealers; Lunara players are self-sufficient tanks. Lean into your devotion\'s strength and build your turn economy around it.',
+      flourish: 'Save your ultimate for the moment it matters most. A Solar Flare on three clustered enemies is worth far more than a single-target kill. Coordinate with your party — let them set up the positioning before you detonate.'
+    },
+
+    overheatRules: {
+      title: 'Devotion Fatigue',
+      content: `The celestial bond is powerful but finite. Each devotion comes with a built-in tension between power and restriction.
+
+**The Restriction Cost**:
+Every devotion carries a drawback that is always active. These are not optional — they are the price of divine favor. Understanding and playing around your restriction is what separates a good Titan from a great one.
+
+**Restriction Counters**:
+- **Solara**: Fight in dim light or darkness when possible. Use abilities that extinguish light sources.
+- **Lunara**: Don't rely on the healer. Position yourself where you can regenerate safely without external healing dependence.
+- **Astraeus**: Prioritize magical enemies. Mundane weapon users exploit your weakness — take them out quickly or avoid prolonged engagements.
+- **Terranox**: Accept that you cannot chase. Position at chokepoints and let enemies come to you.
+- **Zephyra**: Avoid edges, cliffs, and hazardous terrain. The 10% knockback risk compounds with environmental dangers.
+
+**Ultimate Exhaustion**:
+Once your ultimate is spent, you lose your biggest momentum swing for the rest of the day. This creates an interesting strategic arc: early fights have your ultimate available (play aggressively), later fights require you to win through passive bonuses and basic attacks alone (play conservatively).`
+    },
+
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Solara (Offensive)**: Best for damage-focused days. Position to minimize bright light exposure or embrace the aggro and tank with support.
+      title: 'Choosing & Playing Your Devotion',
+      content: `**Before Combat — The Morning Choice**:
+Study your anticipated enemies and choose the devotion that best counters them. Fighting undead? Solara's radiant damage is devastating. Facing a boss with big AoE? Lunara's regen and shield keep you alive. Speed-run a dungeon? Astraeus's movement advantage shaves turns off every fight.
 
-**Lunara (Defensive)**: Ideal for tanking without a dedicated healer. The regeneration is powerful but you must be self-sufficient.
+**Solara (Offensive Devotion)**:
+Radiant damage powerhouse. Accept the advantage-on-you drawback in exchange for melting enemies. Best against undead, shadow creatures, and enemies in well-lit areas (where you'd have disadvantage anyway — might as well deal +1d6). Solar Flare is a clutch AoE finisher — save it for when 3+ enemies are clustered within 10 feet.
 
-**Astraeus (Mobile)**: Perfect for hit-and-run tactics or when facing magical enemies. Avoid prolonged melee against mundane weapons.
+**Lunara (Defensive Devotion)**:
+Self-sufficient tank. Don't rely on the healer — you regen 5 HP per turn and have +2 Armor. Take aggro and hold the line. Lunar Shield is a massive team-save — 50 damage absorption for all nearby allies can prevent a party wipe from a boss AoE. Use it reactively, not proactively.
 
-**Terranox (Immovable Tank)**: Ultimate frontline presence. Position early and hold the line. The movement penalty is severe but the tankiness is unmatched.
+**Astraeus (Mobile Devotion)**:
+Hit-and-run striker. The +10 ft movement and Agility advantage make you elusive. Starfall's stun is single-target lockdown — use it on the biggest threat to remove them from the fight for a turn. Avoid sustained melee against mundane weapon users (your restriction makes you take +1d6 from non-magical attacks).
 
-**Zephyra (Fast Striker)**: High attack speed for multiple hits. Manage positioning carefully to avoid knockback into hazards or away from enemies.
+**Terranox (Immovable Devotion)**:
+The wall. +20 HP and physical resistance make you nearly unkillable by martial enemies. Earthquake's 20-foot knockdown is incredible crowd control. Position at doorways and chokepoints where enemies must approach you. Your speed reduction means you cannot chase — let them come.
 
-**Devotion Rotation**: Consider rotating devotions based on known challenges. Scout ahead when possible to inform your choice.`
+**Zephyra (Fast Striker Devotion)**:
+The highest sustained DPR devotion. +2 attack speed and +1d4 lightning on every melee hit adds up fast. Wind Dash's teleport + AoE makes you a living blitz. The 10% knockback restriction is manageable — just stay away from edges and hazards. In dangerous terrain, consider swapping to Terranox instead.
+
+**Worked Example — Boss Fight with Unknown Threat Type**:
+You chose Solara for the +1d6 radiant. The boss turns out to be a martial fighter with mundane weapons.
+- **Your radiant bonus is neutral** (not strong, not weak).
+- **Your restriction (advantage on you in bright light) is active** — but the boss uses mundane attacks, not light-dependent ones.
+- **Adapt**: Play around your restriction by fighting in shadows when possible. Save Solar Flare for when adds spawn — it shines against groups, not single targets.
+- **Lesson**: If you knew it was a martial boss, Astraeus or Terranox would have been the better pick. Information is your most valuable resource.`
     },
 
     playingInPerson: {
-      title: 'Playing in Person',
+      title: 'Playing Titan In Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Titan's Celestial Devotion system—choosing one of 5 divine beings each day—creates a strategic, thematic in-person experience. Here's how to track your devotion at the table:
+      content: `A set of devotion cards transforms each morning into a meaningful ritual. The physical act of choosing your celestial patron grounds the roleplay and keeps your mechanics visible to the whole table.
 
 **Required Materials**:
-- **5 devotion cards** (one for each celestial being)
-- **Devotion marker** (token or mini to show current devotion)
-- **Ultimate ability tracker** (to track once-per-day use)
-- **Restriction reminder card**
+- **5 Devotion Cards** — Index cards or printed cards, one per celestial being (Solara, Lunara, Astraeus, Terranox, Zephyra). Each card shows: passive benefits, ultimate ability, and restriction.
+- **Ultimate Token** — A coin or token (heads = available, tails = spent).
+- **Restriction Sticky Note** — A small note with your current restriction written on it, placed visibly on the table.
 
-**Celestial Devotion Tracking**:
+**The Morning Ritual**:
+1. Announce your devotion choice to the table.
+2. Place the chosen devotion card face-up in front of you.
+3. Set the ultimate token to heads (available).
+4. Write your restriction on the sticky note and place it where allies can see it.
 
-**The Devotion Card Method** (Recommended):
-
-Create 5 devotion cards representing the celestial beings. Each morning (long rest), choose one card to place face-up in front of you.
-
-**Devotion Cards Template**:
-
+**Quick Reference**:
 \`\`\`
-☀️ SOLARA - RADIANT SUN
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-BENEFITS:
-• +2d6 radiant damage (all melee attacks)
-• Radiant Aura: 1d6 radiant/turn (10 ft)
-• Crit range: 19-20
+CELESTIAL DEVOTIONS:
+  Solara   | +1d6 radiant melee | Solar Flare (AoE blind) | Adv. on you in bright light
+  Lunara   | +2 Armor, 5 HP/turn | Lunar Shield (50 absorb) | Healing halved
+  Astraeus | +10ft move, Agi adv | Starfall (stun target)  | +1d6 from non-magic
+  Terranox | +20 HP, phys resist | Earthquake (20ft prone) | -10ft speed
+  Zephyra  | +2 atk speed, +1d4 | Wind Dash (teleport AoE) | 10% knockback risk
 
-ULTIMATE (1/day):
-Solar Flare: 6d8 radiant AoE (30 ft)
-
-RESTRICTION:
-⚠️ You glow (30 ft bright light)
-⚠️ Enemies have advantage vs you in bright light
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🌙 LUNARA - MOON GUARDIAN
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-BENEFITS:
-• +3 AC (defensive bonus)
-• Self-heal: 2d8 HP (1 AP, 3/day)
-• Advantage on CON saves
-
-ULTIMATE (1/day):
-Lunar Shield: Immune to damage (1 round)
-
-RESTRICTION:
-⚠️ Cannot receive healing from allies
-⚠️ Must rely on self-sustain only
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⭐ ASTRAEUS - STAR SAGE
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-BENEFITS:
-• +20 ft movement speed
-• Teleport: 15 ft (1 AP, 3/day)
-• +1d8 force damage (melee attacks)
-
-ULTIMATE (1/day):
-Starfall: 5d10 force damage + knockback
-
-RESTRICTION:
-⚠️ Vulnerable to non-magical physical damage
-⚠️ Take +50% from mundane weapons
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🪨 TERRANOX - EARTH TITAN
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-BENEFITS:
-• +50 HP (temporary, lasts all day)
-• Resistance: Bludgeoning, Piercing, Slashing
-• Cannot be moved against your will
-
-ULTIMATE (1/day):
-Earthshatter: 4d12 bludgeoning AoE + prone
-
-RESTRICTION:
-⚠️ Movement speed reduced by 50%
-⚠️ Cannot dash or disengage
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-💨 ZEPHYRA - WIND SPIRIT
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-BENEFITS:
-• Extra attack (3 attacks per action)
-• +2 AC from wind deflection
-• Advantage on Agility saves
-
-ULTIMATE (1/day):
-Cyclone Strike: 3d8 slashing + knockback
-
-RESTRICTION:
-⚠️ When hit, pushed 10 ft (forced movement)
-⚠️ Knockback can push you into hazards
-━━━━━━━━━━━━━━━━━━━━━━━━━━
+ULTIMATE: 1/Long Rest (irreversible until next rest)
 \`\`\`
 
-**Daily Devotion Selection**:
-
-Each morning (long rest):
-1. Choose which celestial being to attune to
-2. Place that devotion card face-up in front of you
-3. Keep other 4 cards in a deck (not active)
-4. Mark ultimate ability as "Available" (1/day)
-
-**Example**:
-- Morning: "I attune to Solara for today's dungeon crawl."
-- Place Solara card face-up
-- Ultimate: Solar Flare (available)
-
-**Ultimate Ability Tracking**:
-
-Each devotion has a once-per-day ultimate ability:
-- **Tracking Method**: Use a token or coin (flip when used)
-  - Heads = Available
-  - Tails = Used (recharges on long rest)
-
-**Example In-Person Day**:
-
-*Morning: Long rest, choose devotion*
-
-**Morning Decision**:
-1. "We're fighting undead today. I attune to Solara (radiant damage)!"
-2. Place Solara card face-up
-3. Ultimate tracker: Available (heads)
-
-**Combat 1 - Regular Fight**:
-1. Attack skeleton: 2d8 + 2d6 radiant damage
-2. Radiant Aura: Skeleton takes 1d6 radiant/turn (within 10 ft)
-3. Restriction: I glow (30 ft), enemies have advantage vs me
-
-**Combat 2 - Boss Fight**:
-1. "Boss is surrounded by minions! I use Solar Flare!"
-2. Flip ultimate tracker: Available → Used (tails)
-3. Roll 6d8 radiant damage (30 ft AoE)
-4. Ultimate used for the day (recharges on long rest)
-
-**Next Morning**:
-1. Long rest complete
-2. "Today we're exploring a trap-filled dungeon. I attune to Astraeus (mobility)!"
-3. Swap Solara card for Astraeus card
-4. Reset ultimate tracker: Used → Available (heads)
-
-**Switching Devotions Mid-Combat** (Astral Warrior Spec Only):
-
-If you're Astral Warrior specialization:
-- You can switch devotions for 1 AP (3 uses per long rest)
-- Track uses with 3 tokens (remove 1 token per switch)
-
-**Example**:
-1. Start combat: Solara devotion (offensive)
-2. Boss phase 2: "I switch to Lunara!" (1 AP, use 1 token)
-3. Swap Solara card for Lunara card
-4. Remaining switches: 2/3 (2 tokens left)
-
-**Quick Reference Card**:
-\`\`\`
-TITAN QUICK REFERENCE
-
-DEVOTION SYSTEM:
-• Choose 1 devotion per long rest
-• Duration: Until next long rest
-• Each devotion: Benefits + Ultimate + Restriction
-
-5 DEVOTIONS:
-☀️ Solara: Radiant damage, offensive, glow restriction
-🌙 Lunara: Defensive tank, self-heal, no ally healing
-⭐ Astraeus: Mobile striker, teleport, vulnerable to mundane
-🪨 Terranox: Immovable tank, +50 HP, -50% movement
-💨 Zephyra: Fast attacker, 3 attacks, knockback risk
-
-ULTIMATE ABILITIES:
-• Each devotion: 1 ultimate per day
-• Recharges on long rest
-• Track with token (flip when used)
-
-RESTRICTIONS:
-• Each devotion has a meaningful drawback
-• Plan around restriction
-• Choose devotion based on expected challenges
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the titan experience with:
-- **Devotion Cards**: Laminated cards with celestial artwork
-- **Devotion Miniature**: Different colored bases for each devotion
-- **Ultimate Tracker**: Coin or token (flip when used)
-- **Restriction Reminder**: Keep restriction visible on card
-- **Devotion Journal**: Track which devotions you use each day
-
-**Specialization-Specific Tracking**:
-
-**Celestial Champion**:
-- Devotion benefits increased by 50%
-- Ultimate recharges on short rest (not long rest)
-- Can use ultimate twice per long rest
-- Track ultimate uses with 2 tokens instead of 1
-
-**Divine Conduit**:
-- Devotion restrictions reduced by 50%
-- Can attune to a second devotion at 50% effectiveness
-- Use 2 devotion cards (primary + secondary)
-- Track which is primary (full benefits) vs secondary (50%)
-
-**Astral Warrior**:
-- Can switch devotions mid-combat (1 AP, 3/day)
-- Track switches with 3 tokens (remove 1 per switch)
-- Keep all 5 devotion cards accessible during combat
-
-**Why This System Works**: The physical devotion cards make your celestial connection TANGIBLE. Each morning, you choose a card and place it in front of you, committing to that deity for the day. The card shows your benefits, ultimate ability, and restriction at a glance. The ultimate tracker (coin flip) creates a satisfying moment when you unleash your once-per-day power. The restriction on each card reminds you of the trade-off you've made for divine power.
+**The Physical Hacks**:
+- **The Devotion Deck**: Keep all 5 cards in a small deck box. Each morning, dramatically draw your choice. Other players will start anticipating which devotion you'll pick based on the encounter.
+- **Restriction Token on Mini**: Place a small colored token on your miniature to remind everyone (including yourself) of your active restriction. Red for Solara, blue for Lunara, purple for Astraeus, brown for Terranox, white for Zephyra.
+- **Ultimate Countdown**: When you use your ultimate, flip the token and place it on the devotion card. It serves as a visual reminder that your biggest swing is gone for the day.
 
 **Pro Tips**:
-- **Scout Ahead**: Know what challenges you'll face before choosing devotion
-- **Party Coordination**: Choose devotions that complement your party
-- **Restriction Planning**: Build your strategy around your restriction
-- **Ultimate Timing**: Save ultimate for critical moments (boss fights, emergencies)
-- **Devotion Rotation**: Try different devotions to learn their strengths
-
-**Budget-Friendly Alternatives**:
-- **No cards?** Write devotion name on paper with benefits/restriction
-- **No ultimate tracker?** Just mark "Used" on paper
-- **Minimalist**: Track current devotion and ultimate status on character sheet
-
-**Why Titan Is Perfect for In-Person Play**: The class is built around a simple daily choice—which celestial being to attune to. The physical devotion cards make this choice tangible and memorable. Each card shows your benefits and restriction clearly, and the once-per-day ultimate creates dramatic moments. The system encourages strategic planning (choosing the right devotion for the day's challenges) and creates variety (different devotions for different situations). Every morning is a new decision, every devotion is a new playstyle.`
+- Discuss devotion choices with your party during rests. "I'm thinking Solara for the undead — anyone need me to go Lunara instead for the tanking?"
+- If your DM allows, keep a "Notes" section on each devotion card to track which encounters you've used that devotion for and how it performed.
+- The restriction sticky note isn't just for you — it lets the healer know not to waste heals on Lunara you, or lets the rogue know you can't chase with Terranox.`
     }
   },
-  
+
   // Specializations
   specializations: {
     title: 'Titan Specializations',
@@ -838,7 +689,7 @@ Many players enhance the titan experience with:
 
       buffConfig: {
         stats: {
-          armorClass: '+2 (+3 for Celestial Champion)'
+          armor: '+2 (+3 for Celestial Champion)'
         },
         effects: [
           'Regenerate 5 HP at start of each turn',
@@ -877,7 +728,7 @@ Many players enhance the titan experience with:
         devotion: {
           required: 'Lunara',
           passive: true,
-          championBonus: '+1 AC, +2 HP regen'
+          championBonus: '+1 Armor, +2 HP regen'
         }
       },
 
@@ -1484,7 +1335,7 @@ Many players enhance the titan experience with:
               solara: '2d6 radiant damage to nearest enemy',
               lunara: 'Gain 15 temporary HP',
               astraeus: 'Gain +10 feet movement this turn',
-              terranox: 'Gain +2 AC until end of turn',
+              terranox: 'Gain +2 Armor until end of turn',
               zephyra: 'Gain advantage on next attack'
             }
           }
@@ -1598,9 +1449,9 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'celestial_armor',
           name: 'Celestial Armor',
-          description: '+4 AC and resistance to your devotion\'s damage type',
+          description: '+4 Armor and resistance to your devotion\'s damage type',
           statModifier: { stat: 'armor', magnitude: 4, magnitudeType: 'flat' },
-          mechanicsText: '+4 AC and resistance to devotion damage type'
+          mechanicsText: '+4 Armor and resistance to devotion damage type'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -1774,13 +1625,13 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'lunar_shield',
           name: 'Lunar Shield',
-          description: '+3 AC and regeneration',
+          description: '+3 Armor and regeneration',
           statModifier: {
-            stat: 'armorClass',
+            stat: 'armor',
             magnitude: 3,
             magnitudeType: 'flat'
           },
-          mechanicsText: '+3 AC and 2d6 HP regeneration per round'
+          mechanicsText: '+3 Armor and 2d6 HP regeneration per round'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2120,7 +1971,7 @@ Many players enhance the titan experience with:
         durationUnit: 'rounds',
         statModifiers: [
           { stat: 'damage', magnitude: '2d6 fire', magnitudeType: 'dice' },
-          { stat: 'armorClass', magnitude: 2, magnitudeType: 'flat' }
+          { stat: 'armor', magnitude: 2, magnitudeType: 'flat' }
         ],
         resistances: [
           { type: 'fire', resistanceAmount: 'immunity' }
@@ -2191,9 +2042,9 @@ Many players enhance the titan experience with:
         effects: [{
           id: 'lunara_blessing',
           name: "Lunara's Blessing",
-          description: 'All allies gain +3 AC and regenerate HP each turn',
+          description: 'All allies gain +3 Armor and regenerate HP each turn',
           statModifier: { stat: 'armor', magnitude: 3, magnitudeType: 'flat' },
-          mechanicsText: '+3 AC and HP regen each turn for all allies'
+          mechanicsText: '+3 Armor and HP regen each turn for all allies'
         }],
         durationValue: 5,
         durationType: 'rounds',
@@ -2315,7 +2166,7 @@ Many players enhance the titan experience with:
         duration: 3,
         durationUnit: 'rounds',
         statModifiers: [
-          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'armor', magnitude: 10, magnitudeType: 'flat' },
           { stat: 'damage_reduction', magnitude: 10, magnitudeType: 'flat' }
         ],
         resistances: [
@@ -2509,7 +2360,7 @@ Many players enhance the titan experience with:
         durationUnit: 'rounds',
         statModifiers: [
           { stat: 'all', magnitude: 5, magnitudeType: 'flat' },
-          { stat: 'armorClass', magnitude: 5, magnitudeType: 'flat' },
+          { stat: 'armor', magnitude: 5, magnitudeType: 'flat' },
           { stat: 'damage', magnitude: 50, magnitudeType: 'percentage' }
         ],
         resistances: [
@@ -2694,7 +2545,7 @@ Many players enhance the titan experience with:
         durationUnit: 'rounds',
         statModifiers: [
           { stat: 'all', magnitude: 10, magnitudeType: 'flat' },
-          { stat: 'armorClass', magnitude: 10, magnitudeType: 'flat' },
+          { stat: 'armor', magnitude: 10, magnitudeType: 'flat' },
           { stat: 'maxHp', magnitude: 100, magnitudeType: 'temporary' }
         ],
         resistances: [

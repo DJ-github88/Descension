@@ -269,173 +269,90 @@ When a demon's DD reaches 0, it makes a saving throw specific to its type:
 **The Lesson**: The Exorcist walks a razor's edge between divine authority and demonic rebellion. Every command is a gamble. Push too hard and they turn on you. Restore too often and you burn through mana. The key is knowing when to spend Dominance spells, when to let a demon go, and when to fight without them. You're not just managing resources — you're commanding living, hostile entities that want nothing more than to snap their chains and tear you apart. And the most terrifying part? You knew this when you signed up.`
     }
   },
-  
+
   // Resource System
   resourceSystem: {
-    title: 'Divine Dominance System',
-    subtitle: 'Holy Authority Over Demonic Fury',
-    
-    description: `The Divine Dominance system represents the Exorcist's sacred grip over bound demons. Each demon has a Dominance Die that reflects how tightly your divine authority holds it. As demons act and take damage, their Dominance Die decreases — their resistance grows, your chains weaken. The Exorcist must use Dominance restoration spells to maintain control, or risk the demon breaking free.`,
-    
-    mechanics: {
-      title: 'Core Mechanics',
-      content: `**Dominance Die (DD)**:
-- Each bound demon has a Dominance Die ranging from d6 to d12
-- **Higher die size**: More submissive, tighter divine grip
-- **Lower die size**: More rebellious, chains weakening
-- Die size decreases by one step with each demon action or hit taken
+    title: 'Divine Dominance',
+    subtitle: 'The Chain of Sacred Authority',
 
-**Dominance Die Progression**:
-d12 → d10 → d8 → d6 → 0 (Saving Throw Required)
+    description: `The Exorcist does not request power; they command it. Through sacred binding rituals, you leash demonic entities to your will. This relationship is tracked by the **Dominance Die**—a shifting resource that measures how tightly your divine authority holds the darkness. As your demons act or suffer damage, the chains weaken, and you must re-assert control or face a hostile rebellion.`,
 
-**When Dominance Die Reaches 0**:
-The demon must make a Dominance Saving Throw specific to its type:
-- **Imp**: Charisma (Persuasion) DC 12
-- **Shadow Hound**: Agility (Stealth) DC 14
-- **Abyssal Brute**: Constitution (Endurance) DC 16
-- **Banshee**: Charisma (Performance) DC 15
-- **Wraith**: Intelligence (Arcana) DC 14
+    cards: [
+      {
+        title: 'Dominance Dice (DD)',
+        stats: 'd12 down to d6',
+        details: 'Each bound demon has its own die. It represents your current "grip." d12 is total submission; d6 is a hair-trigger rebellion.'
+      },
+      {
+        title: 'Binding Rituals',
+        stats: 'Pre-Combat Prep',
+        details: 'Demons are not summoned; they are captured. You must perform rituals with specific components to bring them into your service.'
+      },
+      {
+        title: 'The Rebellion Save',
+        stats: 'Triggered at 0 DD',
+        details: 'If a die reaches 0, the demon makes a save to break free. Failure means it turns on you or flees the battlefield.'
+      }
+    ],
 
-**Saving Throw Results**:
-- **Success**: Dominance Die restored to d6 (demon remains bound but weakened)
-- **Failure**: Demon escapes control and may turn hostile
-
-**Dominance Restoration Spells**:
-- **Divine Rebuke** (3 mana, 1 AP): Restore DD by 1 step. Cheap, efficient, your bread-and-butter maintenance.
-- **Chain of Light** (5 mana, 1 AP): Restore DD by 2 steps. Mid-range recovery for when things get dicey.
-- **Absolute Dominion** (7 mana, 1 AP): Reset DD to maximum. Your emergency brake — expensive but absolute.
-
-**Demon Death**: If a bound demon is killed in combat, it is gone permanently. You must perform the binding ritual again with fresh components and a new skill check. Protect your investments.
-
-**Binding Capacity**:
-- **Base**: Can bind up to 2 demons simultaneously
-- **Demonologist spec**: Can bind up to 4 demons
-- **Demon Lord spec**: Can bind up to 1 demon (but significantly more powerful)
-- **Possessed spec**: No external demons (channels internally — uses Internal DD)
-
-**Demon Types and Starting Dominance**:
-- **Tier 1 (Weak)**: Imp — d12 DD
-- **Tier 2 (Moderate)**: Shadow Hound, Wraith — d10 DD
-- **Tier 3 (Strong)**: Abyssal Brute, Banshee — d8 DD
-- **Tier 4 (Powerful)**: Greater Demons — d6 DD (spec-locked)
-
-**Action Economy**:
-- Demons act on the Exorcist's turn but have their own action pool
-- Commanding a demon costs 1 AP for the Exorcist
-- Demons can attack, defend, or use special abilities
-- Each demon action decreases its DD by one step`
-    },
-    
-    resourceBarExplanation: {
-      title: 'Understanding Your Divine Dominance Gauge',
-      content: `**What You See**: Your Dominance gauge displays as individual demon control panels, one for each bound demon. Each panel shows divine chains connecting you to the demon, with the chain's appearance reflecting your control strength.
-
-**Visual Representation for Each Demon**:
-
-**Demon Portrait & Name**: Top of panel shows demon type (Imp, Shadow Hound, Abyssal Brute, etc.) with animated portrait showing demon's current state (calm when high DD, agitated when low DD)
-
-**Dominance Die Display**: Large die icon showing current DD size with glowing energy:
-- **d12 (Fully Submissive)**: Bright golden chains, demon portrait calm, eyes downcast
-- **d10 (Obedient)**: Golden chains with slight flicker, demon portrait attentive
-- **d8 (Resistant)**: Orange chains, demon portrait showing teeth, eyes glowing
-- **d6 (Rebellious)**: Red chains crackling with instability, demon portrait snarling, aggressive stance
-- **0 (Breaking Free)**: Chains SHATTERING, demon portrait roaring, saving throw prompt appears!
-
-**Color Coding by Control Level**:
-- **Green Border (d12-d10)**: Stable control, safe to command aggressively
-- **Yellow Border (d8)**: Weakening control, monitor closely
-- **Red Border (d6)**: Critical control, restoration recommended
-- **Flashing Red (0)**: SAVING THROW IN PROGRESS - demon attempting escape!
-
-**Action Counter**: Small indicator showing "Actions until DD decrease: 1" (always 1, since each action decreases DD)
-
-**Demon Abilities Panel**: Icons for demon's available abilities (Attack, Special Ability, Defend) with AP costs
-
-**Dominance Spell Quick-Cast**: Buttons for Divine Rebuke, Chain of Light, and Absolute Dominion with mana costs displayed
-
-**Multi-Demon Display**: When controlling multiple demons (Demonologist spec), panels stack vertically with the most critical demon (lowest DD) highlighted at top
-
-**Warning Indicators**:
-- At d6: Panel pulses red with warning text "CONTROL CRITICAL"
-- At 0: Loud chain-breaking sound effect, screen shake, saving throw dice roll animation
-- On failed save: Demon portrait breaks free from panel, "DEMON ESCAPED" notification
-- On hostile demon: Red skull icon appears, demon portrait turns to face YOU
-
-**Why This Matters**: The visual feedback is crucial because you need to know at a glance which demons are stable and which are about to rebel. In the heat of combat, a quick glance at your Dominance gauge tells you whether to keep attacking or spend mana on restoration. The color-coded chains and animated demon portraits make it immediately obvious when you're losing control—and when you're about to have a very bad day.`
+    generationTable: {
+      headers: ['Trigger', 'Dominance Change', 'Notes'],
+      rows: [
+        ['Successful Binding', '→ Starting Die', 'Set by demon tier (Imp=d12, Brute=d8)'],
+        ['Standard Command', '-1 Step', 'Simple attacks or movement'],
+        ['Demon Takes Damage', '-1 Step', 'Pain fuels their resistance'],
+        ['Special Ability', '-2 Steps', 'High-power demonic maneuvers'],
+        ['Divine Rebuke (Spell)', '+1 Step', 'Quick corrective discipline (3 mana)'],
+        ['Chain of Light (Spell)', '+2 Steps', 'Reinforcing the sacred bonds (5 mana)'],
+        ['Absolute Dominion', '→ Reset to Max', 'Total divine reset (7 mana)']
+      ]
     },
 
-    strategicDepth: {
-      title: 'Strategic Depth',
-      content: `The Divine Dominance system creates constant tactical decisions:
+    usage: {
+      momentum: 'Command demons early and often while their DD is high. As they dip into d8 and d6, shift your focus to restoration or prepare to dismiss them.',
+      flourish: '⚠️ Tactical Release: If a demon is at d6 and you lack mana for restoration, use your Action to "Dismiss" it safely. It is better to lose a servant than to gain a new enemy.'
+    },
 
-**Resource Management**:
-- Balance mana between Dominance restoration and combat spells
-- Decide when to restore Dominance vs. letting a demon escape and rebinding later
-- Choose which demons to maintain when controlling multiple — sometimes sacrificing one saves the rest
+    overheatRules: {
+      title: 'The Breaking Point',
+      content: `When a demon's Dominance Die reaches 0, the divine chains shatter. The demon immediately makes a **Rebellion Save** (DC varies by demon type).
 
-**Demon Selection**:
-- Weaker demons (d12 DD) are easier to maintain but less powerful
-- Stronger demons (d6-d8 DD) hit harder but demand constant Dominance investment
-- Match demon type to the fight: tank (Brute), DPS (Hound), control (Banshee), utility (Wraith)
+**The Result**:
+- **Success**: The demon remains bound but stays at d6 DD. It is shaken but not free.
+- **Failure**: The demon escapes. Roll 1d6:
+  - **1-2**: Flees the battlefield.
+  - **3-4**: Attacks you once, then flees.
+  - **5-6**: Turns fully hostile—attacking you and your allies until destroyed.
 
-**Action Priority**:
-- Command demons aggressively early while DD is high (d12/d10)
-- Save Absolute Dominion for critical emergencies — it's too expensive for routine maintenance
-- Dismiss demons before they escape to avoid hostile encounters
+**Risk Management**:
+Never leave a demon at 0 DD at the end of your turn unless you are prepared to fight it next.`
+    },
 
-**Risk vs. Reward**:
-- Push demons to 0 DD for maximum actions before restoration — the ultimate gamble
-- Use Chain of Light for burst recovery windows — two steps up for 5 mana is the efficiency sweet spot
-- Accept demon escape if rebinding is easier than maintaining — sometimes strategic retreat wins wars
+    strategicConsiderations: {
+      title: 'Managing the Menagerie',
+      content: `**The Tier Trade-off**: Imps start at d12 and are easy to keep in line. Abyssal Brutes start at d8 and will rebel after only 4 actions. Don't bind a Brute if you don't have the "Chain of Light" mana to back it up.
 
-**Advanced Techniques**:
-- **"Demon Cycling"**: Let weak demons escape, bind stronger ones mid-dungeon
-- **"Controlled Release"**: Dismiss demons at d6 DD to avoid hostile turns — better to lose them cleanly
-- **"Dominance Stacking"**: Chain restoration spells for extended control windows
-- **"Sacrifice Play"**: Let a demon turn hostile near enemies — it attacks EVERYONE, including your foes
-- **"Mana Banking"**: Keep 7 mana reserved at all times for an emergency Absolute Dominion
+**Possessed Path**: If you choose the *Possessed* specialization, you *are* the demon. Your Internal DD tracks your struggle for self-control. Failure here means you lose control of your character for one turn as the demon drives.
 
-The best Exorcists read demon behavior like a language, knowing exactly when to tighten the leash and when to let it slip.`
+**Synergy**: Pair with classes that can taunt enemies (like Titan) to prevent your demons from taking damage, preserving their Dominance Dice for longer.`
     },
 
     playingInPerson: {
-      title: 'Playing Exorcist In Person',
-      content: `**Required Materials**: Dominance Dice (d12/d10/d8/d6 per demon), Demon Cards (stats + DD tracker), d20 for escape saves.
+      title: 'Playing in Person',
+      subtitle: 'The Leash Dice',
+      content: `Tracking multiple dice sizes can be a nightmare on paper. Use these physical hacks:
 
-**Physical Dice Tracking**: Place a real die next to each bound demon's card or miniature. When the demon acts or takes damage, physically swap the die down the chain: d12 → d10 → d8 → d6 → remove entirely (Breaking Free!). The tactile act of replacing dice creates visceral tension everyone at the table can feel.
+**Required Materials**:
+- **Set of Polyhedral Dice**: (d12, d10, d8, d6) for each demon.
+- **Demon Reference Cards**: To hold the active die.
+- **Red "Hostile" Tokens**.
 
-**Demon Card Template**:
-\`\`\`
-═══════════════════════════════════
-        ABYSSAL BRUTE "Crusher"
-═══════════════════════════════════
-DOMINANCE DIE: [d8] ← Place die here
-HP: 60/60  AC: 14  Speed: 30 ft
+**The Physical Hack (Friction Points)**:
+- **The Leash Dice**: Place the actual die on the demon's card. When you command them, physically swap the die for the next size down (d12 → d10). This provides an immediate visual of which "leash" is the shortest.
+- **The AP Coin**: Use a coin to track if you've already commanded a specific demon this turn. Flip it once they've acted.
+- **Restoration Tokens**: Use golden glass beads to represent your restoration spells. Hand one to the DM when you "discipline" a demon.
 
-ATTACKS:
-• Slam: +6 to hit, 2d8+4 bludgeoning
-• Rend: +6 to hit, 3d6+4 slashing (2 DD cost)
-
-DOMINANCE STATUS:
-d12: Submissive  d10: Obedient
-d8: Resistant ← CURRENT
-d6: Rebellious  0: ESCAPE SAVE!
-═══════════════════════════════════
-\`\`\`
-
-**Quick Reference**:
-\`\`\`
-DIVINE DOMINANCE — QUICK REFERENCE
-DD CHAIN: d12 → d10 → d8 → d6 → 0 (Escape Save)
-DECREASES: Action = -1 step | Damage = -1 step | Special = -2 steps
-RESTORATION: Divine Rebuke (3 mana, +1 step) | Chain of Light (5 mana, +2 steps) | Absolute Dominion (7 mana, full reset)
-DEMON TIERS: Imp d12 | Hound/Wraith d10 | Brute/Banshee d8 | Greater d6
-DEMON DEATH = Gone. New binding ritual required (fresh components + skill check).
-\`\`\`
-
-**Tips for the Table**: Color-code dice per demon. Keep 7 mana banked for emergency Absolute Dominion. Dismiss at d6 rather than risk escape. Voice-act your demons — it makes the escape rolls dramatically better.
-
-**Why This Class Shines In Person**: Replacing a d12 with a d10, then d8, then d6 — watching your control physically shrink in your hand — is electric. The moment you remove the die and reach for a d20 for the escape save, the entire table holds its breath. Every die on the table is a demon you're holding by a thread.`
+**Pro Tip**: Voice-act the demon's growing resistance. As the die hits d6, have the demon start talking back or straining against its spectral chains. It makes the Rebellion Save feel earned.`
     }
   },
 
@@ -1379,7 +1296,7 @@ DEMON DEATH = Gone. New binding ritual required (fresh components + skill check)
         effects: [{
           id: 'empower_demon',
           name: 'Empowered Demon',
-          description: 'Gain +2 to attack rolls, +1d8 damage on all attacks, and +2 AC for 3 rounds',
+          description: 'Gain +2 to attack rolls, +1d8 damage on all attacks, and +2 Armor for 3 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 2,

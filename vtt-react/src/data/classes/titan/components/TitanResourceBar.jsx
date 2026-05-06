@@ -116,6 +116,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
     // Auto-adjust tooltip position
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
+            tooltipRef.current.style.opacity = '0';
             const updatePosition = () => {
                 const tooltip = tooltipRef.current;
                 const bar = barRef.current;
@@ -180,6 +181,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                 tooltip.style.zIndex = '2147483647';
                 tooltip.style.borderRadius = '0';
                 tooltip.style.padding = '10px 12px';
+                tooltip.style.opacity = '1';
             };
 
             updatePosition();
@@ -189,7 +191,10 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
             const timeoutId = setTimeout(updatePosition, 50);
 
-            return () => clearTimeout(timeoutId);
+            return () => {
+                clearTimeout(timeoutId);
+                if (tooltipRef.current) { tooltipRef.current.style.opacity = ''; }
+            };
         }
     }, [showTooltip, localCharge, selectedDevotion, selectedSpec]);
 
@@ -341,7 +346,7 @@ const TitanResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
 
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-header">Celestial Devotion</div>
 
                     <div className="tooltip-section">

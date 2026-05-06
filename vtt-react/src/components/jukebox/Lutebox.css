@@ -1,0 +1,1137 @@
+.lutebox-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #1c1208 0%, #2a1a0e 100%);
+  color: #e8dcc8;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ornamental gold line at top */
+.lutebox-ornament-top {
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #d4af37 20%, #f0d060 50%, #d4af37 80%, transparent 100%);
+  flex-shrink: 0;
+}
+
+/* Header */
+.lutebox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(122, 59, 46, 0.4) 0%, rgba(94, 46, 35, 0.2) 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  flex-shrink: 0;
+}
+
+.lutebox-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lutebox-header-title h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #f0d060;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.lutebox-subtitle {
+  font-size: 0.65rem;
+  color: #a08c70;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-top: -1px;
+}
+
+.lutebox-header-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Buttons */
+.lutebox-btn {
+  border: 1px solid rgba(160, 140, 112, 0.4);
+  background: linear-gradient(180deg, rgba(90, 60, 30, 0.6) 0%, rgba(60, 40, 20, 0.8) 100%);
+  color: #e8dcc8;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lutebox-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(120, 80, 40, 0.8) 0%, rgba(80, 50, 25, 0.9) 100%);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.15);
+}
+
+.lutebox-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.lutebox-btn-upload i { color: #4a9eff; }
+.lutebox-btn-youtube i { color: #ff4444; }
+
+.lutebox-btn-broadcast {
+  background: linear-gradient(180deg, rgba(46, 125, 50, 0.7) 0%, rgba(27, 94, 32, 0.9) 100%);
+  border-color: rgba(46, 125, 50, 0.5);
+  color: #c8e6c9;
+}
+
+.lutebox-btn-broadcast:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(56, 142, 60, 0.9) 0%, rgba(33, 110, 38, 1) 100%);
+  box-shadow: 0 0 10px rgba(46, 125, 50, 0.3);
+}
+
+.lutebox-btn-stop-all {
+  padding: 5px 8px;
+}
+
+.lutebox-btn-stop-all:hover:not(:disabled) {
+  color: #ff6b6b;
+}
+
+.lutebox-btn-stop-all-small {
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  background: rgba(139, 69, 19, 0.3);
+}
+
+.lutebox-btn-stop-all-small:hover {
+  color: #ff6b6b;
+  background: rgba(139, 69, 19, 0.5);
+}
+
+.lutebox-btn-cancel {
+  background: rgba(80, 60, 40, 0.5);
+  border-color: rgba(160, 140, 112, 0.3);
+}
+
+.lutebox-btn-cancel:hover {
+  background: rgba(100, 75, 50, 0.6);
+}
+
+.lutebox-btn-broadcast-confirm {
+  background: linear-gradient(180deg, rgba(46, 125, 50, 0.8) 0%, rgba(27, 94, 32, 1) 100%);
+  border-color: rgba(76, 175, 80, 0.4);
+  color: #e8f5e9;
+}
+
+.lutebox-btn-broadcast-confirm:hover {
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
+}
+
+/* Broadcast bar */
+.lutebox-broadcast-bar {
+  padding: 10px 14px;
+  background: linear-gradient(180deg, rgba(46, 125, 50, 0.12) 0%, rgba(27, 94, 32, 0.06) 100%);
+  border-bottom: 1px solid rgba(46, 125, 50, 0.2);
+  flex-shrink: 0;
+}
+
+.lutebox-broadcast-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: #81c784;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lutebox-offline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 2px 8px;
+  background: rgba(74, 158, 255, 0.15);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  border-radius: 10px;
+  color: #4a9eff;
+  font-size: 0.6rem;
+  letter-spacing: 0.5px;
+  cursor: help;
+}
+
+.lutebox-broadcast-controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.lutebox-target-select {
+  flex: 1;
+  background: rgba(20, 14, 6, 0.6);
+  border: 1px solid rgba(160, 140, 112, 0.3);
+  color: #e8dcc8;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.lutebox-target-select option {
+  background: #2a1a0e;
+  color: #e8dcc8;
+}
+
+.lutebox-selected-count {
+  margin-top: 6px;
+  font-size: 0.65rem;
+  color: #a08c70;
+  text-align: center;
+}
+
+/* Search */
+.lutebox-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 14px 0;
+  padding: 6px 10px;
+  background: rgba(20, 14, 6, 0.5);
+  border: 1px solid rgba(160, 140, 112, 0.2);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.lutebox-search i {
+  color: #a08c70;
+  font-size: 0.8rem;
+}
+
+.lutebox-search input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #e8dcc8;
+  font-family: inherit;
+  font-size: 0.8rem;
+  outline: none;
+}
+
+.lutebox-search input::placeholder {
+  color: rgba(160, 140, 112, 0.5);
+}
+
+.lutebox-search-clear {
+  background: none;
+  border: none;
+  color: #a08c70;
+  cursor: pointer;
+  padding: 2px;
+  font-size: 0.7rem;
+}
+
+.lutebox-search-clear:hover {
+  color: #ff6b6b;
+}
+
+/* Tags */
+.lutebox-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 14px 0;
+  max-height: 56px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.lutebox-tags::-webkit-scrollbar {
+  width: 3px;
+}
+
+.lutebox-tags::-webkit-scrollbar-thumb {
+  background: rgba(160, 140, 112, 0.3);
+  border-radius: 2px;
+}
+
+.lutebox-tag {
+  background: rgba(20, 14, 6, 0.5);
+  border: 1px solid transparent;
+  color: var(--tag-color, #a08c70);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.3px;
+}
+
+.lutebox-tag:hover {
+  background: rgba(40, 28, 14, 0.7);
+  border-color: var(--tag-color, #a08c70);
+}
+
+.lutebox-tag-active {
+  background: rgba(40, 28, 14, 0.8);
+  border-color: var(--tag-color, #a08c70);
+  box-shadow: 0 0 6px rgba(var(--tag-color), 0.2);
+  font-weight: 600;
+}
+
+/* Library */
+.lutebox-library {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  min-height: 0;
+}
+
+.lutebox-library::-webkit-scrollbar {
+  width: 5px;
+}
+
+.lutebox-library::-webkit-scrollbar-track {
+  background: rgba(20, 14, 6, 0.3);
+}
+
+.lutebox-library::-webkit-scrollbar-thumb {
+  background: rgba(160, 140, 112, 0.3);
+  border-radius: 3px;
+}
+
+.lutebox-library::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 140, 112, 0.5);
+}
+
+/* Empty state */
+.lutebox-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  color: #a08c70;
+}
+
+.lutebox-empty > i {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  opacity: 0.4;
+  color: #d4af37;
+}
+
+.lutebox-empty h3 {
+  font-size: 0.95rem;
+  color: #d4af37;
+  margin: 0 0 6px;
+}
+
+.lutebox-empty p {
+  font-size: 0.75rem;
+  color: #a08c70;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.lutebox-loading-spinner {
+  font-size: 2rem;
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+/* Track item */
+.lutebox-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.lutebox-track-hover {
+  background: rgba(212, 175, 55, 0.06);
+  border-color: rgba(160, 140, 112, 0.15);
+}
+
+.lutebox-track-selected {
+  background: rgba(74, 158, 255, 0.08);
+  border-color: rgba(74, 158, 255, 0.3);
+}
+
+.lutebox-track-playing {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.2);
+}
+
+.lutebox-track-playing::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: #d4af37;
+  border-radius: 1px;
+}
+
+/* EQ bars animation */
+.lutebox-eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 16px;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.lutebox-eq-bars span {
+  display: block;
+  width: 2.5px;
+  background: #d4af37;
+  border-radius: 1px;
+  animation: lutebox-eq-bounce 0.8s ease-in-out infinite alternate;
+}
+
+.lutebox-eq-bars span:nth-child(1) { height: 40%; animation-delay: 0s; }
+.lutebox-eq-bars span:nth-child(2) { height: 70%; animation-delay: 0.1s; }
+.lutebox-eq-bars span:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+.lutebox-eq-bars span:nth-child(4) { height: 60%; animation-delay: 0.3s; }
+.lutebox-eq-bars span:nth-child(5) { height: 80%; animation-delay: 0.15s; }
+
+@keyframes lutebox-eq-bounce {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+
+/* Checkbox */
+.lutebox-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(160, 140, 112, 0.4);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  font-size: 0.55rem;
+  color: transparent;
+}
+
+.lutebox-checkbox:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+}
+
+.lutebox-checkbox-checked {
+  background: rgba(74, 158, 255, 0.7);
+  border-color: rgba(74, 158, 255, 0.8);
+  color: #fff;
+}
+
+/* Track icon */
+.lutebox-track-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+}
+
+.lutebox-track-icon[data-type="upload"] {
+  background: rgba(74, 158, 255, 0.12);
+  color: #4a9eff;
+}
+
+.lutebox-track-icon[data-type="youtube"] {
+  background: rgba(255, 68, 68, 0.12);
+  color: #ff4444;
+}
+
+/* Track info */
+.lutebox-track-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lutebox-track-name {
+  font-size: 0.8rem;
+  color: #e8dcc8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.lutebox-track-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.lutebox-track-tag {
+  font-size: 0.55rem;
+  padding: 0.5px 5px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--tag-color, #a08c70);
+  border: 1px solid rgba(var(--tag-color, 160, 140, 112), 0.2);
+}
+
+.lutebox-track-size {
+  font-size: 0.55rem;
+  color: rgba(160, 140, 112, 0.5);
+}
+
+.lutebox-track-type-badge {
+  font-size: 0.5rem;
+  padding: 0.5px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.lutebox-badge-yt {
+  background: rgba(255, 68, 68, 0.2);
+  color: #ff6b6b;
+}
+
+.lutebox-badge-builtin {
+  font-size: 0.5rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Volume slider in track */
+.lutebox-volume-slider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.lutebox-volume-slider i {
+  font-size: 0.6rem;
+  color: #a08c70;
+}
+
+.lutebox-volume-slider input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 55px;
+  height: 3px;
+  background: rgba(160, 140, 112, 0.25);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.lutebox-volume-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #d4af37;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
+}
+
+/* Track action buttons */
+.lutebox-track-actions {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.lutebox-action-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(160, 140, 112, 0.2);
+  background: rgba(20, 14, 6, 0.4);
+  color: #a08c70;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  transition: all 0.15s ease;
+}
+
+.lutebox-action-btn:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #f0d060;
+  background: rgba(40, 28, 14, 0.6);
+}
+
+.lutebox-action-playing {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.4);
+  color: #d4af37;
+}
+
+.lutebox-action-playing:hover {
+  background: rgba(212, 175, 55, 0.25);
+  color: #f0d060;
+}
+
+.lutebox-action-delete:hover {
+  border-color: rgba(255, 68, 68, 0.4);
+  color: #ff6b6b;
+  background: rgba(255, 68, 68, 0.1);
+}
+
+/* Now Playing footer */
+.lutebox-now-playing {
+  flex-shrink: 0;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.06) 0%, rgba(20, 14, 6, 0.4) 100%);
+  padding: 8px 14px 10px;
+}
+
+.lutebox-np-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.lutebox-np-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.lutebox-np-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 10px;
+}
+
+.lutebox-np-eq span {
+  width: 2px;
+  background: #d4af37;
+  border-radius: 1px;
+  animation: lutebox-eq-bounce 0.6s ease-in-out infinite alternate;
+}
+
+.lutebox-np-eq span:nth-child(1) { height: 40%; animation-delay: 0s; }
+.lutebox-np-eq span:nth-child(2) { height: 80%; animation-delay: 0.08s; }
+.lutebox-np-eq span:nth-child(3) { height: 60%; animation-delay: 0.16s; }
+.lutebox-np-eq span:nth-child(4) { height: 100%; animation-delay: 0.24s; }
+
+.lutebox-np-count {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border-radius: 6px;
+  padding: 0 5px;
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+
+.lutebox-np-tracks {
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.lutebox-np-tracks::-webkit-scrollbar {
+  width: 3px;
+}
+
+.lutebox-np-tracks::-webkit-scrollbar-thumb {
+  background: rgba(160, 140, 112, 0.3);
+  border-radius: 2px;
+}
+
+.lutebox-np-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 0.75rem;
+}
+
+.lutebox-np-icon {
+  font-size: 0.65rem;
+  color: #a08c70;
+}
+
+.lutebox-np-track .lutebox-np-icon.fa-youtube {
+  color: #ff6b6b;
+}
+
+.lutebox-np-track .lutebox-np-icon.fa-music {
+  color: #4a9eff;
+}
+
+.lutebox-np-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #e8dcc8;
+}
+
+.lutebox-np-loop {
+  font-size: 0.55rem;
+  color: rgba(212, 175, 55, 0.5);
+}
+
+.lutebox-np-stop {
+  background: none;
+  border: none;
+  color: #a08c70;
+  cursor: pointer;
+  font-size: 0.65rem;
+  padding: 2px;
+  transition: color 0.15s;
+}
+
+.lutebox-np-stop:hover {
+  color: #ff6b6b;
+}
+
+/* Modal overlay */
+.lutebox-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: lutebox-fade-in 0.2s ease;
+}
+
+.lutebox-modal {
+  background: linear-gradient(160deg, #2a1a0e 0%, #1c1208 100%);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.1);
+  animation: lutebox-scale-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lutebox-modal-icon {
+  font-size: 2rem;
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+.lutebox-modal h3 {
+  color: #f0d060;
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.lutebox-modal p {
+  color: #a08c70;
+  font-size: 0.8rem;
+  margin: 0 0 18px;
+  line-height: 1.5;
+}
+
+.lutebox-modal p strong {
+  color: #e8dcc8;
+}
+
+.lutebox-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+@keyframes lutebox-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lutebox-scale-in {
+  from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ===== DIALOG MODALS ===== */
+.lutebox-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  animation: lutebox-fade-in 0.2s ease;
+}
+
+.lutebox-dialog {
+  background: linear-gradient(160deg, #2a1a0e 0%, #1c1208 100%);
+  border: 2px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 440px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7), 0 0 24px rgba(212, 175, 55, 0.08);
+  animation: lutebox-scale-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  font-family: 'Bookman Old Style', 'Garamond', serif;
+  color: #e8dcc8;
+}
+
+.lutebox-dialog-ornament {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #d4af37 20%, #f0d060 50%, #d4af37 80%, transparent 100%);
+}
+
+.lutebox-dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, rgba(122, 59, 46, 0.35) 0%, rgba(94, 46, 35, 0.15) 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.lutebox-dialog-header i {
+  font-size: 1.2rem;
+  color: var(--accent, #d4af37);
+}
+
+.lutebox-dialog-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #f0d060;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.lutebox-dialog-body {
+  padding: 16px 18px;
+}
+
+.lutebox-dialog-error {
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #ff8a8a;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lutebox-dialog-error i {
+  color: #ff6b6b;
+}
+
+/* Dropzone */
+.lutebox-dropzone {
+  border: 2px dashed rgba(160, 140, 112, 0.3);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(20, 14, 6, 0.3);
+  margin-bottom: 14px;
+}
+
+.lutebox-dropzone:hover,
+.lutebox-dropzone-active {
+  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(40, 28, 14, 0.3);
+}
+
+.lutebox-dropzone-has-file {
+  border-style: solid;
+  border-color: rgba(74, 158, 255, 0.4);
+  background: rgba(74, 158, 255, 0.05);
+}
+
+.lutebox-dropzone-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #a08c70;
+}
+
+.lutebox-dropzone-prompt i {
+  font-size: 1.8rem;
+  color: #d4af37;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.lutebox-dropzone-hint {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.lutebox-dropzone-formats {
+  font-size: 0.6rem;
+  color: rgba(160, 140, 112, 0.5);
+  margin-top: 4px;
+}
+
+.lutebox-dropzone-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.lutebox-dropzone-file i {
+  font-size: 1.5rem;
+  color: #4a9eff;
+}
+
+.lutebox-dropzone-filename {
+  font-size: 0.85rem;
+  color: #e8dcc8;
+  font-weight: 600;
+}
+
+.lutebox-dropzone-filesize {
+  font-size: 0.7rem;
+  color: #a08c70;
+}
+
+/* Fields */
+.lutebox-field {
+  margin-bottom: 12px;
+}
+
+.lutebox-field label {
+  display: block;
+  font-size: 0.75rem;
+  color: #a08c70;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lutebox-optional {
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.6;
+  font-size: 0.7rem;
+}
+
+.lutebox-field input[type="text"],
+.lutebox-field input[type="url"] {
+  width: 100%;
+  background: rgba(20, 14, 6, 0.5);
+  border: 1px solid rgba(160, 140, 112, 0.25);
+  border-radius: 5px;
+  padding: 8px 10px;
+  color: #e8dcc8;
+  font-family: inherit;
+  font-size: 0.8rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.lutebox-field input:focus {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.1);
+}
+
+.lutebox-field input::placeholder {
+  color: rgba(160, 140, 112, 0.4);
+}
+
+.lutebox-field-hint {
+  display: block;
+  font-size: 0.6rem;
+  color: rgba(160, 140, 112, 0.5);
+  margin-top: 3px;
+}
+
+.lutebox-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 14, 6, 0.5);
+  border: 1px solid rgba(160, 140, 112, 0.25);
+  border-radius: 5px;
+  padding: 0 10px;
+  transition: border-color 0.15s;
+}
+
+.lutebox-input-group:focus-within {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.1);
+}
+
+.lutebox-input-group i {
+  color: #ff4444;
+  font-size: 0.85rem;
+}
+
+.lutebox-input-group input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #e8dcc8;
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 8px 0;
+  outline: none;
+}
+
+.lutebox-input-group input::placeholder {
+  color: rgba(160, 140, 112, 0.4);
+}
+
+/* YouTube preview */
+.lutebox-yt-preview {
+  margin-bottom: 14px;
+  text-align: center;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.lutebox-yt-preview img {
+  width: 100%;
+  max-height: 130px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(160, 140, 112, 0.2);
+}
+
+.lutebox-yt-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 14, 6, 0.85);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 0.6rem;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lutebox-yt-badge i {
+  color: #ff4444;
+  font-size: 0.7rem;
+}
+
+/* Progress bar */
+.lutebox-progress-bar {
+  height: 4px;
+  background: rgba(160, 140, 112, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.lutebox-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #f0d060);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Footer */
+.lutebox-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid rgba(160, 140, 112, 0.15);
+  background: rgba(20, 14, 6, 0.2);
+}
+
+.lutebox-dialog-btn {
+  border: 1px solid rgba(160, 140, 112, 0.3);
+  background: rgba(40, 28, 14, 0.5);
+  color: #e8dcc8;
+  border-radius: 5px;
+  padding: 7px 16px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.lutebox-dialog-btn:hover:not(:disabled) {
+  background: rgba(60, 42, 22, 0.7);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.lutebox-dialog-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.lutebox-dialog-btn-cancel {
+  background: transparent;
+}
+
+.lutebox-dialog-btn-primary {
+  background: linear-gradient(180deg, rgba(74, 158, 255, 0.3) 0%, rgba(40, 100, 180, 0.4) 100%);
+  border-color: rgba(74, 158, 255, 0.4);
+  color: #c8e6ff;
+}
+
+.lutebox-dialog-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(74, 158, 255, 0.5) 0%, rgba(40, 100, 180, 0.6) 100%);
+  box-shadow: 0 0 8px rgba(74, 158, 255, 0.2);
+}
+
+.lutebox-dialog-btn-youtube {
+  background: linear-gradient(180deg, rgba(255, 68, 68, 0.3) 0%, rgba(180, 40, 40, 0.4) 100%);
+  border-color: rgba(255, 68, 68, 0.4);
+  color: #ffc8c8;
+}
+
+.lutebox-dialog-btn-youtube:hover:not(:disabled) {
+  background: linear-gradient(180deg, rgba(255, 68, 68, 0.5) 0%, rgba(180, 40, 40, 0.6) 100%);
+  box-shadow: 0 0 8px rgba(255, 68, 68, 0.2);
+}

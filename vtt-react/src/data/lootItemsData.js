@@ -190,7 +190,7 @@ export const LOOT_ITEMS = [
       intelligence: 1,
       spirit: 1
     },
-    armorClass: 3
+    armor: 3
   },
 
   // Frost Giant items

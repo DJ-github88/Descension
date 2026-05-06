@@ -281,7 +281,7 @@ const generateCombatStats = (type, subtype, quality, powerScale) => {
         }
     } else if (type === 'armor') {
         // Add armor class for armor
-        combatStats.armorClass = {
+        combatStats.armor = {
             value: Math.max(1, Math.floor(multiplier * getRandomInt(1, 5))),
             isPercentage: false
         };
@@ -826,7 +826,7 @@ const generateBasicItem = (type, subtype, quality, powerScale) => {
         }),
 
         // Armor class directly at top level for display
-        armorClass: combatStats?.armorClass?.value || 0,
+        armor: combatStats?.armor?.value || 0,
 
         // Slots
         slots: slots,
@@ -1466,7 +1466,7 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             }),
 
             // Armor class directly at top level for display
-            armorClass: combatStats?.armorClass?.value || 0,
+            armor: combatStats?.armor?.value || 0,
 
             // Slots
             slots: slots,
@@ -1493,9 +1493,15 @@ const NewQuickItemWizard = ({ onComplete, onCancel, initialData }) => {
                 maxStackSize: 5
             }),
             // Explicitly set other items as non-stackable
-            ...((type !== 'consumable' && type !== 'miscellaneous') && {
+            ...(type !== 'consumable' && type !== 'miscellaneous' && {
                 stackable: false
-            })
+            }),
+
+            ...(['weapon', 'armor', 'accessory'].includes(type) ? (() => {
+                const qualityDurability = { poor: 30, common: 50, uncommon: 70, rare: 90, epic: 120, legendary: 160, artifact: 200 };
+                const maxDur = qualityDurability[quality] || 50;
+                return { durability: maxDur, maxDurability: maxDur };
+            })() : {})
         };
     };
 

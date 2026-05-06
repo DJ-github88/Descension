@@ -170,6 +170,18 @@ import {
 } from './talentTrees/deathcaller.js';
 
 import {
+  AUGUR_AUSPICE,
+  AUGUR_HARBINGER,
+  AUGUR_HIEROPHANT
+} from './talentTrees/augur.js';
+
+import {
+  DOOMSAYER_REQUIEM,
+  DOOMSAYER_ENDBRINGER,
+  DOOMSAYER_CATACLYSM
+} from './talentTrees/doomsayer.js';
+
+import {
   COVENBANE_SHADOWBANE,
   COVENBANE_SPELLBREAKER,
   COVENBANE_DEMONHUNTER
@@ -247,9 +259,9 @@ export const getTreeBackdrop = (className, specId) => {
       'primordial': 'url(/assets/backdrops/formbender-primordial.jpg)'
     },
     'Witch Doctor': {
-      'shadow-priest': 'url(/assets/backdrops/witch-doctor-shadow.jpg)',
-      'spirit-healer': 'url(/assets/backdrops/witch-doctor-spirit.jpg)',
-      'war-priest': 'url(/assets/backdrops/witch-doctor-war.jpg)'
+      'bokor': 'url(/assets/backdrops/witch-doctor-shadow.jpg)',
+      'mambo': 'url(/assets/backdrops/witch-doctor-spirit.jpg)',
+      'houngan': 'url(/assets/backdrops/witch-doctor-war.jpg)'
     },
     'Covenbane': {
       'shadowbane': 'url(/assets/backdrops/covenbane-shadowbane.jpg)',
@@ -340,6 +352,16 @@ export const getTreeBackdrop = (className, specId) => {
       'primal_rage': 'url(/assets/backdrops/berserker-primal-rage.jpg)',
       'blood_frenzy': 'url(/assets/backdrops/berserker-blood-frenzy.jpg)',
       'savage_instincts': 'url(/assets/backdrops/berserker-savage-instincts.jpg)'
+    },
+    'Augur': {
+      'auspex': 'url(/assets/backdrops/augur-auspex.jpg)',
+      'harbinger': 'url(/assets/backdrops/augur-harbinger.jpg)',
+      'hierophant': 'url(/assets/backdrops/augur-hierophant.jpg)'
+    },
+    'Doomsayer': {
+      'requiem': 'url(/assets/backdrops/doomsayer-requiem.jpg)',
+      'endbringer': 'url(/assets/backdrops/doomsayer-endbringer.jpg)',
+      'cataclysm': 'url(/assets/backdrops/doomsayer-cataclysm.jpg)'
     },
     // Add more classes as needed
   };
@@ -455,9 +477,9 @@ export const TALENT_TREES = {
     'primordial': FORMBENDER_PRIMORDIAL
   },
   'Witch Doctor': {
-    'shadow-priest': WITCH_DOCTOR_SHADOW_PRIEST,
-    'spirit-healer': WITCH_DOCTOR_SPIRIT_HEALER,
-    'war-priest': WITCH_DOCTOR_WAR_PRIEST
+    'bokor': WITCH_DOCTOR_SHADOW_PRIEST,
+    'mambo': WITCH_DOCTOR_SPIRIT_HEALER,
+    'houngan': WITCH_DOCTOR_WAR_PRIEST
   },
   'Covenbane': {
     'shadowbane': COVENBANE_SHADOWBANE,
@@ -498,6 +520,16 @@ export const TALENT_TREES = {
     'blood_reaver': DEATHCALLER_BLOOD_REAVER,
     'spectral_master': DEATHCALLER_SPECTRAL_MASTER,
     'void_caller': DEATHCALLER_VOID_CALLER
+  },
+  'Augur': {
+    'auspex': AUGUR_AUSPICE,
+    'harbinger': AUGUR_HARBINGER,
+    'hierophant': AUGUR_HIEROPHANT
+  },
+  'Doomsayer': {
+    'requiem': DOOMSAYER_REQUIEM,
+    'endbringer': DOOMSAYER_ENDBRINGER,
+    'cataclysm': DOOMSAYER_CATACLYSM
   }
 };
 

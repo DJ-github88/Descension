@@ -1139,7 +1139,9 @@ const useCharacterStore = create((set, get) => ({
                         'Titan': () => require('../data/classes/titanData').TITAN_DATA,
                         'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
                         'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
+                        'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
+                        'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
                     };
                     const loader = classDataMap[className];
                     if (loader) {
@@ -2783,7 +2785,7 @@ const useCharacterStore = create((set, get) => ({
                 race: character.race || '',
                 subrace: character.subrace || '',
                 raceDisplayName: character.raceDisplayName || '',
-                class: character.class || 'Class',
+                class: character.class || '',
                 background: character.background || '',
                 backgroundDisplayName: character.backgroundDisplayName || '',
                 path: character.path || '',
@@ -3279,7 +3281,7 @@ const useCharacterStore = create((set, get) => ({
                             baseName: character.baseName || character.name || 'Character Name',
                             race: character.race || '',
                             subrace: character.subrace || '',
-                            class: character.class || 'Class',
+                class: character.class || '',
                             level: character.level || 1
                         });
                         return character;
@@ -3505,7 +3507,9 @@ const useCharacterStore = create((set, get) => ({
                         'Titan': () => require('../data/classes/titanData').TITAN_DATA,
                         'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
                         'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+                        'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
+                        'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
+                        'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
                     };
                     const loader = classDataMap[name];
                     if (loader) {
@@ -4034,7 +4038,9 @@ const useCharacterStore = create((set, get) => ({
                 'Titan': () => require('../data/classes/titanData').TITAN_DATA,
                 'Toxicologist': () => require('../data/classes/toxicologistData').TOXICOLOGIST_DATA,
                 'Warden': () => require('../data/classes/wardenData').WARDEN_DATA,
-                'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA
+                'Witch Doctor': () => require('../data/classes/witchDoctorData').WITCH_DOCTOR_DATA,
+                'Augur': () => require('../data/classes/augurData').AUGUR_DATA,
+                'Doomsayer': () => require('../data/classes/doomsayerData').DOOMSAYER_DATA
             };
             const loader = classDataMap[name];
             if (loader) {

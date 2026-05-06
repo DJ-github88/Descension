@@ -266,160 +266,77 @@ You're not a consistent damage dealer. You're a GAMBLER who manipulates probabil
   
   // Resource System
   resourceSystem: {
-    title: 'Fortune Points',
-    subtitle: 'Manipulating Luck and Probability',
+    title: 'Fortune Points (FP)',
+    subtitle: 'The House Always Wins',
 
-    description: `Fortune Points represent the Gambler's accumulated luck and their ability to influence fate. Your maximum Fortune Points depend on your specialization: 7 for Fortune's Favor (the lucky number), 21 for High Roller (blackjack), or 13 for Card Sharp (cards in a suit). As they succeed in combat, they build Fortune Points, which they can then spend to adjust the outcomes of their gambles. This system allows Gamblers to embrace luck-based abilities while maintaining strategic control over critical moments.`,
+    description: `The Gambler is a master of probability who views the battlefield as a high-stakes table. Your core resource is **Fortune Points** (FP). You build these points through successful plays and spend them to "cheat" fate—adjusting the results of your dice after they have already landed. While others rely on luck, you manipulate it.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Fortune Points Gauge',
-      content: `**What You See**: Your Fortune Points gauge displays as a segmented bar matching your spec's max: 7 (Fortune's Favor, coin-shaped), 21 (High Roller, poker chip stack), or 13 (Card Sharp, card suit symbols). Segments fill with gold energy as you accumulate Fortune Points.
+    cards: [
+      {
+        title: 'Fortune Points (FP)',
+        stats: 'Cap: 7 / 13 / 21',
+        details: 'Max points vary by spec (Favor / Sharp / Roller). Spend to adjust any roll result by ±1 per point.'
+      },
+      {
+        title: 'Probability Tweak',
+        stats: 'Post-Roll Action',
+        details: 'Spend points AFTER the dice land but BEFORE the DM declares the outcome. Turn a 19 into a 20 instantly.'
+      },
+      {
+        title: 'The Payout',
+        stats: 'Success Bonus',
+        details: 'Generating points through criticals or winning major gambles (Jackpots) rewards extra FP.'
+      }
+    ],
 
-**Gauge Color Coding**:
-- **0-25% (Red border)**: Low Fortune — build points before gambling
-- **25-50% (Orange border)**: Cautious — can adjust minor rolls
-- **50-75% (Yellow border)**: Comfortable — safe to use medium-risk abilities
-- **75-100% (Green/Blue border)**: Strong Control — ultimate abilities available, "THE HOUSE ALWAYS WINS"
-
-**Roll Adjustment Interface** (appears after any roll):
-After your dice land, an adjustment prompt appears showing your roll and available Fortune Points. Use +/- buttons to adjust the result by ±1 per point. Each adjustment shows the FP cost before you confirm: "Spend 3 FP to change 14 → 17."
-
-**Key Visual Cues**:
-- **Natural 20**: Bar flashes gold, "+2 FP (CRITICAL!)"
-- **Near-Miss (18-19)**: Tooltip suggests "Spend 1-2 FP for guaranteed crit?"
-- **Critical Fail (1)**: Tooltip suggests "Spend FP to avoid critical failure?"
-- **High-Risk Ability + Low FP**: Warning popup before casting
-
-**Outcome Table Integration** (Jackpot, etc.): Hover over outcomes in the table to preview the FP cost to reach them. Example: Current [12, 7, 19] = "Moderate Win" → Hover [15, 7, 19] = "Big Win - Cost: 3 FP"
-
-**Why This Matters**: The gauge is your control panel for probability manipulation. You see the roll, decide to adjust, watch the dice change with a golden flash. The visual feedback makes every adjustment feel powerful and intentional.`
-    },
-
-    mechanics: {
-      title: 'How It Works',
-      content: `**Starting State**: Gamblers begin each combat encounter with 0 Fortune Points
-
-**Generating Fortune Points**:
-
-Fortune Points are generated through successful actions in combat:
-- **Successful Attack**: Landing an attack generates 1 Fortune Point
-- **Successful Spell Cast**: Successfully casting a spell generates 1 Fortune Point
-- **Winning a Gamble**: When a gambling ability produces a positive result, gain 1 Fortune Point
-- **Critical Success**: Rolling a natural 20 generates 2 Fortune Points instead of 1
-
-**Maximum Capacity**: Your Fortune Point cap depends on your specialization: Fortune's Favor (7), High Roller (21), or Card Sharp (13). Any excess is lost.
-
-**Persistence**: Fortune Points persist between combats until spent or until you complete a long rest.
-
-**Using Fortune Points**:
-
-Fortune Points can be spent to adjust the results of any roll you make. Each Fortune Point spent allows you to increase or decrease the result by 1.
-
-- **Spend 1 Point**: Adjust any roll by ±1
-- **Spend Multiple Points**: Each additional point adjusts by another ±1
-- **Post-Roll Decision**: After you see the result of any roll you make, you may spend Fortune Points to adjust that result by ±1 per point spent
-- **No Limit Per Roll**: You can spend as many Fortune Points as you want on a single roll (up to your current total)
-- **Timing**: The adjustment prompt appears after your dice land but before the GM declares the outcome
-
-**Example**: You roll a 14 on a d20 attack roll. You have 8 Fortune Points. You could:
-- Spend 0 points and accept the 14
-- Spend 3 points to increase it to 17
-- Spend 6 points to increase it to 20 (guaranteed critical hit)
-- Spend points to decrease it if you wanted a specific number for a triggered effect
-
-**Special Interactions**:
-
-Some Gambler abilities specifically interact with Fortune Points:
-- **Loaded Dice** (Passive): Choose a number (2-19). When you roll that number, you may spend 1 Fortune Point to reroll
-- **Cheat Fate** (Reaction): Spend 3 Fortune Points to adjust any visible roll within 30 feet by ±2
-- **Fortune's Favor**: Spend Fortune Points to grant allies rerolls or force enemy rerolls`
-    },
-    
-    fortunePointTable: {
-      title: 'Fortune Point Strategic Values',
-      headers: ['Point Count (% of Max)', 'Strategic Value', 'Recommended Usage'],
+    generationTable: {
+      headers: ['Action', 'FP Gained', 'Notes'],
       rows: [
-        ['0-25% of max', 'Minimal Control', 'Focus on building points, avoid high-risk abilities'],
-        ['25-50% of max', 'Low Control', 'Can adjust minor rolls, save for important moments'],
-        ['50-75% of max', 'Moderate Control', 'Comfortable using medium-risk abilities, can guarantee some successes'],
-        ['75-90% of max', 'High Control', 'Can afford multiple adjustments, safe to use high-risk abilities'],
-        ['90-100% of max', 'Maximum Control', 'Near-complete control over outcomes, use ultimate abilities freely']
+        ['Successful Attack', '+1 FP', 'Includes melee and ranged weapons'],
+        ['Successful Spell', '+1 FP', 'Must land on a target or resolve effect'],
+        ['Critical Success', '+2 FP', 'Natural 20s are the ultimate fuel'],
+        ['Winning a Gamble', '+1 FP', 'Successful coin flip or slot match'],
+        ['Big Win (Jackpot)', '+2 to +5 FP', 'Specific high-tier spell outcomes']
       ]
     },
-    
-    riskLevelTable: {
-      title: 'Ability Risk Levels',
-      headers: ['Risk Level', 'Description', 'Fortune Point Reserve Recommended'],
-      rows: [
-        ['Low Risk', 'Minor random elements, acceptable failure states', '0-3 points sufficient'],
-        ['Medium Risk', 'Significant variance, some negative consequences possible', '4-6 points recommended'],
-        ['High Risk', 'Extreme variance, potential for serious backfire', '7-10 points recommended'],
-        ['Extreme Risk', 'Life-threatening consequences on failure', '11+ points strongly recommended'],
-        ['Ultimate Risk', 'Potentially game-ending results either way', 'Maximum points (15-20) advised']
-      ]
+
+    usage: {
+      momentum: 'Early rounds should be spent on low-risk attacks to build your chip stack. Once you hit 50% of your cap, you have enough "insurance" to start using high-risk abilities like Death Roll.',
+      flourish: '⚠️ Near-Miss Fishing: Watch for rolls of 18 or 19. Spending just 1-2 FP to force a Critical Hit is the most efficient use of your resource.'
     },
-    
+
+    overheatRules: {
+      title: 'Bankruptcy',
+      content: `If you attempt a gamble you cannot afford, or lose an "All-In" bet, you go **Bust**.
+
+**The Effect**: Your Fortune Points drop to 0, and you suffer **Bankruptcy**. You lose all current mana and cannot generate Fortune Points or cast spells for 2 rounds as the cosmic debt collectors take their due.
+
+**The Guardrail**: Never bet more than 50% of your current HP or FP unless the kill is guaranteed.`
+    },
+
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Building Fortune Points Efficiently**:
-- Focus on consistent, reliable attacks early in combat
-- Use low-mana spells to generate points without depleting resources
-- Avoid high-risk abilities until you have a comfortable Fortune Point reserve
-- Critical hit builds can generate points faster (2 per crit)
+      title: 'Playing the Odds',
+      content: `**High Roller Spec**: With a cap of 21, you can turn a total failure (roll of 1) into a critical success (roll of 20) in a single turn—if you have the chips.
 
-**Spending Fortune Points Wisely**:
-- Save points for boss encounters and critical moments
-- Don't waste points on trash encounters unless necessary
-- Consider the cost-benefit: is spending 5 points to turn a 15 into a 20 worth it?
-- Remember that unspent points persist between combats
-
-**Fortune Point Breakpoints** (adjust for your spec's max):
-- **25% of Max**: Can turn most near-misses into hits
-- **50% of Max**: Can guarantee critical hits on rolls of 10+
-- **75% of Max**: Can adjust multiple important rolls in one encounter
-- **100% of Max**: Maximum control, can manipulate entire combat sequences
-
-**Risk Management**:
-- Always maintain a 3-5 point reserve for emergencies
-- Don't gamble with abilities you can't afford to fail
-- Use Fortune Points to prevent catastrophic failures before chasing perfect successes
-- Consider party composition: do you have healers to recover from bad gambles?
-
-**Synergy with Abilities**:
-- Some abilities become much stronger with Fortune Point investment
-- Loaded Dice passive works best with high Fortune Point reserves
-- Death Roll and other competitive abilities benefit greatly from point spending
-- All-In and extreme gambles should only be used with maximum points available`
+**Persistence**: FP persists between combats. Start the "Boss Fight" by spending your banked points from the minions to ensure your opening ultimate lands.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
-      subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Gambler is THE most immersive class to play in person because you use ACTUAL gambling implements. Here's what you need and how it works:
+      subtitle: 'The Chip Stack',
+      content: `The Gambler is the most tactile class in the game. Don't use a pencil—use components.
 
-**Required Materials** (by specialization):
-- **Fortune's Favor**: A thematic coin (gold, lucky, or custom with sun/moon symbols) + 7 poker chips or tokens
-- **High Roller**: Full polyhedral dice set (keep 3-4 d20s handy) + 21 poker chips + dice tray
-- **Card Sharp**: Standard 52-card deck + 13 tokens + discard pile area
+**Required Materials**:
+- **Poker Chips**: (7 for Favor, 13 for Sharp, 21 for High Roller).
+- **A Thematic Coin**: (For flips).
+- **A Dice Tray**: (The "Table").
 
-**Fortune Points = Physical Chips**: Start with 0 chips. Gain 1 chip per successful attack/spell (2 on crits, 1 for winning gambles). Spend chips to adjust rolls: remove chips equal to the adjustment. Max matches your spec (7/21/13). Chips persist between combats, reset on long rest.
+**The Physical Hack (Friction Points)**:
+- **The Chip Stack**: Stack your FP chips in plain view. When you use an ability with a "cost," push those chips into the center of the table (The Pot). If the spell succeeds, pull them back with your "Generation" payout. If it fails, the DM takes them.
+- **The "Cheat" Flash**: When spending FP to adjust a die, physically tap the die with a chip before turning it to the new number. It makes the "cheat" feel intentional and cool.
+- **The Bankruptcy Marker**: If you go Bust, place a black cloth or card over your chips. It signals to the table that the house has closed your account for now.
 
-**Coin Flip** (Fortune's Favor): Flip a real coin. Don't like the result? Remove 1 chip from your pool to flip it.
-
-**Dice Abilities** (High Roller): Roll physical dice. Spend chips to adjust individual dice by ±1 each. For Jackpot (3d20), roll 3 d20s and consult the table. For Death Roll, you and the GM roll off.
-
-**Card Draws** (Card Sharp): Draw from a real shuffled deck. Some abilities let you spend chips to redraw or swap cards.
-
-**Quick Reference**:
-\`\`\`
-GENERATING: Successful attack/spell = +1 chip | Crit = +2 | Win gamble = +1
-SPENDING: Adjust roll ±1 = 1 chip | Flip coin = 1 chip | Loaded Dice reroll = 1 chip
-PERSISTENCE: Chips persist between combats | Reset to 0 after long rest
-\`\`\`
-
-**Why It Works**: The tactile feedback of physically flipping coins, rolling dice, and stacking chips creates genuine suspense and celebration. You're not simulating gambling — you're DOING it. The class becomes a mini-casino at your table.
-
-**Budget Alternatives**: No chips? Use pennies, buttons, or paper clips. No coin? Roll d6 (1-3 = Heads, 4-6 = Tails). No cards? Use dice-based simulation (d13 for value, d4 for suit).`
+**Pro Tip**: For the High Roller spec, use actual casino-grade chips. The weight and sound of the chips moving across the table adds a layer of tension that a digital counter can't match.`
     }
   },
 

@@ -1046,7 +1046,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         {/* Class Resource Bar - Only show if character has a real class (not 'Unknown') and class resource */}
                         {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
                             <ClassResourceBar
-                                key={`classResource-${member.id}-${member.character.classResource?.current}-${member.character.classResource?.lastUpdate || 0}`}
+                                key={`classResource-${member.id}`}
                                 characterClass={member.character.class}
                                 classResource={member.character.classResource}
                                 isGMMode={isGMMode}

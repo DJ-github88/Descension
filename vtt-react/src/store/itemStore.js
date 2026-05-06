@@ -1045,6 +1045,57 @@ const useItemStore = create(
                 get().syncItemUpdate('item_updated', { itemId, updates });
             }),
 
+            updateItemDurability: (itemId, newDurability) => {
+                const state = get();
+                const item = state.items.find(i => i.id === itemId);
+                if (!item) return;
+
+                const maxDur = item.maxDurability || item.durability || 1;
+                const clamped = Math.max(0, Math.min(newDurability, maxDur));
+
+                const updates = { durability: clamped };
+                if (clamped === 0) {
+                    updates.broken = true;
+                } else {
+                    updates.broken = false;
+                }
+
+                state.updateItem(itemId, updates);
+
+                if (clamped === 0) {
+                    try {
+                        const characterStore = require('./characterStore').default;
+                        const charState = characterStore.getState();
+                        if (charState.unequipItemByItemId) {
+                            charState.unequipItemByItemId(itemId);
+                        }
+                    } catch (e) {
+                        // Could not auto-unequip broken item
+                    }
+
+                    if (typeof window !== 'undefined') {
+                        const notification = document.createElement('div');
+                        notification.textContent = `${item.name || 'Item'} has broken!`;
+                        notification.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(139,0,0,0.95);color:white;padding:12px 20px;border-radius:8px;border:2px solid #8b0000;font-family:Cinzel,serif;font-size:16px;font-weight:600;z-index:10000;box-shadow:0 4px 12px rgba(0,0,0,0.5);animation:fadeInOut 3s ease-in-out forwards;';
+                        if (!document.querySelector('#durability-notification-styles')) {
+                            const style = document.createElement('style');
+                            style.id = 'durability-notification-styles';
+                            style.textContent = '@keyframes fadeInOut{0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}80%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0.8)}}';
+                            document.head.appendChild(style);
+                        }
+                        document.body.appendChild(notification);
+                        setTimeout(() => { if (document.body.contains(notification)) document.body.removeChild(notification); }, 3000);
+                    }
+                }
+
+                state.syncItemUpdate('item_updated', { itemId, updates: { durability: clamped, broken: clamped === 0 } });
+
+                const currentUser = useAuthStore.getState().user;
+                if (currentUser && !currentUser.isGuest) {
+                    state.saveItemToFirebase({ ...item, durability: clamped, broken: clamped === 0 });
+                }
+            },
+
             removeItem: (itemId) => set(state => {
                 const newItems = state.items.filter(item => item.id !== itemId);
                 const newItemCategories = { ...state.itemCategories };

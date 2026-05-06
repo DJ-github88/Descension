@@ -51,7 +51,9 @@ const Step3ClassSelection = () => {
         { name: 'Titan', imageIcon: '/assets/icons/classes/titan.png', icon: 'fas fa-mountain', description: 'Gravity manipulator with strain overload', theme: 'gravity' },
         { name: 'Toxicologist', imageIcon: '/assets/icons/classes/toxicologist.png', icon: 'fas fa-flask', description: 'Poison crafter with alchemical vials', theme: 'alchemy' },
         { name: 'Warden', imageIcon: '/assets/icons/classes/warden.png', icon: 'fas fa-shield', description: 'Barrier guardian with protective bulwarks', theme: 'guardian' },
-        { name: 'Witch Doctor', imageIcon: '/assets/icons/classes/witch_doctor.png', icon: 'fas fa-skull', description: 'Voodoo practitioner invoking powerful loa through curses and rituals', theme: 'voodoo' }
+        { name: 'Witch Doctor', imageIcon: '/assets/icons/classes/witch_doctor.png', icon: 'fas fa-skull', description: 'Voodoo practitioner invoking powerful loa through curses and rituals', theme: 'voodoo' },
+        { name: 'Augur', imageIcon: '/assets/icons/classes/augur.png', icon: 'fas fa-dove', description: 'Omen reader who interprets signs from every die roll to reshape the battlefield', theme: 'omen' },
+        { name: 'Doomsayer', imageIcon: '/assets/icons/classes/doomsayer.png', icon: 'fas fa-bolt', description: 'Prophet of catastrophe who places living bomb prophecies with RNG chaos outcomes', theme: 'doom' }
     ];
 
     const handleClassSelect = (className) => {

@@ -122,6 +122,9 @@ const UnifiedContextMenu = ({
                 top: position.top,
                 visibility: isPositioned ? 'visible' : 'hidden'
             }}
+            onMouseDown={(e) => {
+                e.stopPropagation();
+            }}
             onClick={(e) => {
                 e.stopPropagation();
             }}

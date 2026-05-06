@@ -10,12 +10,21 @@ const CanvasWallSystem = () => {
 
     // Load wall textures
     useEffect(() => {
-        const wallTypes = ['stone_wall', 'wooden_wall', 'brick_wall', 'metal_wall', 'wooden_door', 'stone_door'];
+        const wallTypes = [
+            'stone_wall', 'wooden_wall', 'brick_wall', 'metal_wall', 
+            'magical_barrier', 'force_wall', 'wooden_door', 'stone_door',
+            'glass_window', 'barred_window', 'arrow_slit', 'open_window'
+        ];
         wallTypes.forEach(type => {
             const img = new Image();
-            const path = (type.includes('door')) 
-                ? `/assets/textures/walls/${type.replace('_door', '_wall')}.png` 
-                : `/assets/textures/walls/${type}.png`;
+            let path;
+            if (type.includes('door')) {
+                path = `/assets/textures/walls/${type.replace('_door', '_wall')}.png`;
+            } else if (type.includes('window')) {
+                path = `/assets/textures/walls/${type}.png`;
+            } else {
+                path = `/assets/textures/walls/${type}.png`;
+            }
             
             img.src = path;
             img.onload = () => {

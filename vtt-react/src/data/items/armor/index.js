@@ -24,7 +24,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 1,
+    armor: 1,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -55,7 +55,7 @@ export const ARMOR = [
       ]
     },
     slots: ['chest'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       agility: { value: 1, isPercentage: false },
       constitution: { value: -1, isPercentage: false }
@@ -87,7 +87,7 @@ export const ARMOR = [
       ]
     },
     slots: ['chest'],
-    armorClass: 5,
+    armor: 5,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -111,7 +111,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['legs'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -142,7 +142,7 @@ export const ARMOR = [
       ]
     },
     slots: ['legs'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
@@ -174,7 +174,7 @@ export const ARMOR = [
       ]
     },
     slots: ['legs'],
-    armorClass: 4,
+    armor: 4,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -198,7 +198,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['head'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 25,
     maxDurability: 25
@@ -217,7 +217,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['head'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       intelligence: { value: -1, isPercentage: false }
     },
@@ -238,7 +238,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['head'],
-    armorClass: 4,
+    armor: 4,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       intelligence: { value: -2, isPercentage: false },
@@ -263,7 +263,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['hands'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -284,7 +284,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['hands'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
@@ -305,7 +305,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['hands'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -329,7 +329,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['feet'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -350,7 +350,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['feet'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -371,7 +371,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['feet'],
-    armorClass: 4,
+    armor: 4,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -395,7 +395,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['wrists'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -416,7 +416,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['wrists'],
-    armorClass: 1,
+    armor: 1,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -437,7 +437,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['wrists'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
@@ -459,7 +459,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['wrists'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -483,7 +483,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['shoulders'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -504,7 +504,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['shoulders'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -525,7 +525,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['shoulders'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
@@ -547,7 +547,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['shoulders'],
-    armorClass: 4,
+    armor: 4,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -571,7 +571,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['waist'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -592,7 +592,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['waist'],
-    armorClass: 1,
+    armor: 1,
     baseStats: {
       agility: { value: 1, isPercentage: false }
     },
@@ -613,7 +613,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['waist'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       strength: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
@@ -635,7 +635,7 @@ export const ARMOR = [
     height: 1,
     rotation: 0,
     slots: ['waist'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       agility: { value: -2, isPercentage: false }
@@ -659,7 +659,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['shirt'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 10,
     maxDurability: 10
@@ -678,7 +678,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['shirt'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 30,
     maxDurability: 30
@@ -697,7 +697,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['shirt'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 40,
     maxDurability: 40
@@ -718,7 +718,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['tabard'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 35,
     maxDurability: 35
@@ -737,7 +737,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['tabard'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 40,
     maxDurability: 40
@@ -756,7 +756,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['tabard'],
-    armorClass: 0,
+    armor: 0,
     baseStats: {},
     durability: 45,
     maxDurability: 45
@@ -787,7 +787,7 @@ export const ARMOR = [
       ]
     },
     slots: ['offHand'],
-    armorClass: 1,
+    armor: 1,
     baseStats: {
       agility: { value: -1, isPercentage: false }
     },
@@ -818,7 +818,7 @@ export const ARMOR = [
       ]
     },
     slots: ['offHand'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       constitution: { value: 1, isPercentage: false },
       agility: { value: -1, isPercentage: false }
@@ -851,7 +851,7 @@ export const ARMOR = [
       ]
     },
     slots: ['offHand'],
-    armorClass: 5,
+    armor: 5,
     baseStats: {
       constitution: { value: 2, isPercentage: false },
       agility: { value: -2, isPercentage: false },
@@ -886,7 +886,7 @@ export const ARMOR = [
       ]
     },
     slots: ['chest'],
-    armorClass: 8,
+    armor: 8,
     baseStats: {
       strength: { value: 2, isPercentage: false },
       constitution: { value: 2, isPercentage: false },
@@ -939,7 +939,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 3,
+    armor: 3,
     baseStats: {
       intelligence: { value: 3, isPercentage: false },
       agility: { value: 2, isPercentage: false }
@@ -999,7 +999,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 7,
+    armor: 7,
     baseStats: {
       strength: { value: 2, isPercentage: false },
       agility: { value: -1, isPercentage: false }
@@ -1053,7 +1053,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 10,
+    armor: 10,
     baseStats: {
       strength: { value: 3, isPercentage: false },
       constitution: { value: 4, isPercentage: false },
@@ -1108,7 +1108,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 5,
+    armor: 5,
     baseStats: {
       intelligence: { value: 5, isPercentage: false },
       spirit: { value: 3, isPercentage: false },
@@ -1169,7 +1169,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 12,
+    armor: 12,
     baseStats: {
       strength: { value: 4, isPercentage: false },
       constitution: { value: 5, isPercentage: false },
@@ -1224,7 +1224,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 7,
+    armor: 7,
     baseStats: {
       intelligence: { value: 6, isPercentage: false },
       spirit: { value: 4, isPercentage: false },
@@ -1298,7 +1298,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 9,
+    armor: 9,
     baseStats: {
       strength: { value: 3, isPercentage: false },
       constitution: { value: 4, isPercentage: false },
@@ -1346,7 +1346,7 @@ export const ARMOR = [
     height: 2,
     rotation: 0,
     slots: ['chest'],
-    armorClass: 2,
+    armor: 2,
     baseStats: {
       intelligence: { value: 3, isPercentage: false },
       spirit: { value: 2, isPercentage: false }

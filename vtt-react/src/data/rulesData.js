@@ -171,6 +171,95 @@ GMs can mix and match these systems to create the perfect experience for their t
         }
       },
       {
+        id: 'durability-repair',
+        name: 'Durability & Repair',
+        icon: 'fas fa-shield-alt',
+        content: {
+          title: 'Durability & Repair',
+          description: 'How items degrade from combat and can be restored through repair',
+          sections: [
+            {
+              title: 'What Is Durability',
+              content: `All equippable items — weapons, armor, and accessories — possess a durability rating that represents their structural integrity. An item's durability is expressed as a ratio of current durability to maximum durability (e.g., **5/8 Durability**). A freshly crafted or acquired item begins at full durability. As an item takes wear from combat, environmental hazards, or narrative events, its durability decreases.`
+            },
+            {
+              title: 'Durability Damage',
+              content: `When a character suffers a critical hit targeting a specific body area (such as chest, head, or arms), the Game Master may reduce the durability of the armor or item equipped in that slot. The amount of durability lost is at the GM's discretion — a glancing critical might cost 1-2 points, while a devastating blow could cost 5-10 or more.
+
+Durability loss is always handled manually by the GM or players via the item's context menu (right-click the item and select "Durability"). Both preset increments (-1, -5, -10) and custom amounts are available.`
+            },
+            {
+              title: 'Broken Items',
+              content: `When an item's durability reaches **0**, it is considered **broken**. A broken item has the following effects:
+
+- The item is **automatically unequipped** from its slot
+- The item **cannot be re-equipped** until repaired
+- All stat bonuses and effects from the item are **nullified**
+- The item displays a **cracked icon overlay** and red durability bar
+- A notification alerts all players that the item has broken
+
+Broken items remain in the character's inventory and can be repaired through various means.`
+            },
+            {
+              title: 'Durability Visual Indicators',
+              content: `Items display a colored durability bar to indicate their condition at a glance:
+
+- **Green**: Durability above 50% — the item is in good condition
+- **Yellow**: Durability at or below 50% — the item is showing wear
+- **Red**: Durability at or below 25% — the item is in critical condition
+- **Broken Icon**: Durability at 0 — the item is broken and unusable
+
+Hovering over an item in the library or inventory shows the exact durability ratio in the tooltip.`
+            },
+            {
+              title: 'Repair During Rests',
+              content: `Items can be repaired during short or long rests. The repair process is handled narratively between the GM and players:
+
+**Repair Attempt**
+During a rest, a character may attempt to repair a damaged or broken item. The player rolls a d20 against a **Difficulty Class set by the GM** (default DC 15). The GM determines the DC based on:
+
+- The severity of the damage (lower durability = higher DC)
+- The quality and rarity of the item
+- Available tools and materials
+- The character's relevant skills or background
+
+**On a successful roll**, the GM and player determine how much durability is restored based on the narrative — a minor patch job, a full restoration, or anything in between. The GM adjusts the durability via the context menu.
+
+**On a failed roll**, no durability is restored. Materials may be consumed at the GM's discretion.
+
+**Materials & Resources**
+The GM may require specific materials for repairs — leather patches for leather armor, iron ingots for plate, rare herbs for magical accessories, and so on. This is purely at the GM's discretion and meant to enhance the roleplaying experience.`
+            },
+            {
+              title: 'Setting Durability on New Items',
+              content: `When creating items through the Item Wizard or Quick Create, the creator sets the maximum durability freely — there is no automatic scaling based on item quality. The GM decides what makes sense for the item and the narrative:
+
+- A rusty dagger found in a dungeon might have 10 max durability
+- A masterwork longsword could have 150 max durability
+- An ancient artifact might have 200 or more
+
+Items created through Quick Create receive a default durability based on their quality tier, but this can be adjusted at any time through the item editor.`
+            }
+          ],
+          tables: [
+            {
+              title: 'Quick Create Default Durability by Quality',
+              description: 'Default durability values assigned when quick-creating items. These are suggestions — the GM or creator can override them at any time.',
+              headers: ['Quality', 'Default Max Durability'],
+              rows: [
+                ['Poor', '30'],
+                ['Common', '50'],
+                ['Uncommon', '70'],
+                ['Rare', '90'],
+                ['Epic', '120'],
+                ['Legendary', '160'],
+                ['Artifact', '200']
+              ]
+            }
+          ]
+        }
+      },
+      {
         id: 'game-sessions',
         name: 'Game Sessions',
         icon: 'fas fa-calendar-alt',
@@ -548,11 +637,11 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
         useCustomComponent: true,
         content: {
           title: 'Classes',
-          description: '27 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.',
+          description: '30 classes organized by thematic paths with unique resource systems. Click on a class name to view detailed information.',
           sections: [
             {
               title: 'Class System',
-              content: `Classes determine your combat role, resource system, and mechanical abilities. There are 27 classes organized into thematic paths.`
+              content: `Classes determine your combat role, resource system, and mechanical abilities. There are 30 classes organized into thematic paths.`
             },
             {
               title: 'Resource Systems',
@@ -593,7 +682,9 @@ These colors use distinct hues and brightness levels, plus visual indicators (�
                 ['Titan', 'Tank/Control', 'Strain Overload', 'Gravity manipulator with colossal strength'],
                 ['Toxicologist', 'Damage/Control', 'Alchemical Vials', 'Poison crafter with chemical warfare'],
                 ['Warden', 'Damage/Control', 'Vengeance Points', 'Relentless hunter with glaive combat and spectral cages'],
-                ['Witch Doctor', 'Support/Control', 'Voodoo Essence & Loa Invocation', 'Voodoo practitioner invoking powerful gods through curses, rituals, and totems']
+                ['Witch Doctor', 'Support/Control', 'Voodoo Essence & Loa Invocation', 'Voodoo practitioner invoking powerful gods through curses, rituals, and totems'],
+                ['Augur', 'Control/Debuffer', 'Benediction & Malediction', 'Omen reader who interprets even/odd dice results to fuel blessings and curses, reshaping battlefield conditions'],
+                ['Doomsayer', 'Damage/Control', 'Havoc & Prophecy Range', 'Prophet of catastrophe who places living bomb prophecies with RNG chaos outcomes, earning Havoc from fulfilled prophecies']
               ]
             }
           ]
@@ -1913,7 +2004,7 @@ Both dice use the weapon type to pick the correct outcome text.`
         icon: 'fas fa-droplet',
         content: {
           title: 'Magic Resources',
-          description: 'Action economy and class-specific resource systems used across all 28 classes',
+          description: 'Action economy and class-specific resource systems used across all 30 classes',
           tables: [
             {
               title: 'Core Resources',
@@ -1928,7 +2019,7 @@ Both dice use the weapon type to pick the correct outcome text.`
             },
             {
               title: 'Class Resource Systems',
-              description: 'Each of the 28 classes uses unique resource mechanics that define their playstyle and tactical options.',
+              description: 'Each of the 30 classes uses unique resource mechanics that define their playstyle and tactical options.',
               layout: 'armor-grid',
               headers: ['Resource', 'Used By', 'How It Works'],
               rows: [
@@ -1959,7 +2050,9 @@ Both dice use the weapon type to pick the correct outcome text.`
                 ['Strain Overload', 'Titan', 'Build strain through gravity manipulation; overload for massive area effects'],
                 ['Alchemical Vials', 'Toxicologist', 'Toxin Vials for poisons/concoctions; Contraption Parts for battlefield devices'],
                 ['Vengeance Points', 'Warden', 'Build vengeance when allies take damage; spend on protective and retaliatory abilities'],
-                ['Voodoo Essence & Loa Invocation', 'Witch Doctor', 'Build essence through curses; invoke powerful Loa spirits']
+                ['Voodoo Essence & Loa Invocation', 'Witch Doctor', 'Build essence through curses; invoke powerful Loa spirits'],
+                ['Benediction & Malediction', 'Augur', 'Even d20 results generate Benediction (boons/blessings), odd results generate Malediction (curses/debuffs). Spec-dependent maxes: 10/10, 15/5, or 5/15. Unused resources cause Omen Debt.'],
+                ['Havoc', 'Doomsayer', 'Earned from fulfilled prophecies (Prophesized outcomes). Spent to widen prophecy ranges and cast stronger spells. Prophecy Range: roll 2 dice → inside = Prophesized, boundary = Base, outside = Backlash.']
               ]
             }
           ]

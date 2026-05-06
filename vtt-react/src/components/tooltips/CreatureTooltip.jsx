@@ -39,7 +39,7 @@ const CreatureTooltip = ({
   const stats = creature.stats || {};
   const currentHp = tokenState?.currentHp ?? stats.currentHp ?? stats.maxHp ?? 0;
   const maxHp = stats.maxHp || 100;
-  const armor = stats.armorClass || stats.armor || 10;
+  const armor = stats.armor || 10;
   const speed = stats.speed || 30;
 
   const healthState = getHealthState(currentHp, maxHp);
@@ -111,7 +111,7 @@ const CreatureTooltip = ({
         {isGM ? (
           /* ══════ GM VIEW – full data ══════ */
           <>
-            {/* Stat grid: SPD / AC / AP */}
+            {/* Stat grid: SPD / Armor / AP */}
             <div className="tt-stat-grid">
               <div className="tt-stat-cell">
                 <span className="tt-stat-cell-label">Speed</span>

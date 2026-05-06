@@ -260,12 +260,6 @@ textarea,
 
 /* ===== PATHFINDER CREATURE LIBRARY ===== */
 
-.creature-library {
-  padding: var(--pf-space-6);
-  color: var(--pf-text-primary);
-  background: var(--pf-gradient-parchment);
-}
-
 .creature-types {
   display: flex;
   gap: var(--pf-space-3);
@@ -430,13 +424,6 @@ textarea,
 }
 
 /* ===== PATHFINDER CREATURE LIBRARY GRID ===== */
-
-.creature-library {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--pf-space-6);
-  background: var(--pf-gradient-parchment);
-}
 
 .creature-types {
   display: flex;

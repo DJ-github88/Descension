@@ -875,21 +875,21 @@ const EnhancedCreatureInspectView = ({ creature: initialCreature, token, isOpen,
         stats: [
           {
             label: 'Armor',
-            value: creature.stats.armorClass || 10,
+            value: creature.stats.armor || 10,
             tooltip: true,
             icon: getCustomIconUrl('Utility/Scaled Armor', 'abilities'),
             description: 'Defense against physical attacks'
           },
           {
             label: 'Passive DR',
-            value: Math.floor((creature.stats.armorClass || 10) / 10),
+            value: Math.floor((creature.stats.armor || 10) / 10),
             tooltip: true,
             icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
             description: 'Damage reduced automatically each hit (Armor ÷ 10, rounded down)'
           },
           {
             label: 'Soak Die (Defend)',
-            value: getSoakDieFromArmor(creature.stats.armorClass || 10),
+            value: getSoakDieFromArmor(creature.stats.armor || 10),
             tooltip: true,
             icon: getCustomIconUrl('Utility/Golden Shield', 'abilities'),
             description: 'Bonus reduction you roll when you take the Defend action'

@@ -92,11 +92,10 @@
 /* ─── Content Area ───────────────────────────────────────────── */
 .creature-window-content {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 0;
+  overflow: hidden;
   padding: 0;
   background-color: #f0e6d2;
-  min-height: 0; /* critical for flex children to respect parent height */
   display: flex;
   flex-direction: column;
 }

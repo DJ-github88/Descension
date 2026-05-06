@@ -706,7 +706,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                     }
                 } else if (randomType === 'armor') {
                     // Add armor class
-                    item.armorClass = Math.max(1, Math.floor(powerMultiplier * getRandomInt(3, 8)));
+                    item.armor = Math.max(1, Math.floor(powerMultiplier * getRandomInt(3, 8)));
 
                     // Set armor slots based on item size and type
                     let armorSlot = 'chest'; // default
@@ -1196,7 +1196,7 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
             const armorMin = Math.max(1, Math.floor(powerLevel * 3));
             const armorMax = Math.max(armorMin + 1, Math.floor(powerLevel * 15));
             
-            combatStats.armorClass = {
+            combatStats.armor = {
                 value: Math.max(1, Math.floor(powerMultiplier * getRandomInt(armorMin, armorMax))),
                 isPercentage: false
             };
@@ -1578,6 +1578,12 @@ const EnhancedQuickItemWizard = ({ onComplete, onCancel, initialData, onRarityCh
                 stackable: true,
                 maxStackSize: 5
             } : {}),
+
+            ...(type === 'weapon' || type === 'armor' || type === 'accessory' ? (() => {
+                const qualityValues = { poor: 30, common: 50, uncommon: 70, rare: 90, epic: 120, legendary: 160, artifact: 200 };
+                const maxDur = qualityValues[RARITY_LEVELS[rarityLevel]] || 50;
+                return { durability: maxDur, maxDurability: maxDur };
+            })() : {}),
 
             // Add specialized properties based on item type
             ...(type === 'miscellaneous' && subtype === 'QUEST' ? {

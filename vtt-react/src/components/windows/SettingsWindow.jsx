@@ -539,7 +539,7 @@ const SettingsWindow = memo(function SettingsWindow({ activeTab: propActiveTab }
                                 {[
                                     { value: 'vague', label: '🌫 Vague', desc: 'Players see health status (e.g. "Bloodied") and color-coded speed/armor labels. No numbers.' },
                                     { value: 'partial', label: '📊 Partial', desc: 'Players see a health bar + descriptive labels (e.g. "Fast", "Well-Armored"). No exact values.' },
-                                    { value: 'full', label: '📋 Full', desc: 'Players see exact HP, AC, Speed and all stats — same as GM.' }
+                                    { value: 'full', label: '📋 Full', desc: 'Players see exact HP, Armor, Speed and all stats — same as GM.' }
                                 ].map(opt => (
                                     <label
                                         key={opt.value}

@@ -190,7 +190,7 @@ export const MERCENARY_PATH = {
                         description: 'Target\'s weakness is exploited: -3 armor and you deal 25% more damage to them for 8 rounds.',
                         statPenalty: [{ stat: 'armor', value: -3 }, { stat: 'damage_taken_from_caster', value: 25, magnitudeType: 'percentage_increase' }],
                         armorReduction: 3,
-                        mechanicsText: '-3 AC, 25% more damage from caster for 8 rounds'
+                        mechanicsText: '-3 Armor, 25% more damage from caster for 8 rounds'
                     }
                 ],
                 durationValue: 8,

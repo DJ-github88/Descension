@@ -117,7 +117,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -138,7 +138,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -473,7 +473,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 3, isPercentage: false }
+            armor: { value: 3, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -494,7 +494,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 4, isPercentage: false }
+            armor: { value: 4, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -514,7 +514,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         width: 2,
         height: 2,
         slots: ['offHand'],
-        armorClass: 2,
+        armor: 2,
         baseStats: {
             constitution: { value: 1, isPercentage: false }
         },
@@ -1118,7 +1118,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         availableFor: {
             universal: true
@@ -1139,7 +1139,7 @@ export const UNIVERSAL_STARTING_ITEMS = [
         height: 1,
         slots: ['feet'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         availableFor: {
             universal: true

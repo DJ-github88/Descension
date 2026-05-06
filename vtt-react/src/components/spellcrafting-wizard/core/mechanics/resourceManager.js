@@ -502,6 +502,45 @@ import {
         }
         break;
 
+      case 'benediction':
+        // Augur radiant omen resource, scales with buff/healing effects
+        if (spellConfig.effectTypes.includes('healing')) {
+          cost = 3;
+        } else if (spellConfig.effectTypes.includes('buff')) {
+          cost = 2;
+        } else if (spellConfig.effectTypes.includes('utility')) {
+          cost = 2;
+        } else {
+          cost = 1;
+        }
+        break;
+
+      case 'malediction':
+        // Augur dark omen resource, scales with debuff/damage effects
+        if (spellConfig.effectTypes.includes('debuff')) {
+          cost = 3;
+        } else if (spellConfig.effectTypes.includes('damage')) {
+          cost = 2;
+        } else if (spellConfig.effectTypes.includes('control')) {
+          cost = 2;
+        } else {
+          cost = 1;
+        }
+        break;
+
+      case 'havoc':
+        // Doomsayer prophecy resource, scales with power level
+        if (spellConfig.level >= 7) {
+          cost = 5;
+        } else if (spellConfig.level >= 5) {
+          cost = 4;
+        } else if (spellConfig.level >= 3) {
+          cost = 3;
+        } else {
+          cost = 2;
+        }
+        break;
+
       default:
         cost = 0;
     }
@@ -575,6 +614,9 @@ import {
       'mana_to_energy': 2,        // 1 mana = 2 energy
       'combo_points_to_mana': 10, // 1 combo point = 10 mana
       'soul_shards_to_mana': 15,  // 1 soul shard = 15 mana
+      'benediction_to_mana': 12,  // 1 benediction = 12 mana
+      'malediction_to_mana': 12,  // 1 malediction = 12 mana
+      'havoc_to_mana': 15,        // 1 havoc = 15 mana
     };
 
     const key = `${fromResource}_to_${toResource}`;

@@ -108,8 +108,8 @@ const CreatureInspectView = ({ creature, onClose }) => {
                     <span className="combat-stat-value">{creature.stats.maxHp}</span>
                   </div>
                   <div className="combat-stat">
-                    <span className="combat-stat-label">AC</span>
-                    <span className="combat-stat-value">{creature.stats.armorClass}</span>
+                    <span className="combat-stat-label">Armor</span>
+                    <span className="combat-stat-value">{creature.stats.armor}</span>
                   </div>
                   <div className="combat-stat">
                     <span className="combat-stat-label">Initiative</span>

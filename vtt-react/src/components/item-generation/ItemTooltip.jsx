@@ -512,7 +512,7 @@ const getStatDescription = (stat, value, isPercentage = false) => {
 
         // Combat effectiveness
         initiative: `Increases your initiative by ${formattedValue}.`,
-        armorClass: `Increases your armor by ${formattedValue}.`,
+        armor: `Increases your armor by ${formattedValue}.`,
 
         range: `Increases attack range by ${formattedValue} feet.`,
 
@@ -1047,9 +1047,9 @@ function ItemTooltip({ item }) {
                             {/* Armor Details */}
                             {resultItem.type === 'armor' && (
                                 <>
-                                    {resultItem.combatStats?.armorClass && (
+                                    {resultItem.combatStats?.armor && (
                                         <div style={{ color: '#5a1e12', marginBottom: '2px', fontWeight: '500' }}>
-                                            Armor: <span style={{ fontWeight: '700', color: '#8b4513', textShadow: 'none' }}>{resultItem.combatStats.armorClass.value || resultItem.combatStats.armorClass}</span>
+                                            Armor: <span style={{ fontWeight: '700', color: '#8b4513', textShadow: 'none' }}>{resultItem.combatStats.armor.value || resultItem.combatStats.armor}</span>
                                         </div>
                                     )}
                                 </>
@@ -1488,9 +1488,8 @@ function ItemTooltip({ item }) {
 
 
 
-    // Get armor class value - check multiple possible locations
-    const armorClassValue = getStatValue(item.armorClass) ||
-        getStatValue(item.combatStats?.armorClass) ||
+    // Get armor value - check multiple possible locations
+    const armorValue = getStatValue(item.armor) ||
         getStatValue(item.combatStats?.armor) || 0;
 
     // Get base stats
@@ -1507,7 +1506,6 @@ function ItemTooltip({ item }) {
         .filter(([stat, data]) =>
             stat !== 'resistances' &&
             stat !== 'spellDamage' &&
-            stat !== 'armorClass' &&
             stat !== 'armor' &&
             stat !== 'healthRestore' &&
             stat !== 'manaRestore' &&
@@ -1746,7 +1744,7 @@ function ItemTooltip({ item }) {
         utilityStats.length > 0 ||
         spellDamageStats.length > 0 ||
         hasCarryingCapacity ||
-        armorClassValue > 0 ||
+        armorValue > 0 ||
         (item.immunities && item.immunities.length > 0) ||
         (item.combatStats?.resistances && Object.keys(item.combatStats.resistances).length > 0) ||
         conditionModifiers.length > 0
@@ -2062,6 +2060,8 @@ function ItemTooltip({ item }) {
                 </div>
             )}
 
+
+
             {/* Weapon Damage */}
             {item.type === 'weapon' && item.weaponStats && (
                 <div style={{ marginBottom: '8px' }}>
@@ -2161,9 +2161,9 @@ function ItemTooltip({ item }) {
                     ))}
 
                     {/* Armor for consumables */}
-                    {armorClassValue > 0 && (
+                    {armorValue > 0 && (
                         <div className="base-stat" style={{ marginLeft: '0', paddingLeft: '0' }}>
-                            Increases your Armor by <span style={{ fontWeight: 'normal' }}>{armorClassValue}</span>
+                            Increases your Armor by <span style={{ fontWeight: 'normal' }}>{armorValue}</span>
                         </div>
                     )}
 
@@ -2235,9 +2235,9 @@ function ItemTooltip({ item }) {
             {item.type !== 'consumable' && (
                 <>
                     {/* Armor - Display before base stats */}
-                    {armorClassValue > 0 && (
+                    {armorValue > 0 && (
                         <div style={{ color: '#ffffff', marginBottom: '8px', fontSize: '0.95em' }}>
-                            <strong>Armor {armorClassValue}</strong>
+                            <strong>Armor {armorValue}</strong>
                         </div>
                     )}
 
@@ -2249,6 +2249,17 @@ function ItemTooltip({ item }) {
                                 : `${value >= 0 ? '+' : ''}${value} ${name}`}
                         </div>
                     ))}
+
+                    {/* Durability - Dynamic color text */}
+                    {['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null && (
+                        <div style={{ 
+                            color: (item.durability ?? item.maxDurability) === 0 ? '#d32f2f' : ((item.durability ?? item.maxDurability) / item.maxDurability) <= 0.25 ? '#f57c00' : ((item.durability ?? item.maxDurability) / item.maxDurability) <= 0.50 ? '#b8860b' : '#2e7d32', 
+                            margin: '4px 0', 
+                            fontSize: '0.95em' 
+                        }}>
+                            Durability: {item.durability ?? item.maxDurability} / {item.maxDurability}
+                        </div>
+                    )}
 
                     {/* On Equip section - show if there are any effects including resistances */}
                     {(resistances.length > 0 || conditionModifiers.length > 0 || otherStats.length > 0 || utilityStats.length > 0 || spellDamageStats.length > 0 || hasCarryingCapacity) && (

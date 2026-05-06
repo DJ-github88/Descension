@@ -88,7 +88,7 @@ const LibraryStyleCreatureCard = ({ creature }) => {
           <div className="main-stat-label">HP</div>
         </div>
         <div className="main-stat">
-          <div className="main-stat-value">{creature.stats.armor || creature.stats.armorClass}</div>
+          <div className="main-stat-value">{creature.stats.armor}</div>
           <div className="main-stat-label">Armor</div>
         </div>
         <div className="main-stat">

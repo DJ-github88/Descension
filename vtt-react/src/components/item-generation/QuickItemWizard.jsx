@@ -210,27 +210,27 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
     const baseCombatRanges = {
         poor: {
             damage: { min: 1, max: 2 },
-            armorClass: { min: 1, max: 2 }
+            armor: { min: 1, max: 2 }
         },
         common: {
             damage: { min: 1, max: 3 },
-            armorClass: { min: 2, max: 3 }
+            armor: { min: 2, max: 3 }
         },
         uncommon: {
             damage: { min: 2, max: 4 },
-            armorClass: { min: 3, max: 4 }
+            armor: { min: 3, max: 4 }
         },
         rare: {
             damage: { min: 3, max: 5 },
-            armorClass: { min: 4, max: 5 }
+            armor: { min: 4, max: 5 }
         },
         epic: {
             damage: { min: 4, max: 6 },
-            armorClass: { min: 5, max: 6 }
+            armor: { min: 5, max: 6 }
         },
         legendary: {
             damage: { min: 5, max: 8 },
-            armorClass: { min: 6, max: 8 }
+            armor: { min: 6, max: 8 }
         }
     };
 
@@ -238,27 +238,27 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
     const combatRanges = {
         poor: {
             damage: adjustRangeByPowerScale(baseCombatRanges.poor.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.poor.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.poor.armor, powerScale)
         },
         common: {
             damage: adjustRangeByPowerScale(baseCombatRanges.common.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.common.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.common.armor, powerScale)
         },
         uncommon: {
             damage: adjustRangeByPowerScale(baseCombatRanges.uncommon.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.uncommon.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.uncommon.armor, powerScale)
         },
         rare: {
             damage: adjustRangeByPowerScale(baseCombatRanges.rare.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.rare.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.rare.armor, powerScale)
         },
         epic: {
             damage: adjustRangeByPowerScale(baseCombatRanges.epic.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.epic.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.epic.armor, powerScale)
         },
         legendary: {
             damage: adjustRangeByPowerScale(baseCombatRanges.legendary.damage, powerScale),
-            armorClass: adjustRangeByPowerScale(baseCombatRanges.legendary.armorClass, powerScale)
+            armor: adjustRangeByPowerScale(baseCombatRanges.legendary.armor, powerScale)
         }
     };
 
@@ -314,8 +314,8 @@ const generateCombatStats = (type, quality, powerScale = 1) => {
 
         case 'armor':
             // Always add armor class
-            stats.armorClass = {
-                value: Math.floor(Math.random() * (range.armorClass.max - range.armorClass.min + 1)) + range.armorClass.min,
+            stats.armor = {
+                value: Math.floor(Math.random() * (range.armor.max - range.armor.min + 1)) + range.armor.min,
                 isPercentage: false
             };
 
@@ -1156,7 +1156,7 @@ const QuickItemWizard = ({ onComplete, onCancel, initialData }) => {
             }),
 
             // Armor class directly at top level for display
-            armorClass: stats.combatStats?.armorClass?.value || 0,
+            armor: stats.combatStats?.armor?.value || 0,
 
             // Slots (important for display)
             slots: type === 'weapon' ?

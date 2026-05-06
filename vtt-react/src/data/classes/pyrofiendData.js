@@ -21,7 +21,7 @@ export const PYROFIEND_DATA = {
       title: 'Quick Overview',
       content: `**What You Need to Know**: The Pyrofiend ascends through 10 levels of demonic corruption (Inferno Veil 0-9), gaining escalating fire damage bonuses at the cost of increasingly catastrophic drawbacks inspired by the circles of Hell. Climb too high and the corruption will kill you—descend too fast and you waste your power.
 
-**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +10) → Suffer escalating drawbacks (self-damage, movement loss, suffocation) → Use Cooling Ember to descend and heal
+**Core Mechanic**: Cast fire spells → Ascend Inferno Levels → Gain fire damage bonus (+1 to +8, then +10 at Level 9 "The Demon's Bargain") → Suffer escalating drawbacks (self-damage, movement loss, suffocation) → Use Cooling Ember to descend and heal
 
 **Resource**: Inferno Veil (0-9 scale, tracked with a single d10 die)
 
@@ -88,332 +88,297 @@ However, this power comes at a cost. The Pyrofiend's drawbacks at high Inferno L
 
 **Starting State**: Inferno Level: 0/9 | Fire Damage Bonus: +0 | Mana: 60/60 | HP: 45/45
 
-**Turn 1 - First Flames (Inferno: 0 → 2)**
+**Turn 1 - First Flames (Inferno: 0 → 1)**
 
 *The ice elemental looms before you, frost radiating from its crystalline form. You feel the demonic fire stirring within. Time to let it OUT.*
 
-**Your Action**: Cast "Hellfire Bolt" at Ice Elemental (8 mana, ascends +2 Inferno)
+**Your Action**: Cast "Ember Spark" at Ice Elemental (3 mana, ascends +1 Inferno)
 **Attack Roll**: d20+7 → [16] = Hit!
-**Base Damage**: 3d10 fire → [8, 9, 7] = 24 fire damage
+**Base Damage**: 1d6 fire → [5] = 5 fire damage
 **Inferno Bonus**: +0 (currently at Level 0)
-**Total Damage**: **24 fire damage**
+**DoT Applied**: 1d4 fire damage per round for 2 rounds
+**Total Damage**: **5 fire damage** (plus ongoing burn)
 
-*The bolt of hellfire SLAMS into the elemental. It recoils, ice cracking.*
+*The spark burrows into the elemental's icy hide. Ice cracks and steam hisses.*
 
-**Inferno Ascension**: 0 → **2** (Hellfire Bolt ascends +2)
-**Fire Damage Bonus**: +0 → **+2**
-**Drawback (Level 2 - Greed)**: "You must collect 50% of all treasure found"
+**Inferno Ascension**: 0 → **1** (Ember Spark ascends +1)
+**Fire Damage Bonus**: +0 → **+1**
+**Drawback (Level 1 - Limbo)**: Minor visual distortions reduce hit chance by 2
 
-**Mana**: 60 - 8 = 52/60
+**Mana**: 60 - 3 = 57/60
 
-*You feel the inferno rising within you. Your eyes begin to GLOW with inner fire. Heat radiates from your skin.*
+*You feel the inferno stirring. Your eyes begin to glow faintly with inner fire.*
 
 **Your Party's Tank**: "Your eyes... they're glowing!"
-**You**: "The fire is waking up. Inferno Level 2. I'm just getting started."
+**You**: "The fire is waking up. Inferno Level 1. Just a flicker. +1 fire damage now."
 
-**Current State**: Inferno: 2/9 | Fire Bonus: +2 | Mana: 52/60 | HP: 45/45
+**Current State**: Inferno: 1/9 | Fire Bonus: +1 | Mana: 57/60 | HP: 45/45
 
-**Turn 2 - Rising Heat (Inferno: 2 → 5)**
+**Turn 2 - Rising Heat (Inferno: 1 → 3)**
 
-*The frost wraiths attack, but your tank intercepts. The ice elemental prepares a frost nova. You need MORE POWER.*
+*The frost wraiths swarm. Your tank intercepts most, but you need AREA control.*
 
-**Your Action**: Cast "Infernal Immolation" at Frost Wraith group (12 mana, ascends +3 Inferno, AoE)
-**Effect**: 4d8 fire damage to all enemies in 15 ft radius
-**Damage Roll**: 4d8 → [7, 8, 6, 7] = 28 fire damage
-**Inferno Bonus**: +2 (currently at Level 2)
-**Total Damage**: 28 + 2 = **30 fire damage to 4 frost wraiths**
+**Your Action**: Cast "Cinder Bolt" at Frost Wraith group (8 mana, ascends +2 Inferno, AoE 5ft radius)
+**Damage Roll**: 2d6 + INT fire → [5, 6] + 3 = 14 fire damage
+**Inferno Bonus**: +1 (currently at Level 1)
+**Total Damage**: 14 + 1 = **15 fire damage to wraiths in blast**
 
-*You raise your hands. INFERNAL FIRE explodes outward in a massive sphere. The wraiths SCREAM as they burn.*
+*The cinder bolt EXPLODES on impact. Two wraiths screech as embers tear through them.*
 
-**Frost Wraiths**: 2 wraiths DEAD (30 damage each), 2 wraiths heavily damaged
+**Frost Wraiths**: 2 wraiths heavily damaged, 2 wraiths moderately damaged
 
-**Inferno Ascension**: 2 → **5** (Infernal Immolation ascends +3)
-**Fire Damage Bonus**: +2 → **+5**
-**Drawback (Level 5 - Wrath)**: "You must attack the creature that last damaged you"
+**Inferno Ascension**: 1 → **3** (Cinder Bolt ascends +2)
+**Fire Damage Bonus**: +1 → **+3**
+**Drawback (Level 3 - Gluttony)**: -10 ft movement, constant fatigue
 
-**Mana**: 52 - 12 = 40/60
+**Mana**: 57 - 8 = 49/60
 
-*The fire SURGES through you. Your skin begins to crack, revealing MOLTEN VEINS beneath. Small horns sprout from your forehead. The air around you SHIMMERS with heat.*
+*Heat radiates from your skin. The air around you SHIMMERS. You feel heavier, slower — but POWERFUL.*
 
-**Your Party's Healer**: "You're... changing. Your skin is cracking!"
-**You**: "Inferno Level 5. The demon is emerging. +5 fire damage to all my spells now."
-**Your Party's Mage**: "But what's the cost?"
-**You**: "Wrath. I must attack whoever last hurt me. And greed—I need half the treasure. Small prices for THIS POWER."
+**Your Party's Healer**: "You're... changing. You're moving slower!"
+**You**: "Inferno Level 3. The demon stirs. -10 ft movement but +3 fire damage to EVERYTHING now. Worth it."
 
-*You take 3 damage from a frost wraith's attack*
+*Frost wraith strikes you for 3 damage*
 
-**Wrath Drawback Triggered**: You MUST attack that frost wraith next turn
+**HP**: 45 - 3 = 42/45
 
-**Current State**: Inferno: 5/9 | Fire Bonus: +5 | Mana: 40/60 | HP: 42/45
+**Current State**: Inferno: 3/9 | Fire Bonus: +3 | Mana: 49/60 | HP: 42/45
 
-**Turn 3 - Demonic Fury (Inferno: 5 → 7)**
+**Turn 3 - Demonic Fury (Inferno: 3 → 5)**
 
-*The wrath consumes you. You MUST burn the wraith that dared strike you.*
+*The fatigue is real, but so is the power. You need MORE. The tank is holding the line — time to go big.*
 
-**Your Action (Compelled by Wrath)**: Cast "Hellfire Bolt" at Frost Wraith that damaged you (8 mana, ascends +2)
-**Attack Roll**: d20+7 → [18] = Hit!
-**Base Damage**: 3d10 fire → [9, 10, 8] = 27 fire damage
-**Inferno Bonus**: +5 (currently at Level 5)
-**Total Damage**: 27 + 5 = **32 fire damage**
+**Your Action**: Cast "Fireball" at Ice Elemental (12 mana, ascends +2 Inferno, AoE 10ft sphere)
+**Damage Roll**: 3d6 + INT fire → [6, 5, 4] + 3 = 18 fire damage
+**Inferno Bonus**: +3 (currently at Level 3)
+**Total Damage**: 18 + 3 = **21 fire damage to elemental and nearby wraiths**
 
-*The wraith EXPLODES in flames, utterly annihilated.*
+*The fireball DETONATES against the elemental. Ice shatters. The remaining wraiths BURN.*
 
-**Frost Wraith**: DEAD
+**Frost Wraiths**: 2 wraiths DEAD, 2 wraiths destroyed by blast
+**Ice Elemental**: 21 fire damage — HEAVILY DAMAGED
 
-**Inferno Ascension**: 5 → **7** (Hellfire Bolt ascends +2)
-**Fire Damage Bonus**: +5 → **+7**
-**Drawback (Level 7 - Gluttony)**: "You must consume 2x normal food/water, take 1d6 damage per turn if you don't"
+**Inferno Ascension**: 3 → **5** (Fireball ascends +2)
+**Fire Damage Bonus**: +3 → **+5**
+**Drawback (Level 5 - Wrath)**: Body cracks, 1d6 bleeding per turn, weakened defenses
+**Infernal Surge Triggered**: Next fire spell deals +2d6 fire damage (Path Passive at Level 5+)
 
-**Mana**: 40 - 8 = 32/60
-
-*The transformation accelerates. Your horns GROW LARGER. Your eyes are PITS OF FLAME. Sulfurous smoke pours from your mouth. Your voice echoes with INFERNAL RESONANCE.*
-
-**You (voice echoing)**: "INFERNO LEVEL SEVEN. THE DEMON HUNGERS."
-
-**Gluttony Damage**: You haven't eaten recently → Take 1d6 → [4] = 4 damage
-
+**Bleeding Damage**: 1d6 → [4] = 4 damage
 **HP**: 42 - 4 = 38/45
 
-**Your Party's Tank**: "You're hurting yourself!"
-**You**: "The gluttony... the demon HUNGERS. But look at my damage—+7 fire damage to EVERY spell. That last Hellfire Bolt did 32 damage!"
+*The transformation accelerates. Your skin begins to crack, revealing MOLTEN VEINS beneath. Small horns sprout from your forehead.*
 
-**Current State**: Inferno: 7/9 | Fire Bonus: +7 | Mana: 32/60 | HP: 38/45
+**You (voice echoing)**: "INFERNO LEVEL FIVE. THE DEMON EMERGES. +5 FIRE DAMAGE. AND MY NEXT SPELL GETS +2d6 FROM INFERNAL SURGE."
 
-**Turn 4 - Maximum Inferno (Inferno: 7 → 9)**
+**Your Party's Mage**: "But you're BLEEDING!"
+**You**: "The demon demands blood. Mine will do."
 
-*Only the ice elemental and one frost wraith remain. The elemental is at 60% HP. You need MAXIMUM POWER.*
+**Current State**: Inferno: 5/9 | Fire Bonus: +5 | Mana: 49 - 12 = 37/60 | HP: 38/45
 
-**Your Action**: Cast "Demonic Conflagration" at Ice Elemental (15 mana, ascends +2, ultimate fire spell)
-**Attack Roll**: d20+7 → [19] = Hit!
-**Base Damage**: 6d12 fire → [11, 10, 12, 9, 11, 10] = 63 fire damage
+**Turn 4 - Maximum Inferno (Inferno: 5 → 8)**
+
+*Only the ice elemental remains, wounded and desperate. You need MAXIMUM POWER to finish it.*
+
+**Your Action**: Cast "Hellfire Wave" at Ice Elemental (20 mana, ascends +2 Inferno, 30ft cone)
+**Damage Roll**: 8d6 + INT fire → [7, 6, 8, 5, 6, 7, 4, 8] + 3 = 54 fire damage
+**Inferno Bonus**: +5 (currently at Level 5)
+**Infernal Surge**: +2d6 → [6, 7] = +13 fire damage
+**Total Damage**: 54 + 5 + 13 = **72 fire damage!**
+
+*You sweep your arms forward. A WAVE OF HELLFIRE engulfs the elemental. It MELTS, screaming — ice becoming steam in an instant.*
+
+**Ice Elemental**: DEAD — OBLITERATED
+
+**Inferno Ascension**: 5 → **7** (Hellfire Wave ascends +2)
+
+*But you're not done. The elemental is dead, but the demon HUNGERs. You cast one more —*
+
+**Bonus Action**: Cast "Infernal Blast" at surviving Frost Wraith (20 mana, ascends +2)
+**Damage Roll**: 5d6 + INT fire → [6, 5, 4, 6, 5] + 3 = 29 fire damage
 **Inferno Bonus**: +7 (currently at Level 7)
-**Total Damage**: 63 + 7 = **70 fire damage!**
+**Total Damage**: 29 + 7 = **36 fire damage!**
 
-*You unleash DEMONIC HELLFIRE. The flames are BLACK and RED, wreathed in sulfur. The ice elemental MELTS, screaming.*
+*The wraith doesn't just die — it CEASES TO EXIST. Nothing but ash.*
 
-**Ice Elemental**: Takes 70 fire damage → HEAVILY DAMAGED (near death)
+**Inferno Ascension**: 7 → **9** (MAXIMUM INFERNO — Infernal Blast ascends +2 more)
+**Fire Damage Bonus**: +7 → **+10** (The Demon's Bargain — Level 9 grants +10, not +9)
+**Drawback (Level 9 - Treachery)**: 4d8 self-damage per turn, death in 3 turns if not extinguished, disadvantage on all saves
 
-**Inferno Ascension**: 7 → **9** (MAXIMUM INFERNO)
-**Fire Damage Bonus**: +7 → **+10** (maximum)
-**Drawback (Level 9 - Pride)**: "You cannot accept help from allies, must fight alone"
+**Mana**: 37 - 20 - 20 = -3... wait, you only had 37 mana. The second cast fails!
 
-**Mana**: 32 - 15 = 17/60
+**CORRECTION**: You cast Hellfire Wave (20 mana) → Mana: 37 - 20 = 17/60
+**Inferno Ascension**: 5 → **7** (not 9 — you don't have mana for the second cast)
 
-*You have reached MAXIMUM INFERNO. You are MORE DEMON THAN MORTAL. Massive horns curl from your head. Your skin is CRACKED OBSIDIAN revealing LAVA beneath. Wings of SHADOW and FLAME spread from your back. Your voice is PURELY DEMONIC.*
+*The elemental is DEAD. One frost wraith remains.*
 
-**You (demonic voice)**: "I AM BECOME INFERNO. WITNESS TRUE POWER."
+**Current State**: Inferno: 7/9 | Fire Bonus: +7 | Mana: 17/60 | HP: 38/45
 
-**Your Party's Healer**: "I need to heal you—you're at 38 HP!"
-**You**: "NO. Pride forbids it. I fight ALONE now. But I have +10 fire damage. MAXIMUM POWER."
+**Drawback (Level 7 - Violence)**: -15 ft speed, 1d6 suffocation per turn
 
-**Gluttony Damage**: 1d6 → [5] = 5 damage
+**Suffocation Damage**: 1d6 → [5] = 5 damage
 **HP**: 38 - 5 = 33/45
 
-**Current State**: Inferno: 9/9 (MAX) | Fire Bonus: +10 | Mana: 17/60 | HP: 33/45
+*Your horns GROW LARGER. Your eyes are PITS OF FLAME. Sulfurous smoke pours from your mouth. The demon is almost fully in control.*
+
+**You (demonic voice)**: "INFERNO LEVEL SEVEN. +7 FIRE DAMAGE. THE ICE IS GONE. ONLY FIRE REMAINS."
+
+**Your Party's Healer**: "You're suffocating! Let me—"
+**You**: "No. Not yet. I can hold."
 
 **Turn 5 - The Price of Power**
 
-*You are at maximum inferno. +10 fire damage. But you're taking 5 damage per turn from gluttony, you can't accept healing from allies (pride), you must attack whoever hurts you (wrath), and you need half the treasure (greed).*
+*You are at Inferno Level 7. +7 fire damage. But you're taking 1d6 suffocation per turn and -15 ft speed. You have 33 HP and 17 mana. The last frost wraith attacks.*
 
-**Ice Elemental's Turn**: Casts Frost Nova at you → 18 frost damage
-**HP**: 33 - 18 = 15/45
+**Frost Wraith's Turn**: Strikes you for 8 frost damage
+**HP**: 33 - 8 = 25/45
 
-**Wrath Triggered**: You MUST attack the ice elemental next turn (fortunately, that's your target anyway)
+**Your Action**: Cast "Ember Spark" at Frost Wraith (3 mana, ascends +1)
+**Damage Roll**: 1d6 fire → [5] = 5 fire damage + 1d4 DoT → ongoing
+**Inferno Bonus**: +7
+**Total Damage**: 5 + 7 = **12 fire damage**
 
-**Your Action**: Cast "Hellfire Bolt" at Ice Elemental (8 mana, ascends +2 but already at max)
-**Attack Roll**: d20+7 → [17] = Hit!
-**Base Damage**: 3d10 fire → [8, 9, 10] = 27 fire damage
-**Inferno Bonus**: +10 (MAXIMUM)
-**Total Damage**: 27 + 10 = **37 fire damage!**
+*The wraith SHATTERS into frozen shards that melt instantly in your aura of heat.*
 
-*BLACK HELLFIRE engulfs the elemental. It SHATTERS into steam and ice shards.*
+**Frost Wraith**: DEAD
 
-**Ice Elemental**: DEAD
+**Inferno Ascension**: 7 → **8** (Ember Spark ascends +1)
+**Fire Damage Bonus**: +7 → **+8**
+**Drawback (Level 8 - Fraud)**: 2d4 self-damage per turn, disadvantage on Dex checks
 
-**Mana**: 17 - 8 = 9/60
-
-**Your Party's Rogue**: Kills last frost wraith
+**Mana**: 17 - 3 = 14/60
 
 **Combat Over**
 
-*You stand among the melted remains, wings of shadow-flame spread wide, eyes blazing. Then you cast Cooling Ember.*
+*You stand among the melted remains. The demon howls within, demanding you stay. But survival demands control. You cast Cooling Ember.*
 
-**Your Action (After Combat)**: Cast "Cooling Ember" (5 mana, descends -3 Inferno)
-**Inferno Descent**: 9 → **6**
-**Fire Damage Bonus**: +10 → **+6**
-**Drawbacks Removed**: Pride removed (can accept help again)
+**Your Action (After Combat)**: Cast "Cooling Ember" (4 mana, descends -2 Inferno)
+**Inferno Descent**: 8 → **6**
+**Fire Damage Bonus**: +8 → **+6**
+**Healing**: 1d6 + spirit/3 → [5] + 2 = 7 HP
+**Drawbacks Removed**: Level 8 Fraud (no more 2d4 self-damage, Dex checks restored)
 
-**Mana**: 9 - 5 = 4/60
+**Mana**: 14 - 4 = 10/60
+**HP**: 25 + 7 = 32/45
 
-*The demonic transformation begins to RECEDE. Your wings fade. Your horns shrink. The cracks in your skin seal. You're still partially demonic (Level 6), but no longer at the dangerous maximum.*
+*The demonic transformation begins to RECEDE. Your horns shrink. The suffocating heat in your lungs eases. You're still partially demonic (Level 6), but no longer at the dangerous peak.*
 
-**Your Party's Healer**: Heals you for 20 HP
-**HP**: 15 + 20 = 35/45
+**Your Party's Healer**: Heals you for 15 HP
+**HP**: 32 + 15 = 45/45 (back to full with healer help — at Level 6, you CAN accept healing)
 
-**Your Party's Tank**: "That was... terrifying. You did 70 damage in one hit."
-**You**: "Demonic Conflagration with +7 fire damage at Inferno Level 7. Then I ascended to Level 9—maximum inferno. At Level 9, I had +10 fire damage. My Hellfire Bolt did 37 damage."
-**Your Party's Mage**: "But you were taking damage every turn and couldn't accept healing."
-**You**: "The drawbacks. Level 2 was greed (need half the treasure). Level 5 was wrath (must attack whoever hurts me). Level 7 was gluttony (take 1d6 damage per turn). Level 9 was pride (can't accept help). Each level gives +1 fire damage but adds a drawback."
-**Your Party's Healer**: "And Cooling Ember?"
-**You**: "Descends me -3 Inferno Levels. I went from 9 to 6, removing the pride drawback so you could heal me. I'm still at Level 6, so I still have greed, wrath, and gluttony, but I can manage those."
+**Your Party's Tank**: "That was... terrifying. You did 72 damage with one spell."
+**You**: "Hellfire Wave. +5 from Inferno Level 5, plus 2d6 Infernal Surge bonus. The demon gives everything. But at Level 7, I was suffocating. At Level 8, I was burning myself alive. If I'd hit Level 9... the demon takes over. Death in 3 turns."
+**Your Party's Mage**: "And Cooling Ember?"
+**You**: "Descends me -2 Inferno Levels. Went from 8 to 6. Removed the worst drawbacks so the healer could top me off. I'm still at Level 6 — Gluttony fatigue and Heresy blazing eyes — but I can manage those."
 
-**Final State**: Inferno: 6/9 | Fire Bonus: +6 | Mana: 4/60 | HP: 35/45
+**Final State**: Inferno: 6/9 | Fire Bonus: +6 | Mana: 10/60 | HP: 45/45
 
 **The Lesson**: Pyrofiend gameplay is about:
-1. **Inferno Ascension**: Started at Level 0, ascended to Level 9 (maximum) through fire spells
-2. **Damage Scaling**: Level 0 (+0) → Level 2 (+2) → Level 5 (+5) → Level 7 (+7) → Level 9 (+10)
-3. **Spell Damage**: Hellfire Bolt at Level 0 = 24 damage, at Level 9 = 37 damage (+13 damage!)
-4. **Ultimate Power**: Demonic Conflagration with +7 bonus = 70 damage in one hit
-5. **Drawback Management**: Level 2 (greed), Level 5 (wrath), Level 7 (gluttony), Level 9 (pride)
-6. **Self-Damage**: Gluttony dealt 4 + 5 = 9 damage over 2 turns
-7. **Cooling Ember**: Descended from 9 → 6 to remove pride, allowing healing
+1. **Inferno Ascension**: Started at Level 0, ascended to Level 8 through fire spells
+2. **Damage Scaling**: Level 0 (+0) → Level 1 (+1) → Level 3 (+3) → Level 5 (+5) → Level 7 (+7) → Level 8 (+8)
+3. **Spell Synergy**: Ember Spark (starter DoT) → Cinder Bolt (AoE clear) → Fireball (big AoE) → Hellfire Wave (massive cone nuke)
+4. **Infernal Surge**: The shared Path Passive triggered at Level 5+, adding +2d6 to the Hellfire Wave for 72 total damage
+5. **Drawback Escalation**: Level 1 (hit chance) → Level 3 (movement) → Level 5 (bleeding) → Level 7 (suffocation) → Level 8 (self-damage + Dex loss)
+6. **The Demon's Bargain**: Level 9 gives +10 instead of +9 — disproportionate power for the final, deadliest drawback (death in 3 turns)
+7. **Cooling Ember**: Descended from 8 → 6 to remove the worst drawbacks, enabling healer support
+8. **Resource Tension**: Nearly ran out of mana (10/60 remaining). Ascension costs spells, and spells cost mana.
 
-You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno Levels, each one adding +1 fire damage but imposing thematic drawbacks (greed, wrath, gluttony, pride). At Level 9, you're MORE DEMON THAN MORTAL—+10 fire damage, massive horns, wings of flame, but you can't accept help and you're taking damage every turn. The key is knowing when to ascend for burst damage and when to use Cooling Ember to descend and manage drawbacks. You're not a safe class. You're a DEMONIC GLASS CANNON who trades humanity for DEVASTATING POWER.`
+You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno Levels, each one adding +1 fire damage (+10 at the deadly Level 9) but imposing escalating drawbacks based on the circles of Hell. The key is knowing when to ASCEND for burst damage (Hellfire Wave at Level 5 with Infernal Surge = 72 damage) and when to use Cooling Ember to DESCEND and survive. You're not a safe class. You're a DEMONIC GLASS CANNON who trades their own blood for DEVASTATING POWER.`
     }
   },
   
   // Resource System
   resourceSystem: {
     title: 'Inferno Veil',
-    subtitle: 'Demonic Ascension Mechanic',
-    
-    description: `The Inferno Veil is the Pyrofiend's unique resource system. It represents the character's descent into demonic corruption, with each level granting increased fire damage but inflicting thematic drawbacks based on the circles of Hell and the seven deadly sins.`,
-    
-    mechanics: {
-      title: 'How It Works',
-      content: `**Starting State**: All Pyrofiends begin combat at Inferno Level 0
+    subtitle: 'The Demonic Ascension',
 
-**Ascending**: Many fire spells cause you to ascend 1-3 Inferno Levels when cast
-**Descending**: The Cooling Ember spell and certain abilities reduce your Inferno Level
-**Maximum Level**: Inferno Level 9 is the maximum—attempting to ascend further has no effect
-**Level Persistence**: Your Inferno Level persists between combats unless you rest or use abilities to reduce it
+    description: `Your power is a debt to the circles of Hell. As you cast fire magic, you ascend through nine stages of demonic corruption, trading your mortal safety for escalating firepower. Climb too high and you risk total possession; stay too low and you waste the demon's gifts.`,
 
-**Damage Bonus**: At each Inferno Level, you gain bonus fire damage to ALL fire spells:
-- Level 1: +1 fire damage
-- Level 2: +2 fire damage
-- Level 3: +3 fire damage
-- ...continuing up to...
-- Level 9: +10 fire damage
+    cards: [
+      {
+        title: 'Inferno Levels (0-9)',
+        stats: '10 Stages',
+        details: 'Each level adds +1 to all fire damage. Level 9 grants a massive +10 bonus but starts a terminal death clock.'
+      },
+      {
+        title: 'Drawbacks',
+        stats: 'Escalating Penalties',
+        details: 'Corruption inflicts self-damage, movement loss, and suffocation. High-level play requires balancing maximum heat with survival.'
+      }
+    ],
 
-**Drawbacks**: Each level also inflicts increasingly severe penalties (see table below)`
-    },
-    
-    infernoLevelsTable: {
-      title: 'Inferno Veil: Level Effects',
-      headers: ['Level', 'Fire Damage Bonus', 'Drawback', 'Thematic Inspiration'],
+    generationTable: {
+      headers: ['Action', 'Inferno Change', 'Notes'],
       rows: [
-        ['0', '+0', 'None', 'Mortal State'],
-        ['1', '+1', 'Minor visual distortions reduce hit chance by 2', 'Limbo - Flickering Flames'],
-        ['2', '+2', 'Lustful intensity: 1d4 psychic damage per turn', 'Lust - Distracting Heat'],
-        ['3', '+3', 'Oppressive heat: -10 ft movement, constant fatigue', 'Gluttony - Heavy Rain'],
-        ['4', '+4', 'Molten veins: +2d6 damage taken from all attacks', 'Greed - Weight of Gold'],
-        ['5', '+5', 'Body cracks: 1d6 bleeding per turn, weakened defenses', 'Wrath - River Styx'],
-        ['6', '+6', 'Blazing eyes: Disadvantage on sight-based checks/attacks', 'Heresy - Uncontrollable Fire'],
-        ['7', '+7', 'Scorching breath: -15 ft speed, 1d6 suffocation per turn', 'Violence - Burning Sand'],
-        ['8', '+8', 'Wreathed in flames: 2d4 self-damage per turn, disadvantage on Dex checks', 'Fraud - Raging Flames'],
-        ['9', '+10', 'Engulfed: 4d8 self-damage per turn, death in 3 turns if not extinguished, disadvantage on all saves', 'Treachery - Frozen in Fire']
+        ['Cast Fire Spell', '+1 to +3', 'Most offensive spells cause ascension'],
+        ['Infernal Surge (Lv 5+)', 'Bonus Damage', 'Next fire spell deals +2d6 damage'],
+        ['Cooling Ember', '-1d4 Levels', 'The essential release valve; heals per level reduced'],
+        ['The Demon\'s Bargain', 'Level 9 (+10)', 'Disproportionate power; death in 3 turns if not cleared'],
+        ['Rest / Out of Combat', 'Resets to 0', 'The corruption fades with time and meditation']
       ]
     },
-    
-    strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Level 0-3 (Safe Zone)**: Minimal drawbacks, good for sustained combat
-**Level 4-6 (Power Zone)**: High damage with manageable risks, optimal for most encounters
-**Level 7-9 (Danger Zone)**: Extreme power but life-threatening drawbacks, use only for critical moments
 
-**Cooling Ember**: Your primary tool for managing Inferno Levels. Reduces levels by 1d4 and heals you for 1d6 per level reduced. Use it when:
-- Drawbacks become too severe
-- Combat is ending and you want to reset
-- You need emergency healing
-- You're about to enter a dangerous situation at high levels`
+    usage: {
+      momentum: 'Ascend by casting offensive fire spells. Each level adds flat fire damage to every hit, making multi-hit or AoE spells exponentially more powerful.',
+      flourish: 'Use Cooling Ember to descend and heal. Managing the "Safe Zone" (0-3), "Power Zone" (4-6), and "Danger Zone" (7-9) is the core of the class.'
+    },
+
+    overheatRules: {
+      title: 'The Demon\'s Bargain (Level 9)',
+      content: `Reaching Inferno Level 9 represents total surrender to the infernal forces.
+
+**You have THREE ROUNDS** to descend below Level 9. If you don't:
+- You are **consumed by fire** (Immediate Death)
+- Your soul is **claimed** (Standard resurrection may fail)
+
+**Survival Guide**:
+- Use **Cooling Ember** immediately to drop 1d4 levels.
+- Hellfire spec can use **Demonic Vitality** to survive the self-damage.
+- Do NOT reach Level 9 unless the boss is at <10% HP.`
+    },
+
+    infernoLevelsTable: {
+      title: 'Inferno Veil: Level Effects',
+      headers: ['Level', 'Bonus', 'Drawback', 'Inspiration'],
+      rows: [
+        ['0', '+0', 'None', 'Mortal'],
+        ['1', '+1', '-2 Hit chance (distortions)', 'Limbo'],
+        ['2', '+2', '1d4 Psychic dmg/turn', 'Lust'],
+        ['3', '+3', '-10ft Movement, Fatigue', 'Gluttony'],
+        ['4', '+4', '+2d6 Damage taken', 'Greed'],
+        ['5', '+5', '1d6 Bleeding dmg/turn', 'Wrath'],
+        ['6', '+6', 'Disadv on Sight checks', 'Heresy'],
+        ['7', '+7', '-15ft Speed, 1d6 Suffocation', 'Violence'],
+        ['8', '+8', '2d4 Self-dmg, Disadv Dex', 'Fraud'],
+        ['9', '+10', '4d8 Self-dmg, Death in 3 Turns', 'Treachery']
+      ]
+    },
+
+    strategicConsiderations: {
+      title: 'Managing the Flame',
+      content: `**The Safe Zone (Lv 0–3)**: Minimal drawbacks. Use this for clearing minor enemies or during exploration. You are consistent but not devastating.
+
+**The Power Zone (Lv 4–6)**: The optimal state. High damage bonuses with manageable penalties. Most specializations (like Wildfire) thrive here.
+
+**The Danger Zone (Lv 7–9)**: Reserved for finales. The self-damage and speed penalties are brutal. Only enter this zone if you have a clear shot at finishing the encounter or a healer ready to dump resources into you.
+
+**The Release Valve**: Never enter a turn with 0 Mana if you are above Level 5. You MUST save enough for **Cooling Ember** (4 Mana) to descend if the corruption becomes life-threatening.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Inferno Veil system is elegantly simple to track at the physical table, requiring only a single die and optional reference materials. Here's how to manage your demonic ascension without digital tools:
+      content: `The Inferno Veil is perfectly represented by a single ten-sided die.
 
 **Required Materials**:
-- **1d10 die** (ten-sided die numbered 0-9)
-- **Reference card** with Inferno Level effects (optional but recommended)
-- **Damage tracking method** (standard HP tracking)
+- **1d10 (Ten-Sided Die)** — To track your Inferno Level (0–9)
+- **Status Cards** — To remind you of your current Level's drawback
 
-**The d10 Tracker Method** (Recommended):
+**The Descent Loop**:
+- **Cast Spell**: Rotate the d10 up by the ascension value (e.g., from 3 to 5).
+- **Start of Turn**: Check the die. If it's at 5, take your 1d6 bleeding damage.
+- **Cooling Ember**: Roll 1d4, rotate the die down, and roll the appropriate healing.
 
-Place a d10 in front of you with the current number facing up to represent your Inferno Level:
-- **Start of combat**: Set the die to 0
-- **When you ascend**: Rotate the die to the new level (e.g., from 3 to 6 after casting a spell that ascends by 3)
-- **When you descend**: Rotate the die down (e.g., from 7 to 4 after Cooling Ember reduces by 3)
-- **Between combats**: Leave the die at your current level (Inferno persists unless you rest)
-
-**Why d10 Works Perfectly**: The Inferno Veil has exactly 10 levels (0-9), making a d10 the perfect physical representation. Simply rotate the die to show your current level—no math, no tracking sheets, just a quick glance at the die tells you everything.
-
-**Quick Reference Card Template**:
-\`\`\`
-PYROFIEND INFERNO VEIL TRACKER
-Current Level: [d10 showing ___]
-
-DAMAGE BONUSES:
-Level 0: +0    Level 5: +5
-Level 1: +1    Level 6: +6
-Level 2: +2    Level 7: +7
-Level 3: +3    Level 8: +8
-Level 4: +4    Level 9: +10
-
-ZONES:
-0-3: Safe Zone (minimal drawbacks)
-4-6: Power Zone (high damage, manageable risk)
-7-9: Danger Zone (extreme power, life-threatening)
-
-DRAWBACK REMINDERS:
-[Print the drawback table on the back]
-\`\`\`
-
-**Alternative Tracking Methods**:
-
-1. **Token/Counter Method**: Use a numbered counter or slider (0-9) to track your level
-2. **Paper Method**: Write your current level on a piece of paper and update it as needed
-3. **Poker Chip Stack**: Stack chips to represent your level (0 chips = Level 0, 9 chips = Level 9)
-4. **Spindown Die**: Use a spindown d20 but only track 0-9
-
-**Managing Drawbacks**:
-
-Keep the Inferno Levels table visible (printed card or phone photo) so you can quickly reference your current drawback. The GM and other players should also have access to this table to help track your penalties.
-
-**Common Drawback Reminders**:
-- **Levels 1-3**: Minor penalties (hit chance, psychic damage, movement)
-- **Levels 4-6**: Moderate penalties (extra damage taken, bleeding, AC reduction, disadvantage)
-- **Levels 7-9**: Severe penalties (suffocation, self-damage, death timer)
-
-**Example In-Person Turn**:
-
-*Your d10 is currently showing 4 (Inferno Level 4)*
-
-1. **Your Turn**: "I cast Infernal Blast, which ascends me by 3 levels"
-2. **Rotate d10**: Turn the die from 4 to 7
-3. **Apply Bonus**: "My fire damage gets +7 from Inferno Level 7"
-4. **Note Drawback**: "I now have the Level 7 drawback: -15 ft speed and 1d6 suffocation damage per turn"
-5. **GM Reminder**: The GM notes your new speed and applies suffocation damage at the start of your next turn
-
-**Cooling Ember Example**:
-
-*Your d10 is showing 7 (Inferno Level 7)*
-
-1. **Cast Cooling Ember**: "I'm casting Cooling Ember to reduce my Inferno Level"
-2. **Roll Reduction**: Roll 1d4 → Result: 3
-3. **Rotate d10**: Turn the die from 7 to 4 (reduced by 3)
-4. **Healing**: Roll 3d6 for healing (1d6 per level reduced)
-5. **Update Status**: "I'm now at Level 4, and I healed for [3d6 result]"
-
-**Visual Cues for Roleplay**:
-
-Many players enhance the experience by adding thematic elements:
-- **Red/orange die**: Use a fire-colored d10 to represent the infernal theme
-- **Flame token**: Place a small flame marker next to your d10 when at Level 4+
-- **Danger marker**: Add a skull token when you reach Level 7+ (Danger Zone)
-- **Sound effects**: Some groups enjoy adding flame sound effects when ascending to high levels
-
-**Why This System Works**: The Inferno Veil is intentionally designed to be simple to track physically. Unlike complex resource systems that require multiple trackers, you only need to know one number: your current level. The d10 makes this instant and tactile—you can feel the weight of ascending as you rotate the die higher, and the relief of descending when you turn it back down. The physical act of rotating the die mirrors the narrative of your character's descent into demonic corruption and their struggle to maintain control.`
+**Physical Hack**: Use a **Red d10** for the normal levels and keep a **Black d10** nearby. If you reach Level 9, swap to the black die to signal to the party (and the GM) that the death clock has started.`
     }
   },
   
@@ -582,7 +547,7 @@ Many players enhance the experience by adding thematic elements:
     4: [
       // Level 4 spells
       'pyro_infernal_blast',
-      'pyro_searing_ray',
+      'pyro_searing_chains',
       'pyro_fiery_aura'
     ],
     5: [
@@ -1336,9 +1301,9 @@ Many players enhance the experience by adding thematic elements:
     },
 
     {
-      id: 'pyro_searing_ray',
-      name: 'Searing Ray',
-      description: 'A focused ray of intense heat that burns through your target.',
+      id: 'pyro_searing_chains',
+      name: 'Searing Chains',
+      description: 'Conjure burning chains of demonic fire that lash between enemies, dealing damage and tethering them together. Each chain jump deals reduced damage but ignites all targets struck.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Fire/Scorching Rune',
@@ -1346,7 +1311,7 @@ Many players enhance the experience by adding thematic elements:
       typeConfig: {
         school: 'fire',
         icon: 'Fire/Scorching Rune',
-        tags: ['fire', 'damage'],
+        tags: ['fire', 'damage', 'chain'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1354,34 +1319,41 @@ Many players enhance the experience by adding thematic elements:
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 90,
+        rangeDistance: 60,
         targetRestrictions: []
       },
 
       resourceCost: {
         resourceTypes: ['mana', 'inferno_ascend', 'inferno_required'],
-        resourceValues: { mana: 14, inferno_ascend: 2, inferno_required: 1 },
+        resourceValues: { mana: 16, inferno_ascend: 2, inferno_required: 1 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        verbalText: 'Radius Ardens!',
-        somaticText: 'Point finger'
+        verbalText: 'Catena Infernus!',
+        somaticText: 'Whip arm forward, chains of fire erupt'
       },
 
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '5d6 + intelligence',
+        formula: '3d6 + intelligence',
         damageTypes: ['fire'],
-        resolution: 'DICE'
+        resolution: 'DICE',
+        chainConfig: {
+          enabled: true,
+          maxChains: 3,
+          chainRange: 15,
+          damageMultiplier: 0.75,
+          damageType: 'fire'
+        }
       },
 
       cooldownConfig: {
         cooldownType: 'turn_based',
-        cooldownValue: 0
+        cooldownValue: 1
       },
 
-      tags: ['fire', 'damage']
+      tags: ['fire', 'damage', 'chain']
     },
 
     {

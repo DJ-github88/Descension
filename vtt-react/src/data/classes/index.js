@@ -26,6 +26,8 @@ import { TITAN_DATA } from './titanData';
 import { TOXICOLOGIST_DATA } from './toxicologistData';
 import { WARDEN_DATA } from './wardenData';
 import { WITCH_DOCTOR_DATA } from './witchDoctorData';
+import { AUGUR_DATA } from './augurData';
+import { DOOMSAYER_DATA } from './doomsayerData';
 
 export const ALL_CLASSES_DATA = {
     'Arcanoneer': ARCANONEER_DATA,
@@ -55,5 +57,7 @@ export const ALL_CLASSES_DATA = {
     'Titan': TITAN_DATA,
     'Toxicologist': TOXICOLOGIST_DATA,
     'Warden': WARDEN_DATA,
-    'Witch Doctor': WITCH_DOCTOR_DATA
+    'Witch Doctor': WITCH_DOCTOR_DATA,
+    'Augur': AUGUR_DATA,
+    'Doomsayer': DOOMSAYER_DATA
 };

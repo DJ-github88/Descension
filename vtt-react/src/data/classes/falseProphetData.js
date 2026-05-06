@@ -240,152 +240,85 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 You're not a safe, predictable caster. You're a chaos mage who gambles with sanity for power. Every spell is a dice roll. Every turn is a risk. And when you hit 19 Madness and unleash 40 damage AoE, it's all worth it. Until it isn't.`
     }
   },
-  
+
   // Resource System
   resourceSystem: {
     title: 'Madness Points',
-    subtitle: 'The Price of Forbidden Power',
-    
-    description: `Madness Points represent the False Prophet's descent into eldritch insanity. As they preach the void god's truth, their grip on reality weakens, but their power grows. Each point increases spell damage by +1, tempting them to accumulate more. However, reaching 20 Madness Points triggers an Insanity Convulsion—a catastrophic release of chaotic energy.`,
-    
-    mechanics: {
-      title: 'Core Mechanics',
-      content: `**Generating Madness Points**:
-- Certain spells generate Madness by rolling dice (1d4, 1d6, or 1d8)
-- The result is added to your current Madness Points
-- Generation is random—you cannot predict exact amounts
-- Higher-tier spells typically generate more Madness
+    subtitle: 'The Herald of the Void',
 
-**Spending Madness Points**:
-- Other spells spend Madness by rolling dice (1d4, 1d6, or 1d8)
-- The rolled amount is subtracted from your current Madness Points
-- **Insufficient Madness**: Spell fails or has reduced effect
-- Spending is also random—strategic risk management required
+    description: `The False Prophet preaches truths too terrible for mortal minds. As you channel the void, your **Madness** accumulates—fracturing your sanity but exponentially increasing your damage. This is a resource of extreme risk and explosive reward; you dance on the edge of godhood, one bad roll away from a total mental collapse.`,
 
-**Shadow Damage Scaling**:
-- **Per Point**: Each Madness Point increases your spell damage by +1
-- **At 10 Madness**: +10 damage to all your spells
-- **At 19 Madness**: +19 damage (maximum safe level)
-- **Scope**: Bonus applies to all psychic, void, and necrotic damage you deal
+    cards: [
+      {
+        title: 'Madness (0-20)',
+        stats: 'Escalating Damage',
+        details: 'Each point adds +1 to ALL psychic, void, and necrotic damage. At 19 Madness, you deal +19 damage per spell.'
+      },
+      {
+        title: 'Thresholds',
+        stats: '6, 9, 12 Madness',
+        details: 'Higher madness levels unlock forbidden abilities like "Veil of Shadows" or "Apocalyptic Revelation."'
+      },
+      {
+        title: 'Insanity Convulsion',
+        stats: 'Triggered at 20',
+        details: 'Hitting 20 Madness triggers a chaotic explosion. You lose all Madness but suffer a random, often catastrophic, effect.'
+      }
+    ],
 
-**Madness Thresholds**:
-- **6 Madness**: Unlock Veil of Shadows (invisibility, adds 1d4 Madness)
-- **9 Madness**: Unlock Eldritch Vision (true sight, adds 1d6 Madness)
-- **12 Madness**: Unlock Apocalyptic Revelation (8d6 AoE, adds 2d6 Madness)
-- **20 Madness**: Automatic Insanity Convulsion
-
-**Insanity Convulsion**:
-At 20 Madness Points, roll 1d6 on the Insanity Convulsion Table. After the Convulsion, Madness resets to 0.
-
-1. **Shadow Burst**: Deal 5d6 necrotic damage to yourself and all creatures within 20 ft
-2. **Mind Shatter**: Stunned for 2 rounds
-3. **Dark Whispers**: Disadvantage on all attacks and saves for 3 rounds
-4. **Chaotic Pulse**: Teleport randomly within 60 ft, take 4d6 psychic damage
-5. **Psychic Scream**: All creatures within 30 ft make Wisdom save or frightened for 3 rounds
-6. **Nightmare Echoes**: Take 6d6 psychic damage, gain Short-Term Madness for 1d4 rounds
-
-**Short-Term Madness Effects**:
-If triggered by Nightmare Echoes, roll 1d6:
-
-1. **Paranoia**: Attack nearest ally
-2. **Delirium**: Disadvantage on all skill checks and saves
-3. **Fearful**: Flee from combat for 1 round
-4. **Confusion**: Cannot distinguish friend from foe
-5. **Despair**: Cannot cast spells for 1 round
-6. **Rage**: Advantage on attacks but attack nearest creature (friend or foe)`
+    generationTable: {
+      headers: ['Trigger', 'Madness Change', 'Notes'],
+      rows: [
+        ['Void Scripture', '+1d4 Madness', 'Basic psychic strike'],
+        ['Profane Bolt', '+1d6 Madness', 'Higher power, higher risk'],
+        ['Preacher\'s Grasp', '+1d8 Madness', 'Maximum generation'],
+        ['Veil of Shadows', '+1d4 Madness', 'Temptation: Invisibility (Req 6)'],
+        ['Eldritch Vision', '+1d6 Madness', 'Temptation: True Sight (Req 9)'],
+        ['Siphon Sanity', '-1d6 Madness', 'Release the pressure (Spending)'],
+        ['Dark Meditation', '-2d6 Madness', 'Full reset of the mind (Spending)']
+      ]
     },
-    
-    resourceBarExplanation: {
-      title: 'Understanding Your Madness Gauge',
-      content: `Your Madness gauge is a 20-segment horizontal bar filled with swirling purple-black void energy.
 
-**Danger Zones**:
-- **0-5 (Green)**: Safe. Building power. Clear screen.
-- **6-9 (Yellow)**: Temptation zone. Veil of Shadows unlocked. Faint whispers begin.
-- **10-14 (Orange)**: Power growing. Eldritch Vision (9) and Apocalyptic Revelation (12) unlocked. Screen flickers, whispers intensify.
-- **15-19 (Red, flashing)**: CRITICAL. Screen shakes, void tendrils at edges, screaming audio. Confirmation prompt before spells that could trigger Convulsion.
-- **20 (Black flash → purple explosion)**: INSANITY CONVULSION. Screen goes dark, explodes with void energy, Convulsion table rolls. Resets to 0.
-
-**Visual Feedback**: Dice roll animations appear above the bar when generating/spending Madness. Damage bonus text grows larger and changes color as Madness increases. Warning text flashes at 15, 17, and 19 Madness.
-
-**Temptation Icons** glow at their thresholds (6, 9, 12) showing the ability name, Madness cost, and current availability. Using Temptation abilities ADDS more Madness — the power tempts you closer to the edge.`
+    usage: {
+      momentum: 'Build Madness early to "ramp" your damage. The False Prophet is weakest at the start of a fight and becomes a god at the end.',
+      flourish: '⚠️ Madness Surfing: Try to hover between 15-19 Madness to keep your massive damage bonus active. Only trigger a Convulsion if the battlefield is so chaotic that a random explosion might actually help.'
     },
-    
-    strategicDepth: {
-      title: 'Strategic Depth',
-      content: `The Madness system creates constant tension between power and risk:
 
-**Risk vs. Reward**:
-- Higher Madness = more damage, but closer to Convulsion
-- Temptation abilities offer powerful effects but add more Madness
-- Spending spells provide safety but consume your damage bonus
+    overheatRules: {
+      title: 'Insanity Convulsion (20)',
+      content: `At 20 Madness, your mind shatters. Roll 1d6 on the Convulsion Table:
 
-**Optimal Madness Ranges**:
-- **Conservative (0-8)**: Safe, low damage, minimal risk
-- **Moderate (9-14)**: Good damage, access to Eldritch Vision, manageable risk
-- **Aggressive (15-19)**: Maximum damage, all abilities unlocked, high risk
-- **Insane (20)**: Convulsion guaranteed, chaos unleashed
+1. **Shadow Burst**: 5d6 necrotic damage to yourself and everyone within 20ft.
+2. **Mind Shatter**: You are Stunned for 2 rounds.
+3. **Dark Whispers**: Disadvantage on all rolls for 3 rounds.
+4. **Chaotic Pulse**: Teleport randomly (60ft), take 4d6 psychic damage.
+5. **Psychic Scream**: Everyone in 30ft makes a Save or is Frightened.
+6. **Nightmare Echoes**: Take 6d6 psychic damage + gain Long-Term Madness.`
+    },
 
-**Advanced Techniques**:
-- "Madness Surfing": Staying at 15-19 for maximum damage without Convulsion
-- "Controlled Detonation": Deliberately triggering Convulsion when beneficial
-- "Madness Cycling": Alternating between generation and spending for sustained power
-- "Threshold Dancing": Using Temptation abilities at exact thresholds before spending
+    strategicConsiderations: {
+      title: 'The Preacher\'s Path',
+      content: `**Voidcaller Spec**: You generate Madness faster (+1 to all rolls). You reach the "Danger Zone" twice as fast as others, but your damage scaling is unrivaled.
 
-The best False Prophets learn to embrace chaos while maintaining just enough control to avoid self-destruction.`
+**The Threshold Trap**: Using your most powerful abilities (like Apocalyptic Revelation) often *generates* the most Madness. If you cast your ultimate while at 15 Madness, you are almost guaranteed to Convulse immediately after.`
     },
 
     playingInPerson: {
-      title: 'Playing False Prophet In Person',
-      content: `**Required Materials**: 20 Madness tokens (purple/black), Madness dice (d4, d6, d8), Insanity Convulsion table (d6 reference card), Threshold tracker card.
+      title: 'Playing in Person',
+      subtitle: 'The Madness Gauge',
+      content: `Tracking random increments of 1-8 points is hard to do with mental math. Use these physical hacks:
 
-**How Madness Works Physically**:
-1. **Generating**: Roll the spell's die (1d4/1d6/1d8), add that many tokens to your pool
-2. **Spending**: Roll the spell's die, remove that many tokens from your pool
-3. **Temptation**: At thresholds (6, 9, 12), unlock powerful abilities that ADD more Madness
-4. **Convulsion**: At 20 tokens, roll 1d6 on the Convulsion table, then remove ALL tokens
+**Required Materials**:
+- **20 Purple/Black Tokens**: (Glass beads or coins).
+- **A Slider or Track**: (Numbered 0-20).
+- **The "Convulsion" Die**: A distinct d6.
 
-**Quick Tracking Setup**:
-\`\`\`
-MADNESS: [○][○][○][○][○][●][●][●][●][●][●][●][●][●][●][○][○][○][○][○]
-Current: 10/20 | Damage Bonus: +10
+**The Physical Hack (Friction Points)**:
+- **The Madness Pile**: Place 20 tokens in a bowl. When you gain Madness, move them to your character sheet. This creates a "rising pile" of darkness that everyone can see.
+- **Threshold Markers**: Place small red flags on your track at numbers 6, 9, and 12. As your token passes them, flip your ability cards to the "Active" side.
+- **The Spend Roll**: When spending Madness, roll your d6 and physically put that many tokens back in the bowl. The sound of tokens hitting the bowl is your "relief."
 
-THRESHOLDS:
-☐ 6: Veil of Shadows (invisibility, +1d4 Madness)
-☐ 9: Eldritch Vision (true sight, +1d6 Madness)
-☐ 12: Apocalyptic Revelation (8d6 AoE, +2d6 Madness)
-☐ 20: INSANITY CONVULSION!
-\`\`\`
-
-**Insanity Convulsion Table** (roll 1d6):
-1. **Shadow Burst**: 5d6 necrotic to self + all within 20ft
-2. **Mind Shatter**: Stunned 2 rounds
-3. **Dark Whispers**: Disadvantage on attacks/saves 3 rounds
-4. **Chaotic Pulse**: Random teleport 60ft + 4d6 psychic
-5. **Psychic Scream**: All within 30ft save or frightened 3 rounds
-6. **Nightmare Echoes**: 6d6 psychic + Short-Term Madness 1d4 rounds (roll sub-table)
-
-**Short-Term Madness** (if result 6, roll 1d6):
-1. Paranoia — attack nearest ally
-2. Delirium — disadvantage on all checks/saves
-3. Fearful — flee combat 1 round
-4. Confusion — can't distinguish friend from foe
-5. Despair — can't cast spells 1 round
-6. Rage — advantage on attacks but attack nearest creature
-
-**Example Turn**:
-*"I cast Void Scripture at the bandit!"* → Roll damage: 3d6 + Madness bonus → Roll Madness: 1d6 → add tokens → check thresholds → announce new Madness total.
-
-**Strategy Tips**:
-- At 15+ Madness, every generating spell risks Convulsion — count before casting
-- Spending spells are your safety valve — use them to stay in the sweet spot
-- Sometimes triggering Convulsion deliberately is the right play (Cultist spec can choose the result)
-- Embrace the randomness — you can't control exact Madness amounts, only respond to them
-
-**Specialization Differences**:
-- **Voidcaller**: +1 to all Madness generation rolls; at 15+ Madness, +1d8 damage to spells
-- **Deceiver**: Mind control spells don't generate Madness; extended control durations; gain 1d4 Madness on successful controls
-- **Cultist**: DoT effects last +2 rounds; spending Madness heals 2 HP per point + proficiency bonus; can choose Convulsion result (Tier 4 talent)`
+**Pro Tip**: When you hit 19 Madness, place your hand over the bowl of tokens. It signals to the DM and other players that the next roll could break reality.`
     }
   },
 

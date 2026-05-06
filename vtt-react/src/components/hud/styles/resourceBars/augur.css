@@ -1,0 +1,144 @@
+.augur-resource-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 4px 0;
+}
+
+.augur-resource-bar .resource-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.augur-resource-bar .benediction-label {
+    color: #FFD700;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+}
+
+.augur-resource-bar .malediction-label {
+    color: #DA70D6;
+    text-shadow: 0 0 4px rgba(218, 112, 214, 0.4);
+}
+
+.augur-resource-bar .resource-track {
+    display: flex;
+    gap: 2px;
+    height: 8px;
+    background: #1a1a2e;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.augur-resource-bar .resource-segment {
+    flex: 1;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.augur-resource-bar .benediction-segment {
+    background: rgba(255, 215, 0, 0.15);
+}
+
+.augur-resource-bar .benediction-segment.active {
+    background: #FFD700;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.augur-resource-bar .malediction-segment {
+    background: rgba(218, 112, 214, 0.15);
+}
+
+.augur-resource-bar .malediction-segment.active {
+    background: #8B008B;
+    box-shadow: 0 0 6px rgba(139, 0, 139, 0.6);
+}
+
+.augur-resource-bar .resource-values {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 1px;
+}
+
+.augur-resource-bar .omen-debt-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    color: #e74c3c;
+    margin-top: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.augur-resource-bar .omen-debt-indicator.active {
+    opacity: 1;
+}
+
+.augur-resource-bar .omen-debt-indicator .debt-count {
+    font-weight: 700;
+    color: #ff4444;
+}
+
+.augur-resource-tooltip {
+    padding: 8px;
+    min-width: 240px;
+}
+
+.augur-resource-tooltip .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f0e68c;
+}
+
+.augur-resource-tooltip .tooltip-section {
+    margin-bottom: 6px;
+}
+
+.augur-resource-tooltip .tooltip-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.augur-resource-tooltip .tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    padding: 1px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.augur-resource-tooltip .benediction-value {
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.augur-resource-tooltip .malediction-value {
+    color: #DA70D6;
+    font-weight: 600;
+}
+
+.augur-resource-tooltip .debt-warning {
+    font-size: 10px;
+    color: #e74c3c;
+    padding: 4px 6px;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 3px;
+    border-left: 2px solid #e74c3c;
+    margin-top: 6px;
+}

@@ -331,6 +331,15 @@ export function calculateEquipmentBonuses(equipment = {}) {
                 bonuses.armor = (bonuses.armor || 0) + item.armorClass;
             }
         }
+        // Handle top-level armor property (canonical field name)
+        if (item.armor && typeof item.armor === 'number' && !item.armorClass) {
+            const alreadyProcessed = item.combatStats && (
+                item.combatStats.armor !== undefined
+            );
+            if (!alreadyProcessed) {
+                bonuses.armor = (bonuses.armor || 0) + item.armor;
+            }
+        }
     });
 
     return bonuses;

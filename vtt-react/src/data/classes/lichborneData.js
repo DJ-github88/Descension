@@ -311,166 +311,75 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
     title: 'Dual-Mode Casting & Harvester Phylactery',
     subtitle: 'Burn Your Life for Power, Harvest the Dead to Return',
 
-    description: `The Lichborne's unique dual-mechanic system combines Dual-Mode Casting (switching between Mana and HP as spell resource) and the Harvester Phylactery (charges by killing enemies, provides resurrection and Death Trigger freeze). Mastering both systems is essential to becoming an effective Lichborne.`,
+    description: `The Lichborne is an undying frost-master who treats their own life force as just another spell slot. By toggling their Eternal Frost Aura, they switch from standard mana casting to a devastating HP-burning mode that freezes the air around them. Every kill feeds their Phylactery, building a pool of life that triggers a tactical resurrection and battlefield-wide freeze when they finally succumb to their own power.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Dual-Mode Casting & Phylactery Interface',
-      content: `**What You See**: The Lichborne has a DUAL interface — one for the Eternal Frost Aura mode toggle and one for the Phylactery (HP harvested from kills and resurrection). Both are displayed prominently on your HUD.
-
-**ETERNAL FROST AURA INTERFACE** (Top Section):
-
-**Mode Status Display**:
-- **Normal Mode (Aura OFF)**: Gray frost icon with "Normal Mode" text. Spells cost Mana.
-- **Aura Mode (Aura ON)**: Glowing blue-white frost icon with "Aura Mode: ACTIVE" text, pulsing animation. Spells cost HP instead of Mana.
-
-**Toggle Button**: Large button "ACTIVATE AURA (Free)" or "DEACTIVATE AURA (Free)" — switching modes costs no AP or Mana.
-
-**Aura Effect Indicators** (when active):
-- **Damage Bonus**: "+1d6 Frost Damage on all frost spells" displayed in bright blue text
-- **HP Casting**: "Frost spells cost HP instead of Mana" in icy blue
-- **Chilling Effect**: "Enemies Chilled (DC 17 Con save or -10 ft speed)" in icy blue
-- **Health Drain Warning**: "⚠️ AURA DRAIN: 1d6 HP/turn (Lv1-4) | 1d8 HP/turn (Lv5-7) | 1d10 HP/turn (Lv8-10)" in red, pulsing
-
-**Visual Effects** (when aura is active):
-- **Character Model**: Surrounded by swirling frost particles, icy blue glow
-- **Frost Aura Radius**: 5 ft radius around you shown with icy mist effect
-- **Breathing Effect**: Visible frozen breath, ice crystals forming in air
-- **Skin Tone**: Character's skin turns pale blue-white
-- **Eyes**: Glow with cold blue light
-
-**Aura Mode Activation Animation**:
-When you activate the aura:
-- **Frost Explosion**: Frost spreads from your body in a wave
-- **Temperature Drop**: Screen tints slightly blue, frost particles appear
-- **Audio**: Deep, resonant ice cracking sound + wind howling
-- **Status Update**: "AURA MODE ACTIVATED — Spells now cost HP" text appears
-- **Buff Icon**: Frost aura icon appears in your buff bar
-
-**Aura Mode Deactivation Animation**:
-When you deactivate the aura:
-- **Frost Dissipation**: Frost particles fade away, blue glow dims
-- **Temperature Rise**: Screen tint returns to normal
-- **Audio**: Fading wind sound, ice melting
-- **Status Update**: "Normal Mode — Spells now cost Mana" text
-- **Buff Icon**: Frost aura icon removed from buff bar
-
-**PHYLACTERY INTERFACE** (Bottom Section):
-
-**Phylactery Display**:
-- **Phylactery Icon**: Image of your phylactery (frozen crystal, skull amulet, etc.)
-- **Stored HP Bar**: Shows HP stored in phylactery (0-50 HP max)
-- **HP Counter**: "Phylactery HP: 30/50" in glowing text
-- **Kill Charge Indicator**: "+1d6 HP per kill" reminder text
-
-**Phylactery HP Bar Visualization**:
-- **0 HP (Empty)**: Dark, lifeless phylactery icon, "DEPLETED" in red
-- **1-15 HP (Low)**: Dim glow, phylactery barely pulsing, red border
-- **16-30 HP (Moderate)**: Moderate glow, phylactery pulsing steadily, orange border
-- **31-45 HP (High)**: Bright glow, phylactery pulsing strongly, green border
-- **46-50 HP (Maximum)**: Maximum glow, phylactery radiating power, gold border, "FULLY CHARGED"
-
-**Resurrection Status**:
-- **Available**: "Resurrection Available — Restores stored HP on death" in green
-- **Used This Combat**: "Resurrection Used — Charge by killing enemies" in red
-- **Death Trigger**: "On Resurrection: Freeze enemies within 15ft for 1 round" in blue
-
-**Kill Charge Animation**:
-When you kill an enemy with a frost spell:
-- **Soul Drain**: Wispy blue-white energy flows from the dying enemy to your Phylactery
-- **HP Gain**: "+1d6 Phylactery HP (Kill Charge)" appears above the phylactery icon
-- **Phylactery Pulse**: Phylactery icon glows brighter as it charges
-
-**Resurrection Trigger Animation**:
-When you die and phylactery resurrects you:
-- **Death**: Screen goes dark, "YOU HAVE FALLEN" text appears
-- **Phylactery Activation**: Phylactery icon PULSES with brilliant light
-- **Resurrection**: Your body reforms from ice and shadow, frost spreading outward
-- **Death Trigger**: All enemies within 15ft are FROZEN for 1 round — ice erupts from the ground
-- **HP Restoration**: "PHYLACTERY RESURRECTION! +30 HP" (or whatever was stored)
-- **Phylactery Depletion**: Phylactery HP bar drains to 0, icon goes dark
-- **Status Update**: "Resurrected by Phylactery — Death Trigger: Enemies Frozen!"
-- **Audio**: Shattering ice sound, then deep resonant hum as you reform, then CRACK as enemies freeze
-
-**Combined Interface Display**:
-- **Top Half**: Eternal Frost Aura mode status (Normal/Aura, current casting cost, health drain)
-- **Bottom Half**: Phylactery status (stored HP, kill charge tracker, resurrection availability)
-- **HP Bar**: Your current HP shown prominently with drain indicator when aura is active
-- **Mana Bar**: Standard mana pool — only relevant in Normal Mode
-
-**Why This Matters**: The Lichborne's dual interface makes you feel like you're PLAYING WITH DEATH. When you switch to Aura Mode, you watch your HP become your spell resource — every cast drains your life, but the damage output is devastating. The "+1d6 Frost Damage" bonus on every spell and the "Spells cost HP instead of Mana" indicator make the tradeoff visceral. When you kill an enemy and see the soul energy flow into your Phylactery, you KNOW you're building your safety net. And when you actually DIE and the Death Trigger freezes every enemy around you — that moment is pure lich fantasy. You didn't just die. You died ON PURPOSE, and now everyone around you is frozen because of it.`,
-    },
-
-    mechanics: {
-      title: 'How It Works',
-      content: `**Dual-Mode Casting**:
-- **Normal Mode (Aura OFF)**: Frost spells cost Mana. Standard caster behavior. Sustainable and safe.
-- **Aura Mode (Aura ON)**: Frost spells cost HP instead of Mana. All frost spells deal +1d6 frost damage and apply Chilled (DC 17 Con save or -10 ft speed) on hit.
-- **Toggle**: Free action — no AP or Mana cost to switch modes. Can switch once per turn.
-- **Aura Drain**: At the start of each turn while in Aura Mode, lose HP from the aura itself. Scales with level: 1d6 (Lv1-4), 1d8 (Lv5-7), 1d10 (Lv8-10). Cannot be mitigated or resisted.
-
-**Phylactery Harvester**:
-- **Kill Charge**: Each enemy killed by your frost spells adds 1d6 HP to your Phylactery (max 50 HP base)
-- **Resurrection**: When reduced to 0 HP, spend all stored Phylactery HP to resurrect at that HP value. Once per combat.
-- **Death Trigger**: On Phylactery resurrection, all enemies within 15ft are Frozen for 1 round (no save)
-- **Manual Charge**: You may still transfer your own HP to the Phylactery during a short rest (10 HP per rest) as a fallback
-
-**Strategic Depth**:
-- Switch to Aura Mode for burst damage windows — spells are free of Mana cost but drain your life
-- Kill enemies aggressively to charge your Phylactery for resurrection insurance
-- The Death Trigger freeze makes dying a tactical weapon — sometimes dying IS the play
-- Coordinate with healers to extend your Aura Mode uptime
-- In Normal Mode, you're a standard frost caster — conserve HP when you need to survive`,
-    },
-
-    keyAbilities: [
+    cards: [
       {
-        name: 'Dual-Mode Casting',
-        type: 'Toggle (Free Action)',
-        description: 'Switch between Normal Mode (Mana cost) and Aura Mode (HP cost, +1d6 damage, chill on hit). Aura drains HP per turn while active.'
+        title: 'Eternal Frost Aura (Toggle)',
+        stats: 'HP Casting | +1d6 Damage',
+        details: 'Switch between Normal (Mana) and Aura (HP) casting. Aura mode adds damage and Chills targets, but drains HP every turn.'
       },
       {
-        name: 'Phylactery Harvester',
-        type: 'Passive',
-        description: 'Enemies killed by your frost spells charge your Phylactery (+1d6 HP per kill, max 50 HP)'
+        title: 'Harvester Phylactery (0–50)',
+        stats: '+1d6 HP per Kill',
+        details: 'Harvest the souls of fallen enemies. This pool is automatically spent on death to resurrect you at the stored value.'
       },
       {
-        name: 'Phylactery Resurrection',
-        type: 'Passive',
-        description: 'When reduced to 0 HP, spend all stored Phylactery HP to resurrect at that value (once per combat). Freezes all enemies within 15ft for 1 round on resurrection.'
+        title: 'Death Trigger (Burst)',
+        stats: '15-ft Radius Freeze',
+        details: 'Upon resurrection, the sudden release of necrotic frost freezes all enemies within 15ft for 1 round (no save).'
       }
     ],
 
+    generationTable: {
+      headers: ['Action/Event', 'Resource Change', 'Effect'],
+      rows: [
+        ['Activate Aura', 'Free Toggle', 'Switch to HP casting mode'],
+        ['Cast in Aura Mode', 'Spend HP', 'Bypass Mana costs entirely'],
+        ['Kill Enemy', '+1d6 Phylactery', 'Harvest soul to fuel resurrection'],
+        ['Start of Turn', '-1d6/d8/d10 HP', 'Aura drain (scales with level)'],
+        ['Death', 'Spent All Stored', 'Resurrect + Death Trigger freeze'],
+        ['Short Rest', '+10 Phylactery', 'Manual HP transfer fallback']
+      ]
+    },
+
+    usage: {
+      momentum: 'Use Aura Mode to conserve mana for utility spells while dealing massive burst damage. Aggressive kills are your only way to build resurrection insurance.',
+      flourish: '⚠️ Aura Drain: The cold consumes you. Stay in Aura Mode only as long as your Phylactery reserve (or healer) can support your inevitable fall.'
+    },
+
+    overheatRules: {
+      title: 'Phylactery Resonance',
+      content: `Your current Phylactery charge determines your **Immortality Threshold** and dictates how aggressively you should utilize your Eternal Frost Aura.
+
+**🌕 Full (36–50 HP)**:
+- **Status**: Maximum Aggression.
+- **Strategy**: You are effectively immortal. Stay in Aura Mode constantly and seek a tactical death near large groups of enemies to trigger the 15ft battlefield freeze.
+
+**🌗 Stable (16–35 HP)**:
+- **Status**: Balanced Play.
+- **Strategy**: Use Aura Mode for 2-3 turn burst windows. Ensure you have a kill in sight (minions are best) to maintain your reserves before the cold consumes you.
+
+**🌑 Low (0–15 HP)**:
+- **Status**: Critical Danger.
+- **Strategy**: Switch to Normal Mode immediately. You lack the life force to survive a resurrection or the turn-by-turn drain of the aura. Focus on Siphon Soul to rebuild your pool.`
+    },
+
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Phylactery 0-15 HP (Low Reserve)**:
-- Switch to Normal Mode to conserve HP
-- Focus on killing weak enemies to charge Phylactery
-- Use Phylactery Shield if available for emergency defense
-- Avoid risky plays — you don't have resurrection insurance
+      title: 'Combat Phases & Decision-Making',
+      content: `**Predator's Opening (Mode Switch)**: Start in Normal Mode to assess the field. Switch to Aura Mode once high-value targets are identified. You bypass mana constraints, so unleash your most expensive AoE spells immediately to secure early kills.
 
-**Phylactery 16-35 HP (Moderate Reserve)**:
-- Aura Mode viable for 2-3 turn burst windows
-- Balance kills between damage output and Phylactery charging
-- Aggressive play is acceptable with resurrection available
-- Coordinate with healer for extended Aura Mode uptime
+**Harvesting (Early Combat)**: Focus entirely on weak minions or finishing blows. Your priority isn't just damage—it's charging the Phylactery. Aim for at least 30 HP in the reserve before taking risky positions.
 
-**Phylactery 36-50 HP (Full Reserve)**:
-- Maximum aggression — stay in Aura Mode, burn HP for devastating damage
-- Death is a tactical option: Death Trigger freeze can save a wipe
-- Consider Phylactery Burst for massive damage dump
-- Coordinate burst windows with team
+**Tactical Expiry (Mid-Combat)**: If the enemy team is clustered, Aura-casting until you reach 0 HP is a viable strategy. The resulting Death Trigger freeze (15ft radius, no save) is one of the strongest control tools in the game.
 
-**Mode Switching Strategy**:
-- **Opening**: Start in Normal Mode, assess threat level
-- **Turn 1-2**: Switch to Aura Mode for opening burst, begin killing to charge Phylactery
-- **Turn 3-5**: Maintain Aura Mode if healer supports, or toggle based on HP
-- **Turn 6+**: Switch to Normal Mode if HP critical, Aura Mode for finishing burst
+**Rebirth (Late Combat)**: After resurrection, you are at your most vulnerable. Switch back to Normal Mode to heal with Siphon Soul and spend your preserved Mana pool while rebuilding your soul reserve.
 
-**Healing Coordination**:
-- Communicate Aura Mode status to healers
-- Switch to Aura Mode after receiving heals for maximum value
-- Self-sustain with Siphon Soul for HP recovery
-- Use Normal Mode when no healing is available`,
+**Worked Example (Aura Mode, 15 HP Left, Phylactery at 40)**:
+- **Scenario**: Surrounded by 3 enemies.
+- **The Play**: Cast a high-cost Frost Nova. The HP cost will likely drop you to 0.
+- **The Result**: You die, immediately resurrect at 40 HP, and Freeze all 3 enemies in place.
+- **Outcome**: You've traded a 'death' for 40 HP and a guaranteed 1-round stun on the entire frontline.`
     },
 
     playingInPerson: {

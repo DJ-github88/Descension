@@ -1,20 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getCompatibleSlots, getEquipSlotDisplayName, validateEquipment } from '../../utils/equipmentUtils';
 import useCharacterStore from '../../store/characterStore';
+import useItemStore from '../../store/itemStore';
+import DurabilityAdjustModal from '../item-generation/DurabilityAdjustModal';
 import '../../styles/unified-context-menu.css';
 
-/**
- * Context menu for equipping items from inventory
- */
 const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
     const menuRef = useRef(null);
+    const [showDurabilityModal, setShowDurabilityModal] = useState(false);
+    const updateItemDurability = useItemStore(state => state.updateItemDurability);
 
-    // Get current equipment state for validation (hook must be called before early return)
     const { equipment } = useCharacterStore(state => ({
         equipment: state.equipment
     }));
 
-    // Handle clicks outside the menu and Escape key
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -40,7 +39,6 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
     if (!item) return null;
     const compatibleSlots = getCompatibleSlots(item);
 
-    // Filter slots based on current equipment state (e.g., two-handed weapon conflicts)
     const validSlots = compatibleSlots.filter(slotName => {
         const validation = validateEquipment(item, slotName, equipment);
         return validation.isValid;
@@ -48,9 +46,30 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
 
     let content = null;
 
-    // If no valid slots, show appropriate message
+    const durabilityButton = item && ['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null ? (
+        <button
+            key="durability-btn"
+            className="context-menu-button"
+            onClick={() => setShowDurabilityModal(true)}
+            style={{ color: item.durability === 0 ? '#ff4444' : (item.durability ?? item.maxDurability) / item.maxDurability <= 0.25 ? '#ff8844' : (item.durability ?? item.maxDurability) / item.maxDurability <= 0.50 ? '#ffaa00' : 'inherit' }}
+        >
+            <i className="fas fa-shield-alt"></i>
+            Durability: {item.durability ?? item.maxDurability}/{item.maxDurability}
+        </button>
+    ) : null;
+
+    const cancelButton = (
+        <button
+            key="cancel-btn"
+            className="context-menu-button"
+            onClick={onClose}
+        >
+            <i className="fas fa-times"></i>
+            Cancel
+        </button>
+    );
+
     if (validSlots.length === 0) {
-        // Check if there are compatible slots but they're blocked
         const hasBlockedSlots = compatibleSlots.length > 0;
         const blockedReason = hasBlockedSlots ?
             validateEquipment(item, compatibleSlots[0], equipment).reason :
@@ -67,17 +86,11 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                         {blockedReason}
                     </div>
                 </div>
-                <button
-                    className="context-menu-button"
-                    onClick={onClose}
-                >
-                    <i className="fas fa-times"></i>
-                    Close
-                </button>
+                {durabilityButton}
+                {cancelButton}
             </div>
         );
     } else if (validSlots.length === 1) {
-        // If only one valid slot, show direct equip option
         const slotName = validSlots[0];
         content = (
             <div className="context-menu-main">
@@ -98,19 +111,13 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                             <i className="fas fa-arrow-right"></i>
                             Equip to {getEquipSlotDisplayName(slotName, item)}
                         </button>
-                        <button
-                            className="context-menu-button"
-                            onClick={onClose}
-                        >
-                            <i className="fas fa-times"></i>
-                            Cancel
-                        </button>
+                        {durabilityButton}
+                        {cancelButton}
                     </div>
                 </div>
             </div>
         );
     } else {
-        // Multiple compatible slots - show selection menu
         content = (
             <div className="context-menu-main">
                 <div className="context-menu-group">
@@ -134,13 +141,8 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
                             </button>
                         ))}
                         <div className="context-menu-separator"></div>
-                        <button
-                            className="context-menu-button"
-                            onClick={onClose}
-                        >
-                            <i className="fas fa-times"></i>
-                            Cancel
-                        </button>
+                        {durabilityButton}
+                        {cancelButton}
                     </div>
                 </div>
             </div>
@@ -148,19 +150,34 @@ const EquipmentContextMenu = ({ x, y, item, onClose, onEquip }) => {
     }
 
     return (
-        <div
-            ref={menuRef}
-            className="unified-context-menu"
-            style={{
-                position: 'fixed',
-                left: x,
-                top: y,
-                zIndex: 10001
-            }}
-            onClick={e => e.stopPropagation()}
-        >
-            {content}
-        </div>
+        <>
+            <div
+                ref={menuRef}
+                className="unified-context-menu"
+                style={{
+                    position: 'fixed',
+                    left: x,
+                    top: y,
+                    zIndex: 10001
+                }}
+                onClick={e => e.stopPropagation()}
+            >
+                {content}
+            </div>
+            {showDurabilityModal && item && (
+                <DurabilityAdjustModal
+                    visible={showDurabilityModal}
+                    item={item}
+                    onClose={() => {
+                        setShowDurabilityModal(false);
+                        onClose();
+                    }}
+                    onDurabilityChange={(itemId, newDurability) => {
+                        updateItemDurability(itemId, newDurability);
+                    }}
+                />
+            )}
+        </>
     );
 };
 

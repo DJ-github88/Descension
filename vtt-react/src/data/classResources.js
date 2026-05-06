@@ -1414,24 +1414,24 @@ CLASS_RESOURCE_TYPES['Witch Doctor'] = {
             legba: '#FFB347'
         },
         specializations: {
-            'shadow-priest': {
-                name: 'Shadow Priest',
+            'bokor': {
+                name: 'Bokor',
                 icon: 'fas fa-skull',
                 baseColor: '#2D1B4E',
                 activeColor: '#8B008B',
                 glowColor: '#9370DB',
                 theme: 'Necromancy & Death Magic'
             },
-            'spirit-healer': {
-                name: 'Spirit Healer',
+            'mambo': {
+                name: 'Mambo',
                 icon: 'fas fa-hand-holding-heart',
                 baseColor: '#1A472A',
                 activeColor: '#32CD32',
                 glowColor: '#98FB98',
                 theme: 'Totems & Protection'
             },
-            'war-priest': {
-                name: 'War Priest',
+            'houngan': {
+                name: 'Houngan',
                 icon: 'fas fa-fire',
                 baseColor: '#4A1C1C',
                 activeColor: '#DC143C',
@@ -1758,7 +1758,7 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
     name: 'Dark Resilience Points',
     shortName: 'DRP',
     type: 'resilience',
-    description: 'Convert damage taken into dark power (1 DRP per 5 damage)',
+    description: 'Convert damage taken into dark power (1 DRP per 4 damage)',
     visual: {
         type: 'drp-resilience',
         count: 50,
@@ -1774,8 +1774,8 @@ CLASS_RESOURCE_TYPES['Dreadnaught'] = {
         current: 0,
         regen: 0,
         generation: {
-            damageTaken: '1 DRP per 5 damage',
-            soulreaverBonus: '1 DRP per 4 damage',
+            damageTaken: '1 DRP per 4 damage',
+            soulreaverBonus: '1 DRP per 3 damage',
             necroticDamageDealt: '1 DRP (Soulreaver only)'
         },
         passiveEffects: {
@@ -2437,10 +2437,180 @@ CLASS_RESOURCE_TYPES['Warden'] = {
         { action: 'Critical hit', vp: 1 }
     ],
     spending: [
-        { cost: 1, ability: 'Vengeful Strike', effect: '+1d6 damage' },
-        { cost: 2, ability: 'Whirling Glaive', effect: 'Multi-target attack' },
-        { cost: 3, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 Armor for 2 rounds' },
-        { cost: 5, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds' },
+        { cost: 2, ability: 'Vengeful Strike', effect: '+2d6 damage on next attack' },
+        { cost: 3, ability: 'Whirling Glaive', effect: '15-ft cone AoE, 2d6 damage + slow' },
+        { cost: 4, ability: 'Hunter\'s Resolve', effect: 'Heal 2d8 HP, +2 Armor for 2 rounds' },
+        { cost: 6, ability: 'Cage of Vengeance', effect: 'Trap target for 3 rounds' },
         { cost: 10, ability: 'Avatar of Vengeance', effect: 'Ultimate transformation for 4 rounds' }
+    ]
+};
+
+CLASS_RESOURCE_TYPES['Augur'] = {
+    id: 'benediction-malediction',
+    name: 'Benediction & Malediction',
+    shortName: 'B/M',
+    type: 'dual-omen',
+    description: 'Read the signs in every die roll — even results generate Benediction, odd results generate Malediction. Spend Benediction on boons and blessings, Malediction on curses and debuffs.',
+    visual: {
+        type: 'dual-omen',
+        benediction: {
+            max: 10,
+            baseColor: '#1a1a2e',
+            activeColor: '#FFD700',
+            glowColor: '#FFF8DC',
+            icon: '✦',
+            label: 'Benediction'
+        },
+        malediction: {
+            max: 10,
+            baseColor: '#1a1a2e',
+            activeColor: '#8B008B',
+            glowColor: '#DA70D6',
+            icon: '✧',
+            label: 'Malediction'
+        },
+        specOverrides: {
+            auspex: { benedictionMax: 10, maledictionMax: 10 },
+            harbinger: { benedictionMax: 5, maledictionMax: 15 },
+            hierophant: { benedictionMax: 15, maledictionMax: 5 }
+        },
+        effects: ['omen', 'divination', 'blessing', 'curse']
+    },
+    mechanics: {
+        benediction: {
+            max: 10,
+            current: 0,
+            generation: {
+                evenD20: 1,
+                natural20: 2,
+                combatStart: '1d4',
+                omenRitual: 2
+            },
+            spending: {
+                buff: 'variable',
+                terrain: 'variable',
+                protection: 'variable'
+            }
+        },
+        malediction: {
+            max: 10,
+            current: 0,
+            generation: {
+                oddD20: 1,
+                natural1: 2,
+                combatStart: '1d4',
+                omenRitual: 2
+            },
+            spending: {
+                debuff: 'variable',
+                terrain: 'variable',
+                curse: 'variable'
+            }
+        },
+        omenDebt: {
+            penalty: -1,
+            perUnused: 1,
+            cap: -10,
+            duration: 'until next long rest'
+        },
+        specPassives: {
+            auspex: 'Harmonic Interpretation: +1 generation to matching type. Balanced spells enhanced 50%.',
+            harbinger: 'Dark Portent: +1 bonus Malediction on odd rolls. Ill Omen stacking debuff.',
+            hierophant: 'Cosmic Channel: +1 bonus Benediction on even rolls. Terrain effects last +2 rounds.'
+        },
+        persistence: 'Resources persist through combat. Omen Debt applied at long rest for unused resources.'
+    },
+    tooltip: {
+        title: 'Benediction: {benediction}/{benedictionMax} | Malediction: {malediction}/{maledictionMax}',
+        description: 'Even d20 rolls → Benediction. Odd d20 rolls → Malediction. Unused resources at day end cause Omen Debt (-1 per point to all rolls next day).',
+        showGeneration: true,
+        showSpending: true,
+        showSpecPassive: true,
+        showOmenDebt: true
+    },
+    generation: [
+        { action: 'Any d20 (even result)', benediction: 1, malediction: 0 },
+        { action: 'Any d20 (odd result)', benediction: 0, malediction: 1 },
+        { action: 'Natural 20 (even)', benediction: 2, malediction: 0 },
+        { action: 'Natural 1 (odd)', benediction: 0, malediction: 2 },
+        { action: 'Combat start passive', benediction: '1d4', malediction: '1d4' },
+        { action: 'Omen Ritual (10 min, once/short rest)', benediction: 2, malediction: 2 }
+    ],
+    spending: [
+        { cost: '2-3 Benediction', ability: 'Minor Blessing', effect: 'Buff ally +1 to rolls or +2 Armor' },
+        { cost: '2-3 Malediction', ability: 'Minor Curse', effect: 'Debuff enemy -1 to rolls or -2 Armor' },
+        { cost: '4-5 Benediction', ability: 'Sacred Terrain', effect: 'Create blessed zone (heal, +saves)' },
+        { cost: '4-5 Malediction', ability: 'Cursed Terrain', effect: 'Create hazard zone (damage, -speed)' },
+        { cost: '6+ Malediction', ability: 'Grand Malediction', effect: 'Severe debuff + psychic damage' },
+        { cost: '8+ Benediction', ability: 'Domain', effect: 'Large sacred zone with powerful buffs' },
+        {         cost: '3/3 Both', ability: 'Balanced Sign', effect: 'Simultaneous buff + debuff zone' }
+    ]
+};
+
+CLASS_RESOURCE_TYPES['Doomsayer'] = {
+    id: 'havoc',
+    name: 'Havoc',
+    shortName: 'HV',
+    type: 'havoc',
+    description: 'Chaotic energy earned by fulfilling prophecies. Spend Havoc to cast stronger spells, widen prophecy ranges, and fuel devastating abilities.',
+    visual: {
+        type: 'havoc',
+        max: 15,
+        baseColor: '#1a0a0a',
+        activeColor: '#FF4500',
+        glowColor: '#FF6347',
+        emptyColor: '#2a0a0a',
+        segmentBorder: '#8B0000',
+        icon: '💀',
+        effects: ['chaos', 'doom', 'prophecy', 'fire']
+    },
+    mechanics: {
+        max: 15,
+        current: 0,
+        generation: {
+            prophesized: { base: 2, spellBonus: 'variable' },
+            baseOutcome: 1,
+            outsideOutcome: 0,
+            doomCountdownTick: 1,
+            doomCountdownDetonation: { base: 3, bonus: 'variable' },
+            areaPerTarget: 1
+        },
+        spending: {
+            widenRange: { cost: 1, effect: '+1 to each boundary of prophecy range' },
+            spellCost: 'variable (3-15)',
+            prophecyManipulation: 'variable'
+        },
+        prophecyRange: {
+            mechanic: 'Roll 2 dice (type per spell) to create range. Inside = Prophesized, On boundary = Base, Outside = Backlash',
+            backlash: 'Self-damage or negative effects when rolling outside range'
+        },
+        specOverrides: {
+            requiem: { bonusHavocSingleTarget: 2, maxStackedProphecies: 3 },
+            endbringer: { escalatingHavocPerRound: 1, doomAuraPenalty: -1 },
+            cataclysm: { havocPerAreaTarget: 1, maxSimultaneousAreas: 3 }
+        },
+        persistence: 'Havoc persists between combats but resets on long rest'
+    },
+    tooltip: {
+        title: 'Havoc: {current}/15',
+        description: 'Earned from fulfilled prophecies. Spend to widen ranges or cast powerful spells.',
+        showGeneration: true,
+        showSpending: true,
+        showSpecPassive: true,
+        showProphecyBacklash: true
+    },
+    generation: [
+        { action: 'Prophesized (inside range)', havoc: '2-5', notes: 'Base 2 + spell bonus' },
+        { action: 'Base (on boundary)', havoc: 1, notes: 'Prophecy partially fulfilled' },
+        { action: 'Outside (backlash)', havoc: 0, notes: 'No Havoc earned' },
+        { action: 'Doom Countdown tick', havoc: 1, notes: 'Per round ticking' },
+        { action: 'Area per target hit', havoc: 1, notes: 'Per target in area' }
+    ],
+    spending: [
+        { cost: '1 Havoc', ability: 'Widen Range', effect: '+1 to each boundary of prophecy range' },
+        { cost: '2-5 Havoc', ability: 'Spell Amplification', effect: 'Power up spell effects' },
+        { cost: '5-8 Havoc', ability: 'Strong Spells', effect: 'Cast powerful prophecy spells' },
+        { cost: '8-12 Havoc', ability: 'Ultimate Spells', effect: 'Devastating area or single-target prophecies' },
+        { cost: '15 Havoc', ability: 'Supreme Abilities', effect: 'Class-defining ultimate abilities' }
     ]
 };

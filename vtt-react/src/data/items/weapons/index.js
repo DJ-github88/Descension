@@ -544,7 +544,7 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false }
     },
     combatStats: {
-      armorClass: { value: 1, isPercentage: false }
+      armor: { value: 1, isPercentage: false }
     },
     durability: 50,
     maxDurability: 50
@@ -577,7 +577,7 @@ export const WEAPONS = [
       agility: { value: 2, isPercentage: false }
     },
     combatStats: {
-      armorClass: { value: 2, isPercentage: false }
+      armor: { value: 2, isPercentage: false }
     },
     durability: 65,
     maxDurability: 65
@@ -610,7 +610,7 @@ export const WEAPONS = [
       agility: { value: 1, isPercentage: false }
     },
     combatStats: {
-      armorClass: { value: 1, isPercentage: false }
+      armor: { value: 1, isPercentage: false }
     },
     durability: 35,
     maxDurability: 35
@@ -644,7 +644,7 @@ export const WEAPONS = [
       agility: { value: -1, isPercentage: false }
     },
     combatStats: {
-      armorClass: { value: 2, isPercentage: false }
+      armor: { value: 2, isPercentage: false }
     },
     durability: 55,
     maxDurability: 55

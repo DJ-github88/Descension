@@ -1,0 +1,28 @@
+const fs = require('fs');
+const path = require('path');
+
+function walkDir(dir) {
+    let results = [];
+    const list = fs.readdirSync(dir);
+    list.forEach(file => {
+        file = path.join(dir, file);
+        const stat = fs.statSync(file);
+        if (stat && stat.isDirectory()) {
+            results = results.concat(walkDir(file));
+        } else if (file.endsWith('.jsx')) {
+            results.push(file);
+        }
+    });
+    return results;
+}
+
+const files = walkDir('d:/VTT/vtt-react/src/data/classes');
+let badFiles = [];
+
+files.forEach(file => {
+    let content = fs.readFileSync(file, 'utf8');
+    if (content.includes('opacity: 0') && !content.includes("opacity = '1'")) {
+        badFiles.push(file);
+    }
+});
+console.log('Bad files: ', badFiles);

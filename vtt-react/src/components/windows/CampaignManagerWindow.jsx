@@ -2253,7 +2253,7 @@ function CampaignManagerWindow({ isOpen, onClose }) {
                                                                     type="text"
                                                                     value={monster.ac || ''}
                                                                     onChange={(e) => updateHomebrewMonster(monster.id, { ac: e.target.value })}
-                                                                    placeholder="AC"
+                                                                    placeholder="Armor"
                                                                     className="homebrew-input-small"
                                                                 />
                                                             </div>

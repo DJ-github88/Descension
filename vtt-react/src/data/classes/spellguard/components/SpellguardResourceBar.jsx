@@ -28,7 +28,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             glowColor: '#6495ED',
             icon: 'fa-shield',
             passive: 'Arcane Fortitude',
-            passiveDesc: 'Gain 1.5x AEP from magical damage (3 per damage). While shielded: +2 AC, +10% all resistances.'
+            passiveDesc: 'Gain 1.5x AEP from magical damage (3 per damage). While shielded: +2 Armor, +10% all resistances.'
         },
         spellBreaker: {
             name: 'Spell Breaker',
@@ -67,6 +67,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
     // Auto-adjust tooltip position
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
+            tooltipRef.current.style.opacity = '0';
             const updatePosition = () => {
                 const tooltip = tooltipRef.current;
                 const bar = barRef.current;
@@ -131,6 +132,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                 tooltip.style.zIndex = '2147483647';
                 tooltip.style.borderRadius = '0';
                 tooltip.style.padding = '10px 12px';
+                tooltip.style.opacity = '1';
             };
 
             updatePosition();
@@ -140,7 +142,10 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
             const timeoutId = setTimeout(updatePosition, 50);
 
-            return () => clearTimeout(timeoutId);
+            return () => {
+                clearTimeout(timeoutId);
+                if (tooltipRef.current) { tooltipRef.current.style.opacity = ''; }
+            };
         }
     }, [showTooltip, localAEP, selectedSpec]);
 
@@ -288,7 +293,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
 
             {/* Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-header">Arcane Energy Points</div>
 
                     <div className="tooltip-section">
@@ -332,8 +337,9 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
             {/* AEP Controls Menu */}
             {showControls && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact spellguard-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                    onClick={(e) => e.stopPropagation()}
+                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={{
                         position: 'fixed',
                         top: (() => {
@@ -356,13 +362,13 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main spellguard-menu">
+                    <div className="context-menu-main">
                         <div className="menu-title">AEP: {localAEP}/{maxAEP}</div>
 
                         {/* Specialization Selection */}
                         <div className="spellguard-spec-section">
                             <button
-                                className="spellguard-spec-btn"
+                                className="context-menu-button"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     cycleSpec();
@@ -459,7 +465,7 @@ const SpellguardResourceBar = ({ classResource = {}, size = 'normal', config = {
                         <div className="spellguard-quick-actions">
                             <button 
                                 onClick={(e) => { e.stopPropagation(); setShowControls(false); }} 
-                                className="spellguard-quick-btn"
+                                className="context-menu-button"
                                 title="Close"
                             >
                                 <i className="fas fa-times"></i>

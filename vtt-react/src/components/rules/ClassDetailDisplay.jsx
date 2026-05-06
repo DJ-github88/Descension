@@ -589,6 +589,62 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
             {renderContent(resourceSystem.description)}
           </div>
 
+          {/* Resource stat cards (e.g. Momentum + Flourish) */}
+          {resourceSystem.cards && resourceSystem.cards.length > 0 && (
+            <div className="resource-stat-cards">
+              {resourceSystem.cards.map((card, i) => (
+                <div key={i} className="resource-stat-card">
+                  <div className="resource-stat-card-title">{card.title}</div>
+                  <div className="resource-stat-card-stat">{card.stats}</div>
+                  <div className="resource-stat-card-details">{card.details}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Generation / change table */}
+          {resourceSystem.generationTable && (
+            <div className="guide-table-container">
+              <div className="guide-table-title">
+                <i className="fas fa-exchange-alt"></i> Resource Changes at a Glance
+              </div>
+              <div className="guide-table-wrapper">
+                <table className="guide-table class-resource-table">
+                  <thead>
+                    <tr>
+                      {resourceSystem.generationTable.headers.map((h, i) => <th key={i}>{h}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {resourceSystem.generationTable.rows.map((row, ri) => (
+                      <tr key={ri} className={ri % 2 === 0 ? 'row-even' : 'row-odd'}>
+                        {row.map((cell, ci) => <td key={ci}>{cell}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Usage summary */}
+          {resourceSystem.usage && (
+            <div className="resource-usage-summary">
+              {resourceSystem.usage.momentum && (
+                <div className="resource-usage-item">
+                  <span className="resource-usage-label"><i className="fas fa-bolt"></i> Momentum:</span>
+                  <span className="resource-usage-text">{resourceSystem.usage.momentum}</span>
+                </div>
+              )}
+              {resourceSystem.usage.flourish && (
+                <div className="resource-usage-item">
+                  <span className="resource-usage-label"><i className="fas fa-star"></i> Flourish:</span>
+                  <span className="resource-usage-text">{resourceSystem.usage.flourish}</span>
+                </div>
+              )}
+            </div>
+          )}
+
           {resourceSystem.mechanics && (
             <div className="guide-subsection mechanics-box">
               <h4><i className="fas fa-cogs"></i> {resourceSystem.mechanics.title || 'Mechanics'}</h4>
@@ -817,6 +873,13 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
         {resourceSystem.hexbreakerAbilitiesTable && renderResourceTable(resourceSystem.hexbreakerAbilitiesTable, 'hexbreakerAbilitiesTable')}
         {resourceSystem.detectionTrackingTable && renderResourceTable(resourceSystem.detectionTrackingTable, 'detectionTrackingTable')}
         {resourceSystem.manaCostTable && renderResourceTable(resourceSystem.manaCostTable, 'manaCostTable')}
+
+        {resourceSystem.overheatRules && (
+          <div className="guide-subsection overheat-rules-box">
+            <h4><i className="fas fa-fire-alt"></i> {resourceSystem.overheatRules.title || 'Overheat'}</h4>
+            {renderStructuredContent(resourceSystem.overheatRules.content)}
+          </div>
+        )}
 
         {resourceSystem.strategicConsiderations && (
           <div className="guide-subsection strategy-box">

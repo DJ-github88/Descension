@@ -112,6 +112,7 @@ const ActionBar = lazy(() => import("./components/ui/ActionBar"));
 const CombatSelectionWindow = lazy(() => import("./components/combat/CombatSelectionOverlay"));
 const CombatTimeline = lazy(() => import("./components/combat/CombatTimeline"));
 const DiceRollingSystem = lazy(() => import("./components/dice/DiceRollingSystem"));
+const AudioPlayerWidget = lazy(() => import("./components/jukebox/AudioPlayerWidget"));
 // Lazy load page components
 const MultiplayerApp = lazy(() => import("./components/multiplayer/MultiplayerApp"));
 const AccountDashboard = lazy(() => import("./components/account/AccountDashboard"));
@@ -738,6 +739,9 @@ function GameScreen() {
                     </ErrorBoundary>
                     <ErrorBoundary name="DiceRolling">
                         <DiceRollingSystem />
+                    </ErrorBoundary>
+                    <ErrorBoundary name="AudioPlayerWidget">
+                        <AudioPlayerWidget />
                     </ErrorBoundary>
                 </Suspense>
 

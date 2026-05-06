@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import useItemStore from '../../store/itemStore';
 import ConfirmationDialog from './ConfirmationDialog';
 import UnifiedContextMenu from '../level-editor/UnifiedContextMenu';
+import DurabilityAdjustModal from './DurabilityAdjustModal';
 
 const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentCategoryId, itemId, onEdit, item, onShowCategorizeModal, onShowUnlockModal, onShareToCommunity, user }) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [showDurabilityModal, setShowDurabilityModal] = useState(false);
     const [error, setError] = useState(null);
     const removeItem = useItemStore(state => state.removeItem);
     const updateItem = useItemStore(state => state.updateItem);
     const toggleContainerOpen = useItemStore(state => state.toggleContainerOpen);
     const openContainers = useItemStore(state => state.openContainers);
     const items = useItemStore(state => state.items);
+    const updateItemDurability = useItemStore(state => state.updateItemDurability);
 
     // Validate item data
     useEffect(() => {
@@ -195,6 +198,16 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
         });
     }
 
+    if (['weapon', 'armor', 'accessory'].includes(item?.type) && item?.maxDurability != null) {
+        menuItems.push({
+            icon: <i className="fas fa-shield-alt"></i>,
+            label: `Durability: ${item.durability ?? item.maxDurability}/${item.maxDurability}`,
+            onClick: () => {
+                setShowDurabilityModal(true);
+            }
+        });
+    }
+
     // Delete Item
     menuItems.push(
         { type: 'separator' },
@@ -246,6 +259,20 @@ const ItemContextMenu = ({ x, y, onClose, categories, onMoveToCategory, currentC
                     message="Are you sure you want to delete this item?"
                     onConfirm={handleConfirmDelete}
                     onCancel={handleCancelDelete}
+                />
+            )}
+
+            {showDurabilityModal && item && (
+                <DurabilityAdjustModal
+                    visible={showDurabilityModal}
+                    item={item}
+                    onClose={() => {
+                        setShowDurabilityModal(false);
+                        onClose();
+                    }}
+                    onDurabilityChange={(itemId, newDurability) => {
+                        updateItemDurability(itemId, newDurability);
+                    }}
                 />
             )}
 

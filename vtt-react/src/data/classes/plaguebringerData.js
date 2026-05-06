@@ -135,13 +135,13 @@ Your LAST category determines the final plague's archetype:
 *The afflictions tick. Captain takes 4 necrotic. Knight #1 takes 3 poison. They don't understand yet. But they will.*
 
 **Action**: Cast "Enfeebling Fog" on Knight Captain (6 mana, WEAKEN category)
-**Effect**: Advance Curse of Agony to Stage 1. Gain Weaken effect: -2 AC
+**Effect**: Advance Curse of Agony to Stage 1. Gain Weaken effect: -2 Armor
 **Virulence**: 20 + 5 = 25/100 → **SPROUTING** (all afflictions +1 damage die)
 
 *You channel a weakening fog around the captain. The curse EVOLVES. His armor feels heavier.*
 
 **Affliction**: Knight Captain: Curse of Agony (Stage 1: Weaken applied)
-**New Effect**: 2d6 necrotic/turn + target has -2 AC
+**New Effect**: 2d6 necrotic/turn + target has -2 Armor
 
 *Your Virulence crosses the Sprouting threshold. ALL your afflictions just got stronger. The garden grows, and so do you.*
 
@@ -174,7 +174,7 @@ Your LAST category determines the final plague's archetype:
 *Spores fill the captain's mind. The curse twists. He stumbles, confused.*
 
 **Affliction**: Knight Captain: Curse of Agony (Stage 2: Weaken + Torment)
-**New Effect**: 3d6 necrotic/turn, -2 AC, Spirit save or attack nearest ally
+**New Effect**: 3d6 necrotic/turn, -2 Armor, Spirit save or attack nearest ally
 
 **Captain FAILS Spirit save** → Attacks Knight #3!
 
@@ -247,64 +247,42 @@ Your LAST category determines the final plague's archetype:
     title: 'Affliction Cultivation',
     subtitle: 'Five Ingredients, Infinite Gardens',
 
-    description: `The Affliction Cultivation system is the Plaguebringer's unique mechanic. Base afflictions are applied to targets as seeds, then cultivated through category spells. There are 5 categories — Weaken, Torment, Fester, Decay, and Amplify — and they can be combined in ANY order. The LAST category you apply determines the final plague's archetype. The categories are ingredients; you mix them to create the plague you need.`,
+    description: `Your power is that of a dark gardener. Plant seeds of affliction, cultivate them through five distinct categories of suffering, and watch them bloom into unstoppable plagues as your Virulence—a passive measure of your garden's growth—empowers every disease you weave.`,
 
-    mechanics: {
-      title: 'How It Works',
-      content: `**Step 1: Plant a Seed (Base Affliction)**
-Cast a base affliction spell on a target (Curse of Agony, Venomous Touch, Whisper of Decay, Fever Dream, or Mark of the Pestilent). This applies a Stage 0 "Seed" that deals damage per turn.
+    cards: [
+      {
+        title: 'Virulence',
+        stats: '0-100 Gauge',
+        details: 'A passive measure of your power. It never spends; it only grows as you cultivate, unlocking massive stat and duration buffs for all active afflictions.'
+      },
+      {
+        title: 'Afflictions',
+        stats: '3-Stage Evolution',
+        details: 'Diseases start as Seeds. Use 3 Category spells to evolve them. The final category used determines the plague\'s ultimate form.'
+      }
+    ],
 
-**Step 2: Cultivate (Category Spells — Pick Any 3)**
-Cast 3 category spells on the afflicted target. ANY category can be applied at ANY stage. Each one advances the affliction 1 stage and adds its thematic effect:
+    generationTable: {
+      headers: ['Trigger', 'Virulence Change', 'Notes'],
+      rows: [
+        ['Plant a Seed (Base Spell)', '+10', 'Base affliction applied'],
+        ['Cultivate (Category Spell)', '+5', 'Advances affliction one stage'],
+        ['Final Form reached', '+25', 'Affliction blooms into final archetype'],
+        ['Passive Decay', '-2 per turn', 'The garden requires constant tending'],
+        ['Peak Harvest (75+)', 'Max Buffs', 'Afflictions ignore first dispel, +2 damage dice']
+      ]
+    },
 
-- **Weaken** (The Sap): Reduce AC, stats, or defenses
-- **Torment** (The Whisper): Psychic damage, confusion, fear
-- **Fester** (The Creep): Spread to nearby enemies, contagion
-- **Decay** (The Rot): Necrotic damage, anti-healing, max HP drain
-- **Amplify** (The Surge): Multiply existing effects, intensity surge
-
-**Step 3: Final Plague (Determined by Last Category)**
-After 3 category spells, the affliction blooms into its final form. The LAST category determines the archetype:
-
-| Last Category | Final Archetype | Effect Type |
-|---|---|---|
-| **Amplify** | The Harvest | Massive burst damage, affliction consumed |
-| **Fester** | The Pandemic | Explodes outward, spreads to all nearby |
-| **Weaken** | The Collapse | Devastating permanent debuffs on target |
-| **Torment** | The Shatter | Mind breaks — confusion, fear, attacks allies |
-| **Decay** | The Blight | Permanent max HP drain, healing blocked |
-
-**Example Paths**:
-- Weaken → Weaken → Amplify = **Paralyzing Harvest** (total defense collapse then burst)
-- Fester → Fester → Fester = **Pandemic Spore** (maximum contagion bomb)
-- Torment → Decay → Amplify = **Scream of the Doomed** (psychic+necrotic devastation)
-- Weaken → Decay → Decay = **Withering Blight** (permanent stat+HP drain)
-- Torment → Torment → Torment = **Shattered Mind** (total insanity)
-
-**Virulence — Your Garden Empowers You**:
-Virulence is a passive gauge (0-100) that fills as you cultivate. It is NEVER spent — only gained. Higher Virulence passively buffs ALL your afflictions.
-
-| Virulence Range | Name | Passive Bonus |
-|---|---|---|
-| 0-24 | Seedling | No bonus |
-| 25-49 | Sprouting | +1 to all affliction damage dice |
-| 50-74 | Blooming | +1 affliction duration round, +5ft spread range |
-| 75-100 | Peak Harvest | Afflictions ignore first dispel, +2 damage dice |
-
-Virulence gains: Base Affliction applied +10, Category Spell cast +5, Final Form reached +25. Decays 2/turn.
-
-**Strategic Depth**:
-- Choose your 3 categories based on what the situation needs
-- The FIRST two categories shape the journey; the LAST determines the destination
-- High Virulence makes all afflictions stronger — cultivate more = grow stronger
-- You can harvest early (2 categories) for a weaker but faster final form`
+    usage: {
+      momentum: 'Category spells cost mana and advance an affliction\'s stage. The first two categories shape the path, while the third determines the final archetype.',
+      flourish: 'Virulence Thresholds: Sprouting (25) adds +1 damage die; Blooming (50) adds +1 duration and +5ft spread; Peak Harvest (75) adds +2 damage dice and dispel resistance.'
     },
 
     fiveCategoriesTable: {
       title: 'The Five Categories',
       headers: ['Category', 'Identity', 'Stage Effect', 'Best For'],
       rows: [
-        ['Weaken', 'The Sap', 'Reduce AC, stats, defenses', 'Softening targets, team synergy'],
+        ['Weaken', 'The Sap', 'Reduce Armor, stats, defenses', 'Softening targets, team synergy'],
         ['Torment', 'The Whisper', 'Psychic damage, confusion, fear', 'Crowd control, disrupting casters'],
         ['Fester', 'The Creep', 'Spread to nearby, contagion mechanics', 'Multi-target, grouped enemies'],
         ['Decay', 'The Rot', 'Necrotic damage, anti-healing, max HP drain', 'Bosses, healers, attrition'],
@@ -324,128 +302,60 @@ Virulence gains: Base Affliction applied +10, Category Spell cast +5, Final Form
       ]
     },
 
-    virulenceTable: {
-      title: 'Virulence Thresholds',
-      headers: ['Range', 'Name', 'Passive Buff'],
-      rows: [
-        ['0-24', 'Seedling', 'None'],
-        ['25-49', 'Sprouting', '+1 to all affliction damage dice'],
-        ['50-74', 'Blooming', '+1 duration round, +5ft spread range'],
-        ['75-100', 'Peak Harvest', 'Ignore first dispel, +2 damage dice']
-      ]
-    },
-
     strategicConsiderations: {
-      title: 'Strategic Affliction Management',
-      content: `**Choosing Your Path**:
-The beauty of the system is that no path is "wrong" — but some are better for certain situations:
-- **Boss Fights**: Weaken → Decay → Amplify = Harvest (soften, rot, then burst)
-- **Trash Packs**: Fester → Fester → Fester = Pandemic (maximum contagion)
-- **Enemy Casters**: Torment → Torment → Torment = Shatter (total mind break)
-- **Healing Enemies**: Decay → Decay → Decay = Blight (permanent healing block)
-- **Team Coordination**: Weaken → Weaken → Amplify = Harvest (boss AC destroyed, then burst)
+      title: 'Combat Phases & Decision-Making',
+      content: `**Planting (Virulence 0–24)**: Focus on seeding multiple targets. Your goal is to hit Sprouting (25) as fast as possible to make your DoTs meaningful.
 
-**Single Target Focus**:
-- Plant seed immediately
-- Follow optimal 3-category path for the fight
-- Let Virulence build to buff all afflictions
-- Harvest at Stage 3 for maximum payoff
+**Cultivation (Virulence 25–74)**: This is your sweet spot. Alternate categories to keep Virulence high. Ends with Fester for crowds or Decay for high-value targets.
 
-**Multi-Target Spread**:
-- Plant seeds on multiple targets
-- Use Fester category to spread contagion
-- Prioritize targets in the center of enemy groups
-- Let Virulence passively buff all afflictions
+**The Harvest (Virulence 75–100)**: Maximum effectiveness. Your afflictions are nearly impossible to dispel. This is when you finish with Amplify to trigger a massive burst finale.
 
-**Virulence Management**:
-- Virulence decays 2/turn — keep cultivating to maintain high levels
-- Reaching Sprouting (25) early is a significant power spike
-- Peak Harvest (75+) makes your afflictions nearly uncurable
-- Each new affliction planted adds +10 Virulence — wide gardens = high Virulence
+**Advanced Play — Ingredient Mixing**: Don't just spam the same category. Mixing Weaken and Decay before a Harvest ensures the target is softened for the final burst.
 
-**Harvest Timing**:
-- Early harvest (Stage 2) is weaker but faster
-- Full harvest (Stage 3) is dramatically stronger
-- Harvest finale (Amplify ending) consumes the affliction — plan around this
-- Non-consumed finales (Fester, Weaken, Torment, Decay) keep the affliction active`
+**Worked Example (Stage 2 Affliction, Boss at 30% HP):**
+- **Option A** — Amplify (Finale): Triggers Agony Harvest. Best if you can kill the boss now.
+- **Option B** — Decay (Finale): Triggers Blight. Best if the boss has massive health or healing.
+- **Option C** — Weaken (Finale): Triggers Collapse. Best if your team needs to land huge physical hits.
+
+→ **Best default**: Option A. At 30%, a Stage 3 Harvest is often the killing blow.`
     },
 
     playingInPerson: {
-      title: 'Playing Plaguebringer In Person',
-      content: `**Required Materials**:
-- **Affliction Tokens** (5 colors — one per category: grey/Weaken, purple/Torment, green/Fester, black/Decay, red/Amplify)
-- **Affliction Tracker Cards** (one per enemy, showing current afflictions and stages)
-- **Seed Tokens** (a distinct color for base afflictions)
-- **Virulence Tracker** (a d100 or numbered dial)
+      title: 'Playing in Person',
+      subtitle: 'Physical Tracking for Tabletop Play',
+      content: `Use colored glass beads or tokens on the enemy cards to represent the three categories of any active affliction.
 
-**Setup Per Enemy**:
+**Required Materials**:
+- **Colored Tokens** — (Grey: Weaken, Purple: Torment, Green: Fester, Black: Decay, Red: Amplify)
+- **d100 or Dial** — To track your Virulence gauge
+
+**Each Turn — Adjust the Garden**:
+- Hit/Cast → add +10 Virulence for seeds, +5 for categories
+- Advance Stage → Place the colored token representing the category cast
+- End of Round → Subtract 2 Virulence
+
+**Quick Reference**:
 \`\`\`
-AFFLICTION TRACKER:
-ENEMY: Knight Captain
-═══════════════════════════
-AFFLICTIONS:
-[Curse of Agony] Stage: Seed → 1 → 2 → 3 (Final)
-  Current: Stage 1
-  Categories: [Weaken] [?] [?]
-  Damage: 2d6/turn (Sprouting bonus)
-  Effects: -2 AC
-  Next: Choose next category spell
-═══════════════════════════
-VIRULENCE: 35/100 (Sprouting)
-═══════════════════════════
+VIRULENCE THRESHOLDS:
+  25+ Sprouting: +1 Damage Die
+  50+ Blooming: +1 Round Duration, +5ft Spread
+  75+ Peak Harvest: Resist Dispel, +2 Damage Dice
+
+FINAL ARCHETYPES (Last Token):
+  Red (Amplify): Harvest (Burst, Consumed)
+  Green (Fester): Pandemic (Mass Spread)
+  Grey (Weaken): Collapse (-Stats)
+  Purple (Torment): Shatter (Madness)
+  Black (Decay): Blight (Max HP Drain)
 \`\`\`
 
-**How It Works — 3 Steps**:
+**The Physical Hack**:
+- **Contagion Tracker**: When a plague spreads, move the tokens from the original enemy card to a new one to show the exact stage and ingredients that were passed on.
+- **The Harvest Pop**: When you trigger a Harvest, physically sweep the tokens off the card into your hand—it’s a satisfying way to "cash in" the damage.
 
-**Step 1: Plant a Seed**
-1. Cast a base affliction (Curse of Agony, Venomous Touch, etc.)
-2. Place a seed token on the enemy's card
-3. Mark Stage: Seed. Roll DoT damage each turn.
-
-**Step 2: Cultivate (3 Category Spells)**
-1. Cast ANY category spell on the target (Weaken, Torment, Fester, Decay, or Amplify)
-2. Advance the affliction one stage
-3. Place that category's colored token on the card
-4. Add the category's effect
-
-**Step 3: Final Plague**
-1. After 3 categories, the affliction blooms
-2. Check the LAST category token — it determines the final form
-3. Apply the final effect
-4. If consumed (Amplify ending), remove tokens. Otherwise, keep tracking.
-
-**Example Turn Sequence**:
-
-*Turn 1 — Plant Seed*:
-"I cast Curse of Agony on the Captain!"
-→ Place seed token, Stage: Seed, 1d6/turn
-→ Virulence: +10
-
-*Turn 2 — First Category (Weaken)*:
-"I cast Enfeebling Fog on the Captain!"
-→ Place grey (Weaken) token, Stage: 1
-→ Add: -2 AC
-→ Virulence: +5
-
-*Turn 3 — Second Category (Torment)*:
-"I cast Hallucinogenic Spores on the Captain!"
-→ Place purple (Torment) token, Stage: 2
-→ Add: Spirit save or attack ally
-→ Virulence: +5
-
-*Turn 4 — Third Category (Amplify) = FINAL*:
-"I cast Suffering's Echo on the Captain!"
-→ Place red (Amplify) token, Stage: 3 (FINAL)
-→ Last category = Amplify → HARVEST FINALE
-→ Roll burst damage, stun, consume affliction
-→ Virulence: +5 + 25 (final bonus)
-
-**Why This System Is Intuitive**:
-- Only 5 categories to remember — each does exactly what it says
-- You mix 3 ingredients in any order — no recipes to memorize
-- The last ingredient determines the final result — just like cooking
-- The colored tokens make it immediately visible what path an affliction is on
-- Virulence is one number that just goes up — never spend it, just enjoy getting stronger`
+**Pro Tips**:
+- Reaching 25 Virulence is your first priority; don't worry about perfect combos until you're Sprouting.
+- At 75+ Virulence, your garden is unstoppable. Don't rush to Harvest; let the Peak Harvest DoTs tick as long as possible.`
     }
   },
 

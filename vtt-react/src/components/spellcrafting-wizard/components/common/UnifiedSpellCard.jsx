@@ -10441,7 +10441,7 @@ const UnifiedSpellCard = ({
                 const hasLegacyDamageRedirection = legacyBuff?.damageRedirection;
                 const hasLegacyActionPoints = legacyBuff?.actionPoints;
                 const hasLegacyAttackBonus = legacyBuff?.attackBonus;
-                const hasLegacyArmorClass = legacyBuff?.armorClass;
+                const hasLegacyArmorClass = legacyBuff?.armor;
                 const hasLegacyStatModifiers = legacyBuff?.statModifiers && typeof legacyBuff.statModifiers === 'object' && !Array.isArray(legacyBuff.statModifiers) && Object.keys(legacyBuff.statModifiers).length > 0;
                 
                 const hasLegacyBuff = hasLegacyResistance || hasLegacyTemporaryHP || hasLegacyImmunity || 
@@ -10565,8 +10565,8 @@ const UnifiedSpellCard = ({
                   }
                   
                   // Handle armor buff
-                  if (actualLegacyBuff.armorClass) {
-                    const acBonus = actualLegacyBuff.armorClass;
+                  if (actualLegacyBuff.armor) {
+                    const acBonus = actualLegacyBuff.armor;
                     const duration = actualLegacyBuff.duration || spell?.durationConfig?.duration || spell?.duration || 1;
                     const durationUnit = actualLegacyBuff.durationUnit || spell?.durationConfig?.durationUnit || 'minutes';
                     const durationText = `${duration} ${durationUnit}`;
@@ -10614,7 +10614,7 @@ const UnifiedSpellCard = ({
                   }
 
                   // Handle generic buff types (stealth_bonus, speed_bonus, etc.)
-                  if (actualLegacyBuff.type && !actualLegacyBuff.resistance && !actualLegacyBuff.temporaryHP && !actualLegacyBuff.immunity && !actualLegacyBuff.damageRedirection && !actualLegacyBuff.actionPoints && !actualLegacyBuff.attackBonus && !actualLegacyBuff.armorClass && !actualLegacyBuff.statModifiers) {
+                  if (actualLegacyBuff.type && !actualLegacyBuff.resistance && !actualLegacyBuff.temporaryHP && !actualLegacyBuff.immunity && !actualLegacyBuff.damageRedirection && !actualLegacyBuff.actionPoints && !actualLegacyBuff.attackBonus && !actualLegacyBuff.armor && !actualLegacyBuff.statModifiers) {
                     const buffTypeLabels = {
                       'stealth_bonus': 'Stealth Bonus',
                       'speed_bonus': 'Speed Bonus',
@@ -12718,8 +12718,8 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.armorClass || creature.stats?.armor) {
-                              stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
+                            if (creature.stats?.armor) {
+                              stats.push(`Armor: ${creature.stats.armor}`);
                             }
 
                             // Build enhanced mechanics text with proper hierarchy
@@ -13092,8 +13092,8 @@ const UnifiedSpellCard = ({
                             if (creature.stats?.maxAp || creature.stats?.ap) {
                               stats.push(`AP: ${creature.stats.maxAp || creature.stats.ap}`);
                             }
-                            if (creature.stats?.armorClass || creature.stats?.armor) {
-                              stats.push(`Armor: ${creature.stats.armorClass || creature.stats.armor}`);
+                            if (creature.stats?.armor) {
+                              stats.push(`Armor: ${creature.stats.armor}`);
                             }
                           }
 

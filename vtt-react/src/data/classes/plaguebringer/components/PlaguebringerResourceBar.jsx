@@ -101,9 +101,10 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
 
     useEffect(() => {
         if (showTooltip && barRef.current && tooltipRef.current) {
-            const barRect = barRef.current.getBoundingClientRect();
-            const tooltipRect = tooltipRef.current.getBoundingClientRect();
             const tooltip = tooltipRef.current;
+            tooltip.style.opacity = '0';
+            const barRect = barRef.current.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const margin = 10;
             
@@ -140,6 +141,9 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             
             tooltip.style.top = `${top}px`;
             tooltip.style.left = `${left}px`;
+            tooltip.style.opacity = '1';
+
+            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
         }
     }, [showTooltip, localVirulence, localAfflictions, selectedSpec]);
 
@@ -198,7 +202,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             </div>
             
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-header">Plaguebringer</div>
 
                     <div className="tooltip-section">
@@ -233,7 +237,8 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
             
             {showControls && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact plaguebringer-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    className={`unified-context-menu compact  ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => e.stopPropagation()}
                     style={{
                         position: 'fixed',
@@ -257,11 +262,11 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         zIndex: 100000
                     }}
                 >
-                    <div className="context-menu-main plaguebringer-menu">
+                    <div className="context-menu-main context-menu-main">
                         <div className="menu-title">Virulence: {localVirulence}/{maxVirulence} <span style={{ color: virulenceTier.color }}>[{virulenceTier.name}]</span></div>
                         <div className="plaguebringer-controls">
                             <button 
-                                className="plaguebringer-action-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.max(0, localVirulence - 10);
                                     const amount = localVirulence - newValue;
@@ -275,7 +280,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                                 -10
                             </button>
                             <button 
-                                className="plaguebringer-action-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.min(maxVirulence, localVirulence + 10);
                                     const amount = newValue - localVirulence;
@@ -291,7 +296,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         </div>
                         <div className="plaguebringer-quick-actions">
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.max(0, localVirulence - 5);
                                     const amount = localVirulence - newValue;
@@ -305,7 +310,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                                 -5
                             </button>
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.min(maxVirulence, localVirulence + 5);
                                     const amount = newValue - localVirulence;
@@ -319,7 +324,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                                 +5
                             </button>
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const resetAmount = localVirulence;
                                     setLocalVirulence(0);
@@ -332,7 +337,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                                 Clear
                             </button>
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const gainAmount = maxVirulence - localVirulence;
                                     setLocalVirulence(maxVirulence);
@@ -351,7 +356,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         </div>
                         <div className="plaguebringer-controls">
                             <button 
-                                className="plaguebringer-action-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.max(0, localAfflictions - 1);
                                     const amount = localAfflictions - newValue;
@@ -365,7 +370,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                                 -1
                             </button>
                             <button 
-                                className="plaguebringer-action-btn"
+                                className="context-menu-button"
                                 onClick={() => {
                                     const newValue = Math.min(maxAfflictions, localAfflictions + 1);
                                     const amount = newValue - localAfflictions;
@@ -381,13 +386,13 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
                         </div>
                         <div className="plaguebringer-quick-actions">
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => setLocalAfflictions(0)}
                             >
                                 Clear
                             </button>
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => setLocalAfflictions(maxAfflictions)}
                             >
                                 Max
@@ -417,7 +422,7 @@ const PlaguebringerResourceBar = ({ classResource = {}, size = 'normal', config 
 
                         <div className="plaguebringer-quick-actions" style={{ marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(160, 140, 112, 0.3)' }}>
                             <button 
-                                className="plaguebringer-quick-btn"
+                                className="context-menu-button"
                                 onClick={() => setShowControls(false)}
                                 style={{ flex: '1' }}
                             >

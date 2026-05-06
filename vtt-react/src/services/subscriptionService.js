@@ -38,7 +38,8 @@ const TIER_FEATURE_FLAGS = {
   roomChat: { GUEST: true, FREE: true, PRO: true, ULTIMATE: true },
   rollableTablesPreset: { FREE: true, PRO: true, ULTIMATE: true },
   journalBasic: { FREE: true, PRO: true, ULTIMATE: true },
-  campaignManagerBasic: { FREE: true, PRO: true, ULTIMATE: true }
+  campaignManagerBasic: { FREE: true, PRO: true, ULTIMATE: true },
+  jukebox: { FREE: true, PRO: true, ULTIMATE: true }
 };
 
 export function canUseFeature(featureName, tierKey) {
@@ -84,7 +85,8 @@ export const SUBSCRIPTION_TIERS = {
       spellCrafting: false, creatureCreation: false, itemGeneration: false,
       combatSystem: true, diceRolling: true, basicMapEditor: false,
       staticFog: false, cloudSave: false, globalChat: false,
-      localRooms: false, joinRooms: true, roomChat: true
+      localRooms: false, joinRooms: true, roomChat: true,
+      jukebox: false
     },
     price: 0,
     description: 'Try Mythrill by joining a friend\'s game — no account needed',
@@ -102,7 +104,7 @@ export const SUBSCRIPTION_TIERS = {
       '3 character slots with cloud save',
       '1 permanent room (up to 3 players)',
       '25 MB cloud storage',
-      'Full character creation (27 classes, 12 races)',
+      'Full character creation (30 classes, 12 races)',
       'Spell crafting, creature & item creation',
       'Full map editor with dynamic fog & lighting',
       'Combat system & 3D physics dice',
@@ -124,7 +126,8 @@ export const SUBSCRIPTION_TIERS = {
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
-      localRooms: true, joinRooms: true, roomChat: true
+      localRooms: true, joinRooms: true, roomChat: true,
+      jukebox: true
     },
     price: 0,
     description: 'Everything you need to start playing and GMing',
@@ -156,7 +159,8 @@ export const SUBSCRIPTION_TIERS = {
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
-      localRooms: true, joinRooms: true, roomChat: true
+      localRooms: true, joinRooms: true, roomChat: true,
+      jukebox: true
     },
     price: 0,
     description: 'Development preview account — full access',
@@ -198,7 +202,8 @@ export const SUBSCRIPTION_TIERS = {
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
-      localRooms: true, joinRooms: true, roomChat: true
+      localRooms: true, joinRooms: true, roomChat: true,
+      jukebox: true
     },
     price: 7.99,
     description: 'For serious Game Masters running campaigns',
@@ -234,7 +239,8 @@ export const SUBSCRIPTION_TIERS = {
       spellCrafting: true, creatureCreation: true, itemGeneration: true,
       combatSystem: true, diceRolling: true, basicMapEditor: true,
       staticFog: true, cloudSave: true, globalChat: true,
-      localRooms: true, joinRooms: true, roomChat: true
+      localRooms: true, joinRooms: true, roomChat: true,
+      jukebox: true
     },
     price: 14.99,
     description: 'For communities and professional Game Masters',

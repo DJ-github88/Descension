@@ -123,57 +123,132 @@ const ChanceOnBeingHitConfig = ({ config, onConfigChange }) => {
   return (
     <>
       {/* Enable/Disable Toggle */}
-      <div className="config-toggle">
-        <label className="wow-checkbox-label">
+      <div style={{ marginBottom: '24px', padding: '16px', background: 'rgba(45, 24, 16, 0.05)', border: '1px solid rgba(139, 69, 19, 0.2)', borderRadius: '12px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
           <input
             type="checkbox"
             checked={procConfig.enabled}
             onChange={toggleEnabled}
-            className="wow-checkbox"
+            style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--pf-brown-darkest)' }}
           />
-          <span className="wow-checkbox-custom"></span>
-          <span className="wow-option-text">Enable Chance-on-Being-Hit Effect</span>
+          <span style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', textTransform: 'uppercase' }}>
+            Enable Chance-On-Being-Hit Effect
+          </span>
         </label>
-        <div className="wow-option-description">
-          When enabled, this item has a chance to trigger an effect when the wearer is hit
+        <div style={{ color: '#8b7355', fontFamily: "'Crimson Text', serif", fontStyle: 'italic', fontSize: '14px', marginTop: '8px', paddingLeft: '32px' }}>
+          When enabled, this item has a chance to trigger an effect when the wearer is hit.
         </div>
       </div>
 
       {procConfig.enabled && (
         <>
           {/* Proc Resolution Method */}
-          <div className="proc-resolution-method wow-setting-section">
-            <h4 className="wow-section-header">Chance Resolution Method</h4>
-            <div className="resolution-options">
+          <div style={{ marginBottom: '24px' }}>
+            <h4 style={{ color: 'var(--pf-brown-darkest)', fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', letterSpacing: '1px', marginBottom: '16px', textTransform: 'uppercase' }}>Chance Resolution Method</h4>
+            <div style={{ display: 'flex', gap: '16px' }}>
               <div
-                className={`spell-wizard-card ${procConfig.procType === 'dice' ? 'selected' : ''}`}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '20px 10px',
+                  background: procConfig.procType === 'dice' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'dice' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'dice' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  boxShadow: procConfig.procType === 'dice' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.2s ease',
+                  textAlign: 'center'
+                }}
                 onClick={() => handleChange('procType', 'dice')}
               >
-                <div className="spell-wizard-card-icon">
-                  <FaDiceD20 className="icon" />
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '12px',
+                  background: procConfig.procType === 'dice' ? 'rgba(255,255,255,0.3)' : 'rgba(139, 69, 19, 0.1)',
+                  borderRadius: '50%',
+                  fontSize: '24px'
+                }}>
+                  <FaDiceD20 />
                 </div>
-                <h4>Dice Based</h4>
-                <p>Chance determined by dice rolls</p>
+                <h4 style={{ fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', margin: '0 0 6px 0', textTransform: 'uppercase' }}>Dice Based</h4>
+                <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '13px', margin: 0, opacity: 0.8 }}>Chance determined by dice rolls</p>
               </div>
+
               <div
-                className={`spell-wizard-card ${procConfig.procType === 'cards' ? 'selected' : ''}`}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '20px 10px',
+                  background: procConfig.procType === 'cards' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'cards' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'cards' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  boxShadow: procConfig.procType === 'cards' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.2s ease',
+                  textAlign: 'center'
+                }}
                 onClick={() => handleChange('procType', 'cards')}
               >
-                <div className="spell-wizard-card-icon">
-                  <FaClone className="icon" />
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '12px',
+                  background: procConfig.procType === 'cards' ? 'rgba(255,255,255,0.3)' : 'rgba(139, 69, 19, 0.1)',
+                  borderRadius: '50%',
+                  fontSize: '24px'
+                }}>
+                  <FaClone />
                 </div>
-                <h4>Card Based</h4>
-                <p>Chance determined by card draws</p>
+                <h4 style={{ fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', margin: '0 0 6px 0', textTransform: 'uppercase' }}>Card Based</h4>
+                <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '13px', margin: 0, opacity: 0.8 }}>Chance determined by card draws</p>
               </div>
+
               <div
-                className={`spell-wizard-card ${procConfig.procType === 'coins' ? 'selected' : ''}`}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '20px 10px',
+                  background: procConfig.procType === 'coins' ? 'var(--pf-gradient-gold, linear-gradient(145deg, #f4d03f 0%, #d4af37 50%, #b8860b 100%))' : 'var(--pf-gradient-button, linear-gradient(145deg, #f8f4e6 0%, #ede4d3 50%, #e8dcc6 100%))',
+                  border: `2px solid ${procConfig.procType === 'coins' ? 'var(--pf-gold-dark, #b8860b)' : 'var(--pf-brown-medium, #8B4513)'}`,
+                  color: procConfig.procType === 'coins' ? 'var(--pf-brown-darkest, #2d1810)' : 'var(--pf-text-primary, #2d1810)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  boxShadow: procConfig.procType === 'coins' ? '0 4px 8px rgba(0,0,0,0.2)' : 'inset 0 2px 4px rgba(139, 69, 19, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.2s ease',
+                  textAlign: 'center'
+                }}
                 onClick={() => handleChange('procType', 'coins')}
               >
-                <div className="spell-wizard-card-icon">
-                  <FaCoins className="icon" />
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '12px',
+                  background: procConfig.procType === 'coins' ? 'rgba(255,255,255,0.3)' : 'rgba(139, 69, 19, 0.1)',
+                  borderRadius: '50%',
+                  fontSize: '24px'
+                }}>
+                  <FaCoins />
                 </div>
-                <h4>Coin Based</h4>
-                <p>Chance determined by coin flips</p>
+                <h4 style={{ fontFamily: "'Cinzel', serif", fontWeight: '700', fontSize: '15px', margin: '0 0 6px 0', textTransform: 'uppercase' }}>Coin Based</h4>
+                <p style={{ fontFamily: "'Crimson Text', serif", fontSize: '13px', margin: 0, opacity: 0.8 }}>Chance determined by coin flips</p>
               </div>
             </div>
           </div>

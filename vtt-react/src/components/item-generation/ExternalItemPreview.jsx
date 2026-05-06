@@ -75,7 +75,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
       // Armor specific
       ...(itemData.type === 'armor' && {
         armorSlot: itemData.armorSlot,
-        armorClass: itemData.armorClass || itemData.combatStats?.armorClass || 0,
+        armor: itemData.armor || itemData.combatStats?.armor || 0,
         offHandType: itemData.offHandType
       }),
 
@@ -162,6 +162,7 @@ const ExternalItemPreview = ({ itemData, windowPosition, windowSize, isOpen }) =
       chanceOnBeingHit: itemData.chanceOnBeingHit || [],
 
       // Additional properties that might be needed for tooltip rendering
+      maxDurability: itemData.maxDurability,
       durability: itemData.durability,
       currentDurability: itemData.currentDurability,
       enchantments: itemData.enchantments || [],

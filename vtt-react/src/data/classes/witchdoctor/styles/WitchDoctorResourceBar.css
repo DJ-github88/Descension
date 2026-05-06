@@ -376,7 +376,7 @@
 /* Specialization-Specific Effects */
 
 /* Shadow Priest: Life/Death Flicker */
-.witchdoctor-resource-bar.shadow-priest.shadow-flicker .essence-segment.filled {
+.witchdoctor-resource-bar.bokor.shadow-flicker .essence-segment.filled {
     animation: shadow-flicker 2s ease-in-out infinite;
 }
 
@@ -390,7 +390,7 @@
 }
 
 /* Spirit Healer: Rhythmic Pulse */
-.witchdoctor-resource-bar.spirit-healer.spirit-pulse {
+.witchdoctor-resource-bar.mambo.spirit-pulse {
     animation: spirit-pulse 2s ease-in-out infinite;
 }
 

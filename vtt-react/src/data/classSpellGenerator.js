@@ -35,6 +35,8 @@ import { TITAN_DATA } from './classes/titanData';
 import { TOXICOLOGIST_DATA } from './classes/toxicologistData';
 import { WARDEN_DATA } from './classes/wardenData';
 import { WITCH_DOCTOR_DATA } from './classes/witchDoctorData';
+import { AUGUR_DATA } from './classes/augurData';
+import { DOOMSAYER_DATA } from './classes/doomsayerData';
 import { UNIVERSAL_COMBAT_SPELLS } from './universalCombatSpells';
 
 // ===== CLASS DATA MAP =====
@@ -67,7 +69,9 @@ const CLASS_DATA_MAP = {
   'Titan': TITAN_DATA,
   'Toxicologist': TOXICOLOGIST_DATA,
   'Warden': WARDEN_DATA,
-  'Witch Doctor': WITCH_DOCTOR_DATA
+  'Witch Doctor': WITCH_DOCTOR_DATA,
+  'Augur': AUGUR_DATA,
+  'Doomsayer': DOOMSAYER_DATA
 };
 
 // ===== GENERIC SPELL NORMALIZATION =====

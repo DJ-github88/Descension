@@ -4,10 +4,11 @@ export const STEPS = {
     SLOT_AND_SIZE: 2,
     STATS: 3,
     COMBAT_STATS: 4,
-    CHANCE_ON_HIT: 5,
-    UTILITY: 6,
-    VALUE: 7,
-    APPEARANCE: 8
+    DURABILITY: 5,
+    CHANCE_ON_HIT: 6,
+    UTILITY: 7,
+    VALUE: 8,
+    APPEARANCE: 9
 };
 
 export const STEP_INFO = {
@@ -36,6 +37,11 @@ export const STEP_INFO = {
         name: 'Combat',
         icon: 'achievement_pvp_p_14',
         description: 'Define the item\'s combat capabilities. From devastating damage to impenetrable defenses, make it worthy of battle.'
+    },
+    [STEPS.DURABILITY]: {
+        name: 'Durability',
+        icon: 'inv_shield_06',
+        description: 'Set how much punishment this item can withstand before breaking.'
     },
     [STEPS.CHANCE_ON_HIT]: {
         name: 'On Being Hit',
@@ -70,19 +76,20 @@ export const getStepOrder = (isEditing, itemType) => {
         STEPS.SLOT_AND_SIZE,
         STEPS.STATS,
         STEPS.COMBAT_STATS,
+        STEPS.DURABILITY,
         STEPS.CHANCE_ON_HIT,
         STEPS.UTILITY,
         STEPS.VALUE,
         STEPS.APPEARANCE
     ];
 
-    // For weapons, ensure combat stats come right after slot selection
     if (itemType === 'weapon') {
         return [
             STEPS.BASIC_INFO,
             STEPS.SLOT_AND_SIZE,
             STEPS.COMBAT_STATS,
             STEPS.STATS,
+            STEPS.DURABILITY,
             STEPS.CHANCE_ON_HIT,
             STEPS.UTILITY,
             STEPS.VALUE,

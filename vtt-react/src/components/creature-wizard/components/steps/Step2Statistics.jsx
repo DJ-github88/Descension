@@ -461,14 +461,14 @@ const Step2Statistics = () => {
                   alt="Armor"
                   className="stat-icon"
                 />
-                <label htmlFor="stat-armorClass">Armor</label>
+                <label htmlFor="stat-armor">Armor</label>
               </div>
               <input
-                id="stat-armorClass"
+                id="stat-armor"
                 type="number"
                 min="1"
-                value={wizardState.stats.armorClass}
-                onChange={(e) => handleStatChange('armorClass', e.target.value)}
+                value={wizardState.stats.armor}
+                onChange={(e) => handleStatChange('armor', e.target.value)}
                 className="combat-input"
               />
             </div>

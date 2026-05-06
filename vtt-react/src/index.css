@@ -984,3 +984,9 @@ body {
 body.window-dragging #grid-overlay {
     pointer-events: none !important;
 }
+
+
+/* Fix custom resource bar tooltip animation stutter */
+.unified-resourcebar-tooltip {
+    animation: none !important;
+}

@@ -45,9 +45,9 @@ export const WARDEN_SHADOWBLADE = [
 
   // Lower Crosshair: Burst Damage (Impact targeting lines)
   {
-    id: 'shadowblade_warden_t1_burst_damage',
-    name: 'Burst Damage',
-    description: 'Spend 2 VP to make your next attack deal +3d6 damage. This damage bypasses damage resistance. Can be used after hitting for maximum effect.',
+    id: 'shadowblade_warden_t1_precision_strike',
+    name: 'Precision Strike',
+    description: 'Spend 1 VP to expand your crit range to 19-20 against marked targets for one attack. On crit, generate +1 VP.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -56,7 +56,7 @@ export const WARDEN_SHADOWBLADE = [
   {
     id: 'shadowblade_warden_t2_execution_strike',
     name: 'Execution Strike',
-    description: 'Spend 4 VP to attempt to execute a target below 25% HP. Target must succeed on a CON save (DC 15 + your proficiency) or die instantly.',
+    description: 'Spend 4 VP to attempt to execute a target below 25% HP. Target must succeed on a CON save (DC 15 + your proficiency) or take triple damage.',
     icon: 'ability_rogue_deadliness',
     maxRanks: 4,
     position: { x: 4, y: 2 },
@@ -75,8 +75,8 @@ export const WARDEN_SHADOWBLADE = [
   // Crosshair Center: Ultimate Assassin (Bullseye convergence)
   {
     id: 'shadowblade_warden_t4_marked_for_death',
-    name: 'Marked for Death',
-    description: 'You can have up to 3 marked targets simultaneously. When you attack a marked target, all other marked targets take 1d6 damage.',
+    name: 'Death Mark',
+    description: 'When your marked target dies, gain 3 VP instantly and can mark a new target as a free action. This can trigger once per round.',
     icon: 'ability_hunter_markedfordeath',
     maxRanks: 2,
     position: { x: 2, y: 1 },
@@ -126,8 +126,8 @@ export const WARDEN_JAILER = [
   },
   {
     id: 'jailer_t2_torment_traps',
-    name: 'Torment Traps',
-    description: 'When you cage an enemy, they take 2d6 psychic damage at the start of each of their turns. This damage increases by 1d6 per round they remain caged.',
+    name: 'Cage Torment',
+    description: 'When you cage an enemy, they take 1d8 necrotic damage at the start of each of their turns while caged. Simple and relentless.',
     icon: 'spell_shadow_curseofsargeras',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -184,8 +184,8 @@ export const WARDEN_JAILER = [
   },
   {
     id: 'jailer_t5_master_jailer',
-    name: 'Master Jailer',
-    description: 'Cage of Vengeance costs 3 VP instead of 5. You can cage enemies regardless of their size or type. Caged creatures cannot use legendary actions or lair actions.',
+    name: 'Iron Bars',
+    description: 'Cage of Vengeance costs 4 VP instead of 6. Caged enemies have disadvantage on all saves. Cages are immune to dispel magic. Caged creatures cannot use legendary actions.',
     icon: 'ability_warrior_shieldmastery',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -193,8 +193,8 @@ export const WARDEN_JAILER = [
   },
   {
     id: 'jailer_t6_prison_dimension',
-    name: 'Prison Dimension',
-    description: 'Ultimate ability: Create a pocket dimension for 1 minute. All caged enemies are banished to this dimension and take 6d6 force damage per round. You can enter/exit freely. Costs all VP.',
+    name: 'Vengeance Unleashed',
+    description: 'Ultimate ability: All active cages explode for 4d6 necrotic damage per caged enemy, then re-form. Enemies caught in the explosion radius are caged for 3 rounds. Costs all VP.',
     icon: 'spell_shadow_demonicempathy',
     maxRanks: 1,
     position: { x: 2, y: 5 },
@@ -217,8 +217,8 @@ export const WARDEN_AVENGER = [
   // Left Fury Spirals: Damage Amplification (Burning vengeance coils)
   {
     id: 'avenger_t1_wrathful_strikes',
-    name: 'Wrathful Strikes',
-    description: 'Your attacks deal +1d6 damage per VP you have (maximum +5d6 at 5+ VP). This damage is fire type and ignores fire resistance.',
+    name: 'Vengeful Strikes',
+    description: 'While at 5+ VP, your attacks deal +1d6 necrotic damage. At 8+ VP, this increases to +2d6 necrotic damage.',
     icon: 'ability_warrior_weaponmastery',
     maxRanks: 4,
     position: { x: 1, y: 1 },
@@ -226,8 +226,8 @@ export const WARDEN_AVENGER = [
   },
   {
     id: 'avenger_t2_vengeful_retribution',
-    name: 'Vengeful Retribution',
-    description: 'When you take damage, the attacker takes 2d6 fire damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6).',
+    name: 'Spectral Retribution',
+    description: 'When you take damage, the attacker takes 2d6 necrotic damage in return. This damage increases by 1d6 for each VP you have (maximum +6d6).',
     icon: 'spell_fire_soulburn',
     maxRanks: 3,
     position: { x: 0, y: 2 },
@@ -235,8 +235,8 @@ export const WARDEN_AVENGER = [
   },
   {
     id: 'avenger_t3_burning_vengeance',
-    name: 'Burning Vengeance',
-    description: 'Enemies that damage you are marked with burning vengeance. They take 3d6 fire damage at the start of each of their turns until you defeat them.',
+    name: 'Haunting Vengeance',
+    description: 'Enemies that damage you are marked with haunting vengeance. They take 3d6 necrotic damage at the start of each of their turns until you defeat them.',
     icon: 'spell_fire_incinerate',
     maxRanks: 2,
     position: { x: 1, y: 3 },
@@ -247,7 +247,7 @@ export const WARDEN_AVENGER = [
   {
     id: 'avenger_t1_fury_buildup',
     name: 'Fury Buildup',
-    description: 'You gain +1 VP when you kill an enemy. When you reach maximum VP, your next attack deals +4d6 damage and knocks the target back 20ft.',
+    description: 'You gain +1 VP when you kill an enemy. When you reach maximum VP, your next attack deals +4d6 force damage and knocks the target back 20ft.',
     icon: 'ability_warrior_battleshout',
     maxRanks: 3,
     position: { x: 3, y: 1 },
@@ -264,8 +264,8 @@ export const WARDEN_AVENGER = [
   },
   {
     id: 'avenger_t3_vengeful_immolation',
-    name: 'Vengeful Immolation',
-    description: 'When you activate Avatar of Vengeance, all enemies within 20ft take 4d6 fire damage and are ignited, taking 2d6 fire damage per round for 3 rounds.',
+    name: 'Spectral Conflagration',
+    description: 'When you activate Avatar of Vengeance, all enemies within 20ft take 4d6 necrotic damage and are haunted, taking 2d6 necrotic damage per round for 3 rounds.',
     icon: 'spell_fire_volcano',
     maxRanks: 3,
     position: { x: 3, y: 3 },
@@ -285,7 +285,7 @@ export const WARDEN_AVENGER = [
   {
     id: 'avenger_t5_avatar_perfection',
     name: 'Avatar Perfection',
-    description: 'During Avatar of Vengeance, you are immune to fire damage, your attacks deal maximum fire damage, and you can teleport 30ft between attacks.',
+    description: 'During Avatar of Vengeance, you are immune to necrotic damage, your attacks deal maximum necrotic damage, and you can teleport 30ft between attacks.',
     icon: 'spell_fire_immolation',
     maxRanks: 1,
     position: { x: 2, y: 4 },
@@ -293,8 +293,8 @@ export const WARDEN_AVENGER = [
   },
   {
     id: 'avenger_t6_vengeance_incarnate',
-    name: 'Vengeance Incarnate',
-    description: 'Ultimate ability: Become the living embodiment of vengeance for 1 minute. All damage you deal becomes fire damage, you take half damage from all sources, and enemies that damage you explode for 8d6 fire damage in 20ft radius. Costs all VP.',
+    name: 'Warden Eternal',
+    description: 'Ultimate ability: Become the living embodiment of vengeance for 1 minute. All damage you deal becomes force or necrotic (your choice), you take half damage from all sources, and enemies that damage you explode for 8d6 force damage in 20ft radius. Costs all VP.',
     icon: 'spell_fire_elementaldevastation',
     maxRanks: 1,
     position: { x: 2, y: 5 },

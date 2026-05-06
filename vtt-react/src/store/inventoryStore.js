@@ -856,6 +856,9 @@ const useInventoryStore = create(persist((set, get) => ({
                 weaponStats: libraryItem.weaponStats,
                 slots: libraryItem.slots,
 
+                durability: libraryItem.durability,
+                maxDurability: libraryItem.maxDurability,
+
                 // Preserve trade goods properties
                 tradeCategory: libraryItem.tradeCategory,
                 origin: libraryItem.origin,

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import useLevelEditorStore, { WALL_TYPES } from '../../store/levelEditorStore';
 import useGameStore from '../../store/gameStore';
 import { getGridSystem } from '../../utils/InfiniteGridSystem';
@@ -455,50 +456,53 @@ const WallOverlay = () => {
                 </div>
             )}
 
-            {/* Unified Context Menu - for doors (always) and walls (editor mode only) */}
-            <UnifiedContextMenu
-                visible={showContextMenu}
-                x={contextMenuPosition.x}
-                y={contextMenuPosition.y}
-                onClose={handleCloseContextMenu}
-                title={contextMenu ? `${contextMenu.type.name}${contextMenu.state ? ` (${contextMenu.state})` : ''}` : null}
-                items={contextMenu ? [
-                    // Door-specific options
-                    ...(contextMenu.type.interactive ? [
-                        // Open/Close toggle (available to everyone if not locked)
-                        ...(contextMenu.state !== 'locked' || isGMMode ? [{
-                            icon: contextMenu.state === 'open' ? '🚪' : '🚪',
-                            label: contextMenu.state === 'open' ? 'Close Door' : 'Open Door',
-                            onClick: handleToggleDoorOpen
-                        }] : []),
-                        // Lock/Unlock (GM only)
-                        ...(isGMMode ? [{
-                            icon: contextMenu.state === 'locked' ? '🔓' : '🔒',
-                            label: contextMenu.state === 'locked' ? 'Unlock Door' : 'Lock Door',
-                            onClick: handleToggleDoorLock,
-                            className: contextMenu.state === 'locked' ? '' : 'warning-action'
-                        }] : []),
+            {/* Unified Context Menu - Portaled for grid interaction stability */}
+            {showContextMenu && contextMenu && createPortal(
+                <UnifiedContextMenu
+                    visible={showContextMenu}
+                    x={contextMenuPosition.x}
+                    y={contextMenuPosition.y}
+                    onClose={handleCloseContextMenu}
+                    title={contextMenu ? `${contextMenu.type.name}${contextMenu.state ? ` (${contextMenu.state})` : ''}` : null}
+                    items={[
+                        // Door-specific options
+                        ...(contextMenu.type.interactive ? [
+                            // Open/Close toggle (available to everyone if not locked)
+                            ...(contextMenu.state !== 'locked' || isGMMode ? [{
+                                icon: contextMenu.state === 'open' ? '🚪' : '🚪',
+                                label: contextMenu.state === 'open' ? 'Close Door' : 'Open Door',
+                                onClick: handleToggleDoorOpen
+                            }] : []),
+                            // Lock/Unlock (GM only)
+                            ...(isGMMode ? [{
+                                icon: contextMenu.state === 'locked' ? '🔓' : '🔒',
+                                label: contextMenu.state === 'locked' ? 'Unlock Door' : 'Lock Door',
+                                onClick: handleToggleDoorLock,
+                                className: contextMenu.state === 'locked' ? '' : 'warning-action'
+                            }] : []),
+                            {
+                                type: 'separator'
+                            }
+                        ] : []),
+                        // Remove wall (editor mode or GM only)
+                        ...(isEditorMode || isGMMode ? [{
+                            icon: '✕',
+                            label: contextMenu.type.interactive ? 'Remove Door' : 'Remove Wall',
+                            onClick: handleRemoveWall,
+                            className: 'danger-action'
+                        },
                         {
                             type: 'separator'
+                        }] : []),
+                        {
+                            icon: '✕',
+                            label: 'Cancel',
+                            onClick: handleCloseContextMenu
                         }
-                    ] : []),
-                    // Remove wall (editor mode or GM only)
-                    ...(isEditorMode || isGMMode ? [{
-                        icon: '✕',
-                        label: contextMenu.type.interactive ? 'Remove Door' : 'Remove Wall',
-                        onClick: handleRemoveWall,
-                        className: 'danger-action'
-                    },
-                    {
-                        type: 'separator'
-                    }] : []),
-                    {
-                        icon: '✕',
-                        label: 'Cancel',
-                        onClick: handleCloseContextMenu
-                    }
-                ] : []}
-            />
+                    ]}
+                />,
+                document.body
+            )}
         </div>
     );
 };

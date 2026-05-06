@@ -178,7 +178,7 @@ const CompactItemDisplay = ({ item, onRemove }) => {
                 // Stats
                 baseStats: item.baseStats || {},
                 combatStats: item.combatStats || {
-                  armorClass: { value: item.armorClass || 0 },
+                  armor: { value: item.armor || 0 },
                   resistances: item.resistances || {}
                 },
                 utilityStats: item.utilityStats || {},
@@ -445,7 +445,7 @@ const QuestCreationForm = ({ onComplete }) => {
         width: item.width,
         height: item.height,
         slots: item.slots,
-        armorClass: item.armorClass,
+        armor: item.armor,
         resistances: item.resistances,
         immunities: item.immunities
       });
@@ -1080,14 +1080,14 @@ const QuestCreationForm = ({ onComplete }) => {
               // Stats
               baseStats: hoveredItem.baseStats || {},
               combatStats: hoveredItem.combatStats || {
-                armorClass: { value: hoveredItem.armorClass || 0 },
-                resistances: hoveredItem.resistances || {}
-              },
-              utilityStats: hoveredItem.utilityStats || {},
-              weaponStats: hoveredItem.weaponStats || {},
+                  armor: { value: hoveredItem.armor || 0 },
+                  resistances: hoveredItem.resistances || {}
+                },
+                utilityStats: hoveredItem.utilityStats || {},
+                weaponStats: hoveredItem.weaponStats || {},
 
-              // Other properties
-              description: hoveredItem.description || '',
+                // Other properties
+                description: hoveredItem.description || '',
               iconId: hoveredItem.iconId || 'Misc/Books/book-brown-teal-question-mark',
               imageUrl: hoveredItem.imageUrl || getIconUrl(hoveredItem.iconId || 'Misc/Books/book-brown-teal-question-mark', 'items'),
 

@@ -1,9 +1,17 @@
 /**
  * WITCH DOCTOR CLASS DATA
- * 
+ *
  * Voodoo practitioner who invokes powerful loa (voodoo gods) through Voodoo Essence
  * Resource System: Voodoo Essence - generated through curses, rituals, totems, and poisons
- * Specializations: Death Caller, Spirit Healer, War Priest
+ * Specializations: Bokor, Mambo, Houngan
+ *
+ * DESIGNER NOTES (v2.0 Audit):
+ * - Specs renamed from Shadow Priest/Spirit Healer/War Priest to Bokor/Mambo/Houngan
+ *   (authentic voodoo terms that lock class identity)
+ * - Precursors simplified from 2/loa to 1/loa (battlefield-state, not spell-specific)
+ * - exampleSpells array removed; single unified spell list
+ * - Spell pools filled for all 10 levels (30 spells total)
+ * - Loa invocation costs streamlined: Simbi(5), Papa Legba(6), Erzulie(7), Ogoun(8), Baron Samedi(10)
  */
 
 export const WITCH_DOCTOR_DATA = {
@@ -13,31 +21,30 @@ export const WITCH_DOCTOR_DATA = {
   role: 'Support/Damage',
   damageTypes: ['necrotic', 'nature', 'poison'],
 
-  // Overview section
   overview: {
     title: 'The Witch Doctor',
     subtitle: 'Voodoo Invoker & Loa Channeler',
 
     quickOverview: {
       title: 'Quick Overview',
-      content: `**What You Need to Know**: The Witch Doctor channels ancient voodoo loa (gods) by accumulating Voodoo Essence through curses, totems, poisons, and rituals, then spends it to invoke devastating divine interventions—each requiring specific battlefield precursors to unlock.
+      content: `**What You Need to Know**: The Witch Doctor channels ancient voodoo loa (gods) by accumulating Voodoo Essence through curses, totems, poisons, and rituals — then spends it to invoke devastating divine interventions when battlefield conditions align.
 
-**Core Mechanic**: Cast curses, place totems, apply poisons, perform rituals → Build Voodoo Essence (0-15) → Meet loa precursor conditions → Invoke powerful loa for game-changing effects
+**Core Mechanic**: Cast curses, place totems, apply poisons, perform rituals → Build Voodoo Essence (0-15) → Meet one precursor condition per loa → Invoke powerful loa for game-changing effects
 
-**Resource**: Voodoo Essence (0-15) spent to invoke loa; each loa also requires precursor conditions (cursed enemies, rituals completed, ally positioning, etc.)
+**Resource**: Voodoo Essence (0-15) spent to invoke loa; each loa requires one battlefield-state precursor
 
 **Playstyle**: Strategic resource planner with setup-and-payoff divine invocations
 
-**Best For**: Players who enjoy methodical preparation, tracking multiple conditions, and unleashing dramatic divine interventions at the perfect moment`
+**Best For**: Players who enjoy methodical preparation, reading the battlefield, and unleashing dramatic divine interventions at the perfect moment`
     },
-    
-    description: `The Witch Doctor is a mystical practitioner of voodoo magic who channels the power of ancient loa (voodoo gods) through accumulated Voodoo Essence. By performing rituals, casting curses, placing totems, and applying poisons, the Witch Doctor gathers spiritual energy that can be spent to invoke powerful deities. Each loa requires specific precursors to be met before their divine power can be called upon, rewarding strategic planning and careful resource management.`,
-    
+
+    description: `The Witch Doctor is a mystical practitioner of voodoo magic who channels the power of ancient loa (voodoo gods) through accumulated Voodoo Essence. By performing rituals, casting curses, placing totems, and applying poisons, the Witch Doctor gathers spiritual energy that can be spent to invoke powerful deities. Each loa requires a single precursor condition — a battlefield state that must be true — rewarding strategic planning and careful resource management.`,
+
     roleplayIdentity: {
       title: 'Roleplay Identity',
       content: `Witch Doctors are spiritual intermediaries between the mortal world and the realm of the loa. Whether through ancestral tradition, desperate bargaining, or scholarly pursuit of forbidden knowledge, they have learned to commune with powerful voodoo spirits and channel their divine power.
 
-**The Witch Doctor's Philosophy**: The loa are neither good nor evil—they are forces of nature, ancient spirits with their own agendas. To invoke them is to make a pact, to offer respect and tribute in exchange for their devastating power. Every curse cast, every ritual performed, every totem placed is an offering to the spirits.
+**The Witch Doctor's Philosophy**: The loa are neither good nor evil — they are forces of nature, ancient spirits with their own agendas. To invoke them is to make a pact, to offer respect and tribute in exchange for their devastating power. Every curse cast, every ritual performed, every totem placed is an offering to the spirits.
 
 **Common Witch Doctor Archetypes**:
 - **The Tribal Shaman**: Keeper of ancestral traditions, protector of their people through ancient rites
@@ -45,7 +52,7 @@ export const WITCH_DOCTOR_DATA = {
 - **The Dark Scholar**: Studied forbidden voodoo texts, seeking power through understanding the spirits
 - **The Cursed Bloodline**: Born with the loa's mark, destined to serve as their mortal vessel`
     },
-    
+
     combatRole: {
       title: 'Combat Role',
       content: `The Witch Doctor is a versatile support/control caster who excels at debuffing enemies, supporting allies, and unleashing devastating divine invocations. They build power gradually through curses and rituals, then spend it on game-changing loa invocations.
@@ -56,15 +63,15 @@ export const WITCH_DOCTOR_DATA = {
 
 **Utility**: Exceptional. Provides curses, healing, resurrection, teleportation, and powerful buffs through loa invocations.
 
-**Complexity**: High. Requires careful tracking of Voodoo Essence, curse management, and strategic timing of loa invocations based on precursor conditions.`
+**Complexity**: Moderate-High. Requires tracking Voodoo Essence and one precursor per loa, but the system is designed to be intuitive — each precursor is a simple battlefield condition.`
     },
-    
+
     playstyle: {
       title: 'Playstyle & Strategy',
       content: `**Core Gameplay Loop**:
 1. **Build Voodoo Essence** through curses, poisons, totems, and rituals
-2. **Manage Precursors** by tracking cursed enemies, ally positions, and ritual completion
-3. **Invoke Loa** when essence and precursors align for maximum impact
+2. **Read the Battlefield** — check which loa's precursor condition is met
+3. **Invoke Loa** when essence and precursor align for maximum impact
 4. **Control the Battlefield** with strategic totem placement and curse application
 
 **Voodoo Essence Management**:
@@ -72,22 +79,23 @@ export const WITCH_DOCTOR_DATA = {
 - **Medium Essence (6-9)**: Can invoke minor loa (Simbi, Papa Legba), maintain curse coverage
 - **High Essence (10+)**: Ready for major invocations (Baron Samedi, Ogoun), game-changing moments
 
-**Precursor Planning**:
-- Track which enemies are cursed for Baron Samedi invocation
-- Position near allies for Erzulie invocation
-- Complete rituals proactively to enable Papa Legba
-- Apply poisons early to enable Ogoun when needed
+**Precursor Planning (Simplified)**:
+- Baron Samedi: Keep 3+ enemies cursed → check at invocation time
+- Erzulie: Group with allies (2+ within 15ft) → positioning matters
+- Papa Legba: Generate 5+ Essence this combat → happens naturally
+- Simbi: Wait for an ally to drop below half HP → reactive timing
+- Ogoun: Keep poison active on a target → apply early and maintain
 
 **Strategic Considerations**:
-- Curse high-priority targets early to build toward Baron Samedi
-- Place Totem of Healing before invoking Erzulie for maximum benefit
-- Save Ritual of Death for critical moments when multiple enemies are grouped
-- Coordinate with allies for optimal positioning before major invocations`
+- Curse high-priority targets early — each curse is +1 Essence AND counts toward Baron Samedi
+- Place Totem of Healing when allies are grouped to build toward Erzulie
+- Apply poison early to enable Ogoun when needed
+- Save Ritual of Death for critical moments when multiple enemies are grouped`
     },
 
     immersiveCombatExample: {
       title: 'Combat Example: The Loa\'s Chosen',
-      content: `**The Setup**: You're a Witch Doctor (Spirit Healer specialization) facing a group of undead (6 zombies + 1 necromancer). Your party is with you. Starting Voodoo Essence: 0. Starting Mana: 50/60. Your goal: Build Voodoo Essence through curses, totems, and rituals, then invoke Baron Samedi (loa of death) to devastate the undead.
+      content: `**The Setup**: You're a Witch Doctor (Bokor specialization) facing a group of undead (6 zombies + 1 necromancer). Your party is with you. Starting Voodoo Essence: 0. Starting Mana: 50/60. Your goal: Build Voodoo Essence through curses, totems, and rituals, then invoke Baron Samedi (loa of death) to devastate the undead.
 
 **Starting State**: Voodoo Essence: 0/15 | Mana: 50/60 | HP: 45/45 | Cursed Enemies: 0
 
@@ -95,526 +103,293 @@ export const WITCH_DOCTOR_DATA = {
 
 *Six zombies shamble toward you, led by a necromancer. You begin the ritual. The loa are watching.*
 
-**Your Action**: Cast "Curse of Weakness" on Necromancer (6 mana)
-**Effect**: Target has -2 armor, disadvantage on STR saves, takes 1d6 necrotic damage per turn
+**Your Action**: Cast "Withering Hex" on Necromancer (5 mana)
+**Effect**: Target takes 1d6+spirit necrotic damage per round for 3 rounds
 
 *You gesture at the necromancer. Dark voodoo energy WRAPS around him like chains.*
 
 **Voodoo Essence Generated**: +1 (curse cast) = **1/15**
 **Cursed Enemies**: 1 (Necromancer)
 
-**Mana**: 50 - 6 = 44/60
+**Mana**: 50 - 5 = 45/60
 
-**Your Action (Action Points)**: Place "Totem of Healing" (4 mana)
-**Effect**: Totem heals allies for 1d6 HP per turn in 15 ft radius
+**Your Action (Action Points)**: Place "Totem of Healing" (7 mana)
+**Effect**: Totem heals allies for 2d4 HP per turn in 10 ft radius
 
 *A wooden totem carved with healing symbols rises from the ground, pulsing with spiritual energy.*
 
 **Voodoo Essence Generated**: +1 (totem placed) = **2/15**
 
-**Mana**: 44 - 4 = 40/60
+**Mana**: 45 - 7 = 38/60
 
-**Your Action (0 AP - Free)**: Apply poison to weapon (no cost, class feature)
-**Effect**: Weapon deals +1d4 poison damage
+**Your Action (Free)**: Apply poison to weapon (no cost)
+**Effect**: Weapon deals +2d4 poison damage
 
 **Voodoo Essence Generated**: +1 (poison applied) = **3/15**
 
-**Your Party's Mage**: "What's that energy swirling around you?"
-**You**: "Voodoo Essence. I generate it through curses, totems, and poisons. I have 3 Essence now. I need more to invoke the loa."
+**Current State**: Essence: 3/15 | Mana: 38/60 | Cursed: 1
 
-**Current State**: Essence: 3/15 | Mana: 40/60 | Cursed: 1
+**Turn 2 - More Curses (Essence: 3 → 8)**
 
-**Turn 2 - More Curses (Essence: 3 → 6)**
+*The zombies attack. Your totem heals your party for 2d4 → [5] = 5 HP each.*
 
-*The zombies attack. Your totem heals your party for 1d6 → [5] = 5 HP each.*
+**Necromancer**: Takes 1d6+spirit → [4+3] = 7 necrotic damage from Withering Hex
 
-**Necromancer**: Takes 1d6 → [4] = 4 necrotic damage from Curse of Weakness
-
-**Your Action**: Cast "Curse of Agony" on Zombie #1 (5 mana)
-**Effect**: Target takes 2d6 necrotic damage per turn
-
-*You point at the zombie. It CONVULSES as the curse takes hold.*
+**Your Action**: Cast "Grave Bane" on Zombie #1 (8 mana)
+**Effect**: 2d6+spirit necrotic damage, -2 Agility for 3 rounds
 
 **Voodoo Essence Generated**: +1 (curse cast) = **4/15**
 **Cursed Enemies**: 2 (Necromancer, Zombie #1)
 
-**Mana**: 40 - 5 = 35/60
-
-**Your Action (Action Points)**: Cast "Curse of Decay" on Zombie #2 (5 mana)
-**Effect**: Target takes 1d8 necrotic damage per turn, healing reduced by 50%
-
-**Voodoo Essence Generated**: +1 (curse cast) = **5/15**
-**Cursed Enemies**: 3 (Necromancer, Zombies #1, #2)
-
-**Mana**: 35 - 5 = 30/60
-
-**Your Party's Tank**: Attacks Zombie #3 → 15 damage
+**Mana**: 38 - 8 = 30/60
 
 **Your Party's Rogue**: Attacks Zombie #1 (cursed) → 18 damage → **DEAD**
 
 **Cursed Enemy Defeated**: Zombie #1 was cursed and defeated
-**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **8/15**
+**Voodoo Essence Generated**: +3 (defeating cursed enemy) = **7/15**
 
-**Your Party's Healer**: "The zombie you cursed just died, and you got a burst of energy!"
-**You**: "When a cursed enemy is defeated, I gain 3 Voodoo Essence. I'm at 8 Essence now."
+**Current State**: Essence: 7/15 | Mana: 30/60 | Cursed: 1
 
-**Current State**: Essence: 8/15 | Mana: 30/60 | Cursed: 2
+**Turn 3 - Ritual (Essence: 7 → 13)**
 
-**Turn 3 - Ritual Preparation (Essence: 8 → 10)**
+**Your Action**: Cast "Bone Shrapnel" (12 mana, 2 AP)
+**Effect**: 3d6+spirit necrotic to all enemies in 15 ft
 
-*You need more Essence to invoke Baron Samedi. Time for a ritual.*
+*You conjure a burst of sharpened bone fragments that SHRED the clustered undead.*
 
-**Zombie #2**: Takes 1d8 → [6] = 6 necrotic damage from Curse of Decay
-**Necromancer**: Takes 1d6 → [5] = 5 necrotic damage from Curse of Weakness
+**Zombies #3, #4**: Each take [4+5+3+3] = 15 necrotic → #4 **DEAD**
+**Necromancer**: Takes 15 necrotic → HEAVILY DAMAGED
 
-**Your Action**: Begin "Ritual of Death" (8 mana, takes 1 full turn to complete)
-**Effect**: When completed, all enemies in 20 ft take 4d8 necrotic damage, generates 2 Voodoo Essence
+**Mana**: 30 - 12 = 18/60
 
-*You begin chanting in the old tongue. Dark symbols appear in the air around you. The loa are listening.*
+**Your Action**: Cast "Withering Hex" on Zombie #5 (5 mana)
 
-**Mana**: 30 - 8 = 22/60
+**Voodoo Essence Generated**: +1 (curse cast) = **8/15**
+**Cursed Enemies**: 2 (Necromancer, Zombie #5)
 
-**Your Party's Mage**: "What are you doing?"
-**You**: "Ritual of Death. It takes a full turn to complete, but when it finishes, all enemies in 20 feet take 4d8 necrotic damage, and I gain 2 Voodoo Essence."
+**Mana**: 18 - 5 = 13/60
 
-**Your Party's Tank**: Attacks Zombie #2 (cursed) → 16 damage → **DEAD**
+**Your Party's Tank**: Attacks Necromancer (cursed) → 20 damage → **DEAD**
 
-**Cursed Enemy Defeated**: Zombie #2 was cursed and defeated
+**Cursed Enemy Defeated**: Necromancer was cursed and defeated
 **Voodoo Essence Generated**: +3 (defeating cursed enemy) = **11/15**
 
-*But you're still completing the ritual, so you can't react yet.*
-
-**Current State**: Essence: 11/15 | Mana: 22/60 | Ritual: In Progress
-
-**Turn 4 - Ritual Completion (Essence: 11 → 13)**
-
-*The ritual COMPLETES. Dark energy ERUPTS.*
-
-**Ritual of Death Completes**:
-**Damage**: 4d8 necrotic → [7, 8, 6, 7] = **28 necrotic damage to all enemies in 20 ft**
-
-**Zombies #3, #4, #5, #6**: Each take 28 necrotic damage → Zombies #3, #4 **DEAD**, Zombies #5, #6 HEAVILY DAMAGED
-**Necromancer**: Takes 28 necrotic damage → HEAVILY DAMAGED
+**Your Action**: Begin "Ritual of Death" (8 mana)
 
 **Voodoo Essence Generated**: +2 (ritual completed) = **13/15**
 
-*The ritual's dark energy CONSUMES the zombies. Two of them COLLAPSE, destroyed.*
+**Mana**: 13 - 8 = 5/60
 
-**Your Party's Rogue**: "You just killed two zombies with one ritual!"
-**You**: "Ritual of Death. 4d8 necrotic damage to all enemies in 20 feet. And I gained 2 Voodoo Essence. I'm at 13 Essence now."
+**Current State**: Essence: 13/15 | Mana: 5/60 | Cursed: 1 (Zombie #5)
 
-**Necromancer**: Takes 1d6 → [4] = 4 necrotic damage from Curse of Weakness (still active)
+**Turn 4 - INVOKE BARON SAMEDI (Essence: 13 → 3)**
 
-**Current State**: Essence: 13/15 | Mana: 22/60 | Cursed: 1 (Necromancer)
+*You have 13 Voodoo Essence. Baron Samedi's precursor: 3+ cursed enemies... wait — only 1 cursed enemy remains!*
 
-**Turn 5 - Invoking Baron Samedi (Essence: 13 → 0)**
-
-*You have 13 Voodoo Essence. The necromancer is cursed. Time to invoke BARON SAMEDI, loa of death.*
+*But you're a BOKOR. Your spec passive reduces the precursor to only 2 cursed enemies. You had 2 cursed enemies this combat (Zombie #5 still cursed, and Necromancer was cursed when he died this turn — your Bokor passive counts recently-killed cursed enemies).*
 
 **Baron Samedi Requirements**:
-- **Essence Cost**: 10 Voodoo Essence
-- **Precursor**: At least 1 enemy must be cursed ✓ (Necromancer is cursed)
+- **Essence Cost**: 10 Voodoo Essence (Bokor: 8)
+- **Precursor**: 3+ cursed enemies on the field (Bokor: 2+)
 
-**Your Action**: "INVOKE BARON SAMEDI" (10 Voodoo Essence)
-**Effect**: Baron Samedi appears, deals 6d10 necrotic damage to all cursed enemies, kills any cursed enemy below 25% HP instantly, grants you +2d6 necrotic damage on all attacks for 3 rounds
+**Your Action**: "INVOKE BARON SAMEDI" (8 Voodoo Essence as Bokor)
 
-*You raise your staff to the sky. You CHANT the invocation. The air grows COLD. A spectral figure appears—BARON SAMEDI, loa of death, wearing a top hat and skull face paint, smoking a cigar.*
+*You raise your staff to the sky. You CHANT the invocation. The air grows COLD. A spectral figure appears — BARON SAMEDI, loa of death, wearing a top hat and skull face paint, smoking a cigar.*
 
-**Voodoo Essence**: 13 - 10 = **3/15**
+**Voodoo Essence**: 13 - 8 = **5/15**
 
-**Baron Samedi (spectral voice)**: "You called, child? Let me show you DEATH."
+**Baron Samedi**: "You called, child? Let me show you DEATH."
 
-*Baron Samedi gestures. DEATH ENERGY erupts from his hand.*
-
-**Damage to Cursed Enemies**: 6d10 necrotic → [9, 10, 8, 7, 9, 8] = **51 necrotic damage to Necromancer**
-
-**Necromancer**: Takes 51 necrotic damage → **DEAD** (was already heavily damaged)
-
-**Baron Samedi**: "The necromancer dared raise the dead? I AM DEATH. He is mine now."
-
-*Baron Samedi LAUGHS. The necromancer's soul is DRAGGED into the spirit realm.*
-
-**Buff Granted**: You gain +2d6 necrotic damage on all attacks for 3 rounds
-
-**Your Party (in shock)**: "What... what WAS that?!"
-**You**: "Baron Samedi. Loa of death. I invoked him with 10 Voodoo Essence. He deals 6d10 necrotic damage to all cursed enemies and kills any cursed enemy below 25% HP instantly. The necromancer was cursed and heavily damaged, so Baron Samedi obliterated him."
-
-**Current State**: Essence: 3/15 | Mana: 22/60 | Baron Samedi Buff: 3 rounds
-
-**Turn 6 - Cleanup**
-
-*Only Zombies #5 and #6 remain, both heavily damaged from the Ritual of Death.*
-
-**Your Action**: Melee attack Zombie #5 (with Baron Samedi buff)
-**Attack Roll**: d20+4 → [15] = Hit!
-**Base Damage**: 2d6+2 → [5, 4] + 2 = 11 damage
-**Baron Samedi Buff**: +2d6 necrotic → [6, 5] = +11 necrotic damage
-**Total Damage**: 11 + 11 = **22 damage**
-
-**Zombie #5**: Takes 22 damage → **DEAD**
-
-**Your Party's Tank**: Attacks Zombie #6 → **DEAD**
-
-**Combat Over**
+**Damage**: 14d6+spirit*3 necrotic to all enemies in 40 ft → devastates remaining zombies
+**Effect**: Triple damage to cursed enemies. Zombie #5 takes triple → obliterated.
 
 *Baron Samedi tips his hat to you, then fades into the spirit realm.*
 
 **Baron Samedi**: "Well done, child. Call me again when you need DEATH."
 
-**Your Party's Healer**: "You... you summoned a VOODOO GOD."
-**You**: "Baron Samedi, loa of death. I built 13 Voodoo Essence through curses (1 Essence each), totems (1 Essence), poison (1 Essence), rituals (2 Essence), and defeating cursed enemies (3 Essence each). I spent 10 Essence to invoke Baron Samedi. He required at least 1 cursed enemy as a precursor—the necromancer was cursed, so the precursor was met."
-**Your Party's Mage**: "And he dealt 51 damage to the necromancer?"
-**You**: "6d10 necrotic damage to all cursed enemies. The necromancer was the only cursed enemy at that moment, so he took the full 51 damage. Plus, Baron Samedi grants me +2d6 necrotic damage on all attacks for 3 rounds. My melee attack dealt 22 damage total."
-**Your Party's Rogue**: "What other loa can you invoke?"
-**You**: "Erzulie (loa of love, heals allies), Papa Legba (loa of crossroads, teleports party), Ogoun (loa of war, massive damage buff), Simbi (loa of water, crowd control). Each loa has different Essence costs and precursor requirements."
-
-**Final State**: Essence: 3/15 | Mana: 22/60 | HP: 45/45
+**Combat Over**
 
 **Essence Generation Breakdown**:
-- Curse of Weakness (Necromancer): +1 Essence
+- Withering Hex (Necromancer): +1 Essence
 - Totem of Healing: +1 Essence
 - Poison application: +1 Essence
-- Curse of Agony (Zombie #1): +1 Essence
-- Curse of Decay (Zombie #2): +1 Essence
+- Grave Bane (Zombie #1): +1 Essence
 - Zombie #1 defeated (cursed): +3 Essence
-- Zombie #2 defeated (cursed): +3 Essence
+- Withering Hex (Zombie #5): +1 Essence
+- Necromancer defeated (cursed): +3 Essence
 - Ritual of Death completed: +2 Essence
 - **Total Generated**: 13 Essence
-- **Spent on Baron Samedi**: -10 Essence
-- **Remaining**: 3 Essence
+- **Spent on Baron Samedi (Bokor discount)**: -8 Essence
+- **Remaining**: 5 Essence
 
 **The Lesson**: Witch Doctor gameplay is about:
-1. **Voodoo Essence Generation**: Built 13 Essence through curses (+1 each), totems (+1), poison (+1), rituals (+2), defeating cursed enemies (+3 each)
-2. **Curse Management**: Cursed 3 enemies (Necromancer, Zombies #1, #2), gained +3 Essence when cursed enemies died
-3. **Ritual of Death**: Dealt 28 necrotic damage to all enemies in 20 ft, killed 2 zombies, generated +2 Essence
-4. **Loa Invocation**: Invoked Baron Samedi (10 Essence, required 1+ cursed enemy)
-5. **Baron Samedi Power**: Dealt 51 necrotic damage to cursed necromancer, killed him instantly, granted +2d6 necrotic damage buff for 3 rounds
-6. **Precursor Management**: Ensured necromancer was cursed before invoking Baron Samedi (precursor requirement)
-7. **Strategic Timing**: Waited until 13 Essence before invoking, ensuring maximum impact
+1. **Voodoo Essence Generation** — built through curses, totems, poisons, and rituals
+2. **Curse Management** — each curse = +1 Essence AND counts toward Baron Samedi's precursor
+3. **Precursor Awareness** — Baron Samedi needs cursed enemies; Bokor reduces the requirement
+4. **Loa Invocation** — the payoff moment where a god descends and rewrites the fight
+5. **Strategic Timing** — wait for essence AND precursor to align for maximum impact
 
-You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Voodoo Essence through curses, totems, poisons, and rituals. When you have enough Essence and meet the precursor conditions, you INVOKE THE LOA. Baron Samedi appeared as a spectral figure and dealt 51 necrotic damage to the cursed necromancer, killing him instantly. Erzulie could heal your entire party. Papa Legba could teleport you across the battlefield. Ogoun could grant massive damage buffs. Each loa is a DIVINE INTERVENTION that changes the course of battle. You don't just cast spells—you COMMUNE WITH GODS.`
+You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Voodoo Essence through curses, totems, poisons, and rituals. When you have enough Essence and the battlefield conditions are right, you INVOKE THE LOA. Each loa is a DIVINE INTERVENTION that changes the course of battle. You don't just cast spells — you COMMUNE WITH GODS.`
     }
   },
-  
+
   // Resource System
   resourceSystem: {
     title: 'Voodoo Essence & Loa Invocation',
     subtitle: 'Spiritual Energy & Divine Channeling',
 
-    description: `The Witch Doctor's power stems from Voodoo Essence, a spiritual resource generated through voodoo practices. This essence is spent to invoke powerful loa (voodoo gods), each requiring specific precursor conditions to be met. Mastering the balance between essence generation, precursor management, and strategic invocation timing is the key to becoming a powerful Witch Doctor.`,
-    
-    mechanics: {
-      title: 'How It Works',
-      content: `**Voodoo Essence Generation**:
-- **Casting Curses**: Each curse cast generates 1 Voodoo Essence
-- **Applying Poisons**: Poisoning weapons or throwing poison grenades generates 1 Voodoo Essence
-- **Performing Rituals**: Successfully completing a ritual generates 2 Voodoo Essence
-- **Placing Totems**: Each totem placed generates 1 Voodoo Essence
-- **Defeating Cursed Enemies**: Defeating an enemy you cursed generates 3 Voodoo Essence
+    description: `The Witch Doctor's power stems from Voodoo Essence, a spiritual resource generated through voodoo practices. This essence is spent to invoke powerful loa (voodoo gods), each requiring a single battlefield condition to be met. Mastering the balance between essence generation, precursor awareness, and strategic invocation timing is the key to becoming a powerful Witch Doctor.`,
 
-**Maximum Capacity**: You can hold up to 15 Voodoo Essence at once
+    cards: [
+      {
+        title: 'Voodoo Essence',
+        stats: '0-15 Scale',
+        details: 'Generated by cursing, poisoning, placing totems, completing rituals, and defeating cursed enemies. Spent to invoke loa for devastating effects. Maximum 15.'
+      },
+      {
+        title: 'Loa Invocations',
+        stats: '5-10 Essence + 1 Precursor',
+        details: 'Each loa requires a specific battlefield condition (precursor) to be met before invocation. Meet the condition, spend the essence, and unleash divine power.'
+      },
+      {
+        title: 'Curse Stacking',
+        stats: 'Multiple Enemies',
+        details: 'Curses are your foundation. Every cursed enemy generates +1 Essence when defeated and counts toward Baron Samedi\'s precursor. More curses = more power.'
+      }
+    ],
 
-**Loa Invocation**:
-Each loa requires both sufficient Voodoo Essence AND specific precursor conditions to be met. Invocations are powerful, game-changing abilities that consume all required essence when activated.
-
-**Precursor Tracking**:
-Carefully track battlefield conditions to know when you can invoke each loa. Some precursors require preparation (rituals, totem placement), while others emerge naturally through combat (cursed enemies, ally positioning).`
+    usage: {
+      momentum: 'Curse everything you can. Each curse is an investment — +1 Essence on application and +3 when the enemy dies. Place totems for area control and passive essence generation. The faster you generate Essence, the sooner you can invoke a loa.',
+      flourish: 'Loa invocations are your win conditions. Baron Samedi ending a fight with 14d6+spirit damage to all cursed enemies is devastating. Coordinate with your party — tell them you are building toward a specific loa so they can set up the precursor conditions.'
     },
-    
+
+    overheatRules: {
+      title: 'Essence Overflow & Loa Exhaustion',
+      content: `The Witch Doctor's power has two critical thresholds that shape every combat.
+
+**Essence Cap (15 Maximum)**:
+Any Essence generated beyond 15 is wasted. If you are at 14 Essence and defeat a cursed enemy (+3), you only gain 1. This means you should plan your loa invocations to avoid waste — if you are near 15, either invoke a loa or switch to non-essence actions.
+
+**Loa Exhaustion (Post-Invocation)**:
+After invoking a loa, your Essence drops significantly (5-10 points). You return to the early game of building Essence back up. This creates a natural combat arc: build, invoke, rebuild. Plan for the post-invocation window — you will have limited resources while recovering.
+
+**The Precursor Trap**:
+Each loa has exactly ONE precursor condition. If the condition is not met, you cannot invoke — no matter how much Essence you have. 14 Essence means nothing if fewer than 3 enemies are cursed for Baron Samedi. This is the class's greatest frustration and greatest strategic depth.
+
+**Managing the Dual Pressure**:
+You must balance two things simultaneously: generating enough Essence AND ensuring the precursor is met. A Witch Doctor who has 12 Essence but no allies below half HP cannot invoke Simbi. You may need to delay your invocation and spend turns enabling the precursor (letting allies take damage, applying more curses, generating more Essence) rather than invoking immediately.
+
+**Recovery Between Fights**:
+Essence carries between encounters (no reset on short rest). If you finish a fight at 12 Essence, you start the next fight halfway to Baron Samedi. Plan your rest strategy — if you are low on Essence, a short rest to regain resources and reposition may be better than pressing forward.`
+    },
+
     essenceGenerationTable: {
       title: 'Voodoo Essence Generation',
       headers: ['Action', 'Essence Gained', 'Notes'],
       rows: [
         ['Cast Curse', '1', 'Any curse spell applied to enemy'],
-        ['Apply Poison', '1', 'Weapon poison or poison grenade'],
+        ['Apply Poison', '1', 'Weapon poison or poison attack'],
         ['Place Totem', '1', 'Any totem type'],
         ['Perform Ritual', '2', 'Ritual must complete successfully'],
-        ['Defeat Cursed Enemy', '3', 'Enemy must have your curse active']
+        ['Defeat Cursed Enemy', '3', 'Enemy must have your curse active when defeated']
       ]
     },
 
     loaInvocationTable: {
       title: 'Loa Invocations',
-      headers: ['Loa', 'Essence Cost', 'Precursors', 'Effect Summary'],
+      headers: ['Loa', 'Essence Cost', 'Precursor', 'Effect Summary'],
       rows: [
-        ['Baron Samedi', '10', '3+ cursed enemies, Ritual of Death', 'Resurrect ally + curse all enemies (4d6 necrotic over 3 turns)'],
-        ['Erzulie', '8', '2+ allies within 10ft, Totem of Healing placed', '+2 armor, fear immunity, heal 3d8 to all allies in 30ft'],
-        ['Papa Legba', '7', '2+ essence from rituals, within 30ft of cursed enemy', 'Telepathy for 1hr + teleport 5 allies within 1 mile'],
-        ['Simbi', '6', '1+ ally below 50% HP, Ritual of Cleansing', 'Healing rain: 4d6 HP, cure diseases/poisons in 30ft'],
-        ['Ogoun', '9', 'Poison applied, 1+ ally in combat within 15ft', '+2 attack, physical resistance, +2d6 fire damage for 1min']
+        ['Simbi', '5', '1+ ally below half HP', 'Healing rain: 4d8 HP, cure diseases/poisons in 30ft'],
+        ['Papa Legba', '6', '5+ Essence generated this combat', 'Telepathy for 1hr + teleport 5 allies within 1 mile'],
+        ['Erzulie', '7', '2+ allies within 15ft of you', '+2 armor, fear immunity, heal 3d8 to all allies in 30ft'],
+        ['Ogoun', '8', 'Poison active on any target', '+2 attack, physical resistance, +2d6 fire damage for 1min'],
+        ['Baron Samedi', '10', '3+ enemies currently cursed', '14d6+spirit*3 necrotic to all cursed enemies, triple damage to cursed']
       ]
     },
 
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Early Combat (Rounds 1-3)**:
-Focus on building essence through curses and totems. Apply poisons to weapons. Identify which loa will be most valuable for the current encounter.
+      title: 'The Ritual — Combat Phase Tactics',
+      content: `**Phase 1: The Foundation (Rounds 1-3)**:
+Curse high-priority targets immediately. Each curse is a dual investment: +1 Essence on application and +3 when the enemy dies. Place a totem for area control. Apply weapon poison to enable Ogoun's precursor. Your goal is to reach 5+ Essence while establishing curses on 2+ enemies.
 
-**Mid Combat (Rounds 4-6)**:
-You should have 6-10 essence. Consider invoking Simbi for healing or Papa Legba for utility. Continue building toward major invocations if the fight will last longer.
+**Phase 2: Precursor Building (Rounds 4-6)**:
+Start checking which loa you can invoke. Scan the battlefield for precursor conditions:
+- **Simbi (5 Essence)**: Is any ally below half HP? If not, you may need to let damage happen — resist the urge to heal preemptively.
+- **Erzulie (7 Essence)**: Are 2+ allies near you? Communicate positioning with your party.
+- **Papa Legba (6 Essence)**: Have you generated 5+ Essence this fight? This one tracks itself — you either have it or you don't.
+- **Ogoun (8 Essence)**: Is poison active on any target? Apply weapon poison early to enable this.
+- **Baron Samedi (10 Essence)**: Are 3+ enemies cursed? This is your ultimate — requires the most setup.
 
-**Late Combat (Rounds 7+)**:
-Prime time for Baron Samedi or Ogoun invocations. These game-changing abilities can turn the tide of difficult battles.
+**Phase 3: The Invocation (Rounds 7+)**:
+Invoke the highest-impact loa available. Baron Samedi with 3+ cursed enemies is game-ending (14d6+spirit to all cursed). Ogoun turns you into a damage powerhouse. Erzulie can save the party from a wipe with mass healing and armor. Time your invocation for maximum impact — don't waste Baron Samedi on a single remaining enemy.
 
-**Precursor Preparation**:
-- Always have Ritual of Death ready for Baron Samedi opportunities
-- Place Totem of Healing proactively when allies are grouped
-- Track your ritual-generated essence for Papa Legba
-- Apply poisons early in combat to enable Ogoun later`
+**The Curse-First Philosophy**:
+Curses are your highest-priority action in round 1. A cursed enemy is worth +1 Essence now and +3 Essence later (6 Essence total from one enemy). This means 2-3 cursed enemies dying = 12-18 Essence, which is enough for any loa. Curse broadly, then focus fire on cursed targets to trigger the essence cascade.
+
+**Loa Choice Priority**:
+1. **Baron Samedi** (10): If 3+ enemies are cursed and you have the Essence, this is almost always the right call. The AoE devastation ends fights.
+2. **Erzulie** (7): If the party is taking heavy damage and allies are clustered, the mass heal + armor + fear immunity is a clutch save.
+3. **Ogoun** (8): If you need single-target damage and poison is active, the attack buff + fire damage + physical resistance makes you a frontline threat.
+4. **Simbi** (5): If a single ally is critical, the targeted heal is efficient. Cheap and reliable.
+5. **Papa Legba** (6): The teleport is situational but powerful for repositioning the entire party.
+
+**The Spec Factor**:
+Specializations reduce loa costs and relax precursors. A Bokor with Baron Samedi at 8 Essence and only 2 cursed enemies needed can invoke much earlier than a base Witch Doctor. Factor your spec discounts into your planning.
+
+**Worked Example (Round 5, 8 Essence, 2 Enemies Cursed)**:
+- **Option A** — Simbi (5 Essence, ally below half HP): Reliable heal, drops you to 3 Essence. Safe but small.
+- **Option B** — Erzulie (7 Essence, allies grouped): Mass heal + armor. Drops you to 1 Essence. Party-saving but leaves you empty.
+- **Option C** — Curse a third enemy, wait for Baron Samedi: Higher risk but massive payout. If the fight will last 3+ more rounds, this is often the best play.
+- **Best default**: If the party is healthy, Option C. If someone is critical, Option B.`
     },
 
     playingInPerson: {
-      title: 'Playing in Person',
+      title: 'Playing Witch Doctor In Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Witch Doctor's Voodoo Essence and Loa Invocation system combines resource accumulation with precursor tracking, creating a strategic in-person experience. Here's how to track your spiritual power at the table:
+      content: `The Witch Doctor is the most atmospheric class at the table. Skull beads, curse markers, totem miniatures, and the dramatic token dump when invoking a loa create a deeply immersive voodoo experience that the whole table will feel.
 
 **Required Materials**:
-- **15 tokens or beads** (purple/spiritual color recommended for Voodoo Essence)
-- **Loa reference card** with invocation requirements
-- **Precursor tracking sheet** (checkboxes for each loa's conditions)
-- **Optional: Voodoo-themed tokens** (skulls, bones, spiritual symbols)
+- **15 Purple Tokens or Skull Beads** — Voodoo Essence. Add as you generate, remove when invoking.
+- **Curse Markers** — Small skull tokens to place on cursed enemy miniatures.
+- **Totem Miniatures** — Small tokens or minis to mark placed totems on the grid.
+- **Loa Reference Card** — Printed card showing all 5 loa: cost, precursor condition, and effect summary.
+- **Voodoo Doll Prop** (Optional) — A small figure placed on the table for flavor.
 
-**Voodoo Essence Tracking**:
+**Tracking Essence (Token Bowl Method)**:
+Keep purple tokens in a small bowl or pouch. Add one for each Essence gained. When you invoke a loa, physically remove the tokens from the bowl and place them in a "spent" pile. The sound of tokens hitting the bowl builds anticipation. The dramatic moment of dumping 10 tokens for Baron Samedi creates a table-wide moment.
 
-**The Token Method** (Recommended):
+**Tracking Curses**:
+Place a small skull token on each cursed enemy's miniature. At a glance, you and the DM can count how many enemies are cursed — this is critical for Baron Samedi's precursor (3+ cursed). When a cursed enemy dies, remove the skull and add 3 Essence tokens.
 
-Use physical tokens to represent Voodoo Essence:
-- **Starting State**: Begin with 0 tokens
-- **Generating Essence**: When you perform essence-generating actions, add tokens
-  - Cast curse → Add 1 token
-  - Apply poison → Add 1 token
-  - Place totem → Add 1 token
-  - Complete ritual → Add 2 tokens
-  - Defeat cursed enemy → Add 3 tokens
-- **Spending Essence**: When you invoke a loa, remove the required tokens
-  - Baron Samedi → Remove 10 tokens (8 for Shadow Priest)
-  - Erzulie → Remove 8 tokens
-  - Papa Legba → Remove 7 tokens
-  - Simbi → Remove 6 tokens
-  - Ogoun → Remove 9 tokens
-- **Maximum**: 15 tokens maximum
-
-**Setup**:
-Create a simple tracking area:
-- **Essence Pool** (your active tokens - the spiritual power you've accumulated)
-- **Token Bank** (unused tokens, up to 15 total)
-
-**Alternative Tracking Methods**:
-- **d20 Die**: Set it to your current Essence count (0-15)
-- **Tally Marks**: Write on paper with hash marks
-- **Colored Beads**: Use purple/spiritual beads in a small bowl
-
-**Loa Invocation Precursor Tracking**:
-
-**The Checklist Method**:
-
-Create a reference card with each loa's precursor requirements:
+**Quick Reference**:
 \`\`\`
-LOA INVOCATION TRACKER
+ESSENCE GENERATION (Max 15):
+  Cast Curse: +1    | Apply Poison: +1    | Place Totem: +1
+  Complete Ritual: +2 | Defeat Cursed Enemy: +3
 
-BARON SAMEDI (10 Essence)
-☐ 3+ cursed enemies active
-☐ Ritual of Death performed
-READY: [YES / NO]
+LOA INVOCATIONS (Cost + Precursor):
+  Simbi (5):         1+ ally below half HP
+  Papa Legba (6):    5+ Essence generated this combat
+  Erzulie (7):       2+ allies within 15ft of you
+  Ogoun (8):         Poison active on any target
+  Baron Samedi (10): 3+ enemies currently cursed
 
-ERZULIE (8 Essence)
-☐ 2+ allies within 10ft of you
-☐ Totem of Healing placed
-READY: [YES / NO]
-
-PAPA LEGBA (7 Essence)
-☐ 2+ essence from rituals
-☐ Within 30ft of cursed enemy
-READY: [YES / NO]
-
-SIMBI (6 Essence)
-☐ 1+ ally below 50% HP
-☐ Ritual of Cleansing performed
-READY: [YES / NO]
-
-OGOUN (9 Essence)
-☐ Poison applied (weapon/grenade)
-☐ 1+ ally in combat within 15ft
-READY: [YES / NO]
+SPEC DISCOUNTS:
+  Bokor: Baron 8 (2 cursed) | Mambo: Erzulie 5, Simbi 3
+  Houngan: Ogoun 6, Legba 4
 \`\`\`
 
-**Tracking Precursors During Combat**:
-- **Cursed Enemies**: Place a small marker on enemy tokens/minis when cursed
-- **Ritual Tracking**: Check off when you complete rituals
-- **Totem Placement**: Note on map where totems are placed
-- **Ally Positioning**: Visually check distances on battle map
-- **Poison Application**: Mark your weapon or note when poison is applied
-
-**Example In-Person Turn**:
-
-*You have 4 Voodoo Essence, 2 cursed enemies, no rituals performed*
-
-**Turn 1 - Building Essence**:
-1. "I cast Curse of Agony on the orc!"
-2. Add 1 purple token to your pool → Now at 5 Essence
-3. Place a curse marker on the orc mini
-4. Check precursors: Baron Samedi needs 3 cursed enemies (only have 2)
-
-**Turn 2 - More Essence**:
-1. "I place a Totem of Healing near our fighter!"
-2. Add 1 purple token → Now at 6 Essence
-3. Place totem marker on battle map
-4. Check precursors: Erzulie needs 2+ allies within 10ft + totem (totem ✓, check ally positions)
-
-**Turn 3 - Curse Another Enemy**:
-1. "I cast Curse of Agony on the goblin!"
-2. Add 1 purple token → Now at 7 Essence
-3. Place curse marker on goblin mini
-4. Check precursors: Baron Samedi needs 3 cursed enemies (orc, goblin... need 1 more)
-
-**Turn 4 - Third Curse**:
-1. "I cast Curse of Agony on the troll!"
-2. Add 1 purple token → Now at 8 Essence
-3. Place curse marker on troll mini
-4. Check precursors: Baron Samedi now has 3 cursed enemies! But need Ritual of Death...
-
-**Turn 5 - Ritual**:
-1. "I perform Ritual of Death!" (takes 1 action)
-2. Add 2 purple tokens → Now at 10 Essence
-3. Check precursors: Baron Samedi READY! (3 cursed enemies ✓, Ritual of Death ✓)
-
-**Turn 6 - INVOKE LOA**:
-1. "I invoke Baron Samedi, the loa of death!"
-2. Remove 10 purple tokens from pool → Now at 0 Essence
-3. Resurrect fallen ally + curse all enemies (4d6 necrotic over 3 turns)
-4. Roll 4d6 → [5, 6, 4, 5] = 20 necrotic damage per turn for 3 turns!
-
-**Quick Reference Card Template**:
-\`\`\`
-WITCH DOCTOR QUICK REFERENCE
-
-VOODOO ESSENCE GENERATION:
-• Cast Curse: +1 Essence
-• Apply Poison: +1 Essence
-• Place Totem: +1 Essence
-• Complete Ritual: +2 Essence
-• Defeat Cursed Enemy: +3 Essence
-Maximum: 15 Essence
-
-LOA INVOCATIONS (Essence Cost):
-• Baron Samedi (10): Resurrect + curse all
-• Ogoun (9): +2 attack, resistance, +2d6 fire
-• Erzulie (8): +2 armor, fear immunity, heal 3d8
-• Papa Legba (7): Telepathy + teleport allies
-• Simbi (6): Healing rain, cure diseases
-
-PRECURSOR TRACKING:
-☐ Cursed enemies (count them)
-☐ Rituals performed (check off)
-☐ Totems placed (mark on map)
-☐ Ally positions (measure distances)
-☐ Poison applied (note on weapon)
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the voodoo experience with:
-- **Skull Tokens**: Use small skull beads for Voodoo Essence
-- **Voodoo Doll Props**: Keep a small voodoo doll prop on the table
-- **Ritual Candles**: Light a candle when performing rituals (if safe)
-- **Loa Cards**: Print cards with loa artwork and effects
-- **Curse Markers**: Use small skull/bone markers for cursed enemies
-- **Totem Minis**: Use small totem miniatures for placed totems
-
-**Precursor Management Tips**:
-
-**Baron Samedi (Death Loa)**:
-- **Precursors**: 3+ cursed enemies, Ritual of Death
-- **Strategy**: Curse 3 enemies early, perform ritual when ready
-- **Tracking**: Count cursed enemy markers, check off ritual
-
-**Erzulie (Love Loa)**:
-- **Precursors**: 2+ allies within 10ft, Totem of Healing
-- **Strategy**: Group allies together, place totem proactively
-- **Tracking**: Measure distances on map, note totem placement
-
-**Papa Legba (Crossroads Loa)**:
-- **Precursors**: 2+ essence from rituals, within 30ft of cursed enemy
-- **Strategy**: Perform rituals early, stay near cursed enemies
-- **Tracking**: Count ritual-generated essence separately, measure distance
-
-**Simbi (Water Loa)**:
-- **Precursors**: 1+ ally below 50% HP, Ritual of Cleansing
-- **Strategy**: Wait for ally to take damage, perform ritual when needed
-- **Tracking**: Monitor ally HP, check off ritual
-
-**Ogoun (War Loa)**:
-- **Precursors**: Poison applied, 1+ ally in combat within 15ft
-- **Strategy**: Apply poison early, stay near melee allies
-- **Tracking**: Mark weapon with poison, measure ally distances
-
-**Example Full Combat Sequence**:
-
-*Starting: 0 Essence, no precursors met*
-
-**Turn 1**: Cast Curse of Agony (orc) → 1 Essence, 1 cursed enemy
-**Turn 2**: Place Totem of Healing → 2 Essence, totem placed
-**Turn 3**: Cast Curse of Agony (goblin) → 3 Essence, 2 cursed enemies
-**Turn 4**: Apply poison to weapon → 4 Essence, poison applied
-**Turn 5**: Cast Curse of Agony (troll) → 5 Essence, 3 cursed enemies
-**Turn 6**: Perform Ritual of Death → 7 Essence, ritual complete
-**Turn 7**: Invoke Baron Samedi! → 0 Essence (spent 10, but Shadow Priest = 8)
-**Result**: Ally resurrected, all enemies cursed for 4d6 necrotic over 3 turns!
-
-**Visual Organization**:
-
-**Essence Pool Layout**:
-\`\`\`
-VOODOO ESSENCE: [○][○][○][○][○][○][○] (7/15)
-
-LOA READY:
-Baron Samedi: ✓ (3 cursed, ritual done)
-Erzulie: ✗ (need allies grouped)
-Papa Legba: ✗ (need ritual essence)
-Simbi: ✗ (no injured allies)
-Ogoun: ✓ (poison applied, ally nearby)
-\`\`\`
-
-**Battlefield Tracking**:
-- **Cursed Enemies**: Place skull markers on cursed enemy minis
-- **Totems**: Place totem markers on battle map
-- **Ritual Zones**: Mark ritual areas with tokens/markers
-- **Ally Positions**: Use measuring tape for distance checks
-
-**Why This System Works**: The physical act of accumulating Voodoo Essence tokens while simultaneously tracking multiple precursor conditions creates a strategic puzzle. You're not just building a resource—you're orchestrating battlefield conditions to align with loa requirements. The checklist system makes it easy to see which invocations are available, and the token pool shows how close you are to affording them. The combination of resource management and precursor tracking mirrors the thematic concept of preparing spiritual rituals and invoking divine powers.
+**The Physical Hacks**:
+- **The Curse Spread**: When you curse a new enemy, physically walk your curse token to their mini and place it. The movement draws table attention and makes the DM aware.
+- **Totem Placement**: Use a distinct mini or token for each totem type. Place it physically on the grid square so everyone knows the area of effect.
+- **Loa Invocation Ritual**: When you invoke a loa, stand up, announce the loa's name, and remove the Essence tokens one by one while counting down. Make it ceremonial — the table will remember it.
+- **Voodoo Doll**: Keep a small doll or figure near your character sheet. Point to it when describing loa effects for flavor.
 
 **Pro Tips**:
-- **Precursor Planning**: Decide which loa you want to invoke BEFORE combat starts
-- **Early Cursing**: Curse enemies early to enable Baron Samedi later
-- **Totem Placement**: Place totems proactively when allies are grouped
-- **Ritual Timing**: Perform rituals when you have time (not during emergencies)
-- **Essence Banking**: Keep 6-10 essence banked for quick invocations
-- **Specialization Synergy**: Shadow Priests should focus on Baron Samedi, Spirit Callers on Erzulie/Simbi, War Doctors on Ogoun
-
-**Budget-Friendly Alternatives**:
-- **No tokens?** Use coins, buttons, or paper clips for Voodoo Essence
-- **No markers?** Write cursed enemy names on paper
-- **No totem minis?** Use coins or tokens to mark totem locations
-- **Minimalist**: Just track essence count and precursors on paper
-
-**Specialization-Specific Tracking**:
-
-**Shadow Priest**:
-- Baron Samedi costs 8 essence (not 10) → Remove 8 tokens instead of 10
-- Curses generate +1 essence → Add 2 tokens per curse (not 1)
-- Only need 2 cursed enemies for Baron Samedi → Adjust checklist
-
-**Spirit Caller**:
-- Erzulie and Simbi cost -2 essence → Adjust token removal
-- Totems generate +1 essence → Add 2 tokens per totem
-- Enhanced healing effects → Note on loa cards
-
-**War Doctor**:
-- Ogoun costs -2 essence → Remove 7 tokens (not 9)
-- Poison generates +1 essence → Add 2 tokens per poison
-- Enhanced combat buffs → Note on loa cards
-
-**Why Witch Doctor Is Perfect for In-Person Play**: The class is built around accumulating spiritual power (Voodoo Essence) while orchestrating complex battlefield conditions (precursors). The physical tokens make essence accumulation tangible, and the checklist system makes precursor tracking manageable. The dramatic moment of invoking a loa—removing a large pile of tokens and announcing the divine intervention—creates a memorable, thematic experience. The combination of resource management, precursor tracking, and powerful invocations makes every combat feel like a spiritual ritual, perfectly capturing the Witch Doctor's voodoo theme.`
+- Communicate your precursor status to the party: "I have 8 Essence and poison is active — I can invoke Ogoun next turn if we need damage." This lets the party plan around your invocation timing.
+- Curse broadly early, then focus fire. The curse-first philosophy means your early turns are about spreading debuffs, not maximizing damage. Your damage comes later when Essence pays off.
+- Track which enemies are cursed on your character sheet too. If a skull token gets knocked off an enemy mini, your sheet backup prevents arguments.
+- If you are Mambo spec, tell the party when you invoke Erzulie (now only 5 Essence). "Erzulie is up — everyone group near me for the heal." The cheaper cost means you can invoke more often, changing your role from occasional nuker to frequent support.`
     }
   },
 
@@ -622,1246 +397,129 @@ Ogoun: ✓ (poison applied, ally nearby)
   specializations: {
     title: 'Voodoo Specializations',
     subtitle: 'Three Paths of the Loa',
-    
+
     description: `Witch Doctors specialize in different aspects of voodoo practice, each focusing on specific loa and spiritual techniques. Choose your specialization to determine which divine powers you master.`,
-    
+
     passiveAbility: {
       name: 'Loa\'s Favor',
       description: 'All Witch Doctors can invoke any of the five loa, but your specialization determines which invocations are enhanced and cost less essence.'
     },
-    
+
     specs: [
       {
-        id: 'shadow-priest',
-        name: 'Shadow Priest',
+        id: 'bokor',
+        name: 'Bokor',
         icon: 'Necrotic/Arise',
         color: '#8B008B',
-        theme: 'Necromancy & Resurrection',
+        theme: 'Death Magic & Curses',
 
-        description: `Shadow Priests specialize in the darker aspects of voodoo, focusing on Baron Samedi and the manipulation of life and death. They excel at cursing enemies, raising the dead, and wielding necrotic power.`,
+        description: `Bokors specialize in the darker aspects of voodoo, focusing on Baron Samedi and the manipulation of life and death. They excel at cursing enemies, raising the dead, and wielding necrotic power. The Bokor is the voodoo sorcerer who walks between the living and the dead.`,
 
-        playstyle: 'Aggressive cursing, necrotic damage, resurrection focus',
-        
+        playstyle: 'Aggressive cursing, necrotic damage, death manipulation',
+
         strengths: [
-          'Baron Samedi invocation costs -2 essence (8 instead of 10)',
+          'Baron Samedi invocation costs 2 less essence (8 instead of 10)',
+          'Baron Samedi requires only 2 cursed enemies (instead of 3)',
           'Curses generate +1 additional Voodoo Essence',
-          'Enhanced necrotic damage on cursed targets',
-          'Can invoke Baron Samedi with only 2 cursed enemies (instead of 3)'
+          'Enhanced necrotic damage on cursed targets'
         ],
 
         weaknesses: [
           'Limited healing compared to other specs',
-          'Requires curse management',
-          'Baron Samedi precursors still demanding',
-          'Less effective against undead/constructs'
+          'Requires curse management for peak performance',
+          'Less effective against undead/constructs immune to curses'
         ],
 
         specPassive: {
           name: 'Shadow\'s Embrace',
           description: 'Baron Samedi invocations cost 2 less essence and require only 2 cursed enemies. Curses generate +1 additional Voodoo Essence.'
         },
-        
+
         keyAbilities: [
-          'Curse of Agony: Your signature curse that deals 2d6 necrotic damage per turn',
-          'Ritual of Death: Dark ritual that curses an area and frightens enemies',
-          'Baron Samedi Invocation: Resurrect ally and devastate enemies with necrotic curse'
+          'Withering Hex: Your foundational curse that deals necrotic damage over time',
+          'Bone Shrapnel: AoE necrotic burst that shreds grouped enemies',
+          'Invoke Baron Samedi: Resurrect ally and devastate all cursed enemies'
         ]
       },
-      
+
       {
-        id: 'spirit-healer',
-        name: 'Spirit Healer',
+        id: 'mambo',
+        name: 'Mambo',
         icon: 'Healing/Heal Wound',
         color: '#20B2AA',
-        theme: 'Healing & Protection',
-        
-        description: `Spirit Healers channel Erzulie and Simbi, focusing on protective magic, healing, and support. They excel at keeping allies alive through totems, healing rituals, and divine protection.`,
-        
+        theme: 'Healing & Spirit Protection',
+
+        description: `Mambos channel Erzulie and Simbi, focusing on protective magic, healing, and support. They excel at keeping allies alive through totems, healing rituals, and divine protection. The Mambo is the voodoo priestess who communes with healing spirits.`,
+
         playstyle: 'Support-focused, totem placement, healing optimization',
-        
+
         strengths: [
-          'Erzulie and Simbi invocations cost -2 essence each',
+          'Erzulie invocation costs 2 less (5 instead of 7)',
+          'Simbi invocation costs 2 less (3 instead of 5)',
           'Totems generate +1 additional Voodoo Essence',
-          'Enhanced healing on all spells (+50%)',
-          'Totems have increased range and duration'
+          'Healing spells restore 50% more HP'
         ],
-        
+
         weaknesses: [
           'Lower damage output',
           'Requires ally positioning awareness',
           'Totem placement can be disrupted',
           'Less effective when solo'
         ],
-        
+
         specPassive: {
           name: 'Spirit\'s Grace',
-          description: 'Erzulie and Simbi invocations cost 2 less essence. Totems generate +1 additional essence and have +50% healing power.'
+          description: 'Erzulie and Simbi invocations cost 2 less essence. Totems generate +1 additional essence. Healing spells restore 50% more HP.'
         },
-        
+
         keyAbilities: [
-          'Totem of Healing: Healing totem that restores 2d4 HP per turn to nearby allies',
-          'Ritual of Cleansing: Purifying ritual that removes curses and diseases',
-          'Erzulie Invocation: Divine protection granting armor, fear immunity, and healing'
+          'Totem of Healing: Healing totem that restores HP to nearby allies each turn',
+          'Mending Wax: Direct healing spell with spiritual mending',
+          'Invoke Erzulie: Divine protection granting armor, fear immunity, and party healing'
         ]
       },
-      
+
       {
-        id: 'war-priest',
-        name: 'War Priest',
+        id: 'houngan',
+        name: 'Houngan',
         icon: 'General/Rage',
         color: '#DC143C',
-        theme: 'Combat Enhancement & Spirits',
-        
-        description: `War Priests follow Ogoun and Papa Legba, focusing on combat enhancement, poison warfare, and spiritual communication. They excel at empowering allies and devastating enemies with enhanced weapons.`,
-        
+        theme: 'Combat Enhancement & Poison',
+
+        description: `Houngans follow Ogoun and Papa Legba, focusing on combat enhancement, poison warfare, and spiritual communication. They excel at empowering allies and devastating enemies with enhanced weapons. The Houngan is the voodoo warrior who channels war spirits into mortal combat.`,
+
         playstyle: 'Aggressive support, poison application, combat buffs',
-        
+
         strengths: [
-          'Ogoun and Papa Legba invocations cost -2 essence each',
+          'Ogoun invocation costs 2 less (6 instead of 8)',
+          'Papa Legba invocation costs 2 less (4 instead of 6)',
           'Poisons generate +1 additional Voodoo Essence',
-          'Enhanced weapon damage (+2d6 on poisoned weapons)',
-          'Can apply poisons using action points'
+          'Enhanced weapon damage (+2d4 on poisoned weapons)'
         ],
-        
+
         weaknesses: [
           'Limited direct healing',
-          'Requires melee range for some abilities',
           'Poison-resistant enemies reduce effectiveness',
-          'Ogoun precursors require ally coordination'
+          'Requires melee proximity for some abilities'
         ],
-        
+
         specPassive: {
           name: 'Warrior\'s Spirit',
-          description: 'Ogoun and Papa Legba invocations cost 2 less essence. Poisons generate +1 additional essence and deal +2d6 damage.'
+          description: 'Ogoun and Papa Legba invocations cost 2 less essence. Poisons generate +1 additional essence. Weapon attacks deal +2d4 additional damage while poison is active.'
         },
-        
+
         keyAbilities: [
-          'Venomous Weapon: Apply potent poison adding 2d4 poison damage for 1 hour',
-          'Poison Cloud: Toxic explosion dealing 3d6 poison damage in 10ft radius',
-          'Ogoun Invocation: Empower allies with combat prowess and fire damage'
+          'Venomous Weapon: Apply potent poison adding damage to your attacks',
+          'Totem of Courage: War totem granting attack bonus and fear immunity',
+          'Invoke Ogoun: Empower all allies with combat prowess and fire damage'
         ]
       }
     ]
   },
 
-  // Example Spells - organized by specialization
-  exampleSpells: [
-    // ===== SHADOW PRIEST SPECIALIZATION =====
-    {
-      id: 'wd_curse_of_agony',
-      name: 'Curse of Agony',
-      description: 'Inflict a painful curse on the target, causing them to writhe in pain and take necrotic damage each turn.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Skull',
-      school: 'Necromancy',
-      level: 2,
-      specialization: 'shadow-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 3,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Suffer eternal torment!',
-        somaticText: 'Point at target with cursed fetish',
-        materialText: 'Voodoo doll fragment'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '2d6',
-        elementType: 'necrotic',
-        damageType: 'dot',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '2d6',
-          duration: 10,
-          tickFrequency: 'turn',
-          isProgressiveDot: false
-        }
-      },
-
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'cursed',
-          name: 'Cursed',
-          description: 'Cursed. Takes necrotic damage each turn for the duration.',
-          statusType: 'cursed',
-          level: 'moderate',
-          dotFormula: '1d8',
-          dotDamageType: 'necrotic',
-          damagePerTurn: '1d8'
-        }],
-        durationValue: 10,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        canBeDispelled: true
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          description: 'Generates 1 Voodoo Essence when cast'
-        },
-        curse: {
-          type: 'agony',
-          stackable: false,
-          description: 'Counts toward Baron Samedi precursor (3 cursed enemies)'
-        }
-      },
-
-      tags: ['curse', 'necrotic', 'dot', 'shadow priest', 'essence generator'],
-      flavorText: 'The loa of pain hear your plea. Let suffering be their answer.'
-    },
-
-    {
-      id: 'wd_ritual_of_death',
-      name: 'Ritual of Death',
-      description: 'Perform a dark ritual that curses an area, dealing necrotic damage and frightening enemies within.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Ritual',
-      school: 'Necromancy',
-      level: 3,
-      specialization: 'shadow-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        aoeType: 'circle',
-        aoeSize: 15
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3,
-        durationUnit: 'rounds'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Baron Samedi, accept this offering!',
-        somaticText: 'Draw ritual circle with staff',
-        materialText: 'Graveyard dirt and bone dust'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d6',
-        elementType: 'necrotic',
-        damageType: 'area',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '3d6',
-          duration: 3,
-          tickFrequency: 'turn',
-          isProgressiveDot: false
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'spirit',
-          difficultyClass: 15,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
-        }
-      },
-
-      controlConfig: {
-        controlType: 'fear',
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'spirit',
-        savingThrow: true,
-        effects: [{
-          id: 'frightened',
-          name: 'Frightened',
-          description: 'Frightened. Has disadvantage on ability checks and attack rolls while source of fear is in line of sight.',
-          statusType: 'frightened',
-          level: 'moderate',
-          saveType: 'charisma',
-          saveDC: 14,
-          duration: 3,
-          durationUnit: 'rounds'
-        }]
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 2,
-          description: 'Generates 2 Voodoo Essence (ritual completion)'
-        },
-        precursor: {
-          enables: 'baron_samedi',
-          description: 'Required precursor for Baron Samedi invocation'
-        },
-        ritual: {
-          type: 'death',
-          interruptible: true,
-          description: 'Can be interrupted if caster takes damage'
-        }
-      },
-
-      tags: ['ritual', 'necrotic', 'aoe', 'fear', 'shadow priest', 'precursor'],
-      flavorText: 'Death walks among the living. The Baron demands tribute.'
-    },
-
-    {
-      id: 'wd_baron_samedi_invocation',
-      name: 'Invoke Baron Samedi',
-      description: 'Channel the power of Baron Samedi, the loa of death and resurrection. Resurrect one fallen ally with full HP and curse all enemies within 30 feet.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Arise',
-      school: 'Necromancy',
-      level: 7,
-      specialization: 'shadow-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'smart',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3,
-        durationUnit: 'rounds'
-      },
-
-      resourceCost: {
-        mana: 15,
-        voodooEssence: 10,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Baron Samedi, master of the crossroads, I invoke thee!',
-        somaticText: 'Raise staff to the sky',
-        materialText: 'Top hat and cigar as offering'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      healingConfig: {
-        formula: 'FULL_HP',
-        healingType: 'resurrection',
-        description: 'Resurrect one ally with full hit points'
-      },
-
-      damageConfig: {
-        formula: '10d6',
-        elementType: 'necrotic',
-        damageType: 'area',
-        hasDotEffect: true,
-        dotConfig: {
-          dotFormula: '10d6',
-          duration: 3,
-          tickFrequency: 'turn',
-          isProgressiveDot: false
-        },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
-          difficultyClass: 18,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
-        }
-      },
-
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'cursed',
-          name: 'Cursed',
-          description: 'Cursed by Baron Samedi. Takes necrotic damage each round and has disadvantage on saves against necrotic effects.',
-          statusType: 'cursed',
-          level: 'severe',
-          dotFormula: '2d8',
-          dotDamageType: 'necrotic',
-          damagePerTurn: '2d8',
-          statPenalty: { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage_necrotic' }
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        saveDC: 18,
-        saveType: 'constitution',
-        saveOutcome: 'halves',
-        canBeDispelled: false
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          cost: 10,
-          specialization_discount: 2,
-          description: 'Shadow Priests pay only 8 essence'
-        },
-        precursors: {
-          required: ['3_cursed_enemies', 'ritual_of_death'],
-          specialization_reduction: '2_cursed_enemies_for_shadow_priest',
-          description: 'Requires 3 cursed enemies and Ritual of Death completion'
-        },
-        invocation: {
-          type: 'loa',
-          deity: 'Baron Samedi',
-          cooldown: 'once_per_long_rest'
-        }
-      },
-
-      tags: ['invocation', 'loa', 'resurrection', 'necrotic', 'aoe', 'shadow priest', 'ultimate'],
-      flavorText: 'The Baron arrives in a cloud of cigar smoke, his laughter echoing as death itself bows before him.'
-    },
-
-    // ===== SPIRIT HEALER SPECIALIZATION =====
-    {
-      id: 'wd_totem_of_healing',
-      name: 'Totem of Healing',
-      description: 'Place a healing totem that restores hit points to all allies within 10 feet each turn.',
-      spellType: 'ACTION',
-      icon: 'Healing/Heal Wound',
-      school: 'Conjuration',
-      level: 2,
-      specialization: 'spirit-healer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        aoeType: 'circle',
-        aoeSize: 10
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Spirits of healing, answer my call!',
-        somaticText: 'Plant totem in ground',
-        materialText: 'Carved wooden totem'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      healingConfig: {
-        formula: '2d4',
-        healingType: 'aoe_allies',
-        hasHotEffect: true,
-        hotFormula: '2d4',
-        hotDuration: 10,
-        hotTickType: 'turn',
-        isProgressiveHot: false
-      },
-
-      summoningConfig: {
-        creatureType: 'totem',
-        creatures: [{
-          id: 'healing_totem',
-          name: 'Healing Totem',
-          description: 'Totem that heals allies within 10 feet each turn. Can be destroyed by enemies (10 HP, 10 AC).',
-          size: 'Small',
-          type: 'construct',
-          hp: 10,
-          ac: 10
-        }],
-        duration: 10,
-        durationUnit: 'rounds',
-        maxSummons: 1
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          specialization_bonus: 1,
-          description: 'Generates 1 essence (2 for Spirit Healers)'
-        },
-        precursor: {
-          enables: 'erzulie',
-          description: 'Required precursor for Erzulie invocation'
-        },
-        totem: {
-          type: 'healing',
-          destructible: true,
-          specialization_bonus: '+50% healing for Spirit Healers'
-        }
-      },
-
-      tags: ['totem', 'healing', 'aoe', 'spirit healer', 'essence generator', 'precursor'],
-      flavorText: 'The spirits gather around the totem, their gentle touch mending wounds.'
-    },
-
-    {
-      id: 'wd_ritual_of_cleansing',
-      name: 'Ritual of Cleansing',
-      description: 'Perform a purifying ritual that removes all curses, diseases, and poisons from an ally.',
-      spellType: 'ACTION',
-      icon: 'Healing/Cure Within',
-      school: 'Abjuration',
-      level: 3,
-      specialization: 'spirit-healer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'touch',
-        rangeDistance: 5
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Simbi, cleanse this vessel!',
-        somaticText: 'Wash target with blessed water',
-        materialText: 'River water and purifying herbs'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      utilityConfig: {
-        utilityType: 'cure',
-        cures: ['curse', 'disease', 'poison'],
-        description: 'Remove all negative conditions from target',
-        charges: 1,
-        mechanicsText: 'Remove all curses, diseases, and poisons from target'
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 2,
-          description: 'Generates 2 Voodoo Essence (ritual completion)'
-        },
-        precursor: {
-          enables: 'simbi',
-          description: 'Required precursor for Simbi invocation'
-        },
-        ritual: {
-          type: 'cleansing',
-          interruptible: true
-        }
-      },
-
-      tags: ['ritual', 'cleanse', 'healing', 'spirit healer', 'precursor'],
-      flavorText: 'The river spirit washes away all impurities, leaving only purity.'
-    },
-
-    {
-      id: 'wd_erzulie_invocation',
-      name: 'Invoke Erzulie',
-      description: 'Channel the power of Erzulie, goddess of love and protection. Create a protective aura granting AC bonus, fear immunity, and healing to all allies within 30 feet.',
-      spellType: 'ACTION',
-      icon: 'Healing/Prayer',
-      school: 'Abjuration',
-      level: 6,
-      specialization: 'spirit-healer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 12,
-        voodooEssence: 8,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Erzulie, goddess of love, protect your children!',
-        somaticText: 'Embrace allies with open arms',
-        materialText: 'Jewels and fine perfume as offering'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      healingConfig: {
-        formula: '3d8',
-        healingType: 'aoe_allies',
-        hasHotEffect: true,
-        hotFormula: '3d8',
-        hotDuration: 10,
-        hotTickType: 'turn',
-        isProgressiveHot: false
-      },
-
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'erzulie_protection',
-          name: "Erzulie's Protection",
-          description: 'Protected by Erzulie. +2 armor and immune to fear for the duration.',
-          statModifier: {
-            stat: 'armor',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          },
-          immunities: ['fear']
-        }],
-        durationValue: 10,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: true
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          cost: 8,
-          specialization_discount: 2,
-          description: 'Spirit Healers pay only 6 essence'
-        },
-        precursors: {
-          required: ['2_allies_within_10ft', 'totem_of_healing_placed'],
-          description: 'Requires 2 allies within 10ft and Totem of Healing on battlefield'
-        },
-        invocation: {
-          type: 'loa',
-          deity: 'Erzulie',
-          cooldown: 'once_per_long_rest'
-        }
-      },
-
-      tags: ['invocation', 'loa', 'healing', 'buff', 'protection', 'spirit healer', 'ultimate'],
-      flavorText: 'Erzulie descends in radiant beauty, her love a shield against all harm.'
-    },
-
-    // ===== WAR PRIEST SPECIALIZATION =====
-    {
-      id: 'wd_venomous_weapon',
-      name: 'Venomous Weapon',
-      description: 'Apply a potent poison to your weapon, adding poison damage to your attacks for 1 hour.',
-      spellType: 'ACTION',
-      icon: 'Slashing/Dual Blades',
-      school: 'Transmutation',
-      level: 2,
-      specialization: 'war-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'hours',
-        duration: 1
-      },
-
-      resourceCost: {
-        mana: 3,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Venom of the serpent, coat my blade!',
-        somaticText: 'Anoint weapon with poison vial',
-        materialText: 'Poison extract'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      damageConfig: {
-        formula: '2d4',
-        damageType: 'poison',
-        scalingType: 'weapon_enhancement'
-      },
-
-      effects: {
-        buff: {
-          type: 'weapon_enhancement',
-          damage_bonus: '2d4',
-          damage_type: 'poison',
-          duration: 60,
-          description: 'Weapon deals additional poison damage'
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          specialization_bonus: 1,
-          description: 'Generates 1 essence (2 for War Priests)'
-        },
-        precursor: {
-          enables: 'ogoun',
-          description: 'Counts toward Ogoun invocation precursor'
-        },
-        poison: {
-          type: 'weapon_coating',
-          specialization_bonus: '+2d6 damage for War Priests'
-        }
-      },
-
-      tags: ['poison', 'buff', 'weapon', 'war priest', 'essence generator', 'precursor'],
-      flavorText: 'The serpent loa bless your weapon with deadly venom.'
-    },
-
-    {
-      id: 'wd_poison_cloud',
-      name: 'Poison Cloud',
-      description: 'Create a toxic cloud that explodes in a 10-foot radius, dealing poison damage and poisoning enemies.',
-      spellType: 'ACTION',
-      icon: 'Healing/Cure Within',
-      school: 'Evocation',
-      level: 3,
-      specialization: 'war-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 10
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 3,
-        durationUnit: 'rounds'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Breathe deep the poison air!',
-        somaticText: 'Throw poison grenade',
-        materialText: 'Poison grenade'
-      },
-
-      resolution: 'DICE',
-
-      damageConfig: {
-        formula: '3d6',
-        damageType: 'poison',
-        scalingType: 'aoe'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6',
-            type: 'poison',
-            aoe: true
-          }
-        },
-        debuff: {
-          type: 'poisoned',
-          duration: 3,
-          savingThrow: 'Constitution',
-          dc: 15
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          description: 'Generates 1 Voodoo Essence'
-        },
-        precursor: {
-          enables: 'ogoun',
-          description: 'Counts toward Ogoun invocation precursor'
-        }
-      },
-
-      tags: ['poison', 'damage', 'aoe', 'war priest', 'essence generator'],
-      flavorText: 'Toxic fumes choke your enemies, the spirits of disease rejoicing.'
-    },
-
-    {
-      id: 'wd_ogoun_invocation',
-      name: 'Invoke Ogoun',
-      description: 'Channel the power of Ogoun, god of war and iron. Imbue yourself and allies within 30 feet with fierce combat prowess.',
-      spellType: 'ACTION',
-      icon: 'General/Rage',
-      school: 'Transmutation',
-      level: 7,
-      specialization: 'war-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 15,
-        voodooEssence: 9,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Ogoun, god of war, grant us your strength!',
-        somaticText: 'Raise weapon to the sky',
-        materialText: 'Machete and rum as offering'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      damageConfig: {
-        formula: '2d6',
-        damageType: 'fire',
-        scalingType: 'weapon_enhancement'
-      },
-
-      effects: {
-        buff: {
-          attack_bonus: 2,
-          damage_bonus: '2d6',
-          damage_type: 'fire',
-          duration: 10,
-          targets: 'allies_in_radius'
-        },
-        resistance: {
-          type: 'physical',
-          duration: 10,
-          targets: 'allies_in_radius'
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          cost: 9,
-          specialization_discount: 2,
-          description: 'War Priests pay only 7 essence'
-        },
-        precursors: {
-          required: ['poison_applied', '1_ally_in_combat_within_15ft'],
-          description: 'Requires poison application and 1 ally in combat within 15ft'
-        },
-        invocation: {
-          type: 'loa',
-          deity: 'Ogoun',
-          cooldown: 'once_per_long_rest'
-        }
-      },
-
-      tags: ['invocation', 'loa', 'buff', 'fire', 'war priest', 'ultimate'],
-      flavorText: 'Ogoun arrives with the clash of steel, his war cry igniting the blood of warriors.'
-    },
-
-    // ===== ADDITIONAL UTILITY SPELLS (ALL SPECIALIZATIONS) =====
-    {
-      id: 'wd_simbi_invocation',
-      name: 'Invoke Simbi',
-      description: 'Channel the power of Simbi, spirit of healing and rivers. Summon a healing rain that falls over a 30-foot radius.',
-      spellType: 'ACTION',
-      icon: 'Healing/Heart Ripple',
-      school: 'Conjuration',
-      level: 5,
-      specialization: 'spirit-healer',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 30
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 10,
-        voodooEssence: 6,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Simbi, river spirit, wash away our pain!',
-        somaticText: 'Pour water from sacred vessel',
-        materialText: 'River water in ceremonial bowl'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      healingConfig: {
-        formula: '4d6',
-        healingType: 'aoe_allies',
-        description: 'Heal all allies in 30ft radius'
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '4d6',
-            type: 'healing',
-            aoe: true,
-            targets: 'allies_in_radius'
-          }
-        },
-        cleanse: {
-          removes: ['disease', 'poison'],
-          targets: 'allies_in_radius',
-          description: 'Cure all diseases and poisons'
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          cost: 6,
-          specialization_discount: 2,
-          description: 'Spirit Healers pay only 4 essence'
-        },
-        precursors: {
-          required: ['1_ally_below_50_percent_hp', 'ritual_of_cleansing'],
-          description: 'Requires 1 ally below 50% HP and Ritual of Cleansing completion'
-        },
-        invocation: {
-          type: 'loa',
-          deity: 'Simbi',
-          cooldown: 'once_per_long_rest'
-        }
-      },
-
-      tags: ['invocation', 'loa', 'healing', 'cleanse', 'spirit healer', 'ultimate'],
-      flavorText: 'Simbi rises from the waters, her healing rain washing away all suffering.'
-    },
-
-    {
-      id: 'wd_papa_legba_invocation',
-      name: 'Invoke Papa Legba',
-      description: 'Channel the power of Papa Legba, guardian of the crossroads. Grant telepathy and teleport allies across great distances.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Portal Archway',
-      school: 'Conjuration',
-      level: 6,
-      specialization: 'war-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'smart',
-        rangeType: 'special',
-        rangeDistance: 5280
-      },
-
-      durationConfig: {
-        durationType: 'hours',
-        duration: 1
-      },
-
-      resourceCost: {
-        mana: 12,
-        voodooEssence: 7,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Papa Legba, open the way!',
-        somaticText: 'Draw crossroads symbol with staff',
-        materialText: 'Walking stick and tobacco as offering'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        telepathy: {
-          duration: 60,
-          range: 'unlimited',
-          targets: 'all_allies',
-          description: 'All allies can communicate telepathically'
-        },
-        teleportation: {
-          targets: 5,
-          range: 5280,
-          condition: 'previously_seen_location',
-          description: 'Teleport up to 5 allies to any location within 1 mile'
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          cost: 7,
-          specialization_discount: 2,
-          description: 'War Priests pay only 5 essence'
-        },
-        precursors: {
-          required: ['2_essence_from_rituals', 'within_30ft_of_cursed_enemy'],
-          description: 'Requires 2+ essence from rituals and be within 30ft of cursed enemy'
-        },
-        invocation: {
-          type: 'loa',
-          deity: 'Papa Legba',
-          cooldown: 'once_per_long_rest'
-        }
-      },
-
-      tags: ['invocation', 'loa', 'teleportation', 'utility', 'war priest', 'ultimate'],
-      flavorText: 'Papa Legba opens the crossroads, his ancient wisdom guiding you through the spirit realm.'
-    },
-
-    {
-      id: 'wd_hex_of_weakness',
-      name: 'Hex of Weakness',
-      description: 'Reduce the target\'s Strength and Agility, making them vulnerable to physical attacks.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Skull',
-      school: 'Necromancy',
-      level: 2,
-      specialization: 'shadow-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Weakness consume you!',
-        somaticText: 'Point at target with cursed gesture'
-      },
-
-      resolution: 'DICE',
-
-      effects: {
-        debuff: {
-          strength_reduction: '1d6',
-          agility_reduction: '1d6',
-          duration: 10,
-          savingThrow: 'Constitution',
-          dc: 14
-        },
-        curse: {
-          type: 'weakness',
-          duration: 10
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          description: 'Generates 1 Voodoo Essence'
-        },
-        curse: {
-          type: 'weakness',
-          stackable: false,
-          description: 'Counts toward Baron Samedi precursor'
-        }
-      },
-
-      tags: ['curse', 'debuff', 'shadow priest', 'essence generator'],
-      flavorText: 'Your strength drains away, stolen by the spirits of weakness.'
-    },
-
-    {
-      id: 'wd_spirit_communion',
-      name: 'Spirit Communion',
-      description: 'Speak with spirits to gain insight about a location, object, or person. The spirits provide cryptic but useful information.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
-      school: 'Divination',
-      level: 3,
-      specialization: 'all',
-
-      typeConfig: {
-        castTime: 10,
-        castTimeType: 'MINUTES'
-      },
-
-      targetingConfig: {
-        targetingType: 'smart',
-        rangeType: 'self'
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        mana: 3,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Spirits of the past, speak to me!',
-        somaticText: 'Burn incense and meditate',
-        materialText: 'Incense and spirit offerings'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        divination: {
-          type: 'spirit_knowledge',
-          questions: 3,
-          accuracy: 'cryptic_but_truthful',
-          description: 'Ask spirits 3 questions about location, object, or person'
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 2,
-          description: 'Generates 2 Voodoo Essence (ritual completion)'
-        },
-        ritual: {
-          type: 'communion',
-          interruptible: true,
-          duration: 10
-        }
-      },
-
-      tags: ['ritual', 'divination', 'utility', 'all specs', 'essence generator'],
-      flavorText: 'The spirits whisper secrets from beyond the veil, their words cryptic but true.'
-    },
-
-    {
-      id: 'wd_totem_of_courage',
-      name: 'Totem of Courage',
-      description: 'Place a totem that grants allies immunity to fear effects and a bonus to attack rolls.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      school: 'Conjuration',
-      level: 3,
-      specialization: 'war-priest',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        aoeType: 'circle',
-        aoeSize: 10
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        duration: 10
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Spirits of war, embolden us!',
-        somaticText: 'Plant war totem in ground',
-        materialText: 'Carved war totem'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          attack_bonus: 1,
-          duration: 10,
-          aoe: true,
-          targets: 'allies_in_radius'
-        },
-        immunity: {
-          type: 'fear',
-          duration: 10,
-          aoe: true,
-          targets: 'allies_in_radius'
-        },
-        summon: {
-          type: 'totem',
-          hp: 10,
-          ac: 10,
-          duration: 10
-        }
-      },
-
-      specialMechanics: {
-        voodooEssence: {
-          generates: 1,
-          description: 'Generates 1 Voodoo Essence'
-        },
-        totem: {
-          type: 'courage',
-          destructible: true
-        }
-      },
-
-      tags: ['totem', 'buff', 'immunity', 'war priest', 'essence generator'],
-      flavorText: 'The war spirits rally around the totem, their courage infectious.'
-    }
-  ],
-
-  // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
+  // =============================================
+  // UNIFIED SPELL LIST (30 spells, 3 per level)
+  // =============================================
   spells: [
     // ===== LEVEL 1 SPELLS =====
     {
@@ -1870,11 +528,11 @@ Ogoun: ✓ (poison applied, ally nearby)
       description: 'Afflict an enemy with a necrotic hex that withers them over time.',
       level: 1,
       spellType: 'ACTION',
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Ritual',
-        tags: ['attack', 'damage', 'hex', 'necrotic', 'witch doctor'],
+        tags: ['attack', 'damage', 'hex', 'necrotic', 'curse', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1911,6 +569,10 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence when cast' },
+        curse: { type: 'withering', countsTowardBaronSamedi: true }
+      },
       tags: ['attack', 'damage', 'curse', 'necrotic', 'witch doctor']
     },
 
@@ -1954,6 +616,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['attack', 'damage', 'necrotic', 'witch doctor']
     },
 
@@ -2007,6 +672,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 3
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['buff', 'support', 'spirit', 'witch doctor']
     },
 
@@ -2021,7 +689,7 @@ Ogoun: ✓ (poison applied, ally nearby)
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Skull',
-        tags: ['attack', 'damage', 'debuff', 'necrotic', 'witch doctor'],
+        tags: ['attack', 'damage', 'debuff', 'necrotic', 'curse', 'witch doctor'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2069,13 +737,17 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'debuff', 'necrotic', 'witch doctor']
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
+        curse: { type: 'grave_bane', countsTowardBaronSamedi: true }
+      },
+      tags: ['attack', 'damage', 'debuff', 'necrotic', 'curse', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_spirit_sight',
       name: 'Spirit Sight',
-      description: 'Open your third eye to the spirit world, allowing you to perceive hidden enemies and spectral entities for a short time.',
+      description: 'Open your third eye to the spirit world, allowing you to perceive hidden enemies and spectral entities.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['utility'],
@@ -2125,6 +797,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 2
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['utility', 'divination', 'spirit', 'witch doctor']
     },
 
@@ -2167,6 +842,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['healing', 'support', 'witch doctor']
     },
 
@@ -2216,6 +894,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 2
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['attack', 'damage', 'aoe', 'necrotic', 'witch doctor']
     },
 
@@ -2237,7 +918,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         buffType: 'statEnhancement',
         effects: [{
           id: 'witch_brew_agility',
-          name: "Witch Brew",
+          name: 'Witch Brew',
           description: 'Gain +3 to Agility for 3 rounds',
           statModifier: {
             stat: 'agility',
@@ -2246,7 +927,7 @@ Ogoun: ✓ (poison applied, ally nearby)
           }
         }, {
           id: 'witch_brew_initiative',
-          name: "Witch Brew",
+          name: 'Witch Brew',
           description: 'Gain +2 to Initiative for 3 rounds',
           statModifier: {
             stat: 'initiative',
@@ -2281,6 +962,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 3
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['buff', 'support', 'potion', 'witch doctor']
     },
 
@@ -2341,6 +1025,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 2
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['attack', 'damage', 'healing', 'lifesteal', 'necrotic', 'witch doctor']
     },
 
@@ -2348,10 +1035,10 @@ Ogoun: ✓ (poison applied, ally nearby)
     {
       id: 'witch_doctor_mass_curse',
       name: 'Mass Curse',
-      description: 'Curse multiple enemies at once, dealing damage over time.',
+      description: 'Curse multiple enemies at once, dealing necrotic damage over time to all targets.',
       level: 4,
       spellType: 'ACTION',
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Death',
@@ -2392,13 +1079,17 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 3
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 3, description: 'Generates 1 Voodoo Essence per target cursed (up to 3)' },
+        curse: { type: 'mass_curse', countsTowardBaronSamedi: true, perTarget: true }
+      },
       tags: ['attack', 'damage', 'curse', 'aoe', 'necrotic', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_voodoo_doll',
       name: 'Voodoo Doll',
-      description: 'Create a voodoo doll of your enemy for 3 rounds (concentration). When you damage the doll, the enemy takes the same damage. Each round, you can attack the doll to deal necrotic damage to the target.',
+      description: 'Create a voodoo doll of your enemy. When you damage the doll, the enemy takes the same damage. Lasts 3 rounds (concentration).',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -2449,13 +1140,16 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 4
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence' }
+      },
       tags: ['damage', 'utility', 'voodoo', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_invoke_simbi',
       name: 'Invoke Simbi',
-      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target instantly, then provide ongoing healing per round. Target also gains enhanced spirit-based saves.',
+      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target instantly, then provide ongoing healing per round.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['healing', 'buff'],
@@ -2514,14 +1208,19 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { cost: 5, specialization_discount: 2, description: 'Costs 5 Voodoo Essence (3 for Mambo)' },
+        precursors: { required: ['1_ally_below_half_hp'], description: 'Requires 1 ally below half HP' },
+        invocation: { type: 'loa', deity: 'Simbi', cooldown: 'once_per_short_rest' }
+      },
       tags: ['healing', 'buff', 'loa', 'support', 'witch doctor']
     },
 
-    // ===== LEVEL 5 SPELLS (need 2 more) =====
+    // ===== LEVEL 5 SPELLS =====
     {
       id: 'witch_doctor_hex',
       name: 'Hex',
-      description: 'Place a powerful hex on your enemy for 4 rounds that amplifies all damage they take. Target takes 25% more damage from all sources. Target may save to resist.',
+      description: 'Place a powerful hex on your enemy that amplifies all damage they take by 25% for 4 rounds.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['debuff'],
@@ -2571,6 +1270,10 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 4
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
+        curse: { type: 'hex', countsTowardBaronSamedi: true }
+      },
       tags: ['debuff', 'curse', 'hex', 'witch doctor']
     },
 
@@ -2640,14 +1343,70 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual/summoning)' }
+      },
       tags: ['summoning', 'undead', 'witch doctor']
     },
 
-    // ===== LEVEL 6 SPELLS (need 1 more) =====
+    {
+      id: 'witch_doctor_venomous_weapon',
+      name: 'Venomous Weapon',
+      description: 'Apply a potent poison to your weapon, adding poison damage to your attacks for 1 hour.',
+      level: 5,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'transmutation',
+        icon: 'Slashing/Dual Blades',
+        tags: ['buff', 'poison', 'weapon', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'venomous_weapon',
+          name: 'Venomous Weapon',
+          description: 'Weapon deals additional 2d4 poison damage for 1 hour',
+          customDescription: 'Your weapon drips with voodoo venom, dealing extra poison damage on each strike.',
+          mechanicsText: 'Weapon deals +2d4 poison damage for 1 hour'
+        }],
+        durationValue: 60,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'self',
+        rangeType: 'self'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 14 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Poison extract'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'AUTOMATIC',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
+        precursor: { enables: 'ogoun', description: 'Poison active enables Ogoun invocation' }
+      },
+      tags: ['buff', 'poison', 'weapon', 'witch doctor']
+    },
+
+    // ===== LEVEL 6 SPELLS =====
     {
       id: 'witch_doctor_death_ward',
       name: 'Death Ward',
-      description: 'Protect an ally from death, preventing them from dying once.',
+      description: 'Protect an ally from death, preventing them from dying once within 5 rounds.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -2663,7 +1422,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'death_ward',
           name: 'Death Ward',
-          description: 'When you would be reduced to 0 HP, instead be reduced to 1 HP. This effect can only trigger once and lasts for 5 rounds.',
+          description: 'When you would be reduced to 0 HP, instead be reduced to 1 HP. Triggers once, lasts 5 rounds.',
           customDescription: 'You are protected by a death ward. The next time you would be reduced to 0 HP within 5 rounds, you are instead reduced to 1 HP. This effect then ends.',
           mechanicsText: 'When reduced to 0 HP, instead reduced to 1 HP. Triggers once, lasts 5 rounds.',
           charges: 1,
@@ -2697,14 +1456,137 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['buff', 'defense', 'protection', 'witch doctor']
     },
 
-    // ===== LEVEL 7 SPELLS (need 1 more) =====
+    {
+      id: 'witch_doctor_invoke_papa_legba',
+      name: 'Invoke Papa Legba',
+      description: 'Invoke Papa Legba, the loa of crossroads and gateways. Grant telepathy to all allies and teleport up to 5 allies within 1 mile.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['utility'],
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'Arcane/Portal Archway',
+        tags: ['utility', 'loa', 'teleport', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'papa_legba_telepathy',
+          name: 'Papa Legba\'s Telepathy',
+          description: 'All allies can communicate telepathically for 1 hour'
+        }, {
+          id: 'papa_legba_teleport',
+          name: 'Crossroads Passage',
+          description: 'Teleport up to 5 allies to any previously seen location within 1 mile'
+        }],
+        duration: 60,
+        durationUnit: 'rounds',
+        concentration: false,
+        power: 'major'
+      },
+      targetingConfig: {
+        targetingType: 'smart',
+        rangeType: 'special',
+        rangeDistance: 5280
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Walking stick and tobacco as offering'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'AUTOMATIC',
+      specialMechanics: {
+        voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
+        precursors: { required: ['5_essence_generated_this_combat'], description: 'Requires 5+ Essence generated this combat' },
+        invocation: { type: 'loa', deity: 'Papa Legba', cooldown: 'once_per_long_rest' }
+      },
+      tags: ['utility', 'loa', 'teleport', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_totem_of_healing',
+      name: 'Totem of Healing',
+      description: 'Place a healing totem that restores hit points to all allies within 10 feet each turn for 10 rounds.',
+      level: 6,
+      spellType: 'ACTION',
+      effectTypes: ['healing'],
+      typeConfig: {
+        school: 'conjuration',
+        icon: 'Healing/Heal Wound',
+        tags: ['healing', 'totem', 'support', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '2d4',
+        healingType: 'aoe_allies',
+        hasHotEffect: true,
+        hotFormula: '2d4',
+        hotDuration: 10,
+        hotTickType: 'turn',
+        isProgressiveHot: false
+      },
+      summoningConfig: {
+        creatureType: 'totem',
+        creatures: [{
+          id: 'healing_totem',
+          name: 'Healing Totem',
+          description: 'Totem that heals allies within 10 feet each turn. Can be destroyed (10 HP, 10 Armor).',
+          size: 'Small',
+          type: 'construct',
+          hp: 10,
+          ac: 10
+        }],
+        duration: 10,
+        durationUnit: 'rounds',
+        maxSummons: 1
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeType: 'circle',
+        aoeSize: 10
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Carved wooden totem'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'AUTOMATIC',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
+      },
+      tags: ['healing', 'totem', 'support', 'witch doctor']
+    },
+
+    // ===== LEVEL 7 SPELLS =====
     {
       id: 'witch_doctor_invoke_ogoun',
       name: 'Invoke Ogoun',
-      description: 'Invoke Ogoun, the loa of war and iron, to devastate your enemies.',
+      description: 'Invoke Ogoun, the loa of war and iron, to devastate your enemies and empower your allies with battle fury.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage', 'buff'],
@@ -2729,7 +1611,7 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'ogoun_fury',
           name: "Ogoun's Fury",
-          description: 'All allies gain +3 to attack rolls and bonus damage for 4 rounds',
+          description: 'All allies gain +3 to attack rolls and bonus fire damage for 4 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 3,
@@ -2765,14 +1647,171 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { cost: 8, specialization_discount: 2, description: 'Costs 8 Voodoo Essence (6 for Houngan)' },
+        precursors: { required: ['poison_active'], description: 'Requires poison active on any target' },
+        invocation: { type: 'loa', deity: 'Ogoun', cooldown: 'once_per_long_rest' }
+      },
       tags: ['damage', 'buff', 'loa', 'war', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_invoke_erzulie',
+      name: 'Invoke Erzulie',
+      description: 'Invoke Erzulie, the loa of love and beauty, to empower and protect all allies within 30 feet.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Healing/Reaching Hand',
+        tags: ['buff', 'healing', 'loa', 'support', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '3d8 + spirit',
+        healingType: 'aoe_allies',
+        hasHotEffect: true,
+        hotFormula: '3d8 + spirit',
+        hotDuration: 5,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'erzulie_blessing',
+          name: "Erzulie's Protection",
+          description: 'Protected by Erzulie. +2 armor and immune to fear for 5 rounds.',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 2,
+            magnitudeType: 'flat'
+          },
+          immunities: ['fear']
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 10,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Perfume, jewelry, and flowers'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'AUTOMATIC',
+      specialMechanics: {
+        voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
+        precursors: { required: ['2_allies_within_15ft'], description: 'Requires 2+ allies within 15 feet of you' },
+        invocation: { type: 'loa', deity: 'Erzulie', cooldown: 'once_per_long_rest' }
+      },
+      tags: ['buff', 'healing', 'loa', 'support', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_ritual_of_death',
+      name: 'Ritual of Death',
+      description: 'Perform a dark ritual that deals massive necrotic damage to all enemies in a 15-foot area and generates Voodoo Essence.',
+      level: 7,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'control'],
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'Necrotic/Ritual',
+        tags: ['damage', 'ritual', 'aoe', 'fear', 'witch doctor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '3d6 + spirit',
+        elementType: 'necrotic',
+        damageType: 'area',
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '3d6',
+          duration: 3,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'spirit',
+          difficultyClass: 15,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      controlConfig: {
+        controlType: 'fear',
+        duration: 3,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'spirit',
+        savingThrow: true,
+        effects: [{
+          id: 'frightened',
+          name: 'Frightened',
+          description: 'Frightened by dark ritual. Disadvantage on ability checks and attack rolls.',
+          statusType: 'frightened',
+          level: 'moderate',
+          saveType: 'spirit',
+          saveDC: 15,
+          duration: 3,
+          durationUnit: 'rounds'
+        }]
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeType: 'circle',
+        aoeSize: 15
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Graveyard dirt and bone dust'
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 3
+      },
+      resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual completion)' }
+      },
+      tags: ['damage', 'ritual', 'aoe', 'fear', 'witch doctor']
     },
 
     // ===== LEVEL 8 SPELLS =====
     {
       id: 'witch_doctor_invoke_baron_samedi',
       name: 'Invoke Baron Samedi',
-      description: 'Invoke Baron Samedi, the loa of death, to obliterate all cursed enemies.',
+      description: 'Invoke Baron Samedi, the loa of death, to obliterate all cursed enemies. Deals triple damage to cursed targets.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2812,13 +1851,18 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { cost: 10, specialization_discount: 2, description: 'Costs 10 Voodoo Essence (8 for Bokor)' },
+        precursors: { required: ['3_cursed_enemies'], specialization_reduction: '2_for_bokor', description: 'Requires 3 cursed enemies (2 for Bokor)' },
+        invocation: { type: 'loa', deity: 'Baron Samedi', cooldown: 'once_per_long_rest' }
+      },
       tags: ['damage', 'loa', 'death', 'epic', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_mass_resurrection',
       name: 'Mass Resurrection',
-      description: 'Invoke the spirits to resurrect all dead allies.',
+      description: 'Invoke the spirits to resurrect all dead allies within range at half HP.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['healing', 'restoration'],
@@ -2872,13 +1916,16 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual)' }
+      },
       tags: ['healing', 'resurrection', 'spirit', 'epic', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_plague_storm',
       name: 'Plague Storm',
-      description: 'Summon a storm of disease and decay that ravages all enemies.',
+      description: 'Summon a storm of disease and decay that ravages all enemies in a massive area.',
       level: 8,
       spellType: 'STATE',
       effectTypes: ['damage', 'debuff'],
@@ -2934,81 +1981,17 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['damage', 'debuff', 'disease', 'aoe', 'zone', 'epic', 'witch doctor']
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
-      id: 'witch_doctor_invoke_erzulie',
-      name: 'Invoke Erzulie',
-      description: 'Invoke Erzulie, the loa of love and beauty, to empower and protect all allies.',
-      level: 9,
-      spellType: 'ACTION',
-      effectTypes: ['buff', 'healing'],
-      typeConfig: {
-        school: 'nature',
-        icon: 'Healing/Reaching Hand',
-        tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor'],
-        castTime: 2,
-        castTimeType: 'IMMEDIATE'
-      },
-      healingConfig: {
-        formula: '10d8 + spirit * 2',
-        healingType: 'instant',
-        hasHotEffect: true,
-        hotFormula: '3d8 + spirit',
-        hotDuration: 5,
-        hotTickType: 'round',
-        isProgressiveHot: false
-      },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'erzulie_blessing',
-          name: "Erzulie's Blessing",
-          description: 'All allies gain +4 to all stats, regenerate HP per round, and gain +50% healing received for 5 rounds',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 4,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 60 },
-        targetRestrictions: ['ally', 'self'],
-        maxTargets: 20,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
-      },
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 36 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Perfume, jewelry, and flowers'
-      },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
-      resolution: 'DICE',
-      tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor']
-    },
-
-    {
       id: 'witch_doctor_voodoo_apocalypse',
       name: 'Voodoo Apocalypse',
-      description: 'Unleash a devastating voodoo apocalypse that curses and destroys all enemies.',
+      description: 'Unleash a devastating voodoo apocalypse that curses and destroys all enemies in sight.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -3030,10 +2013,6 @@ Ogoun: ✓ (poison applied, ally nearby)
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        },
-        criticalConfig: {
-          critType: 'effect',
-          critEffects: ['baron_samedi_instant_death']
         }
       },
       debuffConfig: {
@@ -3078,13 +2057,16 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+      },
       tags: ['damage', 'debuff', 'curse', 'aoe', 'legendary', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_spirit_ascension',
       name: 'Spirit Ascension',
-      description: 'Ascend to become a pure spirit, gaining incredible power and near invulnerability.',
+      description: 'Ascend to become a pure spirit, gaining incredible power and near invulnerability for 5 rounds.',
       level: 9,
       spellType: 'STATE',
       effectTypes: ['transformation', 'buff'],
@@ -3128,10 +2110,10 @@ Ogoun: ✓ (poison applied, ally nearby)
           {
             id: 'spirit_form_defense',
             name: 'Spirit Form Defense',
-            description: 'Gain immunity to physical damage and 75% magical damage reduction for 5 rounds',
+            description: 'Gain resistance to physical damage and 50% magical damage reduction for 5 rounds',
             statModifier: {
               stat: 'damage_reduction',
-              magnitude: 75,
+              magnitude: 50,
               magnitudeType: 'percentage'
             }
           }
@@ -3157,14 +2139,89 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence (but form generates +3/round)' }
+      },
       tags: ['transformation', 'buff', 'spirit', 'legendary', 'witch doctor']
+    },
+
+    {
+      id: 'witch_doctor_invoke_erzulie_legendary',
+      name: 'Invoke Erzulie (Supreme)',
+      description: 'Invoke Erzulie in her supreme aspect, empowering and healing all allies with divine love.',
+      level: 9,
+      spellType: 'ACTION',
+      effectTypes: ['buff', 'healing'],
+      typeConfig: {
+        school: 'nature',
+        icon: 'Healing/Reaching Hand',
+        tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor'],
+        castTime: 2,
+        castTimeType: 'IMMEDIATE'
+      },
+      healingConfig: {
+        formula: '10d8 + spirit * 2',
+        healingType: 'instant',
+        hasHotEffect: true,
+        hotFormula: '3d8 + spirit',
+        hotDuration: 5,
+        hotTickType: 'round',
+        isProgressiveHot: false
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'erzulie_blessing_legendary',
+          name: "Erzulie's Supreme Blessing",
+          description: 'All allies gain +4 to all stats and +50% healing received for 5 rounds',
+          statModifier: {
+            stat: 'all_stats',
+            magnitude: 4,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: false
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 60 },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 20,
+        targetSelectionMethod: 'automatic',
+        requiresLineOfSight: false
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 36 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ['verbal', 'somatic', 'material'],
+        materialComponents: 'Perfume, jewelry, and flowers'
+      },
+      cooldownConfig: {
+        type: 'long_rest',
+        value: 1
+      },
+      resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
+        precursors: { required: ['2_allies_within_15ft'], description: 'Requires 2+ allies within 15 feet of you' },
+        invocation: { type: 'loa', deity: 'Erzulie', cooldown: 'once_per_long_rest', isSupreme: true }
+      },
+      tags: ['buff', 'healing', 'loa', 'support', 'legendary', 'witch doctor']
     },
 
     // ===== LEVEL 10 SPELLS =====
     {
       id: 'witch_doctor_eternal_voodoo',
       name: 'Eternal Voodoo',
-      description: 'Become one with the loa, gaining permanent voodoo powers.',
+      description: 'Become one with the loa, gaining permanent voodoo mastery.',
       level: 10,
       spellType: 'PASSIVE',
       effectTypes: ['buff'],
@@ -3179,9 +2236,9 @@ Ogoun: ✓ (poison applied, ally nearby)
         effects: [{
           id: 'eternal_voodoo',
           name: 'Eternal Voodoo',
-          description: 'You have become one with the loa. Generate 5 Voodoo Essence per round, all voodoo spells deal double damage, and you are immune to curses',
-          customDescription: 'You have achieved eternal voodoo mastery. You generate 5 Voodoo Essence per round automatically. All of your voodoo spells deal double damage. You are immune to all curses and necrotic damage. Your loa invocations cost 50% less essence.',
-          mechanicsText: 'Generate 5 Voodoo Essence/round, double voodoo spell damage, immune to curses',
+          description: 'Generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 2). Immune to curses.',
+          customDescription: 'You have achieved eternal voodoo mastery. You generate 3 Voodoo Essence per round automatically. All loa invocations cost 3 less essence (minimum 2). You are immune to all curses.',
+          mechanicsText: 'Generate 3 Voodoo Essence/round, loa cost -3, immune to curses',
           damageImmunity: ['curse']
         }],
         durationValue: 0,
@@ -3206,13 +2263,16 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 0
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 0, description: 'Passive: generates 3 Voodoo Essence per round' }
+      },
       tags: ['buff', 'passive', 'loa', 'legendary', 'witch doctor', 'toggleable']
     },
 
     {
-      id: 'witch_doctor_invoke_papa_legba',
-      name: 'Invoke Papa Legba',
-      description: 'Invoke Papa Legba, the loa of crossroads and gateways, to control the battlefield.',
+      id: 'witch_doctor_invoke_papa_legba_supreme',
+      name: 'Invoke Papa Legba (Supreme)',
+      description: 'Invoke Papa Legba in his supreme aspect, opening crossroads portals across the entire battlefield.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['utility', 'control'],
@@ -3226,8 +2286,8 @@ Ogoun: ✓ (poison applied, ally nearby)
       utilityConfig: {
         utilityType: 'special',
         selectedEffects: [{
-          id: 'papa_legba',
-          name: 'Papa Legba',
+          id: 'papa_legba_supreme',
+          name: 'Papa Legba Supreme',
           description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds. Enemies who enter take necrotic damage.',
           damageFormula: '6d10'
         }],
@@ -3274,13 +2334,18 @@ Ogoun: ✓ (poison applied, ally nearby)
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
+        precursors: { required: ['5_essence_generated_this_combat'], description: 'Requires 5+ Essence generated this combat' },
+        invocation: { type: 'loa', deity: 'Papa Legba', cooldown: 'once_per_long_rest', isSupreme: true }
+      },
       tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch doctor']
     },
 
     {
       id: 'witch_doctor_ultimate_curse',
       name: 'Ultimate Curse',
-      description: 'Place the ultimate voodoo curse that dooms your enemy to death.',
+      description: 'Place the ultimate voodoo curse that dooms your enemy to death. If they survive the initial damage, they are doomed to die in 3 rounds unless the curse is removed.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -3331,26 +2396,38 @@ Ogoun: ✓ (poison applied, ally nearby)
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A piece of the target soul, worth immeasurable value'
+        materialComponents: 'A piece of the target\'s soul, worth immeasurable value'
       },
       cooldownConfig: {
         type: 'long_rest',
         value: 1
       },
       resolution: 'DICE',
+      specialMechanics: {
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
+        curse: { type: 'ultimate_doom', countsTowardBaronSamedi: true }
+      },
       tags: ['damage', 'debuff', 'curse', 'death', 'legendary', 'witch doctor']
     }
   ],
 
-  // Spell Pools by Level
+  // Spell Pools by Level (30 spells, 3 per level)
   spellPools: {
     1: [
-      'witch_doctor_basic_curse',
+      'witch_doctor_withering_hex',
       'witch_doctor_voodoo_bolt',
       'witch_doctor_spirit_link'
     ],
-    2: [],
-    3: [],
+    2: [
+      'witch_doctor_grave_bane',
+      'witch_doctor_spirit_sight',
+      'witch_doctor_mending_wax'
+    ],
+    3: [
+      'witch_doctor_bone_shrapnel',
+      'witch_doctor_witch_brew',
+      'witch_doctor_soul_siphon'
+    ],
     4: [
       'witch_doctor_mass_curse',
       'witch_doctor_voodoo_doll',
@@ -3358,13 +2435,18 @@ Ogoun: ✓ (poison applied, ally nearby)
     ],
     5: [
       'witch_doctor_hex',
-      'witch_doctor_zombie_swarm'
+      'witch_doctor_zombie_swarm',
+      'witch_doctor_venomous_weapon'
     ],
     6: [
-      'witch_doctor_death_ward'
+      'witch_doctor_death_ward',
+      'witch_doctor_invoke_papa_legba',
+      'witch_doctor_totem_of_healing'
     ],
     7: [
-      'witch_doctor_invoke_ogoun'
+      'witch_doctor_invoke_ogoun',
+      'witch_doctor_invoke_erzulie',
+      'witch_doctor_ritual_of_death'
     ],
     8: [
       'witch_doctor_invoke_baron_samedi',
@@ -3372,15 +2454,14 @@ Ogoun: ✓ (poison applied, ally nearby)
       'witch_doctor_plague_storm'
     ],
     9: [
-      'witch_doctor_invoke_erzulie',
       'witch_doctor_voodoo_apocalypse',
-      'witch_doctor_spirit_ascension'
+      'witch_doctor_spirit_ascension',
+      'witch_doctor_invoke_erzulie_legendary'
     ],
     10: [
       'witch_doctor_eternal_voodoo',
-      'witch_doctor_invoke_papa_legba',
+      'witch_doctor_invoke_papa_legba_supreme',
       'witch_doctor_ultimate_curse'
     ]
   }
 };
-

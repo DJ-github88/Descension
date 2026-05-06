@@ -142,6 +142,18 @@ export {
   DEATHCALLER_VOID_CALLER
 } from './deathcaller.js';
 
+export {
+  AUGUR_AUSPICE,
+  AUGUR_HARBINGER,
+  AUGUR_HIEROPHANT
+} from './augur.js';
+
+export {
+  DOOMSAYER_REQUIEM,
+  DOOMSAYER_ENDBRINGER,
+  DOOMSAYER_CATACLYSM
+} from './doomsayer.js';
+
 // Re-export all existing talent trees from the main file
 export {
   // TALENT_TREES object and helper functions

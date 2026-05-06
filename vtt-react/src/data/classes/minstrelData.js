@@ -124,7 +124,7 @@ Different instruments provide different bonuses and affect your playstyle:
 *You raise your war drum, its surface etched with ancient runes. The bandits charge. You begin to PLAY.*
 
 **Your Action**: Cast "Inspiring Rhythm" on your party's tank (4 mana, builder spell)
-**Effect**: Grant +2 AC for 2 rounds
+**Effect**: Grant +2 Armor for 2 rounds
 **Musical Note Generated**: II (Supertonic)
 
 *BOOM. BOOM. BOOM. Your drum echoes across the battlefield. Your tank feels the rhythm, moving with newfound confidence.*
@@ -135,7 +135,7 @@ Different instruments provide different bonuses and affect your playstyle:
 **Your Party's Tank**: "I feel faster! Stronger!"
 **You**: "That's the rhythm of war. Let it guide you."
 
-**Bandit #1's Turn**: Attacks tank → [14] → Miss! (tank has +2 AC from your buff)
+**Bandit #1's Turn**: Attacks tank → [14] → Miss! (tank has +2 Armor from your buff)
 
 *The bandit's sword clangs off the tank's armor. The rhythm protected him.*
 
@@ -212,7 +212,7 @@ Different instruments provide different bonuses and affect your playstyle:
 *The bandit leader is dead. Four bandits remain. Time to rebuild your notes.*
 
 **Your Action**: Cast "Inspiring Rhythm" on your mage (4 mana)
-**Effect**: +2 AC for 2 rounds
+**Effect**: +2 Armor for 2 rounds
 **Musical Note Generated**: II (Supertonic)
 
 **Notes**: I(2), II(1), III(1) + II(1) = **I(2), II(2), III(1)**
@@ -1311,7 +1311,7 @@ Before combat, decide which cadences you want to prioritize:
           type: 'ac-bonus',
           value: 2,
           duration: 2,
-          description: '+2 AC'
+          description: '+2 Armor'
         }
       },
 
@@ -3009,12 +3009,12 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'entranced',
           name: 'Entranced',
-          description: 'Enemies have -4 AC and disadvantage on saving throws for 4 rounds.',
+          description: 'Enemies have -4 Armor and disadvantage on saving throws for 4 rounds.',
           statPenalty: [
             { stat: 'armor', value: -4 },
             { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage' }
           ],
-          mechanicsText: '-4 AC and disadvantage on saving throws for 4 rounds'
+          mechanicsText: '-4 Armor and disadvantage on saving throws for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -3423,7 +3423,7 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'legendary_inspiration',
           name: 'Legendary Inspiration',
-          description: 'Allies gain +5 to all rolls, +4 AC, and immunity to fear and charm for 10 rounds.',
+          description: 'Allies gain +5 to all rolls, +4 Armor, and immunity to fear and charm for 10 rounds.',
           statModifier: {
             stat: 'all_rolls',
             magnitude: 5,

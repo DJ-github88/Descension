@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faSkull, faCrosshairs, faMagic, faAtom, faClock, faDice, faShield,
     faMountain, faGavel, faEye, faShieldAlt, faMoon, faCross, faPaw,
-    faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire
+    faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire,
+    faDove, faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import './ClassesDisplay.css';
 
@@ -53,7 +54,9 @@ const CLASS_DATA = [
     { name: 'Titan', imageIcon: '/assets/icons/classes/titan.png', icon: faSun, role: 'Tank / Control', resource: 'Strain Overload', playstyle: 'Wield the weight of the world. Manipulate gravity to crush your enemies into the earth and use your colossal strength to shatter the very foundations of the battlefield', roleColor: '#3498db', damageTypes: ['bludgeoning', 'radiant', 'force'] },
     { name: 'Toxicologist', imageIcon: '/assets/icons/classes/toxicologist.png', icon: faFlask, role: 'Damage / Control', resource: 'Alchemical Vials', playstyle: 'Master of chemical warfare. Brew lethal concoctions and fill the air with toxic vapors, ensuring that every breath your enemy takes is their last', roleColor: '#e67e22', damageTypes: ['poison', 'necrotic'] },
     { name: 'Warden', imageIcon: '/assets/icons/classes/warden.png', icon: faGavel, role: 'Damage / Control', resource: 'Vengeance Points', playstyle: 'Guardian of the spectral threshold. Hunt your enemies with spectral glaives and imprison their souls in spiritual cages from which there is no escape', roleColor: '#e67e22', damageTypes: ['slashing', 'force', 'nature'] },
-    { name: 'Witch Doctor', imageIcon: '/assets/icons/classes/witch_doctor.png', icon: faSkull, role: 'Support / Control', resource: 'Voodoo Essence', playstyle: 'Invoke the ancient loa. Use dark rituals, powerful curses, and voodoo dolls to manipulate the spirits and bring a slow, agonizing end to your enemies', roleColor: '#f1c40f', damageTypes: ['necrotic', 'nature', 'poison'] }
+    { name: 'Witch Doctor', imageIcon: '/assets/icons/classes/witch_doctor.png', icon: faSkull, role: 'Support / Control', resource: 'Voodoo Essence', playstyle: 'Invoke the ancient loa. Use dark rituals, powerful curses, and voodoo dolls to manipulate the spirits and bring a slow, agonizing end to your enemies', roleColor: '#f1c40f', damageTypes: ['necrotic', 'nature', 'poison'] },
+    { name: 'Augur', imageIcon: '/assets/icons/classes/augur.png', icon: faDove, role: 'Control / Debuffer', resource: 'Benediction & Malediction', playstyle: 'Read the signs in every die roll—even numbers fuel your Benediction, odd numbers fuel your Malediction. Reshape the battlefield through divine interpretation of omens', roleColor: '#9b59b6', damageTypes: ['psychic', 'radiant'] },
+    { name: 'Doomsayer', imageIcon: '/assets/icons/classes/doomsayer.png', icon: faBolt, role: 'Damage / Control', resource: 'Havoc & Prophecy Range', playstyle: 'Place living bomb prophecies with RNG chaos outcomes. Earn Havoc from fulfilled prophecies and detonate catastrophic doom across the battlefield', roleColor: '#e74c3c', damageTypes: ['necrotic', 'psychic', 'fire', 'force'] }
 ];
 
 const ROLE_FILTERS = [
@@ -148,7 +151,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 <div className="classes-intro-columns">
                     <div className="classes-intro-col">
                         <h4><i className="fas fa-swords"></i> Class System</h4>
-                        <p>Classes determine your combat role, resource system, and mechanical abilities. There are 28 classes organized into thematic paths — each one a unique expression of power, sacrifice, and ambition. No two play the same.</p>
+                        <p>Classes determine your combat role, resource system, and mechanical abilities. There are 30 classes organized into thematic paths — each one a unique expression of power, sacrifice, and ambition. No two play the same.</p>
                     </div>
                     <div className="classes-intro-col">
                         <h4><i className="fas fa-bolt"></i> Resource Systems</h4>

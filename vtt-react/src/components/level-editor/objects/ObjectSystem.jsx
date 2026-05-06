@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
+import ReactDOM from 'react-dom';
 import useLevelEditorStore from '../../../store/levelEditorStore';
 import useGameStore from '../../../store/gameStore';
 import useMapStore from '../../../store/mapStore';
@@ -125,7 +126,18 @@ export const PROFESSIONAL_OBJECTS = {
         name: 'Sailboat',
         category: 'furniture',
         icon: 'items/Misc/Profession Resources/Woodworking/resource-block-wooden-isometric-grain',
-        image: '/assets/objects/sailboat.png',
+        image: '/assets/objects/sailboat_0.png',
+        multiAngle: true,
+        angles: {
+            0: '/assets/objects/sailboat_0.png',
+            45: '/assets/objects/sailboat_45.png',
+            90: '/assets/objects/sailboat_90.png',
+            135: '/assets/objects/sailboat_135.png',
+            180: '/assets/objects/sailboat_180.png',
+            225: '/assets/objects/sailboat_225.png',
+            270: '/assets/objects/sailboat_270.png',
+            315: '/assets/objects/sailboat_315.png'
+        },
         size: { width: 4, height: 2 },
         description: 'A small sailboat',
         freePosition: true,
@@ -481,6 +493,124 @@ export const PROFESSIONAL_OBJECTS = {
         lightRadius: 2.5,
         lightColor: '#ffeeaa',
         showLight: true
+    },
+    fireplace: {
+        id: 'fireplace',
+        name: 'Stone Fireplace',
+        category: 'furniture',
+        icon: 'items/Misc/Quest Items/fireplace-stone-lit',
+        image: '/assets/objects/fireplace.png',
+        size: { width: 2, height: 1 },
+        description: 'A stone fireplace with a warm glow',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 3.5,
+        lightColor: '#ff9933',
+        showLight: true
+    },
+    writingDesk: {
+        id: 'writingDesk',
+        name: 'Writing Desk',
+        category: 'furniture',
+        icon: 'items/Misc/Books/book-parchment-text-symbols',
+        image: '/assets/objects/desk.png',
+        size: { width: 1.5, height: 1 },
+        description: 'A wooden writing desk with parchment and ink',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    pineTree: {
+        id: 'pineTree',
+        name: 'Pine Tree',
+        category: 'nature',
+        icon: 'inv_misc_tree_01',
+        image: '/assets/objects/pine_tree.png',
+        size: { width: 2, height: 2 },
+        description: 'A tall pine tree',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    lever: {
+        id: 'lever',
+        name: 'Metal Lever',
+        category: 'props',
+        icon: 'inv_misc_gear_01',
+        image: '/assets/objects/lever.png',
+        size: { width: 0.6, height: 0.6 },
+        description: 'A metal wall lever',
+        freePosition: true,
+        draggable: true,
+        resizable: false,
+        clickable: true,
+        interactive: true
+    },
+    pressurePlate: {
+        id: 'pressurePlate',
+        name: 'Pressure Plate',
+        category: 'props',
+        icon: 'inv_stone_01',
+        image: '/assets/objects/pressure_plate.png',
+        size: { width: 1, height: 1 },
+        description: 'A stone pressure plate on the floor',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    floorSpikes: {
+        id: 'floorSpikes',
+        name: 'Floor Spikes',
+        category: 'props',
+        icon: 'ability_warrior_trauma',
+        image: '/assets/objects/spikes.png',
+        size: { width: 1, height: 1 },
+        description: 'Hidden floor spikes',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    shrub: {
+        id: 'shrub',
+        name: 'Garden Shrub',
+        category: 'nature',
+        icon: 'inv_misc_herb_01',
+        image: '/assets/objects/shrub.png',
+        size: { width: 1, height: 1 },
+        description: 'A decorative garden shrub',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true
+    },
+    streetLamp: {
+        id: 'streetLamp',
+        name: 'Street Lamp',
+        category: 'lighting',
+        icon: 'inv_misc_lantern_01',
+        image: '/assets/objects/street_lamp.png',
+        size: { width: 0.6, height: 0.6 },
+        description: 'A tall iron street lamp',
+        freePosition: true,
+        draggable: true,
+        resizable: true,
+        clickable: true,
+        interactive: true,
+        lightRadius: 4,
+        lightColor: '#ffeecc',
+        showLight: true
     }
 };
 
@@ -504,6 +634,11 @@ const ObjectSystem = () => {
     const [showContextMenu, setShowContextMenu] = useState(false);
     const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 });
     const [selectedObject, setSelectedObject] = useState(null);
+
+    const closeContextMenu = useCallback(() => {
+        setShowContextMenu(false);
+        setSelectedObject(null);
+    }, []);
 
     // GM Notes hover state
     const [hoveredGMNote, setHoveredGMNote] = useState(null);
@@ -690,14 +825,22 @@ const ObjectSystem = () => {
         };
 
         Object.values(PROFESSIONAL_OBJECTS).forEach(obj => {
-            if (obj.image && !imageCache.current.has(obj.image)) {
-                const img = new Image();
-                img.crossOrigin = "anonymous";
-                img.src = obj.image;
-                img.onload = () => {
-                    processImage(img, obj.image);
-                };
+            const imagesToLoad = [];
+            if (obj.image) imagesToLoad.push(obj.image);
+            if (obj.multiAngle && obj.angles) {
+                Object.values(obj.angles).forEach(url => imagesToLoad.push(url));
             }
+
+            imagesToLoad.forEach(url => {
+                if (!imageCache.current.has(url)) {
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.src = url;
+                    img.onload = () => {
+                        processImage(img, url);
+                    };
+                }
+            });
         });
     }, []);
 
@@ -921,20 +1064,26 @@ const ObjectSystem = () => {
     const renderObjectByCategory = (ctx, obj, objectDef, screenPos, width, height) => {
         ctx.save();
 
-        const rotation = (obj.rotation || 0) * Math.PI / 180;
-        if (rotation !== 0) {
-            ctx.translate(screenPos.x, screenPos.y);
-            ctx.rotate(rotation);
-            ctx.translate(-screenPos.x, -screenPos.y);
-        }
+        if (objectDef.multiAngle) {
+            // Multi-angle objects handle their own rotation logic
+            renderGenericObject(ctx, objectDef, screenPos, width, height, obj);
+        } else {
+            // Standard objects rotate the entire canvas
+            const rotation = (obj.rotation || 0) * Math.PI / 180;
+            if (rotation !== 0) {
+                ctx.translate(screenPos.x, screenPos.y);
+                ctx.rotate(rotation);
+                ctx.translate(-screenPos.x, -screenPos.y);
+            }
 
-        switch (objectDef.category) {
-            case 'gm':
-                renderGMObject(ctx, objectDef, screenPos, width, height, obj);
-                break;
-            default:
-                renderGenericObject(ctx, objectDef, screenPos, width, height);
-                break;
+            switch (objectDef.category) {
+                case 'gm':
+                    renderGMObject(ctx, objectDef, screenPos, width, height, obj);
+                    break;
+                default:
+                    renderGenericObject(ctx, objectDef, screenPos, width, height, obj);
+                    break;
+            }
         }
 
         ctx.restore();
@@ -987,9 +1136,43 @@ const ObjectSystem = () => {
         ctx.restore();
     };
 
-    const renderGenericObject = (ctx, objectDef, screenPos, width, height) => {
-        const img = imageCache.current.get(objectDef.image);
+    const renderGenericObject = (ctx, objectDef, screenPos, width, height, obj) => {
+        let imageUrl = objectDef.image;
+        let finalRotation = 0;
+
+        if (objectDef.multiAngle && objectDef.angles) {
+            const rotation = (obj?.rotation || 0);
+            const angles = Object.keys(objectDef.angles).map(Number).sort((a, b) => a - b);
+            const normRot = ((rotation % 360) + 360) % 360;
+            
+            let bestAngle = angles[0];
+            let minDiff = 360;
+            
+            for (const angle of angles) {
+                const diff = Math.min(Math.abs(normRot - angle), 360 - Math.abs(normRot - angle));
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    bestAngle = angle;
+                }
+            }
+            imageUrl = objectDef.angles[bestAngle];
+            
+            // Calculate the remainder rotation to apply to the canvas
+            let diff = normRot - bestAngle;
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+            finalRotation = diff * Math.PI / 180;
+        }
+
+        const img = imageCache.current.get(imageUrl);
         if (img) {
+            ctx.save();
+            if (finalRotation !== 0) {
+                ctx.translate(screenPos.x, screenPos.y);
+                ctx.rotate(finalRotation);
+                ctx.translate(-screenPos.x, -screenPos.y);
+            }
+
             // Calculate aspect-correct dimensions to prevent stretching
             const imgAspect = img.width / img.height;
             const targetAspect = width / height;
@@ -1006,6 +1189,7 @@ const ObjectSystem = () => {
             }
             
             ctx.drawImage(img, screenPos.x - drawWidth / 2, screenPos.y - drawHeight / 2, drawWidth, drawHeight);
+            ctx.restore();
         } else {
             // Fallback while image loads
             ctx.fillStyle = 'rgba(136, 136, 136, 0.5)';
@@ -1888,6 +2072,7 @@ const ObjectSystem = () => {
 
         const handleDocMouseDown = (e) => {
             if (e.button !== 0) return;
+            if (e.target.closest('.unified-context-menu')) return;
             if (!objectManipulationEnabled) return; // Respect the interaction lock
             if (window.multiplayerDragState && window.multiplayerDragState.size > 0) return;
 
@@ -2215,16 +2400,13 @@ const ObjectSystem = () => {
                 }}
             />
 
-            {/* Context Menu */}
-            {showContextMenu && selectedObject && (
+            {/* Context Menu - Rendered via Portal to ensure it is always on top of the canvas and other grid layers */}
+            {showContextMenu && selectedObject && ReactDOM.createPortal(
                 <UnifiedContextMenu
                     visible={showContextMenu}
                     x={contextMenuPosition.x}
                     y={contextMenuPosition.y}
-                    onClose={() => {
-                        setShowContextMenu(false);
-                        setSelectedObject(null);
-                    }}
+                    onClose={closeContextMenu}
                     title={PROFESSIONAL_OBJECTS[selectedObject.type]?.name || selectedObject.type}
                     items={[
                         ...(selectedObject.type === 'gmNotes' ? [
@@ -2348,7 +2530,8 @@ const ObjectSystem = () => {
                             }
                         }
                     ]}
-                />
+                />,
+                document.body
             )}
 
             {/* Pick-parent mode overlay hint */}

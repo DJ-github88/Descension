@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSkull, faCrosshairs, faMagic, faAtom, faClock, faDice, faShield,
   faMountain, faGavel, faEye, faShieldAlt, faMoon, faCross, faPaw,
-  faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire
+  faWind, faScroll, faBiohazard, faFlask, faMusic, faSun, faFire,
+    faDove, faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import { RULES_CATEGORIES, getRuleContent } from '../../data/rulesData';
 import BackgroundSelector from './BackgroundSelector';
@@ -53,6 +54,8 @@ const CLASS_DATA_LOADERS = {
   'Huntress': () => import('../../data/classes/huntressData').then(m => m.HUNTRESS_DATA),
   'Warden': () => import('../../data/classes/wardenData').then(m => m.WARDEN_DATA),
   'Oracle': () => import('../../data/classes/oracleData').then(m => m.ORACLE_DATA),
+  'Augur': () => import('../../data/classes/augurData').then(m => m.AUGUR_DATA),
+  'Doomsayer': () => import('../../data/classes/doomsayerData').then(m => m.DOOMSAYER_DATA),
   // Add other classes as they are created
 };
 
@@ -89,6 +92,8 @@ const CLASS_ICON_MAP = {
   'Toxicologist': faFlask,
   'Warden': faGavel,
   'Witch Doctor': faSkull,
+  'Augur': faDove,
+  'Doomsayer': faBolt,
 };
 
 // Simple markdown processor for basic formatting

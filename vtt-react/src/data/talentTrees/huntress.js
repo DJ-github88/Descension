@@ -169,7 +169,7 @@ export const HUNTRESS_BLADESTORM = [
   {
     id: 'bladestorm_t4_storm_synergy',
     name: 'Storm Synergy',
-    description: 'When you hit 3+ enemies with a single glaive attack, you and your companion each gain +2 AC until your next turn. The storm of blades shields you both.',
+    description: 'When you hit 3+ enemies with a single glaive attack, you and your companion each gain +2 Armor until your next turn. The storm of blades shields you both.',
     icon: 'ability_druid_predatoryinstincts',
     maxRanks: 1,
     position: { x: 2, y: 2 },

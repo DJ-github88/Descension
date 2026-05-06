@@ -72,7 +72,7 @@ export const NORDMARK_BASE_ITEMS = [
         height: 1,
         slots: ['hands'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false },
@@ -122,7 +122,7 @@ export const CORVANI_BASE_ITEMS = [
         height: 1,
         slots: ['wrists'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 2, isPercentage: false }
@@ -170,7 +170,7 @@ export const VHEIL_BASE_ITEMS = [
         height: 1,
         slots: ['hands'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -265,7 +265,7 @@ export const BRIARAN_BASE_ITEMS = [
         height: 1,
         slots: ['wrists'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false },
@@ -314,7 +314,7 @@ export const GROVEN_BASE_ITEMS = [
         height: 1,
         slots: ['hands'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             strength: { value: 1, isPercentage: false },
@@ -364,7 +364,7 @@ export const EMBERTH_BASE_ITEMS = [
         height: 1,
         slots: ['wrists'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             charisma: { value: 1, isPercentage: false },
@@ -508,7 +508,7 @@ export const VOLKETH_BASE_ITEMS = [
         height: 1,
         slots: ['wrists'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             strength: { value: 2, isPercentage: false },
@@ -653,7 +653,7 @@ export const GRIMHEART_BASE_ITEMS = [
         height: 1,
         slots: ['wrists'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             strength: { value: 1, isPercentage: false },
@@ -725,7 +725,7 @@ export const VHEIL_SUBRACE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false },
@@ -821,7 +821,7 @@ export const BRIARAN_SUBRACE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false },
@@ -879,7 +879,7 @@ export const GROVEN_SUBRACE_ITEMS = [
         height: 2,
         slots: ['offHand'],
         combatStats: {
-            armorClass: { value: 3, isPercentage: false }
+            armor: { value: 3, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -985,7 +985,7 @@ export const EMBERTH_SUBRACE_ITEMS = [
         height: 2,
         slots: ['back'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false },
@@ -1043,7 +1043,7 @@ export const VREKEN_SUBRACE_ITEMS = [
         height: 1,
         slots: ['hands'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             strength: { value: 1, isPercentage: false },
@@ -1164,7 +1164,7 @@ export const DRENNAR_SUBRACE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 5, isPercentage: false }
+            armor: { value: 5, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 2, isPercentage: false }
@@ -1362,7 +1362,7 @@ export const NORDMARK_SUBRACE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 4, isPercentage: false }
+            armor: { value: 4, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 2, isPercentage: false },
@@ -1434,7 +1434,7 @@ export const GRIMHEART_SUBRACE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 4, isPercentage: false }
+            armor: { value: 4, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 2, isPercentage: false }
@@ -1458,7 +1458,7 @@ export const GRIMHEART_SUBRACE_ITEMS = [
         height: 2,
         slots: ['offHand'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -1546,7 +1546,7 @@ export const ORACLE_CORVANI_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             spirit: { value: 2, isPercentage: false }
@@ -1624,7 +1624,7 @@ export const SCOUT_CORVANI_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -1705,7 +1705,7 @@ export const DELVER_GRIMHEART_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 4, isPercentage: false }
+            armor: { value: 4, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 2, isPercentage: false }
@@ -1781,7 +1781,7 @@ export const WARDEN_GRIMHEART_ITEMS = [
         height: 2,
         slots: ['offHand'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             constitution: { value: 1, isPercentage: false }
@@ -1837,7 +1837,7 @@ export const MOUNTAIN_DWARF_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 3, isPercentage: false }
+            armor: { value: 3, isPercentage: false }
         },
         availableFor: {
             subraces: ['mountaindwarf_grimheart']
@@ -1920,7 +1920,7 @@ export const HIGH_ELF_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             intelligence: { value: 2, isPercentage: false }
@@ -2023,7 +2023,7 @@ export const WOOD_ELF_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -2109,7 +2109,7 @@ export const DARK_ELF_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false },
@@ -2162,7 +2162,7 @@ export const HILL_DWARF_ITEMS = [
         width: 2,
         height: 2,
         slots: ['offHand'],
-        armorClass: 2,
+        armor: 2,
         baseStats: {
             constitution: { value: 1, isPercentage: false }
         },
@@ -2252,7 +2252,7 @@ export const LIGHTFOOT_HALFLING_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 1, isPercentage: false }
+            armor: { value: 1, isPercentage: false }
         },
         baseStats: {
             agility: { value: 1, isPercentage: false }
@@ -2367,7 +2367,7 @@ export const WAR_ORC_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armorClass: { value: 2, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
             strength: { value: 1, isPercentage: false },

@@ -3,14 +3,18 @@
 .creature-filters-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   overflow: visible;
+  flex-wrap: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
   position: relative;
   z-index: 100;
 }
@@ -19,8 +23,8 @@
 .filter-dropdown-button, .sort-dropdown-button {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
+  gap: 3px;
+  padding: 4px 7px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 4px;
@@ -31,6 +35,9 @@
   transition: all 0.2s ease;
   font-family: 'Bookman Old Style', 'Garamond', serif;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
 }
 
 .filter-dropdown-button:hover, .sort-dropdown-button:hover {

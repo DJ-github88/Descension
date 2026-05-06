@@ -113,6 +113,7 @@ class PersistenceService {
         rooms: 0,
         journals: 0,
         campaigns: 0,
+        audioFiles: 0,
         lastUpdated: Date.now()
       };
 
@@ -451,6 +452,7 @@ class PersistenceService {
           rooms: 0,
           journals: 0,
           campaigns: 0,
+          audioFiles: 0,
           lastUpdated: Date.now()
         },
         lastModified: serverTimestamp()

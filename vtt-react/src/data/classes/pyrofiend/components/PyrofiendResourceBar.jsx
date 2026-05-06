@@ -4,6 +4,7 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/PyrofiendResourceBar.css';
+import '../../../../styles/unified-context-menu.css';
 
 const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Read inferno level from classResource prop, default to 0 if not available
@@ -65,17 +66,18 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
     // Auto-adjust tooltip position
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
+            tooltipRef.current.style.opacity = '0';
+
             const updatePosition = () => {
                 const tooltip = tooltipRef.current;
                 const bar = barRef.current;
                 if (!tooltip || !bar) return;
+            tooltip.style.opacity = '0';
                 
                 const barRect = bar.getBoundingClientRect();
                 const tooltipRect = tooltip.getBoundingClientRect();
                 
-                // Check if tooltip has valid dimensions (not 0x0)
                 if (tooltipRect.width === 0 || tooltipRect.height === 0) {
-                    // Try again on next frame if dimensions aren't ready
                     requestAnimationFrame(updatePosition);
                     return;
                 }
@@ -84,7 +86,6 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 const viewportHeight = window.innerHeight;
                 const margin = 8;
                 
-                // Find the HUD container to position tooltip below it
                 let hudContainer = bar.closest('.party-hud, .party-member-frame, .character-portrait-hud');
                 let hudBottom = barRect.bottom;
                 
@@ -93,49 +94,47 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                     hudBottom = hudRect.bottom;
                 }
                 
-                // Position tooltip below the HUD container, centered horizontally
                 let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
                 let top = hudBottom + margin;
                 
-                // Adjust horizontal position
                 if (left < margin) left = margin;
                 if (left + tooltipRect.width > viewportWidth - margin) {
                     left = viewportWidth - tooltipRect.width - margin;
                 }
                 
-                // Ensure tooltip doesn't go off bottom of viewport
                 if (top + tooltipRect.height > viewportHeight - margin) {
-                    // If there's not enough space below, position above the HUD instead
                     if (hudContainer) {
                         const hudRect = hudContainer.getBoundingClientRect();
                         top = hudRect.top - tooltipRect.height - margin;
                     } else {
                         top = barRect.top - tooltipRect.height - margin;
                     }
-                    // But ensure it doesn't go off top either
                     if (top < margin) {
                         top = margin;
                     }
                 }
                 
-                // Apply position directly to tooltip element
                 tooltip.style.position = 'fixed';
                 tooltip.style.left = `${left}px`;
                 tooltip.style.top = `${top}px`;
                 tooltip.style.transform = 'none';
                 tooltip.style.zIndex = '2147483647';
+                tooltip.style.opacity = '1';
             };
             
-            // Run immediately and on multiple frames to ensure dimensions are available
             updatePosition();
             requestAnimationFrame(() => {
                 requestAnimationFrame(updatePosition);
             });
             
-            // Also add a small timeout as fallback for portal rendering
             const timeoutId = setTimeout(updatePosition, 50);
             
-            return () => clearTimeout(timeoutId);
+            return () => {
+                clearTimeout(timeoutId);
+                if (tooltipRef.current) {
+                    tooltipRef.current.style.opacity = '';
+                }
+            };
         }
     }, [showTooltip, infernoLevel, selectedSpec]);
 
@@ -377,7 +376,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             {/* Pathfinder-styled Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-header">Inferno Veil</div>
 
                     <div className="tooltip-section">
@@ -445,7 +444,9 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className="unified-context-menu compact"
+                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={{
                         position: 'fixed',
                         top: barRef.current ? barRef.current.getBoundingClientRect().bottom + 8 : '50%',
@@ -507,7 +508,7 @@ const PyrofiendResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                 ))}
                             </div>
 
-                            <div className="context-menu-separator" style={{margin: '12px 0'}}></div>
+                            <div className="context-menu-main-separator" style={{margin: '12px 0'}}></div>
 
                             <button className="context-menu-button danger" onClick={() => setShowControls(false)} style={{width: '100%'}}>
                                 <i className="fas fa-times"></i>

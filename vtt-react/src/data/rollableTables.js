@@ -141,7 +141,7 @@ const ROLLABLE_TABLES = {
       { min: 11, max: 11, result: 'All weapons in 30ft turn into flowers for 1 round' },
       { min: 12, max: 12, result: 'The caster gains resistance to a random damage type' },
       { min: 13, max: 13, result: 'Time rewinds 6 seconds — caster re-casts the spell' },
-      { min: 14, max: 14, result: 'A spectral shield appears around the caster (AC +2)' },
+      { min: 14, max: 14, result: 'A spectral shield appears around the caster (Armor +2)' },
       { min: 15, max: 15, result: 'The caster\'s hair turns white permanently' },
       { min: 16, max: 16, result: 'Everyone in 20ft must dance (no action) for 1 round' },
       { min: 17, max: 17, result: 'A dead creature within 60ft revives with 1 HP' },

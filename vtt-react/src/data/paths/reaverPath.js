@@ -415,7 +415,7 @@ export const REAVER_PATH = {
                                 duration: 6,
                                 effects: {
                                     damageBonus: 8,
-                                    armorClassPenalty: 2
+                                    armorPenalty: 2
                                 }
                             }
                         ]

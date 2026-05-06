@@ -215,103 +215,56 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 **The Lesson**: The Berserker is about riding the wave of fury—building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.`
     }
   },
-  
+
   // Resource System
   resourceSystem: {
     title: 'Rage States',
     subtitle: 'Escalating Fury Mechanic',
 
-    description: `The Berserker's Rage is measured on a scale from 0 to 100, represented by two 10-sided dice (2d10). As they fight, the Berserker generates Rage through various actions, allowing them to access increasingly powerful states of rage. Each Rage State unlocks new abilities and enhances the Berserker's combat effectiveness. This is a momentum-based resource system where aggression is rewarded and passivity is punished.`,
+    description: `Rage is a pressure gauge, not a savings account. It builds through aggression, decays through passivity, and unlocks escalating power as it climbs through six states. The goal is to ride the wave — keep Rage high, spend it before it explodes, and ride the edge of Obliteration.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Rage Bar',
-      content: `**What You See**: Your Berserker resource bar displays two 10-sided dice (2d10) that together represent your current Rage from 0 to 100. The left die shows the tens place (0-90), the right die shows the ones place (0-10). The dice glow with increasing intensity as your Rage rises, changing color to reflect your current Rage State.
+    cards: [
+      {
+        title: 'Rage (2d10)',
+        stats: '0-100 Scale',
+        details: 'A pressure gauge, not a mana pool. Climbs through 6 escalating states as you fight. Passivity decays it. Hitting 101+ without spending triggers Overheat.'
+      }
+    ],
 
-**Visual Representation by State**:
-- **Smoldering (0-20)**: Dim orange glow, barely visible embers
-- **Frenzied (21-40)**: Bright orange, flickering flames
-- **Primal (41-60)**: Red-orange, intense burning
-- **Carnage (61-80)**: Deep red, roiling inferno
-- **Cataclysm (81-100)**: Crimson with black edges, barely contained
-- **Obliteration (101+)**: Violent purple-black, pulsing with danger
-
-**How It Changes**:
-- **When You Attack**: Dice spin and increase by 1d6 (average +3-4 per attack)
-- **When You Crit**: Dice spin rapidly and jump by 2d6 (average +7)
-- **When You Take Damage**: Dice pulse and increase by 1d4 (pain fuels rage)
-- **When You Kill**: Dice explode upward by 1d8 (bloodlust surge)
-- **When You Spend Rage**: Dice decrease by the ability cost, glow dims slightly
-- **Passive Decay**: If you don't attack for a full round, dice slowly tick down by 5
-
-**State Transition Moments**: When you cross a Rage State threshold (e.g., 40 → 41 entering Primal), your dice flash brightly and a visual effect plays—your character model changes, muscles bulge, eyes glow, aura intensifies. This is your power-up moment.
-
-**The Overheat Warning**: When your Rage exceeds 100, the dice turn purple-black and pulse with a warning indicator. You have ONE ROUND to spend Rage below 101 or you'll Overheat—taking 2d6 damage and resetting to 0. The bar literally shakes and cracks to warn you.
-
-**Why This Matters**: Unlike mana that you conserve, Rage is meant to be SPENT. Your resource bar isn't a savings account—it's a pressure gauge. The higher it climbs, the more powerful you become, but also the closer you are to exploding. Learning to ride the edge between Cataclysm (81-100) and Obliteration (101+) is the mark of a master Berserker.
-
-**Strategic Depth**: Your Rage bar tells a story of the battle. A slowly climbing bar means you're building momentum. A rapidly fluctuating bar means you're spending and building in rhythm. A bar stuck at low Rage means you're not being aggressive enough. A bar at 95+ means you're playing with fire—literally.`
+    generationTable: {
+      headers: ['Trigger', 'Rage Change', 'Notes'],
+      rows: [
+        ['Successful Attack (Hit)', '+1d6', 'Core generation loop'],
+        ['Critical Hit', '+2d6', 'Major spike — watch for Overheat at high Rage'],
+        ['Taking Damage', '+1d4', 'Pain fuels the fury'],
+        ['Defeating an Enemy', '+1d8', 'Bloodlust surge'],
+        ['No Rage action taken', '-5 per round', 'Passivity is punished'],
+        ['Spending an ability', '-Ability Cost', 'Spending prevents Overheat and unleashes power'],
+        ['Overheat (101+, unspent)', '→ Reset to 0', '2d6 self-damage, lose all State bonuses']
+      ]
     },
 
-    mechanics: {
-      title: 'Detailed Mechanics',
-      content: `**Rage Scale**:
-- Ranges from 0 to 100 (can temporarily exceed 100)
-- Visualized as 2d10 (left die = tens, right die = ones)
-- Example: Left die shows 6, right die shows 3 = 63 Rage
+    usage: {
+      momentum: 'Ability costs range 5–100 Rage. Spending brings you back down through States — time it to maximize your current State bonuses before dropping.',
+      flourish: '⚠️ Overheat: Exceed 101 Rage without spending within 1 round → 2d6 damage, Rage resets to 0. Advanced tactic: push to 101 intentionally to access Obliterating Strike, then spend immediately.'
+    },
 
-**Generating Rage (How to Build Fury)**:
+    overheatRules: {
+      title: 'Overheat',
+      content: `When Rage exceeds 100 you enter the Obliteration State — the most powerful state, but a ticking clock.
 
-Every combat action that involves aggression or pain generates Rage:
+**You have ONE ROUND** to spend Rage below 101. If you don't:
+- Take **2d6 damage** (fury turns inward)
+- Rage **resets to 0** (complete exhaustion)
+- Lose **all State bonuses**
 
-- **Normal Attack (Hit)**: Roll 1d6, add result to Rage
-  - Example: You have 25 Rage, attack and roll [4] → Now at 29 Rage
+**How much do you need to spend?**
+- At 101 Rage → spend 1+
+- At 109 Rage → spend 9+
+- At 115 Rage → spend 15+
 
-- **Critical Hit**: Roll 2d6, add result to Rage
-  - Example: You have 45 Rage, crit and roll [5, 6] = 11 → Now at 56 Rage (jumped from Primal to Carnage!)
-
-- **Taking Damage**: Roll 1d4, add result to Rage (pain fuels fury)
-  - Example: You have 30 Rage, take 15 damage, roll [3] → Now at 33 Rage
-
-- **Defeating an Enemy**: Roll 1d8, add result to Rage (bloodlust surge)
-  - Example: You have 52 Rage, kill an enemy, roll [7] → Now at 59 Rage
-
-**Spending Rage (How to Use Fury)**:
-
-Berserker abilities cost Rage to activate. Every ability consumes Rage, creating the core tension of building and spending:
-
-- **Basic Abilities**: 5-10 Rage (Frenzied Slash, Bloodthirst, War Cry)
-- **Moderate Abilities**: 12-20 Rage (Primal Roar, Carnage Strike, Raging Defense)
-- **Powerful Abilities**: 20-30 Rage (Cataclysmic Blow, Unstoppable Force, Commanding Shout)
-- **Ultimate Abilities**: 30-100 Rage (Obliterating Strike, Wrath of the Berserker, Primal Apex)
-
-Example: You're at 68 Rage (Carnage State). You use Carnage Strike (costs 20 Rage) → Now at 48 Rage (dropped to Primal State)
-
-**Rage Decay (Punishment for Passivity)**:
-
-At the end of each combat round, if you took NO Rage-generating actions (didn't attack, didn't take damage), your Rage decreases by 5 points.
-
-Example: You're at 55 Rage but spend your turn running away and hiding → End of round: 55 - 5 = 50 Rage
-
-**Overheat (The Danger Zone)**:
-
-If your Rage exceeds 101 and you don't spend it below 101 within ONE ROUND, you Overheat:
-- Take 2d6 damage (your fury turns inward, damaging you)
-- Rage resets to 0 (complete exhaustion)
-- Lose all Rage State benefits
-
-Example: You're at 98 Rage, crit for 2d6 = [6, 5] = 11 → Now at 109 Rage (DANGER!)
-- Next round: You MUST spend at least 9 Rage to get below 101
-- If you don't: Roll 2d6 = [4, 3] = 7 damage taken, Rage resets to 0, you're back to Smoldering
-
-**Rage State Thresholds**:
-
-Your current Rage determines which state you're in and what bonuses you receive:
-- 0-20: Smoldering (no bonuses)
-- 21-40: Frenzied (+1 attack, +5 ft movement)
-- 41-60: Primal (+2 attack, +10 ft movement, +1d4 bonus damage)
-- 61-80: Carnage (+3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance)
-- 81-100: Cataclysm (+4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun)
-- 101+: Obliteration (+5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions, MUST SPEND OR OVERHEAT)`
+**Advanced Play — Intentional Overheat:**
+Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Berserker is viable. You take the 2d6 hit, but the payoff can end the fight. Use it when you're confident or desperate.`
     },
     
     rageStatesTable: {
@@ -327,312 +280,80 @@ Your current Rage determines which state you're in and what bonuses you receive:
       ]
     },
     
+
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Early Combat (0-40 Rage)**: Focus on building Rage through attacks. Use basic abilities sparingly to conserve Rage for higher states.
+      title: 'Combat Phases & Decision-Making',
+      content: `**Building (0–40 Rage)**: Attack relentlessly. Don't waste Rage on abilities yet — every point is climbing toward real power. Use basic abilities only if absolutely necessary.
 
-**Mid Combat (41-80 Rage)**: Your sweet spot. Primal and Carnage states offer excellent damage and survivability. Alternate between spending and building.
+**Sweet Spot (41–80 Rage)**: Primal and Carnage are your bread and butter. You have strong bonuses AND enough buffer to spend without dropping too low. Alternate spending and building — keep the rhythm.
 
-**Peak Fury (81-100 Rage)**: Unleash devastating abilities. Plan your spending carefully—you're at maximum effectiveness but approaching Overheat threshold.
+**Peak Fury (81–100 Rage)**: Maximum effectiveness. Plan every spend carefully. One bad crit and you're at 101+. Before attacking, ask: "If I crit, can I spend what it would push me to?"
 
-**Overheat Zone (101+ Rage)**: Emergency state. You have one round to spend excess Rage or suffer 2d6 damage and reset. Use your most expensive abilities immediately.
+**Overheat Zone (101+ Rage)**: Emergency. Use your most expensive ability immediately. Obliterating Strike (60 Rage) is your best escape valve. Do NOT miss.
 
-**Rage Decay Management**: Never let Rage decay passively. If combat is winding down, spend remaining Rage on utility abilities or defensive buffs rather than losing it.`
-    },
+**Advanced Play — Intentional Overheat**: At 90+ Rage, deliberately chase crits to hit 101+, access Obliteration bonuses, and immediately spend Obliterating Strike before the round ends. High-risk, high-reward — only when confident.
 
-    overheatVisualization: {
-      title: 'Overheat Visualization & Effects',
-      content: `**What Happens When You Overheat (101+ Rage)**:
+**Rage Decay**: If combat slows and you're at 60+ Rage, spend on a utility ability (Raging Defense, Intimidating Presence) rather than letting it decay. Wasted Rage is wasted power.
 
-Your Rage bar undergoes a dramatic visual transformation to warn you of the danger:
+**Worked Example (87 Rage, Cataclysm, Boss at 40% HP)**:
+- **Option A** — Cataclysmic Blow (−30 Rage): Drops to Primal, but may end the fight. Best if boss looks fragile.
+- **Option B** — Primal Roar (−15 Rage): Stays at Cataclysm, but lower burst. Best if you need AoE or the healer can hold.
+- **Option C** — Attack → build to 95+, then Obliterating Strike: Best if boss is clearly tanky.
+- **Option D** — Push to 101+, spend Obliterating Strike: Only if you're willing to eat 2d6 and the reward justifies it.
 
-**Visual Indicators**:
-- **Dice Color**: Shifts from crimson red to violent purple-black
-- **Glow Effect**: Intensifies dramatically, creating a pulsing aura around the dice
-- **Dice Animation**: The dice begin to SHAKE and VIBRATE violently, as if barely contained
-- **Warning Symbol**: A ⚠️ warning icon appears and pulses in sync with the dice
-- **Aura Pulse**: A red pulsing aura expands and contracts around the dice, growing more intense
-- **Screen Effect**: The entire resource bar area may have a subtle red tint or vignette effect
-
-**The Countdown**:
-Once you exceed 100 Rage, you have exactly ONE ROUND to act:
-- **Round 1 (Overheat Triggered)**: Dice shake, warning appears, you can still act
-- **End of Round 1**: If Rage is still 101+, you Overheat
-  - Take 2d6 damage (your fury turns inward)
-  - Rage resets to 0 (complete exhaustion)
-  - Dice stop shaking and return to normal (Smoldering state)
-  - You lose all Rage State bonuses
-
-**How to Avoid Overheat**:
-Spend Rage-costing abilities to bring yourself below 101. The more Rage you have over 100, the more you need to spend:
-- 101 Rage: Spend 1+ Rage to get to 100
-- 109 Rage: Spend 9+ Rage to get to 100
-- 115 Rage: Spend 15+ Rage to get to 100
-
-**Strategic Use of Overheat**:
-Some advanced Berserkers intentionally push into Overheat to use their most powerful abilities (Obliterating Strike, Wrath of the Berserker) knowing they'll take the damage. This is high-risk, high-reward play—use it when you're confident you can finish the fight or when the damage is worth the payoff.
-
-**Example Overheat Scenario**:
-- You're at 95 Rage (Cataclysm)
-- You crit and roll 2d6 = [6, 5] = 11 → Now at 106 Rage (OVERHEAT!)
-- Dice turn purple-black and shake violently
-- You have ONE ROUND to act
-- Option A: Use Obliterating Strike (costs 30 Rage) → Drop to 76 Rage (Carnage), avoid Overheat
-- Option B: Do nothing → End of round: Take 2d6 damage, Rage resets to 0
-- Option C: Use a cheaper ability (costs 10 Rage) → Drop to 96 Rage, avoid Overheat but waste potential`
-    },
-
-    practicalExample: {
-      title: 'Practical Decision-Making Example',
-      content: `**Scenario**: You're at 87 Rage (Cataclysm State) fighting a boss with 40% HP remaining. Your party's healer is down to 20% HP.
-
-**Current State**:
-- Rage: 87 (Cataclysm - +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun)
-- Boss HP: ~40%
-- Healer HP: ~20% (in danger)
-- Your HP: 65%
-
-**Option A - Go for the Kill**:
-Use Cataclysmic Blow (costs 30 Rage, deals 3d8 + strength + 2d6 damage)
-- Pros: Massive damage, might finish the boss
-- Cons: Drops you to 57 Rage (Primal State), lose Cataclysm bonuses
-- Risk: If boss survives, you're weaker for the rest of the fight
-
-**Option B - Sustain and Build**:
-Use Primal Roar (costs 15 Rage, AoE damage + intimidate)
-- Pros: Stays at 72 Rage (still Cataclysm State), keeps high bonuses
-- Cons: Less burst damage, boss might kill healer
-- Risk: Healer dies, you lose support
-
-**Option C - Controlled Aggression**:
-Normal attacks to build more Rage, then use Obliterating Strike next turn
-- Pros: Attack twice, generate ~8 more Rage (95 total), then use ultimate ability
-- Cons: Approaching Overheat danger zone (95 → one good crit puts you at 101+)
-- Risk: Might Overheat if you crit
-
-**Option D - Emergency Overheat Strategy**:
-Attack recklessly to push past 101, then immediately use Obliterating Strike (costs 60 Rage)
-- Pros: Briefly access Obliteration State (+5 attack), then spend before Overheat
-- Cons: Requires precise timing, risky if you miss
-- Risk: If you can't spend in time, you Overheat and reset to 0
-
-**Best Choice**: Option A (Cataclysmic Blow)
-- Why: Boss at 40% HP means one massive hit could end the fight. Healer survives if boss dies. Even if you drop to Primal State (57 Rage), the fight might be over. The risk of the boss surviving and killing your healer while you're at lower Rage is less than the reward of potentially ending the encounter immediately.
-
-**Alternative if Boss is Tankier**: Option C (Build to 95+, then Obliterating Strike)
-- Why: If you know the boss has high HP and won't die to Cataclysmic Blow, building to Obliteration State for the +5 attack bonus on your ultimate ability is worth the Overheat risk.
-
-**The Lesson**: Rage management isn't just about avoiding Overheat—it's about knowing when to cash in your fury for maximum impact. Sometimes dropping from Cataclysm to Primal is worth it if it ends the fight. Sometimes riding the edge of Obliteration is the only way to win. Read the situation, trust your instincts, and let the fury guide you.`
+→ **Best default**: Option A. Boss at 40% is within one massive hit. Cash in the fury.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
       subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Berserker's Rage system (0-100 scale with six escalating states) is perfectly suited to physical dice tracking, creating a visceral, momentum-driven experience. Here's how to track your fury at the table:
+      content: `Two red d10s on the table in front of you. Left die = tens. Right die = ones. That's your Rage. Watch it climb.
 
 **Required Materials**:
-- **2d10 dice** (preferably red/orange for thematic effect)
-- **Rage State reference card** with state thresholds and bonuses
-- **Optional: Rage tracker mat** with state zones marked
+- **2d10** (red/orange for thematic fire — but any d10s work)
+- **Rage State reference card** (thresholds + bonuses at a glance)
 
-**Rage Tracking with 2d10**:
+**How to Read Your Rage**:
+- Left [6], Right [3] = 63 Rage → Carnage State
+- Left [8], Right [7] = 87 Rage → Cataclysm State
+- Left [0], Right [0] = 0 Rage → Smoldering
+- **101+**: Both dice physically can't show this cleanly — use a token beside them as the ⚠️ Overheat marker
 
-**The Two-Dice Method** (Recommended):
+**Each Turn — Adjust the Dice**:
+- Hit → roll 1d6, add to dice total
+- Crit → roll 2d6, add to dice total
+- Take damage → roll 1d4, add to dice total
+- Kill → roll 1d8, add to dice total
+- Spend ability → subtract cost from dice total
+- No attack this round → subtract 5 at end of round
 
-Use two 10-sided dice to represent your Rage (0-100):
-- **Left Die (Tens Place)**: Shows 0-9, representing 0, 10, 20, 30, 40, 50, 60, 70, 80, 90
-- **Right Die (Ones Place)**: Shows 0-9, representing 0-9
-- **Combined**: Left die × 10 + Right die = Total Rage
-
-**Examples**:
-- Left die [6], Right die [3] = 63 Rage (Carnage State)
-- Left die [4], Right die [7] = 47 Rage (Primal State)
-- Left die [9], Right die [5] = 95 Rage (Cataclysm State, approaching Overheat!)
-- Left die [0], Right die [0] = 0 Rage (Smoldering State)
-
-**Generating Rage**:
-When you perform Rage-generating actions, roll the appropriate die and add to your current Rage:
-- **Normal Attack**: Roll 1d6 → Add result to Rage → Adjust dice
-  - Example: At 25 Rage [2][5], attack and roll [4] → 25 + 4 = 29 → Set dice to [2][9]
-- **Critical Hit**: Roll 2d6 → Add result to Rage → Adjust dice
-  - Example: At 45 Rage [4][5], crit and roll [5, 6] = 11 → 45 + 11 = 56 → Set dice to [5][6]
-- **Taking Damage**: Roll 1d4 → Add result to Rage → Adjust dice
-  - Example: At 30 Rage [3][0], take damage and roll [3] → 30 + 3 = 33 → Set dice to [3][3]
-- **Defeating Enemy**: Roll 1d8 → Add result to Rage → Adjust dice
-  - Example: At 52 Rage [5][2], kill enemy and roll [7] → 52 + 7 = 59 → Set dice to [5][9]
-
-**Spending Rage**:
-When you use abilities, subtract the Rage cost and adjust dice:
-- **Frenzied Slash (8 Rage)**: At 77 Rage [7][7] → 77 - 8 = 69 → Set dice to [6][9]
-- **Primal Roar (15 Rage)**: At 87 Rage [8][7] → 87 - 15 = 72 → Set dice to [7][2]
-- **Carnage Strike (20 Rage)**: At 87 Rage [8][7] → 87 - 20 = 67 → Set dice to [6][7]
-- **Cataclysmic Blow (30 Rage)**: At 87 Rage [8][7] → 87 - 30 = 57 → Set dice to [5][7]
-
-**Rage Decay**:
-If you don't attack for a full round, subtract 5 Rage:
-- Example: At 42 Rage [4][2], no attack this round → 42 - 5 = 37 → Set dice to [3][7]
-
-**Overheat Mechanic**:
-If your Rage exceeds 100:
-- **Warning**: Your dice show 101+ (e.g., [10][1] or higher)
-- **Countdown**: You have ONE ROUND to spend Rage below 101
-- **Overheat**: If you don't spend in time, roll 2d6 damage to yourself and reset dice to [0][0]
-
-**Rage State Reference Card Template**:
-      \`\`\`
-BERSERKER RAGE STATES
-
-SMOLDERING (0-20)
-Bonuses: None
-Abilities: Basic Strike, Defensive Stance, Rage Tap
-
-FRENZIED (21-40)
-Bonuses: +1 attack, +5 ft movement
-Abilities: Frenzied Slash, War Cry, Bloodthirst
-
-PRIMAL (41-60)
-Bonuses: +2 attack, +10 ft movement, +1d4 bonus damage
-Abilities: Primal Roar, Bloodlust, Savage Leap
-
-CARNAGE (61-80)
-Bonuses: +3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance
-Abilities: Carnage Strike, Raging Defense, Intimidating Presence
-
-CATACLYSM (81-100)
-Bonuses: +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun
-Abilities: Cataclysmic Blow, Unstoppable Force
-
-OBLITERATION (101+)
-Bonuses: +5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions
-Abilities: Obliterating Strike, Wrath of the Berserker
-WARNING: Spend Rage or Overheat (2d6 damage, reset to 0)!
+**Rage State Reference**:
 \`\`\`
+RAGE STATES (2d10 = Tens + Ones):
 
-**Example In-Person Turn**:
+🔥 Smoldering  0–20  | No bonuses
+🔥 Frenzied   21–40  | +1 ATK, +5 ft
+🔥 Primal     41–60  | +2 ATK, +10 ft, +1d4 dmg
+🔥 Carnage    61–80  | +3 ATK, +15 ft, +1d6 dmg, 25% resist
+💀 Cataclysm  81–100 | +4 ATK, +20 ft, +1d8 dmg, 50% resist, immune fear/stun
+⚠️ Obliteration 101+ | +5 ATK, +25 ft, +2d6 dmg, 50% resist, immune all — SPEND OR OVERHEAT
 
-*You have 45 Rage [4][5] (Primal State)*
-
-**Turn 1 - Attack**:
-1. "I attack the orc with my greataxe!"
-2. Roll to hit → Hit!
-3. Roll Rage generation: 1d6 → [4]
-4. Add to Rage: 45 + 4 = 49
-5. Adjust dice: [4][5] → [4][9]
-6. Still in Primal State (41-60)
-
-**Turn 2 - Critical Hit**:
-1. "I attack again!"
-2. Roll to hit → Natural 20! Critical hit!
-3. Roll Rage generation: 2d6 → [5, 6] = 11
-4. Add to Rage: 49 + 11 = 60
-5. Adjust dice: [4][9] → [6][0]
-6. Still in Primal State (barely!)
-
-**Turn 3 - State Transition**:
-1. "I attack the goblin!"
-2. Roll to hit → Hit!
-3. Roll Rage generation: 1d6 → [3]
-4. Add to Rage: 60 + 3 = 63
-5. Adjust dice: [6][0] → [6][3]
-6. **RAGE STATE CHANGE**: Entered Carnage State! (61-80)
-7. Announce: "My fury intensifies! I enter Carnage State!"
-8. New bonuses: +3 attack, +15 movement, +1d6 damage, +2 AC
-
-**Turn 4 - Spending Rage**:
-1. "I use Carnage Strike!" (costs 20 Rage)
-2. Subtract Rage: 63 - 20 = 43
-3. Adjust dice: [6][3] → [4][3]
-4. **RAGE STATE CHANGE**: Dropped to Primal State (41-60)
-5. Roll damage with Carnage Strike bonus
-6. New bonuses: +2 attack, +10 ft movement, +1d4 bonus damage (lost Carnage bonuses)
-
-**Alternative Tracking Methods**:
-
-**The Single d100 Method**:
-- Use a d100 (percentile die) to track Rage directly
-- Roll Rage generation dice and add to d100 value
-- Simpler but less thematic than 2d10
-
-**The Token Method**:
-- Use 100 tokens or beads to represent Rage
-- Add/remove tokens as Rage changes
-- Visual but cumbersome for large numbers
-
-**The Tracker Mat Method**:
-- Print a mat with zones for each Rage State (0-20, 21-40, 41-60, 61-80, 81-100, 101+)
-- Use a marker or token to show current Rage within each zone
-- Visual state tracking but requires custom mat
-
-**The Paper Method**:
-- Write current Rage on paper, update as needed
-- Functional but less immersive
-
-**Thematic Enhancements**:
-
-Many players enhance the rage experience with:
-- **Red/Orange Dice**: Use fiery-colored d10s for thematic effect
-- **Rage Tracker Mat**: Print a mat with state zones and bonuses
-- **Physical Intensity**: Speak louder/more aggressively as Rage increases
-- **Dice Slamming**: Slam dice down when entering new Rage States
-- **Overheat Warning**: Use a timer or alarm when at 101+ Rage
-
-**Quick Reference: Rage Generation**:
-\`\`\`
 RAGE GENERATION:
-• Normal Attack (Hit): +1d6 Rage
-• Critical Hit: +2d6 Rage
-• Taking Damage: +1d4 Rage
-• Defeating Enemy: +1d8 Rage
-• Rage Decay (No Attack): -5 Rage per round
+  Hit → +1d6 | Crit → +2d6 | Damage → +1d4 | Kill → +1d8
+  No attack → −5/round
 
-OVERHEAT:
-• Rage exceeds 100: WARNING!
-• 1 round to spend below 101
-• Fail to spend: 2d6 damage, reset to 0
+OVERHEAT (101+): 1 round to spend below 101
+  → Fail: 2d6 self-damage, Rage resets to 0
 \`\`\`
-
-**Example Full Combat Sequence**:
-
-*Starting: 0 Rage [0][0] (Smoldering)*
-
-**Turn 1**: Attack (hit) → Roll [4] → 4 Rage [0][4] (Smoldering)
-**Turn 2**: Attack (hit) → Roll [5] → 9 Rage [0][9] (Smoldering)
-**Turn 3**: Attack (hit) → Roll [6] → 15 Rage [1][5] (Smoldering)
-**Turn 4**: Attack (crit!) → Roll [5, 6] = 11 → 26 Rage [2][6] (Frenzied!)
-**Turn 5**: Attack (hit) → Roll [4] → 30 Rage [3][0] (Frenzied)
-**Turn 6**: Attack (hit) → Roll [6] → 36 Rage [3][6] (Frenzied)
-**Turn 7**: Attack (hit) → Roll [5] → 41 Rage [4][1] (Primal!)
-**Turn 8**: Use Primal Roar (15 Rage) → 26 Rage [2][6] (Frenzied)
-**Turn 9**: Attack (hit) → Roll [6] → 32 Rage [3][2] (Frenzied)
-**Turn 10**: Attack (crit!) → Roll [6, 5] = 11 → 43 Rage [4][3] (Primal!)
-
-**State Transition Announcements**:
-
-When you cross a Rage State threshold, announce it dramatically:
-- **Entering Frenzied**: "My blood boils! I enter Frenzied State!"
-- **Entering Primal**: "Primal fury awakens! I enter Primal State!"
-- **Entering Carnage**: "Carnage consumes me! I enter Carnage State!"
-- **Entering Cataclysm**: "Cataclysmic power surges! I enter Cataclysm State!"
-- **Entering Obliteration**: "OBLITERATION! I am unstoppable!" (then immediately spend or Overheat!)
-
-**Why This System Works**: The physical act of rolling dice to generate Rage, adjusting your 2d10 to show increasing fury, and watching your Rage climb through escalating states creates MOMENTUM. You can SEE your power growing, FEEL the tension as you approach Overheat, and EXPERIENCE the satisfaction of spending massive Rage on devastating abilities. The 2d10 system makes Rage tangible—it's not an abstract number, it's two dice sitting in front of you, showing your current fury level at a glance.
 
 **Pro Tips**:
-- **State Awareness**: Glance at your dice to know your current state instantly
-- **Overheat Planning**: When approaching 80+ Rage, plan your next Rage-spending ability
-- **Decay Prevention**: Attack every round to avoid -5 Rage decay
-- **Crit Fishing**: At 90+ Rage, avoid crits (they might push you to Overheat)
-- **Strategic Spending**: Don't hoard Rage—spending it prevents Overheat and unleashes power
-
-**Budget-Friendly Alternatives**:
-- **No d10s?** Use a d100 or track on paper
-- **No colored dice?** Use any d10s, just label them "Tens" and "Ones"
-- **Minimalist**: Just write Rage value on paper and update
-
-**Why Berserker Is Perfect for In-Person Play**: The class is built around a simple, visceral mechanic: build Rage through combat, watch it climb through escalating states, spend it on devastating abilities, and avoid Overheat. The 2d10 system makes this tangible and immediate—you can see your fury growing with every attack, feel the tension as you approach 100, and experience the rush of spending massive Rage on game-changing abilities. The physical dice create a visual representation of your character's escalating fury, making every combat feel like a building crescendo of violence and power.`
+- Slam the dice down when you enter a new State — make it dramatic
+- Keep the reference card visible at all times so you know your bonuses instantly
+- At 80+ Rage: before every attack, check "if I crit, where does that put me?" and have a spend ready
+- **Intentional Overheat**: If at 90+ and holding Obliterating Strike — go for the crit, push past 101, spend immediately. That's Berserker mastery.`
     }
   },
-  
+
   // Specializations
   specializations: {
     title: 'Berserker Specializations',
@@ -705,7 +426,7 @@ When you cross a Rage State threshold, announce it dramatically:
         keyAbilities: [
           'Juggernaut\'s Endurance: Convert Rage into temporary HP',
           'Immovable Object: Become immune to forced movement',
-          'Rage Armor: AC increases with Rage State'
+          'Rage Armor: Armor increases with Rage State'
         ],
 
         specPassive: {

@@ -44,7 +44,7 @@ const DEFAULT_STATS = {
   currentMana: 50,
   maxActionPoints: 6,
   currentActionPoints: 6,
-  armorClass: 15,
+  armor: 15,
   initiative: 2,
   
   // Movement

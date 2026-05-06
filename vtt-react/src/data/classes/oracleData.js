@@ -119,7 +119,7 @@ The class has a unique prediction mechanic where you declare what you think will
 *You speak with certainty. "The master's blade will find only air."*
 
 **Assassin Master's Turn**: Attacks your tank (has disadvantage from Omen of Weakness)
-**Attack Roll**: d20+7 with DISADVANTAGE → [17, 9] → Take 9 → 9 + 7 = 16 → Miss! (tank's AC is 17)
+**Attack Roll**: d20+7 with DISADVANTAGE → [17, 9] → Take 9 → 9 + 7 = 16 → Miss! (tank's Armor is 17)
 
 *The assassin master's blade swings wide, just as you predicted.*
 
@@ -146,7 +146,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 **Prophetic Visions**: 7 - 3 = **4/10**
 
-**Assassin #2's Reroll**: d20+7 with DISADVANTAGE → [14, 7] → Take 7 → 7 + 7 = 14 → Miss! (mage's AC is 15)
+**Assassin #2's Reroll**: d20+7 with DISADVANTAGE → [14, 7] → Take 7 → 7 + 7 = 14 → Miss! (mage's Armor is 15)
 
 *The assassin's blade passes through empty air. Your mage is unharmed. You changed fate itself.*
 
@@ -239,623 +239,130 @@ You're not a damage dealer. You're a SEER who manipulates FATE. You make predict
   // Resource System
   resourceSystem: {
     title: 'Prophetic Visions',
-    subtitle: 'The Oracle\'s Unique Resource Mechanic',
+    subtitle: 'The Eye of Fate & The Prediction Engine',
 
-    description: `Oracles generate Prophetic Visions by making accurate predictions and revealing hidden truths. These Visions can be spent to manipulate fate, force rerolls, or unleash powerful divination magic. The more accurate your predictions, the more power you accumulate.`,
+    description: `Oracles generate Prophetic Visions by reading the flow of time and declaring predictions about combat. These visions allow them to reach into the timeline and manually reweave fate, forcing rerolls and altering outcomes in real-time.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Prophetic Visions Interface',
-      content: `**What You See**: The Oracle's interface displays a mystical EYE OF PROPHECY with 10 glowing iris segments representing your Prophetic Visions. As you make correct predictions and witness fate, the eye fills with radiant light. Active predictions are shown as floating text above the eye, and fate manipulation options appear when you have Visions to spend.
+    cards: [
+      {
+        title: 'The Eye of Prophecy (0–10)',
+        stats: '10 Vision Max | +1 per Turn',
+        details: 'A mystical eye UI tracks your foresight. It glows brighter as your clarity increases, granting reality-warping power at higher tiers.'
+      },
+      {
+        title: 'Prediction Engine',
+        stats: 'Simple / Complex / Grand',
+        details: 'Declare what will happen next. Correct forecasts grant 1–3 Visions immediately, rewarding tactical insight over blind luck.'
+      },
+      {
+        title: 'Fate Manipulation',
+        stats: 'Force Rerolls | Alter Results',
+        details: 'Spend Visions as a Reaction to force enemies to reroll or grant allies advantage. You are the ultimate tactical safety net.'
+      },
+      {
+        title: 'Forecast Dice',
+        stats: '5 Dice at Day Start | Swap Any Roll',
+        details: 'At the start of each day, roll 5 dice of your choosing (any combination of d4, d6, d8, d10, d12, d20). Bank the results. During the day, spend a forecast die to replace any die roll result with the banked value. Unused dice cause Fate\'s Burden.'
+      }
+    ],
 
-**EYE OF PROPHECY DISPLAY** (Center of HUD):
-
-**Eye Visualization**:
-- **Outer Ring**: Ornate mystical eye with 10 iris segments
-- **Iris Segments**: Each segment represents 1 Prophetic Vision (0-10 total)
-- **Pupil**: Central dark circle that glows brighter as Visions increase
-- **Eyelids**: Partially closed when low Visions, wide open when high Visions
-- **Aura**: Swirling ethereal energy around the eye
-
-**Vision Level Visualization**:
-
-**0-2 Visions (Low Insight)**:
-- **Iris**: Only 0-2 segments filled with dim blue light
-- **Pupil**: Dark, barely glowing
-- **Eyelids**: Nearly closed, squinting
-- **Aura**: Faint wisps of blue energy
-- **Status**: "Low Visions - Limited Foresight"
-- **Border**: Gray
-
-**3-5 Visions (Moderate Insight)**:
-- **Iris**: 3-5 segments filled with moderate blue-white glow
-- **Pupil**: Glowing softly
-- **Eyelids**: Half-open
-- **Aura**: Moderate swirling energy
-- **Status**: "Moderate Visions - Clear Sight"
-- **Border**: Blue
-
-**6-8 Visions (High Insight)**:
-- **Iris**: 6-8 segments filled with bright silver-blue light
-- **Pupil**: Glowing brightly, pulsing
-- **Eyelids**: Wide open, alert
-- **Aura**: Strong swirling energy, occasional flashes
-- **Status**: "High Visions - Prophetic Clarity"
-- **Border**: Silver
-
-**9-10 Visions (MAXIMUM FORESIGHT)**:
-- **Iris**: 9-10 segments filled with BRILLIANT white-gold light
-- **Pupil**: BLAZING with prophetic power, radiating light
-- **Eyelids**: FULLY OPEN, eye staring intensely
-- **Aura**: INTENSE swirling energy, constant flashes, reality distortion effect
-- **Status**: "MAXIMUM VISIONS - OMNISCIENT SIGHT"
-- **Border**: Gold, pulsing
-- **Screen Effect**: Slight ethereal overlay, you can see faint outlines of future events
-
-**Vision Generation Animation**:
-
-**Correct Prediction**:
-- **Prediction Text**: "Prediction: Tank will be attacked" (shown above eye)
-- **Event Occurs**: Tank is attacked
-- **Validation**: "PREDICTION CORRECT!" text flashes in gold
-- **Vision Gain**: Eye iris segment LIGHTS UP, +1/2/3 Visions based on complexity
-- **Audio**: Mystical chime, whisper of "truth revealed"
-- **Text Notification**: "+2 Prophetic Visions (Correct Prediction)"
-- **Pupil Flash**: Pupil flashes brightly
-
-**Witnessing Fate (Critical Hit)**:
-- **Critical Hit Occurs**: Ally or enemy rolls natural 20 within 30 ft
-- **Fate Detection**: Eye PULSES, detecting the critical moment
-- **Vision Gain**: Iris segment lights up, +1 Vision
-- **Audio**: Soft bell chime
-- **Text Notification**: "+1 Prophetic Vision (Witnessed Critical Hit)"
-- **Visual**: Brief flash of light from eye to the critical hit location
-
-**Revealing Truth**:
-- **Divination Cast**: You cast "Detect Lies" or similar
-- **Truth Revealed**: "Enemy is lying about their intentions"
-- **Vision Gain**: Iris segment lights up, +1 Vision
-- **Audio**: Revelation sound (mystical whoosh)
-- **Text Notification**: "+1 Prophetic Vision (Truth Revealed)"
-
-**Prediction Interface**:
-
-**Making a Prediction** (1 AP):
-- **Prediction Menu**: Opens with three options
-  * "Simple Prediction (+1 Vision if correct)"
-  * "Moderate Prediction (+2 Visions if correct)"
-  * "Complex Prediction (+3 Visions if correct)"
-- **Text Input**: "Enter your prediction: ___"
-- **Examples Shown**: "Enemy will attack tank" / "Ally will crit" / "Enemy will cast Fireball"
-- **Confirm Button**: "MAKE PREDICTION"
-
-**Active Prediction Display**:
-- **Floating Text**: Above the Eye of Prophecy
-- **Prediction**: "ACTIVE: Tank will be attacked next turn"
-- **Complexity**: "Moderate Prediction (+2 Visions if correct)"
-- **Timer**: "Resolves: Next turn"
-- **Status**: "Pending..." (yellow) or "CORRECT!" (gold) or "Incorrect" (red)
-
-**Prediction Resolution**:
-- **Correct**: Eye flashes gold, iris segments fill, "+2 Visions!" text
-- **Incorrect**: Eye dims briefly, "Prediction Failed" text, no Visions gained
-- **Partial**: Some predictions can be partially correct for reduced Visions
-
-**Vision Spending Interface**:
-
-**Alter Fate Options** (when you have Visions):
-- **Button 1**: "Force Reroll (3 Visions)" - glows when available
-- **Button 2**: "Grant Advantage (2 Visions)" - glows when available
-- **Button 3**: "Add +5 to Roll (1 Vision)" - glows when available
-- **Button 4**: "Subtract -5 from Roll (1 Vision)" - glows when available
-
-**Alter Fate Animation**:
-When you spend Visions to alter fate:
-- **Vision Drain**: Eye iris segments DIM (e.g., 7 Visions → 4 Visions, 3 segments fade)
-- **Fate Manipulation**: Ethereal energy BURSTS from eye toward target
-- **Reality Warp**: Brief distortion effect around target
-- **Reroll**: Dice appears, spins, shows new result
-- **Audio**: Reality-warping sound (deep resonance + high chime)
-- **Text Notification**: "FATE ALTERED! Forced reroll (spent 3 Visions)"
-
-**Vision-Powered Spell Interface**:
-When casting spells that cost Visions:
-- **Spell Button**: "Prophetic Strike (8 mana + 1 Vision)"
-- **Cost Display**: Shows both mana and Vision cost
-- **Warning**: "Will reduce Visions: 7 → 6"
-- **Cast Animation**: Eye glows, Vision drains, spell effect enhanced with prophetic energy
-
-**Doom Prophecy Cast** (5 Visions):
-- **Vision Drain**: 5 iris segments DIM rapidly
-- **Eye Transformation**: Eye OPENS FULLY, pupil becomes VOID
-- **Prophecy Projection**: Ethereal visions of death project from eye to enemies
-- **Enemy Reaction**: Enemies see their own deaths, clutch heads, scream
-- **Damage Numbers**: "39 psychic damage (Doom Prophecy)" appears
-- **Audio**: Ominous whispers, screams, reality tearing
-- **Screen Effect**: Brief flash of death visions
-
-**Fate Thread Visualization**:
-When you have high Visions (7+):
-- **Fate Threads**: Ethereal silver threads appear connecting you to allies and enemies
-- **Thread Colors**:
-  * Allies: Golden threads (positive fate)
-  * Enemies: Red threads (doomed fate)
-  * Uncertain: Silver threads (fate undecided)
-- **Thread Manipulation**: When you alter fate, threads SHIFT and REWEAVE
-
-**Prediction History Log**:
-- **Recent Predictions**: Shows last 3 predictions
-  * "Tank attacked ✓ (+2 Visions)"
-  * "Mage will crit ✗ (Failed)"
-  * "Enemy casts spell ✓ (+2 Visions)"
-- **Accuracy Rate**: "Prediction Accuracy: 75% (6/8 correct)"
-
-**Vision Regeneration Indicator**:
-- **Long Rest**: "Visions will reset to 3 at next long rest"
-- **Current**: "Visions: 2/10 (will regenerate to 3)"
-- **Baseline**: "Baseline Prophetic Insight: 3 Visions"
-
-**Why This Matters**: The Eye of Prophecy makes you FEEL like a seer. When you make a prediction—"The tank will be attacked"—and it comes true, the eye FLASHES GOLD, an iris segment LIGHTS UP, and "+2 Prophetic Visions" appears. You were RIGHT. You SAW the future. When you have 7 Visions and the eye is WIDE OPEN with silver-blue light, you can see fate threads connecting everyone on the battlefield. When you spend 3 Visions to force an enemy to reroll and the eye BURSTS with energy, reality WARPS, and the dice spins to a new result—you just CHANGED FATE. When you cast Doom Prophecy with 5 Visions and the eye becomes a VOID projecting death visions to enemies, you're wielding DESTINY as a weapon. The prediction interface makes the mechanic engaging: you type your prediction, it floats above the eye, and when it resolves you get immediate feedback. Every correct prediction makes you stronger. Every Vision spent reshapes reality. You don't just see the future—you MAKE it.`
+    generationTable: {
+      headers: ['Action/Event', 'Vision Gain', 'Notes'],
+      rows: [
+        ['Fate’s Whisper', '+1 per Turn', 'Passive floor (max 10)'],
+        ['Simple Prediction', '+1 Vision', 'e.g., "The next attack will hit"'],
+        ['Complex Prediction', '+2 Visions', 'e.g., "The boss will cast a spell"'],
+        ['Grand Prediction', '+3 Visions', 'e.g., "Our rogue will crit this turn"'],
+        ['Witnessing Fate', '+1 Vision', 'Triggers on any Natural 20 or 1'],
+        ['Revealing Truth', '+1 Vision', 'Use divination to expose hidden traps/lies'],
+        ['Long Rest', 'Reset to 3', 'Baseline prophetic insight level']
+      ]
     },
 
-    mechanics: {
-      title: 'How Prophetic Visions Work',
-      content: `**Generating Visions**
-You gain Prophetic Visions through:
-
-- **Fate's Whisper (Passive)**: At the start of each of your turns in combat, gain 1 Prophetic Vision (max 10). This provides a reliable floor—you always have SOMETHING to spend.
-- **Correct Predictions**: Declare a prediction before an event (e.g., "The next attack will miss"). If correct, gain 1-3 Visions based on specificity. This is your BURST generation on top of the passive floor.
-- **Revealing Truths**: Use divination abilities to uncover hidden information (traps, lies, weaknesses) — gain 1 Vision per revelation
-- **Fulfilling Prophecies**: At the start of each session, make 3 prophecies about what will happen. Each that comes true grants 2 Visions
-- **Witnessing Fate**: When a critical hit or critical miss occurs within 30 feet, gain 1 Vision
-
-**Resource Split: Mana vs Visions**
-Oracle uses two resources with distinct purposes:
-- **Mana**: Pays for baseline spells (Divine Insight, Prophetic Shield, Detect Fate, Fate Strike, etc.). If it's a spell that any caster could conceptually cast, it costs Mana.
-- **Prophetic Visions**: Pays exclusively for fate manipulation (Force Reroll, Alter Fate, Twist Destiny, Sever Thread) and spec-defining empowered effects. No spell costs BOTH Mana and Visions—each ability uses one or the other.
-
-**Spending Visions**
-Visions can be spent to:
-
-- **Alter Fate** (1-3 Visions): Force a reroll, grant advantage/disadvantage, or add/subtract from a roll
-- **Activate Fate Manipulation Spells**: Powerful fate-bending abilities cost Visions instead of Mana
-- **Activate Prophecies**: Trigger powerful effects by spending accumulated Visions
-- **Trigger Spec Abilities**: Each spec has unique abilities powered by Visions
-
-**Vision Storage**
-- **Maximum Visions**: 10
-- **Persistence**: Visions persist between combats
-- **Long Rest**: Visions reset to 3 at the start of each long rest (baseline prophetic insight)`
+    forecastDice: {
+      title: 'Forecast Dice',
+      subtitle: 'The Oracle\'s Unique Ability',
+      description: `At the start of each day (after a long rest), the Oracle rolls **5 Forecast Dice** of their own choosing. You may select any combination of dice types (d4, d6, d8, d10, d12, d20) — for example, 2d6 + 1d8 + 1d10 + 1d20. The results are **banked** and can be spent throughout the day to replace any single die roll with a forecast die result.`,
+      rules: [
+        '**Rolling**: At the start of each day, choose your 5 dice and roll them. Record each result separately (e.g., d6=4, d6=2, d8=7, d10=3, d20=14).',
+        '**Spending**: At any point during the day, you may spend one forecast die to replace the result of ANY die roll — yours, an ally\'s, or an enemy\'s. This includes attack rolls, damage rolls, saving throws, ability checks, and healing rolls.',
+        '**Declaration**: You must declare the swap BEFORE the result is applied. "I swap my forecast d8 showing 7 for this attack roll."',
+        '**One-for-One**: Each forecast die can only be used once. Once spent, it is consumed.',
+        '**Timing**: You can use forecast dice in combat, during skill challenges, social encounters, or any other situation involving die rolls.',
+        '**Strategic Choice**: Choosing your dice types is a strategic decision. d20s give you wide-range replacement potential but are risky (you might roll low). d4s and d6s are more reliable for guaranteeing minimum values.',
+      ],
+      exampleLoadouts: [
+        { name: 'The Safety Net', dice: '5d6', strategy: 'Reliable mid-range swaps. Good for turning misses into hits or guaranteeing damage.' },
+        { name: 'The Critical Fisher', dice: '2d20 + 3d4', strategy: 'Fish for natural 20s on the d20s. Use d4s for small but guaranteed adjustments.' },
+        { name: 'The Balanced Oracle', dice: '2d8 + 2d6 + 1d12', strategy: 'Mix of range sizes for versatile swap options throughout the day.' },
+      ],
+      fatesBurden: {
+        title: 'Fate\'s Burden',
+        description: `If you reach the end of the day (next long rest) with unused Forecast Dice, you suffer **Fate's Burden**: a stacking penalty of **-1 to all d20 rolls per unused forecast die**, carried to the next day.`,
+        rules: [
+          '**Penalty**: Each unused forecast die = -1 to ALL d20 rolls (attacks, saves, checks, death saves) the following day.',
+          '**Stacking**: If you have 3 unused dice, you suffer -3 to all d20 rolls until your next long rest.',
+          '**Cap**: Maximum Fate\'s Burden is -10. Any dice beyond 10 unused are simply lost.',
+          '**Clearing**: Fate\'s Burden clears at your NEXT long rest. During the burdened day, you still roll new forecast dice normally.',
+          '**Philosophy**: The Oracle foresaw these outcomes and failed to act. The weight of unfulfilled prophecy drags at your sight.'
+        ]
+      }
     },
-    
-    predictionMechanics: {
-      title: 'Prediction System',
-      content: `**Making Predictions**
-For 1 AP, you can make a prediction about an upcoming event:
 
-**Simple Prediction** (1 Vision if correct):
-• "The next attack will hit/miss"
-• "The enemy will move/stay still"
-• "An ally will take damage this round"
-
-**Specific Prediction** (2 Visions if correct):
-• "The rogue will land a critical hit"
-• "The enemy will cast a spell"
-• "The fighter will be reduced below half HP"
-
-**Precise Prediction** (3 Visions if correct):
-• "The enemy will cast Fireball targeting our cleric"
-• "The next attack will roll between 15-20"
-• "Two enemies will fall this round"
-
-**Prophecy Timing**
-Predictions must be made before the event occurs and are resolved immediately when the event happens or fails to happen. Failed predictions grant no Visions but have no other penalty.`
+    usage: {
+      momentum: 'Use Simple Predictions to steadily climb to 5+ Visions. Once your Eye is bright, you have the "Fate Bank" to save allies from lethal critical hits.',
+      flourish: '⚠️ Prediction AP: Predictions cost 1 Action Point. Always leave 1 AP in your tank if you need to generate Visions for a big turn.'
     },
-    
+
+    overheatRules: {
+      title: 'Prophetic Clarity',
+      content: `Your current Vision level determines the intensity of your connection to the timestream:
+
+**👁️ Maximum Foresight (9–10 Visions)**:
+- **Status**: Omniscient Sight.
+- **Effect**: The Eye of Prophecy blazes gold. You can see the ethereal "Fate Threads" connecting all combatants. Reality distortions around you grant a constant +2 to your own AC.
+
+**👁️ High Insight (6–8 Visions)**:
+- **Status**: Prophetic Clarity.
+- **Effect**: silver-blue light radiates from your irises. You have enough reserve to use "Twist Destiny" (5 Visions) to completely change a hit to a miss.
+
+**👁️ Moderate Insight (3–5 Visions)**:
+- **Status**: Clear Sight.
+- **Effect**: Soft blue glow. This is your safe zone for using Reactions like "Force Reroll" (3 Visions).
+
+**👁️ Low Insight (0–2 Visions)**:
+- **Status**: Limited Foresight.
+- **Effect**: Dim light. You are vulnerable and must focus on basic predictions to rebuild your connection to the future.`
+    },
+
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Vision Economy**
-- Start each session with 3 Visions from your long rest
-- Make session prophecies early to potentially gain 6 more Visions (3 prophecies × 2 Visions each)
-- Balance between making predictions (risky but rewarding) and spending Visions (immediate power)
-- Save Visions for critical moments when altering fate could turn the tide
+      title: 'Combat Phases & Prediction Logic',
+      content: `**Phase 1: Calibration (0-3 Visions)**: Focus on high-probability Simple Predictions. Predict that your tank will be attacked or that your mage will cast a spell. Build your bank.
 
-**Prediction Strategy**
-- Make simple predictions frequently to build Visions steadily
-- Save specific/precise predictions for when you have strong information
-- Use divination spells to gather information that makes predictions easier
-- Coordinate with allies to set up predictable scenarios
+**Phase 2: Manipulation (4-7 Visions)**: This is your active zone. Hold 3 Visions at all times for a "Force Reroll" Reaction to save a squishy ally. Use Moderate Predictions to replace spent Visions.
 
-**Specialization Synergy**
-- **Seers** excel at future predictions and gain bonus Visions from correct forecasts
-- **Truthseekers** reveal hidden information and expose enemy weaknesses, stripping defenses and buffing allies against revealed targets
-- **Fateseers** manipulate outcomes through predictions—all fate alteration flows through foresight`
+**Phase 3: Rewriting (8-10 Visions)**: Unleash Grand Prophecies. With 10 Visions, you can activate "Divine Intervention" to rewrite an entire round of combat.
+
+**The Witnessing Loop**: Positioning is key. Stay within 30ft of the frontline. You gain +1 Vision every time *anyone* (ally or enemy) rolls a Natural 20 or Natural 1. The more chaotic the fight, the faster you gain power.
+
+**Prediction Pro-Tip**: Coordinate with your team. If the Rogue tells you they are going to use their "Hidden Blade" for a crit attempt, make that your Grand Prediction. You guarantee the payoff for both of you.`
     },
 
     playingInPerson: {
       title: 'Playing Oracle In Person',
       content: `**Required Materials**:
-- **10 Prophetic Vision Tokens** (coins, beads, or dice representing Visions 0-10)
-- **Prediction Cards** (for writing down predictions before they resolve)
-- **Vision Type Chart** (showing Simple, Complex, and Grand predictions)
-- **Fate Manipulation Cards** (showing abilities that spend Visions)
-- **Witnessing Tracker** (for tracking critical hits, natural 1s, and major events)
-- **Specialization Card** (showing spec-specific bonuses)
-
-**Primary Tracking Method: Vision Tokens + Prediction Cards**
-
-The Oracle gains Prophetic Visions (0-10) by making correct predictions about combat events. Write predictions on cards, then gain Visions when they prove true. Spend Visions on fate manipulation abilities to alter outcomes and bend probability.
-
-**Setup**:
-\`\`\`
-ORACLE RESOURCE TRACKING:
-
-PROPHETIC VISIONS: [___] / 10
-• Start combat: 3 Visions (baseline)
-• Gain Visions: Make correct predictions
-• Spend Visions: Fate manipulation abilities
-
-VISION GENERATION:
-• Simple Prediction (correct): +1 Vision
-• Complex Prediction (correct): +2 Visions
-• Grand Prediction (correct): +3 Visions
-• Witness Critical Hit (within 30 ft): +1 Vision
-• Witness Natural 1 (within 30 ft): +1 Vision
-• Witness Major Event: +1-3 Visions
-
-VISION SPENDING:
-• Force Reroll (2 Visions): Force ally/enemy to reroll
-• Alter Fate (3 Visions): Grant advantage/disadvantage
-• Prophesied Doom (4 Visions): Curse enemy with ill omen
-• Twist Destiny (5 Visions): Change outcome dramatically
-• Divine Intervention (10 Visions): Ultimate fate manipulation
-\`\`\`
-
-**How It Works**:
-
-**Making Predictions**:
-1. **Declare prediction** → Write on prediction card
-2. **Wait for resolution** → See if prediction comes true
-3. **Correct prediction** → Gain Visions based on difficulty
-4. **Add Vision tokens** → Increase Vision count
-
-**Spending Visions**:
-1. **Choose ability** → Check Vision cost
-2. **Remove Vision tokens** → Subtract from Vision count
-3. **Activate ability** → Apply fate manipulation effect
-
-**Prediction Types**:
-
-**Simple Prediction (+1 Vision if correct)**:
-- "Enemy will miss next attack"
-- "Ally will hit next attack"
-- "Enemy will move closer"
-- Easy to predict, low reward
-
-**Complex Prediction (+2 Visions if correct)**:
-- "Ally will land critical hit within 2 turns"
-- "Enemy will cast specific spell"
-- "Ally will reduce enemy to 0 HP"
-- Moderate difficulty, moderate reward
-
-**Grand Prediction (+3 Visions if correct)**:
-- "Combat will end within 3 turns"
-- "Specific ally will deliver killing blow"
-- "Enemy will flee before dying"
-- Hard to predict, high reward
-
-**Example Prediction Making**:
-
-*You have 3 Visions, making a Simple Prediction*
-
-**Your Turn - Make Prediction**:
-1. "I predict the orc will miss its next attack!" (1 AP)
-2. Write on prediction card: "Orc misses next attack"
-3. Wait for orc's turn
-
-**Orc's Turn**:
-1. Orc attacks your tank
-2. Attack roll: 1d20+5 → [4] + 5 = 9 (miss!)
-3. **Prediction CORRECT!**
-4. Gain +1 Vision
-5. Add 1 Vision token
-6. Prophetic Visions: 3 + 1 = **4 Visions**
-
-**Example Complex Prediction**:
-
-*You have 4 Visions, making a Complex Prediction*
-
-**Your Turn - Complex Prediction**:
-1. "I predict our fighter will land a critical hit within 2 turns!" (1 AP)
-2. Write on prediction card: "Fighter crits within 2 turns"
-3. Wait for resolution
-
-**Fighter's Turn (Turn 1)**:
-1. Fighter attacks orc
-2. Attack roll: 1d20+5 → [15] + 5 = 20 (hit, not crit)
-3. Prediction not yet resolved
-
-**Fighter's Turn (Turn 2)**:
-1. Fighter attacks orc again
-2. Attack roll: 1d20+5 → [20] + 5 = 25 (**CRITICAL HIT!**)
-3. **Prediction CORRECT!**
-4. Gain +2 Visions
-5. Add 2 Vision tokens
-6. Prophetic Visions: 4 + 2 = **6 Visions**
-
-**Example Witnessing Fate**:
-
-*You have 6 Visions, ally lands critical hit within 30 ft*
-
-**Ally's Turn**:
-1. Ally attacks enemy
-2. Attack roll: 1d20+5 → [20] + 5 = 25 (**CRITICAL HIT!**)
-3. **Witnessing Fate**: Critical hit within 30 ft
-4. Gain +1 Vision
-5. Add 1 Vision token
-6. Prophetic Visions: 6 + 1 = **7 Visions**
-
-**Example Vision Spending**:
-
-*You have 7 Visions, using Alter Fate to grant advantage*
-
-**Enemy's Turn**:
-1. Dragon attacks your ally
-2. "I use Alter Fate to grant my ally advantage on the save!" (3 Visions)
-3. Remove 3 Vision tokens
-4. Prophetic Visions: 7 - 3 = **4 Visions**
-5. Ally rolls save with advantage
-6. Save roll: 1d20+3 (advantage) → [18, 7] + 3 = 21 (success!)
-
-**Prediction Card Template**:
-\`\`\`
-═══════════════════════════════════
-    PREDICTION CARD
-═══════════════════════════════════
-TYPE: [Simple / Complex / Grand]
-
-PREDICTION:
-_____________________________________
-_____________________________________
-
-RESOLUTION:
-☐ Correct (+___ Visions)
-☐ Incorrect (no Visions)
-
-TURN MADE: ___
-TURN RESOLVED: ___
-═══════════════════════════════════
-\`\`\`
-
-**Vision Generation Chart**:
-\`\`\`
-═══════════════════════════════════
-  PROPHETIC VISION GENERATION
-═══════════════════════════════════
-PREDICTIONS:
-• Simple (correct): +1 Vision
-  Examples: "Enemy misses", "Ally hits"
-
-• Complex (correct): +2 Visions
-  Examples: "Ally crits within 2 turns"
-
-• Grand (correct): +3 Visions
-  Examples: "Combat ends within 3 turns"
-
-WITNESSING FATE:
-• Critical hit (within 30 ft): +1 Vision
-• Natural 1 (within 30 ft): +1 Vision
-• Major event (DM discretion): +1-3 Visions
-
-SPECIALIZATION BONUSES:
-• Seer: +1 Vision for correct future predictions
-• Truthseeker: +1 Vision for revealing secrets
-• Fateseer: +1 Vision from correct prediction-conditional manipulations
-═══════════════════════════════════
-\`\`\`
-
-**Vision Spending Reference Card**:
-\`\`\`
-═══════════════════════════════════
-   FATE MANIPULATION ABILITIES
-═══════════════════════════════════
-FORCE REROLL (2 Visions):
-• Force ally or enemy to reroll any roll
-• Must use new result
-• Reaction to use
-
-ALTER FATE (3 Visions):
-• Grant advantage or disadvantage on any roll
-• Affects next roll only
-• Reaction to use
-
-PROPHESIED DOOM (4 Visions):
-• Curse enemy with ill omen
-• Enemy has disadvantage on all rolls for 2 turns
-• Action to use
-
-TWIST DESTINY (5 Visions):
-• Change outcome dramatically
-• Turn hit into miss, or miss into hit
-• Turn success into failure, or vice versa
-• Reaction to use
-
-DIVINE INTERVENTION (10 Visions - ULTIMATE):
-• Rewrite fate entirely
-• Prevent death, guarantee success, or alter reality
-• Once per long rest
-• Reaction to use
-═══════════════════════════════════
-\`\`\`
-
-**Example In-Person Turn**:
-
-*You have 5 Visions, making predictions and spending Visions*
-
-**Turn 1 - Make Prediction**:
-1. "I predict the mage will cast Fireball next turn!" (Complex Prediction)
-2. Write on prediction card: "Mage casts Fireball next turn"
-3. Wait for mage's turn
-
-**Mage's Turn**:
-1. Mage casts Fireball at party
-2. **Prediction CORRECT!**
-3. Gain +2 Visions
-4. Add 2 Vision tokens
-5. Prophetic Visions: 5 + 2 = **7 Visions**
-
-**Turn 2 - Alter Fate**:
-1. Ally makes save against Fireball
-2. "I use Alter Fate to grant advantage!" (3 Visions)
-3. Remove 3 Vision tokens
-4. Prophetic Visions: 7 - 3 = **4 Visions**
-5. Ally rolls save with advantage: [18, 9] + 3 = 21 (success!)
-
-**Turn 3 - Witness Critical**:
-1. Fighter attacks enemy
-2. Attack roll: [20] = **CRITICAL HIT!**
-3. **Witnessing Fate**: +1 Vision
-4. Add 1 Vision token
-5. Prophetic Visions: 4 + 1 = **5 Visions**
-
-**Alternative Tracking Methods**:
-
-**Method 1: D10 Die**
-- Rotate die to show current Visions (0-10)
-- Quick and visual
-- Single die tracks everything
-
-**Method 2: Token Stack**
-- Stack tokens vertically (0-10 tokens)
-- Visual representation of foresight
-- Satisfying to add/remove
-
-**Method 3: Bead Counter**
-- String of beads (10 beads)
-- Move beads to track Visions
-- Tactile feedback
-
-**Method 4: Paper Tracking**
-- Write Vision count on paper
-- Cross out and rewrite as it changes
-- Minimalist approach
-
-**Prediction Tracking Methods**:
-
-**Method 1: Index Cards**
-- Write predictions on index cards
-- Flip card when resolved
-- Clear and organized
-
-**Method 2: Sticky Notes**
-- Write predictions on sticky notes
-- Remove when resolved
-- Quick and disposable
-
-**Method 3: Prediction Sheet**
-- Pre-printed sheet with prediction slots
-- Check boxes for correct/incorrect
-- Reusable
-
-**Quick Reference Card Template**:
-\`\`\`
-ORACLE QUICK REFERENCE
-
-VISION GENERATION:
-• Simple Prediction (correct): +1 Vision
-• Complex Prediction (correct): +2 Visions
-• Grand Prediction (correct): +3 Visions
-• Witness Critical/Natural 1: +1 Vision
-• Seer spec: +1 Vision for future predictions
-
-VISION SPENDING:
-• Force Reroll (2 Visions): Reroll any roll
-• Alter Fate (3 Visions): Advantage/disadvantage
-• Prophesied Doom (4 Visions): Curse enemy
-• Twist Destiny (5 Visions): Change outcome
-• Divine Intervention (10 Visions): Ultimate
-
-PREDICTION STRATEGY:
-• Make Simple Predictions early for safe Visions
-• Make Complex Predictions when confident
-• Save Grand Predictions for critical moments
-• Witness critical hits and natural 1s for bonus Visions
-• Spend Visions on critical saves and attacks
-
-FATE MANIPULATION:
-• Save 3 Visions for Alter Fate (emergency)
-• Save 5 Visions for Twist Destiny (game-changer)
-• Save 10 Visions for Divine Intervention (ultimate)
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the Oracle experience with:
-- **Crystal Ball**: Small crystal prop for divination theme
-- **Tarot Cards**: Use tarot cards for prediction tracking
-- **Purple Dice**: Purple/mystical dice for Vision tracking
-- **Prophecy Scrolls**: Parchment for writing predictions
-- **Vision Tokens**: Eye-shaped tokens for Prophetic Visions
-- **Fate Dice**: Special dice for fate manipulation rolls
-
-**Vision Management Tips**:
-
-**Generation Strategy**:
-- **Safe Predictions**: Make Simple Predictions for guaranteed Visions
-- **Calculated Risks**: Make Complex Predictions when confident
-- **Grand Gambles**: Make Grand Predictions for high-stakes moments
-- **Witnessing**: Position within 30 ft of allies for Witnessing bonuses
-- **Seer Spec**: Focus on future predictions for bonus Visions
-
-**Spending Strategy**:
-- **Emergency Reserve**: Keep 3 Visions for Alter Fate
-- **Game-Changer**: Save 5 Visions for Twist Destiny
-- **Ultimate**: Save 10 Visions for Divine Intervention
-- **Don't Hoard**: Spend Visions when they matter most
-- **Fateseer Spec**: All manipulation flows through predictions—chain correct predictions into fate effects
-
-**Prediction Strategy**:
-- **Observe Patterns**: Watch enemy behavior for prediction clues
-- **Know Your Allies**: Predict ally actions based on their playstyle
-- **Read the DM**: Pay attention to DM hints and foreshadowing
-- **Start Simple**: Build Visions with Simple Predictions first
-- **Escalate**: Make Complex/Grand Predictions when you have Vision buffer
-
-**Why This System Works**: The prediction mechanic creates active engagement with combat. Instead of passively watching, you're constantly analyzing, predicting, and forecasting. Writing predictions on cards creates accountability and excitement when they resolve. The Vision generation creates a satisfying feedback loop—correct predictions generate Visions, which you spend on fate manipulation. The three prediction tiers (Simple/Complex/Grand) create risk/reward decisions. The Witnessing mechanic rewards positioning and awareness. The system is simple to track but creates deep strategic gameplay.
-
-**Pro Tips**:
-- **Write Predictions**: Always write predictions on cards for clarity
-- **Observe First**: Watch 1-2 turns before making predictions
-- **Safe Building**: Use Simple Predictions to build Vision baseline
-- **Critical Saves**: Use Alter Fate on critical saves (death saves, major spells)
-- **Twist Destiny**: Use on attacks that would kill allies or miss critical targets
-- **Divine Intervention**: Save for preventing party wipes or ensuring victory
-- **Specialization Awareness**: Know your spec bonuses and maximize them
-
-**Budget-Friendly Alternatives**:
-- **No tokens?** Use coins (pennies = 1 Vision, dimes = 10 Visions)
-- **No prediction cards?** Write predictions on paper
-- **No die?** Track Vision count on paper
-- **Minimalist**: Track Visions and predictions on single sheet
-
-**Specialization-Specific Tracking**:
-
-**Seer**:
-- Track +1 Vision bonus for correct future predictions
-- Focus on predicting future events
-- Gain bonus Visions from foresight
-
-**Truthseeker**:
-- Track +1 Vision bonus for revealing secrets
-- Focus on uncovering hidden information
-- Gain bonus Visions from revelation
-
-**Fateseer**:
-- Track prediction-conditional abilities (all fate manipulation requires correct predictions)
-- Chain correct predictions into fate effects via Premonition passive
-- Place Fate Triggers for future contingencies
-
-**Why Oracle Is Perfect for In-Person Play**: The class is built around active engagement and prediction. Writing predictions on cards creates tangible accountability and excitement when they resolve. The Vision token system provides satisfying feedback—correct predictions generate visible resources. The fate manipulation abilities create dramatic moments (rerolls, advantage, outcome changes). The Witnessing mechanic rewards positioning and awareness. The prediction mechanic encourages reading the table, observing patterns, and engaging with combat narratively. Every prediction is a gamble, and every correct prediction is a payoff. The system transforms passive observation into active participation.`
-    }
+- **10 Ethereal Tokens** (Glass beads or silver coins for Visions)
+- **Prediction Cards** (Index cards or sticky notes)
+- **Fate Die** (A distinct d20 for forced rerolls)
+
+**Tactile Tracking**:
+1. **The Eye**: Arrange your 10 tokens in a circle (an "Eye") on the table.
+2. **Declaring**: When you make a prediction, write it on a sticky note and place it in the center of your token circle.
+3. **Resolving**: When the event happens, if you were right, move 1–3 tokens from your "Reserve" into the "Eye."
+
+**The "Fate Thread" Hack**:
+Use a silver string or measuring tape. Any critical event within 30ft of your miniature grants you +1 Vision. Having a physical 30ft marker helps you stay in the "Witnessing" pocket without constantly asking the DM for distances.`
+  }
   },
 
   // Specializations
@@ -2678,7 +2185,7 @@ Many players enhance the Oracle experience with:
     {
       id: 'oracle_prophetic_shield',
       name: 'Prophetic Shield',
-      description: 'See incoming attacks before they happen, gaining +3 AC and advantage on saving throws for 4 rounds.',
+      description: 'See incoming attacks before they happen, gaining +3 Armor and advantage on saving throws for 4 rounds.',
       level: 3,
       spellType: 'ACTION',
       specialization: 'universal',
@@ -2702,7 +2209,7 @@ Many players enhance the Oracle experience with:
         effects: [{
           id: 'prophetic_shield',
           name: 'Prophetic Shield',
-          description: 'Gain +3 AC and advantage on saving throws for 4 rounds',
+          description: 'Gain +3 Armor and advantage on saving throws for 4 rounds',
           statModifier: {
             stat: 'armor',
             magnitude: 3,

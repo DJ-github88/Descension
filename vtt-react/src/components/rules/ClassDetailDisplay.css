@@ -3334,3 +3334,108 @@ div.class-detail-content::-webkit-scrollbar-thumb,
   font-size: 0.85rem;
 }
 
+/* ===== Resource Stat Cards (Bladedancer Momentum / Flourish) ===== */
+.resource-stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.resource-stat-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(139, 69, 19, 0.08) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.45);
+  border-radius: 12px;
+  padding: 22px 24px;
+  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(139, 69, 19, 0.18);
+}
+
+.resource-stat-card-title {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #5a1e12;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resource-stat-card-stat {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.25);
+  border: 1px solid #d4af37;
+  border-radius: 20px;
+  padding: 3px 14px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #8b4513;
+  margin-bottom: 12px;
+}
+
+.resource-stat-card-details {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: #3a1a0f;
+  line-height: 1.55;
+}
+
+/* ===== Resource Usage Summary ===== */
+.resource-usage-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0 24px;
+  padding: 16px 20px;
+  background: rgba(139, 69, 19, 0.05);
+  border: 1px solid rgba(139, 69, 19, 0.2);
+  border-radius: 8px;
+}
+
+.resource-usage-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: 'Crimson Text', serif;
+  font-size: 1.05rem;
+  color: #3a1a0f;
+}
+
+.resource-usage-label {
+  font-weight: 700;
+  color: #5a1e12;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resource-usage-label i {
+  color: #d4af37;
+  font-size: 0.9rem;
+}
+
+.resource-usage-text {
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* ===== Overheat Rules Box (Berserker danger zone styling) ===== */
+.overheat-rules-box {
+  border-left: 4px solid #c0392b !important;
+  background: linear-gradient(135deg, rgba(192, 57, 43, 0.06) 0%, rgba(139, 69, 19, 0.04) 100%) !important;
+}
+
+.overheat-rules-box h4 {
+  color: #c0392b !important;
+}
+
+.overheat-rules-box h4 i {
+  color: #c0392b !important;
+}

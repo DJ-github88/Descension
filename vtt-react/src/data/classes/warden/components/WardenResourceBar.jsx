@@ -4,6 +4,7 @@ import useChatStore from '../../../../store/chatStore';
 import useGameStore from '../../../../store/gameStore';
 import useCharacterStore from '../../../../store/characterStore';
 import '../styles/WardenResourceBar.css';
+import '../../../../styles/unified-context-menu.css';
 
 const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, context = 'hud', isOwner = true, onClassResourceUpdate = null }) => {
     // Local state for dev testing
@@ -65,6 +66,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
             const tooltip = tooltipRef.current;
+            tooltip.style.opacity = '0';
             const bar = barRef.current;
             const barRect = bar.getBoundingClientRect();
             const tooltipRect = tooltip.getBoundingClientRect();
@@ -75,19 +77,20 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             let left = barRect.left + (barRect.width / 2) - (tooltipRect.width / 2);
             let top = barRect.top - tooltipRect.height - 8;
             
-            // Adjust horizontal position
             if (left < 8) left = 8;
             if (left + tooltipRect.width > viewportWidth - 8) {
                 left = viewportWidth - tooltipRect.width - 8;
             }
             
-            // Adjust vertical position (flip to bottom if needed)
             if (top < 8) {
                 top = barRect.bottom + 8;
             }
             
             tooltip.style.left = `${left}px`;
             tooltip.style.top = `${top}px`;
+            tooltip.style.opacity = '1';
+
+            return () => { if (tooltipRef.current) tooltipRef.current.style.opacity = ''; };
         }
     }, [showTooltip, localVP, selectedSpec, isInStealth, activeCages, isInAvatar]);
 
@@ -307,8 +310,9 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
             {/* Warden Menu - Compact Unified Style */}
             {showControls && barRef.current && ReactDOM.createPortal(
                 <div
-                    className={`unified-context-menu compact warden-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
-                    onClick={(e) => e.stopPropagation()}
+                    className={`unified-context-menu compact context-menu-container ${context === 'party' ? 'chronarch-party' : ''}`}
+                    onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
+                    onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     style={{
                         position: 'fixed',
                         top: (() => {
@@ -466,7 +470,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
                                 ))}
                             </div>
 
-                            <div className="context-menu-separator" style={{margin: '12px 0'}}></div>
+                            <div className="context-menu-main-separator" style={{margin: '12px 0'}}></div>
 
                             {/* Quick Actions */}
                             <div style={{ display: 'flex', gap: '4px' }}>
@@ -531,7 +535,7 @@ const WardenResourceBar = ({ classResource = {}, size = 'normal', config = {}, c
 
             {/* Simplified Tooltip */}
             {showTooltip && !showControls && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-title">Vengeance Points: {localVP}/{maxVP}</div>
                     <div className="tooltip-spec">{currentSpec.name}</div>
 

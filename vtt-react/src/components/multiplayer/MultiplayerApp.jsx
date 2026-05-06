@@ -56,6 +56,7 @@ import { FloatingCombatTextManager } from "../combat/FloatingCombatText";
 import DialogueSystem from "../dialogue/DialogueSystem";
 import DialogueControls from "../dialogue/DialogueControls";
 import DiceRollingSystem from "../dice/DiceRollingSystem";
+import AudioPlayerWidget from "../jukebox/AudioPlayerWidget";
 
 const CHAT_DEBUG = process.env.NODE_ENV === 'development' || process.env.REACT_APP_CHAT_DEBUG === 'true';
 const chatDebug = (...args) => {
@@ -6082,10 +6083,36 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    // ===== AUDIO / JUKEBOX SOCKET LISTENERS =====
+    socket.on('audio_broadcast_received', (data) => {
+      import('../../store/audioStore').then(({ default: useAudioStore }) => {
+        useAudioStore.getState().handleIncomingBroadcast(data);
+      }).catch(err => console.error('Audio broadcast error:', err));
+    });
+
+    socket.on('audio_stop_received', (data) => {
+      import('../../store/audioStore').then(({ default: useAudioStore }) => {
+        useAudioStore.getState().handleIncomingStop(data);
+      }).catch(err => console.error('Audio stop error:', err));
+    });
+
+    socket.on('audio_stop_all_received', () => {
+      import('../../store/audioStore').then(({ default: useAudioStore }) => {
+        useAudioStore.getState().handleIncomingStopAll();
+      }).catch(err => console.error('Audio stop-all error:', err));
+    });
+
+    socket.on('audio_sync_state', (data) => {
+      import('../../store/audioStore').then(({ default: useAudioStore }) => {
+        useAudioStore.getState().handleSyncState(data);
+      }).catch(err => console.error('Audio sync error:', err));
+    });
+
+    socket.on('audio_error', (data) => {
+      console.warn('Audio error from server:', data.error);
+    });
+
     return () => {
-      // Cleanup socket event listeners
-      socket.off('connect');
-      socket.off('disconnect');
       socket.off('error'); // Cleanup error handler
       socket.off('room_joined'); // CRITICAL: Clean up auto-join handler
       socket.off('room_created'); // CRITICAL: Clean up GM resume handler
@@ -6148,6 +6175,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       socket.off('rewards_received');
       socket.off('rewards_delivery_confirmed');
       socket.off('completion_denied');
+      // Audio / Jukebox cleanup
+      socket.off('audio_broadcast_received');
+      socket.off('audio_stop_received');
+      socket.off('audio_stop_all_received');
+      socket.off('audio_sync_state');
+      socket.off('audio_error');
     };
   }, [socket]); // Reduced dependencies to prevent excessive re-runs
 
@@ -8086,6 +8119,8 @@ const MultiplayerGameContent = ({
           </div>
         </div>
       )}
+
+      <AudioPlayerWidget />
 
       <style>{`
         @keyframes fadeInOverlay { from { opacity:0 } to { opacity:1 } }

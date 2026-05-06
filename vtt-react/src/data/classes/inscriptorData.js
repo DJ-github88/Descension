@@ -149,7 +149,7 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 
 *You turn to your party's tank. "Your armor." You inscribe protective runes on the breastplate.*
 
-**Inscription 2 - Tank's Armor**: "Inscription of Warding" (+2 AC, resistance to first damage type taken)
+**Inscription 2 - Tank's Armor**: "Inscription of Warding" (+2 Armor, resistance to first damage type taken)
 **Cost**: 4 mana | **Mana**: 31 - 4 = 27/60
 
 *You inscribe your own boots with runes of swiftness.*
@@ -230,7 +230,7 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 **Demon**: DEAD
 
 **Your Party's Rogue**: Sneak attacks Cultist #3 → DEAD
-**Your Party's Tank** (with inscribed armor): Attacks Cultist #4 → Hit! → Cultist attacks back but tank has +2 AC from inscription → Miss!
+**Your Party's Tank** (with inscribed armor): Attacks Cultist #4 → Hit! → Cultist attacks back but tank has +2 Armor from inscription → Miss!
 
 **Your Party's Mage**: Casts "Fire Bolt" at Cultist #4 → DEAD
 
@@ -241,7 +241,7 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 **Your Party's Mage**: "My fireball did SIXTY damage. SIXTY. What did you do to my staff?"
 **You**: "Inscription of Power. +1d8 spell damage. And you cast it inside my Amplification Zone, which added another +3d6. Preparation is everything."
 **Your Party's Tank**: "And my armor? I didn't take a single hit."
-**You**: "Inscription of Warding. +2 AC. The cultist's attack missed because of it."
+**You**: "Inscription of Warding. +2 Armor. The cultist's attack missed because of it."
 **Your Party's Rogue**: "You turned this room into a death trap."
 **You**: "I turned it into a PREPARED battlefield. Five minutes of setup, and we won in three turns. That's the Inscriptor's way."
 
@@ -254,7 +254,7 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 4. **Zone Control**: Lured enemies into the zone, then unleashed amplified spells
 5. **Rune Detonation**: Detonated Rune #3 for 2d6 damage + lingering effect
 6. **Damage Amplification**: Mage's Fireball: 38 base + 7 (inscription) + 15 (zone) = 60 damage (58% increase!)
-7. **Equipment Enhancement**: Tank's +2 AC from inscription caused enemy attack to miss
+7. **Equipment Enhancement**: Tank's +2 Armor from inscription caused enemy attack to miss
 
 You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend time before combat placing runes, inscribing equipment, and preparing the terrain. Then, when combat starts, your party fights on YOUR terms. Spells cast in your zones are amplified. Equipment you've inscribed provides crucial bonuses. Enemies who enter your runic zones are fighting in a prepared kill zone. The key is PREPARATION—given 5 minutes, you can turn any room into a fortress of magical power.`
     }
@@ -265,111 +265,41 @@ You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend tim
     title: 'Runic Resonance & Rune Inscription',
     subtitle: 'Build Resonance Through Placement',
 
-    description: `The Inscriptor's core loop is simple: inscribe runes onto the battlefield. Each rune you place generates Runic Resonance—a buildup of arcane energy that empowers everything you do. The type of rune determines the effect. The number of runes determines the power. Three or more connected runes form a Runic Zone—an area of sustained magical influence. You can detonate runes to trade sustained power for burst effects.`,
+    description: `Inscriptors are battlefield architects who transform raw mana into precise runic geometry. By anchoring runes to terrain and gear, they create compounding zones of influence and empowered artifacts. The key is preparation: building Resonance to fuel high-tier inscriptions and knowing exactly when to detonate a zone for maximum impact.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Runic Interface',
-      content: `**What You See**: The Inscriptor's HUD has two key elements—your Rune Tracker and your Resonance Gauge.
+    cards: [
+      {
+        title: 'Runic Resonance (0–10)',
+        stats: 'Builds via Rune Actions',
+        details: 'Built by placing or detonating runes. Unlocks free inscriptions and empowered spell damage at specific thresholds.'
+      },
+      {
+        title: 'Runic Zones (3+ Runes)',
+        stats: 'Compounding Area Effects',
+        details: 'Three or more connected runes form a zone. Effects scale with the number of runes placed, rewarding dense placement.'
+      },
+      {
+        title: 'Equipment Inscriptions',
+        stats: 'Persistent Gear Buffs',
+        details: 'Enhance your party’s weapons, armor, and accessories. Limited slots (3 base) but powerful, long-term utility.'
+      }
+    ],
 
-**RUNE TRACKER** (Top Section):
-
-**Rune Counter Display**:
-- **Active Runes**: "Runes Placed: 5/8" with glowing rune symbols
-- **Zone Status**: "ZONE ACTIVE" (if 3+ runes placed) or "NO ZONE" (if <3 runes)
-- **Zone Type**: Shows which rune type is dominant (e.g., "Amplification Zone", "Vitality Zone", "Warding Zone")
-
-**Battlefield Map Overlay**:
-- **Mini-Map**: Shows top-down view of battlefield with rune positions marked
-- **Rune Icons**: Each placed rune appears as a glowing symbol on the map
-- **Zone Visualization**: When 3+ runes are placed, connecting lines appear showing the zone boundary
-- **Enemy Positions**: Enemy icons show whether they're inside or outside the zone
-- **Ally Positions**: Ally icons show who's benefiting from the zone
-
-**Rune Status Display** (for each placed rune):
-- **Rune 1**: "Amplification Rune (North) - Active" with glow
-- **Rune 2**: "Amplification Rune (SW) - Active" with glow
-- **Rune 3**: "Amplification Rune (SE) - Active" with glow
-- **Detonate Button**: Red button next to each rune "Detonate (DC 15 save)"
-
-**Zone Effect Display**:
-- **3 Runes**: Base zone effect (green text)
-- **5 Runes**: Enhanced zone effect (bright green text)
-- **7 Runes**: Maximum zone effect (gold text)
-- **8 Runes**: Maximum zone effect + resonance overflow (gold text, pulsing)
-
-**RESONANCE GAUGE** (Center):
-
-**Runic Resonance Display**:
-- **Resonance Counter**: "Resonance: 7/10" with arcane energy fill bar
-- **Gain Indicator**: Glowing "+1" animation when a rune is placed
-- **Spend Indicator**: Flash when Resonance is consumed
-- **Decay Timer**: If no runes are active, shows "Resonance decaying..." with countdown
-
-**What Resonance Does**:
-- **3 Resonance**: Your next inscription costs no mana
-- **5 Resonance**: Your next spell cast within a zone deals +2d6 bonus damage
-- **7 Resonance**: Your next detonation applies its effect to all enemies in the zone (not just the detonated rune's radius)
-- **10 Resonance**: All runes pulse once, refreshing their duration and triggering their individual effects immediately
-
-**Detonation Animation**:
-When you detonate a rune:
-- **Rune Icon**: Flashes red, then EXPLODES with particle effect
-- **Damage Numbers**: Damage appears on enemies in range
-- **Lingering Effect**: Ghostly rune image remains, labeled "Lingering Effect (1 min)"
-- **Zone Recalculation**: Zone effect updates based on remaining runes
-- **Resonance Gain**: You gain +1 Resonance from each detonation (burst rewards planning)
-
-**INSCRIPTION INTERFACE** (Bottom Section):
-
-**Equipment Slots Display**:
-Shows 6 equipment slots with inscription status:
-- **Weapon Slot**: Icon with inscription status
-- **Armor Slot**: Icon with inscription status
-- **Boots Slot**: Icon with inscription status
-- **Cape Slot**: Icon with inscription status
-- **Belt Slot**: Icon with inscription status
-- **Pants Slot**: Icon with inscription status
-
-**Inscription Placement** (at combat start or during downtime):
-- **Prompt**: "Inscribe up to 3 items" (costs 3 Resonance or 4 mana per inscription)
-- **Resonance Discount**: At 3+ Resonance, inscriptions can be placed using Resonance instead of mana
-- **Selection Menu**: Click equipment slot to open inscription options
-
-**Tactical Overlay**:
-- **Zone Highlight**: Runic zone area highlighted on battlefield (green glow for allies, red for enemies)
-- **Spell Amplification Preview**: When casting spell inside zone, shows bonus damage from Resonance
-- **Resonance Tooltip**: Hover over Resonance bar to see current bonuses
-
-**Why This Matters**: The Runic Resonance system makes placing runes feel REWARDING, not punishing. Every rune you place doesn't just create a zone effect—it builds toward powerful Resonance thresholds. You're not just spending mana to place runes; you're INVESTING in a growing power source. The Resonance gauge creates a rhythm: place runes to build Resonance, spend Resonance to empower detonations or inscriptions, detonate to create burst effects. The interface shows your runes on the battlefield, your Resonance building up, and your zone growing stronger—all three systems visible and interconnected.`
+    generationTable: {
+      headers: ['Trigger', 'Resonance Change', 'Notes'],
+      rows: [
+        ['Place a Rune', '+1 Resonance', 'Generates 5-ft radius individual effect'],
+        ['Detonate a Rune', '+1 per Rune', 'Triggers burst effect + lingering aura'],
+        ['Resonance Threshold (10)', '→ Refresh All', 'All active runes pulse and reset durations'],
+        ['No Active Runes', '-1 per Round', 'Momentum bleeds away during passivity'],
+        ['Free Inscription (3+)', 'Spend 3 Res', 'Use Resonance instead of 4 Mana for inscriptions'],
+        ['Empowered Spell (5+)', 'Spend 5 Res', 'Next spell in a zone deals +2d6 damage']
+      ]
     },
 
-    mechanics: {
-      title: 'How It Works',
-      content: `**Rune Inscription (Battlefield)**:
-- **Cost**: 2 mana per rune (reduced from 3), 1 action to place
-- **Minimum**: 3 runes required to form a zone
-- **Maximum**: 8 runes (varies by specialization)
-- **Zone Effect**: 3+ connected runes create a zone; more runes = stronger zone
-- **Detonation**: DC 15 save, removes rune but triggers burst effect + lingers 1 minute
-
-**Runic Resonance (Secondary Resource)**:
-- **Generation**: +1 Resonance per rune placed, +1 per rune detonated
-- **Maximum**: 10 Resonance
-- **Decay**: Lose 1 Resonance per round if no runes are active
-- **Thresholds**: 3 (free inscription), 5 (empowered spell), 7 (enhanced detonation), 10 (refresh all runes)
-- **Resonance resets to 0 when you take a short or long rest**
-
-**Inscription Placement (Equipment)**:
-At combat start, inscribe up to 3 items from your equipment.
-- **Cost**: 4 mana OR 3 Resonance per inscription
-- **Stacking**: Cannot stack inscriptions on the same item
-- **Available Slots**: Weapon, Armor, Boots, Cape, Belt, Pants
-
-**Core Gameplay Loop**:
-1. Place runes → Build Resonance → Form zones
-2. Spend Resonance on inscriptions or empowered spells
-3. Detonate runes for burst damage + more Resonance
-4. Use Resonance thresholds to refresh or enhance remaining runes`
+    usage: {
+      momentum: 'Spend Resonance to bypass mana costs for Inscriptions or to unleash Empowered Spells (+2d6 damage) within your zones.',
+      flourish: '⚠️ Resonance Decay: If you fail to maintain at least one active rune, your Resonance will bleed away each round. Keep the weave alive.'
     },
     
     runicWrappingTable: {
@@ -379,7 +309,7 @@ At combat start, inscribe up to 3 items from your equipment.
         ['Rune of Destruction', '+1d6 fire damage dealt/taken', 'Double fire damage dealt/taken', 'Stunned for 1 min', '6 mana'],
         ['Rune of Vitality', 'Heal 1d6 HP per turn', 'Heal 2d6 HP per turn', 'Exhausted, -1d6 max HP per rune for 1 min', '4 mana'],
         ['Rune of Arcane Warding', 'Magic damage reduced by 1', 'Magic damage reduced by 50%', 'Magic Vulnerability, +50% magic damage for 1 min', '5 mana'],
-        ['Rune of Shielding', '+1 AC', '+3 AC', 'Armor Breakdown, -3 AC for 1 min', '5 mana'],
+        ['Rune of Shielding', '+1 Armor', '+3 Armor', 'Armor Breakdown, -3 Armor for 1 min', '5 mana'],
         ['Rune of Speed', '+10 ft movement', '+20 ft movement', 'Restrained for 1 min', '4 mana'],
         ['Rune of Earth', '5 ft pillar (30 HP)', 'Wall up to 10 ft long, 15 ft high', 'Wall splinters, 2d8 piercing in 15 ft', '6 mana']
       ]
@@ -399,328 +329,60 @@ At combat start, inscribe up to 3 items from your equipment.
     },
     
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Pre-Combat Preparation**: If you know combat is coming, place runes in advance to save actions during battle. A prepared Inscriptor is exponentially more powerful.
+      title: 'Combat Phases & Decision-Making',
+      content: `**Preparation (Pre-Combat)**: Place runes in advance to build Resonance early. Inscribe key ally gear (Weapon for DPS, Armor for Tank) before the first blow lands.
 
-**Inscription Selection**: Choose inscriptions based on anticipated threats. Facing spellcasters? Use Elemental Ward. Fighting melee enemies? Thorn Inscription punishes attackers.
+**Zone Control (Early Combat)**: Focus on reaching the 3-rune threshold to activate Zone Synergy. Position zones where enemies *will be*, not where they are.
 
-**Zone Positioning**: Place runic zones where allies will fight, not where enemies start. Control the battlefield by making enemies come to you.
+**Resonance Peak (Mid-Combat)**: At 5+ Resonance, time your most expensive AoE spells to benefit from the +2d6 damage bonus. 
 
-**Detonation Timing**: Save detonations for critical moments. The lingering effect can turn the tide, but you lose the zone permanently.
+**Detonation (Closing/Burst)**: When a target is low or a chokepoint is overwhelmed, detonate your runes. You lose the zone, but the burst damage and lingering status effects can end the fight.
 
-**Mana Management**: With runes, inscriptions, and spells all competing for mana, prioritize based on the situation. Long fights favor inscriptions, short fights favor immediate spell power.`
+**Advanced Play — The Resonance Loop**: Use the 10-Resonance threshold to refresh all runes simultaneously, extending your control without spending additional actions or mana.
+
+**Worked Example (7 Resonance, Boss at 50% HP)**:
+- **Option A** — Empowered Spell (-5 Res): Massive damage spike. Best for immediate threat removal.
+- **Option B** — Detonate All (+Res): Triggers burst and CC. Best if boss is surrounded by minions.
+- **Option C** — Hold for 10 Res: Refresh and Pulse. Best if the fight will last another 3+ rounds.
+
+→ **Best default**: Option A. Cashing in Resonance for direct damage is usually the most efficient use of the resource.`
     },
 
     playingInPerson: {
-      title: 'Playing Inscriptor In Person',
-      content: `**Required Materials**:
-- **Rune Zone Markers** (tokens, coins, or cards to mark rune locations on map)
-- **Rune Type Cards** (showing which rune type is at each location)
-- **Inscription Tracker** (cards showing active inscriptions on equipment)
-- **Rune Counter** (tracking active runes: 0-8 base, up to 12 for Runebinder)
-- **Inscription Slots** (tracking inscription slots: 0-3 base, varies by spec)
-- **Detonation Markers** (to mark when runes are detonated)
+      title: 'Playing in Person',
+      subtitle: 'Tactile Runic Tracking',
+      content: `Marking the battlefield with physical rune tokens makes the Inscriptor's zone control feel immediate and threatening.
 
-**Primary Tracking Method: Physical Rune Markers + Inscription Cards**
+**Required Materials**:
+- **Rune Tokens** — 8-12 distinct markers (poker chips, coins, or glass beads)
+- **Runic Cards** — Quick reference for rune types and inscription effects
+- **Resonance Tracker** — A 0–10 slider or a d10
 
-The Inscriptor uses two systems: Runic Wrapping (battlefield zones) and Inscription Placement (equipment enhancement). Track runes with physical markers on the battle map, and inscriptions with cards showing what's enhanced.
+**Tracking the Weave**:
+- **Placement** → Place a token on the battle map. Add +1 to your Resonance die.
+- **Zone Check** → If 3+ tokens are connected, announce "Zone Active" to all players.
+- **Detonation** → Remove token(s) from the map. Add +1 Resonance per token removed.
+- **Inscription** → Place a small card or sticky note on the affected player's sheet.
 
-**Setup**:
+**Quick Reference**:
 \`\`\`
-INSCRIPTOR RESOURCE TRACKING:
+RESONANCE (0-10):
+  3+ | Free Inscription
+  5+ | +2d6 Spell Damage (in zone)
+  7+ | Zone-wide Detonation
+  10 | Refresh/Pulse all Runes
 
-RUNIC ZONES: [___] / 8 active runes
-• Place rune markers on map at specific locations
-• Each rune = 5 ft radius zone with specific effect
-• 3+ runes = Zone Synergy (enhanced effects)
-• Detonate runes for burst damage + lingering effect
-
-INSCRIPTIONS: [___] / 3 active inscriptions
-• Weapon Inscription: +1d6 damage type
-• Armor Inscription: +2 AC or resistance
-• Accessory Inscription: Utility effect
-• Duration: Until long rest or dispelled
-
-SPECIALIZATIONS:
-• Runebinder: 12 max runes, 1 inscription
-• Glyphweaver: 8 runes, 3 inscriptions
-• Wardcrafter: 6 runes, 4 inscriptions
+RUNE LIMITS:
+  Base: 8 Runes | 3 Inscriptions
+  Runebinder: 12 Runes | 1 Inscription
+  Wardcrafter: 6 Runes | 4 Inscriptions
 \`\`\`
 
-**How It Works**:
-
-**Runic Wrapping (Battlefield Control)**:
-1. **Cast rune spell** → Place physical marker on map
-2. **Mark rune type** → Use colored token or card
-3. **Track active runes** → Count total runes (max 8)
-4. **Zone Synergy** → At 3+ runes, all zones enhanced
-5. **Detonate** → Remove marker, apply burst damage + lingering effect
-
-**Inscription Placement (Equipment Enhancement)**:
-1. **Perform inscription ritual** (10 minutes)
-2. **Choose equipment** → Weapon, armor, or accessory
-3. **Choose effect** → Damage, defense, or utility
-4. **Place inscription card** → On equipment or character sheet
-5. **Duration** → Until long rest or dispelled
-
-**Example Rune Placement**:
-
-*You have 2 runes active, casting Rune of Destruction*
-
-**Your Turn - Place Rune**:
-1. "I cast Rune of Destruction at the chokepoint!" (6 mana)
-2. Place red token on map at chosen location
-3. Mark as "Destruction Rune" (fire damage)
-4. Active runes: 2 + 1 = **3 runes**
-5. **Zone Synergy Activated!** (3+ runes)
-
-**Rune Effect**:
-- Anyone within 5 ft: +1d6 fire damage dealt and taken
-- Zone Synergy (3+ runes): Entire zone doubles fire damage
-
-**Example Rune Detonation**:
-
-*You have 4 runes active (Destruction, Protection, Frost, Lightning)*
-
-**Your Turn - Detonate Runes**:
-1. "I detonate all my runes!" (1 AP, no mana)
-2. Remove all 4 rune markers from map
-3. Roll detonation damage for each rune:
-   - Destruction: 4d8 fire → [7,6,5,8] = 26 fire damage
-   - Protection: Allies gain 20 temp HP
-   - Frost: 3d6 frost → [5,4,6] = 15 frost damage, -10 ft speed
-   - Lightning: 3d8 lightning → [7,6,8] = 21 lightning damage
-4. **Lingering Effect**: All zones leave lingering aura for 2 turns
-5. Active runes: 4 - 4 = **0 runes**
-
-**Example Inscription Ritual**:
-
-*You have 1 inscription active, performing weapon inscription*
-
-**During Downtime (10-minute ritual)**:
-1. "I inscribe my sword with Flame Inscription!"
-2. Ritual complete (10 minutes)
-3. Place "Flame Inscription" card on weapon
-4. Effect: Weapon deals +1d6 fire damage
-5. Active inscriptions: 1 + 1 = **2 inscriptions**
-6. Duration: Until long rest
-
-**Rune Type Reference Cards**:
-\`\`\`
-═══════════════════════════════════
-   RUNE OF DESTRUCTION (Fire)
-═══════════════════════════════════
-ZONE EFFECT (5 ft radius):
-• Creatures inside: +1d6 fire damage dealt/taken
-
-ZONE SYNERGY (3+ runes):
-• Entire zone: Double fire damage dealt/taken
-
-DETONATION:
-• Damage: 4d8 fire (Agility save DC 15, half on save)
-• Lingering: Fire damage zone for 2 turns
-═══════════════════════════════════
-
-═══════════════════════════════════
-   RUNE OF PROTECTION (Defense)
-═══════════════════════════════════
-ZONE EFFECT (5 ft radius):
-• Allies inside: +2 AC, +5 temp HP per turn
-
-ZONE SYNERGY (3+ runes):
-• Entire zone: +3 AC, +10 temp HP per turn
-
-DETONATION:
-• Effect: All allies gain 20 temp HP
-• Lingering: +2 AC zone for 2 turns
-═══════════════════════════════════
-
-═══════════════════════════════════
-   RUNE OF FROST (Frost)
-═══════════════════════════════════
-ZONE EFFECT (5 ft radius):
-• Enemies inside: -10 ft speed, +1d4 frost damage taken
-
-ZONE SYNERGY (3+ runes):
-• Entire zone: -20 ft speed, +1d6 frost damage taken
-
-DETONATION:
-• Damage: 3d6 frost (CON save DC 15, half on save)
-• Lingering: Slowing zone for 2 turns
-═══════════════════════════════════
-\`\`\`
-
-**Inscription Reference Cards**:
-\`\`\`
-═══════════════════════════════════
-    WEAPON INSCRIPTIONS
-═══════════════════════════════════
-FLAME INSCRIPTION:
-• Weapon deals +1d6 fire damage
-• Duration: Until long rest
-
-FROST INSCRIPTION:
-• Weapon deals +1d6 frost damage
-• Target: -10 ft speed for 1 turn
-
-LIGHTNING INSCRIPTION:
-• Weapon deals +1d6 lightning damage
-• Chain to 1 nearby enemy (half damage)
-
-RADIANT INSCRIPTION:
-• Weapon deals +1d6 radiant damage
-• Undead/fiends: +2d6 radiant damage
-═══════════════════════════════════
-
-═══════════════════════════════════
-    ARMOR INSCRIPTIONS
-═══════════════════════════════════
-WARDING INSCRIPTION:
-• Armor grants +2 AC
-• Duration: Until long rest
-
-RESISTANCE INSCRIPTION:
-• Choose damage type: Fire, frost, lightning, or necrotic
-• Gain resistance to chosen type
-
-REFLECTION INSCRIPTION:
-• When hit by melee attack: Attacker takes 1d6 force damage
-• Duration: Until long rest
-═══════════════════════════════════
-\`\`\`
-
-**Example In-Person Turn**:
-
-*You have 3 runes active (Destruction, Frost, Lightning), 2 inscriptions active*
-
-**Turn 1 - Place Fourth Rune**:
-1. "I cast Rune of Protection at our tank's position!" (6 mana)
-2. Place blue token on map at tank's location
-3. Mark as "Protection Rune"
-4. Active runes: 3 + 1 = **4 runes**
-5. Zone Synergy still active (3+ runes)
-
-**Turn 2 - Enemies Enter Zones**:
-1. Orc enters Destruction zone (red token)
-2. Orc takes +1d6 fire damage (zone effect)
-3. Zone Synergy: Fire damage doubled
-4. Goblin enters Frost zone (white token)
-5. Goblin: -10 ft speed (zone effect)
-
-**Turn 3 - Detonate for Burst**:
-1. "I detonate all runes!" (1 AP)
-2. Remove all 4 markers from map
-3. Destruction: 4d8 fire → [7,6,5,8] = 26 damage (Agility save)
-4. Frost: 3d6 frost → [5,4,6] = 15 damage (CON save)
-5. Lightning: 3d8 lightning → [7,6,8] = 21 damage (Agility save)
-6. Protection: All allies gain 20 temp HP
-7. Lingering effects remain for 2 turns
-8. Active runes: **0 runes**
-
-**Alternative Tracking Methods**:
-
-**Method 1: Colored Tokens**
-- Red = Destruction (fire)
-- Blue = Protection (defense)
-- White = Frost (frost)
-- Yellow = Lightning (electric)
-- Visual and easy to identify
-
-**Method 2: Rune Cards**
-- Place small cards on map showing rune type and effect
-- Flip card when detonated to show lingering effect
-- Detailed information at a glance
-
-**Method 3: Numbered Markers**
-- Use numbered tokens (1-8) for runes
-- Keep reference sheet showing which number = which rune type
-- Compact tracking
-
-**Method 4: Inscription Clips**
-- Use paper clips or clothespins to attach inscription cards to equipment
-- Physical attachment shows what's inscribed
-- Easy to see at a glance
-
-**Quick Reference Card Template**:
-\`\`\`
-INSCRIPTOR QUICK REFERENCE
-
-RUNIC WRAPPING:
-• Max runes: 8 (12 for Runebinder, 6 for Wardcrafter)
-• Zone radius: 5 ft per rune
-• Zone Synergy: 3+ runes = enhanced effects
-• Detonation: 1 AP, removes all runes
-
-INSCRIPTION PLACEMENT:
-• Max inscriptions: 3 (1 for Runebinder, 4 for Wardcrafter)
-• Ritual time: 10 minutes
-• Duration: Until long rest
-• Types: Weapon, armor, accessory
-
-RUNE TYPES:
-• Destruction (fire): +1d6 fire damage dealt/taken
-• Protection (defense): +2 AC, +5 temp HP/turn
-• Frost (frost): -10 ft speed, +1d4 frost damage taken
-• Lightning (electric): +1d6 lightning damage on entry
-
-STRATEGY:
-• Place runes at chokepoints and key positions
-• Reach 3+ runes for Zone Synergy
-• Detonate for burst damage when needed
-• Inscribe equipment during downtime
-• Glyphweaver: Balance runes and inscriptions
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the Inscriptor experience with:
-- **Rune Stones**: Use actual rune stones or carved tokens
-- **Glowing Markers**: LED tea lights for active rune zones
-- **Inscription Scrolls**: Parchment cards for inscriptions
-- **Colored Dice**: Match dice color to rune type
-- **Ritual Props**: Quill and ink for inscription rituals
-- **Zone Templates**: Circular templates showing 5 ft radius
-
-**Rune Management Tips**:
-
-**Placement Strategy**:
-- **Chokepoints**: Place runes where enemies must pass
-- **Ally Positions**: Protection runes where allies fight
-- **Layered Zones**: Overlap runes for multiple effects
-- **Zone Synergy**: Always aim for 3+ runes
-- **Detonation Timing**: Save for critical moments or when zones are no longer useful
-
-**Inscription Strategy**:
-- **Weapon First**: Inscribe weapon for consistent damage boost
-- **Armor Second**: Inscribe armor for survivability
-- **Accessory Third**: Inscribe accessory for utility
-- **Long Rest Planning**: Inscriptions reset, plan ahead
-- **Specialization Focus**: Runebinder = runes, Glyphweaver = balance, Wardcrafter = inscriptions
-
-**Specialization Strategy**:
-- **Runebinder**: Maximize runes (12 max), minimal inscriptions
-- **Glyphweaver**: Balance runes and inscriptions (8 runes, 3 inscriptions)
-- **Wardcrafter**: Maximize inscriptions (4 max), fewer runes (6 max)
-
-**Why This System Works**: The dual resource system (runes + inscriptions) creates two distinct gameplay loops. Runes are tactical and dynamic—place them, move enemies into them, detonate for burst damage. Inscriptions are strategic and persistent—enhance equipment during downtime for long-term benefits. The physical act of placing rune markers on the battle map creates spatial awareness and tactical positioning. The Zone Synergy mechanic (3+ runes) rewards building up runes before detonating. The system is visual, tactile, and creates clear decision points.
+**The Physical Hack**:
+- **String Connectivity**: Use colored yarn to physically connect your rune tokens on the table. It clearly defines the "Zone" for the GM and other players.
+- **Dice Stacking**: Place your Resonance d10 on top of your character sheet. When it hits 10, knock it over to signify the "Pulse".
 
 **Pro Tips**:
-- **Pre-Place Runes**: Place runes before combat starts if possible
-- **Zone Synergy First**: Always reach 3+ runes before detonating
-- **Inscription Prep**: Inscribe equipment during every long rest
-- **Colored Tokens**: Use different colors for easy rune identification
-- **Detonation Timing**: Detonate when zones are no longer useful or for burst damage
-- **Specialization Awareness**: Know your max runes and inscriptions
-
-**Budget-Friendly Alternatives**:
-- **No tokens?** Use coins (pennies, dimes, quarters for different runes)
-- **No cards?** Write inscriptions on sticky notes
-- **No markers?** Draw rune zones on map with dry-erase marker
-- **Minimalist**: Track rune count and locations on paper
-
-**Specialization-Specific Tracking**:
-
-**Runebinder**:
 - Track up to 12 runes (instead of 8)
 - Only 1 inscription slot
 - Focus on rune placement and detonation
@@ -1655,7 +1317,7 @@ Many players enhance the Inscriptor experience with:
     {
       id: 'insc_inkbound_servant',
       name: 'Inkbound Servant',
-      description: 'Summon a servant made of magical ink that can assist you in combat or tasks. The servant has AC 12 and 10 hit points.',
+      description: 'Summon a servant made of magical ink that can assist you in combat or tasks. The servant has Armor 12 and 10 hit points.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
       school: 'Conjuration',
@@ -3204,7 +2866,7 @@ Many players enhance the Inscriptor experience with:
           id: 'master_of_runes',
           name: 'Master of Runes',
           description: 'For 5 rounds: rune placement costs 0 mana, all rune effects are doubled, detonations deal maximum damage',
-          customDescription: 'You achieve temporary mastery over runic magic. For 5 rounds, rune placement costs 0 mana, all rune zone effects are doubled (damage, healing, AC bonuses, etc.), detonations deal maximum possible damage, and you generate +2 Resonance per rune placed.',
+          customDescription: 'You achieve temporary mastery over runic magic. For 5 rounds, rune placement costs 0 mana, all rune zone effects are doubled (damage, healing, Armor bonuses, etc.), detonations deal maximum possible damage, and you generate +2 Resonance per rune placed.',
           mechanicsText: '5 rounds: 0 mana runes, doubled effects, max damage detonations'
         }],
         durationValue: 5,
@@ -3301,7 +2963,7 @@ Many players enhance the Inscriptor experience with:
           id: 'omniscript_power',
           name: 'Omniscript',
           description: 'Choose ONE: Allies +4 damage, Enemies 4d10/round + slowed, or Double all inscriptions. Lasts 6 rounds. Requires concentration.',
-          customDescription: 'You inscribe the battlefield with a single overwhelming runic pattern. Choose ONE effect:\n\n**PATH OF RUIN**: All enemies in the zone are slowed (half speed, no reactions) and take 4d10 force damage per round (CON save for half).\n\n**PATH OF GLORY**: All allies in the zone gain +4 to all damage rolls and saving throws.\n\n**PATH OF MASTERY**: All active inscriptions on allies within the zone are doubled in effectiveness (+1d6 becomes +2d6, +2 AC becomes +4 AC, etc.).\n\nOnly ONE path can be active. Requires concentration.',
+          customDescription: 'You inscribe the battlefield with a single overwhelming runic pattern. Choose ONE effect:\n\n**PATH OF RUIN**: All enemies in the zone are slowed (half speed, no reactions) and take 4d10 force damage per round (CON save for half).\n\n**PATH OF GLORY**: All allies in the zone gain +4 to all damage rolls and saving throws.\n\n**PATH OF MASTERY**: All active inscriptions on allies within the zone are doubled in effectiveness (+1d6 becomes +2d6, +2 Armor becomes +4 Armor, etc.).\n\nOnly ONE path can be active. Requires concentration.',
           mechanicsText: 'Choose 1 of 3 effects for 6 rounds. Requires concentration.'
         }],
         durationValue: 6,

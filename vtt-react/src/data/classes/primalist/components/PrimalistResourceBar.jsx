@@ -20,7 +20,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
             glow: '#CD853F', 
             icon: 'fa-shield-alt', 
             passive: 'Sanctuary Keeper', 
-            passiveDesc: 'Healing totem effects +50%. Totems have +5 HP and +2 AC. Can place a 5th totem for enhanced synergies.',
+            passiveDesc: 'Healing totem effects +50%. Totems have +5 HP and +2 Armor. Can place a 5th totem for enhanced synergies.',
             synergyThreshold: 4
         },
         stormbringer: { 
@@ -56,6 +56,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
     useEffect(() => {
         if (showTooltip && tooltipRef.current && barRef.current) {
+            tooltipRef.current.style.opacity = '0';
             const updatePosition = () => {
                 const tooltip = tooltipRef.current;
                 const bar = barRef.current;
@@ -120,6 +121,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 tooltip.style.zIndex = '2147483647';
                 tooltip.style.borderRadius = '0';
                 tooltip.style.padding = '10px 12px';
+                tooltip.style.opacity = '1';
             };
 
             updatePosition();
@@ -129,7 +131,10 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
 
             const timeoutId = setTimeout(updatePosition, 50);
 
-            return () => clearTimeout(timeoutId);
+            return () => {
+                clearTimeout(timeoutId);
+                if (tooltipRef.current) { tooltipRef.current.style.opacity = ''; }
+            };
         }
     }, [showTooltip, localSynergy, activeTotems, selectedSpec]);
 
@@ -215,7 +220,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
             
             {/* Pathfinder-styled Tooltip */}
             {showTooltip && ReactDOM.createPortal(
-                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip">
+                <div ref={tooltipRef} className="unified-resourcebar-tooltip pathfinder-tooltip" style={{ opacity: 0 }}>
                     <div className="tooltip-header">Totemic Synergy</div>
 
                     <div className="tooltip-section">
@@ -254,10 +259,10 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {/* Dev Controls */}
             {showControls && ReactDOM.createPortal(
                 <div className="primalist-controls-overlay" onClick={() => setShowControls(false)}>
-                    <div className="primalist-controls" onClick={(e) => e.stopPropagation()}>
+                    <div className="primalist-controls" onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }} onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}>
                         <div className="controls-header">
                             <h4>Primalist Controls</h4>
-                            <button className="close-btn" onClick={() => setShowControls(false)}>
+                            <button className="context-menu-button danger" onClick={() => setShowControls(false)}>
                                 <i className="fas fa-times"></i>
                             </button>
                         </div>
@@ -271,7 +276,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                 value={localSynergy} 
                                 onChange={(e) => setLocalSynergy(parseInt(e.target.value))}
                             />
-                            <div className="control-buttons">
+                            <div className="menu-buttons">
                                 <button onClick={() => setLocalSynergy(Math.max(0, localSynergy - 10))}>-10</button>
                                 <button onClick={() => setLocalSynergy(Math.max(0, localSynergy - 5))}>-5</button>
                                 <button onClick={() => setLocalSynergy(Math.min(maxSynergy, localSynergy + 5))}>+5</button>
@@ -288,7 +293,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                 value={activeTotems} 
                                 onChange={(e) => setActiveTotems(parseInt(e.target.value))}
                             />
-                            <div className="control-buttons">
+                            <div className="menu-buttons">
                                 <button onClick={() => setActiveTotems(Math.max(0, activeTotems - 1))}>-1</button>
                                 <button onClick={() => setActiveTotems(Math.min(maxTotems, activeTotems + 1))}>+1</button>
                             </div>
@@ -307,7 +312,7 @@ const PrimalistResourceBar = ({ classResource = {}, size = 'normal', config = {}
                         
                         <div className="control-group">
                             <label>Specialization</label>
-                            <div className="spec-buttons">
+                            <div className="spec-options-grid">
                                 {Object.entries(specConfigs).map(([key, spec]) => (
                                     <button 
                                         key={key}

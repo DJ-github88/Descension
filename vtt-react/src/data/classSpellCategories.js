@@ -556,33 +556,6 @@ export const CLASS_SPECIALIZATIONS = {
     ]
   },
 
-  'Warden': {
-    path: 'Mercenary Path',
-    specializations: [
-      {
-        id: 'protective_barriers',
-        name: 'Protective Barriers',
-        description: 'Magical shields and defensive constructs',
-        color: '#4682B4',
-        icon: 'spell_holy_powerwordshield'
-      },
-      {
-        id: 'guardian_bulwarks',
-        name: 'Guardian Bulwarks',
-        description: 'Massive defensive structures and fortifications',
-        color: '#5F9EA0',
-        icon: 'spell_holy_devotion'
-      },
-      {
-        id: 'sentinel_watch',
-        name: 'Sentinel Watch',
-        description: 'Vigilant protection and area denial abilities',
-        color: '#708090',
-        icon: 'spell_holy_magicalsentry'
-      }
-    ]
-  },
-
   'Oracle': {
     path: 'Divine Path',
     specializations: [
@@ -714,6 +687,60 @@ export const CLASS_SPECIALIZATIONS = {
         description: 'Psychic devastation specialist who channels cosmic horror and manipulates Blood Tokens',
         color: '#1C1C1C',
         icon: 'spell_shadow_shadowwordpain'
+      }
+    ]
+  },
+
+  'Augur': {
+    path: 'Omen Path',
+    specializations: [
+      {
+        id: 'auspex',
+        name: 'Auspex',
+        description: 'Balanced omen interpreter who adapts between blessings and curses based on the signs',
+        color: '#F0E68C',
+        icon: 'spell_holy_mindvision'
+      },
+      {
+        id: 'harbinger',
+        name: 'Harbinger',
+        description: 'Dark portent specialist who weaponizes ill omens into devastating debuffs and curses',
+        color: '#8B008B',
+        icon: 'spell_shadow_curseofsargeras'
+      },
+      {
+        id: 'hierophant',
+        name: 'Hierophant',
+        description: 'Cosmic channeler who transforms even omens into terrain-altering blessings and divine protection',
+        color: '#FFD700',
+        icon: 'spell_holy_farsight'
+      }
+    ]
+  },
+
+  'Doomsayer': {
+    path: 'Catastrophe Path',
+    specializations: [
+      {
+        id: 'requiem',
+        name: 'Requiem',
+        description: 'Single-target death prophet with devastating narrow-range prophecies',
+        color: '#4B0082',
+        icon: 'spell_shadow_curseofsargeras'
+      },
+      {
+        id: 'endbringer',
+        name: 'Endbringer',
+        description: 'Escalating doom specialist whose power grows each round of combat',
+        color: '#FF4500',
+        icon: 'spell_fire_selfdestruct'
+      },
+      {
+        id: 'cataclysm',
+        name: 'Cataclysm',
+        description: 'Area prophecy master who creates battlefield-wide RNG chaos zones',
+        color: '#FF6347',
+        icon: 'spell_fire_fireball'
       }
     ]
   },
@@ -857,22 +884,22 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Voodoo Path',
     specializations: [
       {
-        id: 'shadow-priest',
-        name: 'Shadow Priest',
+        id: 'bokor',
+        name: 'Bokor',
         description: 'Baron Samedi focus - necromancy, curses, necrotic damage, and resurrection',
         color: '#800080',
         icon: 'spell_shadow_curseofsargeras'
       },
       {
-        id: 'spirit-healer',
-        name: 'Spirit Healer',
+        id: 'mambo',
+        name: 'Mambo',
         description: 'Erzulie and Simbi focus - healing, totems, protection, and cleansing',
         color: '#FFD700',
         icon: 'spell_holy_healingaura'
       },
       {
-        id: 'war-priest',
-        name: 'War Priest',
+        id: 'houngan',
+        name: 'Houngan',
         description: 'Ogoun and Papa Legba focus - poisons, combat buffs, and battlefield control',
         color: '#FF4500',
         icon: 'ability_warrior_battleshout'

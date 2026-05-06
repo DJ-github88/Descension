@@ -1985,7 +1985,7 @@ const CampaignManager = ({ user }) => {
                             </div>
                             <div className="field-row">
                               <input type="text" value={monster.hp || ''} onChange={(e) => updateHomebrewMonster(monster.id, { hp: e.target.value })} placeholder="HP" className="small-input" />
-                              <input type="text" value={monster.ac || ''} onChange={(e) => updateHomebrewMonster(monster.id, { ac: e.target.value })} placeholder="AC" className="tiny-input" />
+                              <input type="text" value={monster.ac || ''} onChange={(e) => updateHomebrewMonster(monster.id, { ac: e.target.value })} placeholder="Armor" className="tiny-input" />
                             </div>
                             <textarea value={monster.description} onChange={(e) => updateHomebrewMonster(monster.id, { description: e.target.value })} placeholder="Description, abilities..." rows={3} />
                           </div>

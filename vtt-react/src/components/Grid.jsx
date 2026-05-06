@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
-import { unstable_batchedUpdates } from "react-dom";
+import ReactDOM, { unstable_batchedUpdates } from "react-dom";
 import useGameStore from '../store/gameStore';
 import useItemStore from "../store/itemStore";
 import useGridItemStore from "../store/gridItemStore";
@@ -2183,7 +2183,7 @@ function GridComponent({
                                 if (!cleanItem.type && cleanItem.name) {
                                     // Try to infer type from item properties if missing
                                     cleanItem.type = cleanItem.weaponStats ? 'weapon' :
-                                        cleanItem.armorClass ? 'armor' :
+                                        cleanItem.armor ? 'armor' :
                                             cleanItem.utilityStats ? 'accessory' :
                                                 'miscellaneous';
                                 }
@@ -3735,30 +3735,33 @@ function GridComponent({
                     </div>
                 )}
 
-                {/* Wall Context Menu */}
-                <UnifiedContextMenu
-                    visible={showContextMenu}
-                    x={contextMenuPosition.x}
-                    y={contextMenuPosition.y}
-                    onClose={handleCloseContextMenu}
-                    title={contextMenu?.type?.name || 'Context Menu'}
-                    items={contextMenu ? [
-                        {
-                            icon: '✕',
-                            label: 'Remove Wall',
-                            onClick: handleRemoveWall,
-                            className: 'danger-action'
-                        },
-                        {
-                            type: 'separator'
-                        },
-                        {
-                            icon: '✕',
-                            label: 'Cancel',
-                            onClick: handleCloseContextMenu
-                        }
-                    ] : []}
-                />
+                {/* Wall Context Menu - Portaled for grid interaction stability */}
+                {showContextMenu && contextMenu && ReactDOM.createPortal(
+                    <UnifiedContextMenu
+                        visible={showContextMenu}
+                        x={contextMenuPosition.x}
+                        y={contextMenuPosition.y}
+                        onClose={handleCloseContextMenu}
+                        title={contextMenu?.type?.name || 'Context Menu'}
+                        items={[
+                            {
+                                icon: '✕',
+                                label: 'Remove Wall',
+                                onClick: handleRemoveWall,
+                                className: 'danger-action'
+                            },
+                            {
+                                type: 'separator'
+                            },
+                            {
+                                icon: '✕',
+                                label: 'Cancel',
+                                onClick: handleCloseContextMenu
+                            }
+                        ]}
+                    />,
+                    document.body
+                )}
 
                 {/* Text Interaction Overlay - Handle text selection and movement when editor is closed */}
                 <TextInteractionOverlay gridRef={gridRef} />

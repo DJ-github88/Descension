@@ -1,4 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
+import { createPortal } from 'react-dom';
 import UnifiedContextMenu from './UnifiedContextMenu';
 import ConnectionSelectorDialog from './ConnectionSelectorDialog';
 import ConnectionRenameDialog from './ConnectionRenameDialog';
@@ -93,20 +94,23 @@ const ConnectionContextMenu = memo(({
 
     return (
         <>
-            <UnifiedContextMenu
-                visible={visible}
-                x={x}
-                y={y}
-                onClose={() => {
-                    setShowRenameDialog(false);
-                    setShowConnectionDialog(false);
-                    setShowDeleteConfirm(false);
-                    onClose();
-                }}
-                items={menuItems}
-                title="Connection"
-                className="connection-menu-container"
-            />
+            {visible && createPortal(
+                <UnifiedContextMenu
+                    visible={visible}
+                    x={x}
+                    y={y}
+                    onClose={() => {
+                        setShowRenameDialog(false);
+                        setShowConnectionDialog(false);
+                        setShowDeleteConfirm(false);
+                        onClose();
+                    }}
+                    items={menuItems}
+                    title="Connection"
+                    className="connection-menu-container"
+                />,
+                document.body
+            )}
             {showRenameDialog && (
                 <ConnectionRenameDialog
                     isOpen={showRenameDialog}

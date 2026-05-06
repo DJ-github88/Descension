@@ -2,7 +2,7 @@
  * Class-Specific Starting Equipment
  * 
  * Items that are only available to specific character classes.
- * Organized by the 9 paths and their 3 classes each (27 total classes).
+ * Organized by the 9 paths and their 3 classes each (30 total classes).
  */
 
 // ===== INFERNAL PATH CLASSES =====
@@ -4148,6 +4148,191 @@ export const HARROW_PATH_ITEMS = [
     }
 ];
 
+// Augur - Omen Reader
+export const AUGUR_ITEMS = [
+    {
+        id: 'augur-omen-staff',
+        name: 'Omen Staff',
+        type: 'weapon',
+        subtype: 'STAFF',
+        quality: 'uncommon',
+        description: 'A staff carved with sacred symbols that glow with inner light. Channels omen energy.',
+        iconId: 'inv_staff_15',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 4,
+        width: 1,
+        height: 3,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 6,
+                damageType: 'psychic'
+            }
+        },
+        availableFor: {
+            classes: ['Augur']
+        }
+    },
+    {
+        id: 'augur-diviner-robes',
+        name: 'Diviner\'s Robes',
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'uncommon',
+        description: 'Flowing robes embroidered with omen symbols. The fabric shimmers with subtle prophecy.',
+        iconId: 'inv_chest_cloth_22',
+        value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        slots: ['chest'],
+        armorStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Augur']
+        }
+    },
+    {
+        id: 'augur-sacred-dice',
+        name: 'Sacred Dice Set',
+        type: 'trinket',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A set of bone dice used for formal omen reading. Even results seem to glow faintly.',
+        iconId: 'inv_misc_dice_01',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket'],
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Augur']
+        }
+    },
+    {
+        id: 'augur-omen-pouch',
+        name: 'Omen Component Pouch',
+        type: 'trinket',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A leather pouch containing sacred bones, feathers, and dried herbs used in omen rituals.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket'],
+        availableFor: {
+            classes: ['Augur']
+        }
+    }
+];
+
+// ===== DOOMSAYER - Prophet of Catastrophe =====
+
+export const DOOMSAYER_ITEMS = [
+    {
+        id: 'doomsayer-apocalypse-tome',
+        name: 'Apocrypha',
+        type: 'weapon',
+        subtype: 'TOME',
+        quality: 'uncommon',
+        description: 'A heavy iron-bound tome filled with catastrophic prophecies. Pages whisper doom to those who read them.',
+        iconId: 'inv_misc_book_06',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 5,
+        width: 1,
+        height: 2,
+        slots: ['mainHand'],
+        weaponSlot: 'TWO_HANDED',
+        hand: 'TWO_HAND',
+        weaponStats: {
+            baseDamage: {
+                diceCount: 1,
+                diceType: 8,
+                damageType: 'necrotic'
+            }
+        },
+        baseStats: {
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Doomsayer']
+        }
+    },
+    {
+        id: 'doomsayer-prophet-vestments',
+        name: "Prophet's Vestments",
+        type: 'armor',
+        subtype: 'CLOTH',
+        quality: 'uncommon',
+        description: 'Tattered robes stained with ash and prophecy ink. The fabric seems to shift with unseen catastrophes.',
+        iconId: 'inv_chest_cloth_24',
+        value: { platinum: 0, gold: 8, silver: 50, copper: 0 },
+        weight: 3,
+        width: 1,
+        height: 2,
+        slots: ['chest'],
+        armorStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Doomsayer']
+        }
+    },
+    {
+        id: 'doomsayer-bone-dice',
+        name: 'Cast of Ruin',
+        type: 'trinket',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A pair of bone dice etched with prophecy runes. The numbers always seem to land on catastrophe.',
+        iconId: 'inv_misc_dice_02',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket'],
+        baseStats: {
+            spirit: { value: 1, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Doomsayer']
+        }
+    },
+    {
+        id: 'doomsayer-ashes-pouch',
+        name: 'Ashen Reagent Pouch',
+        type: 'trinket',
+        subtype: 'TRINKET',
+        quality: 'common',
+        description: 'A scorched leather pouch containing grave dust, burnt offerings, and prophecy bones.',
+        iconId: 'inv_misc_bag_14',
+        value: { platinum: 0, gold: 3, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket'],
+        availableFor: {
+            classes: ['Doomsayer']
+        }
+    }
+];
+
 // ===== COMBINED EXPORT =====
 
 export const ALL_CLASS_EQUIPMENT = [
@@ -4158,6 +4343,8 @@ export const ALL_CLASS_EQUIPMENT = [
     ...MERCENARY_PATH_ITEMS,
     ...SENTINEL_PATH_ITEMS,
     ...HEXER_PATH_ITEMS,
-    ...HARROW_PATH_ITEMS
+    ...HARROW_PATH_ITEMS,
+    ...AUGUR_ITEMS,
+    ...DOOMSAYER_ITEMS
 ];
 

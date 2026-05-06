@@ -300,11 +300,46 @@ const ItemCard = ({ item, onClick, onContextMenu, isSelected, onDragOver, onDrop
                         alt={item.name}
                         draggable={false}
                         onError={(e) => {
-                            e.target.onerror = null; // Prevent infinite loop
+                            e.target.onerror = null;
                             e.target.src = getIconUrl('Misc/Books/book-brown-teal-question-mark', 'items', true);
                         }}
                         onDragStart={(e) => e.preventDefault()}
                     />
+                    {['weapon', 'armor', 'accessory'].includes(item.type) && item.maxDurability != null && (
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '2px',
+                            left: '2px',
+                            right: '2px',
+                            height: '3px',
+                            background: '#1a0f0a',
+                            borderRadius: '2px',
+                            overflow: 'hidden',
+                            opacity: 0.9
+                        }}>
+                            <div style={{
+                                width: `${((item.durability ?? item.maxDurability) / item.maxDurability) * 100}%`,
+                                height: '100%',
+                                background: (item.durability ?? item.maxDurability) === 0 ? '#ff0000' :
+                                            (item.durability ?? item.maxDurability) / item.maxDurability <= 0.25 ? '#ff4444' :
+                                            (item.durability ?? item.maxDurability) / item.maxDurability <= 0.50 ? '#ffaa00' : '#44ff44'
+                            }} />
+                        </div>
+                    )}
+                    {(item.broken || (['weapon', 'armor', 'accessory'].includes(item.type) && item.durability === 0)) && (
+                        <div style={{
+                            position: 'absolute',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'rgba(139, 0, 0, 0.45)',
+                            borderRadius: '4px',
+                            pointerEvents: 'none'
+                        }}>
+                            <i className="fas fa-heart-broken" style={{ color: '#ff4444', fontSize: '20px', filter: 'drop-shadow(0 0 3px rgba(255,0,0,0.8))' }} />
+                        </div>
+                    )}
                     {/* Quantity selector on icon */}
                     {isSelected && (item.type === 'consumable' || item.type === 'miscellaneous') && (
                         <QuantitySelector

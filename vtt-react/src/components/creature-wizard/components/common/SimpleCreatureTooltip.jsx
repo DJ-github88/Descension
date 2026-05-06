@@ -583,7 +583,7 @@ const SimpleCreatureTooltip = ({ creature }) => {
               textShadow: '1px 1px 2px rgba(255, 255, 255, 0.9)',
               lineHeight: '1.3'
             }}>
-              {creature.stats?.armor ?? creature.stats?.armorClass ?? 0}
+              {creature.stats?.armor ?? 0}
             </div>
           </div>
 

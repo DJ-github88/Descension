@@ -216,204 +216,59 @@ export const DEATHCALLER_DATA = {
 You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in life itself. Every spell is a gamble. Every Blood Token is a ticking time bomb. Master the balance, or die trying.`
     }
   },
-  
+
   // Resource System
   resourceSystem: {
     title: 'Necrotic Ascension',
     subtitle: 'Seven Paths of Dark Power',
 
-    description: `The Necrotic Ascension system represents the Deathcaller's descent into forbidden power. Seven distinct paths can be unlocked in sequence, each granting significant boons but inflicting permanent curses. These are not temporary buffs—they are irreversible transformations that fundamentally alter the Deathcaller's nature. Unlike other classes where resources regenerate, Ascension Paths are PERMANENT character changes—once activated, you can never go back.`,
+    description: `The Deathcaller is a blood sacrifice engine. You pay for forbidden power in flesh, using your own Health as the primary fuel for every spell. This sacrifice generates Blood Tokens—crimson orbs of stored agony that you can unleash for massive damage, or risk them exploding in a lethal burst if the hunt goes on too long.`,
 
-    resourceBarExplanation: {
-      title: 'Understanding Your Resource Systems',
-      content: `**Health Bar (Primary Resource - Red)**:
+    cards: [
+      {
+        title: 'Health Fuel',
+        stats: 'HP as Mana',
+        details: 'Every spell costs both Mana and a dice roll of HP. Your life bar is your battery; spend it to gain power, drain it back to survive.'
+      },
+      {
+        title: 'Blood Tokens (0-20+)',
+        stats: '1 Token per 1 HP Lost',
+        details: 'Sacrificing HP generates tokens. Spend them for +1d6 damage per token. If not spent within 10-15 mins, they burst for 1d10 self-damage each.'
+      },
+      {
+        title: 'Necrotic Ascension',
+        stats: '7 Permanent Paths',
+        details: 'Sequential upgrades that grant massive boons but permanent, stacking curses. Once a path is activated, it can never be reversed.'
+      }
+    ],
 
-Unlike other classes where health is just survivability, Deathcallers use health as FUEL for spells. Your health bar is both your life AND your power source.
-
-**What You See**: A red health bar that depletes when you cast spells (not just when you take damage). Each spell shows its health cost (e.g., "Costs 1d6 HP" or "Costs 2d8 HP").
-
-**How It Changes**:
-- **When You Cast Spells**: Health drains based on dice roll (1d6 HP, 2d8 HP, etc.)
-- **When You Take Damage**: Normal damage from enemies
-- **When You Life Drain**: Health restores from draining enemies
-- **Visual Feedback**: Health bar flashes dark purple when sacrificed for spells (different from red damage flash)
-
-**Blood Token Counter (Core Mechanic - Crimson Orbs)**:
-
-Blood Tokens are generated every time you sacrifice HP to cast a spell. Crimson Pact (level 3) enhances them — longer timer and stronger damage per token.
-
-**What You See**: Floating crimson orbs around your character, each representing 1 Blood Token. They pulse with dark energy and have a timer showing how long until they burst.
-
-**Visual Representation**:
-- **0-5 Tokens**: Few orbs, dim glow, safe
-- **6-10 Tokens**: Moderate orbs, brighter glow, building power
-- **11-15 Tokens**: Many orbs, intense glow, dangerous
-- **16-20 Tokens**: Maximum orbs, violent pulsing, critical danger (burst imminent)
-
-**Burst Timer**: Each orb has a countdown (10 minutes, or 15 with Crimson Pact). When timer hits 0, orbs EXPLODE for 1d10 damage each.
-
-**How It Changes**:
-- **When You Sacrifice Health**: New orbs materialize (1 HP = 1 Token)
-- **When You Spend Tokens**: Orbs flow into your spell, adding +1d6 necrotic damage each
-- **When They Burst**: Orbs explode in a violent flash, dealing 1d10 damage per token to YOU
-
-**Necrotic Ascension Path Tracker (Permanent Progression - Dark Purple)**:
-
-**What You See**: A vertical progression bar showing 7 paths in sequence. Unlocked paths glow purple, locked paths are dark, activated paths pulse with necrotic energy.
-
-**The Seven Paths** (in order):
-1. **Shrouded Veil** (Level 1) - Purple shadow icon
-2. **Crimson Pact** (Level 3) - Blood drop icon
-3. **Spectral Command** (Level 5) - Ghost icon
-4. **Frostwalker** (Level 7) - Ice crystal icon
-5. **Silent Shroud** (Level 9) - Silence icon
-6. **Life Leech** (Level 11) - Vampire fang icon
-7. **Deep Void** (Level 13) - Black hole icon
-
-**Visual States**:
-- **Locked**: Dark, grayed out (not yet unlocked)
-- **Unlocked**: Glowing purple (can be activated)
-- **Activated**: Pulsing necrotic energy (permanent, active)
-
-**Boon/Curse Display**: When you hover over an activated path, it shows:
-- **Boon** (green text): The power you gained
-- **Curse** (red text): The permanent penalty you suffer
-
-**Why This Matters**:
-
-You're managing THREE resources simultaneously:
-1. **Health**: Your life AND your spell fuel (spend it to cast, drain it back from enemies)
-2. **Blood Tokens**: Temporary power (use them for +damage or they explode and hurt you)
-3. **Ascension Paths**: Permanent power-for-curse trades (irreversible character changes)
-
-**The Deathcaller's Trilemma**:
-- **High HP**: Safe, but less power (haven't sacrificed much)
-- **Low HP, High Tokens**: Dangerous, but massive burst potential (tokens ready to spend)
-- **Low HP, Low Tokens**: Critical danger (sacrificed health, tokens already burst)
-
-**Strategic Depth**:
-
-Unlike a Mage who just watches mana, you're watching:
-- Health (am I low enough to die?)
-- Blood Tokens (how many do I have? when do they burst?)
-- Ascension Paths (which curses am I suffering from?)
-
-**The Burst Mechanic**: Blood Tokens are a TICKING TIME BOMB. You have 10 minutes (15 with Crimson Pact) to use them or they explode. This creates urgency—you can't just hoard tokens forever.
-
-**Example Scenario**:
-- You sacrifice 15 HP → Generate 15 Blood Tokens
-- Timer starts: 10 minutes until burst
-- Option A: Spend all 15 tokens on next spell (+15d6 damage = ~52 bonus damage!)
-- Option B: Wait, let them burst (take 15d10 damage = ~82 damage to yourself!)
-- Option C: Spend some, let some burst (partial damage, partial self-harm)
-
-**Master Deathcallers Know**:
-- Keep health above 30% (below that, you're in death range)
-- Spend Blood Tokens before 2 minutes remaining (don't risk burst)
-- Activate Ascension Paths strategically (early paths are safe, late paths are deadly)
-- Life Leech and life drain spells offset self-damage (you can recover HP)
-
-You're not a mage—you're a BLOOD SACRIFICE ENGINE. Every spell is paid in life. Every token is a gamble. Every Ascension Path is a permanent scar. Embrace the darkness, or be consumed by it.`
+    generationTable: {
+      headers: ['Trigger', 'Change', 'Notes'],
+      rows: [
+        ['Sacrifice HP (Spell Cost)', '+1 Token per 1 HP', 'Generated automatically on every cast'],
+        ['Spend for Power', '-Variable Tokens', 'Adds +1d6 Necrotic damage per token spent'],
+        ['Burst (Timer Expires)', 'Reset to 0', '⚠️ Take 1d10 damage per token!'],
+        ['Life Leech / Drain', 'Restore HP', 'Essential for offsetting the cost of power']
+      ]
     },
 
-    mechanics: {
-      title: 'Detailed Mechanics',
-      content: `**Health as Resource (Primary Mechanic)**
-
-Every Deathcaller spell costs BOTH mana AND health. Health costs are rolled with dice, creating variable sacrifice each cast.
-
-**Health Cost by Spell Tier**:
-- **Minor Spells**: 1d4 HP or 1d6 HP
-- **Moderate Spells**: 1d8 HP or 2d6 HP
-- **Major Spells**: 2d8 HP or 3d8 HP
-- **Ultimate Spells**: 4d10 HP or 5d10 HP
-
-**Example Spell Costs**:
-- "Necrotic Bolt" (4 mana, 1d6 HP): Roll 1d6 → [4] = Sacrifice 4 HP
-- "Death's Embrace" (12 mana, 2d8 HP): Roll 2d8 → [6, 5] = Sacrifice 11 HP
-- "Soul Rend" (15 mana, 3d8 HP): Roll 3d8 → [7, 8, 6] = Sacrifice 21 HP
-
-**Blood Tokens (Secondary Mechanic)**
-
-**Generation**:
-- **Ratio**: 1 HP sacrificed = 1 Blood Token
-- **Example**: Sacrifice 11 HP → Generate 11 Blood Tokens
-
-**Spending**:
-- **Cost**: 1 token = +1d4 necrotic damage to a spell (+1d6 with Crimson Pact active)
-- **Example**: Spend 10 tokens on "Necrotic Bolt" = +10d4 damage (~25 bonus damage, or ~35 with Crimson Pact)
-
-**Maximum**: No hard limit, but risk increases exponentially
-- 20+ tokens = 20d10 burst damage (~110 damage if they explode!)
-
-**Burst Mechanic**:
-- **Timer**: 10 minutes (15 minutes with Crimson Pact active)
-- **Trigger**: Timer expires before tokens are spent
-- **Effect**: 1d10 necrotic damage per token (cannot be prevented or reduced)
-- **Example**: 8 tokens burst → 8d10 → [7, 9, 6, 8, 5, 9, 7, 8] = 59 damage to yourself!
-
-**Token Management Strategies**:
-- **Immediate Spend**: Use tokens on next spell — safe, less flexibility
-- **Bank Tokens**: Save for a big spell — risky, might burst
-- **Partial Spend**: Use some, save some — balanced approach
-
-**Necrotic Ascension Paths (Permanent Progression)**
-
-**Unlocking**: Paths unlock at levels 1, 3, 5, 7, 9, 11, 13
-
-**Activation Rules**:
-- **Cost**: 1 AP to activate a path once unlocked
-- **Permanent**: Cannot be deactivated or removed
-- **Sequential**: Must activate in order — cannot skip paths
-
-**The Seven Paths**:
-
-1. **Shrouded Veil** (Level 1):
-   - Boon: +2d6 necrotic damage to all spells, advantage on Stealth
-   - Curse: -10 max HP (perpetual shadow drain)
-
-2. **Crimson Pact** (Level 3):
-   - Boon: Blood Tokens last 15 min (not 10), and each token adds +1d6 damage (instead of +1d4)
-   - Curse: Tokens burst for 1d10 damage each if unused
-
-3. **Spectral Command** (Level 5):
-   - Boon: Summon 2 specters (not 1), specters deal +1d6 necrotic damage
-   - Curse: Specters drain 1d4 HP from you per turn
-
-4. **Frostwalker** (Level 7):
-   - Boon: 15ft aura (enemies -10ft speed, 1d4 frost damage/turn)
-   - Curse: +50% fire damage taken (vulnerability)
-
-5. **Silent Shroud** (Level 9):
-   - Boon: Advantage on Stealth, silent movement
-   - Curse: -2 Perception (muffled senses)
-
-6. **Life Leech** (Level 11):
-   - Boon: Melee attacks restore 1d6 HP
-   - Curse: -5% max HP (unquenchable thirst)
-
-7. **Deep Void** (Level 13):
-   - Boon: 1/long rest - Negate any spell targeting you
-   - Curse: 2d6 psychic damage when used (void consumption)
-
-**Stacking Curses**:
-- Paths 1 + 6: -10% max HP + -5% max HP = -15% total max HP
-- Example: Base 100 HP → 85 HP with both paths active
-
-**Strategic Activation**:
-- **Early Game**: Activate paths 1-2 (foundation, manageable curses)
-- **Mid Game**: Activate paths 3-5 (power spike, moderate risk)
-- **Late Game**: Activate paths 6-7 (maximum power, extreme fragility)
-
-**Important**: Each path is a PERMANENT decision. Once activated, you can never go back. Choose carefully — your character will be forever changed.
-
-**Permanent HP Costs (Level 10 Spells)**:
-
-Only the most powerful Deathcaller spells (level 10) demand PERMANENT health sacrifice. When a spell lists a permanentHealth cost, your maximum HP is permanently reduced by the amount rolled. This stacks with Ascension Path penalties and cannot be restored by any means. These are the ultimate price of forbidden power — think carefully before casting.
-
-**Example**: Shadow God costs 10d8 HP + 2d10 permanent HP. If you roll 8 on the 2d10, your max HP is permanently reduced by 8.`
+    usage: {
+      momentum: 'Spend tokens to add +1d6 damage each to any spell. You must pay the "Blood Price" (HP) first to generate them, creating a building momentum of lethality.',
+      flourish: '⚠️ The Ticking Bomb: Tokens burst after 10 minutes (15 with Crimson Pact). If you hoard 20 tokens and the timer hits zero, you take 20d10 damage instantly.'
     },
-    
+
+    overheatRules: {
+      title: 'Permanent Ascension',
+      content: `Unlike other classes, the Deathcaller has no "Overheat" to recover from. Instead, you face the **Sequential Descent**.
+
+**The Price of Power**:
+- **Bargains**: You can activate any of your 7 unlocked Ascension Paths at any time.
+- **The Catch**: These are permanent character changes. You cannot "deactivate" a curse once the boon is accepted.
+- **Cumulative Curses**: Penalties like -10% Max HP, fire vulnerability, and perception loss stack.
+
+**Strategy**: High-level Deathcallers often stop at Path 3 or 4 to maintain survivability, only descending into the Deep Void (Path 7) when they are ready to become a glass cannon of pure necrotic devastation.`
+    },
+
     ascensionPathsTable: {
       title: 'Necrotic Ascension Paths',
       headers: ['Path', 'Boon', 'Curse', 'Unlock Level'],
@@ -441,356 +296,37 @@ Only the most powerful Deathcaller spells (level 10) demand PERMANENT health sac
     },
 
     strategicConsiderations: {
-      title: 'Strategic Considerations',
-      content: `**Paths 1-2 (Foundation Phase)**: Shrouded Veil and Crimson Pact establish your core mechanics. Learn to manage health as a resource and generate Blood Tokens. The -10% max HP is manageable with life drain spells.
+      title: 'The Razor\'s Edge: Risk & Recovery',
+      content: `**Phase 1: The Sacrifice (0–10 Tokens)**: Early combat is about building your bank. Don't be afraid of the HP cost—every point lost is a point of potential burst damage later.
 
-**Paths 3-4 (Power Phase)**: Spectral Command and Frostwalker dramatically increase your combat effectiveness. The speed penalty from summons requires careful positioning. Fire vulnerability makes you fragile against certain enemies.
+**Phase 2: The Crimson Storm (11–20 Tokens)**: You are at peak lethality. One well-placed 'Death's Embrace' can wipe a room, but a burst now would deal ~110 self-damage. Check your timer!
 
-**Paths 5-7 (Ascension Phase)**: Silent Shroud, Life Leech, and Deep Void push you to maximum power. Multiple HP penalties stack (-10%, -5% = -15% total max HP). You're a glass cannon requiring team coordination.
+**Phase 3: Drain & Reset**: When your HP hits 30%, prioritize recovery. Use 'Life Leech' or 'Soul Rend' to steal back the vitality you spent. A smart Deathcaller ends the fight with more health than they started with.
 
-**Path Activation Strategy**:
-- **Conservative**: Activate only paths 1-3, maintain survivability
-- **Balanced**: Activate paths 1-5, strong power with manageable risk
-- **All-In**: Activate all 7 paths, maximum power but extreme fragility
-
-**Path Synergies**:
-- Shrouded Veil + Silent Shroud = Stealth specialist (double stealth advantage)
-- Crimson Pact + Life Leech = Aggressive drain tank (generate tokens, restore HP)
-- Spectral Command + Frostwalker = Area control specialist (summons + aura)
-- All paths active = Maximum power, maximum risk (glass cannon build)`
-    },
-
-    practicalExample: {
-      title: 'Practical Decision-Making Example',
-      content: `**Scenario**: Boss fight, Turn 8. You have 3 Ascension Paths active (Shrouded Veil, Crimson Pact, Spectral Command). You're at 35/72 HP with 12 Blood Tokens that will burst in 2 minutes. The boss has 40% HP. Your tank is at 20% HP (critical). You have 2 specters active (draining 1d4 HP/turn from you).
-
-**Current State**:
-- HP: 35/72 (50%, moderate danger)
-- Mana: 25/50
-- Blood Tokens: 12 (burst in 2 minutes!)
-- Specters: 2 (draining 1d4 HP/turn each)
-- Boss HP: ~40%
-- Tank HP: ~20% (critical)
-
-**Active Curses**:
-- Shrouded Veil: -10% max HP (max is 72, not 80)
-- Crimson Pact: Tokens burst for 1d10 each if unused (12d10 = ~66 damage!)
-- Spectral Command: Specters drain 1d4 HP/turn each (~5 HP/turn total)
-
-**Option A - Spend All Blood Tokens (Burst Damage)**:
-Cast "Death's Embrace" (12 mana, 2d8 HP cost, AoE), spend all 12 tokens
-- Health Cost: 2d8 → Average 9 HP (35 → 26 HP)
-- Damage: 4d6 (base) + 2d6 (Shrouded Veil) + **12d6 (tokens)** = ~65 total damage
-- Pros: Massive damage to boss, tokens don't burst
-- Cons: You drop to 26 HP (dangerous), specters still draining
-- Risk: Boss might kill you before you can life drain back
-
-**Option B - Dismiss Specters, Save Tokens**:
-Dismiss both specters (stop HP drain), save tokens for later
-- Health Cost: 0 HP
-- Pros: Stop losing 5 HP/turn, stay at 35 HP
-- Cons: Lose specter damage, tokens still burst in 2 minutes
-- Risk: Tokens burst for 12d10 (~66 damage) = YOU DIE
-
-**Option C - Life Drain, Then Spend Tokens**:
-Cast "Life Leech" (8 mana, 1d4 HP cost) to heal, then spend tokens next turn
-- Health Cost: 1d4 → Average 2 HP (35 → 33 HP)
-- Heal: 3d8 → Average 13 HP (33 → 46 HP)
-- Pros: Restore health first, safer position
-- Cons: Tokens might burst before next turn (only 2 minutes left!), boss gets another turn
-- Risk: Tokens burst while you're healing
-
-**Option D - Partial Token Spend (Balanced)**:
-Cast "Necrotic Bolt" (4 mana, 1d6 HP cost), spend 6 tokens (save 6 for later)
-- Health Cost: 1d6 → Average 3 HP (35 → 32 HP)
-- Damage: 3d8 (base) + 2d6 (Shrouded Veil) + **6d6 (tokens)** = ~37 damage
-- Pros: Moderate damage, 6 tokens left for next spell, timer resets
-- Cons: Still have 6 tokens (6d10 burst = ~33 damage if they expire)
-- Risk: Moderate, but tokens still dangerous
-
-**Best Choice**: Option A (Spend All Blood Tokens)
-
-**Why**:
-1. **Burst Timer**: Tokens burst in 2 minutes—you MUST use them or take ~66 damage
-2. **Boss HP**: Boss at 40% HP, 65 damage could bring it to ~15% (nearly dead)
-3. **Token Math**: 12 tokens = +12d6 damage (~42 bonus damage) vs. 12d10 burst (~66 self-damage)
-4. **Risk Assessment**: Dropping to 26 HP is dangerous, but dying to token burst is GUARANTEED death
-5. **Recovery Plan**: Next turn, cast Life Leech to heal back up
-
-**Execution**:
-- Cast "Death's Embrace" (12 mana, 2d8 HP cost)
-- Health Cost Roll: 2d8 → [7, 5] = 12 HP sacrificed
-- HP: 35 - 12 = 23 HP (lower than expected!)
-- Spend all 12 Blood Tokens (+12d6 damage)
-- Damage: 4d10 + 2d6 + 12d6 → [8, 9, 7, 6] + [5, 4] + [6, 5, 4, 6, 5, 3, 4, 5, 6, 4, 3, 5] = 30 + 9 + 56 = **95 damage!**
-- Boss HP: 40% → 15% (nearly dead!)
-- Blood Tokens: 12 - 12 = 0 (all spent, no burst!)
-
-**End of Turn**:
-- Specters drain: 1d4 + 1d4 → [3] + [2] = 5 HP
-- HP: 23 - 5 = 18 HP (CRITICAL!)
-
-**Result**: Boss nearly dead, you're at 18/72 HP (critical danger), but tokens are gone (no burst).
-
-**Next Turn Strategy**:
-- **Immediate**: Cast "Life Leech" to drain HP from boss (heal ~13 HP, go to 31 HP)
-- **If Boss Dies**: Dismiss specters, heal up with party healer
-- **If Boss Survives**: Party finishes boss (it's at 15% HP)
-
-**Alternative if Tank Was Healthy**: Option C (Life Drain First)
-- Why: If tank wasn't critical, you could afford to heal yourself first, then spend tokens next turn
-- Risk: Tokens might burst, but if you have time, healing first is safer
-
-**Alternative if Tokens Had 10 Minutes Left**: Option D (Partial Spend)
-- Why: If tokens weren't about to burst, you could spend half now, half later
-- Flexibility: Spread damage across multiple turns
-
-**The Lesson**: Deathcaller decision-making involves:
-1. **Burst Awareness**: Blood Tokens are a TICKING TIME BOMB—use them or die
-2. **Health Math**: Calculate total HP loss (spell cost + specter drain + potential burst)
-3. **Damage Efficiency**: 12 tokens = +42 damage (worth it!) vs. 66 self-damage (death!)
-4. **Recovery Planning**: Always have a life drain spell ready for next turn
-5. **Curse Management**: Specters drain HP every turn—dismiss them when not needed
-6. **Ascension Trade-offs**:
-   - Shrouded Veil: -10 max HP (you're at 70, not 80)
-   - Crimson Pact: Tokens burst (forced you to spend them)
-   - Spectral Command: Specters drain HP (5/turn is significant)
-
-You're not a mage who casts spells safely—you're a BLOOD MAGE who gambles with death itself. Every spell costs life. Every token is a countdown. Every Ascension Path is a permanent scar. Master the balance, or be consumed by your own power.`
+**Advanced Tactic: The Intentional Burst**: If you have 1-2 tokens left and plenty of HP, you can let them burst to clear the timer before a long rest, though it is always better to spend them on a cantrip.`
     },
 
     playingInPerson: {
       title: 'Playing in Person',
-      subtitle: 'Physical Tracking for Tabletop Play',
-      content: `The Deathcaller's unique resource system—using health as fuel, managing Blood Tokens, and tracking permanent Ascension Paths—creates a dramatic in-person experience. Here's how to track your dark power at the table:
+      subtitle: 'Tracking the Forbidden',
+      content: `Playing a Deathcaller at the table is all about managing the physical tension of the "Blood Bank" and the "Ticking Clock."
 
 **Required Materials**:
-- **Character sheet** with health tracking
-- **20 red tokens or beads** (for Blood Tokens - crimson/dark red recommended)
-- **Timer or stopwatch** (for Blood Token burst countdown)
-- **7-path tracker card** (for Ascension Paths)
-- **Dice for health costs** (d4, d6, d8, d10 as needed)
+- **A Bowl of Red Beads**: 20–30 red glass beads or tokens to represent Blood Tokens.
+- **A Physical Timer**: An egg timer or a phone countdown set to 10:00.
+- **Permanent Marker**: For your laminated Ascension Card.
 
-**Health as Resource Tracking**:
-
-**The Dual Health System**:
-
-Unlike other classes, your health bar serves TWO purposes:
-1. **Survivability**: How much damage you can take before dying
-2. **Spell Fuel**: The cost you pay to cast spells
-
-**Tracking Method**:
-- Use your normal health tracking (HP counter, erasable marker, etc.)
-- When you cast a spell, roll the health cost dice FIRST, then subtract from HP
-- Example: Cast "Necrotic Bolt" (costs 1d6 HP) → Roll 1d6 → [4] → Subtract 4 HP
-
-**Visual Distinction**:
-Many players use different colored markers to distinguish:
-- **Red damage**: Damage from enemies (normal combat damage)
-- **Purple/black damage**: Self-inflicted spell costs (blood sacrifice)
-
-This helps you track how much HP you've sacrificed vs. how much you've lost to enemies.
-
-**Blood Token Tracking**:
-
-**The Token Method** (Recommended):
-
-Use physical red tokens to represent Blood Tokens:
-- **Starting State**: 0 tokens (Blood Tokens are a core mechanic from level 1)
-- **Generating Tokens**: When you sacrifice HP for a spell, add tokens equal to HP lost
-  - Example: Cast spell, roll 2d8 HP cost → [6, 5] = 11 HP → Add 11 red tokens
-- **Spending Tokens**: When you spend tokens for bonus damage, remove them
-  - Example: Spend 8 tokens on next spell → Remove 8 red tokens → +8d6 damage
-- **Burst Timer**: Set a timer for 10 minutes (15 with Crimson Pact upgrade) when you generate tokens
-
-**Timer Management**:
-- **Phone Timer**: Set a countdown timer when you generate tokens
-- **Stopwatch**: Track elapsed time, note when 10 minutes pass
-- **Alarm**: Set an alarm for 10 minutes from now
-- **GM Tracking**: Ask your GM to track the timer for you
-
-**Burst Mechanic**:
-When the timer reaches 0:
-- Roll 1d10 for EACH token you still have
-- Take that much damage to yourself
-- Example: 12 tokens burst → Roll 12d10 → [8, 9, 7, 6, 5, 4, 8, 7, 6, 5, 9, 8] = 82 damage to YOU!
-
-**Visual Organization**:
-Create two zones:
-- **Active Tokens** (red tokens in front of you - these are ticking down)
-- **Token Bank** (unused red tokens - up to 20 total available)
-
-**Ascension Path Tracking**:
-
-**The Seven-Path Card Method**:
-
-Create a reference card with the 7 Ascension Paths:
-\`\`\`
-Necrotic Ascension PATHS
-
- ☐ 1. SHROUDED VEIL (Lvl 1)
-    Boon: +2d6 necrotic damage to all spells, advantage on Stealth
-    Curse: -10% max HP (perpetual shadow drain)
-
- ☐ 2. CRIMSON PACT (Lvl 3)
-    Boon: Blood Tokens last 15 min, each adds +1d6 damage (instead of +1d4)
-    Curse: Tokens burst for 1d10 each after 10 min
-
- ☐ 3. SPECTRAL COMMAND (Lvl 5)
-    Boon: Spectral allies deal +1d6 necrotic damage
-    Curse: Specters drain 1d4 HP/turn from YOU per specter
-
- ☐ 4. FROSTWALKER (Lvl 7)
-    Boon: 15ft frost aura (-10ft enemy speed, 1d4 frost/turn)
-    Curse: Vulnerable to fire (+50% fire damage)
-
- ☐ 5. SILENT SHROUD (Lvl 9)
-    Boon: Advantage on Stealth, silent movement
-    Curse: -2 Perception (muffled senses)
-
- ☐ 6. LIFE LEECH (Lvl 11)
-    Boon: Melee attacks restore 1d6 HP
-    Curse: -5% max HP (unquenchable thirst)
-
- ☐ 7. DEEP VOID (Lvl 13)
-    Boon: 1/long rest - Negate any spell targeting you
-    Curse: 2d6 psychic damage when used (void consumption)
-\`\`\`
-
-**Tracking Activated Paths**:
-- **Checkbox Method**: Check the box when you activate a path (PERMANENT!)
-- **Token Method**: Place a black token on activated paths
-- **Marker Method**: Cross out or highlight activated paths
-
-**IMPORTANT**: Ascension Paths are PERMANENT. Once activated, you can NEVER deactivate them. The curses are permanent character changes.
-
-**Example In-Person Turn**:
-
-*You have Crimson Pact active, 45/72 HP, 8 Blood Tokens (timer: 3 minutes left)*
-
-**Turn 1 - Casting a Spell**:
-1. "I cast Death's Embrace" (costs 12 mana, 2d8 HP)
-2. Roll health cost: 2d8 → [7, 5] = 12 HP
-3. Subtract from HP: 45 - 12 = 33 HP
-4. Generate Blood Tokens: Add 12 red tokens to your pool
-5. Now have: 33 HP, 20 Blood Tokens total (8 old + 12 new)
-6. Set timer: 10 minutes from now (reset the countdown)
-
-**Turn 2 - Spending Blood Tokens**:
-1. "I cast Necrotic Bolt and spend 10 Blood Tokens for bonus damage!"
-2. Roll health cost: 1d6 → [3] = 3 HP
-3. Subtract from HP: 33 - 3 = 30 HP
-4. Remove 10 tokens from pool
-5. Roll damage: 3d8 (base) + 2d6 (Shrouded Veil) + 10d6 (tokens)
-6. Damage: [6, 7, 5] + [4, 5] + [6, 5, 4, 6, 5, 3, 4, 5, 6, 4] = 18 + 9 + 48 = **75 damage!**
-7. Now have: 30 HP, 10 Blood Tokens remaining
-
-**Turn 3 - Token Burst**:
-*Timer reaches 0, tokens burst!*
-1. "My Blood Tokens burst!"
-2. Roll burst damage: 10d10 → [8, 9, 7, 6, 5, 4, 8, 7, 6, 5] = 65 damage to YOU!
-3. Subtract from HP: 30 - 65 = -35 HP → **YOU DIE!**
-
-**Lesson**: Don't let tokens burst! Spend them before the timer runs out!
-
-**Quick Reference Card Template**:
-\`\`\`
-DEATHCALLER QUICK REFERENCE
-
-HEALTH AS RESOURCE:
-• All spells cost BOTH mana AND health
-• Roll health cost dice when casting
-• Track HP sacrificed vs. damage taken
-
-Blood Tokens (Core Mechanic):
-• 1 HP sacrificed = 1 Blood Token
-• Spend tokens: +1d6 damage per token
-• Burst timer: 10 min (15 with upgrade)
-• Burst damage: 1d10 per token to YOU
-
-ASCENSION PATHS:
-• Unlock in sequence (1→2→3→4→5→6→7)
-• Each grants BOON + CURSE
-• PERMANENT once activated
-• Cannot be deactivated
-
-SURVIVAL TIPS:
-• Keep HP above 30%
-• Spend tokens before 2 min remaining
-• Life drain to recover HP
-• Activate paths strategically
-\`\`\`
-
-**Thematic Enhancements**:
-
-Many players enhance the blood magic experience with:
-- **Red/Black Tokens**: Use crimson or black beads for Blood Tokens
-- **Hourglass Timer**: Use a 10-minute sand timer for dramatic effect
-- **Blood Marker**: Use red marker for HP sacrificed, black for damage taken
-- **Ascension Card**: Laminated card with checkboxes for permanent paths
-- **Dramatic Announcements**: "I sacrifice my blood for power!" when generating tokens
-
-**Alternative Tracking Methods**:
-
-**No Tokens?**
-- **Dice Method**: Use a d20 die set to your current Blood Token count (0-20)
-- **Tally Method**: Write token count on paper, update as needed
-- **Counter App**: Use a phone app to track tokens and timer
-
-**No Timer?**
-- **GM Tracking**: Ask your GM to track the 10-minute countdown
-- **Turn Counting**: Estimate ~10 combat turns = 10 minutes
-- **Honor System**: Track mentally and announce when tokens should burst
-
-**Ascension Path Management**:
-
-**When to Activate Paths**:
-- **Early Paths (1-3)**: Relatively safe, activate early for power boost
-- **Mid Paths (4-5)**: Moderate risk, activate when you need the power
-- **Late Paths (6-7)**: High risk, only activate if you're committed to the build
-
-**Tracking Active Curses**:
-Keep a note of which curses are affecting you:
-- Shrouded Veil: Remember your max HP is reduced by 10% (e.g., 72 instead of 80)
-- Crimson Pact: Remember to set timers for Blood Tokens
-- Spectral Command: Remember to roll specter HP drain at end of turn (1d4 per specter)
-- Frostwalker: Remember you take +50% fire damage
-- Silent Shroud: Remember -2 Perception on all checks
-- Life Leech: Remember your max HP is reduced by 5% (stacks with Shrouded Veil)
-- Deep Void: Remember you take 2d6 psychic damage when using the negate ability
-
-**Example Full Combat Sequence**:
-
-*Starting: 70/72 HP, Crimson Pact active, 0 Blood Tokens*
-
-**Turn 1**: Cast Necrotic Bolt (1d6 HP) → Roll [4] → 66 HP, 4 tokens, timer set
-**Turn 2**: Cast Shadow Step (1d6 HP) → Roll [5] → 61 HP, 9 tokens, timer reset
-**Turn 3**: Cast Death's Embrace (2d8 HP), spend 9 tokens → Roll [7, 5] = 12 HP → 49 HP, 12 new tokens (21 total), timer reset
-**Turn 4**: Spend 15 tokens on Necrotic Bolt → Roll [3] HP → 46 HP, 6 tokens remain
-**Turn 5**: Spend 6 tokens on Shadow Bolt → Roll [2] HP → 44 HP, 0 tokens
-**End of Combat**: 44/72 HP, 0 tokens, no burst
-
-**Why This System Works**: The physical act of rolling health costs, adding/removing Blood Tokens, and watching a timer count down creates TENSION. You're not just tracking abstract numbers—you're watching your life drain away, accumulating dangerous power (tokens), and racing against time to spend them before they explode. The permanent Ascension Paths add weight to your decisions: once you check that box, there's no going back. This creates a visceral, high-stakes experience that perfectly captures the Deathcaller's theme of sacrificing everything for dark power.
+**The Physical Hack (Friction Points)**:
+- **The Ticking Clock**: The moment you generate your first Blood Token, start your 10-minute timer. If it dings, you must roll 1d10 for every bead in your bowl and take that damage. Reset it only when you generate *new* tokens.
+- **The Ascension Card**: Keep a separate reference card with the 7 Paths. Once you activate one, check the box with a marker. It serves as a visual reminder of your permanent curses (like "Take +50% Fire Damage").
+- **The Blood Price**: Use a purple or black d6 to track your HP sacrifice separately from enemy damage. It makes it easier to tell if you're dying to the boss or to your own hubris.
 
 **Pro Tips**:
-- **Health Buffer**: Keep HP above 30% to survive burst damage
-- **Token Discipline**: Spend tokens before 2 minutes remaining on timer
-- **Life Drain Ready**: Always have a life drain spell prepared for recovery
-- **Path Planning**: Decide which paths to activate BEFORE leveling up
-- **Curse Awareness**: Keep a written list of active curses visible
-- **Burst Math**: Calculate potential burst damage (tokens × 5.5 average) before generating more
-
-**Budget-Friendly Alternatives**:
-- **No red tokens?** Use coins, buttons, or paper clips
-- **No timer?** Use turn counting (1 turn ≈ 1 minute)
-- **No fancy markers?** Use pencil and eraser for HP tracking
-- **Minimalist**: Just track HP and token count on paper
-
-**Why Deathcaller Is Perfect for In-Person Play**: The class is built around dramatic, high-stakes resource management. Rolling dice to see how much health you sacrifice, watching tokens accumulate as a timer counts down, and making permanent character-altering decisions (Ascension Paths) creates an intense, memorable experience. The physical components (tokens, timer, path card) make the abstract concept of "blood magic" tangible and thrilling. Every spell is a gamble, every token is a ticking time bomb, and every path is a permanent scar—perfect for dramatic tabletop storytelling.`
+- Keep your "Life Leech" dice (white/green) ready. You'll be using them often to refill the "tank."
+- **Slam the Beads**: When you spend 10 tokens for a massive strike, physically dump the 10 beads back into the supply bowl. The sound of the beads hitting the glass should emphasize the power of the strike.`
     }
   },
 
-  // Specializations
   specializations: {
     title: 'Specializations',
     subtitle: 'Three Paths of Necromantic Mastery',
