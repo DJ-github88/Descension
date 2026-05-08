@@ -3,7 +3,7 @@
 // ============================================
 
 export const INSCRIPTOR_RUNEBINDER = [
-  // Tier 0 - Foundation (Central Core - repeatable for progression)
+  // Tier 0 (y:0) - Foundation
   {
     id: 'runebinder_t0_runic_mastery',
     name: 'Runic Mastery',
@@ -14,7 +14,7 @@ export const INSCRIPTOR_RUNEBINDER = [
     requires: null,
   },
 
-  // Tier 1 - Zone Creation (Circular Pattern)
+  // Tier 1 (y:1) - Zone Creation
   {
     id: 'runebinder_t1_zone_amplification',
     name: 'Zone Amplification',
@@ -34,9 +34,9 @@ export const INSCRIPTOR_RUNEBINDER = [
     requires: 'runebinder_t0_runic_mastery',
   },
 
-  // Tier 2 - Advanced Runes (Expanding Circle)
+  // Tier 2 (y:2) - Advanced Runes
   {
-    id: 'runebinder_t1_zone_control',
+    id: 'runebinder_t2_zone_control',
     name: 'Zone Control',
     description: 'Enemies in zones have -1 to saves per rank. Can move runes 5 ft per rank as a 1 action point.',
     icon: 'spell_arcane_blink',
@@ -63,15 +63,15 @@ export const INSCRIPTOR_RUNEBINDER = [
     requires: 'runebinder_t1_rune_efficiency',
   },
 
-  // Tier 3 - Master Runes (Outer Ring - Circular Expansion)
+  // Tier 3 (y:3) - Master Runes
   {
-    id: 'runebinder_t2_zone_empowerment',
+    id: 'runebinder_t3_zone_empowerment',
     name: 'Zone Empowerment',
     description: 'Zones grant +1 to spell attack rolls per rank. Spells in zones have advantage on attack rolls.',
     icon: 'spell_arcane_starfire',
     maxRanks: 2,
     position: { x: 1, y: 3 },
-    requires: 'runebinder_t1_zone_control',
+    requires: 'runebinder_t2_zone_control',
   },
   {
     id: 'runebinder_t3_rune_chain',
@@ -83,18 +83,18 @@ export const INSCRIPTOR_RUNEBINDER = [
     requires: 'runebinder_t2_damage_runes',
   },
 
-  // Tier 4 - Control & Teleport (Side Branches)
+  // Tier 4 (y:4) - Control & Teleport
   {
-    id: 'runebinder_t2_control_runes',
+    id: 'runebinder_t4_control_runes',
     name: 'Control Runes',
     description: 'Create control runes that apply conditions. Choose from: slow, silence, or blind. DC 13 + rank.',
     icon: 'spell_shadow_curseofachimonde',
     maxRanks: 3,
     position: { x: 0, y: 4 },
-    requires: 'runebinder_t2_zone_empowerment',
+    requires: 'runebinder_t3_zone_empowerment',
   },
   {
-    id: 'runebinder_t2_teleport_runes',
+    id: 'runebinder_t4_teleport_runes',
     name: 'Teleport Runes',
     description: 'Create paired teleport runes. Creatures stepping on one rune teleport to the paired rune.',
     icon: 'spell_arcane_portalshattrath',
@@ -103,30 +103,32 @@ export const INSCRIPTOR_RUNEBINDER = [
     requires: 'runebinder_t3_rune_chain',
   },
 
-  // Tier 5 - Ultimate Zone Control (Center Convergence)
+  // Tier 5 (y:5) - Zone Mastery
   {
-    id: 'runebinder_t3_zone_mastery',
+    id: 'runebinder_t5_zone_mastery',
     name: 'Zone Mastery',
     description: 'Create zones with 2 runes instead of 3. Zones can overlap and stack effects per rank.',
     icon: 'spell_arcane_portalironforge',
     maxRanks: 3,
     position: { x: 2, y: 5 },
-    requires: 'runebinder_t2_zone_empowerment',
+    requires: 'runebinder_t3_zone_empowerment',
   },
+
+  // Tier 6 (y:6) - Ultimate
   {
-    id: 'runebinder_t4_runic_apocalypse',
-    name: 'Runic Apocalypse',
+    id: 'runebinder_t6_runic_devastation',
+    name: 'Runic Devastation',
     description: 'Detonate all runes simultaneously. Each rune deals 4d6 damage per rank in 15 ft radius, total damage cannot exceed 50d6.',
     icon: 'spell_fire_flamestrike',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: 'runebinder_t3_zone_mastery',
+    requires: 'runebinder_t5_zone_mastery',
   }
 ];
 
 // Enchanter - Equipment Grid Layout (Equipment slot arrangement)
 export const INSCRIPTOR_ENCHANTER = [
-  // Tier 0 - Foundation (Central Enchantment - repeatable)
+  // Tier 0 (y:0) - Foundation
   {
     id: 'enchanter_t0_enchantment_mastery',
     name: 'Enchantment Mastery',
@@ -136,7 +138,7 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: null,
   },
 
-  // Tier 1 - Equipment Slots (Weapon/Armor Layout)
+  // Tier 1 (y:1) - Equipment Slots
   {
     id: 'enchanter_t1_weapon_enhancement',
     name: 'Weapon Enhancement',
@@ -156,7 +158,7 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t0_enchantment_mastery',
   },
 
-  // Tier 2 - Advanced Equipment (Head/Hands/Feet Layout)
+  // Tier 2 (y:2) - Advanced Equipment
   {
     id: 'enchanter_t2_elemental_weapon',
     name: 'Elemental Weapon',
@@ -185,9 +187,9 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t1_armor_enhancement',
   },
 
-  // Tier 3 - Master Equipment (Ring/Necklace Layout)
+  // Tier 3 (y:3) - Master Equipment
   {
-    id: 'enchanter_t2_utility_enchantment',
+    id: 'enchanter_t3_utility_enchantment',
     name: 'Utility Enchantment',
     description: 'Accessories provide utility effects: +10 ft movement, darkvision, or advantage on stealth checks.',
     icon: 'spell_holy_greaterblessingofwisdom',
@@ -196,7 +198,7 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t2_accessory_enhancement',
   },
   {
-    id: 'enchanter_t2_magical_armor',
+    id: 'enchanter_t3_magical_armor',
     name: 'Magical Armor',
     description: 'Armor provides +2 armor against magical attacks per rank.',
     icon: 'spell_holy_greaterblessingofsanctuary',
@@ -205,9 +207,9 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t2_defensive_armor',
   },
 
-  // Tier 4 - Legendary Equipment (Central Convergence)
+  // Tier 4 (y:4) - Legendary Equipment
   {
-    id: 'enchanter_t2_power_accessory',
+    id: 'enchanter_t4_power_accessory',
     name: 'Power Accessory',
     description: 'Accessories restore 1d6 mana per rank when you cast a spell.',
     icon: 'spell_arcane_manatap',
@@ -216,9 +218,9 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t2_accessory_enhancement',
   },
 
-  // Tier 5 - Master Enchantments (Full Equipment Set)
+  // Tier 5 (y:5) - Master Enchantments
   {
-    id: 'enchanter_t3_enchantment_duration',
+    id: 'enchanter_t5_enchantment_duration',
     name: 'Enchantment Duration',
     description: 'All enchantments last +1 hour per rank (maximum 24 hours).',
     icon: 'spell_holy_greaterblessingoflight',
@@ -227,39 +229,39 @@ export const INSCRIPTOR_ENCHANTER = [
     requires: 'enchanter_t2_elemental_weapon',
   },
   {
-    id: 'enchanter_t3_enchantment_sharing',
+    id: 'enchanter_t5_enchantment_sharing',
     name: 'Enchantment Sharing',
     description: 'Enchantments can be shared with adjacent allies within 5 ft per rank.',
     icon: 'spell_arcane_massdispel',
     maxRanks: 3,
     position: { x: 2, y: 5 },
-    requires: 'enchanter_t2_power_accessory',
+    requires: 'enchanter_t4_power_accessory',
   },
   {
-    id: 'enchanter_t3_enchantment_efficiency',
+    id: 'enchanter_t5_enchantment_efficiency',
     name: 'Enchantment Efficiency',
     description: 'Enchantment costs -2 mana per rank (minimum 1). Enchantments take -1 action per rank to apply.',
     icon: 'spell_arcane_arcaneresilience',
     maxRanks: 3,
     position: { x: 4, y: 5 },
-    requires: 'enchanter_t2_magical_armor',
+    requires: 'enchanter_t3_magical_armor',
   },
 
-  // Tier 6 - Legendary Enchantment (Center)
+  // Tier 6 (y:6) - Legendary Enchantment
   {
-    id: 'enchanter_t4_legendary_enchantment',
+    id: 'enchanter_t6_legendary_enchantment',
     name: 'Legendary Enchantment',
     description: 'Create a legendary enchantment that grants +3 to all rolls, resistance to all damage, and 3d6 temporary HP per rank for 1 minute.',
     icon: 'spell_holy_greaterblessingoflight',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: 'enchanter_t3_enchantment_sharing',
+    requires: 'enchanter_t5_enchantment_sharing',
   }
 ];
 
 // Glyphweaver - Chain Reaction Layout (Connected explosive patterns)
 export const INSCRIPTOR_GLYPHWEAVER = [
-  // Tier 0 - Foundation (Central Glyph - repeatable)
+  // Tier 0 (y:0) - Foundation
   {
     id: 'glyphweaver_t0_glyph_mastery',
     name: 'Glyph Mastery',
@@ -269,7 +271,7 @@ export const INSCRIPTOR_GLYPHWEAVER = [
     requires: null,
   },
 
-  // Tier 1 - Chain Initiation (Zigzag Start)
+  // Tier 1 (y:1) - Chain Initiation
   {
     id: 'glyphweaver_t1_detonation_glyph',
     name: 'Detonation Glyph',
@@ -289,9 +291,9 @@ export const INSCRIPTOR_GLYPHWEAVER = [
     requires: 'glyphweaver_t0_glyph_mastery',
   },
 
-  // Tier 2 - Chain Links (Alternating Pattern)
+  // Tier 2 (y:2) - Chain Links
   {
-    id: 'glyphweaver_t1_glyph_efficiency',
+    id: 'glyphweaver_t2_glyph_efficiency',
     name: 'Glyph Efficiency',
     description: 'Glyph placement costs -1 mana per rank. Glyphs last +30 seconds per rank.',
     icon: 'spell_arcane_arcaneresilience',
@@ -318,18 +320,18 @@ export const INSCRIPTOR_GLYPHWEAVER = [
     requires: 'glyphweaver_t1_chain_reaction',
   },
 
-  // Tier 3 - Chain Expansion (Zigzag Continuation)
+  // Tier 3 (y:3) - Chain Expansion
   {
-    id: 'glyphweaver_t2_empowerment_glyph',
+    id: 'glyphweaver_t3_empowerment_glyph',
     name: 'Empowerment Glyph',
     description: 'Create empowerment glyphs that grant +2 to attack rolls per rank to allies within 5 ft.',
     icon: 'spell_holy_greaterblessingofkings',
     maxRanks: 3,
     position: { x: 1, y: 3 },
-    requires: 'glyphweaver_t1_glyph_efficiency',
+    requires: 'glyphweaver_t2_glyph_efficiency',
   },
   {
-    id: 'glyphweaver_t2_healing_glyph',
+    id: 'glyphweaver_t3_healing_glyph',
     name: 'Healing Glyph',
     description: 'Create healing glyphs that restore 2d6 HP per rank when allies step on them.',
     icon: 'spell_holy_flashheal',
@@ -338,27 +340,27 @@ export const INSCRIPTOR_GLYPHWEAVER = [
     requires: 'glyphweaver_t2_damage_glyph',
   },
 
-  // Tier 4 - Chain Convergence (Side Branches)
+  // Tier 4 (y:4) - Chain Convergence
   {
-    id: 'glyphweaver_t2_teleport_glyph',
+    id: 'glyphweaver_t4_teleport_glyph',
     name: 'Teleport Glyph',
     description: 'Create paired teleport glyphs. Creatures teleport between pairs. Maximum 2 pairs per rank.',
     icon: 'spell_arcane_portaldarnassus',
     maxRanks: 2,
     position: { x: 0, y: 4 },
-    requires: 'glyphweaver_t2_empowerment_glyph',
+    requires: 'glyphweaver_t3_empowerment_glyph',
   },
   {
-    id: 'glyphweaver_t3_glyph_overload',
+    id: 'glyphweaver_t4_glyph_overload',
     name: 'Glyph Overload',
     description: 'Overload glyphs to increase damage by 50% per rank, but they become unstable and may detonate prematurely.',
     icon: 'spell_lightning_lightningbolt01',
     maxRanks: 3,
     position: { x: 2, y: 4 },
-    requires: 'glyphweaver_t2_healing_glyph',
+    requires: 'glyphweaver_t3_healing_glyph',
   },
   {
-    id: 'glyphweaver_t3_glyph_network',
+    id: 'glyphweaver_t4_glyph_network',
     name: 'Glyph Network',
     description: 'Create glyph networks that share effects. Networks have +10 ft range per rank.',
     icon: 'spell_arcane_arcaneresilience',
@@ -367,23 +369,25 @@ export const INSCRIPTOR_GLYPHWEAVER = [
     requires: 'glyphweaver_t2_control_glyph',
   },
 
-  // Tier 5 - Ultimate Chain (Center Explosion)
+  // Tier 5 (y:5) - Glyph Synchronization
   {
-    id: 'glyphweaver_t3_glyph_synchronization',
+    id: 'glyphweaver_t5_glyph_synchronization',
     name: 'Glyph Synchronization',
     description: 'All glyphs within 20 ft activate simultaneously per rank. Can choose activation order.',
     icon: 'spell_arcane_massdispel',
     maxRanks: 2,
     position: { x: 2, y: 5 },
-    requires: 'glyphweaver_t3_glyph_overload',
+    requires: 'glyphweaver_t4_glyph_overload',
   },
+
+  // Tier 6 (y:6) - Ultimate Chain
   {
-    id: 'glyphweaver_t4_cataclysmic_chain',
+    id: 'glyphweaver_t6_cataclysmic_chain',
     name: 'Cataclysmic Chain',
     description: 'Trigger a cataclysmic chain reaction. All glyphs detonate in sequence, each dealing maximum damage per rank with +10 ft chain range.',
     icon: 'spell_fire_flamestrike',
     maxRanks: 1,
     position: { x: 2, y: 6 },
-    requires: 'glyphweaver_t3_glyph_synchronization',
+    requires: 'glyphweaver_t5_glyph_synchronization',
   }
 ];

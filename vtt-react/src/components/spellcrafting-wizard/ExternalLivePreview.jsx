@@ -101,6 +101,69 @@ const ExternalLivePreview = () => {
         restorationConfig: state.restorationConfig || null
       };
 
+      // Transform Prophecy Options to prophecyConfig (Doomsayer)
+      if (state.prophecyOptions) {
+        const po = state.prophecyOptions;
+        const parseRangeDice = (dice) => {
+          if (Array.isArray(dice)) return dice;
+          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
+          return Array.isArray(dice) ? dice : [dice];
+        };
+        const buildEffect = (outcome) => {
+          if (!outcome || !outcome.effectName) return undefined;
+          const effect = { name: outcome.effectName };
+          if (outcome.duration > 0) effect.duration = outcome.duration;
+          if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
+          if (outcome.damagePerRound) {
+            effect.damagePerRound = outcome.damagePerRound;
+            if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
+          }
+          if (outcome.statModifiers && outcome.statModifiers.length > 0) effect.statModifiers = outcome.statModifiers;
+          if (outcome.healingBlock) effect.healingBlock = true;
+          if (outcome.bonusDamageTaken) {
+            effect.bonusDamageTaken = outcome.bonusDamageTaken;
+            if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
+          }
+          if (outcome.saveDC > 0) {
+            effect.saveDC = outcome.saveDC;
+            if (outcome.saveType) effect.saveType = outcome.saveType;
+          }
+          if (outcome.instantKill) effect.instantKill = true;
+          if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
+          if (outcome.cascadeDamage) {
+            effect.cascadeDamage = outcome.cascadeDamage;
+            effect.cascadeRange = outcome.cascadeRange || 10;
+          }
+          if (outcome.description) effect.description = outcome.description;
+          return effect;
+        };
+        const buildOutcome = (outcome) => {
+          if (!outcome) return undefined;
+          const result = {};
+          if (outcome.damage) result.damage = outcome.damage;
+          const effect = buildEffect(outcome);
+          if (effect) result.effect = effect;
+          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
+          if (outcome.description) result.description = outcome.description;
+          return result;
+        };
+        spellData.prophecyConfig = {
+          rangeDice: parseRangeDice(po.rangeDice),
+          resolutionDie: po.resolutionDie,
+          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
+          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
+          outside: (() => {
+            const o = po.outside || {};
+            const result = {};
+            if (o.backlash) result.backlash = o.backlash;
+            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
+            if (o.description) result.description = o.description;
+            return result;
+          })()
+        };
+        spellData.resolution = 'PROPHECY';
+      }
+
       // Transform Devotion Level resources to specialMechanics (Martyr)
       const resourceValues = state.resourceCost?.resourceValues || {};
       if (resourceValues.devotion_required !== undefined ||
@@ -410,8 +473,8 @@ const ExternalLivePreview = () => {
       summonConfig: spellState.summonConfig || null,
       summoningConfig: spellState.summonConfig || null, // Also provide as summoningConfig for compatibility
 
-      // Resolution type
-      resolution: spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE',
+      // Resolution type - include PROPHECY when prophecyOptions are configured
+      resolution: spellState.prophecyOptions ? 'PROPHECY' : (spellState.damageConfig?.resolution || spellState.healingConfig?.resolution || 'DICE'),
 
       // Card configuration for card-based spells - ensure proper fallback when switching resolution methods
       cardConfig: (() => {
@@ -483,6 +546,73 @@ const ExternalLivePreview = () => {
         ...(spellState.tags || [])
       ].filter(Boolean),
       effectTypes: spellState.effectTypes || [],
+
+      // Prophecy configuration (Doomsayer) - same transformation as Step10Review
+      prophecyConfig: spellState.prophecyOptions ? (() => {
+        const po = spellState.prophecyOptions;
+        const parseRangeDice = (dice) => {
+          if (Array.isArray(dice)) return dice;
+          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
+          return Array.isArray(dice) ? dice : [dice];
+        };
+        const buildEffect = (outcome) => {
+          if (!outcome) return undefined;
+          if (outcome.effectName) {
+            const effect = { name: outcome.effectName };
+            if (outcome.duration > 0) effect.duration = outcome.duration;
+            if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
+            if (outcome.damagePerRound) {
+              effect.damagePerRound = outcome.damagePerRound;
+              if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
+            }
+            if (outcome.statModifiers && outcome.statModifiers.length > 0) {
+              effect.statModifiers = outcome.statModifiers;
+            }
+            if (outcome.healingBlock) effect.healingBlock = true;
+            if (outcome.bonusDamageTaken) {
+              effect.bonusDamageTaken = outcome.bonusDamageTaken;
+              if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
+            }
+            if (outcome.saveDC > 0) {
+              effect.saveDC = outcome.saveDC;
+              if (outcome.saveType) effect.saveType = outcome.saveType;
+            }
+            if (outcome.instantKill) effect.instantKill = true;
+            if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
+            if (outcome.cascadeDamage) {
+              effect.cascadeDamage = outcome.cascadeDamage;
+              effect.cascadeRange = outcome.cascadeRange || 10;
+            }
+            if (outcome.description) effect.description = outcome.description;
+            return effect;
+          }
+          return undefined;
+        };
+        const buildOutcome = (outcome) => {
+          if (!outcome) return undefined;
+          const result = {};
+          if (outcome.damage) result.damage = outcome.damage;
+          const effect = buildEffect(outcome);
+          if (effect) result.effect = effect;
+          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
+          if (outcome.description) result.description = outcome.description;
+          return result;
+        };
+        return {
+          rangeDice: parseRangeDice(po.rangeDice),
+          resolutionDie: po.resolutionDie,
+          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
+          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
+          outside: (() => {
+            const o = po.outside || {};
+            const result = {};
+            if (o.backlash) result.backlash = o.backlash;
+            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
+            if (o.description) result.description = o.description;
+            return result;
+          })()
+        };
+      })() : null,
 
       // Resource costs
       resourceConfig: spellState.resourceConfig || null,

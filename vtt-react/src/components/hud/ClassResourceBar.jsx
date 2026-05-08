@@ -5479,7 +5479,7 @@ const ClassResourceBar = ({
                                         <button
                                             className={`huntress-spec-btn ${huntressSpec === 'shadowblade' ? 'active' : ''}`}
                                             onClick={() => setHuntressSpec('shadowblade')}
-                                            title="Shadowdancer"
+                                            title="Shadowblade"
                                         >
                                             <i className="fas fa-moon"></i>
                                         </button>
@@ -7531,6 +7531,9 @@ const ClassResourceBar = ({
             // Determine number of dice based on specialization
             const diceCount = activeSpecialization === 'entropy-weaver' ? 5 : 4;
 
+            // Determine bank cap based on specialization
+            const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
+
             // Roll dice
             for (let i = 0; i < diceCount; i++) {
                 const roll = Math.floor(Math.random() * 8) + 1; // 1-8
@@ -7540,9 +7543,13 @@ const ClassResourceBar = ({
                 }
             }
 
-            // Add to existing spheres (banking)
+            // Add to existing spheres (banking), respecting cap
             setTimeout(() => {
-                setArcanoneerState(prev => ({ ...prev, localSpheres: [...activeSpheres, ...newSpheres], isRolling: false }));
+                setArcanoneerState(prev => {
+                    const combined = [...prev.localSpheres, ...newSpheres];
+                    const capped = combined.slice(0, maxBank);
+                    return { ...prev, localSpheres: capped, isRolling: false };
+                });
             }, 500); // Animation delay
         };
 
@@ -7736,7 +7743,11 @@ const ClassResourceBar = ({
                                             if (!isOwner) return; // Only owner can interact
                                             e.stopPropagation();
                                             if (e.button === 0) { // Left click - add orb
-                                                setArcanoneerState(prev => ({ ...prev, localSpheres: [...localSpheres, element.id] }));
+                                                const maxBank = activeSpecialization === 'sphere-architect' ? 15 : 12;
+                                                setArcanoneerState(prev => {
+                                                    if (prev.localSpheres.length >= maxBank) return prev;
+                                                    return { ...prev, localSpheres: [...prev.localSpheres, element.id] };
+                                                });
                                             }
                                         }}
                                         onContextMenu={(e) => {
@@ -9141,7 +9152,7 @@ const ClassResourceBar = ({
                                                 <div className="tooltip-section">
                                                     <div className="tooltip-label">Temporal Backlash</div>
                                                     <div className="drawback-text">
-                                                        Lose next turn, take 10 damage, strain resets to 0
+                                                        Lose next turn, take 4d6 Force damage, strain resets to 0
                                                     </div>
                                                 </div>
                                             </div>
@@ -9831,8 +9842,8 @@ const ClassResourceBar = ({
                     {finalConfig.visual?.type === 'quarry-marks-companion' && huntressHoverSection && (
                         <div>
                             {huntressHoverSection === 'marks' && (() => {
-                                const specName = huntressSpec === 'bladestorm' ? 'Bladestorm' : huntressSpec === 'beastmaster' ? 'Beastmaster' : 'Shadowdancer';
-                                const specUltimate = huntressSpec === 'bladestorm' ? 'Glaive Storm' : huntressSpec === 'beastmaster' ? 'Primal Fury' : 'Shadow Assault';
+                                const specName = huntressSpec === 'bladestorm' ? 'Bladestorm' : huntressSpec === 'beastmaster' ? 'Beastmaster' : 'Shadowblade';
+                                const specUltimate = huntressSpec === 'bladestorm' ? 'Glaive Storm' : huntressSpec === 'beastmaster' ? 'Primal Fury' : 'Phantom Blades';
 
                                 return (
                                     <>
@@ -9877,7 +9888,7 @@ const ClassResourceBar = ({
                             {huntressHoverSection === 'spec' && (() => {
                                 const companionType = huntressSpec === 'bladestorm' ? 'War Owl' : huntressSpec === 'beastmaster' ? 'Dire Wolf' : 'Shadow Panther';
                                 const companionSpecial = huntressSpec === 'bladestorm' ? 'Aerial Strike' : huntressSpec === 'beastmaster' ? 'Pack Tactics' : 'Stealth Pounce';
-                                const specName = huntressSpec === 'bladestorm' ? 'Bladestorm' : huntressSpec === 'beastmaster' ? 'Beastmaster' : 'Shadowdancer';
+                                const specName = huntressSpec === 'bladestorm' ? 'Bladestorm' : huntressSpec === 'beastmaster' ? 'Beastmaster' : 'Shadowblade';
 
                                 return (
                                     <>

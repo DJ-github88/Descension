@@ -81,7 +81,7 @@ The Minstrel shines in group content where they can orchestrate the flow of batt
 **Note Management**:
 - Each spell generates specific musical notes (I, II, III, IV, V, VI, VII)
 - Notes stack up to 5 of each type
-- Notes persist between combats but decay slowly (1 note per minute out of combat)
+- Notes persist between combats but decay slowly (1 note per minute out of combat, oldest first)
 - Managing your note economy is crucial to having the right cadences available
 
 **Chord Progression Planning**:
@@ -115,81 +115,80 @@ Different instruments provide different bonuses and affect your playstyle:
 
     immersiveCombatExample: {
       title: 'Combat Example: The Perfect Cadence',
-      content: `**The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(2), IV(1), V(1) from previous encounter. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
+      content: `**The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(1), V(1) from a previous short rest. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
 
-**Starting State**: Notes: I(2), IV(1), V(1) | Mana: 50/60 | HP: 60/60
+**Starting State**: Notes: I(1), V(1) | Mana: 50/60 | HP: 60/60
 
-**Turn 1 - Building Notes (Notes: I(2), IV(1), V(1) → I(3), IV(1), V(1), II(1))**
+**Turn 1 - Building Notes (Notes: I(1), V(1) → I(1), V(3), VII(1))**
 
 *You raise your war drum, its surface etched with ancient runes. The bandits charge. You begin to PLAY.*
 
-**Your Action**: Cast "Inspiring Rhythm" on your party's tank (4 mana, builder spell)
-**Effect**: Grant +2 Armor for 2 rounds
-**Musical Note Generated**: II (Supertonic)
+**Your Action**: Cast "Inspiring Rhythm" on your party (3 mana, builder spell)
+**Effect**: Grant +1 to attack rolls for 1 round (allies within 15 ft)
+**Musical Notes Generated**: V(2) + VII(1)
 
-*BOOM. BOOM. BOOM. Your drum echoes across the battlefield. Your tank feels the rhythm, moving with newfound confidence.*
+*BOOM. BOOM. BOOM. Your drum echoes across the battlefield. Your party feels the rhythm, moving with newfound confidence.*
 
-**Notes**: I(2), IV(1), V(1) + II(1) = **I(2), II(1), IV(1), V(1)**
-**Mana**: 50 - 4 = 46/60
+**Notes**: I(1), V(1) + V(2), VII(1) = **I(1), V(3), VII(1)**
+**Mana**: 50 - 3 = 47/60
 
 **Your Party's Tank**: "I feel faster! Stronger!"
 **You**: "That's the rhythm of war. Let it guide you."
 
-**Bandit #1's Turn**: Attacks tank → [14] → Miss! (tank has +2 Armor from your buff)
+**Bandit #1's Turn**: Attacks tank → Miss! (tank has +1 attack from your buff, turning a near-miss into a clean dodge)
 
 *The bandit's sword clangs off the tank's armor. The rhythm protected him.*
 
-**Current State**: Notes: I(2), II(1), IV(1), V(1) | Mana: 46/60
+**Current State**: Notes: I(1), V(3), VII(1) | Mana: 47/60
 
-**Turn 2 - More Building (Notes: I(3), II(1), IV(1), V(1), III(1))**
+**Turn 2 - More Building (Notes: I(1), V(3), VII(1) → I(2), III(2), V(3), VII(1))**
 
-**Your Action**: Cast "Harmonic Strike" at Bandit #2 (5 mana, builder spell)
+**Your Action**: Cast "Harmonic Strike" at Bandit #2 (4 mana, builder spell)
 **Attack Roll**: d20+5 → [16] = Hit!
-**Damage**: 2d6 lightning → [5, 6] = **11 lightning damage**
-**Musical Note Generated**: III (Mediant)
+**Damage**: 1d8 bludgeoning → [6] = **6 damage**
+**Musical Notes Generated**: III(2) + I(1)
 
 *You strike your drum with a thunderous CRASH. The sound wave SLAMS into the bandit, knocking him back.*
 
-**Notes**: I(2), II(1), IV(1), V(1) + III(1) = **I(2), II(1), III(1), IV(1), V(1)**
-**Mana**: 46 - 5 = 41/60
+**Notes**: I(1), V(3), VII(1) + III(2), I(1) = **I(2), III(2), V(3), VII(1)**
+**Mana**: 47 - 4 = 43/60
 
-**Bandit #2**: 11 damage taken, staggered
+**Bandit #2**: 6 damage taken, staggered
 
 **Your Party's Mage**: Casts Fireball → 35 damage to 3 bandits
 
-**Current State**: Notes: I(2), II(1), III(1), IV(1), V(1) | Mana: 41/60
+**Current State**: Notes: I(2), III(2), V(3), VII(1) | Mana: 43/60
 
-**Turn 3 - Building to Cadence (Notes: I(3), II(1), III(1), IV(1), V(1))**
+**Turn 3 - Building to Cadence (Notes: I(2), III(2), V(3), VII(1) → I(3), III(2), V(4), VII(2))**
 
-*You have I, IV, and V notes. You can play a PERFECT CADENCE (I-IV-V-I). But you need one more I note first.*
+*You have I(2), V(3). You need I(2) and IV(1) and V(1) for the Perfect Cadence. You have the I and V — but you need an IV note.*
 
-**Your Action**: Cast "Resonant Chord" on your party (6 mana, builder spell)
-**Effect**: Heal all allies for 1d8 HP
-**Healing Roll**: 1d8 → [6] = 6 HP to each ally
-**Musical Note Generated**: I (Tonic)
+**Your Action**: Cast "Melancholy Melody" on enemies (8 mana, builder spell)
+**Effect**: -1 to enemy attack rolls for 2 rounds (20 ft radius)
+**Musical Notes Generated**: VI(2) + IV(1)
 
-*You play a deep, resonant chord. The sound VIBRATES through your party, mending wounds.*
+*You play a haunting melody. The bandits falter, their strikes losing precision.*
 
-**Notes**: I(2), II(1), III(1), IV(1), V(1) + I(1) = **I(3), II(1), III(1), IV(1), V(1)**
-**Mana**: 41 - 6 = 35/60
+**Notes**: I(2), III(2), V(3), VII(1) + VI(2), IV(1) = **I(2), III(2), IV(1), V(3), VI(2), VII(1)**
+**Mana**: 43 - 8 = 35/60
 
-**Your Party's Tank**: "I'm healed! And I feel... ready."
+**Your Party's Tank**: "They're weakening! I can see it in their eyes."
 **You**: "Good. Because I'm about to play the Perfect Cadence. Next attack—make it count."
 
-**Current State**: Notes: I(3), II(1), III(1), IV(1), V(1) | Mana: 35/60
+**Current State**: Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) | Mana: 35/60
 
-**Turn 4 - PERFECT CADENCE (Notes: I(3), II(1), III(1), IV(1), V(1) → I(2), II(1), III(1))**
+**Turn 4 - PERFECT CADENCE (Notes: I(2), III(2), IV(1), V(3), VI(2), VII(1) → I(0), III(2), IV(0), V(2), VI(2), VII(1))**
 
-*You have I(3), IV(1), V(1). Time to play the PERFECT CADENCE: I-IV-V-I. This will guarantee your tank's next attack is a critical hit.*
+*You have I(2), IV(1), V(3). Time to play the PERFECT CADENCE: I-IV-V-I. This will guarantee your tank's next attack is a critical hit.*
 
-**Your Action**: Play "Perfect Cadence" (I-IV-V-I) targeting your tank (10 mana)
-**Notes Consumed**: I(1), IV(1), V(1), I(1) = 4 notes total
+**Your Action**: Play "Perfect Cadence" targeting your tank (16 mana, resolver spell)
+**Notes Consumed**: I(2), IV(1), V(1) = 4 notes total
 **Effect**: Target's next attack is a guaranteed critical hit
 
 *You play the progression: BOOM (I). BOOM-BOOM (IV). BOOM-BOOM-BOOM (V). BOOM (I). The rhythm is PERFECT. The sound resonates with reality itself. Your tank's weapon GLOWS with harmonic energy.*
 
-**Notes**: I(3), II(1), III(1), IV(1), V(1) - I(1) - IV(1) - V(1) - I(1) = **I(2), II(1), III(1)**
-**Mana**: 35 - 10 = 25/60
+**Notes**: I(2), III(2), IV(1), V(3), VI(2), VII(1) - I(2) - IV(1) - V(1) = **I(0), III(2), V(2), VI(2), VII(1)**
+**Mana**: 35 - 16 = 19/60
 
 **Your Party's Tank**: "My sword... it's SINGING!"
 **You**: "Strike NOW!"
@@ -205,62 +204,63 @@ Different instruments provide different bonuses and affect your playstyle:
 **Your Party's Mage**: "FORTY DAMAGE! What did you DO?"
 **You**: "Perfect Cadence. I-IV-V-I. The most powerful chord progression in music. Guarantees a critical hit."
 
-**Current State**: Notes: I(2), II(1), III(1) | Mana: 25/60
+**Current State**: Notes: I(0), III(2), V(2), VI(2), VII(1) | Mana: 19/60
 
 **Turn 5 - Rebuilding Notes**
 
 *The bandit leader is dead. Four bandits remain. Time to rebuild your notes.*
 
-**Your Action**: Cast "Inspiring Rhythm" on your mage (4 mana)
-**Effect**: +2 Armor for 2 rounds
-**Musical Note Generated**: II (Supertonic)
+**Your Action**: Cast "Opening Chord" at Bandit #5 (4 mana, builder spell)
+**Attack Roll**: d20+5 → [17] = Hit!
+**Damage**: 1d6 lightning → [5] = **5 lightning damage**
+**Musical Notes Generated**: I(2) + V(1)
 
-**Notes**: I(2), II(1), III(1) + II(1) = **I(2), II(2), III(1)**
-**Mana**: 25 - 4 = 21/60
+**Notes**: I(0), III(2), V(2), VI(2), VII(1) + I(2), V(1) = **I(2), III(2), V(3), VI(2), VII(1)**
+**Mana**: 19 - 4 = 15/60
 
 **Your Party's Rogue**: Sneak attacks Bandit #3 → DEAD
 **Your Party's Mage**: Casts Fire Bolt → Bandit #4 DEAD
 
 **Two bandits remain**
 
-**Current State**: Notes: I(2), II(2), III(1) | Mana: 21/60
+**Current State**: Notes: I(2), III(2), V(3), VI(2), VII(1) | Mana: 15/60
 
 **Turn 6 - Finishing the Fight**
 
-**Your Action**: Cast "Harmonic Strike" at Bandit #5 (5 mana)
-**Attack Roll**: d20+5 → [17] = Hit!
-**Damage**: 2d6 lightning → [6, 5] = **11 lightning damage**
-**Musical Note Generated**: III (Mediant)
-**Result**: Bandit #5 DEAD
+**Your Action**: Cast "Harmonic Strike" at Bandit #6 (4 mana, builder spell)
+**Attack Roll**: d20+5 → [14] = Hit!
+**Damage**: 1d8 bludgeoning → [6] = **6 damage**
+**Musical Notes Generated**: III(2) + I(1)
+**Result**: Bandit #6 DEAD
 
-**Notes**: I(2), II(2), III(1) + III(1) = **I(2), II(2), III(2)**
-**Mana**: 21 - 5 = 16/60
+**Notes**: I(2), III(2), V(3), VI(2), VII(1) + III(2), I(1) = **I(3), III(4), V(3), VI(2), VII(1)**
+**Mana**: 15 - 4 = 11/60
 
-**Your Party's Tank**: Attacks Bandit #6 → DEAD
+**Your Party's Tank**: Attacks Bandit #5 → DEAD
 
 **Combat Over**
 
 *You lower your drum. The battlefield is silent except for the fading echoes of your music.*
 
 **Your Party's Tank**: "That Perfect Cadence... I've never hit that hard in my life. Forty damage on a critical."
-**You**: "I spent four musical notes to play it: I-IV-V-I. The Perfect Cadence guarantees your next attack is a critical hit. I had been building those notes through my builder spells—Inspiring Rhythm generates II notes, Harmonic Strike generates III notes, Resonant Chord generates I notes."
+**You**: "I spent four musical notes to play it: two I notes, one IV, and one V. The Perfect Cadence requires I(2), IV(1), V(1) and guarantees your next attack is a critical hit. I had been building those notes through my builder spells — Opening Chord generates I(2)+V(1), Harmonic Strike generates III(2)+I(1), and Melancholy Melody generates VI(2)+IV(1)."
 **Your Party's Mage**: "So you were building up to that the whole fight?"
-**You**: "Exactly. I started with I(2), IV(1), V(1) from the previous fight. I built up to I(3), IV(1), V(1), then played the Perfect Cadence. Now I have I(2), II(2), III(2) banked for the next fight."
+**You**: "Exactly. I started with I(1), V(1) from a short rest. By turn 3, I had I(2), IV(1), V(3) — enough for the Perfect Cadence. Now I have I(3), III(4), V(3), VI(2), VII(1) banked for the next fight."
 **Your Party's Rogue**: "What other cadences can you play?"
-**You**: "Many. Deceptive Cadence (IV-VII-V-IV) stuns enemies. Circle of Fifths (V-I-VI-V) deals damage over time. Plagal Cadence (VI-V-I-III) gives speed boosts. Half Cadence (VII-V-IV-VI) creates shields. Each requires specific notes, so I have to plan ahead."
+**You**: "Many. Deceptive Cadence (IV(2), VII(1), V(1)) stuns enemies. Circle of Fifths (V(2), I(1), VI(1)) deals damage over time. Plagal Cadence (VI(1), V(1), I(1), III(1)) gives speed boosts. Each requires specific notes, so I have to plan ahead."
 
-**Final State**: Notes: I(2), II(2), III(2) | Mana: 16/60 | HP: 60/60
+**Final State**: Notes: I(3), III(4), V(3), VI(2), VII(1) | Mana: 11/60 | HP: 60/60
 
 **The Lesson**: Minstrel gameplay is about:
-1. **Note Building**: Cast builder spells to generate musical notes (I, II, III, IV, V, VI, VII)
-2. **Note Stacking**: Notes stack up to 5 of each type, persist between combats
-3. **Cadence Planning**: Perfect Cadence requires I-IV-V-I (4 notes total), guarantees critical hit
-4. **Resource Management**: Started with I(2), IV(1), V(1), built to I(3), IV(1), V(1), spent 4 notes for cadence
-5. **Builder Spells**: Inspiring Rhythm (generates II), Harmonic Strike (generates III), Resonant Chord (generates I)
+1. **Note Building**: Cast builder spells to generate musical notes — each spell produces 2-3 notes of specific types
+2. **Note Stacking**: Notes stack up to 5 of each type (I through VII), and persist between combats
+3. **Cadence Planning**: Perfect Cadence requires I(2), IV(1), V(1) — 4 notes total — and guarantees a critical hit
+4. **Resource Management**: Started with I(1), V(1), built to I(2), IV(1), V(3), spent 4 notes for cadence
+5. **Builder Spells**: Opening Chord (I(2)+V(1)), Harmonic Strike (III(2)+I(1)), Inspiring Rhythm (V(2)+VII(1)), Melancholy Melody (VI(2)+IV(1))
 6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage → 40 damage (doubled)
-7. **Note Persistence**: Ended with I(2), II(2), III(2) banked for next fight
+7. **Note Persistence**: Ended with I(3), III(4), V(3), VI(2), VII(1) banked for next fight
 
-You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes through builder spells, stack them up, then RESOLVE them into powerful cadences. The Perfect Cadence (I-IV-V-I) guarantees a critical hit. The Deceptive Cadence (IV-VII-V-IV) stuns enemies. Each cadence requires specific notes, so you have to PLAN AHEAD. Cast the right builder spells to generate the notes you need, then unleash the cadence at the perfect moment. Your party fights to the rhythm of your music. You are the MAESTRO of the battlefield.`
+You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes through builder spells, stack them up, then RESOLVE them into powerful cadences. The Perfect Cadence (I(2)+IV(1)+V(1)) guarantees a critical hit. The Deceptive Cadence (IV(2)+VII(1)+V(1)) stuns enemies. Each cadence requires specific notes, so you have to PLAN AHEAD. Cast the right builder spells to generate the notes you need, then unleash the cadence at the perfect moment. Your party fights to the rhythm of your music. You are the MAESTRO of the battlefield.`
     }
   },
   
@@ -273,166 +273,18 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
 
     resourceBarExplanation: {
       title: 'Understanding Your Musical Notes Interface',
-      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I, II, III, IV, V, VI, VII), each showing how many notes of that type you currently have stacked. Notes appear as glowing musical symbols on the staff, and available cadences are highlighted when you have the required notes.
-
-**MUSICAL STAFF DISPLAY** (Horizontal Bar):
+      content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I–VII), each showing how many notes of that type you have stacked (0–5). Available cadences are highlighted below the staff when you have the required notes.
 
 **Staff Layout**:
-- **Seven Note Positions**: I, II, III, IV, V, VI, VII arranged horizontally
-- **Note Stacks**: Each position shows 0-5 notes stacked vertically
-- **Glowing Notes**: Active notes glow with musical energy
-- **Empty Positions**: Grayed out when no notes present
-- **Cadence Buttons**: Below the staff, showing available cadences
+- **Seven Note Positions**: I through VII arranged horizontally, each with a thematic color (gold, blue, purple, green, red, dark blue, white)
+- **Note Stacks**: Each position shows 0–5 notes; filled positions glow, empty positions are dimmed
+- **Cadence Buttons**: Below the staff — green when available, gray when missing notes. Hovering shows required notes, current notes, and the effect
 
-**Note Position Visualization**:
-
-**I (Tonic) - Foundation**:
-- **Symbol**: Whole note (○) in gold
-- **Position**: Far left of staff
-- **Glow**: Warm golden light
-- **Label**: "I (Tonic) - 3/5"
-- **Thematic**: Stability, home, resolution
-
-**II (Supertonic) - Mild Tension**:
-- **Symbol**: Half note (𝅗𝅥) in light blue
-- **Position**: Second from left
-- **Glow**: Cool blue shimmer
-- **Label**: "II (Supertonic) - 2/5"
-- **Thematic**: Dissonance, tension
-
-**III (Mediant) - Color**:
-- **Symbol**: Quarter note (♩) in purple
-- **Position**: Third from left
-- **Glow**: Purple-pink aura
-- **Label**: "III (Mediant) - 2/5"
-- **Thematic**: Emotion, depth
-
-**IV (Subdominant) - Movement**:
-- **Symbol**: Eighth note (♪) in green
-- **Position**: Center-left
-- **Glow**: Vibrant green pulse
-- **Label**: "IV (Subdominant) - 1/5"
-- **Thematic**: Forward motion, support
-
-**V (Dominant) - Strong Tension**:
-- **Symbol**: Sixteenth note (♬) in red
-- **Position**: Center-right
-- **Glow**: Intense red flame
-- **Label**: "V (Dominant) - 1/5"
-- **Thematic**: Demands resolution, power
-
-**VI (Submediant) - Relative Minor**:
-- **Symbol**: Dotted note (♩.) in dark blue
-- **Position**: Second from right
-- **Glow**: Deep blue melancholy
-- **Label**: "VI (Submediant) - 0/5"
-- **Thematic**: Sadness, depth
-
-**VII (Leading Tone) - Urgent Tension**:
-- **Symbol**: Sharp note (♯) in bright white
-- **Position**: Far right
-- **Glow**: Brilliant white urgency
-- **Label**: "VII (Leading Tone) - 0/5"
-- **Thematic**: Pulls to tonic, climax
-
-**Note Stack Display**:
-When you have multiple notes of one type:
-- **1 Note**: Single symbol, faint glow
-- **2 Notes**: Two symbols stacked, moderate glow
-- **3 Notes**: Three symbols stacked, bright glow
-- **4 Notes**: Four symbols stacked, intense glow, pulsing
-- **5 Notes (MAX)**: Five symbols stacked, MAXIMUM glow, "MAX" label, pulsing rapidly
-
-**Note Generation Animation**:
-When you cast a builder spell:
-- **Spell Cast**: "Inspiring Rhythm (4 mana)" cast
-- **Note Creation**: Musical note symbol appears above your character
-- **Note Flight**: Symbol flies to the staff, lands on appropriate position
-- **Stack Update**: Note adds to stack, counter updates "II: 1/5 → 2/5"
-- **Audio**: Musical note sound (pitch corresponds to note type: I = low C, II = D, III = E, etc.)
-- **Visual**: Staff position glows brighter
-- **Text Notification**: "+1 II Note (Inspiring Rhythm)"
-
-**Cadence Availability Display**:
-Below the musical staff, cadence buttons show:
-
-**Perfect Cadence (I-IV-V-I)**:
-- **Button**: Large button with musical notation "I→IV→V→I"
-- **Status**: "AVAILABLE" (green) if you have I(2+), IV(1+), V(1+)
-- **Status**: "UNAVAILABLE" (gray) if missing notes
-- **Cost Display**: "Requires: I(1), IV(1), V(1), I(1)"
-- **Effect Preview**: "Ally's next attack = CRITICAL HIT"
-- **Highlight**: Glows gold when available
-
-**Deceptive Cadence (IV-VII-V-IV)**:
-- **Button**: Medium button "IV→VII→V→IV"
-- **Status**: "UNAVAILABLE" (gray) - missing VII notes
-- **Cost Display**: "Requires: IV(1), VII(1), V(1), IV(1)"
-- **Effect Preview**: "Stun enemy (DC 15 save)"
-- **Highlight**: Grayed out when unavailable
-
-**Circle of Fifths (V-I-VI-V)**:
-- **Button**: Medium button "V→I→VI→V"
-- **Status**: "UNAVAILABLE" (gray) - missing VI notes
-- **Cost Display**: "Requires: V(1), I(1), VI(1), V(1)"
-- **Effect Preview**: "2d4 DoT for 3 turns (30 ft radius)"
-
-**Cadence Cast Animation**:
-When you play a cadence:
-- **Button Press**: Click "Perfect Cadence" button
-- **Note Consumption**: Notes DRAIN from staff in sequence
-  * I note glows and flies off staff → "I (1/3 → 0/3)"
-  * IV note glows and flies off staff → "IV (1/1 → 0/1)"
-  * V note glows and flies off staff → "V (1/1 → 0/1)"
-  * I note glows and flies off staff → "I (0/3 → -1/3)" wait, that's wrong...
-  * Actually: I(2) → I(1) after first I, then I(1) → I(0) after second I
-- **Musical Sequence**: Each note plays its pitch in sequence (C → F → G → C)
-- **Cadence Effect**: Massive burst of harmonic energy
-- **Target Highlight**: Ally glows with golden light (Perfect Cadence)
-- **Audio**: Full chord progression played dramatically
-- **Text Notification**: "PERFECT CADENCE PLAYED! Ally's next attack = CRITICAL HIT"
-- **Screen Effect**: Brief musical notation overlay
-
-**Note Decay Indicator**:
-When out of combat:
-- **Decay Timer**: "Note Decay: 45 seconds until next decay"
-- **Warning**: "⚠️ 1 note will decay in 15 seconds"
-- **Decay Animation**: One note fades from staff, counter decreases
-- **Text**: "-1 I Note (decay)"
-
-**Builder Spell Interface**:
-When you have builder spells ready:
-- **Spell Buttons**: Show which notes they generate
-  * "Inspiring Rhythm (4 mana) → +1 II Note"
-  * "Harmonic Strike (5 mana) → +1 III Note"
-  * "Resonant Chord (6 mana) → +1 I Note"
-- **Strategic Info**: "Need IV and V notes for Perfect Cadence"
-
-**Cadence Planning Interface**:
-When hovering over a cadence:
-- **Required Notes**: "Perfect Cadence requires: I(2), IV(1), V(1)"
-- **Current Notes**: "You have: I(3), IV(1), V(1) ✓"
-- **Missing Notes**: "You need: VII(1) ✗" (for other cadences)
-- **After Cast**: "After casting, you will have: I(2), IV(0), V(0)"
-
-**Instrument Display**:
-Your equipped instrument is shown:
-- **Instrument Icon**: War drum image
-- **Instrument Bonus**: "+1d4 damage, +1 turn buff duration"
-- **Visual**: Character model holds/plays instrument during casts
-
-**Combat Integration**:
-- **Builder Spell Cast**: "Inspiring Rhythm → +1 II Note → II: 1/5 → 2/5"
-- **Cadence Cast**: "Perfect Cadence → Consumed I(1), IV(1), V(1), I(1) → Tank's next attack = CRIT"
-- **Critical Hit Result**: Tank attacks → "40 damage (CRITICAL - Perfect Cadence)"
-
-**Note Persistence Display**:
-Between combats:
-- **Banked Notes**: "Notes Banked: I(2), II(2), III(2)"
-- **Decay Warning**: "Notes decay 1/minute out of combat"
-- **Strategic Info**: "Build notes before next fight"
-
-**Why This Matters**: The Musical Staff interface makes you FEEL like a composer conducting a symphony. When you cast Inspiring Rhythm and see the II note symbol fly to the staff with a musical "D" pitch, you're BUILDING your composition. When you have I(3), IV(1), V(1) and the Perfect Cadence button GLOWS GOLD with "AVAILABLE", you KNOW you can unleash it. When you click the button and watch the notes drain in sequence—I → IV → V → I—each playing its pitch (C → F → G → C), and your tank's weapon GLOWS with harmonic energy, you feel like a MAESTRO. The cadence planning interface shows exactly what you need: "Need VII notes for Deceptive Cadence" tells you to cast the right builder spells. The note persistence between combats lets you PREPARE—end one fight with I(2), II(2), III(2) banked, ready for the next encounter. You're not just casting spells—you're COMPOSING MUSIC that shapes reality.`
+**Key Interactions**:
+- **Casting a builder spell**: Note symbols fly to the staff and add to the appropriate stacks (e.g., "+1 V, +1 VII")
+- **Playing a cadence**: Notes drain from the staff in sequence, a chord progression plays, and the effect fires
+- **Out of combat**: A decay timer shows when the next note will fade (1 note per minute, oldest first)
+- **Hovering a cadence**: Shows "Required: I(2), IV(1), V(1)" vs "You have: I(3), IV(1), V(1)" so you can plan your next cast`
     },
 
     mechanics: {
@@ -443,7 +295,7 @@ Between combats:
 - Each spell generates 1-3 notes of specific types
 - Notes stack up to 5 of each type (I, II, III, IV, V, VI, VII)
 - Notes persist between combats
-- Notes decay at 1 per minute when out of combat
+- Notes decay at 1 per minute when out of combat (oldest note first; if tied, lowest numeral)
 
 **Resolving Spells** consume note combinations:
 - Require specific sequences of notes (e.g., V→I for Perfect Cadence)
@@ -680,18 +532,22 @@ Many players enhance the musical experience with:
 Keep a list of which spells generate which notes:
 \`\`\`
 BUILDER SPELLS (Generate Notes):
-• Opening Chord → I (Tonic)
-• Inspiring Rhythm → V (Dominant)
-• Harmonic Strike → III (Mediant)
-• Uplifting Rhythm → II (Supertonic)
-• Melancholy Melody → VI (Submediant)
-• Climactic Crescendo → VII (Leading Tone)
-• Resonant Chord → I (Tonic)
-• Healing Hymn → IV (Subdominant)
-• War Drum Beat → V (Dominant) + VI (Submediant)
-• Power Chord → V (Dominant)
-• Dissonant Shriek → VII (Leading Tone)
-• Song of Rest → I (Tonic) + IV (Subdominant)
+• Opening Chord → I(2) + V(1)
+• Harmonic Strike → III(2) + I(1)
+• Inspiring Rhythm → V(2) + VII(1)
+• Uplifting Rhythm → II(1) + VI(2)
+• Melancholy Melody → VI(2) + IV(1)
+• Climactic Crescendo → VII(2) + V(1)
+• Healing Hymn → IV(2) + I(1)
+• War Drum Beat → V(1) + VI(2)
+• Dissonant Shriek → VII(3) + II(1)
+• Song of Rest → I(1) + IV(1)
+
+RESOLVER SPELLS (Consume Notes):
+• Minor Cadence → IV(1) + I(1)
+• Soothing Melody → VII(1) + III(1)
+• Resolving Strike → I(1) + V(1)
+• Mending Cadence → IV(1) + I(1)
 \`\`\`
 
 **Cadence Planning**:
@@ -814,7 +670,7 @@ Before combat, decide which cadences you want to prioritize:
           {
             name: 'Harmonic Resonance',
             tier: 'Path Passive',
-            description: 'When you complete a 4-note cadence, all allies within 30 feet gain +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
+            description: 'When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
             sharedBy: 'All Minstrels'
           },
           {
@@ -857,13 +713,13 @@ Before combat, decide which cadences you want to prioritize:
           {
             name: 'Harmonic Resonance',
             tier: 'Path Passive',
-            description: 'When you complete a 4-note cadence, all allies within 30 feet gain +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
+            description: 'When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
             sharedBy: 'All Minstrels'
           },
           {
             name: 'Cacophony',
             tier: 'Specialization Passive',
-            description: 'Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. Additionally, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 13) or become frightened for 1 turn. Dissonant sounds echo unpredictably.',
+            description: 'Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. Additionally, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 10 + your Spirit modifier) or become frightened for 1 turn. Dissonant sounds echo unpredictably.',
             uniqueTo: 'Dissonance'
           }
         ],
@@ -880,21 +736,21 @@ Before combat, decide which cadences you want to prioritize:
       'minstrel_opening_chord',
       'minstrel_harmonic_strike',
       'minstrel_inspiring_rhythm',
-      'minstrel_minor_cadence',
-      'minstrel_soothing_melody',
-      'minstrel_uplifting_rhythm',
-      'minstrel_resolving_strike',
-      'minstrel_mending_cadence'
+      'minstrel_uplifting_rhythm'
     ],
     2: [
       'minstrel_healing_hymn',
       'minstrel_war_drum',
-      'minstrel_melancholy_melody'
+      'minstrel_melancholy_melody',
+      'minstrel_minor_cadence',
+      'minstrel_mending_cadence'
     ],
     3: [
       'minstrel_dissonant_shriek',
       'minstrel_song_of_rest',
-      'minstrel_climactic_crescendo'
+      'minstrel_climactic_crescendo',
+      'minstrel_soothing_melody',
+      'minstrel_resolving_strike'
     ],
     4: [
       'minstrel_perfect_cadence',
@@ -1125,7 +981,7 @@ Before combat, decide which cadences you want to prioritize:
     {
       id: 'minstrel_minor_cadence',
       name: 'Minor Cadence',
-      description: 'Play a simple cadence that heals nearby allies and generates subdominant notes.',
+      description: 'Play a simple cadence that heals nearby allies by consuming subdominant and tonic notes.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Bolt',
@@ -1185,14 +1041,14 @@ Before combat, decide which cadences you want to prioritize:
       id: 'minstrel_soothing_melody',
       name: 'Soothing Melody',
       description: 'Play a calming melody that removes minor debuffs and generates leading tone notes.',
-      level: 1,
+      level: 3,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Divinity',
 
       typeConfig: {
         school: 'evocation',
         icon: 'Radiant/Radiant Divinity',
-        tags: ['resolver', 'utility', 'leading generator', 'level 1'],
+        tags: ['resolver', 'utility', 'leading generator', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1243,7 +1099,7 @@ Before combat, decide which cadences you want to prioritize:
         value: 0
       },
 
-      tags: ['resolver', 'utility', 'leading generator', 'level 1']
+      tags: ['resolver', 'utility', 'leading generator', 'level 3']
     },
 
     {
@@ -1335,12 +1191,12 @@ Before combat, decide which cadences you want to prioritize:
       spellType: 'ACTION',
       icon: 'Arcane/Orb Manipulation',
       school: 'Evocation',
-      level: 1,
+      level: 3,
 
       typeConfig: {
         school: 'evocation',
         icon: 'Arcane/Orb Manipulation',
-        tags: ['resolver', 'cadence', 'damage', 'simple', 'level 1'],
+        tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1387,11 +1243,11 @@ Before combat, decide which cadences you want to prioritize:
             { note: 'I', count: 1 },
             { note: 'V', count: 1 }
           ],
-          cadenceName: 'Minor Cadence'
+          cadenceName: 'Resolving Strike'
         }
       },
 
-      tags: ['resolver', 'cadence', 'damage', 'simple', 'level 1']
+      tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3']
     },
 
     {
@@ -1451,6 +1307,22 @@ Before combat, decide which cadences you want to prioritize:
           }]
         }
       },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'IV', count: 1 },
+          { note: 'I', count: 1 }
+        ],
+        cadenceName: 'Mending Cadence'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+
+      tags: ['resolver', 'cadence', 'healing', 'restoration', 'soulsinger', 'level 1']
     },
 
     {
@@ -2770,14 +2642,14 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'heroic_might',
           name: 'Heroic Might',
-          description: 'Allies gain +3 to attack rolls and +2d6 damage on all attacks for 5 rounds.',
+          description: 'Allies gain +2 to attack rolls and +1d6 damage on all attacks for 3 rounds.',
           statModifier: {
             stat: 'attack_rolls',
-            magnitude: 3,
+            magnitude: 2,
             magnitudeType: 'flat'
           }
         }],
-        durationValue: 5,
+        durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: true,
@@ -3155,17 +3027,17 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'empowered_performance',
           name: 'Empowered Performance',
-          description: 'All your spells deal 50% more damage and healing for the rest of combat. Your musical notes generate double resources.',
+          description: 'All your spells deal 25% more damage and healing for 5 rounds. Concentration required.',
           statModifier: {
             stat: 'spell_power',
-            magnitude: 50,
+            magnitude: 25,
             magnitudeType: 'percentage'
           }
         }],
-        durationValue: 0,
+        durationValue: 5,
         durationType: 'rounds',
-        durationUnit: 'combat',
-        concentrationRequired: false,
+        durationUnit: 'rounds',
+        concentrationRequired: true,
         canBeDispelled: false
       },
 
@@ -3300,10 +3172,10 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'accelerated_tempo',
           name: 'Accelerated Tempo',
-          description: 'Allies gain an extra action on each of their turns for 3 rounds.',
-          mechanicsText: 'Extra action on each turn for 3 rounds'
+          description: 'Allies gain an extra 1 AP on their next turn for 2 rounds.',
+          mechanicsText: 'Extra 1 AP on next turn for 2 rounds'
         }],
-        durationValue: 3,
+        durationValue: 2,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: true,
@@ -3423,14 +3295,14 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'legendary_inspiration',
           name: 'Legendary Inspiration',
-          description: 'Allies gain +5 to all rolls, +4 Armor, and immunity to fear and charm for 10 rounds.',
+          description: 'Allies gain +3 to attack rolls, +2 Armor, and immunity to fear and charm for 5 rounds.',
           statModifier: {
             stat: 'all_rolls',
-            magnitude: 5,
+            magnitude: 3,
             magnitudeType: 'flat'
           }
         }],
-        durationValue: 10,
+        durationValue: 5,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: false,
@@ -3516,8 +3388,8 @@ Before combat, decide which cadences you want to prioritize:
         effects: [{
           id: 'creative_energy',
           name: 'Creative Energy',
-          description: 'Allies gain +3 to all ability scores for the duration of the summon',
-          statModifier: { stat: 'all_stats', magnitude: 3, magnitudeType: 'flat' },
+          description: 'Allies gain +1 to all ability scores for the duration of the summon',
+          statModifier: { stat: 'all_stats', magnitude: 1, magnitudeType: 'flat' },
           mechanicsText: '+3 to all ability scores for duration of summon'
         }],
         durationValue: 10,

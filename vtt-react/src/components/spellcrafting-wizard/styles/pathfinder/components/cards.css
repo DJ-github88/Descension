@@ -796,16 +796,17 @@
   display: flex;
   align-items: center;
   gap: var(--pf-space-1);
-  padding: 2px 6px;
+  padding: 2px 8px;
   border-radius: var(--pf-border-radius-sm);
   font-size: var(--pf-text-xs);
   font-weight: var(--pf-font-semibold);
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  text-transform: capitalize;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.15); /* Subtle lift from parchment */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   white-space: nowrap;
-  flex-shrink: 0; /* Don't shrink damage type badges */
+  flex-shrink: 0;
   transition: all var(--pf-transition-fast);
 }
 
@@ -822,8 +823,8 @@
 .pf-damage-type-text {
   display: flex;
   align-items: center;
-  font-weight: var(--pf-font-semibold);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-weight: var(--pf-font-bold);
+  text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.3); /* Multi-layer shadow for contrast */
 }
 
 /* ===== DAMAGE TYPE COLORS (Dark Pathfinder RPG palette) ===== */
@@ -832,7 +833,7 @@
 .pf-damage-type-badge.fire {
   background: transparent;
   border-color: transparent;
-  color: #8B1A1A;
+  color: var(--pf-fire);
 }
 
 .pf-damage-type-badge.fire .pf-damage-type-icon::before {
@@ -845,7 +846,7 @@
 .pf-damage-type-badge.frost {
   background: transparent;
   border-color: transparent;
-  color: #2C5F7C;
+  color: var(--pf-frost);
 }
 
 .pf-damage-type-badge.ice .pf-damage-type-icon::before,
@@ -874,7 +875,7 @@
 .pf-damage-type-badge.acid {
   background: transparent;
   border-color: transparent;
-  color: #2D6A3F;
+  color: var(--pf-poison);
 }
 
 .pf-damage-type-badge.poison .pf-damage-type-icon::before,
@@ -887,7 +888,7 @@
 .pf-damage-type-badge.shadow {
   background: transparent;
   border-color: transparent;
-  color: #3D1F4E;
+  color: var(--pf-necrotic);
 }
 
 .pf-damage-type-badge.necrotic .pf-damage-type-icon::before,
@@ -900,7 +901,7 @@
 .pf-damage-type-badge.holy {
   background: transparent;
   border-color: transparent;
-  color: #8B7328;
+  color: var(--pf-holy);
 }
 
 .pf-damage-type-badge.radiant .pf-damage-type-icon::before,
@@ -913,7 +914,7 @@
 .pf-damage-type-badge.force {
   background: transparent;
   border-color: transparent;
-  color: #5B3A8C;
+  color: var(--pf-force);
 }
 
 .pf-damage-type-badge.arcane .pf-damage-type-icon::before,
@@ -958,7 +959,7 @@
 .pf-damage-type-badge.nature {
   background: transparent;
   border-color: transparent;
-  color: #2D5A1E;
+  color: var(--pf-nature);
 }
 
 .pf-damage-type-badge.nature .pf-damage-type-icon::before {
@@ -969,7 +970,7 @@
 .pf-damage-type-badge.void {
   background: transparent;
   border-color: transparent;
-  color: #1A1A2E;
+  color: var(--pf-void);
 }
 
 .pf-damage-type-badge.void .pf-damage-type-icon::before {
@@ -980,7 +981,7 @@
 .pf-damage-type-badge.psychic {
   background: transparent;
   border-color: transparent;
-  color: #7A2E6E;
+  color: var(--pf-psychic);
 }
 
 .pf-damage-type-badge.psychic .pf-damage-type-icon::before {
@@ -991,7 +992,7 @@
 .pf-damage-type-badge.chaos {
   background: transparent;
   border-color: transparent;
-  color: #7A2040;
+  color: var(--pf-chaos);
 }
 
 .pf-damage-type-badge.chaos .pf-damage-type-icon::before {
@@ -1339,8 +1340,12 @@
 .pf-spell-tag.frost { border-color: var(--pf-frost); color: var(--pf-frost); }
 .pf-spell-tag.nature { border-color: var(--pf-nature); color: var(--pf-nature); }
 .pf-spell-tag.arcane { border-color: var(--pf-arcane); color: var(--pf-arcane); }
+.pf-spell-tag.force { border-color: var(--pf-force); color: var(--pf-force); }
 .pf-spell-tag.holy { border-color: var(--pf-holy); color: var(--pf-holy); }
 .pf-spell-tag.shadow { border-color: var(--pf-shadow); color: var(--pf-shadow); }
+.pf-spell-tag.necrotic { border-color: var(--pf-necrotic); color: var(--pf-necrotic); }
+.pf-spell-tag.psychic { border-color: var(--pf-psychic); color: var(--pf-psychic); }
+.pf-spell-tag.void { border-color: var(--pf-void); color: var(--pf-void); }
 
 /* ===== ENHANCED CARD BODY ===== */
 
@@ -1449,8 +1454,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--pf-space-2);
-  padding-top: var(--pf-space-3);
-  background: var(--pf-gradient-parchment); /* Ensure beige background covers stats section */
+  padding-top: 0;
+  background: var(--pf-gradient-parchment);
   position: relative;
   z-index: 2;
 }
@@ -2350,7 +2355,67 @@
 
 /* Minimal gap between description and effects */
 .unified-spell-card .item-description + .pf-spell-stats {
-  margin-top: 2px; /* Very small gap */
+  margin-top: 2px;
+}
+
+/* Add top padding only when stats section has direct stat children (not just status/prophecy containers) */
+.pf-spell-stats:has(> .healing-effects:not(.status-effects-container):not(.prophecy-effects-container)) {
+  padding-top: var(--pf-space-3);
+}
+
+/* Status Effects Styling */
+.status-effects-container {
+  padding-top: var(--pf-space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.pf-spell-stats > .status-effects-container {
+  margin-top: var(--pf-space-2);
+  border-top: 1px solid rgba(139, 105, 60, 0.2);
+}
+
+.status-effect-item {
+  margin-bottom: var(--pf-space-3);
+  background: rgba(139, 105, 60, 0.05);
+  padding: var(--pf-space-2);
+  border-radius: 4px;
+  border-left: 3px solid var(--pf-red-dark);
+}
+
+.status-effect-item:last-child {
+  margin-bottom: 0;
+}
+
+.effect-main-description {
+  margin: 4px 0;
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-secondary);
+  line-height: 1.4;
+}
+
+.status-stat-mods-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.pf-stat-mod-badge {
+  background: var(--pf-brown-dark, #3e2723);
+  color: var(--pf-gold-light, #fff8e1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  display: inline-block;
+  font-family: var(--pf-font-ui);
+  border: 1px solid rgba(255, 248, 225, 0.2);
 }
 
 .unified-spell-card .pf-spell-stats {

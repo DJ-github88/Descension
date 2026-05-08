@@ -19,16 +19,18 @@ export const FORMBENDER_DATA = {
     
     quickOverview: {
       title: 'Quick Overview',
-      content: `**TL;DR**: The Formbender is a shapeshifting duelist who switches between four animal forms to adapt to any situation. Wild Instinct (0-15) fuels your transformations and abilities. First transform is free; every switch after costs 1 WI. Forms last until you switch, get knocked out, or choose to revert.
+      content: `**TL;DR**: The Formbender is a shapeshifting combatant who switches between four animal forms to adapt to any situation. Wild Instinct (0-15) fuels your transformations and abilities. First transform is free; every switch after costs 1 WI. Forms last until you switch, get knocked out, or choose to revert.
 
 **What You Need to Know**: The Formbender channels primal energy through four distinct animal forms—Nightstalker (stealth/burst), Ironhide (tank/durability), Skyhunter (mobility/aerial), and Frostfang (pack tactics)—gathering Wild Instinct (0-15) through form-specific actions. Switch forms mid-combat to adapt to any situation, spending Wild Instinct on devastating abilities or transformation costs. Your first transformation is free; everything after has a price.
 
-**Core Mechanic**: Choose opening form (free) → Perform form-specific actions → Generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight
+**Core Mechanic**: Choose opening form (free) → Perform form-specific actions to generate Wild Instinct → Spend on abilities or form switches (1 WI each) → Chain forms together to adapt to the fight
 
 **Resource**: Wild Instinct (0-15 scale, generated through form-aligned combat actions). Organized in three bands:
 - **Instinct (1-5 WI)**: Form abilities and basic spells
 - **Surge (6-10 WI)**: Powerful class spells
 - **Apex (11-15 WI)**: Ultimate spells
+
+**Form-Matched Discount**: Casting a spell that matches your current form's theme reduces its Wild Instinct cost by 1 (min 1). This is your core efficiency loop—stay in the form that matches the spells you want to cast.
 
 **Playstyle**: Adaptive shapeshifter with fluid role-switching mid-combat
 
@@ -39,13 +41,13 @@ export const FORMBENDER_DATA = {
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
-      content: `**TL;DR**: You walk the line between civilization and savagery, channeling bestial instincts while keeping your sense of self. You are scout, guardian, hunter, and pack leader—all in one.
+      content: `**TL;DR**: You are not a person who turns into animals—you are an animal who learned to wear a human shape. Every transformation strips away another layer of civilization.
 
-**Primal Connection**: Formbenders are deeply attuned to the wild, drawing power from the primal essence of nature's apex predators. They walk the line between civilization and savagery, channeling bestial instincts while maintaining their sense of self.
+**Primal Identity**: Formbenders don't just channel nature; they *become* it. The question every Formbender faces: when you run with the wolf pack, do you remember you were ever human? Your connection to the wild is not learned—it is remembered.
 
 **Adaptive Warriors**: Unlike traditional spellcasters, Formbenders are physical combatants who shift their form to match the needs of battle. They are scouts, guardians, hunters, and pack leaders—all in one.
 
-**Nature's Champions**: Formbenders often serve as protectors of the wild, defending natural places from corruption and civilization's encroachment. Their connection to primal forces makes them formidable allies and terrifying enemies.`
+**Nature's Champions**: Formbenders serve as protectors of the wild, defending natural places from corruption and civilization's encroachment. Their connection to primal forces makes them formidable allies and terrifying enemies.`
     },
     
     combatRole: {
@@ -76,118 +78,156 @@ export const FORMBENDER_DATA = {
 
     immersiveCombatExample: {
       title: 'Combat Example: The Shapeshifter\'s Dance',
-      content: `**TL;DR**: Nightstalker ambush (free) → Ironhide tank (1 WI switch) → Skyhunter pursuit (1 WI switch). Generate WI in each form, spend on abilities. The lesson: switch forms to match the moment.
+      content: `**TL;DR**: Nightstalker ambush (free) → Ironhide tank (1 WI switch) → Roaring Assault (5 WI spend) → Skyhunter pursuit (1 WI switch). Generate WI in each form, spend on abilities. The lesson: switch forms to match the moment, and always bank WI for emergencies.
 
-**The Setup**: You're a Formbender (Metamorph specialization) ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party is with you. Starting Wild Instinct: 6 (banked from previous encounter). Your goal: Use multiple forms strategically, generate Wild Instinct through form-specific actions, and adapt to the changing battle.
+**The Setup**: You're a Formbender ambushing a group of bandits (3 bandits + 1 bandit leader) in a forest. Your party's fighter and mage are with you. Starting Wild Instinct: 4 (banked from a previous encounter, halved between fights). Your goal: Protect your mage, eliminate threats, and adapt to the changing battle.
 
-**Starting State**: Wild Instinct: 6/15 | HP: 75/75 | Form: Human (not transformed)
+**Starting State**: Wild Instinct: 4/15 | HP: 75/75 | Form: Human (not transformed)
 
-**Turn 1 - Opening Ambush (WI: 6 → 8, Form: Nightstalker)**
+---
 
-*You crouch in the shadows, watching the bandits make camp. Time to strike. You focus on the primal energy within, and your body SHIFTS.*
+**Turn 1 - Opening Ambush (WI: 4 → 6, Form: Human → Nightstalker)**
+
+*You crouch in the shadows, watching the bandits make camp. Time to strike.*
 
 **Free (0 AP)**: Transform into Nightstalker form (FREE - first transformation of combat)
-**Effect**: Your body shrinks, muscles coiling like a panther. Black fur ripples across your skin. Your eyes glow yellow. You're a predator now.
+**Effect**: Your body shrinks, muscles coiling like a panther. Black fur ripples across your skin. Your eyes glow yellow. You gain advantage on stealth checks and ambush attacks.
 
-**Your Action**: Ambush from Stealth on Bandit #1 (form-specific ability)
-**Attack Roll**: d20+6 (advantage from stealth) → [19] = Critical Hit!
-**Damage**: 4d8 (crit) + 2d6 (sneak attack) → [7, 8, 6, 7] + [5, 6] = 39 damage!
-**Wild Instinct Generated**: +2 WI (Ambush from Stealth - form-specific ability)
-**Result**: Bandit #1 DEAD (overkill)
+**Your Action**: Ambush Strike on Bandit #1 (spend 3 WI for Tier 3: 3d6 damage + Stun)
+**Attack Roll**: d20+6 (advantage from stealth) → [14] = Hit!
+**Damage**: 3d6 → [5, 4, 6] = 15 damage + target Stunned for 1 round
+**WI Spent**: 3 WI
+**Result**: Bandit #1 STUNNED at 0 HP (bandits have 15 HP each)
 
-*You leap from the shadows, claws extended. The bandit doesn't even scream—your jaws close around his throat before he can react. The primal energy surges through you.*
+*You leap from the shadows, claws extended. The bandit crumples, stunned. The primal energy surges through you.*
 
-**Wild Instinct**: 6 + 2 = **8 WI**
+**Wild Instinct**: 4 - 3 = **1 WI**
 **Current Form**: Nightstalker (stealth, burst damage)
 
-**Turn 2 - Form Switch (WI: 8 → 9, Form: Nightstalker → Ironhide)**
+**Bandit #2's Turn**: Attacks your fighter → 8 damage
+**Bandit #3's Turn**: Attacks your fighter → 6 damage
+**Bandit Leader's Turn**: Attacks your fighter → 12 damage
 
-*The bandits shout in alarm. The leader draws his sword. Your party's mage is exposed—the bandits are charging her. Time to TANK.*
+---
+
+**Turn 2 - Mistake & Recovery (WI: 1 → 1, Form: Nightstalker → Ironhide)**
+
+*The bandits are focused on your fighter. Your mage is exposed. Time to tank—but you're almost out of WI. You'll need to generate more in Ironhide form.*
 
 **Your Action**: Transform into Ironhide form (costs 1 WI)
-**Wild Instinct**: 8 - 1 = **7 WI**
+**Wild Instinct**: 1 - 1 = **0 WI** ⚠️
+**Ironhide Passive**: +20 max HP (75 → 95). Your current HP heals to 95.
 
-*Your body EXPLODES in size. Fur becomes thick hide. Claws become massive paws. You're a BEAR now—800 pounds of muscle and fury. You roar, positioning yourself between the bandits and your mage.*
+*Your body EXPLODES in size. Fur becomes thick hide. You're a BEAR now. You roar, positioning yourself between the bandits and your mage.*
 
-**Your Action**: Taunt all 3 enemies (form-specific action)
+**WI at 0**: You're now at 0 WI in a transformed state. If you hit 0 WI again while transformed, you'll suffer Primal Exhaustion. You need to generate WI this turn.
+
+**Your Action**: Taunt all enemies toward you (form-specific action)
 **Effect**: All bandits must attack you instead of allies
-**Wild Instinct Generated**: +1 WI per enemy taunted = +3 WI
-**Wild Instinct**: 7 + 3 = **10 WI**
+**WI Generated**: +1 WI per enemy that attacks you this round
 
-*"COME ON!" you roar in a voice that's half-human, half-beast. The bandits hesitate, then charge YOU instead of your mage. Perfect.*
+**Bandit #1's Turn**: Still stunned—skips turn
+**Bandit #2's Turn**: Attacks you → Hit! 2d6+3 → 10 damage (reduced to 8 by 25% physical resistance). +1 WI from being attacked.
+**Bandit #3's Turn**: Attacks you → Hit! 2d6+3 → 8 damage (reduced to 6). +1 WI from being attacked.
+**Bandit Leader's Turn**: Attacks you → Hit! 3d6+4 → 16 damage (reduced to 12). +1 WI from being attacked.
 
-**Bandit #2's Turn**: Attacks you → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
-**Bandit #3's Turn**: Attacks you → Hit! → 2d6+3 → [6, 3] + 3 = 9 damage
-**Bandit Leader's Turn**: Attacks you → Hit! → 3d6+4 → [5, 6, 4] + 4 = 19 damage
+**Total Damage Taken**: 8 + 6 + 12 = 26 damage
+**Your HP**: 95 - 26 = **69/95**
 
-**Total Damage Taken**: 12 + 9 + 19 = 40 damage
-**Your HP**: 75 - 40 = 35/75
-**Ironhide Passive**: As a bear, you have +20 HP and damage resistance → Effective HP: 55/95, damage reduced to 20
+**Wild Instinct**: 0 + 3 = **3 WI** (generated from 3 enemies attacking you)
 
 *The bandits' weapons bounce off your thick hide. You barely feel it. This is what Ironhide form is FOR.*
 
-**Current State**: WI: 10/15 | HP: 55/95 (Ironhide form) | Form: Ironhide
+**Current State**: WI: 3/15 | HP: 69/95 | Form: Ironhide
 
-**Turn 3 - Spending Wild Instinct (WI: 10 → 5)**
+---
 
-*You're at 10 WI. Time to spend it. You have a Tier 5 ultimate ability: "Primal Fury" (costs 5 WI) - massive AoE damage.*
+**Turn 3 - Spending Wild Instinct (WI: 3 → 0, Form: Ironhide)**
 
-**Your Action**: Use "Primal Fury" (5 WI, Ironhide ultimate)
-**Wild Instinct**: 10 - 5 = **5 WI**
-**Effect**: You rear up on hind legs and SLAM the ground with both paws
+*You're at 3 WI—not enough for a Tier 5 Roaring Assault (5 WI). You need to spend a lower tier or wait. The bandit leader is still dangerous. You choose Tier 3.*
 
-*The earth SHAKES. A shockwave of primal energy explodes outward, hitting all enemies within 15 feet.*
+**Your Action**: Roaring Assault, Tier 3 (spend 3 WI: 3d8 force damage + knock back 10 ft)
+**Saving Throw**: Bandits make Con save DC 14
+- Bandit #1: Fails → takes full 3d8 = 16 damage. DEAD (was at 0 HP, stunned).
+- Bandit #2: Fails → takes 16 damage, knocked back 10 ft. DEAD (was at ~1 HP).
+- Bandit #3: Succeeds → takes half = 8 damage. Knocked back 10 ft. Surviving.
+- Bandit Leader: Succeeds → takes half = 8 damage. Knocked back 10 ft.
 
-**Damage Roll**: 5d10 (Tier 5 ability) → [8, 9, 7, 10, 6] = 40 damage to ALL bandits!
-**Results**:
-- Bandit #2: 40 damage → DEAD
-- Bandit #3: 40 damage → DEAD
-- Bandit Leader: 60 HP - 40 damage = 20 HP remaining, STUNNED for 1 round
+**Wild Instinct**: 3 - 3 = **0 WI** ⚠️ (again—but you generated 3 WI from attacks last turn, so no Exhaustion triggers from spending)
 
-*Two bandits are crushed by the shockwave. The leader staggers, stunned.*
+*You rear up and SLAM the ground. The shockwave sends two bandits flying. The leader staggers but stays standing.*
 
-**Current State**: WI: 5/15 | HP: 55/95 | Form: Ironhide
+**Current State**: WI: 0/15 | HP: 69/95 | Form: Ironhide
 
-**Turn 4 - Aerial Assault (WI: 5 → 6, Form: Ironhide → Skyhunter)**
+**Bandit #3's Turn**: Charges back → Attacks you → 7 damage (reduced to 5). +1 WI.
+**Bandit Leader's Turn**: Charges back → Attacks you → 14 damage (reduced to 11). +1 WI.
 
-*The leader is stunned but will recover next turn. He's trying to flee. Time to CUT HIM OFF.*
+**End of Turn**: +2 WI from being attacked.
+**Wild Instinct**: 0 + 2 = **2 WI**
+
+---
+
+**Turn 4 - Aerial Pursuit (WI: 2 → 3, Form: Ironhide → Skyhunter)**
+
+*The leader is wounded and trying to flee. Bandit #3 is nearly dead. Time to finish this.*
 
 **Your Action**: Transform into Skyhunter form (costs 1 WI)
-**Wild Instinct**: 5 - 1 = **4 WI**
+**Wild Instinct**: 2 - 1 = **1 WI**
+**Ironhide Exit**: Your max HP drops from 95 to 75. Your current HP is adjusted to 69 - 20 = 49/75.
 
-*Your massive bear form SHRINKS. Wings erupt from your back. Feathers replace fur. You're an EAGLE now—a massive raptor with razor talons. You take flight.*
+*Your massive bear form SHRINKS. Wings erupt from your back. You're an EAGLE now—a massive raptor with razor talons. You take flight.*
 
-**Your Action**: Dive Attack on Bandit Leader (form-specific ability, generates 2 WI)
-**Attack Roll**: d20+6 (advantage from dive) → [18] = Hit!
-**Damage**: 3d8 (dive attack) + 2d6 (momentum) → [7, 8, 6] + [5, 6] = 32 damage
-**Wild Instinct Generated**: +2 WI (Dive Attack - form-specific ability)
-**Wild Instinct**: 4 + 2 = **6 WI**
+**Your Action**: Talon Dive on Bandit Leader (spend 1 WI for Tier 1: 1d6 damage)
+**Attack Roll**: d20+6 (advantage from dive) → [17] = Hit!
+**Damage**: 1d6 → [5] = 5 slashing damage
+**WI Generated**: +2 WI (Dive Attack - form-specific action, generated on hit)
+**Wild Instinct**: 1 - 1 + 2 = **2 WI**
 
-*You dive from 50 feet up, talons extended. The leader looks up just in time to see death descending. Your talons pierce his chest. He falls.*
+*You dive from 50 feet up, talons extended. Your talons pierce his shoulder. He falls.*
 
-**Bandit Leader**: 20 HP - 32 damage = DEAD
+**Bandit Leader**: ~30 HP - 5 damage = 25 HP remaining. Not dead—the Tier 1 Dive wasn't enough.
+
+*You curse yourself. You should have saved more WI for a bigger dive. But the form switch was the right call for mobility.*
+
+**Current State**: WI: 2/15 | HP: 49/75 | Form: Skyhunter
+
+---
+
+**Turn 5 - The Finish (WI: 2 → 4, Form: Skyhunter)**
+
+*The leader is running. Bandit #3 is crawling away. Your fighter finishes off Bandit #3. You focus on the leader.*
+
+**Your Action**: Talon Dive on Bandit Leader again (spend 2 WI for Tier 2: 2d6 damage + Grapple)
+**Attack Roll**: d20+6 → [13] = Hit!
+**Damage**: 2d6 → [4, 5] = 9 slashing damage + Grappled
+**WI Generated**: +2 WI (Dive Attack, generated on hit)
+**Wild Instinct**: 2 - 2 + 2 = **2 WI**
+
+*You dive again, this time grabbing him with your talons. He's grappled—can't move, can't flee.*
+
+**Your fighter's Turn**: Attacks the grappled leader → 18 damage. DEAD.
 
 **Combat Over**
 
-*You land gracefully, wings folding. Your party stares at you—you've been three different animals in four turns. You shift back to human form, breathing heavily.*
+*You land gracefully, wings folding. Your party stares at you—you've been three different animals in five turns. You shift back to human form, breathing heavily.*
 
-**Your Party's Tank**: "That was... incredible. You were a panther, then a bear, then an eagle."
+**Your Party's Fighter**: "That was... incredible. You were a panther, then a bear, then an eagle."
 **You**: "Formbender. I'm whatever the situation needs me to be."
 **Your Party's Mage**: "Thanks for tanking those hits. I would've died."
 **You**: "That's what Ironhide form is for. Nightstalker for ambush, Ironhide for tanking, Skyhunter for mobility. Each form has a purpose."
 
-**Final State**: WI: 6/15 (banked for next fight) | HP: 55/95 (will heal when you drop Ironhide form)
+**Final State**: WI: 2/15 (halves to 1 between fights) | HP: 49/75
+
+---
 
 **The Lesson**: Formbender gameplay is about:
 1. **Free First Transform**: Started combat with free Nightstalker transformation (no WI cost)
-2. **Form-Specific Generation**: Generated 2 WI from Ambush (Nightstalker), 3 WI from Taunt (Ironhide), 2 WI from Dive Attack (Skyhunter) = 7 WI total
-3. **Form Switching**: Switched forms twice (Nightstalker → Ironhide → Skyhunter) at 1 WI each = 2 WI spent
-4. **Ultimate Ability**: Spent 5 WI on Primal Fury (Tier 5 ability) for 40 AoE damage
-5. **Form Synergy**: Nightstalker for burst → Ironhide for tanking → Skyhunter for mobility/finishing
-6. **Resource Banking**: Started with 6 WI (banked from previous fight), ended with 6 WI (ready for next fight)
-7. **Adaptation**: Changed forms to match the situation (stealth → tank → aerial pursuit)
-
-You're not locked into one role. You're a SHAPESHIFTER. Panther when you need stealth. Bear when you need to tank. Eagle when you need to fly. Each form generates Wild Instinct differently, and each form spends it on unique abilities. The key is knowing when to switch, when to spend, and when to save. You're not just a damage dealer or a tank—you're EVERYTHING, one transformation at a time.`
+2. **Resource Tension**: Dropped to 0 WI on Turn 2—a dangerous position. Had to rely on Ironhide's taunt generation to recover.
+3. **Form-Specific Generation**: Generated WI by being attacked in Ironhide (+1 per enemy), and by hitting Dive Attacks in Skyhunter (+2 per hit)
+4. **Mistakes Are Costly**: Spent too much WI on Turn 1 (3 WI on Ambush Strike Tier 3), leaving only 1 WI for the Ironhide switch. A Tier 1 or 2 Ambush (1-2 WI) would have left more cushion.
+5. **Adaptation Over Perfection**: The Skyhunter Dive on Turn 4 only dealt 5 damage because only 1 WI was available. But the mobility was worth it—staying in Ironhide would have let the leader escape.
+6. **WI Banking**: Start fights with as much WI as possible. Ended this fight with only 2 WI (1 after decay). The next fight will start with less resources.
+7. **The Golden Rule**: Generate WI in one form, spend it in another. Ironhide generates through tanking. Skyhunter generates through diving. Nightstalker generates through ambushing. Pick the form that matches what the fight needs.`
     }
   },
 
@@ -219,13 +259,16 @@ You're not locked into one role. You're a SHAPESHIFTER. Panther when you need st
     generationTable: {
       headers: ['Action', 'Form Required', 'WI Change', 'Notes'],
       rows: [
-        ['Opening Shift', 'Human', 'FREE', 'First transform of combat only'],
+        ['Opening Shift', 'Human', 'FREE', 'First transform of combat only. If you start a fight already transformed, no free shift.'],
         ['Standard Shift', 'Any', '-1 WI', 'Switching from one form to another'],
-        ['Ambush from Stealth', 'Nightstalker', '+2 WI', 'Deep purple shadow energy'],
-        ['Taunt/Tanking', 'Ironhide', '+1 to +3 WI', 'Rocky brown earth energy'],
-        ['Dive Attack/Scout', 'Skyhunter', '+2 WI', 'Sky blue wind energy'],
-        ['Pack Tactics/Track', 'Frostfang', '+2 WI', 'Icy white frost energy'],
-        ['Savage Rend', 'Any', '+1 WI', 'Basic melee generation']
+        ['Ambush from Stealth', 'Nightstalker', '+2 WI', 'Must attack from stealth or surprise. Generates WI on hit.'],
+        ['Taunt/Tanking', 'Ironhide', '+1 WI per enemy', 'Each enemy that attacks you this round generates +1 WI (max +3 per round).'],
+        ['Protecting an Ally', 'Ironhide', '+2 WI', 'Take an attack meant for an adjacent ally (reaction).'],
+        ['Dive Attack', 'Skyhunter', '+2 WI', 'Attack from above while flying. Generates WI on hit.'],
+        ['Scout/Recon', 'Skyhunter', '+1 WI', 'Spend an action to survey the battlefield from above.'],
+        ['Pack Tactics Attack', 'Frostfang', '+2 WI', 'Attack the same target as an ally. Generates WI on hit.'],
+        ['Tracking', 'Frostfang', '+1 WI', 'Spend an action to track a creature or detect hidden enemies.'],
+        ['Savage Rend', 'Any Form', '+1 WI', 'Basic melee attack that tears with claws/fangs. Generates WI on hit.']
       ]
     },
 
@@ -238,9 +281,11 @@ You're not locked into one role. You're a SHAPESHIFTER. Panther when you need st
       title: 'Primal Exhaustion',
       content: `Shapeshifting puts extreme strain on the mortal frame.
 
-**The Trigger**: If you hit 0 WI while in a transformation, or are forced back to Human form by damage.
+**The Trigger**: If you hit 0 WI while in a transformation, OR if you are reduced to 0 HP (which auto-reverts you to Human form and empties your WI to 0).
 
 **The Effect**: You suffer **Primal Exhaustion**. You are Stunned for 1 turn and cannot transform again until you spend a full Action "Centering" yourself.
+
+**Stacking**: If you are reduced to 0 HP while already at 0 WI, you suffer Primal Exhaustion as normal—there is no double penalty, but the recovery requirements remain the same.
 
 **The Guardrail**: Always keep at least 1 WI banked to ensure you can safely shift or revert without exhausting your spirit.`
     },
@@ -352,7 +397,7 @@ Formbenders can specialize in radically different transformation philosophies. M
 
         specPassive: {
           name: 'Harvest Form',
-          description: 'When you reduce a creature to 0 HP, spend 5 WI to steal its form (stats, racial abilities, appearance). Store up to 10 stolen forms. Transforming into one costs 2 WI.'
+          description: 'When you reduce a creature to 0 HP, spend 3 WI to steal its form (stats, racial abilities, appearance). Store up to 10 stolen forms. Transforming into a stolen form costs 2 WI (vs. 1 WI for base forms).'
         },
 
         keyAbilities: [
@@ -371,7 +416,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         color: '#FF4500',
         theme: 'Ancient Elemental Transformations',
 
-        description: `Primordials channel elemental planes, transforming into primal beings of fire, water, earth, and air. More powerful than standard forms but with elemental vulnerabilities.`,
+        description: `Primordials channel elemental planes, transforming into primal beings of fire, water, earth, and air. **This specialization replaces your four base animal forms with four elemental forms.** More powerful than standard forms but with elemental vulnerabilities.`,
 
         playstyle: 'Elemental transformations, environmental manipulation, high-risk high-reward',
 
@@ -384,14 +429,14 @@ Formbenders can specialize in radically different transformation philosophies. M
 
         weaknesses: [
           'Vulnerable to opposing elements (Fire weak to Water, etc.)',
-          'Elemental forms cost 3 WI to activate',
-          'Cannot use base animal forms while specialized',
+          'Elemental forms cost 3 WI to activate (vs. 1 WI for base forms)',
+          'Replaces all four base animal forms—you cannot use Nightstalker, Ironhide, Skyhunter, or Frostfang',
           'Environmental dependence (harder to use Fire form underwater)'
         ],
 
         specPassive: {
           name: 'Elemental Ascension',
-          description: 'Replace base forms with elemental forms (Inferno, Tsunami, Avalanche, Tempest). Each grants its element\'s immunity, opposite vulnerability, and 30 ft element manipulation.'
+          description: '**Replaces base forms.** Your four animal forms become elemental forms (Inferno, Tsunami, Avalanche, Tempest). Each grants its element\'s immunity, opposite vulnerability, and 30 ft element manipulation. Elemental forms cost 3 WI to activate instead of 1 WI.'
         },
 
         keyAbilities: [
@@ -446,10 +491,10 @@ Formbenders can specialize in radically different transformation philosophies. M
       effectTypes: ['damage', 'debuff', 'control'],
 
       damageConfig: {
-        formula: '1d4 per Wild Instinct spent',
+        formula: '1d6 per Wild Instinct spent',
         elementType: 'slashing',
         damageType: 'direct',
-        description: 'Tier 1: 1d4, Tier 2: 2d4 + Bleeding, Tier 3: 3d4 + Stun, Tier 4: 4d4 + Slow, Tier 5: 5d4 + Paralyze',
+        description: 'Tier 1: 1d6, Tier 2: 2d6 + Bleeding, Tier 3: 3d6 + Stun, Tier 4: 4d6 + Slow, Tier 5: 5d6 + Paralyze',
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
@@ -500,11 +545,11 @@ Formbenders can specialize in radically different transformation philosophies. M
         minCost: 1,
         maxCost: 5,
         tiers: [
-          { cost: 1, damage: '1d4', effect: 'None' },
-          { cost: 2, damage: '2d4', effect: 'Apply Bleeding (1d4 damage per round for 3 rounds)' },
-          { cost: 3, damage: '3d4', effect: 'Stun target for 1 round' },
-          { cost: 4, damage: '4d4', effect: 'Reduce target movement speed by 50% for 2 rounds' },
-          { cost: 5, damage: '5d4', effect: 'Paralyze target for 1 round' }
+          { cost: 1, damage: '1d6', effect: 'None' },
+          { cost: 2, damage: '2d6', effect: 'Apply Bleeding (1d4 damage per round for 3 rounds)' },
+          { cost: 3, damage: '3d6', effect: 'Stun target for 1 round' },
+          { cost: 4, damage: '4d6', effect: 'Reduce target movement speed by 50% for 2 rounds' },
+          { cost: 5, damage: '5d6', effect: 'Paralyze target for 1 round' }
         ]
       },
 
@@ -554,7 +599,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         somaticText: 'Fade into the shadows'
       },
 
-      resolution: 'NONE',
+      resolution: 'AUTOMATIC',
       effectTypes: ['buff', 'utility'],
 
       buffConfig: {
@@ -610,39 +655,6 @@ Formbenders can specialize in radically different transformation philosophies. M
         breakCondition: 'Attacking or taking damage'
       },
 
-      legacyResourceCost: {
-        wildInstinct: {
-          min: 1,
-          max: 5,
-          description: 'Spend 1-5 Wild Instinct for escalating stealth effects'
-        }
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        tier1: {
-          wiCost: 1,
-          effect: 'Advantage on Stealth checks for 1 minute'
-        },
-        tier2: {
-          wiCost: 2,
-          effect: 'Become invisible for 1 minute or until you attack'
-        },
-        tier3: {
-          wiCost: 3,
-          effect: 'Teleport to darkness within 30 feet and become invisible'
-        },
-        tier4: {
-          wiCost: 4,
-          effect: 'Create 1 illusionary duplicate for 1 minute'
-        },
-        tier5: {
-          wiCost: 5,
-          effect: 'Become invisible and create 2 illusionary duplicates'
-        }
-      },
-
       specialMechanics: {
         shadowTeleport: {
           description: 'At tier 3+, can teleport to any area of dim light or darkness',
@@ -673,7 +685,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       typeConfig: {
         castTime: 1,
         castTimeType: 'IMMEDIATE',
-        tags: ['aoe', 'lightning', 'crowd control', 'ironhide', 'feral shifter']
+        tags: ['aoe', 'force', 'crowd control', 'ironhide', 'feral shifter']
       },
 
       targetingConfig: {
@@ -704,7 +716,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         baseDamage: {
           diceCount: 1,
-          diceType: 6,
+          diceType: 8,
           damageType: 'force',
           scaling: 'per_wi_spent'
         }
@@ -713,27 +725,27 @@ Formbenders can specialize in radically different transformation philosophies. M
       effects: {
         tier1: {
           wiCost: 1,
-          damage: '1d6',
+          damage: '1d8',
           effect: 'None'
         },
         tier2: {
           wiCost: 2,
-          damage: '2d6',
+          damage: '2d8',
           effect: 'Cause fear in enemies within 10 feet for 1 round'
         },
         tier3: {
           wiCost: 3,
-          damage: '3d6',
+          damage: '3d8',
           effect: 'Knock back enemies 10 feet'
         },
         tier4: {
           wiCost: 4,
-          damage: '4d6',
+          damage: '4d8',
           effect: 'Stun enemies within 10 feet for 1 round'
         },
         tier5: {
           wiCost: 5,
-          damage: '5d6',
+          damage: '5d8',
           effect: 'Knock enemies prone within 10 feet'
         }
       },
@@ -749,7 +761,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         }
       },
 
-      tags: ['aoe', 'lightning', 'crowd control', 'ironhide', 'feral shifter'],
+      tags: ['aoe', 'force', 'crowd control', 'ironhide', 'feral shifter'],
       flavorText: 'The bear\'s roar shakes the very earth.'
     },
 
@@ -804,25 +816,25 @@ Formbenders can specialize in radically different transformation philosophies. M
         },
         tier3: {
           wiCost: 3,
-          effect: 'Gain 3d6 temporary HP and immunity to physical damage'
+          effect: 'Gain 3d6 temporary HP and resistance to physical damage'
         },
         tier4: {
           wiCost: 4,
-          effect: 'Gain 4d6 temporary HP and reflect 50% of melee damage'
+          effect: 'Gain 4d6 temporary HP and reflect 25% of melee damage taken'
         },
         tier5: {
           wiCost: 5,
-          effect: 'Gain 5d6 temporary HP and immunity to all damage types'
+          effect: 'Gain 5d6 temporary HP and resistance to all damage types for 1 minute'
         }
       },
 
       specialMechanics: {
         damageReflection: {
           description: 'At tier 4+, reflect melee damage back to attackers',
-          percentage: 50
+          percentage: 25
         },
         temporaryInvulnerability: {
-          description: 'Tier 5 grants brief immunity to all damage',
+          description: 'Tier 5 grants resistance to all damage types for 1 minute',
           duration: '1 minute'
         }
       },
@@ -1266,7 +1278,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       healingConfig: {
         baseHealing: {
           diceCount: 1,
-          diceType: 4,
+          diceType: 6,
           flatBonus: 0
         }
       },
@@ -2675,10 +2687,10 @@ Formbenders can specialize in radically different transformation philosophies. M
           {
             id: 'natures_champion_defense',
             name: 'Champion Defense',
-            description: 'Gain 70% damage reduction for 5 rounds',
+            description: 'Gain 50% damage reduction for 5 rounds',
             statModifier: {
               stat: 'damage_reduction',
-              magnitude: 70,
+              magnitude: 50,
               magnitudeType: 'percentage'
             }
           }
@@ -2936,48 +2948,64 @@ Formbenders can specialize in radically different transformation philosophies. M
       description: 'Merge permanently with the wild, gaining limitless transformations.',
       level: 9,
       form: null,
-      spellType: 'PASSIVE',
+      spellType: 'STATE',
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
         school: 'nature',
         icon: 'Healing/Heart Ripple',
-        tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender', 'toggleable'],
-        toggleable: true
+        tags: ['buff', 'transformation', 'primal', 'legendary', 'formbender'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
+      },
+      transformationConfig: {
+        transformationType: 'primal',
+        targetType: 'self',
+        duration: 5,
+        durationUnit: 'rounds',
+        power: 'major',
+        newForm: 'Eternal Wild',
+        description: 'Become one with the wild for a brief time.',
+        grantedAbilities: [
+          { id: 'wild_flow', name: 'Primal Flow', description: 'Form transitions cost 0 Wild Instinct' },
+          { id: 'wild_instinct_gen', name: '+3 Wild Instinct/Round', description: 'Generate +3 Wild Instinct each round' },
+          { id: 'wild_regen', name: 'Primal Regeneration', description: 'Regenerate 2d8 HP per round in any form' }
+        ]
       },
       buffConfig: {
         buffType: 'custom',
         effects: [{
           id: 'eternal_wild',
           name: 'Eternal Wild',
-          description: 'Gain unlimited Wild Instinct, instant form transformations, and regenerate 3d10 HP per round in any form',
-          customDescription: 'You have become one with the wild. You generate 5 Wild Instinct per round automatically. All form transformations are instant and free. You regenerate 3d10 HP per round in any form. Your Wild Instinct maximum is increased to 30.',
-          mechanicsText: 'Unlimited Wild Instinct, instant transformations, regenerate 3d10 HP/round',
-          dotFormula: '3d10',
+          description: 'Wild Instinct maximum increased to 30 for the duration. Form transitions are free. Regenerate 2d8 HP per round.',
+          customDescription: 'You have become one with the wild for a brief time. Your Wild Instinct maximum increases to 30. All form transformations are instant and free. You regenerate 2d8 HP per round in any form.',
+          mechanicsText: 'WI cap 30, free transformations, regenerate 2d8 HP/round, duration 5 rounds',
+          dotFormula: '2d8',
           dotDamageType: 'healing'
         }],
-        durationValue: 0,
-        durationType: 'permanent',
-        durationUnit: 'permanent',
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: true
       },
       targetingConfig: {
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 8 },
         useFormulas: {},
-        actionPoints: 0,
-        components: ['ritual'],
-        materialComponents: 'The essence of the wild, 100,000 gold worth of natural artifacts'
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'turn_based',
-        value: 0
+        type: 'long_rest',
+        value: 1
       },
       resolution: 'DICE',
-      tags: ['buff', 'transformation', 'passive', 'legendary', 'formbender', 'toggleable']
+      tags: ['buff', 'transformation', 'primal', 'legendary', 'formbender']
     },
 
     // ===== LEVEL 10 SPELLS =====
@@ -3123,27 +3151,30 @@ Formbenders can specialize in radically different transformation philosophies. M
     {
       id: 'formbender_perfect_evolution',
       name: 'Perfect Evolution',
-      description: 'Master the art of shapeshifting to seamlessly blend form benefits.',
+      description: 'Master the art of shapeshifting to seamlessly blend form benefits for a limited time.',
       level: 10,
       form: null,
-      spellType: 'PASSIVE',
+      spellType: 'STATE',
       effectTypes: ['transformation'],
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Growth',
-        tags: ['transformation', 'passive', 'mastery', 'formbender', 'toggleable'],
-        toggleable: true
+        tags: ['transformation', 'mastery', 'formbender'],
+        stateVisibility: 'visible',
+        cooldownAfterTrigger: 0,
+        cooldownUnit: 'seconds',
+        maxTriggers: 1
       },
       transformationConfig: {
         transformationType: 'primal',
         targetType: 'self',
-        duration: 0,
-        durationUnit: 'permanent',
+        duration: 5,
+        durationUnit: 'rounds',
         power: 'major',
         newForm: 'Evolved Form',
-        description: 'Master shapeshifter who has transcended normal limitations.',
+        description: 'Transcend normal shapeshifting limitations for a brief time.',
         grantedAbilities: [
-          { id: 'hybrid_forms', name: 'Hybrid Forms', description: 'Can maintain benefits of 2 forms simultaneously' },
+          { id: 'hybrid_forms', name: 'Hybrid Forms', description: 'Maintain benefits of 2 forms simultaneously' },
           { id: 'instant_shift', name: 'Instant Shift', description: 'Form transitions cost 0 Wild Instinct' },
           { id: 'evolved_instinct', name: 'Evolved Instinct', description: 'Generate +2 Wild Instinct per round' },
           { id: 'ability_discount', name: 'Primal Efficiency', description: 'All Wild Instinct costs reduced by 1 (minimum 1)' }
@@ -3153,17 +3184,18 @@ Formbenders can specialize in radically different transformation philosophies. M
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ['wild_instinct'],
+        resourceValues: { wild_instinct: 10 },
         useFormulas: {},
-        actionPoints: 0,
-        components: []
+        actionPoints: 3,
+        components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'none'
+        type: 'long_rest',
+        value: 1
       },
       resolution: 'NONE',
-      tags: ['transformation', 'passive', 'mastery', 'formbender', 'toggleable']
+      tags: ['transformation', 'mastery', 'formbender']
     }
   ],
 

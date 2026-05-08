@@ -206,25 +206,25 @@ export const CLASS_SPECIALIZATIONS = {
     path: 'Divine Path',
     specializations: [
       {
-        id: 'protector',
-        name: 'Protector',
-        description: 'Defensive and shielding spells that guard allies from harm',
+        id: 'redemption',
+        name: 'Redemption',
+        description: 'Healing through sacrifice — converting suffering into powerful restorative magic',
         color: '#FFD700',
         icon: 'spell_holy_devotionaura'
       },
       {
-        id: 'redeemer',
-        name: 'Redeemer',
-        description: 'Healing and restoration spells that mend wounds and restore vitality',
-        color: '#32CD32',
-        icon: 'spell_holy_holybolt'
+        id: 'zealot',
+        name: 'Zealot',
+        description: 'Righteous fury — channeling pain into devastating radiant attacks',
+        color: '#DC143C',
+        icon: 'spell_holy_crusaderstrike'
       },
       {
-        id: 'avenger',
-        name: 'Avenger',
-        description: 'Damage and retribution spells that punish those who harm the innocent',
-        color: '#FF4500',
-        icon: 'spell_holy_crusaderstrike'
+        id: 'ascetic',
+        name: 'Ascetic',
+        description: 'Enduring faith — sustaining high Devotion through resilience and resource management',
+        color: '#4169E1',
+        icon: 'spell_holy_prayerofmendingtga'
       }
     ]
   },

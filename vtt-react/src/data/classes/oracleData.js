@@ -30,7 +30,7 @@ export const ORACLE_DATA = {
 **Best For**: Players who love reading the battlefield, making bold calls, and turning foresight into devastating tactical advantage`
     },
 
-    description: `Mystics who pierce the veil between past, present, and future. Oracles glimpse hidden truths, manipulate fate's threads, and grow stronger when their predictions prove true—rewarding insight over luck.`,
+    description: `Oracles pierce the veil between past, present, and future. They declare bold predictions about combat — and when proven right, are rewarded with Prophetic Visions they spend to twist fate itself.`,
     
     roleplayIdentity: {
       title: 'Roleplay Identity',
@@ -55,7 +55,20 @@ Oracles often struggle with the burden of knowledge - seeing tragedies before th
 **Debuff & Control**: Cursing enemies with ill omens and prophesied doom
 **Utility & Revelation**: Detecting traps, seeing through illusions, and uncovering secrets
 
-Oracles are not direct damage dealers but force multipliers who make their allies more effective and their enemies less so. They shine in complex encounters where information and tactical advantage matter more than raw damage.`
+      Oracles are not direct damage dealers but force multipliers who make their allies more effective and their enemies less so. They shine in complex encounters where information and tactical advantage matter more than raw damage.`
+    },
+
+    whatOracleIsNot: {
+      title: 'What the Oracle Is NOT',
+      content: `**Not a Damage Dealer**: Your damage output is low. You empower allies to deal damage, not do it yourself.
+
+**Not a Healer**: You have no healing abilities. Bring a dedicated healer or rely on potions.
+
+**Not a Tank**: You have light armor and low HP. Your survival comes from foresight (dodging, forcing rerolls, placing Fate Triggers) — not from absorbing hits.
+
+**Not Passive**: Every turn requires a decision — predict, spend Visions, or position for Witnessing Fate. An Oracle who does nothing contributes nothing.
+
+**Not Random**: Your power comes from accurate predictions and smart Vision spending, not from luck. A skilled Oracle is the most consistent force on the battlefield.`
     },
     
     playstyle: {
@@ -294,6 +307,54 @@ The class has a unique prediction mechanic where you declare what you think will
 **You're not a damage dealer. You're a FATESEER.** You predict outcomes, and when you're right, fate itself bends to your will. The Fateseer's unique power is that every correct prediction isn't just a reward—it's an opportunity to immediately reshape reality. Predict accurately, and you become the most powerful force on the battlefield. Predict poorly, and you're vulnerable. Skill matters more than luck. Read the battlefield. See the future. Make it real.`
     }
   },
+
+  characterCreation: {
+    title: 'Creating an Oracle',
+    subtitle: 'Opening the Third Eye',
+
+    abilityPriorities: {
+      primary: 'Spirit',
+      primaryDesc: 'Powers your Prophetic Visions, determines spell save DCs, and fuels your divination magic — your most important stat.',
+      secondary: 'Intelligence',
+      secondaryDesc: 'Boosts psychic damage on spells like Future Strike and Past Sins, and supports investigation/lore skills.',
+      tertiary: 'Constitution',
+      tertiaryDesc: 'Survivability. You are frontline-adjacent (30ft for Witnessing Fate) with light armor — every HP counts.'
+    },
+
+    startingEquipment: {
+      weapons: [
+        { name: "Choose: Oracle's Divination Staff OR Crystal Focus", damage: 'Staff: 1d6 psychic (two-handed) / Focus: 1d4 psychic (one-handed)', properties: 'Divination Staff grants +2 Spirit, +1 INT. Crystal Focus allows off-hand Scrying Orb for +2 INT.' }
+      ],
+      armor: [
+        { name: 'Prophetic Robes', ac: '1 + DEX mod', properties: 'Cloth armor. Grants +2 Spirit, +1 INT. Light but enchanted for arcane defense.' }
+      ],
+      accessories: [
+        { name: 'Choose 1', options: ["Necklace of Fate (+1 Spirit, +1 INT)", "Oracle's Tarot Deck (tool — grants advantage on fortune-telling checks, 1 free Simple Prediction per day)"] }
+      ],
+      gear: [
+        'Divination tools (crystal, cards, or bones)',
+        'Traveler\'s clothes with a dark hood',
+        'Pouch with 10 gold pieces',
+        'A journal for recording predictions and their outcomes'
+      ],
+      note: 'Position within 30ft of allies to maximize Witnessing Fate triggers (Natural 20s and 1s). Your Prophetic Visions reset to 3 at each long rest.'
+    },
+
+    startingStats: {
+      hp: '8 + Constitution modifier',
+      hitDice: '1d8 per Oracle level',
+      armorClass: '1 + DEX modifier (Prophetic Robes)',
+      speed: '30 ft',
+      savingThrows: ['Spirit', 'Intelligence'],
+      skills: ['Choose 3 from: Arcana, History, Insight, Investigation, Perception, Religion']
+    },
+
+    startingAbilities: [
+      { name: 'Third Eye', description: 'See invisible creatures/objects within 30ft, advantage on Insight checks, detect lies, start each long rest with 3 Prophetic Visions.' },
+      { name: "Fate's Whisper Strike", description: 'Basic attack: 1d4 psychic damage + INT mod. Costs no resources. Grants +1 Vision on hit.' },
+      { name: 'Forecast Dice', description: 'Roll 5 chosen dice at day start. Spend to replace any roll. Unused dice incur Fate\'s Burden.' }
+    ]
+  },
   
   // Resource System
   resourceSystem: {
@@ -357,11 +418,11 @@ The class has a unique prediction mechanic where you declare what you think will
       ],
       fatesBurden: {
         title: 'Fate\'s Burden',
-        description: `If you reach the end of the day (next long rest) with unused Forecast Dice, you suffer **Fate's Burden**: a stacking penalty of **-1 to all d20 rolls per unused forecast die**, carried to the next day.`,
+        description: `If you reach the end of the day (next long rest) with unused Forecast Dice, you suffer **Fate's Burden**: a stacking penalty of **-1 to all d20 rolls per 2 unused forecast dice** (rounded down), carried to the next day. Maximum penalty is -3.`,
         rules: [
-          '**Penalty**: Each unused forecast die = -1 to ALL d20 rolls (attacks, saves, checks, death saves) the following day.',
-          '**Stacking**: If you have 3 unused dice, you suffer -3 to all d20 rolls until your next long rest.',
-          '**Cap**: Maximum Fate\'s Burden is -10. Any dice beyond 10 unused are simply lost.',
+          '**Penalty**: Each 2 unused forecast dice = -1 to ALL d20 rolls (attacks, saves, checks, death saves) the following day. Round down (1 unused die = 0 penalty).',
+          '**Stacking**: If you have 3 unused dice, you suffer -1. If you have 5 unused dice, you suffer -2.',
+          '**Cap**: Maximum Fate\'s Burden is -3. Any dice beyond 6 unused do not increase the penalty further.',
           '**Clearing**: Fate\'s Burden clears at your NEXT long rest. During the burdened day, you still roll new forecast dice normally.',
           '**Philosophy**: The Oracle foresaw these outcomes and failed to act. The weight of unfulfilled prophecy drags at your sight.'
         ]
@@ -379,7 +440,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 **👁️ Maximum Foresight (9–10 Visions)**:
 - **Status**: Omniscient Sight.
-- **Effect**: The Eye of Prophecy blazes gold. You can see the ethereal "Fate Threads" connecting all combatants. Reality distortions around you grant a constant +2 to your own AC.
+- **Effect**: The Eye of Prophecy blazes gold. You can see the ethereal "Fate Threads" connecting all combatants. Once per round as a reaction, you may spend 1 Vision to add +2 to your AC against one attack.
 
 **👁️ High Insight (6–8 Visions)**:
 - **Status**: Prophetic Clarity.
@@ -504,6 +565,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           'Out-of-combat abilities don\'t help in pure slugfests'
         ],
 
+        mindlessFallback: 'Against mindless or instinct-driven creatures (undead, constructs, beasts), Unmask and Reveal Weakness instead reveal type-based vulnerabilities: undead take +1d6 radiant from your allies, constructs suffer +1d6 force, beasts grant allies advantage on intimidation checks.',
+
         specPassive: {
           name: 'All-Seeing Eye',
           description: 'Auto-detect lies, illusions, and hidden creatures within 30 ft. Gain 1 Vision when revealing a hidden truth. In combat: when you use an action to study a creature, you see its HP, active buffs, resistances, and abilities on cooldown.'
@@ -544,6 +607,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           "Less immediate impact than specs that don't depend on predictions",
           'Burns through Visions quickly when manipulating multiple fate threads'
         ],
+
+        failedPredictionFallback: 'On a failed prediction, you still gain 1 Vision as a consolation — but you cannot trigger Premonition or use prediction-conditional abilities until your next correct prediction. This prevents total dead turns from bad luck.',
 
         specPassive: {
           name: 'Premonition',
@@ -588,8 +653,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 2 },
         actionPoints: 1,
-        visions: 2,
         components: ['verbal', 'somatic'],
         description: 'Spend 2 Prophetic Visions to glimpse the immediate future'
       },
@@ -635,8 +701,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
-        actionPoints: 2,
-        visions: 1,
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 1 },
+        actionPoints: 1,
         components: ['verbal', 'somatic'],
         description: 'Spend 1 Vision to share your foresight'
       },
@@ -660,7 +727,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
     {
       id: 'oracle_prophecy_of_doom',
       name: 'Prophecy of Doom',
-      description: 'Declare a prophecy about an enemy\'s fate. If the predicted event occurs, the target suffers psychic damage and is frightened.',
+      description: 'Declare a prophecy about an enemy\'s fate. The target is disadvantaged on their next attack roll. If the predicted event occurs within the duration, the target also suffers psychic damage and is frightened.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
       school: 'Divination',
@@ -682,8 +749,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
         actionPoints: 2,
-        visions: 3,
         components: ['verbal', 'somatic'],
         description: 'Spend 3 Visions to curse with prophecy'
       },
@@ -720,55 +788,12 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         concentrationRequired: true,
         saveDC: 14,
         saveType: 'spirit',
-        saveOutcome: 'negates',
-        triggerConfig: {
-          effectTriggers: {
-            debuff: {
-              logicType: 'OR',
-              compoundTriggers: [{
-                id: 'prophecy_fulfilled',
-                category: 'custom',
-                name: 'Prophecy Fulfilled',
-                parameters: {
-                  condition: 'prophecy_event_occurs',
-                  perspective: 'target'
-                }
-              }]
-            }
-          },
-          conditionalEffects: {
-            damage: {
-              isConditional: true,
-              defaultEnabled: false,
-              conditionalFormulas: {
-                'prophecy_fulfilled': '3d8'
-              }
-            },
-            debuff: {
-              isConditional: true,
-              defaultEnabled: false,
-              conditionalEffects: {
-                'prophecy_fulfilled': {
-                  id: 'frightened',
-                  name: 'Frightened',
-                  description: 'Frightened by the fulfillment of the prophecy',
-                  statusType: 'frightened',
-                  level: 'moderate',
-                  duration: 1,
-                  durationUnit: 'rounds'
-                }
-              }
-            }
-          }
-        }
+        saveOutcome: 'negates'
       },
 
-      damageConfig: {
-        formula: '3d8',
-        elementType: 'psychic',
-        damageType: 'direct',
-        triggerCondition: 'prophecy_fulfilled',
-        triggerDescription: 'Damage occurs when the prophesied event comes true'
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
       },
 
       tags: ['seer', 'divination', 'curse', 'prediction', 'psychic']
@@ -800,8 +825,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
         actionPoints: 2,
-        mana: 15,
         components: ['verbal', 'somatic'],
         description: 'Spend 15 mana to force truth'
       },
@@ -854,8 +880,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
         actionPoints: 2,
-        mana: 12,
         components: ['verbal', 'somatic'],
         description: 'Spend 12 mana to peer into the past'
       },
@@ -899,8 +926,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 14 },
         actionPoints: 2,
-        mana: 14,
         components: ['verbal', 'somatic'],
         description: 'Spend 14 mana to pierce all veils'
       },
@@ -949,8 +977,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 2 },
         actionPoints: 1,
-        visions: 2,
         components: ['verbal', 'somatic'],
         description: 'Spend 2 Visions to twist fate'
       },
@@ -998,8 +1027,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 3 },
         actionPoints: 2,
-        visions: 3,
         components: ['verbal', 'somatic'],
         description: 'Spend 3 Visions to sever fate\'s thread'
       },
@@ -1025,10 +1055,10 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       id: 'oracle_destiny_lock',
       name: 'Destiny Lock',
       description: 'Lock a creature\'s fate after a correct precise prediction. You must have made a correct precise (3 Vision) prediction this combat to cast this.',
+      level: 7,
       spellType: 'ACTION',
       icon: 'Force/Force Field',
       school: 'Divination',
-      level: 5,
       specialization: 'fateseer',
 
       typeConfig: {
@@ -1046,8 +1076,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resourceCost: {
+        resourceTypes: ['visions'],
+        resourceValues: { visions: 5 },
         actionPoints: 3,
-        visions: 5,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A golden thread worth 100gp',
         description: 'Spend 5 Visions to lock destiny (requires correct precise prediction this combat)'
@@ -1118,11 +1149,11 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           id: 'unmasked',
           name: 'Unmasked',
           description: 'One magical buff, immunity, or concealment effect is stripped from the target. You choose which.',
-          mechanicsText: 'Strip one buff/immunity/concealment. Spirit save to resist.'
+          mechanicsText: 'Strip one buff/immunity/concealment. Spirit save: on success, the stripped buff returns after 1 round.'
         }],
         saveDC: 14,
         saveType: 'spirit',
-        saveOutcome: 'negates'
+        saveOutcome: 'partial'
       },
 
       cooldownConfig: {
@@ -1312,7 +1343,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
+        resourceValues: { mana: 35 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Point at where enemy will be'
@@ -2031,7 +2062,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
             hasDuration: true,
             concentration: false,
             controlType: 'independent',
-            abilities: 'Can cast any spell you know at maximum power. Attacks deal 10d10 damage.'
+            abilities: 'Can cast any spell you know at maximum power. Attacks deal 6d8 psychic damage.'
           }
         }],
         duration: 5,
@@ -2096,7 +2127,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       controlConfig: {
         controlType: 'stun',
         strength: 'overwhelming',
-        duration: 3,
+        duration: 1,
         durationUnit: 'rounds',
         saveDC: 21,
         saveType: 'spirit',
@@ -2123,7 +2154,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
     {
       id: 'oracle_master_of_fate',
       name: 'Master of Fate',
-      description: 'Become the absolute master of fate itself. Your predictions have been so accurate that fate itself bends to your will. Requires at least 5 correct predictions this combat.',
+      description: 'Become the absolute master of fate itself. Your predictions have been so accurate that fate itself bends to your will. Requires at least 3 correct predictions this combat.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Glow',
@@ -2177,6 +2208,53 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       tags: ['fateseer', 'transformation', 'ultimate', 'level 10', 'prediction-conditional']
+    },
+
+    // ZERO-RESOURCE FALLBACK
+    {
+      id: 'oracle_fate_whisper_strike',
+      name: "Fate's Whisper Strike",
+      description: 'Channel a sliver of prophetic energy into a basic attack. Costs no mana and no Visions — your ever-present connection to the timestream.',
+      level: 0,
+      spellType: 'ACTION',
+      icon: 'Psychic/Mind Read',
+      school: 'Divination',
+      specialization: 'universal',
+
+      typeConfig: {
+        school: 'divination',
+        icon: 'Psychic/Mind Read',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1
+      },
+
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic'],
+        verbalText: 'Fate whispers...'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d4 + intelligence',
+        elementType: 'psychic',
+        damageType: 'direct',
+        specialRules: 'Grants +1 Prophetic Vision on hit. Always available — no cooldown.'
+      },
+
+      tags: ['universal', 'damage', 'psychic', 'fallback', 'cantrip']
     },
 
     // ADDITIONAL LEVEL 1 SPELL
@@ -2414,6 +2492,20 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       resolution: 'DICE',
       tags: ['buff', 'destiny', 'advantage', 'universal']
     }
+  ],
+
+  spellSummary: [
+    { level: 0, spells: ["Fate's Whisper Strike"], spec: 'Universal (Fallback)' },
+    { level: 1, spells: ['Detect Fate', 'Divine Insight', 'Shared Vision'], spec: 'Universal / Seer' },
+    { level: 2, spells: ['Omen Reading', 'Foresight', 'Twist Fate', 'Unmask', 'Past Sight'], spec: 'Universal / Seer / Fateseer / Truthseeker' },
+    { level: 3, spells: ['Reveal Truth', 'Piercing Gaze', 'Prophetic Shield', 'Reveal Weakness'], spec: 'Truthseeker / Universal' },
+    { level: 4, spells: ['Prophecy of Doom', 'Fate Strike', 'Sever Thread'], spec: 'Seer / Universal / Fateseer' },
+    { level: 5, spells: ['Past Sins', 'Destiny Rewrite'], spec: 'Truthseeker / Universal' },
+    { level: 6, spells: ['Future Strike', 'Destiny Shift'], spec: 'Seer / Fateseer' },
+    { level: 7, spells: ['Prescient Dodge', 'Expose Secrets', 'Destiny Lock', 'Threads of Fate'], spec: 'Seer / Truthseeker / Fateseer' },
+    { level: 8, spells: ['Perfect Foresight', 'Psychic Assault', 'Alter Destiny'], spec: 'Seer / Truthseeker / Fateseer' },
+    { level: 9, spells: ['Timeline Split', 'Omniscience', 'Weave Destiny'], spec: 'Seer / Truthseeker / Fateseer' },
+    { level: 10, spells: ['Future Self', 'Absolute Truth', 'Master of Fate'], spec: 'Seer / Truthseeker / Fateseer' }
   ]
 };
 

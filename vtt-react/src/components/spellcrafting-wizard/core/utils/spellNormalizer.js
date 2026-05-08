@@ -144,6 +144,15 @@ export const normalizeSpell = (spell) => {
     normalized.specialMechanics = spell.specialMechanics;
   }
 
+  // 13. Preserve prophecyConfig (Doomsayer)
+  if (spell.prophecyConfig) {
+    normalized.prophecyConfig = spell.prophecyConfig;
+    // Ensure effectTypes includes damage if prophecy has damage outcomes
+    if (!normalized.effectTypes.includes('damage') && (spell.prophecyConfig.prophesied?.damage || spell.prophecyConfig.base?.damage)) {
+      normalized.effectTypes.push('damage');
+    }
+  }
+
   return normalized;
 };
 

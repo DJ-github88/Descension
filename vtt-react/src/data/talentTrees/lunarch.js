@@ -207,7 +207,7 @@ export const LUNARCH_MOONWELL_GUARDIAN = [
   {
     id: 'moonwell_guardian_t0_lunar_healing',
     name: 'Lunar Healing',
-    description: 'Your healing spells gain +1d6 healing during Waxing Moon. Moonlight Heal can target one additional ally. New Moon regeneration heals 1 additional target within 30ft.',
+    description: 'Your healing spells gain +1d6 healing during Waxing Moon. Lunar Blessing can target one additional ally. New Moon regeneration heals 1 additional target within 30ft.',
     icon: 'spell_holy_renew',
     maxRanks: 5,
     position: { x: 2, y: 0 },

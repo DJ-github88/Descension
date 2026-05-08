@@ -169,7 +169,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                 }}
             >
                 <div className="augur-bar-row single-bar">
-                    <div className="augur-track combined-track" style={{ display: 'flex', flexDirection: 'row', width: '100%', position: 'relative' }}>
+                    <div className="augur-track combined-track">
                         {/* Left side: Malediction (fills right-to-left from center) */}
                         <div className="malediction-half" style={{ display: 'flex', flexDirection: 'row-reverse', flex: maxMalediction, gap: '2px' }}>
                             {Array.from({ length: maxMalediction }, (_, i) => (
@@ -178,7 +178,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                         </div>
                         
                         {/* Center divider */}
-                        <div className="center-divider" style={{ width: '2px', background: 'rgba(255,255,255,0.5)', zIndex: 2, margin: '0 2px' }}></div>
+                        <div className="center-divider"></div>
                         
                         {/* Right side: Benediction (fills left-to-right from center) */}
                         <div className="benediction-half" style={{ display: 'flex', flexDirection: 'row', flex: maxBenediction, gap: '2px' }}>
@@ -187,8 +187,8 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
                             ))}
                         </div>
                         
-                        <span className="augur-bar-value mal-value" style={{ position: 'absolute', left: '6px', top: '50%', transform: 'translateY(-50%)', right: 'auto' }}>{malediction}/{maxMalediction}</span>
-                        <span className="augur-bar-value ben-value" style={{ position: 'absolute', right: '6px', top: '50%', transform: 'translateY(-50%)', left: 'auto' }}>{benediction}/{maxBenediction}</span>
+                        <span className="augur-bar-value mal-value">{malediction}/{maxMalediction}</span>
+                        <span className="augur-bar-value ben-value">{benediction}/{maxBenediction}</span>
                     </div>
                 </div>
 
@@ -247,7 +247,7 @@ const AugurResourceBar = ({ classResource = {}, size = 'normal', config = {}, co
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className="unified-context-menu compact"
+                    className="unified-context-menu compact augur-menu-container"
                     onMouseEnter={() => setShowTooltip(false)}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}

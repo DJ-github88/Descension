@@ -15,8 +15,7 @@
 }
 
 /* Disable transition during dragging for performance */
-.draggable-window.dragging,
-[ref="nodeRef"].dragging .draggable-window {
+.dragging .draggable-window {
     transition: none !important;
     will-change: transform;
     contain: layout style;
@@ -57,16 +56,14 @@
 }
 
 /* Ensure smooth transitions when dragging - z-index managed by windowManagerStore */
-.draggable-window.react-draggable-dragging {
+.react-draggable-dragging .draggable-window {
     transition: none !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    /* z-index managed by parent component via inline styles */
-    /* Maintain transform origin for proper scaling during drag */
     transform-origin: top left !important;
 }
 
 /* Prevent text selection during drag */
-.draggable-window.react-draggable-dragging * {
+.react-draggable-dragging * {
     user-select: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -98,13 +95,13 @@
     }
 
     /* Prevent dragging on mobile */
-    .draggable-window.dragging {
+    .dragging .draggable-window {
         transform: none !important;
         transition: none !important;
         pointer-events: auto !important;
     }
 
-    .draggable-window.react-draggable-dragging {
+    .react-draggable-dragging .draggable-window {
         transform: none !important;
         transition: none !important;
         box-shadow: none !important;

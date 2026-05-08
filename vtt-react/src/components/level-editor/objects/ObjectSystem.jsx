@@ -652,37 +652,36 @@ const ObjectSystem = () => {
     const setPickParent = (val) => { setPickParentMode(val); pickParentModeRef.current = val; };
     const setPendingChild = (val) => { setPendingChildId(val); pendingChildIdRef.current = val; };
 
-    const {
-        environmentalObjects,
-        isEditorMode,
-        activeLayer,
-        drawingLayers,
-        removeEnvironmentalObject,
-        updateEnvironmentalObject,
-        selectEnvironmentalObject,
-        reorderEnvironmentalObject,
-        attachChildToParent,
-        detachFromParent,
-        getChildrenOfParent,
-        objectManipulationEnabled
-    } = useLevelEditorStore();
+    const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects);
+    const isEditorMode = useLevelEditorStore(state => state.isEditorMode);
+    const activeLayer = useLevelEditorStore(state => state.activeLayer);
+    const drawingLayers = useLevelEditorStore(state => state.drawingLayers);
+    const removeEnvironmentalObject = useLevelEditorStore(state => state.removeEnvironmentalObject);
+    const updateEnvironmentalObject = useLevelEditorStore(state => state.updateEnvironmentalObject);
+    const selectEnvironmentalObject = useLevelEditorStore(state => state.selectEnvironmentalObject);
+    const reorderEnvironmentalObject = useLevelEditorStore(state => state.reorderEnvironmentalObject);
+    const attachChildToParent = useLevelEditorStore(state => state.attachChildToParent);
+    const detachFromParent = useLevelEditorStore(state => state.detachFromParent);
+    const getChildrenOfParent = useLevelEditorStore(state => state.getChildrenOfParent);
+    const objectManipulationEnabled = useLevelEditorStore(state => state.objectManipulationEnabled);
 
-    const {
-        gridSize,
-        gridOffsetX,
-        gridOffsetY,
-        cameraX,
-        cameraY,
-        zoomLevel,
-        playerZoom,
-        isGMMode,
-        isBackgroundManipulationMode
-    } = useGameStore();
+    const gridSize = useGameStore(state => state.gridSize);
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    const cameraX = useGameStore(state => state.cameraX);
+    const cameraY = useGameStore(state => state.cameraY);
+    const zoomLevel = useGameStore(state => state.zoomLevel);
+    const playerZoom = useGameStore(state => state.playerZoom);
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const isBackgroundManipulationMode = useGameStore(state => state.isBackgroundManipulationMode);
 
     const { getCurrentMapId } = useMapStore();
 
-    // Load images into cache
+    // Load images into cache - deferred to avoid blocking initial render
     useEffect(() => {
+        let cancelled = false;
+        const pendingImages = [];
+
         const processImage = (img, url) => {
             const canvas = document.createElement('canvas');
             canvas.width = img.width;
@@ -695,9 +694,8 @@ const ObjectSystem = () => {
             const width = canvas.width;
             const height = canvas.height;
             
-            // 1. Identify Background Seed Colors (more samples for better detection)
             const seeds = [];
-            const step = 0.2; // Sample every 20% along edges
+            const step = 0.2;
             for (let t = 0; t <= 1; t += step) {
                 seeds.push({x: Math.floor(t * (width-1)), y: 0});
                 seeds.push({x: Math.floor(t * (width-1)), y: height-1});
@@ -710,17 +708,14 @@ const ObjectSystem = () => {
                 return [data[i], data[i+1], data[i+2]];
             });
 
-            // Calculate Average Seed Color for global pocket removal
             let avgR = 0, avgG = 0, avgB = 0;
             seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
             avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
 
-            // Check if background is vibrant (like magenta)
-            const isVibrantBg = (avgR > 200 && avgG < 100 && avgB > 200) || // Magenta
-                               (avgR < 100 && avgG > 200 && avgB < 100) || // Green
-                               (avgR < 100 && avgG < 100 && avgB > 200);   // Blue
+            const isVibrantBg = (avgR > 200 && avgG < 100 && avgB > 200) ||
+                               (avgR < 100 && avgG > 200 && avgB < 100) ||
+                               (avgR < 100 && avgG < 100 && avgB > 200);
 
-            // 2. Flood Fill Transparency (from edges)
             const visited = new Uint8Array(width * height);
             const queue = [...seeds];
             seeds.forEach(p => visited[p.y * width + p.x] = 1);
@@ -732,13 +727,11 @@ const ObjectSystem = () => {
                 
                 let isMatch = false;
                 for (const s of seedColors) {
-                    // Increased tolerance slightly (from 45 to 50) for initial flood fill
                     if (Math.abs(r - s[0]) < 50 && Math.abs(g - s[1]) < 50 && Math.abs(b - s[2]) < 50) {
                         isMatch = true; break;
                     }
                 }
                 
-                // Catch checkerboard colors (whites and light greys) - only if NOT vibrant bg
                 if (!isMatch && !isVibrantBg && r > 180 && g > 180 && b > 180) {
                     const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
                     if (diff < 30) isMatch = true; 
@@ -756,7 +749,6 @@ const ObjectSystem = () => {
                 }
             }
 
-            // 3. Global Pocket Scan (for trapped background pixels like chair slats)
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i+3] === 0) continue;
                 const r = data[i], g = data[i+1], b = data[i+2];
@@ -764,10 +756,8 @@ const ObjectSystem = () => {
                 const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
                 const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
 
-                // Priority 1: If it matches a seed color (background), CLEAR IT regardless of saturation
                 let isMatch = false;
                 for (const s of seedColors) {
-                    // Increased tolerance (from 35 to 45) to catch remnants like magenta ropes
                     if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
                         isMatch = true; break;
                     }
@@ -777,28 +767,22 @@ const ObjectSystem = () => {
                     continue;
                 }
 
-                // Priority 2: If it's very saturated (vibrant colors like fire), PROTECT IT from global cleanup
-                const isVerySaturated = diff > 60; // Lowered from 70 to protect more fire detail
+                const isVerySaturated = diff > 60;
                 if (isVerySaturated) continue;
 
-                // Priority 3: Clear anything that looks like grayscale background haze
                 if (isVibrantBg) {
-                    if (distToBg < 70) data[i + 3] = 0; // Increased for better vibrant cleanup
+                    if (distToBg < 70) data[i + 3] = 0;
                 } else if (distToBg < 45 && diff < 30) {
-                    // Removed generic white check to protect sheets/pillows
                     data[i + 3] = 0;
                 }
             }
 
-            // 4. Post-Process: Clean edges but preserve vibrant highlights
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i+3] === 0) continue;
                 const r = data[i], g = data[i+1], b = data[i+2];
                 
-                // Only clean if it's very bright AND very desaturated (grayscale/white haze)
                 if (r > 215 && g > 215 && b > 215) {
                     const diff = Math.abs(r-g) + Math.abs(g-b);
-                    // If it's truly white/gray (low diff), soften the edges
                     if (diff < 15) {
                         const x = (i/4) % width;
                         const y = Math.floor((i/4) / width);
@@ -819,29 +803,83 @@ const ObjectSystem = () => {
             const processedImg = new Image();
             processedImg.src = canvas.toDataURL();
             processedImg.onload = () => {
-                imageCache.current.set(url, processedImg);
-                renderObjects();
+                if (!cancelled) {
+                    imageCache.current.set(url, processedImg);
+                    renderObjects();
+                }
             };
         };
 
-        Object.values(PROFESSIONAL_OBJECTS).forEach(obj => {
-            const imagesToLoad = [];
-            if (obj.image) imagesToLoad.push(obj.image);
-            if (obj.multiAngle && obj.angles) {
-                Object.values(obj.angles).forEach(url => imagesToLoad.push(url));
-            }
+        const scheduleImageProcessing = () => {
+            const allObjects = Object.values(PROFESSIONAL_OBJECTS);
+            let index = 0;
 
-            imagesToLoad.forEach(url => {
-                if (!imageCache.current.has(url)) {
+            const processNext = () => {
+                if (cancelled || index >= allObjects.length) return;
+
+                const obj = allObjects[index];
+                index++;
+                const imagesToLoad = [];
+                if (obj.image) imagesToLoad.push(obj.image);
+                if (obj.multiAngle && obj.angles) {
+                    Object.values(obj.angles).forEach(url => imagesToLoad.push(url));
+                }
+
+                let loaded = 0;
+                const totalImages = imagesToLoad.length;
+
+                imagesToLoad.forEach(url => {
+                    if (imageCache.current.has(url)) {
+                        loaded++;
+                        return;
+                    }
                     const img = new Image();
                     img.crossOrigin = "anonymous";
                     img.src = url;
                     img.onload = () => {
-                        processImage(img, url);
+                        if (!cancelled) {
+                            processImage(img, url);
+                            loaded++;
+                            if (loaded >= totalImages) {
+                                if (typeof requestIdleCallback === 'function') {
+                                    requestIdleCallback(processNext, { timeout: 100 });
+                                } else {
+                                    setTimeout(processNext, 16);
+                                }
+                            }
+                        }
                     };
+                    img.onerror = () => {
+                        loaded++;
+                        if (loaded >= totalImages) {
+                            if (typeof requestIdleCallback === 'function') {
+                                requestIdleCallback(processNext, { timeout: 100 });
+                            } else {
+                                setTimeout(processNext, 16);
+                            }
+                        }
+                    };
+                });
+
+                if (totalImages === 0) {
+                    if (typeof requestIdleCallback === 'function') {
+                        requestIdleCallback(processNext, { timeout: 100 });
+                    } else {
+                        setTimeout(processNext, 16);
+                    }
                 }
-            });
-        });
+            };
+
+            if (typeof requestIdleCallback === 'function') {
+                requestIdleCallback(processNext, { timeout: 200 });
+            } else {
+                setTimeout(processNext, 100);
+            }
+        };
+
+        scheduleImageProcessing();
+
+        return () => { cancelled = true; };
     }, []);
 
     // Helper to get current map ID explicitly (prevents stale reads during rapid updates)

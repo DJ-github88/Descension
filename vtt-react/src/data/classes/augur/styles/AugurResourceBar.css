@@ -1,3 +1,4 @@
+/* Augur Resource Bar - Premium Parchment Aesthetic */
 .augur-resource-wrapper {
     display: flex;
     flex-direction: column;
@@ -8,7 +9,7 @@
 .augur-omen-bar {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     cursor: default;
     position: relative;
 }
@@ -17,271 +18,174 @@
     cursor: pointer;
 }
 
-.augur-omen-bar.clickable:hover .augur-track {
-    position: relative;
-    display: flex;
-    gap: 0;
-    height: 14px;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 2px solid rgba(139, 69, 19, 0.6);
-    background: linear-gradient(180deg, #1a0f0a 0%, #0d0705 100%);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.5);
-    transition: filter 0.2s ease;
-}
-
-.augur-bar-row {
-    position: relative;
-}
-
 .augur-track {
     position: relative;
     display: flex;
     gap: 2px;
-    height: 12px;
-    border-radius: 3px;
+    height: 16px;
+    border-radius: 2px;
     overflow: hidden;
-    border: 1px solid rgba(139, 69, 19, 0.4);
-    background:
-        linear-gradient(180deg, rgba(40, 30, 20, 0.6) 0%, rgba(25, 18, 12, 0.8) 100%);
-    box-shadow:
-        inset 0 1px 3px rgba(0, 0, 0, 0.5),
-        inset 0 0 4px rgba(0, 0, 0, 0.3);
-    transition: filter 0.2s ease;
+    border: 2.5px solid #3d2b1f; /* Charcoal brown */
+    background: #E8DCC8; /* Pathfinder Beige */
+    box-shadow: 
+        inset 0 1px 4px rgba(0, 0, 0, 0.2),
+        0 1px 1px rgba(255, 255, 255, 0.6);
 }
-
-/* Removed separate track border colors since we now use a combined track */
 
 .augur-segment {
     flex: 1;
     transition: all 0.3s ease;
     position: relative;
+    background: rgba(61, 43, 31, 0.05);
 }
 
-.augur-segment.filled {
-    z-index: 1;
-}
-
+/* Benediction Segments (Golden Ink) */
 .ben-segment {
-    background: rgba(184, 134, 11, 0.03);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.6);
-}
-.ben-segment:last-child {
-    box-shadow: none;
+    box-shadow: inset -1px 0 0 rgba(61, 43, 31, 0.2);
 }
 
 .ben-segment.filled {
     background: linear-gradient(180deg, #DAA520 0%, #B8860B 100%);
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 4px rgba(218, 165, 32, 0.3);
-}
-.ben-segment.filled:last-child {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 4px rgba(218, 165, 32, 0.3);
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset -1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
+/* Malediction Segments (Violet Ink) */
 .mal-segment {
-    background: rgba(139, 90, 139, 0.03);
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.6);
-}
-.mal-segment:first-child {
-    box-shadow: none;
+    box-shadow: inset 1px 0 0 rgba(61, 43, 31, 0.2);
 }
 
 .mal-segment.filled {
-    background: linear-gradient(180deg, #B07AB0 0%, #8B5A8B 100%);
-    box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 4px rgba(139, 90, 139, 0.3);
-}
-.mal-segment.filled:first-child {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 4px rgba(139, 90, 139, 0.3);
+    background: linear-gradient(180deg, #8B5A8B 0%, #5E2F5E 100%);
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 1px 0 0 rgba(0, 0, 0, 0.2);
 }
 
 .augur-bar-value {
     position: absolute;
-    right: 6px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 9px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow:
-        0 0 3px rgba(0, 0, 0, 1),
-        0 1px 2px rgba(0, 0, 0, 0.9);
+    font-weight: 900;
+    color: #3d2b1f;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
     pointer-events: none;
     z-index: 2;
-    letter-spacing: 0.3px;
-}
-
-.augur-debt-badge {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
-    border: 1px solid #FF4444;
-    border-radius: 6px;
-    padding: 1px 5px;
-    min-width: 24px;
-    min-height: 16px;
-    font-size: 8px;
-    font-weight: 700;
-    color: #FFD700;
-    z-index: 3;
-    box-shadow: 0 0 6px rgba(255, 68, 68, 0.5);
-    pointer-events: none;
-    animation: debt-pulse 2s ease-in-out infinite;
-}
-
-@keyframes debt-pulse {
-    0%, 100% { box-shadow: 0 0 6px rgba(255, 68, 68, 0.5); }
-    50% { box-shadow: 0 0 14px rgba(255, 68, 68, 0.9); }
-}
-
-.augur-debt-badge i {
-    font-size: 7px;
-}
-
-.augur-omen-bar.small .augur-track {
-    height: 10px;
-}
-
-.augur-omen-bar.small .augur-bar-value {
-    font-size: 8px;
-    right: 4px;
-}
-
-.augur-omen-bar.large .augur-track {
-    height: 16px;
-}
-
-.augur-omen-bar.large .augur-bar-value {
-    font-size: 11px;
-    right: 8px;
-}
-
-
-/* Augur Context Menu */
-.augur-menu-container {
-    background: linear-gradient(145deg, rgba(30, 20, 30, 0.98), rgba(20, 25, 30, 0.98));
-    border: 2px solid rgba(139, 90, 139, 0.6);
-    border-radius: 4px;
-    padding: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-    min-width: 220px;
-    pointer-events: auto;
-}
-
-.augur-menu-title {
-    font-size: 11px;
-    font-weight: bold;
-    color: #C8A2C8;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    border-bottom: 1px solid rgba(139, 90, 139, 0.4);
-    padding-bottom: 4px;
-    text-align: center;
-}
-
-.augur-controls-row {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 8px;
-}
-
-.augur-action-btn {
-    flex: 1;
-    background: linear-gradient(180deg, rgba(60, 50, 60, 0.8) 0%, rgba(40, 30, 40, 0.9) 100%);
-    border: 1px solid rgba(139, 90, 139, 0.5);
-    border-radius: 3px;
-    color: #E8DCC8;
-    padding: 4px 8px;
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
     font-family: 'Cinzel', serif;
 }
 
-.augur-action-btn:hover {
-    background: linear-gradient(180deg, rgba(80, 70, 80, 0.9) 0%, rgba(60, 50, 60, 1) 100%);
-    border-color: #B07AB0;
-    box-shadow: 0 0 8px rgba(139, 90, 139, 0.4);
-}
+.mal-value { left: 8px; }
+.ben-value { right: 8px; }
 
-.augur-action-btn:active {
-    transform: translateY(1px);
-}
-
-.augur-action-btn.ben {
-    border-color: rgba(184, 134, 11, 0.5);
-}
-
-.augur-action-btn.ben:hover {
-    border-color: #DAA520;
-    box-shadow: 0 0 8px rgba(184, 134, 11, 0.4);
-}
-
-.augur-quick-btn {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    color: #aaa;
-    padding: 4px;
-    font-size: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-}
-
-.augur-quick-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.augur-quick-btn.danger:hover {
-    background: rgba(220, 53, 69, 0.2);
-    color: #ff6b6b;
-    border-color: rgba(220, 53, 69, 0.5);
-}
-
-/* Center divider glow */
-.augur-track .center-divider {
-    width: 3px;
-    background: linear-gradient(180deg,
-        rgba(218, 165, 32, 0.3),
-        rgba(255, 255, 255, 0.6),
-        rgba(139, 90, 139, 0.3));
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
-}
-
-/* Smooth fill for high-segment bars (10+ segments) */
-.augur-track .malediction-half,
-.augur-track .benediction-half {
-    min-width: 0;
-    overflow: hidden;
-}
-
-.augur-track .augur-segment {
-    min-width: 3px;
-    max-width: 12px;
-}
-
-/* When segments get too narrow (15 segments), switch to tighter spacing */
-.augur-track .augur-segment:nth-last-child(n+10) {
+/* Debt Badge - Crimson Warning */
+.augur-debt-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, #8B0000 0%, #600000 100%);
+    border: 2px solid #3d2b1f;
+    color: #F4EBD0;
+    font-weight: 800;
+    padding: 1px 6px;
+    font-size: 8px;
     border-radius: 0;
+    box-shadow: 3px 3px 0 rgba(139, 0, 0, 0.3);
+    z-index: 5;
+    animation: debt-throb 2s ease-in-out infinite;
 }
 
-/* Tooltip improvements for Augur */
-.unified-resourcebar-tooltip .augur-spec-compare {
+@keyframes debt-throb {
+    0%, 100% { transform: scale(1); box-shadow: 3px 3px 0 rgba(139, 0, 0, 0.3); }
+    50% { transform: scale(1.1); box-shadow: 5px 5px 0 rgba(139, 0, 0, 0.5); }
+}
+
+.center-divider {
+    width: 3px;
+    background: #3d2b1f;
+    z-index: 3;
+    opacity: 0.8;
+}
+
+/* Premium Context Menu */
+.augur-menu-container {
+    background-color: #F4EBD0;
+    background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    border: 3px solid #3d2b1f;
+    padding: 15px;
+    border-radius: 0;
+    box-shadow: 
+        8px 8px 0 rgba(61, 43, 31, 0.2),
+        0 15px 50px rgba(0, 0, 0, 0.4);
+    min-width: 260px;
+}
+
+.augur-menu-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #3d2b1f;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #3d2b1f;
+    padding-bottom: 6px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+}
+
+.context-menu-button {
+    background: #E8DCC8;
+    border: 2px solid #3d2b1f;
+    color: #3d2b1f;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.context-menu-button:hover {
+    background: #3d2b1f;
+    color: #F4EBD0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.context-menu-button.ben:hover {
+    background: #DAA520;
+    border-color: #3d2b1f;
+    color: white;
+}
+
+.context-menu-button.mal:hover {
+    background: #8B5A8B;
+    border-color: #3d2b1f;
+    color: white;
+}
+
+.context-menu-button.active {
+    background: #3d2b1f;
+    color: #F4EBD0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.context-menu-section-title {
+    font-size: 10px;
+    font-weight: 800;
+    color: #3d2b1f;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.augur-spec-icon {
+    font-size: 14px;
+    color: #3d2b1f;
+}
+
+.spec-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
     margin-top: 4px;
-    padding-top: 4px;
-    border-top: 1px solid rgba(139, 69, 19, 0.3);
-    font-size: 0.75rem;
-    color: rgba(58, 42, 26, 0.6);
 }

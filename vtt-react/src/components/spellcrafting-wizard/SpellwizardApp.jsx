@@ -26,6 +26,7 @@ import Step7Triggers from './components/steps/Step7Triggers';
 import TrapPlacementStep from './components/steps/TrapPlacementStep';
 import Step8Channeling from './components/steps/Step8Channeling';
 import RollableTableStep from './components/steps/RollableTableStep';
+import ProphecyStep from './components/steps/ProphecyStep';
 import Step9Balance from './components/steps/Step9Balance';
 
 
@@ -369,6 +370,69 @@ const AppContent = ({ hideHeader = false }) => {
         spellData.devotionRequired = resourceValues.devotion_required;
         spellData.devotionCost = resourceValues.devotion_cost;
         spellData.devotionGain = resourceValues.devotion_gain;
+      }
+
+      // Transform Prophecy Options to prophecyConfig (Doomsayer)
+      if (wizardState.prophecyOptions) {
+        const po = wizardState.prophecyOptions;
+        const parseRangeDice = (dice) => {
+          if (Array.isArray(dice)) return dice;
+          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
+          return Array.isArray(dice) ? dice : [dice];
+        };
+        const buildEffect = (outcome) => {
+          if (!outcome || !outcome.effectName) return undefined;
+          const effect = { name: outcome.effectName };
+          if (outcome.duration > 0) effect.duration = outcome.duration;
+          if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
+          if (outcome.damagePerRound) {
+            effect.damagePerRound = outcome.damagePerRound;
+            if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
+          }
+          if (outcome.statModifiers && outcome.statModifiers.length > 0) effect.statModifiers = outcome.statModifiers;
+          if (outcome.healingBlock) effect.healingBlock = true;
+          if (outcome.bonusDamageTaken) {
+            effect.bonusDamageTaken = outcome.bonusDamageTaken;
+            if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
+          }
+          if (outcome.saveDC > 0) {
+            effect.saveDC = outcome.saveDC;
+            if (outcome.saveType) effect.saveType = outcome.saveType;
+          }
+          if (outcome.instantKill) effect.instantKill = true;
+          if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
+          if (outcome.cascadeDamage) {
+            effect.cascadeDamage = outcome.cascadeDamage;
+            effect.cascadeRange = outcome.cascadeRange || 10;
+          }
+          if (outcome.description) effect.description = outcome.description;
+          return effect;
+        };
+        const buildOutcome = (outcome) => {
+          if (!outcome) return undefined;
+          const result = {};
+          if (outcome.damage) result.damage = outcome.damage;
+          const effect = buildEffect(outcome);
+          if (effect) result.effect = effect;
+          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
+          if (outcome.description) result.description = outcome.description;
+          return result;
+        };
+        spellData.prophecyConfig = {
+          rangeDice: parseRangeDice(po.rangeDice),
+          resolutionDie: po.resolutionDie,
+          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
+          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
+          outside: (() => {
+            const o = po.outside || {};
+            const result = {};
+            if (o.backlash) result.backlash = o.backlash;
+            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
+            if (o.description) result.description = o.description;
+            return result;
+          })()
+        };
+        spellData.resolution = 'PROPHECY';
       }
 
       if (editMode && editingSpellId) {
@@ -776,9 +840,10 @@ const WizardView = () => {
     9: Step9Balance,
 
     // Special steps with string IDs
-    'rollable-table': RollableTableStep,
     'triggers': Step7Triggers,
     'trap-placement': TrapPlacementStep,
+    'rollable-table': RollableTableStep,
+    'prophecy': ProphecyStep,
     'channeling': Step8Channeling,  // Map 'channeling' to the Channeling step
     'mechanics': Step7Mechanics  // Map 'mechanics' to the Mechanics step
   };

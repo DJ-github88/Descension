@@ -19,15 +19,11 @@ export const GAMBLER_DATA = {
 
     quickOverview: {
       title: 'Quick Overview',
-    content: `**What You Need to Know**: The Gambler generates Fortune Points by successfully casting spells or landing attacks. Spend Fortune Points to adjust roll results by ±1 each (similar to Chaos Weaver's Mayhem Modifiers, but for YOUR rolls). Three specializations use different mechanics and have different Fortune Point caps: coin flips (Fortune's Favor, max 7), dice rolls (High Roller, max 21), and card draws (Card Sharp, max 13). Spells include rollable tables with multiple outcomes (Jackpot: 3d20 slot machine with 20 outcomes, Fate's Coin: 6 coin flip options, High Roller: 3 d20-based bets, Death Roll: competitive 5d20 game).
-
-**Core Mechanic**: Successful spell/attack → Generate Fortune Points → Spend to adjust YOUR roll results by ±1 per point
-
-**Resource**: Fortune Points (Max varies by spec: 7 / 21 / 13)
-
-**Playstyle**: High-risk damage dealer, probability manipulation, rollable table specialist, luck-based utility
-
-**Best For**: Players who enjoy gambling mechanics, adjusting roll results, and unpredictable high-variance gameplay`
+      coreLoop: 'Successful spell/attack → Generate Fortune Points → Spend to adjust your own rolls by ±1 per point',
+      resource: 'Fortune Points (Cap: 7 / 13 / 21 by spec)',
+      role: 'Variable damage dealer + utility',
+      playstyle: 'High-risk damage, probability manipulation, rollable table specialist',
+      bestFor: 'Players who enjoy gambling mechanics, adjusting roll results, and high-variance gameplay'
     },
 
     description: `A daring risk-taker who manipulates luck and probability. Gamblers embrace high-risk, high-reward strategies, using Fortune Points to turn chance into calculated advantage and swing battles on a single bet.`,
@@ -132,138 +128,192 @@ The Gambler occupies a unique niche as a damage dealer whose output varies wildl
 
     immersiveCombatExample: {
       title: 'Combat Example: The House Always Wins',
-      content: `**The Setup**: You're a Gambler (High Roller specialization, Fortune Point max: 21) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based—high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
+      content: `**The Setup**: You're a Gambler (Card Sharp specialization, Fortune Point max: 13) facing a powerful ogre champion and two goblin minions. Your party needs you to deal damage, but your spells are gambling-based — high risk, high reward. Starting Fortune Points: 3 (from previous encounter). Starting Mana: 40/50. Your goal: Build Fortune Points through successful actions, use them to adjust critical rolls, and unleash devastating gambling abilities.
 
-**Starting State**: Fortune Points: 3/21 | Mana: 40/50 | HP: 60/70
+**Starting State**: Fortune Points: 3/13 | Mana: 40/50 | HP: 60/70
 
-**Turn 1 - Building Fortune (FP: 3 → 5)**
+**Turn 1 - Building Fortune (FP: 3 → 4)**
 
 *The ogre roars, raising its massive club. The goblins cackle, circling. You pull out a pair of enchanted dice, grinning. "Let's make this interesting."*
 
-**Your Action**: Cast "Lucky Strike" on Ogre (5 mana, roll 1d20 for damage multiplier)
-**Attack Roll**: d20+5 → [16] = Hit!
-**Damage Multiplier Roll**: 1d20 → [14] = 14x multiplier!
-**Base Damage**: 1d6 → [4] = 4 damage
-**Total Damage**: 4 × 14 = **56 damage!**
+**Your Action**: Cast "Lucky Strike" on Ogre (7 mana, roll 4d12 and match for multiplier)
+**4d12 Roll**: [8, 8, 3, 11] → Pair of 8s!
+**Outcome**: Pair = Double damage + 1 Fortune Point
+**Base Damage**: 1d8 → [5] = 5 damage
+**Total Damage**: 5 × 2 = **10 damage**
 
-*The dice glow golden as they roll. Fourteen. The ogre takes a MASSIVE hit of magical energy. It staggers, roaring in pain.*
+*The dice glow golden as they land. A pair of eights. Not bad — double damage. The ogre snorts, barely feeling it.*
 
-**Fortune Points Generated**: +1 FP (successful spell cast)
-**Fortune Points**: 3 + 1 = **4 FP**
-**Mana**: 40 - 5 = 35/50
+**Fortune Points Generated**: +1 FP (successful spell) + 1 FP (pair bonus) = +2 FP
+**Fortune Points**: 3 + 2 = **5 FP**
+**Mana**: 40 - 7 = 33/50
 
 **Ogre's Turn**: Attacks you → [18] → Hit! → 3d8+5 → [6, 7, 5] + 5 = 23 damage
 **Your HP**: 60 - 23 = 37/70
 
-*The ogre's club slams into you. You're hurt, but you're SMILING. That damage roll was worth it.*
+*The ogre's club slams into you. You're hurt, but you're SMILING. That pair built your stack.*
 
 **Your Party's Healer**: Heals you for 15 HP
 **Your HP**: 37 + 15 = 52/70
 
-**Current State**: FP: 4/21 | Mana: 35/50 | HP: 52/70
+**Current State**: FP: 5/13 | Mana: 33/50 | HP: 52/70
 
-**Turn 2 - The Gamble (FP: 4 → 6)**
+**Turn 2 - The Gamble (FP: 5 → 7)**
 
-*You're at 4 Fortune Points. Time to use your signature spell: "Jackpot" - a 3d20 slot machine with 20 different outcomes. You roll 3d20 and match the results to a table.*
+*You're at 5 Fortune Points. Time to use your signature spell: "Jackpot" — roll 3d20, sum them, and consult the outcome table. Higher sums mean bigger payouts.*
 
-**Your Action**: Cast "Jackpot" on Ogre (8 mana, roll 3d20 and consult outcome table)
+**Your Action**: Cast "Jackpot" on Ogre (28 mana, roll 3d20 and sum for outcome tier)
 **3d20 Roll**: [12], [7], [19]
+**Sum**: 12 + 7 + 19 = **38**
 
 *Three magical slot machine reels appear above the ogre. They spin, then STOP. 12. 7. 19. You check the table...*
 
-**Outcome Lookup**: 12-7-19 → "Moderate Win" → 4d10 damage + stun for 1 round
+**Outcome Lookup**: Sum 38 → "Moderate Win" (Sum 26-38 tier) → 4d10 force damage + stun for 1 round + gain 1 FP
 
-*Not bad, but you have 4 Fortune Points. Scanning the outcome table, you see [15, 7, 19] = "Big Win" for 6d10 damage + stun for 2 rounds + gain 2 Fortune Points. That costs 3 FP — affordable.*
+*Not bad, but you have 5 Fortune Points. Scanning the table, Sum 39-48 is "Big Win" for 6d10 damage + stun for 2 rounds + gain 2 FP. You need to shift that 12 up to at least 15 to break into the next tier. That costs 3 FP — affordable.*
 
 **Decision**: Spend 3 Fortune Points to change [12] to [15]
-**Fortune Points**: 4 - 3 = **1 FP**
+**Fortune Points**: 5 - 3 = **2 FP**
 **Adjusted Roll**: [15], [7], [19]
-**Outcome Lookup**: 15-7-19 → "Big Win" → 6d10 damage + stun for 2 rounds + gain 2 Fortune Points
+**New Sum**: 15 + 7 + 19 = **41**
+**Outcome Lookup**: Sum 41 → "Big Win" (Sum 39-48 tier) → 6d10 force damage + stun for 2 rounds + gain 2 FP
 
-*You snap your fingers. The first reel SHIFTS from 12 to 15. The slot machine dings. BIG WIN!*
+*You snap your fingers. The first reel SHIFTS from 12 to 15. The sum climbs to 41. Big Win territory!*
 
 **Damage Roll**: 6d10 → [8, 9, 7, 10, 6, 8] = **48 damage!**
 **Effect**: Ogre stunned for 2 rounds
-**Fortune Points Generated**: +1 FP (successful spell) +2 FP (Big Win bonus) = +3 FP total
-**Fortune Points**: 1 + 3 = **4 FP**
+**Fortune Points Generated**: +1 FP (successful spell) + 2 FP (Big Win bonus) = +3 FP total
+**Fortune Points**: 2 + 3 = **5 FP**
 
 *The ogre is BLASTED by magical energy. It falls to one knee, stunned. The goblins back away, terrified.*
 
-**Mana**: 35 - 8 = 27/50
-**Current State**: FP: 4/21 | Mana: 27/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
+**Mana**: 33 - 28 = 5/50
+**Current State**: FP: 5/13 | Mana: 5/50 | HP: 52/70 | Ogre: Stunned (2 rounds)
 
-**Turn 3 - Finishing the Goblins (FP: 4 → 6)**
+**Turn 3 - Low Mana, Smart Play (FP: 5 → 6)**
 
-*The ogre is stunned. Time to clean up the goblins.*
+*The ogre is stunned. Time to clean up a goblin, but you're almost out of mana. Time for a cheap spell.*
 
-**Your Action**: Cast "Fate's Coin" on Goblin #1 (4 mana, flip coin for outcome)
+**Your Action**: Cast "Lucky Toss" on Goblin #1 (3 mana, flip a coin — heads deals damage, tails gives a buff)
 **Coin Flip**: Heads or Tails? → [Heads]
-**Outcome**: Heads → "Lucky Strike" → 3d8 damage + gain 1 Fortune Point
+**Outcome**: Heads → 1d8 + CHA force damage to Goblin #1
 
-**Damage Roll**: 3d8 → [7, 6, 8] = **21 damage**
-**Result**: Goblin #1 DEAD (overkill)
-**Fortune Points Generated**: +1 FP (successful spell) +1 FP (Lucky Strike bonus) = +2 FP
-**Fortune Points**: 4 + 2 = **6 FP**
+**Damage Roll**: 1d8 + 3 (CHA mod) → [6] + 3 = **9 damage**
 
-*You flip a golden coin. It spins in the air, glowing. Heads. The goblin is struck by a bolt of luck-infused energy. Dead.*
+*You flip a golden coin. Heads. A bolt of luck-infused energy strikes the goblin. It crumples.*
 
-**Mana**: 27 - 4 = 23/50
+**Result**: Goblin #1 DEAD
+**Fortune Points Generated**: +1 FP (successful spell)
+**Fortune Points**: 5 + 1 = **6 FP**
+**Mana**: 5 - 3 = 2/50
 
 **Goblin #2's Turn**: Attacks you → [11] → Miss!
 
-**Current State**: FP: 6/21 | Mana: 23/50 | HP: 52/70
+**Current State**: FP: 6/13 | Mana: 2/50 | HP: 52/70
 
-**Turn 4 - The Ultimate Gamble (FP: 6 → 8)**
+**Turn 4 - The Ultimate Gamble (FP: 6 → 3)**
 
-*The ogre shakes off the stun. It's wounded (104 damage taken total) but still alive. One goblin remains. You have 6 Fortune Points. Time for the ultimate gamble: "Death Roll."*
+*The ogre shakes off the stun. It's wounded (58 damage taken total) but still alive. One goblin remains. You have 6 Fortune Points and almost no mana. Time for the ultimate gamble: "Death Roll."*
 
-**Your Action**: Cast "Death Roll" on Ogre (10 mana, competitive 5d20 game)
-**How It Works**: You and the target each roll 5d20. Highest total wins. Winner deals damage equal to the difference.
+**Your Action**: Cast "Death Roll" on Ogre (24 mana... wait, you only have 2 mana.)
 
-**Your Roll**: 5d20 → [18, 12, 15, 9, 14] = **68 total**
-**Ogre's Roll**: 5d20 → [16, 11, 13, 10, 17] = **67 total**
+*You check your mana. 2. You need 24 for Death Roll. That's not happening. Time to improvise.*
 
-*You're winning by 1. You have 6 Fortune Points. Spend them to increase your [9] to [15] — that's 6 FP for +6 to your total.*
+**Your Action**: Attack with Duelist's Rapier (free action, 1d8+3 pierce)
+**Attack Roll**: d20+5 → [14] = 19 → Hit!
+**Damage**: 1d8+3 → [6]+3 = **9 damage**
 
-**Decision**: Spend 6 Fortune Points to change your [9] to [15]
-**Fortune Points**: 6 - 6 = **0 FP**
-**Adjusted Your Roll**: [18, 12, 15, 15, 14] = **74 total**
-**Difference**: 74 - 67 = **7**
+*The rapier flashes. Not your best work, but the ogre is hurting.*
 
-*You focus your will. The dice SHIFT. Your 9 becomes a 15. The ogre's eyes widen.*
+**Fortune Points Generated**: +1 FP (successful attack)
+**Fortune Points**: 6 + 1 = **7 FP**
 
-**Damage**: 7d10 (difference of 7) → [9, 8, 10, 7, 6, 9, 8] = **57 damage!**
+**Ogre's Turn**: Attacks you → [9] → Miss! (It's weakened from the stun.)
 
-*The ogre EXPLODES in a burst of magical energy. Dead. The remaining goblin flees.*
+**Current State**: FP: 7/13 | Mana: 2/50 | HP: 52/70 | Ogre: 67 damage taken
 
-**Fortune Points Generated**: +1 FP (successful spell) +1 FP (won Death Roll) = +2 FP
-**Fortune Points**: 0 + 2 = **2 FP**
-**Mana**: 23 - 10 = 13/50
+**Turn 5 - The Comeback (FP: 7 → 3)**
+
+*Your party's Alchemist tosses you a Mana Potion. Mana restored to 30/50. Now you can finish this.*
+
+**Your Action**: Cast "Death Roll" on Ogre (24 mana, competitive d20 minigame)
+**How It Works**: Both you and the target roll a d20. The lower roll becomes the new maximum. Both roll again. First to roll over the current max loses.
+
+**Round 1**: You roll d20 → [15]. Ogre rolls d20 → [12]. Max becomes **12**.
+**Round 2**: You roll d20 (max 12) → [8]. Under! Safe. Ogre rolls d20 (max 12) → [11]. Under! Safe.
+**Round 3**: You roll d20 (max 11) → [9]. Under! Safe. Ogre rolls d20 (max 11) → [13]. OVER! **Ogre loses!**
+
+*The dice clatter. 13 — over the limit of 11. The ogre's eyes widen as cosmic forces drag it down.*
+
+**Result**: Ogre loses Death Roll. As the winner, you choose 5d10 psychic damage.
+**Damage Roll**: 5d10 → [9, 8, 10, 7, 6] = **40 psychic damage!**
+**Effect**: Ogre stunned for 1 round
+
+*The ogre EXPLODES in a burst of psychic energy. Dead. The remaining goblin flees.*
+
+**Fortune Points Generated**: +1 FP (successful spell) + 1 FP (won Death Roll) = +2 FP
+**Fortune Points**: 7 - 0 (no adjustment needed) + 2 = **7 FP**
+**Mana**: 30 - 24 = 6/50
 
 **Combat Over**
 
 *You stand among the corpses, breathing heavily. Your party stares at you.*
 
 **Your Party's Tank**: "Did you just... gamble the ogre to death?"
-**You**: "I didn't gamble. I CALCULATED. 68 vs 67? I spent 6 Fortune Points to turn that into 74 vs 67. The house always wins when you control the dice."
-**Your Party's Mage**: "But what if you'd rolled lower?"
-**You**: "Then I would have spent Fortune Points to adjust. That's the secret—build Fortune Points through successful actions, then spend them to turn near-wins into guaranteed wins. Luck is just probability you haven't manipulated yet."
+**You**: "I didn't gamble. I CALCULATED. I used my FP to shift Jackpot from sum 38 to sum 41 — that moved me from Moderate Win to Big Win, adding 24 damage and an extra stun round. Then I played Death Roll clean — the ogre busted on round 3."
+**Your Party's Mage**: "But what if you'd rolled lower in Death Roll?"
+**You**: "Then I would have spent Fortune Points to adjust. That's the secret — build Fortune Points through successful actions, then spend them to turn near-losses into wins. The dice are random, but the strategy isn't."
 
-**Final State**: FP: 2/21 (banked for next fight) | Mana: 13/50 | HP: 52/70
+**Final State**: FP: 7/13 (banked for next fight) | Mana: 6/50 | HP: 52/70
 
 **The Lesson**: Gambler gameplay is about:
-1. **Fortune Point Generation**: Generated 8 FP total (4 from successful spells, 2 from Big Win, 2 from Death Roll win)
-2. **Fortune Point Spending**: Spent 9 FP total (3 to adjust Jackpot roll, 6 to adjust Death Roll)
-3. **Roll Adjustment**: Changed [12] to [15] in Jackpot (cost 3 FP, gained better outcome), changed [9] to [15] in Death Roll (cost 6 FP, increased damage by 60)
-4. **Risk Management**: Jackpot is random (3d20 with 20 outcomes), but Fortune Points let you adjust rolls to hit better outcomes
-5. **Outcome Tables**: Jackpot has outcomes ranging from "Critical Fail" (damage yourself) to "JACKPOT" (10d10 + paralysis)
-6. **Competitive Gambling**: Death Roll pits your rolls against enemy rolls—Fortune Points let you tip the scales
-7. **Resource Conversion**: Spent 37 mana and 9 Fortune Points to deal 161 total damage (56 + 48 + 21 + 57) in 4 turns
+1. **Fortune Point Generation**: Generated 10 FP total across the fight (from successful attacks, spells, and gamble bonuses)
+2. **Fortune Point Spending**: Spent 3 FP total (to shift Jackpot die from 12 to 15, moving up a tier)
+3. **Tier Manipulation**: The core Jackpot strategy is sum-based — spending FP to shift individual dice moves your total into higher payout tiers
+4. **Resource Awareness**: Low mana forced creative play in Turns 3-4 (cheap spells, weapon attacks)
+5. **Death Roll**: A competitive minigame where both sides roll d20s with a descending ceiling. FP can adjust rolls mid-game to stay under the limit or push the enemy over
+6. **Risk Management**: Used cheap spells (Lucky Toss at 3 mana) when mana was low, saved the big guns for when mana was restored
+7. **Total Damage**: Dealt 10 (Lucky Strike) + 48 (Jackpot) + 9 (Lucky Toss, killed goblin) + 9 (Rapier) + 40 (Death Roll) = **116 damage** across 5 turns
 
-You're not a consistent damage dealer. You're a GAMBLER who manipulates probability. You roll dice, flip coins, spin slot machines—but you're not leaving it to chance. You build Fortune Points through successful actions, then spend them to adjust critical rolls. When you roll 68 vs 67 in Death Roll, you don't accept the 1-point difference—you spend 6 Fortune Points to turn it into 7 points and deal 57 damage instead of 10. The randomness is real, but you control it. That's the Gambler's edge.`
+You're not a consistent damage dealer. You're a GAMBLER who manipulates probability. You roll dice, flip coins, spin slot machines — but you're not leaving it to chance. You build Fortune Points through successful actions, then spend them to shift outcomes into your favor. When your Jackpot sum lands at 38, you don't accept "Moderate Win" — you spend 3 FP to push it to 41 and collect "Big Win." When Death Roll comes down to the wire, you spend FP to stay under the ceiling while your opponent busts. The randomness is real, but you control it. That's the Gambler's edge.`
     }
   },
-  
+
+  characterCreation: {
+    title: 'Character Creation',
+    primaryStat: 'Charisma',
+    secondaryStat: 'Agility',
+    savingThrows: ['Charisma', 'Agility'],
+    armorProficiency: ['Light'],
+    weaponProficiency: ['Simple', 'Rapier', 'Dagger', 'Crossbow (Hand)'],
+    toolProficiency: ['Gaming Set (All)', 'Disguise Kit'],
+    skillRecommendations: ['Deception', 'Insight', 'Perception', 'Persuasion'],
+    guide: [
+      'Choose Charisma as your highest stat — it drives Fortune Point generation and your spell damage.',
+      'Agility keeps you alive in light armor. Constitution is your third priority.',
+      'Select the Duelist fighting style for the rapier — your weapon attacks generate Fortune Points.',
+      'Pick Deception and Insight as your first skills — they define the Gambler identity.'
+    ]
+  },
+
+  startingEquipment: {
+    title: 'Starting Equipment',
+    weapons: [
+      { name: "Duelist's Rapier", damage: '1d8+3 pierce', properties: ['Finesse', 'Versatile (1d10)'], note: 'Your Fortune Point generator' },
+      { name: 'Dagger', damage: '1d4+3 pierce', properties: ['Finesse', 'Light', 'Thrown (20ft)'], note: 'Backup weapon' }
+    ],
+    armor: { name: 'Leather Armor', ac: '11 + AGI modifier', type: 'Light' },
+    items: [
+      { name: 'Lucky Coin', description: 'Spell focus for coin-flip abilities. Glows faintly when Fortune favors you.' },
+      { name: 'Set of Loaded Dice', description: 'A pair of d20s that feel slightly heavier than normal. Spell focus for dice abilities.' },
+      { name: 'Deck of Marked Cards', description: 'A worn deck with subtle marks on each card. Spell focus for card abilities.' },
+      { name: '50ft Silk Rope', description: 'Useful for escapes, distractions, and creative problem-solving.' },
+      { name: 'Pouch of 15 Gold Pieces', description: 'Starting funds. The house always provides a stake.' },
+      { name: "Traveler's Clothes", description: 'Well-fitted but unremarkable. Perfect for blending in.' }
+    ],
+    gold: 15
+  },
+
   // Resource System
   resourceSystem: {
     title: 'Fortune Points (FP)',
@@ -275,12 +325,12 @@ You're not a consistent damage dealer. You're a GAMBLER who manipulates probabil
       {
         title: 'Fortune Points (FP)',
         stats: 'Cap: 7 / 13 / 21',
-        details: 'Max points vary by spec (Favor / Sharp / Roller). Spend to adjust any roll result by ±1 per point.'
+        details: 'Max points vary by spec (Favor / Sharp / Roller). Base FP spending adjusts YOUR OWN d20 attack rolls, damage rolls, saving throws, and ability checks by ±1 per point. Certain abilities (Cheat Fate, Death Roll) expand this scope to other rolls.'
       },
       {
         title: 'Probability Tweak',
         stats: 'Post-Roll Action',
-        details: 'Spend points AFTER the dice land but BEFORE the DM declares the outcome. Turn a 19 into a 20 instantly.'
+        details: 'Spend points AFTER the dice land and modifiers are applied, but BEFORE the DM determines success or failure. Turn a 19 into a 20 instantly.'
       },
       {
         title: 'The Payout',
@@ -307,11 +357,15 @@ You're not a consistent damage dealer. You're a GAMBLER who manipulates probabil
 
     overheatRules: {
       title: 'Bankruptcy',
-      content: `If you attempt a gamble you cannot afford, or lose an "All-In" bet, you go **Bust**.
+      content: `Bankruptcy triggers in two specific situations:
 
-**The Effect**: Your Fortune Points drop to 0, and you suffer **Bankruptcy**. You lose all current mana and cannot generate Fortune Points or cast spells for 2 rounds as the cosmic debt collectors take their due.
+**Trigger A — All-In Death Window**: When you cast "All-In" and roll in the death window (91-100 adjusted for FP spent), you drop to 0 HP and suffer Bankruptcy.
 
-**The Guardrail**: Never bet more than 50% of your current HP or FP unless the kill is guaranteed.`
+**Trigger B — Double or Nothing Self-Kill**: When "Double or Nothing" misses AND the self-damage reduces you to 0 HP, you suffer Bankruptcy.
+
+**The Effect**: Your Fortune Points drop to 0, and you cannot generate Fortune Points or cast Gambler spells for 2 rounds as the cosmic debt collectors take their due. You may still make basic weapon attacks.
+
+**Note**: Missing a gamble, rolling low on Jackpot, or running out of FP does NOT trigger Bankruptcy. Only the two specific triggers above can cause it.`
     },
 
     strategicConsiderations: {
@@ -357,8 +411,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     sharedPassive: {
       name: 'Loaded Dice',
       icon: 'Social/Dice Roll',
-      description: 'Choose a number between 2 and 19 at the start of each day. Whenever you roll that exact number on any die (for any purpose), you may spend 1 Fortune Point to reroll that die and use the new result. This effect applies to attack rolls, damage rolls, saving throws, and ability checks.',
-      mechanicsNote: 'This passive gives Gamblers a way to turn unlucky rolls into second chances. Choose your number based on common roll targets (e.g., 10 for average rolls, 15 for important hits, 7 for lucky number superstition).'
+      description: 'Choose a number between 2 and 19 at the start of each day. Whenever you roll that number or within 1 of it on any d20 (for any purpose), you may spend 1 Fortune Point to reroll that die and use the new result. For example, if you choose 10, this triggers on rolls of 9, 10, or 11.',
+      mechanicsNote: '15% trigger rate (3 numbers on a d20) makes this passive relevant most sessions. Choose your number based on common roll targets — 10 covers the widest tactical range, while 15 or 20 maximizes crit-fishing potential.'
     },
 
     specs: [
@@ -397,7 +451,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         keyAbilities: [
           "Fate's Coin - Flip a magical coin and choose one of six effects. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback. (5 mana, spend 1 Fortune Point to flip the result)",
-          "Fortune's Favor - Grant an ally advantage on their next roll or force an enemy to reroll a successful attack/save. (2 mana, spend additional Fortune Points for multiple rerolls)",
+          "Fate's Blessing - Grant an ally advantage on their next roll or force an enemy to reroll a successful attack/save. (2 mana, spend additional Fortune Points for multiple rerolls)",
           "Cheat Fate - As a reaction, adjust any visible roll within 30 feet by ±2 before the outcome is determined. (3 mana, costs 3 Fortune Points to activate)"
         ],
 
@@ -434,8 +488,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         uniquePassive: {
           name: "Double Down",
           icon: 'Social/Dice Roll',
-          description: 'Whenever you successfully land a damaging ability, you may immediately spend 2 Fortune Points to "double down" and repeat the ability at half mana cost. If the second cast also succeeds, gain 3 Fortune Points. If it fails, lose 2 Fortune Points.',
-          mechanicsNote: 'High-risk passive that can chain successes into devastating combos or turn wins into losses. Best used when you have Fortune Points to spare and can afford the mana cost.'
+          description: 'Whenever you successfully land a damaging ability, you may immediately spend 2 Fortune Points to "double down" and repeat the ability at half mana cost. If the second cast also succeeds, gain 1 Fortune Point. If it fails, lose 2 Fortune Points. Once per turn.',
+          mechanicsNote: 'High-risk passive that can chain successes into combos. Net FP per successful chain: -1 (spend 2, gain 1). Once per turn prevents infinite loops. Best used when you can afford the mana cost and need burst damage.'
         },
 
         keyAbilities: [
@@ -477,13 +531,13 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         uniquePassive: {
           name: "Card Counting",
           icon: 'Utility/Ornate Staff',
-          description: 'You mentally track d20 results during combat. After you observe 5 d20 rolls (from any source — yours, allies, or enemies), your next prediction-based ability (Taunt the Odds, or any ability requiring you to guess a d20 result) automatically treats your guess as if it were within the success threshold. Resets after use or at the end of combat.',
-          mechanicsNote: 'Track every d20 roll you see. After 5 rolls, your next Taunt the Odds automatically hits (no guess needed — the target takes 3d10 force damage with no risk of self-damage). This rewards attentiveness and makes Card Sharp the "counting cards" spec.'
+          description: 'You mentally track d20 results during combat. Your prediction accuracy improves the more rolls you observe: 2 rolls observed → guess range expands from ±3 to ±4; 4 rolls → ±5; 5+ rolls → your next prediction-based ability (Taunt the Odds, or any ability requiring you to guess a d20 result) automatically treats your guess as if it were within the success threshold (guaranteed hit, no self-damage risk). Resets after use or at the end of combat.',
+          mechanicsNote: 'Track every d20 roll you see. At 2 rolls, your Taunt the Odds range expands to ±4. At 4 rolls, ±5. At 5+ rolls, your next Taunt the Odds auto-hits (target takes 3d10 damage with no risk of self-damage). This rewards attentiveness and makes Card Sharp the "counting cards" spec. Display your current observation count on the HUD.'
         },
 
         keyAbilities: [
-          "Jackpot - Roll 3d20 and compare to an extensive table of results. Triple numbers grant powerful rewards, while mismatched numbers give lesser effects. (8 mana, spend Fortune Points to adjust individual dice)",
-          "Death Roll - Challenge a creature to a game of Death Roll. Both participants roll decreasing dice until someone loses. The loser takes 1-10d10 psychic damage and is stunned. (8 mana, spend Fortune Points to adjust rolls during game)",
+          "Jackpot - Roll 3d20 slot machine and sum the results for outcome tiers. Higher sums yield bigger payouts. Triples grant bonus effects. (8 mana, spend Fortune Points to adjust individual dice)",
+          "Death Roll - Challenge a creature to a descending d20 game. Both roll d20s with a shrinking ceiling — first to roll over the current max loses. (8 mana, spend Fortune Points to adjust rolls mid-game)",
           "Taunt the Odds - Choose a target and guess the result of a d20 roll. If you guess within 3, the target takes 3d10 damage. If you're off by more than 3, you take 1d10 damage. (4 mana, Card Counting passive gives advantage)"
         ],
 
@@ -502,7 +556,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         school: 'Luck Manipulation',
         level: 2,
 
-        description: 'Roll 4d12 before attacking. Matching dice set your multiplier: 4-of-a-kind deals 4x, triple deals 3x, pair deals 2x. All different? Take damage equal to the lowest die.',
+        description: 'Roll 4d12 before attacking. Matching dice set your multiplier: 4-of-a-kind deals 4x, triple deals 3x, pair deals 2x. All different? Normal damage only, no Fortune Points generated.',
 
         typeConfig: {
           castTime: 1,
@@ -518,8 +572,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 7 },
+        mana: 7,
           actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Fortuna!',
@@ -530,8 +583,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         effectTypes: ['damage'],
 
         damageConfig: {
-          formula: '1d8',
-          elementType: 'force',
+          formula: '2d6 + 2',
+          damageTypes: ['force'],
           damageType: 'direct',
           scalingType: 'multiplier'
         },
@@ -571,13 +624,18 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             },
             {
               range: 'All different',
-              result: 'Normal damage + Take damage equal to lowest die',
-              description: 'Example: 1-4-7-11 (take 1 damage)'
+              result: 'Normal damage only. No Fortune Points generated.',
+              description: 'Example: 1-4-7-11'
             }
           ]
         },
 
-        tags: ['damage', 'fortune generation', 'variable', 'rollable table', 'gambler']
+        tags: ['damage', 'fortune generation', 'variable', 'rollable table', 'gambler'],
+
+        cooldownConfig: {
+          cooldownType: 'turn_based',
+          cooldownValue: 2
+        }
       },
 
       {
@@ -604,8 +662,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 10 },
+        mana: 10,
           actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Fatum Nummus!',
@@ -706,7 +763,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         school: 'Strategic Gambling',
         level: 8,
 
-        description: 'Roll 3d20 slot machine. Triple numbers grant powerful rewards. Each combination can only occur once per long rest. Spend Fortune Points to adjust individual dice. NOTE: Jackpot draws from ALL elements (fire, lightning, radiant, necrotic) — it is the only Gambler ability that breaks the force/psychic convention, because it doesn\'t play by any rules.',
+        description: 'Roll 3d20 slot machine. Add all three dice — the total determines your outcome tier. Triples grant bonus effects on top of their tier. Spend Fortune Points to adjust individual dice by ±1 per point, moving results up or down tiers. NOTE: Jackpot draws from ALL elements (fire, lightning, radiant, necrotic) — it is the only Gambler ability that breaks the force/psychic convention, because it doesn\'t play by any rules.',
 
         typeConfig: {
           castTime: 1,
@@ -720,8 +777,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 28 },
+        mana: 28,
           actionPoints: 2,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Fortuna Maxima!',
@@ -737,7 +793,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           selectedEffects: [{
             id: 'slot_machine',
             name: 'Slot Machine',
-            description: 'Roll 3d20 and match results for various powerful effects. Spend Fortune Points to adjust individual dice by ±1 per point.'
+            description: 'Roll 3d20 and sum the results. Higher sums yield better outcomes. Triples grant bonus effects. Spend Fortune Points to adjust individual dice by ±1 per point.'
           }],
           duration: 1,
           durationUnit: 'hours',
@@ -747,54 +803,65 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         specialMechanics: {
           fortunePoints: {
-            usage: 'Adjust individual dice by ±1 per point spent',
-            example: 'Roll 19-19-18, spend 1 point to make it 19-19-19'
+            usage: 'Adjust individual dice by ±1 per point spent to move the total into a higher tier',
+            example: 'Roll [12, 7, 19] = sum 38 (Moderate Win). Spend 3 FP to shift 12→15: [15, 7, 19] = sum 41 (Big Win)'
           },
           usageLimit: {
             type: 'long_rest',
-            restriction: 'Each specific triple combination can only occur once per long rest'
+            restriction: 'Each specific outcome tier can only produce its bonus effect once per long rest. Repeated tiers grant the base damage only.'
           },
           slotMachine: {
             dice: '3d20',
-            matchingRequired: true
+            mechanic: 'sum_based',
+            sumRange: '3-60',
+            averageSum: '31.5'
           }
         },
 
         rollableTable: {
           enabled: true,
           name: 'Jackpot Slot Machine',
-          description: 'Roll 3d20 and match the results',
+          description: 'Roll 3d20, add the results, and consult the table below. Triples grant bonus effects on top of their tier.',
           resolutionType: 'DICE',
           resolutionConfig: { diceType: '3d20' },
           entries: [
-            { range: '20-20-20', result: 'Rare magical item + max damage on all attacks (1 hour)', description: 'Ultimate jackpot' },
-            { range: '19-19-19', result: '5d10 radiant damage to all enemies in 30ft + 10 temp HP', description: 'Instant' },
-            { range: '18-18-18', result: 'Advantage on all saving throws (1 hour)', description: 'Defensive boost' },
-            { range: '17-17-17', result: 'Summon ethereal dragon ally (1 minute)', description: 'Combat summon' },
-            { range: '16-16-16', result: 'Heal 40 HP + resistance to all damage (1 hour)', description: 'Survival boost' },
-            { range: '15-15-15', result: '+5 to attack rolls and armor (10 minutes)', description: 'Combat enhancement' },
-            { range: '14-14-14', result: 'Become ethereal - phase through objects (1 minute)', description: 'Utility/escape' },
-            { range: '13-13-13', result: '4d10 lightning to 3 enemies in 30ft', description: 'Instant damage' },
-            { range: '12-12-12', result: 'Storm: 8d10 lightning to all enemies in 40ft', description: 'AOE devastation' },
-            { range: '11-11-11', result: 'Resistance to all damage + 2d10 radiant on next attack (1 hour)', description: 'Sustained power' },
-            { range: '10-10-10', result: 'Advantage on attacks + heal 30 HP (1 hour)', description: 'Offensive boost' },
-            { range: '9-9-9', result: 'Double spell damage but take 2d10 per spell (1 minute)', description: 'High risk/reward' },
-            { range: '8-8-8', result: 'Gain extra turn immediately', description: 'Action economy' },
-            { range: '7-7-7', result: 'Regain all spell uses + heal 50 HP', description: 'Full restore' },
-            { range: '6-6-6', result: 'Celestial guardian: +5 armor and saves (1 minute)', description: 'Divine protection' },
-            { range: '5-5-5', result: 'Shield absorbs next 50 damage', description: 'Damage absorption' },
-            { range: '4-4-4', result: '6d6 fire to all in 20ft radius (including self)', description: 'Dangerous AOE' },
-            { range: '3-3-3', result: 'Heal 20 HP + resistance to all damage (1 hour)', description: 'Moderate boost' },
-            { range: '2-2-2', result: '3d10 necrotic to target + heal same amount', description: 'Life drain' },
-            { range: '1-1-1', result: 'Take 5d10 damage + lose all spell uses for day', description: 'Critical failure' },
-            { range: 'No Match', result: 'Gain 1d6 temp HP + 1 Fortune Point', description: 'Consolation prize' }
+            { range: 'Sum 3 (1-1-1 only)', result: 'Take 5d10 damage + lose all spell uses for the day. Triple bonus: None — you wagered everything on the worst possible roll.', description: 'Critical failure' },
+            { range: 'Sum 4-12', result: 'Take 2d6 force damage. Gain 1 Fortune Point as consolation.', description: 'Bad Luck' },
+            { range: 'Sum 13-25', result: 'Deal 2d10 force damage to one enemy within 30ft. Gain 1 Fortune Point.', description: 'Small Win' },
+            { range: 'Sum 26-38', result: 'Deal 4d10 force damage to one enemy + stun for 1 round. Gain 1 Fortune Point.', description: 'Moderate Win', example: '[12, 7, 19] = 38' },
+            { range: 'Sum 39-48', result: 'Deal 6d10 force damage to one enemy + stun for 2 rounds. Gain 2 Fortune Points.', description: 'Big Win', example: '[15, 7, 19] = 41' },
+            { range: 'Sum 49-55', result: 'Deal 8d10 radiant damage to all enemies in 30ft. Gain 2 Fortune Points.', description: 'Massive Win' },
+            { range: 'Sum 56-59', result: 'Deal 10d10 radiant damage to all enemies in 30ft + heal 30 HP. Gain 3 Fortune Points.', description: 'Near Jackpot' },
+            { range: 'Sum 60 (20-20-20 only)', result: 'Deal 10d10 radiant damage to all enemies in 40ft + gain a rare magical item + max damage on all attacks for 1 hour. Gain 5 Fortune Points.', description: 'PERFECT JACKPOT' },
+            { range: 'Triple 2s', result: 'Life drain 3d10 on one enemy within 30ft', description: 'Triple Bonus' },
+            { range: 'Triple 3s', result: 'Heal 20 HP + gain all damage resistances for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 4s', result: '6d6 fire damage to all creatures in 20ft (including yourself)', description: 'Triple Bonus' },
+            { range: 'Triple 5s', result: 'Gain a shield that absorbs 50 damage for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 6s', result: 'Summon a celestial guardian with +5 AC and +5 saves for 1 minute', description: 'Triple Bonus' },
+            { range: 'Triple 7s', result: 'Regain all spent spell uses + heal 50 HP', description: 'Triple Bonus' },
+            { range: 'Triple 8s', result: 'Gain an extra turn immediately', description: 'Triple Bonus' },
+            { range: 'Triple 9s', result: 'Double spell damage for 1 minute, but take 2d10 psychic damage per spell cast', description: 'Triple Bonus' },
+            { range: 'Triple 10s', result: 'Gain advantage on all attacks + heal 30 HP for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 11s', result: 'Gain all damage resistance + 2d10 radiant bonus on your next attack for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 12s', result: 'Deal 8d10 lightning damage to all enemies in 40ft', description: 'Triple Bonus' },
+            { range: 'Triple 13s', result: 'Deal 4d10 lightning damage to up to 3 enemies within 60ft', description: 'Triple Bonus' },
+            { range: 'Triple 14s', result: 'Become ethereal for 1 minute (can pass through walls and creatures)', description: 'Triple Bonus' },
+            { range: 'Triple 15s', result: 'Gain +5 to attack rolls and AC for 10 minutes', description: 'Triple Bonus' },
+            { range: 'Triple 16s', result: 'Heal 40 HP + gain all damage resistances for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 17s', result: 'Summon an ethereal dragon ally for 1 minute', description: 'Triple Bonus' },
+            { range: 'Triple 18s', result: 'Gain advantage on all saving throws for 1 hour', description: 'Triple Bonus' },
+            { range: 'Triple 19s', result: 'Deal 5d10 radiant damage to all enemies in 30ft + gain 10 temporary HP', description: 'Triple Bonus' }
           ]
         },
 
-        tags: ['ultimate', 'random', 'high risk', 'high reward', 'rollable table', 'gambler', 'card-sharp']
+        tags: ['ultimate', 'random', 'high risk', 'high reward', 'rollable table', 'gambler', 'card-sharp'],
+
+        cooldownConfig: {
+          cooldownType: 'long_rest',
+          cooldownValue: 1
+        }
       },
 
-      
       {
         id: 'all-in',
         name: 'All-In',
@@ -817,8 +884,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 36 },
+        mana: 36,
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Omnia Aut Nihil!',
@@ -876,7 +942,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           ]
         },
 
-        tags: ['ultimate', 'life or death', 'extreme risk', 'healing', 'rollable table', 'gambler', 'high-roller']
+        tags: ['ultimate', 'life or death', 'extreme risk', 'healing', 'rollable table', 'gambler', 'high-roller'],
+
+        cooldownConfig: {
+          cooldownType: 'long_rest',
+          cooldownValue: 1
+        }
       },
 
       {
@@ -887,7 +958,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         school: 'Strategic Gambling',
         level: 7,
 
-        description: 'Challenge creature to Death Roll minigame. Both roll d20s with decreasing maximums until someone loses. Loser takes psychic damage (winner chooses) and is stunned. Unwilling targets make Spirit save.',
+        description: 'Challenge creature to Death Roll minigame. Both roll a d20 — the lower result becomes the new maximum ceiling. Both roll again, trying to stay under the ceiling. First to roll over it loses. Loser takes psychic damage (winner chooses 1-10d10) and is stunned for 1 round. Unwilling targets make Spirit save.',
 
         typeConfig: {
           castTime: 1,
@@ -903,8 +974,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 24 },
+        mana: 24,
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Ludus Mortis!',
@@ -916,7 +986,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         damageConfig: {
           formula: '1d10 to 10d10',
-          elementType: 'psychic',
+          damageTypes: ['psychic'],
           damageType: 'direct',
           description: 'Winner chooses how many d10s (1-10) the loser takes as psychic damage',
           savingThrowConfig: {
@@ -953,18 +1023,23 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         specialMechanics: {
           fortunePoints: {
-            usage: 'Adjust rolls during game - increase to set low max, decrease to stay under max'
+            usage: 'Adjust your roll during any round of the game — decrease to stay under the ceiling, or adjust enemy roll to push them over'
           },
           minigame: {
             type: 'death_roll',
-            rules: 'Both roll d20, lower becomes new max, repeat until someone rolls over current max',
-            example: 'R1: You 15, Enemy 12 (max:12). R2: You 8, Enemy 11 (Enemy loses)'
+            rules: 'Both roll d20. Lower result becomes the new ceiling max. Repeat — both must roll under the ceiling. First to roll over loses.',
+            example: 'R1: You 15, Enemy 12 (ceiling: 12). R2: You 8 (under!), Enemy 13 (OVER — enemy loses!)'
           },
           savingThrow: {
             type: 'spirit',
             dc: '8 + proficiency + Charisma',
             onFail: 'Compelled to play'
           }
+        },
+
+        cooldownConfig: {
+          cooldownType: 'short_rest',
+          cooldownValue: 1
         },
 
         tags: ['competitive', 'minigame', 'damage', 'control', 'psychic', 'gambler', 'card-sharp']
@@ -979,6 +1054,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         level: 4,
 
         description: 'Make an attack roll. On hit: automatic critical hit with double damage. On miss: you take the damage instead. Spend 5-10 Fortune Points to guarantee hit.',
+
+        effectTypes: ['damage'],
 
         typeConfig: {
           castTime: 1,
@@ -996,8 +1073,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 14 },
+        mana: 14,
           actionPoints: 1,
           components: ['verbal'],
           verbalText: 'Duplica Aut Nihil!'
@@ -1028,7 +1104,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           }
         },
 
-        tags: ['damage', 'critical hit', 'self damage risk', 'gambler', 'high-roller']
+        tags: ['damage', 'critical hit', 'self damage risk', 'gambler', 'high-roller'],
+
+        cooldownConfig: {
+          cooldownType: 'turn_based',
+          cooldownValue: 3
+        }
       },
 
       {
@@ -1040,6 +1121,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         level: 3,
 
         description: 'Guess a number 1-20, then roll d20. Guess within 3: target takes 3d10 damage. Off by 4+: you take 1d10 damage. Spend Fortune Points to adjust roll toward guess.',
+
+        effectTypes: ['damage'],
 
         typeConfig: {
           castTime: 1,
@@ -1058,8 +1141,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 10 },
+        mana: 10,
           actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Provoco Fortunam!',
@@ -1070,7 +1152,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         damageConfig: {
           formula: '4d6',
-          elementType: 'force',
+          damageTypes: ['force'],
           damageType: 'direct',
           scalingType: 'accuracy_based'
         },
@@ -1123,8 +1205,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 6 },
+        mana: 6,
           actionPoints: 1,
           components: ['verbal', 'material'],
           verbalText: 'Nummus Fortunae!',
@@ -1210,8 +1291,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 6 },
+        mana: 6,
           actionPoints: 1,
           components: ['verbal', 'somatic'],
           verbalText: 'Perspicio Verum!',
@@ -1263,6 +1343,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         description: 'Create illusory gold/treasure (up to 100gp value) that looks real but vanishes when touched. Lasts 1 hour. Perfect for bribes, distractions, escapes, cons, and traps.',
 
+        effectTypes: ['utility'],
+
         typeConfig: {
           castTime: 1,
           castTimeType: 'IMMEDIATE',
@@ -1281,8 +1363,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
 
         resourceCost: {
-          resourceTypes: ['mana'],
-          resourceValues: { mana: 7 },
+        mana: 7,
           actionPoints: 1,
           components: ['verbal', 'somatic', 'material'],
           verbalText: 'Aurum Falsum!',
@@ -1345,8 +1426,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 3 },
+        mana: 3,
         actionPoints: 1,
         components: ['verbal', 'somatic'],
         verbalText: 'Luck be mine!',
@@ -1357,8 +1437,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ['damage', 'buff'],
 
       damageConfig: {
-        formula: '1d8 + charisma',
-        elementType: 'force',
+        formula: '1d10 + charisma',
+        damageTypes: ['force'],
         damageType: 'direct'
       },
 
@@ -1408,8 +1488,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 3 },
+        mana: 3,
         actionPoints: 0,
         components: ['verbal'],
         verbalText: 'First timer!'
@@ -1443,7 +1522,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     {
       id: 'gambler_dice_dart',
       name: 'Dice Dart',
-      description: 'Throw a magically enchanted die that deals damage based on the roll.',
+        description: 'Throw a magically enchanted die that deals damage based on the roll. Spend 1 FP to add +1d6 damage.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Social/Dice Roll',
@@ -1463,8 +1542,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 3 },
+        mana: 3,
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Throw enchanted die'
@@ -1475,7 +1553,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       damageConfig: {
         formula: '1d8',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'direct'
       },
 
@@ -1506,8 +1584,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 16 },
+        mana: 16,
         actionPoints: 0,
         components: ['verbal'],
         verbalText: "I'm on fire!"
@@ -1559,8 +1636,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 17 },
+        mana: 17,
           actionPoints: 0,
           components: ['verbal'],
           verbalText: 'Double or nothing!'
@@ -1616,8 +1692,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 18 },
+        mana: 18,
           actionPoints: 0,
           components: ['somatic'],
           somaticText: 'Sleight of hand'
@@ -1675,8 +1750,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 20 },
+        mana: 20,
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'The house always wins!',
@@ -1747,8 +1821,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 22 },
+        mana: 22,
           actionPoints: 1,
           components: ['somatic'],
           somaticText: 'Draw a card'
@@ -1758,30 +1831,18 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         effectTypes: ['utility'],
 
         rollableTable: {
-        diceFormula: '1d4',
-        entries: [
-          { 
-            roll: 1, 
-            name: 'Spades (Damage)', 
-            effect: { type: 'damage', formula: '6d8', element: 'force' } 
-          },
-          { 
-            roll: 2, 
-            name: 'Hearts (Healing)', 
-            effect: { type: 'healing', formula: '5d8' } 
-          },
-          { 
-            roll: 3, 
-            name: 'Diamonds (Gold)', 
-            effect: { type: 'buff', description: 'Target gains 100gp worth of magical currency' } 
-          },
-          { 
-            roll: 4, 
-            name: 'Clubs (Control)', 
-            effect: { type: 'stun', duration: 2, durationUnit: 'rounds' } 
-          }
-        ]
-      },
+          enabled: true,
+          name: 'Card Shark Effects',
+          description: 'Draw 1d4 and consult the table',
+          resolutionType: 'DICE',
+          resolutionConfig: { diceType: '1d4' },
+          entries: [
+            { min: 1, max: 1, result: 'Spades — Deal 6d8 force damage to target', weight: 1 },
+            { min: 2, max: 2, result: 'Hearts — Heal target for 5d8 HP', weight: 1 },
+            { min: 3, max: 3, result: 'Diamonds — Target gains a shield absorbing 30 damage for 1 minute', weight: 1 },
+            { min: 4, max: 4, result: 'Clubs — Target is stunned for 2 rounds (Spirit DC 15 save negates)', weight: 1 }
+          ]
+        },
 
       cooldownConfig: {
         type: 'turn_based',
@@ -1812,8 +1873,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 20 },
+        mana: 20,
           actionPoints: 0,
           components: ['somatic'],
           somaticText: 'Assume poker face'
@@ -1870,8 +1930,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 32 },
+        mana: 32,
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'High stakes!',
@@ -1883,7 +1942,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         damageConfig: {
           formula: '18d6 + charisma',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'direct'
       },
 
@@ -1929,8 +1988,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 34 },
+        mana: 34,
           actionPoints: 3,
           components: ['verbal', 'somatic'],
           verbalText: 'JACKPOT!',
@@ -1942,7 +2000,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         damageConfig: {
           formula: '16d6 + charisma',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'direct',
         savingThrowConfig: {
           enabled: true,
@@ -1973,7 +2031,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     {
       id: 'gambler_fortune_reversal',
       name: 'Fortune Reversal',
-      description: 'Reverse the fortunes of battle. Swap your current HP percentage with a target enemy.',
+        description: 'Reverse the fortunes of battle. Swap your current HP percentage with a target enemy.',
+
       level: 9,
       spellType: 'ACTION',
       icon: 'Arcane/Rewind Time',
@@ -1993,8 +2052,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-          resourceValues: { mana: 34 },
+        mana: 34,
           actionPoints: 2,
           components: ['verbal', 'somatic'],
           verbalText: 'Fortune flip!',
@@ -2007,7 +2065,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       specialMechanics: {
         coinFlip: {
           heads: { effect: 'swap_hp_percentage', description: 'Your HP% and target HP% are swapped' },
-          tails: { effect: 'nothing', description: 'Nothing happens' }
+          tails: { effect: 'scry', description: 'Swap fails. Instead, you learn the target\'s current and maximum HP, and gain advantage on your next attack against them.' }
         }
       },
 
@@ -2021,7 +2079,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
     // ADDITIONAL LEVEL 4 SPELLS
     // ADDITIONAL LEVEL 7 SPELL
-    {
+      {
       id: 'gambler_all_or_nothing',
       name: 'All or Nothing',
       description: 'Flip a coin to unleash devastating force on all enemies or take damage yourself.',
@@ -2048,7 +2106,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       damageConfig: {
         formula: '12d6',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'area',
         criticalConfig: {
           critType: 'effect',
@@ -2056,11 +2114,20 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         }
       },
 
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 25
+      specialMechanics: {
+        coinFlip: {
+          heads: { effect: 'deal_damage', description: 'Deal 12d6 force damage to all enemies in 30ft radius. Enemies who fail a Spirit DC 16 save are stunned for 1 round.' },
+          tails: { effect: 'self_damage', description: 'Take 6d6 force damage yourself. No damage dealt to enemies.' }
         },
+        fortunePoints: {
+          cost: 1,
+          effect: 'Flip the coin result (Heads to Tails or vice versa)',
+          guarantee: 'With 1 FP, guarantee the heads outcome'
+        }
+      },
+
+      resourceCost: {
+        mana: 25,
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
@@ -2078,7 +2145,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     {
       id: 'gambler_weighted_dice',
       name: 'Weighted Dice',
-      description: 'Spend Fortune Points to guarantee your damage roll hits maximum. Base: 14d6 force damage. Each Fortune Point spent treats one d6 as if it rolled 6 (max 7 dice weighted). No coin flip, no gamble — just results.',
+        description: 'The house doesn\'t know the dice are loaded. Base: 14d6 force damage. Each Fortune Point spent treats one d6 as if it rolled 6 (max 7 dice weighted). No coin flip — this is pure cheating. Spend 7 FP and half your dice are guaranteed maximum.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2101,7 +2168,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       damageConfig: {
         formula: '14d6',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'direct',
         criticalConfig: {
           critType: 'dice',
@@ -2114,15 +2181,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         fortunePoints: {
           usage: 'Each FP spent treats one d6 as if it rolled 6 (max 7 dice)',
           example: 'Spend 5 FP: 5 of your 14d6 automatically count as 6. Roll the remaining 9d6 normally.',
-          guarantee: 'At 7 FP spent, half your dice are guaranteed maximum. The most reliable spell in the Gambler arsenal.'
+          guarantee: 'At 7 FP spent, half your dice are guaranteed maximum. The most reliable spell in the Gambler arsenal — because the best gamblers know when to cheat.'
         }
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 28
-        },
+        mana: 28,
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
@@ -2137,10 +2201,10 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     },
 
     // ADDITIONAL LEVEL 10 SPELL
-    {
+      {
       id: 'gambler_divine_jackpot',
       name: 'Divine Jackpot',
-      description: 'Flip a coin wreathed in divine fire. Heads: deal 20d6 force damage to all enemies — those below 50% HP are instantly defeated, others are stunned 2 rounds. Tails: take 20d6 force damage but survive at 1 HP with advantage on all rolls for 1 round.',
+      description: 'Flip a coin wreathed in divine fire. Heads: deal 20d6 force damage to all enemies in 60ft — enemies below 50% HP make a Spirit DC 20 save or are stunned for 2 rounds (instead of instantly defeated). Tails: take 20d6 force damage but survive at 1 HP with advantage on all rolls for 1 round.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -2164,7 +2228,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       damageConfig: {
         formula: '20d6',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'area',
         criticalConfig: {
           critType: 'effect',
@@ -2176,21 +2240,18 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         coinFlip: {
           heads: {
             effect: 'divine_judgment',
-            description: 'Deal 20d6 force damage to all enemies in range. Enemies below 50% HP are instantly defeated. Enemies above 50% HP are stunned for 2 rounds.'
+            description: 'Deal 20d6 force damage to all enemies in range. Enemies below 50% HP must succeed on a Spirit DC 20 save or be stunned for 2 rounds. Enemies above 50% HP are stunned for 1 round on a failed save.'
           },
           tails: {
             effect: 'fortune_mercy',
-            description: 'Take 20d6 force damage. If this would reduce you to 0 HP, you survive at 1 HP instead and gain advantage on all rolls for 1 round as fortune spares you.'
+            description: 'Take 20d6 force damage. No safety net — if this reduces you to 0 HP, you die. Spend 1 Fortune Point to flip the coin result and get the heads outcome instead.'
           }
         },
         loreNote: 'Fortune is a cruel mistress. She either destroys your enemies, or she teaches you why you should have folded.'
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: {
-          mana: 38
-        },
+        mana: 38,
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },

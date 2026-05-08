@@ -134,6 +134,16 @@ const MECHANICS_SYSTEMS = {
       { id: 'submediant', name: 'Submediant', description: 'The sixth scale degree (vi)', color: '#5555FF', wowIcon: 'spell_holy_sealofsacrifice', theory: 'The submediant is the sixth degree of the scale, often used as a substitute for the tonic in deceptive cadences.' },
       { id: 'leading_tone', name: 'Leading Tone', description: 'The seventh scale degree (vii)', color: '#FF55FF', wowIcon: 'spell_holy_sealofwrath', theory: 'The leading tone is the seventh degree of the scale, creating strong tension that pulls toward the tonic.' }
     ]
+  },
+  PROPHECY_SYSTEM: {
+    name: "Prophecy System",
+    description: "The Doomsayer's core mechanic - set prediction ranges and resolve fate",
+    icon: faEye,
+    color: "#8B0000",
+    types: [
+      { id: 'prophecy_builder', name: 'Prophecy Builder', description: 'Sets a new prophecy on the target', icon: faEye },
+      { id: 'prophecy_detonator', name: 'Prophecy Detonator', description: 'Forcefully resolves active prophecies', icon: faBolt }
+    ]
   }
 };
 
@@ -261,6 +271,18 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
       graduatedEffects: {}, // Effects for partial recipe matches
       requiredFunctions: {}, // Specific chord functions required for partial resolution
       partialMatchType: 'count', // How partial matches are determined: 'count' or 'specific'
+    },
+
+    // Prophecy system specific options
+    prophecyOptions: {
+      rangeDice: 'd8+d6',
+      resolutionDie: 'd6',
+      prophesiedHavoc: 3,
+      prophesiedEffect: '',
+      baseHavoc: 1,
+      baseEffect: '',
+      outsideBacklash: '1d6 necrotic to self',
+      outsideHavoc: 0
     }
   };
 
@@ -294,6 +316,10 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
     chordOptions: {
       ...defaultConfig.chordOptions,
       ...(safeCurrentConfig.chordOptions || {})
+    },
+    prophecyOptions: {
+      ...defaultConfig.prophecyOptions,
+      ...(safeCurrentConfig.prophecyOptions || {})
     }
   });
 
@@ -999,7 +1025,6 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                 )}
               </div>
             )}
-
             {/* Chord System Configuration */}
             {config.system === 'CHORD_SYSTEM' && (
               <div className="chord-system-config">
@@ -1127,8 +1152,6 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
                       </div>
                     </div>
 
-
-
                     {/* Graduated Effects for Chord Recipe */}
                     <div className="effect-config-group">
                       <div className="graduated-effects-header">
@@ -1152,7 +1175,112 @@ const SimplifiedMechanicsConfig = ({ effectId, effectType, currentConfig, onConf
               </div>
             )}
 
-            </div>
+            {/* Prophecy System Configuration */}
+            {config.system === 'PROPHECY_SYSTEM' && (
+              <div className="prophecy-system-config">
+                <div className="config-section">
+                  <div className="config-section-header">
+                    <FontAwesomeIcon icon={faEye} className="config-icon" />
+                    <h5>Prophecy Resolution Settings</h5>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Prediction Range</label>
+                    <div className="config-description">The dice combination used to determine the prophecy window</div>
+                    <div className="pf-select-wrapper">
+                      <select
+                        value={config.prophecyOptions.rangeDice}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'rangeDice', e.target.value)}
+                        className="pf-config-select"
+                      >
+                        <option value="d4+d4">d4+d4 (2-8, Avg 5)</option>
+                        <option value="d6+d4">d6+d4 (2-10, Avg 6)</option>
+                        <option value="d8+d6">d8+d6 (2-14, Avg 8)</option>
+                        <option value="d10+d8">d10+d8 (2-18, Avg 10)</option>
+                        <option value="d12+d10">d12+d10 (2-22, Avg 12)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="config-field">
+                    <label className="config-label">Resolution Die</label>
+                    <div className="config-description">The die rolled against the prediction range</div>
+                    <div className="pf-select-wrapper">
+                      <select
+                        value={config.prophecyOptions.resolutionDie}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'resolutionDie', e.target.value)}
+                        className="pf-config-select"
+                      >
+                        <option value="d4">d4</option>
+                        <option value="d6">d6</option>
+                        <option value="d8">d8</option>
+                        <option value="d10">d10</option>
+                        <option value="d12">d12</option>
+                        <option value="d20">d20</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Prophesied Outcome Config */}
+                  <div className="outcome-config-group-pf">
+                    <h6 className="outcome-title-pf prophesied">Prophesied Outcome (Prediction Hit)</h6>
+                    <div className="config-row-pf">
+                      <label>Havoc Gain:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="20"
+                        value={config.prophecyOptions.prophesiedHavoc}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'prophesiedHavoc', parseInt(e.target.value))}
+                        className="pf-config-input-small"
+                      />
+                    </div>
+                    <div className="config-row-pf">
+                      <label>Outcome Effect:</label>
+                      <input
+                        type="text"
+                        value={config.prophecyOptions.prophesiedEffect || ''}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'prophesiedEffect', e.target.value)}
+                        placeholder="e.g. Target is Stunned"
+                        className="pf-config-input-wide"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Base Outcome Config */}
+                  <div className="outcome-config-group-pf">
+                    <h6 className="outcome-title-pf base">Base Outcome (Prediction Miss)</h6>
+                    <div className="config-row-pf">
+                      <label>Havoc Gain:</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="20"
+                        value={config.prophecyOptions.baseHavoc}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'baseHavoc', parseInt(e.target.value))}
+                        className="pf-config-input-small"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Outside Outcome Config */}
+                  <div className="outcome-config-group-pf">
+                    <h6 className="outcome-title-pf outside">Outside Outcome (Resolution Failure)</h6>
+                    <div className="config-row-pf">
+                      <label>Backlash Damage:</label>
+                      <input
+                        type="text"
+                        value={config.prophecyOptions.outsideBacklash || ''}
+                        onChange={(e) => handleOptionChange('PROPHECY_SYSTEM', 'outsideBacklash', e.target.value)}
+                        placeholder="e.g. 1d6 necrotic to self"
+                        className="pf-config-input-wide"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           </div>
         </div>
 

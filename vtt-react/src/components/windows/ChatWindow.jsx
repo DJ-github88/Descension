@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import lazy from '../../utils/lazyWithRetry';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
 import '../../styles/social-window.css';

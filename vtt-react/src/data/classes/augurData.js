@@ -439,214 +439,114 @@ The class creates a unique rhythm where you're constantly generating resources f
   },
 
   exampleSpells: [
-    // ===== LEVEL 1 SPELLS =====
     {
       id: 'augur_read_the_signs',
       name: 'Read the Signs',
-      description: 'Observe the immediate omens around a target, learning their vulnerabilities and gaining tactical insight.',
+      description: 'Observe the immediate omens around a target, learning their vulnerabilities.',
       spellType: 'ACTION',
       icon: 'Utility/Watchful Eye',
-      school: 'Divination',
+      school: 'divination',
       level: 1,
       specialization: 'universal',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: false
-      },
-
-      resourceCost: {
-        actionPoints: 1,
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        description: 'Spend 4 mana to read the signs around a target'
-      },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
+      effectTypes: ['utility'],
+      typeConfig: { school: 'divination', castTime: '1 action', castTimeType: 'action' },
+      targetingConfig: { targetingType: 'single', rangeDistance: 60, targetRestrictions: ['any'] },
+      resourceCost: { actionPoints: 1, mana: 4 },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Learn one vulnerability, resistance, or immunity of the target',
-        secondary: 'Gain +1 to your next roll against this target (Benediction effect) or impose -1 on their next roll (Malediction effect) based on what you discover'
+      utilityConfig: {
+        utilityType: 'divination',
+        utilitySubtype: 'identification',
+        effects: [
+          { id: 'vulnerability_read', name: 'Reveal Vulnerability', description: 'Learn one vulnerability, resistance, or immunity', mechanicsText: '' }
+        ]
       },
-
       tags: ['divination', 'information', 'universal', 'omen']
     },
-
     {
       id: 'augur_omen_shield',
       name: 'Omen Shield',
-      description: 'Intercept an incoming attack with a flash of omen energy, reducing the damage based on your interpretation of the signs.',
+      description: 'Intercept an incoming attack with a flash of omen energy.',
       spellType: 'REACTION',
       icon: 'Radiant/Radiant Golden Shield',
-      school: 'Abjuration',
+      school: 'radiant',
       level: 1,
       specialization: 'universal',
-
-      typeConfig: {
-        castTime: 0,
-        castTimeType: 'REACTION'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
-      },
-
+      effectTypes: ['buff'],
+      typeConfig: { school: 'radiant', castTime: '1 reaction', castTimeType: 'reaction' },
+      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['allies'] },
       resourceCost: {
         actionPoints: 0,
         mana: 3,
-        benediction: 1,
-        components: ['somatic'],
-        description: 'Reaction: Spend 1 Benediction to shield against damage'
+        classResource: { type: 'benediction', cost: 1 }
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Reduce the next damage the target takes by 1d8 + your Spirit modifier.',
-        secondary: 'If the reduced damage would have been lethal, the target is stabilized at 1 HP instead.'
+      buffConfig: {
+        buffType: 'damageMitigation',
+        effects: [
+          { id: 'omen_shield_mitigation', name: 'Omen Shield', description: 'Reduce damage by 1d8 + Spirit', mechanicsText: '' }
+        ],
+        durationType: 'instant'
       },
-
       tags: ['reaction', 'protection', 'universal', 'omen']
     },
-
     {
       id: 'augur_minor_portent',
       name: 'Minor Portent',
-      description: 'Whisper a minor omen that clouds a target\'s judgment, imposing a small but persistent penalty.',
+      description: 'Whisper a minor omen that clouds a target\'s judgment.',
       spellType: 'ACTION',
       icon: 'Void/All Seeing Eye',
-      school: 'Enchantment',
+      school: 'psychic',
       level: 1,
       specialization: 'harbinger',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
-      },
-
+      effectTypes: ['debuff'],
+      typeConfig: { school: 'psychic', castTime: '1 action', castTimeType: 'action' },
+      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['enemies'] },
       resourceCost: {
         actionPoints: 1,
         mana: 3,
-        malediction: 2,
-        components: ['verbal'],
-        description: 'Spend 2 Malediction to whisper an ill omen'
+        classResource: { type: 'malediction', cost: 2 }
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: false
-      },
-
       resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Target resists the omen',
-        onFail: 'Target suffers -1 to all attack rolls for duration'
-      },
-
-      effectTypes: ['debuff'],
-
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'negates' },
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
-          id: 'minor_portent',
+          id: 'minor_portent_effect',
           name: 'Minor Portent',
-          description: 'Clouded by ill omen — -1 to attack rolls',
-          statusType: 'cursed',
-          level: 'minor'
+          description: '-1 to attack rolls',
+          mechanicsText: ''
         }],
         durationValue: 3,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        durationUnit: 'rounds'
       },
-
       tags: ['debuff', 'curse', 'harbinger', 'omen']
     },
-
     {
       id: 'augur_sign_of_clarity',
       name: 'Sign of Clarity',
-      description: 'Trace a radiant sigil that blesses an ally with clarity of purpose, enhancing their next action.',
+      description: 'Trace a radiant sigil that blesses an ally with clarity of purpose.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Beam',
-      school: 'Abjuration',
+      school: 'radiant',
       level: 1,
       specialization: 'hierophant',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
-      },
-
+      effectTypes: ['buff'],
+      typeConfig: { school: 'radiant', castTime: '1 action', castTimeType: 'action' },
+      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['allies'] },
       resourceCost: {
         actionPoints: 1,
         mana: 3,
-        benediction: 2,
-        components: ['verbal', 'somatic'],
-        description: 'Spend 2 Benediction to bless with clarity'
+        classResource: { type: 'benediction', cost: 2 }
       },
-
-      duration: {
-        value: 2,
-        unit: 'rounds',
-        concentration: false
-      },
-
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Target gains +1 to their next attack roll or ability check',
-        secondary: 'If the enhanced roll is even, the Benediction cost is refunded'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [
+          { id: 'clarity_buff', name: 'Clarity', description: '+1 to next attack or check', mechanicsText: '' }
+        ],
+        durationType: 'rounds', durationValue: 2, durationUnit: 'rounds'
       },
-
       tags: ['buff', 'blessing', 'hierophant', 'omen']
     },
 
@@ -1992,7 +1892,7 @@ The class creates a unique rhythm where you're constantly generating resources f
         ability: 'SPIRIT',
         dc: 'SPELL_DC',
         onSave: 'Half damage',
-        onFail: 'Full damage and stunned for 2 rounds'
+        onFail: 'Full damage and Stunned for 2 rounds (CON DC 18 negates)'
       },
 
       cooldownConfig: {

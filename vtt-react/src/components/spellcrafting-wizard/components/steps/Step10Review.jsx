@@ -89,8 +89,12 @@ const Step10Review = ({
     // Determine resolution method
     let resolution = 'DICE';
 
+    // Check for prophecy system first (Doomsayer)
+    if (spellState.prophecyOptions) {
+      resolution = 'PROPHECY';
+    }
     // Check for resolution in damage or healing config
-    if (spellState.damageConfig?.globalResolution) {
+    else if (spellState.damageConfig?.globalResolution) {
       resolution = spellState.damageConfig.globalResolution;
     } else if (spellState.healingConfig?.globalResolution) {
       resolution = spellState.healingConfig.globalResolution;
@@ -1115,6 +1119,73 @@ const Step10Review = ({
       trapConfig: spellState.trapConfig,
       triggerConfig: hasActualTriggers ? spellState.triggerConfig : null,
       typeConfig: spellState.typeConfig,
+
+      // Prophecy configuration (Doomsayer)
+      prophecyConfig: spellState.prophecyOptions ? (() => {
+        const po = spellState.prophecyOptions;
+        const parseRangeDice = (dice) => {
+          if (Array.isArray(dice)) return dice;
+          if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
+          return Array.isArray(dice) ? dice : [dice];
+        };
+        const buildEffect = (outcome) => {
+          if (!outcome) return undefined;
+          if (outcome.effectName) {
+            const effect = { name: outcome.effectName };
+            if (outcome.duration > 0) effect.duration = outcome.duration;
+            if (outcome.durationUnit && outcome.durationUnit !== 'rounds') effect.unit = outcome.durationUnit;
+            if (outcome.damagePerRound) {
+              effect.damagePerRound = outcome.damagePerRound;
+              if (outcome.damagePerRoundType) effect.damageType = outcome.damagePerRoundType;
+            }
+            if (outcome.statModifiers && outcome.statModifiers.length > 0) {
+              effect.statModifiers = outcome.statModifiers;
+            }
+            if (outcome.healingBlock) effect.healingBlock = true;
+            if (outcome.bonusDamageTaken) {
+              effect.bonusDamageTaken = outcome.bonusDamageTaken;
+              if (outcome.bonusDamageType) effect.bonusDamageType = outcome.bonusDamageType;
+            }
+            if (outcome.saveDC > 0) {
+              effect.saveDC = outcome.saveDC;
+              if (outcome.saveType) effect.saveType = outcome.saveType;
+            }
+            if (outcome.instantKill) effect.instantKill = true;
+            if (outcome.instantKillThreshold > 0) effect.instantKillThreshold = outcome.instantKillThreshold;
+            if (outcome.cascadeDamage) {
+              effect.cascadeDamage = outcome.cascadeDamage;
+              effect.cascadeRange = outcome.cascadeRange || 10;
+            }
+            if (outcome.description) effect.description = outcome.description;
+            return effect;
+          }
+          return undefined;
+        };
+        const buildOutcome = (outcome) => {
+          if (!outcome) return undefined;
+          const result = {};
+          if (outcome.damage) result.damage = outcome.damage;
+          const effect = buildEffect(outcome);
+          if (effect) result.effect = effect;
+          if (outcome.havocGain !== undefined) result.havocGain = outcome.havocGain;
+          if (outcome.description) result.description = outcome.description;
+          return result;
+        };
+        return {
+          rangeDice: parseRangeDice(po.rangeDice),
+          resolutionDie: po.resolutionDie,
+          prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },
+          base: buildOutcome(po.base) || { havocGain: po.base?.havocGain || 1 },
+          outside: (() => {
+            const o = po.outside || {};
+            const result = {};
+            if (o.backlash) result.backlash = o.backlash;
+            if (o.havocGain !== undefined) result.havocGain = o.havocGain;
+            if (o.description) result.description = o.description;
+            return result;
+          })()
+        };
+      })() : null,
 
       // Include mechanics configuration with state requirements and thresholds
       mechanicsConfig: {

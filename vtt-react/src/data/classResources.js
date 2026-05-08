@@ -952,9 +952,8 @@ export const CLASS_RESOURCE_TYPES = {
             phylactery: {
                 max: 50, // Can store up to 50 HP (75 for Phylactery Guardian)
                 current: 0,
-                storageRitual: '1 hour to transfer 10 HP',
-                resurrectionCost: 10, // 8 for Phylactery Guardian
-                resurrectionHP: 10, // 15 for Phylactery Guardian
+                resurrectionCost: 'all_stored', // Spend entire stored Phylactery HP
+                resurrectionHP: 'stored_value', // Resurrect at the full stored value
                 limitPerCombat: 1,
                 rechargePerRest: 10
             },
@@ -1081,8 +1080,10 @@ export const initializeClassResource = (className, characterStats) => {
                 baseResource.max = Math.max(1, spirMod + 5);
                 break;
             case 'Lunarch':
-                // Lunar charge max varies by phase
-                baseResource.max = baseResource.phase === 'full' ? 10 : baseResource.phase === 'new' ? 3 : 6;
+                baseResource.max = 1;
+                baseResource.phase = baseResource.phase || 'new_moon';
+                baseResource.roundsInPhase = baseResource.roundsInPhase || 0;
+                baseResource.phaseDuration = 3;
                 break;
             default:
                 baseResource.max = 5; // Default fallback
@@ -1176,7 +1177,7 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
     name: 'Runes & Resonance',
     shortName: 'R&R',
     type: 'dual-runic',
-    description: 'Place runes on the battlefield to build Runic Resonance. Spend Resonance to empower inscriptions, spells, and detonations.',
+    description: 'Place runes on the battlefield (3-4 mana each) to build Runic Resonance. Spend Resonance at thresholds (3/5/7) to empower inscriptions and spells. At 10 Resonance, all runes passively refresh.',
     visual: {
         type: 'runes-inscriptions',
         arrangement: 'horizontal-split',
@@ -1238,10 +1239,10 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
         runes: {
             max: 8,
             current: 0,
-            cost: 2,
+            cost: '3-4 mana per rune (varies by type)',
             actionCost: 1,
             zoneThreshold: 3,
-            generation: 'Place for 2 mana, 1 action each. +1 Resonance per rune.',
+            generation: 'Place for 3-4 mana, 1 action each. +1 Resonance per rune placed.',
             usage: '3+ runes form zone, detonate for burst + Resonance'
         },
         inscriptions: {
@@ -1258,10 +1259,10 @@ CLASS_RESOURCE_TYPES['Inscriptor'] = {
             generation: '+1 per rune placed, +1 per rune detonated (+2 for Glyphweaver)',
             decay: 'Lose 1 per round when no runes active',
             thresholds: {
-                3: 'Next inscription costs no mana',
-                5: 'Next spell in zone deals +2d6 bonus damage',
-                7: 'Next detonation affects all enemies in zone',
-                10: 'All runes refresh duration and trigger individual effects'
+                3: 'Spend 3: Your next inscription costs no mana',
+                5: 'Spend 5: Your next spell in a zone deals +2d6 bonus damage',
+                7: 'Spend 7: Your next detonation affects all enemies in the zone',
+                10: 'Passive: All runes refresh duration and trigger. Resonance resets to 0.'
             }
         },
         consumeVerb: 'detonate/remove',
@@ -1506,7 +1507,7 @@ CLASS_RESOURCE_TYPES['Formbender'] = {
                 borderColor: '#8B4513',
                 description: 'Tank & Durability',
                 generation: '+1 WI per enemy taunted, +2 WI from protecting allies',
-                passive: '+20 max HP (instant heal on entry, safe exit on leave), damage resistance to physical'
+                passive: '+20 max HP (instant heal on entry, safe exit on leave), 25% resistance to physical damage'
             },
             skyhunter: {
                 id: 'skyhunter',
@@ -2360,10 +2361,11 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
             max: 10,
             current: 3, // Start with 3 after long rest
             generation: {
-                passivePerTurn: 1,
+                passivePerTurn: 1, // Only while at 5 or fewer Visions
                 simpleCorrectPrediction: 1,
                 moderateCorrectPrediction: 2,
                 complexCorrectPrediction: 3,
+                grandCorrectPrediction: 3,
                 revelation: 1,
                 fulfilledProphecy: 2,
                 witnessCritical: 1

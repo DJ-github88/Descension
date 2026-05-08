@@ -15,7 +15,7 @@ export const HUNTRESS_DATA = {
   // Overview section
   overview: {
     title: 'The Huntress',
-    subtitle: 'Shadow Glaive Wielder and Beastmaster',
+    subtitle: 'Shadow Glaive Wielder & Beast Companion',
 
     quickOverview: {
       title: 'Quick Overview',
@@ -23,11 +23,19 @@ export const HUNTRESS_DATA = {
 
 **Core Mechanic**: Attack enemies → Generate Quarry Marks → Spend marks on companion buffs, glaive chain extensions, or ultimate abilities
 
-**Resource**: Quarry Marks (0–5 scale, max +3 generated per turn)
+**Resource**: Quarry Marks (0–5 scale, max +3 generated per turn, +4 for Beastmaster)
 
 **Playstyle**: Hit-and-run tactical melee with companion synergy
 
-**Best For**: Players who enjoy pet management, multi-target melee, and aggressive resource-building gameplay`,
+**Best For**: Players who enjoy pet management, multi-target melee, and aggressive resource-building gameplay
+
+---
+
+**Your First Turn (Quickstart)**:
+1. **Command** your companion to Attack a priority target (Bonus Action)
+2. **Glaive Toss** at the largest cluster of enemies (Action) — chains to nearby foes
+3. **Watch your Quarry Marks fill** — you gain +1 per enemy hit (max +3/turn)
+4. **Spend marks** to extend chains, buff companion, or save for a devastating ultimate`,
     },
 
     description: `The Huntress is a master of close-range combat who wields the legendary Shadow Glaive, a weapon capable of chaining deadly strikes between multiple enemies. Accompanied by a loyal beast companion, the Huntress excels at hit-and-run tactics, weaving through enemy lines with deadly grace. Through the Quarry Marks system, she tracks her prey and unleashes devastating coordinated attacks with her companion. This dynamic class rewards tactical positioning, resource management, and the synergy between hunter and beast.`,
@@ -107,100 +115,115 @@ Don't stand still. Use Shadowstep and Evasion to:
 
     immersiveCombatExample: {
       title: 'Combat Example: The Shadow Glaive Dance',
-      content: `**The Setup**: You're a Huntress (Shadowblade specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
+      content: `**The Setup**: You're a Huntress (Bladestorm specialization) with your wolf companion "Fang" facing a group of bandits (5 bandits in a tight formation). Your party is with you. Starting Quarry Marks: 2 (from previous encounter). Your goal: Use glaive chaining to hit multiple enemies, generate Quarry Marks through successful attacks, and coordinate with your companion for devastating combos.
 
-**Starting State**: Quarry Marks: 2/5 | HP: 70/70 | Companion (Fang): 50/50 HP
+**Starting State**: Quarry Marks: 2/5 | HP: 70/70 | Companion (Fang): 50/50 HP | Armor: 14
+
+**Initiative**: Bandits 16, You 12, Fang acts on your turn (companion acts when commanded)
+
+---
 
 **Turn 1 — The Opening Chain (QM: 2 → 5)**
 
 *Five bandits stand in a tight group, weapons drawn. You grip your Shadow Glaive—a crescent-bladed polearm that hums with dark energy. Fang growls beside you, ready to strike.*
 
-**Your Action**: Shadow Glaive Attack on Bandit #1 (melee attack, chains to nearby enemies)
-**Attack Roll**: d20+7 → [16] = Hit!
-**Primary Target Damage**: 2d8+4 → [7, 6] + 4 = **17 damage** to Bandit #1
+**Bandit #5's Turn** (initiative 16): Charges toward you but is still 20ft away — no attack this turn.
+
+**Your Turn** (initiative 12):
+- **Action**: Shadow Glaive Attack on Bandit #1 (melee attack, chains to nearby enemies)
+  - **Attack Roll**: d20+7 → [16] vs AC 13 → Hit!
+  - **Primary Target Damage**: 2d8+4 → [7, 6] + 4 = **17 damage** to Bandit #1
 
 *Your glaive strikes Bandit #1, and the blade GLOWS. Shadow energy arcs from the impact point, seeking nearby targets.*
 
-**Chain Mechanic**: Glaive chains to all enemies within 5 feet of primary target
-**Enemies in Range**: Bandits #2, #3, #4 (all within 5 feet of Bandit #1)
-**Chain Damage**: 1d8+4 to each chained target
+- **Chain Mechanic**: Glaive chains to all enemies within 5 feet of primary target
+  - **Enemies in Range**: Bandits #2, #3, #4 (all within 5 feet of Bandit #1)
+  - **Chain Damage**: 1d8+4 to each chained target (Bladestorm spec: 1d6 minimum on chains)
 
-**Chain Attack #1 (Bandit #2)**: 1d8+4 → [6] + 4 = **10 damage**
-**Chain Attack #2 (Bandit #3)**: 1d8+4 → [7] + 4 = **11 damage**
-**Chain Attack #3 (Bandit #4)**: 1d8+4 → [5] + 4 = **9 damage**
+  - **Chain Attack #1 (Bandit #2)**: 1d8+4 → [6] + 4 = **10 damage**
+  - **Chain Attack #2 (Bandit #3)**: 1d8+4 → [7] + 4 = **11 damage**
+  - **Chain Attack #3 (Bandit #4)**: 1d8+4 → [5] + 4 = **9 damage**
 
 *The shadow energy EXPLODES outward, striking four bandits in one swing. They stagger, wounded.*
 
-**Total Damage**: 17 + 10 + 11 + 9 = **47 damage across 4 targets!**
-**Quarry Marks Generated**: +1 QM per enemy hit = +4 QM (hit 4 enemies), but per-turn cap is +3
-**Quarry Marks**: 2 + 3 = **5 QM** (hit cap, 1 mark lost to overflow)
+- **Total Damage**: 17 + 10 + 11 + 9 = **47 damage across 4 targets!**
+- **Quarry Marks Generated**: +1 QM per enemy hit = +4 potential, but turn cap is +3
+- **QM Calculation**: 2 + 3 = **5 QM** (cap reached, 1 mark lost to overflow)
 
-**Companion's Turn (Fang)**: Attack Bandit #1 (commanded to attack)
-**Attack Roll**: d20+5 → [14] = Hit!
-**Damage**: 1d8+3 → [6] + 3 = **9 damage**
-**Result**: Bandit #1 takes 17 + 9 = 26 total damage, DEAD
+- **Bonus Action**: Command Fang to Attack Bandit #1
+  - **Fang's Attack Roll**: d20+5 → [14] vs AC 13 → Hit!
+  - **Damage**: 1d8+3 → [6] + 3 = **9 damage**
+  - **Result**: Bandit #1 takes 17 + 9 = 26 total damage — **DEAD**
 
 *Fang leaps forward, jaws clamping down on Bandit #1's throat. The bandit falls.*
 
-**Current State**: QM: 5/5 | 4 bandits remaining (all wounded)
+**End of Turn 1 — QM: 5/5 | 4 bandits remaining (all wounded)**
 
-**Turn 2 — Spending Quarry Marks (QM: 5 → 3 → 4)**
+---
 
-*The bandits regroup. Bandit #5 (who wasn't in the chain range) charges you. Time to use Quarry Marks.*
+**Turn 2 — Extending the Chain (QM: 5 → 3 → 5)**
 
-**Bandit #5's Turn**: Attacks you → [17] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
-**Your HP**: 70 - 12 = 58/70
+*The bandits regroup. Bandit #5 closes the distance and swings at you.*
 
-**Your Action**: Spend 2 Quarry Marks to extend glaive chain by +1 target
-**Quarry Marks**: 5 - 2 = **3 QM**
+**Bandit #5's Turn** (initiative 16):
+- **Attack**: +5 vs your AC 14 → [17] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+- **Your HP**: 70 - 12 = **58/70**
+
+**Your Turn** (initiative 12):
+- **Free Action**: Spend 2 Quarry Marks to extend glaive chain by +1 target (can grab an enemy outside normal chain range)
+  - **QM: 5 - 2 = 3**
 
 *You focus your will. The Shadow Glaive pulses with darker energy. This next strike will chain further.*
 
-**Your Action**: Shadow Glaive Attack on Bandit #2
-**Attack Roll**: d20+7 → [18] = Hit!
-**Primary Target Damage**: 2d8+4 → [8, 7] + 4 = **19 damage** to Bandit #2
+- **Action**: Shadow Glaive Attack on Bandit #2
+  - **Attack Roll**: d20+7 → [18] vs AC 13 → Hit!
+  - **Primary Target Damage**: 2d8+4 → [8, 7] + 4 = **19 damage** to Bandit #2
 
-**Chain Mechanic**: Normally chains to enemies within 5 feet, but you spent 2 QM for +1 target
-**Enemies in Range**: Bandits #3, #4, #5 (3 enemies)
-**Extended Chain**: Can hit 3 + 1 = **4 targets total** (but only 3 enemies in range, so hits all 3)
-
-**Chain Attack #1 (Bandit #3)**: 1d8+4 → [6] + 4 = **10 damage** → Bandit #3 DEAD (was already wounded)
-**Chain Attack #2 (Bandit #4)**: 1d8+4 → [8] + 4 = **12 damage** → Bandit #4 DEAD (was already wounded)
-**Chain Attack #3 (Bandit #5)**: 1d8+4 → [5] + 4 = **9 damage**
+- **Chain Mechanic**: Extended chain reaches Bandits #3, #4, and #5 (3 enemies within extended range)
+  - **Chain Attack #1 (Bandit #3)**: 1d8+4 → [6] + 4 = **10 damage** → Bandit #3 **DEAD** (was already wounded)
+  - **Chain Attack #2 (Bandit #4)**: 1d8+4 → [8] + 4 = **12 damage** → Bandit #4 **DEAD** (was already wounded)
+  - **Chain Attack #3 (Bandit #5)**: 1d8+4 → [5] + 4 = **9 damage**
 
 *The glaive chains to THREE enemies this time, killing two of them. Only Bandits #2 and #5 remain.*
 
-**Quarry Marks Generated**: +1 per enemy hit = +3 (hit 3 enemies), but already generated 0 this turn so +3 total
-**Quarry Marks**: 3 + 3 = **5 QM** (but wait — per-turn cap was already partially used on companion Fang's hit this turn? No — Turn 2 generation starts fresh. +3 from 3 hits = 3 generated. 3 + 3 = 5, but cap is +3/turn. 3 + 3 = **5 QM** ✓)
+- **QM Generated**: +3 from 3 enemies hit (turn cap). 3 + 3 = **5 QM** (cap reached)
 
-**Companion's Turn (Fang)**: You command Fang to Defend you (+2 Armor for 1 round)
+- **Bonus Action**: Command Fang to Defend you (+2 Armor for 1 round)
+  - **Your Armor**: 14 + 2 = **16** until start of your next turn
+
 *Fang positions himself protectively in front of you, snarling at the remaining bandits.*
 
-**Current State**: QM: 5/5 | 2 bandits remaining | Your armor: 16 → 18 (Fang defending)
+**End of Turn 2 — QM: 5/5 | 2 bandits remaining | Your armor: 16**
+
+---
 
 **Turn 3 — Companion Empowerment (QM: 5 → 4 → 5)**
 
 *Two bandits left. Bandit #2 is wounded (19 damage taken), Bandit #5 is wounded (9 damage taken). Time to finish this.*
 
-**Your Action**: Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
-**Quarry Marks**: 5 - 1 = **4 QM**
+**Bandit #2's Turn** (initiative 16): Attacks Fang → [11] vs Fang's AC 12 → **Miss!**
 
-**Your Action**: Command Fang to attack Bandit #2
-**Fang's Attack Roll**: d20+5 → [16] = Hit!
-**Damage**: 1d8+3 + 1d6 (QM bonus) → [7] + 3 + [5] = **15 damage**
-**Result**: Bandit #2 DEAD
+**Your Turn** (initiative 12):
+- **Free Action**: Spend 1 Quarry Mark to enhance Fang's next attack (+1d6 damage)
+  - **QM: 5 - 1 = 4**
+
+- **Bonus Action**: Command Fang to Attack Bandit #2
+  - **Fang's Attack Roll**: d20+5 → [16] vs AC 13 → Hit!
+  - **Damage**: 1d8+3 + 1d6 (QM bonus) → [7] + 3 + [5] = **15 damage**
+  - **Result**: Bandit #2 **DEAD**
 
 *Fang's jaws glow with shadow energy as he tears into Bandit #2. The bandit falls.*
 
-**Your Action**: Shadow Glaive Attack on Bandit #5 (last enemy)
-**Attack Roll**: d20+7 → [19] = Hit!
-**Damage**: 2d8+4 → [8, 6] + 4 = **18 damage**
-**Result**: Bandit #5 DEAD
+- **Action**: Shadow Glaive Attack on Bandit #5 (last enemy)
+  - **Attack Roll**: d20+7 → [19] vs AC 13 → Hit!
+  - **Damage**: 2d8+4 → [8, 6] + 4 = **18 damage**
+  - **Result**: Bandit #5 **DEAD**
 
 *Your glaive sweeps through the last bandit. He falls. Combat over.*
 
-**Quarry Marks Generated**: +1 (Fang hit) + +1 (your glaive hit) = +2 this turn
-**Quarry Marks**: 4 + 2 = **5 QM** (banked for next fight)
+- **QM Generated**: +1 (Fang hit, within turn cap). 4 + 1 = **5 QM** (banked for next fight — decay begins in 1 minute)
+
+---
 
 **Combat Over**
 
@@ -212,19 +235,19 @@ Don't stand still. Use Shadowstep and Evasion to:
 **You**: "Fang and I share an empathic bond. I command, he obeys. But we fight as one."
 **Fang**: *Growls in agreement*
 
-**Final State**: QM: 5/5 (banked) | HP: 58/70 | Fang: 50/50 HP
+**Final State**: QM: 5/5 (banked, decay in 1 min) | HP: 58/70 | Fang: 50/50 HP
 
 **The Lesson**: Huntress gameplay is about:
 1. **Glaive Chaining**: Hit 1 primary target, chain to 3 nearby enemies = 4 hits in one attack (47 damage total in Turn 1)
-2. **Quarry Mark Generation**: +1 QM per enemy hit (including chains), capped at +3 per turn
+2. **Quarry Mark Management**: +1 QM per enemy hit (including chains), capped at +3 per turn (+4 for Beastmaster). Overflow marks are lost.
 3. **Quarry Mark Spending**: Spent 2 QM to extend chain by +1 target (Turn 2), spent 1 QM to enhance Fang's attack (Turn 3)
-4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2)
+4. **Companion Commands**: Commanded Fang to Attack (Turn 1, 3) and Defend (Turn 2). Companion acts on a Bonus Action when commanded.
 5. **Positioning**: Enemies grouped together = maximum chain effectiveness
 6. **Burst Damage**: Turn 1 dealt 47 damage across 4 targets, Turn 2 dealt 50 damage across 4 targets (killed 2)
-7. **Resource Banking**: Ended with 5 QM banked for next fight
-8. **Per-Turn Awareness**: You can only generate +3 QM per turn, so chain positioning matters — hitting 5 enemies still only gives +3
+7. **Resource Banking**: Ended with 5 QM banked. Marks decay by 1/minute after a 1-minute grace period — rush to the next fight!
+8. **Action Economy**: Each turn you have 1 Action (glaive attack) + 1 Bonus Action (companion command). Free Actions can spend QM for passive effects.
 
-You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Quarry Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioning—get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a pet—he's a tactical asset. Attack when you need damage, Defend when you need protection, Support when you need utility. Together, you're unstoppable.`
+You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies group up, your Shadow Glaive becomes a weapon of mass destruction. One swing, four hits. And with Quarry Marks, you can extend chains even further, empower your companion, or unleash ultimate abilities. The key is positioning—get enemies close together, then watch the shadow energy arc between them. And Fang isn't just a pet—he's a tactical asset. Attack when you need damage, Defend when you need protection. Together, you're unstoppable.`
     }
   },
 
@@ -258,9 +281,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       rows: [
         ['Glaive Hit', '+1 QM', 'Per target hit (includes chains)'],
         ['Companion Hit', '+1 QM', 'Generated when your beast lands an attack'],
-        ['Critical Hit', '+2 QM', 'Landing a crit on your primary target'],
+        ['Critical Hit', '+2 QM', 'Landing a crit on your primary target (counts toward turn cap)'],
         ['Mark Quarry', '+1 QM', 'Special ability to mark without attacking'],
-        ['Turn Cap', 'MAX +3', 'You cannot generate more than 3 QM per turn']
+        ['Turn Cap', 'MAX +3', 'You cannot generate more than 3 QM per turn'],
+        ['Beastmaster Cap', 'MAX +4', 'Beastmaster specialization increases turn cap to +4'],
+        ['Overflow', 'Lost', 'Any marks generated beyond the turn cap are lost (they do not bank)'],
+        ['Mark Decay', '-1/min', 'Outside combat, marks decay by 1 per minute after a 1-minute grace period']
       ]
     },
 
@@ -271,7 +297,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
     overheatRules: {
       title: 'Primal Outrage',
-      content: `If you generate 5+ Quarry Marks in a single turn (shattering your turn cap through multiple critical chains), your beast enters a **Primal Outrage**.
+      content: `If you begin your turn with 5 Quarry Marks and generate additional marks (through overflow), or if your companion drops below 25% HP while you have 3+ Quarry Marks, your beast enters a **Primal Outrage**.
 
 **The Effect**: For the next 2 turns, your companion deals **Double Damage** but becomes **Frenzied**. A frenzied beast will move toward and attack the NEAREST creature at the start of its turn, regardless of affiliation. You must spend an Action (Command) to snap it out of the frenzy early.`
     },
@@ -280,7 +306,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       title: 'The Hunting Party',
       content: `**Beastmaster Spec**: Your turn cap for QM generation is increased from +3 to +4, allowing you to cycle through Companion Specials every single turn.
 
-**Banking**: Since marks persist between fights, always try to "finish" an encounter by building back up to 5 QM so you can open the next fight with an Ultimate.`
+**Banking**: Since marks persist between fights, always try to "finish" an encounter by building back up to 5 QM so you can open the next fight with an Ultimate.
+
+**Mark Decay**: Quarry Marks decay by 1 per minute outside of combat. You retain your marks for 1 full minute after combat ends before they begin fading. This rewards aggressive, back-to-back encounters without guaranteeing every fight opens at maximum power.`
     },
 
     playingInPerson: {
@@ -332,7 +360,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         
         weaknesses: [
           'Less effective against spread-out enemies',
-          'Lower single-target damage than Shadowdancer',
+          'Lower single-target damage than Shadowblade',
           'Requires careful positioning',
           'Companion plays secondary role'
         ],
@@ -341,7 +369,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           {
             name: 'Whirling Blades',
             icon: 'Slashing/Quick Slash',
-            description: 'Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 → 1d6 → 1d4 → 1d2 → 1d2). This does not cost Quarry Marks.'
+            description: 'Your Shadow Glaive can chain to +1 additional target (total of 5 targets: 1d8 → 1d6 → 1d6 → 1d6 → 1d6). This does not cost Quarry Marks. Chain damage floor is raised to 1d6 at all levels.'
           },
           {
             name: 'Momentum',
@@ -386,12 +414,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           {
             name: 'Alpha Bond',
             icon: 'Nature/Claw Marks',
-            description: 'Your companion deals +1d4 damage on all attacks. Additionally, your companion\'s maximum HP is increased by 50%.'
+            description: 'Your companion deals +1d6 damage on all attacks. Your companion\'s maximum HP is increased by +10, and your companion gains its own initiative (acts independently at the start of its turn).'
           },
           {
             name: 'Pack Tactics',
             icon: 'Nature/Sense',
-            description: 'When you and your companion attack the same target, both of you gain advantage on attack rolls against that target until the end of your turn.'
+            description: 'When you and your companion attack the same target, both of you gain advantage on attack rolls against that target until the end of your turn. Additionally, your companion\'s attacks generate Quarry Marks as if they were your glaive attacks.'
           }
         ],
         
@@ -436,7 +464,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           {
             name: 'Lethal Precision',
             icon: 'Poison/Poison Concoction',
-            description: 'Attacks made from stealth or immediately after using Shadowstep deal an additional 2d6 damage. This bonus applies to both glaive and companion attacks.'
+            description: 'Attacks made from stealth or immediately after using Shadowstep deal an additional 2d6 damage. Additionally, your glaive chain damage becomes necrotic instead of slashing, and chained enemies cannot see you until the start of their next turn (Shadow Chain).'
           }
         ],
         
@@ -500,10 +528,11 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           chain: {
             primary: '1d8',
             second: '1d6',
-            third: '1d4',
-            fourth: '1d2',
+            third: '1d6',
+            fourth: '1d4',
             type: 'slashing',
-            chainDistance: 5
+            chainDistance: 5,
+            scalingNote: 'Chain minimum damage increases with level: L1-4 as listed, L5-7 minimum 1d6 on all chains, L8-10 minimum 1d8 on all chains'
           }
         }
       },
@@ -517,10 +546,10 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         chainMechanic: {
           description: 'Chains to enemies within 5 feet of previous target',
           maxTargets: 4,
-          damageReduction: 'Each chain deals less damage (1d8 → 1d6 → 1d4 → 1d2)'
+          damageReduction: 'Chain damage: 1d8 (primary) → 1d6 → 1d6 → 1d4. At L5+, all chains deal at least 1d6. At L8+, all chains deal at least 1d8.'
         },
         bladestormPassive: {
-          description: 'Bladestorm spec can chain to 5 targets (adds 1d2 fifth target)'
+          description: 'Bladestorm spec can chain to 5 targets (adds 1d6 fifth target)'
         }
       },
 
@@ -910,7 +939,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       specialMechanics: {
         shadowbladePassive: {
-          description: 'Shadowdancer spec gains +2 Armor and advantage on Stealth for 1 round (Shadow Veil passive)',
+          description: 'Shadowblade spec gains +2 Armor and advantage on Stealth for 1 round (Shadow Veil passive)',
           additionalEffect: 'Can hide for 1 AP after Shadowstep'
         },
         lethalPrecision: {
@@ -1051,7 +1080,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           description: 'Ultimate ability - costs all 5 Quarry Marks'
         },
         shadowbladeUltimate: {
-          description: 'Shadowdancer specialization ultimate ability',
+          description: 'Shadowblade specialization ultimate ability',
           phantomBlades: 'Creates 4 shadow copies that strike independently'
         },
         afterEffect: {
@@ -1312,7 +1341,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '1d6',
+        formula: '1d8',
         elementType: 'slashing',
         damageType: 'direct',
         scalingType: 'none'
@@ -1321,7 +1350,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       effects: {
         damage: {
           multiTarget: {
-            formula: '1d6',
+            formula: '1d8',
             type: 'slashing',
             targets: 3
           }
@@ -1378,6 +1407,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resourceCost: {
         actionPoints: 1,
+        quarryMarks: 1,
         components: ['verbal', 'somatic']
       },
 
@@ -1386,21 +1416,26 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       effects: {
         buff: {
           description: 'Bonus damage on attacks against marked target',
-          damageFormula: '+2d6',
-          duration: 5,
+          damageFormula: '+1d6',
+          duration: 3,
           durationUnit: 'rounds'
         }
       },
 
       specialMechanics: {
+        concentration: {
+          required: true,
+          description: 'Requires concentration. Maintaining the mark on a new target ends the effect on the previous target.'
+        },
         quarryMarks: {
-          generated: 2,
+          cost: 1,
+          generated: 1,
           perHit: true,
-          description: 'Attacks against marked target generate +1 additional Quarry Mark'
+          description: 'Costs 1 QM to cast. Attacks against marked target generate +1 additional Quarry Mark (capped by per-turn limit)'
         },
         companionSynergy: {
           description: 'Companion deals bonus damage to marked target',
-          damageFormula: '+1d8'
+          damageFormula: '+1d6'
         }
       },
 
@@ -1436,13 +1471,14 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       resourceCost: {
         actionPoints: 1,
+        quarryMarks: 2,
         components: ['somatic']
       },
 
       resolution: 'DICE',
 
       damageConfig: {
-        formula: '4d8 + agility',
+        formula: '3d8 + agility',
         damageType: 'slashing'
       },
 
@@ -1452,15 +1488,16 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           distance: 40
         },
         damage: {
-          formula: '4d8 + agility',
+          formula: '3d8 + agility',
           type: 'slashing'
         }
       },
 
       specialMechanics: {
         quarryMarks: {
+          cost: 2,
           generated: 2,
-          description: 'Generate 2 Quarry Marks on hit'
+          description: 'Costs 2 Quarry Marks. Generates 2 Quarry Marks on hit (subject to per-turn cap)'
         }
       },
 
@@ -1506,7 +1543,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
             durationUnit: 'rounds'
           },
           companion: {
-            description: '+2 to attack rolls and +2d6 damage',
+            description: '+2 to attack rolls and +1d6 damage',
             duration: 4,
             durationUnit: 'rounds'
           }
@@ -1515,11 +1552,11 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       specialMechanics: {
         companionSynergy: {
-          description: 'Companion can act twice per turn while bonded'
+          description: 'Companion gains an additional reaction attack per round when you are attacked (does not stack with Beast Fury)'
         },
         quarryMarks: {
           costReduction: true,
-          description: 'Quarry Mark abilities cost -1 QM while bonded'
+          description: 'Quarry Mark abilities cost -1 QM while bonded (minimum 0)'
         }
       },
 
@@ -2287,14 +2324,15 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       effects: {
         passive: {
-          description: 'Generate 2 Quarry Marks per round automatically. Companion auto-revives after 1 round if killed. Glaive chains to +2 additional targets.'
+          description: 'Generate 1 Quarry Mark per round automatically (subject to per-turn cap). Companion auto-revives after 1 round if killed. Glaive chains to +2 additional targets. Requires 1 QM per round to maintain or the effect ends.'
         }
       },
 
       specialMechanics: {
         quarryMarks: {
-          automaticGeneration: 2,
-          description: 'Automatically generate 2 Quarry Marks per round (ignores per-turn cap)'
+          maintenanceCost: 1,
+          automaticGeneration: 1,
+          description: 'Automatically generate 1 Quarry Mark per round. Costs 1 QM per round to sustain the passive — if you cannot pay, the effect ends and must be reactivated with 5 QM.'
         },
         companionSynergy: {
           description: 'Companion automatically revives after 1 round if killed'
@@ -2485,14 +2523,15 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       effects: {
         passive: {
-          description: 'All Quarry Mark abilities cost 1 less QM (minimum 0). Attacks deal +1d8 damage. Companion auto-revives after 1 round. Glaive chains to +3 additional targets.'
+          description: 'All Quarry Mark abilities cost 1 less QM (minimum 0). Attacks deal +1d8 damage. Companion auto-revives after 1 round. Glaive chains to +3 additional targets. Requires 1 QM per round to maintain or the effect ends.'
         }
       },
 
       specialMechanics: {
         quarryMarks: {
+          maintenanceCost: 1,
           costReduction: 1,
-          description: 'All Quarry Mark abilities cost 1 less QM (minimum 0)'
+          description: 'All QM abilities cost 1 less (min 0). Costs 1 QM per round to sustain — if you cannot pay, the effect ends and must be reactivated with 5 QM.'
         },
         companionSynergy: {
           description: 'Companion auto-revives after 1 round if killed'

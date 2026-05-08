@@ -17,6 +17,77 @@ export const INSCRIPTOR_DATA = {
     title: 'The Inscriptor',
     subtitle: 'Master of Runes and Inscriptions',
 
+    characterCreation: {
+      title: 'Creating an Inscriptor',
+      subtitle: 'The Battlefield Architect',
+
+      abilityPriorities: {
+        primary: 'Intelligence',
+        primaryDesc: 'Powers your rune effects, spell save DCs, and inscription potency — your most important stat by far.',
+        secondary: 'Spirit',
+        secondaryDesc: 'Supports your mana pool and improves the effectiveness of warding and restoration runes.',
+        tertiary: 'Constitution',
+        tertiaryDesc: 'Survivability. You are a ranged controller with light armor — every HP counts, especially since Destruction Runes also damage you.'
+      },
+
+      startingEquipment: {
+        weapons: [
+          { name: 'Runic Chisel', damage: '1d4 piercing', properties: 'Finesse, light. Can be used as a weapon or an inscription tool. Grants +2 Intelligence.' }
+        ],
+        armor: [
+          { name: 'Runic Robes', ac: '1 + DEX mod', properties: 'Cloth armor. Grants +2 Intelligence, +1 Armor. Covered in faintly glowing runic patterns.' }
+        ],
+        accessories: [
+          { name: 'Glyph Amulet', properties: 'Necklace. Grants +2 Intelligence. Amulet covered in active runes that pulse with arcane energy.' }
+        ],
+        gear: [
+          'Rune Stone Set (tool — 6 inscribed stones used as physical rune markers on the battle map)',
+          'Rune Pouch (contains runic chalk, arcane ink, and inscription materials)',
+          'Traveler\'s clothes',
+          'Pouch with 10 gold pieces',
+          'Blank journal for recording runic diagrams and inscription formulas'
+        ],
+        note: 'You begin combat with 0 active runes and 0 Runic Resonance. Your first priority each fight is placing runes. If you have warning before combat, use pre-combat preparation time to place 2-3 runes and inscribe 1-2 items before the first blow lands.'
+      },
+
+      startingStats: {
+        hp: '8 + Constitution modifier',
+        hitDice: '1d8 per Inscriptor level',
+        armorClass: '1 + DEX modifier (Runic Robes)',
+        speed: '30 ft',
+        savingThrows: ['Intelligence', 'Spirit'],
+        skills: ['Choose 3 from: Arcana, History, Investigation, Nature, Perception, Religion']
+      },
+
+      startingAbilities: [
+        { name: 'Rune Scribe', description: 'Place a rune on the battlefield (3-4 mana, 1 action). Generates +1 Runic Resonance. You can maintain up to 8 runes at once.' },
+        { name: 'Equipment Inscription', description: 'Inscribe a piece of equipment (4 mana, 1 action). Grants a combat-duration buff. You have 3 inscription slots (weapon, armor, boots, cape, belt, pants).' },
+        { name: 'Runic Resonance', description: 'Secondary resource (0-10). Builds as you place and detonate runes. Spend at thresholds for powerful effects.' }
+      ],
+
+      specializationChoice: {
+        level: 3,
+        description: 'At 3rd level, choose your specialization: Runebinder (zone dominance, 10 runes), Enchanter (ally empowerment, 5 inscriptions), or Glyphweaver (detonation combos, chain reactions). This choice determines your rune/inscription limits and grants a specialization passive.'
+      },
+
+      levelProgression: {
+        title: 'Inscriptor Level Progression',
+        headers: ['Level', 'Runes Max', 'Inscriptions Max', 'Feature Unlocked'],
+        rows: [
+          ['1', '8', '3', 'Rune Scribe, Equipment Inscription, Runic Resonance'],
+          ['2', '8', '3', 'Minor Rune, Rune of Speed, Inkbound Servant'],
+          ['3', '8/10/6', '3/5/4', 'Specialization Choice + Spec Passives'],
+          ['4', '8/10/6', '3/5/4', 'Glyph of Binding, Runic Shield, Sigil of Power'],
+          ['5', '8/10/6', '3/5/4', 'Rune of Devastation, Glyph Mastery, Inscription of Warding'],
+          ['6', '8/10/6', '3/5/4', 'Runic Array, Greater Sigil of Power, Glyph Nexus'],
+          ['7', '8/10/6', '3/5/4', 'Ancient Rune, Inscribed Fortress, Master Inscriber'],
+          ['8', '8/10/6', '3/5/4', 'Primordial Glyph, Runic Apocalypse, Eternal Inscription'],
+          ['9', '8/10/6', '3/5/4', 'Worldscript, Master of Runes, Inscription of Eternity'],
+          ['10', '8/10/6', '3/5/4', 'Omniscript, Rune of Creation, Runic Ascension']
+        ]
+      }
+    },
+
     quickOverview: {
       title: 'Quick Overview',
       content: `**What You Need to Know**: The Inscriptor inscribes runes onto the battlefield. The type of rune determines the effect. The number of runes determines the power.
@@ -68,11 +139,11 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 - Maximum 8 runes (varies by specialization)
 
 **Runic Resonance**:
-- Secondary resource that builds as you place and detonate runes
-- At 3 Resonance: next inscription costs no mana
-- At 5 Resonance: next spell in a zone deals +2d6 bonus damage
-- At 7 Resonance: next detonation affects all enemies in the zone
-- At 10 Resonance: all runes refresh and trigger immediately
+- Secondary resource (0-10) that builds as you place and detonate runes
+- Spend 3 Resonance: Your next inscription costs no mana
+- Spend 5 Resonance: Your next spell cast within a zone deals +2d6 bonus damage
+- Spend 7 Resonance: Your next detonation affects all enemies in the zone (not just adjacent)
+- At 10 Resonance (passive): All runes refresh duration and trigger. Resonance then resets to 0.
 - Decays by 1 per round when no runes are active
 
 **Detonation**:
@@ -82,7 +153,8 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 - Trade sustained zone power for burst damage
 
 **Equipment Inscriptions**:
-- At combat start, inscribe up to 3 items (costs mana or Resonance)
+- At combat start, inscribe up to 3 items (base; varies by specialization)
+- Each inscription costs 4 mana, or spend 3 Resonance to apply one for free
 - Cannot stack inscriptions on the same item
 - Available slots: Weapon, Armor, Boots, Cape, Belt, Pants
 
@@ -100,66 +172,67 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 
     immersiveCombatExample: {
       title: 'Combat Example: The Prepared Battlefield',
-      content: `**The Setup**: You're an Inscriptor (Runic Arts specialization) and your party is about to ambush a group of cultists in a ritual chamber. You have 5 minutes to prepare before combat. Starting Mana: 50/60. Your goal: Place runic zones strategically, inscribe equipment for your party, then control the battlefield during combat.
+      content: `**The Setup**: You're an Inscriptor (Runebinder specialization) and your party is about to ambush a group of cultists in a ritual chamber. You have 5 minutes to prepare before combat. Starting Mana: 50/60. Your goal: Place runic zones strategically, inscribe equipment for your party, then control the battlefield during combat.
 
 **Pre-Combat Preparation (5 minutes before combat)**
 
 *You enter the ritual chamber. The cultists haven't noticed you yet. Your party's rogue signals: "Five minutes until they finish their ritual. Make it count."*
 
-**Your Action**: Begin placing Runic Zone (costs 3 mana per rune, 1 action per rune)
+**Your Action**: Begin placing Rune of Destruction (costs 4 mana per rune, 1 action per rune)
 
 *You kneel, pulling out a piece of chalk infused with arcane energy. You begin drawing runes on the floor in a triangular pattern.*
 
-**Rune 1 - "Amplification Rune"** (placed at north point of triangle)
-**Cost**: 3 mana | **Effect**: Spells cast within 5 ft deal +1d6 damage
-**Mana**: 50 - 3 = 47/60
+**Rune 1 - "Rune of Destruction"** (placed at north point of triangle)
+**Cost**: 4 mana | **Effect**: +1d6 fire damage dealt/taken within 5 ft
+**Resonance**: 0 + 1 = 1/10
+**Mana**: 50 - 4 = 46/60
 
-**Rune 2 - "Amplification Rune"** (placed at south-west point)
-**Cost**: 3 mana
-**Mana**: 47 - 3 = 44/60
+**Rune 2 - "Rune of Destruction"** (placed at south-west point)
+**Cost**: 4 mana
+**Resonance**: 1 + 1 = 2/10
+**Mana**: 46 - 4 = 42/60
 
-**Rune 3 - "Amplification Rune"** (placed at south-east point)
-**Cost**: 3 mana
-**Mana**: 44 - 3 = 41/60
+**Rune 3 - "Rune of Destruction"** (placed at south-east point)
+**Cost**: 4 mana
+**Resonance**: 2 + 1 = 3/10
+**Mana**: 42 - 4 = 38/60
 
-*Three runes glow on the floor, forming a triangle 30 feet across. The runes connect with glowing lines, creating a ZONE. Any spell cast within this zone will be amplified.*
+*Three runes glow on the floor, forming a triangle 30 feet across. The runes connect with glowing lines, creating a ZONE. Fire damage is now DOUBLED within the zone for all creatures.*
 
-**Zone Created**: "Amplification Zone" (30 ft triangle)
-**Effect**: All spells cast within zone deal +2d6 damage (3 runes = +2d6)
+**Zone Created**: "Destruction Zone" (30 ft triangle)
+**Effect**: All fire damage dealt and taken within the zone is doubled (3+ runes)
 
 **Your Action**: Add more runes to strengthen the zone
 
-**Rune 4 - "Amplification Rune"** (placed between runes 1 and 2)
-**Cost**: 3 mana | **Mana**: 41 - 3 = 38/60
+**Rune 4 - "Rune of Destruction"** (placed between runes 1 and 2)
+**Cost**: 4 mana | **Mana**: 38 - 4 = 34/60
+**Resonance**: 3 + 1 = 4/10
 
-**Rune 5 - "Amplification Rune"** (placed between runes 2 and 3)
-**Cost**: 3 mana | **Mana**: 38 - 3 = 35/60
+**Rune 5 - "Rune of Destruction"** (placed between runes 2 and 3)
+**Cost**: 4 mana | **Mana**: 34 - 4 = 30/60
+**Resonance**: 4 + 1 = 5/10
 
-*Five runes now. The zone PULSES with power. Spells cast here will be devastating.*
-
-**Zone Enhanced**: "Amplification Zone" (5 runes)
-**Effect**: All spells cast within zone deal +3d6 damage (5 runes = +3d6)
+*Five runes now. The zone PULSES with volatile energy. You have enough Resonance to empower your next spell.*
 
 **Your Action**: Inscribe equipment for your party (costs 4 mana per inscription)
 
 *You turn to your party's mage. "Give me your staff." You trace glowing runes along the shaft.*
 
-**Inscription 1 - Mage's Staff**: "Inscription of Power" (+1d8 spell damage)
-**Cost**: 4 mana | **Mana**: 35 - 4 = 31/60
+**Inscription 1 - Mage's Staff**: "Flame Inscription" (+1d6 fire damage per strike)
+**Cost**: 4 mana | **Mana**: 30 - 4 = 26/60
 
 *You turn to your party's tank. "Your armor." You inscribe protective runes on the breastplate.*
 
-**Inscription 2 - Tank's Armor**: "Inscription of Warding" (+2 Armor, resistance to first damage type taken)
-**Cost**: 4 mana | **Mana**: 31 - 4 = 27/60
+**Inscription 2 - Tank's Armor**: "Thorn Inscription" (attackers take 1d6 piercing on hit)
+**Cost**: 4 mana | **Mana**: 26 - 4 = 22/60
 
 *You inscribe your own boots with runes of swiftness.*
 
-**Inscription 3 - Your Boots**: "Inscription of Haste" (+10 ft movement speed, advantage on Agility saves)
-**Cost**: 4 mana | **Mana**: 27 - 4 = 23/60
+**Inscription 3 - Your Boots**: "Rune of Speed" (+10 ft movement speed)
+**Cost**: 4 mana | **Mana**: 22 - 4 = 18/60
 
-**Preparation Complete**: 5 runes placed (Amplification Zone active), 3 inscriptions applied
-**Mana Remaining**: 23/60
-**Time Elapsed**: 5 minutes
+**Preparation Complete**: 5 runes placed (Destruction Zone active), 3 inscriptions applied
+**Mana Remaining**: 18/60 | **Resonance**: 5/10
 
 **Combat Begins**
 
@@ -174,16 +247,16 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 **Your Party's Tank**: Taunts demon and 2 cultists, pulls them toward the runic zone
 **Cultists**: Move toward tank, entering the runic zone!
 
-*Perfect. Three enemies are now inside your Amplification Zone.*
+*Perfect. Three enemies are now inside your Destruction Zone.*
 
-**Your Action**: Cast "Arcane Missiles" at Demon (inside zone) (8 mana)
+**Your Action**: Spend 5 Resonance to empower your next spell in the zone, then cast "Arcane Missiles" at Demon (inside zone)
+**Resonance**: 5 - 5 = 0/10 (spent on empowerment)
+**Arcane Missiles**: 8 mana | **Mana**: 18 - 8 = 10/60
 **Base Damage**: 3d4+3 → [3, 4, 2] + 3 = 12 damage
-**Zone Bonus**: +3d6 (5 runes in Amplification Zone) → [5, 6, 4] = +15 damage
-**Total Damage**: 12 + 15 = **27 damage!**
+**Zone Bonus**: +2d6 (empowered spell in zone) → [5, 6] = +11 damage
+**Total Damage**: 12 + 11 = **23 damage!**
 
-*Your arcane missiles strike the demon, amplified by the runic zone. The demon roars in pain.*
-
-**Mana**: 23 - 8 = 15/60
+*Your arcane missiles strike the demon, empowered by your runic zone.*
 
 **Current State**: 3 enemies in zone, 2 enemies outside zone
 
@@ -191,72 +264,59 @@ The Inscriptor's strength lies in preparation and positioning. A well-prepared I
 
 *Two cultists are still outside the zone. Your party's mage (with inscribed staff) casts a spell.*
 
-**Your Party's Mage**: Casts "Fireball" at cultists inside zone (inside zone, has inscribed staff)
-**Base Damage**: 8d6 → [5, 6, 4, 5, 6, 3, 4, 5] = 38 damage
-**Inscription Bonus**: +1d8 (Inscription of Power) → [7] = +7 damage
-**Zone Bonus**: +3d6 (Amplification Zone) → [6, 5, 4] = +15 damage
-**Total Damage**: 38 + 7 + 15 = **60 damage!**
+**Your Party's Mage**: Casts "Fire Bolt" at demon (inside zone, has Flame Inscription on staff)
+**Base Damage**: 2d10 → [7, 4] = 11 fire damage
+**Inscription Bonus**: +1d6 (Flame Inscription) → [5] = +5 fire damage
+**Zone Multiplier**: Fire damage DOUBLED in Destruction Zone → (11 + 5) × 2 = **32 fire damage!**
 
-*The fireball EXPLODES inside the runic zone, amplified to devastating effect. Two cultists are VAPORIZED. The demon is badly wounded.*
+*The fire bolt EXPLODES inside the runic zone, doubled by the Destruction Zone. The demon howls.*
 
-**Cultists #1 and #2**: DEAD (60 damage each)
-**Demon**: 60 damage taken, severely wounded
+**Your Action**: Detonate Rune #3 to create burst effect
+**Resonance**: 0 + 1 = 1/10 (gain Resonance from detonation)
+**Detonation Effect**: Rune #3 erased. Demon must make DC 15 CON save or be Stunned for 1 round.
+**Demon's Save**: Constitution save DC 15 → [12] → FAIL! **Demon is Stunned for 1 round.**
 
-**Your Action**: Detonate Rune #3 to create lingering effect (DC 15 save)
+*The demon staggers, frozen by the runic detonation.*
 
-*You snap your fingers. Rune #3 EXPLODES in a burst of arcane energy, then its effect LINGERS.*
-
-**Detonation Effect**: Rune #3 erased, but Amplification effect lingers for 1 minute in that area
-**Zone Status**: 4 runes remaining (zone still active with +2d6 bonus), plus lingering +1d6 in detonated area
-
-**Demon's Save**: Constitution save DC 15 → [12] → FAIL!
-**Detonation Damage**: 2d6 → [5, 4] = 9 damage to demon
-
-*The demon staggers from the detonation.*
-
-**Current State**: Demon wounded, 2 cultists outside zone
+**Current State**: Demon stunned, 2 cultists outside zone
 
 **Turn 3 - Finishing the Fight**
 
-*The demon is inside the zone, badly wounded. The two remaining cultists are outside.*
+*The demon is inside the zone, stunned. The two remaining cultists are outside.*
 
-**Your Action**: Cast "Magic Missile" at Demon (inside zone) (6 mana)
-**Base Damage**: 3 missiles × (1d4+1) → [3+1, 4+1, 2+1] = 13 damage
-**Zone Bonus**: +2d6 (4 runes) → [6, 5] = +11 damage
-**Total Damage**: 13 + 11 = **24 damage**
+**Your Party's Rogue**: Sneak attacks Stunned Demon → Critical hit → DEAD
+**Your Party's Tank** (with Thorn Inscription): Attacks Cultist #4 → Hit! → Cultist #4 counterattacks but takes 1d6 piercing from Thorn Inscription
+**Your Party's Mage**: Casts "Fire Bolt" at Cultist #3 (outside zone) → 11 fire damage → Cultist #3 DEAD
 
-*The magic missiles, amplified by the zone, strike the demon. It falls, dead.*
+**Your Action**: Place Rune of Speed near Cultist #4 (4 mana)
+**Mana**: 10 - 4 = 6/60 | **Resonance**: 1 + 1 = 2/10
+*The rune slows Cultist #4 if they try to flee.*
 
-**Demon**: DEAD
-
-**Your Party's Rogue**: Sneak attacks Cultist #3 → DEAD
-**Your Party's Tank** (with inscribed armor): Attacks Cultist #4 → Hit! → Cultist attacks back but tank has +2 Armor from inscription → Miss!
-
-**Your Party's Mage**: Casts "Fire Bolt" at Cultist #4 → DEAD
+**Your Party's Tank**: Finishes off Cultist #4
 
 **Combat Over**
 
 *You stand in the center of your runic zone, four glowing runes still pulsing on the floor. Your party stares at the carnage.*
 
-**Your Party's Mage**: "My fireball did SIXTY damage. SIXTY. What did you do to my staff?"
-**You**: "Inscription of Power. +1d8 spell damage. And you cast it inside my Amplification Zone, which added another +3d6. Preparation is everything."
-**Your Party's Tank**: "And my armor? I didn't take a single hit."
-**You**: "Inscription of Warding. +2 Armor. The cultist's attack missed because of it."
+**Your Party's Mage**: "My fire bolt did THIRTY-TWO damage. That's insane."
+**You**: "Flame Inscription added fire damage, and the Destruction Zone DOUBLED all fire damage inside it. Preparation is everything."
+**Your Party's Tank**: "And the thorns on my armor? That cultist hurt itself hitting me."
+**You**: "Thorn Inscription. 1d6 piercing damage reflected back on every melee hit. Plus the demon was stunned after I detonated Rune #3."
 **Your Party's Rogue**: "You turned this room into a death trap."
-**You**: "I turned it into a PREPARED battlefield. Five minutes of setup, and we won in three turns. That's the Inscriptor's way."
+**You**: "Five minutes of setup, and we won in three turns. That's the Runebinder's way."
 
-**Final State**: Mana: 9/60 | 4 runes still active | 3 inscriptions still active
+**Final State**: Mana: 6/60 | 4 runes still active | 3 inscriptions still active | Resonance: 2/10
 
 **The Lesson**: Inscriptor gameplay is about:
-1. **Pre-Combat Preparation**: Spent 5 minutes placing 5 runes (15 mana) and inscribing 3 items (12 mana) = 27 mana before combat even started
-2. **Runic Zones**: 5-rune Amplification Zone added +3d6 damage to ALL spells cast within it
-3. **Inscription Synergy**: Mage's staff (+1d8) + Amplification Zone (+3d6) = +4d14 average damage per spell
-4. **Zone Control**: Lured enemies into the zone, then unleashed amplified spells
-5. **Rune Detonation**: Detonated Rune #3 for 2d6 damage + lingering effect
-6. **Damage Amplification**: Mage's Fireball: 38 base + 7 (inscription) + 15 (zone) = 60 damage (58% increase!)
-7. **Equipment Enhancement**: Tank's +2 Armor from inscription caused enemy attack to miss
+1. **Pre-Combat Preparation**: Placed 5 runes (20 mana) and inscribed 3 items (12 mana) = 32 mana before combat started
+2. **Runic Zones**: 5-rune Destruction Zone doubled all fire damage dealt and taken
+3. **Resonance Spending**: Spent 5 Resonance to empower Arcane Missiles with +2d6 bonus damage
+4. **Inscription Synergy**: Mage's Flame Inscription (+1d6) + Destruction Zone (×2) = massive fire damage multiplier
+5. **Zone Control**: Lured enemies into the zone, then detonated a rune for the stun
+6. **Damage Amplification**: Mage's Fire Bolt: 16 base fire → doubled to 32 in Destruction Zone
+7. **Equipment Enhancement**: Tank's Thorn Inscription punished melee attackers, Rogue exploited the stun for a critical hit
 
-You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend time before combat placing runes, inscribing equipment, and preparing the terrain. Then, when combat starts, your party fights on YOUR terms. Spells cast in your zones are amplified. Equipment you've inscribed provides crucial bonuses. Enemies who enter your runic zones are fighting in a prepared kill zone. The key is PREPARATION—given 5 minutes, you can turn any room into a fortress of magical power.`
+You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend time before combat placing runes, inscribing equipment, and preparing the terrain. Then, when combat starts, your party fights on YOUR terms. Fire spells cast in your Destruction Zone are devastating. Equipment you've inscribed provides crucial bonuses. Enemies who enter your runic zones are fighting in a prepared kill zone. The key is PREPARATION — given 5 minutes, you can turn any room into a fortress of magical power.`
     }
   },
   
@@ -289,29 +349,30 @@ You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend tim
       headers: ['Trigger', 'Resonance Change', 'Notes'],
       rows: [
         ['Place a Rune', '+1 Resonance', 'Generates 5-ft radius individual effect'],
-        ['Detonate a Rune', '+1 per Rune', 'Triggers burst effect + lingering aura'],
-        ['Resonance Threshold (10)', '→ Refresh All', 'All active runes pulse and reset durations'],
+        ['Detonate a Rune', '+1 per Rune (+2 for Glyphweaver)', 'Triggers burst effect + lingering aura'],
+        ['Spend 3 Resonance', '-3 Resonance', 'Your next inscription costs no mana'],
+        ['Spend 5 Resonance', '-5 Resonance', 'Your next spell in a zone deals +2d6 bonus damage'],
+        ['Spend 7 Resonance', '-7 Resonance', 'Your next detonation affects all enemies in the zone'],
+        ['Resonance reaches 10', 'Resonance resets to 0', 'All active runes refresh duration and trigger effects. Does not generate additional Resonance from the refresh.'],
         ['No Active Runes', '-1 per Round', 'Momentum bleeds away during passivity'],
-        ['Free Inscription (3+)', 'Spend 3 Res', 'Use Resonance instead of 4 Mana for inscriptions'],
-        ['Empowered Spell (5+)', 'Spend 5 Res', 'Next spell in a zone deals +2d6 damage']
       ]
     },
 
     usage: {
-      momentum: 'Spend Resonance to bypass mana costs for Inscriptions or to unleash Empowered Spells (+2d6 damage) within your zones.',
-      flourish: '⚠️ Resonance Decay: If you fail to maintain at least one active rune, your Resonance will bleed away each round. Keep the weave alive.'
+      momentum: 'Spend Resonance at thresholds (3/5/7) to bypass mana costs for Inscriptions, empower spells within zones (+2d6), or widen detonation effects. At 10 Resonance, all runes passively refresh and Resonance resets to 0.',
+      flourish: 'Resonance Decay: If you fail to maintain at least one active rune, your Resonance will bleed away each round. Keep the weave alive.'
     },
     
     runicWrappingTable: {
       title: 'Runic Wrapping: Rune Effects',
       headers: ['Rune Name', 'Individual Effect (5 ft)', 'Zone Effect (3+ runes)', 'Detonation (DC 15)', 'Mana Cost'],
       rows: [
-        ['Rune of Destruction', '+1d6 fire damage dealt/taken', 'Double fire damage dealt/taken', 'Stunned for 1 min', '6 mana'],
-        ['Rune of Vitality', 'Heal 1d6 HP per turn', 'Heal 2d6 HP per turn', 'Exhausted, -1d6 max HP per rune for 1 min', '4 mana'],
-        ['Rune of Arcane Warding', 'Magic damage reduced by 1', 'Magic damage reduced by 50%', 'Magic Vulnerability, +50% magic damage for 1 min', '5 mana'],
-        ['Rune of Shielding', '+1 Armor', '+3 Armor', 'Armor Breakdown, -3 Armor for 1 min', '5 mana'],
-        ['Rune of Speed', '+10 ft movement', '+20 ft movement', 'Restrained for 1 min', '4 mana'],
-        ['Rune of Earth', '5 ft pillar (30 HP)', 'Wall up to 10 ft long, 15 ft high', 'Wall splinters, 2d8 piercing in 15 ft', '6 mana']
+        ['Rune of Destruction', '+1d6 fire damage dealt/taken', 'Double fire damage dealt/taken', 'Stunned for 1 round (CON save)', '4 mana'],
+        ['Rune of Vitality', 'Heal 1d6 HP per turn', 'Heal 2d6 HP per turn', 'Exhausted, -1d6 max HP for 1 min (CON save)', '3 mana'],
+        ['Rune of Arcane Warding', 'Magic damage reduced by 1', 'Magic damage reduced by 50%', 'Magic Vulnerability, +50% magic damage for 1 min', '4 mana'],
+        ['Rune of Shielding', '+1 Armor', '+3 Armor', 'Armor Breakdown, -3 Armor for 1 min', '3 mana'],
+        ['Rune of Speed', '+10 ft movement', '+20 ft movement', 'Restrained for 1 min (AGI save)', '3 mana'],
+        ['Rune of Earth', '5 ft pillar (30 HP)', 'Wall up to 10 ft long, 15 ft high', 'Wall splinters, 2d8 piercing in 15 ft (AGI save)', '4 mana']
       ]
     },
     
@@ -334,16 +395,16 @@ You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend tim
 
 **Zone Control (Early Combat)**: Focus on reaching the 3-rune threshold to activate Zone Synergy. Position zones where enemies *will be*, not where they are.
 
-**Resonance Peak (Mid-Combat)**: At 5+ Resonance, time your most expensive AoE spells to benefit from the +2d6 damage bonus. 
+**Resonance Peak (Mid-Combat)**: At 5 Resonance, spend it to empower your most expensive AoE spell with +2d6 damage bonus.
 
 **Detonation (Closing/Burst)**: When a target is low or a chokepoint is overwhelmed, detonate your runes. You lose the zone, but the burst damage and lingering status effects can end the fight.
 
-**Advanced Play — The Resonance Loop**: Use the 10-Resonance threshold to refresh all runes simultaneously, extending your control without spending additional actions or mana.
+**Advanced Play — The Resonance Loop**: Build toward 10 Resonance to trigger the passive refresh — all runes reset their durations simultaneously, extending your control without spending additional actions or mana. Your Resonance resets to 0 when this triggers.
 
 **Worked Example (7 Resonance, Boss at 50% HP)**:
-- **Option A** — Empowered Spell (-5 Res): Massive damage spike. Best for immediate threat removal.
-- **Option B** — Detonate All (+Res): Triggers burst and CC. Best if boss is surrounded by minions.
-- **Option C** — Hold for 10 Res: Refresh and Pulse. Best if the fight will last another 3+ rounds.
+- **Option A** — Spend 5 Res: Empowered Spell (+2d6 damage). Best for immediate threat removal. Resonance drops to 2.
+- **Option B** — Detonate All (gain Res per rune): Triggers burst and CC. Best if boss is surrounded by minions.
+- **Option C** — Hold for 10 Res: Refresh and Pulse. Best if the fight will last another 3+ rounds. Resonance resets to 0.
 
 → **Best default**: Option A. Cashing in Resonance for direct damage is usually the most efficient use of the resource.`
     },
@@ -354,48 +415,49 @@ You're not a direct damage dealer. You're a BATTLEFIELD ARCHITECT. You spend tim
       content: `Marking the battlefield with physical rune tokens makes the Inscriptor's zone control feel immediate and threatening.
 
 **Required Materials**:
-- **Rune Tokens** — 8-12 distinct markers (poker chips, coins, or glass beads)
+- **Rune Tokens** — 8-10 distinct markers (poker chips, coins, or glass beads)
 - **Runic Cards** — Quick reference for rune types and inscription effects
 - **Resonance Tracker** — A 0–10 slider or a d10
 
 **Tracking the Weave**:
 - **Placement** → Place a token on the battle map. Add +1 to your Resonance die.
 - **Zone Check** → If 3+ tokens are connected, announce "Zone Active" to all players.
-- **Detonation** → Remove token(s) from the map. Add +1 Resonance per token removed.
+- **Detonation** → Remove token(s) from the map. Add +1 Resonance per token removed (+2 for Glyphweaver).
 - **Inscription** → Place a small card or sticky note on the affected player's sheet.
 
 **Quick Reference**:
 \`\`\`
 RESONANCE (0-10):
-  3+ | Free Inscription
-  5+ | +2d6 Spell Damage (in zone)
-  7+ | Zone-wide Detonation
-  10 | Refresh/Pulse all Runes
+  Spend 3  | Next inscription costs no mana
+  Spend 5  | Next spell in a zone deals +2d6 bonus damage
+  Spend 7  | Next detonation affects all enemies in the zone
+  At 10    | All runes refresh (Resonance resets to 0)
 
-RUNE LIMITS:
-  Base: 8 Runes | 3 Inscriptions
-  Runebinder: 12 Runes | 1 Inscription
-  Wardcrafter: 6 Runes | 4 Inscriptions
+RUNE LIMITS BY SPECIALIZATION:
+  Base:      8 Runes  | 3 Inscriptions
+  Runebinder: 10 Runes | 3 Inscriptions
+  Enchanter:  6 Runes  | 5 Inscriptions
+  Glyphweaver: 8 Runes | 4 Inscriptions
 \`\`\`
 
 **The Physical Hack**:
 - **String Connectivity**: Use colored yarn to physically connect your rune tokens on the table. It clearly defines the "Zone" for the GM and other players.
-- **Dice Stacking**: Place your Resonance d10 on top of your character sheet. When it hits 10, knock it over to signify the "Pulse".
+- **Dice Stacking**: Place your Resonance d10 on top of your character sheet. When it hits 10, knock it over to signify the "Pulse" — then reset to 0.
 
-**Pro Tips**:
-- Track up to 12 runes (instead of 8)
-- Only 1 inscription slot
-- Focus on rune placement and detonation
+**Runebinder Tips**:
+- Track up to 10 runes (the most of any spec)
+- 3 inscription slots (standard)
+- Focus on zone coverage and mid-combat rune repositioning
 
-**Glyphweaver**:
-- Track 8 runes and 3 inscriptions
-- Balanced approach
-- Trap runes (explosive runes triggered by proximity)
+**Enchanter Tips**:
+- Track 6 runes and 5 inscriptions
+- Inscriptions last until your next long rest
+- Focus on buffing allies before and during combat
 
-**Wardcrafter**:
-- Track 6 runes and 4 inscriptions
-- Focus on inscriptions and defensive runes
-- Enhanced inscription effects
+**Glyphweaver Tips**:
+- Track 8 runes and 4 inscriptions
+- Each detonation generates +2 Resonance (instead of +1)
+- Focus on trap placement and chain reaction detonations
 
 **Why Inscriptor Is Perfect for In-Person Play**: The class is built around physical placement and spatial awareness. Placing rune markers on the battle map creates a visual representation of your battlefield control. The Zone Synergy mechanic (3+ runes) rewards strategic placement and creates satisfying "aha!" moments when you realize the perfect rune configuration. The inscription system provides long-term character customization that persists across combats. The detonation mechanic creates explosive burst damage moments that feel impactful. The dual resource system (runes + inscriptions) creates multiple decision points and playstyles. Every rune placement is a tactical decision, and every detonation is a dramatic moment.`
     }
@@ -425,11 +487,11 @@ RUNE LIMITS:
           'Zone radius is 50% larger (7.5 ft instead of 5 ft per rune)',
           'Can move one rune 30 ft as a bonus action (no action point)',
           'Can overlap zones for combined effects',
-          'Runes cost 1 mana instead of 2'
+          'Runes cost 1 mana less than normal (minimum 1 mana)'
         ],
 
         tradeoffs: [
-          'Only 3 inscription slots (instead of base 5)',
+          'Only 3 inscription slots (same as base; fewer than Enchanter\'s 5)',
           'Inscriptions provide standard effects (no enhancement)',
           'Requires more setup time to reach full power',
           'Most effective when enemies are funneled into zones'
@@ -445,7 +507,7 @@ RUNE LIMITS:
           {
             name: 'Zone Mastery',
             tier: 'Specialization Passive',
-            description: 'You can place up to 10 runes. Your runic zones have 50% larger radius. As a bonus action, you can relocate one rune up to 30 ft. Rune placement costs 1 mana. You have 3 inscription slots with standard effects.',
+            description: 'You can place up to 10 runes. Your runic zones have 50% larger radius. As a bonus action, you can relocate one rune up to 30 ft. Rune placement costs 1 mana less than normal (minimum 1 mana). You have 3 inscription slots with standard effects.',
             uniqueTo: 'Runebinder'
           }
         ],
@@ -466,7 +528,7 @@ RUNE LIMITS:
 
         strengths: [
           '5 inscription slots (can inscribe all equipment)',
-          'Inscriptions are 50% more effective (round up)',
+          'Inscription die size increased by one step (d4→d6, d6→d8, d8→d10, d10→d12)',
           'Can inscribe 1 item per ally at combat start',
           'Inscriptions last until long rest (not just combat)',
           'Can swap 1 inscription per short rest without cost'
@@ -489,7 +551,7 @@ RUNE LIMITS:
           {
             name: 'Master Enchanter',
             tier: 'Specialization Passive',
-            description: 'You have 5 inscription slots. Inscriptions are 50% more effective (e.g., +1d8 becomes +1d8+4 or +2d4). You can inscribe 1 item per ally at combat start. Inscriptions last until your next long rest. You can place up to 6 runes with standard radius and cost.',
+            description: 'You have 5 inscription slots. Inscription die sizes are increased by one step (e.g., +1d6 becomes +1d8, +1d8 becomes +1d10, +1d10 becomes +1d12; d12 cannot be increased further). Flat bonuses are increased by 50% (round up, e.g., +2 Armor becomes +3 Armor). You can inscribe 1 item per ally at combat start. Inscriptions last until your next long rest. You can place up to 6 runes with standard radius and cost.',
             uniqueTo: 'Enchanter'
           }
         ],
@@ -544,843 +606,9 @@ RUNE LIMITS:
     ]
   },
 
-  // Example Spells - organized by specialization
-  exampleSpells: [
-    // ========================================
-    // RUNEBINDER SPECIALIZATION
-    // Zone control and battlefield manipulation
-    // ========================================
-    {
-      id: 'insc_rune_destruction',
-      name: 'Rune of Destruction',
-      description: 'Place a rune of destruction that creates a zone of volatile magic. Fire damage is amplified for both allies and enemies within 5 ft. At 3+ runes, the entire zone doubles fire damage dealt and taken.',
-      spellType: 'ACTION',
-      icon: 'Fire/Fiery Symbol',
-      school: 'Evocation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 5
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Lasts 1 minute or until disrupted'
-      },
-
-      resourceCost: {
-        mana: 6,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Ignis Runica!',
-        somaticText: 'Trace burning rune in the air'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        zone: {
-          type: 'rune',
-          radius: 5,
-          effect: 'Creatures within 5 ft deal and take +1d6 fire damage',
-          zoneEffect: 'At 3+ runes, entire zone doubles fire damage dealt and taken',
-          duration: '1 minute'
-        }
-      },
-
-      specialMechanics: {
-        runicZone: {
-          enabled: true,
-          runeType: 'Destruction',
-          individualEffect: '+1d6 fire damage dealt/taken within 5 ft',
-          zoneEffect: 'Double fire damage dealt/taken in entire zone (3+ runes)',
-          detonation: {
-            enabled: true,
-            saveDC: 15,
-            saveType: 'constitution',
-            effect: 'Stunned for 1 minute',
-            description: 'Detonate to inflict Stunned condition (DC 15 CON save)'
-          }
-        }
-      },
-
-      tags: ['rune', 'zone', 'fire', 'offensive', 'runebinder'],
-      flavorText: 'The rune burns with infernal power, amplifying all flames within its reach.'
-    },
-
-    {
-      id: 'insc_rune_vitality',
-      name: 'Rune of Vitality',
-      description: 'Place a rune of vitality that creates a zone of restoration. Creatures within 5 ft heal 1d6 HP per turn. At 3+ runes, the entire zone heals 2d6 HP per turn.',
-      spellType: 'ACTION',
-      icon: 'Healing/Golden Heart',
-      school: 'Abjuration',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 5
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Lasts 1 minute or until disrupted'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Vita Runica!',
-        somaticText: 'Trace glowing rune in the air'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        zone: {
-          type: 'rune',
-          radius: 5,
-          effect: 'Creatures within 5 ft heal 1d6 HP per turn',
-          zoneEffect: 'At 3+ runes, entire zone heals 2d6 HP per turn',
-          duration: '1 minute'
-        }
-      },
-
-      specialMechanics: {
-        runicZone: {
-          enabled: true,
-          runeType: 'Vitality',
-          individualEffect: 'Heal 1d6 HP per turn within 5 ft',
-          zoneEffect: 'Heal 2d6 HP per turn in entire zone (3+ runes)',
-          detonation: {
-            enabled: true,
-            saveDC: 15,
-            saveType: 'constitution',
-            effect: 'Exhausted, -1d6 max HP per rune for 1 minute',
-            description: 'Detonate to inflict Exhausted condition and reduce max HP (DC 15 CON save)'
-          }
-        }
-      },
-
-      tags: ['rune', 'zone', 'healing', 'support', 'runebinder'],
-      flavorText: 'Life energy radiates from the rune, mending wounds of those nearby.'
-    },
-
-    {
-      id: 'insc_rune_earth',
-      name: 'Rune of Earth',
-      description: 'Place a rune of earth that conjures a 5 ft pillar (30 HP). If connected to another rune, forms a wall up to 10 ft long and 15 ft high.',
-      spellType: 'ACTION',
-      icon: 'Nature/Roots',
-      school: 'Conjuration',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'special',
-        aoeSize: 5
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Lasts 1 minute or until destroyed'
-      },
-
-      resourceCost: {
-        mana: 6,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Terra Runica!',
-        somaticText: 'Slam fist to ground',
-        materialText: 'A piece of stone or earth'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        summon: {
-          type: 'terrain',
-          structure: '5 ft pillar with 30 HP',
-          zoneEffect: 'Connected runes form walls (10 ft long, 15 ft high, 30 HP per 5 ft)',
-          duration: '1 minute or until destroyed'
-        }
-      },
-
-      specialMechanics: {
-        runicZone: {
-          enabled: true,
-          runeType: 'Earth',
-          individualEffect: 'Conjures 5 ft pillar (30 HP)',
-          zoneEffect: 'Forms wall up to 10 ft long, 15 ft high (3+ runes)',
-          detonation: {
-            enabled: true,
-            saveDC: 15,
-            saveType: 'agility',
-            effect: '2d8 piercing damage to all within 15 ft',
-            description: 'Walls splinter, dealing 2d8 piercing damage (DC 15 Agility save)'
-          }
-        }
-      },
-
-      tags: ['rune', 'zone', 'terrain', 'defensive', 'runebinder'],
-      flavorText: 'Stone rises from the earth, forming barriers at your command.'
-    },
-
-    // ========================================
-    // ENCHANTER SPECIALIZATION
-    // Equipment enhancement and inscription mastery
-    // ========================================
-
-    // Weapon Inscriptions
-    {
-      id: 'insc_flame_inscription',
-      name: 'Flame Inscription',
-      description: 'Inscribe your weapon with the power of fire. The weapon deals +1d8 fire damage on each strike for the duration of combat.',
-      spellType: 'ACTION',
-      icon: 'Fire/Flame Fist',
-      school: 'Transmutation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your weapon to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Flamma Inscriptio!',
-        somaticText: 'Trace fiery runes along weapon blade'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'weapon-enhancement',
-          bonus: '+1d8 fire damage',
-          duration: 'combat',
-          description: 'The weapon burns with magical flames, dealing additional fire damage with each strike. The runic fire clings to enemies, continuing to burn after impact.'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'weapon',
-          effect: '+1d8 fire damage',
-          stackable: false,
-          description: 'Cannot stack with other weapon inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'weapon', 'fire', 'enhancement', 'enchanter'],
-      flavorText: 'Flames dance along your weapon, eager to burn your foes.'
-    },
-
-    {
-      id: 'insc_lightning_inscription',
-      name: 'Lightning Inscription',
-      description: 'Inscribe your weapon with the power of lightning. Deals +1d6 lightning damage and has a 1-in-8 chance to stun (DC 15).',
-      spellType: 'ACTION',
-      icon: 'Lightning/Lightning Bolt',
-      school: 'Transmutation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your weapon to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Fulgur Inscriptio!',
-        somaticText: 'Trace crackling runes along weapon'
-      },
-
-      resolution: 'DICE',
-
-      effects: {
-        buff: {
-          type: 'weapon-enhancement',
-          bonus: '+1d6 lightning damage',
-          duration: 'combat',
-          description: 'Weapon deals additional 1d6 lightning damage'
-        }
-      },
-
-      rollableTable: {
-        enabled: true,
-        name: 'Lightning Stun Chance',
-        description: 'Roll d8 on each hit - 8 stuns target',
-        resolutionType: 'DICE',
-        resolutionConfig: {
-          diceType: 'd8'
-        },
-        entries: [
-          { roll: 1, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 2, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 3, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 4, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 5, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 6, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 7, name: 'No Effect', effect: 'Lightning crackles but no stun' },
-          { roll: 8, name: 'Stun!', effect: 'Target stunned (DC 15 CON save)' }
-        ]
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'weapon',
-          effect: '+1d6 lightning damage, 1-in-8 stun chance',
-          stackable: false,
-          description: 'Cannot stack with other weapon inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'weapon', 'lightning', 'enhancement', 'control', 'enchanter', 'rollable table'],
-      flavorText: 'Lightning arcs along your weapon, ready to shock your enemies.'
-    },
-
-    // Armor Inscriptions
-    {
-      id: 'insc_thorn_inscription',
-      name: 'Thorn Inscription',
-      description: 'Inscribe your armor with the power of thorns. Attackers take 1d6 piercing damage whenever they hit you.',
-      spellType: 'ACTION',
-      icon: 'Nature/Thorned Flower',
-      school: 'Transmutation',
-      level: 1,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your armor to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Spina Inscriptio!',
-        somaticText: 'Trace thorny runes on armor'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'armor-enhancement',
-          effect: 'Attackers take 1d6 piercing damage on hit',
-          duration: 'combat',
-          description: 'Reflects damage back to attackers'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'armor',
-          effect: 'Attackers take 1d6 piercing damage when they hit you',
-          stackable: false,
-          description: 'Cannot stack with other armor inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'armor', 'defensive', 'retaliation', 'enchanter'],
-      flavorText: 'Thorns sprout from your armor, punishing those who dare strike you.'
-    },
-
-    {
-      id: 'insc_stone_skin',
-      name: 'Stone Skin Inscription',
-      description: 'Inscribe your armor with the toughness of stone. Gain temporary HP equal to your Constitution modifier at the start of each turn.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      school: 'Transmutation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your armor to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Petra Cutis!',
-        somaticText: 'Trace stone-like runes on armor',
-        materialText: 'A small piece of granite'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'armor-enhancement',
-          effect: 'Gain temp HP equal to CON modifier per turn',
-          duration: 'combat',
-          description: 'Continuous temporary hit point generation'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'armor',
-          effect: 'Gain temporary HP equal to CON modifier at start of each turn',
-          stackable: false,
-          description: 'Cannot stack with other armor inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'armor', 'defensive', 'regeneration', 'enchanter'],
-      flavorText: 'Your skin hardens like stone, constantly renewing your defenses.'
-    },
-
-    // Boot Inscriptions
-    {
-      id: 'insc_flight_inscription',
-      name: 'Flight Inscription',
-      description: 'Inscribe your boots with the power of flight. Gain the ability to fly at 20 feet speed for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Channeling Stance',
-      school: 'Transmutation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your boots to inscribe them'
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Flight lasts 1 minute'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Volatus Inscriptio!',
-        somaticText: 'Trace wing-like runes on boots'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'mobility-enhancement',
-          effect: 'Fly speed 20 ft',
-          duration: '1 minute',
-          description: 'Gain flight capability'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'boots',
-          effect: 'Fly at 20 ft speed for 1 minute',
-          stackable: false,
-          description: 'Cannot stack with other boot inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'boots', 'mobility', 'flight', 'enchanter'],
-      flavorText: 'Your boots lift you into the air, defying gravity itself.'
-    },
-
-    // Cape Inscriptions
-    {
-      id: 'insc_blink_inscription',
-      name: 'Blink Inscription',
-      description: 'Inscribe your cape with teleportation magic. Gain the ability to teleport up to 30 feet for 1 AP.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Quick Step',
-      school: 'Transmutation',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your cape to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Translatio Inscriptio!',
-        somaticText: 'Trace shimmering runes on cape'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'utility-enhancement',
-          effect: 'Teleport up to 30 ft for 1 AP',
-          duration: 'combat',
-          description: 'Gain short-range teleportation'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'cape',
-          effect: 'Teleport up to 30 ft for 1 AP',
-          stackable: false,
-          description: 'Cannot stack with other cape inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'cape', 'utility', 'teleportation', 'enchanter'],
-      flavorText: 'Your cape shimmers with spatial magic, allowing you to blink across the battlefield.'
-    },
-
-    {
-      id: 'insc_camouflage_inscription',
-      name: 'Camouflage Inscription',
-      description: 'Inscribe your cape with the power of invisibility. Gain invisibility for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Utility/Hide',
-      school: 'Illusion',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your cape to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 1,
-        description: 'Invisibility lasts 1 minute or until you attack'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Occultatio Inscriptio!',
-        somaticText: 'Trace fading runes on cape'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'stealth-enhancement',
-          effect: 'Invisibility for 1 minute',
-          duration: '1 minute or until attack',
-          description: 'Become invisible'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'cape',
-          effect: 'Gain invisibility for 1 minute (ends on attack)',
-          stackable: false,
-          description: 'Cannot stack with other cape inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'cape', 'utility', 'stealth', 'invisibility', 'enchanter'],
-      flavorText: 'Your cape bends light around you, rendering you invisible to the naked eye.'
-    },
-
-    // Belt Inscriptions
-    {
-      id: 'insc_regeneration_inscription',
-      name: 'Regeneration Inscription',
-      description: 'Inscribe your belt with regenerative energy. Regain 1d4 hit points at the start of each turn.',
-      spellType: 'ACTION',
-      icon: 'Healing/Renewal',
-      school: 'Transmutation',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'touch',
-        description: 'Touch your belt to inscribe it'
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Lasts until end of combat'
-      },
-
-      resourceCost: {
-        mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Regeneratio Inscriptio!',
-        somaticText: 'Trace healing runes on belt'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        buff: {
-          type: 'regeneration',
-          effect: 'Heal 1d4 HP at start of each turn',
-          duration: 'combat',
-          description: 'Continuous healing over time'
-        }
-      },
-
-      specialMechanics: {
-        inscription: {
-          enabled: true,
-          slot: 'belt',
-          effect: 'Regain 1d4 HP at start of each turn',
-          stackable: false,
-          description: 'Cannot stack with other belt inscriptions'
-        }
-      },
-
-      tags: ['inscription', 'belt', 'healing', 'regeneration', 'enchanter'],
-      flavorText: 'Life energy flows through your belt, constantly mending your wounds.'
-    },
-
-    // ========================================
-    // GLYPHWEAVER SPECIALIZATION
-    // Explosive traps and detonation mechanics
-    // ========================================
-    {
-      id: 'insc_runic_explosion',
-      name: 'Runic Explosion',
-      description: 'Inscribe a rune on a surface that explodes when triggered, dealing 4d8 force damage in a 15-foot radius.',
-      spellType: 'ACTION',
-      icon: 'Utility/Explosive Detonation',
-      school: 'Evocation',
-      level: 3,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeType: 'circle',
-        aoeSize: 15
-      },
-
-      durationConfig: {
-        durationType: 'rounds',
-        description: 'Explodes when creature enters the space'
-      },
-
-      resourceCost: {
-        mana: 4,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Explosio Runica!',
-        somaticText: 'Trace volatile rune on surface'
-      },
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'agility',
-        saveDC: 15,
-        onSaveEffect: 'half'
-      },
-
-      damageConfig: {
-        formula: '4d8',
-        damageType: 'force',
-        scalingType: 'none'
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d8',
-            type: 'force'
-          }
-        }
-      },
-
-      specialMechanics: {
-        trap: {
-          enabled: true,
-          triggerType: 'proximity',
-          triggerRadius: 5,
-          description: 'Explodes when creature enters within 5 ft'
-        }
-      },
-
-      tags: ['rune', 'trap', 'force', 'aoe', 'damage', 'glyphweaver'],
-      flavorText: 'The rune pulses with barely contained energy, waiting to unleash destruction.'
-    },
-
-    {
-      id: 'insc_inkbound_servant',
-      name: 'Inkbound Servant',
-      description: 'Summon a servant made of magical ink that can assist you in combat or tasks. The servant has Armor 12 and 10 hit points.',
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Control',
-      school: 'Conjuration',
-      level: 2,
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 30
-      },
-
-      durationConfig: {
-        durationType: 'minutes',
-        duration: 10,
-        description: 'Servant lasts 10 minutes or until destroyed'
-      },
-
-      resourceCost: {
-        mana: 3,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Servus Atramenti!',
-        somaticText: 'Draw servant shape in the air',
-        materialText: 'A vial of magical ink'
-      },
-
-      resolution: 'AUTOMATIC',
-
-      effects: {
-        summon: {
-          creatureType: 'Inkbound Servant',
-          ac: 12,
-          hp: 10,
-          duration: '10 minutes',
-          description: 'Summons a servant made of magical ink that follows your commands'
-        }
-      },
-
-      specialMechanics: {
-        summon: {
-          enabled: true,
-          summonType: 'Inkbound Servant',
-          stats: {
-            ac: 12,
-            hp: 10,
-            speed: 30,
-            abilities: ['Can perform simple tasks', 'Can make melee attacks (1d4 bludgeoning)', 'Can carry light objects']
-          }
-        }
-      },
-
-      tags: ['summon', 'utility', 'servant', 'ink', 'enchanter'],
-      flavorText: 'Ink flows from your fingertips, coalescing into a loyal servant.'
-    }
-  ],
-
   // Comprehensive Spell List (Levels 1-10, following template)
   spells: [
-    // ===== LEVEL 1 SPELLS (has 2, need 1 more) =====
+    // ===== LEVEL 1 SPELLS =====
     {
       id: 'inscriptor_arcane_inscription',
       name: 'Arcane Inscription',
@@ -1400,11 +628,11 @@ RUNE LIMITS:
         effects: [{
           id: 'arcane_inscription',
           name: 'Arcane Inscription',
-          description: 'Gain +1 to spell damage rolls for 3 rounds',
+          description: 'Gain +1d4 to spell damage rolls for 3 rounds',
           statModifier: {
             stat: 'spell_damage',
             magnitude: 1,
-            magnitudeType: 'flat'
+            magnitudeType: 'd4'
           }
         }],
         durationValue: 3,
@@ -1423,7 +651,7 @@ RUNE LIMITS:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 4 },
+        resourceValues: { mana: 3 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
@@ -1436,7 +664,216 @@ RUNE LIMITS:
       tags: ['buff', 'support', 'inscription', 'inscriptor']
     },
 
+    {
+      id: 'inscriptor_minor_rune',
+      name: 'Minor Rune',
+      description: 'Place a basic rune on the battlefield. Enemies entering within 5 ft take 1d4 force damage. Lasts 1 minute.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['damage'],
+      typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Orb Manipulation',
+        tags: ['damage', 'rune', 'zone', 'force', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '1d4',
+        elementType: 'force',
+        damageType: 'direct'
+      },
+      specialMechanics: {
+        runicZone: {
+          enabled: true,
+          runeType: 'Minor',
+          individualEffect: 'Enemies within 5 ft take 1d4 force damage when entering',
+          zoneEffect: 'At 3+ minor runes, zone deals 1d4 force damage at the start of each enemy turn',
+          detonation: {
+            enabled: true,
+            saveDC: 12,
+            saveType: 'agility',
+            effect: 'Minor push — enemies within 5 ft are pushed 5 ft away',
+            damageFormula: '0',
+            damageType: 'none'
+          }
+        }
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'AUTOMATIC',
+      tags: ['damage', 'rune', 'zone', 'force', 'inscriptor']
+    },
+
+    {
+      id: 'inscriptor_rune_of_shielding',
+      name: 'Rune of Shielding',
+      description: 'Place a protective rune on the battlefield. Allies within 5 ft gain +1 Armor. At 3+ runes, allies gain +3 Armor.',
+      level: 1,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'Force/Force Field',
+        tags: ['buff', 'rune', 'zone', 'defensive', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'shielding_rune',
+          name: 'Shielding Rune',
+          description: 'Gain +1 Armor while within the rune radius for 1 minute',
+          statModifier: {
+            stat: 'armor',
+            magnitude: 1,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      specialMechanics: {
+        runicZone: {
+          enabled: true,
+          runeType: 'Shielding',
+          individualEffect: 'Allies within 5 ft gain +1 Armor',
+          zoneEffect: 'At 3+ runes, all allies in zone gain +3 Armor',
+          detonation: {
+            enabled: true,
+            saveDC: 13,
+            saveType: 'constitution',
+            effect: 'Armor Breakdown — affected enemies lose -3 Armor for 1 minute',
+            damageFormula: '0',
+            damageType: 'none'
+          }
+        }
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'rune', 'zone', 'defensive', 'inscriptor']
+    },
+
     // ===== LEVEL 2 SPELLS =====
+    {
+      id: 'inscriptor_rune_of_speed',
+      name: 'Rune of Speed',
+      description: 'Place a rune that enhances movement. Allies within 5 ft gain +10 ft movement speed. At 3+ runes, allies gain +20 ft movement speed.',
+      level: 2,
+      spellType: 'ACTION',
+      effectTypes: ['buff'],
+      typeConfig: {
+        school: 'abjuration',
+        icon: 'Nature/Rip',
+        tags: ['buff', 'rune', 'zone', 'mobility', 'inscriptor'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'speed_rune',
+          name: 'Speed Rune',
+          description: 'Gain +10 ft movement speed while within the rune radius for 1 minute',
+          statModifier: {
+            stat: 'movement_speed',
+            magnitude: 10,
+            magnitudeType: 'flat'
+          }
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: false,
+        canBeDispelled: true
+      },
+      specialMechanics: {
+        runicZone: {
+          enabled: true,
+          runeType: 'Speed',
+          individualEffect: 'Allies within 5 ft gain +10 ft movement speed',
+          zoneEffect: 'At 3+ runes, all allies in zone gain +20 ft movement speed',
+          detonation: {
+            enabled: true,
+            saveDC: 14,
+            saveType: 'agility',
+            effect: 'Restrained for 1 minute (AGI save)',
+            damageFormula: '0',
+            damageType: 'none'
+          }
+        }
+      },
+      targetingConfig: {
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 5 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 0
+      },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'rune', 'zone', 'mobility', 'inscriptor']
+    },
+
     {
       id: 'inscriptor_rune_of_warding',
       name: 'Rune of Warding',
@@ -2553,16 +1990,16 @@ RUNE LIMITS:
         effects: [{
           id: 'master_inscriber',
           name: 'Master Inscriber',
-          description: 'All inscription, glyph, and rune spells cost 50% less mana, have +3 DC, and deal +100% damage for 5 rounds',
-          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 3. All damage increased by 100%. You can place inscriptions without spending action points.',
-          mechanicsText: 'Inscription spells cost 50% less mana, +3 DC, +100% damage for 5 rounds',
-          statModifier: [{ stat: 'mana_cost', magnitude: -50, magnitudeType: 'percentage' }, { stat: 'spell_dc', magnitude: 3, magnitudeType: 'flat' }]
+          description: 'All inscription, glyph, and rune spells cost 50% less mana, have +2 DC, and deal +50% damage for 3 rounds',
+          customDescription: 'You achieve mastery over all forms of inscription magic. All your inscription, glyph, rune, and sigil spells cost 50% less mana. All saving throw DCs increased by 2. All damage increased by 50%. You can place inscriptions without spending action points.',
+          mechanicsText: 'Inscription spells cost 50% less mana, +2 DC, +50% damage for 3 rounds',
+          statModifier: [{ stat: 'mana_cost', magnitude: -50, magnitudeType: 'percentage' }, { stat: 'spell_dc', magnitude: 2, magnitudeType: 'flat' }]
         }],
-        durationValue: 5,
+        durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        concentrationRequired: true,
+        canBeDispelled: true
       },
       targetingConfig: {
         targetingType: 'self'
@@ -3125,9 +2562,12 @@ RUNE LIMITS:
   // Spell Pools by Level
   spellPools: {
     1: [
-      'inscriptor_arcane_inscription'
+      'inscriptor_arcane_inscription',
+      'inscriptor_minor_rune',
+      'inscriptor_rune_of_shielding'
     ],
     2: [
+      'inscriptor_rune_of_speed',
       'inscriptor_rune_of_warding',
       'inscriptor_flame_inscription',
       'inscriptor_rune_of_slowing'

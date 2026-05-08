@@ -429,9 +429,9 @@ export const TALENT_TREES = {
     'card_sharp': GAMBLER_FATE_CONTROL
   },
   'Martyr': {
-    'redemption': MARTYR_ZEALOT,
-    'zealot': MARTYR_ASCETIC,
-    'ascetic': MARTYR_REDEMPTION
+    'redemption': MARTYR_REDEMPTION,
+    'zealot': MARTYR_ZEALOT,
+    'ascetic': MARTYR_ASCETIC
   },
   'False Prophet': {
     'voidcaller': FALSE_PROPHET_VOIDCALLER,

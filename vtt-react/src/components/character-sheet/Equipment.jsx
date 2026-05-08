@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import useCharacterStore from '../../store/characterStore';
 import useInventoryStore from '../../store/inventoryStore';
@@ -26,6 +26,149 @@ import '../../styles/racial-traits.css';
 import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import useItemStore from '../../store/itemStore';
 import Languages from './Languages';
+
+const SECTIONS = {
+    character: {
+        title: 'Character Info',
+        icon: getCustomIconUrl('Nature/Stylized Tree', 'abilities')
+    },
+    equipment: {
+        title: 'Equipment',
+        icon: getCustomIconUrl('Utility/Brown Shield', 'abilities')
+    },
+    resources: {
+        title: 'Resources',
+        icon: getIconUrl('Healing/Golden Heart', 'abilities')
+    },
+    passives: {
+        title: 'Passives',
+        icon: getIconUrl('Utility/Glowing Orb', 'abilities')
+    },
+    languages: {
+        title: 'Languages',
+        icon: getIconUrl('Social/Party Gathering', 'abilities')
+    }
+};
+
+const EQUIPMENT_SLOTS = {
+    head: {
+        position: { top: 0, left: -50 },
+        icon: getIconUrl('Armor/Head/head-brown-tan-banded-helmet', 'items'),
+        info: 'Head'
+    },
+    neck: {
+        position: { top: 50, left: -50 },
+        icon: getIconUrl('Armor/Waist/brown-beaded-necklace-belt', 'items'),
+        info: 'Neck'
+    },
+    shoulders: {
+        position: { top: 100, left: -50 },
+        icon: getIconUrl('Armor/Shoulder/shoulder-pauldron-segmented-brown-tan-cream-layered', 'items'),
+        info: 'Shoulders'
+    },
+    back: {
+        position: { top: 150, left: -50 },
+        icon: getIconUrl('Armor/Cloak/cloak-autumn-leaf-trim-cape', 'items'),
+        info: 'Back'
+    },
+    chest: {
+        position: { top: 200, left: -50 },
+        icon: getIconUrl('Armor/Chest/chest-barbarian-leather-tunic', 'items'),
+        info: 'Chest'
+    },
+    shirt: {
+        position: { top: 250, left: -50 },
+        icon: getIconUrl('Armor/Chest/chest-flowing-sleeve-tunic', 'items'),
+        info: 'Shirt'
+    },
+    tabard: {
+        position: { top: 300, left: -50 },
+        icon: getIconUrl('Armor/Chest/chest-harlequin-split-tunic', 'items'),
+        info: 'Tabard'
+    },
+    wrists: {
+        position: { top: 350, left: -50 },
+        icon: getIconUrl('Armor/Wrist/worn-leather-bracer', 'items'),
+        info: 'Wrists'
+    },
+    gloves: {
+        position: { top: 0, right: -50 },
+        icon: getIconUrl('Armor/Hands/hands-orange-cream-banded-glove', 'items'),
+        info: 'Hands'
+    },
+    waist: {
+        position: { top: 50, right: -50 },
+        icon: getIconUrl('Armor/Chest/chest-belted-brown-robe', 'items'),
+        info: 'Waist'
+    },
+    legs: {
+        position: { top: 100, right: -50 },
+        icon: getIconUrl('Armor/Leggings/leggings-blood-stained-teal-pants', 'items'),
+        info: 'Legs'
+    },
+    feet: {
+        position: { top: 150, right: -50 },
+        icon: getIconUrl('Armor/Feet/feet-tan-beige-boots-pair', 'items'),
+        info: 'Feet'
+    },
+    ring1: {
+        position: { top: 200, right: -50 },
+        icon: getIconUrl('Armor/Finger/finger-ancient-bronze-ring', 'items'),
+        info: 'Ring'
+    },
+    ring2: {
+        position: { top: 250, right: -50 },
+        icon: getIconUrl('Armor/Finger/finger-ancient-bronze-ring', 'items'),
+        info: 'Ring'
+    },
+    trinket1: {
+        position: { top: 300, right: -50 },
+        icon: getIconUrl('Armor/Neck/glowing-orb-pendant', 'items'),
+        info: 'Trinket'
+    },
+    trinket2: {
+        position: { top: 350, right: -50 },
+        icon: getIconUrl('Armor/Neck/fiery-orb-amulet', 'items'),
+        info: 'Trinket'
+    }
+};
+
+const WEAPON_SLOTS = {
+    mainHand: {
+        icon: getIconUrl('Armor/Neck/magical-sword-pendant', 'items'),
+        info: 'Main Hand'
+    },
+    offHand: {
+        icon: getIconUrl('Weapons/Shields/shield-heater-wooden-brown-worn-cracks-beige-boss', 'items'),
+        info: 'Off Hand'
+    },
+    ranged: {
+        icon: getIconUrl('Weapons/Bows/bow-simple-brown-tan-grip', 'items'),
+        info: 'Ranged'
+    }
+};
+
+const SLOT_DESCRIPTIONS = {
+    head: "Protects your head from blows and the elements. Helmets often enhance perception, intelligence, or provide magical protection.",
+    neck: "Amulets and necklaces that grant magical properties, protection, or enhance your natural abilities.",
+    shoulders: "Pauldrons and spaulders that provide additional protection and can enhance strength or intimidation.",
+    back: "Cloaks and capes that offer protection from the elements and can grant stealth or movement bonuses.",
+    chest: "Your primary armor piece, offering the most protection and often enhancing your core attributes.",
+    shirt: "Primarily decorative, but some magical shirts can provide comfort in harsh environments.",
+    tabard: "Displays your allegiance or achievements. Some magical tabards grant special abilities.",
+    wrists: "Bracers that protect your forearms and can enhance spellcasting or physical abilities.",
+    gloves: "Gauntlets and gloves that protect your hands and can enhance agility or attack power.",
+    waist: "Belts and girdles that can hold items and sometimes enhance strength or constitution.",
+    legs: "Greaves and leggings that protect your lower body and can enhance mobility or endurance.",
+    feet: "Boots that protect your feet and can enhance speed, stealth, or provide stability.",
+    ring1: "Magical rings that can enhance attributes, grant special abilities, or provide protection.",
+    ring2: "A second magical ring. Wearing too many powerful rings can be dangerous.",
+    trinket1: "Magical devices with unique effects that can be activated in times of need.",
+    trinket2: "A second magical trinket. Choose wisely to complement your abilities.",
+    mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
+    offHand: "Secondary weapons, shields, or magical focuses held in your off-hand.",
+    ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
+};
 
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (passive = {}) => {
@@ -416,31 +559,7 @@ export default function CharacterPanel() {
 
     // State for navigation
     const [activeSection, setActiveSection] = useState('character');
-    const [showLabels, setShowLabels] = useState(false); // Start with icons only
-
-    // Define sections for navigation
-    const sections = {
-        character: {
-            title: 'Character Info',
-            icon: getCustomIconUrl('Nature/Stylized Tree', 'abilities')
-        },
-        equipment: {
-            title: 'Equipment',
-            icon: getCustomIconUrl('Utility/Brown Shield', 'abilities')
-        },
-        resources: {
-            title: 'Resources',
-            icon: getIconUrl('Healing/Golden Heart', 'abilities')
-        },
-        passives: {
-            title: 'Passives',
-            icon: getIconUrl('Utility/Glowing Orb', 'abilities')
-        },
-        languages: {
-            title: 'Languages',
-            icon: getIconUrl('Social/Party Gathering', 'abilities')
-        }
-    };
+    const [showLabels, setShowLabels] = useState(false);
 
     // Inventory store for adding unequipped items back to inventory
     const { addItem } = useInventoryStore(state => ({
@@ -448,7 +567,7 @@ export default function CharacterPanel() {
     }));
 
     // Get chat store for combat notifications
-    const { addCombatNotification } = useChatStore();
+    const addCombatNotification = useChatStore(state => state.addCombatNotification);
 
     // Get GM mode status
     const isGMMode = useGameStore(state => state.isGMMode);
@@ -963,7 +1082,7 @@ export default function CharacterPanel() {
             <div className="equipment-layout">
                 {/* Left Equipment Column */}
                 <div className="left-equipment">
-                    {Object.entries(slots).filter(([slotName]) =>
+                    {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
                         ['head', 'neck', 'shoulders', 'back', 'chest', 'shirt', 'tabard', 'wrists'].includes(slotName)
                     ).map(([slotName, config]) => renderSlot(slotName, config))}
                 </div>
@@ -987,7 +1106,7 @@ export default function CharacterPanel() {
 
                     {/* Weapon Slots Below Image */}
                     <div className="weapon-slots-bottom">
-                        {Object.entries(weaponSlots).map(([slotName, config]) => {
+                        {Object.entries(WEAPON_SLOTS).map(([slotName, config]) => {
                             // Handle potential key mismatch: check both camelCase and snake_case
                             let item = equipment[slotName];
                             if (!item && slotName === 'offHand') {
@@ -1123,7 +1242,7 @@ export default function CharacterPanel() {
 
                 {/* Right Equipment Column */}
                 <div className="right-equipment">
-                    {Object.entries(slots).filter(([slotName]) =>
+                    {Object.entries(EQUIPMENT_SLOTS).filter(([slotName]) =>
                         ['gloves', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'].includes(slotName)
                     ).map(([slotName, config]) => renderSlot(slotName, config))}
                 </div>
@@ -1586,123 +1705,21 @@ export default function CharacterPanel() {
     // Handle unequipping an item
     const handleUnequipItem = (slotName) => {
         try {
-            // Unequip the item from the character
             const unequippedItem = unequipItem(slotName);
 
             if (unequippedItem) {
-                // Add the item back to inventory
                 addItem(unequippedItem);
-                // console.log(`Unequipped ${unequippedItem.name} from ${slotName}`);
             }
         } catch (error) {
             console.error('Error unequipping item:', error);
         }
     };
 
-    const slots = {
-        head: {
-            position: { top: 0, left: -50 },
-            icon: getIconUrl('Armor/Head/head-brown-tan-banded-helmet', 'items'),
-            info: 'Head'
-        },
-        neck: {
-            position: { top: 50, left: -50 },
-            icon: getIconUrl('Armor/Waist/brown-beaded-necklace-belt', 'items'),
-            info: 'Neck'
-        },
-        shoulders: {
-            position: { top: 100, left: -50 },
-            icon: getIconUrl('Armor/Shoulder/shoulder-pauldron-segmented-brown-tan-cream-layered', 'items'),
-            info: 'Shoulders'
-        },
-        back: {
-            position: { top: 150, left: -50 },
-            icon: getIconUrl('Armor/Cloak/cloak-autumn-leaf-trim-cape', 'items'),
-            info: 'Back'
-        },
-        chest: {
-            position: { top: 200, left: -50 },
-            icon: getIconUrl('Armor/Chest/chest-barbarian-leather-tunic', 'items'),
-            info: 'Chest'
-        },
-        shirt: {
-            position: { top: 250, left: -50 },
-            icon: getIconUrl('Armor/Chest/chest-flowing-sleeve-tunic', 'items'),
-            info: 'Shirt'
-        },
-        tabard: {
-            position: { top: 300, left: -50 },
-            icon: getIconUrl('Armor/Chest/chest-harlequin-split-tunic', 'items'),
-            info: 'Tabard'
-        },
-        wrists: {
-            position: { top: 350, left: -50 },
-            icon: getIconUrl('Armor/Wrist/worn-leather-bracer', 'items'),
-            info: 'Wrists'
-        },
-        gloves: {
-            position: { top: 0, right: -50 },
-            icon: getIconUrl('Armor/Hands/hands-orange-cream-banded-glove', 'items'),
-            info: 'Hands'
-        },
-        waist: {
-            position: { top: 50, right: -50 },
-            icon: getIconUrl('Armor/Chest/chest-belted-brown-robe', 'items'),
-            info: 'Waist'
-        },
-        legs: {
-            position: { top: 100, right: -50 },
-            icon: getIconUrl('Armor/Leggings/leggings-blood-stained-teal-pants', 'items'),
-            info: 'Legs'
-        },
-        feet: {
-            position: { top: 150, right: -50 },
-            icon: getIconUrl('Armor/Feet/feet-tan-beige-boots-pair', 'items'),
-            info: 'Feet'
-        },
-        ring1: {
-            position: { top: 200, right: -50 },
-            icon: getIconUrl('Armor/Finger/finger-ancient-bronze-ring', 'items'),
-            info: 'Ring'
-        },
-        ring2: {
-            position: { top: 250, right: -50 },
-            icon: getIconUrl('Armor/Finger/finger-ancient-bronze-ring', 'items'),
-            info: 'Ring'
-        },
-        trinket1: {
-            position: { top: 300, right: -50 },
-            icon: getIconUrl('Armor/Neck/glowing-orb-pendant', 'items'),
-            info: 'Trinket'
-        },
-        trinket2: {
-            position: { top: 350, right: -50 },
-            icon: getIconUrl('Armor/Neck/fiery-orb-amulet', 'items'),
-            info: 'Trinket'
-        }
-    };
-
-    const weaponSlots = {
-        mainHand: {
-            icon: getIconUrl('Armor/Neck/magical-sword-pendant', 'items'),
-            info: 'Main Hand'
-        },
-        offHand: {
-            icon: getIconUrl('Weapons/Shields/shield-heater-wooden-brown-worn-cracks-beige-boss', 'items'),
-            info: 'Off Hand'
-        },
-        ranged: {
-            icon: getIconUrl('Weapons/Bows/bow-simple-brown-tan-grip', 'items'),
-            info: 'Ranged'
-        }
-    };
-
-    // Calculate total stats (base + equipment bonuses)
-    const getTotalStats = () => {
+    // Calculate total stats (base + equipment bonuses) - memoized to prevent recalculation on every render
+    const totalStats = useMemo(() => {
         const totalStats = { ...stats };
 
         if (equipmentBonuses) {
-            // Add equipment bonuses to base stats
             const statMapping = {
                 str: 'strength',
                 con: 'constitution',
@@ -1718,11 +1735,9 @@ export default function CharacterPanel() {
                 }
             });
 
-            // Calculate fresh derived stats with current equipment bonuses
             const encumbranceState = useInventoryStore.getState().encumbranceState || 'normal';
             const freshDerivedStats = calculateDerivedStats(totalStats, equipmentBonuses, {}, encumbranceState, exhaustionLevel || 0, health, race, subrace);
 
-            // Add derived stats (all rounded)
             totalStats.maxHealth = Math.round(freshDerivedStats.maxHealth || health.max);
             totalStats.maxMana = Math.round(freshDerivedStats.maxMana || mana.max);
             totalStats.healthRegen = Math.round(freshDerivedStats.healthRegen || 0);
@@ -1735,42 +1750,32 @@ export default function CharacterPanel() {
             totalStats.healingPower = Math.round(freshDerivedStats.healingPower || 0);
             totalStats.rangedDamage = Math.round(freshDerivedStats.rangedDamage || 0);
 
-            // Add resistances from equipment
             if (equipmentBonuses.resistances) {
                 Object.entries(equipmentBonuses.resistances).forEach(([resistanceType, resistanceData]) => {
                     const resistanceKey = `${resistanceType}Resistance`;
-                    // Handle new resistance level system
                     if (resistanceData && typeof resistanceData === 'object' && resistanceData.level !== undefined) {
-                        // Store the full resistance data for the new system
                         totalStats[resistanceKey] = resistanceData;
                     } else if (typeof resistanceData === 'number') {
-                        // Legacy system: simple numeric value
                         totalStats[resistanceKey] = Math.round((totalStats[resistanceKey] || 0) + resistanceData);
                     }
                 });
             }
 
-            // Add spell damage types from equipment (base spell power is 0)
             if (equipmentBonuses.spellDamageTypes) {
                 Object.entries(equipmentBonuses.spellDamageTypes).forEach(([spellType, value]) => {
                     const spellPowerKey = `${spellType}SpellPower`;
-                    // Base spell power is 0, only equipment bonuses
                     totalStats[spellPowerKey] = Math.round(0 + value);
                 });
             }
 
-            // Add immunities from equipment
             if (equipmentBonuses.immunities && equipmentBonuses.immunities.length > 0) {
                 totalStats.immunities = [...(totalStats.immunities || []), ...equipmentBonuses.immunities];
-                // Remove duplicates
                 totalStats.immunities = [...new Set(totalStats.immunities)];
             }
         }
 
         return totalStats;
-    };
-
-    const totalStats = getTotalStats();
+    }, [stats, equipmentBonuses, exhaustionLevel, health, mana, race, subrace]);
 
 
 
@@ -1779,29 +1784,6 @@ export default function CharacterPanel() {
     const renderSlot = (slotName, slotConfig) => {
         const item = equipment[slotName];
         const isEmpty = !item;
-
-        // Equipment slot descriptions
-        const slotDescriptions = {
-            head: "Protects your head from blows and the elements. Helmets often enhance perception, intelligence, or provide magical protection.",
-            neck: "Amulets and necklaces that grant magical properties, protection, or enhance your natural abilities.",
-            shoulders: "Pauldrons and spaulders that provide additional protection and can enhance strength or intimidation.",
-            back: "Cloaks and capes that offer protection from the elements and can grant stealth or movement bonuses.",
-            chest: "Your primary armor piece, offering the most protection and often enhancing your core attributes.",
-            shirt: "Primarily decorative, but some magical shirts can provide comfort in harsh environments.",
-            tabard: "Displays your allegiance or achievements. Some magical tabards grant special abilities.",
-            wrists: "Bracers that protect your forearms and can enhance spellcasting or physical abilities.",
-            gloves: "Gauntlets and gloves that protect your hands and can enhance agility or attack power.",
-            waist: "Belts and girdles that can hold items and sometimes enhance strength or constitution.",
-            legs: "Greaves and leggings that protect your lower body and can enhance mobility or endurance.",
-            feet: "Boots that protect your feet and can enhance speed, stealth, or provide stability.",
-            ring1: "Magical rings that can enhance attributes, grant special abilities, or provide protection.",
-            ring2: "A second magical ring. Wearing too many powerful rings can be dangerous.",
-            trinket1: "Magical devices with unique effects that can be activated in times of need.",
-            trinket2: "A second magical trinket. Choose wisely to complement your abilities.",
-            mainHand: "Your primary weapon used for attacking. Choose based on your combat style and training.",
-            offHand: "Secondary weapons, shields, or magical focuses held in your off-hand.",
-            ranged: "Bows, crossbows, wands, or thrown weapons used to attack from a distance."
-        };
 
         return (
             <div
@@ -1841,7 +1823,7 @@ export default function CharacterPanel() {
                             }}
                         >
                             <div className="equipment-slot-name">{slotConfig.info}</div>
-                            <div className="equipment-slot-description">{slotDescriptions[slotName] || `Slot for ${slotConfig.info} equipment`}</div>
+                            <div className="equipment-slot-description">{SLOT_DESCRIPTIONS[slotName] || `Slot for ${slotConfig.info} equipment`}</div>
                         </div>
                     </TooltipPortal>
                 )}
@@ -1880,7 +1862,7 @@ export default function CharacterPanel() {
                 >
                     <span className="stats-toggle-icon">{showLabels ? '◀' : '▶'}</span>
                 </button>
-                {Object.entries(sections).map(([key, section]) => (
+                {Object.entries(SECTIONS).map(([key, section]) => (
                     <button
                         key={key}
                         className={`character-nav-button ${activeSection === key ? 'active' : ''}`}
@@ -1915,11 +1897,11 @@ export default function CharacterPanel() {
             >
                 <div className="character-section-header">
                     <img
-                        src={sections[activeSection].icon}
+                        src={SECTIONS[activeSection].icon}
                         alt=""
                         className="character-section-icon"
                     />
-                    <h2 className="character-section-title">{sections[activeSection].title}</h2>
+                    <h2 className="character-section-title">{SECTIONS[activeSection].title}</h2>
                 </div>
 
                 <div className="character-fields">

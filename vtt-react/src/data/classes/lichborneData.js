@@ -112,7 +112,7 @@ export const LICHBORNE_DATA = {
 
     immersiveCombatExample: {
       title: 'Combat Example: Death Is Fuel',
-      content: `**The Setup**: You're a Lichborne facing a group of fire elementals (3 elementals + 1 fire elemental lord). Starting HP: 80/80. Phylactery HP: 10 (from a previous kill). Eternal Frost Aura: OFF (Normal Mode). Starting Mana: 50/60. Your goal: Switch to Aura Mode for devastating frost damage, kill enemies to charge your Phylactery, and use death as a tactical weapon.
+      content: `**The Setup**: You're a **Level 4 Lichborne** facing a group of fire elementals (3 elementals + 1 fire elemental lord). Starting HP: 80/80. Phylactery HP: 10 (from a previous kill). Eternal Frost Aura: OFF (Normal Mode). Starting Mana: 50/60. Your goal: Switch to Aura Mode for devastating frost damage, kill enemies to charge your Phylactery, and use death as a tactical weapon.
 
 **Starting State**: HP: 80/80 | Phylactery HP: 10 | Mode: Normal | Mana: 50/60
 
@@ -248,7 +248,7 @@ export const LICHBORNE_DATA = {
 
 *You release the cold. The frost aura dissipates. You can breathe again. Spells now cost Mana.*
 
-**Your Action**: Cast "Siphon Soul" at frozen Fire Elemental #1 (6 Mana — now in Normal Mode, uses Mana!)
+**Your Action**: Cast "Siphon Soul" at frozen Fire Elemental #1 (8 Mana — now in Normal Mode, uses Mana!)
 **Attack Roll**: d20+6 → [18] = Hit!
 **Damage**: 2d6 frost → [5, 4] = 9 damage
 **Healing**: Heal for half = 4 HP
@@ -256,7 +256,7 @@ export const LICHBORNE_DATA = {
 
 *You drain the frozen elemental's life force. Warmth floods back into your undead body.*
 
-**Mana**: 50 - 6 = 44/60
+**Mana**: 50 - 8 = **42/60**
 
 **Fire Elemental #1 is DEAD from the damage!**
 
@@ -270,16 +270,20 @@ export const LICHBORNE_DATA = {
 **Your Party's Tank**: Shatters frozen Fire Elemental #3 → DEAD
 **Fire Elemental Lord**: Still alive, badly wounded from earlier
 
-**Current State**: HP: 30/80 | Phylactery HP: 3 | Mode: Normal | Mana: 44/60
+**Current State**: HP: 30/80 | Phylactery HP: 3 | Mode: Normal | Mana: 42/60
 
 **Turn 5 — Finishing the Fight**
 
-**Your Action**: Cast "Frozen Tomb" on Fire Elemental Lord (28 Mana)
-**Effect**: Target must save DC 18 Constitution or be Frozen for 5 rounds
+**Your Action**: Cast "Frost Nova" at Fire Elemental Lord (16 Mana)
+**Effect**: AoE burst — 5d6 frost damage in 20ft radius. Fire Elemental Lord must save DC 15 Constitution or be rooted for 2 rounds.
 
-**Fire Lord's Save**: [8] → FAIL!
+**Damage Roll**: 5d6 frost → [4, 6, 3, 5, 2] = 20 frost damage
 
-*The fire lord is encased in a tomb of ice. Frozen. Helpless.*
+*Frost erupts outward from you in a ring of ice, engulfing the fire lord.*
+
+**Fire Lord's Save**: [9] → FAIL!
+
+*The fire lord is encased in frost, rooted to the ground. Helpless.*
 
 **Your Party's Tank**: Shatters the frozen lord with a hammer strike → DEAD
 
@@ -290,7 +294,7 @@ export const LICHBORNE_DATA = {
 **Your Party's Tank**: "You died. Actually died. Froze everything when you came back. Then drained that elemental's soul to heal."
 **You**: "That's what Lichborne do. I burned my own life for power, killed to charge my phylactery, died, and my resurrection froze the battlefield. My death wasn't a mistake — it was the plan."
 
-**Final State**: HP: 30/80 | Phylactery HP: 3 (needs more kills) | Mode: Normal | Mana: 16/60
+**Final State**: HP: 30/80 | Phylactery HP: 3 (needs more kills) | Mode: Normal | Mana: 26/60
 
 **The Lesson**: Lichborne gameplay is about:
 1. **Dual-Mode Casting**: Switched to Aura Mode Turn 1 — spells cost HP instead of Mana, dealt +1d6 damage
@@ -301,6 +305,7 @@ export const LICHBORNE_DATA = {
 6. **Mode Switching**: Switched to Normal Mode Turn 4 to recover — spells cost Mana again
 7. **Life Drain**: Used Siphon Soul to deal damage AND heal AND charge Phylactery from the kill
 8. **Mana Conservation**: Spent 0 Mana during 3 turns of Aura Mode — all 50 Mana preserved for Normal Mode
+9. **AoE Finish**: Used Frost Nova to root the boss, setting up the party for the kill
 
 You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your own life for devastating power, kills enemies to fuel your resurrection, and uses death itself as a tactical weapon. The key decisions: when to switch modes (Normal for safety, Aura for devastation), when to kill (to charge Phylactery), and when dying is actually the right play (Death Trigger freeze). Death isn't the end. It's your strongest move.`,
     },
@@ -642,7 +647,7 @@ Many players enhance the Lichborne experience with:
 
         passive: {
           name: 'Permafrost Mastery',
-          description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. When a frozen enemy takes damage, there is a 50% chance they Shatter (takes an additional 3d6 frost damage but the freeze ends immediately).'
+          description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. When a frozen enemy takes damage, there is a 50% chance they Shatter (takes an additional 3d6 frost damage but the freeze ends immediately). In Aura Mode, your chill effect upgrades to a freeze (1 round) on a failed save instead of just slowing movement.'
         },
 
         strengths: [
@@ -678,7 +683,7 @@ Many players enhance the Lichborne experience with:
           {
             name: 'Permafrost Mastery',
             tier: 'Specialization Passive',
-            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. 50% chance to Shatter frozen targets on damage (3d6 additional frost, ends freeze).',
+            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. 50% chance to Shatter frozen targets on damage (3d6 additional frost, ends freeze). Aura Mode upgrade: Chill becomes Freeze (1 round) on failed save.',
             uniqueTo: 'Frostbound Tyrant'
           }
         ]
@@ -693,7 +698,7 @@ Many players enhance the Lichborne experience with:
 
         passive: {
           name: 'Deathly Chill',
-          description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4 minions). Minions have 10 HP and deal 1d6 necrotic damage per turn on your command (1 AP to command all).'
+          description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4 minions). Minions have 10 HP and deal 1d6 necrotic damage per turn on your command (1 AP to command all). In Aura Mode, you heal for 2 HP each time a spectral minion deals damage.'
         },
 
         strengths: [
@@ -729,7 +734,7 @@ Many players enhance the Lichborne experience with:
           {
             name: 'Deathly Chill',
             tier: 'Specialization Passive',
-            description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn (1 AP to command all).',
+            description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn (1 AP to command all). Aura Mode upgrade: Heal 2 HP per minion damage instance.',
             uniqueTo: 'Spectral Reaper'
           }
         ]
@@ -744,7 +749,7 @@ Many players enhance the Lichborne experience with:
 
         passive: {
           name: 'Fortified Phylactery',
-          description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection revives you with the full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft).'
+          description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection revives you with the full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). In Aura Mode, you store 1 HP in your Phylactery for every 10 damage you take from any source (max 5 per round).'
         },
 
         strengths: [
@@ -780,7 +785,7 @@ Many players enhance the Lichborne experience with:
           {
             name: 'Fortified Phylactery',
             tier: 'Specialization Passive',
-            description: 'Your Phylactery can store up to 75 HP (instead of 50). Resurrect at full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft).',
+            description: 'Your Phylactery can store up to 75 HP (instead of 50). Resurrect at full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). Aura Mode upgrade: Store 1 Phylactery HP per 10 damage taken (max 5/round).',
             uniqueTo: 'Phylactery Guardian'
           }
         ]
@@ -1807,7 +1812,8 @@ Many players enhance the Lichborne experience with:
         resourceValues: {},
         useFormulas: {},
         actionPoints: 1,
-        components: ['somatic']
+        components: ['somatic'],
+        hpCost: 10
       },
       cooldownConfig: {
         type: 'short_rest',
@@ -2107,6 +2113,60 @@ Many players enhance the Lichborne experience with:
     },
 
     {
+      id: 'lichborne_ice_step',
+      name: 'Ice Step',
+      description: 'Teleport to a frozen or chilled enemy, dealing frost damage to them and any enemies you pass through.',
+      level: 3,
+      spellType: 'ACTION',
+      effectTypes: ['damage', 'utility'],
+      typeConfig: {
+        school: 'frost',
+        icon: 'Frost/Frost Freeze 1',
+        tags: ['attack', 'damage', 'movement', 'teleport', 'frost', 'lichborne'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '2d6 + intelligence',
+        elementType: 'frost',
+        damageType: 'direct',
+        description: 'Deals frost damage to the target and any enemies passed through during teleport'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true,
+        targetCondition: 'frozen_or_chilled'
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 1
+      },
+      specialMechanics: {
+        teleport: {
+          type: 'targeted',
+          range: 60,
+          condition: 'Target must be Frozen or Chilled',
+          effect: 'Teleport to a space adjacent to the target',
+          pathDamage: true
+        }
+      },
+      resolution: 'DICE',
+      tags: ['attack', 'damage', 'movement', 'teleport', 'frost', 'lichborne']
+    },
+
+    {
       id: 'lichborne_frost_fever',
       name: 'Frost Fever',
       description: 'Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating.',
@@ -2355,14 +2415,14 @@ Many players enhance the Lichborne experience with:
         breakEffect: 'none'
       },
       damageConfig: {
-        formula: '8d6 + intelligence',
+        formula: '5d6 + intelligence',
         elementType: 'frost',
         damageType: 'area',
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
           tickFrequency: 'round',
-          dotFormula: '8d6 + intelligence',
+          dotFormula: '5d6 + intelligence',
           isProgressiveDot: false
         }
       },
@@ -2395,13 +2455,13 @@ Many players enhance the Lichborne experience with:
       },
       channelingConfig: {
         type: 'persistent',
-        baseFormula: '8d6 + intelligence',
+        baseFormula: '5d6 + intelligence',
         tickFrequency: 'round',
         maxDuration: 3
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceValues: { mana: 14 },
         useFormulas: {},
         actionPoints: 2,
         channelingFrequency: 'per_round',
@@ -2669,11 +2729,11 @@ Many players enhance the Lichborne experience with:
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '8d6 + intelligence + phylactery_hp_x2',
+        formula: '8d6 + intelligence + phylactery_hp',
         elementType: 'frost',
         secondaryElementType: 'necrotic',
         damageType: 'direct',
-        description: 'Deals base damage plus DOUBLE your stored Phylactery HP. Empties Phylactery after use.'
+        description: 'Deals base damage plus your stored Phylactery HP. Empties Phylactery after use.'
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2712,12 +2772,12 @@ Many players enhance the Lichborne experience with:
         school: 'frost',
         icon: 'Frost/Frozen Wave',
         tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne'],
-        zoneDuration: 5,
+        zoneDuration: 4,
         zoneDurationUnit: 'rounds',
         leaveTrail: false
       },
       damageConfig: {
-        formula: '12d6 + intelligence',
+        formula: '8d6 + intelligence',
         elementType: 'frost',
         damageType: 'area',
         criticalConfig: {
@@ -2743,11 +2803,18 @@ Many players enhance the Lichborne experience with:
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
+        hasDotEffect: true,
+        dotConfig: {
+          duration: 4,
+          tickFrequency: 'round',
+          dotFormula: '8d6 + intelligence',
+          isProgressiveDot: false
+        },
         description: 'All enemies in the zone take damage at the start of their turn'
       },
       debuffConfig: {
         debuffType: 'statusEffect',
-        durationValue: 5,
+        durationValue: 4,
         durationType: 'rounds',
         durationUnit: 'rounds',
         effects: [{
@@ -2771,7 +2838,7 @@ Many players enhance the Lichborne experience with:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
@@ -2846,49 +2913,66 @@ Many players enhance the Lichborne experience with:
     },
 
     {
-      id: 'lichborne_phylactery_empowerment',
-      name: 'Phylactery Empowerment',
-      description: 'Channel all stored phylactery power into a devastating burst of energy.',
+      id: 'lichborne_soul_frost',
+      name: 'Soul Frost',
+      description: 'Corrupt a target with hybrid necrotic frost, draining their life force to heal yourself and chilling nearby enemies. Deals frost and necrotic damage split between the target and enemies in a 10ft radius around them.',
       level: 7,
       spellType: 'ACTION',
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'healing', 'control'],
       typeConfig: {
-        school: 'necrotic',
-        secondaryElement: 'frost',
-        icon: 'Necrotic/Necrotic Death',
-        tags: ['attack', 'damage', 'necrotic', 'frost', 'phylactery', 'lichborne'],
+        school: 'frost',
+        secondaryElement: 'necrotic',
+        icon: 'Necrotic/Drain Soul',
+        tags: ['attack', 'damage', 'healing', 'aoe', 'necrotic', 'frost', 'lichborne'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
       damageConfig: {
-        formula: '14d6 + intelligence + phylactery_hp',
-        elementType: 'necrotic',
-        secondaryElementType: 'frost',
+        formula: '6d6 + intelligence',
+        elementType: 'frost',
+        secondaryElementType: 'necrotic',
         damageType: 'direct',
-        description: 'Damage scales with stored phylactery HP. Empties phylactery after use.'
+        description: 'Deals 3d6 frost + 3d6 necrotic to primary target. Enemies within 10ft take 2d6 frost damage and must save or be Chilled. Heal for half of total damage dealt.',
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'halves',
+          partialEffect: true,
+          partialEffectFormula: 'damage/2'
+        }
+      },
+      healingConfig: {
+        formula: 'half_damage_dealt',
+        healingType: 'instant',
+        hasHotEffect: false,
+        hasShieldEffect: false,
+        description: 'Heal yourself for half the total damage dealt'
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
-        rangeDistance: 100,
+        rangeDistance: 40,
         targetRestrictions: ['enemy'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        requiresLineOfSight: true,
+        aoeShape: 'circle',
+        aoeParameters: { radius: 10, centeredOn: 'target' }
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 22 },
         useFormulas: {},
-        actionPoints: 3,
+        actionPoints: 2,
         components: ['verbal', 'somatic']
       },
       cooldownConfig: {
-        type: 'short_rest',
-        value: 1
+        type: 'turn_based',
+        value: 3
       },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'necrotic', 'frost', 'phylactery', 'lichborne']
+      tags: ['attack', 'damage', 'healing', 'aoe', 'necrotic', 'frost', 'lichborne']
     },
 
     // ===== LEVEL 8 SPELLS =====
@@ -3197,7 +3281,7 @@ Many players enhance the Lichborne experience with:
           {
             id: 'lich_power',
             name: 'Lich Power',
-            description: 'All frost spells deal +3d6 damage, gain +5 armor, and 50% damage reduction for 5 rounds',
+            description: 'All frost spells deal +3d6 damage, gain +5 armor, and reduce all incoming damage by 3 for 5 rounds',
             statModifier: {
               stat: 'armor',
               magnitude: 5,
@@ -3207,11 +3291,11 @@ Many players enhance the Lichborne experience with:
           {
             id: 'lich_reduction',
             name: 'Undead Resilience',
-            description: 'Reduce all incoming damage by 50% for 5 rounds',
+            description: 'Reduce all incoming damage by 3 (flat reduction per hit) for 5 rounds',
             statModifier: {
               stat: 'damage_reduction',
-              magnitude: 50,
-              magnitudeType: 'percentage'
+              magnitude: 3,
+              magnitudeType: 'flat'
             }
           }
         ],
@@ -3231,7 +3315,6 @@ Many players enhance the Lichborne experience with:
         description: 'Become one with the endless cold, transcending the limitations of undeath.',
         grantedAbilities: [
           { id: 'frost_control', name: 'Frost Aura Mastery', description: 'Eternal Frost Aura no longer drains your HP' },
-          { id: 'phylactery_boost', name: 'Phylactery Surge', description: 'Phylactery can resurrect you once even if empty' },
           { id: 'frost_immunity', name: 'Frost Immunity', description: 'Immune to frost damage' }
         ]
       },
@@ -3381,7 +3464,7 @@ Many players enhance the Lichborne experience with:
         selectedEffects: [{
           id: 'eternal_phylactery',
           name: 'Eternal Phylactery',
-          description: 'Your phylactery auto-refills to 50 HP when depleted. Resurrection now costs no phylactery HP. Can only be destroyed by specific legendary ritual.'
+          description: 'Resurrection limit increased to 3 per combat. After each resurrection, phylactery auto-refills to 30 HP. Resurrection still spends all stored Phylactery HP. Can only be permanently destroyed by a legendary ritual.'
         }],
         duration: 0,
         durationUnit: 'permanent',
@@ -3393,9 +3476,9 @@ Many players enhance the Lichborne experience with:
         effects: [{
           id: 'phylactery_eternal',
           name: 'Eternal Phylactery',
-          description: 'Phylactery automatically refills and provides unlimited resurrections',
-          customDescription: 'Your phylactery has become eternal. When you die, you resurrect at 50 HP without consuming phylactery HP. Your phylactery HP automatically refills to 50 after each resurrection.',
-          mechanicsText: 'Resurrect at 50 HP without consuming phylactery charges. Unlimited resurrections.'
+          description: 'Enhanced phylactery with increased resurrection charges and auto-refill',
+          customDescription: 'Your phylactery has become eternal. You can resurrect up to 3 times per combat. After each resurrection, your phylactery auto-refills to 30 HP. Each resurrection still spends all stored Phylactery HP.',
+          mechanicsText: '3 resurrections per combat. Auto-refill to 30 HP after resurrection. Still spends all stored HP on rez.'
         }],
         durationValue: 0,
         durationType: 'permanent',
@@ -3525,7 +3608,8 @@ Many players enhance the Lichborne experience with:
     3: [
       'lichborne_frozen_orb',
       'lichborne_ice_lance',
-      'lichborne_frost_fever'
+      'lichborne_frost_fever',
+      'lichborne_ice_step'
     ],
     4: [
       'lichborne_glacial_spike',
@@ -3545,7 +3629,7 @@ Many players enhance the Lichborne experience with:
     7: [
       'lichborne_eternal_winter',
       'lichborne_frost_chains',
-      'lichborne_phylactery_empowerment'
+      'lichborne_soul_frost'
     ],
     8: [
       'lichborne_glacier_formation',

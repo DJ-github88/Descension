@@ -308,11 +308,11 @@ export const LICHBORNE_PHYLACTERY_GUARDIAN = [
   {
     id: 'phylactery_t4_immortal_essence',
     name: 'Immortal Essence',
-    description: 'Cannot be permanently killed while Phylactery has HP. Death instead costs 20 Phylactery HP and revives you at full HP.',
+    description: 'Once per combat, if your Phylactery has 20+ HP, resurrection costs only 20 Phylactery HP instead of all stored HP. You revive with full Phylactery HP minus the cost. If Phylactery is below 20 HP, resurrection works normally (spends all stored).',
     icon: 'spell_frost_wisp',
     maxRanks: 1,
     position: { x: 2, y: 4 },
     requires: 'phylactery_t3_eternal_guardian',
-    requiresPoints: 20,
+    requiresPoints: 20
   }
 ];

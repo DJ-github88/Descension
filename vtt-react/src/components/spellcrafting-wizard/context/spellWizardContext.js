@@ -45,6 +45,7 @@ export const ACTION_TYPES = {
 
   // Mechanics
   UPDATE_MECHANICS_CONFIG: 'UPDATE_MECHANICS_CONFIG',
+  UPDATE_PROPHECY_CONFIG: 'UPDATE_PROPHECY_CONFIG',
 
   // Cooldown
   UPDATE_COOLDOWN_CONFIG: 'UPDATE_COOLDOWN_CONFIG',
@@ -182,6 +183,7 @@ const initialState = {
       thresholds: []
     }
   },
+  prophecyOptions: null,
 
   // Cooldown configuration
   cooldownConfig: {},
@@ -309,6 +311,18 @@ function determineWizardFlow(state) {
     flow.push({ id: 'mechanics', name: 'Mechanics', required: false });
   }
 
+  // Add Prophecy step as an optional step (available for any spell, not just Doomsayer)
+  const prophecyIndex = flow.findIndex(step => step.id === 'prophecy');
+  if (prophecyIndex === -1) {
+    // Insert after mechanics
+    const mechIdx = flow.findIndex(step => step.id === 'mechanics');
+    if (mechIdx !== -1) {
+      flow.splice(mechIdx, 0, { id: 'prophecy', name: 'Prophecy', required: false });
+    } else {
+      flow.push({ id: 'prophecy', name: 'Prophecy', required: false });
+    }
+  }
+
   return flow;
 }
 
@@ -409,6 +423,9 @@ function validateStepCompletion(step, state) {
 
     case 6: // Cooldown
       return !!state.cooldownConfig && Object.keys(state.cooldownConfig).length > 0;
+
+    case 'prophecy': // Prophecy (for Doomsayer)
+      return !!state.prophecyOptions && !!state.prophecyOptions.rangeDice && !!state.prophecyOptions.resolutionDie;
 
     case 7: // Review
       return state.isValid;
@@ -1147,6 +1164,16 @@ function spellWizardReducer(state, action) {
         lastModified: new Date()
       };
 
+    case ACTION_TYPES.UPDATE_PROPHECY_CONFIG:
+      return {
+        ...state,
+        prophecyOptions: {
+          ...(state.prophecyOptions || {}),
+          ...action.payload
+        },
+        lastModified: new Date()
+      };
+
     // Wizard navigation
     case ACTION_TYPES.SET_CURRENT_STEP:
       return {
@@ -1404,7 +1431,8 @@ const actionCreators = {
   updateConditionalEffect: (effectType, config) => ({ type: ACTION_TYPES.UPDATE_CONDITIONAL_EFFECT, payload: { effectType, config } }),
   updateTrapConfig: (config) => ({ type: ACTION_TYPES.UPDATE_TRAP_CONFIG, payload: config }),
   updateChannelingConfig: (config) => ({ type: ACTION_TYPES.UPDATE_CHANNELING_CONFIG, payload: config }),
-  setCurrentStep: (step) => ({ type: ACTION_TYPES.SET_CURRENT_STEP, payload: step }),
+  updateProphecyConfig: (config) => ({ type: ACTION_TYPES.UPDATE_PROPHECY_CONFIG, payload: config }),
+  setCurrentStep: (stepId) => ({ type: ACTION_TYPES.SET_CURRENT_STEP, payload: stepId }),
   markStepCompleted: (step) => ({ type: ACTION_TYPES.MARK_STEP_COMPLETED, payload: step }),
   updateWizardFlow: (flow) => ({ type: ACTION_TYPES.UPDATE_WIZARD_FLOW, payload: flow }),
   resetState: () => ({ type: ACTION_TYPES.RESET_STATE }),

@@ -179,7 +179,8 @@ export const MINSTREL_ITEMS = [
             }
         },
         baseStats: {
-            charisma: { value: 2, isPercentage: false }
+            charisma: { value: 1, isPercentage: false },
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Minstrel']
@@ -192,7 +193,7 @@ export const MINSTREL_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A collection of songs, ballads, and musical notation for spellcasting.',
+        description: 'A collection of songs, ballads, and musical notation. Provides +1 Spirit when held, as the ancient melodies within resonate with magical energy.',
         iconId: 'inv_misc_book_11',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 2,
@@ -200,6 +201,9 @@ export const MINSTREL_ITEMS = [
         height: 2,
         rotation: 0,
         stackable: false,
+        baseStats: {
+            spirit: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Minstrel']
         }
@@ -252,7 +256,6 @@ export const MINSTREL_ITEMS = [
             }
         },
         baseStats: {
-            charisma: { value: 1, isPercentage: false },
             agility: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -274,7 +277,7 @@ export const MINSTREL_ITEMS = [
         height: 1,
         slots: ['trinket1', 'trinket2'],
         baseStats: {
-            charisma: { value: 1, isPercentage: false }
+            spirit: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Minstrel']
@@ -310,10 +313,10 @@ export const CHRONARCH_ITEMS = [
             intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
-            classes: ['Chronarch']
+            classes: ['Martyr']
         }
     },
-    
+
     {
         id: 'chronarch-hourglass-pendant',
         name: 'Hourglass Pendant',
@@ -544,7 +547,7 @@ export const GAMBLER_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A deck of cards imbued with fate magic. Each card represents a different possibility.',
+        description: 'A deck of cards imbued with fate magic. Once per combat, draw a card for a random minor effect: +1d4 to your next attack, +2 to a saving throw, or gain 1 Fortune Point.',
         iconId: 'inv_misc_ticket_tarot_01',
         value: { platinum: 0, gold: 10, silver: 0, copper: 0 },
         weight: 0.5,
@@ -552,6 +555,9 @@ export const GAMBLER_ITEMS = [
         height: 1,
         rotation: 0,
         stackable: false,
+        baseStats: {
+            charisma: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Gambler']
         }
@@ -616,7 +622,7 @@ export const GAMBLER_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'Dice weighted to favor certain outcomes, for when luck needs a push.',
+        description: 'Dice weighted to favor certain outcomes. Once per combat, treat one of your d20 attack rolls as if it rolled a 10 (minimum) instead.',
         iconId: 'inv_misc_dice_01',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
         weight: 0.2,
@@ -897,6 +903,30 @@ export const MARTYR_ITEMS = [
     },
 
     {
+        id: 'martyr-buckler-of-faith',
+        name: 'Buckler of Faith',
+        type: 'armor',
+        subtype: 'SHIELD',
+        quality: 'common',
+        description: 'A small holy shield inscribed with prayers of protection. Glows faintly when the wielder takes damage for an ally.',
+        iconId: 'inv_shield_05',
+        value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
+        weight: 5,
+        width: 1,
+        height: 1,
+        slots: ['offHand'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            classes: ['Martyr']
+        }
+    },
+
+    {
         id: 'martyr-scarred-plate',
         name: 'Scarred Plate',
         type: 'armor',
@@ -942,7 +972,7 @@ export const MARTYR_ITEMS = [
         },
         baseStats: {
             spirit: { value: 2, isPercentage: false },
-            spirit: { value: 1, isPercentage: false }
+            constitution: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Martyr']
@@ -1113,7 +1143,7 @@ export const ORACLE_ITEMS = [
         height: 1,
         slots: ['trinket1', 'trinket2'],
         baseStats: {
-            spirit: { value: 2, isPercentage: false }
+            intelligence: { value: 2, isPercentage: false }
         },
         availableFor: {
             classes: ['Oracle']
@@ -1124,8 +1154,8 @@ export const ORACLE_ITEMS = [
         name: 'Prophetic Robes',
         type: 'armor',
         subtype: 'CLOTH',
-        quality: 'common',
-        description: 'Flowing robes covered in symbols and patterns that shift to reveal glimpses of the future.',
+        quality: 'uncommon',
+        description: 'Flowing robes covered in symbols and patterns that shift to reveal glimpses of the future. Woven with fate-thread for enhanced protection.',
         iconId: 'inv_chest_cloth_17',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
         weight: 4,
@@ -1133,10 +1163,10 @@ export const ORACLE_ITEMS = [
         height: 2,
         slots: ['chest'],
         combatStats: {
-            armor: { value: 1, isPercentage: false }
+            armor: { value: 2, isPercentage: false }
         },
         baseStats: {
-            spirit: { value: 2, isPercentage: false },
+            spirit: { value: 1, isPercentage: false },
             intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -1149,7 +1179,7 @@ export const ORACLE_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'uncommon',
-        description: 'A deck of divination cards that reveal hidden truths and future possibilities.',
+        description: 'A deck of divination cards that reveal hidden truths and future possibilities. Grants advantage on fortune-telling checks and 1 free Simple Prediction per day.',
         iconId: 'inv_misc_ticket_tarot_01',
         value: { platinum: 0, gold: 8, silver: 0, copper: 0 },
         weight: 0.5,
@@ -1175,7 +1205,8 @@ export const ORACLE_ITEMS = [
         height: 1,
         slots: ['neck'],
         baseStats: {
-            spirit: { value: 2, isPercentage: false }
+            spirit: { value: 1, isPercentage: false },
+            intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Oracle']
@@ -2402,8 +2433,7 @@ export const ARCANIST_PATH_ITEMS = [
     ...SPELLGUARD_ITEMS,
     ...INSCRIPTOR_ITEMS,
     ...ARCANOPHAGE_ITEMS,
-    ...WITCH_DOCTOR_ITEMS,
-    ...FORMBENDER_ITEMS
+    ...WITCH_DOCTOR_ITEMS
 ];
 
 // ===== REAVER PATH CLASSES =====
@@ -2781,7 +2811,8 @@ export const TITAN_ITEMS = [
 export const REAVER_PATH_ITEMS = [
     ...BERSERKER_ITEMS,
     ...DREADNAUGHT_ITEMS,
-    ...TITAN_ITEMS
+    ...TITAN_ITEMS,
+    ...FORMBENDER_ITEMS
 ];
 
 // ===== MERCENARY PATH CLASSES =====
@@ -3503,7 +3534,7 @@ export const LUNARCH_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A crystal that tracks lunar phases and enhances lunar magic.',
+        description: 'A crystal that tracks lunar phases and enhances lunar magic. Once per combat, reduce your next Phase Shift cost by 4 mana.',
         iconId: 'inv_misc_gem_azuredraenite_01',
         value: { platinum: 0, gold: 11, silver: 0, copper: 0 },
         weight: 0.5,
@@ -3562,7 +3593,7 @@ export const HUNTRESS_ITEMS = [
             }
         },
         baseStats: {
-            agility: { value: 2, isPercentage: false },
+            agility: { value: 1, isPercentage: false },
             strength: { value: 1, isPercentage: false }
         },
         availableFor: {
@@ -3586,7 +3617,7 @@ export const HUNTRESS_ITEMS = [
             armor: { value: 2, isPercentage: false }
         },
         baseStats: {
-            agility: { value: 2, isPercentage: false }
+            agility: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Huntress']
@@ -3598,7 +3629,7 @@ export const HUNTRESS_ITEMS = [
         type: 'miscellaneous',
         subtype: 'TOOL',
         quality: 'common',
-        description: 'A kit containing tools for tracking and marking quarry.',
+        description: 'A kit containing tools for tracking and marking quarry. Grants advantage on Survival checks to track prey.',
         iconId: 'inv_misc_bag_11',
         value: { platinum: 0, gold: 6, silver: 0, copper: 0 },
         weight: 2,
@@ -3606,6 +3637,9 @@ export const HUNTRESS_ITEMS = [
         height: 1,
         rotation: 0,
         stackable: false,
+        baseStats: {
+            perception: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Huntress']
         }
@@ -3616,7 +3650,7 @@ export const HUNTRESS_ITEMS = [
         type: 'accessory',
         subtype: 'TRINKET',
         quality: 'uncommon',
-        description: 'A trinket that enhances your ability to mark and track targets.',
+        description: 'A trinket that enhances your ability to mark and track targets. Your Mark Quarry ability gains +1 additional Quarry Mark on use.',
         iconId: 'inv_misc_enggizmos_19',
         value: { platinum: 0, gold: 9, silver: 0, copper: 0 },
         weight: 0.5,
@@ -3624,26 +3658,28 @@ export const HUNTRESS_ITEMS = [
         height: 1,
         slots: ['trinket1', 'trinket2'],
         baseStats: {
-            agility: { value: 2, isPercentage: false }
+            agility: { value: 1, isPercentage: false }
         },
         availableFor: {
             classes: ['Huntress']
         }
     },
     {
-        id: 'huntress-ranger-manual',
-        name: 'Ranger\'s Manual',
-        type: 'miscellaneous',
-        subtype: 'TOOL',
-        quality: 'common',
-        description: 'A manual containing tracking and hunting techniques.',
-        iconId: 'inv_misc_book_11',
+        id: 'huntress-companion-bond-token',
+        name: 'Companion Bond Token',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A carved bone token representing the bond between Huntress and companion. Your companion gains +5 maximum HP and +1 to attack rolls.',
+        iconId: 'inv_misc_gem_pearl_04',
         value: { platinum: 0, gold: 5, silver: 0, copper: 0 },
-        weight: 1,
+        weight: 0.1,
         width: 1,
         height: 1,
-        rotation: 0,
-        stackable: false,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            strength: { value: 1, isPercentage: false }
+        },
         availableFor: {
             classes: ['Huntress']
         }

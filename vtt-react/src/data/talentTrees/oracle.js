@@ -84,7 +84,7 @@ export const ORACLE_SEER = [
   {
     id: 'seer_t3_oracle_of_fate',
     name: 'Oracle of Fate',
-    description: 'Passive: See the HP and armor of creatures within 60ft.',
+    description: 'Passive: See the active buffs, debuffs, and status effects of creatures within 60ft (but not raw HP/armor). Gain +1 Vision when you witness a buff or debuff be applied.',
     icon: 'spell_holy_mindvision',
     maxRanks: 1,
     position: { x: 0, y: 2 },
@@ -210,7 +210,7 @@ export const ORACLE_TRUTHSEEKER = [
   {
     id: 'truth_t3_discern_lies',
     name: 'Discern Lies',
-    description: 'Passive: Master lie detection. You automatically know when someone is lying to you and gain 1 Vision per lie detected.',
+    description: 'Passive: When you detect a lie, spend 1 Vision to compel the liar to reveal one additional truth they were trying to hide. The target gets a Spirit save to resist. Gain 1 Vision per forced truth revealed.',
     icon: 'spell_holy_righteousnessaura',
     maxRanks: 1,
     position: { x: 3, y: 2 },
@@ -365,7 +365,7 @@ export const ORACLE_FATESEER = [
   {
     id: 'fate_t5_fateseer_supreme',
     name: 'Fateseer Supreme',
-    description: 'Passive: All your correct predictions generate +1 bonus Vision. Activated: Spend 8 Visions to take control of all fate threads within 60ft for 1 round—you determine every dice outcome.',
+    description: 'Passive: All your correct predictions generate +1 bonus Vision. Activated: Spend 8 Visions to become untouchable for 1 round — all attacks against you automatically miss and all your attacks automatically hit (but do not crit unless they would naturally).',
     icon: 'spell_arcane_prismaticcloak',
     maxRanks: 1,
     position: { x: 2, y: 4 },

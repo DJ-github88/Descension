@@ -43,6 +43,27 @@
     animation: wiPulse 2s infinite;
 }
 
+.wi-segment[data-form="nightstalker"] {
+    background: rgba(75, 45, 122, 0.2);
+}
+
+.wi-segment[data-form="ironhide"] {
+    background: rgba(92, 64, 51, 0.2);
+}
+
+.wi-segment[data-form="skyhunter"] {
+    background: rgba(70, 130, 180, 0.2);
+}
+
+.wi-segment[data-form="frostfang"] {
+    background: rgba(79, 124, 172, 0.2);
+}
+
+.wi-segment.band-boundary {
+    margin-right: 2px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 @keyframes wiPulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.85; }

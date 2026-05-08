@@ -149,7 +149,7 @@ export const FORMBENDER_FORM_THIEF = [
   {
     id: 'form_thief_t0_form_harvest',
     name: 'Form Harvest',
-    description: 'When you defeat an enemy, roll 1d6 - on 4+ per rank, you can harvest their form for your collection. Harvesting costs 1 less WI per rank.',
+    description: 'When you defeat an enemy, roll 1d6 - on 4+ per rank, you can harvest their form for your collection. Harvesting costs 1 less WI per rank (base cost 3 WI).',
     icon: 'spell_shadow_possession',
     maxRanks: 5,
     position: { x: 2, y: 0 },

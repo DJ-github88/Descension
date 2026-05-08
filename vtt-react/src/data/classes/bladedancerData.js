@@ -129,15 +129,19 @@ The Bladedancer shines in dynamic combats where they can build Momentum through 
 
 *You settle into Flowing Water stance—feet shoulder-width apart, blade held loosely, body relaxed. Your opponent charges.*
 
-Enemy attacks → You dodge (Flowing Water passive: +2 dodge) → Counterattack hits!
+Enemy attacks → You dodge (Flowing Water passive: +2 Dodge) → You follow up with Momentum Strike!
 **Momentum**: +1 (now at 1)
 
-Second attack → Hit!
+Second attack → Hit with Momentum Strike!
 **Momentum**: +1 (now at 2)
 
-Flowing Water signature move - "Rippling Deflection"
-**Momentum**: +1 (now at 3)
-**Flourish**: +1 token (now at 3) - earned for signature move!
+Use Rippling Defense (Flowing Water ability, costs 3 Momentum)
+**Momentum**: 2 - 3 = ... NOT ENOUGH!
+*You need one more hit first.*
+
+Attack → Hit! **Momentum**: +1 (now at 3)
+→ NOW use Rippling Defense. Dodge next incoming attack, gain +2 Momentum on success.
+**Momentum**: 3 - 3 = 0, then +2 on successful dodge = 2
 
 *You flow around his attacks like water around stone. The rhythm builds.*
 
@@ -146,73 +150,110 @@ Flowing Water signature move - "Rippling Deflection"
 *Time to punish his recklessness.*
 
 **Transition**: Flowing Water → Striking Serpent (costs 2 Momentum)
-**Momentum**: 3 - 2 = 1
+**Momentum**: 2 - 2 = 0
 
 *Your stance narrows, blade extending like a serpent's fang.*
+
+Attack → Hit!
+**Momentum**: +1 (now at 1)
 
 Attack → CRITICAL HIT!
 **Momentum**: +2 (now at 3)
 
-Striking Serpent signature - "Viper's Fang" (costs 3 Momentum)
-**Momentum**: 3 - 3 = 0, then +2 for signature = 2
-**Flourish**: +1 (now at 4)
-**Effect**: Target bleeds, -2 to attacks
+Striking Serpent signature - "Serpent's Fang" (costs 6 Momentum)
+**Momentum**: 3 - 6 = ... NOT ENOUGH! Need to build more.
+*This is the resource lesson — signature moves are expensive.*
 
-*Your blade finds the gap in his armor. He roars in pain.*
+Attack → Hit! **Momentum**: +1 (now at 4)
+Attack → Hit! **Momentum**: +1 (now at 5)
+Attack → CRITICAL HIT! **Momentum**: +2 (now at 7)
+→ NOW use Serpent's Fang. **Momentum**: 7 - 6 = 1
+**Flourish**: +1 (now at 3) - earned for signature move!
+**Effect**: Guaranteed critical hit — 2d8 + AGI doubled. Target is poisoned (1d6 poison/round for 3 rounds).
+
+*Your blade finds the gap in his armor. Venom courses through the wound. He roars in pain.*
 
 Enemy power attack → Hits you!
-**Momentum**: -1 for taking damage (now at 1)
+**Momentum**: -1 for taking damage (now at 0)
 
 **Turn 3 - Defensive Adaptation (Stance: Striking Serpent → Rooted Stone)**
 
 *He's wounded but dangerous. Weather his fury.*
 
-**Transition**: Striking Serpent → Rooted Stone (costs 2 Momentum)
-**Momentum**: 1 - 2 = -1... NOT ENOUGH!
-
-*You don't have enough Momentum to transition. You need to build more first.*
+Attack → Hit!
+**Momentum**: +1 (now at 1)
 
 Attack → Hit!
 **Momentum**: +1 (now at 2)
 
-**Now transition**: Rooted Stone (costs 2 Momentum)
+**Transition**: Striking Serpent → Rooted Stone (costs 2 Momentum)
 **Momentum**: 2 - 2 = 0
 
 *You plant your feet. Like a mountain, unmovable.*
 
-Enemy combo (3 strikes) → First hits (reduced), second you parry!
+Enemy combo (3 strikes) → First hits (reduced by Rooted Stone +4 armor), second you parry!
 **Momentum**: +1 for parry (now at 1)
-Counter attack from parry → Hit!
+Iron Parry riposte → Hit!
 **Momentum**: +1 (now at 2)
 
-Rooted Stone signature - "Immovable Mountain"
-**Momentum**: 2 - 2 = 0, then +2 for signature = 2
-**Flourish**: +1 (now at 5, max!)
-**Effect**: Next attack reflected
+Rooted Stone signature - "Mountain's Rebuke" (costs 5 Momentum)
+**Momentum**: 2 - 5 = ... NOT ENOUGH!
 
-Enemy's third strike → Reflected!
-**Momentum**: +1 (now at 3)
+Attack → Hit! **Momentum**: +1 (now at 3)
+Attack → CRITICAL HIT! **Momentum**: +2 (now at 5)
+→ NOW use Mountain's Rebuke. **Momentum**: 5 - 5 = 0
+**Flourish**: +1 (now at 4)
+**Effect**: Parry all attacks this round. Riposte each attacker for 1d8 damage.
+
+Enemy's third strike → Parried! Riposte for 1d8 damage.
+**Momentum**: +1 (now at 1)
 
 *His own strength turned against him.*
 
 **Turn 4 - Building for the Finale**
 
-*You have 5 Flourish tokens — at maximum! Time for the ultimate.*
+*You have 4 Flourish tokens — almost at maximum! Time to push for the ultimate.*
 
-Attack → Hit! **Momentum**: +1 (now at 4)
-Attack → Hit! **Momentum**: +1 (now at 5)
+Attack → Hit! **Momentum**: +1 (now at 2)
+Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
 
 **Transition**: Rooted Stone → Dancing Blade (costs 4 Momentum)
-**Momentum**: 5 - 4 = 1
+**Momentum**: 4 - 4 = 0
 
 *Your stance shifts—fluid, balanced, the heart of the dance.*
 
-Attack → CRITICAL HIT!
-**Momentum**: +2 (now at 3)
+Attack → Hit! **Momentum**: +1 (now at 1)
+Attack → Hit! **Momentum**: +1 (now at 2)
+Attack → Hit! **Momentum**: +1 (now at 3)
 
 **Turn 5 - The Finishing Flourish**
 
-*He's bleeding, exhausted. Time to end this with style.*
+*He's bleeding from poison, exhausted. Time to end this with style.*
+
+**Ultimate**: "Thousand Cuts Flourish" (costs 5 Flourish)
+**Flourish**: 4 - 5 = ... NOT ENOUGH!
+
+*You need one more Flourish token. Transition to Whirling Wind and use Tempest Dance.*
+
+**Transition**: Dancing Blade → Whirling Wind (costs 4 Momentum)
+**Momentum**: 3 - 4 = ... NOT ENOUGH!
+
+Attack → Hit! **Momentum**: +1 (now at 4)
+**Transition**: Dancing Blade → Whirling Wind (costs 4 Momentum)
+**Momentum**: 4 - 4 = 0
+
+Attack → Hit! **Momentum**: +1 (now at 1)
+Attack → Hit! **Momentum**: +1 (now at 2)
+
+Whirling Wind signature - "Tempest Dance" (costs 6 Momentum)
+**Momentum**: 2 - 6 = ... NOT ENOUGH!
+
+Attack → CRITICAL HIT! **Momentum**: +2 (now at 4)
+Attack → Hit! **Momentum**: +1 (now at 5)
+Attack → Hit! **Momentum**: +1 (now at 6)
+→ NOW use Tempest Dance. **Momentum**: 6 - 6 = 0
+**Flourish**: +1 (now at 5, max!)
+**Effect**: AoE 15ft, 2d8 + AGI to all enemies, knock back 10ft.
 
 **Ultimate**: "Thousand Cuts Flourish" (costs 5 Flourish)
 **Flourish**: 5 - 5 = 0 remaining
@@ -220,12 +261,12 @@ Attack → CRITICAL HIT!
 *You move like lightning through all 6 stances in rapid succession:*
 *Flowing Water dodge → Striking Serpent thrust → Whirling Wind spin → Rooted Stone counter → Shadow Step vanish → Dancing Blade finale*
 
-**Damage**: 6d10 (one per stance) + all bonuses
+**Damage**: 6d10 + agility × 2
 **Result**: Rival duelist falls, defeated
 
 *You return to Flowing Water, blade clean, breathing steady. The duel is over.*
 
-**The Lesson**: Bladedancer requires resource awareness (Momentum for transitions, Flourish for ultimates), stance knowledge (which connects to which), and tactical timing (when to transition vs. when to build). You can't spam abilities—you must earn your power through mastery.`
+**The Lesson**: Bladedancer requires resource awareness (Momentum for transitions and abilities, Flourish for ultimates), stance knowledge (which connects to which), and patience (you will often find yourself 1-2 Momentum short of the ability you want). Signature moves are powerful but expensive — you must build Momentum through consistent attacks before you can afford them. You can't spam abilities; you must earn your power through mastery.`
     },
   },
 
@@ -238,12 +279,12 @@ Attack → CRITICAL HIT!
       {
         title: 'Momentum (Primary)',
         stats: '0-20 Capacity',
-        details: 'Tracks your immediate combat rhythm. Generated by successful hits/defenses, lost via misses/damage, and spent on stances/abilities.'
+        details: 'Tracks your immediate combat rhythm. Generated by successful hits/defenses, lost via misses/damage/idle turns, and spent on stances/abilities. Resets to 0 at the start of each combat.'
       },
       {
         title: 'Flourish (Secondary)',
         stats: '0-5 Tokens',
-        details: 'Represents permanent mastery. Earned by performing Stance Signature Moves (★). Persists between combats.'
+        details: 'Represents permanent mastery. Earned by performing Stance Signature Moves (★). Persists between combats but resets to 0 after an extended rest.'
       }
     ],
 
@@ -255,7 +296,9 @@ Attack → CRITICAL HIT!
         ['Dodge/Parry', '+1', '0'],
         ['Miss Attack', '-1', '0'],
         ['Take Damage', '-1', '0'],
-        ['Signature Move (★)', '-Cost', '+1']
+        ['Idle Turn (no attack/defense)', '-1', '0'],
+        ['Signature Move (★)', '-Cost', '+1'],
+        ['Extended Rest', 'Reset to 0', 'Reset to 0']
       ]
     },
 
@@ -330,7 +373,7 @@ Attack → CRITICAL HIT!
         ],
         [
           'Flowing Water',
-          'Water\'s Embrace ★',
+          "Water's Embrace ★",
           '5 Momentum',
           'Become untargetable for 1 round, reposition anywhere within 30 ft',
           '★'
@@ -339,12 +382,12 @@ Attack → CRITICAL HIT!
           'Striking Serpent',
           'Viper Strike',
           '4 Momentum',
-          'Attack with advantage, +1d8 damage',
+          'Attack with advantage, +1d8 bonus damage',
           ''
         ],
         [
           'Striking Serpent',
-          'Serpent\'s Fang ★',
+          "Serpent's Fang ★",
           '6 Momentum',
           'Guaranteed critical hit, apply poison (1d6 damage/round for 3 rounds)',
           '★'
@@ -353,56 +396,56 @@ Attack → CRITICAL HIT!
           'Whirling Wind',
           'Cyclone Slash',
           '4 Momentum',
-          'Attack all enemies within 10 ft',
+          'Attack all enemies within 10 ft for 1d8 + AGI each',
           ''
         ],
         [
           'Whirling Wind',
           'Tempest Dance ★',
           '6 Momentum',
-          'Attack all enemies within 15 ft, knock them back 10 ft',
+          'Attack all enemies within 15 ft for 2d8 + AGI, knock back 10 ft',
           '★'
         ],
         [
           'Rooted Stone',
           'Iron Parry',
           '3 Momentum',
-          'Parry next attack, riposte for 2d6 damage',
+          'Parry next attack, riposte for 2d6 + AGI damage',
           ''
         ],
         [
           'Rooted Stone',
-          'Mountain\'s Rebuke ★',
+          "Mountain's Rebuke ★",
           '5 Momentum',
           'Parry all attacks this round, riposte each for 1d8 damage',
           '★'
         ],
         [
           'Dancing Blade',
-          'Blade Flourish',
+          'Double Flourish',
           '4 Momentum',
-          'Attack twice in one action',
+          'Attack twice in one action (1d8 + AGI each)',
           ''
         ],
         [
           'Dancing Blade',
           'Dance of Blades ★',
           '6 Momentum',
-          'Chain 3 different stance abilities in one turn',
+          'Chain 3 different stance abilities in one turn (3d8 + AGI, up to 3 targets)',
           '★'
         ],
         [
           'Shadow Step',
           'Ambush Strike',
           '4 Momentum',
-          'Teleport to target, attack with +3d6 damage',
+          'Teleport to target within 30 ft, attack with 1d8 + AGI + 3d6 bonus damage',
           ''
         ],
         [
           'Shadow Step',
-          'Vanishing Blade ★',
+          'Shadow Fade ★',
           '6 Momentum',
-          'Become invisible, next attack is automatic critical hit',
+          'Become invisible for 1 round, next attack is automatic critical hit',
           '★'
         ]
       ]
@@ -434,8 +477,8 @@ Attack → CRITICAL HIT!
         ],
         [
           'Thousand Cuts',
-          '4 Flourish',
-          'Attack single target 10 times, each hit deals 1d6 damage',
+          '5 Flourish',
+          'Attack single target 6 times, each hit deals 1d10 damage',
           'Must be in Striking Serpent'
         ],
         [
@@ -517,7 +560,42 @@ STANCES (starting stance: 💧 Flowing Water):
     }
   },
 
-  // Specializations
+  characterCreation: {
+    title: 'Character Creation',
+    subtitle: 'Beginning Your Dance',
+
+    description: `Every Bladedancer begins their journey the same way — in Flowing Water stance, blade in hand, ready to learn the rhythm of combat. Your starting equipment reflects the mobility and adaptability that define the class.`,
+
+    steps: [
+      {
+        title: 'Choose Your Starting Stance',
+        content: 'All Bladedancers begin combat in **Flowing Water** — the defensive foundation from which all other stances flow. Your first real choice happens once you build Momentum in combat and transition to a new form.'
+      },
+      {
+        title: 'Understand Your Resources',
+        content: '**Momentum** (blue tokens) builds during combat and resets each fight. **Flourish** (gold tokens) persists between fights but resets after an extended rest. You earn Flourish by performing Signature Moves (★) in each stance.'
+      },
+      {
+        title: 'Pick Your Equipment',
+        content: 'Bladedancers favor light, agile weapons and minimal armor. Your speed IS your defense.'
+      }
+    ],
+
+    equipment: {
+      weapons: [
+        { name: 'Twin Dancing Blades', damage: '1d8 slashing (each)', description: 'Paired agile blades designed for flowing combo attacks' },
+        { name: 'Curved Saber', damage: '1d8 slashing', description: 'A single graceful blade for precise, powerful cuts' }
+      ],
+      armor: { name: 'Leather Armor', description: 'Light armor — Bladedancers prefer mobility over protection. Your stances provide defensive bonuses that scale better than heavy armor.' },
+      gear: [
+        'Stance Manual — a pocket guide describing all 6 combat stances',
+        '20 Momentum Tokens (blue) — for tracking combat rhythm',
+        '5 Flourish Tokens (gold) — for tracking mastery tokens'
+      ],
+      startingGold: 15
+    }
+  },
+
   specializations: {
     title: 'Bladedancer Specializations',
     subtitle: 'Three Paths of Martial Mastery',
@@ -533,7 +611,17 @@ STANCES (starting stance: 💧 Flowing Water):
       {
         name: 'Flow Master',
         icon: 'fas fa-wind',
+        color: '#3498DB',
+        theme: 'Fluid Combat',
+        playstyle: 'Chain rapid stance transitions for devastating combo attacks. You are never locked into one form — you ARE the flow between them.',
         description: 'Masters of rapid stance transitions and combo chains. Flow Masters flow between stances with minimal cost, chaining abilities together for devastating combinations.',
+        strengths: ['Fastest stance transitions (-1 cost to all)', 'Highest Flourish generation via frequent stance changes', 'Strongest sustained damage through combo chains', 'Most forgiving Momentum economy'],
+        weaknesses: ['Reliant on Momentum economy — struggles when drained', 'Vulnerable during transition turns', 'No burst without Momentum buildup', 'Capstone is defensive, not offensive'],
+        keyAbilities: [
+          { name: 'Flowing Transitions', type: 'Passive', cost: 'None', description: 'All stance transitions cost 1 less Momentum (minimum 1). Next attack after transition gains +1d6 damage.' },
+          { name: 'Flow Combo', type: 'Action', cost: '2 AP, 6 Momentum', description: '4d6 + AGI×1.5, 3× crit multiplier' },
+          { name: 'Water Ascendant', type: 'Capstone', cost: 'All Momentum', description: 'Become flowing water elemental for 1 minute — half damage, 30ft teleport, attacks pass through you' }
+        ],
 
         passiveAbility: {
           name: 'Flowing Transitions',
@@ -559,11 +647,21 @@ STANCES (starting stance: 💧 Flowing Water):
       {
         name: 'Duelist',
         icon: 'fas fa-sword',
+        color: '#27AE60',
+        theme: 'Precision Combat',
+        playstyle: 'Dominate single targets through expanded critical ranges and devastating counter-attacks. You punish every mistake.',
         description: 'Masters of precision strikes and counter-attacks. Duelists excel in single combat, using perfect timing and technique to dominate opponents.',
+        strengths: ['Expanded critical hit range in 2 stances', 'Devastating counter-attacks via parry/riposte', 'Strongest single-target burst in Serpent stance', 'Capstone forces enemies to focus you, protecting allies'],
+        weaknesses: ['Only buffs 2 of 6 stances (Serpent and Stone)', 'Weak against multiple enemies', 'No mobility bonuses outside of stances', 'Requires enemy to attack you for full effectiveness'],
+        keyAbilities: [
+          { name: 'Perfect Precision', type: 'Passive', cost: 'None', description: '+2 attack rolls in Serpent/Stone stance. Crit on highest 3 damage die results. Reroll damage dice of 1.' },
+          { name: 'Perfect Riposte', type: 'Reaction', cost: '4 Momentum', description: '3d8 + AGI counter-attack, enemy saves or takes full damage' },
+          { name: 'Perfect Duelist', type: 'Capstone', cost: 'All Flourish', description: 'Challenge all enemies within 30ft — you gain advantage on attacks, enemies have disadvantage attacking anyone but you' }
+        ],
 
         passiveAbility: {
           name: 'Perfect Precision',
-          description: 'While in Striking Serpent or Rooted Stone stance, gain +2 to attack rolls and increased critical hit chance (crit on max damage die -1 or max).'
+          description: 'While in Striking Serpent or Rooted Stone stance, gain +2 to attack rolls and increased critical hit chance (crit on highest 3 damage die results). Reroll damage dice showing 1.'
         },
 
         talentTreeSummary: [
@@ -585,11 +683,21 @@ STANCES (starting stance: 💧 Flowing Water):
       {
         name: 'Shadow Dancer',
         icon: 'fas fa-user-ninja',
+        color: '#2C3E50',
+        theme: 'Stealth & Burst',
+        playstyle: 'Strike from invisibility with devastating ambush damage, then vanish before retribution arrives. You are the nightmare in every shadow.',
         description: 'Masters of stealth and burst damage. Shadow Dancers strike from the shadows with devastating ambushes and can vanish mid-combat.',
+        strengths: ['Can enter Shadow Step from ANY stance (3 Momentum)', 'Highest single-strike burst damage', 'Invisibility and teleportation for positioning', 'Best Flourish generation from stealth kills'],
+        weaknesses: ['Relies on stealth — bright light penalizes (-3 armor)', 'Only 2 stances connect FROM Shadow Step', 'Vulnerable when stealth is broken', 'Capstone requires massive resource investment'],
+        keyAbilities: [
+          { name: 'Shadow Affinity', type: 'Passive', cost: 'None', description: 'Enter Shadow Step from any stance for 3 Momentum. In Shadow Step, lightly obscured, advantage on Stealth, +1d6 damage from stealth.' },
+          { name: 'Ambush Strike', type: 'Action', cost: '4 Momentum', description: 'Teleport to target within 30ft, attack with 1d8 + AGI + 3d6 damage' },
+          { name: 'Shadow Ascendant', type: 'Capstone', cost: 'All Momentum + 3 Flourish', description: 'Become a living shadow for 3 rounds — resistant to all damage (half), 60ft teleport, attacks deal +2d6 shadow damage' }
+        ],
 
         passiveAbility: {
           name: 'Shadow Affinity',
-          description: 'You can enter Shadow Step stance from any stance (ignoring network restrictions) for 3 Momentum. While in Shadow Step, you are lightly obscured and have advantage on Stealth checks.'
+          description: 'You can enter Shadow Step stance from any stance (ignoring network restrictions) for 3 Momentum. While in Shadow Step, you are lightly obscured, have advantage on Stealth checks, and deal +1d6 damage from stealth.'
         },
 
         talentTreeSummary: [
@@ -603,7 +711,7 @@ STANCES (starting stance: 💧 Flowing Water):
           },
           {
             name: 'Shadow Ascendant',
-            description: 'Capstone: Become a living shadow for 1 minute — immune to all damage, 60ft teleport, all attacks deal maximum damage. Costs all Momentum and 3 Flourish.'
+            description: 'Capstone: Become a living shadow for 3 rounds — resistant to all damage (half damage from all sources), 60ft teleport, all attacks deal +2d6 shadow damage. Costs all Momentum and 3 Flourish.'
           }
         ]
       }
@@ -641,8 +749,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Swift momentum-building strike'
@@ -745,8 +853,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },
@@ -804,8 +912,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Swift repositioning strike'
@@ -859,8 +967,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum'],
-        resourceValues: { mana: 0, momentum: 3 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 3 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Fluid strike while shifting stance'
@@ -925,8 +1033,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 2 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Flowing blade dance'
@@ -1755,8 +1863,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 2 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Rapid blade flurry'
@@ -1766,7 +1874,7 @@ STANCES (starting stance: 💧 Flowing Water):
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: '1d8 + agility + (CurrentMomentum / 2)',
+        formula: '2d6 + agility + floor(CurrentMomentum / 2)',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
@@ -1807,8 +1915,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum', 'flourish'],
-        resourceValues: { mana: 0, momentum: 8, flourish: 2 },
+        resourceTypes: ['momentum', 'flourish'],
+        resourceValues: { momentum: 8, flourish: 2 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Flow through multiple combat forms'
@@ -1868,8 +1976,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum'],
-        resourceValues: { mana: 0, momentum: 4 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Deflect and counter in one motion'
@@ -1923,8 +2031,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 3 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Spinning defensive vortex'
@@ -1973,8 +2081,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 1 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Flow around the attack'
@@ -2092,8 +2200,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum'],
-        resourceValues: { mana: 0, momentum: 6 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Precise thrust to vital point'
@@ -2171,8 +2279,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 5 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Dance of death through enemies'
@@ -2223,8 +2331,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum'],
-        resourceValues: { mana: 0, momentum: 5 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 5 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Step through shadows'
@@ -2328,8 +2436,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 4 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Create whirling blade barrier'
@@ -2408,13 +2516,13 @@ STANCES (starting stance: 💧 Flowing Water):
       effectTypes: ['damage'],
 
       damageConfig: {
-        formula: 'momentum_spent * 1d8 + agility',
+        formula: 'min(momentum_spent, 10) * 1d8 + agility',
         elementType: 'physical',
         damageType: 'direct',
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Explosive release of stored Momentum as raw damage'
+        description: 'Explosive release of stored Momentum as raw damage (capped at 10 Momentum for damage calculation)'
       },
 
       cooldownConfig: {
@@ -2466,8 +2574,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum', 'flourish'],
-        resourceValues: { mana: 0, momentum: 8, flourish: 2 },
+        resourceTypes: ['momentum', 'flourish'],
+        resourceValues: { momentum: 8, flourish: 2 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Fade into shadows, strike unseen'
@@ -2653,8 +2761,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },
@@ -2721,8 +2829,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Flow through deadly combinations'
@@ -2843,8 +2951,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },
@@ -2912,8 +3020,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: ['momentum'],
+        resourceValues: { momentum: 6 },
         actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Dance through enemies like the wind'
@@ -2961,8 +3069,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },
@@ -3025,8 +3133,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'flourish'],
-        resourceValues: { mana: 0, flourish: 5 },
+        resourceTypes: ['flourish'],
+        resourceValues: { flourish: 5 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'BY THE SIX WINDS!',
@@ -3083,8 +3191,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'flourish'],
-        resourceValues: { mana: 0, flourish: 3 },
+        resourceTypes: ['flourish'],
+        resourceValues: { flourish: 3 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'SIX WINDS UNITE!',
@@ -3133,8 +3241,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },
@@ -3194,8 +3302,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'momentum', 'flourish'],
-        resourceValues: { mana: 0, momentum: 20, flourish: 5 },
+        resourceTypes: ['momentum', 'flourish'],
+        resourceValues: { momentum: 20, flourish: 5 },
         actionPoints: 4,
         components: ['verbal', 'somatic', 'material'],
         verbalText: 'I BECOME THE STORM!',
@@ -3262,8 +3370,8 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 0 },
+        resourceTypes: [],
+        resourceValues: {},
         actionPoints: 0,
         components: []
       },

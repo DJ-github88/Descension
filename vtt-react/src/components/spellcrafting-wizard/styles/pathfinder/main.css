@@ -209,19 +209,19 @@
 /* Creature wizard style progress bar */
 .spell-wizard-progress-bar {
   position: relative;
-  width: calc(100% - 120px);
+  width: 100%; 
   height: 28px;
   background: linear-gradient(135deg,
     rgba(45, 24, 16, 0.95) 0%,
     rgba(60, 40, 30, 0.9) 50%,
     rgba(45, 24, 16, 0.95) 100%);
   border: 2px solid rgba(139, 115, 85, 0.8);
-  border-radius: 12px;
+  border-radius: 14px; 
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.3),
     0 2px 4px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  margin: 0 auto;
+  overflow: visible; /* Allow step numbers to float above */
+  margin: 0;
 }
 
 /* Creature wizard style animated progress fill */
@@ -632,8 +632,8 @@
 
   .spell-wizard-progress-bar {
     height: 24px;
-    margin: 0 1.5rem var(--pf-space-2) 1.5rem;
-    width: calc(100% - 3rem);
+    margin: 0;
+    width: 100%;
   }
 
   .spellbook-layout .wizard-footer {
@@ -659,8 +659,8 @@
 
   .spell-wizard-progress-bar {
     height: 22px;
-    margin: 0 1rem var(--pf-space-2) 1rem;
-    width: calc(100% - 2rem);
+    margin: 0;
+    width: 100%;
   }
 
   .spellbook-layout .wizard-footer {
@@ -689,8 +689,8 @@
 
   .spell-wizard-progress-bar {
     height: 20px;
-    margin: 0 0.75rem var(--pf-space-1) 0.75rem;
-    width: calc(100% - 1.5rem);
+    margin: 0;
+    width: 100%;
   }
 
   .spellbook-layout .wizard-footer {
@@ -2444,7 +2444,7 @@
   }
 }
 
-/* ===== CLEAN SPELL WIZARD PROGRESS BAR ===== */
+/* ===== ULTRA-PREMIUM PROGRESS BAR ENHANCEMENTS ===== */
 
 .spellbook-wizard-layout .wizard-progress-overlay,
 .spellbook-layout .wizard-progress-overlay {
@@ -2452,35 +2452,153 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 60px;
-  background: linear-gradient(135deg,
-    rgba(240, 230, 210, 0.98) 0%,
-    rgba(230, 220, 200, 0.95) 50%,
-    rgba(213, 203, 176, 0.92) 100%);
-  border-top: 2px solid #8b7355;
+  height: 65px; 
+  background: var(--pf-gradient-parchment-dark);
+  border-top: 1px solid rgba(139, 115, 85, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding: 8px 20px;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  padding: 0 20px; /* Reduced padding */
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
   z-index: 1001;
   backdrop-filter: blur(4px);
 }
 
-.spellbook-wizard-layout .spell-wizard-progress-bar,
-.spellbook-layout .spell-wizard-progress-bar {
-  height: 28px;
-  margin: 0;
-  width: calc(100% - 120px);
+/* Remove old orphan flourishes */
+.spellbook-wizard-layout .wizard-progress-overlay::before,
+.spellbook-wizard-layout .wizard-progress-overlay::after {
+  display: none;
 }
 
-.spellbook-wizard-layout .spell-step-number,
-.wizard-progress-overlay .spell-step-number,
-.spell-wizard-progress-segment .spell-step-number {
-  width: 20px !important;
-  height: 20px !important;
-  font-size: 11px !important;
+.spellbook-wizard-layout .spell-wizard-progress-bar,
+.spellbook-layout .spell-wizard-progress-bar {
+  height: 24px; /* Slightly sleeker */
+  width: 100%;
+  margin: 0;
+  background: #1a0f0a;
+  border: 1px solid #5d3a24;
+  border-radius: 12px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 4px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: visible;
+}
+
+/* Integrated Metal End-Caps */
+.spellbook-wizard-layout .spell-wizard-progress-bar::before,
+.spellbook-wizard-layout .spell-wizard-progress-bar::after {
+  content: '✥';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #daa520;
+  text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+  z-index: 5;
+}
+
+.spellbook-wizard-layout .spell-wizard-progress-bar::before { left: -18px; }
+.spellbook-wizard-layout .spell-wizard-progress-bar::after { right: -18px; }
+
+.spellbook-wizard-layout .spell-wizard-progress-fill {
+  background: linear-gradient(135deg,
+    #b8860b 0%,
+    #ffd700 25%,
+    #daa520 50%,
+    #ffd700 75%,
+    #b8860b 100%
+  ) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 15px rgba(212, 175, 55, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+  position: relative;
+}
+
+/* Enhanced Shine */
+.spellbook-wizard-layout .spell-wizard-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: premium-shine 4s infinite linear;
+}
+
+@keyframes premium-shine {
+  0% { left: -100%; }
+  20% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Wax Seal Style Step Numbers */
+.spellbook-wizard-layout .spell-step-number {
+  width: 32px !important;
+  height: 32px !important;
+  background: radial-gradient(circle at 30% 30%, #f0e6d2 0%, #d5cbb0 50%, #a08c70 100%) !important;
+  border: 1px solid #8b7355 !important;
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  top: -16px !important;
+  font-size: 13px !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.spellbook-wizard-layout .spell-wizard-progress-segment.active .spell-step-number {
+  background: radial-gradient(circle at 30% 30%, #ffd700 0%, #daa520 60%, #b8860b 100%) !important;
+  border-color: #ffd700 !important;
+  color: #1a0f0a !important;
+  transform: translateX(-50%) scale(1.3) translateY(-2px) !important;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(212, 175, 55, 0.8),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8) !important;
+  z-index: 100 !important;
+}
+
+.spellbook-wizard-layout .spell-wizard-progress-segment.completed:not(.active) .spell-step-number {
+  background: radial-gradient(circle at 30% 30%, #a8e0a8 0%, #4caf50 60%, #2e7d32 100%) !important;
+  border-color: #2e7d32 !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Subtle separator between segments */
+.spellbook-wizard-layout .spell-wizard-progress-segment {
+  border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.spellbook-wizard-layout .spell-wizard-progress-segment:hover .spell-step-number {
+  transform: translateX(-50%) translateY(-5px) !important;
+}
+
+/* Pulsing effect for active step */
+.spellbook-wizard-layout .spell-wizard-progress-segment.active .spell-step-number::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.3);
+  animation: pulse-aura 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse-aura {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 /* ===== ELIMINATE EMPTY SPACE AROUND PROGRESS BAR ===== */
@@ -2539,3 +2657,317 @@
 }
 
 /* Removed - using clean styles above */
+
+/* Prophecy System Wizard Styles */
+.outcome-config-group-pf {
+  margin-top: var(--pf-space-3) !important;
+  padding: var(--pf-space-3) !important;
+  border: var(--pf-border-width) solid var(--pf-brown-light) !important;
+  border-radius: var(--pf-border-radius) !important;
+  background: rgba(139, 115, 85, 0.05) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.outcome-title-pf {
+  font-family: var(--pf-font-display) !important;
+  font-size: var(--pf-text-sm) !important;
+  text-transform: uppercase !important;
+  margin-bottom: var(--pf-space-2) !important;
+  letter-spacing: 0.5px !important;
+  font-weight: var(--pf-font-bold) !important;
+}
+
+.outcome-title-pf.prophesied { color: var(--pf-gold-dark) !important; }
+.outcome-title-pf.base { color: var(--pf-brown-dark) !important; }
+.outcome-title-pf.outside { color: var(--pf-red-dark) !important; }
+
+.config-row-pf {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--pf-space-3) !important;
+  margin-bottom: var(--pf-space-2) !important;
+}
+
+.config-row-pf label {
+  font-family: var(--pf-font-ui) !important;
+  font-size: var(--pf-text-xs) !important;
+  font-weight: var(--pf-font-bold) !important;
+  color: var(--pf-text-secondary) !important;
+  min-width: 120px !important;
+}
+
+.pf-config-input-small {
+  width: 70px !important;
+  padding: 6px 10px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-sm) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-config-input-wide {
+  flex: 1 !important;
+  padding: 6px 10px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-sm) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.pf-config-input-small:focus,
+.pf-config-input-wide:focus {
+  outline: none !important;
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
+}
+
+/* Outcome panel header row (collapsible) */
+.outcome-header-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  margin-bottom: var(--pf-space-2) !important;
+  user-select: none !important;
+}
+
+.outcome-header-row:hover .outcome-title-pf {
+  opacity: 0.85 !important;
+}
+
+.outcome-collapse-icon {
+  font-size: 10px !important;
+  color: var(--pf-text-muted) !important;
+  transition: transform 0.2s ease !important;
+}
+
+/* Primary fields always visible */
+.outcome-primary-fields {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--pf-space-1) 0 !important;
+  margin-bottom: var(--pf-space-2) !important;
+}
+
+/* Advanced toggle button */
+.outcome-advanced-toggle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 4px 8px !important;
+  margin: var(--pf-space-1) 0 !important;
+  background: rgba(139, 115, 85, 0.06) !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: var(--pf-text-xs) !important;
+  color: var(--pf-text-muted) !important;
+  font-weight: var(--pf-font-bold) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.3px !important;
+  border: 1px dashed var(--pf-brown-light) !important;
+  transition: background 0.15s ease !important;
+  user-select: none !important;
+}
+
+.outcome-advanced-toggle:hover {
+  background: rgba(139, 115, 85, 0.12) !important;
+}
+
+.advanced-indicator {
+  font-size: 9px !important;
+  color: var(--pf-gold-dark) !important;
+  background: rgba(184, 134, 11, 0.15) !important;
+  padding: 1px 5px !important;
+  border-radius: 3px !important;
+  text-transform: lowercase !important;
+  font-weight: var(--pf-font-normal) !important;
+  letter-spacing: 0 !important;
+}
+
+/* Advanced fields container */
+.outcome-advanced-fields {
+  padding: var(--pf-space-2) 0 !important;
+  border-top: 1px dashed var(--pf-brown-light) !important;
+  margin-top: var(--pf-space-1) !important;
+  animation: pfFadeIn 0.2s ease-out !important;
+}
+
+/* Stat modifiers section */
+.prophecy-stat-mods-section {
+  margin: var(--pf-space-2) 0 !important;
+  padding: var(--pf-space-2) !important;
+  background: rgba(139, 115, 85, 0.04) !important;
+  border-radius: 4px !important;
+  border: 1px solid var(--pf-brown-light) !important;
+}
+
+.stat-mods-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: var(--pf-space-1) !important;
+}
+
+.stat-mod-row {
+  padding-left: 8px !important;
+  border-left: 2px solid var(--pf-brown-light) !important;
+  margin-bottom: 4px !important;
+}
+
+/* Toggle section */
+.prophecy-toggles-section {
+  margin: var(--pf-space-2) 0 !important;
+}
+
+.prophecy-toggle-row {
+  margin-bottom: 6px !important;
+}
+
+.prophecy-toggle-row label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: var(--pf-text-xs) !important;
+  font-weight: var(--pf-font-semibold) !important;
+  color: var(--pf-text-secondary) !important;
+  cursor: pointer !important;
+  font-family: var(--pf-font-ui) !important;
+}
+
+.prophecy-toggle-row input[type="checkbox"] {
+  accent-color: var(--pf-gold-dark) !important;
+  width: 14px !important;
+  height: 14px !important;
+  cursor: pointer !important;
+}
+
+.toggle-icon {
+  font-size: 11px !important;
+  color: var(--pf-text-muted) !important;
+  width: 14px !important;
+  text-align: center !important;
+}
+
+/* Tiny config input */
+.pf-config-input-tiny {
+  width: 50px !important;
+  padding: 4px 6px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-sm) !important;
+  color: var(--pf-text-primary) !important;
+  text-align: center !important;
+}
+
+.pf-config-input-tiny:focus {
+  outline: none !important;
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
+}
+
+/* Unit select */
+.prophecy-unit-select {
+  width: 100px !important;
+  padding: 4px 6px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-xs) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+.prophecy-stat-select {
+  flex: 1 !important;
+  min-width: 120px !important;
+  padding: 4px 6px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-xs) !important;
+  color: var(--pf-text-primary) !important;
+}
+
+/* Textarea */
+.pf-config-textarea {
+  width: 100% !important;
+  padding: 6px 10px !important;
+  border: var(--pf-border-width) solid var(--pf-brown-medium) !important;
+  border-radius: 4px !important;
+  background: white !important;
+  font-family: var(--pf-font-body) !important;
+  font-size: var(--pf-text-sm) !important;
+  color: var(--pf-text-primary) !important;
+  resize: vertical !important;
+  min-height: 40px !important;
+  box-sizing: border-box !important;
+}
+
+.pf-config-textarea:focus {
+  outline: none !important;
+  border-color: var(--pf-gold-dark) !important;
+  box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1) !important;
+}
+
+/* Hint text */
+.pf-hint {
+  font-size: 10px !important;
+  color: var(--pf-text-muted) !important;
+  font-style: italic !important;
+  white-space: nowrap !important;
+}
+
+/* Tiny button */
+.pf-btn-tiny {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 2px 8px !important;
+  font-size: 10px !important;
+  font-family: var(--pf-font-ui) !important;
+  color: var(--pf-brown-dark) !important;
+  background: var(--pf-brown-light) !important;
+  border: 1px solid var(--pf-brown-medium) !important;
+  border-radius: 3px !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+}
+
+.pf-btn-tiny:hover {
+  background: var(--pf-brown-medium) !important;
+  color: white !important;
+}
+
+/* Icon danger button */
+.pf-btn-icon-danger {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 0 !important;
+  font-size: 10px !important;
+  color: var(--pf-red-dark) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 3px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.pf-btn-icon-danger:hover {
+  background: rgba(139, 0, 0, 0.1) !important;
+  border-color: var(--pf-red-dark) !important;
+}
+
+@keyframes pfFadeIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

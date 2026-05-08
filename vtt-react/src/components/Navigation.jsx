@@ -13,38 +13,26 @@ import SettingsWindow from './windows/SettingsWindow';
 import ExitGameConfirmDialog from './dialogs/ExitGameConfirmDialog';
 import { getWowIconUrl } from '../utils/assetManager';
 
-import CharacterPanel from './character-sheet/Equipment';
 import { CreatureLibraryProvider } from './creature-wizard/context/CreatureLibraryContext';
 import { CreatureWizardProvider } from './creature-wizard/context/CreatureWizardContext';
-import CreatureLibrary from './creature-wizard/components/library/CreatureLibrary';
-import CommunityCreaturesTab from './creature-wizard/components/library/CommunityCreaturesTab';
 
-// Pre-load the wizard components for better development experience
-import CreatureWizardApp from './creature-wizard/CreatureWizardApp';
-
-import CharacterStats from './character-sheet/CharacterStats';
-import Skills from './character-sheet/Skills';
-import Lore from './character-sheet/Lore';
-import InventoryWindow from './windows/InventoryWindow';
-import ItemLibraryWindow from './windows/ItemLibraryWindow';
-import MapLibraryWindow from './windows/MapLibraryWindow';
-import useCombatStore from '../store/combatStore';
-import useCreatureStore from '../store/creatureStore';
-import useInventoryStore from '../store/inventoryStore';
-import ErrorBoundary from './ErrorBoundary';
-import SocialEncounterGenerator from './gm-tools/SocialEncounterGenerator';
-import JukeboxPanel from './jukebox/JukeboxPanel';
-// REMOVED: import './creature-wizard/styles/CreatureWindow.css'; // CAUSES CSS POLLUTION
-
-import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
-import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
-import ExternalLivePreview from './spellcrafting-wizard/ExternalLivePreview';
-
-// Pre-load these components instead of lazy loading for better development experience
-import SpellbookWindow from './windows/SpellbookWindow';
-import CampaignManagerWindow from './windows/CampaignManagerWindow';
-import PlayerJournalWindow from './windows/PlayerJournalWindow';
-import PlayerDisplayOverlay from './dialogs/PlayerDisplayOverlay';
+const CharacterPanel = lazy(() => import('./character-sheet/Equipment'));
+const CreatureLibrary = lazy(() => import('./creature-wizard/components/library/CreatureLibrary'));
+const CommunityCreaturesTab = lazy(() => import('./creature-wizard/components/library/CommunityCreaturesTab'));
+const CreatureWizardApp = lazy(() => import('./creature-wizard/CreatureWizardApp'));
+const CharacterStats = lazy(() => import('./character-sheet/CharacterStats'));
+const Skills = lazy(() => import('./character-sheet/Skills'));
+const Lore = lazy(() => import('./character-sheet/Lore'));
+const InventoryWindow = lazy(() => import('./windows/InventoryWindow'));
+const ItemLibraryWindow = lazy(() => import('./windows/ItemLibraryWindow'));
+const MapLibraryWindow = lazy(() => import('./windows/MapLibraryWindow'));
+const SocialEncounterGenerator = lazy(() => import('./gm-tools/SocialEncounterGenerator'));
+const JukeboxPanel = lazy(() => import('./jukebox/JukeboxPanel'));
+const SpellbookWindow = lazy(() => import('./windows/SpellbookWindow'));
+const CampaignManagerWindow = lazy(() => import('./windows/CampaignManagerWindow'));
+const PlayerJournalWindow = lazy(() => import('./windows/PlayerJournalWindow'));
+const PlayerDisplayOverlay = lazy(() => import('./dialogs/PlayerDisplayOverlay'));
+const ExternalLivePreview = lazy(() => import('./spellcrafting-wizard/ExternalLivePreview'));
 const TalentTreeWindow = lazy(() =>
     import('./windows/TalentTreeWindow').catch(err => {
         console.error('Failed to load TalentTreeWindow:', err);
@@ -114,6 +102,14 @@ const PlayerTravelDashboard = lazy(() =>
         };
     })
 );
+
+import useCombatStore from '../store/combatStore';
+import useCreatureStore from '../store/creatureStore';
+import useInventoryStore from '../store/inventoryStore';
+import ErrorBoundary from './ErrorBoundary';
+
+import { SpellLibraryProvider } from './spellcrafting-wizard/context/SpellLibraryContext';
+import { SpellWizardProvider } from './spellcrafting-wizard/context/spellWizardContext';
 
 // Creature Window Wrapper with spellbook-style tabs
 function CreatureWindowWrapper({ isOpen, onClose }) {
@@ -711,25 +707,29 @@ export default function Navigation({ onReturnToLanding }) {
     // Window manager store to check for open windows/modals
     const windowManagerWindows = useWindowManagerStore(state => state.windows);
 
-    // Game store for GM mode and camera position
-    const { isGMMode, cameraX, cameraY, gridSize, gridOffsetX, gridOffsetY, gridBackgroundColor, setCameraPosition } = useGameStore();
+    // Game store for GM mode and camera position - granular selectors to prevent excessive re-renders
+    const isGMMode = useGameStore(state => state.isGMMode);
+    const cameraX = useGameStore(state => state.cameraX);
+    const cameraY = useGameStore(state => state.cameraY);
+    const gridSize = useGameStore(state => state.gridSize);
+    const gridOffsetX = useGameStore(state => state.gridOffsetX);
+    const gridOffsetY = useGameStore(state => state.gridOffsetY);
+    const gridBackgroundColor = useGameStore(state => state.gridBackgroundColor);
+    const setCameraPosition = useGameStore(state => state.setCameraPosition);
 
     // State for coordinate input popup
     const [showCoordinatePopup, setShowCoordinatePopup] = useState(false);
     const [inputX, setInputX] = useState('');
     const [inputY, setInputY] = useState('');
 
-    // Combat store for selection mode
-    const {
-        isSelectionMode,
-        isInCombat,
-        startSelectionMode,
-        cancelSelectionMode,
-        endCombat,
-        forceResetCombat,
-
-        clearCombatStorage
-    } = useCombatStore();
+    // Combat store for selection mode - granular selectors to prevent excessive re-renders
+    const isSelectionMode = useCombatStore(state => state.isSelectionMode);
+    const isInCombat = useCombatStore(state => state.isInCombat);
+    const startSelectionMode = useCombatStore(state => state.startSelectionMode);
+    const cancelSelectionMode = useCombatStore(state => state.cancelSelectionMode);
+    const endCombat = useCombatStore(state => state.endCombat);
+    const forceResetCombat = useCombatStore(state => state.forceResetCombat);
+    const clearCombatStorage = useCombatStore(state => state.clearCombatStorage);
 
     // Presence store for community window state and unread notifications
     const isCommunityWindowOpen = usePresenceStore(state => state.isCommunityWindowOpen);
@@ -759,9 +759,8 @@ export default function Navigation({ onReturnToLanding }) {
         });
     }, [isCommunityWindowOpen]);
 
-    // Player restricted buttons set - cached outside component to avoid recreation
-    // Fixed: Moved from this.playerRestrictedButtonsSet to proper const declaration
-    const playerRestrictedButtonsSet = new Set([
+    // Player restricted buttons set - memoized to avoid recreation every render
+    const playerRestrictedButtonsSet = useMemo(() => new Set([
         'leveleditor',
         'creatures',
         'maplibrary',
@@ -769,7 +768,7 @@ export default function Navigation({ onReturnToLanding }) {
         'itemgen',
         'combat',
         'encounters'
-    ]);
+    ]), []);
 
     // Filter buttons based on GM/Player mode
     const getVisibleButtons = () => {
@@ -997,37 +996,45 @@ export default function Navigation({ onReturnToLanding }) {
         switch (button.id) {
             case 'character':
                 return shouldRender && (
-                    <CharacterSheetWindow
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                        title={safeTitle}
-                    />
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <CharacterSheetWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                                title={safeTitle}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'inventory':
                 return shouldRender && (
-                    <WowWindow
-                        key={button.id}
-                        title={safeTitle}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                        defaultSize={{ width: 900, height: 550 }}
-                        defaultPosition={{ x: 150, y: 150 }}
-                        customHeader={
-                            <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                                <button className="spellbook-tab-button active">
-                                    <i className="fas fa-backpack" style={{ marginRight: '8px' }}></i>
-                                    <span>INVENTORY</span>
-                                </button>
-                                <div style={{ flex: 1 }}></div>
-                                <div style={{ marginRight: '48px' }}>
-                                    <InventoryHeaderButton />
-                                </div>
-                            </div>
-                        }
-                    >
-                        <InventoryWindow />
-                    </WowWindow>
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <WowWindow
+                                key={button.id}
+                                title={safeTitle}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                                defaultSize={{ width: 900, height: 550 }}
+                                defaultPosition={{ x: 150, y: 150 }}
+                                customHeader={
+                                    <div className="spellbook-tab-container" style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+                                        <button className="spellbook-tab-button active">
+                                            <i className="fas fa-backpack" style={{ marginRight: '8px' }}></i>
+                                            <span>INVENTORY</span>
+                                        </button>
+                                        <div style={{ flex: 1 }}></div>
+                                        <div style={{ marginRight: '48px' }}>
+                                            <InventoryHeaderButton />
+                                        </div>
+                                    </div>
+                                }
+                            >
+                                <InventoryWindow />
+                            </WowWindow>
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'crafting':
                 return shouldRender && (
@@ -1110,11 +1117,15 @@ export default function Navigation({ onReturnToLanding }) {
 
             case 'itemgen':
                 return shouldRender && (
-                    <ItemLibraryWindow
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                    />
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <ItemLibraryWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'leveleditor':
                 // Level editor is handled directly in the Grid component, not as a window
@@ -1143,46 +1154,62 @@ export default function Navigation({ onReturnToLanding }) {
 
             case 'maplibrary':
                 return shouldRender && (
-                    <MapLibraryWindow
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                    />
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <MapLibraryWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
                 );
 
             case 'creatures':
                 return shouldRender && (
-                    <CreatureWindowWrapper
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                    />
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <CreatureWindowWrapper
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'encounters':
                 return shouldRender && (
-                    <WowWindow
-                        key={button.id}
-                        title={safeTitle || 'Social Encounter'}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                        defaultSize={{ width: 560, height: 860 }}
-                        defaultPosition={{ x: 200, y: 30 }}
-                    >
-                        <SocialEncounterGenerator />
-                    </WowWindow>
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <WowWindow
+                                key={button.id}
+                                title={safeTitle || 'Social Encounter'}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                                defaultSize={{ width: 560, height: 860 }}
+                                defaultPosition={{ x: 200, y: 30 }}
+                            >
+                                <SocialEncounterGenerator />
+                            </WowWindow>
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'jukebox':
                 return shouldRender && (
-                    <WowWindow
-                        key={button.id}
-                        title={safeTitle || 'Lutebox'}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                        defaultSize={{ width: 480, height: 640 }}
-                        defaultPosition={{ x: window.innerWidth - 520, y: 30 }}
-                    >
-                        <JukeboxPanel isGM={true} />
-                    </WowWindow>
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <WowWindow
+                                key={button.id}
+                                title={safeTitle || 'Lutebox'}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                                defaultSize={{ width: 480, height: 640 }}
+                                defaultPosition={{ x: window.innerWidth - 520, y: 30 }}
+                            >
+                                <JukeboxPanel isGM={true} />
+                            </WowWindow>
+                        </Suspense>
+                    </ErrorBoundary>
                 );
             case 'settings':
                 return shouldRender && (
@@ -1195,11 +1222,15 @@ export default function Navigation({ onReturnToLanding }) {
 
             case 'journal':
                 return shouldRender && (
-                    <PlayerJournalWindow
-                        key={button.id}
-                        isOpen={true}
-                        onClose={() => handleButtonClick(button.id)}
-                    />
+                    <ErrorBoundary key={`${button.id}-error-boundary`}>
+                        <Suspense fallback={null}>
+                            <PlayerJournalWindow
+                                key={button.id}
+                                isOpen={true}
+                                onClose={() => handleButtonClick(button.id)}
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
                 );
 
             default:

@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { formatFormulaToPlainEnglish } from './SpellCardUtils';
 import RollableTableSummary from './RollableTableSummary';
+import ProphecySummary from './ProphecySummary';
 import { useSpellLibrary } from '../../context/SpellLibraryContext';
 import SpellTooltip from './SpellTooltip';
 import { calculateManaCost } from '../../core/mechanics/resourceManager';
@@ -1111,7 +1112,7 @@ const UnifiedSpellCard = ({
 
     // Add target restrictions if they exist and are meaningful
     let restrictionsInfo = '';
-    if (targetRestrictions && targetRestrictions.length > 0 && !targetRestrictions.includes('any')) {
+    if (Array.isArray(targetRestrictions) && targetRestrictions.length > 0 && !targetRestrictions.includes('any')) {
       const restrictionNames = targetRestrictions.map(r => {
         return r === 'enemy' ? 'Enemies' :
                r === 'ally' ? 'Allies' :
@@ -1323,7 +1324,7 @@ const UnifiedSpellCard = ({
     }
 
     // Format target restrictions
-    if (targetRestrictions && targetRestrictions.length > 0) {
+    if (Array.isArray(targetRestrictions) && targetRestrictions.length > 0) {
       const restrictions = targetRestrictions.map(restriction => {
         switch (restriction) {
           case 'enemy':
@@ -3491,6 +3492,9 @@ const UnifiedSpellCard = ({
           }
           break;
 
+        case 'PROPHECY':
+          return null;
+
         default:
           systemType = config.system.replace('_', ' ');
           mechanicsText = `${config.system.replace('_', ' ').toLowerCase()} mechanic`;
@@ -4782,6 +4786,21 @@ const UnifiedSpellCard = ({
           }
           // Just clean up spacing and formatting, don't convert to readable text
           damageText = `${cleanFormula(finalFormula)}${damageTypeSuffix}`;
+      } else if (spell.resolution === 'PROPHECY') {
+          // Extract prophecy data
+          const prophecyData = spell.prophecyConfig || 
+                               (Array.isArray(spell.mechanicsConfig) ? 
+                                spell.mechanicsConfig.find(m => m.system === 'PROPHECY')?.prophecy : 
+                                spell.mechanicsConfig?.prophecy);
+          
+          if (prophecyData) {
+            const rangeDice = prophecyData.rangeDice || ['d8', 'd6'];
+            const resDie = prophecyData.resolutionDie || 'd6';
+            const rangeText = Array.isArray(rangeDice) ? rangeDice.join('+') : rangeDice;
+            damageText = `Prophecy (${rangeText} vs ${resDie})${damageTypeSuffix}`;
+          } else {
+            damageText = `Prophecy Resolution${damageTypeSuffix}`;
+          }
       } else if (spell.primaryDamage?.dice) {
           const dice = spell.primaryDamage.dice;
           const flat = spell.primaryDamage.flat > 0 ? ` + ${spell.primaryDamage.flat}` : '';
@@ -8930,7 +8949,8 @@ const UnifiedSpellCard = ({
             const hasCoinDamage = spell?.resolution === 'COINS' && spell?.coinConfig && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasDiceDamage = spell?.resolution === 'DICE' && spell?.diceConfig?.formula && spell.diceConfig.formula.trim() && spell?.damageConfig && spell?.effectTypes?.includes('damage');
             const hasDotDamage = spell?.damageConfig?.hasDotEffect || spell?.damageConfig?.damageType === 'dot';
-            const shouldRenderDamage = hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDotDamage;
+            const isProphecySpell = spell?.resolution === 'PROPHECY';
+            const shouldRenderDamage = !isProphecySpell && (hasPrimaryDamage || hasDamageFormula || hasCardDamage || hasCoinDamage || hasDiceDamage || hasDotDamage);
 
             // Check if healing should be rendered
             const healingData = spell?.healingConfig || (spell?.effects?.healing ? {
@@ -8948,8 +8968,41 @@ const UnifiedSpellCard = ({
             const shouldWrapDamageIndividually = hasDamageEffectTriggers && !hasGlobalTriggerOrRequired;
             const shouldWrapHealingIndividually = hasHealingEffectTriggers && !hasGlobalTriggerOrRequired;
 
-            return (
-              <div className="pf-spell-stats wow-spell-stats">
+            const hasStatusEffects = (spell?.statusEffectsConfig || []).length > 0;
+            const hasRollableTable = (rollableTableData || spell?.mechanicsConfig?.rollableTable || spell?.rollableTable)?.enabled;
+            const hasProphecy = !!(spell?.prophecyConfig || (Array.isArray(spell?.mechanicsConfig) && spell.mechanicsConfig.find(m => m.system === 'PROPHECY')?.prophecy));
+
+            const hasBuffContent = spell?.effectTypes?.includes('buff') && (
+              spell?.buffConfig?.statModifiers?.length > 0 ||
+              spell?.buffConfig?.statusEffects?.length > 0 ||
+              spell?.buffConfig?.effects?.length > 0 ||
+              spell?.effects?.buff
+            );
+            const hasDebuffContent = !!(spell?.debuffConfig && (
+              spell.debuffConfig.statPenalties?.length > 0 ||
+              spell.debuffConfig.statModifiers?.length > 0 ||
+              spell.debuffConfig.statusEffects?.length > 0 ||
+              spell.debuffConfig.effects?.length > 0 ||
+              spell.debuffConfig.duration ||
+              spell.debuffConfig.durationType ||
+              spell.debuffConfig.durationValue
+            ));
+            const hasDuration = (spell?.durationType && spell.durationType !== 'instant') ||
+              (spell?.effectTypes?.includes('buff') && spell?.buffConfig?.durationType && spell.buffConfig.durationType !== 'instant');
+            const hasUtility = spell?.effectTypes?.includes('utility') && (spell?.utilityConfig || spell?.effects?.utility);
+            const hasControl = spell?.effectTypes?.includes('control') || spell?.controlConfig;
+            const hasTerrain = spell?.effectTypes?.includes('terrain') || spell?.terrainConfig || spell?.effects?.terrain;
+            const hasSummoning = spell?.effectTypes?.includes('summoning') && (spell?.summoningConfig || spell?.summonConfig);
+            const hasTransformation = spell?.effectTypes?.includes('transformation') && (spell?.transformationConfig || spell?.transformConfig);
+            const hasPurification = spell?.effectTypes?.includes('purification') && spell?.purificationConfig;
+            const hasRestoration = spell?.effectTypes?.includes('restoration') && spell?.restorationConfig;
+
+            const hasAnyStatContent = shouldRenderDamage || shouldRenderHealing || hasGlobalTriggerOrRequired ||
+              hasBuffContent || hasDebuffContent || hasDuration || hasUtility || hasControl ||
+              hasTerrain || hasSummoning || hasTransformation || hasPurification || hasRestoration;
+
+            const statContent = (
+              <>
                 {hasEffectsToWrap ? (
                   <div className="healing-effects" style={{ marginTop: '2px', marginBottom: '0px' }}>
                     <div className="healing-effects-section">
@@ -11303,7 +11356,7 @@ const UnifiedSpellCard = ({
                   spell.debuffConfig.durationValue
                 );
 
-                if (!hasDebuffType && !hasAnyDebuffConfiguration) return null;
+                if (!hasAnyDebuffConfiguration) return null;
 
                 const legacyDebuff = spell?.effects?.debuff || spellProp?.effects?.debuff;
 
@@ -13757,6 +13810,55 @@ const UnifiedSpellCard = ({
 
               {/* Display triggers attached to effects on the spell card - Removed, now shown inline with effects */}
 
+              {/* Status Effects Section (Manual/General) */}
+              {(() => {
+                const statusEffects = spell?.statusEffectsConfig || [];
+                if (!statusEffects || statusEffects.length === 0) return null;
+
+                return (
+                  <div className="healing-effects status-effects-container">
+                    <div className="healing-effects-section">
+                      <div className="healing-formula-line">
+                        <div className="healing-effects-list">
+                          {statusEffects.map((effect, index) => (
+                            <div key={`status-${index}`} className="healing-effect-item status-effect-item">
+                              <div className="healing-effect">
+                                <span className="healing-effect-name">
+                                  {effect.name}
+                                </span>
+                                {effect.duration && (
+                                  <span className="healing-effect-description">
+                                    {" "}<span className="diamond-symbol">◆</span>{" "}{effect.duration} {effect.unit || 'rounds'}
+                                  </span>
+                                )}
+                              </div>
+                              {(effect.description || (effect.statModifiers && effect.statModifiers.length > 0)) && (
+                                <div className="healing-effect-details">
+                                  {effect.description && (
+                                    <div className="healing-effect-description effect-main-description">
+                                      {effect.description}
+                                    </div>
+                                  )}
+                                  {effect.statModifiers && effect.statModifiers.length > 0 && (
+                                    <div className="status-stat-mods-list">
+                                      {effect.statModifiers.map((mod, i) => (
+                                        <span key={i} className="pf-stat-mod-badge">
+                                          {mod.stat} {mod.value > 0 ? '+' : ''}{mod.value}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
               {/* Rollable Table Summary */}
               {(() => {
                 // Extract rollable table data from spell if not provided as prop
@@ -13777,8 +13879,43 @@ const UnifiedSpellCard = ({
                 );
               })()}
 
+              {/* Prophecy Summary (Doomsayer) */}
+              {(() => {
+                // Support both top-level prophecyConfig and mechanicsConfig-nested prophecy
+                const prophecyData = spell?.prophecyConfig || 
+                                    (Array.isArray(spell?.mechanicsConfig) ? 
+                                      spell.mechanicsConfig.find(m => m.system === 'PROPHECY')?.prophecy : 
+                                      spell?.mechanicsConfig?.prophecy);
 
+                if (!prophecyData) return null;
+
+                // Merge top-level tableConfig into prophecyData so ProphecySummary can render it
+                if (spell?.tableConfig && !prophecyData.tableConfig) {
+                  prophecyData.tableConfig = spell.tableConfig;
+                }
+
+                return (
+                  <div className="healing-effects prophecy-effects-container">
+                    <div className="healing-effects-section">
+                      <ProphecySummary 
+                        prophecyData={prophecyData} 
+                        damageType={getDamageTypes()[0] || 'necrotic'}
+                      />
+                    </div>
+                  </div>
+                );
+              })()}
+
+
+              </>
+            );
+
+            return hasAnyStatContent ? (
+              <div className="pf-spell-stats wow-spell-stats">
+                {statContent}
               </div>
+            ) : (
+              statContent
             );
           })()}
         </div>

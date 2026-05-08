@@ -67,15 +67,14 @@
     position: absolute;
     top: 0;
     left: -100%;
-    width: 200%;
+    width: 100%;
     height: 100%;
     background: linear-gradient(90deg,
         transparent 0%,
-        rgba(0, 255, 255, 0.15) 25%,
-        rgba(135, 206, 235, 0.2) 50%,
-        rgba(0, 255, 255, 0.15) 75%,
+        rgba(255, 255, 255, 0.4) 50%,
         transparent 100%);
-    animation: frostSweep 4s ease-in-out infinite;
+    transition: left 0.5s ease;
+    will-change: left, opacity;
     pointer-events: none;
     z-index: 1;
 }
@@ -104,6 +103,57 @@
         left: 100%;
         opacity: 0.6;
     }
+}
+
+.lichborne-container.aura-active .phylactery-bar-content {
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 255, 255, 0.3),
+        inset 0 -1px 3px rgba(0, 255, 255, 0.15),
+        0 0 20px rgba(0, 255, 255, 0.5),
+        0 0 40px rgba(0, 100, 150, 0.2);
+}
+
+.lichborne-container.aura-active .phylactery-bar-content::before {
+    animation-duration: 2s;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 255, 0.4) 25%,
+        rgba(135, 206, 235, 0.5) 50%,
+        rgba(0, 255, 255, 0.4) 75%,
+        transparent 100%);
+}
+
+.lichborne-container.aura-active .phylactery-value {
+    color: #FFFFFF;
+    text-shadow:
+        0 0 12px rgba(0, 255, 255, 1),
+        0 0 6px rgba(135, 206, 235, 1),
+        0 0 20px rgba(0, 200, 255, 0.6);
+    animation: auraActiveValuePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes auraActiveValuePulse {
+    0%, 100% {
+        text-shadow:
+            0 0 12px rgba(0, 255, 255, 1),
+            0 0 6px rgba(135, 206, 235, 1),
+            0 0 20px rgba(0, 200, 255, 0.6);
+    }
+    50% {
+        text-shadow:
+            0 0 16px rgba(0, 255, 255, 1),
+            0 0 8px rgba(135, 206, 235, 1),
+            0 0 30px rgba(0, 200, 255, 0.8);
+    }
+}
+
+.lichborne-container.aura-active .phylactery-segment.empty {
+    opacity: 0.35;
+    border-color: rgba(0, 255, 255, 0.25);
+    background: linear-gradient(135deg,
+        rgba(0, 40, 60, 0.5) 0%,
+        rgba(0, 60, 90, 0.4) 100%);
 }
 
 /* Phylactery Value Display - Frozen Soul Count */
@@ -409,41 +459,19 @@
     margin-top: 2px;
 }
 
-/* Hide spec-buttons that are NOT inside phylactery-menu or qm-menu - show only those inside */
+/* Spec button visibility — use data-visible attribute */
 .spec-button {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    position: absolute !important;
-    left: -9999px !important;
-    pointer-events: none !important;
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Explicitly show qm-menu and warden-menu spec buttons - must come after the hide rule */
-.qm-menu .spec-button,
-.warden-menu .spec-button {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    pointer-events: auto !important;
-}
-
-.phylactery-menu .spec-button,
-.phylactery-menu .spec-buttons-inline .spec-button {
-    display: inline-flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-    left: auto !important;
-    right: auto !important;
-    top: auto !important;
-    bottom: auto !important;
-    pointer-events: auto !important;
+.spec-button[data-visible="true"] {
+    display: inline-flex;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
     align-items: center;
     justify-content: center;
     gap: 0;
@@ -465,7 +493,6 @@
     transition: all 0.2s ease;
     flex-shrink: 0;
     box-sizing: border-box;
-    transform: none !important;
 }
 
 .phylactery-menu .spec-button i,
@@ -684,6 +711,32 @@
 .spec-option span {
     flex: 1;
     font-weight: bold;
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.aura-toggle-btn:focus-visible {
+    outline: 2px solid #00FFFF;
+    outline-offset: 3px;
+    box-shadow:
+        0 0 0 3px rgba(0, 255, 255, 0.3);
+}
+
+.phylactery-menu .menu-buttons button:focus-visible {
+    outline: 2px solid #00FFFF;
+    outline-offset: 2px;
+}
+
+.spec-button[data-visible="true"]:focus-visible {
+    outline: 2px solid #00FFFF;
+    outline-offset: 2px;
+}
+
+.spec-option:focus-visible {
+    outline: 2px solid #00FFFF;
+    outline-offset: 2px;
 }
 
 /* ========================================

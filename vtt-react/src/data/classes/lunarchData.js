@@ -96,6 +96,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
       title: 'Combat Example: The Lunar Cycle',
       content: `**The Setup**: You're a Lunarch (Moonlight Sentinel specialization) facing a group of shadow creatures (4 shadow wraiths + 1 shadow lord). Your party is with you. Starting Phase: New Moon (all Lunarchs start combat in New Moon). Starting Mana: 50/60. Your goal: Cycle through lunar phases strategically, using each phase's unique bonuses to adapt to the battle.
 
+> **PHASE SKIP RULE**: When you manually shift to any phase, the 3-round timer resets. After your shifted phase ends, the cycle resumes from the NEXT phase in order. For example, shifting New Moon → Full Moon means after Full expires, you cycle to Waning (Waxing was skipped). Waxing returns after Waning completes.
+
 **Starting State**: Phase: New Moon | Mana: 50/60 | HP: 65/65 | Round: 1
 
 **NEW MOON PHASE (Rounds 1-3)**
@@ -269,7 +271,7 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
     cards: [
       {
         title: '🌑 New Moon (Defensive)',
-        stats: '+2 Armor | +1d6 HP Regen',
+        stats: '+2 Armor | +1d6 HP Regen | Stealth Adv',
         details: 'The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.'
       },
       {
@@ -294,9 +296,7 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
       rows: [
         ['Natural Cycle', 'Free', 'Auto-advances to next phase every 3 rounds'],
         ['Phase Shift', '8 Mana', 'Manually jump to any phase (resets 3-rnd timer)'],
-        ['Lunar Eclipse', '15 Mana', 'Gain benefits of New + Full Moon for 2 rounds'],
-        ['Moonlight Infusion', '4 Mana', 'Double the current phase bonus for one spell'],
-        ['Phase Lock', 'Passive', 'Some abilities freeze the cycle for 1 round']
+        ['Lunar Eclipse', '15 Mana', 'Gain benefits of New + Full Moon for 2 rounds (Starfall Invoker Lv6 spell)']
       ]
     },
 
@@ -493,9 +493,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         name: 'Moonwell Guardian',
         icon: 'Nature/Ethereal Bird',
         color: '#20B2AA',
-        theme: 'Lunar Healer',
+        theme: 'Lunar Warden',
         
-        description: `The Moonwell Guardian is a devoted protector who channels the moon's restorative power to heal and shield allies. They create sacred moonwells, bestow lunar blessings, and ensure their companions survive even the most dire battles. This specialization is essential for any party lacking dedicated healing.`,
+        description: `The Moonwell Guardian is a devoted warden who channels the moon's restorative power to heal and shield allies. They create sacred moonwells that pulse with lunar energy, bestow blessings that shift with the phases, and ensure their companions survive even the most dire battles. While rooted in the Lunarch's phase system, this specialization leans into the Waxing Moon's growth and the New Moon's protection, making them essential battlefield sustainers who shape the fight through healing zones and protective barriers.`,
         
         playstyle: 'Support healer and protector, focusing on sustained healing, shields, and protective buffs for the party',
         
@@ -1774,7 +1774,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
     {
       id: 'lunarch_celestial_archery',
       name: 'Celestial Archery',
-      description: 'Enter a state of perfect celestial archery, making every shot count.',
+      description: 'Enter a state of perfect celestial archery, channeling the full moon into your aim.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Nature/Ethereal Bird',
@@ -1808,8 +1808,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         effects: [{
           id: 'celestial_archery',
           name: 'Celestial Archery',
-          description: 'All ranged attacks automatically hit. Critical hits on 15-20. Double damage on crits.',
-          mechanicsText: 'Ranged attacks auto-hit. Crit on 15-20. Double damage on crits.'
+          description: 'Gain advantage on all ranged attack rolls. Critical hits on 18-20. Critical hits deal double damage.',
+          mechanicsText: 'Advantage on ranged attacks. Crit on 18-20. Double damage on crits.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -1829,7 +1829,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
     {
       id: 'lunarch_full_moon_blessing',
       name: 'Full Moon Blessing',
-      description: 'Invoke the full power of the full moon to massively empower all allies.',
+      description: 'Invoke the full power of the full moon to empower all allies with celestial strength.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Radiant/Divine Illumination',
@@ -1867,19 +1867,19 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         effects: [{
           id: 'full_moon_blessing',
           name: 'Full Moon Blessing',
-          description: 'All allies gain +4 to all stats, advantage on all rolls, and deal +2d6 radiant damage',
-          statModifier: { stat: 'all_stats', magnitude: 4, magnitudeType: 'flat' },
-          mechanicsText: '+4 all stats, advantage on all rolls, +2d6 radiant damage'
+          description: 'All allies gain +2 to all stats, advantage on attack rolls, and deal +1d6 radiant damage on attacks',
+          statModifier: { stat: 'all_stats', magnitude: 2, magnitudeType: 'flat' },
+          mechanicsText: '+2 all stats, advantage on attacks, +1d6 radiant damage on attacks'
         }],
-        durationValue: 5,
+        durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: true
       },
 
       healingConfig: {
-        formula: '8d8 + spirit',
+        formula: '6d8 + spirit',
         healingType: 'direct',
         hasHotEffect: false
       },
@@ -2000,7 +2000,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
           difficultyClass: 22,
           saveOutcome: 'halves'
         },
-        specialRules: 'Destroys all objects in path. Ignores all resistances and immunities.'
+        specialRules: 'Ignores resistance to radiant damage. Destroys unattended objects in path.'
       },
 
       cooldownConfig: {
@@ -2150,12 +2150,22 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Damage type becomes necrotic, and you heal for half damage dealt',
+          waxingMoon: 'Add +1d4 radiant damage',
+          fullMoon: 'Add +1d6 radiant damage',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
       tags: ['damage', 'radiant', 'moonlight', 'universal']
     },
 
     {
       id: 'lunarch_minor_blessing',
-      name: 'Lunar Blessing',
+      name: 'Minor Blessing',
       description: 'Bless an ally with lunar power, healing them.',
       level: 1,
       spellType: 'ACTION',
@@ -2164,7 +2174,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       typeConfig: {
         school: 'restoration',
         icon: 'Healing/Prayer',
-        tags: ['healing', 'blessing', 'universal'],
+        tags: ['healing', 'blessing', 'minor blessing', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2198,13 +2208,13 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
-      tags: ['healing', 'blessing', 'universal']
+      tags: ['healing', 'blessing', 'minor blessing', 'universal']
     },
 
     // ADDITIONAL LEVEL 2 SPELLS
     {
       id: 'lunarch_phase_step',
-      name: 'Phase Shift',
+      name: 'Phase Step',
       description: 'Shift through phases of the moon to teleport up to 30 feet.',
       level: 2,
       spellType: 'ACTION',
@@ -2252,6 +2262,16 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Teleport range increases to 45 feet and you become invisible until end of turn',
+          waxingMoon: 'After teleporting, heal yourself for 1d6',
+          fullMoon: 'After teleporting, gain advantage on your next attack roll',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
       tags: ['utility', 'teleport', 'movement', 'universal']
     },
 
@@ -2266,7 +2286,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       typeConfig: {
         school: 'evocation',
         icon: 'Arcane/Magical Cross Emblem 2',
-        tags: ['damage', 'radiant', 'crescent', 'universal'],
+        tags: ['damage', 'radiant', 'arcane', 'crescent', 'universal'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2300,7 +2320,17 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
-      tags: ['damage', 'radiant', 'crescent', 'universal']
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Damage type becomes arcane, and target has disadvantage on next attack roll',
+          waxingMoon: 'Add +1d4 radiant damage',
+          fullMoon: 'Add +1d6 radiant damage and increase crit range by 1',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
+      tags: ['damage', 'radiant', 'arcane', 'crescent', 'universal']
     },
 
     // ADDITIONAL LEVEL 4 SPELL
@@ -2365,6 +2395,16 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Chains also drain 1d4 mana from the target each round',
+          waxingMoon: 'Target has disadvantage on the initial saving throw',
+          fullMoon: 'Restrained duration increases to 4 rounds, and chains deal 1d6 radiant damage per round',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
       tags: ['control', 'restrain', 'moonlight', 'universal']
     },
 
@@ -2414,6 +2454,16 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Healing also grants each ally 1d4 temporary hit points',
+          waxingMoon: 'Healing increases to 5d8+spirit+1d6, and targets are cleansed of one poison or disease',
+          fullMoon: 'Radius increases to 30 feet',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
       tags: ['healing', 'aoe', 'full moon', 'universal']
     },
 
@@ -2479,6 +2529,16 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       resolution: 'DICE',
+
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon: 'Eclipse becomes a void eclipse - damage type changes to necrotic and enemies are weakened (-2 to attack rolls) for 1 round',
+          waxingMoon: 'Allies in the area are healed for 2d6',
+          fullMoon: 'Radius increases to 30 feet, and critical hit extra dice increase to 5d10',
+          waningMoon: 'Costs 1d4 less mana (minimum 1)'
+        }
+      },
+
       tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal']
     }
   ]

@@ -327,12 +327,12 @@
     transition: all 0.2s ease;
     white-space: nowrap;
     height: 18px;
-    font-family: var(--pf-font-body);
-    font-size: 6px;
-    font-weight: var(--pf-font-semibold);
-    color: var(--pf-text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+        font-family: var(--pf-font-body);
+        font-size: 8px;
+        font-weight: var(--pf-font-semibold);
+        color: var(--pf-text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
     box-sizing: border-box;
 }
 

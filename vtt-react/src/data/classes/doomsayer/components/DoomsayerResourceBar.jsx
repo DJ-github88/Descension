@@ -68,6 +68,20 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
         if (onClassResourceUpdate) onClassResourceUpdate('current', newVal);
     };
 
+    const spendHavoc = (amount, label) => {
+        if (havoc >= amount) {
+            handleHavocChange(-amount);
+            // The handleHavocChange already calls logChange, but we can add a more specific one if we want
+            // To avoid double logging, we'll let handleHavocChange handle the basic resource log
+            // and maybe just add a small chat notification for the ability used
+            addCombatNotification({
+                type: 'combat_ability',
+                attacker: getActorName(),
+                customMessage: `${currentPlayerName} used ${label}`
+            });
+        }
+    };
+
     const getIntensityClass = (index) => {
         const ratio = index / maxHavoc;
         if (ratio >= 0.9) return 'max';
@@ -178,9 +192,29 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
                 </div>
 
                 {activeProphecies > 0 && (
-                    <div className="doomsayer-prophecy-badge">
-                        <i className="fas fa-dice"></i>
+                    <div className="doomsayer-prophecy-badge" title="Active Prophecies">
+                        <i className="fas fa-eye"></i>
                         <span>{activeProphecies}</span>
+                    </div>
+                )}
+
+                {/* Range Track Visualizer */}
+                {classResource.currentRange && (
+                    <div className="doomsayer-range-visualizer">
+                        <div className="range-label">Range: {classResource.currentRange[0]}-{classResource.currentRange[1]}</div>
+                        <div className="range-track">
+                            {Array.from({ length: 12 }, (_, i) => {
+                                const val = i + 1;
+                                const isInRange = val >= classResource.currentRange[0] && val <= classResource.currentRange[1];
+                                return (
+                                    <div 
+                                        key={i} 
+                                        className={`range-tick ${isInRange ? 'active' : ''}`} 
+                                        title={val}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 )}
             </div>
@@ -218,7 +252,7 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
             {showControls && ReactDOM.createPortal(
                 <div
                     ref={controlsMenuRef}
-                    className="unified-context-menu compact"
+                    className="unified-context-menu compact doomsayer-menu-container"
                     onMouseEnter={() => setShowTooltip(false)}
                     onMouseDown={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
                     onClick={(e) => { e.stopPropagation(); if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) { e.nativeEvent.stopImmediatePropagation(); } }}
@@ -262,6 +296,42 @@ const DoomsayerResourceBar = ({ classResource = {}, size = 'normal', config = {}
                                 <button className="context-menu-button" style={{ padding: '4px 0', justifyContent: 'center' }} onClick={() => { const v = Math.floor(maxHavoc * 0.5); if (onClassResourceUpdate) { logChange(Math.abs(v - havoc), v > havoc); onClassResourceUpdate('current', v); } }}>50%</button>
                                 <button className="context-menu-button" style={{ padding: '4px 0', justifyContent: 'center' }} onClick={() => { const v = Math.floor(maxHavoc * 0.75); if (onClassResourceUpdate) { logChange(Math.abs(v - havoc), v > havoc); onClassResourceUpdate('current', v); } }}>75%</button>
                                 <button className="context-menu-button" style={{ padding: '4px 0', justifyContent: 'center' }} onClick={() => handleHavocChange(maxHavoc)}>MAX</button>
+                            </div>
+                        </div>
+
+                        <div className="context-menu-separator" style={{ margin: '8px 0' }}></div>
+
+                        {/* Spend Havoc Actions */}
+                        <div className="context-menu-section">
+                            <div className="context-menu-section-title">Spend Havoc</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={() => { spendHavoc(1, 'Widen Range (+1 each side)'); }}
+                                    disabled={havoc < 1}
+                                    style={{ fontSize: '10px', padding: '6px' }}
+                                >
+                                    <i className="fas fa-arrows-alt-h" style={{ width: '14px', color: '#CC3300' }}></i>
+                                    Widen Range (1 Havoc)
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={() => { spendHavoc(1, 'Narrow Range (-1 each side)'); }}
+                                    disabled={havoc < 1}
+                                    style={{ fontSize: '10px', padding: '6px' }}
+                                >
+                                    <i className="fas fa-compress-alt" style={{ width: '14px', color: '#CC3300' }}></i>
+                                    Narrow Range (1 Havoc)
+                                </button>
+                                <button 
+                                    className="context-menu-button" 
+                                    onClick={() => { spendHavoc(5, 'Fate Reroll'); }}
+                                    disabled={havoc < 5}
+                                    style={{ fontSize: '10px', padding: '6px' }}
+                                >
+                                    <i className="fas fa-redo-alt" style={{ width: '14px', color: '#CC3300' }}></i>
+                                    Fate Reroll (5 Havoc)
+                                </button>
                             </div>
                         </div>
 

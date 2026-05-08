@@ -1378,6 +1378,37 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
               socketId: currentSocketId,
               isConnected: true
             });
+          } else if (!existingSelf) {
+            const selfPlayer = allRoomPlayers.find(p =>
+              p.id === currentPlayerRef.current?.id ||
+              p.socketId === currentSocketId ||
+              p.userId === currentUserId
+            );
+            const gs = require('../../store/gameStore').default.getState();
+            const cs = require('../../store/characterStore').default.getState();
+            const activeChar = cs?.getActiveCharacter?.() || null;
+            const selfMember = {
+              id: selfPlayer?.id || gs?.currentPlayer?.id || currentUserId || 'current-player',
+              socketId: currentSocketId || 'current-player',
+              userId: currentUserId,
+              name: selfPlayer?.character?.name || selfPlayer?.name || gs?.currentPlayer?.name || 'Player',
+              isGM: data.isGM || data.isGMReconnect || gs?.isGMMode || false,
+              isConnected: true,
+              character: {
+                class: activeChar?.class || cs?.class || selfPlayer?.character?.class || 'Unknown',
+                level: activeChar?.level || cs?.level || selfPlayer?.character?.level || 1,
+                health: activeChar?.health?.max ? activeChar.health : (cs?.health?.max ? cs.health : selfPlayer?.character?.health || { current: 45, max: 50 }),
+                mana: activeChar?.mana?.max ? activeChar.mana : (cs?.mana?.max ? cs.mana : selfPlayer?.character?.mana || { current: 45, max: 50 }),
+                actionPoints: activeChar?.actionPoints?.max ? activeChar.actionPoints : (cs?.actionPoints?.max ? cs.actionPoints : selfPlayer?.character?.actionPoints || { current: 1, max: 3 }),
+                race: activeChar?.race || cs?.race || selfPlayer?.character?.race || 'Unknown',
+                raceDisplayName: activeChar?.raceDisplayName || cs?.raceDisplayName || selfPlayer?.character?.raceDisplayName || 'Unknown',
+                lore: activeChar?.lore || cs?.lore || selfPlayer?.character?.lore || {},
+                tokenSettings: activeChar?.tokenSettings || cs?.tokenSettings || selfPlayer?.character?.tokenSettings || {}
+              }
+            };
+            if (activeChar?.classResource?.max) selfMember.character.classResource = activeChar.classResource;
+            usePartyStore.getState().addPartyMember(selfMember);
+            console.log('🔄 [Reconnect] Self not found in partyMembers, added:', selfMember.name);
           }
 
           // Re-add/update all room players from server data
@@ -1425,7 +1456,11 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
 
           // Mark any members NOT in the server's player list as disconnected
           const serverPlayerIds = new Set(allRoomPlayers.map(p => p.id));
-          if (existingSelf) serverPlayerIds.add(existingSelf.id);
+          if (existingSelf) {
+            serverPlayerIds.add(existingSelf.id);
+          } else if (currentUserId) {
+            serverPlayerIds.add(currentUserId);
+          }
           const currentMembers = usePartyStore.getState().partyMembers;
           currentMembers.forEach(member => {
             if (!serverPlayerIds.has(member.id) && !serverPlayerIds.has(member.userId)) {

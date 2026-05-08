@@ -43,6 +43,16 @@ const DraggableWindow = forwardRef(({
     const nodeRef = useRef(null);
     const windowRef = useRef(null);
 
+    useEffect(() => {
+        if (document && !document.getElementById('react-draggable-style-el')) {
+            const styleEl = document.createElement('style');
+            styleEl.type = 'text/css';
+            styleEl.id = 'react-draggable-style-el';
+            styleEl.innerHTML = '.react-draggable-transparent-selection *::-moz-selection {all: inherit;}\n.react-draggable-transparent-selection *::selection {all: inherit;}\n';
+            document.head.appendChild(styleEl);
+        }
+    }, []);
+
     const getInitialPosition = useCallback(() => {
         let pos = { ...defaultPosition };
 

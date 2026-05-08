@@ -1,0 +1,328 @@
+.prophecy-summary {
+  margin: var(--pf-space-3) 0;
+  border: var(--pf-border-width) solid var(--pf-brown-medium);
+  border-radius: var(--pf-border-radius);
+  background: var(--pf-gradient-parchment-light);
+  box-shadow: var(--pf-shadow-sm);
+  overflow: hidden;
+  font-family: var(--pf-font-body);
+  color: var(--pf-text-primary);
+}
+
+.prophecy-header {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-button);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.prophecy-title {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-sm);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--pf-brown-dark);
+}
+
+.prophecy-icon {
+  color: var(--pf-red-dark, #8b0000);
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.2));
+}
+
+.prophecy-die-info {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-secondary);
+  font-weight: var(--pf-font-normal, 400);
+  margin-left: 4px;
+}
+
+.prophecy-toggle {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-brown-medium);
+}
+
+.prophecy-body {
+  padding: 0;
+}
+
+.prophecy-track {
+  display: flex;
+  flex-direction: column;
+}
+
+.prophecy-outcome {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  border-bottom: var(--pf-border-width) solid var(--pf-brown-light);
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--pf-space-3);
+  justify-items: start;
+  align-items: flex-start;
+  transition: background 0.2s ease;
+}
+
+.prophecy-outcome:last-child {
+  border-bottom: none;
+}
+
+.prophecy-outcome:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.outcome-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 2px;
+}
+
+.outcome-label {
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-sm);
+  text-transform: uppercase;
+}
+
+.outcome-range {
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+}
+
+.prophesied .outcome-label {
+  color: var(--pf-gold-dark, #b8860b);
+}
+
+.base .outcome-label {
+  color: var(--pf-brown-dark);
+}
+
+.outside .outcome-label {
+  color: var(--pf-red-dark, #8b0000);
+}
+
+.outcome-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+}
+
+.outcome-mechanic {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--pf-space-2);
+  font-size: var(--pf-text-sm);
+  font-weight: var(--pf-font-semibold);
+  text-align: left;
+}
+
+.outcome-mechanic svg {
+  font-size: 11px;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.outcome-mechanic.damage {
+  color: var(--pf-red-dark);
+}
+
+.outcome-mechanic.havoc {
+  color: var(--pf-purple-dark, #4b0082);
+}
+
+.outcome-mechanic.backlash {
+  color: var(--pf-orange-dark, #d2691e);
+}
+
+.outcome-mechanic.effect {
+  color: var(--pf-red-dark);
+  align-items: flex-start;
+  margin-top: 4px;
+  background: rgba(139, 0, 0, 0.04);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border-left: 2px solid var(--pf-red-dark);
+}
+
+.outcome-mechanic.effect svg {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.effect-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: flex-start;
+}
+
+.effect-name {
+  font-weight: var(--pf-font-bold);
+  font-size: var(--pf-text-base);
+  color: var(--pf-red-dark);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.effect-duration {
+  font-size: 11px;
+  color: var(--pf-text-secondary);
+  font-weight: var(--pf-font-normal);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.effect-stat-mods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.stat-mod-badge {
+  background: var(--pf-brown-dark, #3e2723);
+  color: var(--pf-gold-light, #fff8e1);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  display: inline-block;
+}
+
+.effect-dot {
+  font-size: 11px;
+  color: var(--pf-red-medium);
+  font-weight: var(--pf-font-medium);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.effect-tag {
+  font-size: 10px;
+  font-weight: var(--pf-font-semibold);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  margin-top: 1px;
+  letter-spacing: 0.3px;
+}
+
+.effect-tag.healing-block {
+  color: var(--pf-red-dark, #8b0000);
+  background: rgba(139, 0, 0, 0.1);
+  border: 1px solid rgba(139, 0, 0, 0.2);
+}
+
+.effect-tag.bonus-damage {
+  color: var(--pf-orange-dark, #d2691e);
+  background: rgba(210, 105, 30, 0.1);
+  border: 1px solid rgba(210, 105, 30, 0.2);
+}
+
+.effect-tag.save-check {
+  color: var(--pf-blue-dark, #1a237e);
+  background: rgba(26, 35, 126, 0.08);
+  border: 1px solid rgba(26, 35, 126, 0.15);
+}
+
+.effect-tag.instant-kill {
+  color: var(--pf-red-dark, #8b0000);
+  background: rgba(139, 0, 0, 0.15);
+  border: 1px solid rgba(139, 0, 0, 0.3);
+  font-weight: var(--pf-font-bold);
+  text-transform: uppercase;
+}
+
+.effect-tag.cascade {
+  color: var(--pf-purple-dark, #4b0082);
+  background: rgba(75, 0, 130, 0.08);
+  border: 1px solid rgba(75, 0, 130, 0.15);
+}
+
+.effect-detail-text {
+  font-size: 10px;
+  color: var(--pf-text-muted);
+  font-style: italic;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.outcome-mechanic svg.detail-icon {
+  font-size: 10px;
+  width: 12px;
+  opacity: 0.7;
+}
+
+.outcome-description {
+  font-size: var(--pf-text-xs);
+  line-height: 1.4;
+  color: var(--pf-text-secondary);
+  font-style: italic;
+  margin-top: 2px;
+  text-align: left;
+  width: 100%;
+}
+
+.prophecy-tables-section {
+  padding: var(--pf-space-3);
+  background: rgba(139, 105, 60, 0.02);
+  border-top: 1px solid rgba(139, 105, 60, 0.15);
+  margin-bottom: var(--pf-space-2);
+}
+
+.prophecy-footer {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  background: var(--pf-gradient-parchment-dark);
+  border-top: var(--pf-border-width) solid var(--pf-brown-medium);
+}
+
+.prophecy-footer p {
+  margin: 0;
+  font-size: var(--pf-text-xs);
+  color: var(--pf-text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Animations */
+@keyframes pfFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.prophecy-body {
+  animation: pfFadeIn 0.3s ease-out;
+}
+
+/* Scrollbar styling for prophecy track if it gets too long */
+.prophecy-track::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prophecy-track::-webkit-scrollbar-track {
+  background: var(--pf-gradient-parchment-dark);
+}
+
+.prophecy-track::-webkit-scrollbar-thumb {
+  background: var(--pf-brown-medium);
+  border-radius: 3px;
+}

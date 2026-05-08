@@ -5,7 +5,8 @@
  * Migrated from ChatWindow loot functionality
  */
 
-import React, { useState, useRef, lazy, Suspense, useEffect } from 'react';
+import React, { useState, useRef, Suspense, useEffect } from 'react';
+import lazy from '../../utils/lazyWithRetry';
 import { createPortal } from 'react-dom';
 import useChatStore from '../../store/chatStore';
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
+import lazy from './utils/lazyWithRetry';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import GameProvider from "./components/GameProvider";
 import { SpellLibraryProvider } from "./components/spellcrafting-wizard/context/SpellLibraryContext";

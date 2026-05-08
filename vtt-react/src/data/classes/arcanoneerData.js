@@ -9,8 +9,9 @@ export const ARCANONEER_DATA = {
   id: 'arcanoneer',
   name: 'Arcanoneer',
   icon: 'fas fa-atom',
+  imageIcon: '/assets/icons/classes/arcanoneer.png',
   role: 'Damage/Utility',
-  damageTypes: ['arcane', 'fire', 'frost', 'lightning', 'force', 'chaos'],
+  damageTypes: ['arcane', 'holy', 'shadow', 'fire', 'frost', 'nature', 'healing', 'chaos', 'force', 'lightning', 'radiant', 'necrotic'],
 
   // Overview section
   overview: {
@@ -120,7 +121,9 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
       title: 'Combat Example: The Ambush at Grimhollow Bridge',
       content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees above. A fourth — their leader — stands at the far end, chanting. Your fighter charges forward. Your cleric holds the line. You stand at the center, fingers already twitching toward the elemental currents.
 
-**Turn 1 — The Opening Reaction**
+**You are a Level 4 Arcanoneer** with 34 mana (10 + INT×2). You regenerate 4 mana per turn. You've learned Shadow Embrace (your one Level 4 Recipe) and carry three Level 1-2 Recipes: Spark Bolt, Healing Light, and Steam Burst.
+
+**Turn 1 — The Opening Reaction** *(2 AP available, 34 mana)*
 
 *You reach into the aether and pull. The dice tumble...*
 
@@ -128,15 +131,15 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
 
 *Two spheres of crackling flame materialize in your left hand, pale and hungry. A shard of enchanted ice forms in your right, humming with cold. A soft golden glow pulses at your sternum — healing energy, patient and warm.*
 
-**Your Mind Races**: Three bandits, clustered together on the bridge. No Recipe matches yet — you haven't learned any that use these spheres. But the **Combination Matrix** has you covered.
+**Your Mind Races**: Three bandits, clustered together on the bridge. You don't have a Recipe for any of these sphere pairs — but the **Combination Matrix** has you covered.
 
-Fire + Ice = **Steam**. A cone of superheated vapor. Perfect for clustered enemies in a narrow space.
+Fire + Ice = **Steam**. A cone of superheated vapor. Perfect for clustered enemies in a narrow space. Using the **Area** action (7 mana), this becomes a 10ft radius AoE instead of single-target.
 
-*You smash the fire and ice spheres together. They don't combine so much as *argue* — the fire screams, the ice hisses, and between them a roaring column of pressurized steam erupts in a 20-foot cone. The three bandits stagger backward, eyes streaming, skin blistering and flash-freezing in alternating waves.*
+*You smash the fire and ice spheres together. They don't combine so much as *argue* — the fire screams, the ice hisses, and between them a roaring column of pressurized steam erupts, scouring the three bandits with alternating waves of heat and cold.*
 
-**Result**: Cast **Steam** (Fire + Ice). 1d8 + INT/4 fire+frost damage in a 20-foot cone. All three bandits are hit. You still have Fire and Healing spheres banked.
+**Result**: Cast **Steam** via Area action (Fire + Ice). 1d6 + INT/4 fire+frost damage to all three bandits (10ft radius). **Cost: 7 mana. Remaining: 27 mana. AP: 1 remaining.** You bank the Fire and Healing spheres.
 
-**Turn 2 — Reading the Battlefield**
+**Turn 2 — Reading the Battlefield** *(2 AP available, 31 mana after regen)*
 
 *The bandit leader finishes his chant. Dark energy swirls around his blade. The fighter is engaged — he can't reach the caster in time. It's down to you.*
 
@@ -147,13 +150,15 @@ Fire + Ice = **Steam**. A cone of superheated vapor. Perfect for clustered enemi
 **Your Banked Spheres**: Fire, Healing (from Turn 1)
 **Total Available**: Fire, Healing, Arcane, Shadow, Nature, Chaos — 6 spheres
 
-**The Decision**: You could spend Arcane + Shadow for **Void Bolt** (force + necrotic, good single-target damage). But the bandit leader is *channeling something*, and you notice something in your Recipe book — you've learned **Shadow Embrace**, a Recipe that enhances Shadow + Shadow with a weakening curse and necrotic drain over time.
+**The Decision**: You could spend Arcane + Shadow for **Void Bolt** via Attack action (5 mana) — force + necrotic, barrier-piercing. But the bandit leader is *channeling something*, and you have Shadow Embrace ready...
 
-Problem: you only have ONE Shadow sphere. You need another.
+Problem: you only have ONE Shadow sphere. You need another. And you don't want to waste AP on a weak base combo when you're one sphere away from a Recipe.
 
 *You bank everything. Six spheres wait in your aura like loaded bullets. The bandit leader grins, dark energy building.*
 
-**Turn 3 — The Recipe Unleashed**
+**Result**: No cast. **Cost: 0 mana. Remaining: 31 mana. AP: 2 unused (wasted).**
+
+**Turn 3 — The Recipe Unleashed** *(2 AP available, 35 mana after regen)*
 
 *The dark energy crests. You feel it building — something nasty. No more waiting.*
 
@@ -169,16 +174,81 @@ Problem: you only have ONE Shadow sphere. You need another.
 
 *The two shadow spheres don't fly. They *unfold* — tendrils of living darkness that wrap around the bandit leader's arms, his blade, his throat. The necrotic energy drains the color from his skin. His dark chant chokes off into a gurgle. His muscles weaken as the shadow leeches his strength.*
 
-**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). Base damage 2d8 + INT/3 necrotic. Recipe adds: 1d6 necrotic damage per round for 2 rounds AND Strength reduced by 2 for 2 rounds. His spell is interrupted.
+**Result**: Cast **Shadow Embrace** (Recipe-enhanced Shadow + Shadow). 2d8 + INT/3 necrotic + 1d6 necrotic DoT for 2 rounds + STR reduced by 2 for 2 rounds. **Cost: 14 mana. Remaining: 21 mana. AP: 1 remaining.** His spell is interrupted.
 
 *The bandit leader staggers. His dark blade clatters to the stones. Your fighter finishes him with a clean strike.*
 
-**You still have 8 spheres banked**: Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy. Enough for four more combos — or the start of something much, much bigger if the fight continues.
+With 1 AP remaining, you spend Arcane + Ice = **Crystal Shard** via Attack (5 mana) on a wounded bandit for extra damage.
 
-**The Lesson**: The Arcanoneer isn't about having the perfect spell. It's about reading what the dice give you, knowing your matrix, recognizing when your banked spheres match a Recipe, and having the patience to wait for the right moment. Every turn is a hand of cards. The master knows which ones to hold and which ones to play.`
+**Result**: Cast **Crystal Shard** (1d8 + INT/4 force+frost, armor-piercing). **Cost: 5 mana. Remaining: 16 mana. AP: 0.**
+
+**Turn 4 — When the Dice Don't Cooperate** *(2 AP available, 20 mana after regen)*
+
+*Only one bandit remains, wounded and cornered. Time to finish this.*
+
+**Roll 4d8**: [7, 7, 7, 7] → Healing, Healing, Healing, Healing
+
+*Four soft golden spheres materialize. No fire. No shadow. No arcane. Just healing — four times over. The aether has a sense of humor.*
+
+You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy) from previous turns, so you're not helpless. But none of your banked spheres form a combo you haven't already used.
+
+**Smart Play**: Cast Healing Light (Healing + Healing) via Buff action on the fighter, who took hits from the bandits. **Cost: 4 mana.** Then use Arcane + Chaos = **Wild Magic** via Attack action (5 mana) on the last bandit and roll on the chaos table — fortune favors the bold.
+
+**Result**: Fighter healed. Wild Magic resolves (roll 1d4 — let's say result 2: Manaburst, 1d8+INT/4 chaos damage + recover 1d4 mana). **Cost: 9 mana. Remaining: 11 mana.**
+
+**The Lesson**: The Arcanoneer isn't about having the perfect spell. It's about reading what the dice give you, knowing your matrix, recognizing when your banked spheres match a Recipe, and having the patience to wait for the right moment. Bad rolls happen — that's when you heal, buff, or bank for next turn. Every turn is a hand of cards. The master knows which ones to hold and which ones to play.`
     }
   },
   
+  primaryStat: 'intelligence',
+  secondaryStat: 'spirit',
+
+  // Character Creation
+  characterCreation: {
+    title: 'Creating Your Arcanoneer',
+    subtitle: 'The Elemental Chemist',
+    description: `The Arcanoneer is a class that rewards preparation and pattern recognition. You don't memorize spell lists — you learn a matrix of elemental combinations and collect Recipes that enhance specific pairings. Your power comes from reading what the dice give you and making the most of it.`,
+    steps: [
+      {
+        step: 1,
+        title: 'Prioritize Intelligence',
+        content: 'Intelligence drives your combo damage (1d8 + INT/4 at base). Spirit drives your healing combos. Decide: do you want to be a damage-focused combo caster, or a hybrid who can also heal? Most Arcanoneers prioritize INT and treat healing as a situational tool.'
+      },
+      {
+        step: 2,
+        title: 'Choose Your Specialization',
+        content: 'Your specialization defines HOW you interact with spheres. **Prism Mage** for consistent, focused damage. **Entropy Weaver** for chaotic high-risk/high-reward swings. **Sphere Architect** for precise control and planning. This choice affects your entire playstyle.'
+      },
+      {
+        step: 3,
+        title: 'Pick Your First 3 Recipes',
+        content: 'Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (frost damage + slow + fragile), Healing Light (ally healing), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 1 damage, 1 healing, 1 utility.'
+      },
+      {
+        step: 4,
+        title: 'Learn the d8 Element Table',
+        content: 'You will roll 4d8 every single turn. Memorize or screenshot the sphere generation table (1=Arcane, 2=Holy, 3=Shadow, 4=Fire, 5=Ice, 6=Nature, 7=Healing, 8=Chaos). Speed of recognition is your most important skill.'
+      },
+      {
+        step: 5,
+        title: 'Understand the 5 Actions',
+        content: 'Every 2-sphere combo must be cast through one of 5 Actions: Attack (single target), Defend (barrier), Buff (weapon enchant), Area (AoE), or Trap (placed zone). Each has a different mana cost (4-7) and effect shape. The Action determines HOW your combo delivers its effect.'
+      }
+    ],
+    startingEquipment: {
+      weapon: 'Arcane Focus (dagger, orb, or staff — your choice)',
+      armor: 'Light armor (no spell failure chance)',
+      items: [
+        'Spell notebook with Combination Matrix printed on the inside cover',
+        'Set of 4d8 dice (one set in each of 4 colors for easy reading)',
+        '8 colored glass tokens (one per element) for tracking banked spheres',
+        'Pencil and eraser for noting learned Recipes',
+        'Traveler\'s kit (bedroll, rations, rope, torches)'
+      ],
+      gold: 15
+    }
+  },
+
   // Resource System
   resourceSystem: {
     title: 'Sphere Generation & Elemental Combination',
@@ -305,8 +375,12 @@ Problem: you only have ONE Shadow sphere. You need another.
           { name: '4-Sphere Recipe', sphereCost: '4', manaCost: '25-36', available: 'Level 8+', description: 'The big guns. Bank across turns. Battlefield-shaping power.' }
         ]
       },
-      manaWarning: 'Spheres + Mana. You need **both**. A full bank is useless without mana.',
-      actionPointsRule: {
+    manaWarning: 'Spheres + Mana. You need **both**. A full bank is useless without mana.',
+    manaRegeneration: {
+      title: 'Mana Regeneration',
+      content: `You have a **Mana Pool** equal to 10 + (Intelligence × 2). At the start of each turn, you regenerate mana equal to 2 + (Intelligence / 4, rounded down). Mana does NOT regenerate outside combat. Between fights, you must rest (short rest = 50% mana restored, long rest = full mana). The Siphon fallback (destroy 1 sphere → recover 2 mana) exists specifically for mana-starved turns.`
+    },
+    actionPointsRule: {
         title: 'Action Points',
         content: `You gain **2 Action Points (AP)** per turn. Most 2-sphere combos cost 1 AP. 3-sphere Recipes cost 1-2 AP. 4-sphere Recipes cost 2-3 AP. If you have the AP and the spheres, you can cast multiple combos in one turn.`
       },
@@ -443,7 +517,7 @@ Problem: you only have ONE Shadow sphere. You need another.
 
 **THE COMBINATION MATRIX (Print This)**
 
-All 36 two-sphere base combos. Fixed cost: 5 mana. Fixed damage: 1d8 + INT/4.
+All 36 two-sphere base combos. Cost varies by Action type (4-7 mana; see Action Table). Fixed damage: 1d8 + INT/4.
 
 | | Arcane | Holy | Shadow | Fire | Ice | Nature | Healing | Chaos |
 |---|---|---|---|---|---|---|---|---|
@@ -645,7 +719,7 @@ MAX BANKED SPHERES: 12
         strengths: [
           'Can swap any 2 spheres for different elements (once per turn, costs 3 mana)',
           'Can store up to 15 spheres (instead of the standard 12 cap)',
-          'Reduce mana cost of 3-sphere spells by 3 (10→7 mana)',
+          'Reduce mana cost of 3-sphere Recipes by 3 (e.g., 20→17 mana)',
           'Can "lock" 1 sphere type to guarantee it next turn',
           'Most consistent and controllable spec'
         ],
@@ -668,7 +742,7 @@ MAX BANKED SPHERES: 12
           {
             name: 'Runic Precision',
             tier: 'Specialization Passive',
-            description: 'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (10→7). You can "lock" 1 sphere type at end of turn to guarantee that element appears in your next roll. Your sphere bank capacity is 15 instead of 12. Control the matrix, don\'t let it control you.',
+            description: 'Once per turn, swap any 2 spheres for different element types (costs 3 mana total). 3-sphere Recipes cost 3 less mana (e.g., 20→17). You can "lock" 1 sphere type at end of turn to guarantee that element in your next roll — spend 1 banked sphere of that type; one of your next 4d8 results is automatically replaced with that element. Your sphere bank capacity is 15 instead of 12. Control the matrix, don\'t let it control you.',
             uniqueTo: 'Sphere Architect'
           }
         ],
@@ -1275,7 +1349,7 @@ MAX BANKED SPHERES: 12
     {
       id: 'arc_spark_bolt',
       name: 'Spark Bolt',
-      description: 'Fires a bolt of pure arcane force at a single target. Reliable and versatile.',
+      description: 'Fires a bolt of pure arcane force that pierces through barriers and armor. Ignores 2 points of enemy armor.',
       level: 1,
       enhancesCombo: 'arcane_arcane',
       spellType: 'ACTION',
@@ -1326,7 +1400,7 @@ MAX BANKED SPHERES: 12
     {
       id: 'arc_frost_touch',
       name: 'Frost Touch',
-      description: 'Channels freezing energy through your palm, dealing frost damage and slowing the target on contact.',
+      description: 'Channels freezing energy through your palm, dealing frost damage and slowing the target. Frozen targets take +1d4 bonus damage from the next physical attack against them.',
       level: 1,
       enhancesCombo: 'ice_ice',
       spellType: 'ACTION',
@@ -1555,7 +1629,7 @@ MAX BANKED SPHERES: 12
             saveDC: 13,
             condition: 'restrained',
             breakOnDamage: true,
-            duration: 3,
+            duration: 1,
             durationUnit: 'rounds'
           }
         }]
@@ -1648,7 +1722,7 @@ MAX BANKED SPHERES: 12
     {
       id: 'arc_shadow_bolt',
       name: 'Shadow Bolt',
-      description: 'Hurls a sphere of concentrated shadow energy that drains life force on impact.',
+      description: 'Hurls a sphere of concentrated shadow energy that drains life force on impact. Heals you for 25% of the damage dealt.',
       level: 2,
       enhancesCombo: 'shadow_shadow',
       spellType: 'ACTION',
@@ -1680,7 +1754,7 @@ MAX BANKED SPHERES: 12
         spheres: ['Shadow', 'Shadow']
       },
 
-      effectTypes: ['damage'],
+      effectTypes: ['damage', 'healing'],
 
       damageConfig: {
         formula: '1d8 + intelligence/4',
@@ -1689,12 +1763,19 @@ MAX BANKED SPHERES: 12
         description: 'The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.'
       },
 
+      healingConfig: {
+        formula: 'damage/4',
+        healingType: 'leech',
+        resolution: 'DICE',
+        description: 'You absorb 25% of the damage dealt as healing energy, closing your own wounds with stolen vitality.'
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 0
       },
 
-      tags: ['shadow', 'damage']
+      tags: ['shadow', 'damage', 'healing']
     },
 
     {
@@ -2371,6 +2452,20 @@ MAX BANKED SPHERES: 12
 
       effectTypes: ['damage'],
 
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: 'Chaos Bolt',
+          diceFormula: '1d4',
+          entries: [
+            { min: 1, max: 1, effect: 'Chaos Nova — 15ft radius, 3d8+INT/2 chaos damage to all enemies', weight: 1 },
+            { min: 2, max: 2, effect: 'Entropy Drain — 3d8+INT/2 chaos damage, heal yourself for the same amount', weight: 1 },
+            { min: 3, max: 3, effect: 'Polymorphic Blast — 4d8+INT/2 damage of a random element, target must save or be stunned 1 round', weight: 1 },
+            { min: 4, max: 4, effect: 'Arcane Feedback — 3d8+INT/2 force damage chains to 1d4 random targets within 30ft', weight: 1 }
+          ]
+        }
+      },
+
       damageConfig: {
         formula: '3d8 + intelligence/2',
         damageTypes: ['chaos']
@@ -2643,9 +2738,8 @@ MAX BANKED SPHERES: 12
       },
 
       damageConfig: {
-        formula: '10d6 + intelligence',
+        formula: '6d6 + intelligence',
         damageTypes: ['force'],
-        resolution: 'DICE',
         triggerCondition: 'area_entry',
         triggerDescription: 'Enemies within 10 feet of your departure point take force damage from the void afterimage',
         areaShape: 'circle',
@@ -2987,16 +3081,30 @@ MAX BANKED SPHERES: 12
 
       resourceCost: {
         resourceTypes: ['mana', 'chaos_sphere'],
-        resourceValues: { mana: 28, chaos_sphere: 2 },
+        resourceValues: { mana: 28, chaos_sphere: 3 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Tempestas Chaos!',
         somaticText: 'Compress two chaos spheres into a single unstable point and release it',
-        spheres: ['Chaos', 'Chaos']
+        spheres: ['Chaos', 'Chaos', 'Chaos']
       },
 
       effectTypes: ['damage'],
+
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: 'Chaos Storm',
+          diceFormula: '1d4',
+          entries: [
+            { min: 1, max: 1, effect: 'Elemental Cascade — 15ft radius, 14d6+INT chaos damage, all enemies', weight: 1 },
+            { min: 2, max: 2, effect: 'Gravity Well — 20ft radius, 10d6+INT chaos damage, all enemies pulled to center', weight: 1 },
+            { min: 3, max: 3, effect: 'Bifurcation — Two 8d6+INT chaos bolts hitting separate targets', weight: 1 },
+            { min: 4, max: 4, effect: 'Feedback Loop — 12d6+INT chaos damage to enemies, heal all allies 3d6 in 20ft radius', weight: 1 }
+          ]
+        }
+      },
 
       damageConfig: {
         formula: '12d6 + intelligence',
@@ -3127,6 +3235,22 @@ MAX BANKED SPHERES: 12
       },
 
       effectTypes: ['damage'],
+
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: 'Chaos Vortex',
+          diceFormula: '1d6',
+          entries: [
+            { min: 1, max: 1, effect: 'Annihilation — 20d6+INT chaos damage in 25ft radius, all creatures (including allies)', weight: 1 },
+            { min: 2, max: 2, effect: 'Siphon Storm — 14d6+INT chaos damage, heal all allies in radius for half the damage dealt', weight: 1 },
+            { min: 3, max: 3, effect: 'Gravity Collapse — 12d6+INT chaos damage, all enemies pulled to center and restrained 1 round', weight: 1 },
+            { min: 4, max: 4, effect: 'Elemental Barrage — 16d6+INT damage split evenly across 4 random elements (fire, frost, lightning, radiant)', weight: 1 },
+            { min: 5, max: 5, effect: 'Time Warp — 10d6+INT chaos damage, all enemies in area lose their next turn', weight: 1 },
+            { min: 6, max: 6, effect: 'Chaos Perfection — Choose any of the above effects', weight: 1 }
+          ]
+        }
+      },
 
       damageConfig: {
         formula: '16d6 + intelligence',
@@ -3454,7 +3578,7 @@ MAX BANKED SPHERES: 12
         effects: [{
           id: 'elemental_apotheosis',
           name: 'Elemental Apotheosis',
-          description: '4 rounds: +4 spell damage, +3 armor, fire/frost/lightning resistance, 2-sphere spells cost 0 mana. Your body radiates prismatic elemental energy as a living conduit of force.',
+          description: '4 rounds: +4 spell damage, +3 armor, fire/frost/lightning resistance, 2-sphere spells cost half mana (rounded down). Your body radiates prismatic elemental energy as a living conduit of force.',
           mechanicsText: ''
         }],
         durationValue: 4,

@@ -129,8 +129,8 @@
     box-shadow: 0 0 12px rgba(46, 125, 50, 0.6), inset 0 0 8px rgba(102, 187, 106, 0.3);
 }
 
-/* Shadowdancer specialization (shadow purple) */
-.qm-segment.filled.shadowdancer {
+/* Shadowblade specialization (shadow purple) */
+.qm-segment.filled.shadowblade {
     background: linear-gradient(135deg, rgba(106, 27, 154, 0.8), rgba(74, 20, 140, 0.9));
     box-shadow: 0 0 12px rgba(106, 27, 154, 0.6), inset 0 0 8px rgba(186, 104, 200, 0.3);
 }
@@ -245,3 +245,102 @@
 }
 
 /* ===== INSCRIPTOR RUNES & INSCRIPTIONS ===== */
+
+/* ===== SPEC-COLORED ABILITY CARD BORDERS ===== */
+
+.ability-card.bladestorm {
+    border-left: 3px solid #DC143C;
+}
+
+.ability-card.beastmaster {
+    border-left: 3px solid #228B22;
+}
+
+.ability-card.shadowblade {
+    border-left: 3px solid #4B0082;
+}
+
+.ability-card.universal {
+    border-left: 3px solid rgba(160, 140, 112, 0.6);
+}
+
+/* ===== QM COST PIP INDICATORS ===== */
+
+.ability-card .qm-cost {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.ability-card .qm-cost .qm-pip {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1px solid rgba(160, 140, 112, 0.6);
+}
+
+.ability-card .qm-cost .qm-pip.filled {
+    background: linear-gradient(135deg, #c0a060, #8b7355);
+    box-shadow: 0 0 4px rgba(192, 160, 96, 0.4);
+}
+
+.ability-card .qm-cost .qm-pip.empty {
+    background: rgba(245, 222, 179, 0.15);
+}
+
+/* ===== COMPANION STATUS STATES ===== */
+
+.companion-portrait.defending {
+    border-color: rgba(100, 181, 246, 0.8);
+    box-shadow: 0 0 8px rgba(100, 181, 246, 0.4);
+}
+
+.companion-portrait.attacking {
+    border-color: rgba(239, 83, 80, 0.8);
+    box-shadow: 0 0 8px rgba(239, 83, 80, 0.4);
+}
+
+.companion-portrait.frenzied {
+    animation: frenzyPulse 0.5s ease-in-out infinite;
+    border-color: rgba(255, 152, 0, 0.9);
+}
+
+@keyframes frenzyPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 152, 0, 0.4); }
+    50% { box-shadow: 0 0 16px rgba(255, 87, 34, 0.8); }
+}
+
+/* ===== FLAVOR VS MECHANIC TEXT DISTINCTION ===== */
+
+.huntress-flavor-text {
+    font-style: italic;
+    color: rgba(200, 190, 170, 0.85);
+    border-left: 2px solid rgba(139, 115, 85, 0.4);
+    padding-left: 12px;
+    margin: 8px 0;
+}
+
+.huntress-mechanic-text {
+    font-weight: 600;
+    color: #f8f4e6;
+    background: rgba(60, 50, 40, 0.3);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* ===== QM SPEND TOOLTIP ===== */
+
+.qm-segment:hover::after {
+    content: attr(data-spend-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 25, 20, 0.95);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}

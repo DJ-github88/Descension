@@ -187,7 +187,7 @@ export const HUNTRESS_BLADESTORM = [
   {
     id: 'bladestorm_t6_hurricane_of_blades',
     name: 'Hurricane of Blades',
-    description: 'Ultimate: Become a living storm of blades for 3 rounds. All glaive attacks chain to unlimited targets within 15ft, deal full damage to each, and generate +1 bonus QM per target hit (bypasses per-turn cap). Costs 5 Quarry Marks.',
+    description: 'Ultimate: Become a living storm of blades for 3 rounds. All glaive attacks chain to up to 8 targets within 15ft, chain damage does not reduce below 1d6, and generate +1 bonus QM per target hit (still subject to per-turn cap). Costs 5 Quarry Marks.',
     icon: 'ability_druid_primaltenacity',
     maxRanks: 1,
     position: { x: 2, y: 5 },

@@ -43,6 +43,10 @@ module.exports = {
         // This should already be set correctly by CRA, but we ensure it here
         webpackConfig.output.publicPath = '/';
         
+        // Disable filesystem cache in development to prevent ChunkLoadErrors
+        // This is a common issue on Windows with Webpack 5
+        webpackConfig.cache = false;
+        
         // Let CRA handle chunk splitting defaults - don't override
         // React.lazy() works correctly with CRA's default webpack configuration
       }

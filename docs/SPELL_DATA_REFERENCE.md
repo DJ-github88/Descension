@@ -32,7 +32,7 @@ When a user asks you to create, edit, fix, or generate spells for Mythrill VTT:
 - [Part 2: Master Spell Data Structure](#part-2-master-spell-data-structure)
 - [Part 3: All Enumerations & Lookup Tables](#part-3-all-enumerations--lookup-tables)
 - [Part 4: Effect Configuration Deep Dives](#part-4-effect-configuration-deep-dives)
-- [Part 5: Resolution Systems (DICE/CARDS/COINS)](#part-5-resolution-systems-dicecardscoins)
+- [Part 5: Resolution Systems (DICE/CARDS/COINS/PROPHECY)](#part-5-resolution-systems-dicecardscoinsprophecy)
 - [Part 6: Trigger & Conditional System](#part-6-trigger--conditional-system)
 - [Part 7: Advanced Mechanics Systems](#part-7-advanced-mechanics-systems)
 - [Part 8: Channeling System](#part-8-channeling-system)
@@ -1728,7 +1728,7 @@ restorationConfig: {
 
 ---
 
-# Part 5: Resolution Systems (DICE/CARDS/COINS)
+# Part 5: Resolution Systems (DICE/CARDS/COINS/PROPHECY)
 
 ## 5.1 DICE Resolution
 
@@ -1813,6 +1813,186 @@ damageConfig: {
 | All heads | Maximum bonus effect |
 | All tails | Minimum/fizzle effect |
 | Mixed | Scaled by HEADS_COUNT / coinCount |
+
+## 5.4 PROPHECY Resolution (Doomsayer)
+
+Prophecy resolution uses a dynamic range created by rolling 2 dice, then a resolution die is rolled against that range. Three possible outcomes exist: **Prophesied** (inside range), **Base** (on boundary), and **Outside** (miss range).
+
+### Critical PROPHECY Rules
+
+1. **`resolution` must be `"PROPHECY"`** — This tells the card renderer to use the Prophecy Summary component and skip the normal damage block.
+2. **Use `mechanicsConfig` with `system: "PROPHECY"`** — The prophecy data goes inside `mechanicsConfig[].prophecy`, NOT as a top-level `prophecyConfig`.
+3. **`effectTypes` must match actual config objects** — If debuff effects are described inside prophecy outcomes (not in a standalone `debuffConfig`), do NOT include `'debuff'` in `effectTypes`. Including it without a `debuffConfig` creates an empty block on the card.
+4. **`damageConfig` is optional but recommended** — Setting `damageConfig.damageTypes` ensures the damage type badge shows in the header. Set `damageConfig.resolution: "PROPHECY"` so the card knows damage is prophecy-based.
+
+### Correct PROPHECY Pattern
+
+```javascript
+{
+  name: "Doom Bolt",
+  spellType: "ACTION",
+  effectTypes: ["damage"],  // ⚠️ Only include types with actual *Config objects
+  resolution: "PROPHECY",
+  typeConfig: { school: "necrotic", castTime: "1 action", castTimeType: "action" },
+  targetingConfig: { targetingType: "single", rangeDistance: 60, targetRestrictions: ["enemies"] },
+  resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "havoc", cost: -3 } },
+  damageConfig: {
+    formula: "2d8",           // Base damage (displayed in header badge area)
+    damageTypes: ["necrotic"],
+    resolution: "PROPHECY"    // ⚠️ Required so damage section knows it's prophecy
+  },
+  mechanicsConfig: [         // ⚠️ Prophecy goes here, NOT top-level prophecyConfig
+    {
+      enabled: true,
+      system: "PROPHECY",
+      prophecy: {
+        rangeDice: ["d8", "d6"],      // 2 dice that form the range (lower = Low, higher = High)
+        resolutionDie: "d6",          // Die rolled AGAINST the range
+        prophesied: {
+          damage: "4d8",            // Enhanced damage when result is INSIDE range
+          effect: {                  // Optional effect applied on prophesied
+            name: "Weakened",
+            duration: 2,
+            unit: "rounds",
+            statModifiers: [{ stat: "ALL ROLLS", value: -2 }],
+            description: "-2 to all rolls for 2 rounds"
+          },
+          havocGain: 3,             // Havoc resource gained
+          description: "Deals 4d8 necrotic and -2 to all rolls for 2 rounds"
+        },
+        base: {
+          damage: "2d8",            // Standard damage when result equals a boundary
+          havocGain: 1,
+          description: "Deals 2d8 necrotic damage"
+        },
+        outside: {
+          backlash: "1d8 necrotic to self",  // Penalty when result is OUTSIDE range
+          havocGain: 0,
+          description: "Backfire: 1d8 necrotic damage to you"
+        }
+      }
+    }
+  ],
+  tags: ["damage", "necrotic", "prophecy"]
+}
+```
+
+### PROPHECY with Debuff Effects Inside Outcomes
+
+If debuff effects are part of prophecy outcomes (not a standalone `debuffConfig`):
+
+```javascript
+{
+  effectTypes: ["damage"],   // ✅ NOT ["damage", "debuff"] — no debuffConfig exists
+  resolution: "PROPHECY",
+  mechanicsConfig: [{
+    enabled: true,
+    system: "PROPHECY",
+    prophecy: {
+      rangeDice: ["d6", "d4"],
+      resolutionDie: "d4",
+      prophesied: {
+        damage: "8d10",
+        effect: {
+          name: "Soul Wound",
+          duration: 5,
+          unit: "rounds",
+          healingBlock: true,
+          description: "No healing + 1d6 necrotic/round for 5 rounds"
+        },
+        havocGain: 6
+      },
+      base: { damage: "5d10", havocGain: 3 },
+      outside: { backlash: "3d10 necrotic to self", havocGain: 0 }
+    }
+  }],
+  damageConfig: { formula: "5d10", damageTypes: ["necrotic"], resolution: "PROPHECY" }
+}
+```
+
+### PROPHECY with Roll Table
+
+```javascript
+{
+  effectTypes: ["damage"],
+  resolution: "PROPHECY",
+  mechanicsConfig: [{
+    enabled: true,
+    system: "PROPHECY",
+    prophecy: {
+      rangeDice: ["d10", "d8"],
+      resolutionDie: "d8",
+      prophesied: {
+        damage: "6d8 fire + 3d8 necrotic",
+        effect: { name: "Burning Ground", duration: 3, unit: "rounds" },
+        havocGain: 4
+      },
+      base: { damage: "4d8 fire + 2d8 necrotic", havocGain: 3 },
+      outside: { backlash: "2d8 to self", havocGain: 0 }
+    }
+  }],
+  tableConfig: {              // Optional rollable table (renders inside Prophecy Summary)
+    name: "Rain Table",
+    rolls: [
+      { roll: "1-2", effect: "1d6 fire damage" },
+      { roll: "3-4", effect: "1d6 force damage + knocked prone" },
+      { roll: "5", effect: "1d8 psychic damage" },
+      { roll: "6", effect: "4d6 force damage" }
+    ]
+  },
+  damageConfig: { formula: "4d8+2d8", damageTypes: ["fire", "necrotic"], resolution: "PROPHECY" }
+}
+```
+
+### PROPHECY with Escalating/Delayed Effects (Endbringer)
+
+```javascript
+{
+  effectTypes: ["damage"],   // ✅ NOT ["damage", "debuff"] — debuffs are in prophecy outcomes
+  resolution: "PROPHECY",
+  durationConfig: { durationValue: 5, durationUnit: "rounds", concentrationRequired: true },
+  mechanicsConfig: [{
+    enabled: true,
+    system: "PROPHECY",
+    prophecy: {
+      rangeDice: ["d8", "d6"],
+      resolutionDie: "d6",
+      tickDamage: { formula: "1d8", scaling: "+1d6 per round", damageTypes: ["force"] },
+      prophesied: {
+        damage: "4d10",
+        effect: {
+          name: "Devastating Detonation",
+          duration: 2,
+          unit: "rounds",
+          damagePerRound: "2d6",
+          damageType: "force",
+          statModifiers: [{ stat: "ALL ROLLS", value: -2 }],
+          description: "2d6 force/round and -2 all rolls for 2 rounds"
+        },
+        havocGain: 5
+      },
+      base: { damage: "2d10", havocGain: 2 },
+      outside: { backlash: "1d10 self", havocGain: 0 }
+    }
+  }],
+  tableConfig: { name: "Detonation Table", rolls: [...] },
+  triggerConfig: {
+    triggers: [
+      { id: "aura_havoc", name: "Havoc Siphon", triggerType: "end_of_turn", action: "Gain 1 Havoc per enemy within aura" }
+    ]
+  },
+  damageConfig: { formula: "1d8", damageTypes: ["force"], resolution: "PROPHECY" }
+}
+```
+
+### Common PROPHECY Mistakes
+
+| Mistake | Result | Fix |
+|---------|--------|-----|
+| Top-level `prophecyConfig` instead of `mechanicsConfig` | Prophecy block doesn't render | Use `mechanicsConfig: [{ system: "PROPHECY", prophecy: {...} }]` |
+| `effectTypes: ['damage', 'debuff']` but no `debuffConfig` | Empty block between description and prophecy table | Only include types with matching `*Config` objects |
+| Missing `damageConfig.resolution: "PROPHECY"` | Damage section may render redundantly | Set `resolution: "PROPHECY"` on damageConfig |
+| Missing `damageConfig.damageTypes` | No damage type badge in header | Always include `damageTypes: ['necrotic']` etc. |
 
 ---
 
@@ -2037,6 +2217,7 @@ mechanicsConfig: {
 
 ---
 
+
 # Part 8: Channeling System
 
 Used when `spellType === 'CHANNELED'`.
@@ -2146,8 +2327,8 @@ Used when `spellType === 'CHANNELED'`.
 
 **Resource**: Rage (0-100)
 **Damage**: Physical (melee)
-**Specializations**: Blood Rage, Iron Fury, Warlord
-**Unique Mechanics**: +1d6 rage per attack, +2d6 on crit. 6 Rage States: Smoldering (0-20), Frenzied (21-40), Primal (41-60), Carnage (61-80), Cataclysm (81-100), Obliteration (101+). Overheat at 101+ = 2d6 self-damage + reset. -5/round if no rage-generating actions.
+**Specializations**: Savage, Juggernaut, Warlord
+**Unique Mechanics**: +1d6 rage per attack, +2d6 on crit. 8 Rage States: Smoldering (0-20), Frenzied (21-40), Primal (41-60), Carnage (61-80), Cataclysm (81-100), Obliteration (101-124), Annihilation (125-149), Apocalypse (150+). Overheat at 101+ = 2d6 self-damage + reset. -5/round if no rage-generating actions.
 
 ```javascript
 resourceCost: {
@@ -2327,7 +2508,7 @@ resourceCost: {
 
 **Resource**: Wild Instinct / WI (0-15)
 **Damage**: Physical (claw/bite/talon)
-**Specializations**: Apex Predator, Elemental Heart, Pack Alpha
+**Specializations**: Metamorph, Form Thief, Primordial
 **Unique Mechanics**: 4 Wild Forms: Nightstalker (stealth/burst), Ironhide (tank/+20 HP), Skyhunter (aerial/dive), Frostfang (pack tactics). First transform FREE, subsequent = 1 WI.
 
 ```javascript
@@ -2386,16 +2567,16 @@ resourceCost: {
 
 ## 9.15 Inscriptor
 
-**Resource**: Runes (0-8) + Inscriptions (0-3)
-**Damage**: Arcane
-**Specializations**: Glyph Magic, Symbol Power, Runic Arts
-**Unique Mechanics**: Min 3 runes for zone, max 8. +1d6 per rune (3=+2d6, 5=+3d6). 3 equipment inscriptions per combat. Runes detonated for lingering effects.
+**Resource**: Runes (0-8 base, varies by spec) + Runic Resonance (0-10) + Inscriptions (0-3 base, varies by spec)
+**Damage**: Force, Arcane
+**Specializations**: Runebinder (10 runes/3 inscriptions), Enchanter (6 runes/5 inscriptions), Glyphweaver (8 runes/4 inscriptions)
+**Unique Mechanics**: Min 3 runes to form a zone. Each rune placed generates +1 Runic Resonance (max 10). Spend Resonance at thresholds: 3=free inscription, 5=+2d6 spell damage in zone, 7=zone-wide detonation. At 10 Resonance (passive): all runes refresh, Resonance resets to 0. Rune cost: 3-4 mana per rune depending on type.
 
 ```javascript
 resourceCost: {
   actionPoints: 2,
   mana: 8,
-  classResource: { type: "runic_wrapping", cost: 3 }  // 3 runes
+  classResource: { type: "runic_wrapping", cost: 1 }  // 1 rune placed
 }
 ```
 
@@ -2472,9 +2653,9 @@ musicalNotes: { I: 2, II: 1, III: 0, IV: 3, V: 2, VI: 0, VII: 0 }
 ## 9.20 Oracle
 
 **Resource**: Prophetic Visions (0-10)
-**Damage**: Psychic
-**Specializations**: Fate Seer, Doom Prophet, Chrono Seer
-**Unique Mechanics**: Declare predictions, gain Visions if correct. Alter Fate (3 Visions): force enemy reroll. Doom Prophecy (5 Visions + 10 mana): 6d8 psychic AoE + frightened.
+**Damage**: Psychic, Force
+**Specializations**: Seer, Truthseeker, Fateseer
+**Unique Mechanics**: Declare predictions (Simple +1 / Moderate +2 / Grand +3 Visions if correct). Fate's Whisper: +1 Vision per turn (only at ≤5 Visions). Witnessing Fate: +1 Vision on any Natural 20 or 1 within 30 ft. Forecast Dice: Roll 5 chosen dice at day start, spend to replace any roll. Fate's Burden: -1 to all d20 rolls per unused forecast die next day.
 
 ```javascript
 resourceCost: {
@@ -2599,8 +2780,8 @@ resourceCost: {
 ## 9.28 Witch Doctor
 
 **Resource**: Voodoo Essence (0-15) + precursors
-**Damage**: Necrotic, Poison
-**Specializations**: Death Caller, Spirit Healer, War Priest
+**Damage**: Necrotic, Nature, Poison
+**Specializations**: Bokor, Mambo, Houngan
 **Unique Mechanics**: Loa invocations require Essence + precursors. 5 Loa: Baron Samedi (death), Erzulie (love/healing), Papa Legba (portals), Ogoun (war), Simbi (water). Curses/totems/poisons generate Essence.
 
 ```javascript
@@ -2611,7 +2792,74 @@ resourceCost: {
 },
 specialMechanics: {
   loaInvocation: "Baron Samedi",
-  requiredPrecursors: ["curse_on_target", "2_totems_active"]
+  requiredPrecursors: ["3_cursed_enemies"]
+}
+```
+
+---
+
+## 9.29 Doomsayer
+
+**Resource**: Havoc (0-15)
+**Damage**: Fire, Necrotic, Psychic, Force
+**Specializations**: Requiem, Endbringer, Cataclysm
+**Unique Mechanics**: **Prophecy Range**: Spells use `mechanicsConfig` with `system: "PROPHECY"` for dynamic resolution ranges (Prophesied, Base, Outside). **Range Toggles**: Can shift resolution boundaries via Havoc spend. **Havoc Overflow**: Excess generation creates explosive backlashes. **IMPORTANT**: Debuff effects described inside prophecy outcomes do NOT get `'debuff'` in `effectTypes` — only include types that have a matching `*Config` object.
+
+```javascript
+// Doomsayer Prophecy Spell — CORRECT pattern
+{
+  name: "Doom Bolt",
+  spellType: "ACTION",
+  effectTypes: ["damage"],          // ✅ debuffs live inside prophecy outcomes, not standalone
+  resolution: "PROPHECY",
+  typeConfig: { school: "necrotic", castTime: "1 action", castTimeType: "action" },
+  targetingConfig: { targetingType: "single", rangeDistance: 60, targetRestrictions: ["enemies"] },
+  resourceCost: { actionPoints: 1, mana: 6, classResource: { type: "havoc", cost: -3 } },
+  damageConfig: {
+    formula: "2d8",
+    damageTypes: ["necrotic"],
+    resolution: "PROPHECY"          // ✅ Tells damage section this is prophecy-based
+  },
+  mechanicsConfig: [{              // ✅ Prophecy goes in mechanicsConfig, NOT top-level
+    enabled: true,
+    system: "PROPHECY",
+    prophecy: {
+      rangeDice: ["d8", "d6"],
+      resolutionDie: "d6",
+      prophesied: { damage: "4d8", effect: { name: "Weakened", duration: 2, unit: "rounds", statModifiers: [{ stat: "ALL ROLLS", value: -2 }] }, havocGain: 3 },
+      base: { damage: "2d8", havocGain: 1 },
+      outside: { backlash: "1d8 necrotic to self", havocGain: 0 }
+    }
+  }],
+  tags: ["damage", "necrotic", "prophecy"]
+}
+```
+
+## 9.30 Augur
+
+**Resource**: Benediction (Even rolls) & Malediction (Odd rolls)
+**Damage**: Radiant, Psychic, Force
+**Specializations**: Auspex, Harbinger, Hierophant
+**Unique Mechanics**: **Omen Reading**: Every d20 roll within 60ft generates resources (Even = +1 Ben, Odd = +1 Mal). **Omen Debt**: Unused resources at day's end incur a -1 penalty to all rolls per point (cap -10). **Terrain Alteration**: Focuses on persistent zone effects and conditional debuffs.
+
+```javascript
+// Augur Omen Spell Example
+{
+  name: "Portent of Weakness",
+  effectTypes: ["debuff"],
+  targetingConfig: { targetingType: "single", rangeDistance: 40 },
+  resourceCost: {
+    actionPoints: 2,
+    mana: 8,
+    classResource: { type: "malediction", cost: 3 }
+  },
+  debuffConfig: {
+    debuffType: "statusEffect",
+    effects: [{ id: "weakened", name: "Weakened", description: "Disadvantage on attacks, -2 Armor" }],
+    durationValue: 3,
+    durationUnit: "rounds",
+    concentrationRequired: true
+  }
 }
 ```
 
@@ -3331,4 +3579,418 @@ mechanicsConfig: { rollableTable: { enabled: true, tableName: "Name",
 
 ---
 
-*End of SPELL_DATA_REFERENCE.md — Generated April 2026 for Mythrill VTT spell system v2.0*
+# Part 13: Wizard Step → Spell Card Display Mapping
+
+> **This section maps every Spell Wizard step to exactly what appears on the rendered spell card.**
+> Use this when auditing or formatting existing spells — if a field is listed here, it WILL render on the card.
+
+## 13.1 Card Visual Layout
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ HEADER                                                   │
+│ ┌──────┐  Name                     ┌──────────────────┐  │
+│ │ ICON │  Resource Costs           │ Damage Type Badges│  │
+│ │      │  (AP, Mana, Class)        │ V S M Components │  │
+│ │ TYPE │                           └──────────────────┘  │
+│ │BADGE │  Cast Time                                       │
+│ └──────┘                                                  │
+│                                                           │
+│ [ACTION] [Range: 60ft] [Single Target] [Chain 3]         │
+│ • Bullet 1  • Bullet 2  • Bullet 3                       │
+├───────────────────────────────────────────────────────────┤
+│ BODY                                                     │
+│ "Description flavor text here."                           │
+│                                                           │
+│ ── Required Conditions / Spell Triggers ──                │
+│ If HP < 50%                                               │
+│                                                           │
+│ Instant Damage                                            │
+│   2d6 + Intelligence Fire Damage                          │
+│   ┌─ 30ft ─┐ ┌─ Enemies ─┐ ┌─ Chain 3 ─┐                │
+│                                                           │
+│ If HP < 50%: 3d6 + 4 Fire Damage                         │
+│                                                           │
+│ Saving Throw                                              │
+│   ◆ Dexterity save DC 15 (Half Damage)                    │
+│                                                           │
+│ Healing                                                   │
+│   2d8 + Spirit Healing                                    │
+│                                                           │
+│ ── Buff/Debuff/Control/Utility/Summon/Transform ──        │
+│ [mechanicsText or description from effects[]]             │
+│                                                           │
+│ ── Rollable Table ──                                      │
+│ [Table name: dice formula, entries]                       │
+│                                                           │
+│ ── Mechanics (Procs, Combos, Stances, Toxic, etc.) ──    │
+│ [mechanicsText from effectMechanicsConfigs]               │
+├───────────────────────────────────────────────────────────┤
+│ FOOTER                                                   │
+│ [tag1] [tag2] [tag3]                        Cooldown: 3  │
+└───────────────────────────────────────────────────────────┘
+```
+
+## 13.2 Step-by-Step Field → Card Mapping
+
+### Step 1: Basic Info → Header + Footer
+
+| Wizard Field | Card Location | How It Displays |
+|---|---|---|
+| `name` | Header, spell name | Large text, top-left |
+| `description` | Body, top | Italic flavor text in `.item-description` |
+| `level` | Not directly shown on card | Used for categorization and sort; shown in `rules` variant as "Level X" tag |
+| `school` / `typeConfig.school` | Header, damage type badge | Color-coded badge (e.g., "Fire", "Frost") |
+| `icon` | Header, spell icon | WoW icon image via zamimg.com |
+| `tags[]` | Footer, tag badges | Small rounded badges at bottom-left |
+
+**Key rule**: `school` determines the card's border color AND the damage type badge color. Use valid damage type IDs (see §3.3).
+
+### Step 2: Spell Type → Header Badges + Bullets
+
+| Wizard Field | Card Location | How It Displays |
+|---|---|---|
+| `spellType` | Header, action type badge | Colored badge: ACTION (red), PASSIVE (green), REACTION (blue), CHANNELED (purple), TRAP (orange), STATE (gray) |
+| `typeConfig.castTime` | Header, meta row | "1 action", "1 bonus action", "1 reaction", "free" |
+| `typeConfig.castTimeType` | Header, meta row | Determines cast time display format |
+| `typeConfig.range` | Header, range badge | "120 feet", "60 feet", "self", "touch", "melee" |
+| `typeConfig.rangeType` | Header, range badge | Determines range display style |
+
+**Type-specific bullets** (appear below badges as `• bullet` items):
+
+| Spell Type | Bullet Sources |
+|---|---|
+| CHANNELED | `typeConfig.maxChannelDuration` → "Up to X turns"; `typeConfig.interruptible`; `typeConfig.movementAllowed`; `typeConfig.concentrationDC`; `typeConfig.tickFrequency`; `typeConfig.breakEffect` |
+| REACTION | `typeConfig.availabilityType` (if not ALWAYS); `typeConfig.limitUsesPerTurn` → "X/turn"; `typeConfig.reactionWindow`; `typeConfig.cooldownAfterTrigger`; `typeConfig.maxTriggers` |
+| TRAP | `typeConfig.placementTime` (if >1); `typeConfig.visibility` → "hidden"/"magical aura"/"visible to all"; `typeConfig.cooldownAfterTrigger`; `typeConfig.maxTriggers`; `trapConfig.detectDC` → "Detect DC X"; `trapConfig.disarmDC` → "Disarm DC X" |
+| PASSIVE | `typeConfig.durationType` → "While active"; `typeConfig.auraRadius` → "Xft aura" |
+| STATE | `typeConfig.stanceName` → "Stance: X"; `typeConfig.durationType` |
+
+### Step 3: Effects → Card Body (Main Content Area)
+
+This is the largest section. Each effect type in `effectTypes[]` renders as a named block.
+
+#### Damage Effects (`damage` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `damageConfig.formula` | Mechanics text: "2d6 + Intelligence Fire Damage" | Uses `cleanFormula()` + damage type suffix |
+| `damageConfig.damageTypes[]` | Header damage type badges + formula suffix | e.g., "Fire", "Fire and Necrotic" |
+| `damageConfig.resolution` | Determines prefix: "Draw X cards:", "Flip X coins:", or plain formula | `DICE` (default), `CARDS`, `COINS` |
+| `damageConfig.diceConfig.formula` | Alternative formula source for DICE resolution | Used if `resolution === 'DICE'` |
+| `damageConfig.cardConfig.drawCount` | "Draw X cards:" prefix | Only for CARDS resolution |
+| `damageConfig.coinConfig.flipCount` | "Flip X coins:" prefix | Only for COINS resolution |
+| `damageConfig.hasDotEffect` | Creates separate "Damage Over Time" entry | |
+| `damageConfig.damageType === 'dot'` | Marks spell as pure DoT (no instant damage line) | |
+| `damageConfig.dotConfig.dotFormula` | "X per round for Y rounds" | |
+| `damageConfig.dotConfig.duration` | DoT duration in rounds | |
+| `damageConfig.dotConfig.tickFrequency` | "per round" or "per turn" | |
+| `damageConfig.dotConfig.progressiveStages` | "Formula1 → Formula2 → Formula3 over Y rounds" | Progressive DoT |
+| `damageConfig.dotConfig.isProgressiveDot` | Enables progressive stage display | |
+| `damageConfig.savingThrowConfig.enabled` | Creates "Saving Throw" entry | |
+| `damageConfig.savingThrowConfig.saveType` | "Dexterity save" | |
+| `damageConfig.savingThrowConfig.dc` | "DC 15" | |
+| `damageConfig.savingThrowConfig.saveOutcome` | "(Half Damage)", "(Negates on fail)" | |
+| `damageConfig.criticalConfig.enabled` | Creates "Critical Hit" entry | |
+| `damageConfig.criticalConfig.critRange` | "19-20 crit range" | |
+| `damageConfig.criticalConfig.critMultiplier` | "x2 damage" | |
+| `damageConfig.criticalConfig.critBonusDamage` | "+2d6 bonus" | |
+| `damageConfig.criticalConfig.critEffect` | "Target bleeds: 1d4 Slashing" | |
+| `damageConfig.chanceOnHitConfig.enabled` | Appended to instant damage mechanics text | "25% chance to apply Burning" |
+| `damageConfig.weaponDependent` | Adds attribute modifier to formula | "+ Strength" |
+| `damageConfig.attributeModifier` | "Strength", "Intelligence", etc. | |
+
+**Formula formatting rules** (via `cleanFormula()`):
+- Dice formulas (`2d6`, `3d8 + 5`) displayed as-is
+- Stat names capitalized: `intelligence` → `Intelligence`
+- `+` and `-` surrounded by spaces
+- `damageType` or `physical` filtered out from suffix (not specific enough)
+- `direct` filtered out (not a real damage type)
+
+#### Healing Effects (`healing` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `healingConfig.formula` | Mechanics text: "2d8 + Spirit Healing" | |
+| `healingConfig.healingType` | Effect name: "Healing", "Healing Over Time", "Shield Absorption" | `direct`, `hot`, `shield` |
+| `healingConfig.hasHotEffect` | Creates separate "Healing Over Time" entry | Additional to main heal |
+| `healingConfig.hotFormula` | "X per round for Y rounds" | |
+| `healingConfig.hotDuration` | HoT duration | |
+| `healingConfig.hasShieldEffect` | Creates separate "Shield Absorption" entry | |
+| `healingConfig.shieldFormula` | "X absorption" | |
+| `healingConfig.shieldDuration` | "For Y rounds" | |
+| `healingConfig.criticalConfig.enabled` | Creates "Critical Healing" entry | |
+
+#### Buff Effects (`buff` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `buffConfig.effects[].name` | Effect name header | e.g., "Strength Boost" |
+| `buffConfig.effects[].description` | ◆ description text | **This is what shows on the card** |
+| `buffConfig.effects[].mechanicsText` | ◆ mechanics text | **EMPTY when description has info** (Golden Rule) |
+| `buffConfig.effects[].statModifier.stat` | Used for stat display | e.g., "strength" |
+| `buffConfig.effects[].statModifier.magnitude` | "+2" or "-2" | |
+| `buffConfig.effects[].statModifier.magnitudeType` | "flat" or "percentage" | |
+| `buffConfig.durationValue` + `durationType` | Duration display | "for 3 rounds", "for 10 minutes" |
+
+**IMPORTANT**: The card renders `buffConfig.effects[].description` as the primary display text. If `description` is empty, it falls back to `mechanicsText`. Follow the Golden Rule (§1.2): put info in ONE place.
+
+#### Debuff Effects (`debuff` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `debuffConfig.effects[].name` | Effect name header | e.g., "Poisoned" |
+| `debuffConfig.effects[].description` | ◆ description text | **Primary display** |
+| `debuffConfig.effects[].mechanicsText` | ◆ mechanics text | **EMPTY when description has info** |
+| `debuffConfig.savingThrow.ability` | "Constitution save" | |
+| `debuffConfig.savingThrow.difficultyClass` | "DC 14" | |
+| `debuffConfig.savingThrow.saveOutcome` | "(Negates)", "(Half)" | |
+| `debuffConfig.durationValue` + `durationType` | Duration display | |
+| `debuffConfig.canBeDispelled` | May show dispel info | |
+
+#### Control Effects (`control` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `controlConfig.controlType` | Effect name: "Stunned", "Immobilized", etc. | |
+| `controlConfig.effects[].description` | ◆ description text | **Primary display** |
+| `controlConfig.effects[].mechanicsText` | ◆ mechanics text | For movement distance, etc. |
+| `controlConfig.savingThrow` | Save info appended | |
+| `controlConfig.duration` + `durationType` | Duration | |
+| `controlConfig.strength` | "full", "partial", "minor" | May affect display |
+
+#### Utility Effects (`utility` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `utilityConfig.effects[].name` | Effect name | e.g., "Teleport" |
+| `utilityConfig.effects[].description` | ◆ description text | **Primary display** |
+| `utilityConfig.effects[].mechanicsText` | ◆ mechanics text | For distance, speed details |
+| `utilityConfig.duration` + `durationType` | Duration | |
+
+#### Summoning Effects (`summoning` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `summoningConfig.creatureName` | Summon name | |
+| `summoningConfig.creatureStats.hp` | "HP: 30" | |
+| `summoningConfig.creatureStats.armor` | "Armor: 15" | |
+| `summoningConfig.creatureStats.damage` | "Damage: 2d6" | |
+| `summoningConfig.creatureStats.speed` | "Speed: 30" | |
+| `summoningConfig.creatureStats.abilities` | Ability list | |
+| `summoningConfig.duration` + `durationType` | Duration | |
+| `summoningConfig.summonCount` | Number summoned | |
+
+#### Transformation Effects (`transformation` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `transformationConfig.targetForm` | "Transform into Wolf" | |
+| `transformationConfig.newStats` | New stat values | |
+| `transformationConfig.grantedAbilities` | Granted abilities list | |
+| `transformationConfig.duration` + `durationType` | Duration | |
+
+#### Purification Effects (`purification` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `purificationConfig.purificationType` | Effect name | "Cleanse", "Dispel", etc. |
+| `purificationConfig.targetEffects[]` | What it removes | "poison, disease" |
+| `purificationConfig.strength` | "full", "partial" | |
+| `purificationConfig.healAmount` | Additional healing | |
+
+#### Restoration Effects (`restoration` in `effectTypes`)
+
+| Data Field | Card Display | Notes |
+|---|---|---|
+| `restorationConfig.restorationType` | Effect name | "Resurrect", "Revive", etc. |
+| `restorationConfig.restoredHealth` | HP restored | |
+| `restorationConfig.removesConditions[]` | Conditions removed | |
+
+### Step 4: Targeting → Header Badges + Effect Targeting
+
+| Wizard Field | Card Location | How It Displays |
+|---|---|---|
+| `targetingConfig.targetingType` | Header, targeting badge | "Single Target", "Area", "Multi Target", "Chain", "Cone", "Line", "Self", "Smart", "Nearest" |
+| `targetingConfig.rangeType` + `rangeDistance` | Header, range badge | "120 feet", "60 feet", "Self", "Melee", "Touch" |
+| `targetingConfig.areaShape` + `areaSize` | Per-effect targeting badge | "20ft circle", "30ft cone", "60ft line" |
+| `targetingConfig.targetRestrictions` | Per-effect targeting badge | "Enemies", "Allies", "Self", "All" |
+| `targetingConfig.maxTargets` | Targeting badge | "Up to 3 targets" |
+| `targetingConfig.propagation.chainCount` | Header, propagation badge | "Chain 3" |
+| `targetingConfig.propagation.chainRange` | Propagation badge detail | "15ft between" |
+| `targetingConfig.propagation.chainDamageFalloff` | Propagation badge detail | "70% falloff" |
+
+**Important**: Targeting info appears in TWO places:
+1. **Header badges row** — general targeting (range, type, propagation)
+2. **Per-effect targeting badges** — specific to each damage/healing effect (range, targeting, restrictions, propagation)
+
+### Step 5: Resources → Header (Below Name)
+
+| Wizard Field | Card Location | How It Displays |
+|---|---|---|
+| `resourceCost.actionPoints` | Below spell name | "2 AP" badge (always shown if > 0) |
+| `resourceCost.mana` | Below spell name | "8 Mana" badge |
+| `resourceCost.health` | Below spell name | "1d6 HP" badge |
+| `resourceCost.stamina` | Below spell name | "3 Stamina" badge |
+| `resourceCost.focus` | Below spell name | "2 Focus" badge |
+| `resourceCost.energy` | Below spell name | "Energy" badge |
+| `resourceCost.classResource.type` + `.cost` | Custom class resource badge | "3 Inferno", "2 Threads", "I+IV+V+I" |
+| `resourceCost.components[]` | Below damage type badges | "V S M" badges (Verbal, Somatic, Material) |
+| `resourceCost.materialComponents` | Tooltip on M component | "Bat guano and sulfur" |
+| `resourceCost.channelingFrequency` | Appended to resource cost | "/round", "/turn" (CHANNELED spells) |
+| `resourceCost.reagents[]` | Resource badges | Consumable reagents |
+
+**Class resource special rendering** (each class has custom badge formatting):
+- **Pyrofiend**: "Inferno Lv.3 +2" (current level + ascent)
+- **Minstrel**: Musical note icons (I-VII) with count
+- **Chronarch**: "3 Time Shards" with strain indicator
+- **Chaos Weaver**: "Mayhem ±3" (generate or spend)
+- **Fate Weaver**: "2 Threads" with generate/spend indicator
+- **Martyr**: "Devotion Lv.3" with tier indicator
+- **Deathcaller**: "1d6 HP + 3 Blood Tokens"
+- **Dreadnaught**: "15 DRP"
+- **Bladedancer**: "3 Momentum" with stance indicator
+- **Warden**: "5 VP" with avatar threshold
+- **Huntress**: "2 QM"
+- **All others**: Resource name + cost number
+
+### Step 6: Cooldown → Footer
+
+| Wizard Field | Card Location | How It Displays |
+|---|---|---|
+| `cooldownConfig.cooldownType` | Footer, right side | Formatted text |
+| `cooldownConfig.cooldownValue` | Footer, right side | Number value |
+
+**Cooldown display by type**:
+| Type | Display |
+|---|---|
+| `turn_based` | "X turns" |
+| `short_rest` | "Short Rest" |
+| `long_rest` | "Long Rest" |
+| `encounter` | "Per Encounter" |
+| `real_time` | "X seconds" |
+| `charge_based` | "X charges (recover on short_rest)" |
+| `dice_based` | "1d4 turns" |
+| `conditional` | Custom condition text |
+
+### Triggers Step → Card Body (Before Effects)
+
+| Data Field | Card Location | How It Displays |
+|---|---|---|
+| `triggerConfig.global.compoundTriggers[]` | Body, "Spell Triggers" header | "When damage is taken", "If HP < 50%" |
+| `triggerConfig.global.logicType` | Between triggers | "ALL" or "ANY" badge |
+| `triggerConfig.requiredConditions.enabled` | Body, "Required" header | "HP < 50% ◆ ALL" |
+| `triggerConfig.requiredConditions.conditions[]` | Under "Required" | Each condition formatted |
+| `triggerConfig.effectTriggers.damage.compoundTriggers[]` | Under damage effect | Trigger-specific conditions |
+| `triggerConfig.conditionalEffects.damage.conditionalFormulas` | Under damage effect | "If HP < 50%: 3d6 + 4 Fire Damage" |
+| `triggerConfig.effectTriggers.healing.compoundTriggers[]` | Under healing effect | Healing-specific conditions |
+| `triggerConfig.conditionalEffects.healing.conditionalFormulas` | Under healing effect | "If HP < 50%: 2d8 + Spirit Healing" |
+
+**Trigger display logic**:
+- If `conditionalFormulas` exist for a trigger → shown as "If [condition]: [formula]" inline with the effect
+- If triggers exist but NO conditional formulas → shown as standalone "Spell Triggers" header above effects
+- If `requiredConditions` exist → shown as "Required" header with ALL/ANY logic badge
+
+### Channeling Step → Type-Specific Bullets + Resource Frequency
+
+| Data Field | Card Location | How It Displays |
+|---|---|---|
+| `channelingConfig.maxDuration` | Bullet: "Up to X turns" | Also stored in `typeConfig.maxChannelDuration` |
+| `channelingConfig.tickFrequency` | Bullet: "every round" | Also stored in `typeConfig.tickFrequency` |
+| `channelingConfig.movementRestriction` | Bullet: "Must stand still" / "Can move while channeling" | Also stored in `typeConfig.movementAllowed` |
+| `channelingConfig.breakEffect` | Bullet: "break: backlash" | Also stored in `typeConfig.breakEffect` |
+| `channelingConfig.concentrationRequired` | Bullet: "DC X Spirit" | Also stored in `typeConfig.concentrationDC` |
+| `channelingConfig.perRoundFormulas.manaCost` | Resource cost: "2 Mana/round" | Via `resourceCost.channelingFrequency` |
+
+### Trap Placement Step → Type-Specific Bullets
+
+| Data Field | Card Location | How It Displays |
+|---|---|---|
+| `trapConfig.triggerRadius` | May appear in description | |
+| `trapConfig.triggerCondition` | Bullet or description | "proximity", "pressure", "timer" |
+| `trapConfig.armTime` | Bullet: "X turns to place" | Via `typeConfig.placementTime` |
+| `trapConfig.detectDC` | Bullet: "Detect DC 13" | |
+| `trapConfig.disarmDC` | Bullet: "Disarm DC 15" | |
+| `trapConfig.visibleToAllies` | Bullet: "visible to all" / "hidden" / "magical aura" | Via `typeConfig.visibility` |
+| `trapConfig.charges` | Bullet: "single use" / "max X triggers" | Via `typeConfig.maxTriggers` |
+
+### Mechanics Step → Card Body (After Effects)
+
+| Data Field | Card Location | How It Displays |
+|---|---|---|
+| `mechanicsConfig.rollableTable.enabled` | "Rollable Table" section | Table name, dice formula, entries |
+| `mechanicsConfig.comboPoints.enabled` | Mechanics section | Combo point info |
+| `mechanicsConfig.procConfig.enabled` | Mechanics section | "25% on hit: Burning (1d6 fire, 3 rounds)" |
+| `mechanicsConfig.criticalConfig.enabled` | Mechanics section | Crit range, multiplier, bonus |
+| `mechanicsConfig.formRequirements.requiredForm` | Mechanics section | "Requires Dancing Blade stance" |
+| `mechanicsConfig.toxicConfig.enabled` | Mechanics section | Toxic stacking info |
+| `mechanicsConfig[*].system === "PROPHECY"` | **Prophecy Resolution** section | Range dice, outcomes, Havoc gain |
+| `mechanicsConfig[*].prophecy.rangeDice` | Prophecy header | "d8+d6 vs d6" display |
+| `mechanicsConfig[*].prophecy.prophesied` | Prophesied outcome | Damage, effect, havocGain |
+| `mechanicsConfig[*].prophecy.base` | Base outcome | Damage, havocGain |
+| `mechanicsConfig[*].prophecy.outside` | Outside outcome | Backlash, havocGain |
+| `mechanicsConfig[*].prophecy.tickDamage` | Tick damage info | Formula, scaling (escalating) |
+| `tableConfig` (with PROPHECY) | Roll table inside Prophecy Summary | Table name, roll entries |
+| `effectMechanicsConfigs.*` | Mechanics section | Per-effect mechanic configs |
+
+## 13.3 The Golden Rule (Quick Reference)
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│  For BUFF / DEBUFF / CONTROL / UTILITY effects:                      │
+│                                                                      │
+│  Put ALL readable info in effects[].description                      │
+│  Leave effects[].mechanicsText EMPTY                                │
+│                                                                      │
+│  For DAMAGE / HEALING effects:                                       │
+│                                                                      │
+│  Leave effects[].description EMPTY (or trigger info only)            │
+│  Put formula info in the damageConfig/healingConfig fields          │
+│  (formula, damageTypes, savingThrow, etc.)                           │
+│                                                                      │
+│  The spell card auto-generates mechanics text from formulas.         │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+## 13.4 Common Formatting Mistakes (Card Display Impact)
+
+| Mistake | What Shows on Card | Fix |
+|---|---|---|
+| `description` has damage formula AND `mechanicsText` has it | Duplicate info shown | Put formula in ONE place only |
+| `effects[]` uses bare strings like `"Stunned"` | May render incorrectly | Use `{ id, name, description, mechanicsText }` objects |
+| `damageTypes: 'fire'` (string not array) | No damage type badge | Use `damageTypes: ['fire']` |
+| `durationType: 'rounds'` but `durationUnit: 'turns'` | Missing/wrong duration | Both MUST match |
+| `resourceCost.actionPoints` missing | No AP cost shown, spell looks free | Always set `actionPoints: <number>` |
+| `school: 'Evocation'` | No border color, no badge | Use damage type ID: `school: 'fire'` |
+| Empty `description` on buff with empty `mechanicsText` | Effect shows name only, no details | Put readable text in `description` |
+| `savingThrow` at top level instead of inside `damageConfig` | Save info not shown | Nest inside `damageConfig.savingThrow` |
+| `effectTypes: ['damage']` but no `damageConfig` | No damage displayed | Add matching `damageConfig` |
+| `typeConfig` missing | No cast time, no range badge | Always include `typeConfig` |
+| Top-level `prophecyConfig` instead of `mechanicsConfig` | Prophecy block doesn't render or renders wrong | Use `mechanicsConfig: [{ system: "PROPHECY", prophecy: {...} }]` |
+| `effectTypes: ['damage', 'debuff']` but no `debuffConfig` (PROPHECY) | Empty block on card | Debuffs inside prophecy outcomes don't need `'debuff'` in effectTypes |
+
+## 13.5 Quick Audit Checklist
+
+When reviewing a spell for correct card display, verify:
+
+- [ ] **Header**: Name, icon, spell type badge, school color all correct?
+- [ ] **Resources**: AP cost shown? Mana/class resource displayed with correct badge?
+- [ ] **Components**: V/S/M badges showing if configured?
+- [ ] **Badges row**: Action type, range, targeting all correct?
+- [ ] **Bullets**: Type-specific info (channeling duration, reaction limits, trap detect DC)?
+- [ ] **Description**: Flavor text renders in body?
+- [ ] **Damage**: Formula + damage type suffix showing? No duplicate info?
+- [ ] **Healing**: Formula + "Healing" suffix showing?
+- [ ] **Buff/Debuff**: `effects[].description` has readable text? Not empty?
+- [ ] **Saving Throw**: Shows ability + DC + outcome?
+- [ ] **Critical Hit**: Shows range + multiplier + bonus?
+- [ ] **DoT**: Shows formula per tick + duration?
+- [ ] **Triggers**: "Required" or "Spell Triggers" header shows? Conditional formulas inline?
+- [ ] **Cooldown**: Footer shows correct cooldown text?
+- [ ] **Tags**: Footer shows relevant tags?
+- [ ] **PROPHECY spells**: `mechanicsConfig` with `system: "PROPHECY"` (not top-level `prophecyConfig`)? `effectTypes` only includes types with actual `*Config` objects? `damageConfig.resolution: "PROPHECY"` set?
+- [ ] **PROPHECY with debuffs**: Debuff effects inside prophecy outcomes do NOT have `'debuff'` in `effectTypes` (no `debuffConfig` exists)?
+
+---
+
+*End of SPELL_DATA_REFERENCE.md — Updated May 2026 for Mythrill VTT spell system v2.1*

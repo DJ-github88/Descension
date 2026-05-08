@@ -62,12 +62,14 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
       content: `Playing a Berserker is about building and maintaining momentum. Key strategic considerations:
 
 **Rage State Management**: 
-- Smoldering (0-20): Building phase, basic abilities only
-- Frenzied (21-40): +1 attack, +5 ft movement, initial power unlock
-- Primal (41-60): +2 attack, +10 ft movement, +1d4 bonus damage, first real power spike
-- Carnage (61-80): +3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance, elite combat form
-- Cataclysm (81-100): +4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun
-- Obliteration (101+): +5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions, MUST SPEND OR OVERHEAT
+- Smoldering (0-20): Building phase, basic abilities only, +1 skill checks
+- Frenzied (21-40): +1 attack, +5 ft movement, +1 melee damage — but -1 ranged
+- Primal (41-60): +2 attack, +2 melee damage, 1 HP lifesteal on crits — but -1 Armor
+- Carnage (61-80): +3 attack, +3 melee damage, -1 incoming weapon damage — but -2 ranged, no Stealth
+- Cataclysm (81-100): +4 attack, +4 melee damage, immune to Frightened — but enemies gain +1 to hit, 1d4 recoil on miss
+- Obliteration (101-124): +5 attack, +5 melee damage, crits splash +1d6 — but -2 Armor, enemies gain +2 to hit, MUST SPEND OR OVERHEAT
+- Annihilation (125-149): +6 attack, +6 melee damage, +10 ft movement, expanded crit range — but -3 Armor, enemies gain +3 to hit, 1d6 damage/turn
+- Apocalypse (150+): +7 attack, +8 melee damage, +15 ft movement, all melee hits adjacent enemies, immune to all conditions — but -5 Armor, enemies gain +4 to hit, 2d6 damage/turn, no ranged attacks
 
 **Building Rage**: 
 - Attack consistently to generate 1d6 Rage per attack
@@ -91,7 +93,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
     immersiveCombatExample: {
       title: 'Combat Example: The Arena of Blood',
-      content: `**The Setup**: You stand in the center of a gladiatorial arena, facing three armored pit fighters. The crowd roars for blood. Your greataxe feels light in your hands. Your Rage is at 0—for now.
+      content: `**The Setup**: You stand in the center of a gladiatorial arena, facing three armored pit fighters. The crowd roars for blood. Your greataxe feels light in your hands. Your Rage is at 0 — for now.
 
 **Turn 1 - First Blood (Rage: 0 → 8)**
 
@@ -104,7 +106,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Current Rage: 8** (Smoldering State)
 
-*You feel the first stirrings of fury. Your muscles tense. Your breathing quickens. The pain from the pit fighter's blade doesn't hurt—it FUELS you.*
+*You feel the first stirrings of fury. Your muscles tense. Your breathing quickens. The pain from the pit fighter's blade doesn't hurt — it FUELS you.*
 
 **Turn 2 - Building Fury (Rage: 8 → 23)**
 
@@ -112,109 +114,154 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Action**: Attack pit fighter #1 → Hit!
 **Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 13)
-**Action**: Second attack (using action points) → Hit!
+**Action**: Second attack (extra attack from action points) → Hit!
 **Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 17)
 **Enemy Attacks**: Both pit fighters strike you → 12 damage total
 **Rage Generation**: Roll 1d4 → [6] → Gain 6 Rage (now at 23)
 
 **Current Rage: 23** (Frenzied State - UNLOCKED!)
 
-*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State—you now have +1 to all attack rolls and +5 ft movement.*
+*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State — +1 to attack rolls, +5 ft movement, +1 melee damage.*
 
-**Turn 3 - Ascending Wrath (Rage: 23 → 47)**
+**Turn 3 - Ascending Wrath (Rage: 23 → 43)**
 
 *The third pit fighter hesitates. He sees the fury in your eyes. Smart man. Won't save him.*
 
 **Action**: Frenzied Slash (Rage ability) on pit fighter #1 → CRITICAL HIT!
-**Rage Generation**: Roll 2d6 → [5, 6] = 11 → Gain 11 Rage (now at 34)
+**Rage Cost**: Spend 8 Rage (now at 15)
+**Rage Generation**: Roll 2d6 → [5, 6] = 11 → Gain 11 Rage (now at 26)
 **Result**: Pit fighter #1 drops, blood spraying across the sand
-**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 42)
-
+**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 34)
+**Enemy Attack**: Pit fighter #2 strikes you → 6 damage
+**Rage Generation**: Roll 1d4 → [3] → Gain 3 Rage (now at 37)
 **Action**: Charge pit fighter #2 → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 47)
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 43)
 
-**Current Rage: 47** (Primal State - UNLOCKED!)
+**Current Rage: 43** (Primal State - UNLOCKED!)
 
-*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust—you now regenerate health each turn. +2 to attack, +10 ft movement, +1d4 bonus damage. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
+*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust — you now regenerate health each turn. +2 to attack rolls, +2 melee damage, 1 HP lifesteal on crits. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
 
-**Turn 4 - Peak Carnage (Rage: 47 → 73)**
+**Turn 4 - Peak Carnage (Rage: 43 → 61)**
 
 *Two pit fighters remain. They're backing away. Cowards.*
 
 **Passive**: Bloodlust activates → Heal 1d8 HP → [6] → Regain 6 HP
 **Action**: Primal Roar (AoE intimidation + damage)
-**Rage Cost**: Spend 10 Rage (now at 37)
+**Rage Cost**: Spend 15 Rage (now at 28)
 **Effect**: Both pit fighters take 2d6 damage and are frightened
 **Action**: Attack frightened pit fighter #2 → Hit with advantage!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 43)
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 34)
 **Action**: Second attack → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 47)
-**Enemy Attacks**: Pit fighter #3 attacks with disadvantage (frightened) → Misses!
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 38)
+**Enemy Attacks**: Pit fighter #3 attacks with disadvantage (frightened) → hits you for 8 damage
+**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 42)
 
 *You laugh. A sound like grinding stone. You attack again.*
 
-**Action**: Third attack (spending action points) → CRITICAL HIT!
-**Rage Generation**: Roll 2d6 → [6, 5] = 11 → Gain 11 Rage (now at 58)
+**Action**: Third attack → CRITICAL HIT!
+**Rage Generation**: Roll 2d6 → [6, 5] = 11 → Gain 11 Rage (now at 53)
 **Result**: Pit fighter #2 falls, skull caved in
-**Rage Generation**: Defeated enemy → Roll 1d8 → [7] → Gain 7 Rage (now at 65)
+**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 61)
 
-**Current Rage: 65** (Carnage State - UNLOCKED!)
+**Current Rage: 61** (Carnage State - UNLOCKED!)
 
-*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State—+3 to attack rolls, +15 ft movement, +1d6 bonus damage, 25% damage resistance. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
+*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State — +3 to attack rolls, +3 melee damage, reduce incoming weapon damage by 1. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
 
-**Turn 5 - The Overheat Danger (Rage: 65 → 98)**
+**Turn 5 - The Overheat Danger (Rage: 61 → 87)**
 
 *You chase him down. He's fast. You're faster.*
 
 **Action**: Carnage Strike (massive Rage-fueled attack)
-**Rage Cost**: Spend 15 Rage (now at 50)
+**Rage Cost**: Spend 20 Rage (now at 41)
 **Effect**: 4d10 damage → Pit fighter #3 is nearly dead
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 56)
-
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 47)
 **Action**: Basic attack to finish him → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 61)
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 52)
 **Result**: Pit fighter #3 dies
-**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 69)
+**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 60)
 
-*The crowd erupts. They want MORE. They throw weapons into the arena. A massive armored champion enters—the Arena Master himself.*
+*The crowd erupts. They want MORE. They throw weapons into the arena. A massive armored champion enters — the Arena Master himself.*
 
 **Action**: You roar and charge → Hit!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 75)
+**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 66)
 **Enemy Attack**: Arena Master's massive hammer strikes you → 15 damage!
-**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 79)
+**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 70)
 **Action**: Second attack → CRITICAL HIT!
-**Rage Generation**: Roll 2d6 → [6, 6] = 12 → Gain 12 Rage (now at 91)
+**Rage Generation**: Roll 2d6 → [6, 6] = 12 → Gain 12 Rage (now at 82)
 **Action**: Third attack → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 96)
-**Enemy Attack**: Arena Master strikes again → 12 damage!
-**Rage Generation**: Roll 1d4 → [2] → Gain 2 Rage (now at 98)
+**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 87)
 
-**Current Rage: 98** (Cataclysm State - DANGER ZONE!)
+**Current Rage: 87** (Cataclysm State - DANGER ZONE!)
 
-*You're at the peak. Your body is beyond mortal limits. +4 to attack rolls, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear and stun. But you're approaching the edge. Two more points and you'll hit Obliteration. Three more and you risk Overheat.*
+*You're at the peak. +4 to attack rolls, +4 melee damage, immune to Frightened. But enemies gain +1 to hit you, and a miss deals 1d4 recoil damage. You're 14 points from Obliteration. One bad crit sequence and you'll Overheat.*
 
-**Turn 6 - Controlled Destruction (Rage: 98 → 75)**
+**Turn 6 - Controlled Destruction (Rage: 87 → 64)**
 
 *You need to spend this Rage NOW or it will consume you.*
 **Action**: Cataclysmic Blow (ultimate Rage ability)
-
-**Rage Cost**: Spend 30 Rage (now at 68)
+**Rage Cost**: Spend 30 Rage (now at 57)
 **Effect**: 3d8 + strength + 2d6 damage + knockback + stun
 **Result**: Arena Master is staggered, armor cracked, bleeding heavily
 
-*You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Carnage State (68 Rage), still dangerous.*
+*You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Carnage State (57 Rage), still dangerous.*
 
 **Action**: Attack while he's stunned → Hit!
-**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 71)
+**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 60)
 **Action**: Second attack → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 75)
+**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 64)
 **Result**: Arena Master falls to his knees, defeated
 
-*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (75 → 70 → 65...), but the battle is won.*
+*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (64 → 59 → 54...), but the battle is won.*
 
-**The Lesson**: The Berserker is about riding the wave of fury—building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.`
+**The Lesson**: The Berserker is about riding the wave of fury — building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.
+
+> **What If — The Overheat Scenario**: In Turn 5, imagine your third attack had crit instead of hitting normally. Roll 2d6 → [6, 6] = 12 instead of 5. You'd hit 94 Rage instead of 87. Then if the Arena Master's counterattack had dealt 18 instead of 15 damage, the 1d4 Rage would be [4], pushing you to 98. One more crit on your next attack and you're at 110+ — Obliteration. You'd have ONE round to spend Obliterating Strike (60 Rage) or eat 2d6 damage and reset to 0. This is the razor's edge every Berserker dances on.`
     }
   },
+
+  // Character Creation
+  equipment: {
+    title: 'Starting Equipment',
+    description: 'Choose one of the following weapon paths. All Berserkers also receive the standard adventuring gear listed below.',
+
+    choices: [
+      {
+        name: 'Greataxe Path',
+        icon: 'Slashing/Cross Slash',
+        items: [
+          'Greataxe (2d12 slashing)',
+          'Hide Armor (AC 12 + Dex mod, max Dex +2)',
+          '2 Throwing Axes (1d6 slashing, range 20/60)'
+        ],
+        description: 'Maximum single-hit damage. Best for Savage and Warlord specializations that want big crits and Rage generation per strike.'
+      },
+      {
+        name: 'Dual Warhammer Path',
+        icon: 'Bludgeoning/Mortal Strike',
+        items: [
+          'Two Warhammers (1d10 bludgeoning each)',
+          'Chain Shirt (AC 13 + Dex mod, max Dex +2)',
+          '2 Throwing Hammers (1d6 bludgeoning, range 20/60)'
+        ],
+        description: 'More attacks per turn means more Rage generation. Best for Juggernauts who want consistent Rage building through multiple hits.'
+      }
+    ],
+
+    standardGear: [
+      'Explorer\'s Pack (backpack, bedroll, mess kit, tinderbox, torches, rations x10, waterskin, rope 50ft)',
+      '2d4 x 10 gold pieces'
+    ],
+
+    notes: 'Berserkers cannot start with ranged weapons heavier than a throwing axe or throwing hammer. Your fury is a close-quarters weapon — the bow is for cowards.'
+  },
+
+  creationSteps: [
+    { step: 1, title: 'Choose Specialization', description: 'Select Savage (aggressive offense), Juggernaut (tanky resilience), or Warlord (team support).' },
+    { step: 2, title: 'Select Weapon Path', description: 'Choose the Greataxe (big hits) or Dual Warhammers (more attacks, more Rage).' },
+    { step: 3, title: 'Pick Your Stance', description: 'Toggle Defensive Stance (+2 Armor, enemies build your Rage faster) or Rage Tap (+1d4 damage, attacks build Rage faster).' },
+    { step: 4, title: 'Understand Overheat', description: 'Rage exceeding 100 triggers Overheat — you have one round to spend below 100 or take 2d6 damage and reset. Always have an escape valve.' },
+    { step: 5, title: 'Learn Your Rage States', description: 'You start at Smoldering (0-20). Attack to build Rage, ascend through states, and spend before you explode.' }
+  ],
 
   // Resource System
   resourceSystem: {
@@ -269,14 +316,16 @@ Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Bers
     
     rageStatesTable: {
       title: 'Rage States & Abilities',
-      headers: ['Rage State', 'Rage Range', 'Unlocked Abilities', 'State Benefits'],
+      headers: ['Rage State', 'Rage Range', 'Unlocked Abilities', 'Bonuses', 'Penalties'],
       rows: [
-        ['Smoldering', '0-20', 'Basic Strike, Defensive Stance, Rage Tap', 'No bonuses'],
-        ['Frenzied', '21-40', 'Frenzied Slash, War Cry, Bloodthirst', '+1 attack, +5 ft movement'],
-        ['Primal', '41-60', 'Primal Roar, Bloodlust, Savage Leap', '+2 attack, +10 ft movement, +1d4 bonus damage'],
-        ['Carnage', '61-80', 'Carnage Strike, Raging Defense, Intimidating Presence', '+3 attack, +15 ft movement, +1d6 bonus damage, 25% damage resistance'],
-        ['Cataclysm', '81-100', 'Cataclysmic Blow, Unstoppable Force', '+4 attack, +20 ft movement, +1d8 bonus damage, 50% damage resistance, immune to fear & stun'],
-        ['Obliteration', '101+', 'Obliterating Strike, Wrath of the Berserker', '+5 attack, +25 ft movement, +2d6 bonus damage, 50% damage resistance, immune to all conditions — MUST SPEND OR OVERHEAT']
+        ['Smoldering', '0-20', 'Basic Strike, Defensive Stance, Rage Tap', '+1 to skill checks', 'None'],
+        ['Frenzied', '21-40', 'Frenzied Slash, War Cry, Bloodthirst', '+1 attack, +5 ft movement, +1 damage on melee hits', '-1 to ranged attack rolls'],
+        ['Primal', '41-60', 'Primal Roar, Bloodlust, Savage Leap', '+2 attack, +2 damage on melee hits, 1 HP lifesteal on crits', '-1 Armor while raging'],
+        ['Carnage', '61-80', 'Carnage Strike, Raging Defense, Intimidating Presence', '+3 attack, +3 damage, Reduce incoming weapon damage by 1', '-2 to ranged attacks, Disadvantage on Stealth'],
+        ['Cataclysm', '81-100', 'Cataclysmic Blow, Unstoppable Force', '+4 attack, +4 damage, Immune to Frightened', 'Attackers gain +1 to hit, 1d4 recoil damage on miss'],
+        ['Obliteration', '101-124', 'Obliterating Strike, Wrath of the Berserker', '+5 attack, +5 damage, Crits explode: +1d6 splash to adjacent', '-2 Armor, Attackers gain +2 to hit — SPEND OR OVERHEAT'],
+        ['Annihilation', '125-149', 'Annihilating Fury, Unstoppable Rampage', '+6 attack, +6 damage, +10 ft movement, Crit range +1, Advantage on Strength checks', '-3 Armor, Attackers gain +3 to hit, 1d6 damage at start of each turn'],
+        ['Apocalypse', '150+', 'Apocalyptic Wrath, Berserker God Mode', '+7 attack, +8 damage, +15 ft movement, Crit range +2, Melee hits adjacent enemies, Immune to all conditions', '-5 Armor, Attackers gain +4 to hit, 2d6 damage at start of each turn, No ranged attacks']
       ]
     },
     
@@ -395,7 +444,7 @@ OVERHEAT (101+): 1 round to spend below 101
         
         specPassive: {
           name: 'Unrelenting Fury',
-          description: 'Generate +2 Rage from all sources. Critical hits have a 25% chance to not consume Rage when using abilities.'
+          description: 'Generate +2 Rage from all sources. When you defeat an enemy, your next ability costs 5 less Rage (minimum 0).'
         }
       },
       {
@@ -417,10 +466,10 @@ OVERHEAT (101+): 1 round to spend below 101
         ],
 
         weaknesses: [
-          'Lower damage output',
-          'Slower Rage generation',
-          'Abilities cost more Rage',
-          'Less burst potential'
+          'Lower damage output compared to Savage',
+          'Less burst potential at lower Rage States',
+          'Vulnerable when Rage is low and defenses haven\'t scaled',
+          'Relies on being targeted to generate Rage efficiently'
         ],
 
         keyAbilities: [
@@ -431,7 +480,7 @@ OVERHEAT (101+): 1 round to spend below 101
 
         specPassive: {
           name: 'Juggernaut Resilience',
-          description: 'Rage Decay reduced by 50%. Gain damage resistance equal to 5% per Rage State (max 30% at Obliteration).'
+          description: 'Rage Decay reduced by 50%. Taking damage generates 2d4 Rage instead of 1d4. Gain damage resistance equal to 5% per Rage State (max 40% at Apocalypse).'
         }
       },
       {
@@ -467,7 +516,7 @@ OVERHEAT (101+): 1 round to spend below 101
         
         specPassive: {
           name: 'Warlord\'s Command',
-          description: 'War Cry and similar abilities grant allies +1 to attack and damage rolls per your Rage State (max +6). Allies within 30 feet gain +5 Rage when you defeat an enemy.'
+          description: 'When you use War Cry or Commanding Shout, allies within 30 feet gain a stack of Battle Fury (+1d4 bonus damage) for the duration, stacking up to 3 times. When you defeat an enemy, all allies within 30 feet gain +2 to their next attack roll.'
         }
       }
     ]
@@ -515,8 +564,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '1d8 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         description: 'A brutal strike driven by growing rage. Each hit feeds the fury within, escalating your power with every blow.'
       },
 
@@ -667,7 +716,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_frenzied_slash',
       name: 'Frenzied Slash',
-      description: 'Unleash a whirlwind of savage strikes fueled by primal fury. Each hit feeds your rage, and devastating blows ignite enemies with burning fury. Critical hits send enemies flying.',
+      description: 'Unleash a whirlwind of savage strikes fueled by primal fury. Each hit feeds your rage, and devastating blows send enemies flying from the sheer force.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Slashing/Cleave',
@@ -700,8 +749,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '1d8 + strength + 1d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -716,13 +765,9 @@ OVERHEAT (101+): 1 round to spend below 101
           procType: 'dice',
           diceThreshold: 18,
           procChance: 15,
-          customEffects: ['burning'],
-          burningConfig: {
-            damagePerRound: '1d6',
-            duration: 2,
-            durationUnit: 'rounds',
-            saveDC: 15,
-            saveType: 'constitution'
+          customEffects: ['knockback'],
+          knockbackConfig: {
+            distance: 5
           }
         },
         description: 'The frenzied slash tears into your enemy with savage brutality, driven by pure rage. Devastating hits can ignite enemies with burning fury.'
@@ -819,8 +864,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '1d4',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         description: 'Concussive sonic force batters nearby enemies.'
       },
 
@@ -881,8 +926,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '1d6 + strength',
-        elementType: 'slashing',
-        damageType: 'direct',
+        damageTypes: ['slashing'],
+
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -984,6 +1029,60 @@ OVERHEAT (101+): 1 round to spend below 101
       tags: ['buff', 'speed', 'rage management', 'frenzied', 'berserker']
     },
 
+    {
+      id: 'berserk_counter_rage',
+      name: 'Counter-Rage',
+      description: 'When an enemy hits you, your fury erupts into an immediate retaliatory strike. Pain is fuel — every blow against you is answered.',
+      level: 2,
+      spellType: 'REACTION',
+      icon: 'General/Combat Downward Strike',
+
+      typeConfig: {
+        school: 'bludgeoning',
+        icon: 'General/Combat Downward Strike',
+        tags: ['reaction', 'melee', 'damage', 'rage generation', 'frenzied'],
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'melee',
+        rangeDistance: 5,
+        targetRestrictions: ['enemy']
+      },
+
+      triggerConfig: {
+        triggerType: 'when_hit',
+        triggerCondition: 'When an enemy melee attack hits you',
+        triggerDescription: 'Immediately make a melee counter-attack against the attacker'
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: ['somatic'],
+        somaticText: 'Strike back with furious reflexes'
+      },
+
+      resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      damageConfig: {
+        formula: '1d6 + strength',
+        damageTypes: ['bludgeoning'],
+        description: 'A reflexive counter-strike fueled by fury. Generates Rage from the hit you just took AND the counter-attack.'
+      },
+
+      cooldownConfig: {
+        type: 'turn_based',
+        value: 2
+      },
+
+      tags: ['reaction', 'melee', 'damage', 'rage generation', 'frenzied', 'berserker']
+    },
+
     // ========================================
     // LEVEL 3 SPELLS - Advanced Abilities
     // ========================================
@@ -991,7 +1090,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_primal_roar',
       name: 'Primal Roar',
-      description: 'Unleash a deafening roar that deals lightning damage and sends enemies fleeing in terror. Constitution save halves damage and negates fear.',
+      description: 'Unleash a deafening roar that sends a shockwave of concussive force through enemies, sending them fleeing in terror. Constitution save halves damage and negates fear.',
       level: 3,
       spellType: 'ACTION',
       icon: 'Utility/Overlords Command',
@@ -1025,8 +1124,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '2d6 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1167,8 +1266,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '2d8 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1244,8 +1343,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '2d6 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'strength',
@@ -1288,6 +1387,81 @@ OVERHEAT (101+): 1 round to spend below 101
     // ========================================
 
     {
+      id: 'berserk_fury_slam',
+      name: 'Fury Slam',
+      description: 'A brutal ground-shaking slam that damages and slows all enemies in front of you. Quick, efficient, and devastating.',
+      level: 4,
+      spellType: 'ACTION',
+      icon: 'Bludgeoning/Mortal Strike',
+
+      typeConfig: {
+        school: 'bludgeoning',
+        icon: 'Bludgeoning/Mortal Strike',
+        tags: ['melee', 'damage', 'aoe', 'carnage'],
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+
+      targetingConfig: {
+        targetingType: 'cone',
+        rangeType: 'self',
+        aoeShape: 'cone',
+        aoeParameters: { length: 15, width: 10 },
+        targetRestrictions: ['enemy']
+      },
+
+      resourceCost: {
+        resourceTypes: ['mana', 'rage_state', 'rage_cost'],
+        resourceValues: { mana: 0, rage_state: 'Carnage', rage_cost: 10 },
+        actionPoints: 1,
+        components: ['somatic'],
+        somaticText: 'Slam the ground with fury'
+      },
+
+      resolution: 'SAVE',
+      effectTypes: ['damage', 'control'],
+
+      damageConfig: {
+        formula: '2d8 + strength',
+        damageTypes: ['bludgeoning'],
+        savingThrowConfig: {
+          enabled: true,
+          savingThrowType: 'strength',
+          difficultyClass: 15,
+          saveOutcome: 'halves'
+        }
+      },
+
+      controlConfig: {
+        controlType: 'movement',
+        effects: [{
+          id: 'slow',
+          name: 'Grounded',
+          description: 'Enemies are slowed by the shockwave',
+          config: {
+            movementSpeed: 'half',
+            saveType: 'strength',
+            saveDC: 15,
+            duration: 1,
+            durationUnit: 'rounds'
+          }
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        saveDC: 15,
+        saveType: 'strength',
+        saveOutcome: 'negates',
+        savingThrow: true
+      },
+
+      cooldownConfig: {
+        type: 'none'
+      },
+
+      tags: ['melee', 'damage', 'aoe', 'control', 'carnage', 'berserker']
+    },
+
+    {
       id: 'berserk_carnage_strike',
       name: 'Carnage Strike',
       description: 'A devastating strike that can send enemies flying, stun them, and leave them bleeding on devastating hits. Powerful hits may also inflict fear.',
@@ -1323,8 +1497,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '2d8 + strength + 2d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1609,8 +1783,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '3d8 + strength + 2d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1860,8 +2034,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '3d6 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1874,7 +2048,7 @@ OVERHEAT (101+): 1 round to spend below 101
 
       selfDamageConfig: {
         formula: '1d6',
-        damageType: 'bludgeoning',
+
         description: 'The uncontrollable eruption of fury damages you as well'
       },
 
@@ -1927,8 +2101,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '4d8 + strength + 3d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1940,7 +2114,7 @@ OVERHEAT (101+): 1 round to spend below 101
           critType: 'dice',
           critMultiplier: 4,
           extraDice: '2d6',
-          critEffects: ['knockback', 'stun', 'burning'],
+          critEffects: ['knockback', 'stun', 'bleeding'],
           explodingDice: true,
           explodingDiceType: 'double_value',
           knockbackConfig: {
@@ -1952,13 +2126,7 @@ OVERHEAT (101+): 1 round to spend below 101
             saveDC: 18,
             saveType: 'constitution'
           },
-          burningConfig: {
-            damagePerRound: '2d6',
-            duration: 3,
-            durationUnit: 'rounds',
-            saveDC: 18,
-            saveType: 'constitution'
-          }
+          bleedingConfig: {}
         },
       },
 
@@ -2165,8 +2333,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '2d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         triggerCondition: 'activation',
         triggerDescription: 'Deals 2d6 bludgeoning damage to all enemies within 15 ft when activated'
       },
@@ -2216,8 +2384,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '3d6 + strength + 2d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'strength',
@@ -2267,7 +2435,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_blood_frenzy',
       name: 'Blood Frenzy',
-      description: 'Enter a blood-fueled frenzy, healing 20 hit points for each enemy you defeat. Your bloodlust becomes a source of life-giving energy.',
+      description: 'Enter a blood-fueled frenzy, healing for each enemy you defeat. Your bloodlust becomes a source of life-giving energy, though the frenzy is exhausting to maintain.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Necrotic/Blood Skull',
@@ -2302,7 +2470,7 @@ OVERHEAT (101+): 1 round to spend below 101
         effects: [{
           id: 'blood_frenzy_heal',
           name: 'Blood Frenzy',
-          description: 'Heal 20 hit points for each enemy you defeat. Your blood-fueled frenzy turns every kill into life-giving energy',
+          description: 'Heal 20 hit points per enemy defeated (max 60 HP per round). Your blood-fueled frenzy turns every kill into life-giving energy',
           statModifier: {
             stat: 'healingPerKill',
             magnitude: 20,
@@ -2331,7 +2499,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_ragnarok_fury',
       name: 'Ragnarok Fury',
-      description: 'Unleash apocalyptic fire that consumes everything in a 25-foot radius. Enemies that fail their save are stunned by the shockwave.',
+      description: 'Unleash apocalyptic concussive force that consumes everything in a 25-foot radius. Enemies that fail their save are stunned by the shockwave.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Dripping Lava',
@@ -2339,7 +2507,7 @@ OVERHEAT (101+): 1 round to spend below 101
       typeConfig: {
         school: 'bludgeoning',
         icon: 'Fire/Dripping Lava',
-        tags: ['aoe', 'damage', 'fire', 'control'],
+        tags: ['aoe', 'damage', 'control'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -2367,8 +2535,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '5d8 + strength + 4d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2410,7 +2578,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_immortal_rage',
       name: 'Immortal Rage',
-      description: 'Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense.',
+      description: 'Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense — when it ends, you collapse.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Necrotic/Screaming Skull',
@@ -2445,10 +2613,10 @@ OVERHEAT (101+): 1 round to spend below 101
         effects: [{
           id: 'immortal_rage',
           name: 'Immortal Rage',
-          description: 'Immune to death and all lethal damage for 3 rounds',
+          description: 'Immune to death and all lethal damage for 3 rounds. When the effect ends, you are Stunned for 1 round and take 3d6 exhaustion damage.',
           statusType: 'immortality',
           level: 'extreme',
-          mechanicsText: 'Cannot die or take lethal damage for 3 rounds. HP cannot drop below 1.'
+          mechanicsText: 'Cannot die or take lethal damage for 3 rounds. HP cannot drop below 1. When the effect ends: Stunned 1 round + 3d6 damage.'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -2503,8 +2671,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '4d6 + strength + 3d6',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2583,8 +2751,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '4d10 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2595,7 +2763,7 @@ OVERHEAT (101+): 1 round to spend below 101
 
       selfDamageConfig: {
         formula: '2d6',
-        damageType: 'bludgeoning',
+
         description: 'The violent impact strains your own body'
       },
 
@@ -2806,8 +2974,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       damageConfig: {
         formula: '5d10 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['bludgeoning'],
+
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2818,7 +2986,7 @@ OVERHEAT (101+): 1 round to spend below 101
 
       selfDamageConfig: {
         formula: '3d6',
-        damageType: 'bludgeoning',
+
         description: 'The devastating release of fury takes a severe toll on your body'
       },
 
@@ -2834,7 +3002,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_battle_incarnate',
       name: 'Battle Incarnate',
-      description: 'Become a living engine of war, your every movement optimized for destruction. This state of perfect violence demands total commitment - you cannot retreat or defend, only attack.',
+      description: 'Become a living engine of war, your every movement optimized for destruction. While transformed, your Rage State bonuses are replaced by these effects. This state demands total commitment — you cannot retreat or defend, only attack.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Bludgeoning/Blood Punch',
@@ -2871,7 +3039,7 @@ OVERHEAT (101+): 1 round to spend below 101
         durationUnit: 'rounds',
         power: 'major',
         newForm: 'Battle Incarnate',
-        description: 'Become a perfect instrument of violence, optimized for destruction.',
+        description: 'Become a perfect instrument of violence. Rage State bonuses are replaced by these effects while transformed.',
         grantedAbilities: [
           {
             id: 'incarnate_damage',
@@ -2903,7 +3071,7 @@ OVERHEAT (101+): 1 round to spend below 101
     {
       id: 'berserk_primal_apex',
       name: 'Primal Apex',
-      description: 'Reach the absolute pinnacle of berserker rage - a state of pure, unthinking violence that few warriors ever achieve. All enemies within sight tremble. The transformation is overwhelming, leaving you temporarily drained when it ends.',
+      description: 'Reach the absolute pinnacle of berserker rage — a state of pure, unthinking violence that few warriors ever achieve. All enemies within sight tremble. While transformed, your Rage State bonuses are replaced by these effects. The transformation is overwhelming, leaving you temporarily drained when it ends.',
       level: 10,
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
@@ -2940,7 +3108,7 @@ OVERHEAT (101+): 1 round to spend below 101
         durationUnit: 'rounds',
         power: 'major',
         newForm: 'Primal Apex',
-        description: 'Reach the absolute pinnacle of berserker rage, transcending mortal limits.',
+        description: 'Reach the absolute pinnacle of berserker rage, transcending mortal limits. Rage State bonuses are replaced by these effects while transformed.',
         grantedAbilities: [
           {
             id: 'apex_damage',

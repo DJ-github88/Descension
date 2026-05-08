@@ -71,10 +71,10 @@ This dual-resource system creates a high-skill-ceiling playstyle where careful p
       content: `Playing a Chronarch is about strategic resource management and perfect timing. Key considerations:
 
 **Time Shard Generation**:
-- Every spell cast generates 1 Time Shard
+- Every spell cast generates 1 Time Shard (some powerful basic spells generate 2)
 - Maximum capacity: 10 Time Shards
 - Spend shards on powerful Temporal Flux abilities
-- Different specs generate shards at different rates
+- Shards persist between encounters
 
 **Temporal Strain Management**:
 - Each Temporal Flux ability adds Strain (1-5 points)
@@ -102,20 +102,26 @@ This dual-resource system creates a high-skill-ceiling playstyle where careful p
 
     immersiveCombatExample: {
       title: 'Immersive Combat Example',
-      content: `The battle rages around you as the barbarian charges your squishy wizard ally. With perfect timing, you cast Temporal Rewind as a Reaction, spending 6 mana and generating 1 Time Shard. The barbarian's axe blow connects, but you rewind the damage, healing your ally for 2d6 + spirit and restoring 50% of the damage taken — keeping them standing.
+      content: `**Round 1 — Fueling Up**: The barbarian charges your squishy wizard ally. You cast Chrono Bolt (5 mana) at a goblin, dealing 1d8 + INT force damage and slowing it. You gain 1 Time Shard (1/10). Strain: 0.
 
-Two turns later, with 3 Time Shards stored, you cast Stasis Field (8 mana, 1 Shard generated), placing a 15ft radius freeze on the barbarian and nearby goblins. They must make a Constitution save or be frozen in temporal stasis for 1 round. Your Time Shards climb to 4, but the threat is neutralized.
+**Round 2 — Reaction Save**: The barbarian's axe connects with your wizard. You cast Temporal Rewind as a Reaction (6 mana, uses your Reaction for the round), rewinding 50% of the damage and healing 2d6 + spirit. You gain 1 Shard (2/10). The wizard survives. Strain: 0.
 
-Later in the fight, as the cleric falls to a critical hit, you cast Chronal Reversal (24 mana), generating 2 Time Shards and healing the cleric for 10d6 + spirit, pulling them back through time to a state before they were harmed. Your Shards hit 6.
+**Round 3 — First Flux**: With 2 Shards banked, you cast Stasis Field (8 mana, no Shard cost — a basic spell), freezing the barbarian and two goblins in a 15ft radius on a failed Con save. You gain 1 Shard (3/10). Strain: 0.
 
-In the final moments, you unleash Temporal Shockwave (28 mana, 6 Shards, 5 Strain), releasing a 30ft radius blast of 15d6 + intelligence force damage that freezes all surviving enemies for 2 rounds. Your Temporal Strain hits 5 — dangerous but manageable. Your team capitalizes on the frozen enemies to deliver the finishing blows.`
+**Round 4 — Push Power**: You cast Temporal Dilation (8 mana, 2 Shards, +1 Strain), creating a 15ft zone that gives allies +1 AP and halves enemy speed for 3 rounds. You spend 2 Shards (1/10). Strain: 1.
+
+**Round 5 — Cool Down**: At Strain 1, you play it safe. You cast Chrono Bolt again (5 mana), gaining 1 Shard (2/10). Because you didn't use a Flux ability this turn, your Strain decays by 1 at the start of your next turn. Strain will be 0.
+
+**Round 6 — Emergency Heal**: The cleric drops from a critical hit. You cast Chronal Reversal (24 mana), channeling massive healing: 10d6 + spirit, pulling the cleric back through time. You gain 2 Shards (4/10). Strain: 0.
+
+**Round 7 — Devastating Finish**: Three enemies remain. You unleash Temporal Shockwave (28 mana, 6 Shards, +5 Strain), releasing a 30ft blast of 15d6 + INT force damage that freezes all survivors for 2 rounds. You spend 6 Shards (0/10). Strain: 5 — Warning zone, but the fight is nearly over. Your team delivers the finishing blows.`
     },
 
     specializations: {
       title: 'Chronarch Specializations',
       content: `**Arc of Stasis**: Masters of temporal control, these Chronarchs excel at freezing enemies and manipulating battlefield positioning. They gain access to enhanced stasis spells and talents that extend freeze durations, improve control save DCs, and reduce Strain on control-tagged Flux abilities.
 
-**Arc of Displacement**: Mobility specialists who teleport allies and enemies with precision. They gain access to enhanced movement spells and talents that extend teleport range, enlarge AoE effects, and improve speed buffs. Their talent tree also reduces Strain on movement-based Flux abilities.
+**Arc of Displacement**: Mobility and speed specialists who accelerate allies and decelerate enemies with precision. They gain access to enhanced haste and slow spells and talents that extend buff durations, enlarge AoE effects, and improve speed multipliers. Their talent tree also reduces Strain on movement-based Flux abilities.
 
 **Arc of Rewinding**: Undoing specialists who reverse damage, strip enemy buffs, and revert harmful effects. They gain access to enhanced healing and reversal spells and talents that increase rewind percentages, add debuff removal, and enable terrain reversion. Their talent tree also reduces Strain on healing-tagged Flux abilities.`
     },
@@ -124,11 +130,11 @@ In the final moments, you unleash Temporal Shockwave (28 mana, 6 Shards, 5 Strai
       title: 'Advanced Tactics',
       content: `**Strain Banking**: Save Shards during low-threat rounds to unleash devastating combinations when enemies overextend.
 
-**Turn Order Manipulation**: Use Temporal Acceleration strategically to ensure your team's damage dealers act before key enemy abilities trigger.
+**Turn Order Manipulation**: Use Temporal Dilation strategically to ensure your team's damage dealers act before key enemy abilities trigger.
 
 **Predictive Defense**: Freeze enemies you know will take powerful actions next turn, preventing them from using abilities that could threaten your team.
 
-**Emergency Rewind**: Keep 4-6 Shards banked for emergency resurrection or massive area healing when the fight turns against you.
+**Emergency Rewind**: Keep 4-6 Shards banked for emergency Chronal Reversal or massive area healing when the fight turns against you.
 
 **Strain Decay Timing**: Let Strain decay naturally during enemy turns or when repositioning, maximizing your safe windows for Flux usage.`
     }
@@ -280,29 +286,31 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         name: 'Arc of Displacement',
         icon: 'Arcane/Quick Step',
         color: '#6495ED',
-        theme: 'Mobility and Tactical Repositioning',
+        theme: 'Speed and Temporal Acceleration',
 
-        description: 'Mobility specialists who teleport allies and enemies with precision. Their talent tree extends teleport range, enlarges AoE effects, and improves speed buffs.',
+        description: 'Speed and acceleration specialists who manipulate the flow of time to hasten allies and hinder enemies. Their talent tree extends buff durations, enlarges AoE effects, and improves speed multipliers.',
 
-        playstyle: 'Mobility and tactical repositioning',
+        playstyle: 'Speed manipulation and tactical acceleration',
 
         strengths: [
-          'Unmatched battlefield mobility',
-          'Can position allies for optimal advantage',
-          'Strong crowd control through forced movement',
-          'Excellent at disrupting enemy formations'
+          'Unmatched ally acceleration and enemy deceleration',
+          'Strong area control through haste and slow zones',
+          'Excellent at enabling ally positioning with speed buffs',
+          'Fate manipulation at high levels for dramatic turns'
         ],
 
         weaknesses: [
-          'Lower healing output than other specs',
-          'Requires allies to capitalize on repositioning',
+          'Lower healing output than Rewinding',
+          'Fewer hard control options than Stasis',
+          'Requires allies to capitalize on speed advantages',
           'Can be overwhelmed by area effects'
         ],
 
         keyAbilities: [
           'Displacement Mastery',
-          'Spatial Manipulation',
-          'Temporal Flux Teleport'
+          'Temporal Dilation',
+          'Temporal Flux: Speed',
+          'Fate Manipulation'
         ]
       },
       {
@@ -339,6 +347,32 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
     ]
   },
 
+  // Character Creation
+  characterCreation: {
+    steps: [
+      'Choose your timepiece arcane focus — an ornate hourglass, ancient pocket watch, crystalline sundial, or water clock',
+      'Select your specialization: Arc of Stasis (control), Arc of Displacement (speed), or Arc of Rewinding (undoing)',
+      'Pick your 3 starting spells from the Level 1 spell pool (Chrono Bolt, Temporal Mend, Temporal Step)',
+      'Record your Time Shards (start at 0/10) and Temporal Strain (start at 0/10)',
+      'Review your Temporal Backlash threshold — reaching 10 Strain means losing your next turn and taking 4d6 Force damage'
+    ],
+    startingEquipment: {
+      weapons: [
+        { name: 'Quarterstaff', damage: '1d6 bludgeoning', description: 'A gnarled staff with temporal runes etched along its length' }
+      ],
+      armor: [
+        { name: "Scholar's Robes", armor: 10, description: 'Flowing robes that shimmer with faint temporal echoes' }
+      ],
+      focus: [
+        { name: 'Ornate Hourglass', description: 'Your arcane focus — the sand within flows upward at times', required: true }
+      ],
+      supplies: [
+        { name: 'Spellbook', description: 'Contains your 3 starting spells and blank pages for future transcriptions', quantity: 1 },
+        { name: 'Temporal Chalk', description: 'Used to draw temporal circles for ritual casting', quantity: 5 }
+      ]
+    }
+  },
+
   // Resource bars
   resourceBars: [
     {
@@ -349,23 +383,14 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       color: '#4A90E2',
       description: 'Generated by casting spells, spent on Temporal Flux abilities'
     },
-          {
-            id: 'temporal_decay',
-            name: 'Temporal Decay',
-            description: 'Take 2d6 necrotic damage at the start of each turn for 4 rounds as accelerated aging weakens the body',
-            damageFormula: '2d6',
-            damageType: 'necrotic',
-            tickRate: 1,
-            tickUnit: 'rounds',
-            config: {
-              saveType: 'dexterity',
-              saveDC: 16,
-              duration: 5,
-              durationUnit: 'rounds',
-              damagePerTurn: '2d6',
-              damageType: 'force'
-            }
-          }
+    {
+      id: 'temporal_strain',
+      name: 'Temporal Strain',
+      icon: 'fas fa-fire',
+      maxValue: 10,
+      color: '#E53935',
+      description: 'Accumulated when using Temporal Flux abilities. At 10, suffer Temporal Backlash.'
+    }
   ],
 
   // Spells
@@ -410,7 +435,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       damageConfig: {
         formula: '1d8 + intelligence',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'direct'
       },
 
@@ -525,7 +550,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         somaticText: 'Step forward through time'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
       effectTypes: ['utility'],
 
       utilityConfig: {
@@ -553,159 +578,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       tags: ['teleport', 'movement', 'displacement'],
       specialization: 'displacement'
-    },
-
-    // ========================================
-    // LEVEL 2 SPELLS (3 spells)
-    // ========================================
-    {
-      id: 'stasis_field',
-      name: 'Stasis Field',
-      description: 'Create a field of temporal stasis that freezes enemies in time, trapping them in a moment of suspended animation.',
-      level: 2,
-      icon: 'Frost/Frozen AoE',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Frost/Frozen AoE',
-        tags: ['control', 'stasis', 'aoe'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 15 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
-        actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Immobilis',
-        somaticText: 'Spread hands to create stasis field'
-      },
-
-      resolution: 'SAVE',
-      effectTypes: ['control'],
-
-      controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'moderate',
-        duration: 1,
-        durationUnit: 'rounds',
-        saveDC: 13,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        savingThrow: true,
-        effects: [{
-          id: 'stun',
-          name: 'Temporal Stasis',
-          description: 'Freezes targets in time for 1 round, preventing all actions and movement',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'automatic',
-            saveType: 'constitution',
-            saveDC: 15,
-            duration: 1,
-            durationUnit: 'rounds'
-          }
-        }]
-      },
-
-      timeShardGenerate: 1,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
-
-      tags: ['control', 'stasis', 'aoe'],
-      specialization: 'stasis'
-    },
-
-    {
-      id: 'temporal_rewind',
-      name: 'Temporal Rewind',
-      description: 'Rewind time to undo recent damage taken by an ally and heal additional wounds.',
-      level: 2,
-      icon: 'Arcane/Rewind Time',
-      spellType: 'REACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Rewind Time',
-        tags: ['healing', 'support', 'reaction', 'rewinding'],
-        castTime: 1,
-        castTimeType: 'REACTION'
-      },
-
-      targetingMode: 'effect',
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30,
-        targetRestrictions: ['ally']
-      },
-
-      effectTargeting: {
-        restoration: {
-          targetingType: 'single',
-          rangeType: 'ranged',
-          rangeDistance: 30,
-          targetRestrictions: ['ally'],
-          description: 'The ally whose damage is rewound'
-        },
-        healing: {
-          targetingType: 'single',
-          rangeType: 'ranged',
-          rangeDistance: 30,
-          targetRestrictions: ['ally'],
-          description: 'The ally who receives additional healing'
-        }
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
-        actionPoints: 0,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Reverti',
-        somaticText: 'Gesture to rewind time'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['restoration', 'healing'],
-
-      restorationConfig: {
-        resourceType: 'health',
-        restorationType: 'rewind',
-        scalingType: 'percentage',
-        formula: '50% of damage_taken_last_turn',
-        rewindPercentage: 0.5,
-        description: 'Restores 50% of all damage the target ally took since the start of their last turn'
-      },
-
-      healingConfig: {
-        formula: '2d6 + spirit',
-        healingType: 'direct',
-        description: 'Additional direct healing applied to the target ally'
-      },
-
-      timeShardGenerate: 1,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
-
-      tags: ['healing', 'support', 'reaction', 'rewinding'],
-      specialization: 'rewinding'
     },
 
     {
@@ -865,7 +737,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 4
       },
 
-      timeShardGenerate: 1,
 
       tags: ['control', 'time', 'area', 'displacement'],
       specialization: 'displacement'
@@ -948,7 +819,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      timeShardGenerate: 1,
 
       cooldownConfig: {
         type: 'turn_based',
@@ -995,26 +865,49 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       buffConfig: {
         buffType: 'statusEffect',
         effects: [{
-          id: 'temporal_foresight',
-          name: 'Temporal Foresight',
-          description: 'Gain advantage on initiative rolls and attack rolls for 3 rounds. You can also use a reaction to interrupt enemy actions.',
-          statusType: 'enhancement',
-          level: 'moderate',
-          mechanicsText: 'Advantage on initiative and attack rolls for 3 rounds. Can use reaction to interrupt enemy actions.',
+          id: 'favorable_fate',
+          name: 'Favorable Fate',
+          description: 'Allies gain advantage on attack rolls and saving throws for 2 rounds',
+          statusType: 'luck',
+          level: 'extreme',
+          mechanicsText: 'Advantage on attack rolls and saving throws for 2 rounds',
           config: {
-            initiativeAdvantage: true,
-            attackAdvantage: true,
-            interruptActions: true
+            advantageOnAttacks: true,
+            advantageOnSaves: true
           }
         }],
-        durationValue: 3,
+        durationValue: 2,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: false
       },
 
-      timeShardGenerate: 1,
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'cursed_fate',
+          name: 'Cursed Fate',
+          description: 'Enemies have disadvantage on attack rolls and saving throws for 2 rounds',
+          statusType: 'curse',
+          level: 'extreme',
+          statPenalty: [
+            { stat: 'attack_roll', value: -50, magnitudeType: 'percentage' },
+            { stat: 'saving_throw', value: -50, magnitudeType: 'percentage' }
+          ],
+          config: {
+            disadvantageOnAttacks: true,
+            disadvantageOnSaves: true
+          }
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        saveDC: 18,
+        saveType: 'charisma',
+        saveOutcome: 'negates',
+        canBeDispelled: false
+      },
 
       cooldownConfig: {
         type: 'turn_based',
@@ -1095,7 +988,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 3
       },
 
-      timeShardGenerate: 1,
 
       tags: ['healing', 'purification', 'aoe', 'flux', 'rewinding'],
       specialization: 'rewinding'
@@ -1168,7 +1060,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 3
       },
 
-      timeShardGenerate: 1,
 
       rollableTable: {
         enabled: true,
@@ -1176,7 +1067,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         description: 'Determine what confused enemies do each turn',
         resolutionType: 'DICE',
         resolutionConfig: {
-          diceType: 'd8'
+          diceType: 'd6'
         },
         entries: [
           {
@@ -1205,41 +1096,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
             id: 'temporal-displacement',
             range: { min: 3, max: 3 },
             name: 'Temporal Displacement',
-            description: 'Move randomly north',
-            effect: 'The creature moves 30 feet north',
-            modifiesBaseSpell: false,
-            spellReference: null,
-            effectModifications: {},
-            formulaOverrides: {}
-          },
-          {
-            id: 'paradox-shift',
-            range: { min: 4, max: 4 },
-            name: 'Paradox Shift',
-            description: 'Move randomly east',
-            effect: 'The creature moves 30 feet east',
-            modifiesBaseSpell: false,
-            spellReference: null,
-            effectModifications: {},
-            formulaOverrides: {}
-          },
-          {
-            id: 'future-echo',
-            range: { min: 5, max: 5 },
-            name: 'Future Echo',
-            description: 'Move randomly south',
-            effect: 'The creature moves 30 feet south',
-            modifiesBaseSpell: false,
-            spellReference: null,
-            effectModifications: {},
-            formulaOverrides: {}
-          },
-          {
-            id: 'past-reflection',
-            range: { min: 6, max: 6 },
-            name: 'Past Reflection',
-            description: 'Move randomly west',
-            effect: 'The creature moves 30 feet west',
+            description: 'Flee toward nearest exit',
+            effect: 'The creature uses its movement to flee toward the nearest edge of the battlefield, provoking opportunity attacks',
             modifiesBaseSpell: false,
             spellReference: null,
             effectModifications: {},
@@ -1247,7 +1105,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
           },
           {
             id: 'paradox-stasis',
-            range: { min: 7, max: 7 },
+            range: { min: 4, max: 4 },
             name: 'Paradox Stasis',
             description: 'Do nothing',
             effect: 'The creature does nothing this turn, lost in temporal confusion',
@@ -1257,11 +1115,22 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
             formulaOverrides: {}
           },
           {
-            id: 'self-conflict',
-            range: { min: 8, max: 8 },
-            name: 'Self-Conflict',
-            description: 'Attack themselves',
+            id: 'future-echo',
+            range: { min: 5, max: 5 },
+            name: 'Future Echo',
+            description: 'Attack self',
             effect: 'The creature attacks itself, dealing 1d6 psychic damage',
+            modifiesBaseSpell: false,
+            spellReference: null,
+            effectModifications: {},
+            formulaOverrides: {}
+          },
+          {
+            id: 'self-conflict',
+            range: { min: 6, max: 6 },
+            name: 'Self-Conflict',
+            description: 'Drop weapons and cower',
+            effect: 'The creature drops held items and cowers in place until the end of its next turn',
             modifiesBaseSpell: false,
             spellReference: null,
             effectModifications: {},
@@ -1385,8 +1254,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 4
       },
 
-      timeShardGenerate: 1,
-
       tags: ['summon', 'damage', 'healing', 'aoe', 'displacement'],
       specialization: 'displacement'
     },
@@ -1483,16 +1350,15 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 4
       },
 
-      timeShardGenerate: 1,
 
       tags: ['control', 'debuff', 'aoe', 'displacement'],
       specialization: 'displacement'
     },
 
     {
-      id: 'temporal_barrier',
-      name: 'Temporal Barrier',
-      description: 'Weave a barrier of temporal energy that slows incoming attacks, causing them to age and weaken before reaching the target.',
+      id: 'temporal_thorns',
+      name: 'Temporal Thorns',
+      description: 'Weave temporal threads around an ally that age any attacker, causing them to take necrotic damage and suffer disadvantage on attacks against the protected target.',
       level: 5,
       icon: 'Force/Force Shield',
       spellType: 'ACTION',
@@ -1500,7 +1366,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       typeConfig: {
         school: 'abjuration',
         icon: 'Force/Force Shield',
-        tags: ['protection', 'shield', 'support', 'stasis'],
+        tags: ['protection', 'debuff', 'support', 'stasis'],
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1521,7 +1387,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         somaticText: 'Create temporal barrier with hands'
       },
 
-      resolution: 'NONE',
+      resolution: 'SAVE',
       effectTypes: ['debuff'],
 
       debuffConfig: {
@@ -1557,7 +1423,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 3
       },
 
-      tags: ['protection', 'shield', 'support', 'stasis'],
+      tags: ['protection', 'debuff', 'support', 'stasis'],
       specialization: 'stasis'
     },
 
@@ -1629,7 +1495,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 4
       },
 
-      timeShardGenerate: 1,
 
       tags: ['healing', 'protection', 'flux', 'rewinding'],
       specialization: 'rewinding'
@@ -1670,7 +1535,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         somaticText: 'Accelerate multiple allies with gesture'
       },
 
-      resolution: 'DICE',
+      resolution: 'NONE',
       effectTypes: ['buff'],
 
       buffConfig: {
@@ -1699,7 +1564,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 3
       },
 
-      timeShardGenerate: 1,
 
       tags: ['buff', 'aoe', 'flux', 'displacement'],
       specialization: 'displacement'
@@ -1748,7 +1612,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       damageConfig: {
         formula: '8d6 + intelligence',
-        elementType: 'necrotic',
+        damageTypes: ['force'],
         damageType: 'area',
         areaShape: 'circle',
         areaParameters: { radius: 25 }
@@ -1774,7 +1638,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: true
       },
 
-      timeShardGenerate: 1,
 
       cooldownConfig: {
         type: 'turn_based',
@@ -1851,7 +1714,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 4
       },
 
-      timeShardGenerate: 1,
 
       tags: ['damage', 'control', 'echoes', 'stasis'],
       specialization: 'stasis'
@@ -1898,7 +1760,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       controlConfig: {
         controlType: 'mind_control',
         strength: 'extreme',
-        duration: 4,
+        duration: 2,
         durationUnit: 'rounds',
         saveDC: 17,
         saveType: 'spirit',
@@ -1922,7 +1784,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 5
       },
 
-      timeShardGenerate: 1,
 
       tags: ['control', 'time', 'aoe', 'rewinding'],
       specialization: 'rewinding'
@@ -1971,7 +1832,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       damageConfig: {
         formula: '10d6 + intelligence',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'area',
         areaShape: 'circle',
         areaParameters: { radius: 25 },
@@ -2024,7 +1885,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 5
       },
 
-      timeShardGenerate: 1,
 
       tags: ['damage', 'control', 'aoe', 'time', 'displacement'],
       specialization: 'displacement'
@@ -2066,12 +1926,12 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       effectTypes: ['healing'],
 
       healingConfig: {
-        formula: '10d6 + spirit',
+        formula: '8d6 + spirit',
         healingType: 'direct',
         targetType: 'ally'
       },
 
-      timeShardGenerate: 2,
+      timeShardGenerate: 1,
 
       cooldownConfig: {
         type: 'turn_based',
@@ -2122,7 +1982,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       damageConfig: {
         formula: '10d6 + intelligence',
-        elementType: 'force',
+        damageTypes: ['force'],
         damageType: 'area',
         areaShape: 'circle',
         areaParameters: { radius: 20 }
@@ -2156,7 +2016,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 6
       },
 
-      timeShardGenerate: 1,
 
       tags: ['damage', 'control', 'aoe', 'echoes', 'displacement'],
       specialization: 'displacement'
@@ -2200,7 +2059,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         somaticText: 'Take complete control of time'
       },
 
-      resolution: 'DICE',
+      resolution: 'SAVE',
       effectTypes: ['control'],
 
       controlConfig: {
@@ -2229,7 +2088,6 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         value: 8
       },
 
-      timeShardGenerate: 1,
 
       tags: ['control', 'aoe', 'flux', 'ultimate', 'stasis'],
       specialization: 'stasis'
@@ -2281,506 +2139,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 10
+        type: 'encounter',
       },
-
-      timeShardGenerate: 1,
-
-      tags: ['resurrection', 'flux', 'rewinding'],
-      specialization: 'rewinding'
-    },
-
-    {
-      id: 'fate_manipulation',
-      name: 'Fate Manipulation',
-      description: 'Peer into possible futures and manipulate the threads of fate, granting allies critical successes while cursing enemies with failures.',
-      level: 8,
-      icon: 'Arcane/Revealing Steps',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'divination',
-        icon: 'Arcane/Revealing Steps',
-        tags: ['buff', 'debuff', 'fate', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 20 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 28 },
-        timeShardCost: 8,
-        temporalStrainGain: 6,
-        actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Fatum',
-        somaticText: 'Weave the threads of fate'
-      },
-
-      resolution: 'NONE',
-      effectTypes: ['buff', 'debuff'],
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'favorable_fate',
-          name: 'Favorable Fate',
-          description: 'Allies automatically succeed on attack rolls and saving throws for 1 round',
-          statusType: 'luck',
-          level: 'extreme',
-          mechanicsText: 'Allies automatically succeed on attack rolls and saving throws for 1 round',
-          config: {
-            autoSuccess: true,
-            affectsAttacks: true,
-            affectsSaves: true
-          }
-        }],
-        durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: true,
-        canBeDispelled: false
-      },
-
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'cursed_fate',
-          name: 'Cursed Fate',
-          description: 'Enemies automatically fail attack rolls and saving throws for 1 round',
-          statusType: 'curse',
-          level: 'extreme',
-          statPenalty: [
-            { stat: 'attack_roll', value: -100, magnitudeType: 'percentage' },
-            { stat: 'saving_throw', value: -100, magnitudeType: 'percentage' }
-          ],
-          config: {
-            autoFailAttacks: true,
-            autoFailSaves: true
-          }
-        }],
-        durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        saveDC: 18,
-        saveType: 'charisma',
-        saveOutcome: 'negates',
-        canBeDispelled: false
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
-
-      timeShardGenerate: 1,
-
-      tags: ['buff', 'debuff', 'fate', 'displacement'],
-      specialization: 'displacement'
-    },
-
-    // ========================================
-    // LEVEL 9 SPELLS (3 spells)
-    // ========================================
-    {
-      id: 'temporal_shockwave',
-      name: 'Temporal Shockwave',
-      description: 'Release a devastating wave of temporal energy that freezes and damages all caught within.',
-      level: 9,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['damage', 'control', 'aoe', 'stasis'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'time_shard_cost'],
-        resourceValues: { mana: 28 },
-        timeShardCost: 6,
-        temporalStrainGain: 5,
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Immobilis Omnes',
-        somaticText: 'Freeze all enemies in massive stasis'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
-
-      damageConfig: {
-        formula: '15d6 + intelligence',
-        elementType: 'force',
-        damageType: 'area',
-        canCrit: true,
-        critMultiplier: 2
-      },
-
-      controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'major',
-        duration: 2,
-        durationUnit: 'rounds',
-        saveDC: 17,
-        saveType: 'spirit',
-        saveOutcome: 'ends_early',
-        savingThrow: true,
-        effects: [{
-          id: 'stun',
-          name: 'Temporal Freeze',
-          description: 'Enemies are frozen in time for 2 rounds, preventing all actions and movement (save ends early)',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'save_ends'
-          }
-        }]
-      },
-
-      timeShardGenerate: 2,
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
-
-      tags: ['damage', 'control', 'aoe', 'stasis'],
-      specialization: 'stasis'
-    },
-
-    {
-      id: 'reality_fracture',
-      name: 'Reality Fracture',
-      description: 'Tear fractures in the fabric of reality, causing damage and creating unstable temporal anomalies that persist in the area.',
-      level: 9,
-      icon: 'Arcane/Portal Archway',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Portal Archway',
-        tags: ['damage', 'control', 'aoe', 'reality', 'rewinding'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 25 },
-        timeShardCost: 8,
-        temporalStrainGain: 7,
-        actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Fractura Realitas',
-        somaticText: 'Tear reality with fracturing gesture'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
-
-      damageConfig: {
-        formula: '15d6 + intelligence',
-        elementType: 'force',
-        damageType: 'area',
-        areaShape: 'circle',
-        areaParameters: { radius: 25 }
-      },
-
-      controlConfig: {
-        controlType: 'environmental',
-        strength: 'major',
-        duration: 5,
-        durationUnit: 'rounds',
-        effects: [{
-          id: 'reality_fracture',
-          name: 'Reality Fracture',
-          description: 'Creates unstable fractures that randomly teleport creatures and cause damage over time',
-          config: {
-            fractureType: 'temporal_rift',
-            randomTeleportation: true,
-            damageOverTime: '2d6 force',
-            persistsAfterCast: true,
-            saveType: 'dexterity',
-            saveDC: 19,
-            duration: 5,
-            durationUnit: 'rounds'
-          }
-        }]
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
-
-      timeShardGenerate: 1,
-
-      tags: ['damage', 'control', 'aoe', 'reality', 'rewinding'],
-      specialization: 'rewinding'
-    },
-
-    {
-      id: 'chronal_paradox',
-      name: 'Chronal Paradox',
-      description: 'Force enemies to relive their actions in an endless loop, preventing new actions and dealing psychic damage.',
-      level: 9,
-      icon: 'Arcane/Portal Archway',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Portal Archway',
-        tags: ['control', 'debuff', 'aoe', 'flux', 'displacement'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['time_shard_cost', 'mana'],
-        resourceValues: { mana: 30 },
-        timeShardCost: 7,
-        temporalStrainGain: 6,
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Paradoxus',
-        somaticText: 'Create temporal loop with spiraling gesture'
-      },
-
-      resolution: 'SAVE',
-      effectTypes: ['control', 'debuff'],
-
-      controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 18,
-        saveType: 'spirit',
-        saveOutcome: 'ends_early',
-        savingThrow: true,
-        effects: [{
-          id: 'temporal_loop',
-          name: 'Temporal Paradox',
-          description: 'Enemies are trapped in a time loop, forced to repeat their last action each turn instead of taking new ones',
-          config: {
-            loopType: 'action_repetition',
-            durationType: 'rounds',
-            recoveryMethod: 'save_ends'
-          }
-        }]
-      },
-
-      debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'temporal_confusion',
-          name: 'Paradox Confusion',
-          description: 'Take 3d6 psychic damage each round from the strain of experiencing the same moment repeatedly',
-          damageFormula: '3d6',
-          damageType: 'psychic',
-          tickRate: 1,
-          tickUnit: 'rounds',
-          config: {
-            saveType: 'spirit',
-            saveDC: 18,
-            duration: 3,
-            durationUnit: 'rounds'
-          }
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        saveDC: 18,
-        saveType: 'spirit',
-        saveOutcome: 'ends_early',
-        canBeDispelled: true
-      },
-
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
-
-      timeShardGenerate: 1,
-
-      tags: ['control', 'debuff', 'aoe', 'flux', 'displacement'],
-      specialization: 'displacement'
-    },
-
-    // ========================================
-    // LEVEL 10 SPELLS (3 spells)
-    // ========================================
-    {
-      id: 'temporal_mastery',
-      name: 'Temporal Mastery',
-      description: 'Achieve supreme command of temporal forces, freezing and manipulating time around you.',
-      level: 10,
-      icon: 'Arcane/Spellcasting Aura',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Spellcasting Aura',
-        tags: ['buff', 'control', 'ultimate', 'stasis'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'time_shard_cost'],
-        resourceValues: { mana: 35 },
-        timeShardCost: 10,
-        temporalStrainGain: 8,
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Dominare Supremus',
-        somaticText: 'Achieve supreme mastery of time'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['buff'],
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'temporal_mastery',
-          name: 'Temporal Mastery',
-          description: 'Time flows at your command: +3 to all temporal spell DCs, Temporal Flux abilities cost 2 less Strain, enemies in 30ft are slowed',
-          statusType: 'empowerment',
-          level: 'major',
-          mechanicsText: '+3 to temporal spell DCs, Flux abilities cost 2 less Strain, enemies in 30ft are slowed for 3 rounds',
-          config: {
-            spellDCBonus: 3,
-            strainCostReduction: 2,
-            slowRadius: 30,
-            slowEffect: true
-          }
-        }],
-        durationType: 'rounds',
-        durationValue: 3,
-        canBeDispelled: true
-      },
-
-      timeShardGenerate: 3,
-
-      cooldownConfig: {
-        type: 'long_rest'
-      },
-
-      tags: ['buff', 'control', 'ultimate', 'stasis'],
-      specialization: 'stasis'
-    },
-
-    {
-      id: 'chronal_restoration',
-      name: 'Chronal Restoration',
-      description: 'Channel the power of time to restore your allies to their peak condition.',
-      level: 10,
-      icon: 'Arcane/Rewind Time',
-      spellType: 'ACTION',
-
-      typeConfig: {
-        school: 'transmutation',
-        icon: 'Arcane/Rewind Time',
-        tags: ['buff', 'healing', 'ultimate', 'rewinding'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
-      },
-
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 40,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
-      },
-
-      resourceCost: {
-        resourceTypes: ['mana', 'time_shard_cost'],
-        resourceValues: { mana: 30 },
-        timeShardCost: 8,
-        temporalStrainGain: 6,
-        actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Restituere Omnes',
-        somaticText: 'Restore all allies to peak condition'
-      },
-
-      resolution: 'DICE',
-      effectTypes: ['healing', 'buff'],
-
-      healingConfig: {
-        formula: '18d6 + spirit',
-        healingType: 'direct',
-        targetType: 'ally',
-        description: 'Rewind injuries and restore vitality to all allies in the area'
-      },
-
-      buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'chronal_restoration',
-          name: 'Chronal Restoration',
-          description: 'Allies are protected by temporal echoes: take 50% less damage for 2 rounds',
-          statusType: 'protection',
-          level: 'major',
-          mechanicsText: 'Allies take 50% less damage for 2 rounds',
-          config: {
-            damageReduction: 50,
-            damageReductionType: 'percentage'
-          }
-        }],
-        durationType: 'rounds',
-        durationValue: 2,
-        canBeDispelled: true
-      },
-
-      cooldownConfig: {
-        type: 'once_per_combat'
-      },
-
-      timeShardGenerate: 1,
 
       tags: ['buff', 'healing', 'ultimate', 'rewinding'],
       specialization: 'rewinding'
@@ -2846,7 +2206,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       damageConfig: {
         formula: '18d6 + intelligence',
-        elementType: 'necrotic',
+        damageTypes: ['necrotic'],
         damageType: 'area'
       },
 
@@ -2877,10 +2237,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
       cooldownConfig: {
-        type: 'once_per_combat'
+        type: 'encounter',
       },
-
-      timeShardGenerate: 1,
 
       tags: ['damage', 'control', 'healing', 'ultimate', 'time', 'displacement'],
       specialization: 'displacement'
@@ -2911,7 +2269,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
     ],
     5: [
       'temporal_anchor',
-      'temporal_barrier',
+      'temporal_thorns',
       'temporal_flux_shield',
       'temporal_flux_speed'
     ],

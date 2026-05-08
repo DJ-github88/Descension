@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import ReactDOM, { unstable_batchedUpdates } from "react-dom";
+import { useShallow } from 'zustand/react/shallow';
 import useGameStore from '../store/gameStore';
 import useItemStore from "../store/itemStore";
 import useGridItemStore from "../store/gridItemStore";
@@ -274,10 +275,11 @@ function GridComponent({
     const gridSystem = useMemo(() => createGridSystem(gameStore), [gameStore]);
 
     // Make gameStore, gridSystem, and levelEditorStore available globally for components that need it
-    // This is a workaround for components that don't have direct access to the store
-    window.gameStore = gameStore;
-    window.gridSystem = gridSystem;
-    window.useLevelEditorStore = useLevelEditorStore;
+    useEffect(() => {
+        window.gameStore = gameStore;
+        window.gridSystem = gridSystem;
+        window.useLevelEditorStore = useLevelEditorStore;
+    }, [gameStore, gridSystem]);
 
     // tileSize is already available from gameStore destructuring above
     const [hoveredTile, setHoveredTile] = useState(null);
@@ -360,16 +362,17 @@ function GridComponent({
 
 
 
-    // Get creature tokens from the store
-    const { tokens, creatures, addToken, removeToken } = useCreatureStore();
+    // Get creature tokens from the store - granular selectors to prevent excessive re-renders
+    const tokens = useCreatureStore(state => state.tokens);
+    const creatures = useCreatureStore(state => state.creatures);
+    const addToken = useCreatureStore(state => state.addToken);
+    const removeToken = useCreatureStore(state => state.removeToken);
 
-    // Get character tokens from the store
-    const {
-        characterTokens = [],
-        addCharacterToken,
-        updateCharacterTokenPosition,
-        removeCharacterToken
-    } = useCharacterTokenStore() || {};
+    // Get character tokens from the store - granular selectors
+    const characterTokens = useCharacterTokenStore(state => state?.characterTokens) || [];
+    const addCharacterToken = useCharacterTokenStore(state => state?.addCharacterToken);
+    const updateCharacterTokenPosition = useCharacterTokenStore(state => state?.updateCharacterTokenPosition);
+    const removeCharacterToken = useCharacterTokenStore(state => state?.removeCharacterToken);
 
     // Get level editor state
     const {
@@ -3379,38 +3382,26 @@ function GridComponent({
                 {/* Wall Overlay - Invisible hit areas for door interactions only */}
                 <WallOverlay />
 
-                {/* Render grid items */}
-                {(() => {
+                {/* Render grid items - memoized for performance */}
+                {useMemo(() => {
                     const itemsForCurrentMap = gridItems.filter(item => {
-                        if (!item.mapId) {
-                            console.warn(`⚠️ Grid item has no mapId: ${item.id}, defaulting to 'default' map`);
-                        }
                         return (item.mapId || 'default') === currentMapId;
                     });
-                    return itemsForCurrentMap;
-                })().map(gridItem => {
-                    // Get the original item to check if it's a container
-                    // First try using originalItemStoreId if available
-                    const originalItem = gridItem.originalItemStoreId
-                        ? useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId)
-                        : useItemStore.getState().items.find(item => item.id === gridItem.itemId);
+                    return itemsForCurrentMap.map(gridItem => {
+                        const originalItem = gridItem.originalItemStoreId
+                            ? useItemStore.getState().items.find(item => item.id === gridItem.originalItemStoreId)
+                            : useItemStore.getState().items.find(item => item.id === gridItem.itemId);
 
-                    // Simplified key: use just the unique gridItem.id
-                    // Stable keys are essential for performance and preventing React "Duplicate Key" warnings
-                    const uniqueKey = gridItem.id;
+                        const uniqueKey = gridItem.id;
 
-                    // If it's a container, render it as a container
-                    // Check both the itemStore lookup (for the placing player) and
-                    // gridItem.type directly (for other players who don't have the item in their itemStore)
-                    const isContainer = (originalItem && originalItem.type === 'container') || gridItem.type === 'container';
-                    if (isContainer) {
-                        return <GridContainer key={uniqueKey} gridItem={gridItem} />;
-                    }
+                        const isContainer = (originalItem && originalItem.type === 'container') || gridItem.type === 'container';
+                        if (isContainer) {
+                            return <GridContainer key={uniqueKey} gridItem={gridItem} />;
+                        }
 
-                    // Always render the item, even if the original item is not found
-                    // This ensures currency items and other items will appear on the grid
-                    return <GridItem key={uniqueKey} gridItem={gridItem} />;
-                })}
+                        return <GridItem key={uniqueKey} gridItem={gridItem} />;
+                    });
+                }, [gridItems, currentMapId])}
 
                 {/* Render creature tokens - memoized for performance */}
                 {useMemo(() => tokens
@@ -3795,9 +3786,7 @@ function GridComponent({
 
 // Wrapper component that uses gameStore directly
 export default function Grid() {
-    // PERFORMANCE OPTIMIZATION: Use selector function to only subscribe to needed values
-    // This prevents re-renders when unrelated store values change
-    const gameState = useGameStore((state) => ({
+    const gameState = useGameStore(useShallow((state) => ({
         gridSize: state.gridSize ?? 50,
         backgroundImage: state.backgroundImage,
         backgroundImageUrl: state.backgroundImageUrl,
@@ -3854,7 +3843,7 @@ export default function Grid() {
         movementLineColor: state.movementLineColor ?? '#FFD700',
         movementLineWidth: state.movementLineWidth ?? 3,
         defaultViewFromToken: state.defaultViewFromToken
-    }));
+    })));
 
     // Handle potential import issues with robust fallback
     const useSettingsStore = SettingsStoreModule.default || SettingsStoreModule;
