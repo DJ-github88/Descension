@@ -672,7 +672,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_smoldering_touch',
       name: 'Smoldering Touch',
-      description: 'Your hand glows with heat as you touch an enemy, dealing instant damage and leaving a lingering smolder that burns intensely.',
+      description: 'Your hand glows with heat as you touch an enemy, dealing 1d8 + INT/3 fire damage and leaving a lingering smolder that burns for 1d4 fire damage per round for 2 rounds.',
       level: 1,
       spellType: 'ACTION',
       icon: 'Fire/Fire Bolt',
@@ -737,7 +737,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       name: 'Flicker',
       description: 'A quick flash of fire that streaks toward your target. The flame is small but precise, igniting instantly and leaving a trail of heat in its wake. This spell is cast as a bonus action, allowing you to weave it between other attacks.',
       level: 1,
-      spellType: 'BONUS_ACTION',
+      spellType: 'ACTION',
       icon: 'Fire/Fiery Symbol',
       
       typeConfig: {
@@ -894,7 +894,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_scorching_grasp',
       name: 'Scorching Grasp',
-      description: 'Flames envelop your hand, searing through armor and flesh on contact. The fire clings to the target, continuing to burn after the grasp ends.',
+      description: 'Flames envelop your hand, searing through armor and flesh on contact for 2d8 + INT/2 fire damage. The fire clings to the target, burning for 1d4 fire damage per round for 2 rounds.',
       level: 2,
       spellType: 'ACTION',
       icon: 'Fire/Scorching Rune',
@@ -928,7 +928,22 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       damageConfig: {
         formula: '2d8 + intelligence/2',
         damageTypes: ['fire'],
-        resolution: 'DICE'
+        resolution: 'DICE',
+        dotConfig: {
+          enabled: true,
+          damagePerTick: '1d4',
+          damageTypes: ['fire'],
+          tickFrequency: 'round',
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
+        }
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 2,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: {
@@ -985,19 +1000,18 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         strength: 'weak',
         duration: 0,
         durationUnit: 'instant',
-        saveDC: 12,
-        saveType: 'strength',
-        saveOutcome: 'negates',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 14,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'pull',
           name: 'Pull',
-          description: 'Pulls the target toward the caster',
+          description: 'Pulls the target 15 feet toward the caster. DC 14 Strength save negates.',
           config: {
             movementType: 'pull',
-            distance: 15,
-            saveType: 'dexterity',
-            saveDC: 14
+            distance: 15
           }
         }]
       },
@@ -1242,12 +1256,18 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       damageConfig: {
         formula: '1d6',
         damageTypes: ['fire'],
-        resolution: 'DICE',
-        triggerCondition: 'area_entry',
-        triggerDescription: 'Creatures that enter or start their turn in flame areas take 1d6 fire damage',
-        areaShape: 'circle',
-        areaParameters: { radius: 5 },
-        duration: 1,
+        resolution: 'AUTOMATIC'
+      },
+
+      propagation: {
+        method: 'explosion',
+        behavior: 'aoe',
+        secondaryRadius: 5
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 1,
         durationUnit: 'rounds'
       },
 
@@ -1265,7 +1285,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_infernal_blast',
       name: 'Infernal Blast',
-      description: 'A concentrated blast of demonic fire that erupts from your hands, searing through defenses and leaving nothing but ash in its wake.',
+      description: 'A concentrated blast of demonic fire that erupts from your hands for 5d6 + INT fire damage, searing through defenses and leaving nothing but ash in its wake. At Inferno Level 4+, deals an additional 2d6 fire damage.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Fire/Infernal Fire',
@@ -1303,6 +1323,37 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         resolution: 'DICE'
       },
 
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: true,
+            baseFormula: '5d6 + intelligence',
+            conditionalFormulas: {
+              'inferno_4_plus': '7d6 + intelligence',
+              'default': '5d6 + intelligence'
+            }
+          }
+        },
+        effectTriggers: {
+          damage: {
+            logicType: 'OR',
+            compoundTriggers: [{
+              id: 'resource_threshold',
+              category: 'health',
+              name: 'Inferno Level 4+',
+              parameters: {
+                resource_type: 'inferno',
+                threshold_value: 4,
+                threshold_type: 'flat',
+                comparison: 'greater_than',
+                perspective: 'self'
+              }
+            }]
+          }
+        }
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 0
@@ -1314,7 +1365,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_searing_chains',
       name: 'Searing Chains',
-      description: 'Conjure burning chains of demonic fire that lash between enemies, dealing damage and tethering them together. Each chain jump deals reduced damage but ignites all targets struck.',
+      description: 'Conjure burning chains of demonic fire that lash between enemies, dealing 3d6 + INT fire damage and tethering them together. Each chain jump deals 75% damage but ignites all targets struck for 1d6 fire damage per round for 2 rounds. Chains can jump to up to 3 additional targets within 15 feet.',
       level: 4,
       spellType: 'ACTION',
       icon: 'Fire/Scorching Rune',
@@ -1355,8 +1406,25 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
           maxChains: 3,
           chainRange: 15,
           damageMultiplier: 0.75,
+          damageTypes: ['fire']
+        },
+        dotConfig: {
+          enabled: true,
+          damagePerTick: '1d6',
           damageTypes: ['fire'],
+          tickFrequency: 'round',
+          duration: 2,
+          canStack: false,
+          maxStacks: 1
         }
+      },
+
+      propagation: {
+        method: 'chain',
+        behavior: 'bounce',
+        count: 3,
+        range: 15,
+        decay: 0.75
       },
 
       cooldownConfig: {
@@ -1370,7 +1438,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_fiery_aura',
       name: 'Fiery Aura',
-      description: 'Surround yourself with an aura of heat that damages nearby enemies.',
+      description: 'Surround yourself with an aura of heat that damages nearby enemies for 2d6 fire damage at the start of each of their turns. The aura persists for up to 3 rounds while you concentrate.',
       level: 4,
       spellType: 'CHANNELED',
       icon: 'Fire/Fire Orb',
@@ -1419,7 +1487,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         type: 'persistent',
         baseFormula: '2d6',
         tickFrequency: 'round',
-        maxDuration: 3
+        maxDuration: 3,
+        durationUnit: 'rounds',
+        persistentEffectType: 'aura',
+        persistentRadius: 5,
+        interruptible: true,
+        movementAllowed: true
       },
 
       cooldownConfig: {
@@ -1436,7 +1509,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_hellfire_wave',
       name: 'Hellfire Wave',
-      description: 'A wave of hellish fire sweeps over your enemies, burning them intensely.',
+      description: 'A wave of hellish fire sweeps over your enemies in a 30-foot cone, dealing 8d6 + INT fire damage and burning intensely.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Fire/Fiery Symbol',
@@ -1486,7 +1559,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_immolation',
       name: 'Immolation',
-      description: 'Engulf your target in flames that burn over time.',
+      description: 'Engulf your target in flames, dealing 6d8 + INT/2 fire damage immediately and burning them for 1d6 + INT/4 fire damage per round for 3 rounds.',
       level: 5,
       spellType: 'ACTION',
       icon: 'Fire/Enveloping Fire',
@@ -1531,6 +1604,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
           canStack: false,
           maxStacks: 1
         }
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: {
@@ -1593,12 +1672,10 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
             saveType: 'constitution'
           }
         },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 14,
-          saveOutcome: 'negates',
-          partialEffect: false
+          saveOutcome: 'negates'
         }
       },
 
@@ -1616,7 +1693,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_lava_burst',
       name: 'Lava Burst',
-      description: 'A burst of molten lava erupts from the ground, dealing massive damage in an area.',
+      description: 'A burst of molten lava erupts from the ground, dealing 9d6 + INT fire damage in a 15-foot radius.',
       level: 6,
       spellType: 'ACTION',
       icon: 'Fire/Dripping Lava',
@@ -1731,6 +1808,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         }
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 3,
+        durationUnit: 'rounds'
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 3
@@ -1808,6 +1891,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         canBeDispelled: true
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 4,
+        durationUnit: 'rounds'
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 0
@@ -1822,7 +1911,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_volcanic_eruption',
       name: 'Volcanic Eruption',
-      description: 'Cause the ground to erupt with volcanic fire, dealing massive damage in a large area.',
+      description: 'Cause the ground to erupt with volcanic fire, dealing 12d6 + INT×2 fire damage in a 25-foot radius. Targets may make a DC 16 Agility save for half damage. At Inferno Level 7+, damage increases to 16d6 + INT×2.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Fire/Flowing Lava',
@@ -1879,13 +1968,10 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
             distance: 10
           }
         },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 16,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         }
       },
 
@@ -1930,7 +2016,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_hellfire_breath',
       name: 'Hellfire Breath',
-      description: 'Breathe a cone of hellfire that incinerates everything in its path.',
+      description: 'Breathe a 40-foot cone of hellfire that incinerates everything in its path for 10d6 + INT×2 fire damage.',
       level: 7,
       spellType: 'ACTION',
       icon: 'Fire/Flame Burst',
@@ -2045,6 +2131,19 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         canBeDispelled: true
       },
 
+      channelingConfig: {
+        type: 'power_up',
+        maxDuration: 5,
+        durationUnit: 'rounds',
+        interruptible: true,
+        movementAllowed: false,
+        stages: [
+          { threshold: 1, effect: '+5 Fire Damage', description: 'Demonic empowerment active' },
+          { threshold: 3, effect: '+5 Fire Damage + Burning Aura', description: 'Demonic power intensifies — enemies within 5 ft take 1d6 fire' },
+          { threshold: 5, effect: '+5 Fire Damage + Burning Aura + Inferno Resistance', description: 'Full demonic empowerment — fire damage taken reduced by 50%' }
+        ]
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 5
@@ -2059,7 +2158,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_meteor_shower',
       name: 'Meteor Shower',
-      description: 'Summon a shower of flaming meteors from the sky. The devastating rain of fire crashes into the ground with explosive force, engulfing the area in flames.',
+      description: 'Summon a shower of flaming meteors from the sky, dealing 14d6 + INT×2 fire damage in a 30-foot radius. The devastating rain of fire crashes into the ground with explosive force, engulfing the area in flames.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Fiery Comet',
@@ -2128,7 +2227,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_infernal_nova',
       name: 'Infernal Nova',
-      description: 'Release a massive explosion of infernal fire in all directions.',
+      description: 'Release a massive explosion of infernal fire in all directions, dealing 14d6 + INT×2 fire damage to all enemies within 35 feet.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Swirling Fireball',
@@ -2178,7 +2277,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_phoenix_flame',
       name: 'Phoenix Flame',
-      description: 'Summon the essence of a phoenix, dealing massive fire damage and leaving burning ground.',
+      description: 'Summon the essence of a phoenix, dealing 12d6 + INT×2 fire damage in a 25-foot radius and leaving burning ground that deals 3d6 + INT/2 fire damage per round for 4 rounds.',
       level: 8,
       spellType: 'ACTION',
       icon: 'Fire/Rising Inferno',
@@ -2227,6 +2326,12 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         }
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        durationValue: 4,
+        durationUnit: 'rounds'
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 6
@@ -2241,7 +2346,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_infernal_avatar',
       name: 'Infernal Avatar',
-      description: 'Transform into a being of pure fire, gaining immense power and immunity to fire damage.',
+      description: 'Transform into a being of pure fire for 10 rounds, gaining +5 fire spell power, +3 Armor, immunity to fire damage, and a burning aura that deals 2d6 fire damage to enemies within 10 feet.',
       level: 9,
       spellType: 'CHANNELED',
       icon: 'Fire/Fire Demon',
@@ -2294,6 +2399,17 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         ]
       },
 
+      channelingConfig: {
+        type: 'persistent',
+        maxDuration: 10,
+        durationUnit: 'rounds',
+        interruptible: true,
+        movementAllowed: true,
+        persistentEffectType: 'aura',
+        persistentRadius: 10,
+        baseFormula: '2d6'
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 10
@@ -2305,7 +2421,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_apocalypse',
       name: 'Apocalypse',
-      description: 'Unleash the full power of demonic fire, creating a cataclysmic explosion that devastates everything.',
+      description: 'Unleash the full power of demonic fire, creating a cataclysmic explosion that deals 16d10 + INT×2 fire damage in a 40-foot radius. At maximum Inferno Level, damage dice explode on max rolls.',
       level: 9,
       spellType: 'ACTION',
       icon: 'Utility/Explosive Detonation',
@@ -2342,7 +2458,15 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       damageConfig: {
         formula: '16d10 + intelligence * 2',
         damageTypes: ['fire'],
-        resolution: 'DICE'
+        resolution: 'DICE',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2,
+          critDiceOnly: false,
+          explodingDice: true,
+          explodingDiceType: 'reroll_add'
+        }
       },
 
       cooldownConfig: {
@@ -2407,6 +2531,19 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         canBeDispelled: true
       },
 
+      channelingConfig: {
+        type: 'power_up',
+        maxDuration: 3,
+        durationUnit: 'rounds',
+        interruptible: true,
+        movementAllowed: false,
+        stages: [
+          { threshold: 1, effect: '+10 Fire Spell Power', description: 'Infernal ritual begins — fire magic surges' },
+          { threshold: 2, effect: '+10 Fire Spell Power + Burning Aura', description: 'Demonic flames radiate outward — enemies within 10 ft take 2d6 fire per round' },
+          { threshold: 3, effect: '+10 Fire Spell Power + Burning Aura + Inferno Amplification', description: 'Ritual climax — all inferno level bonuses doubled for the final round' }
+        ]
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 12
@@ -2421,7 +2558,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_brimstone_teleport',
       name: 'Brimstone Teleport',
-      description: 'Teleport through hellfire, appearing in a burst of flames and dealing damage to nearby enemies.',
+      description: 'Teleport through hellfire up to 60 feet, appearing in a burst of flames that deals 6d6 + INT×2 fire damage to all enemies within 10 feet of your arrival point.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Fire/Burning Ember',
@@ -2470,22 +2607,10 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         resolution: 'DICE'
       },
 
-      triggerConfig: {
-        effectTriggers: {
-          damage_direct: {
-            logicType: 'AND',
-            compoundTriggers: [{
-              id: 'proximity',
-              category: 'movement',
-              name: 'Proximity',
-              parameters: {
-                perspective: 'self',
-                entity_type: 'enemy',
-                distance: 10
-              }
-            }]
-          }
-        }
+      propagation: {
+        method: 'explosion',
+        behavior: 'aoe',
+        secondaryRadius: 10
       },
 
       cooldownConfig: {
@@ -2527,21 +2652,57 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         somaticText: 'Channel ultimate power'
       },
 
-      effectTypes: ['buff'],
+      effectTypes: ['buff', 'damage'],
 
       buffConfig: {
         buffType: 'custom',
-        effects: [{
-          id: 'demonicAscension',
-          name: 'Demonic Ascension',
-          description: 'Gain +15 fire damage to all spells, +5 Armor, immunity to fire damage, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn.',
-          mechanicsText: ''
-        }],
+        effects: [
+          {
+            id: 'demonicAscension_power',
+            name: 'Demonic Ascension',
+            description: '+15 fire damage to all spells, +5 Armor, fire damage immunity, flight (30 ft), and enemies within 15 feet take 3d6 fire damage at start of their turn. Requires Inferno Level 9. Death clock still ticks.',
+            mechanicsText: ''
+          },
+          {
+            id: 'demonicAscension_armor',
+            name: 'Demonic Armor',
+            description: '+5 Armor from demonic carapace',
+            mechanicsText: '',
+            statModifier: {
+              stat: 'armor',
+              magnitude: 5,
+              magnitudeType: 'flat'
+            }
+          },
+          {
+            id: 'demonicAscension_fire',
+            name: 'Fire Mastery',
+            description: '+15 fire spell power',
+            mechanicsText: '',
+            statModifier: {
+              stat: 'fire_spell_power',
+              magnitude: 15,
+              magnitudeType: 'flat'
+            }
+          }
+        ],
         durationValue: 5,
         durationType: 'rounds',
         durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: false
+      },
+
+      damageConfig: {
+        formula: '3d6',
+        damageTypes: ['fire'],
+        resolution: 'AUTOMATIC'
+      },
+
+      propagation: {
+        method: 'explosion',
+        behavior: 'aoe',
+        secondaryRadius: 15
       },
 
       cooldownConfig: {
@@ -2555,7 +2716,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
     {
       id: 'pyro_inferno_mastery',
       name: 'Inferno Mastery',
-      description: 'Unleash a cataclysmic inferno that consumes everything in its path. This ultimate display of pyromantic mastery creates a massive explosion leaving nothing but ash and cinders.',
+      description: 'Unleash a cataclysmic inferno that consumes everything in its path, dealing 20d10 + INT×2 fire damage in a 50-foot radius. This ultimate display of pyromantic mastery leaves nothing but ash and cinders.',
       level: 10,
       spellType: 'ACTION',
       icon: 'Fire/Fire Orb',
@@ -2592,7 +2753,48 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
       damageConfig: {
         formula: '20d10 + intelligence * 2',
         damageTypes: ['fire'],
-        resolution: 'DICE'
+        resolution: 'DICE',
+        criticalConfig: {
+          enabled: true,
+          critType: 'dice',
+          critMultiplier: 2.5,
+          critDiceOnly: false,
+          extraDice: '6d10',
+          explodingDice: true,
+          explodingDiceType: 'reroll_add'
+        }
+      },
+
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: true,
+            baseFormula: '20d10 + intelligence * 2',
+            conditionalFormulas: {
+              'inferno_9': '25d10 + intelligence * 3',
+              'inferno_7_plus': '22d10 + intelligence * 2',
+              'default': '20d10 + intelligence * 2'
+            }
+          }
+        },
+        effectTriggers: {
+          damage: {
+            logicType: 'OR',
+            compoundTriggers: [{
+              id: 'resource_threshold',
+              category: 'health',
+              name: 'High Inferno Level',
+              parameters: {
+                resource_type: 'inferno',
+                threshold_value: 7,
+                threshold_type: 'flat',
+                comparison: 'greater_than',
+                perspective: 'self'
+              }
+            }]
+          }
+        }
       },
 
       cooldownConfig: {

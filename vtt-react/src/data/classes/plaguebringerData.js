@@ -563,16 +563,16 @@ FINAL ARCHETYPES (Last Token):
   exampleSpells: [
     {
       id: 'pb_curse_of_agony',
+      effectTypes: ['damage'],
       name: 'Curse of Agony',
       description: 'Plant a seed of suffering in your target. Deals 1d6 + intelligence necrotic damage per turn for 4 rounds. Cultivate with any 3 category spells to reach final form.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
-      school: 'Necromancy',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Necrotic Skull', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 3, components: ['verbal', 'somatic'], verbalText: 'Dolor Aeternus!', somaticText: 'Point at target with cursing gesture' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 3 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Dolor Aeternus!', somaticText: 'Point at target with cursing gesture', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 14, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '1d6 + intelligence',
@@ -582,7 +582,6 @@ FINAL ARCHETYPES (Last Token):
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d6 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
         savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 14, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -594,21 +593,22 @@ FINAL ARCHETYPES (Last Token):
           lastCategoryDeterminesFinal: true
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['affliction', 'base', 'necrotic', 'curse', 'plaguebringer'],
       flavorText: 'The seed of suffering takes root. Soon, it will bloom.'
     },
     {
       id: 'pb_venomous_touch',
+      effectTypes: ['damage'],
       name: 'Venomous Touch',
       description: 'Infect your target with virulent poison. Deals initial poison damage and applies a poison affliction seed. Cultivate with any 3 category spells.',
       spellType: 'ACTION',
       icon: 'Poison/Deadly Poison',
-      school: 'Necromancy',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Deadly Poison', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 3, components: ['verbal', 'somatic'], verbalText: 'Venenum Tactus!', somaticText: 'Touch target with poisoned hand' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 3 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Venenum Tactus!', somaticText: 'Touch target with poisoned hand', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 14, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '1d8 + intelligence',
@@ -617,7 +617,6 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 + poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -629,21 +628,22 @@ FINAL ARCHETYPES (Last Token):
           lastCategoryDeterminesFinal: true
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['affliction', 'base', 'poison', 'melee', 'plaguebringer', 'virulent spreader'],
       flavorText: 'A single touch. A lifetime of suffering.'
     },
     {
       id: 'pb_whisper_of_decay',
+      effectTypes: ['damage'],
       name: 'Whisper of Decay',
       description: 'A psychic whisper that plants doubt and madness. Deals 1d4 + intelligence psychic damage per turn for 4 rounds. Cultivate with any 3 category spells.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Strike',
-      school: 'Enchantment',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'psychic', icon: 'Psychic/Mind Strike', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 3, components: ['verbal'], verbalText: 'Sussurus Desidii!' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 3 }, actionPoints: 1, components: ['verbal'], verbalText: 'Sussurus Desidii!', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 13, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '1d4 + intelligence',
@@ -652,7 +652,6 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -664,21 +663,22 @@ FINAL ARCHETYPES (Last Token):
           lastCategoryDeterminesFinal: true
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['affliction', 'base', 'psychic', 'plaguebringer', 'torment weaver'],
       flavorText: 'The whisper is quiet. The screams that follow are not.'
     },
     {
       id: 'pb_fever_dream',
+      effectTypes: ['damage'],
       name: 'Fever Dream',
       description: 'Induce burning hallucinations. Deals 1d4 psychic and 1d4 poison damage per turn for 4 rounds. Dual-type affliction seed.',
       spellType: 'ACTION',
       icon: 'Nature/Single Leaf',
-      school: 'Enchantment',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'psychic', secondaryElement: 'poison', icon: 'Nature/Single Leaf', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 25 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 4, components: ['verbal', 'somatic'], verbalText: 'Febris Somnium!', somaticText: 'Gesture at target\'s forehead' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 4 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Febris Somnium!', somaticText: 'Gesture at target\'s forehead', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 14, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '1d4 + 1d4',
@@ -688,7 +688,6 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 psychic + 1d4 poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -700,21 +699,22 @@ FINAL ARCHETYPES (Last Token):
           lastCategoryDeterminesFinal: true
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['affliction', 'base', 'psychic', 'poison', 'plaguebringer'],
       flavorText: 'Sleep. Dream. Burn. Wake to nightmare.'
     },
     {
       id: 'pb_mark_of_the_pestilent',
+      effectTypes: ['damage'],
       name: 'Mark of the Pestilent',
       description: 'Brand a target with a plague sigil. Deals 1d4 necrotic/turn and emits a 5ft aura of pestilence. Cultivate with any 3 category spells.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Plague',
-      school: 'Necromancy',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Poison/Poison Plague', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 4, components: ['verbal', 'somatic'], verbalText: 'Signum Pestis!', somaticText: 'Draw plague sigil in air' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 4 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Signum Pestis!', somaticText: 'Draw plague sigil in air', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 14, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '1d4 + intelligence',
@@ -723,7 +723,6 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -740,22 +739,23 @@ FINAL ARCHETYPES (Last Token):
           description: 'Enemies within 5ft of marked target take 1 necrotic damage per turn'
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['affliction', 'base', 'necrotic', 'aura', 'plaguebringer'],
       flavorText: 'The mark burns. The air rots. Pestilence claims its own.'
     },
 
     {
       id: 'pb_enfeebling_fog',
+      effectTypes: ['debuff'],
       name: 'Enfeebling Fog',
       description: 'Conjures a weakening fog over 20ft radius. Reduces armor by 5 (non-stacking with itself) and imposes disadvantage on ranged attacks. Advances any affliction with the WEAKEN category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Corruption',
-      school: 'Necromancy',
       level: 2,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Corruption', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 60, aoeType: 'sphere', aoeSize: 20 },
       durationConfig: { durationType: 'rounds', duration: 3, durationUnit: 'rounds' },
-      resourceCost: { mana: 6, components: ['verbal', 'somatic'], verbalText: 'Nebula Debilis!', somaticText: 'Spread arms to create fog' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 6 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Nebula Debilis!', somaticText: 'Spread arms to create fog', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 14, onSuccess: 'no_effect', onFailure: 'full_effect' },
       resolution: 'AUTOMATIC',
       effects: {
@@ -765,21 +765,22 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Weaken', description: 'Advances any affliction on targets in the fog with the Weaken category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['weaken', 'category', 'debuff', 'area', 'plaguebringer'],
       flavorText: 'The fog saps strength and clarity. Defenses crumble.'
     },
     {
       id: 'pb_drain_vitality',
+      effectTypes: ['debuff', 'healing'],
       name: 'Drain Vitality',
       description: 'Drains life from a target in melee range, reducing their max HP and granting you temporary HP. Advances any affliction with the WEAKEN category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Drain Soul',
-      school: 'Necromancy',
       level: 2,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Drain Soul', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5 },
       durationConfig: { durationType: 'rounds', duration: 1, durationUnit: 'minutes' },
-      resourceCost: { mana: 7, components: ['verbal', 'somatic'], verbalText: 'Vita Exhaurio!', somaticText: 'Grasp target and drain essence' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 7 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Vita Exhaurio!', somaticText: 'Grasp target and drain essence', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 15, onSuccess: 'half_effect', onFailure: 'full_effect' },
       resolution: 'AUTOMATIC',
       debuffConfig: {
@@ -791,21 +792,22 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Weaken', description: 'Advances any affliction on the target with the Weaken category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['weaken', 'category', 'drain', 'debuff', 'healing', 'plaguebringer'],
       flavorText: 'Your vitality becomes mine. Your strength fades.'
     },
     {
       id: 'pb_hallucinogenic_spores',
+      effectTypes: ['control'],
       name: 'Hallucinogenic Spores',
       description: 'Releases spores causing hallucinations. Target must attack an ally next turn on failed save. Advances any affliction with the TORMENT category.',
       spellType: 'ACTION',
       icon: 'Nature/Single Leaf',
-      school: 'Enchantment',
       level: 2,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'psychic', icon: 'Nature/Single Leaf', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 15 },
       durationConfig: { durationType: 'rounds', duration: 2, durationUnit: 'rounds' },
-      resourceCost: { mana: 6, components: ['verbal', 'somatic', 'material'], verbalText: 'Sporas Dementiae!', somaticText: 'Release spores from hand', materialText: 'Fungal spores' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 6 }, actionPoints: 1, components: ['verbal', 'somatic', 'material'], verbalText: 'Sporas Dementiae!', somaticText: 'Release spores from hand', materialText: 'Fungal spores', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 12, onSuccess: 'disoriented_only', onFailure: 'full_effect' },
       resolution: 'AUTOMATIC',
       controlConfig: {
@@ -815,26 +817,26 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Torment', description: 'Advances any affliction on the target with the Torment category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['torment', 'category', 'psychic', 'confusion', 'plaguebringer', 'torment weaver'],
       flavorText: 'Friend becomes foe. Reality fractures. Madness blooms.'
     },
     {
       id: 'pb_agonizing_wail',
+      effectTypes: ['damage', 'control'],
       name: 'Agonizing Wail',
       description: 'An excruciating wail dealing psychic damage and paralyzing with fear. Advances any affliction with the TORMENT category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Screaming Skull',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'psychic', icon: 'Necrotic/Screaming Skull', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 25 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 10, components: ['verbal'], verbalText: 'ULULATUS DOLORIS!' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 10 }, actionPoints: 1, components: ['verbal'], verbalText: 'ULULATUS DOLORIS!', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 16, onSuccess: 'half_damage_no_paralyze', onFailure: 'full_damage_and_paralyze' },
       damageConfig: {
-        formula: '3d6 + intelligence', elementType: 'psychic', damageType: 'direct', attackType: 'spell_save',
+        formula: '3d6 + intelligence', elementType: 'psychic', damageTypes: ['direct'], attackType: 'spell_save',
         savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation', duration: 1, durationUnit: 'rounds', saveDC: 16, saveType: 'spirit', savingThrow: true,
@@ -843,27 +845,27 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Torment', description: 'Advances any affliction on the target with the Torment category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['torment', 'category', 'psychic', 'paralyze', 'plaguebringer', 'torment weaver'],
       flavorText: 'The wail of the damned. Terror incarnate.'
     },
     {
       id: 'pb_infectious_sores',
+      effectTypes: ['damage'],
       name: 'Infectious Sores',
       description: 'Infects target with sores that burst if they move, spreading to anyone within 5ft. Advances any affliction with the FESTER category.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Contagion',
-      school: 'Necromancy',
       level: 2,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Poison/Poison Contagion', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 6, components: ['verbal', 'somatic'], verbalText: 'Ulcera Contagio!', somaticText: 'Touch target to inflict sores' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 6 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Ulcera Contagio!', somaticText: 'Touch target to inflict sores', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 14, onSuccess: 'no_spread', onFailure: 'full_effect' },
       damageConfig: {
-        formula: '1d4 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save',
+        formula: '1d4 + intelligence', elementType: 'necrotic', damageTypes: ['direct'], attackType: 'spell_save',
         hasDotEffect: true, dotConfig: { dotFormula: '1d4', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 14, saveOutcome: 'negates', partialEffect: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Fester', description: 'Advances any affliction on the target with the Fester category' },
@@ -872,26 +874,26 @@ FINAL ARCHETYPES (Last Token):
           savingThrowEffect: { onSuccess: 'Sores cause 1d4 damage but do not spread', onFailure: 'Sores spread to all within 5 ft when target moves' }
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['fester', 'category', 'necrotic', 'contagion', 'plaguebringer', 'virulent spreader'],
       flavorText: 'The sores weep. The infection spreads.'
     },
     {
       id: 'pb_plague_of_flies',
+      effectTypes: ['damage', 'debuff'],
       name: 'Plague of Flies',
       description: 'Summons a swarm of flies causing distraction, poison damage per turn, and reduced sight. Advances any affliction with the FESTER category.',
       spellType: 'ACTION',
       icon: 'Nature/Web',
-      school: 'Conjuration',
       level: 2,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Nature/Web', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
       durationConfig: { durationType: 'rounds', duration: 5, durationUnit: 'rounds' },
-      resourceCost: { mana: 7, components: ['verbal', 'somatic'], verbalText: 'Musca Pestis!', somaticText: 'Summon flies with sweeping gesture' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 7 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Musca Pestis!', somaticText: 'Summon flies with sweeping gesture', classResource: { type: 'virulence', gain: 5 } },
       resolution: 'AUTOMATIC',
       damageConfig: {
-        formula: '1d4 + intelligence', elementType: 'poison', damageType: 'direct', attackType: 'automatic',
+        formula: '1d4 + intelligence', elementType: 'poison', damageTypes: ['direct'], attackType: 'automatic',
         hasDotEffect: true, dotConfig: { dotFormula: '1d4', duration: 5, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -901,27 +903,27 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Fester', description: 'Advances any affliction on the target with the Fester category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['fester', 'category', 'poison', 'debuff', 'plaguebringer', 'virulent spreader'],
       flavorText: 'The swarm descends. Vision fails. Decay festers.'
     },
     {
       id: 'pb_necrotic_burst',
+      effectTypes: ['damage', 'debuff'],
       name: 'Necrotic Burst',
       description: 'Burst of necrotic energy that permanently reduces max HP. Advances any affliction with the DECAY category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Death',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Necrotic Death', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 10 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 10, components: ['verbal', 'somatic'], verbalText: 'Necrosis Eruptio!', somaticText: 'Release burst of necrotic energy' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 10 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Necrosis Eruptio!', somaticText: 'Release burst of necrotic energy', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 17, onSuccess: 'reduced_effect', onFailure: 'full_effect' },
       damageConfig: {
-        formula: '3d6 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save',
+        formula: '3d6 + intelligence', elementType: 'necrotic', damageTypes: ['direct'], attackType: 'spell_save',
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 17, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
         criticalConfig: { critType: 'effect', critEffects: ['permanent_decay'] },
-          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -931,46 +933,47 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Decay', description: 'Advances any affliction on the target with the Decay category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['decay', 'category', 'necrotic', 'permanent', 'plaguebringer', 'decay harbinger'],
       flavorText: 'Flesh rots. Life force diminishes. Decay is permanent.'
     },
     {
       id: 'pb_wither_touch',
+      effectTypes: ['damage', 'debuff'],
       name: 'Wither Touch',
       description: 'A touch that withers, dealing necrotic damage and reducing healing received. Advances any affliction with the DECAY category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Drain Soul',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Drain Soul', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 9, components: ['verbal', 'somatic'], verbalText: 'Tactus Marcescens!', somaticText: 'Touch target with withering hand' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 9 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Tactus Marcescens!', somaticText: 'Touch target with withering hand', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 16, onSuccess: 'reduced_effect', onFailure: 'full_effect' },
-      damageConfig: { formula: '4d4 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save' },
+      damageConfig: { formula: '4d4 + intelligence', elementType: 'necrotic', damageTypes: ['direct'], attackType: 'spell_save' },
       effects: {
         damage: { instant: { amount: '4d4 + INT', type: 'necrotic', description: 'Immediate necrotic damage' } },
         debuff: { healingReduction: '1d8', duration: '5 rounds', description: 'Healing received is reduced by 1d8 per heal' },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Decay', description: 'Advances any affliction on the target with the Decay category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['decay', 'category', 'necrotic', 'anti healing', 'plaguebringer', 'decay harbinger'],
       flavorText: 'The touch of death. Healing fails.'
     },
     {
       id: 'pb_dark_rejuvenation',
+      effectTypes: ['control'],
       name: 'Dark Rejuvenation',
       description: 'Converts healing on a target into necrotic damage. Advances any affliction with the DECAY category.',
       spellType: 'ACTION',
       icon: 'Necrotic/Ritual',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Ritual', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 20 },
       durationConfig: { durationType: 'rounds', duration: 3, durationUnit: 'rounds' },
-      resourceCost: { mana: 10, components: ['verbal', 'somatic'], verbalText: 'Sanatio Inversa!', somaticText: 'Twist healing energy into harm' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 10 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Sanatio Inversa!', somaticText: 'Twist healing energy into harm', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 15, onSuccess: 'reduced_effect', onFailure: 'full_effect' },
       resolution: 'AUTOMATIC',
       effects: { curse: { type: 'healing_inversion', duration: '3 rounds', description: 'All healing the target receives from any source (spells, potions, abilities, regeneration) becomes necrotic damage instead' } },
@@ -978,21 +981,22 @@ FINAL ARCHETYPES (Last Token):
         afflictionAdvancement: { enabled: true, category: 'Decay', description: 'Advances any affliction on the target with the Decay category' },
         healingInversion: { conversion: 'full', damageType: 'necrotic', description: 'All healing the target receives from any source — spells, potions, abilities, and regeneration — becomes necrotic damage instead. Self-healing, ally healing, and passive regeneration are all affected.' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['decay', 'category', 'curse', 'anti healing', 'plaguebringer', 'decay harbinger'],
       flavorText: 'Healing becomes harm. Life becomes death.'
     },
     {
       id: 'pb_sufferings_echo',
+      effectTypes: ['debuff'],
       name: "Suffering's Echo",
       description: 'Doubles the damage of all existing afflictions on target. Disorients for 1 turn. Advances any affliction with the AMPLIFY category.',
       spellType: 'ACTION',
       icon: 'Psychic/Psionic Strike',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Psychic/Psionic Strike', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, requiresAffliction: true },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 9, components: ['verbal', 'somatic'], verbalText: 'Dolor Duplicatus!', somaticText: 'Clench fist to amplify pain' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 9 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Dolor Duplicatus!', somaticText: 'Clench fist to amplify pain', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 16, onSuccess: 'half_amplification', onFailure: 'full_amplification' },
       resolution: 'AUTOMATIC',
       debuffConfig: {
@@ -1004,21 +1008,22 @@ FINAL ARCHETYPES (Last Token):
         afflictionAdvancement: { enabled: true, category: 'Amplify', description: 'Advances any affliction on the target with the Amplify category' },
         requiresAffliction: { enabled: true, description: 'Target must have at least one active affliction' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['amplify', 'category', 'amplification', 'plaguebringer'],
       flavorText: 'Pain echoes. Suffering multiplies.'
     },
     {
       id: 'pb_pain_magnification',
+      effectTypes: ['debuff'],
       name: 'Pain Magnification',
       description: 'Triples all affliction damage for 1 turn. Advances any affliction with the AMPLIFY category.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Strike',
-      school: 'Necromancy',
       level: 4,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Psychic/Mind Strike', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, requiresAffliction: true },
       durationConfig: { durationType: 'rounds', duration: 1, durationUnit: 'rounds' },
-      resourceCost: { mana: 14, components: ['verbal', 'somatic'], verbalText: 'Dolor Triplicatus!', somaticText: 'Focus energy on target' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 14 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Dolor Triplicatus!', somaticText: 'Focus energy on target', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 16, onSuccess: 'double_instead', onFailure: 'triple' },
       resolution: 'AUTOMATIC',
       debuffConfig: {
@@ -1030,43 +1035,44 @@ FINAL ARCHETYPES (Last Token):
         afflictionAdvancement: { enabled: true, category: 'Amplify', description: 'Advances any affliction on the target with the Amplify category' },
         requiresAffliction: { enabled: true, description: 'Target must have at least one active affliction' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       tags: ['amplify', 'category', 'amplification', 'plaguebringer'],
       flavorText: 'Pain magnified beyond endurance.'
     },
     {
       id: 'pb_essence_corruption',
+      effectTypes: ['damage'],
       name: 'Essence Corruption',
       description: 'Corrupts target, causing them to emit a necrotic damage aura that harms their allies. Advances any affliction with the WEAKEN category.',
       spellType: 'ACTION',
       icon: 'Void/Consumed by Void',
-      school: 'Necromancy',
       level: 3,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Void/Consumed by Void', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 15 },
       durationConfig: { durationType: 'rounds', duration: 3, durationUnit: 'rounds' },
-      resourceCost: { mana: 9, components: ['verbal', 'somatic'], verbalText: 'Essentia Corruptio!', somaticText: "Corrupt target's essence" },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 9 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Essentia Corruptio!', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 15, onSuccess: 'reduced_aura', onFailure: 'full_aura' },
-      damageConfig: { formula: '3d6 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'automatic' },
-          resolution: 'DICE',
+      damageConfig: { formula: '3d6 + intelligence', elementType: 'necrotic', damageTypes: ['direct'], attackType: 'automatic' },
       effects: { aura: { damage: '1d10', damageType: 'necrotic', radius: 10, targets: 'allies_of_target', duration: '3 rounds', description: 'Target emits harmful aura to their allies' } },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Weaken', description: 'Advances any affliction on the target with the Weaken category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['weaken', 'category', 'aura', 'necrotic', 'plaguebringer'],
       flavorText: 'Ally becomes enemy. Corruption spreads.'
     },
     {
       id: 'pb_affliction_mark',
+      effectTypes: ['debuff'],
       name: 'Affliction Mark',
       description: 'Mark a target, making them vulnerable to plague effects and reducing Spirit by 2 for 3 rounds. Advances any affliction with the WEAKEN category.',
       spellType: 'ACTION',
       icon: 'Frost/Frost Touch',
-      school: 'Necromancy',
       level: 1,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Frost/Frost Touch', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30 },
       durationConfig: { durationType: 'rounds', duration: 3, durationUnit: 'rounds' },
-      resourceCost: { mana: 3, components: ['verbal', 'somatic'], verbalText: 'Signum Morbi!', somaticText: 'Press palm toward target' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 3 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Signum Morbi!', somaticText: 'Press palm toward target', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 12, onSuccess: 'no_effect', onFailure: 'full_effect' },
       resolution: 'AUTOMATIC',
       debuffConfig: {
@@ -1077,22 +1083,23 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Weaken', description: 'Advances any affliction on the target with the Weaken category' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['weaken', 'category', 'debuff', 'mark', 'plaguebringer'],
       flavorText: 'The mark sears the flesh. The plague finds its way in.'
     },
 
     {
       id: 'pb_plague_burst',
+      effectTypes: ['damage'],
       name: 'Plague Burst',
       description: 'Harvest an affliction from a target. Deals base 4d8 poison damage PLUS bonus damage equal to the affliction\'s stage × 2d8. Stage 3 afflictions explode in 10ft radius. Stage 1 afflictions deal base only. Consumes a maximum of 1 affliction per cast.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Plague',
-      school: 'Necromancy',
       level: 5,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Plague', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 40 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 18, components: ['verbal', 'somatic'], verbalText: 'Pestis Eruptio!', somaticText: 'Thrust palm forward to detonate affliction' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 18 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Pestis Eruptio!', somaticText: 'Thrust palm forward to detonate affliction' },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 16, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '4d8 + (stage × 2d8)',
@@ -1105,7 +1112,6 @@ FINAL ARCHETYPES (Last Token):
           stage2: '4d8 + 2d8 = 6d8',
           stage3: '4d8 + 4d8 = 8d8 + 10ft explosion'
         },
-          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1119,21 +1125,22 @@ FINAL ARCHETYPES (Last Token):
           description: 'Consumes the target affliction. Higher stage = dramatically more damage. Max 1 affliction consumed per cast.'
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       tags: ['damage', 'poison', 'harvest', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The plague erupts. The harvest is reaped in rot.'
     },
     {
       id: 'pb_mass_affliction',
+      effectTypes: ['damage'],
       name: 'Mass Affliction',
       description: 'Apply a base affliction to all enemies in 20ft radius, dealing 6d6 poison damage and starting affliction cultivation. Each afflicted enemy adds +5 Virulence.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Contagion',
-      school: 'Necromancy',
       level: 5,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Contagion', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 40, aoeType: 'sphere', aoeSize: 20 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 20, components: ['verbal', 'somatic'], verbalText: 'Pestis Multitudo!', somaticText: 'Sweep arms outward to spread plague' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 20 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Pestis Multitudo!', somaticText: 'Sweep arms outward to spread plague', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 16, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '6d6',
@@ -1143,7 +1150,6 @@ FINAL ARCHETYPES (Last Token):
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -1156,27 +1162,27 @@ FINAL ARCHETYPES (Last Token):
         },
         virulenceScaling: { enabled: true, description: 'Each enemy afflicted adds +5 Virulence', perTargetBonus: 5 }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       tags: ['damage', 'poison', 'aoe', 'affliction', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The field is seeded. The garden spreads.'
     },
     {
       id: 'pb_pandemic',
+      effectTypes: ['damage'],
       name: 'Pandemic',
       description: 'All Stage 2+ afflictions spread to 1 additional target each within 15ft. Spread damage scales with Virulence. Stage 3 afflictions spread to 2 targets.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Contagion',
-      school: 'Necromancy',
       level: 6,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Contagion', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 22, components: ['verbal', 'somatic'], verbalText: 'Pandemium!', somaticText: 'Spread arms wide, releasing contagion' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 22 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Pandemium!', somaticText: 'Spread arms wide, releasing contagion', classResource: { type: 'virulence', gain: 5 } },
       damageConfig: {
         formula: '1d6 per spread',
         elementType: 'poison',
         damageTypes: ['area'],
         attackType: 'automatic',
-          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1186,21 +1192,22 @@ FINAL ARCHETYPES (Last Token):
         },
         virulenceScaling: { enabled: true, description: '+1d4 spread damage per Virulence threshold reached', sproutingBonus: '+1d4', bloomingBonus: '+2d4', peakBonus: '+3d4' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       tags: ['damage', 'spread', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'One plague becomes many. Many become an epidemic.'
     },
     {
       id: 'pb_decay_field',
+      effectTypes: ['damage'],
       name: 'Decay Field',
       description: 'Create a field of decay (20ft) for 4 rounds. Deals 3d8 necrotic/round. Enemies with active afflictions take +1d8 per affliction stage.',
       spellType: 'STATE',
       icon: 'Necrotic/Necrotic Death',
-      school: 'Necromancy',
       level: 6,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Necrotic Death', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 40, aoeType: 'sphere', aoeSize: 20 },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 23, components: ['verbal', 'somatic'], verbalText: 'Campum Putredinis!', somaticText: 'Press palms to ground to create decay zone' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 23 }, actionPoints: 1, components: ['verbal', 'somatic'], verbalText: 'Campum Putredinis!', somaticText: 'Press palms to ground to create decay zone', classResource: { type: 'virulence', gain: 5 } },
       resolution: 'AUTOMATIC',
       damageConfig: {
         formula: '3d8 + (affliction stages × 1d8)',
@@ -1209,26 +1216,26 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'automatic',
         hasDotEffect: true,
         dotConfig: { dotFormula: '3d8 + (affliction stages × 1d8)', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: { enabled: true, description: '+1d8 damage per affliction stage on each enemy in the zone' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       tags: ['damage', 'necrotic', 'zone', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The earth rots beneath their feet. Nothing grows here anymore.'
     },
     {
       id: 'pb_gardens_wrath',
+      effectTypes: ['damage'],
       name: "Garden's Wrath",
       description: 'Every active affliction across ALL targets deals its damage simultaneously in one devastating tick. Requires 3+ active afflictions.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Plague',
-      school: 'Necromancy',
       level: 7,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Plague', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeType: 'sphere', aoeSize: 60 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 26, components: ['verbal', 'somatic'], verbalText: 'Ira Horti!', somaticText: 'Raise both fists and clench to trigger all afflictions' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 26 }, actionPoints: 2, components: ['verbal', 'somatic'], verbalText: 'Ira Horti!', somaticText: 'Raise both fists and clench to trigger all afflictions', classResource: { type: 'virulence', gain: 10 } },
       resolution: 'AUTOMATIC',
       damageConfig: {
         formula: 'All affliction damage × current multiplier',
@@ -1241,27 +1248,27 @@ FINAL ARCHETYPES (Last Token):
           stage2Bonus: 'Stage 2 afflictions deal ×2 damage',
           stage3Bonus: 'Stage 3 afflictions deal ×3 damage'
         },
-          resolution: 'DICE',
       },
       specialMechanics: {
         requiresAfflictions: { enabled: true, minimumAfflictions: 3, description: 'Requires at least 3 active afflictions across all targets' },
         cultivationScaling: { enabled: true, description: 'Total damage = sum of all affliction DoTs × stage multipliers.' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
       tags: ['damage', 'ultimate', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The garden blooms all at once. Every flower is death.'
     },
     {
       id: 'pb_mind_plague',
+      effectTypes: ['damage', 'control'],
       name: 'Mind Plague',
       description: 'Infect minds of all enemies in 25ft, dealing 8d8 psychic damage. Enemies with active afflictions take +2d8 per affliction stage. Confused 2 rounds.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Enchantment',
       level: 7,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'psychic', icon: 'Psychic/Mind Control', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 50, aoeType: 'sphere', aoeSize: 25 },
       durationConfig: { durationType: 'rounds', duration: 2, durationUnit: 'rounds' },
-      resourceCost: { mana: 27, components: ['verbal', 'somatic'], verbalText: 'Mens Pestis!', somaticText: 'Touch temple and project psychic plague' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 27 }, actionPoints: 2, components: ['verbal', 'somatic'], verbalText: 'Mens Pestis!', somaticText: 'Touch temple and project psychic plague', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 18, onSuccess: 'half_damage_no_confusion', onFailure: 'full_damage_and_confusion' },
       damageConfig: {
         formula: '8d8 + (affliction stages × 2d8)',
@@ -1269,7 +1276,6 @@ FINAL ARCHETYPES (Last Token):
         damageTypes: ['area'],
         attackType: 'spell_save',
         savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 18, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'mind_control', duration: 2, durationUnit: 'rounds', saveDC: 18, saveType: 'spirit', savingThrow: true,
@@ -1278,21 +1284,22 @@ FINAL ARCHETYPES (Last Token):
       specialMechanics: {
         cultivationScaling: { enabled: true, description: '+2d8 psychic damage per affliction stage on each target' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
       tags: ['damage', 'psychic', 'control', 'confusion', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The mind rots first. The body follows.'
     },
     {
       id: 'pb_plague_incarnate',
+      effectTypes: ['transformation'],
       name: 'Plague Incarnate',
       description: 'Transform into living plague for 5 rounds. Melee attacks apply base afflictions. Enemies within 15ft save or contract disease. Each new affliction adds +2 Virulence.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Plague',
-      school: 'Necromancy',
       level: 8,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Poison/Poison Plague', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'self', rangeType: 'self' },
       durationConfig: { durationType: 'rounds', duration: 5, durationUnit: 'rounds' },
-      resourceCost: { mana: 32, components: ['verbal', 'somatic'], verbalText: 'Incarnatio Pestis!', somaticText: 'Clasp hands to chest and transform' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 32 }, actionPoints: 2, components: ['verbal', 'somatic'], verbalText: 'Incarnatio Pestis!', somaticText: 'Clasp hands to chest and transform', classResource: { type: 'virulence', gain: 25 } },
       transformationConfig: {
         transformationType: 'elemental', targetType: 'self', duration: 5, durationUnit: 'rounds', power: 'major', newForm: 'Plague Incarnate',
         description: 'Become a living vessel of disease and decay.',
@@ -1305,21 +1312,22 @@ FINAL ARCHETYPES (Last Token):
         ]
       },
       specialMechanics: {},
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
       tags: ['transformation', 'buff', 'ultimate', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'You are no longer merely a gardener. You ARE the garden.'
     },
     {
       id: 'pb_epidemic',
+      effectTypes: ['damage'],
       name: 'Epidemic',
       description: 'Start an epidemic chain dealing increasing damage. Base: 8d6 poison. +2d6 per active affliction on the chain target. Chains to 8 enemies within 20ft.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Contagion',
-      school: 'Necromancy',
       level: 8,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Contagion', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 50 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 30, components: ['verbal', 'somatic'], verbalText: 'Epidemia!', somaticText: 'Point at primary target, then sweep to chain' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 30 }, actionPoints: 2, components: ['verbal', 'somatic'], verbalText: 'Epidemia!', somaticText: 'Point at primary target, then sweep to chain', classResource: { type: 'virulence', gain: 5 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 17, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '8d6 + (active afflictions on target × 2d6)',
@@ -1328,27 +1336,27 @@ FINAL ARCHETYPES (Last Token):
         attackType: 'spell_save',
         cultivationScaling: { description: '+2d6 per active affliction already on each chain target' },
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 17, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       specialMechanics: {
         chainMechanic: { enabled: true, maxTargets: 8, chainRange: 20, description: 'Chains to up to 8 enemies within 20ft of each previous target' },
         cultivationScaling: { enabled: true, description: '+2d6 per active affliction already on each chain target' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
       tags: ['damage', 'poison', 'spreading', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'One cough. Eight graves.'
     },
     {
       id: 'pb_black_death',
+      effectTypes: ['damage'],
       name: 'Black Death',
       description: 'The ultimate plague. Targets below 30% HP WITH an active Stage 2+ affliction die instantly. Targets with Stage 0-1 afflictions or above 30% HP take 12d10 poison damage instead.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Death',
-      school: 'Necromancy',
       level: 9,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Necrotic/Necrotic Death', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'area', rangeType: 'ranged', rangeDistance: 60, aoeType: 'sphere', aoeSize: 50 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 36, components: ['verbal', 'somatic'], verbalText: 'Mors Nigra!', somaticText: 'Raise both arms and speak the plague word' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 36 }, actionPoints: 3, components: ['verbal', 'somatic'], verbalText: 'Mors Nigra!', somaticText: 'Raise both arms and speak the plague word', classResource: { type: 'virulence', gain: 10 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 20, onSuccess: 'half_damage', onFailure: 'full_damage_or_execute' },
       damageConfig: {
         formula: '12d10 (or instant kill)',
@@ -1361,7 +1369,6 @@ FINAL ARCHETYPES (Last Token):
           lowStageAffliction: 'Full 12d10 damage + applies random Seed'
         },
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 20, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1369,21 +1376,22 @@ FINAL ARCHETYPES (Last Token):
           description: 'Requires Stage 2+ affliction on target for execute. No affliction = raw damage only. The plague must be CULTIVATED before it can kill.'
         }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6 },
       tags: ['damage', 'poison', 'execute', 'ultimate', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'The Black Death does not negotiate. It does not hesitate. It simply is.'
     },
     {
       id: 'pb_necrotic_eruption',
+      effectTypes: ['damage'],
       name: 'Necrotic Eruption',
       description: 'Consume ALL active afflictions across ALL targets (max 8). Each consumed affliction deals 4d8 necrotic in 30ft radius around its host. Total damage = affliction count × 4d8.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Death',
-      school: 'Necromancy',
       level: 9,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Necrotic/Necrotic Death', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'self', rangeType: 'self_centered', aoeType: 'sphere', aoeSize: 60 },
       durationConfig: { durationType: 'instant' },
-      resourceCost: { mana: 34, components: ['verbal', 'somatic'], verbalText: 'Eruptio Necrotica!', somaticText: 'Thrust both palms upward to detonate all afflictions' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 34 }, actionPoints: 3, components: ['verbal', 'somatic'], verbalText: 'Eruptio Necrotica!', somaticText: 'Thrust both palms upward to detonate all afflictions' },
       resolution: 'AUTOMATIC',
       damageConfig: {
         formula: 'Active Affliction Count × 4d8 (max 8)',
@@ -1393,27 +1401,27 @@ FINAL ARCHETYPES (Last Token):
         cultivationScaling: {
           description: 'Each active affliction is consumed and detonates for 4d8 necrotic (max 8 afflictions consumed). Stage 3 afflictions deal 6d8 instead. The ultimate harvest — burn the entire garden.'
         },
-          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: { enabled: true, description: 'Stage 3 afflictions explode for 6d8 instead of 4d8. Consumes ALL afflictions up to 8 — the nuclear option.' },
         harvestMechanic: { enabled: true, description: 'Consumes all active afflictions (max 8). Each detonates around its host target in 30ft radius.' }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6 },
       tags: ['damage', 'necrotic', 'consume', 'ultimate', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'Every garden must end. This one ends in fire and rot.'
     },
     {
       id: 'pb_plague_god',
+      effectTypes: ['transformation'],
       name: 'Plague God',
       description: 'Ascend to become the Plague God for 4 rounds. All afflictions deal +50% damage. Melee attacks apply Seeds. Immune to poison/necrotic. When it ends: 3d10 necrotic + 2 exhaustion. Your garden collapses — but it was glorious.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Contagion',
-      school: 'Necromancy',
       level: 10,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'necrotic', icon: 'Poison/Poison Contagion', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'self', rangeType: 'self' },
       durationConfig: { durationType: 'rounds', duration: 4, durationUnit: 'rounds' },
-      resourceCost: { mana: 40, components: ['verbal', 'somatic'], verbalText: 'Deus Pestis!', somaticText: 'Spread arms wide and ascend' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 40 }, actionPoints: 3, components: ['verbal', 'somatic'], verbalText: 'Deus Pestis!', somaticText: 'Spread arms wide and ascend', classResource: { type: 'virulence', gain: 25 } },
       transformationConfig: {
         transformationType: 'elemental', targetType: 'self', duration: 4, durationUnit: 'rounds', power: 'major', newForm: 'Plague Lord',
         description: 'Become a lord of pestilence and decay.',
@@ -1427,21 +1435,22 @@ FINAL ARCHETYPES (Last Token):
         ]
       },
       specialMechanics: {},
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       tags: ['transformation', 'ultimate', 'god form', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'Mortal gardeners tend their plots. You tend the world.'
     },
     {
       id: 'pb_ultimate_affliction',
+      effectTypes: ['damage', 'debuff'],
       name: 'Ultimate Affliction',
       description: 'Apply the ultimate affliction combining all categories. Deals 15d10 immediate + 5d10/turn for 6 rounds. -50% healing, -4 all stats, spreading contagion. Requires 5+ active afflictions to cast.',
       spellType: 'ACTION',
       icon: 'Poison/Poison Plague',
-      school: 'Necromancy',
       level: 10,
-      typeConfig: { castTime: 1, castTimeType: 'IMMEDIATE' },
+      typeConfig: { school: 'poison', icon: 'Poison/Poison Plague', castTime: 1, castTimeType: 'IMMEDIATE' },
       targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60 },
       durationConfig: { durationType: 'rounds', duration: 6, durationUnit: 'rounds' },
-      resourceCost: { mana: 36, components: ['verbal', 'somatic'], verbalText: 'Summa Pestis!', somaticText: 'Draw all five category sigils in the air and unleash' },
+      resourceCost: { resourceTypes: ['mana'], resourceValues: { mana: 36 }, actionPoints: 3, components: ['verbal', 'somatic'], verbalText: 'Summa Pestis!', somaticText: 'Draw all five category sigils in the air and unleash', classResource: { type: 'virulence', gain: 25 } },
       savingThrow: { enabled: true, attribute: 'constitution', difficulty: 22, onSuccess: 'half_damage', onFailure: 'full_damage' },
       damageConfig: {
         formula: '15d10',
@@ -1451,16 +1460,16 @@ FINAL ARCHETYPES (Last Token):
         hasDotEffect: true,
         dotConfig: { dotFormula: '5d10', duration: 6, tickFrequency: 'turn', isProgressiveDot: false },
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 22, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
-        effects: [{ id: 'ultimate_affliction', name: 'Ultimate Affliction', description: 'Target suffers all categories simultaneously — 5d10 damage/round, -50% healing, -4 all stats, spreading contagion for 6 rounds', statModifier: [{ stat: 'healing_received', value: -50, magnitudeType: 'percentage' }, { stat: 'all_stats', value: -4 }] }],
+        effects: [{ id: 'ultimate_affliction', name: 'Ultimate Affliction', description: 'Target suffers all categories simultaneously — 5d10 damage/round, -50% healing, -4 all stats, spreading contagion for 6 rounds', statModifier: { stat: 'all_stats', magnitude: 4, magnitudeType: 'flat' } }],
         durationValue: 6, durationType: 'rounds', durationUnit: 'rounds', saveDC: 22, saveType: 'constitution', saveOutcome: 'halves', canBeDispelled: true
       },
       specialMechanics: {
         requiresAfflictions: { enabled: true, minimumAfflictions: 5, description: 'Requires at least 5 active afflictions across all targets — you must cultivate before unleashing' }
       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       tags: ['damage', 'debuff', 'ultimate', 'affliction', 'cultivation scaling', 'plaguebringer'],
       flavorText: 'All five categories. One affliction. Total ruin.'
     }

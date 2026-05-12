@@ -1414,12 +1414,14 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
     {
       id: 'primalist_earth_bolt',
       name: 'Earth Bolt',
-      description: 'Hurl a bolt of solid earth at your enemy, dealing bludgeoning damage.',
+      description: 'Hurl a bolt of solid earth at your enemy, dealing bludgeoning damage. Generates 1 Totemic Synergy from the earth connection.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Nature/Roots',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'bludgeoning',
         icon: 'Nature/Roots',
         tags: ['attack', 'damage', 'earth', 'primalist'],
         castTime: 1,
@@ -1428,8 +1430,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '1d8 + spirit',
         elementType: 'bludgeoning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['nature', 'bludgeoning'],
+        resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1441,24 +1443,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 5 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 5, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'earth', 'primalist']
+      tags: ['attack', 'damage', 'earth', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_basic_healing_totem',
       name: 'Basic Healing Totem',
-      description: 'Place a totem that heals nearby allies each round.',
+      description: 'Place a totem that heals nearby allies each round. Generates 2 Totemic Synergy from totem placement.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Healing/Heal Wound',
       effectTypes: ['healing', 'summoning'],
       typeConfig: {
         school: 'nature',
@@ -1474,9 +1476,10 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         hotFormula: '1d6 + spirit/2',
         hotDuration: 3,
         hotTickType: 'round',
-        isProgressiveHot: false
+        isProgressiveHot: false,
+        resolution: 'DICE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'healing_totem_basic',
           name: 'Basic Healing Totem',
@@ -1518,24 +1521,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 6, totemic_synergy: -2 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
-      tags: ['healing', 'totem', 'support', 'primalist']
+      tags: ['healing', 'totem', 'support', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_natures_blessing',
       name: "Nature's Blessing",
-      description: 'Bless an ally with the power of nature, granting them bonus damage on their next attack.',
+      description: 'Bless an ally with the power of nature, granting them bonus damage on their next attack. Generates 1 Totemic Synergy from the nature bond.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Nature/Nature Natural',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
@@ -1572,25 +1575,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 4 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 4, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'support', 'nature', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'support', 'nature', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 2 SPELLS =====
     {
       id: 'primalist_storm_gale',
       name: 'Storm Gale',
-      description: 'Summon a powerful gust of wind that pushes enemies back and creates difficult terrain.',
+      description: 'Summon a powerful gust of wind that pushes enemies back and creates difficult terrain. Generates 1 Totemic Synergy from elemental forces.',
       level: 2,
       spellType: 'ACTION',
+      icon: 'Nature/Wind Gust',
       effectTypes: ['control', 'utility'],
       typeConfig: {
         school: 'nature',
@@ -1600,27 +1603,29 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTimeType: 'IMMEDIATE'
       },
       controlConfig: {
-        controlType: 'push',
+        controlType: 'forcedMovement',
         strength: 'moderate',
         distance: 10,
         distanceUnit: 'feet',
         duration: 1,
         durationUnit: 'rounds',
-        saveDC: 13,
-        saveType: 'strength',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 13,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'push_back',
+          controlType: 'forcedMovement',
           name: 'Pushed Back',
+          icon: 'Nature/Wind Gust',
           description: 'Target is pushed 10 feet away and the area becomes difficult terrain',
           config: {
-            saveType: 'strength',
-            saveDC: 13,
-            push: true,
-            distance: 10,
-            difficultTerrain: true,
             duration: 1,
-            durationUnit: 'rounds'
+            durationUnit: 'rounds',
+            strength: 'moderate',
+            movementType: 'push',
+            distance: 10
           }
         }]
       },
@@ -1636,24 +1641,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 8, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       resolution: 'DICE',
-      tags: ['control', 'utility', 'air', 'primalist']
+      tags: ['control', 'utility', 'air', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_earthen_shield',
       name: 'Earthen Shield',
-      description: 'Encase yourself or an ally in a shell of stone that absorbs incoming damage.',
+      description: 'Encase yourself or an ally in a shell of stone that absorbs incoming damage. Generates 1 Totemic Synergy from the earth bond.',
       level: 2,
       spellType: 'ACTION',
+      icon: 'Nature/Earth Shield',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
@@ -1690,24 +1695,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 8, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'earth', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'defense', 'earth', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_spirit_sight',
       name: 'Spirit Sight',
-      description: 'Open your senses to the spirit world, revealing hidden enemies and magical effects in the area.',
+      description: 'Open your senses to the spirit world, revealing hidden enemies and magical effects in the area. Generates 1 Totemic Synergy from spirit communion.',
       level: 2,
       spellType: 'ACTION',
+      icon: 'Utility/Hide',
       effectTypes: ['utility'],
       typeConfig: {
         school: 'nature',
@@ -1726,34 +1731,36 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         duration: 3,
         durationUnit: 'rounds',
         concentration: false,
-        power: 'minor'
+        power: 'minor',
+        resolution: 'AUTOMATIC'
       },
       targetingConfig: {
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 6 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 6, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['utility', 'detection', 'spirit', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      resolution: 'AUTOMATIC',
+      tags: ['utility', 'detection', 'spirit', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 3 SPELLS =====
     {
       id: 'primalist_venomous_totem',
       name: 'Venomous Totem',
-      description: 'Place a totem that poisons enemies within range, dealing nature damage each turn.',
+      description: 'Place a totem that poisons enemies within range, dealing poison and nature damage each turn. Generates 2 Totemic Synergy from totem placement.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Nature/Thorned Flower',
       effectTypes: ['damage', 'summoning'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'poison',
         icon: 'Nature/Thorned Flower',
         tags: ['damage', 'totem', 'poison', 'primalist'],
         castTime: 1,
@@ -1762,11 +1769,10 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '1d6 + spirit/2',
         elementType: 'poison',
-        damageTypes: ['area'],
-        description: 'Enemies within range take poison damage at the start of each turn',
-          resolution: 'DICE',
+        damageTypes: ['poison', 'nature'],
+        resolution: 'DICE',
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'venomous_totem',
           name: 'Venomous Totem',
@@ -1808,24 +1814,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 10, totemic_synergy: -2 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
-      tags: ['damage', 'totem', 'poison', 'primalist']
+      tags: ['damage', 'totem', 'poison', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_natures_grasp',
       name: "Nature's Grasp",
-      description: 'Thorny vines erupt from the ground, rooting a single enemy in place.',
+      description: 'Thorny vines erupt from the ground, rooting a single enemy in place. Generates 1 Totemic Synergy from the earth connection.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Nature/Roots',
       effectTypes: ['control'],
       typeConfig: {
         school: 'nature',
@@ -1835,23 +1841,28 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTimeType: 'IMMEDIATE'
       },
       controlConfig: {
-        controlType: 'root',
+        controlType: 'restraint',
         strength: 'moderate',
         duration: 2,
         durationUnit: 'rounds',
-        saveDC: 14,
-        saveType: 'strength',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 14,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'entangled',
+          controlType: 'restraint',
           name: 'Entangled',
+          icon: 'Nature/Roots',
           description: 'Target is rooted in place and cannot move. Can still attack and cast spells.',
           config: {
-            saveType: 'strength',
-            saveDC: 14,
-            root: true,
             duration: 2,
-            durationUnit: 'rounds'
+            durationUnit: 'rounds',
+            strength: 'moderate',
+            savingThrowType: 'strength',
+            difficultyClass: 14,
+            restraintType: 'root'
           }
         }]
       },
@@ -1865,24 +1876,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 10, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['control', 'root', 'nature', 'primalist']
+      tags: ['control', 'root', 'nature', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_ancestral_bond',
       name: 'Ancestral Bond',
-      description: 'Call upon ancestral spirits to grant an ally resistance to one damage type for a short duration.',
+      description: 'Call upon ancestral spirits to grant an ally resistance to one damage type for 3 rounds. Generates 1 Totemic Synergy from the ancestral connection.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Nature/Nature Natural',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
@@ -1919,28 +1930,29 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 10 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 10, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'spirit', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'defense', 'spirit', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 4 SPELLS =====
     {
       id: 'primalist_earthquake_strike',
       name: 'Earthquake Strike',
-      description: 'Slam your weapon into the ground, creating a localized earthquake that damages and knocks down enemies.',
+      description: 'Slam your weapon into the ground, creating a localized earthquake that deals bludgeoning damage and knocks down enemies. Costs 4 Totemic Synergy.',
       level: 4,
       spellType: 'ACTION',
+      icon: 'Nature/Earth Shatter',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'bludgeoning',
         icon: 'Nature/Earth Shatter',
         tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist'],
         castTime: 1,
@@ -1949,35 +1961,36 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '5d6 + spirit',
         elementType: 'bludgeoning',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['nature', 'bludgeoning'],
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 15,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE',
       },
       controlConfig: {
-        controlType: 'knockdown',
+        controlType: 'incapacitation',
         strength: 'moderate',
         duration: 1,
         durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'agility',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 15,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'trip',
+          controlType: 'forcedMovement',
           name: 'Knocked Prone',
+          icon: 'Nature/Earth Shatter',
           description: 'Target is knocked prone and must use movement to stand',
           config: {
-            saveType: 'strength',
-            saveDC: 15,
-            knockdown: true,
             duration: 1,
-            durationUnit: 'rounds'
+            durationUnit: 'rounds',
+            strength: 'moderate',
+            savingThrowType: 'strength',
+            difficultyClass: 15
           }
         }]
       },
@@ -1992,24 +2005,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 18 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 18, totemic_synergy: 4 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist']
+      tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_spirit_wolves',
       name: 'Spirit Wolves',
-      description: 'Summon two spectral wolves to fight alongside you.',
+      description: 'Summon two spectral wolves to fight alongside you. Costs 5 Totemic Synergy.',
       level: 4,
       spellType: 'ACTION',
+      icon: 'Nature/Wolf Dash',
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
@@ -2018,7 +2031,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'spirit_wolf',
           name: 'Spirit Wolf',
@@ -2058,24 +2071,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 20, totemic_synergy: 5 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
-      resolution: 'DICE',
-      tags: ['summoning', 'spirit', 'nature', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+      resolution: 'AUTOMATIC',
+      tags: ['summoning', 'spirit', 'nature', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_primal_fury',
       name: 'Primal Fury',
-      description: 'Channel primal rage into yourself or an ally, increasing damage output.',
+      description: 'Channel primal rage into yourself or an ally, increasing damage output by 25%. Costs 4 Totemic Synergy.',
       level: 4,
       spellType: 'ACTION',
+      icon: 'General/Rage',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
@@ -2112,28 +2125,29 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 16 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 16, totemic_synergy: 4 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'damage', 'nature', 'primalist']
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'damage', 'nature', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 5 SPELLS (need 2 more) =====
     {
       id: 'primalist_thorn_barrier',
       name: 'Thorn Barrier',
-      description: 'Create a wall of thorns that damages enemies who pass through it.',
+      description: 'Create a wall of thorns that damages enemies who pass through it with piercing and nature damage. Costs 5 Totemic Synergy.',
       level: 5,
       spellType: 'ACTION',
+      icon: 'Nature/Thorned Flower',
       effectTypes: ['utility', 'damage'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'piercing',
         icon: 'Nature/Thorned Flower',
         tags: ['utility', 'damage', 'terrain', 'nature', 'primalist'],
         castTime: 1,
@@ -2142,9 +2156,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '6d6 + spirit',
         elementType: 'piercing',
-        damageTypes: ['area'],
-        description: 'Creatures that enter or start their turn in the thorns take damage',
-          resolution: 'DICE',
+        damageTypes: ['piercing', 'nature'],
+        resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2170,24 +2183,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 20 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 20, totemic_synergy: 5 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       resolution: 'DICE',
-      tags: ['utility', 'damage', 'terrain', 'nature', 'primalist']
+      tags: ['utility', 'damage', 'terrain', 'nature', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_ancestral_guardian',
       name: 'Ancestral Guardian',
-      description: 'Summon a powerful ancestral spirit to protect and fight for you.',
+      description: 'Summon a powerful ancestral spirit to protect and fight for you. Costs 6 Totemic Synergy.',
       level: 5,
       spellType: 'ACTION',
+      icon: 'Nature/Earth Shield',
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
@@ -2196,7 +2209,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'ancestral_guardian',
           name: 'Ancestral Guardian',
@@ -2236,28 +2249,29 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 24 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 24, totemic_synergy: 6 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['summoning', 'spirit', 'nature', 'primalist']
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+      resolution: 'AUTOMATIC',
+      tags: ['summoning', 'spirit', 'nature', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 6 SPELLS (need 2 more) =====
     {
       id: 'primalist_elemental_fury_totem',
       name: 'Elemental Fury Totem',
-      description: 'Place a powerful totem that unleashes elemental fury on enemies.',
+      description: 'Place a powerful totem that unleashes fire and lightning damage on enemies within range each round. Costs 8 Totemic Synergy.',
       level: 6,
       spellType: 'ACTION',
+      icon: 'Nature/Claw Marks',
       effectTypes: ['damage', 'summoning'],
       typeConfig: {
-        school: 'nature',
+        school: 'fire',
+        secondaryElement: 'lightning',
         icon: 'Nature/Claw Marks',
         tags: ['damage', 'totem', 'elemental', 'primalist'],
         castTime: 1,
@@ -2266,12 +2280,10 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '8d6 + spirit',
         elementType: 'fire',
-        secondaryElementType: 'lightning',
-        damageTypes: ['area'],
-        description: 'Totem deals damage to all enemies in range each round',
-          resolution: 'DICE',
+        damageTypes: ['fire', 'lightning'],
+        resolution: 'DICE',
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'elemental_fury_totem',
           name: 'Elemental Fury Totem',
@@ -2313,24 +2325,24 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 26 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 26, totemic_synergy: 8 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       resolution: 'DICE',
-      tags: ['damage', 'totem', 'elemental', 'primalist']
+      tags: ['damage', 'totem', 'elemental', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_stone_skin',
       name: 'Stone Skin',
-      description: 'Transform your skin into stone, granting significant damage reduction.',
+      description: 'Transform your skin into stone, granting significant damage reduction. Costs 6 Totemic Synergy.',
       level: 6,
       spellType: 'ACTION',
+      icon: 'Nature/Earth Shield',
       effectTypes: ['buff'],
       typeConfig: {
         school: 'nature',
@@ -2361,28 +2373,29 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 25 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 25, totemic_synergy: 6 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'earth', 'primalist']
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'defense', 'earth', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 7 SPELLS (need 2 more) =====
     {
       id: 'primalist_meteor_storm',
       name: 'Meteor Storm',
-      description: 'Call down meteors from the sky to devastate your enemies.',
+      description: 'Call down meteors from the sky to devastate your enemies with fire and bludgeoning damage. Costs 10 Totemic Synergy.',
       level: 7,
       spellType: 'ACTION',
+      icon: 'Utility/Explosive Detonation',
       effectTypes: ['damage'],
       typeConfig: {
-        school: 'nature',
+        school: 'fire',
+        secondaryElement: 'bludgeoning',
         icon: 'Utility/Explosive Detonation',
         tags: ['attack', 'damage', 'aoe', 'fire', 'primalist'],
         castTime: 2,
@@ -2391,17 +2404,13 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '10d6 + spirit * 2',
         elementType: 'fire',
-        secondaryElementType: 'bludgeoning',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['fire', 'bludgeoning'],
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 17,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2415,25 +2424,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 28, totemic_synergy: 10 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A fragment of a meteor'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'fire', 'primalist']
+      tags: ['attack', 'damage', 'aoe', 'fire', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_natures_wrath',
       name: "Nature's Wrath",
-      description: 'Unleash the full wrath of nature, empowering all totems and dealing massive damage.',
+      description: 'Unleash the full wrath of nature, empowering all active totems with bonus damage and dealing massive nature damage to enemies. Costs 10 Totemic Synergy. Allies within range gain +2 to all stats for 4 rounds.',
       level: 7,
       spellType: 'ACTION',
+      icon: 'Nature/Growth',
       effectTypes: ['damage', 'buff'],
       typeConfig: {
         school: 'nature',
@@ -2444,9 +2453,9 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       damageConfig: {
         formula: '8d8 + spirit * 1.5',
-        elementType: 'force',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        elementType: 'nature',
+        damageTypes: ['nature'],
+        resolution: 'DICE',
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -2470,36 +2479,56 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
+        targetingMode: 'effect',
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['any'],
         maxTargets: 10,
         targetSelectionMethod: 'automatic',
         requiresLineOfSight: false
       },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['enemy'],
+          maxTargets: 10
+        },
+        buff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          aoeShape: 'circle',
+          aoeParameters: { radius: 40 },
+          targetRestrictions: ['ally', 'self'],
+          maxTargets: 10
+        }
+      },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 28, totemic_synergy: 10 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['damage', 'buff', 'totem', 'nature', 'primalist']
+      tags: ['damage', 'buff', 'totem', 'nature', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 8 SPELLS (need 2 more) =====
     {
       id: 'primalist_primal_apocalypse',
       name: 'Primal Apocalypse',
-      description: 'Summon the apocalyptic fury of nature, dealing massive damage and creating permanent terrain changes.',
+      description: 'Summon the apocalyptic fury of nature, dealing massive nature and bludgeoning damage and creating permanent terrain changes. Costs 12 Totemic Synergy.',
       level: 8,
       spellType: 'ACTION',
+      icon: 'Nature/Entangled',
       effectTypes: ['damage', 'utility'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'bludgeoning',
         icon: 'Nature/Entangled',
         tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist'],
         castTime: 3,
@@ -2507,17 +2536,14 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       damageConfig: {
         formula: '14d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        elementType: 'nature',
+        damageTypes: ['nature', 'bludgeoning'],
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 18,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2543,25 +2569,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 32 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 32, totemic_synergy: 12 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of an ancient earth elemental'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist']
+      tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_grand_totem_circle',
       name: 'Grand Totem Circle',
-      description: 'Place four powerful totems simultaneously, creating an unbreakable circle of power.',
+      description: 'Place four powerful totems simultaneously, creating an unbreakable circle of power. Costs 12 Totemic Synergy to channel this much totemic energy at once.',
       level: 8,
       spellType: 'ACTION',
+      icon: 'Necrotic/Resurrect',
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
         school: 'nature',
@@ -2570,7 +2596,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTime: 2,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           {
             id: 'grand_healing_totem',
@@ -2683,25 +2709,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 32 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 32, totemic_synergy: 12 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist']
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      resolution: 'AUTOMATIC',
+      tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
       id: 'primalist_world_tree_avatar',
       name: 'World Tree Avatar',
-      description: 'Transform into an avatar of the World Tree, gaining immense power and control over nature.',
+      description: 'Transform into an avatar of the World Tree, gaining immense power and control over nature. Costs 15 Totemic Synergy to channel the essence of the World Tree.',
       level: 9,
       spellType: 'STATE',
+      icon: 'Healing/Heart Ripple',
       effectTypes: ['transformation', 'buff'],
       typeConfig: {
         school: 'nature',
@@ -2761,27 +2787,27 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 36 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 36, totemic_synergy: 15 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist']
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      resolution: 'AUTOMATIC',
     },
 
     {
       id: 'primalist_cataclysm',
       name: 'Cataclysm',
-      description: 'Unleash a natural cataclysm that devastates the entire battlefield.',
+      description: 'Unleash a natural cataclysm that devastates the entire battlefield with nature and bludgeoning damage. Costs 15 Totemic Synergy.',
       level: 9,
       spellType: 'ACTION',
+      icon: 'Nature/Earth Shatter',
       effectTypes: ['damage', 'control'],
       typeConfig: {
         school: 'nature',
+        secondaryElement: 'bludgeoning',
         icon: 'Nature/Earth Shatter',
         tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist'],
         castTime: 4,
@@ -2789,37 +2815,37 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       damageConfig: {
         formula: '18d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        elementType: 'nature',
+        damageTypes: ['nature', 'bludgeoning'],
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 19,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE',
       },
       controlConfig: {
-        controlType: 'knockdown',
+        controlType: 'incapacitation',
         strength: 'extreme',
         duration: 2,
         durationUnit: 'rounds',
-        saveDC: 19,
-        saveType: 'strength',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'strength',
+          difficultyClass: 19,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'stagger',
+          controlType: 'incapacitation',
           name: 'Staggered by Cataclysm',
-          description: 'Target is knocked prone and stunned for 2 rounds. Requires DC 19 Strength save to negate.',
+          icon: 'Nature/Earth Shatter',
+          description: 'Target is knocked prone and stunned for 2 rounds. DC 19 Strength save to negate.',
           config: {
-            saveType: 'strength',
-            saveDC: 19,
-            knockdown: true,
-            stun: true,
             duration: 2,
-            durationUnit: 'rounds'
+            durationUnit: 'rounds',
+            strength: 'extreme',
+            savingThrowType: 'strength',
+            difficultyClass: 19
           }
         }]
       },
@@ -2834,25 +2860,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 36 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 36, totemic_synergy: 15 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A shard of the primordial earth, worth 50,000 gold'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist']
+      tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_eternal_totem',
       name: 'Eternal Totem',
-      description: 'Place a legendary totem that can never be destroyed and empowers all nearby allies.',
+      description: 'Place a legendary totem that can never be destroyed and empowers all nearby allies. Costs 15 Totemic Synergy to anchor this indestructible conduit of nature.',
       level: 9,
       spellType: 'ACTION',
+      icon: 'General/Increase Strength',
       effectTypes: ['summoning', 'buff'],
       typeConfig: {
         school: 'nature',
@@ -2861,7 +2887,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTime: 3,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'eternal_totem',
           name: 'Eternal Totem',
@@ -2923,26 +2949,26 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 36 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 36, totemic_synergy: 15 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The essence of the World Tree'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist']
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      resolution: 'AUTOMATIC',
+      tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist', 'synergy']
     },
 
     // ===== LEVEL 10 SPELLS =====
     {
       id: 'primalist_primal_ascension',
       name: 'Primal Ascension',
-      description: 'Ascend to become one with nature itself, gaining godlike power.',
+      description: 'Ascend to become one with nature itself, gaining godlike power over totemic magic. Spends 20 Totemic Synergy to achieve perfect harmony with the primal forces.',
       level: 10,
       spellType: 'PASSIVE',
+      icon: 'Healing/Heart Ripple',
       effectTypes: ['buff', 'transformation'],
       typeConfig: {
         school: 'nature',
@@ -2985,25 +3011,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         targetingType: 'self'
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ['totemic_synergy'],
+        resourceValues: { totemic_synergy: 20 },
         useFormulas: {},
         actionPoints: 0,
         components: ['ritual'],
         materialComponents: 'The blessing of the primordial spirits, 100,000 gold worth of natural artifacts'
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
-      resolution: 'DICE',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      resolution: 'AUTOMATIC',
       tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable']
     },
 
     {
       id: 'primalist_gaia_wrath',
       name: "Gaia's Wrath",
-      description: 'Channel the wrath of the earth mother, obliterating all enemies on the battlefield.',
+      description: 'Channel the wrath of the earth mother, obliterating all enemies on the battlefield with primal nature damage. Spends 20 Totemic Synergy.',
       level: 10,
       spellType: 'ACTION',
+      icon: 'Nature/Entangled',
       effectTypes: ['damage'],
       typeConfig: {
         school: 'nature',
@@ -3014,17 +3040,15 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       },
       damageConfig: {
         formula: '22d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        elementType: 'nature',
+        damageTypes: ['nature', 'bludgeoning'],
+        secondaryElementType: 'bludgeoning',
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 20,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -3037,25 +3061,25 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: false
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 40, totemic_synergy: 20 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A tear of the earth mother, priceless'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist']
+      tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist', 'synergy']
     },
 
     {
       id: 'primalist_genesis',
       name: 'Genesis',
-      description: 'Create life itself, summoning an army of nature spirits and creatures.',
+      description: 'Create life itself, summoning an army of nature spirits and creatures. Spends 18 Totemic Synergy to unleash the full creative force of the natural world.',
       level: 10,
       spellType: 'ACTION',
+      icon: 'Nature/Growth',
       effectTypes: ['summoning'],
       typeConfig: {
         school: 'nature',
@@ -3064,7 +3088,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         castTime: 4,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [
           {
             id: 'nature_army_treants',
@@ -3140,17 +3164,16 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         requiresLineOfSight: true
       },
       resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 40 },
+        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceValues: { mana: 40, totemic_synergy: 18 },
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Seeds from the World Tree, worth 80,000 gold'
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-      tags: ['summoning', 'nature', 'legendary', 'primalist']
+      tags: ['summoning', 'nature', 'legendary', 'primalist', 'synergy']
     }
   ],
 

@@ -1100,11 +1100,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Warrior',
-      school: 'Enchantment',
       level: 1,
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'psychic',
         icon: 'Radiant/Radiant Warrior',
         tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1'],
         castTime: 1,
@@ -1134,6 +1133,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
       buffConfig: {
         buffType: 'statEnhancement',
@@ -1154,24 +1154,16 @@ Before combat, decide which cadences you want to prioritize:
         maxStacks: 1
       },
 
-      effects: {
-        buff: {
-          type: 'ac-bonus',
-          value: 2,
-          duration: 2,
-          description: '+2 Armor'
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'II', count: 1 },
+          { note: 'VI', count: 2 }
+        ]
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'II', count: 1 },
-            { note: 'VI', count: 2 }
-          ]
-        }
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1']
     },
@@ -1182,11 +1174,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
       spellType: 'ACTION',
       icon: 'Arcane/Orb Manipulation',
-      school: 'Evocation',
       level: 3,
 
       typeConfig: {
-        school: 'evocation',
+        school: 'lightning',
         icon: 'Arcane/Orb Manipulation',
         tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3'],
         castTime: 1,
@@ -1212,6 +1203,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d8 + spirit',
@@ -1220,25 +1212,17 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8 + spirit',
-            type: 'lightning'
-          }
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 1 },
+          { note: 'V', count: 1 }
+        ],
+        cadenceName: 'Resolving Strike'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'I', count: 1 },
-            { note: 'V', count: 1 }
-          ],
-          cadenceName: 'Resolving Strike'
-        }
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3']
     },
@@ -1249,11 +1233,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
       spellType: 'ACTION',
       icon: 'Healing/Reaching Hand',
-      school: 'Abjuration',
       level: 1,
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Healing/Reaching Hand',
         tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level 1'],
         castTime: 1,
@@ -1279,6 +1262,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing', 'damage'],
 
       healingConfig: {
         healingType: 'direct',
@@ -1323,11 +1307,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Sing a soothing melody that heals an ally.',
       spellType: 'ACTION',
       icon: 'Healing/Golden Heart',
-      school: 'Abjuration',
       level: 2,
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Healing/Golden Heart',
         tags: ['builder', 'healing', 'subdominant generator', 'soulsinger', 'level 2'],
         castTime: 1,
@@ -1353,6 +1336,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing', 'damage'],
 
       healingConfig: {
         healingType: 'direct',
@@ -1376,23 +1360,18 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '2d6 + spirit',
-            type: 'magical'
-          }
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'IV', count: 2 },
+          { note: 'I', count: 1 }
+        ]
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
+
       specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'IV', count: 2 },
-            { note: 'I', count: 1 }
-          ]
-        },
         instrumentBonus: {
           lute: { healingBonus: 2 },
           harp: { healingBonus: 2 }
@@ -1408,11 +1387,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Beat a powerful rhythm that damages enemies in an area.',
       spellType: 'ACTION',
       icon: 'Utility/Overlords Command',
-      school: 'Evocation',
       level: 2,
 
       typeConfig: {
-        school: 'evocation',
+        school: 'lightning',
         icon: 'Utility/Overlords Command',
         tags: ['builder', 'aoe', 'damage', 'dominant generator', 'battlechoir', 'area effect', 'level 2'],
         castTime: 1,
@@ -1423,8 +1401,10 @@ Before combat, decide which cadences you want to prioritize:
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
-        aoeType: 'sphere',
-        aoeSize: 15
+        aoeShape: 'circle',
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1440,6 +1420,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '2d6 + spirit',
@@ -1448,23 +1429,18 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '2d6 + spirit',
-            type: 'lightning'
-          }
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'V', count: 1 },
+          { note: 'VI', count: 2 }
+        ]
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
+
       specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'V', count: 1 },
-            { note: 'VI', count: 2 }
-          ]
-        },
         instrumentBonus: {
           drum: { damageBonus: '1d4' }
         }
@@ -1479,11 +1455,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Unleash a discordant scream that generates tension notes and frightens enemies.',
       spellType: 'ACTION',
       icon: 'Psychic/Agonizing Scream',
-      school: 'Enchantment',
       level: 3,
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'psychic',
         icon: 'Psychic/Agonizing Scream',
         tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3'],
         castTime: 1,
@@ -1492,9 +1467,11 @@ Before combat, decide which cadences you want to prioritize:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'sphere',
-        aoeSize: 20
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1510,6 +1487,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage', 'control'],
 
       damageConfig: {
         formula: '3d6 + spirit',
@@ -1518,30 +1496,38 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '3d6 + spirit',
-            type: 'psychic'
+      controlConfig: {
+        controlType: 'fear',
+        effects: [{
+          id: 'frightened',
+          controlType: 'frightened',
+          name: 'Frightened',
+          description: 'Target is frightened',
+          config: {
+            duration: 2,
+            durationUnit: 'rounds',
+            savingThrow: true,
+            savingThrowType: 'spirit',
+            difficultyClass: 14
           }
-        },
-        condition: {
-          type: 'frightened',
-          duration: 2,
-          saveType: 'spirit',
-          saveDC: 14
-        }
+        }],
+        duration: 2,
+        durationUnit: 'rounds',
+        savingThrow: true,
+        savingThrowType: 'spirit',
+        difficultyClass: 14
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'VII', count: 3 },
-            { note: 'II', count: 1 }
-          ]
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'VII', count: 3 },
+          { note: 'II', count: 1 }
+        ]
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3']
     },
@@ -1553,11 +1539,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally\'s next attack will critically strike.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Bolt',
-      school: 'Divination',
       level: 4,
 
       typeConfig: {
-        school: 'divination',
+        school: 'psychic',
         icon: 'Radiant/Radiant Bolt',
         tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4'],
         castTime: 1,
@@ -1585,26 +1570,37 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          type: 'guaranteed-crit',
-          duration: 1,
-          description: 'Next attack is guaranteed critical hit'
-        }
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'guaranteed_crit',
+          name: 'Guaranteed Critical Hit',
+          description: 'Next attack is guaranteed critical hit',
+          mechanicsText: 'Next attack is guaranteed critical hit'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        canBeDispelled: true,
+        concentrationRequired: false,
+        stackingRule: 'replace',
+        maxStacks: 1
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'I', count: 2 },
-            { note: 'IV', count: 1 },
-            { note: 'V', count: 1 }
-          ],
-          cadenceName: 'Perfect Cadence'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 2 },
+          { note: 'IV', count: 1 },
+          { note: 'V', count: 1 }
+        ],
+        cadenceName: 'Perfect Cadence'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4']
     },
@@ -1615,11 +1611,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.',
       spellType: 'ACTION',
       icon: 'Fire/Dragon Breath',
-      school: 'Evocation',
       level: 5,
 
       typeConfig: {
-        school: 'evocation',
+        school: 'lightning',
         icon: 'Fire/Dragon Breath',
         tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5'],
         castTime: 1,
@@ -1630,8 +1625,10 @@ Before combat, decide which cadences you want to prioritize:
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
-        aoeType: 'sphere',
-        aoeSize: 30
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['enemy'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1649,6 +1646,7 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '3d6 + spirit',
@@ -1657,28 +1655,18 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        damage: {
-          dot: {
-            formula: '3d6 + spirit',
-            type: 'lightning',
-            duration: 3,
-            interval: 'turn'
-          }
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'V', count: 2 },
+          { note: 'I', count: 1 },
+          { note: 'VI', count: 1 }
+        ],
+        cadenceName: 'Circle of Fifths'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'V', count: 2 },
-            { note: 'I', count: 1 },
-            { note: 'VI', count: 1 }
-          ],
-          cadenceName: 'Circle of Fifths'
-        }
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5']
     },
@@ -1689,11 +1677,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.',
       spellType: 'ACTION',
       icon: 'Healing/Prayer',
-      school: 'Abjuration',
       level: 5,
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Healing/Prayer',
         tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger', 'level 5'],
         castTime: 1,
@@ -1702,9 +1689,11 @@ Before combat, decide which cadences you want to prioritize:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'sphere',
-        aoeSize: 20
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1722,6 +1711,13 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing', 'buff', 'damage'],
+
+      healingConfig: {
+        formula: '4d6 + spirit',
+        healingType: 'direct',
+        resolution: 'DICE'
+      },
 
       damageConfig: {
         formula: '4d6 + spirit',
@@ -1739,31 +1735,33 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '4d6 + spirit',
-            type: 'magical'
-          }
-        },
-        buff: {
-          type: 'damage-reduction',
-          value: 4,
-          duration: 1,
-          description: 'Reduce incoming damage by 4'
-        }
+      buffConfig: {
+        buffType: 'damage_reduction',
+        effects: [{
+          id: 'authentic_protection',
+          name: 'Authentic Protection',
+          description: 'Reduce incoming damage by 4',
+          mechanicsText: '-4 damage taken for 1 round'
+        }],
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
 
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 2 },
+          { note: 'VI', count: 1 },
+          { note: 'III', count: 1 }
+        ],
+        cadenceName: 'Authentic Cadence'
+      },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
+
       specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'I', count: 2 },
-            { note: 'VI', count: 1 },
-            { note: 'III', count: 1 }
-          ],
-          cadenceName: 'Authentic Cadence'
-        },
         instrumentBonus: {
           lute: { healingBonus: 2 },
           harp: { healingBonus: 2 }
@@ -1779,11 +1777,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Strike',
-      school: 'Enchantment',
       level: 6,
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'psychic',
         icon: 'Psychic/Mind Strike',
         tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6'],
         castTime: 1,
@@ -1811,28 +1808,43 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'SAVE',
+      effectTypes: ['control'],
 
-      effects: {
-        condition: {
-          type: 'paralyzed',
-          duration: 1,
-          saveType: 'spirit',
-          saveDC: 18
-        }
+      controlConfig: {
+        controlType: 'incapacitation',
+        effects: [{
+          id: 'paralyzed',
+          controlType: 'paralyze',
+          name: 'Paralyzed',
+          description: 'Target is paralyzed',
+          config: {
+            duration: 1,
+            durationUnit: 'rounds',
+            savingThrow: true,
+            savingThrowType: 'spirit',
+            difficultyClass: 18
+          }
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        savingThrow: true,
+        savingThrowType: 'spirit',
+        difficultyClass: 18
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'IV', count: 1 },
-            { note: 'I', count: 1 },
-            { note: 'V', count: 1 },
-            { note: 'VI', count: 1 }
-          ],
-          cadenceName: 'Tritone Substitution'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'IV', count: 1 },
+          { note: 'I', count: 1 },
+          { note: 'V', count: 1 },
+          { note: 'VI', count: 1 }
+        ],
+        cadenceName: 'Tritone Substitution'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6']
     },
@@ -1843,11 +1855,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.',
       spellType: 'ACTION',
       icon: 'Radiant/Divine Radiance',
-      school: 'Abjuration',
       level: 6,
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Radiant/Divine Radiance',
         tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6'],
         castTime: 1,
@@ -1856,9 +1867,11 @@ Before combat, decide which cadences you want to prioritize:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'sphere',
-        aoeSize: 20
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ['ally'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1874,6 +1887,13 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing', 'buff', 'damage'],
+
+      healingConfig: {
+        formula: '6d6 + spirit',
+        healingType: 'direct',
+        resolution: 'DICE'
+      },
 
       damageConfig: {
         formula: '6d6 + spirit',
@@ -1891,33 +1911,33 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '6d6 + spirit',
-            type: 'magical'
-          }
-        },
-        buff: {
-          type: 'saving-throw',
-          value: 2,
-          duration: 3,
-          description: '+2 to all saving throws'
-        }
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'picardy_saves',
+          name: 'Picardy Resolve',
+          description: '+2 to all saving throws for 3 rounds',
+          statModifier: { stat: 'saving_throws', magnitude: 2, magnitudeType: 'flat' },
+          mechanicsText: '+2 to all saving throws for 3 rounds'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'I', count: 1 },
-            { note: 'VII', count: 1 },
-            { note: 'V', count: 1 },
-            { note: 'III', count: 1 }
-          ],
-          cadenceName: 'Picardy Third'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 1 },
+          { note: 'VII', count: 1 },
+          { note: 'V', count: 1 },
+          { note: 'III', count: 1 }
+        ],
+        cadenceName: 'Picardy Third'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6']
     },
@@ -1929,11 +1949,10 @@ Before combat, decide which cadences you want to prioritize:
       description: 'Perform a calming melody that allows allies to recover during a short rest.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Abjuration',
       level: 3,
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Psychic/Mind Control',
         tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3'],
         castTime: 10,
@@ -1942,9 +1961,11 @@ Before combat, decide which cadences you want to prioritize:
 
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'self',
-        aoeType: 'sphere',
-        aoeSize: 30
+        rangeType: 'self_centered',
+        aoeShape: 'circle',
+        aoeParameters: { radius: 30 },
+        targetRestrictions: ['ally'],
+        maxTargets: 99
       },
 
       durationConfig: {
@@ -1962,6 +1983,13 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'DICE',
+      effectTypes: ['healing', 'damage'],
+
+      healingConfig: {
+        formula: '2d8',
+        healingType: 'direct',
+        resolution: 'DICE'
+      },
 
       damageConfig: {
         formula: '2d8',
@@ -1979,25 +2007,16 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      effects: {
-        healing: {
-          instant: {
-            formula: '2d8',
-            type: 'magical',
-            description: 'Bonus healing during short rest'
-          }
-        }
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'I', count: 1 },
+          { note: 'IV', count: 1 }
+        ]
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'builder',
-          generates: [
-            { note: 'I', count: 1 },
-            { note: 'IV', count: 1 }
-          ]
-        }
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3']
     },
@@ -2187,27 +2206,42 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resolution: 'SAVE',
+      effectTypes: ['control'],
 
-      effects: {
-        condition: {
-          type: 'stunned',
-          duration: 1,
-          saveType: 'spirit',
-          saveDC: 15
-        }
+      controlConfig: {
+        controlType: 'incapacitation',
+        effects: [{
+          id: 'stunned',
+          controlType: 'stun',
+          name: 'Stunned',
+          description: 'Target is stunned',
+          config: {
+            duration: 1,
+            durationUnit: 'rounds',
+            savingThrow: true,
+            savingThrowType: 'spirit',
+            difficultyClass: 15
+          }
+        }],
+        duration: 1,
+        durationUnit: 'rounds',
+        savingThrow: true,
+        savingThrowType: 'spirit',
+        difficultyClass: 15
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'IV', count: 2 },
-            { note: 'VII', count: 1 },
-            { note: 'V', count: 1 }
-          ],
-          cadenceName: 'Deceptive Cadence'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'IV', count: 2 },
+          { note: 'VII', count: 1 },
+          { note: 'V', count: 1 }
+        ],
+        cadenceName: 'Deceptive Cadence'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'control', 'stun', 'dissonance', 'level 4']
     },
@@ -2271,18 +2305,19 @@ Before combat, decide which cadences you want to prioritize:
         durationUnit: 'rounds'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'VI', count: 1 },
-            { note: 'V', count: 1 },
-            { note: 'I', count: 1 },
-            { note: 'III', count: 1 }
-          ],
-          cadenceName: 'Plagal Cadence'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'VI', count: 1 },
+          { note: 'V', count: 1 },
+          { note: 'I', count: 1 },
+          { note: 'III', count: 1 }
+        ],
+        cadenceName: 'Plagal Cadence'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'buff', 'speed', 'soulsinger', 'level 4']
     },
@@ -2342,18 +2377,19 @@ Before combat, decide which cadences you want to prioritize:
           resolution: 'DICE',
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'VII', count: 1 },
-            { note: 'V', count: 1 },
-            { note: 'IV', count: 1 },
-            { note: 'VI', count: 1 }
-          ],
-          cadenceName: 'Half Cadence'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'VII', count: 1 },
+          { note: 'V', count: 1 },
+          { note: 'IV', count: 1 },
+          { note: 'VI', count: 1 }
+        ],
+        cadenceName: 'Half Cadence'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'shield', 'defensive', 'dissonance', 'level 5']
     },
@@ -2418,18 +2454,19 @@ Before combat, decide which cadences you want to prioritize:
         durationUnit: 'rounds'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'V', count: 1 },
-            { note: 'IV', count: 1 },
-            { note: 'I', count: 1 },
-            { note: 'VII', count: 1 }
-          ],
-          cadenceName: 'Phrygian Cadence'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'V', count: 1 },
+          { note: 'IV', count: 1 },
+          { note: 'I', count: 1 },
+          { note: 'VII', count: 1 }
+        ],
+        cadenceName: 'Phrygian Cadence'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'buff', 'advantage', 'battlechoir', 'level 5']
     },
@@ -2494,18 +2531,19 @@ Before combat, decide which cadences you want to prioritize:
         durationUnit: 'rounds'
       },
 
-      specialMechanics: {
-        musicalCombo: {
-          type: 'resolver',
-          consumes: [
-            { note: 'III', count: 1 },
-            { note: 'I', count: 1 },
-            { note: 'IV', count: 1 },
-            { note: 'V', count: 1 }
-          ],
-          cadenceName: 'Neapolitan Sixth'
-        }
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'III', count: 1 },
+          { note: 'I', count: 1 },
+          { note: 'IV', count: 1 },
+          { note: 'V', count: 1 }
+        ],
+        cadenceName: 'Neapolitan Sixth'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 6']
     },
@@ -2584,7 +2622,7 @@ Before combat, decide which cadences you want to prioritize:
 
       musicalCombo: {
         type: 'resolver',
-        consumes: [
+        requires: [
           { note: 'V', count: 3 },
           { note: 'I', count: 2 }
         ],
@@ -2736,6 +2774,14 @@ Before combat, decide which cadences you want to prioritize:
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
        },
 
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'VII', count: 2 },
+          { note: 'II', count: 2 }
+        ]
+      },
+
       tags: ['damage', 'control', 'psychic', 'level 7']
     },
 
@@ -2817,7 +2863,7 @@ Before combat, decide which cadences you want to prioritize:
 
       musicalCombo: {
         type: 'resolver',
-        consumes: [
+        requires: [
           { note: 'I', count: 3 },
           { note: 'V', count: 3 },
           { note: 'VII', count: 2 }
@@ -2913,6 +2959,14 @@ Before combat, decide which cadences you want to prioritize:
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
        },
 
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'VI', count: 2 },
+          { note: 'VII', count: 1 }
+        ]
+      },
+
       tags: ['debuff', 'control', 'aoe', 'level 8']
     },
 
@@ -2970,6 +3024,14 @@ Before combat, decide which cadences you want to prioritize:
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
        },
+
+      musicalCombo: {
+        type: 'builder',
+        generates: [
+          { note: 'I', count: 2 },
+          { note: 'IV', count: 1 }
+        ]
+      },
 
       tags: ['healing', 'purification', 'aoe', 'level 8']
     },
@@ -3031,6 +3093,15 @@ Before combat, decide which cadences you want to prioritize:
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
        },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 3 },
+          { note: 'V', count: 3 },
+          { note: 'VII', count: 2 }
+        ]
+      },
 
       tags: ['buff', 'self', 'empowerment', 'level 9']
     },
@@ -3102,7 +3173,7 @@ Before combat, decide which cadences you want to prioritize:
 
       musicalCombo: {
         type: 'resolver',
-        consumes: [
+        requires: [
           { note: 'I', count: 4 },
           { note: 'V', count: 4 },
           { note: 'VII', count: 2 }
@@ -3187,6 +3258,15 @@ Before combat, decide which cadences you want to prioritize:
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
        },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'V', count: 2 },
+          { note: 'I', count: 2 },
+          { note: 'VII', count: 1 }
+        ]
+      },
 
       tags: ['buff', 'debuff', 'control', 'level 9']
     },
@@ -3296,6 +3376,16 @@ Before combat, decide which cadences you want to prioritize:
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
        },
 
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 4 },
+          { note: 'V', count: 4 },
+          { note: 'III', count: 2 },
+          { note: 'VII', count: 2 }
+        ]
+      },
+
       tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10']
     },
 
@@ -3384,6 +3474,15 @@ Before combat, decide which cadences you want to prioritize:
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
        },
 
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'I', count: 5 },
+          { note: 'III', count: 3 },
+          { note: 'V', count: 5 }
+        ]
+      },
+
       tags: ['summoning', 'buff', 'ultimate', 'level 10']
     },
 
@@ -3436,7 +3535,7 @@ Before combat, decide which cadences you want to prioritize:
 
       musicalCombo: {
         type: 'resolver',
-        consumes: [
+        requires: [
           { note: 'I', count: 5 },
           { note: 'III', count: 3 },
           { note: 'V', count: 5 },
@@ -3485,14 +3584,20 @@ Before combat, decide which cadences you want to prioritize:
       },
 
       resourceCost: {
-        resourceTypes: ['mana', 'note_ii', 'note_iv'],
+        resourceTypes: ['mana'],
         resourceValues: {
-          mana: 16,
-          note_ii: 1,
-          note_iv: 1
+          mana: 16
         },
         actionPoints: 1,
         components: ['verbal', 'somatic']
+      },
+
+      musicalCombo: {
+        type: 'resolver',
+        requires: [
+          { note: 'II', count: 1 },
+          { note: 'IV', count: 1 }
+        ]
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2

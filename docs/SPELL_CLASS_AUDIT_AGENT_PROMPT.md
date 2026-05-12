@@ -131,6 +131,29 @@ A Pyrofiend's fire spell should feel different from a generic fire spell. Check:
 
 Apply the same thinking to every class. Read the class's `overview`, `resourceSystem`, `specializations`, and `combatRole` sections in the class data file to understand the class fantasy before auditing its spells.
 
+#### Augur-Specific Audit Issues (found during pre-audit)
+
+The following issues were identified in the Augur's spells before the full audit. Use these as examples of what to look for in ALL classes:
+
+**1. spellType = ACTION when description says "Channel"**
+- `augur_omen_bolt` (L3): Description says "Channel raw omen energy" but `spellType: 'ACTION'`. Should be `'CHANNELED'` with `channelingConfig`.
+- `augur_harbinger_gaze` (L3): Sustained gaze attack with concentration. Should be `'CHANNELED'`.
+- Any spell whose description describes sustained/ongoing/ticking effects that require focus should be `'CHANNELED'`.
+
+**2. effectTargeting missing on dual-target area spells**
+- `augur_balanced_sign` (L4): `targetRestrictions: ['any']`, has both `buffConfig` (allies) and `debuffConfig` (enemies) — NO `effectTargeting`, NO `targetingMode: 'effect'`.
+- `augur_reality_of_omens` (L7): Same pattern — buffs allies, debuffs enemies, no `effectTargeting`.
+- `augur_cosmic_aurora` (L8): Buffs + heals allies, damages enemies, no `effectTargeting`.
+- `augur_eternal_benediction` (L9), `augur_master_of_omens` (L10), `augur_hierophant_supreme` (L10): All same issue.
+
+**3. classResource absent on spells that should use it**
+- `augur_read_the_signs` (L1): Utility/divination with NO `classResource`. Should generate Benediction (it's reading signs — the core mechanic).
+- `augur_omen_bolt` (L3): Damage spell at level 3 with NO `classResource`. Should spend Benediction and/or Malediction.
+
+**4. secondaryElement missing on dual-damage spells**
+- `augur_omen_bolt` (L3): `damageTypes: ['psychic', 'radiant']` but no `typeConfig.secondaryElement`.
+- `augur_omen_shatter` (L6): Same issue.
+
 ---
 
 ## Card Rendering Pitfalls (must-check)
@@ -231,6 +254,146 @@ prophesied: { description: 'Deals massive dual damage and burns enemies.' }
 // CORRECT
 prophesied: { description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.' }
 ```
+
+### Pitfall 6: spellType must match the description — CHANNELED, not just ACTION
+
+Valid `spellType` values are: **`ACTION`**, **`CHANNELED`**, **`PASSIVE`**, **`REACTION`**, **`TRAP`**, **`STATE`**. If a spell's description says "Channel", "concentrate", or describes a sustained/ongoing effect that ticks over multiple rounds, it should be `'CHANNELED'`, not `'ACTION'`.
+
+The card renderer and transformer treat `CHANNELED` as a distinct type — it gets its own tag, color, icon, and requires `channelingConfig`. Setting a channeled spell as `ACTION` means the card will never render the channeling stages or tick information.
+
+**CHANNELED spells MUST have `channelingConfig`** at minimum:
+```javascript
+// WRONG — description says "Channel raw omen energy" but spellType is ACTION
+spellType: 'ACTION',
+// No channelingConfig
+
+// CORRECT
+spellType: 'CHANNELED',
+channelingConfig: {
+  type: 'power_up',       // or 'persistent', 'drain', 'amplify'
+  maxDuration: 3,
+  durationUnit: 'rounds',
+  tickFrequency: 'round',
+  interruptible: true,
+  stages: []               // Add stages if the spell escalates
+}
+```
+
+**How to identify spells that should be CHANNELED:**
+- Description contains "channel", "concentrate on", "maintain", "sustained"
+- The spell has a DoT/Hot that ticks each round while you maintain it
+- The spell grows stronger the longer you hold it (stages)
+- The spell requires ongoing focus (interruptible = true)
+- It's a gaze/aura/zone that persists as long as you focus
+
+### Pitfall 7: Dual-effect area spells MUST have `effectTargeting`
+
+When a spell targets `['any']` or `['ally', 'enemy']` in `targetingConfig.targetRestrictions` AND has separate effect configs for different groups (e.g., `buffConfig` for allies + `debuffConfig` for enemies, or `buffConfig` for allies + `damageConfig` for enemies), it **MUST** have `effectTargeting` to route each effect to the correct targets. Without it, the card cannot show which effect hits whom.
+
+You must also set `targetingMode: 'effect'` in `targetingConfig` — the card renderer checks `spell.targetingMode === 'effect'` before reading `effectTargeting`.
+
+```javascript
+// WRONG — area spell with buff + debuff but no way to route effects
+targetingConfig: {
+  targetingType: 'area',
+  targetRestrictions: ['any'],
+  // ...
+},
+buffConfig: { /* buffs for allies */ },
+debuffConfig: { /* debuffs for enemies */ },
+// Card shows both effects hitting everyone — wrong!
+
+// CORRECT — effectTargeting routes each effect
+targetingConfig: {
+  targetingType: 'area',
+  targetingMode: 'effect',       // REQUIRED for card to read effectTargeting
+  targetRestrictions: ['any'],
+  // ...
+},
+effectTargeting: {
+  buff: {
+    targetingType: 'area',
+    rangeType: 'self_centered',
+    targetRestrictions: ['ally', 'self'],
+    maxTargets: 10
+  },
+  debuff: {
+    targetingType: 'area',
+    rangeType: 'self_centered',
+    targetRestrictions: ['enemies'],
+    maxTargets: 20
+  }
+},
+buffConfig: { /* allies only */ },
+debuffConfig: { /* enemies only */ },
+```
+
+**When effectTargeting is required (MUST-FIX, not optional):**
+- Spell has `targetRestrictions: ['any']` AND both `buffConfig` + `debuffConfig`
+- Spell has `targetRestrictions: ['any']` AND both `buffConfig`/`healingConfig` + `damageConfig`
+- Spell affects allies and enemies differently in the same area
+- Spell has `effectTypes` containing both positive and negative types (e.g., `['buff', 'debuff']`, `['healing', 'damage']`)
+
+The `effectTargeting` keys match the effect config names: `damage`, `healing`, `buff`, `debuff`, `control`, `utility`.
+
+### Pitfall 8: classResource must be on virtually EVERY spell for resource-heavy classes
+
+For classes whose entire identity revolves around a resource system (Augur = Benediction/Malediction, Pyrofiend = Inferno, Gambler = Luck/Heat, etc.), **every non-trivial spell must interact with that resource**. A spell with no `classResource` in these classes breaks the class fantasy.
+
+```javascript
+// WRONG — Augur utility spell with no resource interaction
+resourceCost: {
+  resourceTypes: ['mana'],
+  resourceValues: { mana: 4 },
+  actionPoints: 1,
+  components: ['verbal', 'somatic']
+  // No classResource — this spell ignores the entire Benediction/Malediction system
+}
+
+// CORRECT — even utility spells interact with the class resource
+resourceCost: {
+  resourceTypes: ['mana'],
+  resourceValues: { mana: 4 },
+  actionPoints: 1,
+  components: ['verbal', 'somatic'],
+  classResource: { type: 'benediction', cost: 1 }  // or generates: { type: 'benediction', gain: 1 }
+}
+```
+
+**Rules for class resource integration by level:**
+- **L1-2 spells**: May GENERATE class resources (gain on cast) or spend small amounts (1-3). Utility/divination spells at this level should generate resources.
+- **L3-4 spells**: Should spend moderate amounts (3-6). Core rotation spells demonstrate the resource system.
+- **L5-7 spells**: Should spend significant amounts (5-10). These are where the resource system shines.
+- **L8-10 spells**: Should spend large amounts (10-15) or have dramatic resource interactions (spend both types, variable costs based on resource level, etc.).
+
+**Dual-resource classes** (Augur, Gambler, etc.): Spells that cost both resource types should use the array format:
+```javascript
+classResource: [{ type: 'benediction', cost: 3 }, { type: 'malediction', cost: 3 }]
+```
+Single-resource costs use the object format:
+```javascript
+classResource: { type: 'malediction', cost: 5 }
+```
+
+### Pitfall 9: Dual-damage spells MUST have `typeConfig.secondaryElement`
+
+This is already covered in Pitfall 2 but bears repeating with a specific Augur example because it's frequently missed: if `damageTypes` has 2+ entries, `typeConfig` MUST have `secondaryElement` set to the second type. The normalizer reads `school` + `secondaryElement` from typeConfig to build the damage badges on the card. `damageConfig.damageTypes` alone is NOT enough.
+
+```javascript
+// WRONG — damageTypes has 2 types but typeConfig only has school
+typeConfig: { school: 'psychic', icon: '...' },
+damageConfig: { damageTypes: ['psychic', 'radiant'], formula: '8d8' }
+// Card only shows "psychic" — radiant is invisible
+
+// CORRECT
+typeConfig: { school: 'psychic', secondaryElement: 'radiant', icon: '...' },
+damageConfig: { damageTypes: ['psychic', 'radiant'], formula: '8d8' }
+// Card shows both psychic + radiant badges
+```
+
+**Augur-specific examples found during audit:**
+- `augur_omen_bolt` (L3): deals psychic + radiant but has no `secondaryElement`
+- `augur_omen_shatter` (L6): deals psychic + radiant but has no `secondaryElement`
 
 ---
 

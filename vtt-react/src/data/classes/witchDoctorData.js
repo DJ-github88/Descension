@@ -554,7 +554,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_withering_hex',
       name: 'Withering Hex',
-      description: 'Afflict an enemy with a necrotic hex that withers them over time.',
+      description: 'Afflict an enemy with a necrotic hex that deals 1d6 + spirit necrotic damage immediately, then withers them for 1d6 + spirit necrotic damage per round for 3 rounds. Counts as a curse toward Baron Samedi\'s precursor.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -576,7 +576,7 @@ SPEC DISCOUNTS:
           dotFormula: '1d6 + spirit',
           isProgressiveDot: false
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       targetingConfig: {
         targetingType: 'single',
@@ -592,10 +592,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 5 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence when cast' },
@@ -648,10 +648,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
@@ -663,7 +663,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_spirit_link',
       name: 'Spirit Link',
-      description: 'Link yourself to an ally, sharing damage between you.',
+      description: 'Link yourself to an ally, sharing damage 50/50 between you for 3 rounds.',
       level: 1,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -700,13 +700,12 @@ SPEC DISCOUNTS:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 8 },
+        resourceValues: { mana: 5 },
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -733,7 +732,7 @@ SPEC DISCOUNTS:
         formula: '2d6 + spirit',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       debuffConfig: {
         debuffType: 'statPenalty',
@@ -767,10 +766,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
@@ -840,10 +839,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Carved wooden totem'
+        materialComponents: 'Carved wooden totem',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
@@ -854,7 +853,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_mending_wax',
       name: 'Mending Wax',
-      description: 'Apply a mystical wax salve to an ally, closing wounds and mending flesh with the help of ancestral spirits.',
+      description: 'Apply a mystical wax salve to an ally, restoring 2d8 + spirit HP with the help of ancestral spirits.',
       level: 2,
       spellType: 'ACTION',
       effectTypes: ['healing'],
@@ -886,8 +885,7 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -899,7 +897,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_bone_shrapnel',
       name: 'Bone Shrapnel',
-      description: 'Conjure a burst of sharpened bone fragments that explode outward, shredding nearby enemies.',
+      description: 'Conjure a burst of sharpened bone fragments that explode outward, dealing 3d6 + spirit necrotic damage to all enemies within 15 feet.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -914,17 +912,14 @@ SPEC DISCOUNTS:
         formula: '3d6 + spirit',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
-        areaConfig: {
-          areaType: 'sphere',
-          areaSize: 15,
-          areaSizeUnit: 'ft'
-        },
+        aoeType: 'circle',
+        aoeSize: 15,
         targetRestrictions: ['enemies'],
         maxTargets: 4,
         targetSelectionMethod: 'auto',
@@ -937,8 +932,7 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -949,7 +943,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_witch_brew',
       name: 'Witch Brew',
-      description: 'Rapidly distill a volatile elixir from bone dust and herbs. The brew grants enhanced reflexes and heightened awareness to its drinker.',
+      description: 'Rapidly distill a volatile elixir from bone dust and herbs. The brew grants +3 Agility and +2 Initiative for 3 rounds.',
       level: 3,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -1003,8 +997,7 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1026,7 +1019,6 @@ SPEC DISCOUNTS:
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      targetingMode: 'effect',
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
@@ -1034,7 +1026,8 @@ SPEC DISCOUNTS:
         targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        requiresLineOfSight: true,
+        targetingMode: 'effect'
       },
       effectTargeting: {
         damage: {
@@ -1052,7 +1045,7 @@ SPEC DISCOUNTS:
         formula: '2d8 + spirit',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       healingConfig: {
         formula: '2d8 + spirit/2',
@@ -1064,13 +1057,13 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 11 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       resolution: 'DICE',
       specialMechanics: {
-        voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
+        voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (life drain)' }
       },
       tags: ['attack', 'damage', 'healing', 'lifesteal', 'necrotic', 'witch doctor']
     },
@@ -1079,7 +1072,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_mass_curse',
       name: 'Mass Curse',
-      description: 'Curse multiple enemies at once, dealing necrotic damage over time to all targets.',
+      description: 'Curse multiple enemies at once, dealing 2d6 + spirit necrotic damage immediately and 2d6 + spirit necrotic damage per round for 4 rounds to all targets. Each target counts as a cursed enemy toward Baron Samedi\'s precursor.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -1101,7 +1094,7 @@ SPEC DISCOUNTS:
           dotFormula: '2d6 + spirit',
           isProgressiveDot: false
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       targetingConfig: {
         targetingType: 'multi',
@@ -1117,10 +1110,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 16 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 3 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 3, description: 'Generates 1 Voodoo Essence per target cursed (up to 3)' },
@@ -1132,7 +1125,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_voodoo_doll',
       name: 'Voodoo Doll',
-      description: 'Create a voodoo doll of your enemy. When you damage the doll, the enemy takes the same damage. Lasts 3 rounds (concentration).',
+      description: 'Create a voodoo doll of your enemy and deal 4d6 + spirit necrotic damage. For 3 rounds (concentration), damaging the doll deals the same damage to the linked enemy.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
@@ -1147,7 +1140,7 @@ SPEC DISCOUNTS:
         formula: '4d6 + spirit',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       utilityConfig: {
         utilityType: 'special',
@@ -1176,10 +1169,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A cloth doll and a strand of target hair'
+        materialComponents: 'A cloth doll and a strand of target hair',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence' }
@@ -1190,7 +1183,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_simbi',
       name: 'Invoke Simbi',
-      description: 'Invoke Simbi, the loa of water and magic, to heal and protect allies. Heal target instantly, then provide ongoing healing per round.',
+      description: 'Invoke Simbi, the loa of water and magic. Heals 4d8 + spirit HP instantly, then 1d8 + spirit/2 HP per round for 3 rounds. Target also gains +2 to spirit-based saves for 3 rounds. Costs 5 Voodoo Essence (3 for Mambo). Requires 1 ally below half HP.',
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['healing', 'buff'],
@@ -1243,10 +1236,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 20 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', cost: 5 }
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 5, specialization_discount: 2, description: 'Costs 5 Voodoo Essence (3 for Mambo)' },
@@ -1260,7 +1253,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_hex',
       name: 'Hex',
-      description: 'Place a powerful hex on your enemy that amplifies all damage they take by 25% for 4 rounds.',
+      description: 'Place a powerful hex on your enemy that amplifies all damage they take by 25% for 4 rounds. Spirit save DC 15 negates. Counts as a curse toward Baron Samedi\'s precursor.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['debuff'],
@@ -1284,9 +1277,11 @@ SPEC DISCOUNTS:
         durationValue: 4,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'spirit',
-        saveOutcome: 'negates',
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 15,
+          saveOutcome: 'negates'
+        },
         canBeDispelled: true
       },
       targetingConfig: {
@@ -1303,10 +1298,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 22 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
@@ -1374,10 +1369,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Four corpses or grave dirt'
+        materialComponents: 'Four corpses or grave dirt',
+        classResource: { type: 'voodoo_essence', gain: 2 }
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual/summoning)' }
@@ -1388,7 +1383,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_venomous_weapon',
       name: 'Venomous Weapon',
-      description: 'Apply a potent poison to your weapon, adding poison damage to your attacks for 1 hour.',
+      description: 'Apply a potent poison to your weapon, adding 2d4 poison damage to your attacks for 1 hour. Satisfies Ogoun\'s precursor condition.',
       level: 5,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -1416,7 +1411,11 @@ SPEC DISCOUNTS:
       },
       targetingConfig: {
         targetingType: 'self',
-        rangeType: 'self'
+        rangeType: 'self',
+        targetRestrictions: ['self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
       resourceCost: {
         resourceTypes: ['mana'],
@@ -1424,10 +1423,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Poison extract'
+        materialComponents: 'Poison extract',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
@@ -1440,7 +1439,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_death_ward',
       name: 'Death Ward',
-      description: 'Protect an ally from death, preventing them from dying once within 5 rounds.',
+      description: 'Protect an ally from death. When they would be reduced to 0 HP within 5 rounds, they are instead reduced to 1 HP. Triggers once.',
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['buff'],
@@ -1480,13 +1479,12 @@ SPEC DISCOUNTS:
       },
       resourceCost: {
         resourceTypes: ['mana'],
-        resourceValues: { mana: 28 },
+        resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1534,11 +1532,10 @@ SPEC DISCOUNTS:
         resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Walking stick and tobacco as offering'
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', cost: 6 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
@@ -1600,10 +1597,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 1,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Carved wooden totem'
+        materialComponents: 'Carved wooden totem',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
@@ -1615,12 +1612,13 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_ogoun',
       name: 'Invoke Ogoun',
-      description: 'Invoke Ogoun, the loa of war and iron, to devastate your enemies and empower your allies with battle fury.',
+      description: 'Invoke Ogoun, the loa of war and iron. Deals 8d8 + spirit×2 slashing damage to all enemies within 20 feet. All allies gain +3 to attack rolls and +2d6 fire damage on attacks for 4 rounds. Costs 8 Voodoo Essence (6 for Houngan). Requires poison active on any target.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage', 'buff'],
       typeConfig: {
-        school: 'nature',
+        school: 'slashing',
+        secondaryElement: 'fire',
         icon: 'Utility/Powerful Warrior',
         tags: ['damage', 'buff', 'loa', 'war', 'witch doctor'],
         castTime: 1,
@@ -1634,19 +1632,24 @@ SPEC DISCOUNTS:
           critType: 'effect',
           critEffects: ['ogoun_fury_stun']
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'ogoun_fury',
           name: "Ogoun's Fury",
-          description: 'All allies gain +3 to attack rolls and bonus fire damage for 4 rounds',
+          description: 'All allies gain +3 to attack rolls and +2d6 fire damage on attacks for 4 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 3,
             magnitudeType: 'flat'
           }
+        }, {
+          id: 'ogoun_fire',
+          name: "Ogoun's Fire",
+          description: '+2d6 fire damage on all attacks for 4 rounds',
+          mechanicsText: '+2d6 fire damage on attacks for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -1656,24 +1659,39 @@ SPEC DISCOUNTS:
       },
       targetingConfig: {
         targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 20 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        aoeType: 'circle',
+        aoeSize: 20,
+        targetRestrictions: ['any'],
+        maxTargets: 10,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false,
+        targetingMode: 'effect'
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          targetRestrictions: ['enemies'],
+          maxTargets: 20
+        },
+        buff: {
+          targetingType: 'area',
+          rangeType: 'self_centered',
+          targetRestrictions: ['ally', 'self'],
+          maxTargets: 10
+        }
       },
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'voodoo_essence', cost: 8 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 8, specialization_discount: 2, description: 'Costs 8 Voodoo Essence (6 for Houngan)' },
@@ -1686,7 +1704,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_erzulie',
       name: 'Invoke Erzulie',
-      description: 'Invoke Erzulie, the loa of love and beauty, to empower and protect all allies within 30 feet.',
+      description: 'Invoke Erzulie, the loa of love and beauty. Heals all allies within 30 feet for 3d8 + spirit HP instantly and 3d8 + spirit HP per round for 5 rounds. All allies gain +2 armor and fear immunity for 5 rounds. Costs 7 Voodoo Essence (5 for Mambo). Requires 2+ allies within 15 feet.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['buff', 'healing'],
@@ -1742,10 +1760,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Perfume, jewelry, and flowers'
+        materialComponents: 'Perfume, jewelry, and flowers',
+        classResource: { type: 'voodoo_essence', cost: 7 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
@@ -1758,7 +1776,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_ritual_of_death',
       name: 'Ritual of Death',
-      description: 'Perform a dark ritual that deals massive necrotic damage to all enemies in a 15-foot area and generates Voodoo Essence.',
+      description: 'Perform a dark ritual that deals 3d6 + spirit necrotic damage to all enemies in a 15-foot area, plus 3d6 necrotic damage per round for 3 rounds. Enemies must make a Spirit save DC 15 or become frightened for 3 rounds. Generates 2 Voodoo Essence.',
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage', 'control'],
@@ -1785,23 +1803,23 @@ SPEC DISCOUNTS:
           difficultyClass: 15,
           saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       controlConfig: {
         controlType: 'fear',
         duration: 3,
         durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'spirit',
-        savingThrow: true,
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 15,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'frightened',
           name: 'Frightened',
           description: 'Frightened by dark ritual. Disadvantage on ability checks and attack rolls.',
           statusType: 'frightened',
           level: 'moderate',
-          saveType: 'spirit',
-          saveDC: 15,
           duration: 3,
           durationUnit: 'rounds'
         }]
@@ -1819,10 +1837,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 2,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Graveyard dirt and bone dust'
+        materialComponents: 'Graveyard dirt and bone dust',
+        classResource: { type: 'voodoo_essence', gain: 2 }
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual completion)' }
@@ -1834,7 +1852,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_baron_samedi',
       name: 'Invoke Baron Samedi',
-      description: 'Invoke Baron Samedi, the loa of death, to unleash necrotic devastation across the battlefield. All enemies within range take massive necrotic damage. Cursed enemies take TRIPLE damage.',
+      description: 'Invoke Baron Samedi, the loa of death. Deals 14d6 + spirit×3 necrotic damage to all enemies within 40 feet. Cursed enemies take TRIPLE damage. Costs 10 Voodoo Essence (8 for Bokor). Requires 3+ cursed enemies on the field (2 for Bokor).',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
@@ -1849,13 +1867,25 @@ SPEC DISCOUNTS:
         formula: '14d6 + spirit * 3',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            conditionalFormulas: {
+              'cursed_target': '14d6 + spirit * 3 × 3',
+              'uncursed_target': '14d6 + spirit * 3',
+              'default': '14d6 + spirit * 3'
+            }
+          }
+        }
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'sight',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 40 },
+        aoeType: 'circle',
+        aoeSize: 40,
         targetRestrictions: ['enemies'],
         maxTargets: 15,
         targetSelectionMethod: 'automatic',
@@ -1867,10 +1897,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Rum, cigars, and grave dirt'
+        materialComponents: 'Rum, cigars, and grave dirt',
+        classResource: { type: 'voodoo_essence', cost: 10 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 10, specialization_discount: 2, description: 'Costs 10 Voodoo Essence (8 for Bokor)' },
@@ -1883,7 +1913,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_mass_resurrection',
       name: 'Mass Resurrection',
-      description: 'Invoke the spirits to resurrect all dead allies within range at half HP.',
+      description: 'Invoke the spirits to resurrect all dead allies within 30 feet at half HP (6d8 + spirit healing). Casting time: 3 actions.',
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['healing', 'restoration'],
@@ -1917,8 +1947,8 @@ SPEC DISCOUNTS:
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
+        aoeType: 'circle',
+        aoeSize: 30,
         targetRestrictions: ['ally'],
         maxTargets: 10,
         targetSelectionMethod: 'automatic',
@@ -1930,10 +1960,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Ancestral bones and offerings'
+        materialComponents: 'Ancestral bones and offerings',
+        classResource: { type: 'voodoo_essence', gain: 2 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual)' }
@@ -1944,7 +1974,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_plague_storm',
       name: 'Plague Storm',
-      description: 'Summon a storm of disease and decay that ravages all enemies in a massive area.',
+      description: 'Summon a storm of disease and decay that deals 12d6 + spirit necrotic damage to all enemies in a 35-foot area. Affected enemies have movement speed reduced by 20 feet and healing received reduced by 50% for 5 rounds.',
       level: 8,
       spellType: 'STATE',
       effectTypes: ['damage', 'debuff'],
@@ -1960,7 +1990,7 @@ SPEC DISCOUNTS:
         formula: '12d6 + spirit',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -1968,20 +1998,25 @@ SPEC DISCOUNTS:
         durationType: 'rounds',
         durationUnit: 'rounds',
         effects: [{
-          id: 'diseased',
-          name: 'Diseased',
-          description: 'Movement speed reduced by 20 feet and healing received reduced by 50%',
-          statPenalty: [{ stat: 'movement_speed', value: -20 }, { stat: 'healing_received', value: -50, magnitudeType: 'percentage' }],
-          movementPenalty: -20,
-          healingReduction: 50
+          id: 'diseased_speed',
+          name: 'Plague Slowed',
+          description: 'Movement speed reduced by 20 feet for 5 rounds',
+          mechanicsText: '-20 ft movement speed for 5 rounds',
+          statPenalty: { stat: 'movement_speed', magnitude: -20, magnitudeType: 'flat' }
+        }, {
+          id: 'diseased_healing',
+          name: 'Plague Weakened',
+          description: 'Healing received reduced by 50% for 5 rounds',
+          mechanicsText: '-50% healing received for 5 rounds',
+          statPenalty: { stat: 'healing_received', magnitude: -50, magnitudeType: 'percentage' }
         }]
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 80,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 35 },
+        aoeType: 'circle',
+        aoeSize: 35,
         targetRestrictions: ['enemies'],
         maxTargets: 20,
         targetSelectionMethod: 'manual',
@@ -1993,10 +2028,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Diseased flesh or plague rat'
+        materialComponents: 'Diseased flesh or plague rat',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -2008,7 +2043,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_voodoo_apocalypse',
       name: 'Voodoo Apocalypse',
-      description: 'Unleash a devastating voodoo apocalypse that curses and destroys all enemies in sight.',
+      description: 'Unleash a devastating voodoo apocalypse that deals 18d6 + spirit×3 necrotic damage to all enemies in sight. Constitution save DC 19 for half damage. Affected enemies suffer 3d8 necrotic damage per round and disadvantage on all rolls for 5 rounds.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -2028,32 +2063,36 @@ SPEC DISCOUNTS:
           difficultyClass: 19,
           saveOutcome: 'half_damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       debuffConfig: {
         debuffType: 'statusEffect',
         durationValue: 5,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        saveDC: 19,
-        saveType: 'constitution',
-        saveOutcome: 'halves_effects',
+        savingThrow: {
+          ability: 'constitution',
+          difficultyClass: 19,
+          saveOutcome: 'reduced_duration'
+        },
         effects: [{
-          id: 'cursed',
+          id: 'voodoo_curse_dot',
           name: 'Voodoo Curse',
-          description: 'All cursed enemies take 3d8 necrotic damage per round and have disadvantage on all rolls',
-          damageFormula: '3d8',
-          dotFormula: '3d8',
-          dotDamageType: 'necrotic',
-          damagePerTurn: '3d8',
-          statPenalty: { stat: 'all_rolls', value: -99, magnitudeType: 'disadvantage' }
+          description: '3d8 necrotic damage per round for 5 rounds',
+          mechanicsText: '3d8 necrotic/round for 5 rounds'
+        }, {
+          id: 'voodoo_curse_disadvantage',
+          name: 'Voodoo Curse',
+          description: 'Disadvantage on all rolls for 5 rounds',
+          mechanicsText: 'Disadvantage on all rolls for 5 rounds',
+          statPenalty: { stat: 'all_rolls', magnitude: -99, magnitudeType: 'disadvantage' }
         }]
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'sight',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 80 },
+        aoeType: 'circle',
+        aoeSize: 80,
         targetRestrictions: ['enemies'],
         maxTargets: 30,
         targetSelectionMethod: 'automatic',
@@ -2065,10 +2104,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'The skull of a powerful enemy, worth 50,000 gold'
+        materialComponents: 'The skull of a powerful enemy, worth 50,000 gold',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -2079,7 +2118,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_spirit_ascension',
       name: 'Spirit Ascension',
-      description: 'Ascend to become a pure spirit, gaining incredible power and near invulnerability for 5 rounds.',
+      description: 'Ascend to become a pure spirit for 5 rounds. Gain +5 to all stats, physical damage resistance, 50% magic damage reduction, and generate +3 Voodoo Essence per round. All voodoo spells cost 50% less mana.',
       level: 9,
       spellType: 'STATE',
       effectTypes: ['transformation', 'buff'],
@@ -2147,8 +2186,7 @@ SPEC DISCOUNTS:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence (but form generates +3/round)' }
@@ -2159,7 +2197,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_erzulie_legendary',
       name: 'Invoke Erzulie (Supreme)',
-      description: 'Invoke Erzulie in her supreme aspect, empowering and healing all allies with divine love.',
+      description: 'Invoke Erzulie in her supreme aspect. Heals all allies within 60 feet for 10d8 + spirit×2 HP instantly and 3d8 + spirit HP per round for 5 rounds. All allies gain +4 to all stats for 5 rounds. Costs 7 Voodoo Essence (5 for Mambo). Requires 2+ allies within 15 feet.',
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['buff', 'healing'],
@@ -2201,8 +2239,8 @@ SPEC DISCOUNTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 60 },
+        aoeType: 'circle',
+        aoeSize: 60,
         targetRestrictions: ['ally', 'self'],
         maxTargets: 20,
         targetSelectionMethod: 'automatic',
@@ -2214,10 +2252,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Perfume, jewelry, and flowers'
+        materialComponents: 'Perfume, jewelry, and flowers',
+        classResource: { type: 'voodoo_essence', cost: 7 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
@@ -2268,8 +2306,7 @@ SPEC DISCOUNTS:
         components: ['ritual'],
         materialComponents: 'The blessing of all the loa, 100,000 gold worth of offerings'
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Passive: generates 3 Voodoo Essence per round' }
@@ -2280,24 +2317,34 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_invoke_papa_legba_supreme',
       name: 'Invoke Papa Legba (Supreme)',
-      description: 'Invoke Papa Legba in his supreme aspect, opening crossroads portals across the entire battlefield.',
+      description: 'Invoke Papa Legba in his supreme aspect. Opens crossroads portals across the entire battlefield — allies can teleport freely between them for 10 rounds. Enemies who enter portals are trapped for 1 round and take 6d10 necrotic damage (Dexterity save DC 17 negates). Costs 6 Voodoo Essence (4 for Houngan). Requires 5+ Essence generated this combat.',
       level: 10,
       spellType: 'ACTION',
-      effectTypes: ['utility', 'control'],
+      effectTypes: ['damage', 'utility', 'control'],
       typeConfig: {
-        school: 'nature',
+        school: 'necrotic',
         icon: 'Nature/Root Network',
-        tags: ['utility', 'control', 'loa', 'teleport', 'legendary', 'witch doctor'],
+        tags: ['damage', 'utility', 'control', 'loa', 'teleport', 'legendary', 'witch doctor'],
         castTime: 3,
         castTimeType: 'IMMEDIATE'
+      },
+      damageConfig: {
+        formula: '6d10',
+        elementType: 'necrotic',
+        damageTypes: ['necrotic'],
+        savingThrow: {
+          ability: 'dexterity',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        },
+        resolution: 'DICE'
       },
       utilityConfig: {
         utilityType: 'special',
         selectedEffects: [{
           id: 'papa_legba_supreme',
-          name: 'Papa Legba Supreme',
-          description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds. Enemies who enter take necrotic damage.',
-          damageFormula: '6d10'
+          name: 'Crossroads Portal Network',
+          description: 'Opens portals across the battlefield. Allies can teleport freely between them for 10 rounds.'
         }],
         duration: 10,
         durationUnit: 'rounds',
@@ -2309,12 +2356,15 @@ SPEC DISCOUNTS:
         strength: 'strong',
         duration: 10,
         durationUnit: 'rounds',
+        savingThrow: {
+          ability: 'dexterity',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        },
         effects: [{
           id: 'portal_trap',
           name: 'Portal Trap',
-          description: 'Enemies who enter portals are trapped for 1 round and take damage',
-          saveType: 'dexterity',
-          saveDC: 17,
+          description: 'Enemies who enter portals are trapped for 1 round and take 6d10 necrotic damage',
           duration: 1,
           durationUnit: 'rounds'
         }]
@@ -2322,12 +2372,33 @@ SPEC DISCOUNTS:
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'sight',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 100 },
-        targetRestrictions: [],
+        aoeType: 'circle',
+        aoeSize: 100,
+        targetRestrictions: ['any'],
         maxTargets: 0,
         targetSelectionMethod: 'manual',
-        requiresLineOfSight: false
+        requiresLineOfSight: false,
+        targetingMode: 'effect'
+      },
+      effectTargeting: {
+        damage: {
+          targetingType: 'area',
+          rangeType: 'sight',
+          targetRestrictions: ['enemies'],
+          maxTargets: 20
+        },
+        utility: {
+          targetingType: 'area',
+          rangeType: 'sight',
+          targetRestrictions: ['ally', 'self'],
+          maxTargets: 20
+        },
+        control: {
+          targetingType: 'area',
+          rangeType: 'sight',
+          targetRestrictions: ['enemies'],
+          maxTargets: 20
+        }
       },
       resourceCost: {
         resourceTypes: ['mana'],
@@ -2335,10 +2406,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Keys, crossroads dirt, and rum'
+        materialComponents: 'Keys, crossroads dirt, and rum',
+        classResource: { type: 'voodoo_essence', cost: 6 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
@@ -2351,7 +2422,7 @@ SPEC DISCOUNTS:
     {
       id: 'witch_doctor_ultimate_curse',
       name: 'Ultimate Curse',
-      description: 'Place the ultimate voodoo curse that dooms your enemy to death. If they survive the initial damage, they are doomed to die in 3 rounds unless the curse is removed.',
+      description: 'Place the ultimate voodoo curse on an enemy. Deals 22d6 + spirit×4 necrotic damage. If they survive, they are doomed to die in 3 rounds unless the curse is removed by legendary magic. Constitution save DC 20 reduces the curse level. Counts as a curse toward Baron Samedi\'s precursor.',
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage', 'debuff'],
@@ -2366,14 +2437,14 @@ SPEC DISCOUNTS:
         formula: '22d6 + spirit * 4',
         elementType: 'necrotic',
         damageTypes: ['necrotic'],
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
       debuffConfig: {
         debuffType: 'custom',
         effects: [{
           id: 'doom_curse',
           name: 'Doom Curse',
-          description: 'If you survive the initial damage, you are doomed to die in 3 rounds unless this curse is removed by powerful magic',
+          description: 'Doomed to die in 3 rounds unless removed by powerful magic',
           customDescription: 'You are cursed with the ultimate doom. If you are still alive after 3 rounds, you die instantly. This curse can only be removed by legendary magic or intervention of the gods.',
           mechanicsText: 'Doomed to die in 3 rounds unless removed by powerful magic',
           duration: 3,
@@ -2382,9 +2453,11 @@ SPEC DISCOUNTS:
         durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        saveDC: 20,
-        saveType: 'constitution',
-        saveOutcome: 'reduces_level',
+        savingThrow: {
+          ability: 'constitution',
+          difficultyClass: 20,
+          saveOutcome: 'reduced_duration'
+        },
         canBeDispelled: true
       },
       targetingConfig: {
@@ -2402,10 +2475,10 @@ SPEC DISCOUNTS:
         useFormulas: {},
         actionPoints: 3,
         components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A piece of the target\'s soul, worth immeasurable value'
+        materialComponents: 'A piece of the target\'s soul, worth immeasurable value',
+        classResource: { type: 'voodoo_essence', gain: 1 }
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },

@@ -108,11 +108,11 @@ const ClassesDisplay = ({ onSelectClass }) => {
         const tooltipWidth = 320;
         const tooltipHeight = 260;
 
-        let left = rect.right + 12;
+        let left = rect.right + 24;
         let top = rect.top;
 
         if (left + tooltipWidth > window.innerWidth - 16) {
-            left = rect.left - tooltipWidth - 12;
+            left = rect.left - tooltipWidth - 24;
         }
         if (left < 16) left = 16;
 
@@ -296,13 +296,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     onTouchEnd={(e) => e.stopPropagation()}
                 >
                     <div className="class-tooltip-header" style={{ borderColor: tooltipData.roleColor }}>
-                        <div className="class-tooltip-icon" style={{ color: tooltipData.roleColor }}>
-                            {tooltipData.imageIcon ? (
-                                <img src={tooltipData.imageIcon} alt={tooltipData.name} className="tooltip-pixel-icon" data-class={tooltipData.name} />
-                            ) : (
-                                <FontAwesomeIcon icon={tooltipData.icon} />
-                            )}
-                        </div>
                         <div className="class-tooltip-title">
                             <h4>{tooltipData.name}</h4>
                             <span className="class-tooltip-role-badge" style={{ background: tooltipData.roleColor }}>

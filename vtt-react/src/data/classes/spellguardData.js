@@ -582,10 +582,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       description: 'Create a shield of absorbed arcane energy that grants +2 armor and absorbs up to 10d6 damage for 1 minute.',
       spellType: 'ACTION',
       icon: 'Force/Force Shield',
-      school: 'Abjuration',
       level: 1,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Force/Force Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -597,7 +598,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
@@ -606,14 +608,15 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 10
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Aegis Arcanum!',
-        somaticText: 'Raise hand to create shimmering barrier'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
       resolution: 'AUTOMATIC',
 
-      effectTypes: ['buff'],
+      effectTypes: ['buff', 'healing'],
 
       buffConfig: {
         buffType: 'statEnhancement',
@@ -621,6 +624,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           id: 'arcane_shield',
           name: 'Arcane Shield',
           description: '+2 Armor and 10d6 damage absorption shield for 1 minute.',
+          mechanicsText: '',
           statModifier: {
             stat: 'armor',
             magnitude: 2,
@@ -637,12 +641,12 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       healingConfig: {
         healingType: 'shield',
         formula: '10d6',
-        useAbsorptionShield: true,
+        resolution: 'AUTOMATIC',
         shieldConfig: {
-          shieldType: 'standard',
+          enabled: true,
           shieldAmount: '10d6',
-          duration: 1,
-          durationUnit: 'minutes'
+          shieldDuration: 1,
+          shieldDurationType: 'minutes'
         }
       },
 
@@ -655,10 +659,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       description: 'Create a barrier that reflects the next spell cast at you back at the caster. The reflected spell deals full damage and uses the original caster\'s spell save DC.',
       spellType: 'REACTION',
       icon: 'Arcane/Magical Cross Emblem 2',
-      school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Magical Cross Emblem 2',
         castTime: 1,
         castTimeType: 'REACTION',
         reactionTrigger: 'When targeted by a spell'
@@ -679,28 +684,23 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 10
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Reflecto!',
-        somaticText: 'Thrust palm forward to create reflective ward'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       resolution: 'AUTOMATIC',
 
-      effects: {
-        reflection: {
-          type: 'spell',
-          target: 'caster',
-          percentage: 100,
-          duration: 'next_spell'
-        }
-      },
+      effectTypes: ['utility'],
 
-      specialMechanics: {
-        reflection: {
-          reflectType: 'full_spell',
-          targetOriginalCaster: true,
-          usesOriginalDC: true
-        }
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'spell_reflection', name: 'Spell Reflection', description: 'Reflect the next spell back at the caster at full power using their own DC.' }
+        ],
+        duration: 1,
+        durationUnit: 'rounds'
       },
 
       tags: ['defense', 'reflection', 'reaction', 'aep cost', 'anti mage']
@@ -712,25 +712,27 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       description: 'Create a protective barrier around all allies within 10ft that absorbs up to 8d6 damage each for 1 minute.',
       spellType: 'ACTION',
       icon: 'Healing/Prayer',
-      school: 'Abjuration',
       level: 3,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Healing/Prayer',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        aoeType: 'circle',
-        aoeSize: 10,
+        areaShape: 'circle',
+        areaSize: 10,
         rangeType: 'self_centered',
-        validTargets: ['ally']
+        targetRestrictions: ['ally']
       },
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
@@ -739,32 +741,25 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Protego Omnia!',
-        somaticText: 'Sweep arms in circle to create protective dome'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+
       resolution: 'AUTOMATIC',
+
+      effectTypes: ['healing'],
 
       healingConfig: {
         healingType: 'shield',
         formula: '8d6',
-        useAbsorptionShield: true,
+        resolution: 'AUTOMATIC',
         shieldConfig: {
-          shieldType: 'standard',
+          enabled: true,
           shieldAmount: '8d6',
-          duration: 1,
-          durationUnit: 'minutes'
-        }
-      },
-
-      effects: {
-        shield: {
-          amount: '8d6',
-          type: 'arcane',
-          duration: 1,
-          aoe: true,
-          targets: 'all_allies'
+          shieldDuration: 1,
+          shieldDurationType: 'minutes'
         }
       },
 
@@ -775,13 +770,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_empowered_strike',
       name: 'Empowered Strike',
-      description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional arcane damage and draining mana from the target.',
+      description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional 1d8 arcane damage and draining mana from the target.',
       spellType: 'ACTION',
       icon: 'General/Rage',
-      school: 'Evocation',
       level: 1,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'General/Rage',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -790,7 +786,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'melee',
         rangeDistance: 5,
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -803,32 +799,19 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Impetus!',
-        somaticText: 'Channel energy into weapon'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+
       resolution: 'DICE',
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '1d8',
         damageTypes: ['arcane'],
-        scalingType: 'none',
-          resolution: 'DICE',
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '1d8',
-            type: 'arcane',
-            additionalToMelee: true
-          }
-        },
-        manaDrain: {
-          amount: '1d8',
-          description: 'Drains additional mana equal to arcane damage dealt'
-        }
+        resolution: 'DICE'
       },
 
       tags: ['damage', 'melee', 'arcane', 'aep cost', 'mana drain']
@@ -837,23 +820,24 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_nova',
       name: 'Arcane Nova',
-      description: 'Release stored arcane energy in a burst around you, damaging enemies and weakening their spellcasting.',
+      description: 'Release stored arcane energy in a 20-foot burst around you, dealing 6d6 arcane damage to enemies and reducing their spell damage by 2 for 1 turn. Agility save for half.',
       spellType: 'ACTION',
       icon: 'Arcane/Magical Sword',
-      school: 'Evocation',
       level: 4,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        aoeType: 'circle',
-        aoeSize: 20,
+        areaShape: 'circle',
+        areaSize: 20,
         rangeType: 'self_centered',
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -866,41 +850,37 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 25
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Arcanum Explodo!',
-        somaticText: 'Slam fists together to release energy burst'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
 
       resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'agility',
-        saveDC: 15,
-        onSaveEffect: 'half_damage'
-      },
+      effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '6d6',
         damageTypes: ['arcane'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
+          difficultyClass: 15,
+          saveOutcome: 'half_damage'
+        }
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '6d6',
-            type: 'arcane',
-            aoe: true
-          }
-        },
-        debuff: {
-          type: 'spell_damage_reduction',
-          amount: -2,
-          duration: 1,
-          durationType: 'turns',
-          durationUnit: 'turns'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'spell_weakness',
+          name: 'Spell Weakness',
+          description: '-2 to spell damage for 1 turn.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns'
       },
 
       tags: ['damage', 'aoe', 'arcane', 'aep cost', 'debuff']
@@ -909,13 +889,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_strike',
       name: 'Arcane Strike',
-      description: 'Channel massive arcane energy into your weapon for a devastating melee strike. Deals heavy arcane damage and silences the target for 1 turn.',
+      description: 'Channel massive arcane energy into your weapon for a devastating melee strike dealing 4d6 arcane damage and silencing the target for 1 turn.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Warrior',
-      school: 'Evocation',
       level: 3,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Radiant/Radiant Warrior',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -924,7 +905,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'melee',
         rangeDistance: 5,
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -937,34 +918,32 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Arcanum Impactus!',
-        somaticText: 'Overhead strike with glowing weapon'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+
       resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
 
       damageConfig: {
         formula: '4d6',
         damageTypes: ['arcane'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
 
-      effects: {
-        damage: {
-          instant: {
-            formula: '4d6',
-            type: 'arcane',
-            additionalToMelee: true
-          }
-        },
-        debuff: {
-          type: 'silence',
-          duration: 1,
-          durationType: 'turns',
-          description: 'Target is completely silenced and cannot cast spells for the duration. All spellcasting attempts automatically fail.'
-        }
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'silence',
+          name: 'Silenced',
+          description: 'Target is completely silenced and cannot cast spells for 1 turn.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns'
       },
 
       tags: ['damage', 'melee', 'arcane', 'aep cost', 'silence', 'anti mage']
@@ -974,13 +953,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_rejuvenation',
       name: 'Arcane Rejuvenation',
-      description: 'Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal yourself or an ally for 1d6 per 5 AEP spent.',
+      description: 'Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal yourself or an ally for 1d6 per 5 AEP spent (2d6 to 8d6).',
       spellType: 'ACTION',
       icon: 'Healing/Golden Heart',
-      school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Healing/Golden Heart',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -989,7 +969,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30,
-        validTargets: ['ally', 'self']
+        targetRestrictions: ['ally', 'self']
       },
 
       durationConfig: {
@@ -1002,28 +982,19 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 10
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Sanatio Arcana!',
-        somaticText: 'Channel healing energy toward target'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+
+      resolution: 'DICE',
+      effectTypes: ['healing'],
 
       healingConfig: {
         formula: '1d6 per 5 AEP spent',
         healingType: 'direct',
-        resolution: 'DICE',
-        scalingNote: 'Spend 10-40 AEP. Heal for 1d6 per 5 AEP spent (2d6 at 10 AEP, up to 8d6 at 40 AEP).'
-      },
-
-      effects: {
-        healing: {
-          instant: {
-            formula: '1d6 per 5 AEP',
-            type: 'arcane',
-            scaling: 'scales_with_aep'
-          }
-        }
+        resolution: 'DICE'
       },
 
       tags: ['healing', 'utility', 'aep cost', 'support']
@@ -1035,10 +1006,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       description: 'Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, frost, lightning, or necrotic) for 1 minute.',
       spellType: 'ACTION',
       icon: 'Nature/Centered',
-      school: 'Abjuration',
       level: 1,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Nature/Centered',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1047,47 +1019,53 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'touch',
         rangeDistance: 5,
-        validTargets: ['ally', 'self']
+        targetRestrictions: ['ally', 'self']
       },
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
         mana: 6,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Resistentia!',
-        somaticText: 'Touch target to grant resistance'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          type: 'elemental_resistance',
-          elements: ['fire', 'frost', 'lightning', 'necrotic'],
-          chooseOne: true,
-          duration: 1,
-          durationType: 'minutes',
-          resistanceAmount: 'half_damage'
-        }
+      buffConfig: {
+        buffType: 'damageMitigation',
+        effects: [{
+          id: 'elemental_resistance',
+          name: 'Elemental Resistance',
+          description: 'Resistance to one chosen element (fire, frost, lightning, or necrotic) — half damage from that type for 1 minute.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
       },
 
-      tags: ['buff', 'resistance', 'utility', 'aep cost', 'protection']
+      tags: ['buff', 'resistance', 'utility', 'protection']
     },
 
     {
       id: 'sg_spell_disruption',
       name: 'Spell Disruption',
-      description: 'Disrupt an enemy spell being cast, forcing them to win an opposed check or lose the spell.',
+      description: 'Disrupt an enemy spell being cast within 60 feet, forcing them to win an opposed Intelligence check or lose the spell.',
       spellType: 'REACTION',
       icon: 'Necrotic/Necrotic Skull',
-      school: 'Abjuration',
       level: 3,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Necrotic/Necrotic Skull',
         castTime: 1,
         castTimeType: 'REACTION',
         reactionTrigger: 'When you see an enemy casting a spell within 60 feet'
@@ -1097,7 +1075,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -1110,26 +1088,20 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Silentium!',
-        somaticText: 'Cutting gesture to sever spell'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       resolution: 'SAVE',
+      effectTypes: ['utility'],
 
-      saveConfig: {
-        saveType: 'intelligence',
-        saveDC: 15,
-        onSaveEffect: 'negates'
-      },
-
-      specialMechanics: {
-        counterspell: {
-          type: 'interrupt',
-          spellLevel: 'any',
-          success: 'opposed_check',
-          description: 'Opposed Intelligence check vs. caster\'s spell save DC. If your check equals or exceeds the DC, the spell is countered and the casting resources are wasted.'
-        }
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'counterspell', name: 'Spell Disruption', description: 'Opposed Intelligence check vs caster DC. Success counters the spell and wastes their resources.' }
+        ]
       },
 
       tags: ['counterspell', 'reaction', 'utility', 'aep cost', 'anti mage']
@@ -1138,13 +1110,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_reflective_aura',
       name: 'Reflective Aura',
-      description: 'Create an aura around yourself that reflects spell damage back at attackers for 1 minute.',
+      description: 'Create an aura around yourself that reflects up to 10 spell damage back at attackers for 1 minute.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Golden Shield',
-      school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Radiant/Radiant Golden Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1156,7 +1129,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
@@ -1165,22 +1139,26 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Aura Reflectus!',
-        somaticText: 'Spin to create reflective field'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
-      effects: {
-        aura: {
-          type: 'reflection',
-          reflectionAmount: 10,
-          reflectionType: 'spell_damage',
-          duration: 1,
-          durationType: 'minutes',
-          durationUnit: 'minutes'
-        }
+      resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
+
+      buffConfig: {
+        buffType: 'triggeredEffect',
+        effects: [{
+          id: 'reflective_aura',
+          name: 'Reflective Aura',
+          description: 'Reflects up to 10 spell damage back at attackers for 1 minute.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
       },
 
       tags: ['buff', 'reflection', 'aura', 'aep cost', 'anti mage']
@@ -1190,13 +1168,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_fortress',
       name: 'Arcane Fortress',
-      description: 'Create an impenetrable fortress of arcane energy around yourself, granting complete immunity to all magical damage for 1 turn. This is your ultimate defensive ability.',
+      description: 'Create an impenetrable fortress of arcane energy around yourself, granting complete immunity to all magical damage for 1 turn.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Golden Shield',
-      school: 'Abjuration',
       level: 5,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Radiant/Radiant Golden Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1208,7 +1187,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       durationConfig: {
         durationType: 'turns',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'turns'
       },
 
       resourceCost: {
@@ -1217,26 +1197,27 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 25
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Fortis Arcanum Absolutum!',
-        somaticText: 'Cross arms to create impenetrable barrier'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
-      effects: {
-        buff: {
-          type: 'immunity',
-          immunityType: 'magical_damage',
-          duration: 1,
-          durationType: 'turns',
-          durationUnit: 'turns'
-        }
+      buffConfig: {
+        buffType: 'damageMitigation',
+        effects: [{
+          id: 'arcane_fortress',
+          name: 'Arcane Fortress',
+          description: 'Complete immunity to all magical damage for 1 turn.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'turns',
+        durationUnit: 'turns'
       },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5,
-        charges: 1
-       },
 
       tags: ['defense', 'immunity', 'ultimate', 'aep cost', 'anti mage']
     },
@@ -1244,27 +1225,30 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_magic_nullification',
       name: 'Magic Nullification',
-      description: 'Create an anti-magic zone centered on yourself that suppresses all spells and magical effects.',
+      description: 'Create a 20-foot anti-magic zone centered on yourself that suppresses all spells and magical effects for 1 minute.',
       spellType: 'ACTION',
       icon: 'Necrotic/Protective Aura',
-      school: 'Abjuration',
       level: 5,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Necrotic/Protective Aura',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        aoeType: 'circle',
-        aoeSize: 20,
-        rangeType: 'self_centered'
+        areaShape: 'circle',
+        areaSize: 20,
+        rangeType: 'self_centered',
+        targetRestrictions: ['any']
       },
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
@@ -1273,30 +1257,26 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 20
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Nullus Magicae!',
-        somaticText: 'Slam staff/weapon into ground to create zone'
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['control'],
 
-      effects: {
-        zone: {
-          type: 'anti_magic',
-          radius: 20,
-          duration: 1,
-          durationType: 'minutes',
-          effects: [
-            'suppress_magical_effects',
-            'prevent_spellcasting',
-            'dispel_ongoing_spells'
-          ]
-        }
+      controlConfig: {
+        controlType: 'zone',
+        effects: [{
+          id: 'antimagic_zone',
+          name: 'Anti-Magic Zone',
+          description: 'All magic is suppressed. No spells can be cast, magical items don\'t function, ongoing effects are suspended.',
+          config: { duration: 1, durationUnit: 'minutes' }
+        }],
+        duration: 1,
+        durationUnit: 'minutes'
       },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
-        charges: 1
-       },
 
       tags: ['zone', 'anti magic', 'ultimate', 'aep cost', 'control']
     },
@@ -1304,13 +1284,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_spell_reflection',
       name: 'Spell Reflection',
-      description: 'Instantly reflect the next spell cast at you back to the caster with increased power. The reflection cannot be countered.',
+      description: 'Instantly reflect the next spell cast at you back to the caster at 125% power. The reflection cannot be countered.',
       spellType: 'REACTION',
       icon: 'Arcane/Quick Step',
-      school: 'Abjuration',
       level: 4,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Quick Step',
         castTime: 1,
         castTimeType: 'REACTION',
         reactionTrigger: 'When targeted by a spell'
@@ -1331,26 +1312,21 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Reverso Maxima!',
-        somaticText: 'Deflecting gesture'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
-      effects: {
-        reflection: {
-          type: 'spell',
-          target: 'caster',
-          percentage: 125,
-          duration: 'next_spell',
-          uncounterable: true
-        }
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'spell_reflection', name: 'Spell Reflection', description: 'Reflect the next spell back at caster at 125% power. Reflection is uncounterable.' }
+        ]
       },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2,
-        charges: 1
-       },
 
       tags: ['reflection', 'reaction', 'ultimate', 'aep cost', 'anti mage']
     },
@@ -1358,13 +1334,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_control_magic',
       name: 'Control Magic',
-      description: 'Take control of a newly summoned creature or magical construct, turning it against its summoner.',
+      description: 'Take control of a newly summoned creature or magical construct within 60 feet, turning it against its summoner.',
       spellType: 'REACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Enchantment',
       level: 4,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Psychic/Mind Control',
         castTime: 1,
         castTimeType: 'REACTION',
         reactionTrigger: 'When you see a creature being summoned within 60 feet'
@@ -1374,12 +1351,13 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        validTargets: ['summoned_creature']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
         durationType: 'minutes',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'minutes'
       },
 
       resourceCost: {
@@ -1388,34 +1366,33 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 20
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dominus Magicae!',
-        somaticText: 'Grasping gesture to seize control'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       resolution: 'SAVE',
+      effectTypes: ['control'],
 
-      saveConfig: {
-        saveType: 'spirit',
-        saveDC: 16,
-        onSaveEffect: 'negates'
+      controlConfig: {
+        controlType: 'mind_control',
+        effects: [{
+          id: 'control_summon',
+          name: 'Control Summoned Creature',
+          description: 'Take full control of a summoned creature for 1 minute. Spirit save DC 16 negates.',
+          config: { duration: 1, durationUnit: 'minutes' }
+        }],
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 16,
+          saveOutcome: 'negates'
+        },
+        duration: 1,
+        durationUnit: 'minutes'
       },
 
-      effects: {
-        control: {
-          type: 'charm',
-          targetType: 'summoned',
-          duration: 1,
-          durationType: 'minutes',
-          fullControl: true
-        }
-      },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
-        charges: 1
-       },
-
-      tags: ['control', 'charm', 'reaction', 'aep cost', 'anti mage', 'ultimate']
+      tags: ['control', 'charm', 'reaction', 'aep cost', 'anti mage']
     },
 
     {
@@ -1424,10 +1401,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       description: 'Leap in front of an ally to intercept a spell targeting them, absorbing the damage yourself and converting it to AEP.',
       spellType: 'REACTION',
       icon: 'Force/Force Shield',
-      school: 'Abjuration',
       level: 2,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Force/Force Shield',
         castTime: 1,
         castTimeType: 'REACTION',
         reactionTrigger: 'When an ally within 30ft is targeted by a spell'
@@ -1437,7 +1415,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30,
-        validTargets: ['ally']
+        targetRestrictions: ['ally']
       },
 
       durationConfig: {
@@ -1450,20 +1428,20 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 10
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Interceptum!',
-        somaticText: 'Leap in front of ally to absorb the spell'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
-      effects: {
-        interception: {
-          type: 'damage_redirection',
-          description: 'You take the spell damage instead of the ally. Apply Arcane Absorption to the intercepted damage as normal.',
-          range: 30,
-          aepGeneration: '1 per damage point intercepted'
-        }
+      resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'interception', name: 'Spell Interception', description: 'Take the spell damage instead of the ally. Apply Arcane Absorption to intercepted damage (1 AEP per damage point).' }
+        ]
       },
 
       tags: ['defense', 'interception', 'reaction', 'aep cost', 'ally protection']
@@ -1472,23 +1450,24 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_detonation',
       name: 'Arcane Detonation',
-      description: 'Release all stored arcane energy in a devastating explosion around you, dealing force damage to all enemies in range proportional to AEP spent.',
+      description: 'Release all stored arcane energy in a devastating 20-foot explosion around you, dealing 50 force damage to all enemies. Agility save for half.',
       spellType: 'ACTION',
       icon: 'Arcane/Magical Sword',
-      school: 'Evocation',
       level: 5,
 
       typeConfig: {
+        school: 'force',
+        icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'area',
-        aoeType: 'circle',
-        aoeSize: 20,
+        areaShape: 'circle',
+        areaSize: 20,
         rangeType: 'self_centered',
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -1501,40 +1480,25 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 50
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Detonatus Arcanum!',
-        somaticText: 'Thrust arms outward to release stored energy'
+        actionPoints: 2,
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'agility',
-        saveDC: 15,
-        onSaveEffect: 'half_damage'
-      },
+      effectTypes: ['damage'],
 
       damageConfig: {
         formula: '50',
         damageTypes: ['force'],
-        scalingType: 'none',
-        specialNote: 'Fixed damage equal to AEP spent (50)',
-          resolution: 'DICE',
-      },
-
-      effects: {
-        damage: {
-          instant: {
-            formula: '50',
-            type: 'force',
-            aoe: true
-          }
+        resolution: 'AUTOMATIC',
+        savingThrow: {
+          ability: 'agility',
+          difficultyClass: 15,
+          saveOutcome: 'half_damage'
         }
       },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
-        charges: 1
-       },
 
       tags: ['damage', 'aoe', 'force', 'aep cost', 'detonation']
     },
@@ -1542,13 +1506,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_warp_step',
       name: 'Warp Step',
-      description: 'Teleport a short distance to close the gap to an enemy caster, appearing adjacent to them with your weapon raised.',
+      description: 'Teleport up to 30 feet to close the gap to an enemy caster, appearing adjacent to them. Your next melee attack gains +2 to hit.',
       spellType: 'ACTION',
       icon: 'Arcane/Quick Step',
-      school: 'Conjuration',
       level: 1,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Quick Step',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1557,7 +1522,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30,
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
@@ -1570,20 +1535,20 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 5
         },
-        components: ['verbal', 'somatic'],
-        verbalText: 'Transitus!',
-        somaticText: 'Step through arcane space to appear beside target'
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
-      effects: {
-        teleport: {
-          type: 'blink',
-          range: 30,
-          destination: 'adjacent_to_target',
-          description: 'Teleport to a space adjacent to the target. Your next melee attack this turn gains +2 to hit.'
-        }
+      resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
+
+      utilityConfig: {
+        utilityType: 'movement',
+        selectedEffects: [
+          { id: 'teleport', name: 'Warp Step', description: 'Teleport adjacent to target. Next melee attack gains +2 to hit.' }
+        ]
       },
 
       tags: ['mobility', 'teleport', 'aep cost', 'utility']
@@ -1592,13 +1557,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
     {
       id: 'sg_arcane_provocation',
       name: 'Arcane Provocation',
-      description: 'Channel arcane energy into a taunt that forces an enemy spellcaster to target you on their next turn.',
+      description: 'Channel arcane energy into a taunt that forces an enemy spellcaster to target you on their next turn. Spirit save DC 14 negates.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Enchantment',
       level: 2,
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Psychic/Mind Control',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1607,12 +1573,13 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 30,
-        validTargets: ['enemy']
+        targetRestrictions: ['enemies']
       },
 
       durationConfig: {
         durationType: 'turns',
-        duration: 1
+        durationValue: 1,
+        durationUnit: 'turns'
       },
 
       resourceCost: {
@@ -1621,25 +1588,30 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 10
         },
-        components: ['verbal'],
-        verbalText: 'Cast your spells at ME!'
+        actionPoints: 1,
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       resolution: 'SAVE',
+      effectTypes: ['control'],
 
-      saveConfig: {
-        saveType: 'spirit',
-        saveDC: 14,
-        onSaveEffect: 'negates'
-      },
-
-      effects: {
-        taunt: {
-          type: 'forced_target',
-          description: 'Target must target you with their next spell or attack. If they have multiple attacks, at least one must target you.',
-          duration: 1,
-          durationType: 'turns'
-        }
+      controlConfig: {
+        controlType: 'mind_control',
+        effects: [{
+          id: 'forced_target',
+          name: 'Forced Target',
+          description: 'Target must target you with their next spell or attack. DC 14 Spirit save negates.',
+          config: { duration: 1, durationUnit: 'turns' }
+        }],
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 14,
+          saveOutcome: 'negates'
+        },
+        duration: 1,
+        durationUnit: 'turns'
       },
 
       tags: ['taunt', 'utility', 'aep cost', 'anti mage', 'tank']
@@ -1657,7 +1629,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Magical Sword',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'REACTION'
@@ -1667,7 +1639,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        targetRestrictions: ['enemy', 'spellcaster']
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
@@ -1676,24 +1648,21 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 15
         },
-        actionPoints: 0,
-        components: ['somatic'],
-        somaticText: 'Grasp the magic'
+        actionPoints: 1,
+        components: ['somatic']
       },
 
-      resolution: 'DICE',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+
+      resolution: 'SAVE',
       effectTypes: ['utility'],
 
-      specialMechanics: {
-        spellTheft: {
-          description: 'When an enemy casts a spell, steal it. Counter the original and gain the ability to cast it once within 1 minute.',
-          saveDC: 17,
-          saveType: 'intelligence'
-        }
+      utilityConfig: {
+        utilityType: 'enhancement',
+        selectedEffects: [
+          { id: 'spell_theft', name: 'Spell Theft', description: 'Steal an enemy spell. Counter the original and gain the ability to cast it once within 1 minute. DC 17 Intelligence save negates.' }
+        ]
       },
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
 
       tags: ['utility', 'anti mage', 'counter', 'level 6', 'spellguard']
     },
@@ -1707,7 +1676,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Force/Force Field',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1716,8 +1685,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
+        areaShape: 'circle',
+        areaSize: 25,
         targetRestrictions: ['ally']
       },
 
@@ -1728,10 +1697,10 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 18
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Arx Magica!',
-        somaticText: 'Create barrier'
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
 
       resolution: 'NONE',
       effectTypes: ['buff'],
@@ -1767,7 +1736,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Magical Sword',
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'arcane',
         icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1776,32 +1745,35 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy']
+        areaShape: 'circle',
+        areaSize: 30,
+        targetRestrictions: ['enemies']
       },
 
       resourceCost: {
         mana: 22,
+        classResource: {
+          type: 'arcane_energy_points',
+          cost: 15
+        },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Drain!'
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       resolution: 'DICE',
       effectTypes: ['damage', 'utility'],
 
       damageConfig: {
         formula: '8d6',
-        elementType: 'force',
-        damageTypes: ['mana_drain'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'intelligence',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'intelligence',
           difficultyClass: 16,
-          saveOutcome: 'halves'
-        },
-          resolution: 'DICE',
+          saveOutcome: 'half_damage'
+        }
       },
 
       specialMechanics: {
@@ -1830,7 +1802,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Radiant/Radiant Divinity',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Radiant/Radiant Divinity',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1840,8 +1812,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 20 }
+        areaShape: 'circle',
+        areaSize: 20,
+        targetRestrictions: ['any']
       },
 
       resourceCost: {
@@ -1851,20 +1824,24 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 20
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'NULLUM MAGICUM!',
-        somaticText: 'Create null field'
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'NONE',
-      effectTypes: ['utility', 'control'],
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6 },
 
-      zoneConfig: {
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'zone',
+        effects: [{
+          id: 'antimagic_zone',
+          name: 'Antimagic Zone',
+          description: 'All magic is suppressed. No spells can be cast, magical items don\'t function, ongoing effects are suspended for 5 rounds.',
+          config: { duration: 5, durationUnit: 'rounds' }
+        }],
         duration: 5,
-        durationUnit: 'rounds',
-        effects: ['antimagic'],
-        movable: false,
-        size: { radius: 20 }
+        durationUnit: 'rounds'
       },
 
       specialMechanics: {
@@ -1889,7 +1866,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Frost/Circular Frost Explosion',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Frost/Circular Frost Explosion',
         castTime: 1,
         castTimeType: 'REACTION'
@@ -1906,10 +1883,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 18
         },
-        actionPoints: 0,
-        components: ['somatic'],
-        somaticText: 'Mirror gesture'
+        actionPoints: 1,
+        components: ['somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
 
       resolution: 'NONE',
       effectTypes: ['buff'],
@@ -1943,7 +1921,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Empowering Growth',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Arcane/Empowering Growth',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1963,34 +1941,29 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 20
         },
         actionPoints: 2,
-        components: ['verbal'],
-        verbalText: 'OVERLOAD!'
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
 
       resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '12d6 + intelligence',
-        elementType: 'force',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 17,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-        bonusEffects: 'Deals bonus damage equal to target\'s remaining mana (max 50)',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
           critMultiplier: 2.5,
-          extraDice: '6d6',
-          critEffects: ['mana_drain']
-        },
-          resolution: 'DICE',
+          extraDice: '6d6'
+        }
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
@@ -2011,7 +1984,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Psychic/Mind Roar',
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'arcane',
         icon: 'Psychic/Mind Roar',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2031,31 +2004,30 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 25
         },
         actionPoints: 2,
-        components: ['verbal'],
-        verbalText: 'BANE OF MAGES!'
+        components: ['verbal']
       },
 
-      resolution: 'NONE',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+
+      resolution: 'SAVE',
       effectTypes: ['debuff'],
 
       debuffConfig: {
-        debuffType: 'mark',
+        debuffType: 'curse',
         effects: [{
           id: 'mage_bane',
           name: 'Mage Bane',
-          description: 'Target takes 5d10 force damage whenever they cast a spell',
-          damageFormula: '5d10',
-          dotFormula: '5d10',
-          dotDamageType: 'force',
-          damagePerTurn: '5d10',
-          mechanicsText: '5d10 force damage whenever target casts a spell'
+          description: 'Target takes 5d10 force damage whenever they cast a spell for 1 minute.',
+          mechanicsText: ''
         }],
         durationValue: 1,
         durationType: 'minutes',
         durationUnit: 'minutes',
-        saveDC: 18,
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        savingThrow: {
+          ability: 'spirit',
+          difficultyClass: 18,
+          saveOutcome: 'negates'
+        }
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
@@ -2073,7 +2045,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Radiant/Divine Radiance',
         castTime: 1,
         castTimeType: 'REACTION'
@@ -2092,10 +2064,11 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 25
         },
-        actionPoints: 0,
-        components: ['somatic'],
-        somaticText: 'Create perfect shield'
+        actionPoints: 1,
+        components: ['somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
 
       resolution: 'NONE',
       effectTypes: ['buff'],
@@ -2129,7 +2102,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Magical Sword',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2139,9 +2112,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 90,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 },
-        targetRestrictions: ['enemy']
+        areaShape: 'circle',
+        areaSize: 25,
+        targetRestrictions: ['enemies']
       },
 
       resourceCost: {
@@ -2151,35 +2124,29 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 30
         },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'ARCANE ANNIHILATION!',
-        somaticText: 'Release all power'
+        components: ['verbal', 'somatic']
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
 
       resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '14d6 + intelligence',
-        elementType: 'force',
-        damageTypes: ['area'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 19,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: 'half_damage'
         },
-        specialRules: 'Destroys all magical shields and barriers. Ignores spell resistance.',
         criticalConfig: {
           enabled: true,
           critType: 'dice',
           critMultiplier: 3.0,
-          extraDice: '8d6',
-          critEffects: ['spell_destruction', 'stun']
-        },
-          resolution: 'DICE',
+          extraDice: '8d6'
+        }
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
@@ -2200,7 +2167,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Frost/Frost Phonix',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Frost/Frost Phonix',
         castTime: 1,
         castTimeType: 'REACTION'
@@ -2210,7 +2177,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 120,
-        targetRestrictions: ['enemy', 'casting']
+        targetRestrictions: ['enemy']
       },
 
       resourceCost: {
@@ -2219,19 +2186,24 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           type: 'arcane_energy_points',
           cost: 35
         },
-        actionPoints: 0,
-        components: ['verbal'],
-        verbalText: 'ABSOLUTE NEGATION!'
+        actionPoints: 1,
+        components: ['verbal']
       },
 
-      resolution: 'NONE',
-      effectTypes: ['utility', 'control'],
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
 
-      specialMechanics: {
-        absoluteCounter: {
-          description: 'Automatically counters any spell, no roll required. The caster is silenced for 1 round.',
-          noSave: true
-        }
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'incapacitation',
+        effects: [{
+          id: 'absolute_counter',
+          name: 'Absolute Counterspell',
+          description: 'Counter any spell regardless of level and silence the caster for 1 round.'
+        }],
+        duration: 1,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2249,7 +2221,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Quick Step',
 
       typeConfig: {
-        school: 'conjuration',
+        school: 'arcane',
         icon: 'Arcane/Quick Step',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2269,27 +2241,28 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 35
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'PRISON OF MAGIC!',
-        somaticText: 'Create prison barrier'
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'NONE',
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+
+      resolution: 'SAVE',
       effectTypes: ['control'],
 
       controlConfig: {
-        controlType: 'imprisonment',
-        strength: 'absolute',
-        duration: 3,
-        durationUnit: 'rounds',
-        saveDC: 17,
-        saveType: 'constitution',
-        savingThrow: true,
+        controlType: 'incapacitation',
         effects: [{
           id: 'arcane_prison',
           name: 'Arcane Prison',
-          description: 'Target is trapped in a prison of arcane energy. They cannot act or be targeted. At end of each turn, can repeat save.'
-        }]
+          description: 'Target is trapped in a prison of arcane energy for 3 rounds. They cannot act or be targeted. Constitution save DC 17 each round to escape.'
+        }],
+        savingThrow: {
+          ability: 'constitution',
+          difficultyClass: 17,
+          saveOutcome: 'negates'
+        },
+        duration: 3,
+        durationUnit: 'rounds'
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2307,7 +2280,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Necrotic/Drain Soul',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Necrotic/Drain Soul',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2316,8 +2289,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 60 }
+        areaShape: 'circle',
+        areaSize: 60,
+        targetRestrictions: ['any']
       },
 
       resourceCost: {
@@ -2327,18 +2301,32 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 40
         },
         actionPoints: 3,
-        components: ['verbal'],
-        verbalText: 'CONSUME ALL MAGIC!'
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
 
       resolution: 'NONE',
       effectTypes: ['utility', 'buff'],
 
-      specialMechanics: {
-        magicEater: {
-          description: 'Dispel ALL magical effects in range. For each effect dispelled, gain +5 temporary HP and +1 to damage for 1 minute.',
-          maxStacks: 20
-        }
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'dispel_all', name: 'Consume Magic', description: 'Dispel ALL magical effects in range. For each effect dispelled, gain +5 temporary HP and +1 to damage for 1 minute.' }
+        ]
+      },
+
+      buffConfig: {
+        buffType: 'triggeredEffect',
+        effects: [{
+          id: 'magic_devourer',
+          name: 'Magic Devourer',
+          description: '+5 temporary HP and +1 damage per dispelled effect (max 20 stacks) for 1 minute.',
+          mechanicsText: ''
+        }],
+        durationValue: 1,
+        durationType: 'minutes',
+        durationUnit: 'minutes'
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2359,7 +2347,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'force',
         icon: 'Radiant/Divine Illumination',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2377,30 +2365,26 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 50
         },
         actionPoints: 3,
-        components: ['verbal'],
-        verbalText: 'I AM THE END OF MAGIC!'
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
 
       resolution: 'NONE',
       effectTypes: ['transformation'],
 
       transformationConfig: {
-        transformationType: 'arcane',
+        transformType: 'arcane',
         targetType: 'self',
         duration: 3,
         durationUnit: 'rounds',
-        power: 'major',
-        newForm: 'Avatar of Negation',
-        description: 'Become a being of pure anti-magic.',
         grantedAbilities: [
           { id: 'negation_armor', name: 'Negation Armor', description: '+8 armor against magical attacks' },
           { id: 'spell_immunity', name: 'Spell Immunity', description: 'Immune to all spell damage' },
           { id: 'antimagic_aura', name: 'Anti-Magic Aura', description: 'Spells cast within 20ft have disadvantage on attack rolls' },
-          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal force damage to the caster', damageFormula: '3d10' },
-          { id: 'negation_drain', name: 'Negation Drain (On End)', description: 'Lose all remaining AEP when transformation ends' }
+          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal 3d10 force damage to the caster' }
         ],
-        concentrationRequired: false,
-        canBeDispelled: false
+        concentrationRequired: false
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2418,7 +2402,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Force/Force Field',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Force/Force Field',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2427,8 +2411,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 200 }
+        areaShape: 'circle',
+        areaSize: 200,
+        targetRestrictions: ['any']
       },
 
       resourceCost: {
@@ -2438,20 +2423,23 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 50
         },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'REALITY IS ANCHORED!',
-        somaticText: 'Anchor gesture'
+        components: ['verbal', 'somatic']
       },
 
-      resolution: 'NONE',
-      effectTypes: ['utility'],
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
 
-      zoneConfig: {
+      resolution: 'NONE',
+      effectTypes: ['control'],
+
+      controlConfig: {
+        controlType: 'zone',
+        effects: [{
+          id: 'reality_anchor',
+          name: 'Reality Anchor',
+          description: 'Prevents all magical teleportation, dimensional travel, and summoning in a 200-foot radius for 10 minutes.'
+        }],
         duration: 10,
-        durationUnit: 'minutes',
-        effects: ['no_teleportation', 'no_dimensional_travel', 'no_summoning'],
-        movable: false,
-        size: { radius: 200 }
+        durationUnit: 'minutes'
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2469,7 +2457,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       icon: 'Arcane/Magical Sword',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2478,8 +2466,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'self_centered',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 120 }
+        areaShape: 'circle',
+        areaSize: 120,
+        targetRestrictions: ['any']
       },
 
       resourceCost: {
@@ -2489,20 +2478,19 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           cost: 50
         },
         actionPoints: 3,
-        components: ['verbal'],
-        verbalText: 'ALL MAGIC ENDS!'
+        components: ['verbal']
       },
+
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
 
       resolution: 'NONE',
       effectTypes: ['utility'],
 
-      specialMechanics: {
-        ultimateDispel: {
-          description: 'Dispel ALL magical effects in range - buffs, debuffs, zones, summons, everything. No exceptions. No saves.',
-          affectsAllies: true,
-          affectsEnemies: true,
-          affectsSelf: false
-        }
+      utilityConfig: {
+        utilityType: 'protection',
+        selectedEffects: [
+          { id: 'ultimate_dispel', name: 'Ultimate Dispel', description: 'Dispel ALL magical effects in 120-foot range — buffs, debuffs, zones, summons. No saves. No exceptions. Affects allies and enemies but not self.' }
+        ]
       },
 
       cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
@@ -2521,7 +2509,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       effectTypes: ['buff', 'utility'],
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'arcane',
         icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2533,17 +2521,12 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       },
 
       buffConfig: {
-        buffType: 'temporaryHP',
+        buffType: 'damageMitigation',
         effects: [{
           id: 'arcane_barrier',
           name: 'Arcane Barrier',
-          description: 'Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you.',
-          temporaryHP: 50,
-          reflectDamage: '2d8',
-          reflectType: 'force',
-          mechanicsText: '50 temp HP. Attackers take 2d8 force damage on hit.',
-          tempHPFormula: '50',
-          shieldValue: { formula: '50', shieldType: 'temporary_hp' }
+          description: 'Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you for 4 rounds.',
+          mechanicsText: ''
         }],
         durationValue: 4,
         durationType: 'rounds',
@@ -2562,11 +2545,10 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
-      resolution: 'DICE',
-      tags: ['buff', 'shield', 'reflection', 'universal']
+      resolution: 'AUTOMATIC',
+      tags: ['buff', 'shield', 'reflection', 'aep cost', 'spellguard']
     }
   ]
 };

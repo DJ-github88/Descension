@@ -637,19 +637,18 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Peer 6 seconds into the future to see the outcome of your next action, granting you perfect clarity.',
       spellType: 'ACTION',
       icon: 'Utility/Watchful Eye',
-      school: 'Divination',
       level: 2,
       specialization: 'seer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 0,
-        rangeUnit: 'self'
+        targetingType: 'self',
+        rangeType: 'self'
       },
 
       resourceCost: {
@@ -667,11 +666,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
       effects: {
         primary: 'Gain advantage on your next attack roll, ability check, or saving throw',
         secondary: 'If you make a prediction about the outcome before rolling, gain +1 Vision if correct'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       tags: ['seer', 'divination', 'advantage', 'self buff']
     },
@@ -682,22 +684,22 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Show an ally a glimpse of the future, guiding their actions toward success.',
       spellType: 'ACTION',
       icon: 'Radiant/Divine Radiance',
-      school: 'Divination',
       level: 1,
       specialization: 'seer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'REACTION'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['ally'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -715,11 +717,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['buff'],
 
       effects: {
         primary: 'Target ally gains advantage on their next roll',
         secondary: 'If they succeed, you gain 1 Vision back'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
       tags: ['seer', 'divination', 'ally buff', 'reaction']
     },
@@ -730,22 +735,22 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Declare a prophecy about an enemy\'s fate. The target is disadvantaged on their next attack roll. If the predicted event occurs within the duration, the target also suffers psychic damage and is frightened.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
-      school: 'Divination',
       level: 4,
       specialization: 'seer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'ACTION'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -771,6 +776,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       effectTypes: ['debuff', 'damage'],
+
+      damageConfig: {
+        damageType: 'direct',
+        elementType: 'psychic',
+        formula: '3d6 + intelligence',
+        damageTypes: ['psychic'],
+        hasDotEffect: false
+      },
 
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -804,22 +817,22 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Compel a creature to speak only truth. The target must answer one question honestly, unable to lie or mislead.',
       spellType: 'ACTION',
       icon: 'Radiant/Radiant Beam',
-      school: 'Divination',
       level: 3,
       specialization: 'truthseeker',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'ACTION'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemy'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -827,7 +840,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         resourceValues: { mana: 15 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        description: 'Spend 15 mana to force truth'
+        description: 'Spend 15 mana to force truth',
+        classResource: { type: 'prophetic_visions', gain: 1 }
       },
 
       duration: {
@@ -837,6 +851,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'SAVING_THROW',
+      effectTypes: ['utility'],
       savingThrow: {
         ability: 'WIS',
         dc: 'SPELL_DC',
@@ -850,6 +865,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         tertiary: 'When they answer, you gain 1 Vision from the revealed truth'
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+
       tags: ['truthseeker', 'divination', 'interrogation', 'social']
     },
 
@@ -859,11 +876,11 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Touch an object or location to witness its history, seeing events that transpired here.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Read',
-      school: 'Divination',
       level: 2,
       specialization: 'truthseeker',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'RITUAL',
         ritualDuration: 1,
@@ -871,10 +888,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       targetingConfig: {
-        type: 'TOUCH',
-        range: 0,
-        rangeUnit: 'touch',
-        requiresLineOfSight: false
+        targetingType: 'touch',
+        rangeType: 'touch'
       },
 
       resourceCost: {
@@ -882,7 +897,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         resourceValues: { mana: 12 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        description: 'Spend 12 mana to peer into the past'
+        description: 'Spend 12 mana to peer into the past',
+        classResource: { type: 'prophetic_visions', gain: 1, condition: 'revelation_gained' }
       },
 
       duration: {
@@ -892,12 +908,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'Witness the complete history of the touched object or location for the past 24 hours',
         secondary: 'See all creatures who interacted with it and hear conversations within 10 feet',
         tertiary: 'Each significant revelation grants 1 Vision (GM discretion, max 3)'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       tags: ['truthseeker', 'divination', 'ritual', 'investigation']
     },
@@ -908,19 +927,19 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Your eyes glow with supernatural light, seeing through all deceptions and illusions.',
       spellType: 'ACTION',
       icon: 'Radiant/Enlightened Vision',
-      school: 'Divination',
       level: 3,
       specialization: 'truthseeker',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 60,
-        rangeUnit: 'feet'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 60
       },
 
       resourceCost: {
@@ -928,7 +947,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         resourceValues: { mana: 14 },
         actionPoints: 2,
         components: ['verbal', 'somatic'],
-        description: 'Spend 14 mana to pierce all veils'
+        description: 'Spend 14 mana to pierce all veils',
+        classResource: { type: 'prophetic_visions', gain: 1, condition: 'hidden_revealed' }
       },
 
       duration: {
@@ -938,12 +958,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'See through all illusions, disguises, and invisibility within 60 feet',
         secondary: 'Automatically detect shapechangers and see their true form',
         tertiary: 'Gain 1 Vision for each hidden creature or illusion revealed (max 3 per casting)'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
 
       tags: ['truthseeker', 'divination', 'detection', 'anti illusion']
     },
@@ -955,23 +978,23 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Having foreseen this moment, you reach out and twist the threads of destiny. You must have made a correct prediction this combat to use this ability.',
       spellType: 'REACTION',
       icon: 'Arcane/Ebon Blaze',
-      school: 'Divination',
       level: 2,
       specialization: 'fateseer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'REACTION',
         trigger: 'A creature within 60 feet makes an attack roll, ability check, or saving throw'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -989,12 +1012,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'Add or subtract 1d6 from the target\'s roll',
         secondary: 'You choose whether to add or subtract after seeing the initial roll',
         tertiary: 'Can turn a success into a failure or vice versa'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
       tags: ['fateseer', 'divination', 'reaction', 'manipulation', 'prediction-conditional']
     },
@@ -1005,23 +1031,23 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Having predicted this critical moment, you cut the thread of fate. You must have predicted a critical hit or critical miss this round to use this ability.',
       spellType: 'REACTION',
       icon: 'Necrotic/Drain Soul',
-      school: 'Divination',
       level: 4,
       specialization: 'fateseer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'REACTION',
         trigger: 'A creature within 60 feet rolls a natural 20 or natural 1'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -1039,12 +1065,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'Turn a natural 20 into a natural 19 (normal hit instead of critical)',
         secondary: 'OR turn a natural 1 into a natural 2 (normal miss instead of critical fail)',
         tertiary: 'OR turn a normal roll into a critical (natural 20) or critical fail (natural 1)'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       tags: ['fateseer', 'divination', 'reaction', 'critical', 'manipulation', 'prediction-conditional']
     },
@@ -1056,21 +1085,21 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       level: 7,
       spellType: 'ACTION',
       icon: 'Force/Force Field',
-      school: 'Divination',
       specialization: 'fateseer',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'ACTION'
       },
 
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any'],
+        maxTargets: 1,
+        requiresLineOfSight: true
       },
 
       resourceCost: {
@@ -1089,6 +1118,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'The next attack roll made by or against the target automatically succeeds and is a critical hit',
@@ -1100,6 +1130,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         limitation: 'Requires a correct precise prediction this combat. Can only be used once per combat.',
         note: 'This is the ultimate prediction-driven fate manipulation'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       tags: ['fateseer', 'divination', 'guaranteed outcome', 'prediction-conditional']
     },
@@ -1206,8 +1238,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           savingThrowType: 'spirit',
           difficultyClass: 16,
           saveOutcome: 'halves'
-        },
-          resolution: 'DICE',
+        }
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
@@ -1223,26 +1254,28 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Sense the weight of destiny on creatures and objects, seeing who is important to the future.',
       spellType: 'ACTION',
       icon: 'Healing/Prayer',
-      school: 'Divination',
       level: 1,
       specialization: 'universal',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 1,
         castTimeType: 'ACTION'
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 30,
-        rangeUnit: 'feet'
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 30
       },
 
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
         actionPoints: 2,
-        mana: 8,
         components: ['verbal', 'somatic'],
-        description: 'Spend 8 mana to sense destiny'
+        description: 'Spend 8 mana to sense destiny',
+        classResource: { type: 'prophetic_visions', gain: 1 }
       },
 
       duration: {
@@ -1252,12 +1285,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'See glowing threads of fate connecting creatures and objects within 30 feet',
         secondary: 'Brighter threads indicate greater importance to future events',
         tertiary: 'Can identify "key" NPCs, important items, and critical locations'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
 
       tags: ['universal', 'divination', 'detection', 'utility']
     },
@@ -1268,11 +1304,11 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       description: 'Read the omens in your surroundings to gain insight into the immediate future.',
       spellType: 'ACTION',
       icon: 'Necrotic/Skull 2',
-      school: 'Divination',
       level: 2,
       specialization: 'universal',
 
       typeConfig: {
+        school: 'psychic',
         castTime: 10,
         castTimeType: 'RITUAL',
         ritualDuration: 10,
@@ -1280,17 +1316,18 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       targetingConfig: {
-        type: 'SELF',
-        range: 0,
-        rangeUnit: 'self'
+        targetingType: 'self',
+        rangeType: 'self'
       },
 
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 12 },
         actionPoints: 2,
-        mana: 12,
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Divination tools (bones, cards, or runes)',
-        description: 'Spend 12 mana to read the omens'
+        description: 'Spend 12 mana to read the omens',
+        classResource: { type: 'prophetic_visions', gain: 1, condition: 'omens_come_true' }
       },
 
       duration: {
@@ -1300,12 +1337,15 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         primary: 'Gain cryptic insight into the next hour (GM provides 3 vague clues about upcoming events)',
         secondary: 'Advantage on initiative rolls for the next hour',
         tertiary: 'If you act on the omens, gain 1 Vision when the predicted event occurs'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
 
       tags: ['universal', 'divination', 'ritual', 'foresight']
     },
@@ -1351,8 +1391,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         formula: '6d8 + intelligence',
         elementType: 'psychic',
         damageTypes: ['direct'],
-        specialRules: 'Cannot be dodged, blocked, or reduced by armor',
-          resolution: 'DICE',
+        specialRules: 'Cannot be dodged, blocked, or reduced by armor'
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
@@ -1597,8 +1636,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        },
-          resolution: 'DICE',
+        }
       },
 
       cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
@@ -1752,8 +1790,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           savingThrowType: 'spirit',
           difficultyClass: 18,
           saveOutcome: 'halves'
-        },
-          resolution: 'DICE',
+        }
       },
 
       controlConfig: {
@@ -2007,7 +2044,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
       resourceCost: {
         resourceTypes: ['visions'],
-        resourceValues: { visions: 'all' },
+        resourceValues: { visions: 10 },
         actionPoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'COME, MY FUTURE SELF!',
@@ -2075,7 +2112,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
       resourceCost: {
         resourceTypes: ['visions'],
-        resourceValues: { visions: 'all' },
+        resourceValues: { visions: 10 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'BEHOLD THE TRUTH!'
@@ -2093,8 +2130,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           savingThrowType: 'spirit',
           difficultyClass: 21,
           saveOutcome: 'halves'
-        },
-          resolution: 'DICE',
+        }
       },
 
       controlConfig: {
@@ -2145,7 +2181,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
       resourceCost: {
         resourceTypes: ['visions'],
-        resourceValues: { visions: 'all' },
+        resourceValues: { visions: 10 },
         actionPoints: 3,
         components: ['verbal'],
         verbalText: 'I AM THE MASTER OF FATE!'
@@ -2187,11 +2223,10 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       level: 0,
       spellType: 'ACTION',
       icon: 'Psychic/Mind Read',
-      school: 'Divination',
       specialization: 'universal',
 
       typeConfig: {
-        school: 'divination',
+        school: 'psychic',
         icon: 'Psychic/Mind Read',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -2210,7 +2245,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         resourceValues: {},
         actionPoints: 1,
         components: ['verbal', 'somatic'],
-        verbalText: 'Fate whispers...'
+        verbalText: 'Fate whispers...',
+        classResource: { type: 'prophetic_visions', gain: 1, condition: 'on_hit' }
       },
 
       resolution: 'DICE',
@@ -2220,9 +2256,10 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         formula: '1d4 + intelligence',
         elementType: 'psychic',
         damageTypes: ['direct'],
-        specialRules: 'Grants +1 Prophetic Vision on hit. Always available — no cooldown.',
-          resolution: 'DICE',
+        specialRules: 'Grants +1 Prophetic Vision on hit. Always available — no cooldown.'
       },
+
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
 
       tags: ['universal', 'damage', 'psychic', 'fallback', 'cantrip']
     },
@@ -2375,8 +2412,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '5d8',
         elementType: 'force',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['direct']
       },
 
       resourceCost: {

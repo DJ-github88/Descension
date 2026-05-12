@@ -1911,7 +1911,7 @@ const UnifiedSpellCard = ({
       'astralpower': faMoon,
       'astral-power': faMoon
     };
-    return resourceTypeMap[resourceType?.toLowerCase().replace(/\s+/g, '')] || faCoins;
+    return resourceTypeMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] || faCoins;
   };
 
   const getResourceColor = (resourceType) => {
@@ -1946,7 +1946,7 @@ const UnifiedSpellCard = ({
       'astralpower': '#9B59B6',
       'astral-power': '#9B59B6'
     };
-    return resourceColorMap[resourceType?.toLowerCase().replace(/\s+/g, '')] || '#95A5A6';
+    return resourceColorMap[resourceType?.toLowerCase()?.replace(/\s+/g, '')] || '#95A5A6';
   };
   const formatResourceCosts = () => {
     if (!spell) return null;
