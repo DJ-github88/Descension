@@ -487,14 +487,12 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '1d8',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -503,7 +501,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           savingThrowType: 'constitution',
           difficultyClass: 13,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       tags: ['damage', 'ranged', 'blood magic']
@@ -542,10 +541,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'movement',
         selectedEffects: [{
@@ -593,10 +590,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'enhancement',
         selectedEffects: [{
@@ -661,17 +656,16 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d4'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '2d6',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: 'damage_dealt * 0.5',
@@ -741,10 +735,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d10'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'enhancement',
         selectedEffects: [{
@@ -791,10 +783,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'movement',
         selectedEffects: [{
@@ -849,14 +839,12 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '2d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '4d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -865,7 +853,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           savingThrowType: 'constitution',
           difficultyClass: 14,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       mechanicsConfig: {
@@ -915,10 +904,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '2d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       summonConfig: {
         creatures: [{
           id: 'spectral_warrior',
@@ -986,10 +973,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       debuffConfig: {
         debuffType: 'statReduction',
         effects: [{
@@ -1013,14 +998,15 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
       damageConfig: {
         formula: '1d6',
         elementType: 'necrotic',
-        damageType: 'dot',
+        damageTypes: ['dot'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '1d6',
           duration: 1,
           tickFrequency: 'round',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       tags: ['debuff', 'curse', 'dot', 'anti magic']
@@ -1083,17 +1069,16 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '2d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '5d6',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: 'damage_dealt * 0.75',
@@ -1149,10 +1134,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '3d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       summonConfig: {
         creatures: [{
           id: 'skeletal_archer',
@@ -1214,10 +1197,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '2d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       controlConfig: {
         controlType: 'restraint',
         strength: 'strong',
@@ -1275,15 +1256,14 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '2d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '2d6',
         elementType: 'necrotic',
-        damageType: 'area',
-        frequency: 'start_of_turn'
+        damageTypes: ['area'],
+        frequency: 'start_of_turn',
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -1331,10 +1311,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'enhancement',
         selectedEffects: [{
@@ -1377,10 +1355,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '3d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       controlConfig: {
         controlType: 'incapacitation',
         strength: 'severe',
@@ -1434,18 +1410,17 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '4d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '8d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['anti_magic_stun']
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -1505,14 +1480,13 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '3d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '8d6',
         elementType: 'necrotic',
-        damageType: 'area'
+        damageTypes: ['area'],
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -1571,14 +1545,12 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '1d10'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: 'escalating',
         elementType: 'psychic',
-        damageType: 'dot',
+        damageTypes: ['dot'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: 'turn_number * 1d6',
@@ -1592,7 +1564,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
             { round: 2, formula: '2d6', description: 'Growing pain intensifies the torment, the psychic damage escalating as the curse deepens.' },
             { round: 3, formula: '3d6', description: 'Severe torment overwhelms the target, the psychic assault reaching devastating levels.' }
           ]
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'dot', 'escalating', 'blood magic']
@@ -1628,14 +1601,12 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '5d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '10d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '4d6',
@@ -1646,7 +1617,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         criticalConfig: {
           critType: 'effect',
           critEffects: ['necrotic_storm_crit']
-        }
+        },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -1703,10 +1675,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '4d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       transformationConfig: {
         transformationType: 'physical',
         targetType: 'self',
@@ -1750,10 +1720,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '5d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
@@ -1850,18 +1818,17 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '6d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '12d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['life_drain_crit']
-        }
+        },
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: '12d6',
@@ -1906,10 +1873,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '6d8'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       transformationConfig: {
         transformationType: 'elemental',
         targetType: 'self',
@@ -1996,18 +1961,17 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '7d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '12d6',
         elementType: 'force',
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['magic_nullification_crit']
-        }
+        },
+          resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2055,14 +2019,12 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '8d6'
         }
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '15d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '6d6',
@@ -2072,7 +2034,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         },
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2132,10 +2095,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '8d8'
         }
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'phaseshift',
         targetType: 'self',
@@ -2179,10 +2140,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '8d10'
         }
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'physical',
         targetType: 'self',
@@ -2229,17 +2188,16 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           health: '10d6'
         }
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '18d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2291,10 +2249,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           permanentHealth: '2d10'
         }
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'physical',
         targetType: 'self',
@@ -2335,10 +2291,8 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
           permanentHealth: '3d8'
         }
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'physical',
         targetType: 'self',

@@ -18,7 +18,7 @@ export const transformSpellForCard = (spell) => {
   transformedSpell.id = transformedSpell.id || 'unknown';
   transformedSpell.name = transformedSpell.name || 'Unnamed Spell';
   transformedSpell.description = transformedSpell.description || '';
-  transformedSpell.level = transformedSpell.level || 1;
+  transformedSpell.level = transformedSpell.level !== undefined ? transformedSpell.level : 1;
   transformedSpell.icon = transformedSpell.icon || transformedSpell.typeConfig?.icon || 'inv_misc_questionmark';
   transformedSpell.spellType = transformedSpell.spellType || 'ACTION';
   transformedSpell.effectType = transformedSpell.effectType || 'utility';
@@ -27,10 +27,6 @@ export const transformSpellForCard = (spell) => {
   if (transformedSpell.typeConfig?.school) {
     transformedSpell.school = transformedSpell.typeConfig.school;
   }
-
-  // Debug logging
-  console.log('Transformer - typeConfig:', transformedSpell.typeConfig);
-  console.log('Transformer - school set to:', transformedSpell.school);
 
   // Ensure type configuration exists
   transformedSpell.typeConfig = transformedSpell.typeConfig || {};
@@ -168,8 +164,12 @@ export const transformSpellForCard = (spell) => {
     }
   }
 
-  // Ensure damage types exist - check multiple sources
-  transformedSpell.damageTypes = transformedSpell.damageTypes || [];
+  // Ensure damage types exist as array - check multiple sources
+  if (!Array.isArray(transformedSpell.damageTypes)) {
+    transformedSpell.damageTypes = typeof transformedSpell.damageTypes === 'string'
+      ? [transformedSpell.damageTypes]
+      : [];
+  }
 
   // Add damage types from damageConfig
   if (transformedSpell.damageConfig?.elementType) {
@@ -189,17 +189,13 @@ export const transformSpellForCard = (spell) => {
   if (transformedSpell.typeConfig?.school &&
       !transformedSpell.damageTypes.includes(transformedSpell.typeConfig.school)) {
     transformedSpell.damageTypes.push(transformedSpell.typeConfig.school);
-    console.log('Added school to damageTypes:', transformedSpell.typeConfig.school);
   }
 
   // Always add secondaryElement from typeConfig to damageTypes if it exists
   if (transformedSpell.typeConfig?.secondaryElement &&
       !transformedSpell.damageTypes.includes(transformedSpell.typeConfig.secondaryElement)) {
     transformedSpell.damageTypes.push(transformedSpell.typeConfig.secondaryElement);
-    console.log('Added secondaryElement to damageTypes:', transformedSpell.typeConfig.secondaryElement);
   }
-
-  console.log('Final damageTypes:', transformedSpell.damageTypes);
 
   // Ensure resolution method exists for spells that need it
   if (transformedSpell.effectTypes?.includes('damage') ||
@@ -428,8 +424,8 @@ export const transformSpellForCard = (spell) => {
   }
 
   // Ensure prophecy configuration exists for preview
-  if (spell.prophecyOptions) {
-    const po = spell.prophecyOptions;
+  if (transformedSpell.prophecyOptions) {
+    const po = transformedSpell.prophecyOptions;
     const parseRangeDice = (dice) => {
       if (Array.isArray(dice)) return dice;
       if (typeof dice === 'string' && dice.includes('+')) return dice.split('+').map(d => d.trim());
@@ -474,6 +470,7 @@ export const transformSpellForCard = (spell) => {
       return result;
     };
     transformedSpell.prophecyConfig = {
+      ...(transformedSpell.prophecyConfig || {}),
       rangeDice: parseRangeDice(po.rangeDice),
       resolutionDie: po.resolutionDie,
       prophesied: buildOutcome(po.prophesied) || { havocGain: po.prophesied?.havocGain || 3 },

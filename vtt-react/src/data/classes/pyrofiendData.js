@@ -647,7 +647,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '1d4',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 2,
           canStack: false,
@@ -710,7 +710,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '1d4',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 2,
           canStack: false,
@@ -1355,7 +1355,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
           maxChains: 3,
           chainRange: 15,
           damageMultiplier: 0.75,
-          damageType: 'fire'
+          damageTypes: ['fire'],
         }
       },
 
@@ -1525,7 +1525,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '1d6 + intelligence/4',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 3,
           canStack: false,
@@ -1723,7 +1723,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '2d6 + intelligence/2',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 3,
           canStack: false,
@@ -1781,7 +1781,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '2d6 + intelligence/2',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 4,
           canStack: false,
@@ -2219,7 +2219,7 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
         dotConfig: {
           enabled: true,
           damagePerTick: '3d6 + intelligence/2',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 4,
           canStack: false,

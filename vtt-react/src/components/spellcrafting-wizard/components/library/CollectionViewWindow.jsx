@@ -5,7 +5,6 @@ import SpellContextMenu from './SpellContextMenu';
 import UnifiedSpellCard from '../common/UnifiedSpellCard';
 import { useSpellLibrary, useSpellLibraryDispatch, libraryActionCreators } from '../../context/SpellLibraryContext';
 import { getSpellRollableTable } from '../../core/utils/spellCardTransformer';
-import { formatAllEffects } from '../../core/utils/formatSpellEffectsForReview';
 // Pathfinder styles imported via main.css
 import '../../styles/CollectionMaps.css';
 
@@ -390,21 +389,6 @@ const CollectionViewWindow = ({
 
                 // Get the rollable table data from the spell
                 const rollableTableData = getSpellRollableTable(spell);
-
-                // Format the effects for display
-                const formattedEffects = formatAllEffects(transformedSpell);
-
-                // Add the formatted effects to the transformed spell
-                if (formattedEffects) {
-                  transformedSpell.damageEffects = formattedEffects.damageEffects;
-                  transformedSpell.healingEffects = formattedEffects.healingEffects;
-                  transformedSpell.buffEffects = formattedEffects.buffEffects;
-                  transformedSpell.debuffEffects = formattedEffects.debuffEffects;
-                  transformedSpell.controlEffects = formattedEffects.controlEffects;
-                  transformedSpell.procEffects = formattedEffects.procEffects;
-                  transformedSpell.criticalEffects = formattedEffects.criticalEffects;
-                  transformedSpell.channelingEffects = formattedEffects.channelingEffects;
-                }
 
                 // Ensure resource costs are properly formatted
                 if (!transformedSpell.resourceCost) {

@@ -519,8 +519,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '1d8',
         elementType: 'slashing',
-        damageType: 'direct',
-        scalingType: 'chain_reduction'
+        damageTypes: ['direct'],
+        scalingType: 'chain_reduction',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -594,8 +595,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '2d8',
         elementType: 'slashing',
-        damageType: 'area',
-        scalingType: 'none'
+        damageTypes: ['area'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -651,8 +653,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '3d8',
         elementType: 'slashing',
-        damageType: 'direct',
-        scalingType: 'none'
+        damageTypes: ['direct'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -719,8 +722,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'bludgeoning',
-        scalingType: 'proficiency'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'proficiency',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -787,8 +791,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -987,8 +992,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '3d8',
         elementType: 'slashing',
-        damageType: 'direct',
-        scalingType: 'none'
+        damageTypes: ['direct'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1059,8 +1065,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '3d8',
-        damageType: 'necrotic',
-        scalingType: 'none'
+        damageTypes: ['necrotic'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1128,8 +1135,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'radiant',
-        scalingType: 'none'
+        damageTypes: ['radiant'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       savingThrow: {
@@ -1343,8 +1351,9 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '1d8',
         elementType: 'slashing',
-        damageType: 'direct',
-        scalingType: 'none'
+        damageTypes: ['direct'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1479,7 +1488,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '3d8 + agility',
-        damageType: 'slashing'
+        damageTypes: ['slashing'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1598,7 +1608,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '3d10 + agility',
-        damageType: 'slashing'
+        damageTypes: ['slashing'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1712,7 +1723,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '6d10 + agility * 1.5',
         elementType: 'bludgeoning',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1724,7 +1735,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         criticalConfig: {
           critType: 'effect',
           critEffects: ['knockdown']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1772,7 +1784,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '5d6 + agility',
-        damageType: 'slashing'
+        damageTypes: ['slashing'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1951,11 +1964,12 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '12d8 + agility * 2',
         elementType: 'slashing',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['rapid_strikes_crit']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2008,12 +2022,13 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '10d10 + agility',
-        damageType: 'necrotic',
+        damageTypes: ['necrotic'],
         dot: {
           formula: '3d10',
           duration: 4,
           tickFrequency: 'round'
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -2141,7 +2156,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
       damageConfig: {
         formula: '8d8 + agility',
         elementType: 'slashing',
-        damageType: 'area',
+        damageTypes: ['area'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '8d8 + agility',
@@ -2152,7 +2167,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
         criticalConfig: {
           critType: 'effect',
           critEffects: ['glaive_storm_crit']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2261,10 +2277,11 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '10d6 + agility',
-        damageType: 'necrotic',
+        damageTypes: ['necrotic'],
         savingThrow: 'Constitution',
         saveDC: 18,
-        saveEffect: 'half'
+        saveEffect: 'half',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -2381,7 +2398,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '12d6 + agility * 1.5',
-        damageType: 'force'
+        damageTypes: ['force'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -2449,7 +2467,7 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
 
       damageConfig: {
         formula: '12d6 + agility',
-        damageType: 'nature',
+        damageTypes: ['nature'],
         savingThrow: 'Constitution',
         saveDC: 18,
         saveEffect: 'half',
@@ -2457,7 +2475,8 @@ You're not a single-target damage dealer. You're a CHAIN ATTACKER. When enemies 
           formula: '3d6',
           duration: 3,
           tickFrequency: 'round'
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {

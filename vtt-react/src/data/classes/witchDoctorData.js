@@ -557,7 +557,7 @@ SPEC DISCOUNTS:
       description: 'Afflict an enemy with a necrotic hex that withers them over time.',
       level: 1,
       spellType: 'ACTION',
-      effectTypes: ['damage', 'debuff'],
+      effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Ritual',
@@ -568,20 +568,21 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '1d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'dot',
+        damageTypes: ['necrotic'],
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
           tickFrequency: 'round',
           dotFormula: '1d6 + spirit',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -593,10 +594,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence when cast' },
@@ -651,10 +650,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
@@ -708,10 +705,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -737,7 +732,8 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '2d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statPenalty',
@@ -761,7 +757,7 @@ SPEC DISCOUNTS:
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -773,10 +769,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
@@ -791,7 +785,7 @@ SPEC DISCOUNTS:
       description: 'Place a small totem that shields nearby allies from harm.',
       level: 2,
       spellType: 'ACTION',
-      effectTypes: ['buff'],
+      effectTypes: ['buff', 'summoning'],
       typeConfig: {
         school: 'nature',
         icon: 'Nature/Nature Natural',
@@ -848,10 +842,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Carved wooden totem'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
@@ -875,7 +867,8 @@ SPEC DISCOUNTS:
       },
       healingConfig: {
         formula: '2d8 + spirit',
-        healingType: 'instant'
+        healingType: 'instant',
+        resolution: 'DICE'
       },
       targetingConfig: {
         targetingType: 'single',
@@ -893,10 +886,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -922,7 +913,8 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '3d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'area'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -933,7 +925,7 @@ SPEC DISCOUNTS:
           areaSize: 15,
           areaSizeUnit: 'ft'
         },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 4,
         targetSelectionMethod: 'auto',
         requiresLineOfSight: false
@@ -945,10 +937,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1013,10 +1003,8 @@ SPEC DISCOUNTS:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1043,7 +1031,7 @@ SPEC DISCOUNTS:
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 25,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -1053,7 +1041,7 @@ SPEC DISCOUNTS:
           targetingType: 'single',
           rangeType: 'ranged',
           rangeDistance: 25,
-          targetRestrictions: ['enemy'],
+          targetRestrictions: ['enemies'],
           maxTargets: 1
         },
         healing: {
@@ -1063,11 +1051,13 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '2d8 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: '2d8 + spirit/2',
-        healingType: 'instant'
+        healingType: 'instant',
+        resolution: 'DICE'
       },
       resourceCost: {
         resourceTypes: ['mana'],
@@ -1076,10 +1066,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1094,7 +1082,7 @@ SPEC DISCOUNTS:
       description: 'Curse multiple enemies at once, dealing necrotic damage over time to all targets.',
       level: 4,
       spellType: 'ACTION',
-      effectTypes: ['damage', 'debuff'],
+      effectTypes: ['damage'],
       typeConfig: {
         school: 'necrotic',
         icon: 'Necrotic/Necrotic Death',
@@ -1105,20 +1093,21 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '2d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'dot',
+        damageTypes: ['necrotic'],
         hasDotEffect: true,
         dotConfig: {
           duration: 4,
           tickFrequency: 'round',
           dotFormula: '2d6 + spirit',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'multi',
         rangeType: 'ranged',
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 3,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -1130,10 +1119,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 3, description: 'Generates 1 Voodoo Essence per target cursed (up to 3)' },
@@ -1159,8 +1146,8 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '4d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
-        description: 'Doll lasts 3 rounds (concentration). Each round, you can attack the doll to deal damage to the target.'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'special',
@@ -1178,7 +1165,7 @@ SPEC DISCOUNTS:
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -1191,10 +1178,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A cloth doll and a strand of target hair'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence' }
@@ -1223,7 +1208,8 @@ SPEC DISCOUNTS:
         hotFormula: '1d8 + spirit/2',
         hotDuration: 3,
         hotTickType: 'round',
-        isProgressiveHot: false
+        isProgressiveHot: false,
+        resolution: 'DICE'
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -1259,10 +1245,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 5, specialization_discount: 2, description: 'Costs 5 Voodoo Essence (3 for Mambo)' },
@@ -1309,7 +1293,7 @@ SPEC DISCOUNTS:
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -1321,10 +1305,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },
@@ -1347,7 +1329,7 @@ SPEC DISCOUNTS:
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-      summonConfig: {
+      summoningConfig: {
         creatures: [{
           id: 'zombie',
           name: 'Zombie',
@@ -1394,10 +1376,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Four corpses or grave dirt'
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual/summoning)' }
@@ -1413,7 +1393,7 @@ SPEC DISCOUNTS:
       spellType: 'ACTION',
       effectTypes: ['buff'],
       typeConfig: {
-        school: 'transmutation',
+        school: 'nature',
         icon: 'Slashing/Dual Blades',
         tags: ['buff', 'poison', 'weapon', 'witch doctor'],
         castTime: 1,
@@ -1446,10 +1426,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Poison extract'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (poison applied)' },
@@ -1507,10 +1485,8 @@ SPEC DISCOUNTS:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -1526,7 +1502,7 @@ SPEC DISCOUNTS:
       spellType: 'ACTION',
       effectTypes: ['utility'],
       typeConfig: {
-        school: 'conjuration',
+        school: 'arcane',
         icon: 'Arcane/Portal Archway',
         tags: ['utility', 'loa', 'teleport', 'witch doctor'],
         castTime: 1,
@@ -1561,10 +1537,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Walking stick and tobacco as offering'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
@@ -1580,9 +1554,9 @@ SPEC DISCOUNTS:
       description: 'Place a healing totem that restores hit points to all allies within 10 feet each turn for 10 rounds.',
       level: 6,
       spellType: 'ACTION',
-      effectTypes: ['healing'],
+      effectTypes: ['healing', 'summoning'],
       typeConfig: {
-        school: 'conjuration',
+        school: 'nature',
         icon: 'Healing/Heal Wound',
         tags: ['healing', 'totem', 'support', 'witch doctor'],
         castTime: 1,
@@ -1595,7 +1569,8 @@ SPEC DISCOUNTS:
         hotFormula: '2d4',
         hotDuration: 10,
         hotTickType: 'turn',
-        isProgressiveHot: false
+        isProgressiveHot: false,
+        resolution: 'AUTOMATIC'
       },
       summoningConfig: {
         creatureType: 'totem',
@@ -1627,10 +1602,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Carved wooden totem'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (totem placed)' }
@@ -1656,11 +1629,12 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '8d8 + spirit * 2',
         elementType: 'slashing',
-        damageType: 'direct',
+        damageTypes: ['slashing'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['ogoun_fury_stun']
-        }
+        },
+          resolution: 'DICE',
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -1698,10 +1672,8 @@ SPEC DISCOUNTS:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 8, specialization_discount: 2, description: 'Costs 8 Voodoo Essence (6 for Houngan)' },
@@ -1732,7 +1704,8 @@ SPEC DISCOUNTS:
         hotFormula: '3d8 + spirit',
         hotDuration: 5,
         hotTickType: 'round',
-        isProgressiveHot: false
+        isProgressiveHot: false,
+        resolution: 'AUTOMATIC'
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -1771,10 +1744,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Perfume, jewelry, and flowers'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       specialMechanics: {
         voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
@@ -1801,7 +1772,7 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '3d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['necrotic'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '3d6',
@@ -1809,14 +1780,12 @@ SPEC DISCOUNTS:
           tickFrequency: 'turn',
           isProgressiveDot: false
         },
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'spirit',
+        savingThrow: {
+          ability: 'spirit',
           difficultyClass: 15,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
-        }
+          saveOutcome: 'half_damage'
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'fear',
@@ -1852,10 +1821,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Graveyard dirt and bone dust'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual completion)' }
@@ -1881,15 +1848,15 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '14d6 + spirit * 3',
         elementType: 'necrotic',
-        damageType: 'direct',
-        description: 'Hits all enemies in range. Cursed enemies take triple damage instead.'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 15,
         targetSelectionMethod: 'automatic',
         requiresLineOfSight: false
@@ -1902,10 +1869,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Rum, cigars, and grave dirt'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 10, specialization_discount: 2, description: 'Costs 10 Voodoo Essence (8 for Bokor)' },
@@ -1932,7 +1897,7 @@ SPEC DISCOUNTS:
       healingConfig: {
         formula: '6d8 + spirit',
         healingType: 'instant',
-        description: 'Resurrects all dead allies within range at half HP'
+        resolution: 'DICE'
       },
       restorationConfig: {
         restorationType: 'resurrection',
@@ -1967,10 +1932,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Ancestral bones and offerings'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 2, description: 'Generates 2 Voodoo Essence (ritual)' }
@@ -1996,8 +1959,8 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '12d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'area',
-        description: 'All enemies in the zone take damage at the start of their turn'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2019,7 +1982,7 @@ SPEC DISCOUNTS:
         rangeDistance: 80,
         aoeShape: 'circle',
         aoeParameters: { radius: 35 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 20,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -2032,10 +1995,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Diseased flesh or plague rat'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -2061,15 +2022,13 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '18d6 + spirit * 3',
         elementType: 'necrotic',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        damageTypes: ['necrotic'],
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 19,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
-        }
+          saveOutcome: 'half_damage'
+        },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2095,7 +2054,7 @@ SPEC DISCOUNTS:
         rangeType: 'sight',
         aoeShape: 'circle',
         aoeParameters: { radius: 80 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 30,
         targetSelectionMethod: 'automatic',
         requiresLineOfSight: false
@@ -2108,10 +2067,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The skull of a powerful enemy, worth 50,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence' }
@@ -2190,10 +2147,8 @@ SPEC DISCOUNTS:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Does not generate Voodoo Essence (but form generates +3/round)' }
@@ -2222,7 +2177,8 @@ SPEC DISCOUNTS:
         hotFormula: '3d8 + spirit',
         hotDuration: 5,
         hotTickType: 'round',
-        isProgressiveHot: false
+        isProgressiveHot: false,
+        resolution: 'DICE'
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -2260,10 +2216,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Perfume, jewelry, and flowers'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 7, specialization_discount: 2, description: 'Costs 7 Voodoo Essence (5 for Mambo)' },
@@ -2314,10 +2268,8 @@ SPEC DISCOUNTS:
         components: ['ritual'],
         materialComponents: 'The blessing of all the loa, 100,000 gold worth of offerings'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 0, description: 'Passive: generates 3 Voodoo Essence per round' }
@@ -2385,10 +2337,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Keys, crossroads dirt, and rum'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { cost: 6, specialization_discount: 2, description: 'Costs 6 Voodoo Essence (4 for Houngan)' },
@@ -2415,8 +2365,8 @@ SPEC DISCOUNTS:
       damageConfig: {
         formula: '22d6 + spirit * 4',
         elementType: 'necrotic',
-        damageType: 'direct',
-        description: 'If target survives, they are cursed to die in 3 rounds unless the curse is removed'
+        damageTypes: ['necrotic'],
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'custom',
@@ -2441,7 +2391,7 @@ SPEC DISCOUNTS:
         targetingType: 'single',
         rangeType: 'ranged',
         rangeDistance: 100,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ['enemies'],
         maxTargets: 1,
         targetSelectionMethod: 'manual',
         requiresLineOfSight: true
@@ -2454,10 +2404,8 @@ SPEC DISCOUNTS:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A piece of the target\'s soul, worth immeasurable value'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       specialMechanics: {
         voodooEssence: { generates: 1, description: 'Generates 1 Voodoo Essence (curse)' },

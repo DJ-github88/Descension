@@ -1235,7 +1235,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '3d8 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_attack',
         conditionalDamage: {
           enabled: true,
@@ -1247,7 +1247,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
               description: 'Deals extra damage to demons and undead'
             }
           ]
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1259,10 +1260,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'holy', 'radiant', 'universal']
@@ -1312,9 +1311,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'bonus',
+        damageTypes: ['bonus'],
         appliesTo: 'all_attacks',
-        description: 'Adds 1d8 bonus damage to all demon attacks'
+        description: 'Adds 1d8 bonus damage to all demon attacks',
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1326,10 +1326,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'AUTOMATIC',
       tags: ['buff', 'demon enhancement', 'universal']
@@ -1379,9 +1377,10 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '2d6',
         elementType: 'necrotic',
-        damageType: 'bonus',
+        damageTypes: ['bonus'],
         appliesTo: 'melee_attacks',
-        description: 'Adds 2d6 necrotic damage to all melee attacks'
+        description: 'Adds 2d6 necrotic damage to all melee attacks',
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1393,10 +1392,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'AUTOMATIC',
       tags: ['buff', 'possession', 'self', 'possessed']
@@ -1451,10 +1448,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'AUTOMATIC',
       tags: ['buff', 'possession', 'self', 'possessed']
@@ -1505,7 +1500,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '5d6 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1524,7 +1519,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
               description: 'Deals extra damage to demons and undead'
             }
           ]
-        }
+        },
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -1543,10 +1539,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'healing', 'holy', 'aoe', 'universal']
@@ -1581,7 +1575,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '1d6',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1613,10 +1608,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['debuff', 'holy', 'mark', 'universal']
@@ -1667,10 +1660,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['utility', 'detection', 'demons', 'universal']
@@ -1733,10 +1724,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['control', 'zone', 'holy', 'universal']
@@ -1800,10 +1789,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic', 'material']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['summoning', 'binding', 'demon', 'pit fiend', 'demonologist'],
@@ -1855,10 +1842,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['utility', 'demon control', 'dominance', 'demonologist']
@@ -1892,7 +1877,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '6d10 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -1907,7 +1892,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           critMultiplier: 2.0,
           extraDice: '3d10',
           critEffects: ['radiant_burn']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1919,10 +1905,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'holy', 'aoe', 'anti demon', 'universal']
@@ -1987,10 +1971,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic', 'material']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 15
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 15
+       },
 
       resolution: 'DICE',
       tags: ['summoning', 'binding', 'demon', 'balor', 'demon lord'],
@@ -2046,10 +2028,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'demon enhancement', 'mass', 'demonologist']
@@ -2104,10 +2084,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'possession', 'transformation', 'possessed']
@@ -2171,10 +2149,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['summoning', 'mass', 'demons', 'demonologist']
@@ -2208,7 +2184,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '8d12 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2223,7 +2199,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           critMultiplier: 2.5,
           extraDice: '4d12',
           critEffects: ['divine_burn', 'stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2235,10 +2212,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'holy', 'aoe', 'ultimate', 'universal']
@@ -2291,10 +2266,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['transformation', 'demon', 'ultimate', 'possessed']
@@ -2347,10 +2320,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic', 'material']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 15
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 15
+       },
 
       resolution: 'DICE',
       tags: ['summoning', 'mass', 'ultimate', 'demonologist']
@@ -2384,7 +2355,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '10d12 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2399,7 +2370,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           critMultiplier: 3.0,
           extraDice: '5d12',
           critEffects: ['divine_annihilation', 'banishment']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2411,10 +2383,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 12
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 12
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'holy', 'ultimate', 'mass', 'universal']
@@ -2469,10 +2439,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 15
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 15
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'dominance', 'demon enhancement', 'ultimate', 'demon lord']
@@ -2537,10 +2505,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic', 'material']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 30
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 30
+       },
 
       resolution: 'DICE',
       tags: ['summoning', 'ultimate', 'demon prince', 'demon lord']
@@ -2574,7 +2540,7 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       damageConfig: {
         formula: '15d12 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2589,7 +2555,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
           critMultiplier: 3.5,
           extraDice: '8d12',
           critEffects: ['divine_annihilation', 'banishment', 'stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2601,10 +2568,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 20
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 20
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'holy', 'ultimate', 'annihilation', 'universal']
@@ -2658,10 +2623,8 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 30
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 30
+       },
 
       resolution: 'DICE',
       tags: ['transformation', 'ultimate', 'god form', 'possessed']

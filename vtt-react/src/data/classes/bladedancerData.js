@@ -762,7 +762,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -771,11 +771,12 @@ STANCES (starting stance: 💧 Flowing Water):
           critType: 'dice',
           critMultiplier: 2
         },
-        description: 'Precise strike that builds combat rhythm and Momentum'
+        description: 'Precise strike that builds combat rhythm and Momentum',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'momentum_generation', 'starter', 'bladedancer']
@@ -826,7 +827,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['utility', 'stance', 'transition', 'starter', 'bladedancer']
@@ -882,7 +883,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'defense', 'counter', 'toggleable', 'starter', 'bladedancer']
@@ -925,15 +926,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d6 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Quick strike with enhanced mobility'
+        description: 'Quick strike with enhanced mobility',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['movement', 'damage', 'mobility', 'starter', 'bladedancer']
@@ -980,7 +982,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d6 + agility + floor(CurrentMomentum / 2)',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -999,11 +1001,12 @@ STANCES (starting stance: 💧 Flowing Water):
             distance: 10
           }
         },
-        description: 'Fluid strike that scales with Momentum and may knock foes back on critical hits'
+        description: 'Fluid strike that scales with Momentum and may knock foes back on critical hits',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'stance-transition', 'momentum_scaling', 'bladedancer']
@@ -1046,15 +1049,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d6 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Multiple flowing strikes that build combat rhythm'
+        description: 'Multiple flowing strikes that build combat rhythm',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'multi-attack', 'momentum_generation', 'bladedancer']
@@ -1118,10 +1122,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       stanceRequirement: 'flowing_water',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['melee', 'defense', 'dodge', 'momentum_generation', 'stance_flowing_water', 'bladedancer']
     },
@@ -1175,10 +1177,8 @@ STANCES (starting stance: 💧 Flowing Water):
       flourishGenerated: 1,
       stanceRequirement: 'flowing_water',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['utility', 'dodge', 'reposition', 'untargetable', 'signature', 'stance_flowing_water', 'flourish_generation', 'bladedancer']
     },
@@ -1221,17 +1221,18 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d8 + agility + 1d8',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Precise strike with advantage, enhanced by serpent-like speed'
+        description: 'Precise strike with advantage, enhanced by serpent-like speed',
+          resolution: 'DICE',
       },
 
       stanceRequirement: 'striking_serpent',
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'precision', 'stance_striking_serpent', 'bladedancer']
@@ -1274,12 +1275,13 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
         isGuaranteedCrit: true,
-        description: 'Guaranteed critical strike to a vital point'
+        description: 'Guaranteed critical strike to a vital point',
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1308,10 +1310,8 @@ STANCES (starting stance: 💧 Flowing Water):
       flourishGenerated: 1,
       stanceRequirement: 'striking_serpent',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'bleed', 'poison', 'critical', 'signature', 'stance_striking_serpent', 'flourish_generation', 'bladedancer']
     },
@@ -1355,19 +1355,18 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Whirling blade strike hitting all nearby enemies'
+        description: 'Whirling blade strike hitting all nearby enemies',
+          resolution: 'DICE',
       },
 
       stanceRequirement: 'whirling_wind',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['melee', 'damage', 'aoe', 'stance_whirling_wind', 'bladedancer']
     },
@@ -1410,7 +1409,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1422,17 +1421,16 @@ STANCES (starting stance: 💧 Flowing Water):
             distance: 10
           }
         },
-        description: 'Devastating AoE whirlwind that sends enemies flying'
+        description: 'Devastating AoE whirlwind that sends enemies flying',
+          resolution: 'DICE',
       },
 
       isSignatureMove: true,
       flourishGenerated: 1,
       stanceRequirement: 'whirling_wind',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'aoe', 'knockback', 'signature', 'stance_whirling_wind', 'flourish_generation', 'bladedancer']
     },
@@ -1475,17 +1473,18 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d6 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Counter-attack after a successful parry'
+        description: 'Counter-attack after a successful parry',
+          resolution: 'DICE',
       },
 
       stanceRequirement: 'rooted_stone',
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['reaction', 'parry', 'counter', 'stance_rooted_stone', 'bladedancer']
@@ -1544,10 +1543,8 @@ STANCES (starting stance: 💧 Flowing Water):
       flourishGenerated: 1,
       stanceRequirement: 'rooted_stone',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['defense', 'parry', 'counter', 'signature', 'stance_rooted_stone', 'flourish_generation', 'bladedancer']
     },
@@ -1590,18 +1587,19 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
         hits: 2,
-        description: 'Two rapid strikes in a single action'
+        description: 'Two rapid strikes in a single action',
+          resolution: 'DICE',
       },
 
       stanceRequirement: 'dancing_blade',
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'multi-attack', 'stance_dancing_blade', 'bladedancer']
@@ -1645,21 +1643,20 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '3d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Three chained attacks, each from a different stance tradition'
+        description: 'Three chained attacks, each from a different stance tradition',
+          resolution: 'DICE',
       },
 
       isSignatureMove: true,
       flourishGenerated: 1,
       stanceRequirement: 'dancing_blade',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'combo', 'stance-transition', 'signature', 'stance_dancing_blade', 'flourish_generation', 'bladedancer']
     },
@@ -1702,19 +1699,18 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d8 + agility + 3d6',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Teleport-ambush strike enhanced by Shadow Step stance'
+        description: 'Teleport-ambush strike enhanced by Shadow Step stance',
+          resolution: 'DICE',
       },
 
       stanceRequirement: 'shadow_step',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['melee', 'damage', 'teleport', 'burst', 'stance_shadow_step', 'bladedancer']
     },
@@ -1772,10 +1768,8 @@ STANCES (starting stance: 💧 Flowing Water):
       flourishGenerated: 1,
       stanceRequirement: 'shadow_step',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'invisibility', 'critical', 'signature', 'stance_shadow_step', 'flourish_generation', 'bladedancer']
     },
@@ -1831,10 +1825,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['utility', 'stance', 'transition', 'buff', 'bladedancer']
     },
@@ -1876,15 +1868,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d6 + agility + floor(CurrentMomentum / 2)',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Multiple rapid strikes that scale with current Momentum'
+        description: 'Multiple rapid strikes that scale with current Momentum',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'multi-attack', 'momentum_scaling', 'bladedancer']
@@ -1928,7 +1921,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '3d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1937,13 +1930,12 @@ STANCES (starting stance: 💧 Flowing Water):
           critType: 'dice',
           critMultiplier: 2
         },
-        description: 'Three devastating attacks, each enhanced by a different stance\'s power'
+        description: 'Three devastating attacks, each enhanced by a different stance\'s power',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'multi-attack', 'stance-transition', 'flourish_generation', 'bladedancer']
     },
@@ -1989,18 +1981,19 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '3d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 15,
           saveOutcome: 'negates'
         },
-        description: 'Devastating counter-attack that may be avoided with an agility save'
+        description: 'Devastating counter-attack that may be avoided with an agility save',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['reaction', 'parry', 'counter', 'momentum_generation', 'bladedancer']
@@ -2044,17 +2037,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Whirling strikes that damage nearby enemies'
+        description: 'Whirling strikes that damage nearby enemies',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['defense', 'damage', 'aoe', 'mobility', 'bladedancer']
     },
@@ -2111,7 +2103,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['reaction', 'defense', 'mobility', 'counter', 'bladedancer']
@@ -2168,10 +2160,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'stance', 'mastery', 'enhancement', 'bladedancer']
     },
@@ -2213,7 +2203,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '4d10 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2222,7 +2212,8 @@ STANCES (starting stance: 💧 Flowing Water):
           critType: 'dice',
           critMultiplier: 2
         },
-        description: 'Massive piercing damage to vital organs'
+        description: 'Massive piercing damage to vital organs',
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -2248,7 +2239,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'bleed', 'critical', 'flourish_generation', 'bladedancer']
@@ -2292,17 +2283,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '2d6 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Graceful strikes that flow between multiple targets'
+        description: 'Graceful strikes that flow between multiple targets',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['melee', 'damage', 'multi-target', 'momentum_generation', 'mobility', 'bladedancer']
     },
@@ -2344,7 +2334,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '3d8 + agility + (stance_shadow_step ? 3d6 : 0)',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2387,11 +2377,12 @@ STANCES (starting stance: 💧 Flowing Water):
             }
           }
         },
-        description: 'Devastating strike from the shadows, enhanced when in Shadow Step stance'
+        description: 'Devastating strike from the shadows, enhanced when in Shadow Step stance',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'teleport', 'advantage', 'stance-transition', 'bladedancer']
@@ -2449,8 +2440,9 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '1d6 + agility',
         elementType: 'physical',
-        damageType: 'direct',
-        description: 'Whirling blades damage enemies that enter the barrier'
+        damageTypes: ['direct'],
+        description: 'Whirling blades damage enemies that enter the barrier',
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -2472,10 +2464,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['defense', 'damage', 'aoe', 'concentration', 'bladedancer']
     },
@@ -2518,17 +2508,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: 'min(momentum_spent, 10) * 1d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Explosive release of stored Momentum as raw damage (capped at 10 Momentum for damage calculation)'
+        description: 'Explosive release of stored Momentum as raw damage (capped at 10 Momentum for damage calculation)',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'aoe', 'momentum_spend', 'burst', 'bladedancer']
     },
@@ -2587,7 +2576,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '6d10 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2597,7 +2586,8 @@ STANCES (starting stance: 💧 Flowing Water):
           critMultiplier: 2,
           critEffects: ['surprise']
         },
-        description: 'Devastating strike with advantage from invisibility'
+        description: 'Devastating strike with advantage from invisibility',
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -2617,10 +2607,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['melee', 'damage', 'critical', 'invisibility', 'flourish_generation', 'bladedancer']
     },
@@ -2676,10 +2664,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['buff', 'stance', 'harmony', 'concentration', 'bladedancer']
     },
@@ -2730,7 +2716,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['reaction', 'defense', 'reflection', 'counter', 'bladedancer']
@@ -2799,7 +2785,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'stance', 'momentum_generation', 'flow_master', 'bladedancer']
@@ -2842,17 +2828,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '4d6 + agility * 1.5',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 3,
         critDiceOnly: false,
-        description: 'Flawless combo strikes that flow like water'
+        description: 'Flawless combo strikes that flow like water',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'multi-attack', 'combo', 'flow_master', 'bladedancer']
     },
@@ -2895,8 +2880,9 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: 'momentum_spent / 2 + agility',
         elementType: 'force',
-        damageType: 'direct',
-        description: 'Wave of momentum energy that damages enemies'
+        damageTypes: ['direct'],
+        description: 'Wave of momentum energy that damages enemies',
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -2918,10 +2904,8 @@ STANCES (starting stance: 💧 Flowing Water):
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'buff', 'aoe', 'momentum_spend', 'bladedancer']
     },
@@ -2989,7 +2973,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'stance', 'mastery', 'universal', 'bladedancer']
@@ -3033,17 +3017,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '4d8 + agility',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'Graceful strikes that teleport between targets'
+        description: 'Graceful strikes that teleport between targets',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['damage', 'teleport', 'multi-target', 'mobility', 'bladedancer']
     },
@@ -3098,7 +3081,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'stance', 'echo', 'mastery', 'bladedancer']
@@ -3147,7 +3130,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '6d10 + agility * 2',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -3156,13 +3139,12 @@ STANCES (starting stance: 💧 Flowing Water):
           critType: 'dice',
           critMultiplier: 2
         },
-        description: 'Six devastating attacks, one from each stance, enhanced by your mastery'
+        description: 'Six devastating attacks, one from each stance, enhanced by your mastery',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['aoe', 'damage', 'multi-attack', 'flourish_spend', 'ultimate', 'bladedancer']
     },
@@ -3205,17 +3187,16 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: '6d8 + agility * 2',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
-        description: 'A devastating strike channeling the essence of all six stances'
+        description: 'A devastating strike channeling the essence of all six stances',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['damage', 'critical', 'flourish_spend', 'stance_power', 'bladedancer']
     },
@@ -3270,7 +3251,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'stance', 'harmony', 'mastery', 'bladedancer']
@@ -3343,7 +3324,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'long_rest'
+        cooldownType: 'long_rest'
       },
 
       tags: ['transformation', 'ultimate', 'stance', 'transcendent', 'bladedancer']
@@ -3399,7 +3380,7 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['passive', 'mastery', 'ultimate', 'stance', 'bladedancer']

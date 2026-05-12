@@ -566,11 +566,12 @@ OVERHEAT (101+): 1 round to spend below 101
         formula: '1d8 + strength',
         damageTypes: ['bludgeoning'],
 
-        description: 'A brutal strike driven by growing rage. Each hit feeds the fury within, escalating your power with every blow.'
+        description: 'A brutal strike driven by growing rage. Each hit feeds the fury within, escalating your power with every blow.',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'rage generation', 'starter', 'berserker']
@@ -636,7 +637,7 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['defense', 'buff', 'rage generation', 'stance', 'toggleable', 'starter', 'berserker']
@@ -703,7 +704,7 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['buff', 'rage generation', 'damage', 'stance', 'toggleable', 'starter', 'berserker']
@@ -770,11 +771,12 @@ OVERHEAT (101+): 1 round to spend below 101
             distance: 5
           }
         },
-        description: 'The frenzied slash tears into your enemy with savage brutality, driven by pure rage. Devastating hits can ignite enemies with burning fury.'
+        description: 'The frenzied slash tears into your enemy with savage brutality, driven by pure rage. Devastating hits can ignite enemies with burning fury.',
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'rage generation', 'frenzied', 'berserker']
@@ -866,13 +868,12 @@ OVERHEAT (101+): 1 round to spend below 101
         formula: '1d4',
         damageTypes: ['bludgeoning'],
 
-        description: 'Concussive sonic force batters nearby enemies.'
+        description: 'Concussive sonic force batters nearby enemies.',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['buff', 'aoe', 'support', 'rage generation', 'frenzied', 'berserker']
     },
@@ -954,7 +955,8 @@ OVERHEAT (101+): 1 round to spend below 101
             saveType: 'constitution'
           }
         },
-        description: 'Tears into your enemy with savage force, opening wounds that bleed freely while siphoning their vitality into yourself.'
+        description: 'Tears into your enemy with savage force, opening wounds that bleed freely while siphoning their vitality into yourself.',
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -964,7 +966,7 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'healing', 'self sustain', 'rage generation', 'frenzied', 'berserker']
@@ -1021,10 +1023,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'speed', 'rage management', 'frenzied', 'berserker']
     },
@@ -1072,13 +1072,12 @@ OVERHEAT (101+): 1 round to spend below 101
       damageConfig: {
         formula: '1d6 + strength',
         damageTypes: ['bludgeoning'],
-        description: 'A reflexive counter-strike fueled by fury. Generates Rage from the hit you just took AND the counter-attack.'
+        description: 'A reflexive counter-strike fueled by fury. Generates Rage from the hit you just took AND the counter-attack.',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['reaction', 'melee', 'damage', 'rage generation', 'frenzied', 'berserker']
     },
@@ -1132,6 +1131,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 14,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1156,10 +1156,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['aoe', 'damage', 'control', 'primal', 'berserker']
     },
@@ -1220,10 +1218,8 @@ OVERHEAT (101+): 1 round to spend below 101
         description: 'Primal regeneration fueled by the blood of ancient hunters, growing stronger over time'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['healing', 'hot', 'self sustain', 'primal', 'berserker']
     },
@@ -1274,6 +1270,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 15,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1297,10 +1294,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['movement', 'damage', 'aoe', 'control', 'primal', 'berserker']
     },
@@ -1350,7 +1345,8 @@ OVERHEAT (101+): 1 round to spend below 101
           savingThrowType: 'strength',
           difficultyClass: 14,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1374,10 +1370,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['movement', 'damage', 'control', 'primal', 'berserker']
     },
@@ -1429,7 +1423,8 @@ OVERHEAT (101+): 1 round to spend below 101
           savingThrowType: 'strength',
           difficultyClass: 15,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1455,7 +1450,7 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['melee', 'damage', 'aoe', 'control', 'carnage', 'berserker']
@@ -1538,12 +1533,11 @@ OVERHEAT (101+): 1 round to spend below 101
             saveType: 'spirit'
           }
         },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'carnage', 'berserker']
     },
@@ -1610,10 +1604,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['defense', 'resistance', 'buff', 'carnage', 'berserker']
     },
@@ -1676,10 +1668,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['control', 'aoe', 'fear', 'carnage', 'berserker']
     },
@@ -1735,10 +1725,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'dodge', 'carnage', 'berserker']
     },
@@ -1806,6 +1794,7 @@ OVERHEAT (101+): 1 round to spend below 101
             saveType: 'strength'
           }
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1830,10 +1819,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['melee', 'damage', 'control', 'cataclysm', 'berserker']
     },
@@ -1888,10 +1875,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'immunity', 'cataclysm', 'berserker']
     },
@@ -1988,10 +1973,8 @@ OVERHEAT (101+): 1 round to spend below 101
         saveOutcome: 'negates'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'debuff', 'aoe', 'support', 'cataclysm', 'berserker']
     },
@@ -2043,7 +2026,8 @@ OVERHEAT (101+): 1 round to spend below 101
           saveOutcome: 'halves'
         },
         triggerCondition: 'activation',
-        triggerDescription: 'Deals 3d6 + strength bludgeoning damage to all enemies within 15 ft'
+        triggerDescription: 'Deals 3d6 + strength bludgeoning damage to all enemies within 15 ft',
+          resolution: 'DICE',
       },
 
       selfDamageConfig: {
@@ -2052,10 +2036,8 @@ OVERHEAT (101+): 1 round to spend below 101
         description: 'The uncontrollable eruption of fury damages you as well'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['aoe', 'damage', 'self damage', 'cataclysm', 'berserker']
     },
@@ -2128,12 +2110,11 @@ OVERHEAT (101+): 1 round to spend below 101
           },
           bleedingConfig: {}
         },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker']
     },
@@ -2190,10 +2171,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'advantage', 'damage', 'ultimate', 'obliteration', 'berserker']
     },
@@ -2250,10 +2229,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['buff', 'invulnerability', 'ultimate', 'obliteration', 'berserker']
     },
@@ -2336,13 +2313,12 @@ OVERHEAT (101+): 1 round to spend below 101
         damageTypes: ['bludgeoning'],
 
         triggerCondition: 'activation',
-        triggerDescription: 'Deals 2d6 bludgeoning damage to all enemies within 15 ft when activated'
+        triggerDescription: 'Deals 2d6 bludgeoning damage to all enemies within 15 ft when activated',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['buff', 'damage', 'transformation', 'obliteration', 'berserker']
     },
@@ -2400,6 +2376,7 @@ OVERHEAT (101+): 1 round to spend below 101
           explodingDice: true,
           explodingDiceType: 'reroll_add'
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2424,10 +2401,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['aoe', 'damage', 'control', 'movement', 'obliteration', 'berserker']
     },
@@ -2484,10 +2459,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 7
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 7
+       },
 
       tags: ['buff', 'healing', 'obliteration', 'berserker']
     },
@@ -2543,6 +2516,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 19,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2567,10 +2541,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 7
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 7
+       },
 
       tags: ['aoe', 'damage', 'fire', 'control', 'obliteration', 'berserker']
     },
@@ -2625,10 +2597,8 @@ OVERHEAT (101+): 1 round to spend below 101
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       tags: ['buff', 'immortality', 'obliteration', 'berserker']
     },
@@ -2679,6 +2649,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 19,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2701,10 +2672,8 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       tags: ['aoe', 'damage', 'control', 'obliteration', 'berserker']
     },
@@ -2759,6 +2728,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 18,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       selfDamageConfig: {
@@ -2787,11 +2757,9 @@ OVERHEAT (101+): 1 round to spend below 101
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'combat',
-        value: 1,
+      cooldownConfig: { cooldownType: 'combat', cooldownValue: 1,
         description: 'Once per combat'
-      },
+       },
 
       tags: ['aoe', 'damage', 'obliteration', 'berserker', 'self damage']
     },
@@ -2849,10 +2817,8 @@ OVERHEAT (101+): 1 round to spend below 101
         conditionalEnd: 'Must attack each turn or effect ends'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'damage', 'obliteration', 'berserker']
     },
@@ -2924,10 +2890,8 @@ OVERHEAT (101+): 1 round to spend below 101
 
       mechanicsText: '25% lifesteal on melee attacks. Toggle off anytime or auto-ends at 5 rounds. Exhaustion: 1d8 × rounds maintained.',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'healing', 'lifesteal', 'toggle', 'obliteration', 'berserker']
     },
@@ -2982,6 +2946,7 @@ OVERHEAT (101+): 1 round to spend below 101
           difficultyClass: 18,
           saveOutcome: 'halves'
         },
+          resolution: 'DICE',
       },
 
       selfDamageConfig: {
@@ -2990,11 +2955,9 @@ OVERHEAT (101+): 1 round to spend below 101
         description: 'The devastating release of fury takes a severe toll on your body'
       },
 
-      cooldownConfig: {
-        type: 'combat',
-        value: 1,
+      cooldownConfig: { cooldownType: 'combat', cooldownValue: 1,
         description: 'Once per combat'
-      },
+       },
 
       tags: ['aoe', 'damage', 'ultimate', 'obliteration', 'berserker', 'self damage']
     },
@@ -3059,11 +3022,9 @@ OVERHEAT (101+): 1 round to spend below 101
         ]
       },
 
-      cooldownConfig: {
-        type: 'combat',
-        value: 1,
+      cooldownConfig: { cooldownType: 'combat', cooldownValue: 1,
         description: 'Once per combat'
-      },
+       },
 
       tags: ['transformation', 'obliteration', 'berserker']
     },
@@ -3134,11 +3095,9 @@ OVERHEAT (101+): 1 round to spend below 101
         ]
       },
 
-      cooldownConfig: {
-        type: 'combat',
-        value: 1,
+      cooldownConfig: { cooldownType: 'combat', cooldownValue: 1,
         description: 'Once per combat'
-      },
+       },
 
       tags: ['buff', 'transformation', 'obliteration', 'berserker', 'self damage']
     }

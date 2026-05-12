@@ -493,7 +493,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '1d6 per Wild Instinct spent',
         elementType: 'slashing',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         description: 'Tier 1: 1d6, Tier 2: 2d6 + Bleeding, Tier 3: 3d6 + Stun, Tier 4: 4d6 + Slow, Tier 5: 5d6 + Paralyze',
         hasDotEffect: true,
         dotConfig: {
@@ -501,7 +501,8 @@ Formbenders can specialize in radically different transformation philosophies. M
           tickFrequency: 'round',
           dotFormula: '1d4',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -560,10 +561,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['physical', 'stealth', 'burst damage', 'nightstalker', 'feral shifter'],
       flavorText: 'From the shadows, death strikes without warning.'
@@ -642,10 +641,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       durationConfig: {
         type: 'timed',
@@ -717,9 +714,10 @@ Formbenders can specialize in radically different transformation philosophies. M
         baseDamage: {
           diceCount: 1,
           diceType: 8,
-          damageType: 'force',
+          damageTypes: ['force'],
           scaling: 'per_wi_spent'
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -883,9 +881,10 @@ Formbenders can specialize in radically different transformation philosophies. M
         baseDamage: {
           diceCount: 1,
           diceType: 6,
-          damageType: 'slashing',
+          damageTypes: ['slashing'],
           scaling: 'per_wi_spent'
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1049,9 +1048,10 @@ Formbenders can specialize in radically different transformation philosophies. M
         baseDamage: {
           diceCount: 1,
           diceType: 6,
-          damageType: 'frost',
+          damageTypes: ['frost'],
           scaling: 'per_wi_spent'
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1382,7 +1382,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '2d8 + strength',
         elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1393,7 +1393,8 @@ Formbenders can specialize in radically different transformation philosophies. M
           wildInstinctGainConfig: {
             amount: 1
           }
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1409,10 +1410,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'physical', 'formbender']
     },
@@ -1450,10 +1449,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 1
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['healing', 'support', 'nature', 'formbender']
     },
@@ -1517,10 +1514,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['physical', 'buff', 'damage', 'formbender']
     },
@@ -1577,10 +1572,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['buff', 'senses', 'utility', 'formbender']
     },
@@ -1637,10 +1630,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         power: 'moderate'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['utility', 'movement', 'mobility', 'formbender']
     },
@@ -1698,10 +1689,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'damage', 'rage', 'formbender']
     },
@@ -1758,10 +1747,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['buff', 'defense', 'armor', 'formbender']
     },
@@ -1836,10 +1823,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         controlType: 'mental'
       },
 
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
 
       tags: ['summoning', 'utility', 'tracking', 'formbender']
     },
@@ -1889,8 +1874,9 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '5d6 + strength',
         elementType: 'bludgeoning',
-        damageType: 'direct',
-        description: 'Charge attack that knocks down enemies in your path'
+        damageTypes: ['direct'],
+        description: 'Charge attack that knocks down enemies in your path',
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1915,10 +1901,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['attack', 'damage', 'control', 'charge', 'formbender']
     },
@@ -1973,10 +1957,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         description: 'Heal a target and remove one disease or poison effect'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['healing', 'support', 'restoration', 'formbender']
     },
@@ -2032,10 +2014,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'enhancement', 'form-amp', 'formbender']
     },
@@ -2120,10 +2100,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'buff', 'pack', 'formbender']
     },
@@ -2146,8 +2124,9 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '6d8 + strength',
         elementType: 'slashing',
-        damageType: 'direct',
-        description: 'Make 3 rapid claw attacks at the target'
+        damageTypes: ['direct'],
+        description: 'Make 3 rapid claw attacks at the target',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2164,10 +2143,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'physical', 'multi hit', 'formbender']
     },
@@ -2214,10 +2191,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'utility', 'transformation', 'formbender']
     },
@@ -2264,10 +2239,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['transformation', 'buff', 'size', 'formbender']
     },
@@ -2290,7 +2263,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '6d8 + strength + agility',
         elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2298,7 +2271,8 @@ Formbenders can specialize in radically different transformation philosophies. M
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'knockdown',
@@ -2339,10 +2313,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'formbender']
     },
@@ -2387,10 +2359,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['healing', 'support', 'nature', 'formbender']
     },
@@ -2456,10 +2426,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['transformation', 'buff', 'primal', 'formbender']
     },
@@ -2534,10 +2502,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         useFormulas: {},
         actionPoints: 2
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['control', 'buff', 'fear', 'aoe', 'formbender']
     },
@@ -2585,10 +2551,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 2,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
       resolution: 'DICE',
       tags: ['buff', 'damage', 'predator', 'formbender']
     },
@@ -2613,8 +2577,9 @@ Formbenders can specialize in radically different transformation philosophies. M
         formula: '12d8 + strength * 2 + agility * 2',
         elementType: 'slashing',
         secondaryElementType: 'bludgeoning',
-        damageType: 'direct',
-        description: 'Shift through all forms rapidly, attacking all nearby enemies'
+        damageTypes: ['direct'],
+        description: 'Shift through all forms rapidly, attacking all nearby enemies',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2633,10 +2598,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'transformation', 'epic', 'formbender']
     },
@@ -2711,10 +2674,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'transformation', 'defense', 'epic', 'formbender']
     },
@@ -2767,8 +2728,9 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '12d6 + spirit',
         elementType: 'force',
-        damageType: 'direct',
-        description: 'Wild Hunt spirits deal this damage to enemies they catch'
+        damageTypes: ['direct'],
+        description: 'Wild Hunt spirits deal this damage to enemies they catch',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2788,10 +2750,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'damage', 'spirit', 'epic', 'formbender']
     },
@@ -2858,10 +2818,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['transformation', 'buff', 'primordial', 'legendary', 'formbender']
     },
@@ -2884,7 +2842,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       damageConfig: {
         formula: '18d6 + strength + spirit',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2892,7 +2850,8 @@ Formbenders can specialize in radically different transformation philosophies. M
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'knockdown',
@@ -2934,10 +2893,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The fang of a primordial beast, worth 50,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'legendary', 'formbender']
     },
@@ -3000,10 +2957,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'transformation', 'primal', 'legendary', 'formbender']
     },
@@ -3052,10 +3007,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of the World Beast, priceless artifact'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['transformation', 'buff', 'legendary', 'formbender']
     },
@@ -3140,10 +3093,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Seeds of creation, worth 80,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'legendary', 'formbender']
     },
@@ -3190,10 +3141,8 @@ Formbenders can specialize in radically different transformation philosophies. M
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'NONE',
       tags: ['transformation', 'mastery', 'formbender']
     }

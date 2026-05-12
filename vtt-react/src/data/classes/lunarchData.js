@@ -586,8 +586,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '1d8',
         elementType: 'radiant',
-        damageType: 'direct',
-        scalingType: 'none'
+        damageTypes: ['direct'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -640,8 +641,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '3d6',
         elementType: 'radiant',
-        damageType: 'direct',
-        scalingType: 'none'
+        damageTypes: ['direct'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -711,8 +713,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'radiant',
-        scalingType: 'none'
+        damageTypes: ['radiant'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -777,8 +780,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       damageConfig: {
         formula: '3d6',
-        damageType: 'radiant',
-        scalingType: 'none'
+        damageTypes: ['radiant'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       savingThrow: {
@@ -851,8 +855,9 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       damageConfig: {
         formula: '4d6',
-        damageType: 'radiant',
-        scalingType: 'none'
+        damageTypes: ['radiant'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       savingThrow: {
@@ -1264,9 +1269,10 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'radiant',
+        damageTypes: ['radiant'],
         scalingType: 'none',
-        recurring: true
+        recurring: true,
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1395,19 +1401,18 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '8d6 + agility',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 17,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'aoe', 'radiant', 'archery', 'level 7', 'lunarch']
     },
@@ -1451,13 +1456,14 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '7d10 + intelligence',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 17,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1470,10 +1476,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'control', 'blind', 'radiant', 'level 7', 'lunarch']
     },
@@ -1530,10 +1534,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         duration: 'instant'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['healing', 'purification', 'aoe', 'level 7', 'lunarch']
     },
@@ -1579,14 +1581,13 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '10d8 + agility * 2',
         elementType: 'force',
-        damageType: 'direct',
-        specialRules: 'Ignores cover, concealment, and armor. Hits all enemies in line.'
+        damageTypes: ['direct'],
+        specialRules: 'Ignores cover, concealment, and armor. Hits all enemies in line.',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['damage', 'line', 'piercing', 'level 8', 'lunarch']
     },
@@ -1630,14 +1631,13 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '6d8 + intelligence',
         elementType: 'radiant',
-        damageType: 'direct',
-        specialRules: 'Each target hit separately. Can hit same target multiple times.'
+        damageTypes: ['direct'],
+        specialRules: 'Each target hit separately. Can hit same target multiple times.',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'multi target', 'radiant', 'level 8', 'lunarch']
     },
@@ -1696,10 +1696,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'shield', 'reflect', 'reaction', 'level 8', 'lunarch']
     },
@@ -1747,13 +1745,14 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '12d8 + agility * 2',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 19,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       zoneConfig: {
@@ -1763,10 +1762,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         persistentDamage: '3d8 radiant per round'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'aoe', 'zone', 'ultimate', 'level 9', 'lunarch']
     },
@@ -1818,10 +1815,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'archery', 'ultimate', 'level 9', 'lunarch']
     },
@@ -1884,10 +1879,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         hasHotEffect: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'healing', 'aoe', 'ultimate', 'level 9', 'lunarch']
     },
@@ -1947,10 +1940,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['transformation', 'ultimate', 'level 10', 'lunarch']
     },
@@ -1993,20 +1984,19 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '20d6 + agility',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 22,
           saveOutcome: 'halves'
         },
-        specialRules: 'Ignores resistance to radiant damage. Destroys unattended objects in path.'
+        specialRules: 'Ignores resistance to radiant damage. Destroys unattended objects in path.',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'line', 'ultimate', 'level 10', 'lunarch']
     },
@@ -2091,15 +2081,14 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '3d8',
         elementType: 'radiant',
-        damageType: 'persistent',
+        damageTypes: ['persistent'],
         targetRestrictions: ['enemy'],
-        description: 'Damages all enemies in zone each round'
+        description: 'Damages all enemies in zone each round',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['zone', 'healing', 'damage', 'ultimate', 'level 10', 'lunarch']
     },
@@ -2132,7 +2121,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '1d8',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2144,10 +2134,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
 
@@ -2202,10 +2190,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['healing', 'blessing', 'minor blessing', 'universal']
@@ -2256,10 +2242,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
 
@@ -2302,7 +2286,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '2d8',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2314,10 +2299,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
 
@@ -2389,10 +2372,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
 
@@ -2448,10 +2429,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       resolution: 'DICE',
 
@@ -2496,7 +2475,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       damageConfig: {
         formula: '6d10 + spirit',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2511,7 +2490,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
           critMultiplier: 2.0,
           extraDice: '3d10',
           critEffects: ['radiant_burn']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2523,10 +2503,8 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
 

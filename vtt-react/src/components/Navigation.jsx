@@ -796,18 +796,17 @@ export default function Navigation({ onReturnToLanding }) {
     // Calculate initial size based on screen width and number of visible buttons
     const getInitialSize = () => {
         const buttonCount = getVisibleButtons().length;
+        const isCompact = window.innerWidth <= 1024 && window.innerWidth > 768;
 
-        // Use consistent sizing - 36px buttons with 3px gaps and 8px padding (4px on each side)
-        const buttonWidth = 36;
-        const gap = 3;
-        const padding = 8; // 4px on each side
+        const buttonWidth = isCompact ? 32 : 36;
+        const gap = isCompact ? 1 : 3;
+        const padding = isCompact ? 6 : 8;
 
-        // Calculate exact width needed for buttons
         const calculatedWidth = (buttonCount * buttonWidth) + ((buttonCount - 1) * gap) + padding;
 
         return {
-            width: calculatedWidth,
-            height: 50
+            width: Math.min(calculatedWidth, window.innerWidth - 40),
+            height: isCompact ? 42 : 50
         };
     };
 
@@ -949,19 +948,18 @@ export default function Navigation({ onReturnToLanding }) {
     useEffect(() => {
         const handleResize = () => {
             const newSize = getInitialSize();
-            if (newSize.width !== size.width) {
+            if (newSize.width !== size.width || newSize.height !== size.height) {
                 setSize(newSize);
-                // Keep navigation bar centered at top
                 setPosition(prev => ({
                     x: Math.max(20, Math.min(prev.x, window.innerWidth - newSize.width - 20)),
-                    y: Math.max(20, Math.min(prev.y, 100)) // Keep it near the top
+                    y: Math.max(20, Math.min(prev.y, 100))
                 }));
             }
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [size.width]);
+    }, [size.width, size.height]);
 
     // Update navigation bar size when GM mode changes
     useEffect(() => {

@@ -1878,6 +1878,33 @@
   border-color: var(--pf-gold-dark) !important;
 }
 
+/* ===== COMPACT NAV BAR (smaller laptops) ===== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .wow-nav-button {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 1px !important;
+  }
+
+  .wow-nav-button .hotkey {
+    display: none !important;
+  }
+
+  .wow-nav-button .wow-nav-icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .wow-nav-grid {
+    gap: 1px !important;
+    padding: 3px 4px !important;
+  }
+
+  .custom-resize-handle {
+    display: none !important;
+  }
+}
+
 /* ===== MOBILE NAVIGATION STYLES ===== */
 @media (max-width: 768px) {
   /* Hide desktop navigation on mobile */

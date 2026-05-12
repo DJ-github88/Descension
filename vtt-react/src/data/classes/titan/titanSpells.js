@@ -13,11 +13,12 @@ export const TITAN_SPELLS = [
       description: 'Your melee attacks are infused with the radiant power of the sun, dealing additional radiant damage.',
       spellType: 'PASSIVE',
       icon: 'Radiant/Radiant Beam',
-      school: 'Evocation',
       level: 1,
       specialization: 'solara',
 
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Beam',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -32,19 +33,26 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        components: [],
-        requirement: 'Devotion to Solara'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
       },
 
+      devotionRequired: 'Solara',
+
       resolution: 'PASSIVE',
+      effectTypes: ['damage'],
+
+      cooldownConfig: {
+        cooldownType: 'none',
+        cooldownValue: 0
+      },
 
       damageConfig: {
         formula: '1d6',
-        elementType: 'radiant',
-        damageType: 'bonus',
-        trigger: 'On melee attack',
-        championBonus: '1d6 + 3 (50% increase)'
+        damageTypes: ['radiant'],
+        resolution: 'DICE'
       },
 
       specialMechanics: {
@@ -64,11 +72,12 @@ export const TITAN_SPELLS = [
       description: 'Unleash a burst of solar energy, dealing radiant damage to all enemies within 10 feet and blinding them.',
       spellType: 'ACTION',
       icon: 'Fire/Dragon Breath',
-      school: 'Evocation',
       level: 3,
       specialization: 'solara',
 
       typeConfig: {
+        school: 'radiant',
+        icon: 'Fire/Dragon Breath',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -89,20 +98,28 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '1 per long rest (2 for Celestial Champion)',
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Solara\'s Radiance!',
         somaticText: 'Raise arms to release solar burst'
       },
 
+      devotionRequired: 'Solara',
+
       resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       damageConfig: {
         formula: '3d8',
-        elementType: 'radiant',
-        damageType: 'area',
-        championBonus: '4d8 + 6'
+        damageTypes: ['radiant'],
+        resolution: 'DICE'
       },
 
       debuffConfig: {
@@ -139,11 +156,12 @@ export const TITAN_SPELLS = [
       description: 'The moon\'s protective power grants you enhanced armor and regeneration.',
       spellType: 'PASSIVE',
       icon: 'Nature/Ethereal Bird',
-      school: 'Abjuration',
       level: 1,
       specialization: 'lunara',
 
       typeConfig: {
+        school: 'radiant',
+        icon: 'Nature/Ethereal Bird',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -158,21 +176,26 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        components: [],
-        requirement: 'Devotion to Lunara'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
       },
 
+      devotionRequired: 'Lunara',
+
       resolution: 'PASSIVE',
+      effectTypes: ['buff', 'healing'],
+
+      cooldownConfig: {
+        cooldownType: 'none',
+        cooldownValue: 0
+      },
 
       buffConfig: {
-        stats: {
-          armor: '+2 (+3 for Celestial Champion)'
-        },
         effects: [
-          'Regenerate 5 HP at start of each turn',
-          'Celestial Champion: Regenerate 7 HP at start of each turn',
-          'Divine Conduit: Regenerate 4 HP at start of each turn'
+          { id: 'moonlit_armor', name: 'Moonlit Armor', description: '+2 Armor (+3 for Celestial Champion)', mechanicsText: '+2 Armor bonus (+3 for Celestial Champion)' },
+          { id: 'moonlit_regen', name: 'Moonlit Regeneration', description: 'Regenerate 5 HP at start of each turn', mechanicsText: 'Regenerate 5 HP at start of each turn' }
         ]
       },
 
@@ -180,7 +203,8 @@ export const TITAN_SPELLS = [
         formula: '5',
         healingType: 'self',
         frequency: 'start_of_turn',
-        championBonus: '7 HP per turn'
+        championBonus: '7 HP per turn',
+        resolution: 'DICE'
       },
 
       effects: {
@@ -219,11 +243,12 @@ export const TITAN_SPELLS = [
       description: 'Create a barrier of moonlight that absorbs damage for all allies within 15 feet.',
       spellType: 'ACTION',
       icon: 'Force/Force Field',
-      school: 'Abjuration',
       level: 3,
       specialization: 'lunara',
 
       typeConfig: {
+        school: 'force',
+        icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -243,14 +268,23 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '1 per long rest (2 for Celestial Champion)',
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Lunara\'s Embrace!',
         somaticText: 'Spread arms to create moonlit barrier'
       },
 
+      devotionRequired: 'Lunara',
+
       resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       buffConfig: {
         effects: [{
@@ -297,11 +331,12 @@ export const TITAN_SPELLS = [
       description: 'The swiftness of the stars enhances your movement and reflexes.',
       spellType: 'PASSIVE',
       icon: 'Arcane/Quick Step',
-      school: 'Transmutation',
       level: 1,
       specialization: 'astraeus',
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Quick Step',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -316,21 +351,26 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        components: [],
-        requirement: 'Devotion to Astraeus'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
       },
 
+      devotionRequired: 'Astraeus',
+
       resolution: 'PASSIVE',
+      effectTypes: ['buff'],
+
+      cooldownConfig: {
+        cooldownType: 'none',
+        cooldownValue: 0
+      },
 
       buffConfig: {
-        stats: {
-          movementSpeed: '+10 feet (+15 for Celestial Champion)'
-        },
         effects: [
-          'Advantage on Agility saving throws',
-          'Increased mobility and evasion',
-          'Enhanced positioning capabilities'
+          { id: 'celestial_speed', name: 'Celestial Speed', description: '+10 feet movement speed (+15 for Celestial Champion)', mechanicsText: '+10 feet movement speed (+15 for Celestial Champion)' },
+          { id: 'agility_advantage', name: 'Agility Advantage', description: 'Advantage on Agility saving throws', mechanicsText: 'Advantage on Agility saving throws' }
         ]
       },
 
@@ -365,11 +405,12 @@ export const TITAN_SPELLS = [
       description: 'Call down a star to strike a target, dealing massive force damage and stunning them.',
       spellType: 'ACTION',
       icon: 'Arcane/Missile',
-      school: 'Evocation',
       level: 3,
       specialization: 'astraeus',
 
       typeConfig: {
+        school: 'force',
+        icon: 'Arcane/Missile',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -386,19 +427,28 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '1 per long rest (2 for Celestial Champion)',
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
         components: ['verbal', 'somatic'],
         verbalText: 'Astraeus, strike from above!',
         somaticText: 'Point to sky then target'
       },
 
+      devotionRequired: 'Astraeus',
+
       resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       damageConfig: {
         formula: '4d6',
-        damageType: 'force',
-        championBonus: '6d6'
+        damageTypes: ['force'],
+        resolution: 'DICE'
       },
 
       debuffConfig: {
@@ -448,11 +498,12 @@ export const TITAN_SPELLS = [
       description: 'The strength of the earth flows through you, granting immense durability and resistance.',
       spellType: 'PASSIVE',
       icon: 'Nature/Earth Shield',
-      school: 'Abjuration',
       level: 1,
       specialization: 'terranox',
 
       typeConfig: {
+        school: 'bludgeoning',
+        icon: 'Nature/Earth Shield',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -467,22 +518,26 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        components: [],
-        requirement: 'Devotion to Terranox'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
       },
 
+      devotionRequired: 'Terranox',
+
       resolution: 'PASSIVE',
+      effectTypes: ['buff'],
+
+      cooldownConfig: {
+        cooldownType: 'none',
+        cooldownValue: 0
+      },
 
       buffConfig: {
-        stats: {
-          maxHitPoints: '+20 (+30 for Celestial Champion)'
-        },
         effects: [
-          'Resistance to bludgeoning damage',
-          'Resistance to piercing damage',
-          'Resistance to slashing damage',
-          'Immovable presence on the battlefield'
+          { id: 'grounded_might_hp', name: 'Earth\'s Endurance', description: '+20 maximum hit points (+30 for Celestial Champion)', mechanicsText: '+20 maximum hit points (+30 for Celestial Champion)' },
+          { id: 'grounded_might_resist', name: 'Physical Resistance', description: 'Resistance to bludgeoning, piercing, and slashing damage', mechanicsText: 'Resistance to bludgeoning, piercing, and slashing damage (50% reduction)' }
         ]
       },
 
@@ -515,11 +570,12 @@ export const TITAN_SPELLS = [
       description: 'Cause the ground to tremble with earth-shaking force, damaging and knocking down all nearby enemies.',
       spellType: 'ACTION',
       icon: 'Nature/Earth Shatter',
-      school: 'Evocation',
       level: 3,
       specialization: 'terranox',
 
       typeConfig: {
+        school: 'bludgeoning',
+        icon: 'Nature/Earth Shatter',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -539,18 +595,27 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '1 per long rest (2 for Celestial Champion)',
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Slam fist or weapon into ground'
       },
 
+      devotionRequired: 'Terranox',
+
       resolution: 'DICE',
+      effectTypes: ['damage', 'debuff'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       damageConfig: {
         formula: '3d6',
-        damageType: 'bludgeoning',
-        championBonus: '5d6'
+        damageTypes: ['bludgeoning'],
+        resolution: 'DICE'
       },
 
       debuffConfig: {
@@ -606,11 +671,12 @@ export const TITAN_SPELLS = [
       description: 'The fury of the wind enhances your attack speed and infuses your strikes with lightning.',
       spellType: 'PASSIVE',
       icon: 'Nature/Tornado Vortex',
-      school: 'Evocation',
       level: 1,
       specialization: 'zephyra',
 
       typeConfig: {
+        school: 'lightning',
+        icon: 'Nature/Tornado Vortex',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -625,29 +691,33 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        components: [],
-        requirement: 'Devotion to Zephyra'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 0,
+        components: []
       },
 
+      devotionRequired: 'Zephyra',
+
       resolution: 'PASSIVE',
+      effectTypes: ['buff', 'damage'],
+
+      cooldownConfig: {
+        cooldownType: 'none',
+        cooldownValue: 0
+      },
 
       buffConfig: {
-        stats: {
-          attackSpeed: '+2 (+3 for Celestial Champion)'
-        },
         effects: [
-          'Melee attacks deal +1d4 lightning damage',
-          'Celestial Champion: +1d4 + 2 lightning damage',
-          'Increased number of attacks per turn'
+          { id: 'tempest_fury_speed', name: 'Tempest Speed', description: '+2 attack speed (+3 for Celestial Champion)', mechanicsText: '+2 attack speed (+3 for Celestial Champion)' },
+          { id: 'tempest_fury_lightning', name: 'Lightning Strikes', description: 'Melee attacks deal +1d4 lightning damage', mechanicsText: '+1d4 lightning damage on every melee attack' }
         ]
       },
 
       damageConfig: {
         formula: '1d4',
-        damageType: 'lightning',
-        trigger: 'On melee attack',
-        championBonus: '1d4 + 2'
+        damageTypes: ['lightning'],
+        resolution: 'DICE'
       },
 
       effects: {
@@ -686,11 +756,12 @@ export const TITAN_SPELLS = [
       description: 'Become one with the wind, teleporting across the battlefield and striking with lightning.',
       spellType: 'ACTION',
       icon: 'Nature/Nature Wild 1',
-      school: 'Conjuration',
       level: 3,
       specialization: 'zephyra',
 
       typeConfig: {
+        school: 'lightning',
+        icon: 'Nature/Nature Wild 1',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -712,18 +783,27 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '1 per long rest (2 for Celestial Champion)',
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 2,
         components: ['somatic'],
         somaticText: 'Dissolve into wind and reform at destination'
       },
 
+      devotionRequired: 'Zephyra',
+
       resolution: 'DICE',
+      effectTypes: ['damage'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       damageConfig: {
         formula: '3d6',
-        damageType: 'lightning',
-        championBonus: '5d6'
+        damageTypes: ['lightning'],
+        resolution: 'DICE'
       },
 
       effects: {
@@ -768,11 +848,12 @@ export const TITAN_SPELLS = [
       description: 'Switch your celestial devotion mid-combat for 1 AP. Only available to Astral Warriors.',
       spellType: 'ACTION',
       icon: 'Arcane/Ebon Blaze',
-      school: 'Transmutation',
       level: 2,
       specialization: 'astral-warrior',
 
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Ebon Blaze',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -787,20 +868,25 @@ export const TITAN_SPELLS = [
       },
 
       resourceCost: {
-        mana: 0,
-        uses: '3 per long rest',
-        components: ['concentration'],
-        requirement: 'Astral Warrior specialization'
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 0 },
+        actionPoints: 1,
+        components: ['concentration']
       },
 
+      specializationRequired: 'astral-warrior',
+
       resolution: 'NONE',
+      effectTypes: ['buff'],
+
+      cooldownConfig: {
+        cooldownType: 'long_rest',
+        cooldownValue: 1
+      },
 
       buffConfig: {
         effects: [
-          'Switch to a different celestial devotion',
-          'Gain new devotion benefits immediately',
-          'Lose previous devotion benefits',
-          'Triggers a burst effect based on new devotion'
+          { id: 'devotion_switch', name: 'Combat Attunement', description: 'Switch to a different celestial devotion, gaining new benefits immediately', mechanicsText: 'Switch devotion for 1 AP, gain burst effect from new devotion' }
         ]
       },
 
@@ -843,7 +929,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Divine Downward Sword',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'radiant',
         icon: 'Radiant/Divine Downward Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -854,6 +940,10 @@ export const TITAN_SPELLS = [
         rangeType: 'melee',
         rangeDistance: 5,
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       resourceCost: {
@@ -869,8 +959,35 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '4d8 + strength + devotion_bonus',
-        elementType: 'varies_by_devotion',
-        damageType: 'direct'
+        damageTypes: ['radiant'],
+        resolution: 'DICE'
+      },
+
+      conditionalEffects: [{
+        condition: 'devotion === "solara"',
+        effect: '+2d6 fire damage',
+        devotionSpecific: true
+      }, {
+        condition: 'devotion === "lunara"',
+        effect: 'Heal self for 2d6 HP',
+        devotionSpecific: true
+      }, {
+        condition: 'devotion === "astraeus"',
+        effect: 'Extra attack if target dies',
+        devotionSpecific: true
+      }, {
+        condition: 'devotion === "terranox"',
+        effect: 'Knockback 10 feet',
+        devotionSpecific: true
+      }, {
+        condition: 'devotion === "zephyra"',
+        effect: 'Chain to nearby enemy',
+        devotionSpecific: true
+      }],
+
+      propagation: {
+        devotionScaling: true,
+        scalesWithStrength: true
       },
 
       specialMechanics: {
@@ -884,8 +1001,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 2
+        cooldownType: 'turn_based',
+        cooldownValue: 2
       },
 
       tags: ['damage', 'melee', 'devotion', 'level 4', 'titan']
@@ -900,7 +1017,7 @@ export const TITAN_SPELLS = [
       icon: 'Force/Force Field',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'force',
         icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'BONUS'
@@ -909,6 +1026,11 @@ export const TITAN_SPELLS = [
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
       },
 
       resourceCost: {
@@ -938,9 +1060,15 @@ export const TITAN_SPELLS = [
         canBeDispelled: true
       },
 
+      conditionalEffects: [{
+        condition: 'devotion_active',
+        effect: 'Resistance to devotion\'s damage type',
+        devotionSpecific: true
+      }],
+
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['buff', 'armor', 'protection', 'level 4', 'titan']
@@ -955,7 +1083,7 @@ export const TITAN_SPELLS = [
       icon: 'Necrotic/Blood Scroll',
 
       typeConfig: {
-        school: 'enchantment',
+        school: 'radiant',
         icon: 'Necrotic/Blood Scroll',
         castTime: 1,
         castTimeType: 'BONUS'
@@ -966,6 +1094,11 @@ export const TITAN_SPELLS = [
         rangeType: 'ranged',
         rangeDistance: 30,
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
       },
 
       resourceCost: {
@@ -993,14 +1126,30 @@ export const TITAN_SPELLS = [
         durationValue: 3,
         durationType: 'rounds',
         durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        savingThrow: { ability: 'spirit', difficultyClass: 15, saveOutcome: 'negates' }
+      },
+
+      controlConfig: {
+        controlType: 'forced_action',
+        effects: [{
+          id: 'divine_challenge_taunt',
+          name: 'Divine Challenge',
+          description: 'Target must attack you or take 3d6 radiant damage',
+          mechanicsText: 'Must attack caster or take 3d6 radiant damage'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
+
+      effectTargeting: {
+        target: 'single_enemy',
+        range: 30
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
       tags: ['debuff', 'taunt', 'control', 'level 4', 'titan']
@@ -1018,7 +1167,7 @@ export const TITAN_SPELLS = [
       icon: 'Fire/Fiery Symbol',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'fire',
         icon: 'Fire/Fiery Symbol',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1032,6 +1181,10 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 18 },
@@ -1040,24 +1193,25 @@ export const TITAN_SPELLS = [
         verbalText: 'Solara, ignite!'
       },
 
+      devotionRequired: 'Solara',
+
       resolution: 'DICE',
       effectTypes: ['damage'],
 
       damageConfig: {
         formula: '6d8 + strength',
-        elementType: 'radiant',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['fire', 'radiant'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 15,
-          saveOutcome: 'halves'
+          saveOutcome: 'half_damage'
         }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 3
+        cooldownType: 'turn_based',
+        cooldownValue: 3
       },
 
       tags: ['damage', 'aoe', 'radiant', 'solara', 'level 5', 'titan']
@@ -1071,7 +1225,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Radiant Bolt',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'radiant',
         icon: 'Radiant/Radiant Bolt',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1120,15 +1274,13 @@ export const TITAN_SPELLS = [
       healingConfig: {
         formula: '2d6',
         healingType: 'hot',
-        hasHotEffect: true,
-        hotFormula: '2d6',
-        hotDuration: 4,
-        hotTickType: 'round'
+        resolution: 'DICE',
+        hotConfig: { enabled: true, healingPerTick: '2d6', tickFrequency: 'round', duration: 4 }
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['buff', 'healing', 'protection', 'lunara', 'level 5', 'titan']
@@ -1143,7 +1295,7 @@ export const TITAN_SPELLS = [
       icon: 'Arcane/Magical Sword',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Arcane/Magical Sword',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1171,13 +1323,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '8d6 + strength',
-        elementType: 'force',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 16,
-          saveOutcome: 'halves'
+          saveOutcome: 'half_damage'
         }
       },
 
@@ -1197,8 +1348,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['damage', 'aoe', 'force', 'astraeus', 'level 5', 'titan']
@@ -1216,7 +1367,7 @@ export const TITAN_SPELLS = [
       icon: 'Nature/Earth Shatter',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'bludgeoning',
         icon: 'Nature/Earth Shatter',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1244,13 +1395,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '8d6 + strength',
-        elementType: 'bludgeoning',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['bludgeoning'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 16,
-          saveOutcome: 'halves'
+          saveOutcome: 'half_damage'
         }
       },
 
@@ -1277,8 +1427,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['damage', 'control', 'zone', 'terranox', 'level 6', 'titan']
@@ -1293,7 +1443,7 @@ export const TITAN_SPELLS = [
       icon: 'Lightning/Lightning Bolt',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'lightning',
         icon: 'Lightning/Lightning Bolt',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1321,13 +1471,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '8d6 + strength',
-        elementType: 'lightning',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['lightning'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: 'half_damage'
         }
       },
 
@@ -1345,8 +1494,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 4
+        cooldownType: 'turn_based',
+        cooldownValue: 4
       },
 
       tags: ['damage', 'aoe', 'lightning', 'zephyra', 'level 6', 'titan']
@@ -1361,7 +1510,7 @@ export const TITAN_SPELLS = [
       icon: 'Arcane/Ebon Blaze',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'arcane',
         icon: 'Arcane/Ebon Blaze',
         castTime: 1,
         castTimeType: 'BONUS'
@@ -1399,8 +1548,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['buff', 'devotion', 'dual', 'level 6', 'titan']
@@ -1418,7 +1567,7 @@ export const TITAN_SPELLS = [
       icon: 'Fire/Enveloping Fire',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'fire',
         icon: 'Fire/Enveloping Fire',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1463,8 +1612,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 6
+        cooldownType: 'turn_based',
+        cooldownValue: 6
       },
 
       tags: ['transformation', 'solara', 'fire', 'level 7', 'titan']
@@ -1479,7 +1628,7 @@ export const TITAN_SPELLS = [
       icon: 'Healing/Renewal',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'radiant',
         icon: 'Healing/Renewal',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1508,10 +1657,8 @@ export const TITAN_SPELLS = [
       healingConfig: {
         formula: '4d10 + strength',
         healingType: 'direct',
-        hasHotEffect: true,
-        hotFormula: '3d6',
-        hotDuration: 5,
-        hotTickType: 'round'
+        resolution: 'DICE',
+        hotConfig: { enabled: true, healingPerTick: '3d6', tickFrequency: 'round', duration: 5 }
       },
 
       buffConfig: {
@@ -1529,8 +1676,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['healing', 'buff', 'lunara', 'level 7', 'titan']
@@ -1545,7 +1692,7 @@ export const TITAN_SPELLS = [
       icon: 'Fire/Fiery Comet',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Fire/Fiery Comet',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -1574,13 +1721,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '12d6 + strength',
-        elementType: 'force',
-        damageType: 'area',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 17,
-          saveOutcome: 'halves',
+          saveOutcome: 'half_damage',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
@@ -1595,8 +1741,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['damage', 'aoe', 'astraeus', 'level 7', 'titan']
@@ -1614,7 +1760,7 @@ export const TITAN_SPELLS = [
       icon: 'Nature/Roots',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'bludgeoning',
         icon: 'Nature/Roots',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1661,8 +1807,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 6
+        cooldownType: 'turn_based',
+        cooldownValue: 6
       },
 
       tags: ['transformation', 'terranox', 'defense', 'level 8', 'titan']
@@ -1677,7 +1823,7 @@ export const TITAN_SPELLS = [
       icon: 'Lightning/Thunder',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'lightning',
         icon: 'Lightning/Thunder',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1704,17 +1850,17 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '10d8 + strength',
-        elementType: 'lightning',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        damageTypes: ['lightning'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 18,
-          saveOutcome: 'halves'
+          saveOutcome: 'half_damage'
         }
       },
 
-      controlConfig: {
+      controlConfig:
+      {
         controlType: 'stun',
         strength: 'strong',
         duration: 1,
@@ -1725,8 +1871,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['damage', 'control', 'lightning', 'zephyra', 'level 8', 'titan']
@@ -1741,7 +1887,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Radiant Warrior',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'radiant',
         icon: 'Radiant/Radiant Warrior',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
@@ -1767,13 +1913,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '14d6 + strength',
-        elementType: 'radiant',
-        damageType: 'direct',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'spirit',
+        damageTypes: ['radiant'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'spirit',
           difficultyClass: 19,
-          saveOutcome: 'halves',
+          saveOutcome: 'half_damage',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
@@ -1788,8 +1933,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'turn_based',
-        value: 5
+        cooldownType: 'turn_based',
+        cooldownValue: 5
       },
 
       tags: ['damage', 'radiant', 'single target', 'level 8', 'titan']
@@ -1807,7 +1952,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Divine Illumination',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'radiant',
         icon: 'Radiant/Divine Illumination',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -1853,8 +1998,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['transformation', 'ultimate', 'devotion', 'level 9', 'titan']
@@ -1869,7 +2014,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Radiant Glow',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Radiant/Radiant Glow',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -1898,13 +2043,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '3d6 radiant + 3d6 fire + 3d6 lightning + 3d6 cold + 3d6 force + strength',
-        elementType: 'mixed',
-        damageType: 'area',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        damageTypes: ['radiant', 'fire', 'lightning', 'cold', 'force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'agility',
           difficultyClass: 20,
-          saveOutcome: 'halves',
+          saveOutcome: 'half_damage',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
@@ -1918,8 +2062,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['damage', 'aoe', 'ultimate', 'level 9', 'titan']
@@ -1934,7 +2078,7 @@ export const TITAN_SPELLS = [
       icon: 'Force/Force Field',
 
       typeConfig: {
-        school: 'abjuration',
+        school: 'force',
         icon: 'Force/Force Field',
         castTime: 1,
         castTimeType: 'REACTION'
@@ -1974,8 +2118,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['buff', 'protection', 'reaction', 'level 9', 'titan']
@@ -1993,7 +2137,7 @@ export const TITAN_SPELLS = [
       icon: 'Radiant/Divine Radiance',
 
       typeConfig: {
-        school: 'transmutation',
+        school: 'radiant',
         icon: 'Radiant/Divine Radiance',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2048,8 +2192,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['transformation', 'ultimate', 'all celestials', 'level 10', 'titan']
@@ -2064,7 +2208,7 @@ export const TITAN_SPELLS = [
       icon: 'Fire/Rising Inferno',
 
       typeConfig: {
-        school: 'evocation',
+        school: 'force',
         icon: 'Fire/Rising Inferno',
         castTime: 3,
         castTimeType: 'IMMEDIATE'
@@ -2092,13 +2236,12 @@ export const TITAN_SPELLS = [
 
       damageConfig: {
         formula: '22d6 + strength',
-        elementType: 'mixed',
-        damageType: 'area',
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        damageTypes: ['radiant', 'fire', 'lightning', 'cold', 'force'],
+        resolution: 'DICE',
+        savingThrow: {
+          ability: 'constitution',
           difficultyClass: 22,
-          saveOutcome: 'halves',
+          saveOutcome: 'half_damage',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
@@ -2120,8 +2263,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['damage', 'aoe', 'ultimate', 'level 10', 'titan']
@@ -2136,7 +2279,7 @@ export const TITAN_SPELLS = [
       icon: 'Healing/Ressusitate',
 
       typeConfig: {
-        school: 'necromancy',
+        school: 'radiant',
         icon: 'Healing/Ressusitate',
         castTime: 2,
         castTimeType: 'IMMEDIATE'
@@ -2165,7 +2308,13 @@ export const TITAN_SPELLS = [
       healingConfig: {
         formula: 'max_hp',
         healingType: 'resurrection',
-        hasHotEffect: false
+        resolution: 'AUTOMATIC'
+      },
+
+      restorationConfig: {
+        restorationType: 'resurrection',
+        description: 'All fallen allies are resurrected at full HP',
+        conditionsCleansed: 'all'
       },
 
       specialMechanics: {
@@ -2176,8 +2325,8 @@ export const TITAN_SPELLS = [
       },
 
       cooldownConfig: {
-        type: 'long_rest',
-        value: 1
+        cooldownType: 'long_rest',
+        cooldownValue: 1
       },
 
       tags: ['healing', 'resurrection', 'ultimate', 'level 10', 'titan']

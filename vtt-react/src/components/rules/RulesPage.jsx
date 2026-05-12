@@ -632,6 +632,7 @@ const RulesPage = () => {
     // Delay to avoid immediate closure when opening
     const timeoutId = setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
       window.addEventListener('resize', handleResize);
       window.addEventListener('scroll', handleResize, true);
     }, 10);
@@ -639,6 +640,7 @@ const RulesPage = () => {
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleResize, true);
     };

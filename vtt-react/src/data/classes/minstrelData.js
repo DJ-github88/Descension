@@ -835,7 +835,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '1d6',
         elementType: 'lightning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       musicalCombo: {
@@ -846,10 +847,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'basic', 'sonic', 'tonic generator', 'level 1']
     },
@@ -892,7 +891,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '1d8',
         elementType: 'bludgeoning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       musicalCombo: {
@@ -903,10 +903,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'melee', 'basic', 'mediant generator', 'level 1']
     },
@@ -970,10 +968,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'support', 'dominant generator', 'level 1']
     },
@@ -1029,10 +1025,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['resolver', 'healing', 'subdominant generator', 'level 1']
     },
@@ -1094,10 +1088,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['resolver', 'utility', 'leading generator', 'level 3']
     },
@@ -1224,7 +1216,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '1d8 + spirit',
         elementType: 'lightning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1296,7 +1289,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '1d8 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         conditionalDamage: {
           enabled: true,
           conditions: [{
@@ -1305,7 +1298,8 @@ Before combat, decide which cadences you want to prioritize:
             bonusFormula: 'healing_rolled',
             description: 'Deals radiant damage equal to healing rolled to undead and fiends'
           }]
-        }
+        },
+          resolution: 'DICE',
       },
 
       musicalCombo: {
@@ -1317,10 +1311,8 @@ Before combat, decide which cadences you want to prioritize:
         cadenceName: 'Mending Cadence'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['resolver', 'cadence', 'healing', 'restoration', 'soulsinger', 'level 1']
     },
@@ -1371,7 +1363,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '2d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         conditionalDamage: {
           enabled: true,
           conditions: [{
@@ -1380,7 +1372,8 @@ Before combat, decide which cadences you want to prioritize:
             bonusFormula: 'healing_rolled',
             description: 'Deals radiant damage equal to healing rolled to undead and fiends'
           }]
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1451,7 +1444,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '2d6 + spirit',
         elementType: 'lightning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1520,7 +1514,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '3d6 + spirit',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1658,7 +1653,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '3d6 + spirit',
         elementType: 'lightning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1730,7 +1726,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '4d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         conditionalDamage: {
           enabled: true,
           conditions: [{
@@ -1739,7 +1735,8 @@ Before combat, decide which cadences you want to prioritize:
             bonusFormula: 'healing_rolled',
             description: 'Deals radiant damage equal to healing rolled to undead and fiends'
           }]
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1881,7 +1878,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '6d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         conditionalDamage: {
           enabled: true,
           conditions: [{
@@ -1890,7 +1887,8 @@ Before combat, decide which cadences you want to prioritize:
             bonusFormula: 'healing_rolled',
             description: 'Deals radiant damage equal to healing rolled to undead and fiends'
           }]
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1968,7 +1966,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '2d8',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         conditionalDamage: {
           enabled: true,
           conditions: [{
@@ -1977,7 +1975,8 @@ Before combat, decide which cadences you want to prioritize:
             bonusFormula: 'healing_rolled',
             description: 'Deals radiant damage equal to healing rolled to undead and fiends'
           }]
-        }
+        },
+          resolution: 'DICE',
       },
 
       effects: {
@@ -2046,7 +2045,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '1d6 + spirit/4',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -2071,10 +2071,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'debuff', 'submediant generator', 'soulsinger', 'dissonance', 'level 2']
     },
@@ -2141,10 +2139,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['builder', 'buff', 'leading tone generator', 'battlechoir', 'dissonance', 'level 3']
     },
@@ -2336,13 +2332,14 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '2d6 + spirit',
         elementType: 'force',
-        damageType: 'shield',
+        damageTypes: ['shield'],
         shieldConfig: {
           shieldType: 'absorption',
           shieldValueFormula: '2d6 + spirit',
           duration: 2,
           durationUnit: 'rounds'
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2556,7 +2553,7 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '10d6 + spirit',
         elementType: 'lightning',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2581,7 +2578,8 @@ Before combat, decide which cadences you want to prioritize:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
 
       musicalCombo: {
@@ -2593,10 +2591,8 @@ Before combat, decide which cadences you want to prioritize:
         requiredNotes: 5
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'aoe', 'lightning', 'resolver', 'level 7']
     },
@@ -2665,10 +2661,8 @@ Before combat, decide which cadences you want to prioritize:
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'aoe', 'support', 'builder', 'level 7']
     },
@@ -2711,7 +2705,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '10d6 + spirit',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2738,10 +2733,8 @@ Before combat, decide which cadences you want to prioritize:
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'control', 'psychic', 'level 7']
     },
@@ -2806,13 +2799,14 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '12d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 18,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -2831,10 +2825,8 @@ Before combat, decide which cadences you want to prioritize:
         requiredNotes: 8
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['damage', 'healing', 'aoe', 'resolver', 'level 8']
     },
@@ -2918,10 +2910,8 @@ Before combat, decide which cadences you want to prioritize:
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['debuff', 'control', 'aoe', 'level 8']
     },
@@ -2978,10 +2968,8 @@ Before combat, decide which cadences you want to prioritize:
         duration: 'instant'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['healing', 'purification', 'aoe', 'level 8']
     },
@@ -3041,10 +3029,8 @@ Before combat, decide which cadences you want to prioritize:
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'self', 'empowerment', 'level 9']
     },
@@ -3088,13 +3074,14 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '15d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 19,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -3123,10 +3110,8 @@ Before combat, decide which cadences you want to prioritize:
         requiredNotes: 10
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'buff', 'aoe', 'resolver', 'level 9']
     },
@@ -3200,10 +3185,8 @@ Before combat, decide which cadences you want to prioritize:
         saveOutcome: 'negates'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'debuff', 'control', 'level 9']
     },
@@ -3275,13 +3258,14 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '20d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 20,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -3309,10 +3293,8 @@ Before combat, decide which cadences you want to prioritize:
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10']
     },
@@ -3399,10 +3381,8 @@ Before combat, decide which cadences you want to prioritize:
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['summoning', 'buff', 'ultimate', 'level 10']
     },
@@ -3445,12 +3425,13 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '25d6 + spirit',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critMultiplier: 3,
           critDiceOnly: false
-        }
+        },
+          resolution: 'DICE',
       },
 
       musicalCombo: {
@@ -3464,10 +3445,8 @@ Before combat, decide which cadences you want to prioritize:
         requiredNotes: 15
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'single target', 'ultimate', 'resolver', 'level 10']
     },
@@ -3501,7 +3480,8 @@ Before combat, decide which cadences you want to prioritize:
       damageConfig: {
         formula: '5d6 + spirit',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -3515,10 +3495,8 @@ Before combat, decide which cadences you want to prioritize:
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'force', 'note generation', 'universal']

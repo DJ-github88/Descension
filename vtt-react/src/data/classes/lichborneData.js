@@ -828,12 +828,13 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '1d6',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         bonusDamage: {
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -914,12 +915,13 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '2d6',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         bonusDamage: {
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is already Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -993,11 +995,12 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '1d8',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         aoe: {
           shape: 'circle',
           radius: 10
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1191,12 +1194,13 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '2d8',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         bonusDamage: {
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -1261,7 +1265,8 @@ Many players enhance the Lichborne experience with:
         aoe: {
           shape: 'circle',
           radius: 20
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1341,12 +1346,13 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '1d6',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         bonusDamage: {
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1439,7 +1445,8 @@ Many players enhance the Lichborne experience with:
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       terrainConfig: {
@@ -1520,7 +1527,7 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '2d8',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         aoe: {
           shape: 'cone',
           length: 15
@@ -1529,7 +1536,8 @@ Many players enhance the Lichborne experience with:
           condition: 'target_frozen',
           amount: '+1d6',
           description: 'Bonus damage if target is Frozen'
-        }
+        },
+          resolution: 'DICE',
       },
 
       pushConfig: {
@@ -1601,12 +1609,13 @@ Many players enhance the Lichborne experience with:
 
       damageConfig: {
         baseDamage: '2d6',
-        damageType: 'frost',
+        damageTypes: ['frost'],
         bonusDamage: {
           condition: 'caster_low_hp',
           amount: '+1d6 per 25% HP missing',
           description: 'Damage increases based on how low your HP is. Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.'
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1679,14 +1688,15 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '1d8 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 12,
           saveOutcome: 'negates',
           partialEffect: false
-        }
+        },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -1720,10 +1730,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'frost', 'lichborne']
     },
@@ -1770,10 +1778,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'frost', 'lichborne']
     },
@@ -1815,10 +1821,8 @@ Many players enhance the Lichborne experience with:
         components: ['somatic'],
         hpCost: 10
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['utility', 'phylactery', 'lichborne']
     },
@@ -1842,7 +1846,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '2d8 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1850,7 +1854,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: 'half_damage_dealt',
@@ -1875,10 +1880,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'healing', 'drain', 'phylactery', 'lichborne']
     },
@@ -1934,10 +1937,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['control', 'frost', 'stun', 'lichborne']
     },
@@ -1990,10 +1991,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'shield', 'lichborne']
     },
@@ -2016,7 +2015,8 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '4d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2052,10 +2052,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'frost', 'lichborne']
     },
@@ -2077,7 +2075,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '4d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2086,7 +2084,8 @@ Many players enhance the Lichborne experience with:
           explodingDice: false,
           critEffects: ['knockback'],
           spellEffect: null
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2104,10 +2103,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'frost', 'lichborne']
     },
@@ -2129,8 +2126,9 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '2d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
-        description: 'Deals frost damage to the target and any enemies passed through during teleport'
+        damageTypes: ['direct'],
+        description: 'Deals frost damage to the target and any enemies passed through during teleport',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2149,10 +2147,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       specialMechanics: {
         teleport: {
           type: 'targeted',
@@ -2183,8 +2179,9 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '2d6 + intelligence + desperation_bonus',
         elementType: 'frost',
-        damageType: 'direct',
-        description: 'Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.'
+        damageTypes: ['direct'],
+        description: 'Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.',
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2218,10 +2215,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'debuff', 'desperation', 'frost', 'lichborne']
     },
@@ -2244,7 +2239,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '6d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2254,7 +2249,8 @@ Many players enhance the Lichborne experience with:
           explodingDiceType: 'reroll_add',
           critEffects: ['stun'],
           spellEffect: null
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2272,10 +2268,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'frost', 'lichborne']
     },
@@ -2297,7 +2291,8 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '5d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'restraint',
@@ -2338,10 +2333,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['control', 'damage', 'aoe', 'frost', 'lichborne']
     },
@@ -2385,10 +2378,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'shield', 'phylactery', 'lichborne']
     },
@@ -2417,14 +2408,15 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '5d6 + intelligence',
         elementType: 'frost',
-        damageType: 'area',
+        damageTypes: ['area'],
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
           tickFrequency: 'round',
           dotFormula: '5d6 + intelligence',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2467,10 +2459,8 @@ Many players enhance the Lichborne experience with:
         channelingFrequency: 'per_round',
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['channeled', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
@@ -2524,10 +2514,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 0,
         components: []
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['control', 'passive', 'phylactery', 'frost', 'lichborne']
     },
@@ -2574,10 +2562,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['utility', 'buff', 'defense', 'frost', 'lichborne']
     },
@@ -2600,7 +2586,8 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '9d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -2629,10 +2616,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'chain', 'frost', 'lichborne']
     },
@@ -2654,7 +2639,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '8d6 + intelligence * 2',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2662,7 +2647,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -2705,10 +2691,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A crystal of pure ice'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
@@ -2732,8 +2716,9 @@ Many players enhance the Lichborne experience with:
         formula: '8d6 + intelligence + phylactery_hp',
         elementType: 'frost',
         secondaryElementType: 'necrotic',
-        damageType: 'direct',
-        description: 'Deals base damage plus your stored Phylactery HP. Empties Phylactery after use.'
+        damageTypes: ['direct'],
+        description: 'Deals base damage plus your stored Phylactery HP. Empties Phylactery after use.',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2752,10 +2737,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'lichborne']
     },
@@ -2779,7 +2762,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '8d6 + intelligence',
         elementType: 'frost',
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2810,7 +2793,8 @@ Many players enhance the Lichborne experience with:
           dotFormula: '8d6 + intelligence',
           isProgressiveDot: false
         },
-        description: 'All enemies in the zone take damage at the start of their turn'
+        description: 'All enemies in the zone take damage at the start of their turn',
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -2844,10 +2828,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Snow from a mountain peak'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne']
     },
@@ -2904,10 +2886,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['control', 'multi target', 'frost', 'lichborne']
     },
@@ -2931,7 +2911,7 @@ Many players enhance the Lichborne experience with:
         formula: '6d6 + intelligence',
         elementType: 'frost',
         secondaryElementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         description: 'Deals 3d6 frost + 3d6 necrotic to primary target. Enemies within 10ft take 2d6 frost damage and must save or be Chilled. Heal for half of total damage dealt.',
         savingThrowConfig: {
           enabled: true,
@@ -2940,7 +2920,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       healingConfig: {
         formula: 'half_damage_dealt',
@@ -2967,10 +2948,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'healing', 'aoe', 'necrotic', 'frost', 'lichborne']
     },
@@ -2993,7 +2972,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '14d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -3001,7 +2980,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'restraint',
@@ -3044,10 +3024,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Ancient glacial ice'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
     },
@@ -3106,10 +3084,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['control', 'single target', 'frost', 'lichborne']
     },
@@ -3135,8 +3111,9 @@ Many players enhance the Lichborne experience with:
         formula: '13d6 + intelligence',
         elementType: 'frost',
         secondaryElementType: 'necrotic',
-        damageType: 'area',
-        description: 'Enemies within 15 feet take damage at the start of their turn'
+        damageTypes: ['area'],
+        description: 'Enemies within 15 feet take damage at the start of their turn',
+          resolution: 'DICE',
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -3173,10 +3150,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'damage', 'aura', 'frost', 'necrotic', 'lichborne']
     },
@@ -3199,7 +3174,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '18d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -3207,7 +3182,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -3250,10 +3226,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A crystal from the elemental plane of ice'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'epic', 'lichborne']
     },
@@ -3328,10 +3302,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'transformation', 'phylactery', 'epic', 'lichborne']
     },
@@ -3355,8 +3327,9 @@ Many players enhance the Lichborne experience with:
         formula: '20d6 + intelligence + phylactery_hp',
         elementType: 'necrotic',
         secondaryElementType: 'frost',
-        damageType: 'direct',
-        description: 'Damage scales with stored phylactery HP (multiplied by 2). Empties phylactery completely.'
+        damageTypes: ['direct'],
+        description: 'Damage scales with stored phylactery HP (multiplied by 2). Empties phylactery completely.',
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -3375,10 +3348,8 @@ Many players enhance the Lichborne experience with:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'epic', 'lichborne']
     },
@@ -3438,10 +3409,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of a time elemental'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['control', 'aoe', 'frost', 'time', 'legendary', 'lichborne']
     },
@@ -3497,10 +3466,8 @@ Many players enhance the Lichborne experience with:
         components: ['ritual'],
         materialComponents: 'The essence of immortality, 10,000 gold pieces worth of rare gems'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne', 'toggleable']
     },
@@ -3522,7 +3489,7 @@ Many players enhance the Lichborne experience with:
       damageConfig: {
         formula: '25d6 + intelligence',
         elementType: 'frost',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -3530,7 +3497,8 @@ Many players enhance the Lichborne experience with:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -3584,10 +3552,8 @@ Many players enhance the Lichborne experience with:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A shard of the primordial ice, worth 50,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'terrain', 'frost', 'legendary', 'lichborne']
     }

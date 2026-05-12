@@ -378,10 +378,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       buffConfig: {
         buffType: 'combatAdvantage',
         effects: [
@@ -442,10 +440,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       buffConfig: {
         buffType: 'damageIncrease',
         effects: [
@@ -499,10 +495,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal', 'material']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       buffConfig: {
         buffType: 'damageIncrease',
         effects: [
@@ -558,10 +552,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       utilityConfig: {
         utilityType: 'movement',
         utilitySubtype: 'speed',
@@ -633,10 +625,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       debuffConfig: {
         debuffType: 'statPenalty',
         effects: [
@@ -705,17 +695,16 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       damageConfig: {
         formula: '2d8',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       tags: ['damage', 'ranged', 'anti magic', 'demonhunter']
@@ -758,10 +747,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       purificationConfig: {
         purificationType: 'remove_curse',
         targetEffects: ['curse', 'hex', 'magical_affliction'],
@@ -811,10 +798,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       buffConfig: {
         buffType: 'statusEffectBuff',
         effects: [
@@ -872,10 +857,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       utilityConfig: {
         utilityType: 'environment',
         selectedEffects: [
@@ -949,10 +932,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       debuffConfig: {
         debuffType: 'statPenalty',
         effects: [
@@ -1021,10 +1002,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       controlConfig: {
         controlType: 'restrained',
         strength: 'strong',
@@ -1090,10 +1069,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 1,
         components: ['verbal']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
@@ -1167,15 +1144,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       damageConfig: {
         formula: '5d6',
         elementType: 'radiant',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1240,17 +1216,16 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       damageConfig: {
         formula: '6d10',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       controlConfig: {
@@ -1317,10 +1292,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       utilityConfig: {
         utilityType: 'environment',
         selectedEffects: [
@@ -1376,15 +1349,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       damageConfig: {
         formula: '6d8',
         elementType: 'radiant',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1464,15 +1436,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '8d6',
         elementType: 'necrotic',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1546,15 +1517,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       damageConfig: {
         formula: '8d6',
         elementType: 'necrotic',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1624,15 +1594,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '3d8',
         elementType: 'psychic',
-        damageType: 'direct',
-        canCrit: false
+        damageTypes: ['direct'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1710,14 +1679,12 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '3d8',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '3d8',
@@ -1725,7 +1692,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
           tickFrequency: 'round',
           isProgressiveDot: false
         },
-        canCrit: false
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       debuffConfig: {
@@ -1785,10 +1753,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'spectral',
         targetType: 'self',
@@ -1842,10 +1808,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       buffConfig: {
         buffType: 'statusEffectBuff',
         effects: [
@@ -1867,8 +1831,9 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       damageConfig: {
         formula: '4d8',
         elementType: 'radiant',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       tags: ['buff', 'damage', 'last stand', 'demonhunter']
@@ -1913,19 +1878,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '10d10',
         elementType: 'radiant',
-        damageType: 'area',
+        damageTypes: ['area'],
         canCrit: false,
         criticalConfig: {
           critType: 'effect',
           critEffects: ['holy_ignition', 'fear_aura']
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -1970,10 +1934,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'shadow',
         targetType: 'self',
@@ -2028,15 +1990,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '10d6',
         elementType: 'necrotic',
-        damageType: 'area',
-        canCrit: false
+        damageTypes: ['area'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       resolution: 'DICE',
       debuffConfig: {
@@ -2101,19 +2062,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '12d10',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         canCrit: false,
         criticalConfig: {
           critType: 'effect',
           critEffects: ['magic_annihilation', 'silence_aura']
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -2173,10 +2133,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'shadow',
         targetType: 'self',
@@ -2227,10 +2185,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'divine',
         targetType: 'self',
@@ -2285,19 +2241,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       damageConfig: {
         formula: '18d6',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         canCrit: false,
         criticalConfig: {
           critType: 'effect',
           critEffects: ['magic_annihilation', 'reality_break']
-        }
+        },
+          resolution: 'DICE',
       },
       resolution: 'SAVING_THROW',
       savingThrow: {
@@ -2355,10 +2310,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'shadow',
         targetType: 'self',
@@ -2410,10 +2363,8 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       transformationConfig: {
         transformationType: 'divine',
         targetType: 'self',

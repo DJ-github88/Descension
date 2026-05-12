@@ -520,10 +520,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         description: 'Triggers automatically at 0 HP. Spends all remaining DRP and restores HP equal to 2Ã— DRP consumed. Requires at least 1 DRP.'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['passive', 'revival', 'core mechanic', 'drp', 'starter', 'level 1', 'dreadnaught']
     },
@@ -580,7 +578,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['defense', 'shield', 'absorption', 'drp', 'reaction', 'starter', 'level 1', 'dreadnaught']
@@ -642,7 +640,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['buff', 'resistance', 'defense', 'drp', 'starter', 'level 1', 'dreadnaught']
@@ -695,7 +693,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       tags: ['buff', 'healing', 'regeneration', 'drp', 'starter', 'level 1', 'dreadnaught']
@@ -723,7 +721,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -749,9 +747,10 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '1d6 * (DRP Spent / 5)',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
 
       tags: ['damage', 'necrotic', 'melee', 'drp', 'level 2', 'dreadnaught']
@@ -776,7 +775,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingMode: 'effect',
@@ -814,7 +813,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '2d8 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -845,7 +845,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -910,7 +910,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -937,8 +937,9 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '3d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
-        canCrit: false
+        damageTypes: ['direct'],
+        canCrit: false,
+          resolution: 'DICE',
       },
 
       tags: ['damage', 'necrotic', 'aoe', 'drp', 'level 3', 'dreadnaught']
@@ -963,7 +964,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1017,7 +1018,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingMode: 'effect',
@@ -1057,9 +1058,10 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '5d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -1090,7 +1092,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1117,8 +1119,9 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '6d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
-        canCrit: false
+        damageTypes: ['direct'],
+        canCrit: false,
+          resolution: 'DICE',
       },
 
       restorationConfig: {
@@ -1150,7 +1153,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1228,7 +1231,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1304,7 +1307,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1331,8 +1334,9 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '6d8 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
-        canCrit: false
+        damageTypes: ['direct'],
+        canCrit: false,
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1441,10 +1445,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['movement', 'teleport', 'shadow', 'drp', 'level 6', 'dreadnaught']
     },
@@ -1468,7 +1470,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1495,9 +1497,10 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '8d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1542,7 +1545,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1569,9 +1572,10 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '8d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
-        targetRestrictions: ['enemy', 'living']
+        targetRestrictions: ['enemy', 'living'],
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -1619,7 +1623,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1647,7 +1651,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '10d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'hot',
+        damageTypes: ['hot'],
         hasHotEffect: true,
         hotFormula: '5d6 + spirit',
         hotDuration: 1,
@@ -1660,7 +1664,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1723,10 +1728,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         castTimeType: 'IMMEDIATE'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       targetingConfig: {
         targetingType: 'single',
@@ -1795,7 +1798,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1822,11 +1825,12 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '12d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
         saveType: 'agility',
         saveDC: '8 + proficiency + spirit_mod',
-        halfDamage: true
+        halfDamage: true,
+          resolution: 'DICE',
       },
 
       tags: ['damage', 'necrotic', 'aoe', 'cone', 'save', 'drp', 'level 7', 'dreadnaught']
@@ -1854,7 +1858,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -1946,7 +1950,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingMode: 'effect',
@@ -1988,11 +1992,12 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '13d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
         saveType: 'constitution',
         saveDC: '8 + proficiency + spirit_mod',
-        halfDamage: true
+        halfDamage: true,
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -2023,7 +2028,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -2051,11 +2056,12 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '15d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
         saveType: 'constitution',
         saveDC: '8 + proficiency + spirit_mod',
-        halfDamage: false
+        halfDamage: false,
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -2114,7 +2120,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -2142,7 +2148,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '16d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
         savingThrowConfig: {
           enabled: true,
@@ -2160,7 +2166,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
           isProgressiveDot: false,
           triggerCondition: 'start_of_turn',
           triggerDescription: 'Creatures take 2d6 necrotic damage at the start of each turn while in the area'
-        }
+        },
+          resolution: 'DICE',
       },
 
       terrainConfig: {
@@ -2222,7 +2229,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -2262,9 +2269,10 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '18d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
-        trigger: 'devour_attack'
+        trigger: 'devour_attack',
+          resolution: 'DICE',
       },
 
       tags: ['transformation', 'damage', 'necrotic', 'devour', 'drp', 'level 9', 'dreadnaught']
@@ -2292,7 +2300,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -2355,7 +2363,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       },
 
       cooldownConfig: {
-        type: 'none'
+        cooldownType: 'none'
       },
 
       targetingConfig: {
@@ -2387,11 +2395,12 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '20d6 + spirit',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: false,
         saveType: 'constitution',
         saveDC: '8 + proficiency + spirit_mod',
-        halfDamage: false
+        halfDamage: false,
+          resolution: 'DICE',
       },
 
       destructionConfig: {
@@ -2434,7 +2443,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       damageConfig: {
         formula: '12d10',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2442,7 +2451,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2454,10 +2464,8 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'necrotic', 'execute', 'ultimate', 'dreadnaught']

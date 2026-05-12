@@ -812,8 +812,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'arcane',
-        scalingType: 'none'
+        damageTypes: ['arcane'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -880,8 +881,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       damageConfig: {
         formula: '6d6',
-        damageType: 'arcane',
-        scalingType: 'none'
+        damageTypes: ['arcane'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -944,8 +946,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       damageConfig: {
         formula: '4d6',
-        damageType: 'arcane',
-        scalingType: 'none'
+        damageTypes: ['arcane'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1231,11 +1234,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5,
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5,
         charges: 1
-      },
+       },
 
       tags: ['defense', 'immunity', 'ultimate', 'aep cost', 'anti mage']
     },
@@ -1293,11 +1294,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3,
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
         charges: 1
-      },
+       },
 
       tags: ['zone', 'anti magic', 'ultimate', 'aep cost', 'control']
     },
@@ -1349,11 +1348,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2,
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2,
         charges: 1
-      },
+       },
 
       tags: ['reflection', 'reaction', 'ultimate', 'aep cost', 'anti mage']
     },
@@ -1414,11 +1411,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3,
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
         charges: 1
-      },
+       },
 
       tags: ['control', 'charm', 'reaction', 'aep cost', 'anti mage', 'ultimate']
     },
@@ -1521,9 +1516,10 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       damageConfig: {
         formula: '50',
-        damageType: 'force',
+        damageTypes: ['force'],
         scalingType: 'none',
-        specialNote: 'Fixed damage equal to AEP spent (50)'
+        specialNote: 'Fixed damage equal to AEP spent (50)',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1536,11 +1532,9 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3,
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3,
         charges: 1
-      },
+       },
 
       tags: ['damage', 'aoe', 'force', 'aep cost', 'detonation']
     },
@@ -1698,10 +1692,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['utility', 'anti mage', 'counter', 'level 6', 'spellguard']
     },
@@ -1760,10 +1752,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'protection', 'aoe', 'level 6', 'spellguard']
     },
@@ -1804,13 +1794,14 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       damageConfig: {
         formula: '8d6',
         elementType: 'force',
-        damageType: 'mana_drain',
+        damageTypes: ['mana_drain'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'intelligence',
           difficultyClass: 16,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1821,10 +1812,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'utility', 'mana drain', 'aoe', 'level 6', 'spellguard']
     },
@@ -1885,10 +1874,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['zone', 'control', 'anti magic', 'level 7', 'spellguard']
     },
@@ -1941,10 +1928,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         durationUnit: 'uses'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'reflection', 'anti mage', 'level 7', 'spellguard']
     },
@@ -1988,7 +1973,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       damageConfig: {
         formula: '12d6 + intelligence',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2004,13 +1989,12 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           critMultiplier: 2.5,
           extraDice: '6d6',
           critEffects: ['mana_drain']
-        }
+        },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'anti mage', 'level 7', 'spellguard']
     },
@@ -2074,10 +2058,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         saveOutcome: 'negates'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['debuff', 'anti mage', 'mark', 'level 8', 'spellguard']
     },
@@ -2132,10 +2114,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'protection', 'reaction', 'level 8', 'spellguard']
     },
@@ -2182,7 +2162,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       damageConfig: {
         formula: '14d6 + intelligence',
         elementType: 'force',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2198,13 +2178,12 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
           critMultiplier: 3.0,
           extraDice: '8d6',
           critEffects: ['spell_destruction', 'stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['damage', 'aoe', 'anti magic', 'level 8', 'spellguard']
     },
@@ -2255,10 +2234,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['utility', 'counter', 'control', 'ultimate', 'level 9', 'spellguard']
     },
@@ -2315,10 +2292,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }]
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['control', 'imprisonment', 'ultimate', 'level 9', 'spellguard']
     },
@@ -2366,10 +2341,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['utility', 'buff', 'dispel', 'ultimate', 'level 9', 'spellguard']
     },
@@ -2430,10 +2403,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['transformation', 'anti magic', 'ultimate', 'level 10', 'spellguard']
     },
@@ -2483,10 +2454,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         size: { radius: 200 }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['zone', 'control', 'ultimate', 'level 10', 'spellguard']
     },
@@ -2536,10 +2505,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['utility', 'dispel', 'ultimate', 'level 10', 'spellguard']
     },
@@ -2595,10 +2562,8 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'shield', 'reflection', 'universal']

@@ -280,14 +280,9 @@ const UnifiedSpellCard = ({
       cleanedFormula = cleanedFormula.replace(regex, properName);
     });
 
-    // Convert camelCase to underscores before mapping (currentHealth -> current_health)
-    cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-
-    // Replace specific resource variable names with proper formatting
-    Object.entries(resourceVariableMap).forEach(([variable, properName]) => {
-      const regex = new RegExp(`\\b${variable}\\b`, 'gi');
-      cleanedFormula = cleanedFormula.replace(regex, properName);
-    });
+    // Convert remaining camelCase to spaces (e.g., currentHealth -> current Health)
+    // But skip already-replaced Proper Case names from the map above
+    cleanedFormula = cleanedFormula.replace(/([a-z])([A-Z])/g, '$1 $2');
 
     // Handle remaining underscores for any missed variables (but preserve weapon_die, weapon_damage, attribute_modifier)
     // These are placeholders that should be replaced with actual values, not converted to spaces
@@ -377,19 +372,28 @@ const UnifiedSpellCard = ({
       'fire': 'spell-fire',
       'frost': 'spell-frost',
       'ice': 'spell-frost',
-      'frost': 'spell-frost',
       'cold': 'spell-frost',
       'arcane': 'spell-arcane',
       'force': 'spell-arcane',
       'nature': 'spell-nature',
       'necrotic': 'spell-shadow',
+      'shadow': 'spell-shadow',
       'holy': 'spell-holy',
       'radiant': 'spell-holy',
       'lightning': 'spell-lightning',
       'electric': 'spell-lightning',
-      'physical': 'spell-physical'
+      'poison': 'spell-nature',
+      'psychic': 'spell-shadow',
+      'chaos': 'spell-arcane',
+      'void': 'spell-shadow',
+      'bludgeoning': 'spell-physical',
+      'piercing': 'spell-physical',
+      'slashing': 'spell-physical',
+      'physical': 'spell-physical',
+      'thunder': 'spell-lightning',
+      'acid': 'spell-nature'
     };
-    const school = spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
+    const school = spell?.typeConfig?.school || spell?.school || spell?.damageTypes?.[0] || spell?.elementType || 'arcane';
     return schoolMap[school.toLowerCase()] || 'spell-arcane';
   };
 
@@ -1548,20 +1552,21 @@ const UnifiedSpellCard = ({
     if (!spell?.cooldownConfig) return null;
 
     const config = spell.cooldownConfig;
+    const cooldownType = config.cooldownType || config.type;
+    const cooldownValue = config.cooldownValue ?? config.value;
 
-    // Handle different cooldown types
-    switch (config.type) {
+    switch (cooldownType) {
       case 'turn_based':
-        if (!config.value || config.value === 0) return 'No cooldown';
-        return `${config.value} turn${config.value > 1 ? 's' : ''}`;
+        if (!cooldownValue || cooldownValue === 0) return 'No cooldown';
+        return `${cooldownValue} turn${cooldownValue > 1 ? 's' : ''}`;
 
       case 'short_rest':
-        if (!config.value || config.value === 0) return 'No uses';
-        return `${config.value} use${config.value > 1 ? 's' : ''}/short rest`;
+        if (!cooldownValue || cooldownValue === 0) return 'No uses';
+        return `${cooldownValue} use${cooldownValue > 1 ? 's' : ''}/short rest`;
 
       case 'long_rest':
-        if (!config.value || config.value === 0) return 'No uses';
-        return `${config.value} use${config.value > 1 ? 's' : ''}/long rest`;
+        if (!cooldownValue || cooldownValue === 0) return 'No uses';
+        return `${cooldownValue} use${cooldownValue > 1 ? 's' : ''}/long rest`;
 
       case 'charge_based':
         const charges = config.charges || 1;
@@ -1569,9 +1574,13 @@ const UnifiedSpellCard = ({
         return `${charges} charge${charges > 1 ? 's' : ''} (${recovery} turn${recovery > 1 ? 's' : ''}/charge)`;
 
       case 'dice_based':
-        return config.value ? `${config.value} cooldown` : 'Dice-based cooldown';
+        return cooldownValue ? `${cooldownValue} cooldown` : 'Dice-based cooldown';
 
       default:
+        if (cooldownType === 'none' || !cooldownType) {
+          if (cooldownValue && cooldownValue > 0) return `${cooldownValue} turn${cooldownValue > 1 ? 's' : ''}`;
+          return 'No cooldown';
+        }
         return null;
     }
   };
@@ -1614,6 +1623,39 @@ const UnifiedSpellCard = ({
 
         if (typeConfig.breakEffect && typeConfig.breakEffect !== 'none') {
           bullets.push(`break: ${typeConfig.breakEffect}`);
+        }
+
+        // Show channeling stages (staged channeling)
+        if (spell?.channelingConfig?.type === 'staged' && spell.channelingConfig.stages?.length > 0) {
+          spell.channelingConfig.stages.forEach((stage, i) => {
+            let stageText = stage.name || `Stage ${i + 1}`;
+            if (stage.threshold) stageText += ` (${stage.threshold} turn${stage.threshold !== 1 ? 's' : ''})`;
+            if (stage.effect || stage.description) stageText += `: ${stage.effect || stage.description}`;
+            bullets.push(stageText);
+          });
+        }
+
+        // Show power-up per-round scaling
+        if (spell?.channelingConfig?.type === 'power_up' && spell.channelingConfig.perRoundFormulas) {
+          const prf = spell.channelingConfig.perRoundFormulas;
+          const keys = Object.keys(prf);
+          if (keys.length > 0) {
+            const firstKey = keys[0];
+            const rounds = prf[firstKey];
+            if (Array.isArray(rounds) && rounds.length > 1) {
+              const scaling = rounds.map(r => r.formula || r).join(' → ');
+              bullets.push(`Scaling: ${scaling}`);
+            }
+          }
+        }
+
+        // Show persistent aura/field info
+        if (spell?.channelingConfig?.type === 'persistent') {
+          const cc = spell.channelingConfig;
+          if (cc.persistentRadius) bullets.push(`${cc.persistentRadius}ft radius aura`);
+          if (cc.initialRadius && cc.maxRadius && cc.expansionRate) {
+            bullets.push(`${cc.initialRadius}ft → ${cc.maxRadius}ft (+${cc.expansionRate}ft/tick)`);
+          }
         }
         break;
 
@@ -8782,6 +8824,19 @@ const UnifiedSpellCard = ({
                 </div>
               )}
 
+              {/* Trigger Role Badge - only show for non-conditional (auto-cast) */}
+              {spell?.triggerConfig?.triggerRole?.mode && spell.triggerConfig.triggerRole.mode !== 'CONDITIONAL' && (
+                <div className="pf-action-type-badge" style={{
+                  background: 'rgba(147,112,219,0.15)', color: '#9370DB'
+                }}>
+                  <div className="pf-action-type-content">
+                    <span className="pf-action-type-name">
+                      {spell.triggerConfig.triggerRole.mode === 'AUTO' ? 'Auto-Cast' : spell.triggerConfig.triggerRole.mode}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* Propagation Badge */}
               {formatPropagation() && (
                 <div
@@ -9187,6 +9242,15 @@ const UnifiedSpellCard = ({
                                         <div className="damage-effect">
                                           <span className="damage-effect-name">
                                             {effect.name}
+                                            {spell?.effectResolutions?.damage?.type && spell.effectResolutions.damage.type !== spell?.resolution && (
+                                              <span className="targeting-badge" style={{
+                                                marginLeft: '6px', fontSize: '0.7em', padding: '1px 5px',
+                                                background: 'rgba(100,149,237,0.15)', border: '1px solid rgba(100,149,237,0.4)',
+                                                borderRadius: '3px', color: '#6495ED'
+                                              }}>
+                                                {spell.effectResolutions.damage.type}
+                                              </span>
+                                            )}
                                             {effect.isTriggeredArea && (
                                               <span className="trigger-badge" style={{
                                                 marginLeft: '8px',
@@ -9229,6 +9293,17 @@ const UnifiedSpellCard = ({
                                               {effect.targeting.propagation && (
                                                 <span className="targeting-badge propagation-badge">
                                                   {effect.targeting.propagation}
+                                                </span>
+                                              )}
+                                              {spell?.targetingTags?.damage?.targetOption && (
+                                                <span className="targeting-badge" style={{
+                                                  background: 'rgba(220,20,60,0.1)', border: '1px solid rgba(220,20,60,0.3)',
+                                                  color: '#dc143c', fontSize: '0.85em'
+                                                }}>
+                                                  {spell.targetingTags.damage.targetOption === 'enemy' ? 'Enemies' :
+                                                   spell.targetingTags.damage.targetOption === 'ally' ? 'Allies' :
+                                                   spell.targetingTags.damage.targetOption === 'self' ? 'Self' :
+                                                   spell.targetingTags.damage.targetOption}
                                                 </span>
                                               )}
                                             </div>
@@ -10178,9 +10253,18 @@ const UnifiedSpellCard = ({
                                     {effects.map((effect, index) => (
                                       <div key={`healing-${index}`} className="healing-effect-item">
                                         <div className="healing-effect">
-                                          <span className="healing-effect-name">
-                                            {effect.name}
-                                          </span>
+                                        <span className="healing-effect-name">
+                                          {effect.name}
+                                          {spell?.effectResolutions?.healing?.type && spell.effectResolutions.healing.type !== spell?.resolution && (
+                                            <span className="targeting-badge" style={{
+                                              marginLeft: '6px', fontSize: '0.7em', padding: '1px 5px',
+                                              background: 'rgba(100,149,237,0.15)', border: '1px solid rgba(100,149,237,0.4)',
+                                              borderRadius: '3px', color: '#6495ED'
+                                            }}>
+                                              {spell.effectResolutions.healing.type}
+                                            </span>
+                                          )}
+                                        </span>
                                           {/* Description removed - already shown in UnifiedSpellCard main description */}
                                         </div>
                                         {effect.mechanicsText && (
@@ -10456,6 +10540,118 @@ const UnifiedSpellCard = ({
                     })()}
                   </>
                 )}
+
+              {/* Combined Effects Section */}
+              {spell?.combinedEffects && spell.combinedEffects.length > 0 && (
+                <div className="damage-effects" style={{ marginTop: '4px' }}>
+                  <div className="damage-effects-section">
+                    <div className="damage-effects-list">
+                      {spell.combinedEffects.map((combo, index) => (
+                        <div key={`combo-${index}`} className="damage-effect-item">
+                          <div className="damage-effect">
+                            <span className="damage-effect-name">
+                              Combo{combo.name ? `: ${combo.name}` : ` ${index + 1}`}
+                            </span>
+                          </div>
+                          {(combo.description || combo.effect) && (
+                            <div className="damage-effect-details">
+                              <div className="damage-effect-mechanics">
+                                {combo.description || combo.effect}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Persistent Effect Configuration */}
+              {spell?.persistentConfig?.isPersistent && (() => {
+                const config = spell.persistentConfig;
+                let text = '';
+                if (config.persistentType === 'dot' && config.tickDamage) {
+                  text = `${config.tickDamage} damage per tick`;
+                  if (config.tickFrequency) text += `, ${config.tickFrequency.replace(/_/g, ' ')}`;
+                  if (config.tickDuration) text += ` for ${config.tickDuration} round${config.tickDuration !== 1 ? 's' : ''}`;
+                } else if (config.persistentType === 'hot' && config.tickHealing) {
+                  text = `${config.tickHealing} healing per tick`;
+                  if (config.tickFrequency) text += `, ${config.tickFrequency.replace(/_/g, ' ')}`;
+                  if (config.tickDuration) text += ` for ${config.tickDuration} round${config.tickDuration !== 1 ? 's' : ''}`;
+                } else if (config.persistentType === 'trigger') {
+                  if (config.triggerCondition) text += `Triggers on ${config.triggerCondition.replace(/_/g, ' ')}`;
+                  if (config.triggerEffect) text += `${text ? ', ' : ''}causes ${config.triggerEffect.replace(/_/g, ' ')}`;
+                }
+                return text ? (
+                  <div className="damage-effects" style={{ marginTop: '4px' }}>
+                    <div className="damage-effects-section">
+                      <div className="damage-effects-list">
+                        <div className="damage-effect-item">
+                          <div className="damage-effect">
+                            <span className="damage-effect-name">Persistent Effect</span>
+                          </div>
+                          <div className="damage-effect-details">
+                            <div className="damage-effect-mechanics">{text}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+
+              {/* Buff/Debuff Trigger Chains */}
+              {spell?.triggerConfig?.buffDebuffTriggers && (() => {
+                const bdt = spell.triggerConfig.buffDebuffTriggers;
+                const chains = [];
+                for (const [effectType, chainData] of Object.entries(bdt)) {
+                  if (chainData.triggersEffect) {
+                    const sourceName = effectType.charAt(0).toUpperCase() + effectType.slice(1);
+                    const targetName = chainData.triggersEffect.replace(/_/g, ' ');
+                    chains.push({ source: sourceName, target: targetName });
+                  }
+                }
+                if (chains.length === 0) return null;
+                return (
+                  <div className="damage-effects" style={{ marginTop: '4px' }}>
+                    <div className="damage-effects-section">
+                      <div className="damage-effects-list">
+                        {chains.map((chain, i) => (
+                          <div key={`chain-${i}`} className="damage-effect-item">
+                            <div className="damage-effect">
+                              <span className="damage-effect-name">Trigger Chain</span>
+                            </div>
+                            <div className="damage-effect-details">
+                              <div className="damage-effect-mechanics">
+                                <span style={{ color: '#ff8c00' }}>{chain.source}</span>
+                                {" → "}
+                                <span style={{ color: '#6495ED' }}>{chain.target}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Mechanics Available Effects (for card-based mechanics) */}
+              {spell?.mechanicsAvailableEffects && spell.mechanicsAvailableEffects.length > 0 && (
+                <div style={{ marginTop: '4px', paddingLeft: '4px' }}>
+                  <span style={{ fontSize: '0.8em', color: 'rgba(139,115,85,0.7)' }}>Available Effects: </span>
+                  {spell.mechanicsAvailableEffects.map((effect, i) => (
+                    <span key={effect.id || i} className="targeting-badge" style={{
+                      marginLeft: '4px', fontSize: '0.7em',
+                      background: 'rgba(255,215,0,0.1)', border: '1px solid rgba(255,215,0,0.3)',
+                      borderRadius: '3px', color: '#DAA520', padding: '1px 5px'
+                    }}>
+                      {effect.name}
+                    </span>
+                  ))}
+                </div>
+              )}
 
 
 

@@ -577,11 +577,12 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d6 + intelligence',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d6 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 14, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 14, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -612,10 +613,11 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d8 + intelligence',
         elementType: 'poison',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
-        dotConfig: { dotFormula: '1d4 + poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false }
+        dotConfig: { dotFormula: '1d4 + poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -646,10 +648,11 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d4 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
-        dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false }
+        dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -681,10 +684,11 @@ FINAL ARCHETYPES (Last Token):
         formula: '1d4 + 1d4',
         elementType: 'psychic',
         secondaryElementType: 'poison',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
-        dotConfig: { dotFormula: '1d4 psychic + 1d4 poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false }
+        dotConfig: { dotFormula: '1d4 psychic + 1d4 poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -715,10 +719,11 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d4 + intelligence',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
-        dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false }
+        dotConfig: { dotFormula: '1d4 + intelligence', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -828,7 +833,8 @@ FINAL ARCHETYPES (Last Token):
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 16, onSuccess: 'half_damage_no_paralyze', onFailure: 'full_damage_and_paralyze' },
       damageConfig: {
         formula: '3d6 + intelligence', elementType: 'psychic', damageType: 'direct', attackType: 'spell_save',
-        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation', duration: 1, durationUnit: 'rounds', saveDC: 16, saveType: 'spirit', savingThrow: true,
@@ -856,7 +862,8 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d4 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save',
         hasDotEffect: true, dotConfig: { dotFormula: '1d4', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 14, saveOutcome: 'negates', partialEffect: false }
+        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 14, saveOutcome: 'negates', partialEffect: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Fester', description: 'Advances any affliction on the target with the Fester category' },
@@ -883,7 +890,8 @@ FINAL ARCHETYPES (Last Token):
       resolution: 'AUTOMATIC',
       damageConfig: {
         formula: '1d4 + intelligence', elementType: 'poison', damageType: 'direct', attackType: 'automatic',
-        hasDotEffect: true, dotConfig: { dotFormula: '1d4', duration: 5, tickFrequency: 'turn', isProgressiveDot: false }
+        hasDotEffect: true, dotConfig: { dotFormula: '1d4', duration: 5, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -912,7 +920,8 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '3d6 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save',
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 17, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
-        criticalConfig: { critType: 'effect', critEffects: ['permanent_decay'] }
+        criticalConfig: { critType: 'effect', critEffects: ['permanent_decay'] },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -941,7 +950,8 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: { formula: '4d4 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'spell_save' },
       effects: {
         damage: { instant: { amount: '4d4 + INT', type: 'necrotic', description: 'Immediate necrotic damage' } },
-        debuff: { healingReduction: '1d8', duration: '5 rounds', description: 'Healing received is reduced by 1d8 per heal' }
+        debuff: { healingReduction: '1d8', duration: '5 rounds', description: 'Healing received is reduced by 1d8 per heal' },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Decay', description: 'Advances any affliction on the target with the Decay category' }
@@ -1037,6 +1047,7 @@ FINAL ARCHETYPES (Last Token):
       resourceCost: { mana: 9, components: ['verbal', 'somatic'], verbalText: 'Essentia Corruptio!', somaticText: "Corrupt target's essence" },
       savingThrow: { enabled: true, attribute: 'spirit', difficulty: 15, onSuccess: 'reduced_aura', onFailure: 'full_aura' },
       damageConfig: { formula: '3d6 + intelligence', elementType: 'necrotic', damageType: 'direct', attackType: 'automatic' },
+          resolution: 'DICE',
       effects: { aura: { damage: '1d10', damageType: 'necrotic', radius: 10, targets: 'allies_of_target', duration: '3 rounds', description: 'Target emits harmful aura to their allies' } },
       specialMechanics: {
         afflictionAdvancement: { enabled: true, category: 'Weaken', description: 'Advances any affliction on the target with the Weaken category' }
@@ -1086,14 +1097,15 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '4d8 + (stage × 2d8)',
         elementType: 'poison',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
         cultivationScaling: {
           stage1: '4d8 (base only)',
           stage2: '4d8 + 2d8 = 6d8',
           stage3: '4d8 + 4d8 = 8d8 + 10ft explosion'
-        }
+        },
+          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1126,11 +1138,12 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '6d6',
         elementType: 'poison',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '1d4 poison', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
-        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 16, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       specialMechanics: {
         afflictionCultivation: {
@@ -1161,8 +1174,9 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '1d6 per spread',
         elementType: 'poison',
-        damageType: 'area',
-        attackType: 'automatic'
+        damageTypes: ['area'],
+        attackType: 'automatic',
+          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1191,10 +1205,11 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '3d8 + (affliction stages × 1d8)',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'automatic',
         hasDotEffect: true,
-        dotConfig: { dotFormula: '3d8 + (affliction stages × 1d8)', duration: 4, tickFrequency: 'turn', isProgressiveDot: false }
+        dotConfig: { dotFormula: '3d8 + (affliction stages × 1d8)', duration: 4, tickFrequency: 'turn', isProgressiveDot: false },
+          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: { enabled: true, description: '+1d8 damage per affliction stage on each enemy in the zone' }
@@ -1218,14 +1233,15 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: 'All affliction damage × current multiplier',
         elementType: 'varies',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'automatic',
         cultivationScaling: {
           description: 'Each active affliction deals its full DoT damage immediately',
           stage1Bonus: 'Stage 1 afflictions deal ×1.5 damage',
           stage2Bonus: 'Stage 2 afflictions deal ×2 damage',
           stage3Bonus: 'Stage 3 afflictions deal ×3 damage'
-        }
+        },
+          resolution: 'DICE',
       },
       specialMechanics: {
         requiresAfflictions: { enabled: true, minimumAfflictions: 3, description: 'Requires at least 3 active afflictions across all targets' },
@@ -1250,9 +1266,10 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '8d8 + (affliction stages × 2d8)',
         elementType: 'psychic',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'spell_save',
-        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 18, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'spirit', difficultyClass: 18, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'mind_control', duration: 2, durationUnit: 'rounds', saveDC: 18, saveType: 'spirit', savingThrow: true,
@@ -1307,10 +1324,11 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '8d6 + (active afflictions on target × 2d6)',
         elementType: 'poison',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         cultivationScaling: { description: '+2d6 per active affliction already on each chain target' },
-        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 17, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 17, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       specialMechanics: {
         chainMechanic: { enabled: true, maxTargets: 8, chainRange: 20, description: 'Chains to up to 8 enemies within 20ft of each previous target' },
@@ -1335,14 +1353,15 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '12d10 (or instant kill)',
         elementType: 'poison',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'spell_save',
         cultivationScaling: {
           executeThreshold: '30% HP + Stage 2+ affliction = instant death',
           noAffliction: 'Full 12d10 damage',
           lowStageAffliction: 'Full 12d10 damage + applies random Seed'
         },
-        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 20, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 20, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: {
@@ -1369,11 +1388,12 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: 'Active Affliction Count × 4d8 (max 8)',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         attackType: 'automatic',
         cultivationScaling: {
           description: 'Each active affliction is consumed and detonates for 4d8 necrotic (max 8 afflictions consumed). Stage 3 afflictions deal 6d8 instead. The ultimate harvest — burn the entire garden.'
-        }
+        },
+          resolution: 'DICE',
       },
       specialMechanics: {
         cultivationScaling: { enabled: true, description: 'Stage 3 afflictions explode for 6d8 instead of 4d8. Consumes ALL afflictions up to 8 — the nuclear option.' },
@@ -1426,11 +1446,12 @@ FINAL ARCHETYPES (Last Token):
       damageConfig: {
         formula: '15d10',
         elementType: 'poison',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: { dotFormula: '5d10', duration: 6, tickFrequency: 'turn', isProgressiveDot: false },
-        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 22, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' }
+        savingThrowConfig: { enabled: true, savingThrowType: 'constitution', difficultyClass: 22, saveOutcome: 'halves', partialEffect: true, partialEffectFormula: 'damage/2' },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',

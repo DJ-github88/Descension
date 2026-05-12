@@ -1907,7 +1907,8 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: '2d8 + intelligence/3',
-        damageTypes: ['fire']
+        damageTypes: ['fire'],
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
@@ -1957,7 +1958,8 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: '2d8 + intelligence/3',
-        damageTypes: ['frost']
+        damageTypes: ['frost'],
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -2116,7 +2118,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: '1d4',
-          damageType: 'fire',
+          damageTypes: ['fire'],
           tickFrequency: 'round',
           duration: 2,
           canStack: false,
@@ -2264,7 +2266,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: '1d6',
-          damageType: 'necrotic',
+          damageTypes: ['necrotic'],
           tickFrequency: 'round',
           duration: 2,
           canStack: false,
@@ -2468,7 +2470,8 @@ MAX BANKED SPHERES: 12
 
       damageConfig: {
         formula: '3d8 + intelligence/2',
-        damageTypes: ['chaos']
+        damageTypes: ['chaos'],
+          resolution: 'DICE',
       },
 
       cooldownConfig: {
@@ -2743,7 +2746,8 @@ MAX BANKED SPHERES: 12
         triggerCondition: 'area_entry',
         triggerDescription: 'Enemies within 10 feet of your departure point take force damage from the void afterimage',
         areaShape: 'circle',
-        areaParameters: { radius: 10 }
+        areaParameters: { radius: 10 },
+          resolution: 'DICE',
       },
 
       cooldownConfig: {

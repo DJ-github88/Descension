@@ -436,7 +436,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       damageConfig: {
         formula: '1d8 + intelligence',
         damageTypes: ['force'],
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -459,10 +460,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['force', 'damage', 'debuff', 'stasis'],
       specialization: 'stasis'
@@ -510,10 +509,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['healing', 'support', 'rewinding'],
       specialization: 'rewinding'
@@ -571,10 +568,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['teleport', 'movement', 'displacement'],
       specialization: 'displacement'
@@ -639,10 +634,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['illusion', 'control', 'displacement'],
       specialization: 'displacement'
@@ -732,10 +725,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
 
       tags: ['control', 'time', 'area', 'displacement'],
@@ -820,10 +811,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['control', 'zone', 'time', 'displacement'],
       specialization: 'displacement'
@@ -909,10 +898,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'tactical', 'displacement'],
       specialization: 'displacement'
@@ -983,10 +970,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         power: 'moderate'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
 
       tags: ['healing', 'purification', 'aoe', 'flux', 'rewinding'],
@@ -1055,10 +1040,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
 
       rollableTable: {
@@ -1249,10 +1232,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['summon', 'damage', 'healing', 'aoe', 'displacement'],
       specialization: 'displacement'
@@ -1345,10 +1326,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
 
       tags: ['control', 'debuff', 'aoe', 'displacement'],
@@ -1418,10 +1397,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['protection', 'debuff', 'support', 'stasis'],
       specialization: 'stasis'
@@ -1490,10 +1467,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
 
       tags: ['healing', 'protection', 'flux', 'rewinding'],
@@ -1559,10 +1534,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
 
       tags: ['buff', 'aoe', 'flux', 'displacement'],
@@ -1613,9 +1586,10 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       damageConfig: {
         formula: '8d6 + intelligence',
         damageTypes: ['force'],
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'circle',
-        areaParameters: { radius: 25 }
+        areaParameters: { radius: 25 },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1639,10 +1613,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['damage', 'debuff', 'aoe', 'stasis'],
       specialization: 'stasis'
@@ -1709,10 +1681,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
 
       tags: ['damage', 'control', 'echoes', 'stasis'],
@@ -1779,10 +1749,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
 
       tags: ['control', 'time', 'aoe', 'rewinding'],
@@ -1833,7 +1801,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       damageConfig: {
         formula: '10d6 + intelligence',
         damageTypes: ['force'],
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'circle',
         areaParameters: { radius: 25 },
         criticalConfig: {
@@ -1856,7 +1824,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1880,10 +1849,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
 
       tags: ['damage', 'control', 'aoe', 'time', 'displacement'],
@@ -1933,10 +1900,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
 
       timeShardGenerate: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['healing', 'support', 'rewinding'],
       specialization: 'rewinding'
@@ -1983,9 +1948,10 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       damageConfig: {
         formula: '10d6 + intelligence',
         damageTypes: ['force'],
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'circle',
-        areaParameters: { radius: 20 }
+        areaParameters: { radius: 20 },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2011,10 +1977,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
 
       tags: ['damage', 'control', 'aoe', 'echoes', 'displacement'],
@@ -2083,10 +2047,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
         }]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
 
       tags: ['control', 'aoe', 'flux', 'ultimate', 'stasis'],
@@ -2139,7 +2101,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
       cooldownConfig: {
-        type: 'encounter',
+        cooldownType: 'encounter',
       },
 
       tags: ['buff', 'healing', 'ultimate', 'rewinding'],
@@ -2207,7 +2169,8 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       damageConfig: {
         formula: '18d6 + intelligence',
         damageTypes: ['necrotic'],
-        damageType: 'area'
+        damageTypes: ['area'],
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -2237,7 +2200,7 @@ Always maintain a buffer of 2-3 points. If you are at 8 Strain, casting any Flux
       },
 
       cooldownConfig: {
-        type: 'encounter',
+        cooldownType: 'encounter',
       },
 
       tags: ['damage', 'control', 'healing', 'ultimate', 'time', 'displacement'],

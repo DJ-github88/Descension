@@ -290,8 +290,9 @@ GENERATION:
       damageConfig: {
         formula: '1d6 + intelligence',
         elementType: 'necrotic',
-        damageType: 'direct',
-        canCrit: false
+        damageTypes: ['direct'],
+        canCrit: false,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -533,7 +534,7 @@ GENERATION:
       damageConfig: {
         formula: '2d6 + intelligence',
         elementType: 'necrotic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
         criticalConfig: {
@@ -548,7 +549,8 @@ GENERATION:
             damageFormula: '1d4',
             damageType: 'necrotic'
           }
-        }
+        },
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -831,11 +833,12 @@ GENERATION:
       damageConfig: {
         formula: '6d6 + intelligence * 1.5',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'cone',
         areaParameters: { length: 40 },
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -1262,7 +1265,7 @@ GENERATION:
       damageConfig: {
         formula: '10d6 + intelligence * 2.5',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'chain',
         propagation: {
           method: 'chain',
@@ -1270,7 +1273,8 @@ GENERATION:
           parameters: { count: 5, range: 15, decay: 0.25 }
         },
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',
@@ -1493,11 +1497,12 @@ GENERATION:
       damageConfig: {
         formula: '5d8 + intelligence',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'circle',
         areaParameters: { radius: 20 },
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -1652,11 +1657,12 @@ GENERATION:
       damageConfig: {
         formula: '6d10 + intelligence',
         elementType: 'necrotic',
-        damageType: 'area',
+        damageTypes: ['area'],
         areaShape: 'circle',
         areaParameters: { radius: 25 },
         canCrit: true,
-        critMultiplier: 2
+        critMultiplier: 2,
+          resolution: 'DICE',
       },
       debuffConfig: {
         debuffType: 'statReduction',

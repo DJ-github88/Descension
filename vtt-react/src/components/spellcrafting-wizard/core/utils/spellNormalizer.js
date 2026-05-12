@@ -30,8 +30,8 @@ export const normalizeSpell = (spell) => {
   normalized.id = normalized.id || `spell_${Date.now()}`;
   normalized.name = normalized.name || 'Unnamed Spell';
   normalized.description = normalized.description || '';
-  normalized.level = normalized.level || 1;
-  normalized.spellType = normalized.spellType || 'ACTION';
+  normalized.level = normalized.level !== undefined ? normalized.level : 1;
+  normalized.spellType = (normalized.spellType || 'ACTION').toUpperCase();
   normalized.icon = normalized.icon || normalized.typeConfig?.icon || 'inv_misc_questionmark';
 
   // 2. Normalize effectTypes array - CRITICAL
@@ -59,18 +59,64 @@ export const normalizeSpell = (spell) => {
   normalized.purificationConfig = normalizePurificationConfig(normalized);
   normalized.restorationConfig = normalizeRestorationConfig(normalized);
   
-  // 6b. Preserve original effects object for legacy format support
+  // 6b. Normalize resolution — default to DICE if missing
+  if (!normalized.resolution) {
+    normalized.resolution = 'DICE';
+  }
+  if (normalized.damageConfig && !normalized.damageConfig.resolution) {
+    normalized.damageConfig.resolution = normalized.resolution;
+  }
+  if (normalized.healingConfig && !normalized.healingConfig.resolution) {
+    normalized.healingConfig.resolution = normalized.resolution;
+  }
+
+  // 6c. Normalize damageConfig.damageType (singular) → damageTypes (array)
+  if (normalized.damageConfig && typeof normalized.damageConfig.damageType === 'string'
+      && !Array.isArray(normalized.damageConfig.damageTypes)) {
+    const val = normalized.damageConfig.damageType;
+    if (val !== 'direct' && val !== 'dot' && val !== 'area' && val !== 'variable') {
+      normalized.damageConfig.damageTypes = [val];
+    }
+  }
+
+  // 6d. Normalize school from top-level into typeConfig
+  if (normalized.school && !normalized.typeConfig?.school) {
+    if (!normalized.typeConfig) normalized.typeConfig = {};
+    normalized.typeConfig.school = normalized.school;
+  }
+  
+  // 6e. Preserve original effects object for legacy format support
   // UnifiedSpellCard checks both buffConfig and effects.buff
   if (spell.effects && !normalized.effects) {
-    normalized.effects = spell.effects;
+    normalized.effects = JSON.parse(JSON.stringify(spell.effects));
   }
 
   // 7. Normalize resource cost
   normalized.resourceCost = normalizeResourceCost(normalized);
+  if (normalized.resourceCost && normalized.resourceCost.actionPoints === undefined) {
+    normalized.resourceCost.actionPoints = 1;
+  }
 
   // 8. Normalize cooldown and duration
   normalized.cooldownConfig = normalized.cooldownConfig || { cooldown: 0, charges: 1 };
+  if (normalized.cooldownConfig.type !== undefined && normalized.cooldownConfig.cooldownType === undefined) {
+    normalized.cooldownConfig.cooldownType = normalized.cooldownConfig.type;
+    delete normalized.cooldownConfig.type;
+  }
+  if (normalized.cooldownConfig.value !== undefined && normalized.cooldownConfig.cooldownValue === undefined) {
+    normalized.cooldownConfig.cooldownValue = normalized.cooldownConfig.value;
+    delete normalized.cooldownConfig.value;
+  }
   normalized.durationConfig = normalized.durationConfig || { durationType: 'instant', durationValue: 0 };
+  if (normalized.durationConfig.durationType && !normalized.durationConfig.durationUnit) {
+    normalized.durationConfig.durationUnit = normalized.durationConfig.durationType;
+  }
+  if (normalized.durationConfig.durationUnit && !normalized.durationConfig.durationType) {
+    normalized.durationConfig.durationType = normalized.durationConfig.durationUnit;
+  }
+  if (normalized.durationConfig.durationType === 'instant') {
+    normalized.durationConfig.durationValue = 0;
+  }
 
   // 9. Normalize tags
   normalized.tags = Array.isArray(normalized.tags) ? normalized.tags : [];
@@ -300,13 +346,13 @@ function normalizeDamageConfig(spell) {
   // Extract from legacy effects format
   if (spell.effects?.damage) {
     const legacy = spell.effects.damage;
-    return {
+    const legacyConfig = {
       formula: legacy.formula || legacy.dice || '1d6',
       elementType: legacy.damageType || legacy.elementType || spell.damageTypes?.[0] || 'force',
       damageType: legacy.damageType === 'dot' ? 'dot' : 'direct',
       canCrit: legacy.canCrit !== false,
-      ...spell.damageConfig // Merge any existing config
     };
+    return spell.damageConfig ? { ...legacyConfig, ...spell.damageConfig } : legacyConfig;
   }
 
   // Return existing or null
@@ -503,6 +549,14 @@ function normalizeBuffConfig(spell) {
       spell.buffConfig.effects = spell.buffConfig.effects ? [spell.buffConfig.effects] : [];
     }
     
+    // Convert string elements to objects
+    spell.buffConfig.effects = spell.buffConfig.effects.map(e => {
+      if (typeof e === 'string') {
+        return { id: e.toLowerCase().replace(/\s+/g, '_'), name: e, description: '' };
+      }
+      return e;
+    });
+    
     // Ensure statusEffects array exists if it doesn't
     if (!Array.isArray(spell.buffConfig.statusEffects)) {
       spell.buffConfig.statusEffects = spell.buffConfig.statusEffects ? [spell.buffConfig.statusEffects] : [];
@@ -548,6 +602,13 @@ function normalizeDebuffConfig(spell) {
     if (!Array.isArray(spell.debuffConfig.effects)) {
       spell.debuffConfig.effects = spell.debuffConfig.effects ? [spell.debuffConfig.effects] : [];
     }
+    // Convert string elements to objects
+    spell.debuffConfig.effects = spell.debuffConfig.effects.map(e => {
+      if (typeof e === 'string') {
+        return { id: e.toLowerCase().replace(/\s+/g, '_'), name: e, description: '' };
+      }
+      return e;
+    });
     return spell.debuffConfig;
   }
 
@@ -718,10 +779,12 @@ function createEmptySpell() {
       maxTargets: 1
     },
     resourceCost: {
+      actionPoints: 1,
       components: []
     },
-    cooldownConfig: { cooldown: 0, charges: 1 },
-    durationConfig: { durationType: 'instant', durationValue: 0 },
+    cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+    durationConfig: { durationType: 'instant', durationValue: 0, durationUnit: 'instant' },
+    resolution: 'DICE',
     tags: []
   };
 }

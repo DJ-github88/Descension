@@ -786,8 +786,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'necrotic',
-        scalingType: 'none'
+        damageTypes: ['necrotic'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -863,8 +864,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '1d8',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -940,8 +942,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '6d8',
-        damageType: 'necrotic',
-        scalingType: 'none'
+        damageTypes: ['necrotic'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1288,28 +1291,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d8',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
-
-      targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'dash',
-        rangeDistance: 40
-      },
-
-      durationConfig: {
-        durationType: 'instant'
-      },
-
-      resourceCost: {
-        actionPoints: 1,
-        vengeancePoints: 2,
-        components: ['somatic'],
-        somaticText: 'Dash and strike rapidly'
-      },
-
-      resolution: 'DICE',
 
       effects: {
         utility: {
@@ -1389,8 +1374,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '4d6',
-        damageType: 'bludgeoning',
-        scalingType: 'marked_target'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'marked_target',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1478,10 +1464,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         ]
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       tags: ['transformation', 'ultimate', 'vengeance seeker']
     },
@@ -1588,8 +1572,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d6',
-        damageType: 'bludgeoning',
-        scalingType: 'none'
+        damageTypes: ['bludgeoning'],
+        scalingType: 'none',
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1943,7 +1928,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '3d8',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1955,10 +1941,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'shadow', 'armor penetration', 'universal']
@@ -2023,10 +2007,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
       tags: ['control', 'trap', 'cage', 'jailer']
@@ -2060,7 +2042,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '5d6',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       utilityConfig: {
@@ -2086,10 +2069,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'mobility', 'marked synergy', 'vengeance seeker']
@@ -2124,7 +2105,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '8d6',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2136,10 +2118,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'aoe', 'glaive', 'universal']
@@ -2172,7 +2152,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '6d10',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2184,10 +2165,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'cage synergy', 'shadow', 'jailer']
@@ -2222,7 +2201,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '8d10',
         elementType: 'physical',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -2235,7 +2214,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
             instantKill: false,
             extraDamage: '2d10'
           }
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2247,10 +2227,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'execute', 'marked synergy', 'vengeance seeker']
@@ -2314,10 +2292,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       resolution: 'DICE',
       tags: ['control', 'cage', 'anti teleport', 'jailer']
@@ -2350,7 +2326,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '10d6',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2362,10 +2339,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'multi strike', 'vengeance', 'universal']
@@ -2421,10 +2396,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'transformation', 'enhancement', 'vengeance seeker']
@@ -2487,10 +2460,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['control', 'cage', 'ultimate', 'jailer']
@@ -2523,7 +2494,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '12d6',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2535,10 +2507,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'multi strike', 'vp generation', 'universal']
@@ -2572,7 +2542,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '15d6',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2584,10 +2555,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'marked synergy', 'execute', 'vengeance seeker']
@@ -2651,10 +2620,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['control', 'cage', 'mass', 'aoe', 'jailer']
@@ -2688,7 +2655,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '16d6',
         elementType: 'necrotic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       utilityConfig: {
@@ -2714,10 +2682,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'teleport', 'stealth', 'shadowblade']
@@ -2751,7 +2717,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       damageConfig: {
         formula: '15d10',
         elementType: 'physical',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2763,10 +2730,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 15
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 15
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'ultimate', 'finisher', 'universal']
@@ -2830,10 +2795,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 20
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 20
+       },
 
       resolution: 'DICE',
       tags: ['control', 'cage', 'ultimate', 'mass', 'jailer']
@@ -2888,10 +2851,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 20
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 20
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'ultimate', 'avatar', 'transformation', 'vengeance seeker']

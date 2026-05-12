@@ -585,8 +585,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         damageConfig: {
           formula: '2d6 + 2',
           damageTypes: ['force'],
-          damageType: 'direct',
-          scalingType: 'multiplier'
+          damageTypes: ['direct'],
+          scalingType: 'multiplier',
+            resolution: 'DICE',
         },
 
         specialMechanics: {
@@ -987,14 +988,15 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         damageConfig: {
           formula: '1d10 to 10d10',
           damageTypes: ['psychic'],
-          damageType: 'direct',
+          damageTypes: ['direct'],
           description: 'Winner chooses how many d10s (1-10) the loser takes as psychic damage',
           savingThrowConfig: {
             enabled: true,
             savingThrowType: 'spirit',
             difficultyClass: 15,
             saveOutcome: 'negates'
-          }
+          },
+            resolution: 'DICE',
         },
 
         controlConfig: {
@@ -1083,8 +1085,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
         damageConfig: {
           formula: 'weapon_or_spell',
-          damageType: 'variable',
-          scalingType: 'critical_on_hit'
+          damageTypes: ['variable'],
+          scalingType: 'critical_on_hit',
+            resolution: 'DICE',
         },
 
 
@@ -1153,8 +1156,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         damageConfig: {
           formula: '4d6',
           damageTypes: ['force'],
-          damageType: 'direct',
-          scalingType: 'accuracy_based'
+          damageTypes: ['direct'],
+          scalingType: 'accuracy_based',
+            resolution: 'DICE',
         },
 
 
@@ -1439,7 +1443,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: '1d10 + charisma',
         damageTypes: ['force'],
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -1511,10 +1516,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationUnit: 'uses'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['buff', 'luck', 'level 1', 'gambler']
     },
@@ -1554,7 +1557,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: '1d8',
         damageTypes: ['force'],
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       tags: ['damage', 'ranged', 'level 1', 'gambler']
@@ -1607,10 +1611,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'damage', 'level 5', 'gambler']
     },
@@ -1663,10 +1665,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         trigger: 'on_attack_hit'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'coin flip', 'high risk', 'level 5', 'gambler']
     },
@@ -1714,10 +1714,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'reroll', 'level 5', 'gambler']
     },
@@ -1790,10 +1788,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['debuff', 'buff', 'luck', 'level 6', 'gambler']
     },
@@ -1844,10 +1840,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           ]
         },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'healing', 'control', 'variable', 'rollable table', 'level 6', 'gambler']
     },
@@ -1896,10 +1890,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'immunity', 'mental', 'level 6', 'gambler']
     },
@@ -1943,7 +1935,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         damageConfig: {
           formula: '18d6 + charisma',
         damageTypes: ['force'],
-        damageType: 'direct'
+        damageTypes: ['direct'],
+            resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1955,10 +1948,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'high risk', 'high reward', 'level 9', 'gambler']
     },
@@ -2001,13 +1992,14 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         damageConfig: {
           formula: '16d6 + charisma',
         damageTypes: ['force'],
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 19,
           saveOutcome: 'halves'
-        }
+        },
+            resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2020,10 +2012,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'aoe', 'high reward', 'level 9', 'gambler']
     },
@@ -2069,10 +2059,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['utility', 'coin flip', 'high risk', 'level 9', 'gambler']
     },
@@ -2107,11 +2095,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: '12d6',
         damageTypes: ['force'],
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['all_or_nothing_stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2132,10 +2121,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 8
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8
+       },
 
       resolution: 'COIN_FLIP',
       tags: ['damage', 'aoe', 'coin flip', 'ultimate', 'universal']
@@ -2169,12 +2156,13 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: '14d6',
         damageTypes: ['force'],
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           critType: 'dice',
           critMultiplier: 2,
           critDiceOnly: false
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2191,10 +2179,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'guaranteed', 'fortune point spending', 'universal']
@@ -2229,11 +2215,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: '20d6',
         damageTypes: ['force'],
-        damageType: 'area',
+        damageTypes: ['area'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['divine_judgment', 'fortune_mercy']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2256,10 +2243,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       resolution: 'COIN_FLIP',
       tags: ['damage', 'coin flip', 'ultimate', 'jackpot', 'universal']

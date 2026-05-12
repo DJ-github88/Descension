@@ -764,12 +764,13 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '3d8',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         secondaryDamage: {
           formula: '1d8',
           elementType: 'radiant',
           condition: 'If the damage roll total is even, deal additional radiant damage'
-        }
+        },
+          resolution: 'DICE',
       },
 
       duration: {
@@ -850,7 +851,8 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '2d6',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       tags: ['debuff', 'frightened', 'harbinger', 'omen', 'concentration']
@@ -971,7 +973,8 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '5d8',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -1157,12 +1160,13 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '6d8',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         secondaryDamage: {
           formula: '3d8',
           elementType: 'radiant',
           condition: 'Against undead or fiends'
-        }
+        },
+          resolution: 'DICE',
       },
 
       tags: ['damage', 'area', 'universal', 'omen', 'storm']
@@ -1301,7 +1305,8 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '8d8',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       duration: {
@@ -1312,10 +1317,8 @@ The class creates a unique rhythm where you're constantly generating resources f
 
       resolution: 'DICE',
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'psychic', 'radiant', 'universal', 'omen']
     },
@@ -1534,7 +1537,8 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '8d10',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       duration: {
@@ -1552,10 +1556,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         onFail: 'Full damage and -3 to all rolls for 3 rounds'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'debuff', 'harbinger', 'area', 'omen']
     },
@@ -1605,10 +1607,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'Enemies cannot enter the sanctuary zone (repelled by divine force)'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'terrain', 'hierophant', 'area', 'omen', 'concentration']
     },
@@ -1658,10 +1658,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'If you make the result even, gain +2 Benediction. If odd, gain +2 Malediction.'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['reaction', 'fate', 'universal', 'omen']
     },
@@ -1730,10 +1728,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         saveOutcome: 'partial'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['debuff', 'death', 'harbinger', 'omen', 'concentration', 'severe']
     },
@@ -1782,10 +1778,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'Undead and fiends within the zone take 4d8 radiant damage each turn'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'terrain', 'hierophant', 'area', 'omen', 'concentration', 'healing']
     },
@@ -1834,10 +1828,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'Additionally, all d20 rolls for the next round generate double resources for you'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['fate', 'reroll', 'universal', 'omen', 'powerful']
     },
@@ -1877,7 +1869,8 @@ The class creates a unique rhythm where you're constantly generating resources f
       damageConfig: {
         formula: '12d10',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       duration: {
@@ -1895,10 +1888,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         onFail: 'Full damage and Stunned for 2 rounds (CON DC 18 negates)'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'harbinger', 'area', 'omen', 'stun', 'powerful']
     },
@@ -1947,10 +1938,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'The zone radiates divine light—undead and fiends take 6d8 radiant damage per turn and have disadvantage on all rolls'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'hierophant', 'area', 'omen', 'healing', 'powerful']
     },
@@ -2001,10 +1990,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'Allies in range gain +2 to all rolls. Enemies suffer -2 to all rolls.'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['ultimate', 'fate', 'universal', 'omen', 'powerful', 'transformation']
     },
@@ -2053,10 +2040,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'You radiate an aura of ill omen. Enemies that start their turn within 30ft take 3d8 psychic damage.'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['ultimate', 'harbinger', 'omen', 'debuff', 'aura', 'powerful']
     },
@@ -2105,10 +2090,8 @@ The class creates a unique rhythm where you're constantly generating resources f
         secondary: 'The entire zone is sacred ground. Undead and fiends take 4d8 radiant damage per turn and cannot enter.'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['ultimate', 'hierophant', 'omen', 'buff', 'aura', 'healing', 'powerful']
     }

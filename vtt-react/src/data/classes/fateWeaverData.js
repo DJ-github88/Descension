@@ -877,7 +877,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
       damageConfig: {
         formula: '1d8 or 2d8',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       buffConfig: {
@@ -919,10 +920,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['cards', 'damage', 'buff', 'fate weaver', 'thread generation']
     },
@@ -992,10 +991,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['cards', 'debuff', 'reroll', 'fate weaver', 'thread generation']
     },
@@ -1135,10 +1132,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['cards', 'buff', 'fortune', 'advantage', 'fate weaver', 'thread generation']
     },
@@ -1554,10 +1549,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['cards', 'buff', 'deck manipulation', 'level 5', 'fate weaver']
     },
@@ -1611,10 +1604,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['cards', 'control', 'reroll', 'level 5', 'fate weaver']
     },
@@ -1697,10 +1688,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['cards', 'buff', 'debuff', 'aoe', 'control', 'level 6', 'fate weaver']
     },
@@ -1741,7 +1730,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
       damageConfig: {
         formula: 'blackjack_total * 1d6',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1756,10 +1746,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['cards', 'blackjack', 'damage', 'risk reward', 'level 6', 'fate weaver']
     },
@@ -1827,10 +1815,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['cards', 'utility', 'teleport', 'party', 'level 6', 'fate weaver']
     },
@@ -1887,10 +1873,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['cards', 'buff', 'debuff', 'aoe', 'level 7', 'fate weaver']
     },
@@ -1931,7 +1915,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
       damageConfig: {
         formula: 'matches * 3d6',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1950,10 +1935,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['cards', 'damage', 'high risk', 'betting', 'level 7', 'fate weaver']
     },
@@ -2005,10 +1988,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'utility', 'time', 'undo', 'level 7', 'fate weaver']
     },
@@ -2075,10 +2056,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'variable', 'powerful', 'level 8', 'fate weaver', 'rollable table']
     },
@@ -2146,10 +2125,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['cards', 'debuff', 'guaranteed hit', 'level 8', 'fate weaver']
     },
@@ -2212,10 +2189,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['cards', 'buff', 'amplify', 'risk reward', 'level 8', 'fate weaver']
     },
@@ -2272,10 +2247,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'damage', 'high risk', 'war', 'ultimate', 'level 9', 'fate weaver']
     },
@@ -2336,10 +2309,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'buff', 'dice control', 'ultimate', 'level 9', 'fate weaver']
     },
@@ -2383,13 +2354,14 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
       damageConfig: {
         formula: '10d10 * multiplier',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 20,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2410,10 +2382,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'damage', 'aoe', 'jackpot', 'ultimate', 'level 9', 'fate weaver']
     },
@@ -2474,10 +2444,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'utility', 'ultimate', 'fate control', 'level 10', 'fate weaver']
     },
@@ -2552,10 +2520,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'variable', 'random', 'legendary', 'ultimate', 'level 10', 'fate weaver', 'rollable table']
     },
@@ -2616,10 +2582,8 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['cards', 'zone', 'control', 'gambling', 'ultimate', 'level 10', 'fate weaver']
     }

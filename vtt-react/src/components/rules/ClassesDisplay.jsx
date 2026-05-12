@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faSkull, faCrosshairs, faMagic, faAtom, faClock, faDice, faShield,
@@ -136,6 +136,40 @@ const ClassesDisplay = ({ onSelectClass }) => {
         setTooltipData(null);
     }, []);
 
+    const handleCardTouch = useCallback((cls, e) => {
+        e.preventDefault();
+        if (tooltipData?.name === cls.name) {
+            setTooltipData(null);
+        } else {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const tooltipWidth = 320;
+            const tooltipHeight = 260;
+            let top = rect.bottom + 8;
+            let left = rect.left;
+
+            if (top + tooltipHeight > window.innerHeight - 16) {
+                top = Math.max(10, rect.top - tooltipHeight - 8);
+            }
+            if (left + tooltipWidth > window.innerWidth - 16) {
+                left = Math.max(10, window.innerWidth - tooltipWidth - 16);
+            }
+
+            setTooltipPos({ top, left });
+            setTooltipData(cls);
+        }
+    }, [tooltipData]);
+
+    useEffect(() => {
+        if (!tooltipData) return;
+        const handleTouchOutside = (e) => {
+            if (!e.target.closest('.class-card') && !e.target.closest('.class-tooltip')) {
+                setTooltipData(null);
+            }
+        };
+        document.addEventListener('touchstart', handleTouchOutside);
+        return () => document.removeEventListener('touchstart', handleTouchOutside);
+    }, [tooltipData]);
+
     return (
         <div className="classes-display">
             <div className="classes-intro">
@@ -219,6 +253,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                         onClick={() => onSelectClass(cls.name)}
                         onMouseEnter={(e) => handleMouseEnter(cls, e)}
                         onMouseLeave={handleMouseLeave}
+                        onTouchEnd={(e) => handleCardTouch(cls, e)}
                     >
                         <div className="class-card-icon">
                             {cls.imageIcon ? (
@@ -258,6 +293,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     style={{ top: tooltipPos.top, left: tooltipPos.left }}
                     onMouseEnter={handleTooltipEnter}
                     onMouseLeave={handleTooltipLeave}
+                    onTouchEnd={(e) => e.stopPropagation()}
                 >
                     <div className="class-tooltip-header" style={{ borderColor: tooltipData.roleColor }}>
                         <div className="class-tooltip-icon" style={{ color: tooltipData.roleColor }}>

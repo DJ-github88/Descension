@@ -240,7 +240,12 @@ const Step10Review = ({
       trapConfig: spellState.trapConfig || null,
 
       // Trigger configuration
-      triggerConfig: hasActualTriggers ? spellState.triggerConfig : null,
+      triggerConfig: (hasActualTriggers ||
+        Object.keys(spellState.triggerConfig?.conditionalEffects || {}).length > 0 ||
+        Object.keys(spellState.triggerConfig?.buffDebuffTriggers || {}).length > 0 ||
+        spellState.triggerConfig?.requiredConditions?.enabled ||
+        spellState.triggerConfig?.triggerRole?.mode
+      ) ? spellState.triggerConfig : null,
 
       // Damage/Healing information
       primaryDamage: spellState.damageConfig && (
@@ -1202,6 +1207,22 @@ const Step10Review = ({
 
       // Include rollable table data
       rollableTable: spellState.rollableTable || null,
+
+      // Per-effect resolution overrides
+      effectResolutions: spellState.effectResolutions || {},
+
+      // Combined multi-effect combos
+      combinedEffects: spellState.combinedEffects || [],
+
+      // Persistent effect configuration
+      persistentConfig: spellState.persistentConfig || {},
+
+      // Duration config (may already be partially mapped, but ensure full object passes)
+      durationConfig: spellState.durationConfig || {},
+
+      // Purification and restoration raw configs
+      purificationConfig: spellState.purificationConfig || null,
+      restorationConfig: spellState.restorationConfig || null,
 
       // Format mechanics data for display
       mechanicsData: formatMechanicsData(spellState)
@@ -2616,8 +2637,12 @@ const Step10Review = ({
         
         // Ensure trap and trigger configurations are included
         trapConfig: spellState.trapConfig,
-        // Only include triggerConfig if it has actual triggers
-        triggerConfig: hasTriggers(spellState.triggerConfig) ? spellState.triggerConfig : null,
+        triggerConfig: (hasTriggers(spellState.triggerConfig) ||
+          Object.keys(spellState.triggerConfig?.conditionalEffects || {}).length > 0 ||
+          Object.keys(spellState.triggerConfig?.buffDebuffTriggers || {}).length > 0 ||
+          spellState.triggerConfig?.requiredConditions?.enabled ||
+          spellState.triggerConfig?.triggerRole?.mode
+        ) ? spellState.triggerConfig : null,
         
         // Ensure we have all the necessary properties for the spell card
         effectType: spellState.effectTypes && spellState.effectTypes.length > 0 ? spellState.effectTypes[0] : 'utility',
@@ -2662,7 +2687,21 @@ const Step10Review = ({
         summoningConfig: spellState.summoningConfig || null,
         transformationConfig: spellState.transformationConfig || null,
         purificationConfig: spellState.purificationConfig || null,
-        restorationConfig: spellState.restorationConfig || null
+        restorationConfig: spellState.restorationConfig || null,
+
+        effectResolutions: spellState.effectResolutions || {},
+        combinedEffects: spellState.combinedEffects || [],
+        persistentConfig: spellState.persistentConfig || {},
+        durationConfig: spellState.durationConfig || {},
+        targetingMode: spellState.targetingMode || 'unified',
+        effectTargeting: spellState.effectTargeting || {},
+        targetingTags: spellState.targetingTags || {},
+        effectMechanicsConfigs: spellState.effectMechanicsConfigs || {},
+        mechanicsConfig: spellState.mechanicsConfig || {},
+        channelingConfig: spellState.channelingConfig || {},
+        rollableTable: spellState.rollableTable || null,
+        propagation: spellState.propagation || null,
+        statusEffectsConfig: spellState.statusEffectsConfig || []
       };
 
       // Transform Devotion Level resources to specialMechanics

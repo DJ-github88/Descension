@@ -791,10 +791,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         saveOutcome: 'negates'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['seer', 'divination', 'curse', 'prediction', 'psychic']
     },
@@ -1156,10 +1154,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         saveOutcome: 'partial'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['truthseeker', 'debuff', 'strip', 'level 2']
     },
@@ -1203,20 +1199,19 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '2d6 per debuff affecting the target (max 8d6)',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         specialRules: 'Counts all debuffs, exposed weaknesses, and stripped buffs on the target. Minimum 2d6 even with no debuffs.',
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 16,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['truthseeker', 'damage', 'psychic', 'scaling', 'level 5']
     },
@@ -1355,14 +1350,13 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '6d8 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
-        specialRules: 'Cannot be dodged, blocked, or reduced by armor'
+        damageTypes: ['direct'],
+        specialRules: 'Cannot be dodged, blocked, or reduced by armor',
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['seer', 'damage', 'psychic', 'guaranteed hit', 'level 6']
     },
@@ -1418,10 +1412,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         saveOutcome: 'halves_duration'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['truthseeker', 'debuff', 'vulnerability', 'level 3']
     },
@@ -1467,10 +1459,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['fateseer', 'utility', 'reroll', 'level 6', 'prediction-conditional']
     },
@@ -1525,10 +1515,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         canBeDispelled: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['seer', 'buff', 'evasion', 'level 7']
     },
@@ -1588,7 +1576,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '12d6 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1609,13 +1597,12 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['truthseeker', 'debuff', 'damage', 'level 7']
     },
@@ -1662,10 +1649,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['fateseer', 'utility', 'link', 'level 7', 'prediction-conditional']
     },
@@ -1718,10 +1703,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['seer', 'buff', 'foresight', 'level 8']
     },
@@ -1763,13 +1746,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '10d8 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 18,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1782,10 +1766,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         savingThrow: true
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['truthseeker', 'damage', 'control', 'psychic', 'level 8']
     },
@@ -1831,10 +1813,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['fateseer', 'utility', 'fate control', 'level 8', 'prediction-conditional']
     },
@@ -1899,10 +1879,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['seer', 'summoning', 'duplicate', 'level 9']
     },
@@ -1948,10 +1926,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['truthseeker', 'utility', 'knowledge', 'ritual', 'level 9']
     },
@@ -1998,10 +1974,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['fateseer', 'control', 'fate', 'ultimate', 'level 9', 'prediction-conditional']
     },
@@ -2069,10 +2043,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         durationUnit: 'rounds'
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['seer', 'summoning', 'ultimate', 'level 10']
     },
@@ -2115,13 +2087,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '15d10 + intelligence * 2',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
           difficultyClass: 21,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -2143,10 +2116,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         }]
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['truthseeker', 'damage', 'control', 'ultimate', 'level 10']
     },
@@ -2202,10 +2173,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         canBeDispelled: false
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['fateseer', 'transformation', 'ultimate', 'level 10', 'prediction-conditional']
     },
@@ -2250,8 +2219,9 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '1d4 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
-        specialRules: 'Grants +1 Prophetic Vision on hit. Always available — no cooldown.'
+        damageTypes: ['direct'],
+        specialRules: 'Grants +1 Prophetic Vision on hit. Always available — no cooldown.',
+          resolution: 'DICE',
       },
 
       tags: ['universal', 'damage', 'psychic', 'fallback', 'cantrip']
@@ -2311,10 +2281,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'insight', 'universal']
@@ -2371,10 +2339,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'defense', 'prophecy', 'universal']
@@ -2409,7 +2375,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       damageConfig: {
         formula: '5d8',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2421,10 +2388,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'force', 'guaranteed', 'universal']
@@ -2484,10 +2449,8 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       resolution: 'DICE',
       tags: ['buff', 'destiny', 'advantage', 'universal']

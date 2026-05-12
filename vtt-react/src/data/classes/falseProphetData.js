@@ -499,10 +499,11 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '1d8 + intelligence',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         canCrit: true,
         critMultiplier: 2,
-        critDiceOnly: false
+        critDiceOnly: false,
+          resolution: 'DICE',
       },
 
       effectTypes: ['damage'],
@@ -579,10 +580,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['control', 'confusion', 'psychic', 'universal']
@@ -614,14 +613,15 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '2d6',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '2d6',
           duration: 4,
           tickFrequency: 'turn',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -633,10 +633,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'dot', 'universal']
@@ -973,9 +971,10 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '4d8',
         modifier: 'INTELLIGENCE',
-        damageType: 'necrotic',
+        damageTypes: ['necrotic'],
         attackType: 'spell_attack',
-        bonusDamage: '2 per Madness Point spent'
+        bonusDamage: '2 per Madness Point spent',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1282,7 +1281,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '12d6 + intelligence',
         elementType: 'psychic',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -1297,7 +1296,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           critMultiplier: 2.5,
           extraDice: '4d6',
           critEffects: ['psychic_shatter']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1424,8 +1424,9 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '4d6',
         modifier: 'INTELLIGENCE',
-        damageType: 'psychic',
-        attackType: 'spell_save'
+        damageTypes: ['psychic'],
+        attackType: 'spell_save',
+          resolution: 'DICE',
       },
 
       effects: {
@@ -1758,10 +1759,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['control', 'charm', 'deception', 'universal']
@@ -1821,10 +1820,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['debuff', 'lies', 'spirit reduction', 'universal']
@@ -1857,7 +1854,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '1d8',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1869,10 +1867,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'illusion', 'universal']
@@ -1906,14 +1902,15 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '1d4',
         elementType: 'psychic',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '1d4',
           duration: 3,
           tickFrequency: 'turn',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -1925,10 +1922,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'dot', 'deception', 'universal']
@@ -1961,7 +1956,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '2d6',
         elementType: 'psychic',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       controlConfig: {
@@ -1994,10 +1990,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'control', 'confusion', 'universal']
@@ -2059,10 +2053,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       resolution: 'DICE',
       tags: ['control', 'confusion', 'aoe', 'deception', 'universal']
@@ -2096,7 +2088,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '8d8 + intelligence',
         elementType: 'psychic',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2111,7 +2103,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           critMultiplier: 2.5,
           extraDice: '4d8',
           critEffects: ['disoriented']
-        }
+        },
+          resolution: 'DICE',
       },
 
       debuffConfig: {
@@ -2141,10 +2134,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'debuff', 'distortion', 'universal']
@@ -2206,10 +2197,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 10
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 10
+       },
 
       resolution: 'DICE',
       tags: ['control', 'manipulation', 'mind control', 'mass', 'universal']
@@ -2244,7 +2233,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       damageConfig: {
         formula: '12d10 + intelligence',
         elementType: 'psychic',
-        damageType: 'area',
+        damageTypes: ['area'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2259,7 +2248,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
           critMultiplier: 3.0,
           extraDice: '6d10',
           critEffects: ['psychic_shatter', 'stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
       resourceCost: {
@@ -2271,10 +2261,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 15
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 15
+       },
 
       resolution: 'DICE',
       tags: ['damage', 'psychic', 'ultimate', 'deception', 'universal']
@@ -2328,10 +2316,8 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         components: ['verbal', 'somatic']
       },
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       resolution: 'DICE',
       tags: ['transformation', 'ultimate', 'god form', 'universal']

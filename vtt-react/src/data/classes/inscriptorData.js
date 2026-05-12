@@ -656,10 +656,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['buff', 'support', 'inscription', 'inscriptor']
     },
@@ -681,7 +679,8 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '1d4',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       specialMechanics: {
         runicZone: {
@@ -717,10 +716,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['damage', 'rune', 'zone', 'force', 'inscriptor']
     },
@@ -791,10 +788,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'rune', 'zone', 'defensive', 'inscriptor']
     },
@@ -866,10 +861,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'rune', 'zone', 'mobility', 'inscriptor']
     },
@@ -924,10 +917,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'rune', 'zone', 'defensive', 'inscriptor']
     },
@@ -980,10 +971,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'inscription', 'weapon', 'fire', 'inscriptor']
     },
@@ -1042,10 +1031,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'SAVE',
       tags: ['control', 'rune', 'zone', 'slow', 'inscriptor']
     },
@@ -1068,14 +1055,15 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '1d6',
         elementType: 'fire',
-        damageType: 'dot',
+        damageTypes: ['dot'],
         hasDotEffect: true,
         dotConfig: {
           duration: 10,
           tickFrequency: 'round',
           dotFormula: '1d6',
           isProgressiveDot: false
-        }
+        },
+          resolution: 'DICE',
       },
       specialMechanics: {
         runicZone: {
@@ -1111,10 +1099,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['damage', 'rune', 'zone', 'fire', 'offensive', 'inscriptor']
     },
@@ -1175,10 +1161,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['healing', 'rune', 'zone', 'support', 'inscriptor']
     },
@@ -1227,10 +1211,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'inscription', 'armor', 'retaliation', 'inscriptor']
     },
@@ -1284,10 +1266,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A piece of stone or earth'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'AUTOMATIC',
       tags: ['utility', 'rune', 'zone', 'terrain', 'defensive', 'inscriptor']
     },
@@ -1332,7 +1312,8 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '3d6',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1352,10 +1333,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['control', 'damage', 'glyph', 'aoe', 'inscriptor']
     },
@@ -1399,10 +1378,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['protection', 'shield', 'rune', 'support', 'inscriptor']
     },
@@ -1458,10 +1435,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor']
     },
@@ -1487,7 +1462,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '6d8 + intelligence',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1495,7 +1470,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       trapConfig: {
         placementRadius: 5,
@@ -1529,10 +1505,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Arcane chalk worth 50 gold'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['damage', 'trap', 'rune', 'aoe', 'inscriptor']
     },
@@ -1577,10 +1551,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'enhancement', 'glyph', 'inscriptor']
     },
@@ -1633,10 +1605,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['buff', 'protection', 'inscription', 'support', 'inscriptor']
     },
@@ -1659,7 +1629,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '8d6 + intelligence',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'intelligence',
@@ -1667,7 +1637,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'restraint',
@@ -1709,10 +1680,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
       resolution: 'DICE',
       tags: ['damage', 'control', 'rune', 'aoe', 'inscriptor']
     },
@@ -1780,10 +1749,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
       resolution: 'DICE',
       tags: ['buff', 'zone', 'sigil', 'support', 'inscriptor']
     },
@@ -1827,10 +1794,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'utility', 'glyph', 'network', 'inscriptor']
     },
@@ -1853,7 +1818,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '12d6 + intelligence * 2',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1874,7 +1839,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -1895,10 +1861,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Ancient rune stone worth 500 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['damage', 'rune', 'ancient', 'aoe', 'inscriptor']
     },
@@ -1963,10 +1927,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'healing', 'zone', 'fortress', 'inscriptor']
     },
@@ -2011,10 +1973,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'enhancement', 'mastery', 'inscriptor']
     },
@@ -2037,7 +1997,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '8d8 + intelligence',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2045,7 +2005,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'incapacitation',
@@ -2088,10 +2049,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Primordial rune stone worth 500 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['damage', 'control', 'glyph', 'primordial', 'aoe', 'epic', 'inscriptor']
     },
@@ -2113,7 +2072,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '6d6',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         description: 'Deals 6d6 force damage PER RUNE detonated. Each rune detonates independently in its own radius.',
         savingThrowConfig: {
           enabled: true,
@@ -2122,7 +2081,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       specialMechanics: {
         runicDetonation: {
@@ -2147,10 +2107,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['damage', 'rune', 'aoe', 'detonation', 'epic', 'inscriptor']
     },
@@ -2196,10 +2154,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Diamond dust worth 2000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'utility', 'inscription', 'permanent', 'epic', 'inscriptor']
     },
@@ -2239,7 +2195,7 @@ RUNE LIMITS BY SPECIALIZATION:
       damageConfig: {
         formula: '5d10',
         elementType: 'force',
-        damageType: 'dot',
+        damageTypes: ['dot'],
         hasDotEffect: true,
         dotConfig: {
           duration: 6,
@@ -2254,7 +2210,8 @@ RUNE LIMITS BY SPECIALIZATION:
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2275,10 +2232,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Fragment of a runic obelisk worth 5,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'control', 'damage', 'zone', 'reality', 'legendary', 'inscriptor']
     },
@@ -2322,10 +2277,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'enhancement', 'mastery', 'legendary', 'inscriptor']
     },
@@ -2370,10 +2323,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A drop of your own blood mixed with arcane ink'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'defensive', 'inscription', 'legendary', 'inscriptor']
     },
@@ -2427,10 +2378,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The Omniscript Codex, artifact of ultimate power'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'control', 'damage', 'zone', 'legendary', 'inscriptor']
     },
@@ -2503,10 +2452,8 @@ RUNE LIMITS BY SPECIALIZATION:
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Ancient rune stone worth 10,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       tags: ['summoning', 'creation', 'legendary', 'inscriptor']
     },
@@ -2550,10 +2497,8 @@ RUNE LIMITS BY SPECIALIZATION:
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'AUTOMATIC',
       tags: ['buff', 'transformation', 'legendary', 'inscriptor']
     }

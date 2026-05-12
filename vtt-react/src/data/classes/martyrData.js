@@ -605,10 +605,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['healing', 'basic', 'devotion amplifiable', 'level 1']
     },
@@ -664,10 +662,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['protection', 'reaction', 'devotion amplifiable', 'level 1']
     },
@@ -718,10 +714,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 1,
       devotionGain: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['healing', 'sacrificial', 'devotion amplifiable', 'level 1']
     },
@@ -787,7 +781,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '1d6 + spirit/2',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -799,10 +794,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
 
       tags: ['damage', 'healing', 'radiant', 'devotion amplifiable', 'level 1']
     },
@@ -851,7 +844,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '1d8 + strength',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -863,10 +857,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['damage', 'melee', 'radiant', 'healing', 'devotion amplifiable', 'level 1']
     },
@@ -976,8 +968,9 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '2d6',
         elementType: 'radiant',
-        damageType: 'direct',
-        targetType: 'self'
+        damageTypes: ['direct'],
+        targetType: 'self',
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -1141,10 +1134,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
 
       tags: ['buff', 'saving throws', 'damage reduction', 'aoe', 'devotion amplifiable', 'level 2']
     },
@@ -1205,10 +1196,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'protection', 'sacrifice', 'level 3']
     },
@@ -1251,22 +1240,21 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '4d6 + spirit',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
           difficultyClass: 14,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       devotionRequired: 0,
       devotionGain: 3,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['damage', 'self damage', 'radiant', 'aoe', 'level 3']
     },
@@ -1315,10 +1303,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['purification', 'sacrifice', 'utility', 'level 3']
     },
@@ -1382,10 +1368,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 2,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['buff', 'shield', 'protection', 'level 4']
     },
@@ -1433,10 +1417,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 0,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
 
       tags: ['healing', 'sacrifice', 'self damage', 'level 4']
     },
@@ -1491,10 +1473,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 1,
       devotionGain: 1,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['debuff', 'utility', 'healing', 'mark', 'level 4']
     },
@@ -1563,10 +1543,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 3,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
 
       tags: ['buff', 'healing', 'immunity', 'aoe', 'level 5']
     },
@@ -1625,10 +1603,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 2,
       devotionGain: 3,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'protection', 'sacrifice', 'party', 'level 5']
     },
@@ -1671,13 +1647,14 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '6d8 + stored_damage',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
           difficultyClass: 15,
           saveOutcome: 'halves'
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1690,10 +1667,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 4,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'radiant', 'aoe', 'stored damage', 'level 5']
     },
@@ -1773,9 +1748,10 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '3d8',
         elementType: 'radiant',
-        damageType: 'persistent',
+        damageTypes: ['persistent'],
         targetRestrictions: ['undead', 'demon'],
-        description: 'Damages undead and demons in the zone each round'
+        description: 'Damages undead and demons in the zone each round',
+          resolution: 'DICE',
       },
 
       zoneConfig: {
@@ -1788,10 +1764,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 3,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['healing', 'damage', 'zone', 'aoe', 'level 6']
     },
@@ -1850,10 +1824,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 5,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['buff', 'protection', 'sacrifice', 'tank', 'level 6']
     },
@@ -1895,7 +1867,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '5d10 + spirit + missing_hp_percentage',
         elementType: 'radiant',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -1909,10 +1882,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 2,
       devotionGain: 2,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
 
       tags: ['damage', 'radiant', 'single target', 'level 6']
     },
@@ -1965,10 +1936,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 5,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['healing', 'resurrection', 'aoe', 'ultimate', 'level 7']
     },
@@ -2026,10 +1995,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 3,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['buff', 'protection', 'cheat death', 'level 7']
     },
@@ -2072,7 +2039,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '8d8 + devotion_spent * 2',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2087,7 +2054,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
           critMultiplier: 2.5,
           extraDice: '4d8',
           critEffects: ['radiant_burn']
-        }
+        },
+          resolution: 'DICE',
       },
 
       specialMechanics: {
@@ -2100,10 +2068,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 5,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['damage', 'radiant', 'aoe', 'devotion spend', 'level 7']
     },
@@ -2155,10 +2121,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 4,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 6
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
+       },
 
       tags: ['protection', 'reaction', 'negate', 'level 8']
     },
@@ -2217,10 +2181,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 3,
       devotionGain: 3,
 
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 5
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
+       },
 
       tags: ['debuff', 'damage', 'link', 'psychic', 'level 8']
     },
@@ -2282,10 +2244,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 6,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['transformation', 'buff', 'protection', 'ultimate', 'level 9']
     },
@@ -2346,7 +2306,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       damageConfig: {
         formula: '12d10 + spirit * 2',
         elementType: 'radiant',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'spirit',
@@ -2361,7 +2321,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
           critMultiplier: 3.0,
           extraDice: '6d10',
           critEffects: ['divine_judgment', 'stun']
-        }
+        },
+          resolution: 'DICE',
       },
 
       healingConfig: {
@@ -2373,10 +2334,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 6,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['damage', 'healing', 'aoe', 'ultimate', 'level 9']
     },
@@ -2435,10 +2394,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 6,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'protection', 'party', 'immortality', 'level 9']
     },
@@ -2516,10 +2473,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 6,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['resurrection', 'sacrifice', 'ultimate', 'level 10']
     },
@@ -2579,10 +2534,8 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       devotionRequired: 6,
       devotionGain: 0,
 
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
 
       tags: ['buff', 'protection', 'ultimate', 'party', 'level 10']
     }

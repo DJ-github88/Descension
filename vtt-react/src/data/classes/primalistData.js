@@ -1428,7 +1428,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '1d8 + spirit',
         elementType: 'bludgeoning',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'single',
@@ -1446,10 +1447,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'earth', 'primalist']
     },
@@ -1525,10 +1524,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['healing', 'totem', 'support', 'primalist']
     },
@@ -1581,10 +1578,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['buff', 'support', 'nature', 'primalist']
     },
@@ -1647,10 +1642,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['control', 'utility', 'air', 'primalist']
     },
@@ -1703,10 +1696,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'earth', 'primalist']
     },
@@ -1747,10 +1738,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['utility', 'detection', 'spirit', 'primalist']
     },
@@ -1773,8 +1762,9 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '1d6 + spirit/2',
         elementType: 'poison',
-        damageType: 'area',
-        description: 'Enemies within range take poison damage at the start of each turn'
+        damageTypes: ['area'],
+        description: 'Enemies within range take poison damage at the start of each turn',
+          resolution: 'DICE',
       },
       summonConfig: {
         creatures: [{
@@ -1824,10 +1814,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['damage', 'totem', 'poison', 'primalist']
     },
@@ -1883,10 +1871,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['control', 'root', 'nature', 'primalist']
     },
@@ -1939,10 +1925,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 2
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'spirit', 'primalist']
     },
@@ -1965,7 +1949,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '5d6 + spirit',
         elementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1973,7 +1957,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'knockdown',
@@ -2013,10 +1998,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 3
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist']
     },
@@ -2081,10 +2064,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['summoning', 'spirit', 'nature', 'primalist']
     },
@@ -2137,10 +2118,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['buff', 'damage', 'nature', 'primalist']
     },
@@ -2163,8 +2142,9 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '6d6 + spirit',
         elementType: 'piercing',
-        damageType: 'area',
-        description: 'Creatures that enter or start their turn in the thorns take damage'
+        damageTypes: ['area'],
+        description: 'Creatures that enter or start their turn in the thorns take damage',
+          resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2196,10 +2176,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['utility', 'damage', 'terrain', 'nature', 'primalist']
     },
@@ -2264,10 +2242,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'spirit', 'nature', 'primalist']
     },
@@ -2291,8 +2267,9 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         formula: '8d6 + spirit',
         elementType: 'fire',
         secondaryElementType: 'lightning',
-        damageType: 'area',
-        description: 'Totem deals damage to all enemies in range each round'
+        damageTypes: ['area'],
+        description: 'Totem deals damage to all enemies in range each round',
+          resolution: 'DICE',
       },
       summonConfig: {
         creatures: [{
@@ -2342,10 +2319,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 2,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 4
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
+       },
       resolution: 'DICE',
       tags: ['damage', 'totem', 'elemental', 'primalist']
     },
@@ -2392,10 +2367,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 1,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'short_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['buff', 'defense', 'earth', 'primalist']
     },
@@ -2419,7 +2392,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         formula: '10d6 + spirit * 2',
         elementType: 'fire',
         secondaryElementType: 'bludgeoning',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -2427,7 +2400,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -2448,10 +2422,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A fragment of a meteor'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'fire', 'primalist']
     },
@@ -2473,7 +2445,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '8d8 + spirit * 1.5',
         elementType: 'force',
-        damageType: 'direct'
+        damageTypes: ['direct'],
+          resolution: 'DICE',
       },
       buffConfig: {
         buffType: 'statEnhancement',
@@ -2511,10 +2484,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['damage', 'buff', 'totem', 'nature', 'primalist']
     },
@@ -2537,7 +2508,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '14d6 + spirit',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2545,7 +2516,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       utilityConfig: {
         utilityType: 'environment',
@@ -2578,10 +2550,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The heart of an ancient earth elemental'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist']
     },
@@ -2719,10 +2689,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist']
     },
@@ -2799,10 +2767,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         actionPoints: 3,
         components: ['verbal', 'somatic']
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist']
     },
@@ -2824,7 +2790,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '18d6 + spirit',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2832,7 +2798,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       controlConfig: {
         controlType: 'knockdown',
@@ -2874,10 +2841,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A shard of the primordial earth, worth 50,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist']
     },
@@ -2965,10 +2930,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'The essence of the World Tree'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist']
     },
@@ -3029,10 +2992,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['ritual'],
         materialComponents: 'The blessing of the primordial spirits, 100,000 gold worth of natural artifacts'
       },
-      cooldownConfig: {
-        type: 'turn_based',
-        value: 0
-      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
+       },
       resolution: 'DICE',
       tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable']
     },
@@ -3054,7 +3015,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       damageConfig: {
         formula: '22d6 + spirit',
         elementType: 'force',
-        damageType: 'direct',
+        damageTypes: ['direct'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -3062,7 +3023,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           saveOutcome: 'halves',
           partialEffect: true,
           partialEffectFormula: 'damage/2'
-        }
+        },
+          resolution: 'DICE',
       },
       targetingConfig: {
         targetingType: 'area',
@@ -3082,10 +3044,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'A tear of the earth mother, priceless'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist']
     },
@@ -3187,10 +3147,8 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         components: ['verbal', 'somatic', 'material'],
         materialComponents: 'Seeds from the World Tree, worth 80,000 gold'
       },
-      cooldownConfig: {
-        type: 'long_rest',
-        value: 1
-      },
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
+       },
       resolution: 'DICE',
       tags: ['summoning', 'nature', 'legendary', 'primalist']
     }
