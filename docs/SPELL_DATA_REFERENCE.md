@@ -549,6 +549,11 @@ Run this against EVERY spell. Fix any violation.
 - [ ] **`savingThrow.ability`** uses valid ability name (strength/agility/constitution/intelligence/spirit/charisma)
 - [ ] **`savingThrow.saveOutcome`** uses valid outcome (negates/half_damage/no_effect/damage_on_fail/reduced_duration)
 - [ ] **Trap spells** have `spellType: 'TRAP'` and `trapConfig` with required fields
+- [ ] **`typeConfig.school` matches actual damage types** — NOT `'force'` unless the spell actually deals force damage (normalizer stops at school, ignores damageConfig.damageTypes)
+- [ ] **Dual-damage-type spells have `typeConfig.secondaryElement`** — without it, the second type is invisible to the card
+- [ ] **No `formula: 'SPECIAL'`** — must be readable dice notation (e.g., `'2d8 × stacks'`)
+- [ ] **Prophecy DoT effects use `damagePerRound`** — ProphecySummary reads `prophesied.effect.damagePerRound`, NOT `dotFormula`
+- [ ] **Prophecy descriptions have exact numbers** — not vague text like "massive damage"
 
 ---
 

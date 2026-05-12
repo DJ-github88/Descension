@@ -444,21 +444,40 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Read the Signs',
       description: 'Observe the immediate omens around a target, learning their vulnerabilities.',
       spellType: 'ACTION',
-      icon: 'Utility/Watchful Eye',
-      school: 'divination',
       level: 1,
       specialization: 'universal',
       effectTypes: ['utility'],
-      typeConfig: { school: 'divination', castTime: '1 action', castTimeType: 'action' },
-      targetingConfig: { targetingType: 'single', rangeDistance: 60, targetRestrictions: ['any'] },
-      resourceCost: { actionPoints: 1, mana: 4 },
+      typeConfig: {
+        school: 'arcane',
+        icon: 'Utility/Watchful Eye',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['any'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 4 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ['verbal', 'somatic']
+      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'AUTOMATIC',
       utilityConfig: {
         utilityType: 'divination',
         utilitySubtype: 'identification',
-        effects: [
-          { id: 'vulnerability_read', name: 'Reveal Vulnerability', description: 'Learn one vulnerability, resistance, or immunity', mechanicsText: '' }
-        ]
+        selectedEffects: [
+          { id: 'vulnerability_read', name: 'Reveal Vulnerability', description: 'Learn one vulnerability, resistance, or immunity', mechanicsText: 'Learn one vulnerability, resistance, or immunity of the target' }
+        ],
+        power: 'minor'
       },
       tags: ['divination', 'information', 'universal', 'omen']
     },
@@ -467,23 +486,38 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Omen Shield',
       description: 'Intercept an incoming attack with a flash of omen energy.',
       spellType: 'REACTION',
-      icon: 'Radiant/Radiant Golden Shield',
-      school: 'radiant',
       level: 1,
       specialization: 'universal',
       effectTypes: ['buff'],
-      typeConfig: { school: 'radiant', castTime: '1 reaction', castTimeType: 'reaction' },
-      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['allies'] },
+      typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Golden Shield',
+        castTime: 0,
+        castTimeType: 'REACTION'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
         actionPoints: 0,
-        mana: 3,
+        components: ['verbal', 'somatic'],
         classResource: { type: 'benediction', cost: 1 }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'AUTOMATIC',
       buffConfig: {
         buffType: 'damageMitigation',
         effects: [
-          { id: 'omen_shield_mitigation', name: 'Omen Shield', description: 'Reduce damage by 1d8 + Spirit', mechanicsText: '' }
+          { id: 'omen_shield_mitigation', name: 'Omen Shield', description: 'Reduce damage by 1d8 + Spirit', mechanicsText: 'Reduce incoming damage by 1d8 + Spirit modifier' }
         ],
         durationType: 'instant'
       },
@@ -494,19 +528,34 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Minor Portent',
       description: 'Whisper a minor omen that clouds a target\'s judgment.',
       spellType: 'ACTION',
-      icon: 'Void/All Seeing Eye',
-      school: 'psychic',
       level: 1,
       specialization: 'harbinger',
       effectTypes: ['debuff'],
-      typeConfig: { school: 'psychic', castTime: '1 action', castTimeType: 'action' },
-      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['enemies'] },
+      typeConfig: {
+        school: 'psychic',
+        icon: 'Void/All Seeing Eye',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
         actionPoints: 1,
-        mana: 3,
+        components: ['verbal', 'somatic'],
         classResource: { type: 'malediction', cost: 2 }
       },
-      resolution: 'SAVING_THROW',
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      resolution: 'SAVE',
       savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'negates' },
       debuffConfig: {
         debuffType: 'statusEffect',
@@ -514,7 +563,7 @@ The class creates a unique rhythm where you're constantly generating resources f
           id: 'minor_portent_effect',
           name: 'Minor Portent',
           description: '-1 to attack rolls',
-          mechanicsText: ''
+          mechanicsText: '-1 to attack rolls for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
@@ -527,25 +576,42 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Sign of Clarity',
       description: 'Trace a radiant sigil that blesses an ally with clarity of purpose.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Beam',
-      school: 'radiant',
       level: 1,
       specialization: 'hierophant',
       effectTypes: ['buff'],
-      typeConfig: { school: 'radiant', castTime: '1 action', castTimeType: 'action' },
-      targetingConfig: { targetingType: 'single', rangeDistance: 30, targetRestrictions: ['allies'] },
+      typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Beam',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 3 },
+        useFormulas: {},
         actionPoints: 1,
-        mana: 3,
+        components: ['verbal', 'somatic'],
         classResource: { type: 'benediction', cost: 2 }
       },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       resolution: 'AUTOMATIC',
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [
-          { id: 'clarity_buff', name: 'Clarity', description: '+1 to next attack or check', mechanicsText: '' }
+          { id: 'clarity_buff', name: 'Clarity', description: '+1 to next attack or check', mechanicsText: '+1 to next attack roll or ability check' }
         ],
-        durationType: 'rounds', durationValue: 2, durationUnit: 'rounds'
+        durationType: 'rounds',
+        durationValue: 2,
+        durationUnit: 'rounds'
       },
       tags: ['buff', 'blessing', 'hierophant', 'omen']
     },
@@ -556,50 +622,36 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Portent of Weakness',
       description: 'Declare a portent of weakness over a target, sapping their strength and clouding their combat instincts.',
       spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Decay 1',
-      school: 'Enchantment',
       level: 2,
       specialization: 'harbinger',
-
+      effectTypes: ['debuff'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Necrotic/Necrotic Decay 1',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SINGLE',
-        range: 40,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 8 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 8,
-        malediction: 3,
         components: ['verbal', 'somatic'],
-        description: 'Spend 3 Malediction to declare weakness'
+        classResource: { type: 'malediction', cost: 3 }
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: true
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Target resists the portent',
-        onFail: 'Target has disadvantage on all attacks and -2 to Armor for duration'
-      },
-
-      effectTypes: ['debuff'],
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      duration: { durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'negates' },
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
@@ -607,14 +659,12 @@ The class creates a unique rhythm where you're constantly generating resources f
           name: 'Portent of Weakness',
           description: 'Weakened by ill portent — disadvantage on attacks, -2 Armor',
           statusType: 'cursed',
-          level: 'major'
+          mechanicsText: 'Disadvantage on all attacks and -2 to Armor for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        durationUnit: 'rounds'
       },
-
       tags: ['debuff', 'curse', 'harbinger', 'omen', 'concentration']
     },
 
@@ -623,46 +673,68 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Terrain of Ruin',
       description: 'Consecrate a zone with dark omen energy, causing the ground itself to reject your enemies.',
       spellType: 'ACTION',
-      icon: 'Nature/Thorny Entanglement',
-      school: 'Transmutation',
       level: 2,
       specialization: 'harbinger',
-
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Nature/Thorny Entanglement',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 40,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 20,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        areaConfig: { areaType: 'sphere', areaSize: 20, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 10,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 10 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 10,
-        malediction: 4,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 4 Malediction to curse terrain'
+        classResource: { type: 'malediction', cost: 4 }
       },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Enemies in zone take 1d6 psychic damage at start of each turn and have -10ft movement',
-        secondary: 'Enemies entering the zone must make a Spirit save or be frightened for 1 round'
+      damageConfig: {
+        formula: '1d6',
+        elementType: 'psychic',
+        damageTypes: ['psychic'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '1d6',
+          duration: 5,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
       },
-
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'terrain_of_ruin_slow',
+          name: 'Terrain of Ruin',
+          description: 'Movement reduced by 10ft in cursed zone',
+          movementPenalty: -10,
+          mechanicsText: '-10ft movement speed while in the zone'
+        }, {
+          id: 'terrain_of_ruin_fear',
+          name: 'Ruin Fear',
+          description: 'Enemies entering the zone must save or be frightened for 1 round',
+          statusType: 'frightened',
+          mechanicsText: 'Spirit save or frightened 1 round on entering'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
       tags: ['terrain', 'curse', 'harbinger', 'area', 'omen', 'concentration']
     },
 
@@ -671,43 +743,35 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Sign of Protection',
       description: 'Trace a protective sigil around an ally, using Benediction to shield them from harm.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Golden Shield',
-      school: 'Abjuration',
       level: 2,
       specialization: 'hierophant',
-
+      effectTypes: ['buff'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Golden Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: true
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 6 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 6,
-        benediction: 3,
         components: ['verbal', 'somatic'],
-        description: 'Spend 3 Benediction to grant protection'
+        classResource: { type: 'benediction', cost: 3 }
       },
-
-      duration: {
-        value: 4,
-        unit: 'rounds',
-        concentration: false
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 4, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: false },
       resolution: 'AUTOMATIC',
-
-      effectTypes: ['buff'],
-
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
@@ -718,14 +782,15 @@ The class creates a unique rhythm where you're constantly generating resources f
             stat: 'armor',
             magnitude: 3,
             magnitudeType: 'flat'
-          }
+          },
+          mechanicsText: '+3 Armor for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: false,
         canBeDispelled: true
       },
-
       tags: ['buff', 'blessing', 'hierophant', 'omen', 'protection']
     },
 
@@ -735,52 +800,44 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Omen Bolt',
       description: 'Channel raw omen energy into a bolt of psychic and radiant force that strikes a target.',
       spellType: 'ACTION',
-      icon: 'Psychic/Psionic Strike',
-      school: 'Evocation',
       level: 3,
       specialization: 'universal',
-
+      effectTypes: ['damage'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Psychic/Psionic Strike',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 15 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 15,
-        components: ['verbal', 'somatic'],
-        description: 'Channel omen energy into a damaging bolt'
+        components: ['verbal', 'somatic']
       },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      resolution: 'DICE',
       damageConfig: {
         formula: '3d8',
         elementType: 'psychic',
-        damageTypes: ['direct'],
+        damageTypes: ['psychic'],
         secondaryDamage: {
           formula: '1d8',
           elementType: 'radiant',
           condition: 'If the damage roll total is even, deal additional radiant damage'
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
-      resolution: 'DICE',
-
       tags: ['damage', 'psychic', 'radiant', 'universal', 'omen']
     },
 
@@ -789,50 +846,36 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Harbinger\'s Gaze',
       description: 'Fix your gaze upon a target, filling their mind with dark portents that sap their will to fight.',
       spellType: 'ACTION',
-      icon: 'Psychic/Hypnotic Eye',
-      school: 'Enchantment',
       level: 3,
       specialization: 'harbinger',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
-      },
-
-      resourceCost: {
-        actionPoints: 2,
-        mana: 14,
-        malediction: 5,
-        components: ['verbal', 'somatic'],
-        description: 'Spend 5 Malediction to overwhelm with dark portent'
-      },
-
-      duration: {
-        value: 4,
-        unit: 'rounds',
-        concentration: true
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Target is rattled but resists full effect',
-        onFail: 'Target is frightened and has -2 to all rolls for duration'
-      },
-
       effectTypes: ['debuff', 'damage'],
-
+      typeConfig: {
+        school: 'psychic',
+        icon: 'Psychic/Hypnotic Eye',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 14 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'malediction', cost: 5 }
+      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 4, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'partial' },
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
@@ -840,21 +883,18 @@ The class creates a unique rhythm where you're constantly generating resources f
           name: 'Harbinger\'s Gaze',
           description: 'Consumed by dark portent — frightened, -2 to all rolls',
           statusType: 'frightened',
-          level: 'major'
+          mechanicsText: 'Frightened and -2 to all rolls for 4 rounds'
         }],
         durationValue: 4,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'partial'
+        durationUnit: 'rounds'
       },
-
       damageConfig: {
         formula: '2d6',
         elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['psychic'],
+        resolution: 'DICE'
       },
-
       tags: ['debuff', 'frightened', 'harbinger', 'omen', 'concentration']
     },
 
@@ -863,43 +903,36 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Sacred Ground',
       description: 'Consecrate an area with pure omen energy, creating a zone of divine blessing.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Blessing 1',
-      school: 'Transmutation',
       level: 3,
       specialization: 'hierophant',
-
+      effectTypes: ['buff'],
       typeConfig: {
+        school: 'nature',
+        icon: 'Radiant/Radiant Blessing 1',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 30,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 15,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        areaConfig: { areaType: 'sphere', areaSize: 15, areaSizeUnit: 'ft' },
+        targetRestrictions: ['ally'],
+        maxTargets: 10,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 16 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 16,
-        benediction: 5,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 5 Benediction to consecrate terrain'
+        classResource: { type: 'benediction', cost: 5 }
       },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effectTypes: ['buff'],
-
       buffConfig: {
         buffType: 'zone',
         effects: [{
@@ -910,13 +943,14 @@ The class creates a unique rhythm where you're constantly generating resources f
             stat: 'all_saves',
             magnitude: 1,
             magnitudeType: 'flat'
-          }
+          },
+          mechanicsText: '+1 to all saves and 1d4 healing at start of turn while in zone'
         }],
         durationValue: 5,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: true
       },
-
       tags: ['terrain', 'buff', 'hierophant', 'area', 'omen', 'concentration', 'healing']
     },
 
@@ -926,57 +960,41 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Grand Malediction',
       description: 'Unleash a devastating malediction that overwhelms a target with accumulated ill omens.',
       spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Skull',
-      school: 'Necromancy',
       level: 4,
       specialization: 'harbinger',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 50,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
-      },
-
-      resourceCost: {
-        actionPoints: 2,
-        mana: 20,
-        malediction: 6,
-        components: ['verbal', 'somatic'],
-        description: 'Spend 6 Malediction to unleash grand malediction'
-      },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Half damage, not paralyzed',
-        onFail: 'Full damage and paralyzed for 1 round'
-      },
-
       effectTypes: ['damage', 'debuff'],
-
+      typeConfig: {
+        school: 'necrotic',
+        icon: 'Necrotic/Necrotic Skull',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'malediction', cost: 6 }
+      },
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'half_damage' },
       damageConfig: {
         formula: '5d8',
         elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['psychic'],
+        resolution: 'DICE'
       },
-
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
@@ -984,14 +1002,12 @@ The class creates a unique rhythm where you're constantly generating resources f
           name: 'Grand Malediction',
           description: 'Overwhelmed by ill omens — paralyzed for 1 round',
           statusType: 'paralyzed',
-          level: 'major'
+          mechanicsText: 'Paralyzed for 1 round on failed save'
         }],
         durationValue: 1,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'negates_debuff'
+        durationUnit: 'rounds'
       },
-
       tags: ['damage', 'psychic', 'harbinger', 'omen', 'paralyze']
     },
 
@@ -1000,47 +1016,63 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Balanced Sign',
       description: 'Channel both Benediction and Malediction into a single powerful effect that simultaneously blesses allies and curses enemies.',
       spellType: 'ACTION',
-      icon: 'Arcane/Magical Staff',
-      school: 'Transmutation',
       level: 4,
       specialization: 'auspex',
-
+      effectTypes: ['buff', 'debuff'],
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Magical Staff',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 40,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 20,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        areaConfig: { areaType: 'sphere', areaSize: 20, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 20,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 18 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 18,
-        benediction: 3,
-        malediction: 3,
         components: ['verbal', 'somatic'],
-        description: 'Spend 3 Benediction + 3 Malediction for balanced effect'
+        classResource: [{ type: 'benediction', cost: 3 }, { type: 'malediction', cost: 3 }]
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Allies in zone gain +2 to attack rolls. Enemies in zone suffer -2 to attack rolls.',
-        secondary: 'Harmonic Interpretation bonus: values become +3/-3 instead of +2/-2'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'balanced_sign_buff',
+          name: 'Balanced Sign (Ally)',
+          description: 'Allies in zone gain +2 to attack rolls',
+          statModifier: { stat: 'attack_rolls', magnitude: 2, magnitudeType: 'flat' },
+          mechanicsText: '+2 to attack rolls for allies in zone'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'balanced_sign_debuff',
+          name: 'Balanced Sign (Enemy)',
+          description: 'Enemies in zone suffer -2 to attack rolls',
+          mechanicsText: '-2 to attack rolls for enemies in zone'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
       tags: ['buff', 'debuff', 'auspex', 'area', 'omen', 'concentration']
     },
 
@@ -1049,60 +1081,51 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Hierophant\'s Ward',
       description: 'Create a powerful ward around all nearby allies, shielding them with concentrated Benediction energy.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Golden Shield',
-      school: 'Abjuration',
       level: 4,
       specialization: 'hierophant',
-
+      effectTypes: ['buff'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Golden Shield',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 20
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 20, areaSizeUnit: 'ft' },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 10,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 20,
-        benediction: 5,
         components: ['verbal', 'somatic'],
-        description: 'Spend 5 Benediction to ward all nearby allies'
+        classResource: { type: 'benediction', cost: 5 }
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: false
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      duration: { durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: false },
       resolution: 'AUTOMATIC',
-
-      effectTypes: ['buff'],
-
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'hierophants_ward',
           name: 'Hierophant\'s Ward',
           description: 'Warded by sacred omen — +2 Armor, advantage on saves against fear',
-          statModifier: {
-            stat: 'armor',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
+          statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' },
+          mechanicsText: '+2 Armor and advantage on saves against fear for 3 rounds'
         }],
         durationValue: 3,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: false,
         canBeDispelled: true
       },
-
       tags: ['buff', 'blessing', 'hierophant', 'area', 'omen', 'protection']
     },
 
@@ -1112,63 +1135,47 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Omen Storm',
       description: 'Unleash a storm of conflicting omens across the battlefield, dealing damage and creating chaos.',
       spellType: 'ACTION',
-      icon: 'Nature/Nature Wild 2',
-      school: 'Evocation',
       level: 5,
       specialization: 'universal',
-
+      effectTypes: ['damage'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Nature/Nature Wild 2',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 50,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 25,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        areaConfig: { areaType: 'sphere', areaSize: 25, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 15,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 25 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 25,
-        benediction: 3,
-        malediction: 3,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 3 Benediction + 3 Malediction to summon omen storm'
+        classResource: [{ type: 'benediction', cost: 3 }, { type: 'malediction', cost: 3 }]
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'AGILITY',
-        dc: 'SPELL_DC',
-        onSave: 'Half damage',
-        onFail: 'Full damage and rattled for 1 round'
-      },
-
-      effectTypes: ['damage'],
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'agility', difficultyClass: 'SPELL_DC', saveOutcome: 'half_damage' },
       damageConfig: {
         formula: '6d8',
         elementType: 'psychic',
-        damageTypes: ['direct'],
+        damageTypes: ['psychic'],
         secondaryDamage: {
           formula: '3d8',
           elementType: 'radiant',
           condition: 'Against undead or fiends'
         },
-          resolution: 'DICE',
+        resolution: 'DICE'
       },
-
       tags: ['damage', 'area', 'universal', 'omen', 'storm']
     },
 
@@ -1177,46 +1184,61 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Field of Misfortune',
       description: 'Create a wide zone of concentrated ill omen that saps the strength and will of all enemies within.',
       spellType: 'ACTION',
-      icon: 'Void/Black Hole',
-      school: 'Transmutation',
       level: 5,
       specialization: 'harbinger',
-
+      effectTypes: ['debuff', 'damage'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Void/Black Hole',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 50,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 30,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 50,
+        areaConfig: { areaType: 'sphere', areaSize: 30, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 20,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 24 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 24,
-        malediction: 8,
         components: ['verbal', 'somatic'],
-        description: 'Spend 8 Malediction to create field of misfortune'
+        classResource: { type: 'malediction', cost: 8 }
       },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Enemies in zone have -2 to all d20 rolls',
-        secondary: 'Enemies who start their turn in the zone take 2d6 psychic damage'
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'field_of_misfortune',
+          name: 'Field of Misfortune',
+          description: 'Enemies in zone have -2 to all d20 rolls',
+          mechanicsText: '-2 to all d20 rolls while in zone'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
-
+      damageConfig: {
+        formula: '2d6',
+        elementType: 'psychic',
+        damageTypes: ['psychic'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '2d6',
+          duration: 5,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
+      },
       tags: ['debuff', 'terrain', 'harbinger', 'area', 'omen', 'concentration']
     },
 
@@ -1225,46 +1247,55 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Hierophant\'s Domain',
       description: 'Transform a massive area into sacred ground, providing powerful blessings to all allies within.',
       spellType: 'ACTION',
-      icon: 'Radiant/Divine Halo',
-      school: 'Transmutation',
       level: 5,
       specialization: 'hierophant',
-
+      effectTypes: ['buff', 'healing'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Divine Halo',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 40,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 40,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        areaConfig: { areaType: 'sphere', areaSize: 40, areaSizeUnit: 'ft' },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 20,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 28,
-        benediction: 8,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 8 Benediction to create hierophant\'s domain'
+        classResource: { type: 'benediction', cost: 8 }
       },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Allies in zone: immunity to fear, advantage on all saves, +1d4 radiant healing at start of turn',
-        secondary: 'Cosmic Channel bonus: zone lasts 7 rounds and radius is 45ft instead of 40ft'
+      buffConfig: {
+        buffType: 'zone',
+        effects: [{
+          id: 'hierophants_domain',
+          name: 'Hierophant\'s Domain',
+          description: 'Immunity to fear, advantage on all saves, +1d4 radiant healing at start of turn',
+          mechanicsText: 'Immunity to fear, advantage on all saves, 1d4 radiant healing at start of turn'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
+      healingConfig: {
+        formula: '1d4',
+        healingType: 'zone',
+        resolution: 'DICE'
+      },
       tags: ['buff', 'terrain', 'hierophant', 'area', 'omen', 'concentration', 'healing']
     },
 
@@ -1274,52 +1305,40 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Omen Shatter',
       description: 'Shatter the omens surrounding a target, detonating them as a burst of pure psychic and radiant energy.',
       spellType: 'ACTION',
-      icon: 'Arcane/Swirling Vortex',
-      school: 'Evocation',
       level: 6,
       specialization: 'universal',
-
+      effectTypes: ['damage'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Arcane/Swirling Vortex',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SINGLE',
-        range: 60,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 30 },
+        useFormulas: {},
         actionPoints: 2,
-        mana: 30,
-        benediction: 4,
-        malediction: 4,
         components: ['verbal', 'somatic'],
-        description: 'Spend 4 Benediction + 4 Malediction to shatter omens'
+        classResource: [{ type: 'benediction', cost: 4 }, { type: 'malediction', cost: 4 }]
       },
-
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      resolution: 'DICE',
       damageConfig: {
         formula: '8d8',
         elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['psychic', 'radiant'],
+        resolution: 'DICE'
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
-      resolution: 'DICE',
-
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-
       tags: ['damage', 'psychic', 'radiant', 'universal', 'omen']
     },
 
@@ -1328,50 +1347,36 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Curse of the Unlucky',
       description: 'Place a devastating curse that turns all fortune against a target, making even their successes sour.',
       spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Decay 1',
-      school: 'Enchantment',
       level: 6,
       specialization: 'harbinger',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 40,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
-      },
-
-      resourceCost: {
-        actionPoints: 2,
-        mana: 28,
-        malediction: 10,
-        components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 10 Malediction to curse with misfortune'
-      },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Curse is resisted',
-        onFail: 'Target is cursed—all d20 rolls that are odd count as natural 1s for critical failure purposes'
-      },
-
       effectTypes: ['debuff'],
-
+      typeConfig: {
+        school: 'psychic',
+        icon: 'Necrotic/Necrotic Decay 1',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 28 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic', 'material'],
+        classResource: { type: 'malediction', cost: 10 }
+      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'negates' },
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
@@ -1379,14 +1384,12 @@ The class creates a unique rhythm where you're constantly generating resources f
           name: 'Curse of the Unlucky',
           description: 'Fortune has abandoned you—odd rolls become critical failures',
           statusType: 'cursed',
-          level: 'severe'
+          mechanicsText: 'All odd d20 rolls count as natural 1s for critical failure purposes'
         }],
         durationValue: 10,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        durationUnit: 'rounds'
       },
-
       tags: ['debuff', 'curse', 'harbinger', 'omen', 'concentration', 'severe']
     },
 
@@ -1395,61 +1398,50 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Crown of Radiance',
       description: 'Place a crown of pure Benediction energy on an ally, making them a beacon of fortune.',
       spellType: 'ACTION',
-      icon: 'Radiant/Sacred Symbol',
-      school: 'Abjuration',
       level: 6,
       specialization: 'hierophant',
-
-      typeConfig: {
-        castTime: 1,
-        castTimeType: 'ACTION'
-      },
-
-      targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: true,
-        allowSelf: false
-      },
-
-      resourceCost: {
-        actionPoints: 2,
-        mana: 26,
-        benediction: 10,
-        components: ['verbal', 'somatic'],
-        description: 'Spend 10 Benediction to crown with radiance'
-      },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
-      resolution: 'AUTOMATIC',
-
       effectTypes: ['buff'],
-
+      typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Sacred Symbol',
+        castTime: 1,
+        castTimeType: 'IMMEDIATE'
+      },
+      targetingConfig: {
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['ally'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
+      },
+      resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 26 },
+        useFormulas: {},
+        actionPoints: 2,
+        components: ['verbal', 'somatic'],
+        classResource: { type: 'benediction', cost: 10 }
+      },
+      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
+      resolution: 'AUTOMATIC',
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'crown_of_radiance',
           name: 'Crown of Radiance',
           description: 'Blessed with radiant fortune — +3 to all rolls, immunity to frightened/charmed',
-          statModifier: {
-            stat: 'all_rolls',
-            magnitude: 3,
-            magnitudeType: 'flat'
-          }
+          statModifier: { stat: 'all_rolls', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 to all rolls, immune to frightened and charmed for 5 rounds'
         }],
         durationValue: 5,
         durationType: 'rounds',
+        durationUnit: 'rounds',
         concentrationRequired: true,
         canBeDispelled: true
       },
-
       tags: ['buff', 'blessing', 'hierophant', 'omen', 'concentration']
     },
 
@@ -1459,46 +1451,63 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Reality of Omens',
       description: 'Impose your omen reading on reality itself, forcing the battlefield to conform to your interpretation of the signs.',
       spellType: 'ACTION',
-      icon: 'Arcane/Open Portal',
-      school: 'Transmutation',
       level: 7,
       specialization: 'universal',
-
+      effectTypes: ['buff', 'debuff'],
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Open Portal',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 60
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 60, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 35,
-        benediction: 5,
-        malediction: 5,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 5 Benediction + 5 Malediction to reshape reality'
+        classResource: [{ type: 'benediction', cost: 5 }, { type: 'malediction', cost: 5 }]
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Allies within range gain +2 to all rolls. Enemies within range suffer -2 to all rolls.',
-        secondary: 'All even d20 results within range generate double Benediction for you. All odd results generate double Malediction.'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'reality_of_omens_buff',
+          name: 'Reality of Omens (Ally)',
+          description: 'Allies within range gain +2 to all rolls',
+          statModifier: { stat: 'all_rolls', magnitude: 2, magnitudeType: 'flat' },
+          mechanicsText: '+2 to all rolls for allies within 60ft'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'reality_of_omens_debuff',
+          name: 'Reality of Omens (Enemy)',
+          description: 'Enemies within range suffer -2 to all rolls',
+          mechanicsText: '-2 to all rolls for enemies within 60ft'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
+      },
       tags: ['buff', 'debuff', 'universal', 'area', 'omen', 'concentration']
     },
 
@@ -1507,58 +1516,54 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Apocalypse Portent',
       description: 'Deliver the ultimate dark omen—a prophecy of destruction that damages and debilitates all who hear it.',
       spellType: 'ACTION',
-      icon: 'Void/Black Hole',
-      school: 'Evocation',
       level: 7,
       specialization: 'harbinger',
-
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Void/Black Hole',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 60,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 30,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        areaConfig: { areaType: 'sphere', areaSize: 30, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 20,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 35,
-        malediction: 12,
         components: ['verbal', 'somatic'],
-        description: 'Spend 12 Malediction to deliver apocalypse portent'
+        classResource: { type: 'malediction', cost: 12 }
       },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'half_damage' },
       damageConfig: {
         formula: '8d10',
         elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['psychic'],
+        resolution: 'DICE'
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'apocalypse_portent',
+          name: 'Apocalypse Portent',
+          description: '-3 to all rolls for 3 rounds',
+          mechanicsText: '-3 to all rolls for 3 rounds on failed save'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Half damage',
-        onFail: 'Full damage and -3 to all rolls for 3 rounds'
-      },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
       tags: ['damage', 'debuff', 'harbinger', 'area', 'omen']
     },
 
@@ -1567,49 +1572,63 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Divine Sanctuary',
       description: 'Transform the battlefield into a divine sanctuary, making allies nearly invulnerable within its bounds.',
       spellType: 'ACTION',
-      icon: 'Radiant/Divine Halo',
-      school: 'Abjuration',
       level: 7,
       specialization: 'hierophant',
-
+      effectTypes: ['buff', 'control'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Divine Halo',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 40,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 30,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 40,
+        areaConfig: { areaType: 'sphere', areaSize: 30, areaSizeUnit: 'ft' },
+        targetRestrictions: ['ally', 'self'],
+        maxTargets: 20,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 35 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 35,
-        benediction: 12,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 12 Benediction to create divine sanctuary'
+        classResource: { type: 'benediction', cost: 12 }
       },
-
-      duration: {
-        value: 3,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 3, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Allies in zone: +4 Armor, resistance to all damage, advantage on all saves',
-        secondary: 'Enemies cannot enter the sanctuary zone (repelled by divine force)'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'divine_sanctuary',
+          name: 'Divine Sanctuary',
+          description: '+4 Armor, resistance to all damage, advantage on all saves',
+          statModifier: { stat: 'armor', magnitude: 4, magnitudeType: 'flat' },
+          mechanicsText: '+4 Armor, resistance to all damage, advantage on all saves'
+        }],
+        durationValue: 3,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      controlConfig: {
+        controlType: 'restriction',
+        strength: 'strong',
+        duration: 3,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'sanctuary_repel',
+          name: 'Divine Repulsion',
+          description: 'Enemies cannot enter the sanctuary zone',
+          mechanicsText: 'Enemies are repelled and cannot enter the zone'
+        }]
+      },
       tags: ['buff', 'terrain', 'hierophant', 'area', 'omen', 'concentration']
     },
 
@@ -1619,48 +1638,44 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Twist of Fate',
       description: 'Grab the threads of omen and twist them, retroactively changing a d20 result that just occurred.',
       spellType: 'REACTION',
-      icon: 'Arcane/Magical Staff',
-      school: 'Divination',
       level: 8,
       specialization: 'universal',
-
+      effectTypes: ['utility'],
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Magical Staff',
         castTime: 0,
         castTimeType: 'REACTION'
       },
-
       targetingConfig: {
-        type: 'SPECIAL',
-        range: 60,
-        rangeUnit: 'feet',
+        targetingType: 'special',
+        rangeType: 'special',
+        rangeDistance: 60,
+        targetRestrictions: ['any'],
+        maxTargets: 1,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 20 },
+        useFormulas: {},
         actionPoints: 0,
-        mana: 20,
-        benediction: 5,
-        malediction: 5,
         components: ['verbal'],
-        description: 'Reaction: Spend 5 Benediction + 5 Malediction to twist a fate'
+        classResource: [{ type: 'benediction', cost: 5 }, { type: 'malediction', cost: 5 }]
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'Change a d20 result that just occurred by up to ±5. Must be used within 3 seconds of the roll.',
-        secondary: 'If you make the result even, gain +2 Benediction. If odd, gain +2 Malediction.'
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'twist_of_fate',
+          name: 'Twist of Fate',
+          description: 'Change a d20 result that just occurred by up to ±5. Must be used within 3 seconds of the roll.',
+          mechanicsText: 'Change a d20 result by up to ±5. If result becomes even, gain +2 Benediction; if odd, gain +2 Malediction.'
+        }],
+        power: 'major'
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
       tags: ['reaction', 'fate', 'universal', 'omen']
     },
 
@@ -1669,50 +1684,36 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Omen of Death',
       description: 'Mark a target with the ultimate ill omen. If the conditions are met, death follows inevitably.',
       spellType: 'ACTION',
-      icon: 'Necrotic/Necrotic Skull',
-      school: 'Necromancy',
       level: 8,
       specialization: 'harbinger',
-
+      effectTypes: ['debuff'],
       typeConfig: {
+        school: 'necrotic',
+        icon: 'Necrotic/Necrotic Skull',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'SINGLE',
-        range: 30,
-        rangeUnit: 'feet',
-        requiresLineOfSight: true,
-        allowFriendly: false,
-        allowSelf: false
+        targetingType: 'single',
+        rangeType: 'ranged',
+        rangeDistance: 30,
+        targetRestrictions: ['enemies'],
+        maxTargets: 1,
+        targetSelectionMethod: 'manual',
+        requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 40,
-        malediction: 15,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 15 Malediction to mark with omen of death'
+        classResource: { type: 'malediction', cost: 15 }
       },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Target takes 8d8 psychic damage instead',
-        onFail: 'Target is marked—next time they roll a natural 1 on any d20, they are reduced to 0 HP'
-      },
-
-      effectTypes: ['debuff'],
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'partial' },
       debuffConfig: {
         debuffType: 'statusEffect',
         effects: [{
@@ -1720,17 +1721,12 @@ The class creates a unique rhythm where you're constantly generating resources f
           name: 'Omen of Death',
           description: 'Marked for death by dark omen—a natural 1 means instant death',
           statusType: 'doomed',
-          level: 'severe'
+          mechanicsText: 'Marked for death: next natural 1 on any d20 reduces target to 0 HP'
         }],
         durationValue: 10,
         durationType: 'rounds',
-        saveType: 'spirit',
-        saveOutcome: 'partial'
+        durationUnit: 'rounds'
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
       tags: ['debuff', 'death', 'harbinger', 'omen', 'concentration', 'severe']
     },
 
@@ -1739,48 +1735,73 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Cosmic Aurora',
       description: 'Unleash a wave of pure cosmic Benediction that transforms the entire battlefield into sacred ground.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Sunburst',
-      school: 'Transmutation',
       level: 8,
       specialization: 'hierophant',
-
+      effectTypes: ['buff', 'healing', 'damage'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Sunburst',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 60
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 60, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 40 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 40,
-        benediction: 15,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 15 Benediction to create cosmic aurora'
+        classResource: { type: 'benediction', cost: 15 }
       },
-
-      duration: {
-        value: 5,
-        unit: 'rounds',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 5, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'All allies within 60ft gain +3 to all rolls, resistance to all damage, and heal 2d8 at the start of each turn',
-        secondary: 'Undead and fiends within the zone take 4d8 radiant damage each turn'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'cosmic_aurora_buff',
+          name: 'Cosmic Aurora',
+          description: '+3 to all rolls and resistance to all damage',
+          statModifier: { stat: 'all_rolls', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 to all rolls, resistance to all damage for allies in zone'
+        }],
+        durationValue: 5,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      healingConfig: {
+        formula: '2d8',
+        healingType: 'zone',
+        hasHotEffect: true,
+        hotFormula: '2d8',
+        hotDuration: 5,
+        hotTickType: 'turn',
+        resolution: 'DICE'
+      },
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'radiant',
+        damageTypes: ['radiant'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '4d8',
+          duration: 5,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
+      },
       tags: ['buff', 'terrain', 'hierophant', 'area', 'omen', 'concentration', 'healing']
     },
 
@@ -1790,47 +1811,56 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'The Signs Speak',
       description: 'Channel every omen you have ever read into a single devastating revelation that reshapes reality.',
       spellType: 'ACTION',
-      icon: 'Arcane/Open Portal',
-      school: 'Divination',
       level: 9,
       specialization: 'universal',
-
+      effectTypes: ['utility', 'control'],
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Open Portal',
         castTime: 1,
-        castTimeType: 'ACTION'
+        castTimeType: 'IMMEDIATE'
       },
-
       targetingConfig: {
-        type: 'SPECIAL',
-        range: 100,
-        rangeUnit: 'feet'
+        targetingType: 'special',
+        rangeType: 'special',
+        rangeDistance: 100,
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 50,
-        benediction: 8,
-        malediction: 8,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 8 Benediction + 8 Malediction to reshape reality through omen'
+        classResource: [{ type: 'benediction', cost: 8 }, { type: 'malediction', cost: 8 }]
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
       resolution: 'DICE',
-
-      effects: {
-        primary: 'Choose one: (1) Force all enemies in range to reroll their last d20 and take the worse result, OR (2) Force all allies in range to reroll their last d20 and take the better result',
-        secondary: 'Additionally, all d20 rolls for the next round generate double resources for you'
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'the_signs_speak',
+          name: 'The Signs Speak',
+          description: 'Force enemies to reroll last d20 (worse) OR allies to reroll last d20 (better)',
+          mechanicsText: 'Choose: force all enemies to reroll last d20 take worse, OR force all allies to reroll last d20 take better. Double resource generation next round.'
+        }],
+        power: 'major'
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      controlConfig: {
+        controlType: 'reroll',
+        strength: 'major',
+        duration: 1,
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'signs_speak_reroll',
+          name: 'Omen Reroll',
+          description: 'Force reroll of last d20 result',
+          mechanicsText: 'Force targeted creatures to reroll their last d20'
+        }]
+      },
       tags: ['fate', 'reroll', 'universal', 'omen', 'powerful']
     },
 
@@ -1839,58 +1869,55 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Cataclysm Portent',
       description: 'Read the ultimate dark omen in the stars and bring it to pass—a localized cataclysm that devastates all enemies.',
       spellType: 'ACTION',
-      icon: 'Void/Black Hole',
-      school: 'Evocation',
       level: 9,
       specialization: 'harbinger',
-
+      effectTypes: ['damage', 'debuff'],
       typeConfig: {
+        school: 'psychic',
+        icon: 'Void/Black Hole',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'AREA',
-        range: 60,
-        rangeUnit: 'feet',
-        areaType: 'radius',
-        areaSize: 40,
+        targetingType: 'area',
+        rangeType: 'ranged',
+        rangeDistance: 60,
+        areaConfig: { areaType: 'sphere', areaSize: 40, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
         requiresLineOfSight: true
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 50,
-        malediction: 15,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 15 Malediction to bring cataclysm'
+        classResource: { type: 'malediction', cost: 15 }
       },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      resolution: 'SAVE',
+      savingThrow: { ability: 'spirit', difficultyClass: 'SPELL_DC', saveOutcome: 'half_damage' },
       damageConfig: {
         formula: '12d10',
         elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        damageTypes: ['psychic'],
+        resolution: 'DICE'
       },
-
-      duration: {
-        value: 0,
-        unit: 'instant',
-        concentration: false
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'cataclysm_portent_stun',
+          name: 'Cataclysm Portent',
+          description: 'Stunned for 2 rounds on failed save',
+          statusType: 'stunned',
+          mechanicsText: 'Stunned for 2 rounds (CON DC 18 negates)'
+        }],
+        durationValue: 2,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
-
-      resolution: 'SAVING_THROW',
-
-      savingThrow: {
-        ability: 'SPIRIT',
-        dc: 'SPELL_DC',
-        onSave: 'Half damage',
-        onFail: 'Full damage and Stunned for 2 rounds (CON DC 18 negates)'
-      },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
       tags: ['damage', 'harbinger', 'area', 'omen', 'stun', 'powerful']
     },
 
@@ -1899,48 +1926,73 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Eternal Benediction',
       description: 'Channel the purest cosmic omen into an eternal blessing that makes your allies nearly unstoppable.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Sunburst',
-      school: 'Abjuration',
       level: 9,
       specialization: 'hierophant',
-
+      effectTypes: ['buff', 'healing', 'damage'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Sunburst',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 60
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 60, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 50 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 50,
-        benediction: 15,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 15 Benediction for eternal blessing'
+        classResource: { type: 'benediction', cost: 15 }
       },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'All allies within range gain +5 to all rolls, immunity to frightened/charmed/stunned, and heal 3d8 at the start of each turn',
-        secondary: 'The zone radiates divine light—undead and fiends take 6d8 radiant damage per turn and have disadvantage on all rolls'
+      buffConfig: {
+        buffType: 'statEnhancement',
+        effects: [{
+          id: 'eternal_benediction_buff',
+          name: 'Eternal Benediction',
+          description: '+5 to all rolls, immunity to frightened/charmed/stunned',
+          statModifier: { stat: 'all_rolls', magnitude: 5, magnitudeType: 'flat' },
+          mechanicsText: '+5 to all rolls, immune to frightened/charmed/stunned for duration'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: true
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      healingConfig: {
+        formula: '3d8',
+        healingType: 'zone',
+        hasHotEffect: true,
+        hotFormula: '3d8',
+        hotDuration: 10,
+        hotTickType: 'turn',
+        resolution: 'DICE'
+      },
+      damageConfig: {
+        formula: '6d8',
+        elementType: 'radiant',
+        damageTypes: ['radiant'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '6d8',
+          duration: 10,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
+      },
       tags: ['buff', 'hierophant', 'area', 'omen', 'healing', 'powerful']
     },
 
@@ -1950,50 +2002,61 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Master of Omens',
       description: 'Achieve mastery over all signs and portents. For one glorious minute, you are the omen—the battlefield bends to your interpretation.',
       spellType: 'ACTION',
-      icon: 'Arcane/Magical Staff',
-      school: 'Divination',
       level: 10,
       specialization: 'universal',
-
+      effectTypes: ['buff', 'utility'],
       typeConfig: {
+        school: 'arcane',
+        icon: 'Arcane/Magical Staff',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 120
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 120, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 60,
-        benediction: 10,
-        malediction: 10,
         components: ['verbal', 'somatic', 'material'],
-        description: 'Spend 10 Benediction + 10 Malediction to become the omen'
+        classResource: [{ type: 'benediction', cost: 10 }, { type: 'malediction', cost: 10 }]
       },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'For the duration, you control the omens: (1) Every d20 roll within range, you declare if it is even or odd before the roll. If your declaration matches, gain +3 of the matching resource. (2) You may spend Benediction or Malediction to change any d20 result by ±1 per point spent. (3) All Benediction and Malediction caps are doubled.',
-        secondary: 'Allies in range gain +2 to all rolls. Enemies suffer -2 to all rolls.'
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'master_of_omens',
+          name: 'Master of Omens',
+          description: 'Control all omens: declare d20 even/odd before roll, spend resources to change results by ±1/point, doubled resource caps',
+          mechanicsText: 'Declare d20 outcomes, change results by ±1 per resource point, doubled resource caps. Allies +2 all rolls, enemies -2 all rolls.'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
-      tags: ['ultimate', 'fate', 'universal', 'omen', 'powerful', 'transformation']
+      utilityConfig: {
+        utilityType: 'special',
+        selectedEffects: [{
+          id: 'master_of_omens_utility',
+          name: 'Omnipotent Reading',
+          description: 'Declare even/odd before any d20 roll. Spend Benediction/Malediction to change results.',
+          mechanicsText: 'Declare d20 outcomes before rolls, change results by ±1 per resource point spent'
+        }],
+        power: 'supreme'
+      },
+      tags: ['ultimate', 'fate', 'universal', 'omen', 'powerful']
     },
 
     {
@@ -2001,48 +2064,61 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Harbinger Supreme',
       description: 'Become the ultimate harbinger of doom. All who see you are struck with prophetic terror as every omen becomes a weapon.',
       spellType: 'ACTION',
-      icon: 'Void/Black Hole',
-      school: 'Necromancy',
       level: 10,
       specialization: 'harbinger',
-
+      effectTypes: ['debuff', 'damage'],
       typeConfig: {
+        school: 'necrotic',
+        icon: 'Void/Black Hole',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 90
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 90, areaSizeUnit: 'ft' },
+        targetRestrictions: ['enemies'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 60,
-        malediction: 15,
         components: ['verbal', 'somatic'],
-        description: 'Spend 15 Malediction to become harbinger supreme'
+        classResource: { type: 'malediction', cost: 15 }
       },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'For the duration: (1) Every odd d20 roll within range generates triple Malediction for you. (2) Enemies within range have -3 to all rolls. (3) Once per round, you may force an enemy to reroll a successful save or attack—take the new result.',
-        secondary: 'You radiate an aura of ill omen. Enemies that start their turn within 30ft take 3d8 psychic damage.'
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        effects: [{
+          id: 'harbinger_supreme_debuff',
+          name: 'Harbinger Supreme',
+          description: 'Enemies have -3 to all rolls. Force one reroll of enemy success per round.',
+          mechanicsText: '-3 to all rolls for enemies. Once per round, force enemy to reroll a successful save or attack.'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds'
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      damageConfig: {
+        formula: '3d8',
+        elementType: 'psychic',
+        damageTypes: ['psychic'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '3d8',
+          duration: 10,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
+      },
       tags: ['ultimate', 'harbinger', 'omen', 'debuff', 'aura', 'powerful']
     },
 
@@ -2051,48 +2127,73 @@ The class creates a unique rhythm where you're constantly generating resources f
       name: 'Hierophant Supreme',
       description: 'Ascend as the ultimate hierophant. The entire battlefield becomes a cathedral of omens, blessing allies with divine fortune.',
       spellType: 'ACTION',
-      icon: 'Radiant/Radiant Sunburst',
-      school: 'Abjuration',
       level: 10,
       specialization: 'hierophant',
-
+      effectTypes: ['buff', 'healing', 'damage'],
       typeConfig: {
+        school: 'radiant',
+        icon: 'Radiant/Radiant Sunburst',
         castTime: 1,
         castTimeType: 'RITUAL'
       },
-
       targetingConfig: {
-        type: 'SELF_CENTERED',
-        range: 0,
-        rangeUnit: 'self',
-        areaType: 'radius',
-        areaSize: 120
+        targetingType: 'area',
+        rangeType: 'self_centered',
+        rangeDistance: 0,
+        areaConfig: { areaType: 'sphere', areaSize: 120, areaSizeUnit: 'ft' },
+        targetRestrictions: ['any'],
+        maxTargets: 30,
+        targetSelectionMethod: 'auto',
+        requiresLineOfSight: false
       },
-
       resourceCost: {
+        resourceTypes: ['mana'],
+        resourceValues: { mana: 60 },
+        useFormulas: {},
         actionPoints: 3,
-        mana: 60,
-        benediction: 15,
         components: ['verbal', 'somatic'],
-        description: 'Spend 15 Benediction to become hierophant supreme'
+        classResource: { type: 'benediction', cost: 15 }
       },
-
-      duration: {
-        value: 1,
-        unit: 'minute',
-        concentration: true
-      },
-
+      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      duration: { durationValue: 10, durationType: 'rounds', durationUnit: 'rounds', concentrationRequired: true },
       resolution: 'AUTOMATIC',
-
-      effects: {
-        primary: 'For the duration: (1) Every even d20 roll within range generates triple Benediction for you. (2) All allies within range gain +3 to all rolls, resistance to all damage, and immunity to frightened/charmed. (3) Once per round, you may grant an ally a free reroll on any failed d20—take the better result.',
-        secondary: 'The entire zone is sacred ground. Undead and fiends take 4d8 radiant damage per turn and cannot enter.'
+      buffConfig: {
+        buffType: 'custom',
+        effects: [{
+          id: 'hierophant_supreme_buff',
+          name: 'Hierophant Supreme',
+          description: '+3 to all rolls, resistance to all damage, immunity to frightened/charmed. Grant free reroll on failed d20 once/round.',
+          statModifier: { stat: 'all_rolls', magnitude: 3, magnitudeType: 'flat' },
+          mechanicsText: '+3 all rolls, resistance to all damage, immune to frightened/charmed. Once per round grant ally free reroll on failed d20.'
+        }],
+        durationValue: 10,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        concentrationRequired: true,
+        canBeDispelled: false
       },
-
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-
+      healingConfig: {
+        formula: '4d8',
+        healingType: 'zone',
+        hasHotEffect: true,
+        hotFormula: '4d8',
+        hotDuration: 10,
+        hotTickType: 'turn',
+        resolution: 'DICE'
+      },
+      damageConfig: {
+        formula: '4d8',
+        elementType: 'radiant',
+        damageTypes: ['radiant'],
+        hasDotEffect: true,
+        dotConfig: {
+          dotFormula: '4d8',
+          duration: 10,
+          tickFrequency: 'turn',
+          isProgressiveDot: false
+        },
+        resolution: 'DICE'
+      },
       tags: ['ultimate', 'hierophant', 'omen', 'buff', 'aura', 'healing', 'powerful']
     }
   ],

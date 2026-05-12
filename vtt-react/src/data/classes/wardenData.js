@@ -757,11 +757,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Teleport behind your target and strike from the shadows with deadly precision.',
       spellType: 'ACTION',
       icon: 'Piercing/Night Dagger',
-      school: 'Shadow',
       level: 2,
       specialization: 'shadowblade',
 
+      effectTypes: ['damage', 'utility'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Piercing/Night Dagger',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -777,6 +780,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 0 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Blink through shadows'
@@ -786,7 +791,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d8',
-        damageTypes: ['necrotic'],
+        elementType: 'necrotic',
+        damageTypes: ['direct'],
         scalingType: 'none',
           resolution: 'DICE',
       },
@@ -826,6 +832,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['shadow', 'damage', 'teleport', 'stealth', 'shadowblade']
     },
 
@@ -835,11 +842,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Strike from the shadows with enhanced power, dealing massive damage and generating Vengeance Points.',
       spellType: 'ACTION',
       icon: 'Utility/Hide',
-      school: 'Shadow',
       level: 1,
       specialization: 'shadowblade',
 
+      effectTypes: ['damage'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Utility/Hide',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -855,6 +865,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 0 },
         actionPoints: 1,
         components: ['somatic'],
         somaticText: 'Strike from stealth'
@@ -864,7 +876,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '1d8',
-        damageTypes: ['bludgeoning'],
+        elementType: 'bludgeoning',
+        damageTypes: ['direct'],
         scalingType: 'none',
           resolution: 'DICE',
       },
@@ -901,6 +914,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['physical', 'shadow', 'damage', 'stealth', 'shadowblade']
     },
 
@@ -910,11 +924,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Become one with the shadows, gaining invisibility and unleashing a devastating series of strikes.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Shadow',
       level: 5,
       specialization: 'shadowblade',
 
+      effectTypes: ['damage', 'buff'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Psychic/Mind Control',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -931,8 +948,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        vengeancePoints: 10,
         components: ['verbal', 'somatic'],
         verbalText: 'Umbra me abscondat!',
         somaticText: 'Dissolve into shadows'
@@ -942,7 +960,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '6d8',
-        damageTypes: ['necrotic'],
+        elementType: 'necrotic',
+        damageTypes: ['direct'],
         scalingType: 'none',
           resolution: 'DICE',
       },
@@ -979,6 +998,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8 },
       tags: ['shadow', 'damage', 'multi target', 'ultimate', 'invisibility', 'shadowblade']
     },
 
@@ -989,11 +1009,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Summon a spectral cage around your target for 3 rounds, trapping them and preventing escape. Target must save or be trapped for the full duration (save reduces to 1 round).',
       spellType: 'ACTION',
       icon: 'Necrotic/Crossed Bones',
-      school: 'Shadow',
       level: 3,
       specialization: 'jailer',
 
+      effectTypes: ['control', 'debuff'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Necrotic/Crossed Bones',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1010,14 +1033,15 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 6 },
         actionPoints: 1,
-        vengeancePoints: 6,
         components: ['verbal', 'somatic'],
         verbalText: 'Carcer aeternus!',
         somaticText: 'Summon spectral cage'
       },
 
-      resolution: 'SAVE',
+      resolution: 'SAVING_THROW',
 
       savingThrow: {
         ability: 'strength',
@@ -1077,6 +1101,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
       tags: ['shadow', 'control', 'cage', 'debuff', 'jailer']
     },
 
@@ -1086,11 +1111,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Throw your glaive in an arc that chains between caged enemies, dealing devastating damage.',
       spellType: 'ACTION',
       icon: 'Psychic/Mind Control',
-      school: 'Shadow',
       level: 4,
       specialization: 'jailer',
 
+      effectTypes: ['damage'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Psychic/Mind Control',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1108,8 +1136,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        vengeancePoints: 2,
         components: ['somatic'],
         somaticText: 'Throw glaive in chaining arc'
       },
@@ -1148,6 +1177,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       tags: ['shadow', 'damage', 'chain', 'cage synergy', 'jailer']
     },
 
@@ -1157,11 +1187,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Create a massive spectral prison that traps all enemies in a large area.',
       spellType: 'ACTION',
       icon: 'Necrotic/Necrotic Skull',
-      school: 'Shadow',
       level: 5,
       specialization: 'jailer',
 
+      effectTypes: ['control', 'debuff'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'Necrotic/Necrotic Skull',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1170,8 +1203,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 50,
-        areaType: 'circle',
-        areaSize: 20
+        aoeShape: 'circle',
+        aoeParameters: { radius: 20 }
       },
 
       durationConfig: {
@@ -1180,8 +1213,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 10 },
         actionPoints: 1,
-        vengeancePoints: 10,
         components: ['verbal', 'somatic'],
         verbalText: 'Carcer infinitus!',
         somaticText: 'Summon massive prison'
@@ -1251,6 +1285,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8 },
       tags: ['shadow', 'control', 'cage', 'aoe', 'ultimate', 'jailer']
     },
 
@@ -1261,11 +1296,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Dash towards your marked target and unleash a series of rapid strikes.',
       spellType: 'ACTION',
       icon: 'Nature/Sense',
-      school: 'Physical',
       level: 2,
       specialization: 'vengeance-seeker',
 
+      effectTypes: ['damage', 'utility'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Nature/Sense',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1281,8 +1319,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        vengeancePoints: 2,
         components: ['somatic'],
         somaticText: 'Dash and strike rapidly'
       },
@@ -1291,7 +1330,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d8',
-        damageTypes: ['bludgeoning'],
+        elementType: 'bludgeoning',
+        damageTypes: ['direct'],
         scalingType: 'none',
           resolution: 'DICE',
       },
@@ -1334,6 +1374,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['physical', 'damage', 'dash', 'multi strike', 'vengeance seeker']
     },
 
@@ -1343,11 +1384,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Channel your vengeance into a devastating attack against your marked prey.',
       spellType: 'ACTION',
       icon: 'Slashing/Cross Slash',
-      school: 'Physical',
       level: 3,
       specialization: 'vengeance-seeker',
 
+      effectTypes: ['damage'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Cross Slash',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1363,8 +1407,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 3 },
         actionPoints: 1,
-        vengeancePoints: 3,
         components: ['verbal', 'somatic'],
         verbalText: 'Fury of the hunt!',
         somaticText: 'Empowered glaive strike'
@@ -1374,7 +1419,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '4d6',
-        damageTypes: ['bludgeoning'],
+        elementType: 'bludgeoning',
+        damageTypes: ['direct'],
         scalingType: 'marked_target',
           resolution: 'DICE',
       },
@@ -1410,6 +1456,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       tags: ['physical', 'damage', 'marked synergy', 'vengeance seeker']
     },
 
@@ -1419,19 +1466,27 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Transform into the ultimate embodiment of vengeance, gaining massive power for a limited time.',
       spellType: 'ACTION',
       icon: 'General/Fiery Rage',
-      school: 'Shadow',
       level: 5,
       specialization: 'vengeance-seeker',
 
+      effectTypes: ['transformation'],
+
       typeConfig: {
+        school: 'shadow',
+        icon: 'General/Fiery Rage',
         castTime: 1,
-        castTimeType: 'IMMEDIATE',
-        tags: ['transformation', 'ultimate', 'vengeance seeker']
+        castTimeType: 'IMMEDIATE'
       },
 
       targetingConfig: {
         targetingType: 'self',
         rangeType: 'self'
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 6,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -1444,7 +1499,6 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resolution: 'NONE',
-      effectTypes: ['transformation'],
 
       transformationConfig: {
         transformationType: 'spectral',
@@ -1477,11 +1531,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Mark a target as your prey, increasing damage dealt and generating bonus Vengeance Points.',
       spellType: 'ACTION',
       icon: 'Piercing/Targeted Strike',
-      school: 'Physical',
       level: 1,
       specialization: 'universal',
 
+      effectTypes: ['utility'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Piercing/Targeted Strike',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1498,6 +1555,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 0 },
         actionPoints: 1,
         components: ['verbal'],
         verbalText: 'Mark target as prey'
@@ -1531,6 +1590,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['utility', 'mark', 'tracking', 'universal']
     },
 
@@ -1540,11 +1600,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Throw your glaive in a sweeping arc, hitting multiple enemies and slowing them for 1 round. Enemies hit have movement speed reduced by 10 feet.',
       spellType: 'ACTION',
       icon: 'Piercing/Dagger Rain',
-      school: 'Physical',
       level: 2,
       specialization: 'universal',
 
+      effectTypes: ['damage', 'debuff'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Piercing/Dagger Rain',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1553,8 +1616,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30,
-        areaType: 'cone',
-        areaSize: 15
+        aoeShape: 'cone',
+        aoeParameters: { length: 15 }
       },
 
       durationConfig: {
@@ -1562,8 +1625,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 3 },
         actionPoints: 1,
-        vengeancePoints: 3,
         components: ['somatic'],
         somaticText: 'Throw glaive in sweeping arc'
       },
@@ -1572,7 +1636,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
 
       damageConfig: {
         formula: '2d6',
-        damageTypes: ['bludgeoning'],
+        elementType: 'bludgeoning',
+        damageTypes: ['direct'],
         scalingType: 'none',
           resolution: 'DICE',
       },
@@ -1589,7 +1654,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
           statusType: 'slow',
           level: 'minor',
           statPenalty: { stat: 'movement_speed', value: -10 },
-          movementPenalty: -10
+          mechanicsText: 'Movement speed reduced by 10 feet for 1 round'
         }]
       },
 
@@ -1622,6 +1687,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['physical', 'damage', 'aoe', 'debuff', 'slow', 'universal']
     },
 
@@ -1631,11 +1697,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Call upon your inner strength to heal yourself and gain defensive bonuses. If marked targets are within sight, effects are doubled.',
       spellType: 'ACTION',
       icon: 'Healing/Renewal',
-      school: 'Physical',
       level: 2,
       specialization: 'universal',
 
+      effectTypes: ['healing', 'buff'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Healing/Renewal',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1651,8 +1720,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 4 },
         actionPoints: 1,
-        vengeancePoints: 4,
         components: ['verbal'],
         verbalText: 'Inner strength sustains me'
       },
@@ -1665,10 +1735,17 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       buffConfig: {
-        effects: [
-          'Heal 2d8 HP (or 4d8 if marked target visible)',
-          'Gain +2 Armor for 2 rounds (or +4 Armor if marked target visible)'
-        ]
+        effects: [{
+          id: 'hunters_resolve_heal',
+          name: 'Hunter\'s Resolve Healing',
+          description: 'Heal 2d8 HP (or 4d8 if marked target visible)',
+          mechanicsText: 'Heal 2d8 HP, doubled to 4d8 if marked target is within sight'
+        }, {
+          id: 'hunters_resolve_armor',
+          name: 'Hunter\'s Resolve Armor',
+          description: 'Gain +2 Armor for 2 rounds (or +4 Armor if marked target visible)',
+          mechanicsText: '+2 Armor for 2 rounds, doubled to +4 Armor if marked target is within sight'
+        }]
       },
 
       effects: {
@@ -1708,6 +1785,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       tags: ['healing', 'buff', 'defense', 'universal']
     },
 
@@ -1717,11 +1795,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Empower your next attack with vengeance, dealing bonus damage.',
       spellType: 'ACTION',
       icon: 'Bludgeoning/Mortal Strike',
-      school: 'Physical',
       level: 1,
       specialization: 'universal',
 
+      effectTypes: ['buff'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Bludgeoning/Mortal Strike',
         castTime: 1,
         castTimeType: 'IMMEDIATE'
       },
@@ -1737,8 +1818,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 2 },
         actionPoints: 1,
-        vengeancePoints: 2,
         components: ['verbal'],
         verbalText: 'Vengeance guides my blade'
       },
@@ -1765,6 +1847,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['buff', 'damage', 'enhancement', 'universal']
     },
 
@@ -1774,11 +1857,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Use your agility to evade an incoming attack, generating Vengeance Points.',
       spellType: 'REACTION',
       icon: 'Utility/Parry',
-      school: 'Physical',
       level: 1,
       specialization: 'universal',
 
+      effectTypes: ['buff'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Utility/Parry',
         castTime: 1,
         castTimeType: 'REACTION',
         trigger: 'When you are targeted by an attack'
@@ -1794,6 +1880,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 0 },
         actionPoints: 0,
         components: ['somatic'],
         somaticText: 'Dodge and weave'
@@ -1802,10 +1890,17 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       resolution: 'AUTOMATIC',
 
       buffConfig: {
-        effects: [
-          'Gain +2 Armor against triggering attack',
-          'If attack misses, gain 1 VP'
-        ]
+        effects: [{
+          id: 'evasive_ac_bonus',
+          name: 'Evasive Dodge',
+          description: 'Gain +2 Armor against triggering attack',
+          mechanicsText: '+2 Armor against the triggering attack only'
+        }, {
+          id: 'evasive_vp_gain',
+          name: 'Vengeance from Evasion',
+          description: 'If attack misses, gain 1 VP',
+          mechanicsText: 'Successful evasion generates 1 Vengeance Point'
+        }]
       },
 
       effects: {
@@ -1837,6 +1932,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['buff', 'defense', 'reaction', 'vp generation', 'universal']
     },
 
@@ -1846,11 +1942,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Your mastery of glaive combat grants you enhanced accuracy and versatility.',
       spellType: 'PASSIVE',
       icon: 'Slashing/Curved Blade',
-      school: 'Physical',
       level: 1,
       specialization: 'universal',
 
+      effectTypes: ['buff'],
+
       typeConfig: {
+        school: 'physical',
+        icon: 'Slashing/Curved Blade',
         castTime: 0,
         castTimeType: 'PASSIVE'
       },
@@ -1865,6 +1964,8 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       },
 
       resourceCost: {
+        resourceTypes: ['vengeance_points'],
+        resourceValues: { vengeance_points: 0 },
         actionPoints: 0,
         components: []
       },
@@ -1872,11 +1973,22 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       resolution: 'AUTOMATIC',
 
       buffConfig: {
-        effects: [
-          'Glaive attacks have +1 to hit',
-          'Glaives can be thrown up to 30 feet',
-          'Thrown glaives return to your hand after attacking'
-        ]
+        effects: [{
+          id: 'glaive_mastery_accuracy',
+          name: 'Glaive Precision',
+          description: 'Glaive attacks have +1 to hit',
+          mechanicsText: '+1 to hit with all glaive attacks'
+        }, {
+          id: 'glaive_mastery_throw',
+          name: 'Glaive Throw',
+          description: 'Glaives can be thrown up to 30 feet',
+          mechanicsText: 'Throw range 30 feet, glaive magically returns to hand'
+        }, {
+          id: 'glaive_mastery_return',
+          name: 'Glaive Return',
+          description: 'Thrown glaives return to your hand after attacking',
+          mechanicsText: 'Thrown glaives magically return to your hand after attacking'
+        }]
       },
 
       effects: {
@@ -1896,6 +2008,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         }
       },
 
+      cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
       tags: ['passive', 'enhancement', 'glaive', 'universal']
     },
 
@@ -1906,7 +2019,9 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       description: 'Phase through defenses with a glaive strike that ignores armor and deals bonus shadow damage.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Piercing/Night Dagger',
       effectTypes: ['damage'],
+      specialization: 'universal',
       
       typeConfig: {
         school: 'shadow',
@@ -1925,10 +2040,14 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         requiresLineOfSight: true
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '3d8',
         elementType: 'necrotic',
-        damageTypes: ['direct'],
+        damageTypes: ['necrotic'],
           resolution: 'DICE',
       },
 
@@ -1953,8 +2072,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       name: 'Cage Trap',
       description: 'Set a spectral trap that springs when an enemy enters, caging them for 2 rounds.',
       level: 3,
-      spellType: 'TRAP',
+      spellType: 'ACTION',
+      icon: 'Necrotic/Crossed Bones',
       effectTypes: ['control'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -1975,6 +2096,11 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         aoeParameters: { radius: 5 }
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 2
+      },
+
       controlConfig: {
         controlType: 'restraint',
         duration: 2,
@@ -1986,12 +2112,13 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
           id: 'caged',
           name: 'Caged',
           description: 'Trapped in spectral cage - cannot move beyond 10 feet radius',
+          mechanicsText: 'Speed 0, restrained in 10-foot radius for 2 rounds, strength save DC 14 to resist',
           config: {
             restraintType: 'cage',
             radius: 10,
             saveType: 'dexterity',
             saveDC: 14,
-            duration: 3,
+            duration: 2,
             durationUnit: 'rounds',
             immobilize: true
           }
@@ -2021,6 +2148,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 4,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
+      specialization: 'vengeance-seeker',
 
       typeConfig: {
         school: 'physical',
@@ -2037,6 +2165,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetRestrictions: ['enemy'],
         maxTargets: 1,
         requiresLineOfSight: true
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2084,6 +2216,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'physical',
@@ -2100,6 +2233,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         aoeShape: 'cone',
         aoeParameters: { length: 20 },
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2132,6 +2269,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 6,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -2149,11 +2287,29 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         maxTargets: 1
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '6d10',
         elementType: 'necrotic',
         damageTypes: ['direct'],
           resolution: 'DICE',
+      },
+
+      debuffConfig: {
+        debuffType: 'statusEffect',
+        durationValue: 1,
+        durationType: 'rounds',
+        durationUnit: 'rounds',
+        effects: [{
+          id: 'cage_extended',
+          name: 'Cage Extended',
+          description: 'Cage duration extended by 1 round from Cage Slam',
+          mechanicsText: 'Extends active cage duration by 1 round on target'
+        }],
+        canBeDispelled: true
       },
 
       resourceCost: {
@@ -2180,6 +2336,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'vengeance-seeker',
 
       typeConfig: {
         school: 'physical',
@@ -2196,6 +2353,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetRestrictions: ['enemy'],
         maxTargets: 1,
         requiresLineOfSight: true
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2241,6 +2402,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['control'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -2259,6 +2421,12 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3,
+        durationUnit: 'rounds'
+      },
+
       controlConfig: {
         controlType: 'restraint',
         duration: 3,
@@ -2270,9 +2438,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
           id: 'caged',
           name: 'Shadow Cage',
           description: 'Trapped in shadow cage - cannot leave area, teleportation blocked, disadvantage on attacks',
+          mechanicsText: 'Speed 0, restrained in 15-foot radius for 3 rounds, strength save DC 16 to resist',
           config: {
             restraintType: 'cage',
-            blocksTelepor: true,
+            blocksTeleport: true,
             radius: 15,
             saveType: 'dexterity',
             saveDC: 16,
@@ -2306,6 +2475,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 7,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'physical',
@@ -2321,6 +2491,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeDistance: 10,
         targetRestrictions: ['enemy'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2354,6 +2528,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['buff'],
+      specialization: 'vengeance-seeker',
 
       typeConfig: {
         school: 'shadow',
@@ -2368,12 +2543,19 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 4,
+        durationUnit: 'rounds'
+      },
+
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'vengeance_incarnate',
           name: 'Vengeance Incarnate',
           description: 'Gain +5 to attack rolls, +3d8 damage on all attacks, +20 movement speed, and generate +1 VP per attack for 4 rounds',
+          mechanicsText: '+5 attack, +3d8 damage, +20 speed, +1 VP per attack for 4 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: 5,
@@ -2410,6 +2592,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['control'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -2425,6 +2608,12 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeDistance: 40,
         targetRestrictions: ['enemy'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 10,
+        durationUnit: 'rounds'
       },
 
       controlConfig: {
@@ -2474,6 +2663,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 8,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'physical',
@@ -2489,6 +2679,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeDistance: 10,
         targetRestrictions: ['enemy'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2522,6 +2716,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'vengeance-seeker',
 
       typeConfig: {
         school: 'physical',
@@ -2537,6 +2732,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeDistance: 10,
         targetRestrictions: ['enemy'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2569,6 +2768,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['control'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -2585,6 +2785,12 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         aoeShape: 'circle',
         aoeParameters: { radius: 30 },
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 4,
+        durationUnit: 'rounds'
       },
 
       controlConfig: {
@@ -2634,6 +2840,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 9,
       spellType: 'ACTION',
       effectTypes: ['damage', 'utility'],
+      specialization: 'shadowblade',
 
       typeConfig: {
         school: 'shadow',
@@ -2650,6 +2857,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         targetRestrictions: ['enemy'],
         maxTargets: 1,
         requiresLineOfSight: true
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2697,6 +2908,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['damage'],
+      specialization: 'universal',
 
       typeConfig: {
         school: 'shadow',
@@ -2712,6 +2924,10 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeDistance: 10,
         targetRestrictions: ['enemy'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       damageConfig: {
@@ -2744,6 +2960,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['control'],
+      specialization: 'jailer',
 
       typeConfig: {
         school: 'shadow',
@@ -2760,6 +2977,12 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 6,
+        durationUnit: 'rounds'
       },
 
       controlConfig: {
@@ -2809,6 +3032,7 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
       level: 10,
       spellType: 'ACTION',
       effectTypes: ['buff'],
+      specialization: 'vengeance-seeker',
 
       typeConfig: {
         school: 'shadow',
@@ -2823,12 +3047,19 @@ AVATAR: 10 VP consumed | 4 rounds | All VP reset to 0 after
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 8,
+        durationUnit: 'rounds'
+      },
+
       buffConfig: {
         buffType: 'statEnhancement',
         effects: [{
           id: 'avatar_perfected',
           name: 'Avatar Perfected',
           description: 'Gain +6 to all stats, +5d10 damage on all attacks, damage resistance 50%, enhanced VP generation (+2 per attack), and immunity to crowd control for 8 rounds',
+          mechanicsText: '+6 all stats, +5d10 damage, 50% damage resist, +2 VP/attack, CC immunity for 8 rounds',
           statModifier: {
             stat: 'all_stats',
             magnitude: 6,

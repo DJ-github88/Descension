@@ -746,7 +746,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '2d6 + agility',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
         bonusDamage: {
           condition: 'venomancer_passive',
           amount: '+1d6',
@@ -789,6 +789,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['melee', 'poison', 'damage', 'dot', 'venomancer']
     },
 
@@ -843,7 +844,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '5d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['area'],
+        damageTypes: ['poison'],
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: {
@@ -869,6 +870,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'weakened',
           name: 'Weakened',
           description: '-2 to attack rolls, saves, and ability checks for 4 rounds',
+          mechanicsText: '-2 to attack rolls, saves, and ability checks for 4 rounds',
           statModifier: {
             stat: 'all_rolls',
             magnitude: -2,
@@ -894,6 +896,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       tags: ['aoe', 'poison', 'damage', 'debuff', 'dot', 'venomancer']
     },
 
@@ -939,8 +942,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '2d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['direct'],
-        attackType: 'automatic',
+        damageTypes: ['poison'],
           resolution: 'DICE',
       },
 
@@ -950,6 +952,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'slowed',
           name: 'Slowed',
           description: 'Movement speed reduced by 10 feet for 2 rounds',
+          mechanicsText: 'Movement speed reduced by 10 feet for 2 rounds',
           statusType: 'slowed',
           level: 'moderate',
           statPenalty: { stat: 'movement_speed', value: -10 },
@@ -971,6 +974,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['trap', 'poison', 'damage', 'debuff', 'gadgeteer']
     },
 
@@ -1011,6 +1015,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       },
 
       resolution: 'AUTOMATIC',
+      effectTypes: ['utility'],
 
       effects: {
         network: {
@@ -1033,6 +1038,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 8 },
       tags: ['utility', 'contraption', 'combo', 'gadgeteer']
     },
 
@@ -1087,7 +1093,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '8d6 + intelligence',
         elementType: 'fire',
-        damageTypes: ['area'],
+        damageTypes: ['fire'],
         attackType: 'spell_save',
         hasDotEffect: true,
         dotConfig: {
@@ -1113,6 +1119,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'burned',
           name: 'Burned',
           description: 'Armor reduced by 3 and takes 1d6 fire damage per round for 3 rounds.',
+          mechanicsText: '-3 Armor and 1d6 fire damage per round for 3 rounds',
           statModifier: {
             stat: 'armor',
             magnitude: -3,
@@ -1135,6 +1142,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
       tags: ['trap', 'fire', 'damage', 'debuff', 'aoe', 'gadgeteer']
     },
 
@@ -1186,8 +1194,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '3d6 + agility',
         elementType: 'poison',
-        damageTypes: ['direct'],
-        attackType: 'weapon_attack',
+        damageTypes: ['poison'],
           resolution: 'DICE',
       },
 
@@ -1197,6 +1204,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'crippled',
           name: 'Crippled',
           description: '-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds.',
+          mechanicsText: '-4 attack rolls, -2 armor, -10ft movement, disadvantage on saves for 5 rounds',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: -4,
@@ -1275,9 +1283,9 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       resolution: 'SAVING_THROW',
 
       damageConfig: {
-        formula: '3d8 + intelligence',
+        formula: '5d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['area'],
+        damageTypes: ['poison'],
         additionalDamage: {
           formula: '3d8',
           elementType: 'fire'
@@ -1304,6 +1312,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'confused',
           name: 'Confused',
           description: 'Attack random target (ally or enemy) for 2 rounds',
+          mechanicsText: 'Confused targets attack random targets for 2 rounds, INT save DC 17 to negate',
           config: {
             confusionType: 'random_target',
             saveType: 'constitution',
@@ -1324,6 +1333,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
       tags: ['aoe', 'poison', 'fire', 'damage', 'confusion', 'saboteur']
     },
 
@@ -1386,6 +1396,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'total_shutdown',
           name: 'Total Shutdown',
           description: 'Cannot take actions (reactions only), -3 armor, disadvantage on all saves for 1 round',
+          mechanicsText: 'No actions (reactions only), -3 armor, disadvantage on all saves for 1 round, CON save DC 19',
           statusType: 'incapacitated',
           level: 'severe',
           saveType: 'constitution',
@@ -1406,6 +1417,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6 },
       tags: ['single target', 'debuff', 'incapacitate', 'ultimate', 'saboteur']
     },
 
@@ -1469,6 +1481,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['utility', 'poison', 'weapon enhancement', 'universal']
     },
 
@@ -1543,6 +1556,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
       tags: ['utility', 'healing', 'cure', 'universal']
     },
 
@@ -1594,8 +1608,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '3d6 + intelligence',
         elementType: 'fire',
-        damageTypes: ['area'],
-        attackType: 'spell_save',
+        damageTypes: ['fire'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'agility',
@@ -1616,6 +1629,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
       tags: ['aoe', 'fire', 'damage', 'explosive', 'universal']
     },
 
@@ -1665,11 +1679,22 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           description: 'Area is heavily obscured, blocking vision'
         },
         tactical: {
-          effects: [
-            'Attacks through smoke have disadvantage',
-            'Can use to escape or reposition',
-            'Provides cover for allies'
-          ],
+          effects: [{
+            id: 'smoke_disadvantage',
+            name: 'Smoke Disadvantage',
+            description: 'Attacks through smoke have disadvantage',
+            mechanicsText: 'Attacks through smoke have disadvantage'
+          }, {
+            id: 'smoke_cover',
+            name: 'Smoke Cover',
+            description: 'Can use to escape or reposition',
+            mechanicsText: 'Provides cover for escape and repositioning'
+          }, {
+            id: 'smoke_ally_cover',
+            name: 'Ally Cover',
+            description: 'Provides cover for allies',
+            mechanicsText: 'Allies in smoke area have cover'
+          }],
           description: 'Disrupts enemy vision and positioning for tactical advantage.'
         }
       },
@@ -1683,6 +1708,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         }
       },
 
+      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
       tags: ['utility', 'obscurement', 'tactical', 'universal']
     },
 
@@ -1712,6 +1738,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
         resourceValues: { mana: 24, toxinVials: 3 },
@@ -1726,7 +1758,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '12d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['persistent'],
+        damageTypes: ['poison'],
         spreadMechanic: 'Spreads to enemies within 10 feet at start of their turn',
         criticalConfig: {
           critType: 'effect',
@@ -1741,6 +1773,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'pandemic_plague',
           name: 'Pandemic Plague',
           description: 'Takes poison damage at start of turn. Spreads to nearby enemies. -4 to Constitution.',
+          mechanicsText: '3d6 poison damage per turn, spreads to enemies within 10ft, -4 Constitution for 5 rounds',
           damageFormula: '3d6',
           dotFormula: '3d6',
           dotDamageType: 'poison',
@@ -1781,6 +1814,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -1851,6 +1890,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3,
+        durationUnit: 'rounds'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 32 },
@@ -1911,6 +1956,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
         resourceValues: { mana: 27, toxinVials: 5 },
@@ -1925,7 +1974,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '18d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -1966,6 +2015,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetingType: 'area',
         rangeType: 'ranged',
         rangeDistance: 30
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -2036,6 +2091,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3,
+        durationUnit: 'rounds'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 36 },
@@ -2097,6 +2158,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'minutes',
+        duration: 1,
+        durationUnit: 'minutes'
+      },
+
       resourceCost: {
         resourceTypes: ['mana', 'toxinVials'],
         resourceValues: { mana: 30, toxinVials: 'all' },
@@ -2111,7 +2178,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '22d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2170,6 +2237,12 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         rangeDistance: 60,
         aoeShape: 'circle',
         aoeParameters: { radius: 30 }
+      },
+
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5,
+        durationUnit: 'rounds'
       },
 
       resourceCost: {
@@ -2239,6 +2312,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         aoeParameters: { radius: 50 }
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 40 },
@@ -2253,7 +2330,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '22d6 + intelligence',
         elementType: 'force',
-        damageTypes: ['direct'],
+        damageTypes: ['force'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2284,6 +2361,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Fire a poison dart that deals 1d6 poison damage and applies a weakening effect.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Piercing/Thrown Dagger',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2303,10 +2381,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         maxTargets: 1
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '1d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
           resolution: 'DICE',
       },
 
@@ -2316,6 +2398,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'weakened_dart',
           name: 'Weakened',
           description: '-1 to attack rolls for 1 round',
+          mechanicsText: '-1 to attack rolls for 1 round',
           statModifier: {
             stat: 'attack_rolls',
             magnitude: -1,
@@ -2350,6 +2433,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Create a small toxic cloud that deals 1d6 poison damage to enemies in a 10-foot radius and leaves a lingering hazard for 2 rounds.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Poison/Poison Plague',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2378,7 +2462,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       damageConfig: {
         formula: '1d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['area'],
+        damageTypes: ['poison'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '1d4',
@@ -2412,6 +2496,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Create an antidote that removes all poison effects from an ally.',
       level: 1,
       spellType: 'ACTION',
+      icon: 'Healing/Cure Within',
       effectTypes: ['purification'],
       specialization: 'universal',
 
@@ -2429,6 +2514,10 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         rangeDistance: 5,
         targetRestrictions: ['ally'],
         maxTargets: 1
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       purificationConfig: {
@@ -2461,6 +2550,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Strike with concentrated venom that deals poison damage and reduces the target\'s armor.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Poison/Deadly Poison',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2480,10 +2570,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         maxTargets: 1
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '4d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
           resolution: 'DICE',
       },
 
@@ -2493,6 +2587,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'venom_blast_armor',
           name: 'Armor Corrosion',
           description: '-2 armor for 2 rounds',
+          mechanicsText: '-2 armor for 2 rounds',
           statModifier: {
             stat: 'armor',
             magnitude: -2,
@@ -2528,6 +2623,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Shock an enemy with concentrated toxins, stunning them and dealing poison damage.',
       level: 3,
       spellType: 'ACTION',
+      icon: 'Necrotic/Screaming Skull',
       effectTypes: ['damage', 'control'],
       specialization: 'universal',
 
@@ -2547,10 +2643,16 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         maxTargets: 1
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1,
+        durationUnit: 'rounds'
+      },
+
       damageConfig: {
         formula: '3d6',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
           resolution: 'DICE',
       },
 
@@ -2565,6 +2667,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'toxic_shock',
           name: 'Toxic Shock',
           description: 'Stunned by toxins - cannot act for 1 round',
+          mechanicsText: 'Stunned for 1 round, CON save DC 16 to resist',
           config: {
             stunType: 'toxic',
             saveType: 'constitution',
@@ -2599,6 +2702,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Throw a poison bomb that explodes, dealing poison damage and reducing armor for all enemies in a radius.',
       level: 4,
       spellType: 'ACTION',
+      icon: 'Arcane/Orb Manipulation',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2619,10 +2723,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '5d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['area'],
+        damageTypes: ['poison'],
         savingThrowConfig: {
           enabled: true,
           savingThrowType: 'constitution',
@@ -2640,6 +2748,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'poison_bomb_corrosion',
           name: 'Corroded',
           description: '-1 armor for 2 rounds',
+          mechanicsText: '-1 armor for 2 rounds',
           statModifier: {
             stat: 'armor',
             magnitude: -1,
@@ -2676,6 +2785,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Apply a deadly toxin that deals poison damage over time.',
       level: 5,
       spellType: 'ACTION',
+      icon: 'Poison/Poison Venom',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2695,10 +2805,16 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         maxTargets: 1
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5,
+        durationUnit: 'rounds'
+      },
+
       damageConfig: {
         formula: '6d8',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
         hasDotEffect: true,
         dotConfig: {
           dotFormula: '1d8',
@@ -2733,6 +2849,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Send a wave of toxic energy that deals poison damage and slows all enemies in a line.',
       level: 6,
       spellType: 'ACTION',
+      icon: 'Poison/Acid Splash',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2753,10 +2870,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '7d6 + intelligence',
         elementType: 'poison',
-        damageTypes: ['area'],
+        damageTypes: ['poison'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['poison_burn']
@@ -2770,6 +2891,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
           id: 'toxic_wave_slow',
           name: 'Slowed',
           description: 'Movement speed reduced by 10 feet for 2 rounds',
+          mechanicsText: 'Movement speed reduced by 10 feet for 2 rounds',
           statusType: 'slowed',
           level: 'minor',
           statPenalty: { stat: 'movement_speed', value: -10 },
@@ -2805,6 +2927,7 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
       description: 'Release a virulent plague that spreads between enemies, dealing poison damage.',
       level: 7,
       spellType: 'ACTION',
+      icon: 'Poison/Poison Contagion',
       effectTypes: ['damage'],
       specialization: 'universal',
 
@@ -2825,10 +2948,14 @@ HEAVY CONTRAPTIONS (2 parts): Healing Mist Dispenser, Acid Sprayer
         chainDistance: 20
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       damageConfig: {
         formula: '10d6',
         elementType: 'poison',
-        damageTypes: ['direct'],
+        damageTypes: ['poison'],
         criticalConfig: {
           critType: 'effect',
           critEffects: ['plague_spread']

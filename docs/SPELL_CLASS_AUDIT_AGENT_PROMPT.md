@@ -14,7 +14,9 @@ Run **3 agents in parallel**, each assigned a batch of classes. Each agent reads
 
 ### Already Completed (DO NOT RE-AUDIT)
 
-- **titanData.js** / `titan/titanSpells.js` — 27 spells audited and fixed
+- **titanData.js** / `titan/titanSpells.js` — 32 spells audited and fixed
+- **wardenData.js** — 32 spells audited and fixed
+- **toxicologistData.js** — 30 spells audited and fixed
 
 ---
 
@@ -46,6 +48,10 @@ Every spell MUST pass these before moving on:
 - **savingThrow** uses `{ ability, difficultyClass, saveOutcome }` — NOT `saveDC`/`saveType`/`savingThrowConfig`
 - **resourceCost** uses wizard format: `resourceTypes`, `resourceValues`, `actionPoints`, `components`
 - **No orphaned fields**: Remove `uses`, `requirement` from resourceCost. Use `cooldownConfig` and flat top-level fields instead.
+- **`typeConfig.school` matches actual damage types**: NOT `'force'` unless the spell actually deals force damage. Check `damageConfig.formula` and `damageTypes` to confirm.
+- **Dual-damage-type spells have `typeConfig.secondaryElement`**: The normalizer only reads `school` + `secondaryElement` from typeConfig. If a spell has 2+ damage types, the second MUST be in `secondaryElement`.
+- **No `formula: 'SPECIAL'`**: Every `damageConfig.formula` must be a readable dice formula. Variable damage should use descriptive notation like `'2d8 × stacks'` with `conditionalEffects`.
+- **Prophecy DoT effects use `damagePerRound`**: The ProphecySummary component reads `prophesied.effect.damagePerRound`, NOT `dotFormula`. Check all prophecy effects.
 
 ### Layer 2: Description ↔ Data Alignment (must-fix)
 
@@ -66,6 +72,8 @@ For EVERY spell, compare the `description` text against the structured data:
 - Every chain/bounce → `propagation`
 - Every trap → `trapConfig`
 - Every channeling → `channelingConfig` with stages
+- Every prophecy DoT → `prophesied.effect.damagePerRound` (NOT `dotFormula`)
+- Every prophecy description → contains exact damage numbers, not vague text like "massive damage"
 
 **If description is vague but data is clear** → enhance the description to match the data.
 **If data is wrong but description is clear** → fix the data to match the description.
@@ -122,6 +130,109 @@ A Pyrofiend's fire spell should feel different from a generic fire spell. Check:
 - Is the description flavorful and class-appropriate?
 
 Apply the same thinking to every class. Read the class's `overview`, `resourceSystem`, `specializations`, and `combatRole` sections in the class data file to understand the class fantasy before auditing its spells.
+
+---
+
+## Card Rendering Pitfalls (must-check)
+
+These are bugs found during auditing that agents MUST check for. They are caused by mismatches between how data is written and how the card/normalizer actually reads it.
+
+### Pitfall 1: `school` must match actual damage types
+
+The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there** — it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
+
+**Rule**: `typeConfig.school` MUST be the spell's primary damage type (the one that appears first or deals the most damage). NEVER use `'force'` as a generic placeholder unless the spell actually deals force damage.
+
+```javascript
+// WRONG — spell deals fire + necrotic but school says force
+typeConfig: { school: 'force' }
+damageConfig: { damageTypes: ['fire', 'necrotic'] }
+// Card shows: only "force" badge (normalizer stops at school)
+
+// CORRECT — school matches primary damage type
+typeConfig: { school: 'fire', secondaryElement: 'necrotic' }
+damageConfig: { damageTypes: ['fire', 'necrotic'] }
+// Card shows: fire + necrotic badges
+```
+
+### Pitfall 2: Dual-damage-type spells need `secondaryElement`
+
+For spells with TWO damage types (e.g., fire + necrotic), you MUST set `typeConfig.secondaryElement` to the second type. The normalizer checks both `typeConfig.school` and `typeConfig.secondaryElement` to build the damage type array. Without `secondaryElement`, the second type is invisible to the card.
+
+```javascript
+typeConfig: {
+  school: 'fire',
+  secondaryElement: 'necrotic',  // REQUIRED for dual-type spells
+  icon: 'Fire/Fire Storm'
+}
+```
+
+### Pitfall 3: Prophecy DoT effects must use `damagePerRound`
+
+The `ProphecySummary` component (line 98) reads `prophesied.effect.damagePerRound` to render DoT damage. It does NOT read `dotFormula`. If a prophecy effect applies a DoT (burning, poisoned, etc.), use `damagePerRound`, NOT `dotFormula`:
+
+```javascript
+// WRONG — ProphecySummary ignores this
+prophesied: {
+  effect: { name: 'Ignited', dotFormula: '2d6', duration: 3 }
+}
+
+// CORRECT — ProphecySummary renders "2d6 per round" 
+prophesied: {
+  effect: { name: 'Ignited', damagePerRound: '2d6 fire', duration: 3, unit: 'rounds' }
+}
+```
+
+### Pitfall 4: Never use `formula: 'SPECIAL'`
+
+The card renders `formula` as literal text in the damage section. `'SPECIAL'` will display as "SPECIAL necrotic damage" on the spell card, which is confusing and tells the player nothing.
+
+If damage is variable/dynamic:
+- Use a descriptive formula like `'2d8 × active_prophecies'` or `'3d6 per stack'`
+- Add `triggerConfig.conditionalEffects` with formulas per condition
+- Add a `damageNote` field explaining the scaling mechanic
+- If the spell has a base damage even without stacks, use that as the formula
+
+```javascript
+// WRONG
+damageConfig: { formula: 'SPECIAL', damageTypes: ['necrotic'] }
+
+// CORRECT — base formula + conditional scaling
+damageConfig: {
+  formula: '2d8 × active_prophecies',
+  damageTypes: ['necrotic'],
+  resolution: 'AUTOMATIC'
+},
+triggerConfig: {
+  conditionalEffects: {
+    damage: {
+      isConditional: true,
+      conditionalFormulas: {
+        '3+ stacks': '2d8 × active_prophecies + paralysis',
+        '1-2 stacks': '2d8 × active_prophecies',
+        'default': '2d8 × active_prophecies'
+      }
+    }
+  }
+}
+```
+
+### Pitfall 5: Prophecy descriptions must have actual numbers
+
+Prophecy outcome descriptions like `"Deals massive dual damage"` or `"Heavy fire damage"` are useless on a spell card. Players need exact numbers to make decisions. Every prophecy outcome description must include:
+- Exact damage formula (e.g., `"6d8 fire + 6d8 necrotic"`)
+- Exact effect details (e.g., `"2d6 fire per round for 3 rounds"`)
+- Exact stat modifiers (e.g., `"-2 to all rolls for 2 rounds"`)
+
+```javascript
+// WRONG
+prophesied: { description: 'Deals massive dual damage and burns enemies.' }
+
+// CORRECT
+prophesied: { description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.' }
+```
+
+---
 
 ## Execution Process — Per Class
 

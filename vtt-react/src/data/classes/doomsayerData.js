@@ -670,7 +670,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
               description: 'The target is engulfed in prophetic flames, suffering 1d6 fire damage each round.'
             },
             havocGain: 2,
-            description: 'Deals massive dual damage and ignites the target.'
+            description: 'Deals 3d6 fire + 1d6 force damage and ignites the target.'
           },
           base: {
             damage: '2d6 fire',
@@ -1552,12 +1552,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'A massive area prophecy detonation that creates a chaotic rupture in space.',
     spellType: 'ACTION',
     icon: 'Fire/Volcanic Erupt',
-    school: 'force',
+    school: 'fire',
     level: 4,
     specialization: 'cataclysm',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Fire/Volcanic Erupt'
@@ -1595,7 +1596,7 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
               description: 'The area becomes difficult terrain.'
             },
             havocGain: 6,
-            description: 'Deals massive dual-type damage and turns the area into difficult terrain for 5 rounds.'
+            description: 'Deals 6d8 fire + 3d8 necrotic damage and turns the area into difficult terrain for 5 rounds.'
           },
           base: {
             damage: '4d8 fire + 2d8 necrotic',
@@ -1627,12 +1628,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'A devastating prophecy that shatters an area with concentrated RNG chaos, twisting reality itself.',
     spellType: 'ACTION',
     icon: 'Void/Red Energy Burst',
-    school: 'force',
+    school: 'fire',
     level: 5,
     specialization: 'universal',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Void/Red Energy Burst'
@@ -1700,13 +1702,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
 {
     id: 'doomsayer_stacked_doom',
     name: 'Stacked Doom',
-    description: 'Forcefully detonate all active prophecies on a single target simultaneously, creating a cascade of inevitable ruin.',
+    description: 'Forcefully detonate all active prophecies on a single target simultaneously. Each active prophecy resolves as its Prophesied outcome, dealing 2d8 necrotic damage per prophecy detonated. If 3 or more prophecies are detonated at once, the target is paralyzed for 1 round.',
     spellType: 'ACTION',
     icon: 'Necrotic/Skull Burst',
     school: 'necrotic',
     level: 5,
     specialization: 'requiem',
-    effectTypes: ['damage'],
+    effectTypes: ['damage', 'control'],
     typeConfig: {
       school: 'necrotic',
       castTime: '1 action',
@@ -1729,9 +1731,33 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     resolution: 'AUTOMATIC',
     damageConfig: {
-      formula: 'SPECIAL',
+      formula: '2d8 × active_prophecies',
       damageTypes: ['necrotic'],
-      damageNote: 'All active prophecies on target resolve as Prophesied'
+      resolution: 'AUTOMATIC',
+      dotConfig: {
+        enabled: false
+      }
+    },
+    controlConfig: {
+      controlType: 'incapacitation',
+      effects: [
+        {
+          id: 'paralyzed',
+          controlType: 'incapacitation',
+          name: 'Paralyzed',
+          description: 'Paralyzed for 1 round if 3+ prophecies are detonated',
+          mechanicsText: 'Triggered when 3 or more active prophecies are detonated simultaneously',
+          config: {
+            duration: 1,
+            durationUnit: 'rounds',
+            strength: 'strong',
+            recoveryMethod: 'save',
+            durationType: 'conditional'
+          }
+        }
+      ],
+      duration: 1,
+      durationUnit: 'rounds'
     },
     triggerConfig: {
       triggers: [
@@ -1739,9 +1765,20 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
           id: 'mass_detonation',
           name: 'Chain Detonation',
           triggerType: 'on_cast',
-          action: 'All active prophecies on the target resolve as Prophesied. If 3+ prophecies are detonated, the target is paralyzed for 1 round.'
+          action: 'All active prophecies on the target resolve as Prophesied. Each prophecy deals 2d8 necrotic damage. If 3+ prophecies detonated, target is paralyzed for 1 round.'
         }
-      ]
+      ],
+      conditionalEffects: {
+        damage: {
+          isConditional: true,
+          defaultEnabled: false,
+          conditionalFormulas: {
+            '3+ prophecies': '2d8 × active_prophecies + paralysis',
+            '1-2 prophecies': '2d8 × active_prophecies',
+            'default': '2d8 × active_prophecies'
+          }
+        }
+      }
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
@@ -1752,15 +1789,16 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
 {
     id: 'doomsayer_doom_nova',
     name: 'Doom Nova',
-    description: 'Create an expanding wave of prophetic doom that damages all enemies in a massive area.',
+    description: 'Create an expanding wave of prophetic doom that damages all enemies in a 40-foot area. Prophesied: 6d8 fire + 6d8 necrotic damage and ignites enemies for 2d6 fire damage per round for 3 rounds. Base: 4d8 fire + 4d8 necrotic. Outside: 2d8 fire + 2d8 necrotic backlash to self.',
     spellType: 'ACTION',
     icon: 'Fire/Fire Storm',
-    school: 'force',
+    school: 'fire',
     level: 5,
     specialization: 'cataclysm',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Fire/Fire Storm'
@@ -1795,35 +1833,49 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
               name: 'Ignited',
               duration: 3,
               unit: 'rounds',
-              dotFormula: '2d6',
+              damagePerRound: '2d6 fire',
               dotDamageType: 'fire'
             },
             havocGain: 8,
-            description: 'Deals massive dual damage and ignites all enemies in range for 2d6 fire damage per round.'
+            description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.'
           },
           base: {
             damage: '4d8 fire + 4d8 necrotic',
             havocGain: 4,
-            description: 'Deals moderate dual damage to all enemies.'
+            description: 'Deals 4d8 fire + 4d8 necrotic damage to all enemies.'
           },
           outside: {
             backlash: '2d8 fire + 2d8 necrotic to self',
             havocGain: 0,
-            description: 'Deals dual damage to you.'
+            description: 'Backfires: deals 2d8 fire + 2d8 necrotic damage to you.'
           }
         }
       }
     ],
     damageConfig: {
-      formula: '4d8+4d8',
+      formula: '4d8 fire + 4d8 necrotic',
       damageTypes: ['fire', 'necrotic'],
-      resolution: 'PROPHECY'
+      resolution: 'PROPHECY',
+      dotConfig: {
+        enabled: true,
+        damagePerTick: '2d6',
+        damageType: 'fire',
+        tickFrequency: 'round',
+        duration: 3,
+        canStack: false,
+        maxStacks: 1
+      }
+    },
+    durationConfig: {
+      durationType: 'rounds',
+      durationValue: 3,
+      durationUnit: 'rounds'
     },
     cooldownConfig: {
       cooldownType: 'turn_based',
       cooldownValue: 2
     },
-    tags: ['damage', 'fire', 'necrotic', 'prophecy', 'cataclysm', 'area']
+    tags: ['damage', 'fire', 'necrotic', 'prophecy', 'cataclysm', 'area', 'dot']
   },
 {
     id: 'doomsayer_cascade_doom',
@@ -1831,12 +1883,12 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'When a prophecy Prophesied, all targets in the zone trigger a secondary, cascading prophecy.',
     spellType: 'ACTION',
     icon: 'Fire/Fiery Arc',
-    school: 'force',
+    school: 'fire',
     level: 6,
     specialization: 'cataclysm',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Fire/Fiery Arc'
@@ -1906,12 +1958,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'The final bell tolls. Detonate all active prophecies with maximized effects after the battle has ripened.',
     spellType: 'ACTION',
     icon: 'Void/Falling Meteors',
-    school: 'force',
+    school: 'necrotic',
     level: 6,
     specialization: 'endbringer',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'necrotic',
+      secondaryElement: 'fire',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Void/Falling Meteors'
@@ -2101,12 +2154,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'Create a 40ft zone where fate itself is subject to your prophecy range for 3 rounds.',
     spellType: 'ACTION',
     icon: 'Fire/Volcanic Erupt',
-    school: 'force',
+    school: 'fire',
     level: 7,
     specialization: 'cataclysm',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Fire/Volcanic Erupt'
@@ -2266,7 +2320,8 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
       classResource: {
         type: 'havoc',
         cost: 5
-      }
+      },
+      components: ['verbal']
     },
     resolution: 'AUTOMATIC',
     utilityConfig: {
@@ -2431,12 +2486,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'Speak the Word of Ending. All creatures in range face a prophecy of total annihilation.',
     spellType: 'ACTION',
     icon: 'Void/Black Hole',
-    school: 'force',
+    school: 'necrotic',
     level: 9,
     specialization: 'universal',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'necrotic',
+      secondaryElement: 'fire',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Void/Black Hole'
@@ -2503,12 +2559,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'Become a walking cataclysm. Everything around you is subject to prophetic destruction as you step through the ruins of fate.',
     spellType: 'ACTION',
     icon: 'Fire/Fire Demon',
-    school: 'force',
+    school: 'fire',
     level: 9,
     specialization: 'cataclysm',
     effectTypes: ['buff'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Fire/Fire Demon'
@@ -2710,12 +2767,13 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     description: 'Speak the prophecy that ends all prophecies. Every active prophecy on the battlefield detonates simultaneously at maximum power.',
     spellType: 'ACTION',
     icon: 'Void/Consumed by Void',
-    school: 'force',
+    school: 'fire',
     level: 10,
     specialization: 'cataclysm',
     effectTypes: ['damage'],
     typeConfig: {
-      school: 'force',
+      school: 'fire',
+      secondaryElement: 'necrotic',
       castTime: '1 action',
       castTimeType: 'action',
       icon: 'Void/Consumed by Void'
@@ -2737,9 +2795,23 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
     },
     resolution: 'AUTOMATIC',
     damageConfig: {
-      formula: 'SPECIAL',
+      formula: '4d8 fire + 4d8 necrotic per active prophecy',
       damageTypes: ['fire', 'necrotic', 'force'],
-      damageNote: 'All active prophecies detonate as Prophesied. Scorched Earth zone 3d8/round for 5 rounds.'
+      resolution: 'AUTOMATIC',
+      dotConfig: {
+        enabled: true,
+        damagePerTick: '3d8',
+        damageType: 'fire',
+        tickFrequency: 'round',
+        duration: 5,
+        canStack: false,
+        maxStacks: 1
+      }
+    },
+    durationConfig: {
+      durationType: 'rounds',
+      durationValue: 5,
+      durationUnit: 'rounds'
     },
     triggerConfig: {
       triggers: [

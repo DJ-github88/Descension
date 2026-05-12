@@ -146,6 +146,12 @@ export const TITAN_SPELLS = [
         }
       },
 
+      effectTargeting: {
+        target: 'all_enemies',
+        range: 10,
+        targetingMode: 'aoe_radius'
+      },
+
       tags: ['ultimate', 'radiant', 'aoe', 'blind', 'solara', 'titan']
     },
 
@@ -321,6 +327,12 @@ export const TITAN_SPELLS = [
         }
       },
 
+      effectTargeting: {
+        target: 'all_allies',
+        range: 15,
+        targetingMode: 'aoe_radius'
+      },
+
       tags: ['ultimate', 'shield', 'aoe', 'support', 'lunara', 'titan']
     },
 
@@ -486,6 +498,12 @@ export const TITAN_SPELLS = [
           usesPerLongRest: 1,
           championBonus: '2 uses per long rest, increased damage'
         }
+      },
+
+      effectTargeting: {
+        target: 'single_enemy',
+        range: 60,
+        targetingMode: 'ranged'
       },
 
       tags: ['ultimate', 'force', 'stun', 'single target', 'astraeus', 'titan']
@@ -659,6 +677,12 @@ export const TITAN_SPELLS = [
           usesPerLongRest: 1,
           championBonus: '2 uses per long rest, increased damage'
         }
+      },
+
+      effectTargeting: {
+        target: 'all_enemies',
+        range: 20,
+        targetingMode: 'aoe_radius'
       },
 
       tags: ['ultimate', 'bludgeoning', 'aoe', 'prone', 'terranox', 'titan']
@@ -838,6 +862,23 @@ export const TITAN_SPELLS = [
         }
       },
 
+      effectTargeting: {
+        target: 'all_enemies_at_destination',
+        range: 5,
+        targetingMode: 'aoe_radius'
+      },
+
+      effectResolutions: [{
+        effect: 'teleport',
+        resolution: 'AUTOMATIC',
+        timing: 'instant'
+      }, {
+        effect: 'damage',
+        resolution: 'DICE',
+        timing: 'on_arrival',
+        formula: '3d6'
+      }],
+
       tags: ['ultimate', 'lightning', 'teleport', 'aoe', 'zephyra', 'titan']
     },
 
@@ -881,13 +922,19 @@ export const TITAN_SPELLS = [
 
       cooldownConfig: {
         cooldownType: 'long_rest',
-        cooldownValue: 1
+        cooldownValue: 1,
+        usesPerLongRest: 3
       },
 
       buffConfig: {
         effects: [
           { id: 'devotion_switch', name: 'Combat Attunement', description: 'Switch to a different celestial devotion, gaining new benefits immediately', mechanicsText: 'Switch devotion for 1 AP, gain burst effect from new devotion' }
         ]
+      },
+
+      effectTargeting: {
+        target: 'self',
+        burstOnSwitch: true
       },
 
       effects: {
@@ -1209,6 +1256,11 @@ export const TITAN_SPELLS = [
         }
       },
 
+      propagation: {
+        devotionScaling: true,
+        scalesWithStrength: true
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 3
@@ -1239,6 +1291,11 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['ally']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 4
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 20 },
@@ -1247,6 +1304,8 @@ export const TITAN_SPELLS = [
         verbalText: 'Lunara, protect us!',
         somaticText: 'Raise hand to moon'
       },
+
+      devotionRequired: 'Lunara',
 
       resolution: 'DICE',
       effectTypes: ['buff', 'healing'],
@@ -1276,6 +1335,11 @@ export const TITAN_SPELLS = [
         healingType: 'hot',
         resolution: 'DICE',
         hotConfig: { enabled: true, healingPerTick: '2d6', tickFrequency: 'round', duration: 4 }
+      },
+
+      propagation: {
+        devotionScaling: true,
+        scalesWithStrength: true
       },
 
       cooldownConfig: {
@@ -1309,6 +1373,10 @@ export const TITAN_SPELLS = [
         aoeParameters: { radius: 15 }
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 20 },
@@ -1317,6 +1385,8 @@ export const TITAN_SPELLS = [
         verbalText: 'Stars, fall!',
         somaticText: 'Point at sky then ground'
       },
+
+      devotionRequired: 'Astraeus',
 
       resolution: 'DICE',
       effectTypes: ['damage', 'control'],
@@ -1345,6 +1415,11 @@ export const TITAN_SPELLS = [
           name: 'Prone',
           description: 'Knocked prone by meteor impact'
         }]
+      },
+
+      propagation: {
+        devotionScaling: true,
+        scalesWithStrength: true
       },
 
       cooldownConfig: {
@@ -1381,6 +1456,10 @@ export const TITAN_SPELLS = [
         aoeParameters: { radius: 30 }
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 22 },
@@ -1389,6 +1468,8 @@ export const TITAN_SPELLS = [
         verbalText: 'Terranox, shake the earth!',
         somaticText: 'Stomp ground'
       },
+
+      devotionRequired: 'Terranox',
 
       resolution: 'DICE',
       effectTypes: ['damage', 'control'],
@@ -1426,6 +1507,11 @@ export const TITAN_SPELLS = [
         movable: false
       },
 
+      propagation: {
+        devotionScaling: true,
+        scalesWithStrength: true
+      },
+
       cooldownConfig: {
         cooldownType: 'turn_based',
         cooldownValue: 4
@@ -1458,6 +1544,11 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 24 },
@@ -1465,6 +1556,8 @@ export const TITAN_SPELLS = [
         components: ['verbal'],
         verbalText: 'Zephyra, storm!'
       },
+
+      devotionRequired: 'Zephyra',
 
       resolution: 'DICE',
       effectTypes: ['damage', 'buff'],
@@ -1521,6 +1614,11 @@ export const TITAN_SPELLS = [
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 22 },
@@ -1546,6 +1644,16 @@ export const TITAN_SPELLS = [
         concentrationRequired: false,
         canBeDispelled: true
       },
+
+      conditionalEffects: [{
+        condition: 'has_devotion',
+        effect: 'Gain passive benefits from current devotion',
+        devotionSpecific: true
+      }, {
+        condition: 'choose_second_devotion',
+        effect: 'Gain 50% benefits from a second chosen devotion',
+        devotionSpecific: false
+      }],
 
       cooldownConfig: {
         cooldownType: 'turn_based',
@@ -1578,6 +1686,11 @@ export const TITAN_SPELLS = [
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 28 },
@@ -1585,6 +1698,8 @@ export const TITAN_SPELLS = [
         components: ['verbal'],
         verbalText: 'SOLARA, EMBODY ME!'
       },
+
+      devotionRequired: 'Solara',
 
       resolution: 'NONE',
       effectTypes: ['transformation'],
@@ -1642,6 +1757,11 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['ally']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 28 },
@@ -1650,6 +1770,8 @@ export const TITAN_SPELLS = [
         verbalText: 'Lunara, bless us!',
         somaticText: 'Arms raised to moon'
       },
+
+      devotionRequired: 'Lunara',
 
       resolution: 'DICE',
       effectTypes: ['healing', 'buff'],
@@ -1707,6 +1829,10 @@ export const TITAN_SPELLS = [
         aoeParameters: { radius: 15 }
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 28 },
@@ -1715,6 +1841,8 @@ export const TITAN_SPELLS = [
         verbalText: 'Astraeus, meteors!',
         somaticText: 'Pull stars from sky'
       },
+
+      devotionRequired: 'Astraeus',
 
       resolution: 'DICE',
       effectTypes: ['damage'],
@@ -1771,6 +1899,11 @@ export const TITAN_SPELLS = [
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 30 },
@@ -1778,6 +1911,8 @@ export const TITAN_SPELLS = [
         components: ['verbal'],
         verbalText: 'TERRANOX, FORTRESS!'
       },
+
+      devotionRequired: 'Terranox',
 
       resolution: 'NONE',
       effectTypes: ['transformation'],
@@ -1837,6 +1972,11 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 32 },
@@ -1844,6 +1984,8 @@ export const TITAN_SPELLS = [
         components: ['verbal'],
         verbalText: 'ZEPHYRA, STORM LORD!'
       },
+
+      devotionRequired: 'Zephyra',
 
       resolution: 'DICE',
       effectTypes: ['damage', 'control'],
@@ -1859,15 +2001,20 @@ export const TITAN_SPELLS = [
         }
       },
 
-      controlConfig:
-      {
+      controlConfig: {
         controlType: 'stun',
         strength: 'strong',
         duration: 1,
         durationUnit: 'rounds',
         saveDC: 18,
         saveType: 'constitution',
-        savingThrow: true
+        savingThrow: true,
+        effects: [{
+          id: 'storm_stunned',
+          name: 'Stunned',
+          description: 'Stunned by storm lightning',
+          mechanicsText: 'Cannot move or take actions for 1 round, Constitution save DC 18 negates'
+        }]
       },
 
       cooldownConfig: {
@@ -1900,6 +2047,10 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['enemy']
       },
 
+      durationConfig: {
+        durationType: 'instant'
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 30 },
@@ -1922,7 +2073,11 @@ export const TITAN_SPELLS = [
           partialEffect: true,
           partialEffectFormula: 'damage/2'
         },
-        bonusEffects: 'Deals double damage to undead and fiends',
+        conditionalEffects: [{
+          condition: 'target_type === "undead" || target_type === "fiend"',
+          effect: 'Double damage',
+          mechanicsText: 'Deals double damage to undead and fiends'
+        }],
         criticalConfig: {
           enabled: true,
           critType: 'dice',
@@ -1963,6 +2118,11 @@ export const TITAN_SPELLS = [
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 5
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 35 },
@@ -1997,6 +2157,17 @@ export const TITAN_SPELLS = [
         drawback: 'When the avatar form ends, you gain 1 level of exhaustion and cannot use devotion abilities for 1 hour. The divine power is too much for a mortal body to channel without consequence.'
       },
 
+      conditionalEffects: [{
+        condition: 'devotion_active',
+        effect: 'Devotion abilities enhanced during transformation',
+        devotionSpecific: true
+      }],
+
+      propagation: {
+        devotionScaling: true,
+        scalesWithAllStats: true
+      },
+
       cooldownConfig: {
         cooldownType: 'long_rest',
         cooldownValue: 1
@@ -2027,6 +2198,10 @@ export const TITAN_SPELLS = [
         aoeShape: 'circle',
         aoeParameters: { radius: 40 },
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       resourceCost: {
@@ -2092,6 +2267,11 @@ export const TITAN_SPELLS = [
         targetRestrictions: ['ally']
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 1
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 35 },
@@ -2148,6 +2328,11 @@ export const TITAN_SPELLS = [
         rangeType: 'self'
       },
 
+      durationConfig: {
+        durationType: 'rounds',
+        duration: 3
+      },
+
       resourceCost: {
         resourceTypes: ['mana'],
         resourceValues: { mana: 40 },
@@ -2183,6 +2368,18 @@ export const TITAN_SPELLS = [
         concentrationRequired: false,
         canBeDispelled: false
       },
+
+      effectResolutions: [{
+        effect: 'transformation',
+        resolution: 'AUTOMATIC',
+        timing: 'instant'
+      }, {
+        effect: 'aftermath',
+        resolution: 'DICE',
+        timing: 'on_end',
+        formula: '2d6',
+        damageTypes: ['radiant']
+      }],
 
       specialMechanics: {
         celestialFusion: {
@@ -2220,6 +2417,10 @@ export const TITAN_SPELLS = [
         aoeShape: 'circle',
         aoeParameters: { radius: 100 },
         targetRestrictions: ['enemy']
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       resourceCost: {
@@ -2291,6 +2492,10 @@ export const TITAN_SPELLS = [
         aoeShape: 'circle',
         aoeParameters: { radius: 60 },
         targetRestrictions: ['ally', 'dead']
+      },
+
+      durationConfig: {
+        durationType: 'instant'
       },
 
       resourceCost: {

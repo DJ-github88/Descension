@@ -903,6 +903,79 @@ triggerConfig: {
 
 ---
 
+## Card Rendering Pitfalls (MUST CHECK)
+
+These are real bugs found during auditing. They are caused by mismatches between how data is written and how the normalizer/card actually reads it.
+
+### Pitfall 1: `school` must match actual damage types
+
+The normalizer (`spellNormalizer.js` line 250) reads `typeConfig.school` as the **primary** damage type and **stops there** — it never reaches `damageConfig.damageTypes` if `typeConfig.school` is already set. So if a spell deals fire + necrotic damage but has `school: 'force'`, the card will only show a force badge.
+
+**Rule**: `typeConfig.school` MUST be the spell's primary damage type. NEVER use `'force'` as a generic placeholder unless the spell actually deals force damage.
+
+```javascript
+// WRONG — spell deals fire + necrotic but school says force
+typeConfig: { school: 'force' }
+damageConfig: { damageTypes: ['fire', 'necrotic'] }
+// Card shows: only "force" badge
+
+// CORRECT
+typeConfig: { school: 'fire', secondaryElement: 'necrotic' }
+damageConfig: { damageTypes: ['fire', 'necrotic'] }
+// Card shows: fire + necrotic badges
+```
+
+### Pitfall 2: Dual-damage-type spells need `secondaryElement`
+
+For spells with TWO damage types, you MUST set `typeConfig.secondaryElement` to the second type. Without it, the second type is invisible to the card.
+
+```javascript
+typeConfig: {
+  school: 'fire',
+  secondaryElement: 'necrotic',  // REQUIRED for dual-type
+  icon: 'Fire/Fire Storm'
+}
+```
+
+### Pitfall 3: Prophecy DoT effects must use `damagePerRound`
+
+The `ProphecySummary` component (line 98) reads `prophesied.effect.damagePerRound` to render DoT. It does NOT read `dotFormula`.
+
+```javascript
+// WRONG — ProphecySummary ignores this
+prophesied: {
+  effect: { name: 'Ignited', dotFormula: '2d6', duration: 3 }
+}
+
+// CORRECT — ProphecySummary renders "2d6 per round"
+prophesied: {
+  effect: { name: 'Ignited', damagePerRound: '2d6 fire', duration: 3, unit: 'rounds' }
+}
+```
+
+### Pitfall 4: Never use `formula: 'SPECIAL'`
+
+The card renders `formula` as literal text. `'SPECIAL'` displays as "SPECIAL necrotic damage" — confusing and useless. Use descriptive notation with `conditionalEffects`:
+
+```javascript
+// CORRECT
+damageConfig: { formula: '2d8 × active_prophecies', damageTypes: ['necrotic'], resolution: 'AUTOMATIC' }
+```
+
+### Pitfall 5: Prophecy descriptions must have actual numbers
+
+Descriptions like `"Deals massive dual damage"` are useless on a spell card. Every prophecy outcome description must include exact formulas:
+
+```javascript
+// WRONG
+prophesied: { description: 'Deals massive dual damage and burns enemies.' }
+
+// CORRECT
+prophesied: { description: 'Deals 6d8 fire + 6d8 necrotic damage and ignites all enemies for 2d6 fire damage per round for 3 rounds.' }
+```
+
+---
+
 ## Important Context
 
 - The pipeline was audited and fixed: ALL fields survive the normalizer → transformer → card pipeline (115/115 top-level keys, 35/35 critical fields verified)
