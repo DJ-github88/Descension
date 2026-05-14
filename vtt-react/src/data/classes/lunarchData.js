@@ -1,24 +1,24 @@
 /**
  * Lunarch Class Data
- * 
+ *
  * Complete class information for the Lunarch - a celestial archer and lunar mage
  * who channels the power of moon phases to adapt their combat style.
  */
 
 export const LUNARCH_DATA = {
-  id: 'lunarch',
-  name: 'Lunarch',
-  icon: 'fas fa-moon',
-  role: 'Support/Control',
-  damageTypes: ['arcane', 'radiant'],
+  id: "lunarch",
+  name: "Lunarch",
+  icon: "fas fa-moon",
+  role: "Support/Control",
+  damageTypes: ["arcane", "radiant"],
 
   // Overview section
   overview: {
-    title: 'The Lunarch',
-    subtitle: 'Celestial Archer and Lunar Mage',
+    title: "The Lunarch",
+    subtitle: "Celestial Archer and Lunar Mage",
 
     quickOverview: {
-      title: 'Quick Overview',
+      title: "Quick Overview",
       content: `**What You Need to Know**: The Lunarch channels power from four moon phases, each granting distinct bonuses that cycle naturally or can be shifted manually for mana.
 
 **Core Mechanic**: New Moon (defense/recovery) → Waxing Moon (support/healing) → Full Moon (offense/damage) → Waning Moon (control/efficiency)
@@ -33,7 +33,7 @@ export const LUNARCH_DATA = {
     description: `The Lunarch is a master of celestial magic who draws power from the phases of the moon. Inspired by ancient lunar priestesses and celestial guardians, Lunarchs channel the ever-changing energy of the moon to adapt their combat style. Through the Phase Shift system, they flow between four distinct lunar phases, each granting unique bonuses and altering their spell effects. This dynamic resource system rewards tactical thinking and phase management, allowing Lunarchs to excel as versatile ranged combatants who can shift between offense, defense, and support as the battle demands.`,
 
     roleplayIdentity: {
-      title: 'Roleplay Identity',
+      title: "Roleplay Identity",
       content: `Lunarchs are devoted followers of lunar deities, celestial scholars, or individuals touched by moonlight magic. They often serve as guardians of sacred groves, protectors of the night, or wandering mystics who follow the moon's guidance.
 
 **Common Lunarch Archetypes**:
@@ -44,11 +44,11 @@ export const LUNARCH_DATA = {
 - **The Tide Caller**: A coastal mystic who understands the moon's influence on tides and uses this connection to manipulate water and fate
 
 **Personality Traits**:
-Lunarchs tend to be contemplative, patient, and attuned to natural cycles. They understand that power waxes and wanes, and they embrace change rather than resist it. Many are nocturnal by preference, finding peace and clarity under starlit skies.`
+Lunarchs tend to be contemplative, patient, and attuned to natural cycles. They understand that power waxes and wanes, and they embrace change rather than resist it. Many are nocturnal by preference, finding peace and clarity under starlit skies.`,
     },
 
     combatRole: {
-      title: 'Combat Role',
+      title: "Combat Role",
       content: `**Primary Role**: Ranged Support/Control with adaptive damage potential
 
 **Combat Strengths**:
@@ -66,11 +66,11 @@ Lunarchs tend to be contemplative, patient, and attuned to natural cycles. They 
 - Vulnerable in melee range
 
 **Optimal Positioning**:
-Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefits—staying near allies during support phases, maintaining distance during offensive phases.`
+Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefits—staying near allies during support phases, maintaining distance during offensive phases.`,
     },
 
     playstyle: {
-      title: 'Playstyle & Strategy',
+      title: "Playstyle & Strategy",
       content: `**Phase Management**:
 The key to mastering the Lunarch is understanding when to shift phases and when to let them cycle naturally. Each phase offers distinct advantages:
 
@@ -89,11 +89,11 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 - Coordinate with tanks to know when you'll need defensive phases
 - Communicate with healers about when you'll shift to Waxing Moon for support
 - Time Full Moon phases with your team's burst damage windows
-- Use Waning Moon to extend crowd control effects from allies`
+- Use Waning Moon to extend crowd control effects from allies`,
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Lunar Cycle',
+      title: "Combat Example: The Lunar Cycle",
       content: `**The Setup**: You're a Lunarch (Moonlight Sentinel specialization) facing a group of shadow creatures (4 shadow wraiths + 1 shadow lord). Your party is with you. Starting Phase: New Moon (all Lunarchs start combat in New Moon). Starting Mana: 50/60. Your goal: Cycle through lunar phases strategically, using each phase's unique bonuses to adapt to the battle.
 
 > **PHASE SKIP RULE**: When you manually shift to any phase, the 3-round timer resets. After your shifted phase ends, the cycle resumes from the NEXT phase in order. For example, shifting New Moon → Full Moon means after Full expires, you cycle to Waning (Waxing was skipped). Waxing returns after Waning completes.
@@ -258,55 +258,69 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 6. **Phase Duration**: Each phase lasts 3 rounds naturally, manual shift resets timer
 7. **Strategic Shifting**: Skipped Waxing Moon (healing) because didn't need it, went straight to Full Moon for damage
 
-You're not a static caster. You're a LUNAR MAGE who flows through moon phases. New Moon for defense and recovery. Waxing Moon for healing and support. Full Moon for MAXIMUM DAMAGE. Waning Moon for mana efficiency and control. The key is knowing when to let phases cycle naturally (free) and when to manually shift (8 mana). If you need damage NOW, shift to Full Moon. If you're low on mana, let it cycle to Waning Moon. The moon is always changing, and so are you.`
-    }
+You're not a static caster. You're a LUNAR MAGE who flows through moon phases. New Moon for defense and recovery. Waxing Moon for healing and support. Full Moon for MAXIMUM DAMAGE. Waning Moon for mana efficiency and control. The key is knowing when to let phases cycle naturally (free) and when to manually shift (8 mana). If you need damage NOW, shift to Full Moon. If you're low on mana, let it cycle to Waning Moon. The moon is always changing, and so are you.`,
+    },
   },
 
   resourceSystem: {
-    title: 'The Lunar Cycle',
-    subtitle: 'Flowing Through the Four Phases',
+    title: "The Lunar Cycle",
+    subtitle: "Flowing Through the Four Phases",
 
     description: `The Lunarch is a celestial master who channels the shifting phases of the moon to adapt their combat role. By flowing through the Lunar Cycle—from the defensive stillness of the New Moon to the radiant fury of the Full Moon—they adapt to the battlefield's needs. Whether they are healing wounds under a Waxing Moon or conserving mana during the Waning phase, the Lunarch's strength lies in their rhythmic mastery of time and celestial alignment.`,
 
     cards: [
       {
-        title: '🌑 New Moon (Defensive)',
-        stats: '+2 Armor | +1d6 HP Regen | Stealth Adv',
-        details: 'The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.'
+        title: "🌑 New Moon (Defensive)",
+        stats: "+2 Armor | +1d6 HP Regen | Stealth Adv",
+        details:
+          "The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.",
       },
       {
-        title: '🌒 Waxing Moon (Growth)',
-        stats: '+1d6 Healing | +10ft Speed',
-        details: 'The phase of expansion. Your supportive spells and movement are enhanced, allowing you to reposition and mend allies.'
+        title: "🌒 Waxing Moon (Growth)",
+        stats: "+1d6 Healing | +10ft Speed",
+        details:
+          "The phase of expansion. Your supportive spells and movement are enhanced, allowing you to reposition and mend allies.",
       },
       {
-        title: '🌕 Full Moon (Radiance)',
-        stats: '+2d6 Radiant DMG | Crit 19-20',
-        details: 'The phase of peak power. Unleash your most devastating attacks. Advantage on all attack rolls while the moon is full.'
+        title: "🌕 Full Moon (Radiance)",
+        stats: "+2d6 Radiant DMG | Crit 19-20",
+        details:
+          "The phase of peak power. Unleash your most devastating attacks. Advantage on all attack rolls while the moon is full.",
       },
       {
-        title: '🌘 Waning Moon (Efficiency)',
-        stats: '-2 Mana Costs | +1 Rnd Debuffs',
-        details: 'The phase of release. Conserve your mana and ensure your control effects linger longer on the battlefield.'
-      }
+        title: "🌘 Waning Moon (Efficiency)",
+        stats: "-2 Mana Costs | +1 Rnd Debuffs",
+        details:
+          "The phase of release. Conserve your mana and ensure your control effects linger longer on the battlefield.",
+      },
     ],
 
     generationTable: {
-      headers: ['Action', 'Cost', 'Effect'],
+      headers: ["Action", "Cost", "Effect"],
       rows: [
-        ['Natural Cycle', 'Free', 'Auto-advances to next phase every 3 rounds'],
-        ['Phase Shift', '8 Mana', 'Manually jump to any phase (resets 3-rnd timer)'],
-        ['Lunar Eclipse', '15 Mana', 'Gain benefits of New + Full Moon for 2 rounds (Starfall Invoker Lv6 spell)']
-      ]
+        ["Natural Cycle", "Free", "Auto-advances to next phase every 3 rounds"],
+        [
+          "Phase Shift",
+          "8 Mana",
+          "Manually jump to any phase (resets 3-rnd timer)",
+        ],
+        [
+          "Lunar Eclipse",
+          "15 Mana",
+          "Gain benefits of New + Full Moon for 2 rounds (Starfall Invoker Lv6 spell)",
+        ],
+      ],
     },
 
     usage: {
-      momentum: 'Coordinate your burst with the Full Moon. If the timer is almost up, spend the mana to "Shift" back into Full Moon to reset the 3-round clock and stay in the offensive pocket.',
-      flourish: '⚠️ Phase Awareness: Don’t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.'
+      momentum:
+        'Coordinate your burst with the Full Moon. If the timer is almost up, spend the mana to "Shift" back into Full Moon to reset the 3-round clock and stay in the offensive pocket.',
+      flourish:
+        "⚠️ Phase Awareness: Don’t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.",
     },
 
     overheatRules: {
-      title: 'Celestial Alignment',
+      title: "Celestial Alignment",
       content: `Your current lunar phase determines your **Stance**, significantly altering your role on the battlefield. 
 
 **🌑 New Moon (Defensive Stance)**:
@@ -323,11 +337,11 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
 
 **🌘 Waning Moon (Efficiency Stance)**:
 - **Focus**: Crowd control and stabilization.
-- **Strategy**: Use the reduced mana costs to spam control spells. The increased debuff duration ensures your slowing and blinding effects stabilize the field before the cycle resets.`
+- **Strategy**: Use the reduced mana costs to spam control spells. The increased debuff duration ensures your slowing and blinding effects stabilize the field before the cycle resets.`,
     },
 
     strategicConsiderations: {
-      title: 'The Rhythmic Archer',
+      title: "The Rhythmic Archer",
       content: `**The 3-Round Rhythm**: Every combat has a pulse. You have 3 rounds to maximize each phase. Don't waste "Full Moon" rounds moving; move during "Waxing Moon" so you're planted and ready to fire when the light peaks.
 
 **The Mana-Rich Shift**: Shifting costs 8 Mana—more than many spells. Only shift when the situation is desperate or when skipping a phase (like Waning) allows you to secure a kill that ends the fight early.
@@ -337,12 +351,12 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
 **Worked Example (Shift Timing)**:
 - **Round 2 of Waxing Moon**: Your tank is hit for 50 damage.
 - **The Play**: Don't wait for the cycle. Spend 8 Mana to Shift to Waxing Moon *again* (resetting the timer) or stay and use your enhanced +1d6 healing immediately. 
-- **The Result**: You maximize the support window when it's needed most, rather than being forced into an offensive phase next round.`
+- **The Result**: You maximize the support window when it's needed most, rather than being forced into an offensive phase next round.`,
     },
 
     playingInPerson: {
-      title: 'Playing in Person',
-      subtitle: 'The Phase Dial',
+      title: "Playing in Person",
+      subtitle: "The Phase Dial",
       content: `Tracking a 4-phase cycle that changes every 3 rounds can be tricky. Use physical props to keep the rhythm.
 
 **Required Materials**:
@@ -360,2165 +374,2517 @@ TIMER: 3 Rounds per Phase (Auto-Advances)
 SHIFT: 8 Mana to change immediately (Resets Timer)
 \`\`\`
 
-**Tactile Tip**: When you "Shift" manually, physically spin your phase dial. It emphasizes the magical effort of bending the heavens to your will.`
-    }
+**Tactile Tip**: When you "Shift" manually, physically spin your phase dial. It emphasizes the magical effort of bending the heavens to your will.`,
+    },
   },
-  
+
   // Specializations
   specializations: {
-    title: 'Lunarch Specializations',
-    subtitle: 'Three Paths of Lunar Mastery',
-    
+    title: "Lunarch Specializations",
+    subtitle: "Three Paths of Lunar Mastery",
+
     description: `Every Lunarch chooses one of three specializations that define their approach to lunar magic. Each specialization emphasizes different aspects of the moon's power and offers unique passive abilities that enhance specific playstyles.`,
-    
+
     sharedPassive: {
-      name: 'Lunar Empowerment',
-      icon: 'Arcane/Star Trail Path',
-      description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.'
+      name: "Lunar Empowerment",
+      icon: "Arcane/Star Trail Path",
+      description:
+        "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
     },
 
     specs: [
       {
-        id: 'moonlight-sentinel',
-        name: 'Moonlight Sentinel',
-        icon: 'Nature/Owl',
-        color: '#C0C0C0',
-        theme: 'Precision Archer',
-        
+        id: "moonlight-sentinel",
+        name: "Moonlight Sentinel",
+        icon: "Nature/Owl",
+        color: "#C0C0C0",
+        theme: "Precision Archer",
+
         description: `The Moonlight Sentinel specialization focuses on ranged precision and lunar-infused archery. These Lunarchs are deadly marksmen who channel moonlight through their arrows, dealing devastating damage from afar. They excel at single-target elimination and marking priority targets for their team.`,
-        
-        playstyle: 'Ranged damage dealer alternating between bow attacks and lunar spells, with emphasis on critical strikes during Full Moon',
-        
+
+        playstyle:
+          "Ranged damage dealer alternating between bow attacks and lunar spells, with emphasis on critical strikes during Full Moon",
+
         strengths: [
-          'Highest single-target ranged damage among Lunarch specs',
-          'Excellent critical strike potential during Full Moon phase',
-          'Can mark targets to amplify team damage',
-          'Strong at long range (60+ feet)'
+          "Highest single-target ranged damage among Lunarch specs",
+          "Excellent critical strike potential during Full Moon phase",
+          "Can mark targets to amplify team damage",
+          "Strong at long range (60+ feet)",
         ],
-        
+
         weaknesses: [
-          'Less effective in melee range',
-          'Limited AoE damage compared to Starfall Invoker',
-          'Requires clear line of sight for bow attacks',
-          'Dependent on Full Moon phase for peak damage'
+          "Less effective in melee range",
+          "Limited AoE damage compared to Starfall Invoker",
+          "Requires clear line of sight for bow attacks",
+          "Dependent on Full Moon phase for peak damage",
         ],
-        
+
         passiveAbilities: [
           {
-            name: 'Lunar Empowerment',
-            tier: 'Path Passive',
-            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
-            sharedBy: 'All Lunarch'
+            name: "Lunar Empowerment",
+            tier: "Path Passive",
+            description:
+              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+            sharedBy: "All Lunarch",
           },
           {
-            name: 'Lunar Precision',
-            tier: 'Specialization Passive',
-            icon: 'Piercing/On the Mark',
-            description: 'Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.',
-            uniqueTo: 'Moonlight Sentinel'
+            name: "Lunar Precision",
+            tier: "Specialization Passive",
+            icon: "Piercing/On the Mark",
+            description:
+              "Your critical hits during Full Moon phase deal an additional 2d6 radiant damage. This bonus applies to both weapon attacks and spell attacks.",
+            uniqueTo: "Moonlight Sentinel",
           },
           {
             name: "Sentinel's Mark",
-            tier: 'Specialization Ability',
-            icon: 'Piercing/Targeted Strike',
-            description: 'When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.',
-            uniqueTo: 'Moonlight Sentinel'
-          }
+            tier: "Specialization Ability",
+            icon: "Piercing/Targeted Strike",
+            description:
+              "When you hit a creature with a ranged weapon attack, you can mark them until the end of your next turn. Marked creatures take +1d4 damage from your next spell that targets them.",
+            uniqueTo: "Moonlight Sentinel",
+          },
         ],
-        
+
         recommendedSpells: [
-          'Lunar Arrow - Your bread-and-butter ranged attack',
+          "Lunar Arrow - Your bread-and-butter ranged attack",
           "Sentinel's Shot - Mark and eliminate priority targets",
-          'Moonfire Barrage - Multi-target damage when needed',
-          'Phase Shift - Ensure you\'re in Full Moon for burst windows'
-        ]
+          "Moonfire Barrage - Multi-target damage when needed",
+          "Phase Shift - Ensure you're in Full Moon for burst windows",
+        ],
       },
       {
-        id: 'starfall-invoker',
-        name: 'Starfall Invoker',
-        icon: 'Arcane/Missile',
-        color: '#4B0082',
-        theme: 'Celestial Bombardment',
-        
+        id: "starfall-invoker",
+        name: "Starfall Invoker",
+        icon: "Arcane/Missile",
+        color: "#4B0082",
+        theme: "Celestial Bombardment",
+
         description: `The Starfall Invoker calls down the wrath of the heavens, raining celestial energy upon their enemies. This specialization excels at area-of-effect damage and battlefield control, making them ideal for handling multiple enemies or controlling choke points. They channel the destructive power of falling stars and cosmic beams.`,
-        
-        playstyle: 'AoE damage and control specialist, focusing on positioning and timing to maximize celestial bombardment effects',
-        
+
+        playstyle:
+          "AoE damage and control specialist, focusing on positioning and timing to maximize celestial bombardment effects",
+
         strengths: [
-          'Exceptional AoE damage potential',
-          'Strong battlefield control with blinding and stunning effects',
-          'Enhanced spell range and area during Full Moon',
-          'Excellent at handling multiple enemies simultaneously'
+          "Exceptional AoE damage potential",
+          "Strong battlefield control with blinding and stunning effects",
+          "Enhanced spell range and area during Full Moon",
+          "Excellent at handling multiple enemies simultaneously",
         ],
-        
+
         weaknesses: [
-          'Lower single-target damage than Moonlight Sentinel',
-          'High mana consumption for AoE spells',
-          'Requires good positioning to avoid friendly fire',
-          'Less effective against spread-out enemies'
+          "Lower single-target damage than Moonlight Sentinel",
+          "High mana consumption for AoE spells",
+          "Requires good positioning to avoid friendly fire",
+          "Less effective against spread-out enemies",
         ],
-        
+
         passiveAbilities: [
           {
-            name: 'Lunar Empowerment',
-            tier: 'Path Passive',
-            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
-            sharedBy: 'All Lunarch'
+            name: "Lunar Empowerment",
+            tier: "Path Passive",
+            description:
+              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+            sharedBy: "All Lunarch",
           },
           {
-            name: 'Celestial Cascade',
-            tier: 'Specialization Passive',
-            icon: 'Arcane/Star Trail Path',
-            description: 'Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.',
-            uniqueTo: 'Starfall Invoker'
+            name: "Celestial Cascade",
+            tier: "Specialization Passive",
+            icon: "Arcane/Star Trail Path",
+            description:
+              "Your AoE spells during Full Moon phase affect an additional 5-foot radius beyond their normal area. This does not increase mana cost.",
+            uniqueTo: "Starfall Invoker",
           },
           {
-            name: 'Stellar Guidance',
-            tier: 'Specialization Passive',
-            icon: 'Arcane/Magical Sword',
-            description: 'During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.',
-            uniqueTo: 'Starfall Invoker'
-          }
+            name: "Stellar Guidance",
+            tier: "Specialization Passive",
+            icon: "Arcane/Magical Sword",
+            description:
+              "During Waxing Moon phase, you gain +2 to spell attack rolls. This bonus helps ensure your celestial bombardments hit their targets.",
+            uniqueTo: "Starfall Invoker",
+          },
         ],
-        
+
         recommendedSpells: [
-          'Starfall - Your signature AoE damage ability',
-          'Celestial Beam - Line AoE with blinding effect',
-          'Lunar Eclipse - Ultimate ability for massive burst',
-          'Moonbeam - Sustained damage that changes with phases'
-        ]
+          "Starfall - Your signature AoE damage ability",
+          "Celestial Beam - Line AoE with blinding effect",
+          "Lunar Eclipse - Ultimate ability for massive burst",
+          "Moonbeam - Sustained damage that changes with phases",
+        ],
       },
       {
-        id: 'moonwell-guardian',
-        name: 'Moonwell Guardian',
-        icon: 'Nature/Ethereal Bird',
-        color: '#20B2AA',
-        theme: 'Lunar Warden',
-        
+        id: "moonwell-guardian",
+        name: "Moonwell Guardian",
+        icon: "Nature/Ethereal Bird",
+        color: "#20B2AA",
+        theme: "Lunar Warden",
+
         description: `The Moonwell Guardian is a devoted warden who channels the moon's restorative power to heal and shield allies. They create sacred moonwells that pulse with lunar energy, bestow blessings that shift with the phases, and ensure their companions survive even the most dire battles. While rooted in the Lunarch's phase system, this specialization leans into the Waxing Moon's growth and the New Moon's protection, making them essential battlefield sustainers who shape the fight through healing zones and protective barriers.`,
-        
-        playstyle: 'Support healer and protector, focusing on sustained healing, shields, and protective buffs for the party',
-        
+
+        playstyle:
+          "Support healer and protector, focusing on sustained healing, shields, and protective buffs for the party",
+
         strengths: [
-          'Strongest healing output among Lunarch specs',
-          'Can grant temporary hit points and shields',
-          'Provides defensive buffs to nearby allies',
-          'Excellent sustained healing during Waxing Moon'
+          "Strongest healing output among Lunarch specs",
+          "Can grant temporary hit points and shields",
+          "Provides defensive buffs to nearby allies",
+          "Excellent sustained healing during Waxing Moon",
         ],
-        
+
         weaknesses: [
-          'Lowest damage output of all Lunarch specs',
-          'Requires proximity to allies to maximize passive benefits',
-          'Mana-intensive healing rotation',
-          'Vulnerable when focused by enemies'
+          "Lowest damage output of all Lunarch specs",
+          "Requires proximity to allies to maximize passive benefits",
+          "Mana-intensive healing rotation",
+          "Vulnerable when focused by enemies",
         ],
-        
+
         passiveAbilities: [
           {
-            name: 'Lunar Empowerment',
-            tier: 'Path Passive',
-            description: 'Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.',
-            sharedBy: 'All Lunarch'
+            name: "Lunar Empowerment",
+            tier: "Path Passive",
+            description:
+              "Your connection to the moon grants you darkvision up to 60 feet. Additionally, you have advantage on saving throws against being charmed or frightened while in Full Moon phase.",
+            sharedBy: "All Lunarch",
           },
           {
             name: "Elune's Grace",
-            tier: 'Specialization Passive',
-            icon: 'Radiant/Radiant Golden Shield',
-            description: 'Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.',
-            uniqueTo: 'Lunar Guardian'
+            tier: "Specialization Passive",
+            icon: "Radiant/Radiant Golden Shield",
+            description:
+              "Your healing spells during Waxing Moon phase grant the target 1d6 temporary hit points in addition to the healing. These temporary HP last for 1 minute.",
+            uniqueTo: "Lunar Guardian",
           },
           {
-            name: 'Lunar Sanctuary',
-            tier: 'Specialization Passive',
-            icon: 'Healing/Prayer',
-            description: 'While you are in New Moon phase, all allies within 15 feet of you gain +1 Armor. This bonus is lost if you move more than 15 feet away from them.',
-            uniqueTo: 'Lunar Guardian'
-          }
+            name: "Lunar Sanctuary",
+            tier: "Specialization Passive",
+            icon: "Healing/Prayer",
+            description:
+              "While you are in New Moon phase, all allies within 15 feet of you gain +1 Armor. This bonus is lost if you move more than 15 feet away from them.",
+            uniqueTo: "Lunar Guardian",
+          },
         ],
-        
+
         recommendedSpells: [
-          'Moonwell - Create persistent healing zones',
-          'Lunar Blessing - Shield allies with lunar energy',
+          "Moonwell - Create persistent healing zones",
+          "Lunar Blessing - Shield allies with lunar energy",
           "Elune's Grace - Powerful healing and cleansing",
-          'Phase Shift - Ensure you\'re in Waxing Moon when healing is needed'
-        ]
-      }
-    ]
+          "Phase Shift - Ensure you're in Waxing Moon when healing is needed",
+        ],
+      },
+    ],
   },
-  
+
   // Example Spells - showcasing Phase Shift mechanics
   exampleSpells: [
     // MOONLIGHT SENTINEL - Precision Archery
     {
-      id: 'lunarch_lunar_arrow',
-      name: 'Lunar Arrow',
-      description: 'Fire an arrow infused with moonlight that deals radiant damage. Effects vary with your current lunar phase.',
-      spellType: 'ACTION',
-      icon: 'Nature/Owl',
-      school: 'Evocation',
+      id: "lunarch_lunar_arrow",
+      name: "Lunar Arrow",
+      description:
+        "Fire an arrow infused with moonlight that deals radiant damage. Effects vary with your current lunar phase.",
+      spellType: "ACTION",
+      icon: "Nature/Owl",
       level: 1,
-      specialization: 'moonlight-sentinel',
+      specialization: "moonlight-sentinel",
+      effectTypes: ["damage"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Nature/Owl",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 4,
-        components: ['somatic', 'material'],
-        somaticText: 'Draw and loose arrow',
-        materialText: 'Arrow infused with moonlight'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
+        actionPoints: 1,
+        components: ["somatic", "material"],
+        somaticText: "Draw and loose arrow",
+        materialText: "Arrow infused with moonlight",
       },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       damageConfig: {
-        formula: '1d8',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        formula: "1d8",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
+        resolution: "DICE",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'If you are hidden, add +1d4 damage',
-          waxingMoon: 'Add +1d4 radiant damage',
-          fullMoon: 'Add +1d6 radiant damage and increase crit range by 2',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon: "If you are hidden, add +1d4 damage",
+          waxingMoon: "Add +1d4 radiant damage",
+          fullMoon: "Add +1d6 radiant damage and increase crit range by 2",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'phase dependent', 'moonlight sentinel']
+      tags: [
+        "radiant",
+        "damage",
+        "ranged",
+        "phase dependent",
+        "moonlight sentinel",
+      ],
     },
 
     {
-      id: 'lunarch_sentinels_shot',
+      id: "lunarch_sentinels_shot",
       name: "Sentinel's Shot",
-      description: 'Fire an arrow that strikes with unerring accuracy, leaving a glowing mark on your target. The mark pulses with lunar energy, making the target vulnerable to your next spell. The mark\'s power intensifies during Full Moon, lasting longer and amplifying your magic more effectively.',
-      spellType: 'ACTION',
-      icon: 'Piercing/Targeted Strike',
-      school: 'Evocation',
+      description:
+        "Fire an arrow that strikes with unerring accuracy, leaving a glowing mark on your target. The mark pulses with lunar energy, making the target vulnerable to your next spell. The mark's power intensifies during Full Moon, lasting longer and amplifying your magic more effectively.",
+      spellType: "ACTION",
+      icon: "Piercing/Targeted Strike",
       level: 3,
-      specialization: 'moonlight-sentinel',
+      specialization: "moonlight-sentinel",
+      effectTypes: ["damage", "debuff"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Piercing/Targeted Strike",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 80
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 80,
       },
 
       durationConfig: {
-        durationType: 'rounds',
-        duration: 2
+        durationType: "rounds",
+        duration: 2,
       },
 
       resourceCost: {
-        mana: 7,
-        components: ['somatic', 'material'],
-        somaticText: 'Draw arrow with focused aim',
-        materialText: 'Silver-tipped arrow'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 7 },
+        actionPoints: 1,
+        components: ["somatic", "material"],
+        somaticText: "Draw arrow with focused aim",
+        materialText: "Silver-tipped arrow",
       },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       damageConfig: {
-        formula: '3d6',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        formula: "3d6",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
+        resolution: "DICE",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        effects: [{
-          id: 'marked',
-          name: 'Marked',
-          description: 'Marked targets take +1d4 damage from your next spell',
-          statusType: 'marked',
-          level: 'moderate',
-          mechanicsText: '+1d4 damage from next spell for 2 rounds',
-          dotFormula: '+1d4',
-          dotDamageType: 'radiant'
-        }]
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "marked",
+            name: "Marked",
+            description: "Marked targets take +1d4 damage from your next spell",
+            statusType: "marked",
+            level: "moderate",
+            mechanicsText: "+1d4 damage from next spell for 2 rounds",
+            dotFormula: "+1d4",
+            dotDamageType: "radiant",
+          },
+        ],
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon: 'Mark lasts 3 rounds instead of 2, and bonus damage increases to 1d6'
+          fullMoon:
+            "Mark lasts 3 rounds instead of 2, and bonus damage increases to 1d6",
         },
         sentinelMark: {
-          description: 'Marked targets take bonus damage from your next spell',
-          stackable: false
-        }
+          description: "Marked targets take bonus damage from your next spell",
+          stackable: false,
+        },
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'debuff', 'mark', 'moonlight sentinel']
+      tags: [
+        "radiant",
+        "damage",
+        "ranged",
+        "debuff",
+        "mark",
+        "moonlight sentinel",
+      ],
     },
 
     {
-      id: 'lunarch_moonfire_barrage',
-      name: 'Moonfire Barrage',
-      description: 'Unleash a volley of moonfire-infused arrows that rain down on multiple targets.',
-      spellType: 'ACTION',
-      icon: 'Piercing/Rapid Arrows',
-      school: 'Evocation',
+      id: "lunarch_moonfire_barrage",
+      name: "Moonfire Barrage",
+      description:
+        "Unleash a volley of moonfire-infused arrows that rain down on multiple targets.",
+      spellType: "ACTION",
+      icon: "Piercing/Rapid Arrows",
       level: 5,
-      specialization: 'moonlight-sentinel',
+      specialization: "moonlight-sentinel",
+      effectTypes: ["damage"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Piercing/Rapid Arrows",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'multi',
-        rangeType: 'ranged',
+        targetingType: "multi",
+        rangeType: "ranged",
         rangeDistance: 60,
-        maxTargets: 3
+        maxTargets: 3,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 10,
-        components: ['somatic', 'material'],
-        somaticText: 'Rapid-fire arrow volley',
-        materialText: '3 arrows'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ["somatic", "material"],
+        somaticText: "Rapid-fire arrow volley",
+        materialText: "3 arrows",
       },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       damageConfig: {
-        formula: '2d6',
-        damageTypes: ['radiant'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        formula: "2d6",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
+        resolution: "DICE",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       effects: {
         damage: {
           perTarget: {
-            formula: '2d6',
-            type: 'radiant',
-            targets: 3
-          }
-        }
+            formula: "2d6",
+            type: "radiant",
+            targets: 3,
+          },
+        },
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon: 'Can target up to 5 enemies instead of 3, and each arrow deals +1d6 damage'
+          fullMoon:
+            "Can target up to 5 enemies instead of 3, and each arrow deals +1d6 damage",
         },
         multiTarget: {
-          description: 'Each arrow targets a different enemy within range',
-          requiresLineOfSight: true
-        }
+          description: "Each arrow targets a different enemy within range",
+          requiresLineOfSight: true,
+        },
       },
 
-      tags: ['radiant', 'damage', 'ranged', 'multi target', 'moonlight sentinel']
+      tags: [
+        "radiant",
+        "damage",
+        "ranged",
+        "multi target",
+        "moonlight sentinel",
+      ],
     },
 
     // STARFALL INVOKER - Celestial AoE
     {
-      id: 'lunarch_starfall',
-      name: 'Starfall',
-      description: 'Call down a shower of falling stars that crash into a target area, dealing radiant damage to all enemies within.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Star Trail Path',
-      school: 'Evocation',
+      id: "lunarch_starfall",
+      name: "Starfall",
+      description:
+        "Call down a shower of falling stars that crash into a target area, dealing radiant damage to all enemies within.",
+      spellType: "ACTION",
+      icon: "Arcane/Star Trail Path",
       level: 2,
-      specialization: 'starfall-invoker',
+      specialization: "starfall-invoker",
+      effectTypes: ["damage"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Arcane/Star Trail Path",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        areaType: 'circle',
-        areaSize: 15
+        areaType: "circle",
+        areaSize: 15,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 8,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Stellae cadunt!',
-        somaticText: 'Point skyward and bring hand down'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Stellae cadunt!",
+        somaticText: "Point skyward and bring hand down",
       },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       damageConfig: {
-        formula: '3d6',
-        damageTypes: ['radiant'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        formula: "3d6",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 14,
+          saveOutcome: "half",
+        },
       },
 
-      savingThrow: {
-        ability: 'agility',
-        dc: 14,
-        onSave: 'half'
-      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       effects: {
         damage: {
           aoe: {
-            formula: '3d6',
-            type: 'radiant',
-            shape: 'circle',
-            radius: 15
-          }
-        }
+            formula: "3d6",
+            type: "radiant",
+            shape: "circle",
+            radius: 15,
+          },
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes half damage (1d6+3)',
-        onFailure: 'Takes full damage (3d6)'
+        onSuccess: "Takes half damage (1d6+3)",
+        onFailure: "Takes full damage (3d6)",
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon: 'Radius increases to 20 feet (Celestial Cascade passive adds +5 feet to base 15)',
-          waxingMoon: '+2 to spell attack rolls (from Stellar Guidance passive)'
-        }
+          fullMoon:
+            "Radius increases to 20 feet (Celestial Cascade passive adds +5 feet to base 15)",
+          waxingMoon:
+            "+2 to spell attack rolls (from Stellar Guidance passive)",
+        },
       },
 
-      tags: ['radiant', 'damage', 'aoe', 'starfall invoker']
+      tags: ["radiant", "damage", "aoe", "starfall invoker"],
     },
 
     {
-      id: 'lunarch_celestial_beam',
-      name: 'Celestial Beam',
-      description: 'Channel a concentrated beam of celestial energy in a line, dealing radiant damage. Targets must save or be blinded for 1 round.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Missile',
-      school: 'Evocation',
+      id: "lunarch_celestial_beam",
+      name: "Celestial Beam",
+      description:
+        "Channel a concentrated beam of celestial energy in a line, dealing radiant damage. Targets must save or be blinded for 1 round.",
+      spellType: "ACTION",
+      icon: "Arcane/Missile",
       level: 4,
-      specialization: 'starfall-invoker',
+      specialization: "starfall-invoker",
+      effectTypes: ["damage", "debuff"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Arcane/Missile",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'line',
-        rangeType: 'ranged',
+        targetingType: "line",
+        rangeType: "ranged",
         rangeDistance: 60,
         lineLength: 30,
-        lineWidth: 5
+        lineWidth: 5,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 9,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Lux caelestis!',
-        somaticText: 'Extend both hands forward'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 9 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Lux caelestis!",
+        somaticText: "Extend both hands forward",
       },
 
-      resolution: 'SAVE',
+      resolution: "SAVE",
 
       damageConfig: {
-        formula: '4d6',
-        damageTypes: ['radiant'],
-        scalingType: 'none',
-          resolution: 'DICE',
+        formula: "4d6",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
+        resolution: "DICE",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "half",
+        },
       },
 
-      savingThrow: {
-        ability: 'constitution',
-        dc: 15,
-        onSave: 'not_blinded'
-      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        saveDC: 15,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        effects: [{
-          id: 'blinded',
-          name: 'Blinded',
-          description: 'Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks',
-          statusType: 'blinded',
-          level: 'moderate',
-          statPenalty: [{ stat: 'attack', value: -99, magnitudeType: 'disadvantage' }],
-          mechanicsText: 'Disadvantage on attack rolls for 1 round'
-        }]
+        durationType: "rounds",
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
+        effects: [
+          {
+            id: "blinded",
+            name: "Blinded",
+            description:
+              "Blinded for 1 round - disadvantage on attack rolls, cannot see, automatically fails sight-based checks",
+            statusType: "blinded",
+            level: "moderate",
+            statPenalty: [
+              { stat: "attack", value: -99, magnitudeType: "disadvantage" },
+            ],
+            mechanicsText: "Disadvantage on attack rolls for 1 round",
+          },
+        ],
       },
 
       effects: {
         damage: {
           line: {
-            formula: '4d6',
-            type: 'radiant',
+            formula: "4d6",
+            type: "radiant",
             length: 30,
-            width: 5
-          }
+            width: 5,
+          },
         },
         debuff: {
-          type: 'blinded',
+          type: "blinded",
           duration: 1,
-          saveToNegate: true
-        }
+          saveToNegate: true,
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes full damage but not blinded',
-        onFailure: 'Takes full damage and is blinded for 1 round'
+        onSuccess: "Takes full damage but not blinded",
+        onFailure: "Takes full damage and is blinded for 1 round",
       },
 
       specialMechanics: {
         phaseInteraction: {
-          fullMoon: 'Blinded duration increases to 2 rounds, and damage increases by +1d6'
-        }
+          fullMoon:
+            "Blinded duration increases to 2 rounds, and damage increases by +1d6",
+        },
       },
 
-      tags: ['radiant', 'damage', 'line', 'aoe', 'blind', 'debuff', 'starfall invoker']
+      tags: [
+        "radiant",
+        "damage",
+        "line",
+        "aoe",
+        "blind",
+        "debuff",
+        "starfall invoker",
+      ],
     },
 
     {
-      id: 'lunarch_lunar_eclipse',
-      name: 'Lunar Eclipse',
-      description: 'Channel both New Moon and Full Moon simultaneously. Gain New Moon\'s defensive power and Full Moon\'s offensive might, wreathed in a radiant lunar aura that burns nearby enemies.',
-      spellType: 'ACTION',
-      icon: 'Healing/Cure Within',
-      school: 'Transmutation',
+      id: "lunarch_lunar_eclipse",
+      name: "Lunar Eclipse",
+      description:
+        "Channel both New Moon and Full Moon simultaneously. Gain New Moon's defensive power and Full Moon's offensive might, wreathed in a radiant lunar aura that burns nearby enemies.",
+      spellType: "ACTION",
+      icon: "Healing/Cure Within",
       level: 6,
-      specialization: 'starfall-invoker',
+      specialization: "starfall-invoker",
+      effectTypes: ["buff", "damage"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Healing/Cure Within",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'rounds',
-        duration: 2
+        durationType: "rounds",
+        duration: 2,
       },
 
       resourceCost: {
-        mana: 15,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Eclipse lunaris!',
-        somaticText: 'Cross arms then spread wide'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 15 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+        verbalText: "Eclipse lunaris!",
+        somaticText: "Cross arms then spread wide",
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
       buffConfig: {
+        buffType: "dual_phase",
         effects: [
-          'Gain New Moon benefits: +1d4 mana per turn, -1d4 incoming damage',
-          'Gain Full Moon benefits: +1d6 to all damage, +2 crit range',
-          'Radiant aura deals 1d4 damage to enemies within 10 feet',
-          'Duration: 2 rounds'
-        ]
+          {
+            id: "new_moon_benefit",
+            name: "New Moon Eclipse",
+            description:
+              "Gain +1d4 mana per turn and reduce incoming damage by 1d4",
+            mechanicsText: "+1d4 mana regen and -1d4 damage reduction per turn",
+          },
+          {
+            id: "full_moon_benefit",
+            name: "Full Moon Eclipse",
+            description: "Gain +1d6 to all damage and expand crit range by 2",
+            mechanicsText: "+1d6 damage and +2 crit range",
+          },
+          {
+            id: "radiant_aura",
+            name: "Radiant Aura",
+            description: "Deal 1d4 radiant damage to enemies within 10 feet",
+            mechanicsText:
+              "1d4 radiant damage to enemies within 10 feet per turn",
+          },
+        ],
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       effects: {
         buff: {
           duration: 2,
           benefits: [
-            'New Moon: Mana regen +1d4/turn, damage reduction -1d4',
-            'Full Moon: Damage +1d6, crit range +2',
-            'Aura: 1d4 radiant damage to nearby enemies'
-          ]
-        }
+            "New Moon: Mana regen +1d4/turn, damage reduction -1d4",
+            "Full Moon: Damage +1d6, crit range +2",
+            "Aura: 1d4 radiant damage to nearby enemies",
+          ],
+        },
       },
 
       specialMechanics: {
         dualPhase: {
-          description: 'Gain benefits from both New Moon and Full Moon simultaneously. The eclipse creates a perfect balance where you draw power from both phases, becoming both a shield and a weapon. A radiant aura of lunar energy surrounds you, burning enemies who venture too close.',
-          phaseLock: 'Your phase does not cycle during Eclipse duration',
-          afterEffect: 'After Eclipse ends, you return to the phase you were in before casting'
-        }
+          description:
+            "Gain benefits from both New Moon and Full Moon simultaneously. The eclipse creates a perfect balance where you draw power from both phases, becoming both a shield and a weapon. A radiant aura of lunar energy surrounds you, burning enemies who venture too close.",
+          phaseLock: "Your phase does not cycle during Eclipse duration",
+          afterEffect:
+            "After Eclipse ends, you return to the phase you were in before casting",
+        },
       },
 
-      tags: ['buff', 'self', 'dual phase', 'ultimate', 'starfall invoker']
+      tags: ["buff", "self", "dual phase", "ultimate", "starfall invoker"],
     },
 
     // MOONWELL GUARDIAN - Healing & Support
     {
-      id: 'lunarch_moonwell',
-      name: 'Moonwell',
-      description: 'Create a sacred pool of lunar energy that heals all allies who stand within it.',
-      spellType: 'ACTION',
-      icon: 'Nature/Ethereal Bird',
-      school: 'Conjuration',
+      id: "lunarch_moonwell",
+      name: "Moonwell",
+      description:
+        "Create a sacred pool of lunar energy that heals all allies who stand within it.",
+      spellType: "ACTION",
+      icon: "Nature/Ethereal Bird",
       level: 2,
-      specialization: 'moonwell-guardian',
+      specialization: "moonwell-guardian",
+      effectTypes: ["healing"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Nature/Ethereal Bird",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        areaType: 'circle',
-        areaSize: 10
+        areaType: "circle",
+        areaSize: 10,
       },
 
       durationConfig: {
-        durationType: 'minutes',
-        duration: 1
+        durationType: "minutes",
+        duration: 1,
       },
 
       resourceCost: {
-        mana: 8,
-        components: ['verbal', 'somatic', 'material'],
-        verbalText: 'Fons lunae!',
-        somaticText: 'Touch ground to create moonwell',
-        materialText: 'Vial of blessed water'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
+        components: ["verbal", "somatic", "material"],
+        verbalText: "Fons lunae!",
+        somaticText: "Touch ground to create moonwell",
+        materialText: "Vial of blessed water",
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
       healingConfig: {
-        formula: '1d6',
-        healingType: 'area',
-        trigger: 'start_of_turn'
+        formula: "1d6",
+        healingType: "area",
+        trigger: "start_of_turn",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       effects: {
         healing: {
           aoe: {
-            formula: '1d6',
-            trigger: 'At start of ally turn in area',
-            shape: 'circle',
+            formula: "1d6",
+            trigger: "At start of ally turn in area",
+            shape: "circle",
             radius: 10,
-            duration: '1 minute'
-          }
-        }
+            duration: "1 minute",
+          },
+        },
       },
 
       specialMechanics: {
         phaseInteraction: {
-          waxingMoon: 'Healing increases to 1d6+1d6 (total 2d6) and grants 1d6 temporary HP (Elune\'s Grace passive)',
-          fullMoon: 'Radius increases to 15 feet',
-          waningMoon: 'Duration increases to 2 minutes'
+          waxingMoon:
+            "Healing increases to 1d6+1d6 (total 2d6) and grants 1d6 temporary HP (Elune's Grace passive)",
+          fullMoon: "Radius increases to 15 feet",
+          waningMoon: "Duration increases to 2 minutes",
         },
         persistent: {
-          description: 'Moonwell remains until duration expires or you create a new one',
-          limit: 'Only one Moonwell can exist at a time'
-        }
+          description:
+            "Moonwell remains until duration expires or you create a new one",
+          limit: "Only one Moonwell can exist at a time",
+        },
       },
 
-      tags: ['healing', 'aoe', 'persistent', 'support', 'moonwell guardian']
+      tags: ["healing", "aoe", "persistent", "support", "moonwell guardian"],
     },
 
     {
-      id: 'lunarch_lunar_blessing',
-      name: 'Lunar Blessing',
-      description: 'Bestow a protective shield of lunar energy upon an ally, absorbing incoming damage.',
-      spellType: 'ACTION',
-      icon: 'Force/Force Shield',
-      school: 'Abjuration',
+      id: "lunarch_lunar_blessing",
+      name: "Lunar Blessing",
+      description:
+        "Bestow a protective shield of lunar energy upon an ally, absorbing incoming damage.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
       level: 3,
-      specialization: 'moonwell-guardian',
+      specialization: "moonwell-guardian",
+      effectTypes: ["buff"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Force/Force Shield",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
       },
 
       durationConfig: {
-        durationType: 'minutes',
-        duration: 5
+        durationType: "minutes",
+        duration: 5,
       },
 
       resourceCost: {
-        mana: 7,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Benedictio lunae!',
-        somaticText: 'Gesture toward ally'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 7 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Benedictio lunae!",
+        somaticText: "Gesture toward ally",
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
       shieldConfig: {
-        formula: '2d8',
-        shieldType: 'temporary_hp',
-        duration: '5 minutes'
+        formula: "2d8",
+        shieldType: "temporary_hp",
+        duration: "5 minutes",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       effects: {
         shield: {
-          amount: '2d8',
-          type: 'temporary_hp',
-          duration: '5 minutes or until depleted'
-        }
+          amount: "2d8",
+          type: "temporary_hp",
+          duration: "5 minutes or until depleted",
+        },
       },
 
       specialMechanics: {
         phaseInteraction: {
-          waxingMoon: 'Shield amount increases to 2d8+1d6',
-          fullMoon: 'Shield also grants +1 Armor while active',
-          newMoon: 'If cast on ally within 15 feet, they also gain Lunar Sanctuary +1 Armor bonus'
-        }
+          waxingMoon: "Shield amount increases to 2d8+1d6",
+          fullMoon: "Shield also grants +1 Armor while active",
+          newMoon:
+            "If cast on ally within 15 feet, they also gain Lunar Sanctuary +1 Armor bonus",
+        },
       },
 
-      tags: ['shield', 'protection', 'support', 'moonwell guardian']
+      tags: ["shield", "protection", "support", "moonwell guardian"],
     },
 
     {
-      id: 'lunarch_elunes_grace',
+      id: "lunarch_elunes_grace",
       name: "Elune's Grace",
-      description: 'Channel the moon goddess\'s blessing to heal an ally and cleanse them of harmful effects.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Golden Shield',
-      school: 'Evocation',
+      description:
+        "Channel the moon goddess's blessing to heal an ally and cleanse them of harmful effects.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
       level: 5,
-      specialization: 'moonwell-guardian',
+      specialization: "moonwell-guardian",
+      effectTypes: ["healing"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Radiant Golden Shield",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 12,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Gratia Elunae!',
-        somaticText: 'Raise hand toward ally with palm open'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Gratia Elunae!",
+        somaticText: "Raise hand toward ally with palm open",
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
       healingConfig: {
-        formula: '4d8',
-        healingType: 'single',
-        cleanse: true
+        formula: "4d8",
+        healingType: "single",
+        cleanse: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       effects: {
         healing: {
           instant: {
-            formula: '4d8',
-            type: 'radiant'
-          }
+            formula: "4d8",
+            type: "radiant",
+          },
         },
         cleanse: {
-          removes: ['poison', 'disease', 'curse'],
-          limit: 'One condition removed'
-        }
+          removes: ["poison", "disease", "curse"],
+          limit: "One condition removed",
+        },
       },
 
       specialMechanics: {
         phaseInteraction: {
-          waxingMoon: 'Healing increases to 4d8+2d6, and target gains 2d6 temporary HP (Elune\'s Grace passive doubled)',
-          fullMoon: 'Can cleanse two conditions instead of one',
-          waningMoon: 'Costs 1d4 less mana'
-        }
+          waxingMoon:
+            "Healing increases to 4d8+2d6, and target gains 2d6 temporary HP (Elune's Grace passive doubled)",
+          fullMoon: "Can cleanse two conditions instead of one",
+          waningMoon: "Costs 1d4 less mana",
+        },
       },
 
-      tags: ['healing', 'cleanse', 'support', 'powerful', 'moonwell guardian']
+      tags: ["healing", "cleanse", "support", "powerful", "moonwell guardian"],
     },
 
     // UNIVERSAL SPELLS - Phase Manipulation
     {
-      id: 'lunarch_phase_shift',
-      name: 'Phase Shift',
-      description: 'Manually shift to any lunar phase of your choice, resetting the natural cycle.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Rewind Time',
-      school: 'Transmutation',
+      id: "lunarch_phase_shift",
+      name: "Phase Shift",
+      description:
+        "Manually shift to any lunar phase of your choice, resetting the natural cycle.",
+      spellType: "ACTION",
+      icon: "Arcane/Rewind Time",
       level: 1,
-      specialization: 'universal',
+      specialization: "universal",
+      effectTypes: ["utility"],
 
       typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Rewind Time",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'rounds',
-        duration: 3
+        durationType: "rounds",
+        duration: 3,
       },
 
       resourceCost: {
-        mana: 8,
-        components: ['verbal'],
-        verbalText: 'Choose phase name: "Luna Nova!" (New), "Luna Crescens!" (Waxing), "Luna Plena!" (Full), "Luna Decrescens!" (Waning)'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 8 },
+        actionPoints: 1,
+        components: ["verbal"],
+        verbalText:
+          'Choose phase name: "Luna Nova!" (New), "Luna Crescens!" (Waxing), "Luna Plena!" (Full), "Luna Decrescens!" (Waning)',
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       effects: {
         utility: {
           phaseChange: {
-            description: 'Immediately shift to chosen phase',
-            duration: '3 rounds before natural cycling resumes',
-            choices: ['New Moon', 'Waxing Moon', 'Full Moon', 'Waning Moon']
-          }
-        }
+            description: "Immediately shift to chosen phase",
+            duration: "3 rounds before natural cycling resumes",
+            choices: ["New Moon", "Waxing Moon", "Full Moon", "Waning Moon"],
+          },
+        },
       },
 
       specialMechanics: {
         phaseMechanic: {
-          description: 'Core ability for all Lunarchs',
-          tacticalUse: 'Use to adapt to changing combat situations',
-          manaCost: 'Significant investment - use wisely'
-        }
+          description: "Core ability for all Lunarchs",
+          tacticalUse: "Use to adapt to changing combat situations",
+          manaCost: "Significant investment - use wisely",
+        },
       },
 
-      tags: ['utility', 'phase shift', 'universal', 'core mechanic']
+      tags: ["utility", "phase shift", "universal", "core mechanic"],
     },
 
     {
-      id: 'lunarch_moonbeam',
-      name: 'Moonbeam',
-      description: 'Create a beam of moonlight that follows a target, dealing damage that changes based on your current phase.',
-      spellType: 'ACTION',
-      icon: 'Healing/Prayer',
-      school: 'Evocation',
+      id: "lunarch_moonbeam",
+      name: "Moonbeam",
+      description:
+        "Create a beam of moonlight that follows a target, dealing damage that changes based on your current phase.",
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
       level: 3,
-      specialization: 'universal',
+      specialization: "universal",
+      effectTypes: ["damage"],
 
       typeConfig: {
+        school: "radiant",
+        icon: "Healing/Prayer",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 3,
-        concentration: true
+        concentration: true,
       },
 
       resourceCost: {
-        mana: 9,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Radius lunae!',
-        somaticText: 'Point at target with glowing finger'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 9 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Radius lunae!",
+        somaticText: "Point at target with glowing finger",
       },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       damageConfig: {
-        formula: '2d6',
-        damageTypes: ['radiant'],
-        scalingType: 'none',
+        formula: "2d6",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        scalingType: "none",
         recurring: true,
-          resolution: 'DICE',
+        resolution: "DICE",
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       effects: {
         damage: {
           recurring: {
-            formula: '2d6',
-            type: 'radiant',
-            trigger: 'Start of target turn',
-            duration: 3
-          }
-        }
+            formula: "2d6",
+            type: "radiant",
+            trigger: "Start of target turn",
+            duration: 3,
+          },
+        },
       },
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Damage type becomes necrotic, and you heal for half damage dealt',
-          waxingMoon: 'Damage increases to 2d6+1d4',
-          fullMoon: 'Damage increases to 2d6+1d6 and beam cannot be broken by movement',
-          waningMoon: 'Duration increases to 5 rounds'
+          newMoon:
+            "Damage type becomes necrotic, and you heal for half damage dealt",
+          waxingMoon: "Damage increases to 2d6+1d4",
+          fullMoon:
+            "Damage increases to 2d6+1d6 and beam cannot be broken by movement",
+          waningMoon: "Duration increases to 5 rounds",
         },
         concentration: {
-          description: 'Requires concentration - ends if you lose concentration',
-          movement: 'Beam follows target if they move (unless in Full Moon)'
-        }
+          description:
+            "Requires concentration - ends if you lose concentration",
+          movement: "Beam follows target if they move (unless in Full Moon)",
+        },
       },
 
-      tags: ['radiant', 'damage', 'concentration', 'phase dependent', 'universal']
+      tags: [
+        "radiant",
+        "damage",
+        "concentration",
+        "phase dependent",
+        "universal",
+      ],
     },
 
     {
-      id: 'lunarch_lunar_cycle',
-      name: 'Lunar Cycle',
-      description: 'Rapidly cycle through all four lunar phases in sequence, gaining brief benefits from each.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
-      school: 'Transmutation',
+      id: "lunarch_lunar_cycle",
+      name: "Lunar Cycle",
+      description:
+        "Rapidly cycle through all four lunar phases in sequence, gaining brief benefits from each.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
       level: 4,
-      specialization: 'universal',
+      specialization: "universal",
+      effectTypes: ["buff", "utility"],
 
       typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        mana: 14,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Cyclus lunaris!',
-        somaticText: 'Spin in place with arms extended'
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 14 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        verbalText: "Cyclus lunaris!",
+        somaticText: "Spin in place with arms extended",
       },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       effects: {
         multiPhase: {
           sequence: [
-            'New Moon: Restore 1d4 mana, reduce next attack by 1d4',
-            'Waxing Moon: Next spell deals +1d4 damage or heals +1d6',
-            'Full Moon: Next attack deals +1d6 damage with +2 crit range',
-            'Waning Moon: Next spell costs 1d4 less mana'
+            "New Moon: Restore 1d4 mana, reduce next attack by 1d4",
+            "Waxing Moon: Next spell deals +1d4 damage or heals +1d6",
+            "Full Moon: Next attack deals +1d6 damage with +2 crit range",
+            "Waning Moon: Next spell costs 1d4 less mana",
           ],
-          duration: 'Benefits last until used or 1 minute'
-        }
+          duration: "Benefits last until used or 1 minute",
+        },
       },
 
       specialMechanics: {
         rapidCycle: {
-          description: 'Gain one benefit from each phase in rapid succession',
-          usage: 'All benefits are active simultaneously until consumed',
-          afterEffect: 'After all benefits are consumed, return to New Moon phase'
-        }
+          description: "Gain one benefit from each phase in rapid succession",
+          usage: "All benefits are active simultaneously until consumed",
+          afterEffect:
+            "After all benefits are consumed, return to New Moon phase",
+        },
       },
 
-      tags: ['utility', 'buff', 'multi phase', 'universal']
+      tags: ["utility", "buff", "multi phase", "universal"],
     },
 
     // ========================================
     // LEVEL 7 SPELLS
     // ========================================
     {
-      id: 'lunarch_moonbeam_barrage',
-      name: 'Moonbeam Barrage',
-      description: 'Fire a volley of moonlight arrows that rain down on enemies in a wide area.',
+      id: "lunarch_moonbeam_barrage",
+      name: "Moonbeam Barrage",
+      description:
+        "Fire a volley of moonlight arrows that rain down on enemies in a wide area.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Arcane/Empowering Growth',
-      specialization: 'moonlight-sentinel',
+      spellType: "ACTION",
+      icon: "Arcane/Empowering Growth",
+      specialization: "moonlight-sentinel",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Arcane/Empowering Growth',
+        school: "radiant",
+        icon: "Arcane/Empowering Growth",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 120,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 35 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Arrows of moonlight!',
-        somaticText: 'Fire into sky'
+        components: ["verbal", "somatic"],
+        verbalText: "Arrows of moonlight!",
+        somaticText: "Fire into sky",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '8d6 + agility',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        formula: "8d6 + agility",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: "half",
         },
-          resolution: 'DICE',
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['damage', 'aoe', 'radiant', 'archery', 'level 7', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Radius increases to 40 feet and each target takes an additional +2d6 radiant damage",
+          waningMoon: "Mana cost reduced by 2",
+        },
+      },
+
+      tags: ["damage", "aoe", "radiant", "archery", "level 7", "lunarch"],
     },
 
     {
-      id: 'lunarch_stellar_nova',
-      name: 'Stellar Nova',
-      description: 'Detonate a star above enemies, dealing massive damage and blinding those who fail their save.',
+      id: "lunarch_stellar_nova",
+      name: "Stellar Nova",
+      description:
+        "Detonate a star above enemies, dealing massive damage and blinding those who fail their save.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Glow',
-      specialization: 'starfall-invoker',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Glow",
+      specialization: "starfall-invoker",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Radiant Glow',
+        school: "radiant",
+        icon: "Radiant/Radiant Glow",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 90,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 25 }
+        aoeShape: "circle",
+        aoeParameters: { radius: 25 },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Star, explode!',
-        somaticText: 'Pull down celestial energy'
+        components: ["verbal", "somatic"],
+        verbalText: "Star, explode!",
+        somaticText: "Pull down celestial energy",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      resolution: "DICE",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
-        formula: '7d10 + intelligence',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        formula: "7d10 + intelligence",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'halves'
+          saveOutcome: "half",
         },
-          resolution: 'DICE',
       },
 
-      controlConfig: {
-        controlType: 'blind',
-        strength: 'strong',
-        duration: 2,
-        durationUnit: 'rounds',
-        saveDC: 17,
-        saveType: 'constitution',
-        savingThrow: true
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "blinded",
+            name: "Blinded",
+            description:
+              "Blinded by stellar light - disadvantage on attack rolls, cannot see",
+            statusType: "blinded",
+            level: "strong",
+            mechanicsText:
+              "Disadvantage on attack rolls for 2 rounds, constitution save DC 17 to negate",
+          },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['damage', 'control', 'blind', 'radiant', 'level 7', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Radius increases to 30 feet and blinded duration increases to 3 rounds",
+          waningMoon: "Blinded duration increases to 3 rounds",
+        },
+      },
+
+      tags: ["damage", "control", "blind", "radiant", "level 7", "lunarch"],
     },
 
     {
-      id: 'lunarch_moonwell_surge',
-      name: 'Moonwell Surge',
-      description: 'Create a surge of healing moonlight that heals all allies in an area and cleanses harmful effects.',
+      id: "lunarch_moonwell_surge",
+      name: "Moonwell Surge",
+      description:
+        "Create a surge of healing moonlight that heals all allies in an area and cleanses harmful effects.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Radiant/Bright Explosion',
-      specialization: 'moonwell-guardian',
+      spellType: "ACTION",
+      icon: "Radiant/Bright Explosion",
+      specialization: "moonwell-guardian",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Bright Explosion',
+        school: "radiant",
+        icon: "Radiant/Bright Explosion",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 38 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Moonwell, surge!',
-        somaticText: 'Raise staff to moon'
+        components: ["verbal", "somatic"],
+        verbalText: "Moonwell, surge!",
+        somaticText: "Raise staff to moon",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'purification'],
+      resolution: "DICE",
+      effectTypes: ["healing", "purification"],
 
       healingConfig: {
-        formula: '6d8 + spirit',
-        healingType: 'direct',
+        formula: "6d8 + spirit",
+        healingType: "direct",
         hasHotEffect: true,
-        hotFormula: '2d6',
+        hotFormula: "2d6",
         hotDuration: 3,
-        hotTickType: 'round'
+        hotTickType: "round",
       },
 
       purificationConfig: {
-        purificationType: 'cleanse',
-        targetType: 'area',
-        power: 'major',
-        duration: 'instant'
+        purificationType: "cleanse",
+        targetType: "area",
+        power: "major",
+        duration: "instant",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['healing', 'purification', 'aoe', 'level 7', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          waxingMoon:
+            "Direct healing increases to 6d8+spirit+2d6 and HOT healing increases to 2d6+1d6",
+          newMoon: "All healed allies gain 2d6 temporary hit points",
+          fullMoon: "Radius increases to 40 feet",
+        },
+      },
+
+      tags: ["healing", "purification", "aoe", "level 7", "lunarch"],
     },
 
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
     {
-      id: 'lunarch_phase_arrow_ultimate',
-      name: 'Phase Arrow: Annihilation',
-      description: 'Fire an arrow that phases through all obstacles and enemies, dealing damage to everything in its path.',
+      id: "lunarch_phase_arrow_ultimate",
+      name: "Phase Arrow: Annihilation",
+      description:
+        "Fire an arrow that phases through all obstacles and enemies, dealing damage to everything in its path.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Arcane/Quick Step',
-      specialization: 'universal',
+      spellType: "ACTION",
+      icon: "Arcane/Quick Step",
+      specialization: "universal",
 
       typeConfig: {
-        school: 'conjuration',
-        icon: 'Arcane/Quick Step',
+        school: "force",
+        icon: "Arcane/Quick Step",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'line',
-        rangeType: 'ranged',
+        targetingType: "line",
+        rangeType: "ranged",
         rangeDistance: 200,
-        aoeShape: 'line',
-        aoeParameters: { width: 5, length: 200 }
+        aoeShape: "line",
+        aoeParameters: { width: 5, length: 200 },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 50 },
         actionPoints: 2,
-        components: ['somatic'],
-        somaticText: 'Fire with ultimate precision'
+        components: ["somatic"],
+        somaticText: "Fire with ultimate precision",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '10d8 + agility * 2',
-        elementType: 'force',
-        damageTypes: ['direct'],
-        specialRules: 'Ignores cover, concealment, and armor. Hits all enemies in line.',
-          resolution: 'DICE',
+        formula: "10d8 + agility * 2",
+        elementType: "force",
+        damageTypes: ["direct"],
+        specialRules:
+          "Ignores cover, concealment, and armor. Hits all enemies in line.",
+        resolution: "DICE",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['damage', 'line', 'piercing', 'level 8', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Damage increases to 10d8+agility*2+3d6 radiant and crit range expands by 2",
+          waningMoon: "Mana cost reduced by 4",
+        },
+      },
+
+      tags: ["damage", "line", "piercing", "level 8", "lunarch"],
     },
 
     {
-      id: 'lunarch_constellation_burst',
-      name: 'Constellation Burst',
-      description: 'Summon a constellation that fires beams of starlight at multiple targets simultaneously.',
+      id: "lunarch_constellation_burst",
+      name: "Constellation Burst",
+      description:
+        "Summon a constellation that fires beams of starlight at multiple targets simultaneously.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
-      specialization: 'starfall-invoker',
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
+      specialization: "starfall-invoker",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Arcane/Magical Sword',
+        school: "radiant",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'multi',
-        rangeType: 'ranged',
+        targetingType: "multi",
+        rangeType: "ranged",
         rangeDistance: 90,
         maxTargets: 6,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 48 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Stars, align and strike!',
-        somaticText: 'Draw constellation in air'
+        components: ["verbal", "somatic"],
+        verbalText: "Stars, align and strike!",
+        somaticText: "Draw constellation in air",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '6d8 + intelligence',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        specialRules: 'Each target hit separately. Can hit same target multiple times.',
-          resolution: 'DICE',
+        formula: "6d8 + intelligence",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        specialRules:
+          "Each target hit separately. Can hit same target multiple times.",
+        resolution: "DICE",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['damage', 'multi target', 'radiant', 'level 8', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Can target up to 8 enemies instead of 6, and each beam deals +1d6 radiant damage",
+          waningMoon: "Mana cost reduced by 4",
+        },
+      },
+
+      tags: ["damage", "multi target", "radiant", "level 8", "lunarch"],
     },
 
     {
-      id: 'lunarch_eclipse_barrier',
-      name: 'Eclipse Barrier',
-      description: 'Create a barrier of eclipse energy that absorbs damage and reflects attacks.',
+      id: "lunarch_eclipse_barrier",
+      name: "Eclipse Barrier",
+      description:
+        "Create a barrier of eclipse energy that absorbs damage and reflects attacks.",
       level: 8,
-      spellType: 'REACTION',
-      icon: 'Force/Force Field',
-      specialization: 'moonwell-guardian',
+      spellType: "REACTION",
+      icon: "Force/Force Field",
+      specialization: "moonwell-guardian",
 
       typeConfig: {
-        school: 'abjuration',
-        icon: 'Force/Force Field',
+        school: "radiant",
+        icon: "Force/Force Field",
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: "REACTION",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 45 },
         actionPoints: 0,
-        components: ['verbal'],
-        verbalText: 'Eclipse, shield us!'
+        components: ["verbal"],
+        verbalText: "Eclipse, shield us!",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['buff'],
+      resolution: "DICE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'shield',
-        effects: [{
-          id: 'eclipse_barrier',
-          name: 'Eclipse Barrier',
-          description: 'Absorbs up to 50 damage. Reflects 50% of absorbed damage back to attackers.',
-          shieldValue: {
-            formula: '50',
-            shieldType: 'absorption'
+        buffType: "shield",
+        effects: [
+          {
+            id: "eclipse_barrier",
+            name: "Eclipse Barrier",
+            description:
+              "Absorbs up to 50 damage. Reflects 50% of absorbed damage back to attackers.",
+            shieldValue: {
+              formula: "50",
+              shieldType: "absorption",
+            },
+            mechanicsText:
+              "Absorbs up to 50 damage. Reflects 50% of absorbed damage back at attackers.",
           },
-          mechanicsText: 'Absorbs up to 50 damage. Reflects 50% of absorbed damage back at attackers.'
-        }],
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['buff', 'shield', 'reflect', 'reaction', 'level 8', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          newMoon:
+            "Barrier absorption increases to 75 and grants +2 Armor to allies within",
+          fullMoon:
+            "Reflected damage increases to 75% and barrier deals 1d6 radiant to attackers",
+          waningMoon: "Duration increases to 3 rounds",
+        },
+      },
+
+      tags: ["buff", "shield", "reflect", "reaction", "level 8", "lunarch"],
     },
 
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
     {
-      id: 'lunarch_moonfire_rain',
-      name: 'Moonfire Rain',
-      description: 'Call down a rain of moonfire that scorches enemies in a wide area. Creates a persistent zone of radiant damage.',
+      id: "lunarch_moonfire_rain",
+      name: "Moonfire Rain",
+      description:
+        "Call down a rain of moonfire that scorches enemies in a wide area. Creates a persistent zone of radiant damage.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Arcane/Star Trail Path',
-      specialization: 'moonlight-sentinel',
+      spellType: "ACTION",
+      icon: "Arcane/Star Trail Path",
+      specialization: "moonlight-sentinel",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Arcane/Star Trail Path',
+        school: "radiant",
+        icon: "Arcane/Star Trail Path",
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 120,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 65 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'MOONFIRE, RAIN DOWN!',
-        somaticText: 'Draw bow to sky'
+        components: ["verbal", "somatic"],
+        verbalText: "MOONFIRE, RAIN DOWN!",
+        somaticText: "Draw bow to sky",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '12d8 + agility * 2',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        formula: "12d8 + agility * 2",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
           difficultyClass: 19,
-          saveOutcome: 'halves'
+          saveOutcome: "half",
         },
-          resolution: 'DICE',
       },
 
       zoneConfig: {
         duration: 3,
-        durationUnit: 'rounds',
-        effects: ['persistent_damage'],
-        persistentDamage: '3d8 radiant per round'
+        durationUnit: "rounds",
+        effects: ["persistent_damage"],
+        persistentDamage: "3d8 radiant per round",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['damage', 'aoe', 'zone', 'ultimate', 'level 9', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Persistent damage increases to 5d8 radiant per round and radius expands to 50 feet",
+          waningMoon: "Zone duration increases to 5 rounds",
+        },
+      },
+
+      tags: ["damage", "aoe", "zone", "ultimate", "level 9", "lunarch"],
     },
 
     {
-      id: 'lunarch_celestial_archery',
-      name: 'Celestial Archery',
-      description: 'Enter a state of perfect celestial archery, channeling the full moon into your aim.',
+      id: "lunarch_celestial_archery",
+      name: "Celestial Archery",
+      description:
+        "Enter a state of perfect celestial archery, channeling the full moon into your aim.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Nature/Ethereal Bird',
-      specialization: 'universal',
+      spellType: "ACTION",
+      icon: "Nature/Ethereal Bird",
+      specialization: "universal",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Nature/Ethereal Bird',
+        school: "radiant",
+        icon: "Nature/Ethereal Bird",
         castTime: 1,
-        castTimeType: 'BONUS'
+        castTimeType: "BONUS",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 60 },
         actionPoints: 0,
-        components: ['verbal'],
-        verbalText: 'Perfect aim, granted!'
+        components: ["verbal"],
+        verbalText: "Perfect aim, granted!",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'accuracy',
-        effects: [{
-          id: 'celestial_archery',
-          name: 'Celestial Archery',
-          description: 'Gain advantage on all ranged attack rolls. Critical hits on 18-20. Critical hits deal double damage.',
-          mechanicsText: 'Advantage on ranged attacks. Crit on 18-20. Double damage on crits.'
-        }],
+        buffType: "accuracy",
+        effects: [
+          {
+            id: "celestial_archery",
+            name: "Celestial Archery",
+            description:
+              "Gain advantage on all ranged attack rolls. Critical hits on 18-20. Critical hits deal double damage.",
+            mechanicsText:
+              "Advantage on ranged attacks. Crit on 18-20. Double damage on crits.",
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['buff', 'archery', 'ultimate', 'level 9', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Critical hit range expands to 17-20 and critical hits deal triple damage instead of double",
+          newMoon: "Also gain +2 Armor while active",
+        },
+      },
+
+      tags: ["buff", "archery", "ultimate", "level 9", "lunarch"],
     },
 
     {
-      id: 'lunarch_full_moon_blessing',
-      name: 'Full Moon Blessing',
-      description: 'Invoke the full power of the full moon to empower all allies with celestial strength.',
+      id: "lunarch_full_moon_blessing",
+      name: "Full Moon Blessing",
+      description:
+        "Invoke the full power of the full moon to empower all allies with celestial strength.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Illumination',
-      specialization: 'moonwell-guardian',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Illumination",
+      specialization: "moonwell-guardian",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Radiant/Divine Illumination',
+        school: "radiant",
+        icon: "Radiant/Divine Illumination",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 70 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Full Moon, bless us all!',
-        somaticText: 'Arms raised to moon'
+        components: ["verbal", "somatic"],
+        verbalText: "Full Moon, bless us all!",
+        somaticText: "Arms raised to moon",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['buff', 'healing'],
+      resolution: "DICE",
+      effectTypes: ["buff", "healing"],
 
       buffConfig: {
-        buffType: 'empowerment',
-        effects: [{
-          id: 'full_moon_blessing',
-          name: 'Full Moon Blessing',
-          description: 'All allies gain +2 to all stats, advantage on attack rolls, and deal +1d6 radiant damage on attacks',
-          statModifier: { stat: 'all_stats', magnitude: 2, magnitudeType: 'flat' },
-          mechanicsText: '+2 all stats, advantage on attacks, +1d6 radiant damage on attacks'
-        }],
+        buffType: "empowerment",
+        effects: [
+          {
+            id: "full_moon_blessing",
+            name: "Full Moon Blessing",
+            description:
+              "All allies gain +2 to all stats, advantage on attack rolls, and deal +1d6 radiant damage on attacks",
+            statModifier: {
+              stat: "all_stats",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+            mechanicsText:
+              "+2 all stats, advantage on attacks, +1d6 radiant damage on attacks",
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       healingConfig: {
-        formula: '6d8 + spirit',
-        healingType: 'direct',
-        hasHotEffect: false
+        formula: "6d8 + spirit",
+        healingType: "direct",
+        hasHotEffect: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['buff', 'healing', 'aoe', 'ultimate', 'level 9', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Stat bonus increases to +3 and radiant damage bonus increases to +2d6",
+          waxingMoon:
+            "Healing increases to 6d8+spirit+2d6 and grants 2d6 temporary HP",
+        },
+      },
+
+      tags: ["buff", "healing", "aoe", "ultimate", "level 9", "lunarch"],
     },
 
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
     {
-      id: 'lunarch_avatar_of_the_moon',
-      name: 'Avatar of the Moon',
-      description: 'Transform into an avatar of the moon itself, gaining godlike power over moonlight and shadows.',
+      id: "lunarch_avatar_of_the_moon",
+      name: "Avatar of the Moon",
+      description:
+        "Transform into an avatar of the moon itself, gaining godlike power over moonlight and shadows.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Divinity',
-      specialization: 'universal',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
+      specialization: "universal",
 
       typeConfig: {
-        school: 'transmutation',
-        icon: 'Radiant/Radiant Divinity',
+        school: "radiant",
+        icon: "Radiant/Radiant Divinity",
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 100 },
         actionPoints: 3,
-        components: ['verbal'],
-        verbalText: 'I BECOME THE MOON!'
+        components: ["verbal"],
+        verbalText: "I BECOME THE MOON!",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['transformation'],
+      resolution: "NONE",
+      effectTypes: ["transformation"],
 
       transformationConfig: {
-        transformationType: 'celestial',
-        targetType: 'self',
+        transformationType: "celestial",
+        targetType: "self",
         duration: 4,
-        durationUnit: 'rounds',
-        power: 'major',
-        newForm: 'Avatar of the Moon',
-        description: 'Become one with the moon, a being of pure moonlight.',
+        durationUnit: "rounds",
+        power: "major",
+        newForm: "Avatar of the Moon",
+        description: "Become one with the moon, a being of pure moonlight.",
         grantedAbilities: [
-          { id: 'lunar_stats', name: 'Lunar Enhancement', description: '+5 to all attributes, +5 armor' },
-          { id: 'lunar_damage', name: 'Moonlight Empowerment', description: '+50% damage on all attacks' },
-          { id: 'lunar_immunity', name: 'Celestial Immunity', description: 'Immune to radiant and necrotic damage' },
-          { id: 'moonlight_phase', name: 'Moonlight Phasing', description: 'Can phase through solid objects, immune to opportunity attacks' },
-          { id: 'lunar_flight', name: 'Lunar Gravity', description: 'Gain 60ft flying speed' },
-          { id: 'lunar_exhaustion', name: 'Lunar Drain (On End)', description: 'Gain 2 levels of exhaustion when transformation ends' }
+          {
+            id: "lunar_stats",
+            name: "Lunar Enhancement",
+            description: "+5 to all attributes, +5 armor",
+          },
+          {
+            id: "lunar_damage",
+            name: "Moonlight Empowerment",
+            description: "+50% damage on all attacks",
+          },
+          {
+            id: "lunar_immunity",
+            name: "Celestial Immunity",
+            description: "Immune to radiant and necrotic damage",
+          },
+          {
+            id: "moonlight_phase",
+            name: "Moonlight Phasing",
+            description:
+              "Can phase through solid objects, immune to opportunity attacks",
+          },
+          {
+            id: "lunar_flight",
+            name: "Lunar Gravity",
+            description: "Gain 60ft flying speed",
+          },
+          {
+            id: "lunar_exhaustion",
+            name: "Lunar Drain (On End)",
+            description: "Gain 2 levels of exhaustion when transformation ends",
+          },
         ],
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['transformation', 'ultimate', 'level 10', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Damage bonus increases to +75% and gain immunity to all damage for 1 round",
+          newMoon:
+            "Armor bonus increases to +8 and gain resistance to necrotic damage",
+          waxingMoon: "Allies within 30 feet gain half your buff benefits",
+          waningMoon: "Transformation duration increases to 5 rounds",
+        },
+      },
+
+      tags: ["transformation", "ultimate", "level 10", "lunarch"],
     },
 
     {
-      id: 'lunarch_arrow_of_annihilation',
-      name: 'Arrow of Annihilation',
-      description: 'Fire the ultimate arrow - a bolt of pure moonlight that annihilates everything in its path.',
+      id: "lunarch_arrow_of_annihilation",
+      name: "Arrow of Annihilation",
+      description:
+        "Fire the ultimate arrow - a bolt of pure moonlight that annihilates everything in its path.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Blessing',
-      specialization: 'moonlight-sentinel',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Blessing",
+      specialization: "moonlight-sentinel",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Divine Blessing',
+        school: "radiant",
+        icon: "Radiant/Divine Blessing",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'line',
-        rangeType: 'ranged',
+        targetingType: "line",
+        rangeType: "ranged",
         rangeDistance: 500,
-        aoeShape: 'line',
-        aoeParameters: { width: 10, length: 500 }
+        aoeShape: "line",
+        aoeParameters: { width: 10, length: 500 },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 100 },
         actionPoints: 3,
-        components: ['somatic'],
-        somaticText: 'Draw bow with all your might'
+        components: ["somatic"],
+        somaticText: "Draw bow with all your might",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '20d6 + agility',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'agility',
+        formula: "20d6 + agility",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
+        savingThrow: {
+          ability: "agility",
           difficultyClass: 22,
-          saveOutcome: 'halves'
+          saveOutcome: "half",
         },
-        specialRules: 'Ignores resistance to radiant damage. Destroys unattended objects in path.',
-          resolution: 'DICE',
+        specialRules:
+          "Ignores resistance to radiant damage. Destroys unattended objects in path.",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['damage', 'line', 'ultimate', 'level 10', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Damage increases to 20d6+agility+4d6 and crit range expands to 18-20",
+          waningMoon: "Mana cost reduced by 10",
+        },
+      },
+
+      tags: ["damage", "line", "ultimate", "level 10", "lunarch"],
     },
 
     {
-      id: 'lunarch_eternal_moonwell',
-      name: 'Eternal Moonwell',
-      description: 'Create an eternal moonwell that continuously heals allies and damages enemies within it for the rest of combat.',
+      id: "lunarch_eternal_moonwell",
+      name: "Eternal Moonwell",
+      description:
+        "Create an eternal moonwell that continuously heals allies and damages enemies within it for the rest of combat.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Healing/Heart Ripple',
-      specialization: 'moonwell-guardian',
+      spellType: "ACTION",
+      icon: "Healing/Heart Ripple",
+      specialization: "moonwell-guardian",
 
       typeConfig: {
-        school: 'conjuration',
-        icon: 'Healing/Heart Ripple',
+        school: "radiant",
+        icon: "Healing/Heart Ripple",
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
-      targetingMode: 'effect',
+      targetingMode: "effect",
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 30 }
+        aoeShape: "circle",
+        aoeParameters: { radius: 30 },
       },
 
       effectTargeting: {
         healing: {
-          targetingType: 'area',
-          rangeType: 'ranged',
+          targetingType: "area",
+          rangeType: "ranged",
           rangeDistance: 60,
-          aoeShape: 'circle',
+          aoeShape: "circle",
           aoeParameters: { radius: 30 },
-          targetRestrictions: ['ally'],
-          description: 'All allies in the moonwell zone are healed each round'
+          targetRestrictions: ["ally"],
+          description: "All allies in the moonwell zone are healed each round",
         },
         damage: {
-          targetingType: 'area',
-          rangeType: 'ranged',
+          targetingType: "area",
+          rangeType: "ranged",
           rangeDistance: 60,
-          aoeShape: 'circle',
+          aoeShape: "circle",
           aoeParameters: { radius: 30 },
-          targetRestrictions: ['enemy'],
-          description: 'All enemies in the moonwell zone take radiant damage each round'
-        }
+          targetRestrictions: ["enemy"],
+          description:
+            "All enemies in the moonwell zone take radiant damage each round",
+        },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 100 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'ETERNAL MOONWELL, ARISE!',
-        somaticText: 'Draw power from moon'
+        components: ["verbal", "somatic"],
+        verbalText: "ETERNAL MOONWELL, ARISE!",
+        somaticText: "Draw power from moon",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['utility', 'healing', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["utility", "healing", "damage"],
 
       zoneConfig: {
         duration: 0,
-        durationUnit: 'combat',
-        effects: ['healing', 'damage', 'purification'],
+        durationUnit: "combat",
+        effects: ["healing", "damage", "purification"],
         movable: false,
-        size: { radius: 30 }
+        size: { radius: 30 },
       },
 
       healingConfig: {
-        formula: '4d8 + spirit',
-        healingType: 'hot',
+        formula: "4d8 + spirit",
+        healingType: "hot",
         hasHotEffect: true,
-        hotFormula: '4d8',
+        hotFormula: "4d8",
         hotDuration: 0,
-        hotTickType: 'round',
-        targetRestrictions: ['ally'],
-        description: 'Heals all allies in zone each round for rest of combat'
+        hotTickType: "round",
+        targetRestrictions: ["ally"],
+        description: "Heals all allies in zone each round for rest of combat",
       },
 
       damageConfig: {
-        formula: '3d8',
-        elementType: 'radiant',
-        damageTypes: ['persistent'],
-        targetRestrictions: ['enemy'],
-        description: 'Damages all enemies in zone each round',
-          resolution: 'DICE',
+        formula: "3d8",
+        elementType: "radiant",
+        damageTypes: ["persistent"],
+        targetRestrictions: ["enemy"],
+        description: "Damages all enemies in zone each round",
+        resolution: "DICE",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['zone', 'healing', 'damage', 'ultimate', 'level 10', 'lunarch']
+      specialMechanics: {
+        phaseInteraction: {
+          fullMoon:
+            "Enemy damage increases to 5d8 radiant and radius expands to 40 feet",
+          waxingMoon:
+            "Healing increases to 4d8+2d6 and cleanses one condition per round",
+          newMoon: "Allies in zone gain +2 Armor",
+          waningMoon: "Enemy damage applies a 1-round slow debuff",
+        },
+      },
+
+      tags: ["zone", "healing", "damage", "ultimate", "level 10", "lunarch"],
     },
 
     // ADDITIONAL LEVEL 1 SPELLS
     {
-      id: 'lunarch_moonlight_bolt',
-      name: 'Moonlight Bolt',
-      description: 'Fire a bolt of concentrated moonlight at a target, dealing radiant damage.',
+      id: "lunarch_moonlight_bolt",
+      name: "Moonlight Bolt",
+      description:
+        "Fire a bolt of concentrated moonlight at a target, dealing radiant damage.",
       level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      icon: "Arcane/Star Trail Path",
+      effectTypes: ["damage"],
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Arcane/Star Trail Path',
-        tags: ['damage', 'radiant', 'moonlight', 'universal'],
+        school: "radiant",
+        icon: "Arcane/Star Trail Path",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
       },
 
       damageConfig: {
-        formula: '1d8',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "1d8",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 4
+          mana: 4,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Damage type becomes necrotic, and you heal for half damage dealt',
-          waxingMoon: 'Add +1d4 radiant damage',
-          fullMoon: 'Add +1d6 radiant damage',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon:
+            "Damage type becomes necrotic, and you heal for half damage dealt",
+          waxingMoon: "Add +1d4 radiant damage",
+          fullMoon: "Add +1d6 radiant damage",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['damage', 'radiant', 'moonlight', 'universal']
+      tags: ["damage", "radiant", "moonlight", "universal"],
     },
 
     {
-      id: 'lunarch_minor_blessing',
-      name: 'Minor Blessing',
-      description: 'Bless an ally with lunar power, healing them.',
+      id: "lunarch_minor_blessing",
+      name: "Minor Blessing",
+      description: "Bless an ally with lunar power, healing them.",
       level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['healing'],
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
+      effectTypes: ["healing"],
 
       typeConfig: {
-        school: 'restoration',
-        icon: 'Healing/Prayer',
-        tags: ['healing', 'blessing', 'minor blessing', 'universal'],
+        school: "radiant",
+        icon: "Healing/Prayer",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally'],
-        maxTargets: 1
+        targetRestrictions: ["ally"],
+        maxTargets: 1,
       },
 
       healingConfig: {
-        formula: '1d8 + spirit',
-        healingType: 'single_target',
-        targetRestrictions: ['ally']
+        formula: "1d8 + spirit",
+        healingType: "single_target",
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 4
+          mana: 4,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'DICE',
-      tags: ['healing', 'blessing', 'minor blessing', 'universal']
+      resolution: "DICE",
+
+      specialMechanics: {
+        phaseInteraction: {
+          waxingMoon:
+            "Healing increases to 1d8+spirit+1d4 and grants 1d4 temporary HP",
+          fullMoon: "Healing increases to 1d8+spirit+1d6",
+          newMoon: "Also grants +1 Armor for 1 round",
+        },
+      },
+
+      tags: ["healing", "blessing", "minor blessing", "universal"],
     },
 
     // ADDITIONAL LEVEL 2 SPELLS
     {
-      id: 'lunarch_phase_step',
-      name: 'Phase Step',
-      description: 'Shift through phases of the moon to teleport up to 30 feet.',
+      id: "lunarch_phase_step",
+      name: "Phase Step",
+      description:
+        "Shift through phases of the moon to teleport up to 30 feet.",
       level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['utility'],
+      spellType: "ACTION",
+      icon: "Nature/Ethereal Bird",
+      effectTypes: ["utility"],
 
       typeConfig: {
-        school: 'conjuration',
-        icon: 'Nature/Ethereal Bird',
-        tags: ['utility', 'teleport', 'movement', 'universal'],
+        school: "arcane",
+        icon: "Nature/Ethereal Bird",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       utilityConfig: {
-        utilityType: 'movement',
-        selectedEffects: [{
-          id: 'phase_shift',
-          name: 'Phase Shift',
-          distance: 30,
-          needsLineOfSight: false
-        }],
+        utilityType: "movement",
+        selectedEffects: [
+          {
+            id: "phase_shift",
+            name: "Phase Shift",
+            distance: 30,
+            needsLineOfSight: false,
+          },
+        ],
         duration: 0,
-        durationUnit: 'instant',
+        durationUnit: "instant",
         concentration: false,
-        power: 'moderate'
+        power: "moderate",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 8
+          mana: 8,
         },
         actionPoints: 1,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Teleport range increases to 45 feet and you become invisible until end of turn',
-          waxingMoon: 'After teleporting, heal yourself for 1d6',
-          fullMoon: 'After teleporting, gain advantage on your next attack roll',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon:
+            "Teleport range increases to 45 feet and you become invisible until end of turn",
+          waxingMoon: "After teleporting, heal yourself for 1d6",
+          fullMoon:
+            "After teleporting, gain advantage on your next attack roll",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['utility', 'teleport', 'movement', 'universal']
+      tags: ["utility", "teleport", "movement", "universal"],
     },
 
     {
-      id: 'lunarch_crescent_strike',
-      name: 'Crescent Strike',
-      description: 'Strike with a crescent moon blade of lunar energy that deals radiant damage.',
+      id: "lunarch_crescent_strike",
+      name: "Crescent Strike",
+      description:
+        "Strike with a crescent moon blade of lunar energy that deals radiant damage.",
       level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
+      effectTypes: ["damage"],
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Arcane/Magical Cross Emblem 2',
-        tags: ['damage', 'radiant', 'arcane', 'crescent', 'universal'],
+        school: "radiant",
+        icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
+        targetingType: "single",
+        rangeType: "melee",
         rangeDistance: 10,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
       },
 
       damageConfig: {
-        formula: '2d8',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "2d8",
+        elementType: "radiant",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 8
+          mana: 8,
         },
         actionPoints: 1,
-        components: ['somatic']
+        components: ["somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Damage type becomes arcane, and target has disadvantage on next attack roll',
-          waxingMoon: 'Add +1d4 radiant damage',
-          fullMoon: 'Add +1d6 radiant damage and increase crit range by 1',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon:
+            "Damage type becomes arcane, and target has disadvantage on next attack roll",
+          waxingMoon: "Add +1d4 radiant damage",
+          fullMoon: "Add +1d6 radiant damage and increase crit range by 1",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['damage', 'radiant', 'arcane', 'crescent', 'universal']
+      tags: ["damage", "radiant", "arcane", "crescent", "universal"],
     },
 
     // ADDITIONAL LEVEL 4 SPELL
     {
-      id: 'lunarch_lunar_chains',
-      name: 'Lunar Chains',
-      description: 'Bind an enemy with chains of moonlight, restraining them for 3 rounds.',
+      id: "lunarch_lunar_chains",
+      name: "Lunar Chains",
+      description:
+        "Bind an enemy with chains of moonlight, restraining them for 3 rounds.",
       level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      icon: "Frost/Confused",
+      effectTypes: ["control"],
 
       typeConfig: {
-        school: 'conjuration',
-        icon: 'Frost/Confused',
-        tags: ['control', 'restrain', 'moonlight', 'universal'],
+        school: "radiant",
+        icon: "Frost/Confused",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
-        maxTargets: 1
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
       },
 
       controlConfig: {
-        controlType: 'restraint',
+        controlType: "restraint",
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 15,
-        saveType: 'strength',
+        saveType: "strength",
         savingThrow: true,
-        effects: [{
-          id: 'lunar_chains',
-          name: 'Lunar Chains',
-          description: 'Restrained by moonlight chains - cannot move or take actions',
-          config: {
-            restraintType: 'magical_bind',
-            saveType: 'charisma',
-            saveDC: 17,
-            duration: 3,
-            durationUnit: 'rounds',
-            immobilize: true
-          }
-        }]
+        effects: [
+          {
+            id: "lunar_chains",
+            name: "Lunar Chains",
+            description:
+              "Restrained by moonlight chains - cannot move or take actions",
+            config: {
+              restraintType: "magical_bind",
+              saveType: "charisma",
+              saveDC: 17,
+              duration: 3,
+              durationUnit: "rounds",
+              immobilize: true,
+            },
+          },
+        ],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 15
+          mana: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Chains also drain 1d4 mana from the target each round',
-          waxingMoon: 'Target has disadvantage on the initial saving throw',
-          fullMoon: 'Restrained duration increases to 4 rounds, and chains deal 1d6 radiant damage per round',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon: "Chains also drain 1d4 mana from the target each round",
+          waxingMoon: "Target has disadvantage on the initial saving throw",
+          fullMoon:
+            "Restrained duration increases to 4 rounds, and chains deal 1d6 radiant damage per round",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['control', 'restrain', 'moonlight', 'universal']
+      tags: ["control", "restrain", "moonlight", "universal"],
     },
 
     // ADDITIONAL LEVEL 5 SPELL
     {
-      id: 'lunarch_full_moon_radiance',
-      name: 'Full Moon Radiance',
-      description: 'Channel the full moon to heal all allies in a radius.',
+      id: "lunarch_full_moon_radiance",
+      name: "Full Moon Radiance",
+      description: "Channel the full moon to heal all allies in a radius.",
       level: 5,
-      spellType: 'ACTION',
-      effectTypes: ['healing'],
+      spellType: "ACTION",
+      icon: "Arcane/Star Trail Path",
+      effectTypes: ["healing"],
 
       typeConfig: {
-        school: 'restoration',
-        icon: 'Arcane/Star Trail Path',
-        tags: ['healing', 'aoe', 'full moon', 'universal'],
+        school: "radiant",
+        icon: "Arcane/Star Trail Path",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       healingConfig: {
-        formula: '5d8 + spirit',
-        healingType: 'aoe',
-        targetRestrictions: ['ally']
+        formula: "5d8 + spirit",
+        healingType: "aoe",
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 18
+          mana: 18,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Healing also grants each ally 1d4 temporary hit points',
-          waxingMoon: 'Healing increases to 5d8+spirit+1d6, and targets are cleansed of one poison or disease',
-          fullMoon: 'Radius increases to 30 feet',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon: "Healing also grants each ally 1d4 temporary hit points",
+          waxingMoon:
+            "Healing increases to 5d8+spirit+1d6, and targets are cleansed of one poison or disease",
+          fullMoon: "Radius increases to 30 feet",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['healing', 'aoe', 'full moon', 'universal']
+      tags: ["healing", "aoe", "full moon", "universal"],
     },
 
     // ADDITIONAL LEVEL 6 SPELL
     {
-      id: 'lunarch_eclipse_burst',
-      name: 'Eclipse Burst',
-      description: 'Create an eclipse that deals massive radiant damage to all enemies in an area.',
+      id: "lunarch_eclipse_burst",
+      name: "Eclipse Burst",
+      description:
+        "Create an eclipse that deals massive radiant damage to all enemies in an area.",
       level: 6,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      icon: "Void/Consumed by Void",
+      effectTypes: ["damage"],
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Void/Consumed by Void',
-        tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal'],
+        school: "radiant",
+        icon: "Void/Consumed by Void",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 50,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 25 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       damageConfig: {
-        formula: '6d10 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['area'],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: 'constitution',
+        formula: "6d10 + spirit",
+        elementType: "radiant",
+        damageTypes: ["area"],
+        savingThrow: {
+          ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'halves',
-          partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          saveOutcome: "half",
         },
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2.0,
-          extraDice: '3d10',
-          critEffects: ['radiant_burn']
+          extraDice: "3d10",
+          critEffects: ["radiant_burn"],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 22
+          mana: 22,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'DICE',
+      resolution: "DICE",
 
       specialMechanics: {
         phaseInteraction: {
-          newMoon: 'Eclipse becomes a void eclipse - damage type changes to necrotic and enemies are weakened (-2 to attack rolls) for 1 round',
-          waxingMoon: 'Allies in the area are healed for 2d6',
-          fullMoon: 'Radius increases to 30 feet, and critical hit extra dice increase to 5d10',
-          waningMoon: 'Costs 1d4 less mana (minimum 1)'
-        }
+          newMoon:
+            "Eclipse becomes a void eclipse - damage type changes to necrotic and enemies are weakened (-2 to attack rolls) for 1 round",
+          waxingMoon: "Allies in the area are healed for 2d6",
+          fullMoon:
+            "Radius increases to 30 feet, and critical hit extra dice increase to 5d10",
+          waningMoon: "Costs 1d4 less mana (minimum 1)",
+        },
       },
 
-      tags: ['damage', 'radiant', 'aoe', 'eclipse', 'universal']
-    }
-  ]
+      tags: ["damage", "radiant", "aoe", "eclipse", "universal"],
+    },
+  ],
 };
-

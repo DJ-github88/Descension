@@ -45,6 +45,8 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
   // Refs
   const windowRef = useRef(null);
   const tooltipTimeoutRef = useRef(null);
+  const dragOffsetRef = useRef({ x: 0, y: 0 }); // Ref avoids stale closure in mousemove handler
+  const shopDragRafRef = useRef(null);           // RAF handle for throttled position updates
 
   // Get shop info
   const shopName = creature.shopInventory?.shopName || `${creature.name}'s Shop`;
@@ -95,22 +97,31 @@ const ShopWindow = ({ isOpen, onClose, creature }) => {
       e.target.closest('.close-button');
 
     if (isHeaderElement && !isFilterControl) {
-      setIsDragging(true);
       const rect = windowRef.current.getBoundingClientRect();
-      setDragOffset({
+      const offset = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
-      });
+      };
+      setDragOffset(offset);
+      dragOffsetRef.current = offset; // Keep ref in sync for mousemove handler
+      setIsDragging(true);
       e.preventDefault();
     }
   };
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      setPosition({
-        x: e.clientX - dragOffset.x,
-        y: e.clientY - dragOffset.y
-      });
+      const offset = dragOffsetRef.current;
+      const x = e.clientX - offset.x;
+      const y = e.clientY - offset.y;
+
+      // Throttle React state update to one per animation frame
+      if (!shopDragRafRef.current) {
+        shopDragRafRef.current = requestAnimationFrame(() => {
+          shopDragRafRef.current = null;
+          setPosition({ x, y });
+        });
+      }
     }
   };
 

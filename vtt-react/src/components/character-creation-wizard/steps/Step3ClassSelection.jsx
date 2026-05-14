@@ -10,6 +10,7 @@ import { getEquipmentPreview } from '../../../data/startingEquipmentData';
 import TabbedSelectionModal from '../components/TabbedSelectionModal';
 import { OverviewTab, EquipmentTab, DamageTypesTab, ClassGuideTab } from '../components/tabs';
 import { ALL_CLASSES_DATA } from '../../../data/classes';
+import ClassIcon from '../../common/ClassIcon';
 
 
 
@@ -134,7 +135,7 @@ const Step3ClassSelection = () => {
         <div className="wizard-step-content">
             <div className="step-header">
                 <h2 className="step-title">
-                    <img src="/assets/icons/classes/arcanoneer.png" alt="Calling" className="wizard-header-pixel-icon" data-class="Arcanoneer" />
+                    <ClassIcon src="/assets/icons/classes/arcanoneer.png" alt="Calling" size="small" className="wizard-header-pixel-icon" dataClass="Arcanoneer" />
                     Choose Your Calling
                 </h2>
                 <p className="step-description">
@@ -161,7 +162,7 @@ const Step3ClassSelection = () => {
                                 >
                                     <div className="class-card-icon-container">
                                         {classData.imageIcon ? (
-                                            <img src={classData.imageIcon} alt={classData.name} className="class-pixel-icon" data-class={classData.name} />
+                                            <ClassIcon src={classData.imageIcon} alt={classData.name} size="medium" className="class-pixel-icon" dataClass={classData.name} />
                                         ) : (
                                             <i className={classData.icon}></i>
                                         )}

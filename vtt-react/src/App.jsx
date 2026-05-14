@@ -216,9 +216,15 @@ const LoadingFallback = ({ message = "Loading..." }) => (
 
 function GameScreen() {
     const location = useLocation();
-    const { setActiveCharacter, loadActiveCharacter } = useCharacterStore();
-    const { createParty, leaveParty } = usePartyStore();
-    const { isGMMode, gridSize, gridOffsetX, gridOffsetY, setGMMode } = useGameStore();
+    const { isGMMode, gridSize, gridOffsetX, gridOffsetY } = useGameStore();
+    
+    // Selectors for better performance - avoid re-rendering entire screen on unrelated store changes
+    const setActiveCharacter = useCharacterStore(state => state.setActiveCharacter);
+    const loadActiveCharacter = useCharacterStore(state => state.loadActiveCharacter);
+    const createParty = usePartyStore(state => state.createParty);
+    const leaveParty = usePartyStore(state => state.leaveParty);
+    const isInParty = usePartyStore(state => state.isInParty);
+    const partyMembers = usePartyStore(state => state.partyMembers);
 
     // Enable auto-save for local rooms
     const { forceSave, setLoading } = useLocalRoomAutoSave();
@@ -620,27 +626,37 @@ function GameScreen() {
                     }
                 } else {
                     // No specific character passed, load the active character
-                    console.log('🔄 Loading active character...');
                     const activeCharacter = await loadActiveCharacter();
                     if (activeCharacter) {
                         console.log(`✅ Active character loaded: ${activeCharacter.name}`);
-                        // Clear any existing party and create a single-player party with this character
-                        localStorage.removeItem('party-store');
-                        await leaveParty();
+                        
+                        // PERFORMANCE FIX: Check if we are already in the correct party to avoid expensive flapping
+                        const currentParty = usePartyStore.getState().currentParty;
+                        const isAlreadyInSinglePlayerParty = isInParty && currentParty?.name === 'Single Player Party';
+                        const isAlreadyCorrectCharacter = partyMembers.some(m => m.id === 'current-player' && m.characterName === activeCharacter.name);
 
-                        // FIXED: Correct argument order - (partyName, isGM, leaderData)
-                        await createParty('Single Player Party', true, {
-                            id: 'current-player',
-                            userId: 'current-player',
-                            isGM: true,
-                            name: activeCharacter.name,
-                            characterName: activeCharacter.name,
-                            characterClass: activeCharacter.class || 'Unknown',
-                            characterLevel: activeCharacter.level || 1
-                        });
+                        if (!isAlreadyInSinglePlayerParty || !isAlreadyCorrectCharacter) {
+                            console.log('🔄 Re-initializing party for new character...');
+                            // Clear any existing party and create a single-player party with this character
+                            localStorage.removeItem('party-store');
+                            await leaveParty();
 
-                        // CRITICAL FIX: Update party member with full character data for HUD
-                        await initializePartyForCharacter(activeCharacter, isGMMode);
+                            // FIXED: Correct argument order - (partyName, isGM, leaderData)
+                            await createParty('Single Player Party', true, {
+                                id: 'current-player',
+                                userId: 'current-player',
+                                isGM: true,
+                                name: activeCharacter.name,
+                                characterName: activeCharacter.name,
+                                characterClass: activeCharacter.class || 'Unknown',
+                                characterLevel: activeCharacter.level || 1
+                            });
+
+                            // CRITICAL FIX: Update party member with full character data for HUD
+                            await initializePartyForCharacter(activeCharacter, isGMMode);
+                        } else {
+                            console.log('✅ Already in correct party, skipping re-initialization');
+                        }
                     } else {
                         console.log('No active character found');
                         // Create a basic single-player party even without a character
@@ -823,18 +839,36 @@ export default function App() {
         initCreatureStore();
 
         // Clean up any duplicate creatures that might exist
+        // Deferred to 2.5s — after auth and creature store are settled
         setTimeout(() => {
             removeDuplicateCreatures();
-        }, 1000); // Give stores time to initialize
+        }, 2500);
 
-        // Migrate creature icons from ability icons to proper creature icons
-        setTimeout(() => {
-            import('./utils/migrateCreatureIcons').then(({ runCreatureIconMigration }) => {
-                runCreatureIconMigration();
-            }).catch(error => {
-                console.error('Failed to run creature icon migration:', error);
-            });
-        }, 2000); // Give stores more time to fully initialize
+        // Migrate creature icons — deferred to idle time (non-blocking).
+        // Uses requestIdleCallback so the browser picks a quiet moment, with a
+        // 5-second hard deadline to ensure it runs even on busy pages.
+        // The migration itself is also version-gated and skips if already done.
+        const scheduleIconMigration = () => {
+            if (typeof requestIdleCallback !== 'undefined') {
+                requestIdleCallback(() => {
+                    import('./utils/migrateCreatureIcons').then(({ runCreatureIconMigration }) => {
+                        runCreatureIconMigration();
+                    }).catch(error => {
+                        console.error('Failed to run creature icon migration:', error);
+                    });
+                }, { timeout: 5000 });
+            } else {
+                // Fallback for browsers without requestIdleCallback
+                setTimeout(() => {
+                    import('./utils/migrateCreatureIcons').then(({ runCreatureIconMigration }) => {
+                        runCreatureIconMigration();
+                    }).catch(error => {
+                        console.error('Failed to run creature icon migration:', error);
+                    });
+                }, 5000);
+            }
+        };
+        scheduleIconMigration();
 
         // Clear old hardcoded spells from library (only if old spells exist)
         const wasCleared = initializeCleanSpellLibrary();
@@ -854,11 +888,11 @@ export default function App() {
             console.log('🔄 Starting authentication initialization...');
             unsubscribe = initializeAuth();
 
-            // Refresh auth state to ensure consistency after initialization
+            // Refresh auth state to ensure consistency after initialization.
+            // Staggered to 1.5s (separate window from the 2.5s creature cleanup)
             setTimeout(async () => {
                 await refreshAuthState();
-                // Firebase debugging removed - no longer needed
-            }, 1000); // Give auth time to initialize
+            }, 1500);
         } catch (error) {
             console.warn('Authentication initialization failed:', error);
             // CRITICAL FIX: Even if Firebase auth fails, mark auth as initialized

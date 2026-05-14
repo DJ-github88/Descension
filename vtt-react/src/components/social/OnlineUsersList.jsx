@@ -41,7 +41,11 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
   const [showNoteDialog, setShowNoteDialog] = useState(false);
   const [pendingRemoveFriend, setPendingRemoveFriend] = useState(null);
 
-  const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
+  // Subscribe to the raw Map (stable reference — only changes when presenceStore.set() is called).
+  // Deriving the array via useMemo avoids the Array.from() reference churn that previously
+  // caused a re-render on every store access.
+  const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);
+  const onlineUsers = useMemo(() => Array.from(onlineUsersMap.values()), [onlineUsersMap]);
   const currentUserPresence = usePresenceStore((state) => state.currentUserPresence);
   const updateStatus = usePresenceStore((state) => state.updateStatus);
   const { user } = useAuthStore();
@@ -526,15 +530,6 @@ const OnlineUsersList = ({ onUserClick, onWhisper, onInviteToRoom }) => {
     }
   };
 
-  // Debug: Log when currentUserPresence changes
-  useEffect(() => {
-    console.log('🔍 OnlineUsersList - currentUserPresence changed:', {
-      userId: currentUserPresence?.userId,
-      status: currentUserPresence?.status,
-      statusComment: currentUserPresence?.statusComment,
-      lastUpdated: currentUserPresence?.lastUpdated
-    });
-  }, [currentUserPresence]);
 
   // Load status comment from current user presence
   useEffect(() => {

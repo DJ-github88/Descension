@@ -1,24 +1,24 @@
 /**
  * Spellguard Class Data
- * 
+ *
  * Complete class information for the Spellguard - an anti-mage tank
  * who absorbs magical damage and converts it into power.
  */
 
 export const SPELLGUARD_DATA = {
-  id: 'spellguard',
-  name: 'Spellguard',
-  icon: 'fas fa-shield-alt',
-  role: 'Tank/Anti-Mage',
-  damageTypes: ['arcane', 'force'],
+  id: "spellguard",
+  name: "Spellguard",
+  icon: "fas fa-shield-alt",
+  role: "Tank/Anti-Mage",
+  damageTypes: ["arcane", "force"],
 
   // Overview section
   overview: {
-    title: 'The Spellguard',
-    subtitle: 'Arcane Absorption Specialist',
+    title: "The Spellguard",
+    subtitle: "Arcane Absorption Specialist",
 
     quickOverview: {
-      title: 'Quick Overview',
+      title: "Quick Overview",
       content: `**What You Need to Know**: Spellguards are magical sponges who stand between enemy casters and their allies, absorbing incoming spells and converting the damage into Arcane Energy Points they spend on shields, spell reflection, and devastating counterattacks.
 
 **Core Mechanic**: Intercept Magical Damage → Absorb & Convert to AEP → Spend AEP on Shields, Reflections, or Offensive Strikes
@@ -27,13 +27,13 @@ export const SPELLGUARD_DATA = {
 
 **Playstyle**: Reactive anti-mage tanking
 
-**Best For**: Players who relish turning the enemy's greatest strength into their own weapon`
+**Best For**: Players who relish turning the enemy's greatest strength into their own weapon`,
     },
 
     description: `The Spellguard is a magical tank who stands as a bulwark against enemy spellcasters. By absorbing and converting incoming magical damage into Arcane Energy Points (AEP), Spellguards transform enemy magic into their own power. They excel at disrupting enemy casters, protecting allies from magical threats, and turning the enemy's greatest strength into their greatest weakness.`,
-    
+
     roleplayIdentity: {
-      title: 'Roleplay Identity',
+      title: "Roleplay Identity",
       content: `Spellguards are individuals who have learned to internalize and weaponize magical energy. Whether through rigorous training, natural affinity, or arcane experimentation, they possess the unique ability to absorb spells that would devastate others. They are the ultimate anti-mage specialists, feared by spellcasters and valued by allies.
 
 **The Spellguard's Philosophy**: Magic is not inherently good or evil—it is energy, and energy can be redirected, absorbed, and repurposed. The greatest defense against magic is not resistance, but absorption and conversion.
@@ -48,11 +48,11 @@ export const SPELLGUARD_DATA = {
 
 **Personality Traits**: Spellguards tend to be stoic, disciplined, and protective. They understand the dangers of unchecked magic and take their role as magical guardians seriously. Some are calm and methodical, while others are aggressive hunters of enemy casters. Many develop a sixth sense for detecting magical energy.
 
-**Physical Manifestations**: A Spellguard's absorption abilities often manifest visibly—glowing runes that pulse when absorbing spells, an aura that seems to drink in magical light, or armor that shimmers with absorbed arcane energy. Their weapons and shields often bear anti-magic enchantments.`
+**Physical Manifestations**: A Spellguard's absorption abilities often manifest visibly—glowing runes that pulse when absorbing spells, an aura that seems to drink in magical light, or armor that shimmers with absorbed arcane energy. Their weapons and shields often bear anti-magic enchantments.`,
     },
-    
+
     combatRole: {
-      title: 'Combat Role',
+      title: "Combat Role",
       content: `**Primary Role**: Magical Tank / Anti-Mage Specialist
 
 The Spellguard excels at absorbing magical damage and disrupting enemy spellcasters. They are the ultimate counter to magic-heavy enemy compositions, growing stronger as they absorb more spells.
@@ -85,11 +85,11 @@ The Spellguard excels at absorbing magical damage and disrupting enemy spellcast
 - Protects squishy casters from enemy spells
 - Synergizes with physical damage dealers who can handle non-casters
 - Benefits from healers who can sustain through absorption damage
-- Works well with crowd control to manage multiple casters`
+- Works well with crowd control to manage multiple casters`,
     },
-    
+
     playstyle: {
-      title: 'Playstyle & Strategy',
+      title: "Playstyle & Strategy",
       content: `Playing a Spellguard is about positioning yourself to intercept enemy spells, managing your AEP reserves, and knowing when to absorb versus when to reflect.
 
 **Core Gameplay Loop**:
@@ -128,11 +128,11 @@ The Spellguard excels at absorbing magical damage and disrupting enemy spellcast
 - **Reflection Timing**: Wait for high-value spells before using reflection abilities
 - **AEP Banking**: Save AEP for critical moments rather than spending immediately
 - **Mana Pressure**: Constantly drain enemy casters to limit their options
-- **Zone Control**: Use anti-magic zones to deny areas to enemy casters`
+- **Zone Control**: Use anti-magic zones to deny areas to enemy casters`,
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Spell Eater',
+      title: "Combat Example: The Spell Eater",
       content: `**The Setup**: You're a Spellguard (Arcane Warden specialization) facing a group of enemy mages (2 fire mages + 1 archmage + 1 enemy warrior). Your party is with you. Starting AEP: 0. Starting Mana: 40/50. Your goal: Absorb enemy spells to generate AEP, then use that AEP to protect allies and reflect spells back at enemies.
 
 **Starting State**: AEP: 0/100 | Mana: 40/50 | HP: 70/70 | Shield: 0
@@ -345,49 +345,71 @@ The Spellguard excels at absorbing magical damage and disrupting enemy spellcast
 7. **Mana Drain**: Drained 10+ mana from archmage through melee attacks (1d4 per hit)
 8. **AEP Cap**: Hit 100 AEP multiple times — excess absorption is wasted, so spend aggressively at high AEP
 
-Against spellcasters, you're nearly INVINCIBLE. Against physical attackers, you're mortal. Choose your enemies wisely — let the party's physical damage dealers handle the warriors while you feast on mages.`
-    }
+Against spellcasters, you're nearly INVINCIBLE. Against physical attackers, you're mortal. Choose your enemies wisely — let the party's physical damage dealers handle the warriors while you feast on mages.`,
+    },
   },
-  
+
   // Resource System
   resourceSystem: {
-    title: 'Arcane Absorption',
-    subtitle: 'The Magical Conduit',
-    
+    title: "Arcane Absorption",
+    subtitle: "The Magical Conduit",
+
     description: `You are an arcane sponge. Incoming magical damage doesn't harm you—it fuels you. By converting hostile spells into Arcane Energy Points (AEP) at a rate of 1 AEP per damage point, you turn the enemy's greatest strengths into your own shields, reflections, and devastating force strikes.`,
 
     cards: [
       {
-        title: 'AEP (0–100)',
-        stats: 'The Battery',
-        details: 'Generated by absorbing magical damage. Spent to activate defensive barriers, reflect spells, or unleash stored force energy.'
+        title: "AEP (0–100)",
+        stats: "The Battery",
+        details:
+          "Generated by absorbing magical damage. Spent to activate defensive barriers, reflect spells, or unleash stored force energy.",
       },
       {
-        title: 'Mana Drain',
-        stats: 'Passive Feed',
-        details: 'Every melee hit steals mana from enemy casters, granting you AEP and starving them of resources simultaneously.'
-      }
+        title: "Mana Drain",
+        stats: "Passive Feed",
+        details:
+          "Every melee hit steals mana from enemy casters, granting you AEP and starving them of resources simultaneously.",
+      },
     ],
 
     generationTable: {
-      title: 'AEP Generation Rates',
-      headers: ['Source', 'AEP Change', 'Notes'],
+      title: "AEP Generation Rates",
+      headers: ["Source", "AEP Change", "Notes"],
       rows: [
-        ['Magical Absorption (Base)', '+1 per dmg', 'Fire, Frost, Lightning, Necrotic, etc.'],
-        ['Arcane Warden Bonus', '+1.5 per dmg', 'Enhanced efficiency for tank-focused spec'],
-        ['Physical Conversion', '+1 per 3 dmg', 'Less efficient — kinetic force absorbs poorly'],
-        ['Mana Drain (Melee Hit)', '+1 per mana', 'Drains 1d4 mana per melee hit'],
-        ['Successful Reflection', '+5 bonus', 'Reward for Spell Breaker spec timing']
-      ]
+        [
+          "Magical Absorption (Base)",
+          "+1 per dmg",
+          "Fire, Frost, Lightning, Necrotic, etc.",
+        ],
+        [
+          "Arcane Warden Bonus",
+          "+1.5 per dmg",
+          "Enhanced efficiency for tank-focused spec",
+        ],
+        [
+          "Physical Conversion",
+          "+1 per 3 dmg",
+          "Less efficient — kinetic force absorbs poorly",
+        ],
+        [
+          "Mana Drain (Melee Hit)",
+          "+1 per mana",
+          "Drains 1d4 mana per melee hit",
+        ],
+        [
+          "Successful Reflection",
+          "+5 bonus",
+          "Reward for Spell Breaker spec timing",
+        ],
+      ],
     },
 
     usage: {
       momentum: `Stand in front of enemy casters and let them hit you. Every spell they cast fills your AEP gauge, letting you shield the entire party using their own energy — without spending your mana.`,
-      flourish: `Spend 10–25 AEP on high-impact reactions: Arcane Shield to protect an ally, Reflective Barrier to send a spell back at the caster, or Arcane Nova to release stored energy as an AoE blast.`
+      flourish: `Spend 10–25 AEP on high-impact reactions: Arcane Shield to protect an ally, Reflective Barrier to send a spell back at the caster, or Arcane Nova to release stored energy as an AoE blast.`,
     },
 
     strategicConsiderations: {
-      title: 'Combat Phases & Absorption Logic',
+      title: "Combat Phases & Absorption Logic",
       content: `**Phase 1: Starving (0-20 AEP)**: You are dangerously low. Close distance to enemy casters immediately to trigger Mana Drain on every melee hit. Position yourself as the most threatening target to bait spellcasts. Do NOT spend AEP on anything other than emergency Arcane Shields — you need to build your bank first.
 
 **Phase 2: Shielding (21-50 AEP)**: Your active zone. You have enough buffer to absorb moderate spell bursts and still have reserves for reactions. Pre-emptively shield squishy allies (casters, rogues) before big enemy turns. Watch for telltale casting gestures and prime Reflective Barrier against the highest-damage enemy caster.
@@ -396,11 +418,11 @@ Against spellcasters, you're nearly INVINCIBLE. Against physical attackers, you'
 
 **The Mana Drain Loop**: Your melee attacks drain 1d4 mana from casters per hit. Every stolen mana point = +1 AEP. Against caster-heavy encounters, you passively generate AEP while dealing damage. Prioritize caster targets — each melee hit starves them of resources while feeding yours.
 
-**AEP Persistence**: AEP does not decay between encounters. If you finish a fight at 70 AEP, you start the next one already in Phase 3. However, AEP decays at a rate of 5 per minute outside of combat, so long rests will deplete your reserves. Communicate with your party — let them know you are charged and ready to absorb or reflect on their signal.`
+**AEP Persistence**: AEP does not decay between encounters. If you finish a fight at 70 AEP, you start the next one already in Phase 3. However, AEP decays at a rate of 5 per minute outside of combat, so long rests will deplete your reserves. Communicate with your party — let them know you are charged and ready to absorb or reflect on their signal.`,
     },
 
     playingInPerson: {
-      title: 'Playing Spellguard In Person',
+      title: "Playing Spellguard In Person",
       content: `**Required Materials**:
 - **d100 (Two d10s)** or **10 Beads** (10 AEP each = full pool at a glance)
 - **Colored Rings** (place on your mini when Arcane Shield is active)
@@ -420,2137 +442,2307 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 - Hand signal (open palm) = "I can absorb — send it at me"
 - Hand signal (closed fist) = "I am starving — do not rely on my shields"
 
-**Why This System Works**: The Spellguard's power is inversely proportional to the enemy's. Every spell they cast makes you stronger. The physical tokens make this feedback loop tangible — watching your d100 climb or beads slide as the enemy "feeds" you creates a satisfying power fantasy. The mirror token creates tension: enemies see it and know reflecting their next spell could end them.`
-    }
+**Why This System Works**: The Spellguard's power is inversely proportional to the enemy's. Every spell they cast makes you stronger. The physical tokens make this feedback loop tangible — watching your d100 climb or beads slide as the enemy "feeds" you creates a satisfying power fantasy. The mirror token creates tension: enemies see it and know reflecting their next spell could end them.`,
+    },
   },
 
   // Specializations
   specializations: {
-    title: 'Spellguard Specializations',
-    description: 'Three distinct approaches to arcane absorption and anti-magic combat.',
+    title: "Spellguard Specializations",
+    description:
+      "Three distinct approaches to arcane absorption and anti-magic combat.",
 
     specs: [
       {
-        id: 'arcane_warden',
-        name: 'Arcane Warden',
-        icon: 'Force/Force Shield',
-        color: '#4169E1',
-        theme: 'Defensive Tank',
+        id: "arcane_warden",
+        name: "Arcane Warden",
+        icon: "Force/Force Shield",
+        color: "#4169E1",
+        theme: "Defensive Tank",
 
         description: `The Arcane Warden specialization focuses on maximum magical absorption and ally protection. Arcane Wardens are the ultimate magical tanks, capable of shielding entire parties from devastating spell barrages. They excel at absorbing massive amounts of magical damage and converting it into protective barriers.`,
 
-        playstyle: 'Defensive tank, maximum absorption, ally protection, sustained shielding',
+        playstyle:
+          "Defensive tank, maximum absorption, ally protection, sustained shielding",
 
         strengths: [
-          'Highest AEP generation from absorbed damage',
-          'Enhanced shield strength and duration',
-          'Can protect multiple allies simultaneously',
-          'Exceptional magical damage mitigation',
-          'Longer-lasting protective barriers',
-          'Bonus armor while shields are active'
+          "Highest AEP generation from absorbed damage",
+          "Enhanced shield strength and duration",
+          "Can protect multiple allies simultaneously",
+          "Exceptional magical damage mitigation",
+          "Longer-lasting protective barriers",
+          "Bonus armor while shields are active",
         ],
 
         weaknesses: [
-          'Less offensive capability than other specs',
-          'Requires allies to protect to be most effective',
-          'Lower damage output',
-          'Dependent on enemy casters for AEP generation',
-          'Less effective in solo situations'
+          "Less offensive capability than other specs",
+          "Requires allies to protect to be most effective",
+          "Lower damage output",
+          "Dependent on enemy casters for AEP generation",
+          "Less effective in solo situations",
         ],
 
         passiveAbility: {
-          name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.',
-          icon: 'Arcane/Ebon Blaze'
+          name: "Arcane Absorption",
+          description:
+            "All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.",
+          icon: "Arcane/Ebon Blaze",
         },
 
         specPassive: {
-          name: 'Arcane Fortitude',
-          description: 'Your absorption is enhanced. Gain 1.5x AEP from magical damage absorbed (1.5 AEP per damage, rounded down). Additionally, while you have an active shield, gain +2 armor and +10% to all resistances.',
-          icon: 'Radiant/Divine Blessing'
+          name: "Arcane Fortitude",
+          description:
+            "Your absorption is enhanced. Gain 1.5x AEP from magical damage absorbed (1.5 AEP per damage, rounded down). Additionally, while you have an active shield, gain +2 armor and +10% to all resistances.",
+          icon: "Radiant/Divine Blessing",
         },
 
         keyAbilities: [
-          'Enhanced Barriers - All shield abilities absorb 50% more damage and last 50% longer.',
-          'Mass Protection - Barrier of Protection costs -5 AEP and affects all allies within 15 feet (instead of 10).',
-          'Absorption Overflow - When your shields absorb damage, gain 1 AEP per 5 damage absorbed.'
-        ]
+          "Enhanced Barriers - All shield abilities absorb 50% more damage and last 50% longer.",
+          "Mass Protection - Barrier of Protection costs -5 AEP and affects all allies within 15 feet (instead of 10).",
+          "Absorption Overflow - When your shields absorb damage, gain 1 AEP per 5 damage absorbed.",
+        ],
       },
 
       {
-        id: 'spell_breaker',
-        name: 'Spell Breaker',
-        icon: 'Arcane/Magical Cross Emblem 2',
-        color: '#9370DB',
-        theme: 'Disruption Specialist',
+        id: "spell_breaker",
+        name: "Spell Breaker",
+        icon: "Arcane/Magical Cross Emblem 2",
+        color: "#9370DB",
+        theme: "Disruption Specialist",
 
         description: `The Spell Breaker specialization focuses on disrupting and reflecting enemy spells. Spell Breakers are aggressive anti-mage specialists who punish enemy casters by turning their own magic against them. They excel at spell reflection, counterspells, and making enemy casters regret every spell they cast.`,
 
-        playstyle: 'Aggressive disruption, spell reflection, caster punishment, high-risk high-reward',
+        playstyle:
+          "Aggressive disruption, spell reflection, caster punishment, high-risk high-reward",
 
         strengths: [
-          'Powerful spell reflection capabilities',
-          'Bonus AEP from successful reflections',
-          'Can reflect multiple spells in succession',
-          'Disrupts enemy spell rotations',
-          'Punishes enemy casters heavily',
-          'Excellent against single powerful casters'
+          "Powerful spell reflection capabilities",
+          "Bonus AEP from successful reflections",
+          "Can reflect multiple spells in succession",
+          "Disrupts enemy spell rotations",
+          "Punishes enemy casters heavily",
+          "Excellent against single powerful casters",
         ],
 
         weaknesses: [
-          'Requires precise timing for reflections',
-          'Less effective against non-casters',
-          'Lower shield strength than Arcane Warden',
-          'More vulnerable to spell barrages',
-          'Requires good reaction speed'
+          "Requires precise timing for reflections",
+          "Less effective against non-casters",
+          "Lower shield strength than Arcane Warden",
+          "More vulnerable to spell barrages",
+          "Requires good reaction speed",
         ],
 
         passiveAbility: {
-          name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.',
-          icon: 'Arcane/Ebon Blaze'
+          name: "Arcane Absorption",
+          description:
+            "All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.",
+          icon: "Arcane/Ebon Blaze",
         },
 
         specPassive: {
-          name: 'Spell Reflection Mastery',
-          description: 'Whenever you successfully reflect a spell, gain +5 AEP. Additionally, reflected spells deal 25% increased damage. Your Reflective Barrier and Spell Reflection abilities have their cooldowns reduced by 1 turn.',
-          icon: 'Arcane/Magical Cross Emblem 2'
+          name: "Spell Reflection Mastery",
+          description:
+            "Whenever you successfully reflect a spell, gain +5 AEP. Additionally, reflected spells deal 25% increased damage. Your Reflective Barrier and Spell Reflection abilities have their cooldowns reduced by 1 turn.",
+          icon: "Arcane/Magical Cross Emblem 2",
         },
 
         keyAbilities: [
-          'Rapid Reflection - Spell Reflection costs -5 AEP and can be used as a reaction.',
-          'Reflection Chain - When you reflect a spell, your next reflection within 2 turns costs -10 AEP.',
-          'Punishing Counter - Reflected spells reduce the caster\'s spell save DC by 2 for 1 turn (guaranteed).'
-        ]
+          "Rapid Reflection - Spell Reflection costs -5 AEP and can be used as a reaction.",
+          "Reflection Chain - When you reflect a spell, your next reflection within 2 turns costs -10 AEP.",
+          "Punishing Counter - Reflected spells reduce the caster's spell save DC by 2 for 1 turn (guaranteed).",
+        ],
       },
 
       {
-        id: 'mana_reaver',
-        name: 'Mana Reaver',
-        icon: 'Arcane/Orb Manipulation',
-        color: '#8B008B',
-        theme: 'Offensive Drain',
+        id: "mana_reaver",
+        name: "Mana Reaver",
+        icon: "Arcane/Orb Manipulation",
+        color: "#8B008B",
+        theme: "Offensive Drain",
 
         description: `The Mana Reaver specialization focuses on aggressive mana drain and converting absorbed energy into devastating attacks. Mana Reavers are offensive anti-mages who drain enemy casters dry while unleashing powerful arcane strikes. They excel at eliminating enemy casters quickly through sustained mana pressure and burst damage.`,
 
-        playstyle: 'Aggressive offense, mana drain focus, burst damage, caster elimination',
+        playstyle:
+          "Aggressive offense, mana drain focus, burst damage, caster elimination",
 
         strengths: [
-          'Highest damage output of all Spellguard specs',
-          'Enhanced mana drain on melee attacks',
-          'Can convert AEP directly into damage',
-          'Excellent at eliminating priority casters',
-          'Strong sustained damage through mana drain',
-          'Generates AEP consistently through melee'
+          "Highest damage output of all Spellguard specs",
+          "Enhanced mana drain on melee attacks",
+          "Can convert AEP directly into damage",
+          "Excellent at eliminating priority casters",
+          "Strong sustained damage through mana drain",
+          "Generates AEP consistently through melee",
         ],
 
         weaknesses: [
-          'Requires melee range to be most effective',
-          'Lower defensive capabilities',
-          'More vulnerable to counterattacks',
-          'Less effective at protecting allies',
-          'Needs to balance offense with survival'
+          "Requires melee range to be most effective",
+          "Lower defensive capabilities",
+          "More vulnerable to counterattacks",
+          "Less effective at protecting allies",
+          "Needs to balance offense with survival",
         ],
 
         passiveAbility: {
-          name: 'Arcane Absorption',
-          description: 'All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.',
-          icon: 'Arcane/Ebon Blaze'
+          name: "Arcane Absorption",
+          description:
+            "All Spellguards passively absorb magical damage. Gain 1 AEP for every point of fire, frost, lightning, or necrotic damage taken. Additionally, gain 1 AEP for every 3 points of physical damage taken.",
+          icon: "Arcane/Ebon Blaze",
         },
 
         specPassive: {
-          name: 'Mana Vampirism',
-          description: 'Your melee attacks drain 2x mana (double the damage dealt). Additionally, for every 10 mana drained, your next melee attack deals +1d6 arcane damage (stacks up to 5 times). Empowered Strike and Arcane Strike cost -5 AEP.',
-          icon: 'Arcane/Orb Manipulation'
+          name: "Mana Vampirism",
+          description:
+            "Your melee attacks drain 2x mana (double the damage dealt). Additionally, for every 10 mana drained, your next melee attack deals +1d6 arcane damage (stacks up to 5 times). Empowered Strike and Arcane Strike cost -5 AEP.",
+          icon: "Arcane/Orb Manipulation",
         },
 
         keyAbilities: [
-          'Devastating Strikes - Empowered Strike and Arcane Strike deal 50% increased damage.',
-          'Mana Burn - When you drain mana from a target, they take 1 arcane damage per 2 mana drained.',
-          'Energy Conversion - You can spend 30 AEP to instantly restore 20 mana (2-minute cooldown). Cannot be used on the same turn you drain mana.'
-        ]
-      }
-    ]
+          "Devastating Strikes - Empowered Strike and Arcane Strike deal 50% increased damage.",
+          "Mana Burn - When you drain mana from a target, they take 1 arcane damage per 2 mana drained.",
+          "Energy Conversion - You can spend 30 AEP to instantly restore 20 mana (2-minute cooldown). Cannot be used on the same turn you drain mana.",
+        ],
+      },
+    ],
   },
 
   // Example Spells - showcasing AEP mechanics
   exampleSpells: [
     // BASIC DEFENSIVE SPELLS
     {
-      id: 'sg_arcane_shield',
-      name: 'Arcane Shield',
-      description: 'Create a shield of absorbed arcane energy that grants +2 armor and absorbs up to 10d6 damage for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Force/Force Shield',
+      id: "sg_arcane_shield",
+      name: "Arcane Shield",
+      description:
+        "Create a shield of absorbed arcane energy that grants +2 armor and absorbs up to 10d6 damage for 1 minute.",
+      spellType: "ACTION",
+      icon: "Force/Force Shield",
       level: 1,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Force/Force Shield',
+        school: "arcane",
+        icon: "Force/Force Shield",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 4,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 10
+          type: "arcane_energy_points",
+          cost: 10,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
-      effectTypes: ['buff', 'healing'],
+      effectTypes: ["buff", "healing"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'arcane_shield',
-          name: 'Arcane Shield',
-          description: '+2 Armor and 10d6 damage absorption shield for 1 minute.',
-          mechanicsText: '',
-          statModifier: {
-            stat: 'armor',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "arcane_shield",
+            name: "Arcane Shield",
+            description:
+              "+2 Armor and 10d6 damage absorption shield for 1 minute.",
+            mechanicsText: "",
+            statModifier: {
+              stat: "armor",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
+        durationType: "minutes",
+        durationUnit: "minutes",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       healingConfig: {
-        healingType: 'shield',
-        formula: '10d6',
-        resolution: 'AUTOMATIC',
+        healingType: "shield",
+        formula: "10d6",
+        resolution: "AUTOMATIC",
         shieldConfig: {
           enabled: true,
-          shieldAmount: '10d6',
+          shieldAmount: "10d6",
           shieldDuration: 1,
-          shieldDurationType: 'minutes'
-        }
+          shieldDurationType: "minutes",
+        },
       },
 
-      tags: ['defense', 'shield', 'aep cost', 'self buff']
+      tags: ["defense", "shield", "aep cost", "self buff"],
     },
 
     {
-      id: 'sg_reflective_barrier',
-      name: 'Reflective Barrier',
-      description: 'Create a barrier that reflects the next spell cast at you back at the caster. The reflected spell deals full damage and uses the original caster\'s spell save DC.',
-      spellType: 'REACTION',
-      icon: 'Arcane/Magical Cross Emblem 2',
+      id: "sg_reflective_barrier",
+      name: "Reflective Barrier",
+      description:
+        "Create a barrier that reflects the next spell cast at you back at the caster. The reflected spell deals full damage and uses the original caster's spell save DC.",
+      spellType: "REACTION",
+      icon: "Arcane/Magical Cross Emblem 2",
       level: 2,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Magical Cross Emblem 2',
+        school: "arcane",
+        icon: "Arcane/Magical Cross Emblem 2",
         castTime: 1,
-        castTimeType: 'REACTION',
-        reactionTrigger: 'When targeted by a spell'
+        castTimeType: "REACTION",
+        reactionTrigger: "When targeted by a spell",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 6,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 10
+          type: "arcane_energy_points",
+          cost: 10,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
-      effectTypes: ['utility'],
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'spell_reflection', name: 'Spell Reflection', description: 'Reflect the next spell back at the caster at full power using their own DC.' }
+          {
+            id: "spell_reflection",
+            name: "Spell Reflection",
+            description:
+              "Reflect the next spell back at the caster at full power using their own DC.",
+          },
         ],
         duration: 1,
-        durationUnit: 'rounds'
+        durationUnit: "rounds",
       },
 
-      tags: ['defense', 'reflection', 'reaction', 'aep cost', 'anti mage']
+      tags: ["defense", "reflection", "reaction", "aep cost", "anti mage"],
     },
 
     {
-      id: 'sg_barrier_of_protection',
-      name: 'Barrier of Protection',
-      description: 'Create a protective barrier around all allies within 10ft that absorbs up to 8d6 damage each for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Healing/Prayer',
+      id: "sg_barrier_of_protection",
+      name: "Barrier of Protection",
+      description:
+        "Create a protective barrier around all allies within 10ft that absorbs up to 8d6 damage each for 1 minute.",
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
       level: 3,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Healing/Prayer',
+        school: "arcane",
+        icon: "Healing/Prayer",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        areaShape: 'circle',
+        targetingType: "area",
+        areaShape: "circle",
         areaSize: 10,
-        rangeType: 'self_centered',
-        targetRestrictions: ['ally']
+        rangeType: "self_centered",
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 10,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      resolution: 'AUTOMATIC',
+      resolution: "AUTOMATIC",
 
-      effectTypes: ['healing'],
+      effectTypes: ["healing"],
 
       healingConfig: {
-        healingType: 'shield',
-        formula: '8d6',
-        resolution: 'AUTOMATIC',
+        healingType: "shield",
+        formula: "8d6",
+        resolution: "AUTOMATIC",
         shieldConfig: {
           enabled: true,
-          shieldAmount: '8d6',
+          shieldAmount: "8d6",
           shieldDuration: 1,
-          shieldDurationType: 'minutes'
-        }
+          shieldDurationType: "minutes",
+        },
       },
 
-      tags: ['defense', 'shield', 'aoe', 'aep cost', 'ally protection']
+      tags: ["defense", "shield", "aoe", "aep cost", "ally protection"],
     },
 
     // OFFENSIVE SPELLS
     {
-      id: 'sg_empowered_strike',
-      name: 'Empowered Strike',
-      description: 'Infuse your next melee attack with absorbed arcane energy, dealing additional 1d8 arcane damage and draining mana from the target.',
-      spellType: 'ACTION',
-      icon: 'General/Rage',
+      id: "sg_empowered_strike",
+      name: "Empowered Strike",
+      description:
+        "Infuse your next melee attack with absorbed arcane energy, dealing additional 1d8 arcane damage and draining mana from the target.",
+      spellType: "ACTION",
+      icon: "General/Rage",
       level: 1,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'General/Rage',
+        school: "arcane",
+        icon: "General/Rage",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
+        targetingType: "single",
+        rangeType: "melee",
         rangeDistance: 5,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 4,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '1d8',
-        damageTypes: ['arcane'],
-        resolution: 'DICE'
+        formula: "1d8",
+        damageTypes: ["arcane"],
+        resolution: "DICE",
       },
 
-      tags: ['damage', 'melee', 'arcane', 'aep cost', 'mana drain']
+      tags: ["damage", "melee", "arcane", "aep cost", "mana drain"],
     },
 
     {
-      id: 'sg_arcane_nova',
-      name: 'Arcane Nova',
-      description: 'Release stored arcane energy in a 20-foot burst around you, dealing 6d6 arcane damage to enemies and reducing their spell damage by 2 for 1 turn. Agility save for half.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      id: "sg_arcane_nova",
+      name: "Arcane Nova",
+      description:
+        "Release stored arcane energy in a 20-foot burst around you, dealing 6d6 arcane damage to enemies and reducing their spell damage by 2 for 1 turn. Agility save for half.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
       level: 4,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Magical Sword',
+        school: "arcane",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        areaShape: 'circle',
+        targetingType: "area",
+        areaShape: "circle",
         areaSize: 20,
-        rangeType: 'self_centered',
-        targetRestrictions: ['enemies']
+        rangeType: "self_centered",
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 14,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 25
+          type: "arcane_energy_points",
+          cost: 25,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      resolution: 'SAVE',
-      effectTypes: ['damage', 'debuff'],
+      resolution: "SAVE",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
-        formula: '6d6',
-        damageTypes: ['arcane'],
-        resolution: 'DICE',
+        formula: "6d6",
+        damageTypes: ["arcane"],
+        resolution: "DICE",
         savingThrow: {
-          ability: 'agility',
+          ability: "agility",
           difficultyClass: 15,
-          saveOutcome: 'half_damage'
-        }
+          saveOutcome: "half_damage",
+        },
       },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'spell_weakness',
-          name: 'Spell Weakness',
-          description: '-2 to spell damage for 1 turn.',
-          mechanicsText: ''
-        }],
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "spell_weakness",
+            name: "Spell Weakness",
+            description: "-2 to spell damage for 1 turn.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'turns',
-        durationUnit: 'turns'
+        durationType: "turns",
+        durationUnit: "turns",
       },
 
-      tags: ['damage', 'aoe', 'arcane', 'aep cost', 'debuff']
+      tags: ["damage", "aoe", "arcane", "aep cost", "debuff"],
     },
 
     {
-      id: 'sg_arcane_strike',
-      name: 'Arcane Strike',
-      description: 'Channel massive arcane energy into your weapon for a devastating melee strike dealing 4d6 arcane damage and silencing the target for 1 turn.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Warrior',
+      id: "sg_arcane_strike",
+      name: "Arcane Strike",
+      description:
+        "Channel massive arcane energy into your weapon for a devastating melee strike dealing 4d6 arcane damage and silencing the target for 1 turn.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Warrior",
       level: 3,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Radiant/Radiant Warrior',
+        school: "arcane",
+        icon: "Radiant/Radiant Warrior",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
+        targetingType: "single",
+        rangeType: "melee",
         rangeDistance: 5,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 10,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'debuff'],
+      resolution: "DICE",
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
-        formula: '4d6',
-        damageTypes: ['arcane'],
-        resolution: 'DICE'
+        formula: "4d6",
+        damageTypes: ["arcane"],
+        resolution: "DICE",
       },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'silence',
-          name: 'Silenced',
-          description: 'Target is completely silenced and cannot cast spells for 1 turn.',
-          mechanicsText: ''
-        }],
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "silence",
+            name: "Silenced",
+            description:
+              "Target is completely silenced and cannot cast spells for 1 turn.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'turns',
-        durationUnit: 'turns'
+        durationType: "turns",
+        durationUnit: "turns",
       },
 
-      tags: ['damage', 'melee', 'arcane', 'aep cost', 'silence', 'anti mage']
+      tags: ["damage", "melee", "arcane", "aep cost", "silence", "anti mage"],
     },
 
     // UTILITY SPELLS
     {
-      id: 'sg_arcane_rejuvenation',
-      name: 'Arcane Rejuvenation',
-      description: 'Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal yourself or an ally for 1d6 per 5 AEP spent (2d6 to 8d6).',
-      spellType: 'ACTION',
-      icon: 'Healing/Golden Heart',
+      id: "sg_arcane_rejuvenation",
+      name: "Arcane Rejuvenation",
+      description:
+        "Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal yourself or an ally for 1d6 per 5 AEP spent (2d6 to 8d6).",
+      spellType: "ACTION",
+      icon: "Healing/Golden Heart",
       level: 2,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Healing/Golden Heart',
+        school: "arcane",
+        icon: "Healing/Golden Heart",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self']
+        targetRestrictions: ["ally", "self"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 6,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 10
+          type: "arcane_energy_points",
+          cost: 10,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'DICE',
-      effectTypes: ['healing'],
+      resolution: "DICE",
+      effectTypes: ["healing"],
 
       healingConfig: {
-        formula: '1d6 per 5 AEP spent',
-        healingType: 'direct',
-        resolution: 'DICE'
+        formula: "1d6 per 5 AEP spent",
+        healingType: "direct",
+        resolution: "DICE",
       },
 
-      tags: ['healing', 'utility', 'aep cost', 'support']
+      tags: ["healing", "utility", "aep cost", "support"],
     },
 
     {
-      id: 'sg_elemental_resistance',
-      name: 'Elemental Resistance',
-      description: 'Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, frost, lightning, or necrotic) for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Nature/Centered',
+      id: "sg_elemental_resistance",
+      name: "Elemental Resistance",
+      description:
+        "Use absorbed energy to grant yourself or an ally resistance to a chosen element (fire, frost, lightning, or necrotic) for 1 minute.",
+      spellType: "ACTION",
+      icon: "Nature/Centered",
       level: 1,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Nature/Centered',
+        school: "arcane",
+        icon: "Nature/Centered",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'touch',
+        targetingType: "single",
+        rangeType: "touch",
         rangeDistance: 5,
-        targetRestrictions: ['ally', 'self']
+        targetRestrictions: ["ally", "self"],
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 6,
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['buff'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'damageMitigation',
-        effects: [{
-          id: 'elemental_resistance',
-          name: 'Elemental Resistance',
-          description: 'Resistance to one chosen element (fire, frost, lightning, or necrotic) — half damage from that type for 1 minute.',
-          mechanicsText: ''
-        }],
+        buffType: "damageMitigation",
+        effects: [
+          {
+            id: "elemental_resistance",
+            name: "Elemental Resistance",
+            description:
+              "Resistance to one chosen element (fire, frost, lightning, or necrotic) — half damage from that type for 1 minute.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes'
+        durationType: "minutes",
+        durationUnit: "minutes",
       },
 
-      tags: ['buff', 'resistance', 'utility', 'protection']
+      tags: ["buff", "resistance", "utility", "protection"],
     },
 
     {
-      id: 'sg_spell_disruption',
-      name: 'Spell Disruption',
-      description: 'Disrupt an enemy spell being cast within 60 feet, forcing them to win an opposed Intelligence check or lose the spell.',
-      spellType: 'REACTION',
-      icon: 'Necrotic/Necrotic Skull',
+      id: "sg_spell_disruption",
+      name: "Spell Disruption",
+      description:
+        "Disrupt an enemy spell being cast within 60 feet, forcing them to win an opposed Intelligence check or lose the spell.",
+      spellType: "REACTION",
+      icon: "Necrotic/Necrotic Skull",
       level: 3,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Necrotic/Necrotic Skull',
+        school: "arcane",
+        icon: "Necrotic/Necrotic Skull",
         castTime: 1,
-        castTimeType: 'REACTION',
-        reactionTrigger: 'When you see an enemy casting a spell within 60 feet'
+        castTimeType: "REACTION",
+        reactionTrigger: "When you see an enemy casting a spell within 60 feet",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 10,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      resolution: 'SAVE',
-      effectTypes: ['utility'],
+      resolution: "SAVE",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'counterspell', name: 'Spell Disruption', description: 'Opposed Intelligence check vs caster DC. Success counters the spell and wastes their resources.' }
-        ]
+          {
+            id: "counterspell",
+            name: "Spell Disruption",
+            description:
+              "Opposed Intelligence check vs caster DC. Success counters the spell and wastes their resources.",
+          },
+        ],
       },
 
-      tags: ['counterspell', 'reaction', 'utility', 'aep cost', 'anti mage']
+      tags: ["counterspell", "reaction", "utility", "aep cost", "anti mage"],
     },
 
     {
-      id: 'sg_reflective_aura',
-      name: 'Reflective Aura',
-      description: 'Create an aura around yourself that reflects up to 10 spell damage back at attackers for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Golden Shield',
+      id: "sg_reflective_aura",
+      name: "Reflective Aura",
+      description:
+        "Create an aura around yourself that reflects up to 10 spell damage back at attackers for 1 minute.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
       level: 2,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Radiant/Radiant Golden Shield',
+        school: "arcane",
+        icon: "Radiant/Radiant Golden Shield",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 6,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['buff'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'triggeredEffect',
-        effects: [{
-          id: 'reflective_aura',
-          name: 'Reflective Aura',
-          description: 'Reflects up to 10 spell damage back at attackers for 1 minute.',
-          mechanicsText: ''
-        }],
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "reflective_aura",
+            name: "Reflective Aura",
+            description:
+              "Reflects up to 10 spell damage back at attackers for 1 minute.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes'
+        durationType: "minutes",
+        durationUnit: "minutes",
       },
 
-      tags: ['buff', 'reflection', 'aura', 'aep cost', 'anti mage']
+      tags: ["buff", "reflection", "aura", "aep cost", "anti mage"],
     },
 
     // ULTIMATE SPELLS
     {
-      id: 'sg_arcane_fortress',
-      name: 'Arcane Fortress',
-      description: 'Create an impenetrable fortress of arcane energy around yourself, granting complete immunity to all magical damage for 1 turn.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Golden Shield',
+      id: "sg_arcane_fortress",
+      name: "Arcane Fortress",
+      description:
+        "Create an impenetrable fortress of arcane energy around yourself, granting complete immunity to all magical damage for 1 turn.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Golden Shield",
       level: 5,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Radiant/Radiant Golden Shield',
+        school: "arcane",
+        icon: "Radiant/Radiant Golden Shield",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'turns',
+        durationType: "turns",
         durationValue: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
         mana: 18,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 25
+          type: "arcane_energy_points",
+          cost: 25,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['buff'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'damageMitigation',
-        effects: [{
-          id: 'arcane_fortress',
-          name: 'Arcane Fortress',
-          description: 'Complete immunity to all magical damage for 1 turn.',
-          mechanicsText: ''
-        }],
+        buffType: "damageMitigation",
+        effects: [
+          {
+            id: "arcane_fortress",
+            name: "Arcane Fortress",
+            description: "Complete immunity to all magical damage for 1 turn.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'turns',
-        durationUnit: 'turns'
+        durationType: "turns",
+        durationUnit: "turns",
       },
 
-      tags: ['defense', 'immunity', 'ultimate', 'aep cost', 'anti mage']
+      tags: ["defense", "immunity", "ultimate", "aep cost", "anti mage"],
     },
 
     {
-      id: 'sg_magic_nullification',
-      name: 'Magic Nullification',
-      description: 'Create a 20-foot anti-magic zone centered on yourself that suppresses all spells and magical effects for 1 minute.',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Protective Aura',
+      id: "sg_magic_nullification",
+      name: "Magic Nullification",
+      description:
+        "Create a 20-foot anti-magic zone centered on yourself that suppresses all spells and magical effects for 1 minute.",
+      spellType: "ACTION",
+      icon: "Necrotic/Protective Aura",
       level: 5,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Necrotic/Protective Aura',
+        school: "arcane",
+        icon: "Necrotic/Protective Aura",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        areaShape: 'circle',
+        targetingType: "area",
+        areaShape: "circle",
         areaSize: 20,
-        rangeType: 'self_centered',
-        targetRestrictions: ['any']
+        rangeType: "self_centered",
+        targetRestrictions: ["any"],
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 18,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 20
+          type: "arcane_energy_points",
+          cost: 20,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['control'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'zone',
-        effects: [{
-          id: 'antimagic_zone',
-          name: 'Anti-Magic Zone',
-          description: 'All magic is suppressed. No spells can be cast, magical items don\'t function, ongoing effects are suspended.',
-          config: { duration: 1, durationUnit: 'minutes' }
-        }],
+        controlType: "zone",
+        effects: [
+          {
+            id: "antimagic_zone",
+            name: "Anti-Magic Zone",
+            description:
+              "All magic is suppressed. No spells can be cast, magical items don't function, ongoing effects are suspended.",
+            config: { duration: 1, durationUnit: "minutes" },
+          },
+        ],
         duration: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
-      tags: ['zone', 'anti magic', 'ultimate', 'aep cost', 'control']
+      tags: ["zone", "anti magic", "ultimate", "aep cost", "control"],
     },
 
     {
-      id: 'sg_spell_reflection',
-      name: 'Spell Reflection',
-      description: 'Instantly reflect the next spell cast at you back to the caster at 125% power. The reflection cannot be countered.',
-      spellType: 'REACTION',
-      icon: 'Arcane/Quick Step',
+      id: "sg_spell_reflection",
+      name: "Spell Reflection",
+      description:
+        "Instantly reflect the next spell cast at you back to the caster at 125% power. The reflection cannot be countered.",
+      spellType: "REACTION",
+      icon: "Arcane/Quick Step",
       level: 4,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Quick Step',
+        school: "arcane",
+        icon: "Arcane/Quick Step",
         castTime: 1,
-        castTimeType: 'REACTION',
-        reactionTrigger: 'When targeted by a spell'
+        castTimeType: "REACTION",
+        reactionTrigger: "When targeted by a spell",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 14,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['utility'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'spell_reflection', name: 'Spell Reflection', description: 'Reflect the next spell back at caster at 125% power. Reflection is uncounterable.' }
-        ]
+          {
+            id: "spell_reflection",
+            name: "Spell Reflection",
+            description:
+              "Reflect the next spell back at caster at 125% power. Reflection is uncounterable.",
+          },
+        ],
       },
 
-      tags: ['reflection', 'reaction', 'ultimate', 'aep cost', 'anti mage']
+      tags: ["reflection", "reaction", "ultimate", "aep cost", "anti mage"],
     },
 
     {
-      id: 'sg_control_magic',
-      name: 'Control Magic',
-      description: 'Take control of a newly summoned creature or magical construct within 60 feet, turning it against its summoner.',
-      spellType: 'REACTION',
-      icon: 'Psychic/Mind Control',
+      id: "sg_control_magic",
+      name: "Control Magic",
+      description:
+        "Take control of a newly summoned creature or magical construct within 60 feet, turning it against its summoner.",
+      spellType: "REACTION",
+      icon: "Psychic/Mind Control",
       level: 4,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Psychic/Mind Control',
+        school: "arcane",
+        icon: "Psychic/Mind Control",
         castTime: 1,
-        castTimeType: 'REACTION',
-        reactionTrigger: 'When you see a creature being summoned within 60 feet'
+        castTimeType: "REACTION",
+        reactionTrigger:
+          "When you see a creature being summoned within 60 feet",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'minutes',
+        durationType: "minutes",
         durationValue: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
       resourceCost: {
         mana: 14,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 20
+          type: "arcane_energy_points",
+          cost: 20,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'SAVE',
-      effectTypes: ['control'],
+      resolution: "SAVE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'mind_control',
-        effects: [{
-          id: 'control_summon',
-          name: 'Control Summoned Creature',
-          description: 'Take full control of a summoned creature for 1 minute. Spirit save DC 16 negates.',
-          config: { duration: 1, durationUnit: 'minutes' }
-        }],
+        controlType: "mind_control",
+        effects: [
+          {
+            id: "control_summon",
+            name: "Control Summoned Creature",
+            description:
+              "Take full control of a summoned creature for 1 minute. Spirit save DC 16 negates.",
+            config: { duration: 1, durationUnit: "minutes" },
+          },
+        ],
         savingThrow: {
-          ability: 'spirit',
+          ability: "spirit",
           difficultyClass: 16,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
         duration: 1,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
-      tags: ['control', 'charm', 'reaction', 'aep cost', 'anti mage']
+      tags: ["control", "charm", "reaction", "aep cost", "anti mage"],
     },
 
     {
-      id: 'sg_spell_interception',
-      name: 'Spell Interception',
-      description: 'Leap in front of an ally to intercept a spell targeting them, absorbing the damage yourself and converting it to AEP.',
-      spellType: 'REACTION',
-      icon: 'Force/Force Shield',
+      id: "sg_spell_interception",
+      name: "Spell Interception",
+      description:
+        "Leap in front of an ally to intercept a spell targeting them, absorbing the damage yourself and converting it to AEP.",
+      spellType: "REACTION",
+      icon: "Force/Force Shield",
       level: 2,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Force/Force Shield',
+        school: "arcane",
+        icon: "Force/Force Shield",
         castTime: 1,
-        castTimeType: 'REACTION',
-        reactionTrigger: 'When an ally within 30ft is targeted by a spell'
+        castTimeType: "REACTION",
+        reactionTrigger: "When an ally within 30ft is targeted by a spell",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 4,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 10
+          type: "arcane_energy_points",
+          cost: 10,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['utility'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'interception', name: 'Spell Interception', description: 'Take the spell damage instead of the ally. Apply Arcane Absorption to intercepted damage (1 AEP per damage point).' }
-        ]
+          {
+            id: "interception",
+            name: "Spell Interception",
+            description:
+              "Take the spell damage instead of the ally. Apply Arcane Absorption to intercepted damage (1 AEP per damage point).",
+          },
+        ],
       },
 
-      tags: ['defense', 'interception', 'reaction', 'aep cost', 'ally protection']
+      tags: [
+        "defense",
+        "interception",
+        "reaction",
+        "aep cost",
+        "ally protection",
+      ],
     },
 
     {
-      id: 'sg_arcane_detonation',
-      name: 'Arcane Detonation',
-      description: 'Release all stored arcane energy in a devastating 20-foot explosion around you, dealing 50 force damage to all enemies. Agility save for half.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      id: "sg_arcane_detonation",
+      name: "Arcane Detonation",
+      description:
+        "Release all stored arcane energy in a devastating 20-foot explosion around you, dealing 50 force damage to all enemies. Agility save for half.",
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
       level: 5,
 
       typeConfig: {
-        school: 'force',
-        icon: 'Arcane/Magical Sword',
+        school: "force",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        areaShape: 'circle',
+        targetingType: "area",
+        areaShape: "circle",
         areaSize: 20,
-        rangeType: 'self_centered',
-        targetRestrictions: ['enemies']
+        rangeType: "self_centered",
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 10,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 50
+          type: "arcane_energy_points",
+          cost: 50,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'SAVE',
-      effectTypes: ['damage'],
+      resolution: "SAVE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '50',
-        damageTypes: ['force'],
-        resolution: 'AUTOMATIC',
+        formula: "50",
+        damageTypes: ["force"],
+        resolution: "AUTOMATIC",
         savingThrow: {
-          ability: 'agility',
+          ability: "agility",
           difficultyClass: 15,
-          saveOutcome: 'half_damage'
-        }
+          saveOutcome: "half_damage",
+        },
       },
 
-      tags: ['damage', 'aoe', 'force', 'aep cost', 'detonation']
+      tags: ["damage", "aoe", "force", "aep cost", "detonation"],
     },
 
     {
-      id: 'sg_warp_step',
-      name: 'Warp Step',
-      description: 'Teleport up to 30 feet to close the gap to an enemy caster, appearing adjacent to them. Your next melee attack gains +2 to hit.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Quick Step',
+      id: "sg_warp_step",
+      name: "Warp Step",
+      description:
+        "Teleport up to 30 feet to close the gap to an enemy caster, appearing adjacent to them. Your next melee attack gains +2 to hit.",
+      spellType: "ACTION",
+      icon: "Arcane/Quick Step",
       level: 1,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Quick Step',
+        school: "arcane",
+        icon: "Arcane/Quick Step",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
         mana: 4,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 5
+          type: "arcane_energy_points",
+          cost: 5,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['utility'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'movement',
+        utilityType: "movement",
         selectedEffects: [
-          { id: 'teleport', name: 'Warp Step', description: 'Teleport adjacent to target. Next melee attack gains +2 to hit.' }
-        ]
+          {
+            id: "teleport",
+            name: "Warp Step",
+            description:
+              "Teleport adjacent to target. Next melee attack gains +2 to hit.",
+          },
+        ],
       },
 
-      tags: ['mobility', 'teleport', 'aep cost', 'utility']
+      tags: ["mobility", "teleport", "aep cost", "utility"],
     },
 
     {
-      id: 'sg_arcane_provocation',
-      name: 'Arcane Provocation',
-      description: 'Channel arcane energy into a taunt that forces an enemy spellcaster to target you on their next turn. Spirit save DC 14 negates.',
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Control',
+      id: "sg_arcane_provocation",
+      name: "Arcane Provocation",
+      description:
+        "Channel arcane energy into a taunt that forces an enemy spellcaster to target you on their next turn. Spirit save DC 14 negates.",
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       level: 2,
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Psychic/Mind Control',
+        school: "arcane",
+        icon: "Psychic/Mind Control",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       durationConfig: {
-        durationType: 'turns',
+        durationType: "turns",
         durationValue: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
         mana: 6,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 10
+          type: "arcane_energy_points",
+          cost: 10,
         },
         actionPoints: 1,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      resolution: 'SAVE',
-      effectTypes: ['control'],
+      resolution: "SAVE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'mind_control',
-        effects: [{
-          id: 'forced_target',
-          name: 'Forced Target',
-          description: 'Target must target you with their next spell or attack. DC 14 Spirit save negates.',
-          config: { duration: 1, durationUnit: 'turns' }
-        }],
+        controlType: "mind_control",
+        effects: [
+          {
+            id: "forced_target",
+            name: "Forced Target",
+            description:
+              "Target must target you with their next spell or attack. DC 14 Spirit save negates.",
+            config: { duration: 1, durationUnit: "turns" },
+          },
+        ],
         savingThrow: {
-          ability: 'spirit',
+          ability: "spirit",
           difficultyClass: 14,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
         duration: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
-      tags: ['taunt', 'utility', 'aep cost', 'anti mage', 'tank']
+      tags: ["taunt", "utility", "aep cost", "anti mage", "tank"],
     },
 
     // ========================================
     // LEVEL 6 SPELLS
     // ========================================
     {
-      id: 'spellguard_spell_theft',
-      name: 'Spell Theft',
-      description: 'Steal a spell from an enemy spellcaster, gaining the ability to cast it yourself.',
+      id: "spellguard_spell_theft",
+      name: "Spell Theft",
+      description:
+        "Steal a spell from an enemy spellcaster, gaining the ability to cast it yourself.",
       level: 6,
-      spellType: 'REACTION',
-      icon: 'Arcane/Magical Sword',
+      spellType: "REACTION",
+      icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Magical Sword',
+        school: "arcane",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: "REACTION",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         mana: 22,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['somatic']
+        components: ["somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      resolution: 'SAVE',
-      effectTypes: ['utility'],
+      resolution: "SAVE",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'enhancement',
+        utilityType: "enhancement",
         selectedEffects: [
-          { id: 'spell_theft', name: 'Spell Theft', description: 'Steal an enemy spell. Counter the original and gain the ability to cast it once within 1 minute. DC 17 Intelligence save negates.' }
-        ]
+          {
+            id: "spell_theft",
+            name: "Spell Theft",
+            description:
+              "Steal an enemy spell. Counter the original and gain the ability to cast it once within 1 minute. DC 17 Intelligence save negates.",
+          },
+        ],
       },
 
-      tags: ['utility', 'anti mage', 'counter', 'level 6', 'spellguard']
+      tags: ["utility", "anti mage", "counter", "level 6", "spellguard"],
     },
 
     {
-      id: 'spellguard_arcane_bastion',
-      name: 'Arcane Bastion',
-      description: 'Create a fortress of magical energy that protects all allies within from magical attacks.',
+      id: "spellguard_arcane_bastion",
+      name: "Arcane Bastion",
+      description:
+        "Create a fortress of magical energy that protects all allies within from magical attacks.",
       level: 6,
-      spellType: 'ACTION',
-      icon: 'Force/Force Field',
+      spellType: "ACTION",
+      icon: "Force/Force Field",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Force/Force Field',
+        school: "arcane",
+        icon: "Force/Force Field",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        areaShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
         areaSize: 25,
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
         mana: 24,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 18
+          type: "arcane_energy_points",
+          cost: 18,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'spell_resistance',
-        effects: [{
-          id: 'arcane_bastion',
-          name: 'Arcane Bastion',
-          description: 'Allies take 50% reduced spell damage and gain advantage on saving throws against magic for 5 rounds.',
-          mechanicsText: '50% reduced spell damage and advantage on saves vs magic for 5 rounds',
-          damageReduction: { value: 50, magnitudeType: 'percentage', damageType: 'spell' }
-        }],
+        buffType: "spell_resistance",
+        effects: [
+          {
+            id: "arcane_bastion",
+            name: "Arcane Bastion",
+            description:
+              "Allies take 50% reduced spell damage and gain advantage on saving throws against magic for 5 rounds.",
+            mechanicsText:
+              "50% reduced spell damage and advantage on saves vs magic for 5 rounds",
+            damageReduction: {
+              value: 50,
+              magnitudeType: "percentage",
+              damageType: "spell",
+            },
+          },
+        ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['buff', 'protection', 'aoe', 'level 6', 'spellguard']
+      tags: ["buff", "protection", "aoe", "level 6", "spellguard"],
     },
 
     {
-      id: 'spellguard_mana_drain_pulse',
-      name: 'Mana Drain Pulse',
-      description: 'Release a pulse that drains mana from all enemies in range and restores your own.',
+      id: "spellguard_mana_drain_pulse",
+      name: "Mana Drain Pulse",
+      description:
+        "Release a pulse that drains mana from all enemies in range and restores your own.",
       level: 6,
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Magical Sword',
+        school: "arcane",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        areaShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
         areaSize: 30,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       resourceCost: {
         mana: 22,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 15
+          type: "arcane_energy_points",
+          cost: 15,
         },
         actionPoints: 1,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'utility'],
+      resolution: "DICE",
+      effectTypes: ["damage", "utility"],
 
       damageConfig: {
-        formula: '8d6',
-        damageTypes: ['force'],
-        resolution: 'DICE',
+        formula: "8d6",
+        damageTypes: ["force"],
+        resolution: "DICE",
         savingThrow: {
-          ability: 'intelligence',
+          ability: "intelligence",
           difficultyClass: 16,
-          saveOutcome: 'half_damage'
-        }
+          saveOutcome: "half_damage",
+        },
       },
 
       specialMechanics: {
         manaDrain: {
-          description: 'Drains mana from each enemy hit. You regain half the total mana drained.',
-          formula: '3d10',
-          restorePercentage: 50
-        }
+          description:
+            "Drains mana from each enemy hit. You regain half the total mana drained.",
+          formula: "3d10",
+          restorePercentage: 50,
+        },
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      tags: ['damage', 'utility', 'mana drain', 'aoe', 'level 6', 'spellguard']
+      tags: ["damage", "utility", "mana drain", "aoe", "level 6", "spellguard"],
     },
 
     // ========================================
     // LEVEL 7 SPELLS
     // ========================================
     {
-      id: 'spellguard_antimagic_zone',
-      name: 'Antimagic Zone',
-      description: 'Create a zone where all magic is suppressed. No spells can be cast within.',
+      id: "spellguard_antimagic_zone",
+      name: "Antimagic Zone",
+      description:
+        "Create a zone where all magic is suppressed. No spells can be cast within.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Divinity',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Radiant/Radiant Divinity',
+        school: "arcane",
+        icon: "Radiant/Radiant Divinity",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        areaShape: 'circle',
+        areaShape: "circle",
         areaSize: 20,
-        targetRestrictions: ['any']
+        targetRestrictions: ["any"],
       },
 
       resourceCost: {
         mana: 26,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 20
+          type: "arcane_energy_points",
+          cost: 20,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
 
-      resolution: 'NONE',
-      effectTypes: ['control'],
+      resolution: "NONE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'zone',
-        effects: [{
-          id: 'antimagic_zone',
-          name: 'Antimagic Zone',
-          description: 'All magic is suppressed. No spells can be cast, magical items don\'t function, ongoing effects are suspended for 5 rounds.',
-          config: { duration: 5, durationUnit: 'rounds' }
-        }],
+        controlType: "zone",
+        effects: [
+          {
+            id: "antimagic_zone",
+            name: "Antimagic Zone",
+            description:
+              "All magic is suppressed. No spells can be cast, magical items don't function, ongoing effects are suspended for 5 rounds.",
+            config: { duration: 5, durationUnit: "rounds" },
+          },
+        ],
         duration: 5,
-        durationUnit: 'rounds'
+        durationUnit: "rounds",
       },
 
       specialMechanics: {
         antimagic: {
-          description: 'All magic is suppressed in this zone. No spells can be cast, magical items don\'t function, and ongoing spell effects are suspended.',
-          affectsAllies: true
-        }
+          description:
+            "All magic is suppressed in this zone. No spells can be cast, magical items don't function, and ongoing spell effects are suspended.",
+          affectsAllies: true,
+        },
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
 
-      tags: ['zone', 'control', 'anti magic', 'level 7', 'spellguard']
+      tags: ["zone", "control", "anti magic", "level 7", "spellguard"],
     },
 
     {
-      id: 'spellguard_supreme_reflection',
-      name: 'Supreme Reflection',
-      description: 'Create a barrier that reflects spells back at their casters with devastating force.',
+      id: "spellguard_supreme_reflection",
+      name: "Supreme Reflection",
+      description:
+        "Create a barrier that reflects spells back at their casters with devastating force.",
       level: 7,
-      spellType: 'REACTION',
-      icon: 'Frost/Circular Frost Explosion',
+      spellType: "REACTION",
+      icon: "Frost/Circular Frost Explosion",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Frost/Circular Frost Explosion',
+        school: "arcane",
+        icon: "Frost/Circular Frost Explosion",
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: "REACTION",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       resourceCost: {
         mana: 26,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 18
+          type: "arcane_energy_points",
+          cost: 18,
         },
         actionPoints: 1,
-        components: ['somatic']
+        components: ["somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'reflection',
-        effects: [{
-          id: 'supreme_reflection',
-          name: 'Supreme Reflection',
-          description: 'The next spell targeting you is reflected back at the caster with full effect',
-          mechanicsText: 'Next spell targeting you is reflected back at caster with full effect',
-          charges: 1
-        }],
+        buffType: "reflection",
+        effects: [
+          {
+            id: "supreme_reflection",
+            name: "Supreme Reflection",
+            description:
+              "The next spell targeting you is reflected back at the caster with full effect",
+            mechanicsText:
+              "Next spell targeting you is reflected back at caster with full effect",
+            charges: 1,
+          },
+        ],
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'uses'
+        durationType: "rounds",
+        durationUnit: "uses",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['buff', 'reflection', 'anti mage', 'level 7', 'spellguard']
+      tags: ["buff", "reflection", "anti mage", "level 7", "spellguard"],
     },
 
     {
-      id: 'spellguard_arcane_overload',
-      name: 'Arcane Overload',
-      description: 'Overload a spellcaster with arcane energy, dealing force damage plus bonus damage equal to their remaining mana.',
+      id: "spellguard_arcane_overload",
+      name: "Arcane Overload",
+      description:
+        "Overload a spellcaster with arcane energy, dealing force damage plus bonus damage equal to their remaining mana.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Arcane/Empowering Growth',
+      spellType: "ACTION",
+      icon: "Arcane/Empowering Growth",
 
       typeConfig: {
-        school: 'force',
-        icon: 'Arcane/Empowering Growth',
+        school: "force",
+        icon: "Arcane/Empowering Growth",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         mana: 28,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 20
+          type: "arcane_energy_points",
+          cost: 20,
         },
         actionPoints: 2,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '12d6 + intelligence',
-        damageTypes: ['force'],
-        resolution: 'DICE',
+        formula: "12d6 + intelligence",
+        damageTypes: ["force"],
+        resolution: "DICE",
         savingThrow: {
-          ability: 'constitution',
+          ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2.5,
-          extraDice: '6d6'
-        }
+          extraDice: "6d6",
+        },
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['damage', 'anti mage', 'level 7', 'spellguard']
+      tags: ["damage", "anti mage", "level 7", "spellguard"],
     },
 
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
     {
-      id: 'spellguard_mage_bane',
-      name: 'Mage Bane',
-      description: 'Mark an enemy spellcaster. They take 5d10 force damage whenever they cast a spell.',
+      id: "spellguard_mage_bane",
+      name: "Mage Bane",
+      description:
+        "Mark an enemy spellcaster. They take 5d10 force damage whenever they cast a spell.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Roar',
+      spellType: "ACTION",
+      icon: "Psychic/Mind Roar",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Psychic/Mind Roar',
+        school: "arcane",
+        icon: "Psychic/Mind Roar",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 90,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         mana: 30,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 25
+          type: "arcane_energy_points",
+          cost: 25,
         },
         actionPoints: 2,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'SAVE',
-      effectTypes: ['debuff'],
+      resolution: "SAVE",
+      effectTypes: ["debuff"],
 
       debuffConfig: {
-        debuffType: 'curse',
-        effects: [{
-          id: 'mage_bane',
-          name: 'Mage Bane',
-          description: 'Target takes 5d10 force damage whenever they cast a spell for 1 minute.',
-          mechanicsText: ''
-        }],
+        debuffType: "curse",
+        effects: [
+          {
+            id: "mage_bane",
+            name: "Mage Bane",
+            description:
+              "Target takes 5d10 force damage whenever they cast a spell for 1 minute.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes',
+        durationType: "minutes",
+        durationUnit: "minutes",
         savingThrow: {
-          ability: 'spirit',
+          ability: "spirit",
           difficultyClass: 18,
-          saveOutcome: 'negates'
-        }
+          saveOutcome: "negates",
+        },
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['debuff', 'anti mage', 'mark', 'level 8', 'spellguard']
+      tags: ["debuff", "anti mage", "mark", "level 8", "spellguard"],
     },
 
     {
-      id: 'spellguard_impenetrable_ward',
-      name: 'Impenetrable Ward',
-      description: 'Create an impenetrable ward on an ally, granting immunity to all magical damage and magical effects until the start of their next turn.',
+      id: "spellguard_impenetrable_ward",
+      name: "Impenetrable Ward",
+      description:
+        "Create an impenetrable ward on an ally, granting immunity to all magical damage and magical effects until the start of their next turn.",
       level: 8,
-      spellType: 'REACTION',
-      icon: 'Radiant/Divine Radiance',
+      spellType: "REACTION",
+      icon: "Radiant/Divine Radiance",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Radiant/Divine Radiance',
+        school: "arcane",
+        icon: "Radiant/Divine Radiance",
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: "REACTION",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
         mana: 30,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 25
+          type: "arcane_energy_points",
+          cost: 25,
         },
         actionPoints: 1,
-        components: ['somatic']
+        components: ["somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'invulnerability',
-        effects: [{
-          id: 'impenetrable_ward',
-          name: 'Impenetrable Ward',
-          description: 'Immunity to all magical damage and magical effects until the start of your next turn.',
-          mechanicsText: 'Immune to magical damage and effects until start of next turn',
-          damageImmunity: ['magical']
-        }],
+        buffType: "invulnerability",
+        effects: [
+          {
+            id: "impenetrable_ward",
+            name: "Impenetrable Ward",
+            description:
+              "Immunity to all magical damage and magical effects until the start of your next turn.",
+            mechanicsText:
+              "Immune to magical damage and effects until start of next turn",
+            damageImmunity: ["magical"],
+          },
+        ],
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['buff', 'protection', 'reaction', 'level 8', 'spellguard']
+      tags: ["buff", "protection", "reaction", "level 8", "spellguard"],
     },
 
     {
-      id: 'spellguard_arcane_annihilation',
-      name: 'Arcane Annihilation',
-      description: 'Unleash devastating arcane power that destroys magical defenses and deals force damage to all enemies in range.',
+      id: "spellguard_arcane_annihilation",
+      name: "Arcane Annihilation",
+      description:
+        "Unleash devastating arcane power that destroys magical defenses and deals force damage to all enemies in range.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: 'force',
-        icon: 'Arcane/Magical Sword',
+        school: "force",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 90,
-        areaShape: 'circle',
+        areaShape: "circle",
         areaSize: 25,
-        targetRestrictions: ['enemies']
+        targetRestrictions: ["enemies"],
       },
 
       resourceCost: {
         mana: 32,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 30
+          type: "arcane_energy_points",
+          cost: 30,
         },
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '14d6 + intelligence',
-        damageTypes: ['force'],
-        resolution: 'DICE',
+        formula: "14d6 + intelligence",
+        damageTypes: ["force"],
+        resolution: "DICE",
         savingThrow: {
-          ability: 'agility',
+          ability: "agility",
           difficultyClass: 19,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 3.0,
-          extraDice: '8d6'
-        }
+          extraDice: "8d6",
+        },
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['damage', 'aoe', 'anti magic', 'level 8', 'spellguard']
+      tags: ["damage", "aoe", "anti magic", "level 8", "spellguard"],
     },
 
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
     {
-      id: 'spellguard_absolute_counterspell',
-      name: 'Absolute Counterspell',
-      description: 'Counter any spell, regardless of level, and prevent the caster from casting for 1 round.',
+      id: "spellguard_absolute_counterspell",
+      name: "Absolute Counterspell",
+      description:
+        "Counter any spell, regardless of level, and prevent the caster from casting for 1 round.",
       level: 9,
-      spellType: 'REACTION',
-      icon: 'Frost/Frost Phonix',
+      spellType: "REACTION",
+      icon: "Frost/Frost Phonix",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Frost/Frost Phonix',
+        school: "arcane",
+        icon: "Frost/Frost Phonix",
         castTime: 1,
-        castTimeType: 'REACTION'
+        castTimeType: "REACTION",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 120,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         mana: 34,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 35
+          type: "arcane_energy_points",
+          cost: 35,
         },
         actionPoints: 1,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'NONE',
-      effectTypes: ['control'],
+      resolution: "NONE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'incapacitation',
-        effects: [{
-          id: 'absolute_counter',
-          name: 'Absolute Counterspell',
-          description: 'Counter any spell regardless of level and silence the caster for 1 round.'
-        }],
+        controlType: "incapacitation",
+        effects: [
+          {
+            id: "absolute_counter",
+            name: "Absolute Counterspell",
+            description:
+              "Counter any spell regardless of level and silence the caster for 1 round.",
+          },
+        ],
         duration: 1,
-        durationUnit: 'rounds'
+        durationUnit: "rounds",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['utility', 'counter', 'control', 'ultimate', 'level 9', 'spellguard']
+      tags: [
+        "utility",
+        "counter",
+        "control",
+        "ultimate",
+        "level 9",
+        "spellguard",
+      ],
     },
 
     {
-      id: 'spellguard_arcane_prison',
-      name: 'Arcane Prison',
-      description: 'Trap an enemy in an arcane prison where they cannot act or be harmed.',
+      id: "spellguard_arcane_prison",
+      name: "Arcane Prison",
+      description:
+        "Trap an enemy in an arcane prison where they cannot act or be harmed.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Arcane/Quick Step',
+      spellType: "ACTION",
+      icon: "Arcane/Quick Step",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Quick Step',
+        school: "arcane",
+        icon: "Arcane/Quick Step",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
         mana: 36,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 35
+          type: "arcane_energy_points",
+          cost: 35,
         },
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'SAVE',
-      effectTypes: ['control'],
+      resolution: "SAVE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'incapacitation',
-        effects: [{
-          id: 'arcane_prison',
-          name: 'Arcane Prison',
-          description: 'Target is trapped in a prison of arcane energy for 3 rounds. They cannot act or be targeted. Constitution save DC 17 each round to escape.'
-        }],
+        controlType: "incapacitation",
+        effects: [
+          {
+            id: "arcane_prison",
+            name: "Arcane Prison",
+            description:
+              "Target is trapped in a prison of arcane energy for 3 rounds. They cannot act or be targeted. Constitution save DC 17 each round to escape.",
+          },
+        ],
         savingThrow: {
-          ability: 'constitution',
+          ability: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
         duration: 3,
-        durationUnit: 'rounds'
+        durationUnit: "rounds",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['control', 'imprisonment', 'ultimate', 'level 9', 'spellguard']
+      tags: ["control", "imprisonment", "ultimate", "level 9", "spellguard"],
     },
 
     {
-      id: 'spellguard_magic_eater',
-      name: 'Magic Eater',
-      description: 'Consume all magic in a massive area, gaining power from every spell destroyed.',
+      id: "spellguard_magic_eater",
+      name: "Magic Eater",
+      description:
+        "Consume all magic in a massive area, gaining power from every spell destroyed.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
+      spellType: "ACTION",
+      icon: "Necrotic/Drain Soul",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Necrotic/Drain Soul',
+        school: "arcane",
+        icon: "Necrotic/Drain Soul",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        areaShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
         areaSize: 60,
-        targetRestrictions: ['any']
+        targetRestrictions: ["any"],
       },
 
       resourceCost: {
         mana: 36,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 40
+          type: "arcane_energy_points",
+          cost: 40,
         },
         actionPoints: 3,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'NONE',
-      effectTypes: ['utility', 'buff'],
+      resolution: "NONE",
+      effectTypes: ["utility", "buff"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'dispel_all', name: 'Consume Magic', description: 'Dispel ALL magical effects in range. For each effect dispelled, gain +5 temporary HP and +1 to damage for 1 minute.' }
-        ]
+          {
+            id: "dispel_all",
+            name: "Consume Magic",
+            description:
+              "Dispel ALL magical effects in range. For each effect dispelled, gain +5 temporary HP and +1 to damage for 1 minute.",
+          },
+        ],
       },
 
       buffConfig: {
-        buffType: 'triggeredEffect',
-        effects: [{
-          id: 'magic_devourer',
-          name: 'Magic Devourer',
-          description: '+5 temporary HP and +1 damage per dispelled effect (max 20 stacks) for 1 minute.',
-          mechanicsText: ''
-        }],
+        buffType: "triggeredEffect",
+        effects: [
+          {
+            id: "magic_devourer",
+            name: "Magic Devourer",
+            description:
+              "+5 temporary HP and +1 damage per dispelled effect (max 20 stacks) for 1 minute.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 1,
-        durationType: 'minutes',
-        durationUnit: 'minutes'
+        durationType: "minutes",
+        durationUnit: "minutes",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['utility', 'buff', 'dispel', 'ultimate', 'level 9', 'spellguard']
+      tags: ["utility", "buff", "dispel", "ultimate", "level 9", "spellguard"],
     },
 
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
     {
-      id: 'spellguard_avatar_of_negation',
-      name: 'Avatar of Negation',
-      description: 'Transform into an avatar of anti-magic, becoming immune to all magic and negating all spells near you.',
+      id: "spellguard_avatar_of_negation",
+      name: "Avatar of Negation",
+      description:
+        "Transform into an avatar of anti-magic, becoming immune to all magic and negating all spells near you.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Illumination',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Illumination",
 
       typeConfig: {
-        school: 'force',
-        icon: 'Radiant/Divine Illumination',
+        school: "force",
+        icon: "Radiant/Divine Illumination",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       resourceCost: {
         mana: 40,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 50
+          type: "arcane_energy_points",
+          cost: 50,
         },
         actionPoints: 3,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'NONE',
-      effectTypes: ['transformation'],
+      resolution: "NONE",
+      effectTypes: ["transformation"],
 
       transformationConfig: {
-        transformType: 'arcane',
-        targetType: 'self',
+        transformType: "arcane",
+        targetType: "self",
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         grantedAbilities: [
-          { id: 'negation_armor', name: 'Negation Armor', description: '+8 armor against magical attacks' },
-          { id: 'spell_immunity', name: 'Spell Immunity', description: 'Immune to all spell damage' },
-          { id: 'antimagic_aura', name: 'Anti-Magic Aura', description: 'Spells cast within 20ft have disadvantage on attack rolls' },
-          { id: 'magic_devourer', name: 'Magic Devourer', description: 'When you negate a spell, deal 3d10 force damage to the caster' }
+          {
+            id: "negation_armor",
+            name: "Negation Armor",
+            description: "+8 armor against magical attacks",
+          },
+          {
+            id: "spell_immunity",
+            name: "Spell Immunity",
+            description: "Immune to all spell damage",
+          },
+          {
+            id: "antimagic_aura",
+            name: "Anti-Magic Aura",
+            description:
+              "Spells cast within 20ft have disadvantage on attack rolls",
+          },
+          {
+            id: "magic_devourer",
+            name: "Magic Devourer",
+            description:
+              "When you negate a spell, deal 3d10 force damage to the caster",
+          },
         ],
-        concentrationRequired: false
+        concentrationRequired: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['transformation', 'anti magic', 'ultimate', 'level 10', 'spellguard']
+      tags: [
+        "transformation",
+        "anti magic",
+        "ultimate",
+        "level 10",
+        "spellguard",
+      ],
     },
 
     {
-      id: 'spellguard_reality_anchor',
-      name: 'Reality Anchor',
-      description: 'Anchor reality itself, preventing all magical teleportation and dimensional travel in a massive area.',
+      id: "spellguard_reality_anchor",
+      name: "Reality Anchor",
+      description:
+        "Anchor reality itself, preventing all magical teleportation and dimensional travel in a massive area.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Force/Force Field',
+      spellType: "ACTION",
+      icon: "Force/Force Field",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Force/Force Field',
+        school: "arcane",
+        icon: "Force/Force Field",
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        areaShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
         areaSize: 200,
-        targetRestrictions: ['any']
+        targetRestrictions: ["any"],
       },
 
       resourceCost: {
         mana: 40,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 50
+          type: "arcane_energy_points",
+          cost: 50,
         },
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'NONE',
-      effectTypes: ['control'],
+      resolution: "NONE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'zone',
-        effects: [{
-          id: 'reality_anchor',
-          name: 'Reality Anchor',
-          description: 'Prevents all magical teleportation, dimensional travel, and summoning in a 200-foot radius for 10 minutes.'
-        }],
+        controlType: "zone",
+        effects: [
+          {
+            id: "reality_anchor",
+            name: "Reality Anchor",
+            description:
+              "Prevents all magical teleportation, dimensional travel, and summoning in a 200-foot radius for 10 minutes.",
+          },
+        ],
         duration: 10,
-        durationUnit: 'minutes'
+        durationUnit: "minutes",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['zone', 'control', 'ultimate', 'level 10', 'spellguard']
+      tags: ["zone", "control", "ultimate", "level 10", "spellguard"],
     },
 
     {
-      id: 'spellguard_ultimate_dispel',
-      name: 'Ultimate Dispel',
-      description: 'Dispel every magical effect on the battlefield, regardless of power level.',
+      id: "spellguard_ultimate_dispel",
+      name: "Ultimate Dispel",
+      description:
+        "Dispel every magical effect on the battlefield, regardless of power level.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Arcane/Magical Sword',
+        school: "arcane",
+        icon: "Arcane/Magical Sword",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        areaShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        areaShape: "circle",
         areaSize: 120,
-        targetRestrictions: ['any']
+        targetRestrictions: ["any"],
       },
 
       resourceCost: {
         mana: 40,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 50
+          type: "arcane_energy_points",
+          cost: 50,
         },
         actionPoints: 3,
-        components: ['verbal']
+        components: ["verbal"],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: 'NONE',
-      effectTypes: ['utility'],
+      resolution: "NONE",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'protection',
+        utilityType: "protection",
         selectedEffects: [
-          { id: 'ultimate_dispel', name: 'Ultimate Dispel', description: 'Dispel ALL magical effects in 120-foot range — buffs, debuffs, zones, summons. No saves. No exceptions. Affects allies and enemies but not self.' }
-        ]
+          {
+            id: "ultimate_dispel",
+            name: "Ultimate Dispel",
+            description:
+              "Dispel ALL magical effects in 120-foot range — buffs, debuffs, zones, summons. No saves. No exceptions. Affects allies and enemies but not self.",
+          },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['utility', 'dispel', 'ultimate', 'level 10', 'spellguard']
+      tags: ["utility", "dispel", "ultimate", "level 10", "spellguard"],
     },
 
     // ADDITIONAL LEVEL 5 SPELL
     {
-      id: 'spellguard_arcane_barrier',
-      name: 'Arcane Barrier',
-      description: 'Create a powerful arcane barrier granting 50 temporary HP that reflects 2d8 force damage back at attackers for 4 rounds.',
+      id: "spellguard_arcane_barrier",
+      name: "Arcane Barrier",
+      description:
+        "Create a powerful arcane barrier granting 50 temporary HP that reflects 2d8 force damage back at attackers for 4 rounds.",
       level: 5,
-      spellType: 'ACTION',
-      effectTypes: ['buff', 'utility'],
+      spellType: "ACTION",
+      effectTypes: ["buff", "utility"],
 
       typeConfig: {
-        school: 'arcane',
-        icon: 'Force/Force Field',
+        school: "arcane",
+        icon: "Force/Force Field",
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       buffConfig: {
-        buffType: 'damageMitigation',
-        effects: [{
-          id: 'arcane_barrier',
-          name: 'Arcane Barrier',
-          description: 'Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you for 4 rounds.',
-          mechanicsText: ''
-        }],
+        buffType: "damageMitigation",
+        effects: [
+          {
+            id: "arcane_barrier",
+            name: "Arcane Barrier",
+            description:
+              "Gain 50 temporary HP. Attackers take 2d8 force damage when they hit you for 4 rounds.",
+            mechanicsText: "",
+          },
+        ],
         durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       resourceCost: {
         mana: 18,
         classResource: {
-          type: 'arcane_energy_points',
-          cost: 20
+          type: "arcane_energy_points",
+          cost: 20,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'shield', 'reflection', 'aep cost', 'spellguard']
-    }
-  ]
+      resolution: "AUTOMATIC",
+      tags: ["buff", "shield", "reflection", "aep cost", "spellguard"],
+    },
+  ],
 };
-
-

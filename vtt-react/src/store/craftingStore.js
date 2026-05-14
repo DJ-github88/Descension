@@ -22,7 +22,14 @@ export const PROFESSIONS = {
     id: 'alchemy',
     name: 'Alchemy',
     description: 'The art of brewing potions, elixirs, and magical concoctions',
-    icon: 'trade_alchemy',
+    icon: 'professions/alchemy.png',
+    implemented: true
+  },
+  BLACKSMITHING: {
+    id: 'blacksmithing',
+    name: 'Blacksmithing',
+    description: 'The art of forging weapons and armor from metal',
+    icon: 'professions/blacksmithing.png',
     implemented: true
   },
   FIRST_AID: {

@@ -1,24 +1,24 @@
 /**
  * Minstrel Class Data
- * 
+ *
  * Complete class information for the Minstrel - a musical spellcaster
  * who weaves magic through chord progressions and harmonic resonance.
  */
 
 export const MINSTREL_DATA = {
-  id: 'minstrel',
-  name: 'Minstrel',
-  icon: 'fas fa-music',
-  role: 'Support',
-  damageTypes: ['psychic', 'force'],
+  id: "minstrel",
+  name: "Minstrel",
+  icon: "fas fa-music",
+  role: "Support",
+  damageTypes: ["psychic", "force"],
 
   // Overview section
   overview: {
-    title: 'The Minstrel',
-    subtitle: 'Master of Musical Magic',
+    title: "The Minstrel",
+    subtitle: "Master of Musical Magic",
 
     quickOverview: {
-      title: 'Quick Overview',
+      title: "Quick Overview",
       content: `**What You Need to Know**: The Minstrel weaves magic through music theory, building musical notes with spells and resolving them into powerful chord progressions called cadences.
 
 **Core Mechanic**: Cast builder spells → Generate musical notes (I–VII) → Combine notes into cadences → Unleash powerful effects based on chord progression
@@ -31,9 +31,9 @@ export const MINSTREL_DATA = {
     },
 
     description: `The Minstrel is a master of musical magic, weaving spells through intricate chord progressions and harmonic resonance. By combining spells with specific musical functions, the Minstrel creates harmonious effects that support allies, hinder foes, and manipulate the battlefield through the power of song. Their unique mechanic revolves around building musical notes and resolving them into powerful cadences.`,
-    
+
     roleplayIdentity: {
-      title: 'Roleplay Identity',
+      title: "Roleplay Identity",
       content: `Minstrels are wandering performers, court musicians, battlefield drummers, and mystical bards who have discovered that music is not merely art—it is a fundamental force of reality. Through years of study and practice, they've learned to channel magic through musical theory, turning chord progressions into tangible power.
 
 Their instruments are their spellcasting foci, and each Minstrel develops a unique relationship with their chosen instrument. Some carry ancient lutes passed down through generations, others wield war drums that echo with ancestral spirits, while still others use their own voice as their primary instrument.
@@ -45,11 +45,11 @@ In roleplay, Minstrels often serve as:
 - **The Mystical Composer**: Seeking the perfect song that will unlock ultimate magical power
 - **The Instrument Collector**: Hunting for legendary instruments with unique magical properties
 
-Minstrels understand that every sound has meaning, every rhythm has power, and every melody can change the world. They see music in everything—the clash of swords, the rhythm of footsteps, the harmony of voices in conversation.`
+Minstrels understand that every sound has meaning, every rhythm has power, and every melody can change the world. They see music in everything—the clash of swords, the rhythm of footsteps, the harmony of voices in conversation.`,
     },
-    
+
     combatRole: {
-      title: 'Combat Role',
+      title: "Combat Role",
       content: `The Minstrel is a versatile support class that excels at:
 
 **Adaptive Support**: Can switch between healing, buffing, and damage based on the situation
@@ -71,11 +71,11 @@ Minstrels understand that every sound has meaning, every rhythm has power, and e
 - Combo system requires planning and foresight
 - Vulnerable to silence and interruption effects
 
-The Minstrel shines in group content where they can orchestrate the flow of battle, building notes through builder spells and unleashing devastating cadences at critical moments.`
+The Minstrel shines in group content where they can orchestrate the flow of battle, building notes through builder spells and unleashing devastating cadences at critical moments.`,
     },
-    
+
     playstyle: {
-      title: 'Playstyle & Strategy',
+      title: "Playstyle & Strategy",
       content: `Playing a Minstrel is about reading the rhythm of battle and conducting your party to victory. Key strategic considerations:
 
 **Note Management**:
@@ -110,11 +110,11 @@ Different instruments provide different bonuses and affect your playstyle:
 - Works best with coordinated teams who can capitalize on buffs
 - Synergizes with classes that benefit from critical hits (Battlechoir)
 - Provides sustained healing for prolonged encounters (Soulsinger)
-- Offers crowd control for tactical teams (Dissonance)`
+- Offers crowd control for tactical teams (Dissonance)`,
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Perfect Cadence',
+      title: "Combat Example: The Perfect Cadence",
       content: `**The Setup**: You're a Minstrel (Battlechoir specialization) with a war drum, facing a group of bandits (5 bandits + 1 bandit leader). Your party is with you. Starting Notes: I(1), V(1) from a previous short rest. Starting Mana: 50/60. Your goal: Build musical notes through builder spells, then resolve them into powerful cadences to support your party.
 
 **Starting State**: Notes: I(1), V(1) | Mana: 50/60 | HP: 60/60
@@ -260,19 +260,19 @@ Different instruments provide different bonuses and affect your playstyle:
 6. **Cadence Impact**: Perfect Cadence guaranteed tank's critical hit: 20 damage → 40 damage (doubled)
 7. **Note Persistence**: Ended with I(3), III(4), V(3), VI(2), VII(1) banked for next fight
 
-You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes through builder spells, stack them up, then RESOLVE them into powerful cadences. The Perfect Cadence (I(2)+IV(1)+V(1)) guarantees a critical hit. The Deceptive Cadence (IV(2)+VII(1)+V(1)) stuns enemies. Each cadence requires specific notes, so you have to PLAN AHEAD. Cast the right builder spells to generate the notes you need, then unleash the cadence at the perfect moment. Your party fights to the rhythm of your music. You are the MAESTRO of the battlefield.`
-    }
+You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes through builder spells, stack them up, then RESOLVE them into powerful cadences. The Perfect Cadence (I(2)+IV(1)+V(1)) guarantees a critical hit. The Deceptive Cadence (IV(2)+VII(1)+V(1)) stuns enemies. Each cadence requires specific notes, so you have to PLAN AHEAD. Cast the right builder spells to generate the notes you need, then unleash the cadence at the perfect moment. Your party fights to the rhythm of your music. You are the MAESTRO of the battlefield.`,
+    },
   },
-  
+
   // Resource System
   resourceSystem: {
-    title: 'Musical Combo System',
-    subtitle: 'Chord Progressions & Harmonic Resonance',
+    title: "Musical Combo System",
+    subtitle: "Chord Progressions & Harmonic Resonance",
 
     description: `The Minstrel's unique resource system is based on Western music theory. Builder spells generate musical notes (I through VII), and Resolving spells consume specific note combinations to create powerful cadences. Mastering the Minstrel requires understanding both musical theory and tactical timing.`,
 
     resourceBarExplanation: {
-      title: 'Understanding Your Musical Notes Interface',
+      title: "Understanding Your Musical Notes Interface",
       content: `**What You See**: The Minstrel's interface displays a MUSICAL STAFF with seven note positions (I–VII), each showing how many notes of that type you have stacked (0–5). Available cadences are highlighted below the staff when you have the required notes.
 
 **Staff Layout**:
@@ -284,11 +284,11 @@ You're not a simple support caster. You're a MUSICAL CONDUCTOR. You build notes 
 - **Casting a builder spell**: Note symbols fly to the staff and add to the appropriate stacks (e.g., "+1 V, +1 VII")
 - **Playing a cadence**: Notes drain from the staff in sequence, a chord progression plays, and the effect fires
 - **Out of combat**: A decay timer shows when the next note will fade (1 note per minute, oldest first)
-- **Hovering a cadence**: Shows "Required: I(2), IV(1), V(1)" vs "You have: I(3), IV(1), V(1)" so you can plan your next cast`
+- **Hovering a cadence**: Shows "Required: I(2), IV(1), V(1)" vs "You have: I(3), IV(1), V(1)" so you can plan your next cast`,
     },
 
     mechanics: {
-      title: 'How It Works',
+      title: "How It Works",
       content: `**Musical Notes**: The foundation of Minstrel magic
 
 **Builder Spells** generate specific musical notes:
@@ -314,42 +314,137 @@ Your chosen instrument modifies your abilities:
 - **War Drum**: +1d4 to damage spells, +1 turn to buff duration
 - **Flute**: +10 ft to spell range, +5 ft to AOE radius
 - **Horn**: +15 ft to spell range, allies hear you through walls
-- **Voice**: No equipment needed, +1 to all effects, -10 ft range`
+- **Voice**: No equipment needed, +1 to all effects, -10 ft range`,
     },
 
     musicalNotesTable: {
-      title: 'Musical Notes System',
-      headers: ['Note', 'Function', 'Thematic Role', 'Generated By'],
+      title: "Musical Notes System",
+      headers: ["Note", "Function", "Thematic Role", "Generated By"],
       rows: [
-        ['I (Tonic)', 'Foundation', 'Stability and home', 'Basic attacks, defensive spells'],
-        ['II (Supertonic)', 'Mild Tension', 'Creates dissonance', 'Debuff and control spells'],
-        ['III (Mediant)', 'Color', 'Emotional depth', 'Charm and emotion spells'],
-        ['IV (Subdominant)', 'Movement', 'Forward motion', 'Support and healing spells'],
-        ['V (Dominant)', 'Strong Tension', 'Demands resolution', 'Offensive spells'],
-        ['VI (Submediant)', 'Relative Minor', 'Melancholy and depth', 'Fear and sorrow spells'],
-        ['VII (Leading Tone)', 'Urgent Tension', 'Pulls to tonic', 'Finisher and climax spells']
-      ]
+        [
+          "I (Tonic)",
+          "Foundation",
+          "Stability and home",
+          "Basic attacks, defensive spells",
+        ],
+        [
+          "II (Supertonic)",
+          "Mild Tension",
+          "Creates dissonance",
+          "Debuff and control spells",
+        ],
+        [
+          "III (Mediant)",
+          "Color",
+          "Emotional depth",
+          "Charm and emotion spells",
+        ],
+        [
+          "IV (Subdominant)",
+          "Movement",
+          "Forward motion",
+          "Support and healing spells",
+        ],
+        [
+          "V (Dominant)",
+          "Strong Tension",
+          "Demands resolution",
+          "Offensive spells",
+        ],
+        [
+          "VI (Submediant)",
+          "Relative Minor",
+          "Melancholy and depth",
+          "Fear and sorrow spells",
+        ],
+        [
+          "VII (Leading Tone)",
+          "Urgent Tension",
+          "Pulls to tonic",
+          "Finisher and climax spells",
+        ],
+      ],
     },
 
     chordProgressionsTable: {
-      title: 'Chord Progressions & Cadences',
-      headers: ['Progression', 'Name', 'Sequence', 'Effect', 'Tactical Use'],
+      title: "Chord Progressions & Cadences",
+      headers: ["Progression", "Name", "Sequence", "Effect", "Tactical Use"],
       rows: [
-        ['Perfect Cadence', 'Harmonious Resolution', 'I→IV→V→I', 'Ally\'s next attack is guaranteed critical hit', 'Save for boss damage phases'],
-        ['Deceptive Cadence', 'Enchanter\'s Trick', 'IV→VII→V→IV', 'Stun enemy (DC 15 Spirit save)', 'Interrupt dangerous casts'],
-        ['Circle of Fifths', 'Eternal Torment', 'V→I→VI→V', '3d6+spirit DoT for 3 turns (30 ft radius)', 'Apply early to groups'],
-        ['Plagal Cadence', 'Sacred Ascent', 'VI→V→I→III', '+20 ft speed, +2 Dex for 2 rounds', 'Repositioning or pursuit'],
-        ['Half Cadence', 'Arcane Shield', 'VII→V→IV→VI', '2d6+spirit shield for 2 rounds (15 ft radius)', 'Pre-cast before big attacks'],
-        ['Authentic Cadence', 'Grand Finale', 'I→VI→III→I', '-4 damage taken, restore 4d6+spirit HP (20 ft radius)', 'Survive burst damage'],
-        ['Phrygian Cadence', 'Ancient Resolve', 'V→IV→I→VII', 'Advantage on attacks for 2 turns', 'Boost damage dealers'],
-        ['Neapolitan Sixth', 'Mystical Precision', 'III→I→IV→V', '+2 crit chance for 2 rounds', 'Stack with other crit buffs'],
-        ['Tritone Substitution', 'Dissonant Chains', 'IV→I→V→VI', 'Paralyze enemy (DC 18 Spirit save, 30 ft)', 'Lock down priority targets'],
-        ['Picardy Third', 'Triumph of Light', 'I→VII→V→III', '+2 to saves, restore 6d6+spirit HP (20 ft)', 'Counter debuff-heavy enemies']
-      ]
+        [
+          "Perfect Cadence",
+          "Harmonious Resolution",
+          "I→IV→V→I",
+          "Ally's next attack is guaranteed critical hit",
+          "Save for boss damage phases",
+        ],
+        [
+          "Deceptive Cadence",
+          "Enchanter's Trick",
+          "IV→VII→V→IV",
+          "Stun enemy (DC 15 Spirit save)",
+          "Interrupt dangerous casts",
+        ],
+        [
+          "Circle of Fifths",
+          "Eternal Torment",
+          "V→I→VI→V",
+          "3d6+spirit DoT for 3 turns (30 ft radius)",
+          "Apply early to groups",
+        ],
+        [
+          "Plagal Cadence",
+          "Sacred Ascent",
+          "VI→V→I→III",
+          "+20 ft speed, +2 Dex for 2 rounds",
+          "Repositioning or pursuit",
+        ],
+        [
+          "Half Cadence",
+          "Arcane Shield",
+          "VII→V→IV→VI",
+          "2d6+spirit shield for 2 rounds (15 ft radius)",
+          "Pre-cast before big attacks",
+        ],
+        [
+          "Authentic Cadence",
+          "Grand Finale",
+          "I→VI→III→I",
+          "-4 damage taken, restore 4d6+spirit HP (20 ft radius)",
+          "Survive burst damage",
+        ],
+        [
+          "Phrygian Cadence",
+          "Ancient Resolve",
+          "V→IV→I→VII",
+          "Advantage on attacks for 2 turns",
+          "Boost damage dealers",
+        ],
+        [
+          "Neapolitan Sixth",
+          "Mystical Precision",
+          "III→I→IV→V",
+          "+2 crit chance for 2 rounds",
+          "Stack with other crit buffs",
+        ],
+        [
+          "Tritone Substitution",
+          "Dissonant Chains",
+          "IV→I→V→VI",
+          "Paralyze enemy (DC 18 Spirit save, 30 ft)",
+          "Lock down priority targets",
+        ],
+        [
+          "Picardy Third",
+          "Triumph of Light",
+          "I→VII→V→III",
+          "+2 to saves, restore 6d6+spirit HP (20 ft)",
+          "Counter debuff-heavy enemies",
+        ],
+      ],
     },
 
     strategicConsiderations: {
-      title: 'Strategic Considerations',
+      title: "Strategic Considerations",
       content: `**Early Combat (Turns 1-3)**: Focus on building notes with efficient builder spells. Prioritize notes for your most-needed cadences.
 
 **Mid Combat (Turns 4-6)**: Begin resolving cadences. Use defensive cadences (Half Cadence, Authentic Cadence) to sustain your party, or offensive ones (Circle of Fifths, Phrygian Cadence) to pressure enemies.
@@ -362,12 +457,12 @@ Your chosen instrument modifies your abilities:
 - **Lute** for healing-focused builds (Soulsinger)
 - **War Drum** for aggressive support (Battlechoir)
 - **Flute** for ranged safety and large groups
-- **Voice** for versatility when you can't carry instruments`
+- **Voice** for versatility when you can't carry instruments`,
     },
 
     playingInPerson: {
-      title: 'Playing in Person',
-      subtitle: 'Physical Tracking for Tabletop Play',
+      title: "Playing in Person",
+      subtitle: "Physical Tracking for Tabletop Play",
       content: `The Minstrel's musical note system is uniquely suited to physical tracking with tokens or dice, creating a visual representation of your musical composition. Here's how to track your notes and cadences at the table:
 
 **Required Materials**:
@@ -586,209 +681,220 @@ Before combat, decide which cadences you want to prioritize:
 - **No tokens at all?** Use the dice method (7 d6 dice) or tally marks on paper
 - **Minimalist**: Just write the note counts on paper and update as needed
 
-**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable—perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`
-    }
+**Why Minstrel Is Perfect for In-Person Play**: The class is built around accumulating and spending specific combinations of resources, which translates beautifully to physical tokens. Unlike abstract resources like mana, musical notes are discrete, countable, and combinable—perfect for tactile tracking. The act of building your note collection and then spending them in specific sequences mirrors the musical concept of building tension and resolving it, making the gameplay both mechanically satisfying and thematically immersive.`,
+    },
   },
 
   // Specializations
   specializations: {
-    title: 'Minstrel Specializations',
-    subtitle: 'Three Paths of Musical Mastery',
+    title: "Minstrel Specializations",
+    subtitle: "Three Paths of Musical Mastery",
 
     description: `Every Minstrel chooses one of three specializations that define their musical style and magical focus. Each specialization offers unique passive abilities and influences your spell selection and playstyle.`,
 
     specs: [
       {
-        id: 'battlechoir',
-        name: 'Battlechoir',
-        icon: 'Radiant/Divine Downward Sword',
-        color: '#DC143C',
-        theme: 'War Songs & Aggressive Support',
+        id: "battlechoir",
+        name: "Battlechoir",
+        icon: "Radiant/Divine Downward Sword",
+        color: "#DC143C",
+        theme: "War Songs & Aggressive Support",
 
         description: `Battlechoir Minstrels are battlefield commanders who turn combat into a symphony of destruction. Their war songs amplify ally damage, grant tactical advantages, and demoralize enemies. They favor drums, horns, and powerful vocals that can be heard over the chaos of battle.`,
 
-        playstyle: 'Aggressive support, damage amplification, offensive buffs',
+        playstyle: "Aggressive support, damage amplification, offensive buffs",
 
         strengths: [
-          'Highest damage amplification for allies',
-          'Strong offensive cadences',
-          'Excellent for coordinated teams',
-          'War drums provide bonus damage'
+          "Highest damage amplification for allies",
+          "Strong offensive cadences",
+          "Excellent for coordinated teams",
+          "War drums provide bonus damage",
         ],
 
         weaknesses: [
-          'Lower healing output than Soulsinger',
-          'Requires allies to capitalize on buffs',
-          'Less effective when team is scattered',
-          'Vulnerable when focused'
+          "Lower healing output than Soulsinger",
+          "Requires allies to capitalize on buffs",
+          "Less effective when team is scattered",
+          "Vulnerable when focused",
         ],
 
         passiveAbilities: [
           {
-            name: 'Harmonic Resonance',
-            tier: 'Path Passive',
-            description: 'When you complete a 4-note cadence, all allies within 30 feet gain +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
-            sharedBy: 'All Minstrels'
+            name: "Harmonic Resonance",
+            tier: "Path Passive",
+            description:
+              "When you complete a 4-note cadence, all allies within 30 feet gain +1d4 to their next attack or spell. This bonus stacks up to 3 times.",
+            sharedBy: "All Minstrels",
           },
           {
-            name: 'War Anthem',
-            tier: 'Specialization Passive',
-            description: 'Your offensive cadences (Circle of Fifths, Phrygian Cadence, Neapolitan Sixth) grant all affected allies +2 to attack rolls for 2 turns. Additionally, when an ally scores a critical hit while affected by your buffs, you generate 1 random musical note.',
-            uniqueTo: 'Battlechoir'
-          }
+            name: "War Anthem",
+            tier: "Specialization Passive",
+            description:
+              "Your offensive cadences (Circle of Fifths, Phrygian Cadence, Neapolitan Sixth) grant all affected allies +2 to attack rolls for 2 turns. Additionally, when an ally scores a critical hit while affected by your buffs, you generate 1 random musical note.",
+            uniqueTo: "Battlechoir",
+          },
         ],
 
-        recommendedFor: 'Players who enjoy empowering their team, coordinated tactics, and aggressive playstyles'
+        recommendedFor:
+          "Players who enjoy empowering their team, coordinated tactics, and aggressive playstyles",
       },
 
       {
-        id: 'soulsinger',
-        name: 'Soulsinger',
-        icon: 'Healing/Prayer',
-        color: '#4169E1',
-        theme: 'Healing Melodies & Emotional Magic',
+        id: "soulsinger",
+        name: "Soulsinger",
+        icon: "Healing/Prayer",
+        color: "#4169E1",
+        theme: "Healing Melodies & Emotional Magic",
 
         description: `Soulsingers are empathic healers who channel emotion through music. Their gentle melodies soothe wounds, calm fears, and restore hope. They understand that music touches the soul, and through this connection, they can heal both body and spirit. Soulsingers favor lutes, harps, and soft vocals.`,
 
-        playstyle: 'Sustained healing, emotional manipulation, protective support',
+        playstyle:
+          "Sustained healing, emotional manipulation, protective support",
 
         strengths: [
-          'Strongest healing output',
-          'Excellent sustained support',
-          'Emotional manipulation abilities',
-          'Can heal while building notes'
+          "Strongest healing output",
+          "Excellent sustained support",
+          "Emotional manipulation abilities",
+          "Can heal while building notes",
         ],
 
         weaknesses: [
-          'Lower damage contribution',
-          'Less burst healing than dedicated healers',
-          'Requires mana management',
-          'Vulnerable to interruption'
+          "Lower damage contribution",
+          "Less burst healing than dedicated healers",
+          "Requires mana management",
+          "Vulnerable to interruption",
         ],
 
         passiveAbilities: [
           {
-            name: 'Harmonic Resonance',
-            tier: 'Path Passive',
-            description: 'When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
-            sharedBy: 'All Minstrels'
+            name: "Harmonic Resonance",
+            tier: "Path Passive",
+            description:
+              "When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.",
+            sharedBy: "All Minstrels",
           },
           {
-            name: 'Soothing Melody',
-            tier: 'Specialization Passive',
-            description: 'Your healing cadences (Authentic Cadence, Picardy Third) heal for an additional 1d6 HP. Additionally, whenever you heal an ally, you generate 1 Tonic (I) note. When using a Lute or Harp, healing is increased by an additional +2.',
-            uniqueTo: 'Soulsinger'
-          }
+            name: "Soothing Melody",
+            tier: "Specialization Passive",
+            description:
+              "Your healing cadences (Authentic Cadence, Picardy Third) heal for an additional 1d6 HP. Additionally, whenever you heal an ally, you generate 1 Tonic (I) note. When using a Lute or Harp, healing is increased by an additional +2.",
+            uniqueTo: "Soulsinger",
+          },
         ],
 
-        recommendedFor: 'Players who enjoy healing, supporting their team, and emotional roleplay'
+        recommendedFor:
+          "Players who enjoy healing, supporting their team, and emotional roleplay",
       },
 
       {
-        id: 'dissonance',
-        name: 'Dissonance',
-        icon: 'Psychic/Agonizing Scream',
-        color: '#8B008B',
-        theme: 'Chaotic Sounds & Reality Warping',
+        id: "dissonance",
+        name: "Dissonance",
+        icon: "Psychic/Agonizing Scream",
+        color: "#8B008B",
+        theme: "Chaotic Sounds & Reality Warping",
 
         description: `Dissonance Minstrels have discovered that not all music is harmonious—and that chaos has its own terrible beauty. They wield discordant sounds, atonal melodies, and reality-warping frequencies that confuse, terrify, and control. Their music is an assault on the senses and the mind itself.`,
 
-        playstyle: 'Crowd control, debuffs, chaotic effects, reality manipulation',
+        playstyle:
+          "Crowd control, debuffs, chaotic effects, reality manipulation",
 
         strengths: [
-          'Best crowd control capabilities',
-          'Powerful debuffs and fear effects',
-          'Unique reality-warping abilities',
-          'Excels against grouped enemies'
+          "Best crowd control capabilities",
+          "Powerful debuffs and fear effects",
+          "Unique reality-warping abilities",
+          "Excels against grouped enemies",
         ],
 
         weaknesses: [
-          'Lowest healing output',
-          'Chaotic effects can be unpredictable',
-          'Requires careful positioning',
-          'Less effective against single targets'
+          "Lowest healing output",
+          "Chaotic effects can be unpredictable",
+          "Requires careful positioning",
+          "Less effective against single targets",
         ],
 
         passiveAbilities: [
           {
-            name: 'Harmonic Resonance',
-            tier: 'Path Passive',
-            description: 'When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.',
-            sharedBy: 'All Minstrels'
+            name: "Harmonic Resonance",
+            tier: "Path Passive",
+            description:
+              "When you complete a 4-note cadence, the target ally gains +1d4 to their next attack or spell. This bonus stacks up to 3 times.",
+            sharedBy: "All Minstrels",
           },
           {
-            name: 'Cacophony',
-            tier: 'Specialization Passive',
-            description: 'Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. Additionally, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 10 + your Spirit modifier) or become frightened for 1 turn. Dissonant sounds echo unpredictably.',
-            uniqueTo: 'Dissonance'
-          }
+            name: "Cacophony",
+            tier: "Specialization Passive",
+            description:
+              "Your control cadences (Deceptive Cadence, Tritone Substitution) have their save DC increased by 2. Additionally, when an enemy fails a save against your cadence, all enemies within 10 feet must make a Wisdom save (DC 10 + your Spirit modifier) or become frightened for 1 turn. Dissonant sounds echo unpredictably.",
+            uniqueTo: "Dissonance",
+          },
         ],
 
-        recommendedFor: 'Players who enjoy control, debuffs, and unpredictable chaotic magic'
-      }
-    ]
+        recommendedFor:
+          "Players who enjoy control, debuffs, and unpredictable chaotic magic",
+      },
+    ],
   },
 
   // Spell Pools - organized by character level
   // Maps character level to available spell IDs for learning
   spellPools: {
     1: [
-      'minstrel_opening_chord',
-      'minstrel_harmonic_strike',
-      'minstrel_inspiring_rhythm',
-      'minstrel_uplifting_rhythm'
+      "minstrel_opening_chord",
+      "minstrel_harmonic_strike",
+      "minstrel_inspiring_rhythm",
+      "minstrel_uplifting_rhythm",
     ],
     2: [
-      'minstrel_healing_hymn',
-      'minstrel_war_drum',
-      'minstrel_melancholy_melody',
-      'minstrel_minor_cadence',
-      'minstrel_mending_cadence'
+      "minstrel_healing_hymn",
+      "minstrel_war_drum",
+      "minstrel_melancholy_melody",
+      "minstrel_minor_cadence",
+      "minstrel_mending_cadence",
     ],
     3: [
-      'minstrel_dissonant_shriek',
-      'minstrel_song_of_rest',
-      'minstrel_climactic_crescendo',
-      'minstrel_soothing_melody',
-      'minstrel_resolving_strike'
+      "minstrel_dissonant_shriek",
+      "minstrel_song_of_rest",
+      "minstrel_climactic_crescendo",
+      "minstrel_soothing_melody",
+      "minstrel_resolving_strike",
     ],
     4: [
-      'minstrel_perfect_cadence',
-      'minstrel_harmony_strike',
-      'minstrel_deceptive_cadence',
-      'minstrel_plagal_cadence'
+      "minstrel_perfect_cadence",
+      "minstrel_harmony_strike",
+      "minstrel_deceptive_cadence",
+      "minstrel_plagal_cadence",
     ],
     5: [
-      'minstrel_circle_of_fifths',
-      'minstrel_authentic_cadence',
-      'minstrel_half_cadence',
-      'minstrel_phrygian_cadence'
+      "minstrel_circle_of_fifths",
+      "minstrel_authentic_cadence",
+      "minstrel_half_cadence",
+      "minstrel_phrygian_cadence",
     ],
     6: [
-      'minstrel_tritone_substitution',
-      'minstrel_picardy_third',
-      'minstrel_neapolitan_sixth'
+      "minstrel_tritone_substitution",
+      "minstrel_picardy_third",
+      "minstrel_neapolitan_sixth",
     ],
     7: [
-      'minstrel_symphony_of_destruction',
-      'minstrel_song_of_heroes',
-      'minstrel_cacophonous_blast'
+      "minstrel_symphony_of_destruction",
+      "minstrel_song_of_heroes",
+      "minstrel_cacophonous_blast",
     ],
     8: [
-      'minstrel_magnum_opus',
-      'minstrel_serenade_of_shadows',
-      'minstrel_harmony_of_renewal'
+      "minstrel_magnum_opus",
+      "minstrel_serenade_of_shadows",
+      "minstrel_harmony_of_renewal",
     ],
     9: [
-      'minstrel_crescendo_of_power',
-      'minstrel_requiem_of_the_fallen',
-      'minstrel_tempo_mastery'
+      "minstrel_crescendo_of_power",
+      "minstrel_requiem_of_the_fallen",
+      "minstrel_tempo_mastery",
     ],
     10: [
-      'minstrel_legendary_performance',
-      'minstrel_song_of_creation',
-      'minstrel_final_cadence'
-    ]
+      "minstrel_legendary_performance",
+      "minstrel_song_of_creation",
+      "minstrel_final_cadence",
+    ],
   },
 
   // Spells - organized by level, properly formatted for wizard
@@ -797,2816 +903,3127 @@ Before combat, decide which cadences you want to prioritize:
     // LEVEL 1 STARTING SPELLS (5 options, pick 3)
     // ========================================
     {
-      id: 'minstrel_opening_chord',
-      name: 'Opening Chord',
-      description: 'Strike a resonant chord that generates foundational notes and deals minor sonic damage.',
+      id: "minstrel_opening_chord",
+      name: "Opening Chord",
+      description:
+        "Strike a resonant chord that generates foundational notes and deals minor sonic damage.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Halo',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Halo",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Divine Halo',
-        tags: ['builder', 'basic', 'sonic', 'tonic generator', 'level 1'],
+        school: "evocation",
+        icon: "Radiant/Divine Halo",
+        tags: ["builder", "basic", "sonic", "tonic generator", "level 1"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: []
+        targetRestrictions: [],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Resonare!',
-        somaticText: 'Strum instrument or gesture musically'
+        components: ["verbal", "somatic"],
+        verbalText: "Resonare!",
+        somaticText: "Strum instrument or gesture musically",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '1d6',
-        elementType: 'lightning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "1d6",
+        elementType: "lightning",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'I', count: 2 },
-          { note: 'V', count: 1 }
-        ]
+          { note: "I", count: 2 },
+          { note: "V", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'basic', 'sonic', 'tonic generator', 'level 1']
+      tags: ["builder", "basic", "sonic", "tonic generator", "level 1"],
     },
 
     {
-      id: 'minstrel_harmonic_strike',
-      name: 'Harmonic Strike',
-      description: 'Strike your foe with a resonant blow, dealing damage and generating mediant notes.',
+      id: "minstrel_harmonic_strike",
+      name: "Harmonic Strike",
+      description:
+        "Strike your foe with a resonant blow, dealing damage and generating mediant notes.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Bludgeoning/Mortal Strike',
+      spellType: "ACTION",
+      icon: "Bludgeoning/Mortal Strike",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Bludgeoning/Mortal Strike',
-        tags: ['builder', 'melee', 'basic', 'mediant generator', 'level 1'],
+        school: "evocation",
+        icon: "Bludgeoning/Mortal Strike",
+        tags: ["builder", "melee", "basic", "mediant generator", "level 1"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'melee',
+        targetingType: "single",
+        rangeType: "melee",
         rangeDistance: 5,
-        targetRestrictions: []
+        targetRestrictions: [],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['somatic'],
-        somaticText: 'Strike with instrument or weapon'
+        components: ["somatic"],
+        somaticText: "Strike with instrument or weapon",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '1d8',
-        elementType: 'bludgeoning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "1d8",
+        elementType: "bludgeoning",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'III', count: 2 },
-          { note: 'I', count: 1 }
-        ]
+          { note: "III", count: 2 },
+          { note: "I", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'melee', 'basic', 'mediant generator', 'level 1']
+      tags: ["builder", "melee", "basic", "mediant generator", "level 1"],
     },
 
     {
-      id: 'minstrel_inspiring_rhythm',
-      name: 'Inspiring Rhythm',
-      description: 'Play an inspiring rhythm that grants all nearby allies +1 to attack rolls for 1 round. Generates dominant notes.',
+      id: "minstrel_inspiring_rhythm",
+      name: "Inspiring Rhythm",
+      description:
+        "Play an inspiring rhythm that grants all nearby allies +1 to attack rolls for 1 round. Generates dominant notes.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Radiant/Golden Ring',
+      spellType: "ACTION",
+      icon: "Radiant/Golden Ring",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Golden Ring',
-        tags: ['builder', 'support', 'dominant generator', 'level 1'],
+        school: "evocation",
+        icon: "Radiant/Golden Ring",
+        tags: ["builder", "support", "dominant generator", "level 1"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self_centered'
+        targetingType: "self",
+        rangeType: "self_centered",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 3 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Inspiro!',
-        somaticText: 'Play inspiring rhythm'
+        components: ["verbal", "somatic"],
+        verbalText: "Inspiro!",
+        somaticText: "Play inspiring rhythm",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'inspiring_rhythm',
-          name: 'Inspiring Rhythm',
-          description: 'Allies within 15ft gain +1 to attack rolls for 1 round.',
-          customDescription: 'Allies within 15ft gain +1 to attack rolls for 1 round.',
-          statModifier: { stat: 'attack', magnitude: 1, magnitudeType: 'flat' },
-          mechanicsText: '+1 to attack rolls for 1 round'
-        }],
+        buffType: "custom",
+        effects: [
+          {
+            id: "inspiring_rhythm",
+            name: "Inspiring Rhythm",
+            description:
+              "Allies within 15ft gain +1 to attack rolls for 1 round.",
+            customDescription:
+              "Allies within 15ft gain +1 to attack rolls for 1 round.",
+            statModifier: {
+              stat: "attack",
+              magnitude: 1,
+              magnitudeType: "flat",
+            },
+            mechanicsText: "+1 to attack rolls for 1 round",
+          },
+        ],
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'V', count: 2 },
-          { note: 'VII', count: 1 }
-        ]
+          { note: "V", count: 2 },
+          { note: "VII", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'support', 'dominant generator', 'level 1']
+      tags: ["builder", "support", "dominant generator", "level 1"],
     },
 
     {
-      id: 'minstrel_minor_cadence',
-      name: 'Minor Cadence',
-      description: 'Play a simple cadence that heals nearby allies by consuming subdominant and tonic notes.',
+      id: "minstrel_minor_cadence",
+      name: "Minor Cadence",
+      description:
+        "Play a simple cadence that heals nearby allies by consuming subdominant and tonic notes.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Bolt',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Radiant Bolt',
-        tags: ['resolver', 'healing', 'subdominant generator', 'level 1'],
+        school: "evocation",
+        icon: "Radiant/Radiant Bolt",
+        tags: ["resolver", "healing", "subdominant generator", "level 1"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 15 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Sanare!',
-        somaticText: 'Play healing cadence'
+        components: ["verbal", "somatic"],
+        verbalText: "Sanare!",
+        somaticText: "Play healing cadence",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing'],
+      resolution: "DICE",
+      effectTypes: ["healing"],
 
       healingConfig: {
-        formula: '1d6 + spirit/4',
-        healingType: 'direct',
-        hasHotEffect: false
+        formula: "1d6 + spirit/4",
+        healingType: "direct",
+        hasHotEffect: false,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'IV', count: 1 },
-          { note: 'I', count: 1 }
-        ]
+          { note: "IV", count: 1 },
+          { note: "I", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['resolver', 'healing', 'subdominant generator', 'level 1']
+      tags: ["resolver", "healing", "subdominant generator", "level 1"],
     },
 
     {
-      id: 'minstrel_soothing_melody',
-      name: 'Soothing Melody',
-      description: 'Play a calming melody that removes minor debuffs and generates leading tone notes.',
+      id: "minstrel_soothing_melody",
+      name: "Soothing Melody",
+      description:
+        "Play a calming melody that removes minor debuffs and generates leading tone notes.",
       level: 3,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Divinity',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Radiant Divinity',
-        tags: ['resolver', 'utility', 'leading generator', 'level 3'],
+        school: "evocation",
+        icon: "Radiant/Radiant Divinity",
+        tags: ["resolver", "utility", "leading generator", "level 3"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 3 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Pax!',
-        somaticText: 'Play soothing melody'
+        components: ["verbal", "somatic"],
+        verbalText: "Pax!",
+        somaticText: "Play soothing melody",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['utility'],
+      resolution: "NONE",
+      effectTypes: ["utility"],
 
       utilityConfig: {
-        utilityType: 'restoration',
-        selectedEffects: [{
-          id: 'remove_debuff',
-          name: 'Remove Debuff',
-          description: 'Removes one minor debuff from the target'
-        }],
+        utilityType: "restoration",
+        selectedEffects: [
+          {
+            id: "remove_debuff",
+            name: "Remove Debuff",
+            description: "Removes one minor debuff from the target",
+          },
+        ],
         duration: 0,
-        durationUnit: 'instant',
+        durationUnit: "instant",
         concentration: false,
-        power: 'minor'
+        power: "minor",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'VII', count: 1 },
-          { note: 'III', count: 1 }
-        ]
+          { note: "VII", count: 1 },
+          { note: "III", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['resolver', 'utility', 'leading generator', 'level 3']
+      tags: ["resolver", "utility", "leading generator", "level 3"],
     },
 
     {
-      id: 'minstrel_uplifting_rhythm',
-      name: 'Uplifting Rhythm',
-      description: 'Play an uplifting rhythm that bolsters an ally and generates supertonic notes.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Warrior',
+      id: "minstrel_uplifting_rhythm",
+      name: "Uplifting Rhythm",
+      description:
+        "Play an uplifting rhythm that bolsters an ally and generates supertonic notes.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Warrior",
       level: 1,
 
       typeConfig: {
-        school: 'psychic',
-        icon: 'Radiant/Radiant Warrior',
-        tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1'],
+        school: "psychic",
+        icon: "Radiant/Radiant Warrior",
+        tags: [
+          "builder",
+          "buff",
+          "support",
+          "supertonic generator",
+          "battlechoir",
+          "level 1",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 2,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Uplifting verse',
-        somaticText: 'Play encouraging rhythm'
+        components: ["verbal", "somatic"],
+        verbalText: "Uplifting verse",
+        somaticText: "Play encouraging rhythm",
       },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['buff'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'armor_boost',
-          name: 'Armor Boost',
-          description: '+2 Armor for 2 turns',
-          statModifier: {
-            stat: 'armor',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "armor_boost",
+            name: "Armor Boost",
+            description: "+2 Armor for 2 turns",
+            statModifier: {
+              stat: "armor",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 2,
-        durationType: 'turns',
-        durationUnit: 'turns',
-        stackingRule: 'replace',
-        maxStacks: 1
+        durationType: "turns",
+        durationUnit: "turns",
+        stackingRule: "replace",
+        maxStacks: 1,
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'II', count: 1 },
-          { note: 'VI', count: 2 }
-        ]
+          { note: "II", count: 1 },
+          { note: "VI", count: 2 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'buff', 'support', 'supertonic generator', 'battlechoir', 'level 1']
+      tags: [
+        "builder",
+        "buff",
+        "support",
+        "supertonic generator",
+        "battlechoir",
+        "level 1",
+      ],
     },
 
     {
-      id: 'minstrel_resolving_strike',
-      name: 'Resolving Strike',
-      description: 'Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.',
-      spellType: 'ACTION',
-      icon: 'Arcane/Orb Manipulation',
+      id: "minstrel_resolving_strike",
+      name: "Resolving Strike",
+      description:
+        "Resolve a simple harmonic progression (I→V) that releases a burst of sonic energy.",
+      spellType: "ACTION",
+      icon: "Arcane/Orb Manipulation",
       level: 3,
 
       typeConfig: {
-        school: 'lightning',
-        icon: 'Arcane/Orb Manipulation',
-        tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3'],
+        school: "lightning",
+        icon: "Arcane/Orb Manipulation",
+        tags: ["resolver", "cadence", "damage", "simple", "level 3"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Simple resolution phrase'
+        components: ["verbal"],
+        verbalText: "Simple resolution phrase",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '1d8 + spirit',
-        elementType: 'lightning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "1d8 + spirit",
+        elementType: "lightning",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 1 },
-          { note: 'V', count: 1 }
+          { note: "I", count: 1 },
+          { note: "V", count: 1 },
         ],
-        cadenceName: 'Resolving Strike'
+        cadenceName: "Resolving Strike",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['resolver', 'cadence', 'damage', 'simple', 'level 3']
+      tags: ["resolver", "cadence", "damage", "simple", "level 3"],
     },
 
     {
-      id: 'minstrel_mending_cadence',
-      name: 'Mending Cadence',
-      description: 'Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.',
-      spellType: 'ACTION',
-      icon: 'Healing/Reaching Hand',
+      id: "minstrel_mending_cadence",
+      name: "Mending Cadence",
+      description:
+        "Complete a gentle progression (IV→I) that soothes wounds and calms the spirit.",
+      spellType: "ACTION",
+      icon: "Healing/Reaching Hand",
       level: 1,
 
       typeConfig: {
-        school: 'radiant',
-        icon: 'Healing/Reaching Hand',
-        tags: ['resolver', 'cadence', 'healing', 'restoration', 'simple', 'soulsinger', 'level 1'],
+        school: "radiant",
+        icon: "Healing/Reaching Hand",
+        tags: [
+          "resolver",
+          "cadence",
+          "healing",
+          "restoration",
+          "simple",
+          "soulsinger",
+          "level 1",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Gentle healing melody'
+        components: ["verbal"],
+        verbalText: "Gentle healing melody",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["healing", "damage"],
 
       healingConfig: {
-        healingType: 'direct',
-        formula: '1d8 + spirit',
-        resolution: 'DICE'
+        healingType: "direct",
+        formula: "1d8 + spirit",
+        resolution: "DICE",
       },
 
       damageConfig: {
-        formula: '1d8 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "1d8 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
-          conditions: [{
-            targetType: 'creature_type',
-            creatureTypes: ['undead', 'fiend'],
-            bonusFormula: 'healing_rolled',
-            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
-          }]
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["undead", "fiend"],
+              bonusFormula: "healing_rolled",
+              description:
+                "Deals radiant damage equal to healing rolled to undead and fiends",
+            },
+          ],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'IV', count: 1 },
-          { note: 'I', count: 1 }
+          { note: "IV", count: 1 },
+          { note: "I", count: 1 },
         ],
-        cadenceName: 'Mending Cadence'
+        cadenceName: "Mending Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['resolver', 'cadence', 'healing', 'restoration', 'soulsinger', 'level 1']
+      tags: [
+        "resolver",
+        "cadence",
+        "healing",
+        "restoration",
+        "soulsinger",
+        "level 1",
+      ],
     },
 
     {
-      id: 'minstrel_healing_hymn',
-      name: 'Healing Hymn',
-      description: 'Sing a soothing melody that heals an ally.',
-      spellType: 'ACTION',
-      icon: 'Healing/Golden Heart',
+      id: "minstrel_healing_hymn",
+      name: "Healing Hymn",
+      description: "Sing a soothing melody that heals an ally.",
+      spellType: "ACTION",
+      icon: "Healing/Golden Heart",
       level: 2,
 
       typeConfig: {
-        school: 'radiant',
-        icon: 'Healing/Golden Heart',
-        tags: ['builder', 'healing', 'subdominant generator', 'soulsinger', 'level 2'],
+        school: "radiant",
+        icon: "Healing/Golden Heart",
+        tags: [
+          "builder",
+          "healing",
+          "subdominant generator",
+          "soulsinger",
+          "level 2",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 40
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Melodic healing verse'
+        components: ["verbal"],
+        verbalText: "Melodic healing verse",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["healing", "damage"],
 
       healingConfig: {
-        healingType: 'direct',
-        formula: '2d6 + spirit',
-        resolution: 'DICE'
+        healingType: "direct",
+        formula: "2d6 + spirit",
+        resolution: "DICE",
       },
 
       damageConfig: {
-        formula: '2d6 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "2d6 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
-          conditions: [{
-            targetType: 'creature_type',
-            creatureTypes: ['undead', 'fiend'],
-            bonusFormula: 'healing_rolled',
-            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
-          }]
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["undead", "fiend"],
+              bonusFormula: "healing_rolled",
+              description:
+                "Deals radiant damage equal to healing rolled to undead and fiends",
+            },
+          ],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'IV', count: 2 },
-          { note: 'I', count: 1 }
-        ]
+          { note: "IV", count: 2 },
+          { note: "I", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       specialMechanics: {
         instrumentBonus: {
           lute: { healingBonus: 2 },
-          harp: { healingBonus: 2 }
-        }
+          harp: { healingBonus: 2 },
+        },
       },
 
-      tags: ['builder', 'healing', 'subdominant generator', 'soulsinger', 'level 2']
+      tags: [
+        "builder",
+        "healing",
+        "subdominant generator",
+        "soulsinger",
+        "level 2",
+      ],
     },
 
     {
-      id: 'minstrel_war_drum',
-      name: 'War Drum Beat',
-      description: 'Beat a powerful rhythm that damages enemies in an area.',
-      spellType: 'ACTION',
-      icon: 'Utility/Overlords Command',
+      id: "minstrel_war_drum",
+      name: "War Drum Beat",
+      description: "Beat a powerful rhythm that damages enemies in an area.",
+      spellType: "ACTION",
+      icon: "Utility/Overlords Command",
       level: 2,
 
       typeConfig: {
-        school: 'lightning',
-        icon: 'Utility/Overlords Command',
-        tags: ['builder', 'aoe', 'damage', 'dominant generator', 'battlechoir', 'area effect', 'level 2'],
+        school: "lightning",
+        icon: "Utility/Overlords Command",
+        tags: [
+          "builder",
+          "aoe",
+          "damage",
+          "dominant generator",
+          "battlechoir",
+          "area effect",
+          "level 2",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 15 },
-        targetRestrictions: ['enemy'],
-        maxTargets: 99
+        targetRestrictions: ["enemy"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
         actionPoints: 1,
-        components: ['somatic'],
-        somaticText: 'Beat drum or stomp rhythmically'
+        components: ["somatic"],
+        somaticText: "Beat drum or stomp rhythmically",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '2d6 + spirit',
-        elementType: 'lightning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "2d6 + spirit",
+        elementType: "lightning",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'V', count: 1 },
-          { note: 'VI', count: 2 }
-        ]
+          { note: "V", count: 1 },
+          { note: "VI", count: 2 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       specialMechanics: {
         instrumentBonus: {
-          drum: { damageBonus: '1d4' }
-        }
+          drum: { damageBonus: "1d4" },
+        },
       },
 
-      tags: ['builder', 'aoe', 'damage', 'dominant generator', 'submediant generator', 'battlechoir', 'area effect', 'level 2']
+      tags: [
+        "builder",
+        "aoe",
+        "damage",
+        "dominant generator",
+        "submediant generator",
+        "battlechoir",
+        "area effect",
+        "level 2",
+      ],
     },
 
     {
-      id: 'minstrel_dissonant_shriek',
-      name: 'Dissonant Shriek',
-      description: 'Unleash a discordant scream that generates tension notes and frightens enemies.',
-      spellType: 'ACTION',
-      icon: 'Psychic/Agonizing Scream',
+      id: "minstrel_dissonant_shriek",
+      name: "Dissonant Shriek",
+      description:
+        "Unleash a discordant scream that generates tension notes and frightens enemies.",
+      spellType: "ACTION",
+      icon: "Psychic/Agonizing Scream",
       level: 3,
 
       typeConfig: {
-        school: 'psychic',
-        icon: 'Psychic/Agonizing Scream',
-        tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3'],
+        school: "psychic",
+        icon: "Psychic/Agonizing Scream",
+        tags: [
+          "builder",
+          "aoe",
+          "fear",
+          "leading tone generator",
+          "dissonance",
+          "level 3",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['enemy'],
-        maxTargets: 99
+        targetRestrictions: ["enemy"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 12 },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Piercing discordant scream'
+        components: ["verbal"],
+        verbalText: "Piercing discordant scream",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      resolution: "DICE",
+      effectTypes: ["damage", "control"],
 
       damageConfig: {
-        formula: '3d6 + spirit',
-        elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "3d6 + spirit",
+        elementType: "psychic",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       controlConfig: {
-        controlType: 'fear',
-        effects: [{
-          id: 'frightened',
-          controlType: 'frightened',
-          name: 'Frightened',
-          description: 'Target is frightened',
-          config: {
-            duration: 2,
-            durationUnit: 'rounds',
-            savingThrow: true,
-            savingThrowType: 'spirit',
-            difficultyClass: 14
-          }
-        }],
+        controlType: "fear",
+        effects: [
+          {
+            id: "frightened",
+            controlType: "frightened",
+            name: "Frightened",
+            description: "Target is frightened",
+            config: {
+              duration: 2,
+              durationUnit: "rounds",
+              savingThrow: true,
+              savingThrowType: "spirit",
+              difficultyClass: 14,
+            },
+          },
+        ],
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: true,
-        savingThrowType: 'spirit',
-        difficultyClass: 14
+        savingThrowType: "spirit",
+        difficultyClass: 14,
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'VII', count: 3 },
-          { note: 'II', count: 1 }
-        ]
+          { note: "VII", count: 3 },
+          { note: "II", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
-      tags: ['builder', 'aoe', 'fear', 'leading tone generator', 'dissonance', 'level 3']
+      tags: [
+        "builder",
+        "aoe",
+        "fear",
+        "leading tone generator",
+        "dissonance",
+        "level 3",
+      ],
     },
 
     // Resolving Spells - Consume Notes for Powerful Cadences
     {
-      id: 'minstrel_perfect_cadence',
-      name: 'Perfect Cadence',
-      description: 'Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally\'s next attack will critically strike.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Bolt',
+      id: "minstrel_perfect_cadence",
+      name: "Perfect Cadence",
+      description:
+        "Complete a perfect harmonic progression (I→IV→V→I) that guarantees an ally's next attack will critically strike.",
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Bolt",
       level: 4,
 
       typeConfig: {
-        school: 'psychic',
-        icon: 'Radiant/Radiant Bolt',
-        tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4'],
+        school: "psychic",
+        icon: "Radiant/Radiant Bolt",
+        tags: [
+          "resolver",
+          "cadence",
+          "buff",
+          "critical",
+          "battlechoir",
+          "level 4",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 60
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Harmonic resolution phrase'
+        components: ["verbal", "somatic"],
+        verbalText: "Harmonic resolution phrase",
       },
 
-      resolution: 'AUTOMATIC',
-      effectTypes: ['buff'],
+      resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'guaranteed_crit',
-          name: 'Guaranteed Critical Hit',
-          description: 'Next attack is guaranteed critical hit',
-          mechanicsText: 'Next attack is guaranteed critical hit'
-        }],
+        buffType: "custom",
+        effects: [
+          {
+            id: "guaranteed_crit",
+            name: "Guaranteed Critical Hit",
+            description: "Next attack is guaranteed critical hit",
+            mechanicsText: "Next attack is guaranteed critical hit",
+          },
+        ],
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         canBeDispelled: true,
         concentrationRequired: false,
-        stackingRule: 'replace',
-        maxStacks: 1
+        stackingRule: "replace",
+        maxStacks: 1,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 2 },
-          { note: 'IV', count: 1 },
-          { note: 'V', count: 1 }
+          { note: "I", count: 2 },
+          { note: "IV", count: 1 },
+          { note: "V", count: 1 },
         ],
-        cadenceName: 'Perfect Cadence'
+        cadenceName: "Perfect Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 4']
+      tags: [
+        "resolver",
+        "cadence",
+        "buff",
+        "critical",
+        "battlechoir",
+        "level 4",
+      ],
     },
 
     {
-      id: 'minstrel_circle_of_fifths',
-      name: 'Circle of Fifths',
-      description: 'Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.',
-      spellType: 'ACTION',
-      icon: 'Fire/Dragon Breath',
+      id: "minstrel_circle_of_fifths",
+      name: "Circle of Fifths",
+      description:
+        "Weave an eternal loop of torment (V→I→VI→V) that traps enemies in relentless agony.",
+      spellType: "ACTION",
+      icon: "Fire/Dragon Breath",
       level: 5,
 
       typeConfig: {
-        school: 'lightning',
-        icon: 'Fire/Dragon Breath',
-        tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5'],
+        school: "lightning",
+        icon: "Fire/Dragon Breath",
+        tags: ["resolver", "cadence", "dot", "aoe", "battlechoir", "level 5"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy'],
-        maxTargets: 99
+        targetRestrictions: ["enemy"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 3,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Cyclical harmonic phrase'
+        components: ["verbal", "somatic"],
+        verbalText: "Cyclical harmonic phrase",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '3d6 + spirit',
-        elementType: 'lightning',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "3d6 + spirit",
+        elementType: "lightning",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'V', count: 2 },
-          { note: 'I', count: 1 },
-          { note: 'VI', count: 1 }
+          { note: "V", count: 2 },
+          { note: "I", count: 1 },
+          { note: "VI", count: 1 },
         ],
-        cadenceName: 'Circle of Fifths'
+        cadenceName: "Circle of Fifths",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'dot', 'aoe', 'battlechoir', 'level 5']
+      tags: ["resolver", "cadence", "dot", "aoe", "battlechoir", "level 5"],
     },
 
     {
-      id: 'minstrel_authentic_cadence',
-      name: 'Authentic Cadence',
-      description: 'Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.',
-      spellType: 'ACTION',
-      icon: 'Healing/Prayer',
+      id: "minstrel_authentic_cadence",
+      name: "Authentic Cadence",
+      description:
+        "Perform a grand finale (I→VI→III→I) that fortifies and heals all nearby allies.",
+      spellType: "ACTION",
+      icon: "Healing/Prayer",
       level: 5,
 
       typeConfig: {
-        school: 'radiant',
-        icon: 'Healing/Prayer',
-        tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger', 'level 5'],
+        school: "radiant",
+        icon: "Healing/Prayer",
+        tags: [
+          "resolver",
+          "cadence",
+          "healing",
+          "aoe",
+          "defensive",
+          "soulsinger",
+          "level 5",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally'],
-        maxTargets: 99
+        targetRestrictions: ["ally"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Triumphant finale verse'
+        components: ["verbal", "somatic"],
+        verbalText: "Triumphant finale verse",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'buff', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["healing", "buff", "damage"],
 
       healingConfig: {
-        formula: '4d6 + spirit',
-        healingType: 'direct',
-        resolution: 'DICE'
+        formula: "4d6 + spirit",
+        healingType: "direct",
+        resolution: "DICE",
       },
 
       damageConfig: {
-        formula: '4d6 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "4d6 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
-          conditions: [{
-            targetType: 'creature_type',
-            creatureTypes: ['undead', 'fiend'],
-            bonusFormula: 'healing_rolled',
-            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
-          }]
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["undead", "fiend"],
+              bonusFormula: "healing_rolled",
+              description:
+                "Deals radiant damage equal to healing rolled to undead and fiends",
+            },
+          ],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       buffConfig: {
-        buffType: 'damage_reduction',
-        effects: [{
-          id: 'authentic_protection',
-          name: 'Authentic Protection',
-          description: 'Reduce incoming damage by 4',
-          mechanicsText: '-4 damage taken for 1 round'
-        }],
+        buffType: "damage_reduction",
+        effects: [
+          {
+            id: "authentic_protection",
+            name: "Authentic Protection",
+            description: "Reduce incoming damage by 4",
+            mechanicsText: "-4 damage taken for 1 round",
+          },
+        ],
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 2 },
-          { note: 'VI', count: 1 },
-          { note: 'III', count: 1 }
+          { note: "I", count: 2 },
+          { note: "VI", count: 1 },
+          { note: "III", count: 1 },
         ],
-        cadenceName: 'Authentic Cadence'
+        cadenceName: "Authentic Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       specialMechanics: {
         instrumentBonus: {
           lute: { healingBonus: 2 },
-          harp: { healingBonus: 2 }
-        }
+          harp: { healingBonus: 2 },
+        },
       },
 
-      tags: ['resolver', 'cadence', 'healing', 'aoe', 'defensive', 'soulsinger', 'level 5']
+      tags: [
+        "resolver",
+        "cadence",
+        "healing",
+        "aoe",
+        "defensive",
+        "soulsinger",
+        "level 5",
+      ],
     },
 
     {
-      id: 'minstrel_tritone_substitution',
-      name: 'Tritone Substitution',
-      description: 'Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.',
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Strike',
+      id: "minstrel_tritone_substitution",
+      name: "Tritone Substitution",
+      description:
+        "Unleash powerful dissonance (IV→I→V→VI) that binds and paralyzes a foe.",
+      spellType: "ACTION",
+      icon: "Psychic/Mind Strike",
       level: 6,
 
       typeConfig: {
-        school: 'psychic',
-        icon: 'Psychic/Mind Strike',
-        tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6'],
+        school: "psychic",
+        icon: "Psychic/Mind Strike",
+        tags: [
+          "resolver",
+          "cadence",
+          "control",
+          "paralyze",
+          "dissonance",
+          "level 6",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
-        rangeDistance: 30
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dissonant binding phrase'
+        components: ["verbal", "somatic"],
+        verbalText: "Dissonant binding phrase",
       },
 
-      resolution: 'SAVE',
-      effectTypes: ['control'],
+      resolution: "SAVE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'incapacitation',
-        effects: [{
-          id: 'paralyzed',
-          controlType: 'paralyze',
-          name: 'Paralyzed',
-          description: 'Target is paralyzed',
-          config: {
-            duration: 1,
-            durationUnit: 'rounds',
-            savingThrow: true,
-            savingThrowType: 'spirit',
-            difficultyClass: 18
-          }
-        }],
+        controlType: "incapacitation",
+        effects: [
+          {
+            id: "paralyzed",
+            controlType: "paralyze",
+            name: "Paralyzed",
+            description: "Target is paralyzed",
+            config: {
+              duration: 1,
+              durationUnit: "rounds",
+              savingThrow: true,
+              savingThrowType: "spirit",
+              difficultyClass: 18,
+            },
+          },
+        ],
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: true,
-        savingThrowType: 'spirit',
-        difficultyClass: 18
+        savingThrowType: "spirit",
+        difficultyClass: 18,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'IV', count: 1 },
-          { note: 'I', count: 1 },
-          { note: 'V', count: 1 },
-          { note: 'VI', count: 1 }
+          { note: "IV", count: 1 },
+          { note: "I", count: 1 },
+          { note: "V", count: 1 },
+          { note: "VI", count: 1 },
         ],
-        cadenceName: 'Tritone Substitution'
+        cadenceName: "Tritone Substitution",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
-      tags: ['resolver', 'cadence', 'control', 'paralyze', 'dissonance', 'level 6']
+      tags: [
+        "resolver",
+        "cadence",
+        "control",
+        "paralyze",
+        "dissonance",
+        "level 6",
+      ],
     },
 
     {
-      id: 'minstrel_picardy_third',
-      name: 'Picardy Third',
-      description: 'Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.',
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Radiance',
+      id: "minstrel_picardy_third",
+      name: "Picardy Third",
+      description:
+        "Shift from darkness to light (I→VII→V→III), filling allies with renewed hope and resilience.",
+      spellType: "ACTION",
+      icon: "Radiant/Divine Radiance",
       level: 6,
 
       typeConfig: {
-        school: 'radiant',
-        icon: 'Radiant/Divine Radiance',
-        tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6'],
+        school: "radiant",
+        icon: "Radiant/Divine Radiance",
+        tags: [
+          "resolver",
+          "cadence",
+          "healing",
+          "buff",
+          "saves",
+          "soulsinger",
+          "level 6",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally'],
-        maxTargets: 99
+        targetRestrictions: ["ally"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'instant'
+        durationType: "instant",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Hopeful ascending melody'
+        components: ["verbal", "somatic"],
+        verbalText: "Hopeful ascending melody",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'buff', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["healing", "buff", "damage"],
 
       healingConfig: {
-        formula: '6d6 + spirit',
-        healingType: 'direct',
-        resolution: 'DICE'
+        formula: "6d6 + spirit",
+        healingType: "direct",
+        resolution: "DICE",
       },
 
       damageConfig: {
-        formula: '6d6 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "6d6 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
-          conditions: [{
-            targetType: 'creature_type',
-            creatureTypes: ['undead', 'fiend'],
-            bonusFormula: 'healing_rolled',
-            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
-          }]
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["undead", "fiend"],
+              bonusFormula: "healing_rolled",
+              description:
+                "Deals radiant damage equal to healing rolled to undead and fiends",
+            },
+          ],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'picardy_saves',
-          name: 'Picardy Resolve',
-          description: '+2 to all saving throws for 3 rounds',
-          statModifier: { stat: 'saving_throws', magnitude: 2, magnitudeType: 'flat' },
-          mechanicsText: '+2 to all saving throws for 3 rounds'
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "picardy_saves",
+            name: "Picardy Resolve",
+            description: "+2 to all saving throws for 3 rounds",
+            statModifier: {
+              stat: "saving_throws",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+            mechanicsText: "+2 to all saving throws for 3 rounds",
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 1 },
-          { note: 'VII', count: 1 },
-          { note: 'V', count: 1 },
-          { note: 'III', count: 1 }
+          { note: "I", count: 1 },
+          { note: "VII", count: 1 },
+          { note: "V", count: 1 },
+          { note: "III", count: 1 },
         ],
-        cadenceName: 'Picardy Third'
+        cadenceName: "Picardy Third",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'healing', 'buff', 'saves', 'soulsinger', 'level 6']
+      tags: [
+        "resolver",
+        "cadence",
+        "healing",
+        "buff",
+        "saves",
+        "soulsinger",
+        "level 6",
+      ],
     },
 
     // Utility Spell
     {
-      id: 'minstrel_song_of_rest',
-      name: 'Song of Rest',
-      description: 'Perform a calming melody that allows allies to recover during a short rest.',
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Control',
+      id: "minstrel_song_of_rest",
+      name: "Song of Rest",
+      description:
+        "Perform a calming melody that allows allies to recover during a short rest.",
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
       level: 3,
 
       typeConfig: {
-        school: 'radiant',
-        icon: 'Psychic/Mind Control',
-        tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3'],
+        school: "radiant",
+        icon: "Psychic/Mind Control",
+        tags: ["utility", "ritual", "healing", "rest", "soulsinger", "level 3"],
         castTime: 10,
-        castTimeType: 'MINUTES'
+        castTimeType: "MINUTES",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['ally'],
-        maxTargets: 99
+        targetRestrictions: ["ally"],
+        maxTargets: 99,
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 1,
-        durationUnit: 'hours'
+        durationUnit: "hours",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 12 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Soothing rest melody'
+        components: ["verbal", "somatic"],
+        verbalText: "Soothing rest melody",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'damage'],
+      resolution: "DICE",
+      effectTypes: ["healing", "damage"],
 
       healingConfig: {
-        formula: '2d8',
-        healingType: 'direct',
-        resolution: 'DICE'
+        formula: "2d8",
+        healingType: "direct",
+        resolution: "DICE",
       },
 
       damageConfig: {
-        formula: '2d8',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "2d8",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         conditionalDamage: {
           enabled: true,
-          conditions: [{
-            targetType: 'creature_type',
-            creatureTypes: ['undead', 'fiend'],
-            bonusFormula: 'healing_rolled',
-            description: 'Deals radiant damage equal to healing rolled to undead and fiends'
-          }]
+          conditions: [
+            {
+              targetType: "creature_type",
+              creatureTypes: ["undead", "fiend"],
+              bonusFormula: "healing_rolled",
+              description:
+                "Deals radiant damage equal to healing rolled to undead and fiends",
+            },
+          ],
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'I', count: 1 },
-          { note: 'IV', count: 1 }
-        ]
+          { note: "I", count: 1 },
+          { note: "IV", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['utility', 'ritual', 'healing', 'rest', 'soulsinger', 'level 3']
+      tags: ["utility", "ritual", "healing", "rest", "soulsinger", "level 3"],
     },
 
     // ========================================
     // NEW BUILDER SPELLS — VI & VII Generation
     // ========================================
     {
-      id: 'minstrel_melancholy_melody',
-      name: 'Melancholy Melody',
-      description: 'Play a haunting melody that generates submediant and subdominant notes, weakening nearby enemies with sorrow.',
+      id: "minstrel_melancholy_melody",
+      name: "Melancholy Melody",
+      description:
+        "Play a haunting melody that generates submediant and subdominant notes, weakening nearby enemies with sorrow.",
       level: 2,
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Control',
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Psychic/Mind Control',
-        tags: ['builder', 'debuff', 'submediant generator', 'soulsinger', 'dissonance', 'level 2'],
+        school: "enchantment",
+        icon: "Psychic/Mind Control",
+        tags: [
+          "builder",
+          "debuff",
+          "submediant generator",
+          "soulsinger",
+          "dissonance",
+          "level 2",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Doloroso...',
-        somaticText: 'Play haunting melody'
+        components: ["verbal", "somatic"],
+        verbalText: "Doloroso...",
+        somaticText: "Play haunting melody",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['debuff'],
+      resolution: "DICE",
+      effectTypes: ["debuff"],
 
       damageConfig: {
-        formula: '1d6 + spirit/4',
-        elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "1d6 + spirit/4",
+        elementType: "psychic",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'melancholy',
-          name: 'Melancholy',
-          description: 'Enemy has -1 to attack rolls for 2 rounds.',
-          statPenalty: [{ stat: 'attack', value: -1 }],
-          mechanicsText: '-1 to attack rolls for 2 rounds'
-        }],
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "melancholy",
+            name: "Melancholy",
+            description: "Enemy has -1 to attack rolls for 2 rounds.",
+            statPenalty: [{ stat: "attack", value: -1 }],
+            mechanicsText: "-1 to attack rolls for 2 rounds",
+          },
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'VI', count: 2 },
-          { note: 'IV', count: 1 }
-        ]
+          { note: "VI", count: 2 },
+          { note: "IV", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'debuff', 'submediant generator', 'soulsinger', 'dissonance', 'level 2']
+      tags: [
+        "builder",
+        "debuff",
+        "submediant generator",
+        "soulsinger",
+        "dissonance",
+        "level 2",
+      ],
     },
 
     {
-      id: 'minstrel_climactic_crescendo',
-      name: 'Climactic Crescendo',
-      description: 'Build to a thrilling crescendo that generates leading tone and dominant notes while buffing ally attack power.',
+      id: "minstrel_climactic_crescendo",
+      name: "Climactic Crescendo",
+      description:
+        "Build to a thrilling crescendo that generates leading tone and dominant notes while buffing ally attack power.",
       level: 3,
-      spellType: 'ACTION',
-      icon: 'Fire/Rising Inferno',
+      spellType: "ACTION",
+      icon: "Fire/Rising Inferno",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Fire/Rising Inferno',
-        tags: ['builder', 'buff', 'leading tone generator', 'battlechoir', 'dissonance', 'level 3'],
+        school: "evocation",
+        icon: "Fire/Rising Inferno",
+        tags: [
+          "builder",
+          "buff",
+          "leading tone generator",
+          "battlechoir",
+          "dissonance",
+          "level 3",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self_centered'
+        targetingType: "self",
+        rangeType: "self_centered",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Crescendo!',
-        somaticText: 'Build intensity with instrument'
+        components: ["verbal", "somatic"],
+        verbalText: "Crescendo!",
+        somaticText: "Build intensity with instrument",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'crescendo_power',
-          name: 'Crescendo Power',
-          description: 'Allies within 20 feet gain +2 to damage rolls for 2 rounds.',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 2,
-            magnitudeType: 'flat'
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "crescendo_power",
+            name: "Crescendo Power",
+            description:
+              "Allies within 20 feet gain +2 to damage rolls for 2 rounds.",
+            statModifier: {
+              stat: "damage",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+            mechanicsText: "+2 to damage rolls for 2 rounds",
           },
-          mechanicsText: '+2 to damage rolls for 2 rounds'
-        }],
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        stackingRule: 'replace',
-        maxStacks: 1
+        durationType: "rounds",
+        durationUnit: "rounds",
+        stackingRule: "replace",
+        maxStacks: 1,
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'VII', count: 2 },
-          { note: 'V', count: 1 }
-        ]
+          { note: "VII", count: 2 },
+          { note: "V", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ['builder', 'buff', 'leading tone generator', 'battlechoir', 'dissonance', 'level 3']
+      tags: [
+        "builder",
+        "buff",
+        "leading tone generator",
+        "battlechoir",
+        "dissonance",
+        "level 3",
+      ],
     },
 
     // ========================================
     // NEW CADENCE SPELLS — Missing 5 Cadences
     // ========================================
     {
-      id: 'minstrel_deceptive_cadence',
-      name: 'Deceptive Cadence',
-      description: 'Play a deceptive progression (IV→VII→V→IV) that stuns an enemy, breaking their concentration and resolve.',
+      id: "minstrel_deceptive_cadence",
+      name: "Deceptive Cadence",
+      description:
+        "Play a deceptive progression (IV→VII→V→IV) that stuns an enemy, breaking their concentration and resolve.",
       level: 4,
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Strike',
+      spellType: "ACTION",
+      icon: "Psychic/Mind Strike",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Psychic/Mind Strike',
-        tags: ['resolver', 'cadence', 'control', 'stun', 'dissonance', 'level 4'],
+        school: "enchantment",
+        icon: "Psychic/Mind Strike",
+        tags: [
+          "resolver",
+          "cadence",
+          "control",
+          "stun",
+          "dissonance",
+          "level 4",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 1,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Fallax Resolutio!',
-        somaticText: 'Deceptive hand movement'
+        components: ["verbal", "somatic"],
+        verbalText: "Fallax Resolutio!",
+        somaticText: "Deceptive hand movement",
       },
 
-      resolution: 'SAVE',
-      effectTypes: ['control'],
+      resolution: "SAVE",
+      effectTypes: ["control"],
 
       controlConfig: {
-        controlType: 'incapacitation',
-        effects: [{
-          id: 'stunned',
-          controlType: 'stun',
-          name: 'Stunned',
-          description: 'Target is stunned',
-          config: {
-            duration: 1,
-            durationUnit: 'rounds',
-            savingThrow: true,
-            savingThrowType: 'spirit',
-            difficultyClass: 15
-          }
-        }],
+        controlType: "incapacitation",
+        effects: [
+          {
+            id: "stunned",
+            controlType: "stun",
+            name: "Stunned",
+            description: "Target is stunned",
+            config: {
+              duration: 1,
+              durationUnit: "rounds",
+              savingThrow: true,
+              savingThrowType: "spirit",
+              difficultyClass: 15,
+            },
+          },
+        ],
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: true,
-        savingThrowType: 'spirit',
-        difficultyClass: 15
+        savingThrowType: "spirit",
+        difficultyClass: 15,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'IV', count: 2 },
-          { note: 'VII', count: 1 },
-          { note: 'V', count: 1 }
+          { note: "IV", count: 2 },
+          { note: "VII", count: 1 },
+          { note: "V", count: 1 },
         ],
-        cadenceName: 'Deceptive Cadence'
+        cadenceName: "Deceptive Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'control', 'stun', 'dissonance', 'level 4']
+      tags: ["resolver", "cadence", "control", "stun", "dissonance", "level 4"],
     },
 
     {
-      id: 'minstrel_plagal_cadence',
-      name: 'Plagal Cadence',
-      description: 'Perform a sacred ascent (VI→V→I→III) that grants allies swiftness and agility, enhancing their movement and reflexes.',
+      id: "minstrel_plagal_cadence",
+      name: "Plagal Cadence",
+      description:
+        "Perform a sacred ascent (VI→V→I→III) that grants allies swiftness and agility, enhancing their movement and reflexes.",
       level: 4,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Warrior',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Warrior",
 
       typeConfig: {
-        school: 'abjuration',
-        icon: 'Radiant/Radiant Warrior',
-        tags: ['resolver', 'cadence', 'buff', 'speed', 'soulsinger', 'level 4'],
+        school: "abjuration",
+        icon: "Radiant/Radiant Warrior",
+        tags: ["resolver", "cadence", "buff", "speed", "soulsinger", "level 4"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 2,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Surge Sanctus!',
-        somaticText: 'Ascending melodic gesture'
+        components: ["verbal", "somatic"],
+        verbalText: "Surge Sanctus!",
+        somaticText: "Ascending melodic gesture",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'plagal_swiftness',
-          name: 'Plagal Swiftness',
-          description: 'Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.',
-          statModifier: [
-            { stat: 'movement_speed', magnitude: 20, magnitudeType: 'flat' },
-            { stat: 'dexterity', magnitude: 2, magnitudeType: 'flat' }
-          ],
-          mechanicsText: '+20 ft speed, +2 Dex for 2 rounds'
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "plagal_swiftness",
+            name: "Plagal Swiftness",
+            description:
+              "Allies gain +20 ft movement speed and +2 Dexterity for 2 rounds.",
+            statModifier: [
+              { stat: "movement_speed", magnitude: 20, magnitudeType: "flat" },
+              { stat: "dexterity", magnitude: 2, magnitudeType: "flat" },
+            ],
+            mechanicsText: "+20 ft speed, +2 Dex for 2 rounds",
+          },
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'VI', count: 1 },
-          { note: 'V', count: 1 },
-          { note: 'I', count: 1 },
-          { note: 'III', count: 1 }
+          { note: "VI", count: 1 },
+          { note: "V", count: 1 },
+          { note: "I", count: 1 },
+          { note: "III", count: 1 },
         ],
-        cadenceName: 'Plagal Cadence'
+        cadenceName: "Plagal Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'buff', 'speed', 'soulsinger', 'level 4']
+      tags: ["resolver", "cadence", "buff", "speed", "soulsinger", "level 4"],
     },
 
     {
-      id: 'minstrel_half_cadence',
-      name: 'Half Cadence',
-      description: 'An unresolved progression (VII→V→IV→VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.',
+      id: "minstrel_half_cadence",
+      name: "Half Cadence",
+      description:
+        "An unresolved progression (VII→V→IV→VI) that creates protective harmonic barriers around your allies, absorbing incoming damage.",
       level: 5,
-      spellType: 'ACTION',
-      icon: 'Force/Force Field',
+      spellType: "ACTION",
+      icon: "Force/Force Field",
 
       typeConfig: {
-        school: 'abjuration',
-        icon: 'Force/Force Field',
-        tags: ['resolver', 'cadence', 'shield', 'defensive', 'dissonance', 'level 5'],
+        school: "abjuration",
+        icon: "Force/Force Field",
+        tags: [
+          "resolver",
+          "cadence",
+          "shield",
+          "defensive",
+          "dissonance",
+          "level 5",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 15 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 2,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Semper Custos!',
-        somaticText: 'Protective harmonic gesture'
+        components: ["verbal", "somatic"],
+        verbalText: "Semper Custos!",
+        somaticText: "Protective harmonic gesture",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['shield'],
+      resolution: "DICE",
+      effectTypes: ["shield"],
 
       damageConfig: {
-        formula: '2d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['shield'],
+        formula: "2d6 + spirit",
+        elementType: "force",
+        damageTypes: ["shield"],
         shieldConfig: {
-          shieldType: 'absorption',
-          shieldValueFormula: '2d6 + spirit',
+          shieldType: "absorption",
+          shieldValueFormula: "2d6 + spirit",
           duration: 2,
-          durationUnit: 'rounds'
+          durationUnit: "rounds",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'VII', count: 1 },
-          { note: 'V', count: 1 },
-          { note: 'IV', count: 1 },
-          { note: 'VI', count: 1 }
+          { note: "VII", count: 1 },
+          { note: "V", count: 1 },
+          { note: "IV", count: 1 },
+          { note: "VI", count: 1 },
         ],
-        cadenceName: 'Half Cadence'
+        cadenceName: "Half Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'shield', 'defensive', 'dissonance', 'level 5']
+      tags: [
+        "resolver",
+        "cadence",
+        "shield",
+        "defensive",
+        "dissonance",
+        "level 5",
+      ],
     },
 
     {
-      id: 'minstrel_phrygian_cadence',
-      name: 'Phrygian Cadence',
-      description: 'An ancient progression (V→IV→I→VII) that channels the resolve of warriors past, granting allies advantage on all attacks.',
+      id: "minstrel_phrygian_cadence",
+      name: "Phrygian Cadence",
+      description:
+        "An ancient progression (V→IV→I→VII) that channels the resolve of warriors past, granting allies advantage on all attacks.",
       level: 5,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Halo',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Halo",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Radiant/Divine Halo',
-        tags: ['resolver', 'cadence', 'buff', 'advantage', 'battlechoir', 'level 5'],
+        school: "enchantment",
+        icon: "Radiant/Divine Halo",
+        tags: [
+          "resolver",
+          "cadence",
+          "buff",
+          "advantage",
+          "battlechoir",
+          "level 5",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 2,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 20 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Virtus Antiqua!',
-        somaticText: 'Resolute conducting gesture'
+        components: ["verbal", "somatic"],
+        verbalText: "Virtus Antiqua!",
+        somaticText: "Resolute conducting gesture",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'phrygian_resolve',
-          name: 'Phrygian Resolve',
-          description: 'Allies gain advantage on all attack rolls for 2 rounds.',
-          statModifier: {
-            stat: 'attack_advantage',
-            magnitude: 1,
-            magnitudeType: 'advantage'
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "phrygian_resolve",
+            name: "Phrygian Resolve",
+            description:
+              "Allies gain advantage on all attack rolls for 2 rounds.",
+            statModifier: {
+              stat: "attack_advantage",
+              magnitude: 1,
+              magnitudeType: "advantage",
+            },
+            mechanicsText: "Advantage on attack rolls for 2 rounds",
           },
-          mechanicsText: 'Advantage on attack rolls for 2 rounds'
-        }],
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'V', count: 1 },
-          { note: 'IV', count: 1 },
-          { note: 'I', count: 1 },
-          { note: 'VII', count: 1 }
+          { note: "V", count: 1 },
+          { note: "IV", count: 1 },
+          { note: "I", count: 1 },
+          { note: "VII", count: 1 },
         ],
-        cadenceName: 'Phrygian Cadence'
+        cadenceName: "Phrygian Cadence",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'buff', 'advantage', 'battlechoir', 'level 5']
+      tags: [
+        "resolver",
+        "cadence",
+        "buff",
+        "advantage",
+        "battlechoir",
+        "level 5",
+      ],
     },
 
     {
-      id: 'minstrel_neapolitan_sixth',
-      name: 'Neapolitan Sixth',
-      description: 'A precise and unexpected progression (III→I→IV→V) that sharpens ally precision, increasing critical hit chance.',
+      id: "minstrel_neapolitan_sixth",
+      name: "Neapolitan Sixth",
+      description:
+        "A precise and unexpected progression (III→I→IV→V) that sharpens ally precision, increasing critical hit chance.",
       level: 6,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Bolt',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: 'divination',
-        icon: 'Radiant/Radiant Bolt',
-        tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 6'],
+        school: "divination",
+        icon: "Radiant/Radiant Bolt",
+        tags: [
+          "resolver",
+          "cadence",
+          "buff",
+          "critical",
+          "battlechoir",
+          "level 6",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
-        durationType: 'rounds',
+        durationType: "rounds",
         duration: 2,
-        durationUnit: 'turns'
+        durationUnit: "turns",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
         actionPoints: 1,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Exactio Perfecta!',
-        somaticText: 'Precise harmonic gesture'
+        components: ["verbal", "somatic"],
+        verbalText: "Exactio Perfecta!",
+        somaticText: "Precise harmonic gesture",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'neapolitan_precision',
-          name: 'Neapolitan Precision',
-          description: 'Allies gain +2 to critical hit chance for 2 rounds.',
-          statModifier: {
-            stat: 'crit_chance',
-            magnitude: 2,
-            magnitudeType: 'flat'
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "neapolitan_precision",
+            name: "Neapolitan Precision",
+            description: "Allies gain +2 to critical hit chance for 2 rounds.",
+            statModifier: {
+              stat: "crit_chance",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+            mechanicsText: "+2 crit chance for 2 rounds",
           },
-          mechanicsText: '+2 crit chance for 2 rounds'
-        }],
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds'
+        durationType: "rounds",
+        durationUnit: "rounds",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'III', count: 1 },
-          { note: 'I', count: 1 },
-          { note: 'IV', count: 1 },
-          { note: 'V', count: 1 }
+          { note: "III", count: 1 },
+          { note: "I", count: 1 },
+          { note: "IV", count: 1 },
+          { note: "V", count: 1 },
         ],
-        cadenceName: 'Neapolitan Sixth'
+        cadenceName: "Neapolitan Sixth",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ['resolver', 'cadence', 'buff', 'critical', 'battlechoir', 'level 6']
+      tags: [
+        "resolver",
+        "cadence",
+        "buff",
+        "critical",
+        "battlechoir",
+        "level 6",
+      ],
     },
 
     // ========================================
     // LEVEL 7 SPELLS
     // ========================================
     {
-      id: 'minstrel_symphony_of_destruction',
-      name: 'Symphony of Destruction',
-      description: 'Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive lightning damage to all enemies in a large area.',
+      id: "minstrel_symphony_of_destruction",
+      name: "Symphony of Destruction",
+      description:
+        "Conduct a devastating symphony that unleashes waves of sonic energy, dealing massive lightning damage to all enemies in a large area.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shatter',
+      spellType: "ACTION",
+      icon: "Nature/Earth Shatter",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Nature/Earth Shatter',
-        tags: ['damage', 'aoe', 'lightning', 'resolver', 'level 7'],
+        school: "evocation",
+        icon: "Nature/Earth Shatter",
+        tags: ["damage", "aoe", "lightning", "resolver", "level 7"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 28 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Destructio Symphonia!',
-        somaticText: 'Grand conducting gestures'
+        components: ["verbal", "somatic"],
+        verbalText: "Destructio Symphonia!",
+        somaticText: "Grand conducting gestures",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '10d6 + spirit',
-        elementType: 'lightning',
-        damageTypes: ['direct'],
+        formula: "10d6 + spirit",
+        elementType: "lightning",
+        damageTypes: ["direct"],
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2.5,
           critDiceOnly: false,
-          extraDice: '3d10',
-          critEffects: ['deafen', 'knockback'],
+          extraDice: "3d10",
+          critEffects: ["deafen", "knockback"],
           deafenConfig: {
             duration: 2,
-            durationUnit: 'rounds',
+            durationUnit: "rounds",
             saveDC: 17,
-            saveType: 'constitution'
+            saveType: "constitution",
           },
           knockbackConfig: {
-            distance: 15
-          }
+            distance: 15,
+          },
         },
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'V', count: 3 },
-          { note: 'I', count: 2 }
+          { note: "V", count: 3 },
+          { note: "I", count: 2 },
         ],
-        requiredNotes: 5
+        requiredNotes: 5,
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
-      tags: ['damage', 'aoe', 'lightning', 'resolver', 'level 7']
+      tags: ["damage", "aoe", "lightning", "resolver", "level 7"],
     },
 
     {
-      id: 'minstrel_song_of_heroes',
-      name: 'Song of Heroes',
-      description: 'Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.',
+      id: "minstrel_song_of_heroes",
+      name: "Song of Heroes",
+      description:
+        "Perform an inspiring ballad that empowers all allies with legendary might, granting significant bonuses to attack and damage.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Radiance',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Radiance",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Radiant/Divine Radiance',
-        tags: ['buff', 'aoe', 'support', 'builder', 'level 7'],
+        school: "enchantment",
+        icon: "Radiant/Divine Radiance",
+        tags: ["buff", "aoe", "support", "builder", "level 7"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 28 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Canticum Heroum!',
-        somaticText: 'Strum heroic melody'
+        components: ["verbal", "somatic"],
+        verbalText: "Canticum Heroum!",
+        somaticText: "Strum heroic melody",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'heroic_might',
-          name: 'Heroic Might',
-          description: 'Allies gain +2 to attack rolls and +1d6 damage on all attacks for 3 rounds.',
-          statModifier: {
-            stat: 'attack_rolls',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "heroic_might",
+            name: "Heroic Might",
+            description:
+              "Allies gain +2 to attack rolls and +1d6 damage on all attacks for 3 rounds.",
+            statModifier: {
+              stat: "attack_rolls",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'I', count: 2 },
-          { note: 'III', count: 1 },
-          { note: 'VII', count: 1 }
-        ]
+          { note: "I", count: 2 },
+          { note: "III", count: 1 },
+          { note: "VII", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
-      tags: ['buff', 'aoe', 'support', 'builder', 'level 7']
+      tags: ["buff", "aoe", "support", "builder", "level 7"],
     },
 
     {
-      id: 'minstrel_cacophonous_blast',
-      name: 'Cacophonous Blast',
-      description: 'Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes psychic damage to all who hear it.',
+      id: "minstrel_cacophonous_blast",
+      name: "Cacophonous Blast",
+      description:
+        "Unleash a devastating blast of pure discordance that disrupts enemy spellcasting and causes psychic damage to all who hear it.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Psychic/Agonizing Scream',
+      spellType: "ACTION",
+      icon: "Psychic/Agonizing Scream",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Psychic/Agonizing Scream',
-        tags: ['damage', 'control', 'psychic', 'dissonance', 'level 7'],
+        school: "enchantment",
+        icon: "Psychic/Agonizing Scream",
+        tags: ["damage", "control", "psychic", "dissonance", "level 7"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 28 },
         actionPoints: 1,
-        components: ['verbal'],
-        verbalText: 'Piercing shriek of discord'
+        components: ["verbal"],
+        verbalText: "Piercing shriek of discord",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'control'],
+      resolution: "DICE",
+      effectTypes: ["damage", "control"],
 
       damageConfig: {
-        formula: '10d6 + spirit',
-        elementType: 'psychic',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "10d6 + spirit",
+        elementType: "psychic",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'moderate',
+        controlType: "incapacitation",
+        strength: "moderate",
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 16,
-        saveType: 'spirit',
+        saveType: "spirit",
         savingThrow: true,
-        effects: [{
-          id: 'disrupted',
-          name: 'Disrupted',
-          description: 'Enemies cannot cast spells until the end of their next turn',
-          config: {
-            saveType: 'constitution',
-            saveDC: 16,
-            condition: 'silenced',
-            duration: 1,
-            durationUnit: 'rounds',
-            durationType: 'rounds',
-            recoveryMethod: 'automatic'
-          }
-        }]
+        effects: [
+          {
+            id: "disrupted",
+            name: "Disrupted",
+            description:
+              "Enemies cannot cast spells until the end of their next turn",
+            config: {
+              saveType: "constitution",
+              saveDC: 16,
+              condition: "silenced",
+              duration: 1,
+              durationUnit: "rounds",
+              durationType: "rounds",
+              recoveryMethod: "automatic",
+            },
+          },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'VII', count: 2 },
-          { note: 'II', count: 2 }
-        ]
+          { note: "VII", count: 2 },
+          { note: "II", count: 2 },
+        ],
       },
 
-      tags: ['damage', 'control', 'psychic', 'level 7']
+      tags: ["damage", "control", "psychic", "level 7"],
     },
 
     // ========================================
     // LEVEL 8 SPELLS
     // ========================================
     {
-      id: 'minstrel_magnum_opus',
-      name: 'Magnum Opus',
-      description: 'Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.',
+      id: "minstrel_magnum_opus",
+      name: "Magnum Opus",
+      description:
+        "Perform your greatest masterpiece, dealing devastating damage while simultaneously healing all allies.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Blessing',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Blessing",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Divine Blessing',
-        tags: ['damage', 'healing', 'aoe', 'resolver', 'level 8'],
+        school: "evocation",
+        icon: "Radiant/Divine Blessing",
+        tags: ["damage", "healing", "aoe", "resolver", "level 8"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
-      targetingMode: 'effect',
+      targetingMode: "effect",
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy', 'ally']
+        targetRestrictions: ["enemy", "ally"],
       },
 
       effectTargeting: {
         damage: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 40 },
-          targetRestrictions: ['enemy']
+          targetRestrictions: ["enemy"],
         },
         healing: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 40 },
-          targetRestrictions: ['ally']
-        }
+          targetRestrictions: ["ally"],
+        },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 32 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Opus Magnum Virtuoso!',
-        somaticText: 'Grand performance gestures'
+        components: ["verbal", "somatic"],
+        verbalText: "Opus Magnum Virtuoso!",
+        somaticText: "Grand performance gestures",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'healing'],
+      resolution: "DICE",
+      effectTypes: ["damage", "healing"],
 
       damageConfig: {
-        formula: '12d6 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "12d6 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'spirit',
+          savingThrowType: "spirit",
           difficultyClass: 18,
-          saveOutcome: 'halves'
+          saveOutcome: "halves",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       healingConfig: {
-        formula: '6d6 + spirit',
-        healingType: 'direct',
-        hasHotEffect: false
+        formula: "6d6 + spirit",
+        healingType: "direct",
+        hasHotEffect: false,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 3 },
-          { note: 'V', count: 3 },
-          { note: 'VII', count: 2 }
+          { note: "I", count: 3 },
+          { note: "V", count: 3 },
+          { note: "VII", count: 2 },
         ],
-        requiredNotes: 8
+        requiredNotes: 8,
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 6
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 6 },
 
-      tags: ['damage', 'healing', 'aoe', 'resolver', 'level 8']
+      tags: ["damage", "healing", "aoe", "resolver", "level 8"],
     },
 
     {
-      id: 'minstrel_serenade_of_shadows',
-      name: 'Serenade of Shadows',
-      description: 'A haunting melody that causes enemies to become entranced and vulnerable, reducing their defenses and causing fear.',
+      id: "minstrel_serenade_of_shadows",
+      name: "Serenade of Shadows",
+      description:
+        "A haunting melody that causes enemies to become entranced and vulnerable, reducing their defenses and causing fear.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Psychic/Mind Control',
+      spellType: "ACTION",
+      icon: "Psychic/Mind Control",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Psychic/Mind Control',
-        tags: ['debuff', 'control', 'aoe', 'dissonance', 'level 8'],
+        school: "enchantment",
+        icon: "Psychic/Mind Control",
+        tags: ["debuff", "control", "aoe", "dissonance", "level 8"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 25 },
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 32 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Dark haunting melody',
-        somaticText: 'Shadowy conducting motions'
+        components: ["verbal", "somatic"],
+        verbalText: "Dark haunting melody",
+        somaticText: "Shadowy conducting motions",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['debuff', 'control'],
+      resolution: "NONE",
+      effectTypes: ["debuff", "control"],
 
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'entranced',
-          name: 'Entranced',
-          description: 'Enemies have -4 Armor and disadvantage on saving throws for 4 rounds.',
-          statPenalty: [
-            { stat: 'armor', value: -4 },
-            { stat: 'saving_throws', value: -99, magnitudeType: 'disadvantage' }
-          ],
-          mechanicsText: '-4 Armor and disadvantage on saving throws for 4 rounds'
-        }],
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "entranced",
+            name: "Entranced",
+            description:
+              "Enemies have -4 Armor and disadvantage on saving throws for 4 rounds.",
+            statPenalty: [
+              { stat: "armor", value: -4 },
+              {
+                stat: "saving_throws",
+                value: -99,
+                magnitudeType: "disadvantage",
+              },
+            ],
+            mechanicsText:
+              "-4 Armor and disadvantage on saving throws for 4 rounds",
+          },
+        ],
         durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 17,
-        saveType: 'spirit',
-        saveOutcome: 'negates'
+        saveType: "spirit",
+        saveOutcome: "negates",
       },
 
       controlConfig: {
-        controlType: 'mind_control',
-        strength: 'moderate',
+        controlType: "mind_control",
+        strength: "moderate",
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 17,
-        saveType: 'spirit',
+        saveType: "spirit",
         savingThrow: true,
-        effects: [{
-          id: 'fear',
-          name: 'Frightened',
-          description: 'Enemies are frightened and must move away from you',
-          config: {
-            fearStrength: 'moderate',
-            saveType: 'charisma',
-            saveDC: 16,
-            duration: 2,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "fear",
+            name: "Frightened",
+            description: "Enemies are frightened and must move away from you",
+            config: {
+              fearStrength: "moderate",
+              saveType: "charisma",
+              saveDC: 16,
+              duration: 2,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'VI', count: 2 },
-          { note: 'VII', count: 1 }
-        ]
+          { note: "VI", count: 2 },
+          { note: "VII", count: 1 },
+        ],
       },
 
-      tags: ['debuff', 'control', 'aoe', 'level 8']
+      tags: ["debuff", "control", "aoe", "level 8"],
     },
 
     {
-      id: 'minstrel_harmony_of_renewal',
-      name: 'Harmony of Renewal',
-      description: 'A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.',
+      id: "minstrel_harmony_of_renewal",
+      name: "Harmony of Renewal",
+      description:
+        "A powerful healing melody that restores allies to full fighting capacity, removing negative effects and providing regeneration.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Healing/Renewal',
+      spellType: "ACTION",
+      icon: "Healing/Renewal",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Healing/Renewal',
-        tags: ['healing', 'purification', 'aoe', 'level 8'],
+        school: "evocation",
+        icon: "Healing/Renewal",
+        tags: ["healing", "purification", "aoe", "level 8"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['ally']
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 32 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Harmonia Renovare!',
-        somaticText: 'Sweeping healing gestures'
+        components: ["verbal", "somatic"],
+        verbalText: "Harmonia Renovare!",
+        somaticText: "Sweeping healing gestures",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['healing', 'purification'],
+      resolution: "DICE",
+      effectTypes: ["healing", "purification"],
 
       healingConfig: {
-        formula: '10d6 + spirit',
-        healingType: 'direct',
+        formula: "10d6 + spirit",
+        healingType: "direct",
         hasHotEffect: true,
-        hotFormula: '2d6',
+        hotFormula: "2d6",
         hotDuration: 3,
-        hotTickType: 'round'
+        hotTickType: "round",
       },
 
       purificationConfig: {
-        purificationType: 'cleanse',
-        targetType: 'area',
-        power: 'major',
-        duration: 'instant'
+        purificationType: "cleanse",
+        targetType: "area",
+        power: "major",
+        duration: "instant",
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 5
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       musicalCombo: {
-        type: 'builder',
+        type: "builder",
         generates: [
-          { note: 'I', count: 2 },
-          { note: 'IV', count: 1 }
-        ]
+          { note: "I", count: 2 },
+          { note: "IV", count: 1 },
+        ],
       },
 
-      tags: ['healing', 'purification', 'aoe', 'level 8']
+      tags: ["healing", "purification", "aoe", "level 8"],
     },
 
     // ========================================
     // LEVEL 9 SPELLS
     // ========================================
     {
-      id: 'minstrel_crescendo_of_power',
-      name: 'Crescendo of Power',
-      description: 'Build to an overwhelming crescendo that empowers all your subsequent spells for the rest of combat.',
+      id: "minstrel_crescendo_of_power",
+      name: "Crescendo of Power",
+      description:
+        "Build to an overwhelming crescendo that empowers all your subsequent spells for the rest of combat.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Radiant/Radiant Glow',
+      spellType: "ACTION",
+      icon: "Radiant/Radiant Glow",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Radiant/Radiant Glow',
-        tags: ['buff', 'self', 'empowerment', 'level 9'],
+        school: "enchantment",
+        icon: "Radiant/Radiant Glow",
+        tags: ["buff", "self", "empowerment", "level 9"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'self',
-        rangeType: 'self'
+        targetingType: "self",
+        rangeType: "self",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 36 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Crescendo Potentia!',
-        somaticText: 'Building intensity gestures'
+        components: ["verbal", "somatic"],
+        verbalText: "Crescendo Potentia!",
+        somaticText: "Building intensity gestures",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff'],
+      resolution: "NONE",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'empowered_performance',
-          name: 'Empowered Performance',
-          description: 'All your spells deal 25% more damage and healing for 5 rounds. Concentration required.',
-          statModifier: {
-            stat: 'spell_power',
-            magnitude: 25,
-            magnitudeType: 'percentage'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "empowered_performance",
+            name: "Empowered Performance",
+            description:
+              "All your spells deal 25% more damage and healing for 5 rounds. Concentration required.",
+            statModifier: {
+              stat: "spell_power",
+              magnitude: 25,
+              magnitudeType: "percentage",
+            },
+          },
+        ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 3 },
-          { note: 'V', count: 3 },
-          { note: 'VII', count: 2 }
-        ]
+          { note: "I", count: 3 },
+          { note: "V", count: 3 },
+          { note: "VII", count: 2 },
+        ],
       },
 
-      tags: ['buff', 'self', 'empowerment', 'level 9']
+      tags: ["buff", "self", "empowerment", "level 9"],
     },
 
     {
-      id: 'minstrel_requiem_of_the_fallen',
-      name: 'Requiem of the Fallen',
-      description: 'A mournful yet powerful requiem that damages enemies while granting allies the spirits of fallen heroes.',
+      id: "minstrel_requiem_of_the_fallen",
+      name: "Requiem of the Fallen",
+      description:
+        "A mournful yet powerful requiem that damages enemies while granting allies the spirits of fallen heroes.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
+      spellType: "ACTION",
+      icon: "Necrotic/Drain Soul",
 
       typeConfig: {
-        school: 'necromancy',
-        icon: 'Necrotic/Drain Soul',
-        tags: ['damage', 'buff', 'aoe', 'resolver', 'level 9'],
+        school: "necromancy",
+        icon: "Necrotic/Drain Soul",
+        tags: ["damage", "buff", "aoe", "resolver", "level 9"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 50 },
-        targetRestrictions: ['enemy', 'ally']
+        targetRestrictions: ["enemy", "ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 36 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Requiem Aeternam Dona Eis!',
-        somaticText: 'Solemn performance'
+        components: ["verbal", "somatic"],
+        verbalText: "Requiem Aeternam Dona Eis!",
+        somaticText: "Solemn performance",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'buff'],
+      resolution: "DICE",
+      effectTypes: ["damage", "buff"],
 
       damageConfig: {
-        formula: '15d6 + spirit',
-        elementType: 'necrotic',
-        damageTypes: ['direct'],
+        formula: "15d6 + spirit",
+        elementType: "necrotic",
+        damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'spirit',
+          savingThrowType: "spirit",
           difficultyClass: 19,
-          saveOutcome: 'halves'
+          saveOutcome: "halves",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'spirit_of_heroes',
-          name: 'Spirit of Heroes',
-          description: 'Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.',
-          mechanicsText: '+4 to all saving throws and +3d6 damage on attacks for 5 rounds',
-          statModifier: [{ stat: 'saving_throws', magnitude: 4, magnitudeType: 'flat' }]
-        }],
+        buffType: "statusEffect",
+        effects: [
+          {
+            id: "spirit_of_heroes",
+            name: "Spirit of Heroes",
+            description:
+              "Allies gain +4 to all saving throws and deal +3d6 damage on attacks for 5 rounds.",
+            mechanicsText:
+              "+4 to all saving throws and +3d6 damage on attacks for 5 rounds",
+            statModifier: [
+              { stat: "saving_throws", magnitude: 4, magnitudeType: "flat" },
+            ],
+          },
+        ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 4 },
-          { note: 'V', count: 4 },
-          { note: 'VII', count: 2 }
+          { note: "I", count: 4 },
+          { note: "V", count: 4 },
+          { note: "VII", count: 2 },
         ],
-        requiredNotes: 10
+        requiredNotes: 10,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['damage', 'buff', 'aoe', 'resolver', 'level 9']
+      tags: ["damage", "buff", "aoe", "resolver", "level 9"],
     },
 
     {
-      id: 'minstrel_tempo_mastery',
-      name: 'Tempo Mastery',
-      description: 'Gain complete control over the tempo of battle, granting allies extra actions while slowing enemies.',
+      id: "minstrel_tempo_mastery",
+      name: "Tempo Mastery",
+      description:
+        "Gain complete control over the tempo of battle, granting allies extra actions while slowing enemies.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Force/Force Field',
+      spellType: "ACTION",
+      icon: "Force/Force Field",
 
       typeConfig: {
-        school: 'enchantment',
-        icon: 'Force/Force Field',
-        tags: ['buff', 'debuff', 'control', 'level 9'],
+        school: "enchantment",
+        icon: "Force/Force Field",
+        tags: ["buff", "debuff", "control", "level 9"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy', 'ally']
+        targetRestrictions: ["enemy", "ally"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 36 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempus Dominium!',
-        somaticText: 'Time-bending conducting'
+        components: ["verbal", "somatic"],
+        verbalText: "Tempus Dominium!",
+        somaticText: "Time-bending conducting",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['buff', 'debuff'],
+      resolution: "NONE",
+      effectTypes: ["buff", "debuff"],
 
       buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'accelerated_tempo',
-          name: 'Accelerated Tempo',
-          description: 'Allies gain an extra 1 AP on their next turn for 2 rounds.',
-          mechanicsText: 'Extra 1 AP on next turn for 2 rounds'
-        }],
+        buffType: "statusEffect",
+        effects: [
+          {
+            id: "accelerated_tempo",
+            name: "Accelerated Tempo",
+            description:
+              "Allies gain an extra 1 AP on their next turn for 2 rounds.",
+            mechanicsText: "Extra 1 AP on next turn for 2 rounds",
+          },
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
-        effects: [{
-          id: 'slowed_tempo',
-          name: 'Slowed Tempo',
-          description: 'Enemies lose their reaction and have their speed halved for 3 rounds.',
-          statPenalty: [{ stat: 'movement_speed', value: -50, magnitudeType: 'percentage' }],
-          movementPenalty: -50,
-          mechanicsText: 'Lose reaction, speed halved for 3 rounds'
-        }],
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "slowed_tempo",
+            name: "Slowed Tempo",
+            description:
+              "Enemies lose their reaction and have their speed halved for 3 rounds.",
+            statPenalty: [
+              {
+                stat: "movement_speed",
+                value: -50,
+                magnitudeType: "percentage",
+              },
+            ],
+            movementPenalty: -50,
+            mechanicsText: "Lose reaction, speed halved for 3 rounds",
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 18,
-        saveType: 'constitution',
-        saveOutcome: 'negates'
+        saveType: "constitution",
+        saveOutcome: "negates",
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'V', count: 2 },
-          { note: 'I', count: 2 },
-          { note: 'VII', count: 1 }
-        ]
+          { note: "V", count: 2 },
+          { note: "I", count: 2 },
+          { note: "VII", count: 1 },
+        ],
       },
 
-      tags: ['buff', 'debuff', 'control', 'level 9']
+      tags: ["buff", "debuff", "control", "level 9"],
     },
 
     // ========================================
     // LEVEL 10 SPELLS
     // ========================================
     {
-      id: 'minstrel_legendary_performance',
-      name: 'Legendary Performance',
-      description: 'The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.',
+      id: "minstrel_legendary_performance",
+      name: "Legendary Performance",
+      description:
+        "The pinnacle of musical mastery - a performance so profound it reshapes reality itself, dealing massive damage to enemies and granting allies legendary power.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Radiant/Divine Illumination',
+      spellType: "ACTION",
+      icon: "Radiant/Divine Illumination",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Radiant/Divine Illumination',
-        tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10'],
+        school: "evocation",
+        icon: "Radiant/Divine Illumination",
+        tags: ["damage", "buff", "aoe", "ultimate", "level 10"],
         castTime: 3,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
-      targetingMode: 'effect',
+      targetingMode: "effect",
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 60 },
-        targetRestrictions: ['enemy', 'ally']
+        targetRestrictions: ["enemy", "ally"],
       },
 
       effectTargeting: {
         damage: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 60 },
-          targetRestrictions: ['enemy']
+          targetRestrictions: ["enemy"],
         },
         healing: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 60 },
-          targetRestrictions: ['ally']
+          targetRestrictions: ["ally"],
         },
         buff: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 60 },
-          targetRestrictions: ['ally']
-        }
+          targetRestrictions: ["ally"],
+        },
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Cantus Legendarum Ultimus!',
-        somaticText: 'Ultimate grand performance'
+        components: ["verbal", "somatic"],
+        verbalText: "Cantus Legendarum Ultimus!",
+        somaticText: "Ultimate grand performance",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage', 'buff', 'healing'],
+      resolution: "DICE",
+      effectTypes: ["damage", "buff", "healing"],
 
       damageConfig: {
-        formula: '20d6 + spirit',
-        elementType: 'radiant',
-        damageTypes: ['direct'],
+        formula: "20d6 + spirit",
+        elementType: "radiant",
+        damageTypes: ["direct"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'spirit',
+          savingThrowType: "spirit",
           difficultyClass: 20,
-          saveOutcome: 'halves'
+          saveOutcome: "halves",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       healingConfig: {
-        formula: '10d6 + spirit',
-        healingType: 'direct',
-        hasHotEffect: false
+        formula: "10d6 + spirit",
+        healingType: "direct",
+        hasHotEffect: false,
       },
 
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'legendary_inspiration',
-          name: 'Legendary Inspiration',
-          description: 'Allies gain +3 to attack rolls, +2 Armor, and immunity to fear and charm for 5 rounds.',
-          statModifier: {
-            stat: 'all_rolls',
-            magnitude: 3,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "legendary_inspiration",
+            name: "Legendary Inspiration",
+            description:
+              "Allies gain +3 to attack rolls, +2 Armor, and immunity to fear and charm for 5 rounds.",
+            statModifier: {
+              stat: "all_rolls",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 4 },
-          { note: 'V', count: 4 },
-          { note: 'III', count: 2 },
-          { note: 'VII', count: 2 }
-        ]
+          { note: "I", count: 4 },
+          { note: "V", count: 4 },
+          { note: "III", count: 2 },
+          { note: "VII", count: 2 },
+        ],
       },
 
-      tags: ['damage', 'buff', 'aoe', 'ultimate', 'level 10']
+      tags: ["damage", "buff", "aoe", "ultimate", "level 10"],
     },
 
     {
-      id: 'minstrel_song_of_creation',
-      name: 'Song of Creation',
-      description: 'Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.',
+      id: "minstrel_song_of_creation",
+      name: "Song of Creation",
+      description:
+        "Sing the primal song of creation, summoning a powerful ally from pure musical energy and enhancing all allies with creative power.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Arcane/Magical Sword',
+      spellType: "ACTION",
+      icon: "Arcane/Magical Sword",
 
       typeConfig: {
-        school: 'conjuration',
-        icon: 'Arcane/Magical Sword',
-        tags: ['summoning', 'buff', 'ultimate', 'level 10'],
+        school: "conjuration",
+        icon: "Arcane/Magical Sword",
+        tags: ["summoning", "buff", "ultimate", "level 10"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: []
+        targetRestrictions: [],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
         actionPoints: 3,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Cantus Creationis!',
-        somaticText: 'Weave music into reality'
+        components: ["verbal", "somatic"],
+        verbalText: "Cantus Creationis!",
+        somaticText: "Weave music into reality",
       },
 
-      resolution: 'NONE',
-      effectTypes: ['summoning', 'buff'],
+      resolution: "NONE",
+      effectTypes: ["summoning", "buff"],
 
       summonConfig: {
-        creatures: [{
-          id: 'musical_avatar',
-          name: 'Avatar of Music',
-          description: 'A being of pure musical energy that fights alongside you',
-          size: 'Large',
-          type: 'construct',
-          tokenIcon: 'spell_holy_innerfire',
-          stats: {
-            maxHp: 100,
-            armor: 18,
-            maxMana: 0
+        creatures: [
+          {
+            id: "musical_avatar",
+            name: "Avatar of Music",
+            description:
+              "A being of pure musical energy that fights alongside you",
+            size: "Large",
+            type: "construct",
+            tokenIcon: "spell_holy_innerfire",
+            stats: {
+              maxHp: 100,
+              armor: 18,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 1,
+              duration: 10,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "mental",
+              controlRange: 120,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 10,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'mental',
-            controlRange: 120
-          }
-        }],
+        ],
         duration: 10,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 120,
-        controlType: 'mental'
+        controlType: "mental",
       },
 
       buffConfig: {
-        buffType: 'statusEffect',
-        effects: [{
-          id: 'creative_energy',
-          name: 'Creative Energy',
-          description: 'Allies gain +1 to all ability scores for the duration of the summon',
-          statModifier: { stat: 'all_stats', magnitude: 1, magnitudeType: 'flat' },
-          mechanicsText: '+3 to all ability scores for duration of summon'
-        }],
+        buffType: "statusEffect",
+        effects: [
+          {
+            id: "creative_energy",
+            name: "Creative Energy",
+            description:
+              "Allies gain +1 to all ability scores for the duration of the summon",
+            statModifier: {
+              stat: "all_stats",
+              magnitude: 1,
+              magnitudeType: "flat",
+            },
+            mechanicsText: "+3 to all ability scores for duration of summon",
+          },
+        ],
         durationValue: 10,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 5 },
-          { note: 'III', count: 3 },
-          { note: 'V', count: 5 }
-        ]
+          { note: "I", count: 5 },
+          { note: "III", count: 3 },
+          { note: "V", count: 5 },
+        ],
       },
 
-      tags: ['summoning', 'buff', 'ultimate', 'level 10']
+      tags: ["summoning", "buff", "ultimate", "level 10"],
     },
 
     {
-      id: 'minstrel_final_cadence',
-      name: 'Final Cadence',
-      description: 'The ultimate cadence that consumes all accumulated musical energy to deliver a finishing blow that can end any battle.',
+      id: "minstrel_final_cadence",
+      name: "Final Cadence",
+      description:
+        "The ultimate cadence that consumes all accumulated musical energy to deliver a finishing blow that can end any battle.",
       level: 10,
-      spellType: 'ACTION',
-      icon: 'Fire/Rising Inferno',
+      spellType: "ACTION",
+      icon: "Fire/Rising Inferno",
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Fire/Rising Inferno',
-        tags: ['damage', 'single target', 'ultimate', 'resolver', 'level 10'],
+        school: "evocation",
+        icon: "Fire/Rising Inferno",
+        tags: ["damage", "single target", "ultimate", "resolver", "level 10"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy']
+        targetRestrictions: ["enemy"],
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
         actionPoints: 2,
-        components: ['verbal', 'somatic'],
-        verbalText: 'CADENZA FINALE!',
-        somaticText: 'Final strike gesture'
+        components: ["verbal", "somatic"],
+        verbalText: "CADENZA FINALE!",
+        somaticText: "Final strike gesture",
       },
 
-      resolution: 'DICE',
-      effectTypes: ['damage'],
+      resolution: "DICE",
+      effectTypes: ["damage"],
 
       damageConfig: {
-        formula: '25d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['direct'],
+        formula: "25d6 + spirit",
+        elementType: "force",
+        damageTypes: ["direct"],
         criticalConfig: {
           enabled: true,
           critMultiplier: 3,
-          critDiceOnly: false
+          critDiceOnly: false,
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'I', count: 5 },
-          { note: 'III', count: 3 },
-          { note: 'V', count: 5 },
-          { note: 'VII', count: 2 }
+          { note: "I", count: 5 },
+          { note: "III", count: 3 },
+          { note: "V", count: 5 },
+          { note: "VII", count: 2 },
         ],
-        requiredNotes: 15
+        requiredNotes: 15,
       },
 
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      tags: ['damage', 'single target', 'ultimate', 'resolver', 'level 10']
+      tags: ["damage", "single target", "ultimate", "resolver", "level 10"],
     },
 
     // ADDITIONAL LEVEL 4 SPELL
     {
-      id: 'minstrel_harmony_strike',
-      name: 'Harmony Strike',
-      description: 'Strike with harmonic resonance, dealing force damage and generating musical notes.',
+      id: "minstrel_harmony_strike",
+      name: "Harmony Strike",
+      description:
+        "Strike with harmonic resonance, dealing force damage and generating musical notes.",
       level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
 
       typeConfig: {
-        school: 'evocation',
-        icon: 'Psychic/Mind Control',
-        tags: ['damage', 'force', 'note generation', 'universal'],
+        school: "evocation",
+        icon: "Psychic/Mind Control",
+        tags: ["damage", "force", "note generation", "universal"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        requiresLineOfSight: true
+        requiresLineOfSight: true,
       },
 
       damageConfig: {
-        formula: '5d6 + spirit',
-        elementType: 'force',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "5d6 + spirit",
+        elementType: "force",
+        damageTypes: ["direct"],
+        resolution: "DICE",
       },
 
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: {
-          mana: 16
+          mana: 16,
         },
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
 
       musicalCombo: {
-        type: 'resolver',
+        type: "resolver",
         requires: [
-          { note: 'II', count: 1 },
-          { note: 'IV', count: 1 }
-        ]
+          { note: "II", count: 1 },
+          { note: "IV", count: 1 },
+        ],
       },
 
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      resolution: 'DICE',
-      tags: ['damage', 'force', 'note generation', 'universal']
-    }
-  ]
+      resolution: "DICE",
+      tags: ["damage", "force", "note generation", "universal"],
+    },
+  ],
 };
-
-

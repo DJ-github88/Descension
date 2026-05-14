@@ -1,24 +1,24 @@
 /**
  * Lichborne Class Data
- * 
+ *
  * Complete class information for the Lichborne - a frost-wielding undead
  * master who balances life-draining aura with phylactery resurrection.
  */
 
 export const LICHBORNE_DATA = {
-  id: 'lichborne',
-  name: 'Lichborne',
-  icon: 'fas fa-skull',
-  role: 'Damage/Control',
-  damageTypes: ['necrotic', 'frost'],
+  id: "lichborne",
+  name: "Lichborne",
+  icon: "fas fa-skull",
+  role: "Damage/Control",
+  damageTypes: ["necrotic", "frost"],
 
   // Overview section
   overview: {
-    title: 'The Lichborne',
-    subtitle: 'Eternal Frost and Undying Will',
+    title: "The Lichborne",
+    subtitle: "Eternal Frost and Undying Will",
 
     quickOverview: {
-      title: 'Quick Overview',
+      title: "Quick Overview",
       content: `**What You Need to Know**: The Lichborne switches between two casting modes — Normal Mode (spells cost Mana) and Aura Mode (spells cost HP instead of Mana, dealing enhanced damage). Their Phylactery charges by killing enemies and provides resurrection on death.
 
 **Core Mechanic**: Toggle Eternal Frost Aura → Spells cost HP instead of Mana → +1d6 frost damage + chill on all spells → Phylactery charges per kill → Resurrect on death
@@ -31,9 +31,9 @@ export const LICHBORNE_DATA = {
     },
 
     description: `The Lichborne is a frost-wielding undead who turns death itself into a resource. Their core mechanic is **Dual-Mode Casting**: in Normal Mode, frost spells cost Mana like any caster. But when the Eternal Frost Aura is activated, all frost spells cost **HP instead of Mana** and deal enhanced damage (+1d6 frost, chill on hit). The Lichborne's Phylactery charges by **killing enemies** — each kill adds 1d6 HP to the Phylactery pool, which can be spent to resurrect when the Lichborne dies. This creates a predator's loop: kill to charge your Phylactery, burn your own HP for devastating power, die, resurrect from your harvested life force, and do it again.`,
-    
+
     roleplayIdentity: {
-      title: 'Roleplay Identity',
+      title: "Roleplay Identity",
       content: `Lichborne are individuals who have transcended death through forbidden rituals, binding their soul to a phylactery. They exist in a state between life and death, wielding frost magic that mirrors their cold, undying nature. The phylactery is both their greatest strength and their most vulnerable weakness.
 
 **Philosophy**: Death is not the end, but a transformation. The Lichborne believes that true power comes from mastering the boundary between life and death, using their undead state to achieve immortality and unmatched magical prowess.
@@ -44,11 +44,11 @@ export const LICHBORNE_DATA = {
 - **The Reluctant Immortal**: Bound to phylactery against their will, struggling with their undead nature
 - **The Power-Hungry Lich**: Embraces undeath fully, seeking ever-greater magical power
 
-**Social Dynamics**: Lichborne are feared and reviled by most. Their undead nature is obvious to those who look closely - pale skin, cold touch, unnatural stillness. They must decide whether to hide their nature or embrace the terror they inspire.`
+**Social Dynamics**: Lichborne are feared and reviled by most. Their undead nature is obvious to those who look closely - pale skin, cold touch, unnatural stillness. They must decide whether to hide their nature or embrace the terror they inspire.`,
     },
-    
+
     combatRole: {
-      title: 'Combat Role',
+      title: "Combat Role",
       content: `**Primary Role**: Frost damage specialist with resurrection mechanics
 
 **Damage Profile**:
@@ -61,11 +61,11 @@ export const LICHBORNE_DATA = {
 - Chill effects that reduce movement speed
 - Terrain control through ice walls and barriers
 
-**Survivability**: High - Phylactery provides resurrection, but maintaining Eternal Frost Aura drains health. Requires careful balance between offense and self-preservation.`
+**Survivability**: High - Phylactery provides resurrection, but maintaining Eternal Frost Aura drains health. Requires careful balance between offense and self-preservation.`,
     },
-    
+
     playstyle: {
-      title: 'Playstyle',
+      title: "Playstyle",
       content: `**Core Mechanic**: Dual-Mode Casting. Switch between Normal Mode (Mana costs) and Aura Mode (HP costs, enhanced damage).
 
 **Normal Mode (Aura OFF)**:
@@ -111,7 +111,7 @@ export const LICHBORNE_DATA = {
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: Death Is Fuel',
+      title: "Combat Example: Death Is Fuel",
       content: `**The Setup**: You're a **Level 4 Lichborne** facing a group of fire elementals (3 elementals + 1 fire elemental lord). Starting HP: 80/80. Phylactery HP: 10 (from a previous kill). Eternal Frost Aura: OFF (Normal Mode). Starting Mana: 50/60. Your goal: Switch to Aura Mode for devastating frost damage, kill enemies to charge your Phylactery, and use death as a tactical weapon.
 
 **Starting State**: HP: 80/80 | Phylactery HP: 10 | Mode: Normal | Mana: 50/60
@@ -310,51 +310,56 @@ export const LICHBORNE_DATA = {
 You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your own life for devastating power, kills enemies to fuel your resurrection, and uses death itself as a tactical weapon. The key decisions: when to switch modes (Normal for safety, Aura for devastation), when to kill (to charge Phylactery), and when dying is actually the right play (Death Trigger freeze). Death isn't the end. It's your strongest move.`,
     },
   },
-  
+
   // Resource System
   resourceSystem: {
-    title: 'Dual-Mode Casting & Harvester Phylactery',
-    subtitle: 'Burn Your Life for Power, Harvest the Dead to Return',
+    title: "Dual-Mode Casting & Harvester Phylactery",
+    subtitle: "Burn Your Life for Power, Harvest the Dead to Return",
 
     description: `The Lichborne is an undying frost-master who treats their own life force as just another spell slot. By toggling their Eternal Frost Aura, they switch from standard mana casting to a devastating HP-burning mode that freezes the air around them. Every kill feeds their Phylactery, building a pool of life that triggers a tactical resurrection and battlefield-wide freeze when they finally succumb to their own power.`,
 
     cards: [
       {
-        title: 'Eternal Frost Aura (Toggle)',
-        stats: 'HP Casting | +1d6 Damage',
-        details: 'Switch between Normal (Mana) and Aura (HP) casting. Aura mode adds damage and Chills targets, but drains HP every turn.'
+        title: "Eternal Frost Aura (Toggle)",
+        stats: "HP Casting | +1d6 Damage",
+        details:
+          "Switch between Normal (Mana) and Aura (HP) casting. Aura mode adds damage and Chills targets, but drains HP every turn.",
       },
       {
-        title: 'Harvester Phylactery (0–50)',
-        stats: '+1d6 HP per Kill',
-        details: 'Harvest the souls of fallen enemies. This pool is automatically spent on death to resurrect you at the stored value.'
+        title: "Harvester Phylactery (0–50)",
+        stats: "+1d6 HP per Kill",
+        details:
+          "Harvest the souls of fallen enemies. This pool is automatically spent on death to resurrect you at the stored value.",
       },
       {
-        title: 'Death Trigger (Burst)',
-        stats: '15-ft Radius Freeze',
-        details: 'Upon resurrection, the sudden release of necrotic frost freezes all enemies within 15ft for 1 round (no save).'
-      }
+        title: "Death Trigger (Burst)",
+        stats: "15-ft Radius Freeze",
+        details:
+          "Upon resurrection, the sudden release of necrotic frost freezes all enemies within 15ft for 1 round (no save).",
+      },
     ],
 
     generationTable: {
-      headers: ['Action/Event', 'Resource Change', 'Effect'],
+      headers: ["Action/Event", "Resource Change", "Effect"],
       rows: [
-        ['Activate Aura', 'Free Toggle', 'Switch to HP casting mode'],
-        ['Cast in Aura Mode', 'Spend HP', 'Bypass Mana costs entirely'],
-        ['Kill Enemy', '+1d6 Phylactery', 'Harvest soul to fuel resurrection'],
-        ['Start of Turn', '-1d6/d8/d10 HP', 'Aura drain (scales with level)'],
-        ['Death', 'Spent All Stored', 'Resurrect + Death Trigger freeze'],
-        ['Short Rest', '+10 Phylactery', 'Manual HP transfer fallback']
-      ]
+        ["Activate Aura", "Free Toggle", "Switch to HP casting mode"],
+        ["Cast in Aura Mode", "Spend HP", "Bypass Mana costs entirely"],
+        ["Kill Enemy", "+1d6 Phylactery", "Harvest soul to fuel resurrection"],
+        ["Start of Turn", "-1d6/d8/d10 HP", "Aura drain (scales with level)"],
+        ["Death", "Spent All Stored", "Resurrect + Death Trigger freeze"],
+        ["Short Rest", "+10 Phylactery", "Manual HP transfer fallback"],
+      ],
     },
 
     usage: {
-      momentum: 'Use Aura Mode to conserve mana for utility spells while dealing massive burst damage. Aggressive kills are your only way to build resurrection insurance.',
-      flourish: '⚠️ Aura Drain: The cold consumes you. Stay in Aura Mode only as long as your Phylactery reserve (or healer) can support your inevitable fall.'
+      momentum:
+        "Use Aura Mode to conserve mana for utility spells while dealing massive burst damage. Aggressive kills are your only way to build resurrection insurance.",
+      flourish:
+        "⚠️ Aura Drain: The cold consumes you. Stay in Aura Mode only as long as your Phylactery reserve (or healer) can support your inevitable fall.",
     },
 
     overheatRules: {
-      title: 'Phylactery Resonance',
+      title: "Phylactery Resonance",
       content: `Your current Phylactery charge determines your **Immortality Threshold** and dictates how aggressively you should utilize your Eternal Frost Aura.
 
 **🌕 Full (36–50 HP)**:
@@ -367,11 +372,11 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
 
 **🌑 Low (0–15 HP)**:
 - **Status**: Critical Danger.
-- **Strategy**: Switch to Normal Mode immediately. You lack the life force to survive a resurrection or the turn-by-turn drain of the aura. Focus on Siphon Soul to rebuild your pool.`
+- **Strategy**: Switch to Normal Mode immediately. You lack the life force to survive a resurrection or the turn-by-turn drain of the aura. Focus on Siphon Soul to rebuild your pool.`,
     },
 
     strategicConsiderations: {
-      title: 'Combat Phases & Decision-Making',
+      title: "Combat Phases & Decision-Making",
       content: `**Predator's Opening (Mode Switch)**: Start in Normal Mode to assess the field. Switch to Aura Mode once high-value targets are identified. You bypass mana constraints, so unleash your most expensive AoE spells immediately to secure early kills.
 
 **Harvesting (Early Combat)**: Focus entirely on weak minions or finishing blows. Your priority isn't just damage—it's charging the Phylactery. Aim for at least 30 HP in the reserve before taking risky positions.
@@ -384,11 +389,11 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
 - **Scenario**: Surrounded by 3 enemies.
 - **The Play**: Cast a high-cost Frost Nova. The HP cost will likely drop you to 0.
 - **The Result**: You die, immediately resurrect at 40 HP, and Freeze all 3 enemies in place.
-- **Outcome**: You've traded a 'death' for 40 HP and a guaranteed 1-round stun on the entire frontline.`
+- **Outcome**: You've traded a 'death' for 40 HP and a guaranteed 1-round stun on the entire frontline.`,
     },
 
     playingInPerson: {
-      title: 'Playing Lichborne In Person',
+      title: "Playing Lichborne In Person",
       content: `**Required Materials**:
 - **Eternal Frost Aura Toggle** (card or token showing Normal Mode / Aura Mode)
 - **HP Tracker** (d100 or paper for current HP)
@@ -625,1046 +630,1352 @@ Many players enhance the Lichborne experience with:
 
   // Specializations
   specializations: {
-    title: 'Lichborne Specializations',
-    subtitle: 'Three Paths of Eternal Frost',
+    title: "Lichborne Specializations",
+    subtitle: "Three Paths of Eternal Frost",
 
-    description: 'Lichborne can specialize in three distinct paths, each emphasizing different aspects of frost magic and undead power.',
+    description:
+      "Lichborne can specialize in three distinct paths, each emphasizing different aspects of frost magic and undead power.",
 
     sharedPassive: {
-      name: 'Undying Frost',
-      icon: 'Frost/Frozen in Ice',
-      description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. When you resurrect via Phylactery, all enemies within 15ft are Frozen for 1 round (Death Trigger, no save).'
+      name: "Undying Frost",
+      icon: "Frost/Frozen in Ice",
+      description:
+        "Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. When you resurrect via Phylactery, all enemies within 15ft are Frozen for 1 round (Death Trigger, no save).",
     },
 
     specs: [
       {
-        id: 'frostbound_tyrant',
-        name: 'Frostbound Tyrant',
-        icon: 'Frost/Frozen in Ice',
-        color: '#4A90E2',
-        description: 'Masters of freezing enemies and shattering them for devastating burst damage',
-        theme: 'Freeze → Shatter → Refreeze loop',
+        id: "frostbound_tyrant",
+        name: "Frostbound Tyrant",
+        icon: "Frost/Frozen in Ice",
+        color: "#4A90E2",
+        description:
+          "Masters of freezing enemies and shattering them for devastating burst damage",
+        theme: "Freeze → Shatter → Refreeze loop",
 
         passive: {
-          name: 'Permafrost Mastery',
-          description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. When a frozen enemy takes damage, there is a 50% chance they Shatter (takes an additional 3d6 frost damage but the freeze ends immediately). In Aura Mode, your chill effect upgrades to a freeze (1 round) on a failed save instead of just slowing movement.'
+          name: "Permafrost Mastery",
+          description:
+            "Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. When a frozen enemy takes damage, there is a 50% chance they Shatter (takes an additional 3d6 frost damage but the freeze ends immediately). In Aura Mode, your chill effect upgrades to a freeze (1 round) on a failed save instead of just slowing movement.",
         },
 
         strengths: [
-          'Exceptional crowd control through extended freezes',
-          'Shatter mechanic creates an active freeze → damage → refreeze loop',
-          'Strong bonus damage to frozen targets',
-          'Can lock down multiple dangerous enemies'
+          "Exceptional crowd control through extended freezes",
+          "Shatter mechanic creates an active freeze → damage → refreeze loop",
+          "Strong bonus damage to frozen targets",
+          "Can lock down multiple dangerous enemies",
         ],
 
         weaknesses: [
-          'Shatter ends the freeze — must choose between damage and control',
-          'Requires setup time to freeze enemies before dealing bonus damage',
-          'Less effective against freeze-immune enemies',
-          'Relies on landing freeze saves'
+          "Shatter ends the freeze — must choose between damage and control",
+          "Requires setup time to freeze enemies before dealing bonus damage",
+          "Less effective against freeze-immune enemies",
+          "Relies on landing freeze saves",
         ],
 
-        playstyle: 'Freeze enemies, then Shatter them for massive burst damage. The Shatter ends the freeze, so you must refreeze to repeat the loop. Creates an active, engaging play pattern where you constantly balance crowd control against burst damage.',
+        playstyle:
+          "Freeze enemies, then Shatter them for massive burst damage. The Shatter ends the freeze, so you must refreeze to repeat the loop. Creates an active, engaging play pattern where you constantly balance crowd control against burst damage.",
 
         playstyleTips: [
-          'Freeze high-threat targets, then Shatter for burst damage',
-          'Use AoE freezes to set up multi-target Shatters',
-          'Refreeze after Shatter to maintain crowd control',
-          'Save Shatters for enemies you can finish off'
+          "Freeze high-threat targets, then Shatter for burst damage",
+          "Use AoE freezes to set up multi-target Shatters",
+          "Refreeze after Shatter to maintain crowd control",
+          "Save Shatters for enemies you can finish off",
         ],
 
         passiveAbilities: [
           {
-            name: 'Undying Frost',
-            tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.',
-            sharedBy: 'All Lichborne'
+            name: "Undying Frost",
+            tier: "Path Passive",
+            description:
+              "Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.",
+            sharedBy: "All Lichborne",
           },
           {
-            name: 'Permafrost Mastery',
-            tier: 'Specialization Passive',
-            description: 'Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. 50% chance to Shatter frozen targets on damage (3d6 additional frost, ends freeze). Aura Mode upgrade: Chill becomes Freeze (1 round) on failed save.',
-            uniqueTo: 'Frostbound Tyrant'
-          }
-        ]
+            name: "Permafrost Mastery",
+            tier: "Specialization Passive",
+            description:
+              "Your freeze effects last 1d4 additional rounds. Frozen enemies take +1d6 damage from your frost spells. 50% chance to Shatter frozen targets on damage (3d6 additional frost, ends freeze). Aura Mode upgrade: Chill becomes Freeze (1 round) on failed save.",
+            uniqueTo: "Frostbound Tyrant",
+          },
+        ],
       },
       {
-        id: 'spectral_reaper',
-        name: 'Spectral Reaper',
-        icon: 'Necrotic/Drain Soul',
-        color: '#9370DB',
-        description: 'Commands an army of spectral minions raised from slain enemies',
-        theme: 'Kill enemies → raise spectral army → overwhelm',
+        id: "spectral_reaper",
+        name: "Spectral Reaper",
+        icon: "Necrotic/Drain Soul",
+        color: "#9370DB",
+        description:
+          "Commands an army of spectral minions raised from slain enemies",
+        theme: "Kill enemies → raise spectral army → overwhelm",
 
         passive: {
-          name: 'Deathly Chill',
-          description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4 minions). Minions have 10 HP and deal 1d6 necrotic damage per turn on your command (1 AP to command all). In Aura Mode, you heal for 2 HP each time a spectral minion deals damage.'
+          name: "Deathly Chill",
+          description:
+            "Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4 minions). Minions have 10 HP and deal 1d6 necrotic damage per turn on your command (1 AP to command all). In Aura Mode, you heal for 2 HP each time a spectral minion deals damage.",
         },
 
         strengths: [
-          'Guaranteed minion army — no RNG dependence',
-          'Hybrid frost/necrotic damage bypasses single-type resistances',
-          'Minions provide additional damage, body-blocking, and area denial',
-          'Strong sustained damage from personal spells + minion attacks'
+          "Guaranteed minion army — no RNG dependence",
+          "Hybrid frost/necrotic damage bypasses single-type resistances",
+          "Minions provide additional damage, body-blocking, and area denial",
+          "Strong sustained damage from personal spells + minion attacks",
         ],
 
         weaknesses: [
-          'Minions are fragile (10 HP each) and temporary',
-          'Requires kills to build army — weak in long single-target fights',
-          'Lower crowd control than Frostbound Tyrant',
-          'Less survivability than Phylactery Guardian'
+          "Minions are fragile (10 HP each) and temporary",
+          "Requires kills to build army — weak in long single-target fights",
+          "Lower crowd control than Frostbound Tyrant",
+          "Less survivability than Phylactery Guardian",
         ],
 
-        playstyle: 'Aggressive hybrid damage dealer who commands a growing army of spectral minions. Kill weak enemies first to build your army, then overwhelm stronger targets with combined personal + minion damage.',
+        playstyle:
+          "Aggressive hybrid damage dealer who commands a growing army of spectral minions. Kill weak enemies first to build your army, then overwhelm stronger targets with combined personal + minion damage.",
 
         playstyleTips: [
-          'Prioritize killing weak enemies to build your minion army fast',
-          'Command minions to body-block dangerous enemies or flank',
-          'Use hybrid spells to bypass resistances',
-          'Maintain Aura Mode for maximum kill potential'
+          "Prioritize killing weak enemies to build your minion army fast",
+          "Command minions to body-block dangerous enemies or flank",
+          "Use hybrid spells to bypass resistances",
+          "Maintain Aura Mode for maximum kill potential",
         ],
 
         passiveAbilities: [
           {
-            name: 'Undying Frost',
-            tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.',
-            sharedBy: 'All Lichborne'
+            name: "Undying Frost",
+            tier: "Path Passive",
+            description:
+              "Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 15ft for 1 round.",
+            sharedBy: "All Lichborne",
           },
           {
-            name: 'Deathly Chill',
-            tier: 'Specialization Passive',
-            description: 'Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn (1 AP to command all). Aura Mode upgrade: Heal 2 HP per minion damage instance.',
-            uniqueTo: 'Spectral Reaper'
-          }
-        ]
+            name: "Deathly Chill",
+            tier: "Specialization Passive",
+            description:
+              "Your frost spells deal +1d6 necrotic damage. Every enemy killed by your spells rises as a spectral minion for 1d4 rounds (max 4). Minions have 10 HP and deal 1d6 necrotic damage per turn (1 AP to command all). Aura Mode upgrade: Heal 2 HP per minion damage instance.",
+            uniqueTo: "Spectral Reaper",
+          },
+        ],
       },
       {
-        id: 'phylactery_guardian',
-        name: 'Phylactery Guardian',
-        icon: 'Frost/Frost Manipulation',
-        color: '#2D1B69',
-        description: 'Enhanced phylactery mechanics and survivability',
-        theme: 'Improved resurrection and HP management',
+        id: "phylactery_guardian",
+        name: "Phylactery Guardian",
+        icon: "Frost/Frost Manipulation",
+        color: "#2D1B69",
+        description: "Enhanced phylactery mechanics and survivability",
+        theme: "Improved resurrection and HP management",
 
         passive: {
-          name: 'Fortified Phylactery',
-          description: 'Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection revives you with the full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). In Aura Mode, you store 1 HP in your Phylactery for every 10 damage you take from any source (max 5 per round).'
+          name: "Fortified Phylactery",
+          description:
+            "Your Phylactery can store up to 75 HP (instead of 50). Phylactery resurrection revives you with the full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). In Aura Mode, you store 1 HP in your Phylactery for every 10 damage you take from any source (max 5 per round).",
         },
 
         strengths: [
-          'Highest survivability of all specs — 75 HP Phylactery',
-          'Death Trigger freeze in 25ft radius (larger than other specs)',
-          'Can afford aggressive Aura Mode usage with massive resurrection buffer',
-          'More frequent and safer resurrections'
+          "Highest survivability of all specs — 75 HP Phylactery",
+          "Death Trigger freeze in 25ft radius (larger than other specs)",
+          "Can afford aggressive Aura Mode usage with massive resurrection buffer",
+          "More frequent and safer resurrections",
         ],
 
         weaknesses: [
-          'Lower damage output than other specs',
-          'No crowd control or minion bonuses',
-          'Still vulnerable to burst damage above Phylactery capacity',
-          'Resurrection limited to once per combat'
+          "Lower damage output than other specs",
+          "No crowd control or minion bonuses",
+          "Still vulnerable to burst damage above Phylactery capacity",
+          "Resurrection limited to once per combat",
         ],
 
-        playstyle: 'Tankiest Lichborne with enhanced Phylactery mechanics. Larger Death Trigger radius and 75 HP Phylactery makes dying a powerful tactical weapon. Can afford maximum Aura Mode aggression.',
+        playstyle:
+          "Tankiest Lichborne with enhanced Phylactery mechanics. Larger Death Trigger radius and 75 HP Phylactery makes dying a powerful tactical weapon. Can afford maximum Aura Mode aggression.",
 
         playstyleTips: [
-          'Keep Phylactery at high HP before dangerous encounters by killing enemies',
-          'Use Aura Mode aggressively — your 75 HP Phylactery can absorb the risk',
-          'Position near enemies before dying for maximum Death Trigger coverage',
-          'Coordinate resurrections with team for devastating freeze setups'
+          "Keep Phylactery at high HP before dangerous encounters by killing enemies",
+          "Use Aura Mode aggressively — your 75 HP Phylactery can absorb the risk",
+          "Position near enemies before dying for maximum Death Trigger coverage",
+          "Coordinate resurrections with team for devastating freeze setups",
         ],
 
         passiveAbilities: [
           {
-            name: 'Undying Frost',
-            tier: 'Path Passive',
-            description: 'Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 25ft for 1 round.',
-            sharedBy: 'All Lichborne'
+            name: "Undying Frost",
+            tier: "Path Passive",
+            description:
+              "Your Eternal Frost Aura chilling effects have their save DC increased by 2 (DC 17 instead of 15). Additionally, you are immune to frost damage. Death Trigger: On Phylactery resurrection, freeze all enemies within 25ft for 1 round.",
+            sharedBy: "All Lichborne",
           },
           {
-            name: 'Fortified Phylactery',
-            tier: 'Specialization Passive',
-            description: 'Your Phylactery can store up to 75 HP (instead of 50). Resurrect at full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). Aura Mode upgrade: Store 1 Phylactery HP per 10 damage taken (max 5/round).',
-            uniqueTo: 'Phylactery Guardian'
-          }
-        ]
-      }
-    ]
+            name: "Fortified Phylactery",
+            tier: "Specialization Passive",
+            description:
+              "Your Phylactery can store up to 75 HP (instead of 50). Resurrect at full stored HP value. Death Trigger freeze radius increased to 25ft (instead of 15ft). Aura Mode upgrade: Store 1 Phylactery HP per 10 damage taken (max 5/round).",
+            uniqueTo: "Phylactery Guardian",
+          },
+        ],
+      },
+    ],
   },
 
   // Example Spells - showcasing frost magic and phylactery mechanics
   exampleSpells: [
     // BASIC FROST SPELLS
     {
-      id: 'lb_grave_chill',
-      name: 'Grave Chill',
+      id: "lb_grave_chill",
+      name: "Grave Chill",
       level: 1,
-      description: 'A spectral chill that deals damage and chills the target. If target is Frozen, deals additional damage.',
-      category: 'basic_frost',
-      spellType: 'ACTION',
-      icon: 'Frost/Ice Orb',
-      school: 'Necromancy',
+      description:
+        "A spectral chill that deals damage and chills the target. If target is Frozen, deals additional damage.",
+      category: "basic_frost",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Ice Orb",
+        tags: ["frost", "damage", "chill", "basic", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 5,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Frigus Mortis!',
-        somaticText: 'Extend hand with frost emanating'
+        components: ["verbal", "somatic"],
+        verbalText: "Frigus Mortis!",
+        somaticText: "Extend hand with frost emanating",
       },
 
-      castTime: 'Action',
-      range: 30,
-      targetType: 'Single Enemy',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'negates_chill'
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
       damageConfig: {
-        baseDamage: '1d6',
-        damageTypes: ['frost'],
+        baseDamage: "1d6",
+        damageTypes: ["frost"],
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "negates_chill",
+        },
+        resolution: "DICE",
       },
 
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 1,
-        durationType: 'turns',
-        durationUnit: 'turns',
-        effects: [{
-          id: 'chilled',
-          name: 'Chilled',
-          description: 'Movement speed reduced by 10 feet',
-          statusType: 'slow',
-          level: 'minor',
-          statPenalty: { stat: 'movement_speed', value: -10 },
-          movementPenalty: -10
-        }]
+        durationType: "turns",
+        durationUnit: "turns",
+        effects: [
+          {
+            id: "chilled",
+            name: "Chilled",
+            description: "Movement speed reduced by 10 feet",
+            mechanicsText: "Movement speed reduced by 10 feet for 1 turn",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '1d6',
-          type: 'frost',
+          base: "1d6",
+          type: "frost",
           conditional: {
-            frozen: '+1d6'
-          }
+            frozen: "+1d6",
+          },
         },
         debuff: {
-          type: 'chilled',
+          type: "chilled",
           duration: 1,
-          movementReduction: 10
-        }
+          movementReduction: 10,
+        },
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage (total 2d6 base, 3d6 if frozen)',
-          description: 'Aura enhances all frost spell damage'
+          active: "Deals +1d6 frost damage (total 2d6 base, 3d6 if frozen)",
+          description: "Aura enhances all frost spell damage",
         },
         frozenInteraction: {
-          condition: 'Target has Frozen condition',
-          effect: 'Deals additional 1d6 frost damage'
-        }
+          condition: "Target has Frozen condition",
+          effect: "Deals additional 1d6 frost damage",
+        },
       },
 
-      tags: ['frost', 'damage', 'chill', 'basic', 'lichborne']
+      tags: ["frost", "damage", "chill", "basic", "lichborne"],
     },
 
     // FREEZE & CONTROL SPELLS
     {
-      id: 'lb_wraith_spear',
-      name: 'Wraith Spear',
+      id: "lb_wraith_spear",
+      name: "Wraith Spear",
       level: 1,
-      description: 'Summon a spectral spear of ice that pierces through enemies, potentially freezing them.',
-      category: 'freeze_control',
-      spellType: 'ACTION',
-      icon: 'Frost/Frostbite Effect',
-      school: 'Evocation',
+      description:
+        "Summon a spectral spear of ice that pierces through enemies, potentially freezing them.",
+      category: "freeze_control",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Frostbite Effect",
+        tags: ["frost", "damage", "freeze", "control", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Hasta Gelidus!',
-        somaticText: 'Thrust hand forward, conjuring ice spear'
+        components: ["verbal", "somatic"],
+        verbalText: "Hasta Gelidus!",
+        somaticText: "Thrust hand forward, conjuring ice spear",
       },
 
-      castTime: 'Action',
-      range: 40,
-      targetType: 'Single Enemy',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'agility',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_freeze'
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
       damageConfig: {
-        baseDamage: '2d6',
-        damageTypes: ['frost'],
+        baseDamage: "2d6",
+        damageTypes: ["frost"],
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is already Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is already Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_freeze",
+        },
+        resolution: "DICE",
       },
 
       debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 1,
+        durationType: "turns",
+        durationUnit: "turns",
         effects: [
-          'Target is Frozen for 1 turn',
-          'Immobilized, cannot take actions or reactions'
-        ]
+          {
+            id: "frozen",
+            name: "Frozen",
+            description:
+              "Target is frozen solid and cannot take actions or reactions for 1 turn",
+            mechanicsText:
+              "Immobilized, cannot take actions or reactions for 1 turn",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '2d6',
-          type: 'frost',
+          base: "2d6",
+          type: "frost",
           conditional: {
-            frozen: '+1d6'
-          }
+            frozen: "+1d6",
+          },
         },
         debuff: {
-          type: 'frozen',
+          type: "frozen",
           duration: 1,
           immobilized: true,
           noActions: true,
-          noReactions: true
-        }
+          noReactions: true,
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d6 frost damage, not Frozen',
-        onFailure: 'Takes 2d6 frost damage and is Frozen for 1 turn'
+        onSuccess: "Takes 1d6 frost damage, not Frozen",
+        onFailure: "Takes 2d6 frost damage and is Frozen for 1 turn",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage (total 3d6 base, 4d6 if already frozen)',
-          description: 'Aura enhances damage and applies chill on save'
-        }
+          active:
+            "Deals +1d6 frost damage (total 3d6 base, 4d6 if already frozen)",
+          description: "Aura enhances damage and applies chill on save",
+        },
+        frozenInteraction: {
+          condition: "Target is already Frozen",
+          effect: "Deals +1d6 frost damage",
+        },
       },
 
-      tags: ['frost', 'damage', 'freeze', 'control', 'lichborne']
+      tags: ["frost", "damage", "freeze", "control", "lichborne"],
     },
 
     {
-      id: 'lb_deathly_frost',
-      name: 'Deathly Frost',
+      id: "lb_deathly_frost",
+      name: "Deathly Frost",
       level: 2,
-      description: 'Emit a burst of cold energy, damaging and freezing nearby enemies.',
-      category: 'freeze_control',
-      spellType: 'ACTION',
-      icon: 'Frost/Frozen AoE',
-      school: 'Evocation',
+      description:
+        "Emit a burst of cold energy, damaging and freezing nearby enemies.",
+      category: "freeze_control",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Frozen AoE",
+        tags: ["frost", "damage", "freeze", "aoe", "control", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 15,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Glacies Mortis!',
-        somaticText: 'Slam hands together, releasing frost wave'
+        components: ["verbal", "somatic"],
+        verbalText: "Glacies Mortis!",
+        somaticText: "Slam hands together, releasing frost wave",
       },
 
-      castTime: 'Action',
-      range: 'Self',
-      targetType: 'AoE - 10 ft radius',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_freeze'
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 8,
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       damageConfig: {
-        baseDamage: '1d8',
-        damageTypes: ['frost'],
+        baseDamage: "1d8",
+        damageTypes: ["frost"],
         aoe: {
-          shape: 'circle',
-          radius: 10
+          shape: "circle",
+          radius: 10,
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_freeze",
+        },
+        resolution: "DICE",
       },
 
       debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 1,
+        durationType: "turns",
+        durationUnit: "turns",
         effects: [
-          'Targets are Frozen for 1 turn',
-          'Immobilized, cannot take actions or reactions'
-        ]
+          {
+            id: "frozen",
+            name: "Frozen",
+            description:
+              "Target is frozen solid and cannot take actions or reactions for 1 turn",
+            mechanicsText: "Immobilized, cannot take actions or reactions",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '1d8',
-          type: 'frost',
+          base: "1d8",
+          type: "frost",
           aoe: {
-            shape: 'circle',
-            radius: 10
-          }
+            shape: "circle",
+            radius: 10,
+          },
         },
         debuff: {
-          type: 'frozen',
+          type: "frozen",
           duration: 1,
           immobilized: true,
           noActions: true,
-          noReactions: true
-        }
+          noReactions: true,
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d4 frost damage, not Frozen',
-        onFailure: 'Takes 1d8 frost damage and is Frozen for 1 turn'
+        onSuccess: "Takes 1d4 frost damage, not Frozen",
+        onFailure: "Takes 1d8 frost damage and is Frozen for 1 turn",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage per target (total 1d8+1d6 per target)',
-          description: 'Aura enhances AoE damage'
-        }
+          active:
+            "Deals +1d6 frost damage per target (total 1d8+1d6 per target)",
+          description: "Aura enhances AoE damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage and extends freeze by 1 round",
+        },
       },
 
-      tags: ['frost', 'damage', 'freeze', 'aoe', 'control', 'lichborne']
+      tags: ["frost", "damage", "freeze", "aoe", "control", "lichborne"],
     },
 
     // UTILITY & SUPPORT SPELLS
     {
-      id: 'lb_glacial_shroud',
-      name: 'Glacial Shroud',
+      id: "lb_glacial_shroud",
+      name: "Glacial Shroud",
       level: 1,
-      description: 'Encase yourself in ice, reducing damage taken and chilling attackers.',
-      category: 'utility_support',
-      spellType: 'ACTION',
-      icon: 'Frost/Frozen in Ice',
-      school: 'Abjuration',
+      description:
+        "Encase yourself in ice, reducing damage taken and chilling attackers.",
+      category: "utility_support",
+      spellType: "ACTION",
+      effectTypes: ["buff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Frozen in Ice",
+        tags: ["frost", "buff", "defense", "utility", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 8,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Scutum Glaciei!',
-        somaticText: 'Cross arms over chest, ice forms around body'
+        components: ["verbal", "somatic"],
+        verbalText: "Scutum Glaciei!",
+        somaticText: "Cross arms over chest, ice forms around body",
       },
 
-      castTime: '1 Action Point',
-      range: 'Self',
-      targetType: 'Self',
+      targetingConfig: {
+        targetingType: "self",
+      },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       buffConfig: {
+        buffType: "statEnhancement",
+        durationValue: 10,
+        durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
-          'Reduce damage taken by 3',
-          'Enemies that hit you must save or be Chilled',
-          'Lasts 1 minute'
-        ]
+          {
+            id: "damage_reduction",
+            name: "Glacial Shroud",
+            description:
+              "Reduce damage taken by 3 for 1 minute. Enemies that hit you must save or be Chilled.",
+            mechanicsText:
+              "Reduce damage taken by 3. Melee attackers: DC 15 Con save or Chilled (-10 ft speed) until end of their next turn.",
+            statModifier: {
+              stat: "damage_reduction",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
       },
 
       effects: {
         buff: {
           damageReduction: 3,
-          duration: '1 minute',
+          duration: "1 minute",
           counterAttack: {
-            trigger: 'when_hit',
-            effect: 'attacker_chilled',
+            trigger: "when_hit",
+            effect: "attacker_chilled",
             save: {
-              type: 'constitution',
-              dc: 15
-            }
-          }
-        }
+              type: "constitution",
+              dc: 15,
+            },
+          },
+        },
       },
 
       specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Glacial Shroud damage reduction increased to 5. Chill effect upgrades to Freeze (1 round).",
+          description: "Aura enhances defensive frost to also freeze attackers",
+        },
         chillingTouch: {
-          trigger: 'Enemy hits you in melee',
-          effect: 'Enemy must save (DC 15 Constitution) or be Chilled',
-          chillEffect: 'Movement speed reduced by 10 ft until end of their next turn'
-        }
+          trigger: "Enemy hits you in melee",
+          effect: "Enemy must save (DC 15 Constitution) or be Chilled",
+          chillEffect:
+            "Movement speed reduced by 10 ft until end of their next turn",
+        },
       },
 
-      tags: ['frost', 'buff', 'defense', 'utility', 'lichborne']
+      tags: ["frost", "buff", "defense", "utility", "lichborne"],
     },
 
     {
-      id: 'lb_frozen_bastion',
-      name: 'Frozen Bastion',
+      id: "lb_frozen_bastion",
+      name: "Frozen Bastion",
       level: 2,
-      description: 'Create a wall of ice that blocks movement and projectiles.',
-      category: 'utility_support',
-      spellType: 'ACTION',
-      icon: 'Frost/Icey wall',
-      school: 'Conjuration',
+      description: "Create a wall of ice that blocks movement and projectiles.",
+      category: "utility_support",
+      spellType: "ACTION",
+      effectTypes: ["utility"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Icey wall",
+        tags: ["frost", "summon", "terrain", "utility", "control", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 12,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Murus Glacialis!',
-        somaticText: 'Sweep hand horizontally, ice wall rises'
+        components: ["verbal", "somatic"],
+        verbalText: "Murus Glacialis!",
+        somaticText: "Sweep hand horizontally, ice wall rises",
       },
 
-      castTime: 'Action',
-      range: 60,
-      targetType: 'Terrain',
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["terrain"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
+      },
 
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       summonConfig: {
-        type: 'ice_wall',
+        type: "ice_wall",
         dimensions: {
           length: 20,
           height: 10,
-          thickness: 1
+          thickness: 1,
         },
         hp: 50,
-        duration: '1 minute'
+        duration: "1 minute",
       },
 
       effects: {
         summon: {
-          type: 'ice_wall',
-          length: '20 ft',
-          height: '10 ft',
-          thickness: '1 ft',
+          type: "ice_wall",
+          length: "20 ft",
+          height: "10 ft",
+          thickness: "1 ft",
           hp: 50,
-          duration: '1 minute',
+          duration: "1 minute",
           blocksMovement: true,
-          blocksProjectiles: true
-        }
+          blocksProjectiles: true,
+        },
       },
 
       specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Frozen Bastion wall HP increased to 75 and Chills enemies that touch it",
+          description: "Aura strengthens ice walls with frost damage",
+        },
         wallProperties: {
           hp: 50,
-          immunities: ['frost'],
-          vulnerabilities: ['fire'],
-          description: 'Wall can be destroyed by dealing 50 damage. Takes double damage from fire.'
-        }
+          immunities: ["frost"],
+          vulnerabilities: ["fire"],
+          description:
+            "Wall can be destroyed by dealing 50 damage. Takes double damage from fire.",
+        },
       },
 
-      tags: ['frost', 'summon', 'terrain', 'utility', 'control', 'lichborne']
+      tags: ["frost", "summon", "terrain", "utility", "control", "lichborne"],
     },
 
     {
-      id: 'lb_siphon_soul',
-      name: 'Siphon Soul',
+      id: "lb_siphon_soul",
+      name: "Siphon Soul",
       level: 2,
-      description: 'Drain the life force from a target, dealing frost damage and healing yourself for half the damage dealt. If the target dies, gain +1d6 Phylactery HP.',
-      category: 'basic_frost',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
-      school: 'Necromancy',
+      description:
+        "Drain the life force from a target, dealing frost damage and healing yourself for half the damage dealt. If the target dies, gain +1d6 Phylactery HP.",
+      category: "basic_frost",
+      spellType: "ACTION",
+      effectTypes: ["damage", "healing"],
+      typeConfig: {
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Necrotic/Drain Soul",
+        tags: [
+          "frost",
+          "damage",
+          "healing",
+          "drain",
+          "phylactery",
+          "lichborne",
+        ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 8,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Anima Rapio!',
-        somaticText: 'Reach out with spectral hand, draining life force'
+        components: ["verbal", "somatic"],
+        verbalText: "Anima Rapio!",
+        somaticText: "Reach out with spectral hand, draining life force",
       },
 
-      castTime: 'Action',
-      range: 30,
-      targetType: 'Single Enemy',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_heal'
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
       damageConfig: {
-        baseDamage: '2d8',
-        damageTypes: ['frost'],
+        baseDamage: "2d8",
+        damageTypes: ["frost", "necrotic"],
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_heal",
+        },
+        resolution: "DICE",
       },
 
       healingConfig: {
-        formula: 'half_damage_dealt',
-        healingType: 'self',
-        description: 'Heal yourself for half the damage dealt'
+        formula: "half_damage_dealt",
+        healingType: "self",
+        description: "Heal yourself for half the damage dealt",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage (total 3d8 base). Healing increases proportionally.',
-          description: 'Aura enhances the life drain'
+          active:
+            "Deals +1d6 frost damage (total 3d8 base). Healing increases proportionally.",
+          description: "Aura enhances the life drain",
         },
         phylacteryHarvester: {
-          trigger: 'Target dies from this spell',
-          effect: 'Gain +1d6 Phylactery HP in addition to normal kill charge',
-          description: 'Double phylactery charge on Siphon Soul kills'
+          trigger: "Target dies from this spell",
+          effect: "Gain +1d6 Phylactery HP in addition to normal kill charge",
+          description: "Double phylactery charge on Siphon Soul kills",
         },
         frozenInteraction: {
-          condition: 'Target has Frozen condition',
-          effect: 'Deals additional 1d6 frost damage'
-        }
+          condition: "Target has Frozen condition",
+          effect: "Deals additional 1d6 frost damage",
+        },
       },
 
-      tags: ['frost', 'damage', 'healing', 'drain', 'phylactery', 'lichborne']
+      tags: ["frost", "damage", "healing", "drain", "phylactery", "lichborne"],
     },
 
     // HYBRID FROST/NECROTIC SPELLS
     {
-      id: 'lb_necrotic_blizzard',
-      name: 'Necrotic Blizzard',
+      id: "lb_necrotic_blizzard",
+      name: "Necrotic Blizzard",
       level: 4,
-      description: 'Call forth a storm of necrotic ice shards that rains down in a designated area.',
-      category: 'hybrid_necrotic',
-      spellType: 'ACTION',
-      icon: 'Frost/Frozen Wave',
-      school: 'Necromancy',
+      description:
+        "Call forth a storm of necrotic ice shards that rains down in a designated area.",
+      category: "hybrid_necrotic",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Frost/Frozen Wave",
+        tags: [
+          "frost",
+          "necrotic",
+          "damage",
+          "aoe",
+          "freeze",
+          "hybrid",
+          "lichborne",
+        ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 3,
         mana: 20,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Tempestas Mortis!',
-        somaticText: 'Raise both hands skyward, storm forms above'
+        components: ["verbal", "somatic"],
+        verbalText: "Tempestas Mortis!",
+        somaticText: "Raise both hands skyward, storm forms above",
       },
 
-      castTime: 'Action',
-      range: 60,
-      targetType: 'AoE - 20 ft radius',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_freeze'
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 20 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 10,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       damageConfig: {
-        baseDamage: '3d6',
-        damageTypes: ['necrotic', 'frost'],
+        baseDamage: "3d6",
+        damageTypes: ["frost", "necrotic"],
         aoe: {
-          shape: 'circle',
-          radius: 20
+          shape: "circle",
+          radius: 20,
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_freeze",
+        },
+        resolution: "DICE",
       },
 
       debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 1,
+        durationType: "turns",
+        durationUnit: "turns",
         effects: [
-          'Targets are Frozen for 1 turn',
-          'Immobilized, cannot take actions or reactions'
-        ]
+          {
+            id: "frozen",
+            name: "Frozen",
+            description:
+              "Target is frozen solid and cannot take actions or reactions for 1 turn",
+            mechanicsText: "Immobilized, cannot take actions or reactions",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '3d6',
-          types: ['necrotic', 'frost'],
-          split: '1d6 necrotic + 2d6 frost',
+          base: "3d6",
+          types: ["necrotic", "frost"],
+          split: "1d6 necrotic + 2d6 frost",
           aoe: {
-            shape: 'circle',
-            radius: 20
-          }
+            shape: "circle",
+            radius: 20,
+          },
         },
         debuff: {
-          type: 'frozen',
+          type: "frozen",
           duration: 1,
           immobilized: true,
           noActions: true,
-          noReactions: true
-        }
+          noReactions: true,
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d6 necrotic + 1d6 frost damage, not Frozen',
-        onFailure: 'Takes 1d6 necrotic + 2d6 frost damage and is Frozen for 1 turn'
+        onSuccess: "Takes 1d6 necrotic + 1d6 frost damage, not Frozen",
+        onFailure:
+          "Takes 1d6 necrotic + 2d6 frost damage and is Frozen for 1 turn",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Frost portion deals +1d6 damage (total 1d6 necrotic + 3d6 frost)',
-          description: 'Aura only enhances frost damage portion'
+          active:
+            "Frost portion deals +1d6 damage (total 1d6 necrotic + 3d6 frost)",
+          description: "Aura only enhances frost damage portion",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Necrotic Blizzard deals +1d6 necrotic and +1d6 frost to Frozen targets",
         },
         hybridDamage: {
-          description: 'Deals both necrotic and frost damage',
-          benefit: 'Bypasses single-type resistances'
-        }
+          description: "Deals both necrotic and frost damage",
+          benefit: "Bypasses single-type resistances",
+        },
       },
 
-      tags: ['frost', 'necrotic', 'damage', 'aoe', 'freeze', 'hybrid', 'lichborne']
+      tags: [
+        "frost",
+        "necrotic",
+        "damage",
+        "aoe",
+        "freeze",
+        "hybrid",
+        "lichborne",
+      ],
     },
 
     {
-      id: 'lb_frostbite_curse',
-      name: 'Frostbite Curse',
+      id: "lb_frostbite_curse",
+      name: "Frostbite Curse",
       level: 1,
-      description: 'Inflict a painful frostbite on a target, causing damage and reducing their effectiveness in combat.',
-      category: 'basic_frost',
-      spellType: 'ACTION',
-      icon: 'Frost/Inflicted Ice Shard',
-      school: 'Necromancy',
+      description:
+        "Inflict a painful frostbite on a target, causing damage and reducing their effectiveness in combat.",
+      category: "basic_frost",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Inflicted Ice Shard",
+        tags: ["frost", "damage", "debuff", "slow", "dot", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 6,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Maledictio Frigoris!',
-        somaticText: 'Point at target, frost spreads across their body'
+        components: ["verbal", "somatic"],
+        verbalText: "Maledictio Frigoris!",
+        somaticText: "Point at target, frost spreads across their body",
       },
 
-      castTime: 'Action',
-      range: 40,
-      targetType: 'Single Enemy',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'constitution',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_debuff'
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
       damageConfig: {
-        baseDamage: '1d6',
-        damageTypes: ['frost'],
+        baseDamage: "1d6",
+        damageTypes: ["frost"],
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_debuff",
+        },
+        resolution: "DICE",
       },
 
       debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 10,
+        durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
-          'Target is Slowed',
-          'Movement speed reduced by 10 feet',
-          'Can only spend half of maximum action points per turn (rounded down)',
-          'Suffers Frostbite: takes 1d4 frost damage for every 5 feet moved',
-          'Lasts 1 minute'
-        ]
+          {
+            id: "frostbite_slowed",
+            name: "Frostbite Curse",
+            description:
+              "Movement speed reduced by 10 feet. Can only spend half max action points. Takes 1d4 frost damage per 5 feet moved.",
+            mechanicsText:
+              "Slowed: -10 ft speed, half AP, 1d4 frost per 5ft moved",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '1d6',
-          type: 'frost',
+          base: "1d6",
+          type: "frost",
           conditional: {
-            frozen: '+1d6'
-          }
+            frozen: "+1d6",
+          },
         },
         debuff: {
-          type: 'slowed',
-          duration: '1 minute',
+          type: "slowed",
+          duration: "1 minute",
           movementReduction: 10,
-          actionLimitation: 'one_action_or_bonus',
+          actionLimitation: "one_action_or_bonus",
           frostbite: {
-            damage: '1d4',
-            trigger: 'per 5 ft moved'
-          }
-        }
+            damage: "1d4",
+            trigger: "per 5 ft moved",
+          },
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d4 frost damage, no debuff',
-        onFailure: 'Takes 1d6 frost damage, Slowed and Frostbite for 1 minute'
+        onSuccess: "Takes 1d4 frost damage, no debuff",
+        onFailure: "Takes 1d6 frost damage, Slowed and Frostbite for 1 minute",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage (total 2d6 base, 3d6 if frozen)',
-          description: 'Aura enhances damage'
+          active: "Deals +1d6 frost damage (total 2d6 base, 3d6 if frozen)",
+          description: "Aura enhances damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Deals +1d6 frost damage and Frostbite movement damage increased to 1d6 per 5ft",
         },
         frostbiteMechanic: {
-          description: 'Enemy takes 1d4 frost damage per 5 ft moved',
-          counterplay: 'Enemy can choose to stay still to avoid movement damage'
-        }
+          description: "Enemy takes 1d4 frost damage per 5 ft moved",
+          counterplay:
+            "Enemy can choose to stay still to avoid movement damage",
+        },
       },
 
-      tags: ['frost', 'damage', 'debuff', 'slow', 'dot', 'lichborne']
+      tags: ["frost", "damage", "debuff", "slow", "dot", "lichborne"],
     },
 
     {
-      id: 'lb_deathly_spikes',
-      name: 'Deathly Spikes',
+      id: "lb_deathly_spikes",
+      name: "Deathly Spikes",
       level: 3,
-      description: 'Summon spikes of necrotic ice from the ground, impaling enemies and creating difficult terrain.',
-      category: 'hybrid_necrotic',
-      spellType: 'ACTION',
-      icon: 'Frost/Frostbite Effect',
-      school: 'Necromancy',
+      description:
+        "Summon spikes of necrotic ice from the ground, impaling enemies and creating difficult terrain.",
+      category: "hybrid_necrotic",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Frost/Frostbite Effect",
+        tags: [
+          "frost",
+          "necrotic",
+          "damage",
+          "aoe",
+          "terrain",
+          "hybrid",
+          "lichborne",
+        ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 14,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Aculei Mortis!',
-        somaticText: 'Slam fist into ground, spikes erupt'
+        components: ["verbal", "somatic"],
+        verbalText: "Aculei Mortis!",
+        somaticText: "Slam fist into ground, spikes erupt",
       },
 
-      castTime: 'Action',
-      range: 40,
-      targetType: 'AoE - 10 ft radius',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'agility',
-        saveDC: 15,
-        onSaveEffect: 'half_damage'
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        aoeShape: "circle",
+        aoeParameters: { radius: 10 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 8,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       damageConfig: {
-        baseDamage: '2d6',
-        damageTypes: ['necrotic', 'frost'],
+        baseDamage: "2d6",
+        damageTypes: ["frost", "necrotic"],
         aoe: {
-          shape: 'circle',
-          radius: 10
+          shape: "circle",
+          radius: 10,
         },
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 15,
+          saveOutcome: "half_damage",
+        },
+        resolution: "DICE",
       },
 
       terrainConfig: {
-        type: 'difficult_terrain',
-        duration: '1 minute',
-        area: '10 ft radius'
+        type: "difficult_terrain",
+        duration: "1 minute",
+        area: "10 ft radius",
       },
 
       effects: {
         damage: {
-          base: '2d6',
-          types: ['necrotic', 'frost'],
-          split: '1d6 necrotic + 1d6 frost',
+          base: "2d6",
+          types: ["necrotic", "frost"],
+          split: "1d6 necrotic + 1d6 frost",
           aoe: {
-            shape: 'circle',
-            radius: 10
+            shape: "circle",
+            radius: 10,
           },
           conditional: {
-            frozen: '+1d6'
-          }
+            frozen: "+1d6",
+          },
         },
         terrain: {
-          type: 'difficult',
-          duration: '1 minute',
-          area: '10 ft radius',
-          description: 'Ice spikes remain, creating difficult terrain'
-        }
+          type: "difficult",
+          duration: "1 minute",
+          area: "10 ft radius",
+          description: "Ice spikes remain, creating difficult terrain",
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d6 total damage (split necrotic/frost)',
-        onFailure: 'Takes 2d6 total damage (1d6 necrotic + 1d6 frost)'
+        onSuccess: "Takes 1d6 total damage (split necrotic/frost)",
+        onFailure: "Takes 2d6 total damage (1d6 necrotic + 1d6 frost)",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Frost portion deals +1d6 damage (total 1d6 necrotic + 2d6 frost)',
-          description: 'Aura only enhances frost damage portion'
+          active:
+            "Frost portion deals +1d6 damage (total 1d6 necrotic + 2d6 frost)",
+          description: "Aura only enhances frost damage portion",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage",
         },
         terrainControl: {
-          description: 'Creates difficult terrain that persists for 1 minute',
-          effect: 'Enemies must spend 2 ft of movement for every 1 ft moved through area'
-        }
+          description: "Creates difficult terrain that persists for 1 minute",
+          effect:
+            "Enemies must spend 2 ft of movement for every 1 ft moved through area",
+        },
       },
 
-      tags: ['frost', 'necrotic', 'damage', 'aoe', 'terrain', 'hybrid', 'lichborne']
+      tags: [
+        "frost",
+        "necrotic",
+        "damage",
+        "aoe",
+        "terrain",
+        "hybrid",
+        "lichborne",
+      ],
     },
 
     {
-      id: 'lb_banshees_breath',
+      id: "lb_banshees_breath",
       name: "Banshee's Breath",
       level: 3,
-      description: 'Release a chilling wind that damages and pushes back enemies.',
-      category: 'hybrid_necrotic',
-      spellType: 'ACTION',
-      icon: 'Necrotic/Drain Soul',
-      school: 'Necromancy',
+      description:
+        "Release a chilling wind that damages and pushes back enemies.",
+      category: "hybrid_necrotic",
+      spellType: "ACTION",
+      effectTypes: ["damage", "control"],
+      typeConfig: {
+        school: "frost",
+        icon: "Necrotic/Drain Soul",
+        tags: ["frost", "damage", "aoe", "push", "cone", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 16,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Spiritus Gelidus!',
-        somaticText: 'Inhale deeply, exhale spectral wind'
+        components: ["verbal", "somatic"],
+        verbalText: "Spiritus Gelidus!",
+        somaticText: "Inhale deeply, exhale spectral wind",
       },
 
-      castTime: 'Action',
-      range: 'Self',
-      targetType: 'Cone - 15 ft',
-
-      resolution: 'SAVE',
-
-      saveConfig: {
-        saveType: 'strength',
-        saveDC: 15,
-        onSaveEffect: 'half_damage_no_push'
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "cone",
+        aoeParameters: { length: 15 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 6,
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: true,
       },
+
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       damageConfig: {
-        baseDamage: '2d8',
-        damageTypes: ['frost'],
+        baseDamage: "2d8",
+        damageTypes: ["frost"],
         aoe: {
-          shape: 'cone',
-          length: 15
+          shape: "cone",
+          length: 15,
         },
         bonusDamage: {
-          condition: 'target_frozen',
-          amount: '+1d6',
-          description: 'Bonus damage if target is Frozen'
+          condition: "target_frozen",
+          amount: "+1d6",
+          description: "Bonus damage if target is Frozen",
         },
-          resolution: 'DICE',
+        savingThrow: {
+          ability: "strength",
+          difficultyClass: 15,
+          saveOutcome: "half_damage_no_push",
+        },
+        resolution: "DICE",
       },
 
       pushConfig: {
         distance: 10,
-        direction: 'away_from_caster'
+        direction: "away_from_caster",
       },
 
       effects: {
         damage: {
-          base: '2d8',
-          type: 'frost',
+          base: "2d8",
+          type: "frost",
           aoe: {
-            shape: 'cone',
-            length: 15
+            shape: "cone",
+            length: 15,
           },
           conditional: {
-            frozen: '+1d6'
-          }
+            frozen: "+1d6",
+          },
         },
         push: {
           distance: 10,
-          direction: 'away',
-          description: 'Targets pushed back 10 feet'
-        }
+          direction: "away",
+          description: "Targets pushed back 10 feet",
+        },
       },
 
       savingThrowEffect: {
-        onSuccess: 'Takes 1d8 frost damage, not pushed',
-        onFailure: 'Takes 2d8 frost damage and pushed back 10 feet'
+        onSuccess: "Takes 1d8 frost damage, not pushed",
+        onFailure: "Takes 2d8 frost damage and pushed back 10 feet",
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage per target (total 3d8 base, 4d8 if frozen)',
-          description: 'Aura enhances cone damage'
+          active:
+            "Deals +1d6 frost damage per target (total 3d8 base, 4d8 if frozen)",
+          description: "Aura enhances cone damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Deals +1d6 frost damage and push distance increased to 20 ft",
         },
         positioning: {
-          description: 'Can push enemies off cliffs or into hazards',
-          tactical: 'Use to create space or reposition enemies'
-        }
+          description: "Can push enemies off cliffs or into hazards",
+          tactical: "Use to create space or reposition enemies",
+        },
       },
 
-      tags: ['frost', 'damage', 'aoe', 'push', 'cone', 'lichborne']
+      tags: ["frost", "damage", "aoe", "push", "cone", "lichborne"],
     },
 
     {
-      id: 'lb_frost_fever',
-      name: 'Frost Fever',
+      id: "lb_frost_fever",
+      name: "Frost Fever",
       level: 3,
-      description: 'Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating. In Aura Mode, this spell is at its peak.',
-      category: 'basic_frost',
-      spellType: 'ACTION',
-      icon: 'Frost/Frostbite Effect',
-      school: 'Necromancy',
+      description:
+        "Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating. In Aura Mode, this spell is at its peak.",
+      category: "basic_frost",
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Frostbite Effect",
+        tags: ["frost", "damage", "debuff", "slow", "desperation", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
 
       resourceCost: {
         actionPoints: 2,
         mana: 10,
-        components: ['verbal', 'somatic'],
-        verbalText: 'Febris Glacialis!',
-        somaticText: 'Touch brow, then point at target — frost spreads from your fingers'
+        components: ["verbal", "somatic"],
+        verbalText: "Febris Glacialis!",
+        somaticText:
+          "Touch brow, then point at target — frost spreads from your fingers",
       },
 
-      castTime: 'Action',
-      range: 40,
-      targetType: 'Single Enemy',
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 40,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
+      },
 
-      resolution: 'DICE',
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
 
       damageConfig: {
-        baseDamage: '2d6',
-        damageTypes: ['frost'],
+        baseDamage: "2d6",
+        damageTypes: ["frost"],
         bonusDamage: {
-          condition: 'caster_low_hp',
-          amount: '+1d6 per 25% HP missing',
-          description: 'Damage increases based on how low your HP is. Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.'
+          condition: "caster_low_hp",
+          amount: "+1d6 per 25% HP missing",
+          description:
+            "Damage increases based on how low your HP is. Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
 
       debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        durationUnit: "rounds",
         effects: [
-          'Target is Slowed',
-          'Movement speed reduced by 10 feet',
-          'Suffers Frostbite: takes 1d4 frost damage for every 5 feet moved',
-          'Lasts 2 rounds'
-        ]
+          {
+            id: "frost_fever_slowed",
+            name: "Frost Fever",
+            description:
+              "Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.",
+            mechanicsText:
+              "Slowed: -10 ft speed, 1d4 frost per 5ft moved for 2 rounds",
+          },
+        ],
       },
 
       effects: {
         damage: {
-          base: '2d6',
-          type: 'frost',
+          base: "2d6",
+          type: "frost",
           scaling: {
-            below_75pct_hp: '+1d6',
-            below_50pct_hp: '+2d6',
-            below_25pct_hp: '+3d6'
-          }
+            below_75pct_hp: "+1d6",
+            below_50pct_hp: "+2d6",
+            below_25pct_hp: "+3d6",
+          },
         },
         debuff: {
-          type: 'slowed',
+          type: "slowed",
           duration: 2,
           movementReduction: 10,
           frostbite: {
-            damage: '1d4',
-            trigger: 'per 5 ft moved'
-          }
-        }
+            damage: "1d4",
+            trigger: "per 5 ft moved",
+          },
+        },
       },
 
       specialMechanics: {
         eternalFrostAura: {
-          active: 'Deals +1d6 frost damage. The Aura drain itself lowers your HP, which FUELS this spell further.',
-          description: 'Self-damaging synergy — Aura drain pushes you into higher damage brackets'
+          active:
+            "Deals +1d6 frost damage. The Aura drain itself lowers your HP, which FUELS this spell further.",
+          description:
+            "Self-damaging synergy — Aura drain pushes you into higher damage brackets",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Frost Fever damage scaling applies to base — Frozen targets take maximum desperation damage regardless of caster HP",
         },
         desperationScaling: {
-          description: 'This spell rewards being at low HP — the core Lichborne risk/reward',
+          description:
+            "This spell rewards being at low HP — the core Lichborne risk/reward",
           brackets: {
-            above_75pct: '2d6 base only',
-            below_75pct: '2d6 + 1d6 = 3d6',
-            below_50pct: '2d6 + 2d6 = 4d6',
-            below_25pct: '2d6 + 3d6 = 5d6'
-          }
-        }
+            above_75pct: "2d6 base only",
+            below_75pct: "2d6 + 1d6 = 3d6",
+            below_50pct: "2d6 + 2d6 = 4d6",
+            below_25pct: "2d6 + 3d6 = 5d6",
+          },
+        },
       },
 
-      tags: ['frost', 'damage', 'debuff', 'slow', 'desperation', 'lichborne']
+      tags: ["frost", "damage", "debuff", "slow", "desperation", "lichborne"],
     },
   ],
 
@@ -1672,1947 +1983,2516 @@ Many players enhance the Lichborne experience with:
   spells: [
     // ===== LEVEL 1 SPELLS =====
     {
-      id: 'lichborne_frost_bolt',
-      name: 'Frost Bolt',
-      description: 'Launch a bolt of frost energy at your target, dealing frost damage and potentially slowing their movement.',
+      id: "lichborne_frost_bolt",
+      name: "Frost Bolt",
+      description:
+        "Launch a bolt of frost energy at your target, dealing frost damage and potentially slowing their movement.",
       level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['attack', 'damage', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen in Ice",
+        tags: ["attack", "damage", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '1d8 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "1d8 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 12,
-          saveOutcome: 'negates',
-          partialEffect: false
+          saveOutcome: "negates",
+          partialEffect: false,
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 12,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        effects: [{
-          id: 'slow',
-          name: 'Chilled',
-          description: 'Movement speed reduced by 10 feet for 1 round',
-          statPenalty: { stat: 'movement_speed', value: -10 },
-          movementPenalty: -10
-        }]
+        saveType: "constitution",
+        saveOutcome: "negates",
+        effects: [
+          {
+            id: "slow",
+            name: "Chilled",
+            description: "Movement speed reduced by 10 feet for 1 round",
+            statPenalty: { stat: "movement_speed", value: -10 },
+            movementPenalty: -10,
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'frost', 'lichborne']
-    },
-    
-    {
-      id: 'lichborne_ice_armor',
-      name: 'Ice Armor',
-      description: 'Encase yourself in protective frost, gaining temporary armor and resistance.',
-      level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
-      typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['buff', 'defense', 'frost', 'lichborne'],
-        castTime: 1,
-        castTimeType: 'IMMEDIATE'
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Deals +1d6 frost damage",
+          description: "Aura enhances frost bolt damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage",
+        },
       },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'armor_boost',
-          name: 'Ice Armor',
-          description: 'Gain +2 armor for 3 rounds',
-          statModifier: {
-            stat: 'armor',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: true
-      },
-      targetingConfig: {
-        targetingType: 'self'
-      },
-      resourceCost: {
-        resourceTypes: ['mana'],
-        resourceValues: { mana: 4 },
-        useFormulas: {},
-        actionPoints: 1,
-        components: ['verbal', 'somatic']
-      },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'frost', 'lichborne']
+      resolution: "DICE",
+      tags: ["attack", "damage", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_phylactery_store',
-      name: 'Phylactery Store',
-      description: 'Channel your life force into your phylactery, storing HP for emergency resurrection.',
+      id: "lichborne_ice_armor",
+      name: "Ice Armor",
+      description:
+        "Encase yourself in protective frost, gaining temporary armor and resistance.",
       level: 1,
-      spellType: 'ACTION',
-      effectTypes: ['utility'],
+      spellType: "ACTION",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'necrotic',
-        icon: 'Necrotic/Drain Soul',
-        tags: ['utility', 'phylactery', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen in Ice",
+        tags: ["buff", "defense", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
-      utilityConfig: {
-        utilityType: 'special',
-        selectedEffects: [{
-          id: 'phylactery_store',
-          name: 'Store Life Force',
-          description: 'Store up to 20 HP in phylactery. Lose that HP now but can resurrect with it later.'
-        }],
-        duration: 0,
-        durationUnit: 'permanent',
-        concentration: false,
-        power: 'minor'
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "armor_boost",
+            name: "Ice Armor",
+            description: "Gain +2 armor for 3 rounds",
+            statModifier: {
+              stat: "armor",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['somatic'],
-        hpCost: 10
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['utility', 'phylactery', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "In Aura Mode, Ice Armor also Chills melee attackers (DC 17 Con save or -10 ft speed)",
+          description: "Aura enhances defensive frost with offensive chill",
+        },
+      },
+      resolution: "DICE",
+      tags: ["buff", "defense", "frost", "lichborne"],
+    },
+
+    {
+      id: "lichborne_phylactery_store",
+      name: "Phylactery Store",
+      description:
+        "Channel your life force into your phylactery, storing HP for emergency resurrection.",
+      level: 1,
+      spellType: "ACTION",
+      effectTypes: ["utility"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Drain Soul",
+        tags: ["utility", "phylactery", "lichborne"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      utilityConfig: {
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "phylactery_store",
+            name: "Store Life Force",
+            description:
+              "Store up to 20 HP in phylactery. Lose that HP now but can resurrect with it later.",
+          },
+        ],
+        duration: 0,
+        durationUnit: "permanent",
+        concentration: false,
+        power: "minor",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: ["hp"],
+        resourceValues: { hp: 10 },
+        useFormulas: {},
+        actionPoints: 1,
+        components: ["somatic"],
+      },
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      specialMechanics: {
+        phylacteryHarvester: {
+          trigger: "Manual HP transfer to Phylactery",
+          effect: "Store up to 20 HP in phylactery for emergency resurrection",
+          description: "Channel life force into your phylactery reservoir",
+        },
+      },
+      resolution: "DICE",
+      tags: ["utility", "phylactery", "lichborne"],
     },
 
     // ===== LEVEL 2 SPELLS =====
     {
-      id: 'lichborne_siphon_soul',
-      name: 'Siphon Soul',
-      description: 'Drain the life force from a target, dealing frost damage and healing yourself for half. If target dies, gain bonus Phylactery HP.',
+      id: "lichborne_siphon_soul",
+      name: "Siphon Soul",
+      description:
+        "Drain the life force from a target, dealing frost damage and healing yourself for half. If target dies, gain bonus Phylactery HP.",
       level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'healing'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "healing"],
       typeConfig: {
-        school: 'frost',
-        secondaryElement: 'necrotic',
-        icon: 'Necrotic/Drain Soul',
-        tags: ['attack', 'damage', 'healing', 'drain', 'phylactery', 'lichborne'],
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Necrotic/Drain Soul",
+        tags: [
+          "attack",
+          "damage",
+          "healing",
+          "drain",
+          "phylactery",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '2d8 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "2d8 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost", "necrotic"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 13,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       healingConfig: {
-        formula: 'half_damage_dealt',
-        healingType: 'instant',
+        formula: "half_damage_dealt",
+        healingType: "instant",
         hasHotEffect: false,
         hasShieldEffect: false,
-        description: 'Heal yourself for half the damage dealt'
+        description: "Heal yourself for half the damage dealt",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'healing', 'drain', 'phylactery', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 2d8+1d6). Healing increases proportionally.",
+          description: "Aura enhances the life drain",
+        },
+        phylacteryHarvester: {
+          trigger: "Target dies from this spell",
+          effect:
+            "Gain +1d6 bonus Phylactery HP in addition to normal kill charge",
+          description: "Double phylactery charge on Siphon Soul kills",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage, healing increases proportionally",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "healing", "drain", "phylactery", "lichborne"],
     },
 
     {
-      id: 'lichborne_freezing_touch',
-      name: 'Freezing Touch',
-      description: 'Touch your enemy with frost-laden hands, freezing them in place briefly.',
+      id: "lichborne_freezing_touch",
+      name: "Freezing Touch",
+      description:
+        "Touch your enemy with frost-laden hands, freezing them in place briefly.",
       level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      effectTypes: ["control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Dripping Ice',
-        tags: ['control', 'frost', 'stun', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Dripping Ice",
+        tags: ["control", "frost", "stun", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'moderate',
+        controlType: "incapacitation",
+        strength: "moderate",
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 13,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'paralyze',
-          name: 'Frozen',
-          description: 'Target is frozen solid and cannot move or take actions for 1 round',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'automatic',
-            saveType: 'constitution',
-            saveDC: 15,
-            duration: 1,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "paralyze",
+            name: "Frozen",
+            description:
+              "Target is frozen solid and cannot move or take actions for 1 round",
+            config: {
+              durationType: "rounds",
+              recoveryMethod: "automatic",
+              saveType: "constitution",
+              saveDC: 15,
+              duration: 1,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'touch',
-        targetRestrictions: ['enemy'],
+        targetingType: "single",
+        rangeType: "touch",
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 8 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['somatic']
+        components: ["somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['control', 'frost', 'stun', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Freezing Touch freezes for 2 rounds instead of 1",
+          description: "Aura extends freeze duration",
+        },
+        frozenInteraction: {
+          condition: "Target is already Frozen",
+          effect: "Freezing Touch extends existing freeze by 1 round",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "frost", "stun", "lichborne"],
     },
 
     {
-      id: 'lichborne_frost_ward',
-      name: 'Frost Ward',
-      description: 'Create a protective ward of frost around yourself or an ally.',
+      id: "lichborne_frost_ward",
+      name: "Frost Ward",
+      description:
+        "Create a protective ward of frost around yourself or an ally.",
       level: 2,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Icy Shield',
-        tags: ['buff', 'defense', 'shield', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Icy Shield",
+        tags: ["buff", "defense", "shield", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'damage_reduction',
-          name: 'Frost Ward',
-          description: 'Reduces incoming damage by 3 (flat reduction per hit) for 2 rounds',
-          statModifier: {
-            stat: 'damage_reduction',
-            magnitude: 3,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "damage_reduction",
+            name: "Frost Ward",
+            description:
+              "Reduces incoming damage by 3 (flat reduction per hit) for 2 rounds",
+            statModifier: {
+              stat: "damage_reduction",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 7 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'shield', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Frost Ward also Chills melee attackers (DC 17 Con save or -10 ft speed)",
+          description: "Aura adds offensive chill to defensive ward",
+        },
+      },
+      resolution: "DICE",
+      tags: ["buff", "defense", "shield", "lichborne"],
     },
 
     // ===== LEVEL 3 SPELLS =====
     {
-      id: 'lichborne_frozen_orb',
-      name: 'Frozen Orb',
-      description: 'Conjure a sphere of absolute zero that explodes in a burst of frost, damaging all enemies in the area.',
+      id: "lichborne_frozen_orb",
+      name: "Frozen Orb",
+      description:
+        "Conjure a sphere of absolute zero that explodes in a burst of frost, damaging all enemies in the area.",
       level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Ice Orb',
-        tags: ['attack', 'damage', 'aoe', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Ice Orb",
+        tags: ["attack", "damage", "aoe", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '4d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "4d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
+        resolution: "DICE",
       },
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 1,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 14,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        effects: [{
-          id: 'slow',
-          name: 'Chilled',
-          description: 'Movement speed reduced by 15 feet for 1 round',
-          statPenalty: { stat: 'movement_speed', value: -15 },
-          movementPenalty: -15
-        }]
+        saveType: "constitution",
+        saveOutcome: "negates",
+        effects: [
+          {
+            id: "slow",
+            name: "Chilled",
+            description: "Movement speed reduced by 15 feet for 1 round",
+            statPenalty: { stat: "movement_speed", value: -15 },
+            movementPenalty: -15,
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 10,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage per target (total 4d6+1d6 per target)",
+          description: "Aura enhances AoE damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Deals +1d6 frost damage and extends Chilled duration by 1 round",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "aoe", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_ice_lance',
-      name: 'Ice Lance',
-      description: 'Hurl a massive lance of ice that deals devastating damage to a single target.',
+      id: "lichborne_ice_lance",
+      name: "Ice Lance",
+      description:
+        "Hurl a massive lance of ice that deals devastating damage to a single target.",
       level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frostbite Effect',
-        tags: ['attack', 'damage', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frostbite Effect",
+        tags: ["attack", "damage", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '4d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "4d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2,
           critDiceOnly: false,
           explodingDice: false,
-          critEffects: ['knockback'],
-          spellEffect: null
+          critEffects: ["knockback"],
+          spellEffect: null,
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 100,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 12 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Deals +1d6 frost damage (total 4d6+1d6, crits deal +2d6)",
+          description: "Aura enhances lance damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Ice Lance deals +2d6 frost damage and guaranteed crit on Frozen targets",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_ice_step',
-      name: 'Ice Step',
-      description: 'Teleport to a frozen or chilled enemy, dealing frost damage to them and any enemies you pass through.',
+      id: "lichborne_ice_step",
+      name: "Ice Step",
+      description:
+        "Teleport to a frozen or chilled enemy, dealing frost damage to them and any enemies you pass through.",
       level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'utility'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "utility"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frost Freeze 1',
-        tags: ['attack', 'damage', 'movement', 'teleport', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frost Freeze 1",
+        tags: [
+          "attack",
+          "damage",
+          "movement",
+          "teleport",
+          "frost",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '2d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
-        description: 'Deals frost damage to the target and any enemies passed through during teleport',
-          resolution: 'DICE',
+        formula: "2d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
+        description:
+          "Deals frost damage to the target and any enemies passed through during teleport",
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
-        targetCondition: 'frozen_or_chilled'
+        targetCondition: "frozen_or_chilled",
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 6 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       specialMechanics: {
+        eternalFrostAura: {
+          active: "Deals +1d6 frost damage to teleport target and path enemies",
+          description: "Aura enhances teleport damage",
+        },
+        frozenInteraction: {
+          condition: "Target must be Frozen or Chilled",
+          effect:
+            "Can only target Frozen or Chilled enemies; deals +1d6 frost if Frozen",
+        },
         teleport: {
-          type: 'targeted',
+          type: "targeted",
           range: 60,
-          condition: 'Target must be Frozen or Chilled',
-          effect: 'Teleport to a space adjacent to the target',
-          pathDamage: true
-        }
+          condition: "Target must be Frozen or Chilled",
+          effect: "Teleport to a space adjacent to the target",
+          pathDamage: true,
+        },
       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'movement', 'teleport', 'frost', 'lichborne']
+      resolution: "DICE",
+      tags: ["attack", "damage", "movement", "teleport", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_frost_fever',
-      name: 'Frost Fever',
-      description: 'Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating.',
+      id: "lichborne_frost_fever",
+      name: "Frost Fever",
+      description:
+        "Afflict a target with supernatural frostbite. Deals damage that increases the lower your HP is — the closer to death, the more devastating.",
       level: 3,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "control", "debuff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frostbite Effect',
-        tags: ['attack', 'damage', 'debuff', 'desperation', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frostbite Effect",
+        tags: [
+          "attack",
+          "damage",
+          "debuff",
+          "desperation",
+          "frost",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '2d6 + intelligence + desperation_bonus',
-        elementType: 'frost',
-        damageTypes: ['direct'],
-        description: 'Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.',
-          resolution: 'DICE',
+        formula: "2d6 + intelligence + desperation_bonus",
+        elementType: "frost",
+        damageTypes: ["frost"],
+        description:
+          "Below 75% HP: +1d6. Below 50% HP: +2d6. Below 25% HP: +3d6.",
+        resolution: "DICE",
       },
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 14,
-        saveType: 'constitution',
-        saveOutcome: 'negates',
-        effects: [{
-          id: 'frostbite',
-          name: 'Frost Fever',
-          description: 'Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.',
-          statPenalty: { stat: 'movement_speed', value: -10 },
-          movementPenalty: -10
-        }]
+        saveType: "constitution",
+        saveOutcome: "negates",
+        effects: [
+          {
+            id: "frostbite",
+            name: "Frost Fever",
+            description:
+              "Movement speed reduced by 10 feet. Takes 1d4 frost damage per 5 feet moved.",
+            statPenalty: { stat: "movement_speed", value: -10 },
+            movementPenalty: -10,
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'debuff', 'desperation', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage. The Aura drain itself lowers your HP, which FUELS this spell further.",
+          description:
+            "Self-damaging synergy — Aura drain pushes you into higher damage brackets",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage",
+        },
+        desperationScaling: {
+          description:
+            "This spell rewards being at low HP — the core Lichborne risk/reward",
+          brackets: {
+            above_75pct: "2d6 base only",
+            below_75pct: "2d6 + 1d6 = 3d6",
+            below_50pct: "2d6 + 2d6 = 4d6",
+            below_25pct: "2d6 + 3d6 = 5d6",
+          },
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "debuff", "desperation", "frost", "lichborne"],
     },
 
     // ===== LEVEL 4 SPELLS =====
     {
-      id: 'lichborne_glacial_spike',
-      name: 'Glacial Spike',
-      description: 'Summon a massive spike of ancient ice that impales your target.',
+      id: "lichborne_glacial_spike",
+      name: "Glacial Spike",
+      description:
+        "Summon a massive spike of ancient ice that impales your target.",
       level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Inflicted Ice Shard',
-        tags: ['attack', 'damage', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Inflicted Ice Shard",
+        tags: ["attack", "damage", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '6d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "6d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2,
           critDiceOnly: false,
           explodingDice: true,
-          explodingDiceType: 'reroll_add',
-          critEffects: ['stun'],
-          spellEffect: null
+          explodingDiceType: "reroll_add",
+          critEffects: ["stun"],
+          spellEffect: null,
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 80,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 14 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 6d6+1d6). Exploding dice can crit repeatedly.",
+          description: "Aura enhances spike damage and crit potential",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Glacial Spike deals +2d6 frost damage and Stuns for 1 additional round",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_frost_nova',
-      name: 'Frost Nova',
-      description: 'Release a burst of frost energy that freezes all enemies around you.',
+      id: "lichborne_frost_nova",
+      name: "Frost Nova",
+      description:
+        "Release a burst of frost energy that freezes all enemies around you.",
       level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['control', 'damage'],
+      spellType: "ACTION",
+      effectTypes: ["control", "damage"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen AoE',
-        tags: ['control', 'damage', 'aoe', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen AoE",
+        tags: ["control", "damage", "aoe", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '5d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "5d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'restraint',
-        strength: 'strong',
+        controlType: "restraint",
+        strength: "strong",
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 15,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'bind',
-          name: 'Frozen in Place',
-          description: 'Target is rooted and cannot move for 2 rounds',
-          config: {
-            restraintType: 'physical',
-            saveType: 'constitution',
-            saveDC: 15,
-            duration: 2,
-            durationUnit: 'rounds',
-            immobilize: true
-          }
-        }]
+        effects: [
+          {
+            id: "bind",
+            name: "Frozen in Place",
+            description: "Target is rooted and cannot move for 2 rounds",
+            config: {
+              restraintType: "physical",
+              saveType: "constitution",
+              saveDC: 15,
+              duration: 2,
+              durationUnit: "rounds",
+              immobilize: true,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 8,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['control', 'damage', 'aoe', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage per target (total 5d6+1d6 per target)",
+          description: "Aura enhances AoE freeze burst damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Frost Nova deals +1d6 frost and extends freeze by 1 round",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "damage", "aoe", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_phylactery_shield',
-      name: 'Phylactery Shield',
-      description: 'Channel power from your phylactery to create a protective barrier.',
+      id: "lichborne_phylactery_shield",
+      name: "Phylactery Shield",
+      description:
+        "Channel power from your phylactery to create a protective barrier.",
       level: 4,
-      spellType: 'ACTION',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'necrotic',
-        icon: 'Necrotic/Protective Aura',
-        tags: ['buff', 'defense', 'shield', 'phylactery', 'lichborne'],
+        school: "necrotic",
+        icon: "Necrotic/Protective Aura",
+        tags: ["buff", "defense", "shield", "phylactery", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'temporaryHP',
-        effects: [{
-          id: 'temp_hp',
-          name: 'Phylactery Shield',
-          description: 'Grants temporary shield equal to stored phylactery HP',
-          tempHPFormula: 'phylactery_hp',
-          tempHPType: 'barrier'
-        }],
+        buffType: "temporaryHP",
+        effects: [
+          {
+            id: "temp_hp",
+            name: "Phylactery Shield",
+            description:
+              "Grants temporary shield equal to stored phylactery HP",
+            tempHPFormula: "phylactery_hp",
+            tempHPType: "barrier",
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
         actionPoints: 1,
-        components: ['somatic']
+        components: ["somatic"],
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'defense', 'shield', 'phylactery', 'lichborne']
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      specialMechanics: {
+        phylacteryHarvester: {
+          trigger: "Activates Phylactery Shield",
+          effect:
+            "Grants temporary HP equal to stored Phylactery HP. Does not empty Phylactery.",
+          description:
+            "Draw on phylactery power defensively without sacrificing resurrection",
+        },
+      },
+      resolution: "DICE",
+      tags: ["buff", "defense", "shield", "phylactery", "lichborne"],
     },
 
     // ===== LEVEL 5 SPELLS =====
     {
-      id: 'lichborne_blizzard',
-      name: 'Blizzard',
-      description: 'Summon a devastating blizzard that damages and slows all enemies in a large area.',
+      id: "lichborne_blizzard",
+      name: "Blizzard",
+      description:
+        "Summon a devastating blizzard that damages and slows all enemies in a large area.",
       level: 5,
-      spellType: 'CHANNELED',
-      effectTypes: ['damage', 'control'],
+      spellType: "CHANNELED",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen Wave',
-        tags: ['channeled', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen Wave",
+        tags: ["channeled", "damage", "control", "aoe", "frost", "lichborne"],
         maxChannelDuration: 3,
-        durationUnit: 'ROUNDS',
+        durationUnit: "ROUNDS",
         interruptible: true,
         movementAllowed: false,
         concentrationDC: 12,
-        dcType: 'CONSTITUTION',
-        tickFrequency: 'START_OF_TURN',
-        breakEffect: 'none'
+        dcType: "CONSTITUTION",
+        tickFrequency: "START_OF_TURN",
+        breakEffect: "none",
       },
       damageConfig: {
-        formula: '5d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['area'],
+        formula: "5d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         hasDotEffect: true,
         dotConfig: {
           duration: 3,
-          tickFrequency: 'round',
-          dotFormula: '5d6 + intelligence',
-          isProgressiveDot: false
+          tickFrequency: "round",
+          dotFormula: "5d6 + intelligence",
+          isProgressiveDot: false,
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         saveDC: 15,
-        saveType: 'constitution',
-        saveOutcome: 'halves_effects',
-        effects: [{
-          id: 'slow',
-          name: 'Chilled by Blizzard',
-          description: 'Movement speed reduced by 20 feet while in blizzard',
-          statPenalty: { stat: 'movement_speed', value: -20 },
-          movementPenalty: -20
-        }]
+        saveType: "constitution",
+        saveOutcome: "halves_effects",
+        effects: [
+          {
+            id: "slow",
+            name: "Chilled by Blizzard",
+            description: "Movement speed reduced by 20 feet while in blizzard",
+            statPenalty: { stat: "movement_speed", value: -20 },
+            movementPenalty: -20,
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 15,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       channelingConfig: {
-        type: 'persistent',
-        baseFormula: '5d6 + intelligence',
-        tickFrequency: 'round',
-        maxDuration: 3
+        type: "persistent",
+        baseFormula: "5d6 + intelligence",
+        tickFrequency: "round",
+        maxDuration: 3,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 14 },
         useFormulas: {},
         actionPoints: 2,
-        channelingFrequency: 'per_round',
-        components: ['verbal', 'somatic']
+        channelingFrequency: "per_round",
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
-      resolution: 'DICE',
-      tags: ['channeled', 'damage', 'control', 'aoe', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Deals +1d6 frost damage per tick (total 5d6+1d6 per round)",
+          description: "Aura enhances channeled blizzard damage each tick",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Frozen targets take +2d6 frost damage per tick from Blizzard",
+        },
+      },
+      resolution: "DICE",
+      tags: ["channeled", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_deaths_return',
+      id: "lichborne_deaths_return",
       name: "Death's Return",
-      description: 'When you resurrect via Phylactery, the cold of your return freezes all nearby enemies. This passive enhances your Death Trigger: increased freeze radius and duration.',
+      description:
+        "When you resurrect via Phylactery, the cold of your return freezes all nearby enemies. This passive enhances your Death Trigger: increased freeze radius and duration.",
       level: 5,
-      spellType: 'PASSIVE',
-      effectTypes: ['control', 'utility'],
+      spellType: "PASSIVE",
+      effectTypes: ["control", "utility", "buff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['control', 'passive', 'phylactery', 'frost', 'lichborne'],
-        toggleable: false
+        school: "frost",
+        icon: "Frost/Frozen in Ice",
+        tags: ["control", "passive", "phylactery", "frost", "lichborne"],
+        toggleable: false,
       },
       utilityConfig: {
-        utilityType: 'special',
-        selectedEffects: [{
-          id: 'death_trigger_enhanced',
-          name: "Death's Return",
-          description: 'Death Trigger freeze radius increased to 20ft (from 15ft). Freeze duration increased to 2 rounds (from 1). Enemies frozen by Death Trigger take +1d6 frost damage.'
-        }],
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "death_trigger_enhanced",
+            name: "Death's Return",
+            description:
+              "Death Trigger freeze radius increased to 20ft (from 15ft). Freeze duration increased to 2 rounds (from 1). Enemies frozen by Death Trigger take +1d6 frost damage.",
+          },
+        ],
         duration: 0,
-        durationUnit: 'permanent',
+        durationUnit: "permanent",
         concentration: false,
-        power: 'major'
+        power: "major",
       },
       buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'death_trigger_enhancement',
-          name: "Death's Return",
-          description: 'Enhanced Death Trigger on Phylactery resurrection',
-          customDescription: 'Your Phylactery resurrection is devastating. When you die and resurrect, the cold of your return freezes all enemies within 20ft for 2 rounds and deals 1d6 frost damage to each.'
-        }],
+        buffType: "custom",
+        effects: [
+          {
+            id: "death_trigger_enhancement",
+            name: "Death's Return",
+            description: "Enhanced Death Trigger on Phylactery resurrection",
+            customDescription:
+              "Your Phylactery resurrection is devastating. When you die and resurrect, the cold of your return freezes all enemies within 20ft for 2 rounds and deals 1d6 frost damage to each.",
+          },
+        ],
         durationValue: 0,
-        durationType: 'permanent',
-        durationUnit: 'permanent',
+        durationType: "permanent",
+        durationUnit: "permanent",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
         actionPoints: 0,
-        components: []
+        components: [],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
-      resolution: 'DICE',
-      tags: ['control', 'passive', 'phylactery', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      specialMechanics: {
+        phylacteryHarvester: {
+          trigger: "On Phylactery resurrection",
+          effect:
+            "Death Trigger freeze radius increased to 20ft, duration increased to 2 rounds, enemies take 1d6 frost damage",
+          description: "Enhanced Death Trigger makes dying even more tactical",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "passive", "phylactery", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_cryonic_preservation',
-      name: 'Cryonic Preservation',
-      description: 'Freeze yourself or an ally in ice, becoming invulnerable but unable to act.',
+      id: "lichborne_cryonic_preservation",
+      name: "Cryonic Preservation",
+      description:
+        "Freeze yourself or an ally in ice, becoming invulnerable but unable to act.",
       level: 5,
-      spellType: 'ACTION',
-      effectTypes: ['utility', 'buff'],
+      spellType: "ACTION",
+      effectTypes: ["utility", "buff"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Ice Shards',
-        tags: ['utility', 'buff', 'defense', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Ice Shards",
+        tags: ["utility", "buff", "defense", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       utilityConfig: {
-        utilityType: 'special',
-        selectedEffects: [{
-          id: 'ice_block',
-          name: 'Cryonic Preservation',
-          description: 'Target is frozen in unbreakable ice. Immune to all damage. Cannot move or act. Lasts 2 rounds.'
-        }],
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "ice_block",
+            name: "Cryonic Preservation",
+            description:
+              "Target is frozen in unbreakable ice. Immune to all damage. Cannot move or act. Lasts 2 rounds.",
+          },
+        ],
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         concentration: false,
-        power: 'major'
+        power: "major",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 16 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['utility', 'buff', 'defense', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "In Aura Mode, Cryonic Preservation also Chills enemies within 10ft of the frozen target",
+          description: "Aura adds AoE chill to preservation",
+        },
+      },
+      resolution: "DICE",
+      tags: ["utility", "buff", "defense", "frost", "lichborne"],
     },
 
     // ===== LEVEL 6 SPELLS =====
     {
-      id: 'lichborne_glacial_cascade',
-      name: 'Glacial Cascade',
-      description: 'Unleash a cascade of ice shards that strike multiple enemies in sequence.',
+      id: "lichborne_glacial_cascade",
+      name: "Glacial Cascade",
+      description:
+        "Unleash a cascade of ice shards that strike multiple enemies in sequence.",
       level: 6,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen Area',
-        tags: ['attack', 'damage', 'chain', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen Area",
+        tags: ["attack", "damage", "chain", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '9d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
-          resolution: 'DICE',
+        formula: "9d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
-        propagationMethod: 'chain',
-        propagationBehavior: 'nearest'
+        propagationMethod: "chain",
+        propagationBehavior: "nearest",
       },
       propagation: {
-        method: 'chain',
-        behavior: 'nearest',
+        method: "chain",
+        behavior: "nearest",
         parameters: {
           count: 3,
           range: 30,
-          decay: 20
-        }
+          decay: 20,
+        },
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 22 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'chain', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Each chain hit deals +1d6 frost damage (total 9d6+1d6 per chain)",
+          description: "Aura enhances cascade chain damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Chain jumps to frozen targets first and deals +1d6 per jump",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "chain", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_absolute_zero',
-      name: 'Absolute Zero',
-      description: 'Create a zone of absolute zero temperature that instantly freezes everything within.',
+      id: "lichborne_absolute_zero",
+      name: "Absolute Zero",
+      description:
+        "Create a zone of absolute zero temperature that instantly freezes everything within.",
       level: 6,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Inflicted Ice Shard',
-        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Inflicted Ice Shard",
+        tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '8d6 + intelligence * 2',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "8d6 + intelligence * 2",
+        elementType: "frost",
+        damageTypes: ["frost"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 16,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'strong',
+        controlType: "incapacitation",
+        strength: "strong",
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 16,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'paralyze',
-          name: 'Frozen Solid',
-          description: 'Target is frozen solid and cannot take actions or reactions for 2 rounds',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'automatic',
-            saveType: 'constitution',
-            saveDC: 18,
-            duration: 2,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "paralyze",
+            name: "Frozen Solid",
+            description:
+              "Target is frozen solid and cannot take actions or reactions for 2 rounds",
+            config: {
+              durationType: "rounds",
+              recoveryMethod: "automatic",
+              saveType: "constitution",
+              saveDC: 18,
+              duration: 2,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 25 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 12,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A crystal of pure ice'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "A crystal of pure ice",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 8d6+1d6+Int*2). Freeze duration extended by 1 round.",
+          description: "Aura enhances absolute zero freeze and damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Absolute Zero deals +2d6 frost and freeze cannot be saved out of",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_phylactery_burst',
-      name: 'Phylactery Burst',
-      description: 'Release all stored Phylactery HP as a devastating explosion of necrotic frost. Empties Phylactery completely.',
+      id: "lichborne_phylactery_burst",
+      name: "Phylactery Burst",
+      description:
+        "Release all stored Phylactery HP as a devastating explosion of necrotic frost. Empties Phylactery completely.",
       level: 6,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'necrotic',
-        secondaryElement: 'frost',
-        icon: 'Necrotic/Necrotic Death',
-        tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'lichborne'],
+        school: "necrotic",
+        secondaryElement: "frost",
+        icon: "Necrotic/Necrotic Death",
+        tags: [
+          "attack",
+          "damage",
+          "aoe",
+          "necrotic",
+          "frost",
+          "phylactery",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '8d6 + intelligence + phylactery_hp',
-        elementType: 'frost',
-        secondaryElementType: 'necrotic',
-        damageTypes: ['direct'],
-        description: 'Deals base damage plus your stored Phylactery HP. Empties Phylactery after use.',
-          resolution: 'DICE',
+        formula: "8d6 + intelligence + phylactery_hp",
+        elementType: "frost",
+        secondaryElementType: "necrotic",
+        damageTypes: ["frost", "necrotic"],
+        description:
+          "Deals base damage plus your stored Phylactery HP. Empties Phylactery after use.",
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 25 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 10,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'lichborne']
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Frost portion deals +1d6 damage",
+          description: "Aura enhances frost damage portion",
+        },
+        phylacteryHarvester: {
+          trigger: "Uses stored Phylactery HP as bonus damage",
+          effect: "Empties Phylactery completely on cast",
+          description: "Sacrifice resurrection resource for devastating AoE",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Deals +1d6 frost damage",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "aoe",
+        "necrotic",
+        "frost",
+        "phylactery",
+        "lichborne",
+      ],
     },
 
     // ===== LEVEL 7 SPELLS =====
     {
-      id: 'lichborne_eternal_winter',
-      name: 'Eternal Winter',
-      description: 'Summon an eternal winter storm that engulfs the battlefield.',
+      id: "lichborne_eternal_winter",
+      name: "Eternal Winter",
+      description:
+        "Summon an eternal winter storm that engulfs the battlefield.",
       level: 7,
-      spellType: 'STATE',
-      effectTypes: ['damage', 'control'],
+      spellType: "STATE",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen Wave',
-        tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen Wave",
+        tags: ["damage", "control", "aoe", "zone", "frost", "lichborne"],
         zoneDuration: 4,
-        zoneDurationUnit: 'rounds',
-        leaveTrail: false
+        zoneDurationUnit: "rounds",
+        leaveTrail: false,
       },
       damageConfig: {
-        formula: '8d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['area'],
+        formula: "8d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         criticalConfig: {
           enabled: true,
-          critType: 'dice',
+          critType: "dice",
           critMultiplier: 2,
           critDiceOnly: false,
-          extraDice: '3d6',
-          critEffects: ['freeze'],
+          extraDice: "3d6",
+          critEffects: ["freeze"],
           freezeConfig: {
             duration: 1,
-            durationUnit: 'round',
+            durationUnit: "round",
             saveDC: 17,
-            saveType: 'constitution',
-            speedReduction: 100
-          }
+            saveType: "constitution",
+            speedReduction: 100,
+          },
         },
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
         hasDotEffect: true,
         dotConfig: {
           duration: 4,
-          tickFrequency: 'round',
-          dotFormula: '8d6 + intelligence',
-          isProgressiveDot: false
+          tickFrequency: "round",
+          dotFormula: "8d6 + intelligence",
+          isProgressiveDot: false,
         },
-        description: 'All enemies in the zone take damage at the start of their turn',
-          resolution: 'DICE',
+        description:
+          "All enemies in the zone take damage at the start of their turn",
+        resolution: "DICE",
       },
       debuffConfig: {
-        debuffType: 'statusEffect',
+        debuffType: "statusEffect",
         durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        effects: [{
-          id: 'slow',
-          name: 'Winter Storm',
-          description: 'Movement speed reduced by 50% and visibility heavily obscured',
-          statPenalty: { stat: 'movement_speed', value: -50, magnitudeType: 'percentage' },
-          movementPenalty: -50
-        }]
+        durationType: "rounds",
+        durationUnit: "rounds",
+        effects: [
+          {
+            id: "slow",
+            name: "Winter Storm",
+            description:
+              "Movement speed reduced by 50% and visibility heavily obscured",
+            statPenalty: {
+              stat: "movement_speed",
+              value: -50,
+              magnitudeType: "percentage",
+            },
+            movementPenalty: -50,
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 80,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 20,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 24 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Snow from a mountain peak'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "Snow from a mountain peak",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['damage', 'control', 'aoe', 'zone', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage per tick (total 8d6+1d6 per round for 4 rounds)",
+          description: "Aura enhances eternal winter storm damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Frozen targets take +2d6 frost damage per tick and movement reduced to 0",
+        },
+      },
+      resolution: "DICE",
+      tags: ["damage", "control", "aoe", "zone", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_frost_chains',
-      name: 'Frost Chains',
-      description: 'Bind multiple enemies with chains of magical ice.',
+      id: "lichborne_frost_chains",
+      name: "Frost Chains",
+      description: "Bind multiple enemies with chains of magical ice.",
       level: 7,
-      spellType: 'ACTION',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      effectTypes: ["control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Ice Orb',
-        tags: ['control', 'multi target', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Ice Orb",
+        tags: ["control", "multi target", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'restraint',
-        strength: 'strong',
+        controlType: "restraint",
+        strength: "strong",
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 17,
-        saveType: 'strength',
+        saveType: "strength",
         savingThrow: true,
-        effects: [{
-          id: 'bind',
-          name: 'Frost Chains',
-          description: 'Target is bound by frost chains and cannot move or take actions for 3 rounds. Can attempt DC 17 Strength save at end of each turn to break free.',
-          config: {
-            restraintType: 'magical',
-            saveType: 'strength',
-            saveDC: 17,
-            duration: 3,
-            durationUnit: 'rounds',
-            immobilize: true
-          }
-        }]
+        effects: [
+          {
+            id: "bind",
+            name: "Frost Chains",
+            description:
+              "Target is bound by frost chains and cannot move or take actions for 3 rounds. Can attempt DC 17 Strength save at end of each turn to break free.",
+            config: {
+              restraintType: "magical",
+              saveType: "strength",
+              saveDC: 17,
+              duration: 3,
+              durationUnit: "rounds",
+              immobilize: true,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'multi',
-        rangeType: 'ranged',
+        targetingType: "multi",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 4,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 25 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4
-       },
-      resolution: 'DICE',
-      tags: ['control', 'multi target', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active: "Frost Chains duration increased to 4 rounds (from 3)",
+          description: "Aura extends chain binding duration",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Frost Chains bypass initial save — automatically restrained",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "multi target", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_soul_frost',
-      name: 'Soul Frost',
-      description: 'Corrupt a target with hybrid necrotic frost, draining their life force to heal yourself and chilling nearby enemies. Deals frost and necrotic damage split between the target and enemies in a 10ft radius around them.',
+      id: "lichborne_soul_frost",
+      name: "Soul Frost",
+      description:
+        "Corrupt a target with hybrid necrotic frost, draining their life force to heal yourself and chilling nearby enemies. Deals frost and necrotic damage split between the target and enemies in a 10ft radius around them.",
       level: 7,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'healing', 'control'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "healing", "control"],
       typeConfig: {
-        school: 'frost',
-        secondaryElement: 'necrotic',
-        icon: 'Necrotic/Drain Soul',
-        tags: ['attack', 'damage', 'healing', 'aoe', 'necrotic', 'frost', 'lichborne'],
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Necrotic/Drain Soul",
+        tags: [
+          "attack",
+          "damage",
+          "healing",
+          "aoe",
+          "necrotic",
+          "frost",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '6d6 + intelligence',
-        elementType: 'frost',
-        secondaryElementType: 'necrotic',
-        damageTypes: ['direct'],
-        description: 'Deals 3d6 frost + 3d6 necrotic to primary target. Enemies within 10ft take 2d6 frost damage and must save or be Chilled. Heal for half of total damage dealt.',
+        formula: "6d6 + intelligence",
+        elementType: "frost",
+        secondaryElementType: "necrotic",
+        damageTypes: ["frost", "necrotic"],
+        description:
+          "Deals 3d6 frost + 3d6 necrotic to primary target. Enemies within 10ft take 2d6 frost damage and must save or be Chilled. Heal for half of total damage dealt.",
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 17,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       healingConfig: {
-        formula: 'half_damage_dealt',
-        healingType: 'instant',
+        formula: "half_damage_dealt",
+        healingType: "instant",
         hasHotEffect: false,
         hasShieldEffect: false,
-        description: 'Heal yourself for half the total damage dealt'
+        description: "Heal yourself for half the total damage dealt",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
+        targetSelectionMethod: "manual",
         requiresLineOfSight: true,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 10, centeredOn: 'target' }
+        aoeShape: "circle",
+        aoeParameters: { radius: 10, centeredOn: "target" },
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 22 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'healing', 'aoe', 'necrotic', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 6d6+1d6 frost + 3d6 necrotic). Healing increases proportionally.",
+          description: "Aura enhances the hybrid life drain",
+        },
+        phylacteryHarvester: {
+          trigger: "Primary target dies from this spell",
+          effect: "Gain +2d6 bonus Phylactery HP from Soul Frost kills",
+          description: "Enhanced phylactery harvesting from hybrid damage",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Soul Frost deals +1d6 frost and +1d6 necrotic damage",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "healing",
+        "aoe",
+        "necrotic",
+        "frost",
+        "lichborne",
+      ],
     },
 
     // ===== LEVEL 8 SPELLS =====
     {
-      id: 'lichborne_glacier_formation',
-      name: 'Glacier Formation',
-      description: 'Create a massive glacier that crushes and freezes all enemies in a huge area.',
+      id: "lichborne_glacier_formation",
+      name: "Glacier Formation",
+      description:
+        "Create a massive glacier that crushes and freezes all enemies in a huge area.",
       level: 8,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen in Ice",
+        tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '14d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "14d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'agility',
+          savingThrowType: "agility",
           difficultyClass: 18,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'restraint',
-        strength: 'extreme',
+        controlType: "restraint",
+        strength: "extreme",
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 18,
-        saveType: 'strength',
+        saveType: "strength",
         savingThrow: true,
-        effects: [{
-          id: 'bind',
-          name: 'Trapped in Glacier',
-          description: 'Target is trapped within the glacier and restrained for 3 rounds. Requires DC 18 Strength check to break free.',
-          config: {
-            restraintType: 'physical',
-            saveType: 'strength',
-            saveDC: 18,
-            duration: 3,
-            durationUnit: 'rounds',
-            immobilize: true
-          }
-        }]
+        effects: [
+          {
+            id: "bind",
+            name: "Trapped in Glacier",
+            description:
+              "Target is trapped within the glacier and restrained for 3 rounds. Requires DC 18 Strength check to break free.",
+            config: {
+              restraintType: "physical",
+              saveType: "strength",
+              saveDC: 18,
+              duration: 3,
+              durationUnit: "rounds",
+              immobilize: true,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 100,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 35 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 15,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 30 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Ancient glacial ice'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "Ancient glacial ice",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 14d6+1d6). Glacier freeze duration extended by 1 round.",
+          description: "Aura enhances glacier formation damage and freeze",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Glacier Formation deals +2d6 frost damage and trap duration increased to 4 rounds",
+        },
+      },
+      resolution: "DICE",
+      tags: ["attack", "damage", "control", "aoe", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_frozen_tomb',
-      name: 'Frozen Tomb',
-      description: 'Encase a powerful enemy in an unbreakable tomb of ice.',
+      id: "lichborne_frozen_tomb",
+      name: "Frozen Tomb",
+      description: "Encase a powerful enemy in an unbreakable tomb of ice.",
       level: 8,
-      spellType: 'ACTION',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      effectTypes: ["control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Icey wall',
-        tags: ['control', 'single target', 'frost', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Icey wall",
+        tags: ["control", "single target", "frost", "lichborne"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
+        controlType: "incapacitation",
+        strength: "extreme",
         duration: 5,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 18,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'paralyze',
-          name: 'Frozen Tomb',
-          description: 'Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'save_or_break',
-            saveType: 'constitution',
-            saveDC: 18,
-            duration: 5,
-            durationUnit: 'rounds',
-            immobilize: true,
-            shieldValue: 150
-          }
-        }]
+        effects: [
+          {
+            id: "paralyze",
+            name: "Frozen Tomb",
+            description:
+              "Target is encased in magical ice and completely incapacitated for 5 rounds. Cannot take any actions. Ice has 150 HP. Target can attempt DC 18 Constitution save at end of each turn.",
+            config: {
+              durationType: "rounds",
+              recoveryMethod: "save_or_break",
+              saveType: "constitution",
+              saveDC: 18,
+              duration: 5,
+              durationUnit: "rounds",
+              immobilize: true,
+              shieldValue: 150,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 28 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['control', 'single target', 'frost', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Frozen Tomb HP increased to 200 (from 150). Duration extended to 6 rounds.",
+          description: "Aura strengthens the tomb while active",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Frozen Tomb bypasses initial save if target is already Frozen",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "single target", "frost", "lichborne"],
     },
 
     {
-      id: 'lichborne_deathfrost_aura',
-      name: 'Deathfrost Aura',
-      description: 'Amplify your Eternal Frost Aura to lethal levels, dealing damage to nearby enemies.',
+      id: "lichborne_deathfrost_aura",
+      name: "Deathfrost Aura",
+      description:
+        "Amplify your Eternal Frost Aura to lethal levels, dealing damage to nearby enemies.",
       level: 8,
-      spellType: 'STATE',
-      effectTypes: ['damage', 'buff'],
+      spellType: "STATE",
+      effectTypes: ["damage", "buff"],
       typeConfig: {
-        school: 'frost',
-        secondaryElement: 'necrotic',
-        icon: 'Frost/Frozen in Ice',
-        tags: ['buff', 'damage', 'aura', 'frost', 'necrotic', 'lichborne'],
-        stateVisibility: 'visible',
+        school: "frost",
+        secondaryElement: "necrotic",
+        icon: "Frost/Frozen in Ice",
+        tags: ["buff", "damage", "aura", "frost", "necrotic", "lichborne"],
+        stateVisibility: "visible",
         cooldownAfterTrigger: 0,
-        cooldownUnit: 'seconds',
-        maxTriggers: -1
+        cooldownUnit: "seconds",
+        maxTriggers: -1,
       },
       damageConfig: {
-        formula: '13d6 + intelligence',
-        elementType: 'frost',
-        secondaryElementType: 'necrotic',
-        damageTypes: ['area'],
-        description: 'Enemies within 15 feet take damage at the start of their turn',
-          resolution: 'DICE',
+        formula: "13d6 + intelligence",
+        elementType: "frost",
+        secondaryElementType: "necrotic",
+        damageTypes: ["frost", "necrotic"],
+        description:
+          "Enemies within 15 feet take damage at the start of their turn",
+        resolution: "DICE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'frost_amplification',
-          name: 'Amplified Eternal Frost',
-          description: 'Eternal Frost Aura bonus increased to +2d6 for 4 rounds',
-          statModifier: {
-            stat: 'frost_damage',
-            magnitude: 2,
-            magnitudeType: 'dice'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "frost_amplification",
+            name: "Amplified Eternal Frost",
+            description:
+              "Eternal Frost Aura bonus increased to +2d6 for 4 rounds",
+            statModifier: {
+              stat: "frost_damage",
+              magnitude: 2,
+              magnitudeType: "dice",
+            },
+          },
+        ],
         durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 15 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 10,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 32 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'damage', 'aura', 'frost', 'necrotic', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Amplifies Eternal Frost Aura bonus from +1d6 to +2d6 for 4 rounds. Aura tick damage increased.",
+          description:
+            "Deathfrost Aura supercharges your existing Eternal Frost Aura",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Frozen targets take +3d6 frost damage per tick from Deathfrost Aura",
+        },
+      },
+      resolution: "DICE",
+      tags: ["buff", "damage", "aura", "frost", "necrotic", "lichborne"],
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
-      id: 'lichborne_ice_age',
-      name: 'Ice Age',
-      description: 'Bring forth a new ice age, freezing the entire battlefield.',
+      id: "lichborne_ice_age",
+      name: "Ice Age",
+      description:
+        "Bring forth a new ice age, freezing the entire battlefield.",
       level: 9,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frozen Wave',
-        tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'epic', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frozen Wave",
+        tags: [
+          "attack",
+          "damage",
+          "control",
+          "aoe",
+          "frost",
+          "epic",
+          "lichborne",
+        ],
         castTime: 3,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '18d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "18d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 19,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
+        controlType: "incapacitation",
+        strength: "extreme",
         duration: 4,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 19,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'paralyze',
-          name: 'Frozen by Ice Age',
-          description: 'Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'save',
-            saveType: 'constitution',
-            saveDC: 19,
-            duration: 4,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "paralyze",
+            name: "Frozen by Ice Age",
+            description:
+              "Target is completely frozen solid for 4 rounds. Cannot take any actions or reactions. Requires DC 19 Constitution save at end of each turn to break free.",
+            config: {
+              durationType: "rounds",
+              recoveryMethod: "save",
+              saveType: "constitution",
+              saveDC: 19,
+              duration: 4,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 150,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 60 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 30,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: false
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 35 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A crystal from the elemental plane of ice'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "A crystal from the elemental plane of ice",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'frost', 'epic', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 18d6+1d6). All enemies Frozen for 4 rounds on hit.",
+          description: "Aura enhances the apocalyptic freeze",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Ice Age deals +3d6 frost damage to already-Frozen targets and extends freeze to 6 rounds",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "control",
+        "aoe",
+        "frost",
+        "epic",
+        "lichborne",
+      ],
     },
 
     {
-      id: 'lichborne_lich_ascension',
-      name: 'Lich Ascension',
-      description: 'Temporarily ascend to true lichdom, gaining immense power and near invulnerability.',
+      id: "lichborne_lich_ascension",
+      name: "Lich Ascension",
+      description:
+        "Temporarily ascend to true lichdom, gaining immense power and near invulnerability.",
       level: 9,
-      spellType: 'STATE',
-      effectTypes: ['buff', 'transformation'],
+      spellType: "STATE",
+      effectTypes: ["buff", "transformation"],
       typeConfig: {
-        school: 'necrotic',
-        secondaryElement: 'frost',
-        icon: 'Void/Consumed by Void',
-        tags: ['buff', 'transformation', 'phylactery', 'epic', 'lichborne'],
-        stateVisibility: 'visible',
+        school: "necrotic",
+        secondaryElement: "frost",
+        icon: "Void/Consumed by Void",
+        tags: ["buff", "transformation", "phylactery", "epic", "lichborne"],
+        stateVisibility: "visible",
         cooldownAfterTrigger: 0,
-        cooldownUnit: 'seconds',
-        maxTriggers: 1
+        cooldownUnit: "seconds",
+        maxTriggers: 1,
       },
       buffConfig: {
-        buffType: 'statEnhancement',
+        buffType: "statEnhancement",
         effects: [
           {
-            id: 'lich_power',
-            name: 'Lich Power',
-            description: 'All frost spells deal +3d6 damage, gain +5 armor, and reduce all incoming damage by 3 for 5 rounds',
+            id: "lich_power",
+            name: "Lich Power",
+            description:
+              "All frost spells deal +3d6 damage, gain +5 armor, and reduce all incoming damage by 3 for 5 rounds",
             statModifier: {
-              stat: 'armor',
+              stat: "armor",
               magnitude: 5,
-              magnitudeType: 'flat'
-            }
+              magnitudeType: "flat",
+            },
           },
           {
-            id: 'lich_reduction',
-            name: 'Undead Resilience',
-            description: 'Reduce all incoming damage by 3 (flat reduction per hit) for 5 rounds',
+            id: "lich_reduction",
+            name: "Undead Resilience",
+            description:
+              "Reduce all incoming damage by 3 (flat reduction per hit) for 5 rounds",
             statModifier: {
-              stat: 'damage_reduction',
+              stat: "damage_reduction",
               magnitude: 3,
-              magnitudeType: 'flat'
-            }
-          }
+              magnitudeType: "flat",
+            },
+          },
         ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       transformationConfig: {
-        transformationType: 'elemental',
-        targetType: 'self',
+        transformationType: "elemental",
+        targetType: "self",
         duration: 5,
-        durationUnit: 'rounds',
-        power: 'major',
-        newForm: 'Eternal Winter',
-        description: 'Become one with the endless cold, transcending the limitations of undeath.',
+        durationUnit: "rounds",
+        power: "major",
+        newForm: "Eternal Winter",
+        description:
+          "Become one with the endless cold, transcending the limitations of undeath.",
         grantedAbilities: [
-          { id: 'frost_control', name: 'Frost Aura Mastery', description: 'Eternal Frost Aura no longer drains your HP' },
-          { id: 'frost_immunity', name: 'Frost Immunity', description: 'Immune to frost damage' }
-        ]
+          {
+            id: "frost_control",
+            name: "Frost Aura Mastery",
+            description: "Eternal Frost Aura no longer drains your HP",
+          },
+          {
+            id: "frost_immunity",
+            name: "Frost Immunity",
+            description: "Immune to frost damage",
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['buff', 'transformation', 'phylactery', 'epic', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Eternal Frost Aura no longer drains HP during Lich Ascension. Frost spell bonus increased to +3d6.",
+          description:
+            "Ascension removes the HP cost of the aura while enhancing it",
+        },
+        phylacteryHarvester: {
+          trigger: "During Lich Ascension",
+          effect:
+            "Phylactery max increased to 100 HP. All frost kills grant +2d6 Phylactery HP.",
+          description: "Ascended lich harvests souls more efficiently",
+        },
+      },
+      resolution: "DICE",
+      tags: ["buff", "transformation", "phylactery", "epic", "lichborne"],
     },
 
     {
-      id: 'lichborne_phylactery_nova',
-      name: 'Phylactery Nova',
-      description: 'Release all stored phylactery power in a devastating explosion.',
+      id: "lichborne_phylactery_nova",
+      name: "Phylactery Nova",
+      description:
+        "Release all stored phylactery power in a devastating explosion.",
       level: 9,
-      spellType: 'ACTION',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'necrotic',
-        secondaryElement: 'frost',
-        icon: 'Psychic/Mind Strike',
-        tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'epic', 'lichborne'],
+        school: "necrotic",
+        secondaryElement: "frost",
+        icon: "Psychic/Mind Strike",
+        tags: [
+          "attack",
+          "damage",
+          "aoe",
+          "necrotic",
+          "frost",
+          "phylactery",
+          "epic",
+          "lichborne",
+        ],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '20d6 + intelligence + phylactery_hp',
-        elementType: 'necrotic',
-        secondaryElementType: 'frost',
-        damageTypes: ['direct'],
-        description: 'Damage scales with stored phylactery HP (multiplied by 2). Empties phylactery completely.',
-          resolution: 'DICE',
+        formula: "20d6 + intelligence + phylactery_hp",
+        elementType: "necrotic",
+        secondaryElementType: "frost",
+        damageTypes: ["necrotic", "frost"],
+        description:
+          "Damage scales with stored phylactery HP (multiplied by 2). Empties phylactery completely.",
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 50 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 25,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: [],
-        resourceValues: {},
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'necrotic', 'frost', 'phylactery', 'epic', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 20d6+1d6+phylactery_hp). Phylactery HP multiplier increased to x3.",
+          description: "Aura enhances the nova explosion",
+        },
+        phylacteryHarvester: {
+          trigger: "Phylactery Nova cast",
+          effect:
+            "Empties Phylactery completely. Damage scales with stored HP.",
+          description:
+            "Ultimate sacrifice of resurrection resource for maximum destruction",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect: "Phylactery Nova deals +2d6 frost damage to Frozen targets",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "aoe",
+        "necrotic",
+        "frost",
+        "phylactery",
+        "epic",
+        "lichborne",
+      ],
     },
 
     // ===== LEVEL 10 SPELLS =====
     {
-      id: 'lichborne_apocalyptic_freeze',
-      name: 'Apocalyptic Freeze',
-      description: 'Freeze time itself, stopping all enemies in their tracks while you move freely.',
+      id: "lichborne_apocalyptic_freeze",
+      name: "Apocalyptic Freeze",
+      description:
+        "Freeze time itself, stopping all enemies in their tracks while you move freely.",
       level: 10,
-      spellType: 'ACTION',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      effectTypes: ["control"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Frost Freeze 1',
-        tags: ['control', 'aoe', 'frost', 'time', 'legendary', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Frost Freeze 1",
+        tags: ["control", "aoe", "frost", "time", "legendary", "lichborne"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
+        controlType: "incapacitation",
+        strength: "extreme",
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 20,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'stun',
-          name: 'Time Frozen',
-          description: 'All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.',
-          config: {
-            durationType: 'rounds',
-            recoveryMethod: 'automatic',
-            saveType: 'constitution',
-            saveDC: 20,
-            duration: 3,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "stun",
+            name: "Time Frozen",
+            description:
+              "All enemies are frozen in time for 3 rounds. Cannot move, act, or react. You can act normally. Requires DC 20 Constitution save to negate.",
+            config: {
+              durationType: "rounds",
+              recoveryMethod: "automatic",
+              saveType: "constitution",
+              saveDC: 20,
+              duration: 3,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 100 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 50,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 38 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'The heart of a time elemental'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "The heart of a time elemental",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['control', 'aoe', 'frost', 'time', 'legendary', 'lichborne']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "In Aura Mode, Apocalyptic Freeze also Chills all enemies on the battlefield for 3 rounds after freeze ends",
+          description: "Aura adds lingering chill after time freeze",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "Apocalyptic Freeze extends duration to 5 rounds on already-Frozen targets",
+        },
+      },
+      resolution: "DICE",
+      tags: ["control", "aoe", "frost", "time", "legendary", "lichborne"],
     },
 
     {
-      id: 'lichborne_eternal_phylactery',
-      name: 'Eternal Phylactery',
-      description: 'Bind your soul permanently to your phylactery, ensuring infinite resurrections.',
+      id: "lichborne_eternal_phylactery",
+      name: "Eternal Phylactery",
+      description:
+        "Bind your soul permanently to your phylactery, ensuring infinite resurrections.",
       level: 10,
-      spellType: 'PASSIVE',
-      effectTypes: ['utility', 'buff'],
+      spellType: "PASSIVE",
+      effectTypes: ["utility", "buff"],
       typeConfig: {
-        school: 'necrotic',
-        icon: 'Necrotic/Protective Aura',
-        tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne', 'toggleable'],
-        toggleable: true
+        school: "necrotic",
+        icon: "Necrotic/Protective Aura",
+        tags: [
+          "utility",
+          "buff",
+          "passive",
+          "phylactery",
+          "legendary",
+          "lichborne",
+          "toggleable",
+        ],
+        toggleable: true,
       },
       utilityConfig: {
-        utilityType: 'special',
-        selectedEffects: [{
-          id: 'eternal_phylactery',
-          name: 'Eternal Phylactery',
-          description: 'Resurrection limit increased to 3 per combat. After each resurrection, phylactery auto-refills to 30 HP. Resurrection still spends all stored Phylactery HP. Can only be permanently destroyed by a legendary ritual.'
-        }],
+        utilityType: "special",
+        selectedEffects: [
+          {
+            id: "eternal_phylactery",
+            name: "Eternal Phylactery",
+            description:
+              "Resurrection limit increased to 3 per combat. After each resurrection, phylactery auto-refills to 30 HP. Resurrection still spends all stored Phylactery HP. Can only be permanently destroyed by a legendary ritual.",
+          },
+        ],
         duration: 0,
-        durationUnit: 'permanent',
+        durationUnit: "permanent",
         concentration: false,
-        power: 'major'
+        power: "major",
       },
       buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'phylactery_eternal',
-          name: 'Eternal Phylactery',
-          description: 'Enhanced phylactery with increased resurrection charges and auto-refill',
-          customDescription: 'Your phylactery has become eternal. You can resurrect up to 3 times per combat. After each resurrection, your phylactery auto-refills to 30 HP. Each resurrection still spends all stored Phylactery HP.',
-          mechanicsText: '3 resurrections per combat. Auto-refill to 30 HP after resurrection. Still spends all stored HP on rez.'
-        }],
+        buffType: "custom",
+        effects: [
+          {
+            id: "phylactery_eternal",
+            name: "Eternal Phylactery",
+            description:
+              "Enhanced phylactery with increased resurrection charges and auto-refill",
+            customDescription:
+              "Your phylactery has become eternal. You can resurrect up to 3 times per combat. After each resurrection, your phylactery auto-refills to 30 HP. Each resurrection still spends all stored Phylactery HP.",
+            mechanicsText:
+              "3 resurrections per combat. Auto-refill to 30 HP after resurrection. Still spends all stored HP on rez.",
+          },
+        ],
         durationValue: 0,
-        durationType: 'permanent',
-        durationUnit: 'permanent',
+        durationType: "permanent",
+        durationUnit: "permanent",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
         resourceTypes: [],
         resourceValues: {},
         useFormulas: {},
         actionPoints: 0,
-        components: ['ritual'],
-        materialComponents: 'The essence of immortality, 10,000 gold pieces worth of rare gems'
+        components: ["ritual"],
+        materialComponents:
+          "The essence of immortality, 10,000 gold pieces worth of rare gems",
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0
-       },
-      resolution: 'DICE',
-      tags: ['utility', 'buff', 'passive', 'phylactery', 'legendary', 'lichborne', 'toggleable']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      specialMechanics: {
+        phylacteryHarvester: {
+          trigger: "Passive enhancement",
+          effect:
+            "Resurrection limit increased to 3 per combat. Auto-refill to 30 HP after each resurrection. Phylactery max increased to 100 HP.",
+          description:
+            "The phylactery becomes eternal — infinite resurrections with enhanced capacity",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "utility",
+        "buff",
+        "passive",
+        "phylactery",
+        "legendary",
+        "lichborne",
+        "toggleable",
+      ],
     },
 
     {
-      id: 'lichborne_world_freeze',
-      name: 'World Freeze',
-      description: 'Freeze the entire world in ice, creating a permanent winter apocalypse.',
+      id: "lichborne_world_freeze",
+      name: "World Freeze",
+      description:
+        "Freeze the entire world in ice, creating a permanent winter apocalypse.",
       level: 10,
-      spellType: 'ACTION',
-      effectTypes: ['damage', 'control', 'utility'],
+      spellType: "ACTION",
+      effectTypes: ["damage", "control", "utility"],
       typeConfig: {
-        school: 'frost',
-        icon: 'Frost/Ice Crystal Rune',
-        tags: ['attack', 'damage', 'control', 'terrain', 'frost', 'legendary', 'lichborne'],
+        school: "frost",
+        icon: "Frost/Ice Crystal Rune",
+        tags: [
+          "attack",
+          "damage",
+          "control",
+          "terrain",
+          "frost",
+          "legendary",
+          "lichborne",
+        ],
         castTime: 5,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '25d6 + intelligence',
-        elementType: 'frost',
-        damageTypes: ['direct'],
+        formula: "25d6 + intelligence",
+        elementType: "frost",
+        damageTypes: ["frost"],
         savingThrowConfig: {
           enabled: true,
-          savingThrowType: 'constitution',
+          savingThrowType: "constitution",
           difficultyClass: 20,
-          saveOutcome: 'halves',
+          saveOutcome: "halves",
           partialEffect: true,
-          partialEffectFormula: 'damage/2'
+          partialEffectFormula: "damage/2",
         },
-          resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
+        controlType: "incapacitation",
+        strength: "extreme",
         duration: 10,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         saveDC: 20,
-        saveType: 'constitution',
+        saveType: "constitution",
         savingThrow: true,
-        effects: [{
-          id: 'paralyze',
-          name: 'World Freeze',
-          description: 'All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.',
-          config: {
-            durationType: 'hours',
-            recoveryMethod: 'save',
-            saveType: 'constitution',
-            saveDC: 22,
-            duration: 10,
-            durationUnit: 'rounds'
-          }
-        }]
+        effects: [
+          {
+            id: "paralyze",
+            name: "World Freeze",
+            description:
+              "All enemies are frozen solid for 10 rounds. Cannot take any actions. The terrain becomes permanently frozen.",
+            config: {
+              durationType: "hours",
+              recoveryMethod: "save",
+              saveType: "constitution",
+              saveDC: 22,
+              duration: 10,
+              durationUnit: "rounds",
+            },
+          },
+        ],
       },
       utilityConfig: {
-        utilityType: 'environment',
-        selectedEffects: [{
-          id: 'permanent_winter',
-          name: 'Permanent Winter',
-          description: 'The entire battlefield becomes permanently frozen terrain. Difficult terrain for enemies, normal for you.'
-        }],
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "permanent_winter",
+            name: "Permanent Winter",
+            description:
+              "The entire battlefield becomes permanently frozen terrain. Difficult terrain for enemies, normal for you.",
+          },
+        ],
         duration: 0,
-        durationUnit: 'permanent',
+        durationUnit: "permanent",
         concentration: false,
-        power: 'major'
+        power: "major",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'sight',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "sight",
+        aoeShape: "circle",
         aoeParameters: { radius: 200 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 100,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana'],
+        resourceTypes: ["mana"],
         resourceValues: { mana: 40 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A shard of the primordial ice, worth 50,000 gold'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "A shard of the primordial ice, worth 50,000 gold",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1
-       },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'terrain', 'frost', 'legendary', 'lichborne']
-    }
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      specialMechanics: {
+        eternalFrostAura: {
+          active:
+            "Deals +1d6 frost damage (total 25d6+1d6). All terrain permanently frozen.",
+          description: "Aura enhances the world-ending freeze",
+        },
+        frozenInteraction: {
+          condition: "Target has Frozen condition",
+          effect:
+            "World Freeze deals +3d6 frost to Frozen targets and freeze duration doubled",
+        },
+      },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "control",
+        "terrain",
+        "frost",
+        "legendary",
+        "lichborne",
+      ],
+    },
   ],
 
   // Spell Pools by Level
   spellPools: {
     1: [
-      'lichborne_frost_bolt',
-      'lichborne_ice_armor',
-      'lichborne_phylactery_store'
+      "lichborne_frost_bolt",
+      "lichborne_ice_armor",
+      "lichborne_phylactery_store",
     ],
     2: [
-      'lichborne_siphon_soul',
-      'lichborne_freezing_touch',
-      'lichborne_frost_ward'
+      "lichborne_siphon_soul",
+      "lichborne_freezing_touch",
+      "lichborne_frost_ward",
     ],
     3: [
-      'lichborne_frozen_orb',
-      'lichborne_ice_lance',
-      'lichborne_frost_fever',
-      'lichborne_ice_step'
+      "lichborne_frozen_orb",
+      "lichborne_ice_lance",
+      "lichborne_frost_fever",
+      "lichborne_ice_step",
     ],
     4: [
-      'lichborne_glacial_spike',
-      'lichborne_frost_nova',
-      'lichborne_phylactery_shield'
+      "lichborne_glacial_spike",
+      "lichborne_frost_nova",
+      "lichborne_phylactery_shield",
     ],
     5: [
-      'lichborne_blizzard',
-      'lichborne_deaths_return',
-      'lichborne_cryonic_preservation'
+      "lichborne_blizzard",
+      "lichborne_deaths_return",
+      "lichborne_cryonic_preservation",
     ],
     6: [
-      'lichborne_phylactery_burst',
-      'lichborne_absolute_zero',
-      'lichborne_glacial_cascade'
+      "lichborne_phylactery_burst",
+      "lichborne_absolute_zero",
+      "lichborne_glacial_cascade",
     ],
     7: [
-      'lichborne_eternal_winter',
-      'lichborne_frost_chains',
-      'lichborne_soul_frost'
+      "lichborne_eternal_winter",
+      "lichborne_frost_chains",
+      "lichborne_soul_frost",
     ],
     8: [
-      'lichborne_glacier_formation',
-      'lichborne_frozen_tomb',
-      'lichborne_deathfrost_aura'
+      "lichborne_glacier_formation",
+      "lichborne_frozen_tomb",
+      "lichborne_deathfrost_aura",
     ],
     9: [
-      'lichborne_ice_age',
-      'lichborne_lich_ascension',
-      'lichborne_phylactery_nova'
+      "lichborne_ice_age",
+      "lichborne_lich_ascension",
+      "lichborne_phylactery_nova",
     ],
     10: [
-      'lichborne_apocalyptic_freeze',
-      'lichborne_eternal_phylactery',
-      'lichborne_world_freeze'
-    ]
-  }
+      "lichborne_apocalyptic_freeze",
+      "lichborne_eternal_phylactery",
+      "lichborne_world_freeze",
+    ],
+  },
 };
-
-

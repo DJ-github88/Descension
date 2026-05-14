@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import WowWindow from '../windows/WowWindow';
 import usePartyStore, { PARTY_STATUS } from '../../store/partyStore';
 import useCharacterStore from '../../store/characterStore';
@@ -35,7 +35,8 @@ const PartyManagementWindow = ({ isOpen, onClose }) => {
 
     const { name: currentPlayerName } = useCharacterStore();
     const { friends, friendPresence } = useSocialStore();
-    const onlineUsers = usePresenceStore((state) => state.getOnlineUsersArray());
+    const onlineUsersMap = usePresenceStore((state) => state.onlineUsers);
+    const onlineUsers = useMemo(() => Array.from(onlineUsersMap.values()), [onlineUsersMap]);
 
     // Handle creating a new party
     const handleCreateParty = async () => {

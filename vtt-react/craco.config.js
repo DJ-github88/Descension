@@ -43,9 +43,16 @@ module.exports = {
         // This should already be set correctly by CRA, but we ensure it here
         webpackConfig.output.publicPath = '/';
         
-        // Disable filesystem cache in development to prevent ChunkLoadErrors
-        // This is a common issue on Windows with Webpack 5
-        webpackConfig.cache = false;
+        // RE-ENABLED CACHE: The project now has massive static data files (32+ classes, 3MB+ JS).
+        // Disabling cache makes every change take 10-15s to recompile.
+        // We use a filesystem cache with a specific version to ensure consistency.
+        webpackConfig.cache = {
+          type: 'filesystem',
+          version: '1.0.0',
+          buildDependencies: {
+            config: [__filename],
+          },
+        };
         
         // Let CRA handle chunk splitting defaults - don't override
         // React.lazy() works correctly with CRA's default webpack configuration

@@ -2346,10 +2346,16 @@ const useCharacterStore = create((set, get) => ({
             const lastUserId = localStorage.getItem('mythrill-last-user-id');
 
             // Only clear storage if we have a CLEAR switch between stable account types
-            if (lastAccountType && lastAccountType !== currentAccountType) {
+            // and we're not in the middle of auth initialization.
+            const isAuthInitialized = authStore.getState().isAuthInitialized;
+            const isTempUser = (id) => !id || id === 'dev-user-localhost' || id === 'dev-user-fallback' || id.startsWith('dev-user-');
+
+            if (isAuthInitialized && lastAccountType && lastAccountType !== currentAccountType) {
                 // If we're moving TO an authenticated account FROM a guest account, we keep the guest data
                 // but if we're moving BETWEEN different authenticated/dev accounts, we clean up.
-                if (lastAccountType === 'authenticated' || lastAccountType === 'dev') {
+                // CRITICAL: Don't clear if the current account is just the "dev" fallback.
+                // We ONLY clear if we are moving between two STABLE, NON-TEMP identities.
+                if (currentAccountType !== 'dev' && (lastAccountType === 'authenticated' || lastAccountType === 'dev') && !isTempUser(lastUserId)) {
                     console.log(`[CharacterStore] Account type change from ${lastAccountType} to ${currentAccountType}, clearing storage`);
                     localStorage.removeItem('mythrill-characters');
                     localStorage.removeItem('mythrill-active-character');
@@ -3221,10 +3227,10 @@ const useCharacterStore = create((set, get) => ({
     },
 
     // Load active character from localStorage on app initialization
-    loadActiveCharacter: async () => {
+    loadActiveCharacter: async (preloadedCharacters = null) => {
         try {
             // First ensure characters are loaded
-            const characters = await get().loadCharacters();
+            const characters = preloadedCharacters || await get().loadCharacters();
 
             console.log(`[CharacterStore] loadActiveCharacter: Found ${characters?.length || 0} characters`);
 
@@ -3591,9 +3597,10 @@ const useCharacterStore = create((set, get) => ({
         try {
             // Load characters first
             const characters = await get().loadCharacters();
+            set({ characters }); // Ensure they are in state
 
-            // Check for active character
-            const activeCharacter = await get().loadActiveCharacter();
+            // Check for active character - pass the already loaded characters to avoid double load
+            const activeCharacter = await get().loadActiveCharacter(characters);
 
             // Provide helpful feedback
             if (characters.length === 0) {

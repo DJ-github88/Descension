@@ -1,17 +1,17 @@
 export const PRIMALIST_DATA = {
-  id: 'primalist',
-  name: 'Primalist',
-  icon: 'fas fa-mountain',
-  role: 'Support/Control',
-  damageTypes: ['nature', 'lightning', 'fire'],
+  id: "primalist",
+  name: "Primalist",
+  icon: "fas fa-mountain",
+  role: "Support/Control",
+  damageTypes: ["nature", "lightning", "fire"],
 
   // Overview section
   overview: {
-    title: 'Primalist Overview',
-    subtitle: 'Master of Totemic Magic and Primal Forces',
+    title: "Primalist Overview",
+    subtitle: "Master of Totemic Magic and Primal Forces",
 
     quickOverview: {
-      title: 'Quick Overview',
+      title: "Quick Overview",
       content: `**What You Need to Know**: Primalists channel raw elemental forces through sacred totems placed on the battlefield—each totem grants passive effects, and when four or more resonate together they trigger powerful synergy combos like Healing Sanctuary or Elemental Fury.
 
 **Core Mechanic**: Place Totems → Build Totemic Synergy → Reach 4 Active Totems → Trigger Devastating Synergy Combos
@@ -20,20 +20,20 @@ export const PRIMALIST_DATA = {
 
 **Playstyle**: Strategic totem-based zone control
 
-**Best For**: Players who enjoy battlefield management, positional planning, and unleashing powerful combo effects through careful setup`
+**Best For**: Players who enjoy battlefield management, positional planning, and unleashing powerful combo effects through careful setup`,
     },
 
     description: `The Primalist harnesses the raw, untamed power of nature through the use of totems and earth magic. They can place and maintain powerful totems that channel primal forces, allowing them to support allies, control the battlefield, and unleash devastating effects on enemies. The Primalist's abilities are deeply rooted in their connection to the natural world, making them a versatile and strategic class that excels in both support and offense.`,
 
     roleplayIdentity: {
-      title: 'Roleplay Identity',
+      title: "Roleplay Identity",
       content: `The Primalist is a conduit of raw, untamed nature, channeling primal forces through sacred totems. They are shamans, earth-speakers, and keepers of ancient traditions who commune with the spirits of earth, wind, fire, and water. Primalists view the natural world as a living entity with which they maintain a sacred bond, placing totems as anchors to channel these elemental forces.
 
-In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering shamans who seek to maintain balance between civilization and the wild. They speak with reverence for the elements, perform rituals to honor nature spirits, and view their totems as sacred conduits rather than mere tools. Their connection to the earth runs deep, and they can sense disturbances in the natural order.`
+In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering shamans who seek to maintain balance between civilization and the wild. They speak with reverence for the elements, perform rituals to honor nature spirits, and view their totems as sacred conduits rather than mere tools. Their connection to the earth runs deep, and they can sense disturbances in the natural order.`,
     },
 
     combatRole: {
-      title: 'Combat Role',
+      title: "Combat Role",
       content: `**Primary Role**: Support/Control
 
 **Combat Style**: Strategic totem placement and battlefield control
@@ -50,11 +50,11 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 - Requires setup time to achieve maximum effectiveness
 - Vulnerable while placing totems
 - Limited direct damage without totem synergies
-- Positioning-dependent playstyle`
+- Positioning-dependent playstyle`,
     },
 
     playstyle: {
-      title: 'Playstyle',
+      title: "Playstyle",
       content: `The Primalist excels at creating powerful zones of control through strategic totem placement. Their playstyle revolves around:
 
 **Totem Management**: Carefully placing and maintaining up to 8 different totems, each providing unique benefits to allies or hindrances to enemies.
@@ -63,11 +63,11 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 
 **Battlefield Control**: Using totems to create zones that enhance allies, debuff enemies, and control the flow of combat.
 
-**Adaptive Strategy**: Switching between offensive and defensive totem combinations based on the situation, from healing sanctuaries to elemental storms.`
+**Adaptive Strategy**: Switching between offensive and defensive totem combinations based on the situation, from healing sanctuaries to elemental storms.`,
     },
 
     immersiveCombatExample: {
-      title: 'Combat Example: The Totem Circle',
+      title: "Combat Example: The Totem Circle",
       content: `**The Setup**: You're a Primalist (Earthwarden specialization) facing a group of demons (5 lesser demons + 1 demon lord). Your party is with you. Starting Totems: None. Starting Mana: 50/60. Totemic Synergy: 0. Your goal: Place totems strategically, build Totemic Synergy, then activate powerful synergy effects when you have 4 totems active and enough Synergy.
 
 **Starting State**: Totems: 0/8 | Totemic Synergy: 0 | Mana: 50/60 | HP: 55/55
@@ -280,87 +280,128 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 7. **Totem Stacking**: Individual totem effects stack (Healing + Rejuvenation + Guardian + Earth all active simultaneously)
 8. **Synergy Economy**: Started with 0, spent 12 on Healing Sanctuary, rebuilt to 12 by maintaining 5 totems
 
-You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that provide individual benefits, then when you have 4 totems active AND enough Synergy saved up, you activate SYNERGIES that combine their powers into devastating effects. The key is strategic totem placement, patient synergy building, and activating synergies at the critical moment. Each totem is a spirit ally. Together, they create SANCTUARIES OF POWER.`
-    }
+You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that provide individual benefits, then when you have 4 totems active AND enough Synergy saved up, you activate SYNERGIES that combine their powers into devastating effects. The key is strategic totem placement, patient synergy building, and activating synergies at the critical moment. Each totem is a spirit ally. Together, they create SANCTUARIES OF POWER.`,
+    },
   },
-  
+
   // Resource System
   resourceSystem: {
-    title: 'Totemic Synergy',
-    subtitle: 'Harmonizing Primal Forces',
+    title: "Totemic Synergy",
+    subtitle: "Harmonizing Primal Forces",
 
     description: `The Primalist conducts a symphony of spirits. By anchoring raw elemental forces into physical totems, you create overlapping zones of power. When four totems resonate in perfect harmony, they unlock devastating Synergies—massively amplified effects that turn the tide of battle.`,
 
     cards: [
       {
-        title: 'Active Totems (0-8)',
-        stats: '8 Unique Types',
-        details: 'Physical anchors on the battlefield. Each provides a unique passive buff in a 10ft radius. Vulnerable to attack (10 HP).'
+        title: "Active Totems (0-8)",
+        stats: "8 Unique Types",
+        details:
+          "Physical anchors on the battlefield. Each provides a unique passive buff in a 10ft radius. Vulnerable to attack (10 HP).",
       },
       {
-        title: 'Synergy (0-99+)',
-        stats: 'Resonance Gauge',
-        details: 'Built by placing and maintaining totems. Spent to activate powerful Synergy effects when 4 specific totems are present.'
-      }
+        title: "Synergy (0-99+)",
+        stats: "Resonance Gauge",
+        details:
+          "Built by placing and maintaining totems. Spent to activate powerful Synergy effects when 4 specific totems are present.",
+      },
     ],
 
     generationTable: {
-      headers: ['Trigger', 'Synergy Gain', 'Notes'],
+      headers: ["Trigger", "Synergy Gain", "Notes"],
       rows: [
-        ['Place Totem', '+1', 'Plus immediate passive radius effect'],
-        ['Totem Active (Start of Turn)', '+1 per totem', 'Maintaining a large circle generates synergy faster'],
-        ['Synergy Threshold', '4 Totems', 'Unlock Synergy activations (e.g., Healing Sanctuary)'],
-        ['Totem Destroyed', 'Break', 'Synergy generation drops; active Synergy may end'],
-        ['Reposition Totem', '0', 'Costs 1 Action to shift the zone']
-      ]
+        ["Place Totem", "+1", "Plus immediate passive radius effect"],
+        [
+          "Totem Active (Start of Turn)",
+          "+1 per totem",
+          "Maintaining a large circle generates synergy faster",
+        ],
+        [
+          "Synergy Threshold",
+          "4 Totems",
+          "Unlock Synergy activations (e.g., Healing Sanctuary)",
+        ],
+        [
+          "Totem Destroyed",
+          "Break",
+          "Synergy generation drops; active Synergy may end",
+        ],
+        ["Reposition Totem", "0", "Costs 1 Action to shift the zone"],
+      ],
     },
 
     usage: {
-      momentum: 'Place up to 8 totems (3 Mana each) to build a network of buffs. Each totem adds +1 Synergy per turn, accelerating your power curve.',
-      flourish: 'Spend 10–20 Synergy to activate a Synergy effect (like Healing Sanctuary or Elemental Fury). Requires 4 specific totems to be active simultaneously.'
+      momentum:
+        "Place up to 8 totems (3 Mana each) to build a network of buffs. Each totem adds +1 Synergy per turn, accelerating your power curve.",
+      flourish:
+        "Spend 10–20 Synergy to activate a Synergy effect (like Healing Sanctuary or Elemental Fury). Requires 4 specific totems to be active simultaneously.",
     },
 
     totemTypesTable: {
-      title: 'The Eight Totems',
-      headers: ['Totem', 'Passive Effect (10ft Radius)', 'Mana'],
+      title: "The Eight Totems",
+      headers: ["Totem", "Passive Effect (10ft Radius)", "Mana"],
       rows: [
-        ['Healing', 'Heals allies 1d6 HP/turn', '3'],
-        ['Guardian', 'Shield absorbs 5 dmg/attack', '3'],
-        ['Flamecaller', '+1d6 fire damage to attacks', '3'],
-        ['Storm', '+1 Spell Attack/Save DC', '3'],
-        ['Rejuvenation', 'Heals 1d4 HP at turn start', '3'],
-        ['Earth', '+2 Armor, resist non-magical', '3'],
-        ['Frost', 'Enemies -10ft movement speed', '3'],
-        ['Wind', '+10ft Speed, adv Dex saves', '3']
-      ]
+        ["Healing", "Heals allies 1d6 HP/turn", "3"],
+        ["Guardian", "Shield absorbs 5 dmg/attack", "3"],
+        ["Flamecaller", "+1d6 fire damage to attacks", "3"],
+        ["Storm", "+1 Spell Attack/Save DC", "3"],
+        ["Rejuvenation", "Heals 1d4 HP at turn start", "3"],
+        ["Earth", "+2 Armor, resist non-magical", "3"],
+        ["Frost", "Enemies -10ft movement speed", "3"],
+        ["Wind", "+10ft Speed, adv Dex saves", "3"],
+      ],
     },
 
     synergyEffectsTable: {
-      title: 'Synergy Combinations (4 Totems Required)',
-      headers: ['Synergy', 'Required Totems', 'Cost', 'Effect'],
+      title: "Synergy Combinations (4 Totems Required)",
+      headers: ["Synergy", "Required Totems", "Cost", "Effect"],
       rows: [
-        ['Healing Sanctuary', 'Healing, Rejuvenation, Guardian, Earth', '12', '25% Dmg Reduc, +3 Armor, 3d6 Heal'],
-        ['Elemental Fury', 'Flamecaller, Storm, Frost, Wind', '15', '8d6 Multi-elemental blast'],
-        ['Protective Bastion', 'Guardian, Earth, Frost, Wind', '12', 'Resist all damage, +10ft speed'],
-        ['Storm of Wrath', 'Flamecaller, Storm, Frost, Healing', '15', '+Elemental Dmg, Lifesteal'],
-        ['Vital Grove', 'Healing, Rejuvenation, Guardian, Wind', '12', 'Rapid HP Regen, +Speed, +Def']
-      ]
+        [
+          "Healing Sanctuary",
+          "Healing, Rejuvenation, Guardian, Earth",
+          "12",
+          "25% Dmg Reduc, +3 Armor, 3d6 Heal",
+        ],
+        [
+          "Elemental Fury",
+          "Flamecaller, Storm, Frost, Wind",
+          "15",
+          "8d6 Multi-elemental blast",
+        ],
+        [
+          "Protective Bastion",
+          "Guardian, Earth, Frost, Wind",
+          "12",
+          "Resist all damage, +10ft speed",
+        ],
+        [
+          "Storm of Wrath",
+          "Flamecaller, Storm, Frost, Healing",
+          "15",
+          "+Elemental Dmg, Lifesteal",
+        ],
+        [
+          "Vital Grove",
+          "Healing, Rejuvenation, Guardian, Wind",
+          "12",
+          "Rapid HP Regen, +Speed, +Def",
+        ],
+      ],
     },
 
     strategicConsiderations: {
-      title: 'Tactical Shamanism',
+      title: "Tactical Shamanism",
       content: `**Phase 1 — The Anchor (1–3 Totems)**: Focus on survival. Place Healing or Guardian totems first to protect your party and yourself while you begin building your synergy pool.
 
 **Phase 2 — Resonance (4+ Totems)**: Once you hit 4 totems, you are a priority target. Keep Earth totems near your fragile totems to ensure they aren't destroyed. Use repositioning (1 Action) to keep your circle optimal as enemies move.
 
 **Phase 3 — The Symphony (Active Synergy)**: Spending 12+ Synergy for a Sanctuary or Fury is a major commitment. Timing is everything—wait for the boss's "Enrage" phase to pop Healing Sanctuary for maximum damage mitigation.
 
-**Advanced Tip — Totem Baiting**: Place a "buffer" totem (like Frost) in an exposed position. If an enemy wastes their action destroying it, they've spent their turn for a minor loss, and you can replace it easily next turn.`
+**Advanced Tip — Totem Baiting**: Place a "buffer" totem (like Frost) in an exposed position. If an enemy wastes their action destroying it, they've spent their turn for a minor loss, and you can replace it easily next turn.`,
     },
 
     playingInPerson: {
-      title: 'Playing in Person',
-      subtitle: 'Physical Tracking for Tabletop Play',
+      title: "Playing in Person",
+      subtitle: "Physical Tracking for Tabletop Play",
       content: `Use tokens or small dice to represent your totems on the grid.
 
 **Required Materials**:
@@ -373,2858 +414,3172 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
 - **Place Totem**: Drop a token, pay 3 Mana, add +1 Synergy.
 - **Activate Synergy**: Check your "Resonance" (are the 4 required tokens on the map?). If yes, subtract the cost from your d100.
 
-**Physical Hack**: Use small plastic rings (like soda bottle rings) to mark the 10ft radius around your tokens. If an ally is inside the ring, they get the buff.`
-    }
+**Physical Hack**: Use small plastic rings (like soda bottle rings) to mark the 10ft radius around your tokens. If an ally is inside the ring, they get the buff.`,
+    },
   },
-  
+
   // Specializations
   specializations: {
-    title: 'Primalist Specializations',
-    subtitle: 'Three Paths of Totemic Mastery',
-    
+    title: "Primalist Specializations",
+    subtitle: "Three Paths of Totemic Mastery",
+
     description: `Primalists can specialize in different aspects of totemic magic, each offering unique approaches to totem synergy and battlefield control. These specializations focus on healing (Earthwarden), elemental damage (Stormbringer), or tactical control (Spiritcaller).`,
-    
+
     passiveAbility: {
-      name: 'Totemic Mastery',
-      description: 'All Primalists can place and maintain up to 8 different totems and trigger synergy effects when 4 totems are active. Totems have 10 HP, 12 Armor, and a 10-foot radius.'
+      name: "Totemic Mastery",
+      description:
+        "All Primalists can place and maintain up to 8 different totems and trigger synergy effects when 4 totems are active. Totems have 10 HP, 12 Armor, and a 10-foot radius.",
     },
-    
+
     specs: [
       {
-        id: 'earthwarden',
-        name: 'Earthwarden',
-        icon: 'Nature/Roots',
-        color: '#8B4513',
-        theme: 'Healing & Protection',
-        
+        id: "earthwarden",
+        name: "Earthwarden",
+        icon: "Nature/Roots",
+        color: "#8B4513",
+        theme: "Healing & Protection",
+
         description: `Earthwardens focus on defensive totems and healing synergies, creating sanctuaries of protection for their allies. They excel at sustaining parties through prolonged encounters and providing powerful defensive buffs.`,
-        
-        playstyle: 'Defensive support, sustained healing, damage mitigation',
-        
+
+        playstyle: "Defensive support, sustained healing, damage mitigation",
+
         strengths: [
-          'Enhanced healing totem effects (+50% healing)',
-          'Totems have +5 HP and +2 Armor',
-          'Healing and defensive totems can overlap with any synergy',
-          'Healing Sanctuary synergy heals for 1d6 extra'
+          "Enhanced healing totem effects (+50% healing)",
+          "Totems have +5 HP and +2 Armor",
+          "Healing and defensive totems can overlap with any synergy",
+          "Healing Sanctuary synergy heals for 1d6 extra",
         ],
-        
+
         weaknesses: [
-          'Lower offensive capabilities',
-          'Requires allies to stay within totem range',
-          'Vulnerable to area damage that destroys multiple totems'
+          "Lower offensive capabilities",
+          "Requires allies to stay within totem range",
+          "Vulnerable to area damage that destroys multiple totems",
         ],
-        
+
         specPassive: {
-          name: 'Earth\'s Embrace',
-          description: 'Your healing totems (Healing, Rejuvenation) heal for 50% more. Your defensive totems (Guardian, Earth) grant +1 additional Armor. Healing and defensive totems can overlap their effects with any synergy, even if they would normally be mutually exclusive.'
+          name: "Earth's Embrace",
+          description:
+            "Your healing totems (Healing, Rejuvenation) heal for 50% more. Your defensive totems (Guardian, Earth) grant +1 additional Armor. Healing and defensive totems can overlap their effects with any synergy, even if they would normally be mutually exclusive.",
         },
-        
+
         keyAbilities: [
-          'Sanctuary Aura - Healing Sanctuary lasts 1 additional turn',
-          'Earthen Resilience - Totems regenerate 5 HP per turn',
-          'Sacred Ground - Allies standing near totems gain +1 Armor'
-        ]
+          "Sanctuary Aura - Healing Sanctuary lasts 1 additional turn",
+          "Earthen Resilience - Totems regenerate 5 HP per turn",
+          "Sacred Ground - Allies standing near totems gain +1 Armor",
+        ],
       },
       {
-        id: 'stormbringer',
-        name: 'Stormbringer',
-        icon: 'Lightning/Lightning Storm',
-        color: '#4169E1',
-        theme: 'Elemental Damage & Offense',
-        
+        id: "stormbringer",
+        name: "Stormbringer",
+        icon: "Lightning/Lightning Storm",
+        color: "#4169E1",
+        theme: "Elemental Damage & Offense",
+
         description: `Stormbringers channel the fury of the elements through their totems, creating devastating storms of fire, frost, and lightning. They excel at dealing area damage and enhancing allies' offensive capabilities.`,
-        
-        playstyle: 'Offensive support, elemental damage, attack enhancement',
-        
+
+        playstyle: "Offensive support, elemental damage, attack enhancement",
+
         strengths: [
-          'Elemental totems deal +1d6 additional damage',
-          'Elemental Fury synergy deals 3d6 damage per element',
-          'Can trigger synergies with only 3 totems',
-          'Storm of Wrath heals for 100% of damage dealt'
+          "Elemental totems deal +1d6 additional damage",
+          "Elemental Fury synergy deals 3d6 damage per element",
+          "Can trigger synergies with only 3 totems",
+          "Storm of Wrath heals for 100% of damage dealt",
         ],
-        
+
         weaknesses: [
-          'Lower defensive capabilities',
-          'Totems are more vulnerable (normal HP/Armor)',
-          'Requires aggressive positioning'
+          "Lower defensive capabilities",
+          "Totems are more vulnerable (normal HP/Armor)",
+          "Requires aggressive positioning",
         ],
-        
+
         specPassive: {
-          name: 'Elemental Wrath',
-          description: 'Your elemental totems (Flamecaller, Storm, Frost, Wind) deal +1d6 damage. You can trigger synergy effects with only 3 active totems instead of 4 (minimum 3). Elemental Fury deals 3d6 per element instead of 2d6.'
+          name: "Elemental Wrath",
+          description:
+            "Your elemental totems (Flamecaller, Storm, Frost, Wind) deal +1d6 damage. You can trigger synergy effects with only 3 active totems instead of 4 (minimum 3). Elemental Fury deals 3d6 per element instead of 2d6.",
         },
-        
+
         keyAbilities: [
-          'Lightning Strike - Storm Totem can strike enemies for 2d6 lightning damage',
-          'Inferno - Flamecaller Totem creates burning ground (1d6 fire/turn)',
-          'Blizzard - Frost Totem creates freezing zone (DC 15 Con save or frozen)'
-        ]
+          "Lightning Strike - Storm Totem can strike enemies for 2d6 lightning damage",
+          "Inferno - Flamecaller Totem creates burning ground (1d6 fire/turn)",
+          "Blizzard - Frost Totem creates freezing zone (DC 15 Con save or frozen)",
+        ],
       },
       {
-        id: 'spiritcaller',
-        name: 'Spiritcaller',
-        icon: 'Utility/Hide',
-        color: '#9370DB',
-        theme: 'Crowd Control & Utility',
-        
+        id: "spiritcaller",
+        name: "Spiritcaller",
+        icon: "Utility/Hide",
+        color: "#9370DB",
+        theme: "Crowd Control & Utility",
+
         description: `Spiritcallers commune with nature spirits to enhance their totems with crowd control and utility effects. They excel at battlefield manipulation, enemy debuffs, and providing unique tactical advantages.`,
-        
-        playstyle: 'Tactical control, crowd control, utility support',
-        
+
+        playstyle: "Tactical control, crowd control, utility support",
+
         strengths: [
-          'Totems apply additional debuffs to enemies',
-          'Can move totems for 0 action points',
-          'Totems have 15-foot radius instead of 10-foot',
-          'Unique spirit-based synergy combinations'
+          "Totems apply additional debuffs to enemies",
+          "Can move totems for 0 action points",
+          "Totems have 15-foot radius instead of 10-foot",
+          "Unique spirit-based synergy combinations",
         ],
-        
+
         weaknesses: [
-          'Lower direct healing and damage',
-          'Requires careful positioning and timing',
-          'Synergies focus on control rather than raw power'
+          "Lower direct healing and damage",
+          "Requires careful positioning and timing",
+          "Synergies focus on control rather than raw power",
         ],
-        
+
         specPassive: {
-          name: 'Spirit Bond',
-          description: 'Your totems have a 15-foot radius instead of 10-foot. You can reposition totems for 0 action points. Enemies within totem range have disadvantage on saving throws against your spells.'
+          name: "Spirit Bond",
+          description:
+            "Your totems have a 15-foot radius instead of 10-foot. You can reposition totems for 0 action points. Enemies within totem range have disadvantage on saving throws against your spells.",
         },
-        
+
         keyAbilities: [
-          'Spirit Walk - Teleport to any active totem location',
-          'Ancestral Guidance - Totems reveal invisible enemies',
-          'Totemic Projection - Project totem effects to distant location'
-        ]
-      }
-    ]
+          "Spirit Walk - Teleport to any active totem location",
+          "Ancestral Guidance - Totems reveal invisible enemies",
+          "Totemic Projection - Project totem effects to distant location",
+        ],
+      },
+    ],
   },
-  
+
   // Example Spells
   exampleSpells: [
     // HEALING TOTEMS
     {
-      id: 'prim_healing_totem',
-      name: 'Healing Totem',
-      description: 'Place a sacred totem that channels healing energy to all allies within range, restoring health each turn.',
-      spellType: 'ACTION',
-      icon: 'Healing/Heart Ripple',
-      school: 'Nature',
+      id: "prim_healing_totem",
+      name: "Healing Totem",
+      description:
+        "Place a sacred totem that channels healing energy to all allies within range, restoring health each turn.",
+      spellType: "ACTION",
+      icon: "Healing/Heart Ripple",
+      school: "Nature",
       level: 2,
-      specialization: 'healing-totems',
+      specialization: "healing-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'HEALING',
-            amount: '1d6',
-            timing: 'START_OF_TURN',
-            description: 'Heals all allies within range for 1d6 HP at the start of each turn'
+            type: "HEALING",
+            amount: "1d6",
+            timing: "START_OF_TURN",
+            description:
+              "Heals all allies within range for 1d6 HP at the start of each turn",
           },
           {
-            type: 'SUMMON',
-            creature: 'Healing Totem',
+            type: "SUMMON",
+            creature: "Healing Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         earthwardenBonus: {
-          description: 'Earthwarden specialization: Heals for 1d6 + 3 (50% bonus)',
-          bonus: '+3 healing'
-        }
+          description:
+            "Earthwarden specialization: Heals for 1d6 + 3 (50% bonus)",
+          bonus: "+3 healing",
+        },
       },
 
-      tags: ['healing totems', 'totem', 'healing', 'support', 'earthwarden', 'all specs']
+      tags: [
+        "healing totems",
+        "totem",
+        "healing",
+        "support",
+        "earthwarden",
+        "all specs",
+      ],
     },
 
     {
-      id: 'prim_rejuvenation_totem',
-      name: 'Rejuvenation Totem',
-      description: 'Place a totem that grants regeneration to all allies within range, healing them at the start of their turns.',
-      spellType: 'ACTION',
-      icon: 'Healing/Renewal',
-      school: 'Nature',
+      id: "prim_rejuvenation_totem",
+      name: "Rejuvenation Totem",
+      description:
+        "Place a totem that grants regeneration to all allies within range, healing them at the start of their turns.",
+      spellType: "ACTION",
+      icon: "Healing/Renewal",
+      school: "Nature",
       level: 2,
-      specialization: 'healing-totems',
+      specialization: "healing-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'HEALING',
-            amount: '1d4',
-            timing: 'START_OF_TURN',
-            description: 'Heals all allies for 1d4 HP at the start of their turn'
+            type: "HEALING",
+            amount: "1d4",
+            timing: "START_OF_TURN",
+            description:
+              "Heals all allies for 1d4 HP at the start of their turn",
           },
           {
-            type: 'SUMMON',
-            creature: 'Rejuvenation Totem',
+            type: "SUMMON",
+            creature: "Rejuvenation Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         regeneration: {
-          description: 'Grants regeneration buff to allies',
-          duration: 'While within totem range'
-        }
+          description: "Grants regeneration buff to allies",
+          duration: "While within totem range",
+        },
       },
 
-      tags: ['healing totems', 'totem', 'healing', 'regeneration', 'earthwarden', 'all specs']
+      tags: [
+        "healing totems",
+        "totem",
+        "healing",
+        "regeneration",
+        "earthwarden",
+        "all specs",
+      ],
     },
 
     // DEFENSIVE TOTEMS
     {
-      id: 'prim_guardian_totem',
-      name: 'Guardian Totem',
-      description: 'Place a protective totem (10 HP, Armor 12) that shields all allies within 10 feet, absorbing 5 damage per attack. Generates 1 synergy per turn active.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      school: 'Nature',
+      id: "prim_guardian_totem",
+      name: "Guardian Totem",
+      description:
+        "Place a protective totem (10 HP, Armor 12) that shields all allies within 10 feet, absorbing 5 damage per attack. Generates 1 synergy per turn active.",
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      school: "Nature",
       level: 3,
-      specialization: 'defensive-totems',
+      specialization: "defensive-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'damageAbsorption',
+            type: "BUFF",
+            stat: "damageAbsorption",
             amount: 5,
-            description: 'Absorbs 5 damage per attack'
+            description: "Absorbs 5 damage per attack",
           },
           {
-            type: 'SUMMON',
-            creature: 'Guardian Totem',
+            type: "SUMMON",
+            creature: "Guardian Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         earthwardenBonus: {
-          description: 'Earthwarden specialization: Grants +1 additional Armor',
-          bonus: '+1 Armor'
-        }
+          description: "Earthwarden specialization: Grants +1 additional Armor",
+          bonus: "+1 Armor",
+        },
       },
 
-      tags: ['defensive totems', 'totem', 'defense', 'shield', 'earthwarden', 'all specs']
+      tags: [
+        "defensive totems",
+        "totem",
+        "defense",
+        "shield",
+        "earthwarden",
+        "all specs",
+      ],
     },
 
     {
-      id: 'prim_earth_totem',
-      name: 'Earth Totem',
-      description: 'Place a totem of solid earth that grants +2 Armor and 50% resistance to physical (bludgeoning) damage to allies within 10 feet.',
-      spellType: 'ACTION',
-      icon: 'General/Increase Strength',
-      school: 'Earth',
+      id: "prim_earth_totem",
+      name: "Earth Totem",
+      description:
+        "Place a totem of solid earth that grants +2 Armor and 50% resistance to physical (bludgeoning) damage to allies within 10 feet.",
+      spellType: "ACTION",
+      icon: "General/Increase Strength",
+      school: "Earth",
       level: 3,
-      specialization: 'defensive-totems',
+      specialization: "defensive-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'armor',
+            type: "BUFF",
+            stat: "armor",
             amount: 2,
-            description: 'Increases Armor by 2'
+            description: "Increases Armor by 2",
           },
           {
-            type: 'BUFF',
-            stat: 'resistance',
-            damageType: 'bludgeoning',
-            description: 'Grants resistance to non-magical damage'
+            type: "BUFF",
+            stat: "resistance",
+            damageType: "bludgeoning",
+            description: "Grants resistance to non-magical damage",
           },
           {
-            type: 'SUMMON',
-            creature: 'Earth Totem',
+            type: "SUMMON",
+            creature: "Earth Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         earthwardenBonus: {
-          description: 'Earthwarden specialization: Grants +1 additional Armor (total +3)',
-          bonus: '+1 Armor'
-        }
+          description:
+            "Earthwarden specialization: Grants +1 additional Armor (total +3)",
+          bonus: "+1 Armor",
+        },
       },
 
-      tags: ['defensive totems', 'totem', 'defense', 'resistance', 'earthwarden', 'all specs']
+      tags: [
+        "defensive totems",
+        "totem",
+        "defense",
+        "resistance",
+        "earthwarden",
+        "all specs",
+      ],
     },
 
     // ELEMENTAL TOTEMS
     {
-      id: 'prim_flamecaller_totem',
-      name: 'Flamecaller Totem',
-      description: 'Place a totem wreathed in flames that enhances allies\' weapons with fire damage.',
-      spellType: 'ACTION',
-      icon: 'Fire/Fiery Symbol',
-      school: 'Fire',
+      id: "prim_flamecaller_totem",
+      name: "Flamecaller Totem",
+      description:
+        "Place a totem wreathed in flames that enhances allies' weapons with fire damage.",
+      spellType: "ACTION",
+      icon: "Fire/Fiery Symbol",
+      school: "Fire",
       level: 3,
-      specialization: 'elemental-totems',
+      specialization: "elemental-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'weaponDamage',
-            damageType: 'fire',
-            amount: '1d6',
-            description: 'Adds 1d6 fire damage to weapon attacks'
+            type: "BUFF",
+            stat: "weaponDamage",
+            damageType: "fire",
+            amount: "1d6",
+            description: "Adds 1d6 fire damage to weapon attacks",
           },
           {
-            type: 'SUMMON',
-            creature: 'Flamecaller Totem',
+            type: "SUMMON",
+            creature: "Flamecaller Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         stormbringerBonus: {
-          description: 'Stormbringer specialization: Adds 2d6 fire damage instead of 1d6',
-          bonus: '+1d6 fire damage'
+          description:
+            "Stormbringer specialization: Adds 2d6 fire damage instead of 1d6",
+          bonus: "+1d6 fire damage",
         },
         burningGround: {
-          description: 'Stormbringer specialization: Creates burning ground dealing 1d6 fire damage per turn',
-          requirement: 'Stormbringer only'
-        }
+          description:
+            "Stormbringer specialization: Creates burning ground dealing 1d6 fire damage per turn",
+          requirement: "Stormbringer only",
+        },
       },
 
-      tags: ['elemental totems', 'totem', 'fire', 'damage', 'stormbringer', 'all specs']
+      tags: [
+        "elemental totems",
+        "totem",
+        "fire",
+        "damage",
+        "stormbringer",
+        "all specs",
+      ],
     },
 
     {
-      id: 'prim_storm_totem',
-      name: 'Storm Totem',
-      description: 'Place a crackling totem that enhances allies\' spellcasting with storm energy.',
-      spellType: 'ACTION',
-      icon: 'Lightning/Thunder',
-      school: 'Lightning',
+      id: "prim_storm_totem",
+      name: "Storm Totem",
+      description:
+        "Place a crackling totem that enhances allies' spellcasting with storm energy.",
+      spellType: "ACTION",
+      icon: "Lightning/Thunder",
+      school: "Lightning",
       level: 3,
-      specialization: 'elemental-totems',
+      specialization: "elemental-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'spellAttack',
+            type: "BUFF",
+            stat: "spellAttack",
             amount: 1,
-            description: 'Grants +1 to spell attack rolls'
+            description: "Grants +1 to spell attack rolls",
           },
           {
-            type: 'BUFF',
-            stat: 'spellDc',
+            type: "BUFF",
+            stat: "spellDc",
             amount: 1,
-            description: 'Grants +1 to spell save DCs'
+            description: "Grants +1 to spell save DCs",
           },
           {
-            type: 'SUMMON',
-            creature: 'Storm Totem',
+            type: "SUMMON",
+            creature: "Storm Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         stormbringerBonus: {
-          description: 'Stormbringer specialization: Can strike enemies for 2d6 lightning damage for 1 action point',
-          bonus: 'Lightning Strike ability'
-        }
+          description:
+            "Stormbringer specialization: Can strike enemies for 2d6 lightning damage for 1 action point",
+          bonus: "Lightning Strike ability",
+        },
       },
 
-      tags: ['elemental totems', 'totem', 'lightning', 'buff', 'stormbringer', 'all specs']
+      tags: [
+        "elemental totems",
+        "totem",
+        "lightning",
+        "buff",
+        "stormbringer",
+        "all specs",
+      ],
     },
 
     {
-      id: 'prim_frost_totem',
-      name: 'Frost Totem',
-      description: 'Place a freezing totem that slows enemies and reduces their attack speed.',
-      spellType: 'ACTION',
-      icon: 'Frost/Inflicted Ice Shard',
-      school: 'Frost',
+      id: "prim_frost_totem",
+      name: "Frost Totem",
+      description:
+        "Place a freezing totem that slows enemies and reduces their attack speed.",
+      spellType: "ACTION",
+      icon: "Frost/Inflicted Ice Shard",
+      school: "Frost",
       level: 3,
-      specialization: 'elemental-totems',
+      specialization: "elemental-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All enemies within 10 feet of the totem'
+          unit: "feet",
+          description: "All enemies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'DEBUFF',
-            stat: 'movementSpeed',
+            type: "DEBUFF",
+            stat: "movementSpeed",
             amount: -10,
-            description: 'Reduces enemy movement speed by 10 feet'
+            description: "Reduces enemy movement speed by 10 feet",
           },
           {
-            type: 'DEBUFF',
-            stat: 'attackSpeed',
-            description: 'Reduces enemy attack speed by 25%'
+            type: "DEBUFF",
+            stat: "attackSpeed",
+            description: "Reduces enemy attack speed by 25%",
           },
           {
-            type: 'SUMMON',
-            creature: 'Frost Totem',
+            type: "SUMMON",
+            creature: "Frost Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         stormbringerBonus: {
-          description: 'Stormbringer specialization: Creates freezing zone (DC 15 Con save or frozen)',
-          bonus: 'Blizzard effect'
-        }
+          description:
+            "Stormbringer specialization: Creates freezing zone (DC 15 Con save or frozen)",
+          bonus: "Blizzard effect",
+        },
       },
 
-      tags: ['elemental totems', 'totem', 'frost', 'debuff', 'slow', 'stormbringer', 'all specs']
+      tags: [
+        "elemental totems",
+        "totem",
+        "frost",
+        "debuff",
+        "slow",
+        "stormbringer",
+        "all specs",
+      ],
     },
 
     {
-      id: 'prim_wind_totem',
-      name: 'Wind Totem',
-      description: 'Place a totem that channels swift winds, increasing allies\' movement and reflexes.',
-      spellType: 'ACTION',
-      icon: 'Nature/Wind Gust',
-      school: 'Air',
+      id: "prim_wind_totem",
+      name: "Wind Totem",
+      description:
+        "Place a totem that channels swift winds, increasing allies' movement and reflexes.",
+      spellType: "ACTION",
+      icon: "Nature/Wind Gust",
+      school: "Air",
       level: 2,
-      specialization: 'elemental-totems',
+      specialization: "elemental-totems",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Until destroyed or dismissed',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Until destroyed or dismissed",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '30 feet (placement)',
+        range: "30 feet (placement)",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 10,
-          unit: 'feet',
-          description: 'All allies within 10 feet of the totem'
+          unit: "feet",
+          description: "All allies within 10 feet of the totem",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 3
+        mana: 3,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'movementSpeed',
+            type: "BUFF",
+            stat: "movementSpeed",
             amount: 10,
-            description: 'Increases movement speed by 10 feet'
+            description: "Increases movement speed by 10 feet",
           },
           {
-            type: 'BUFF',
-            stat: 'savingThrows',
-            saveType: 'AGILITY',
-            description: 'Grants advantage on Dexterity saving throws'
+            type: "BUFF",
+            stat: "savingThrows",
+            saveType: "AGILITY",
+            description: "Grants advantage on Dexterity saving throws",
           },
           {
-            type: 'SUMMON',
-            creature: 'Wind Totem',
+            type: "SUMMON",
+            creature: "Wind Totem",
             hp: 10,
             ac: 12,
-            duration: 'Until destroyed'
-          }
-        ]
+            duration: "Until destroyed",
+          },
+        ],
       },
 
       specialMechanics: {
         totemProperties: {
           hp: 10,
           ac: 12,
-          radius: '10 feet',
-          synergyGeneration: '1 point per turn active'
+          radius: "10 feet",
+          synergyGeneration: "1 point per turn active",
         },
         spiritcallerBonus: {
-          description: 'Spiritcaller specialization: 15-foot radius instead of 10-foot',
-          bonus: '+5 feet radius'
-        }
+          description:
+            "Spiritcaller specialization: 15-foot radius instead of 10-foot",
+          bonus: "+5 feet radius",
+        },
       },
 
-      tags: ['elemental totems', 'totem', 'air', 'buff', 'mobility', 'all specs']
+      tags: [
+        "elemental totems",
+        "totem",
+        "air",
+        "buff",
+        "mobility",
+        "all specs",
+      ],
     },
 
     // SYNERGY EFFECTS
     {
-      id: 'prim_healing_sanctuary',
-      name: 'Healing Sanctuary',
-      description: 'Activate a powerful synergy when Healing, Rejuvenation, Guardian, and Earth totems are active, creating a sanctuary of protection and healing.',
-      spellType: 'REACTION',
-      icon: 'Healing/Prayer',
-      school: 'Nature',
+      id: "prim_healing_sanctuary",
+      name: "Healing Sanctuary",
+      description:
+        "Activate a powerful synergy when Healing, Rejuvenation, Guardian, and Earth totems are active, creating a sanctuary of protection and healing.",
+      spellType: "REACTION",
+      icon: "Healing/Prayer",
+      school: "Nature",
       level: 5,
-      specialization: 'synergy-effects',
+      specialization: "synergy-effects",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: 'Reaction (when 4 totems active)',
-        duration: '2 turns',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "Reaction (when 4 totems active)",
+        duration: "2 turns",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: 'Self',
+        range: "Self",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 20,
-          unit: 'feet',
-          description: 'All allies within 20 feet'
+          unit: "feet",
+          description: "All allies within 20 feet",
         },
-        validTargets: ['ALLIES']
+        validTargets: ["ALLIES"],
       },
 
       resourceCost: {
         totemicSynergy: 12,
-        description: 'Requires 4 active totems: Healing, Rejuvenation, Guardian, Earth. Costs 12 Totemic Synergy.'
+        description:
+          "Requires 4 active totems: Healing, Rejuvenation, Guardian, Earth. Costs 12 Totemic Synergy.",
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'HEALING',
-            amount: '3d6',
-            description: 'Heals all allies for 3d6 HP'
+            type: "HEALING",
+            amount: "3d6",
+            description: "Heals all allies for 3d6 HP",
           },
           {
-            type: 'BUFF',
-            stat: 'armor',
+            type: "BUFF",
+            stat: "armor",
             amount: 3,
-            duration: '2 turns',
-            description: 'Grants +3 Armor for 2 turns'
+            duration: "2 turns",
+            description: "Grants +3 Armor for 2 turns",
           },
           {
-            type: 'BUFF',
-            stat: 'damageReduction',
+            type: "BUFF",
+            stat: "damageReduction",
             amount: 25,
-            unit: 'PERCENT',
-            duration: '2 turns',
-            description: 'Reduces damage taken by 25% for 2 turns'
-          }
-        ]
+            unit: "PERCENT",
+            duration: "2 turns",
+            description: "Reduces damage taken by 25% for 2 turns",
+          },
+        ],
       },
 
       specialMechanics: {
         synergyRequirement: {
-          totems: ['Healing Totem', 'Rejuvenation Totem', 'Guardian Totem', 'Earth Totem'],
-          description: 'All 4 totems must be active to trigger this synergy'
+          totems: [
+            "Healing Totem",
+            "Rejuvenation Totem",
+            "Guardian Totem",
+            "Earth Totem",
+          ],
+          description: "All 4 totems must be active to trigger this synergy",
         },
         earthwardenBonus: {
-          description: 'Earthwarden specialization: Heals for 1d6 additional HP, lasts 3 turns instead of 2',
-          bonus: '+1d6 healing, +1 turn duration'
-        }
+          description:
+            "Earthwarden specialization: Heals for 1d6 additional HP, lasts 3 turns instead of 2",
+          bonus: "+1d6 healing, +1 turn duration",
+        },
       },
 
-      tags: ['synergy effects', 'healing', 'defense', 'ultimate', 'earthwarden']
+      tags: [
+        "synergy effects",
+        "healing",
+        "defense",
+        "ultimate",
+        "earthwarden",
+      ],
     },
 
     {
-      id: 'prim_elemental_fury',
-      name: 'Elemental Fury',
-      description: 'When Flamecaller, Storm, Frost, and Wind totems are active, unleash elemental fury that enhances allies with fire, lightning, and frost damage.',
-      spellType: 'REACTION',
-      icon: 'Healing/Heart Ripple',
-      school: 'Elemental',
+      id: "prim_elemental_fury",
+      name: "Elemental Fury",
+      description:
+        "When Flamecaller, Storm, Frost, and Wind totems are active, unleash elemental fury that enhances allies with fire, lightning, and frost damage.",
+      spellType: "REACTION",
+      icon: "Healing/Heart Ripple",
+      school: "Elemental",
       level: 6,
-      specialization: 'synergy-effects',
+      specialization: "synergy-effects",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: 'Reaction (when 4 totems active)',
-        duration: '3 turns',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "Reaction (when 4 totems active)",
+        duration: "3 turns",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: 'Self',
+        range: "Self",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 30,
-          unit: 'feet',
-          description: 'All allies within 30 feet'
+          unit: "feet",
+          description: "All allies within 30 feet",
         },
-        validTargets: ['ALLIES']
+        validTargets: ["ALLIES"],
       },
 
       resourceCost: {
         totemicSynergy: 15,
-        description: 'Requires 4 active totems: Flamecaller, Storm, Frost, Wind. Costs 15 Totemic Synergy.'
+        description:
+          "Requires 4 active totems: Flamecaller, Storm, Frost, Wind. Costs 15 Totemic Synergy.",
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'BUFF',
-            stat: 'weaponDamage',
-            damageType: 'fire',
-            amount: '2d6',
-            description: '+2d6 fire damage to attacks',
-            damageFormula: '2d6'
+            type: "BUFF",
+            stat: "weaponDamage",
+            damageType: "fire",
+            amount: "2d6",
+            description: "+2d6 fire damage to attacks",
+            damageFormula: "2d6",
           },
           {
-            type: 'BUFF',
-            stat: 'weaponDamage',
-            damageType: 'lightning',
-            amount: '2d6',
-            description: '+2d6 lightning damage to attacks',
-            damageFormula: '2d6'
+            type: "BUFF",
+            stat: "weaponDamage",
+            damageType: "lightning",
+            amount: "2d6",
+            description: "+2d6 lightning damage to attacks",
+            damageFormula: "2d6",
           },
           {
-            type: 'BUFF',
-            stat: 'weaponDamage',
-            damageType: 'frost',
-            amount: '2d6',
-            description: '+2d6 frost damage to attacks',
-            damageFormula: '2d6'
+            type: "BUFF",
+            stat: "weaponDamage",
+            damageType: "frost",
+            amount: "2d6",
+            description: "+2d6 frost damage to attacks",
+            damageFormula: "2d6",
           },
           {
-            type: 'BUFF',
-            stat: 'attackSpeed',
-            description: 'Increases attack speed'
+            type: "BUFF",
+            stat: "attackSpeed",
+            description: "Increases attack speed",
           },
           {
-            type: 'BUFF',
-            stat: 'movementSpeed',
+            type: "BUFF",
+            stat: "movementSpeed",
             amount: 10,
-            description: 'Increases movement speed by 10 feet'
-          }
-        ]
+            description: "Increases movement speed by 10 feet",
+          },
+        ],
       },
 
       specialMechanics: {
         synergyRequirement: {
-          totems: ['Flamecaller Totem', 'Storm Totem', 'Frost Totem', 'Wind Totem'],
-          description: 'All 4 totems must be active to trigger this synergy'
+          totems: [
+            "Flamecaller Totem",
+            "Storm Totem",
+            "Frost Totem",
+            "Wind Totem",
+          ],
+          description: "All 4 totems must be active to trigger this synergy",
         },
         stormbringerBonus: {
-          description: 'Stormbringer specialization: Deals 3d6 per element instead of 2d6, can trigger with only 3 totems',
-          bonus: '+1d6 per element, reduced totem requirement'
-        }
+          description:
+            "Stormbringer specialization: Deals 3d6 per element instead of 2d6, can trigger with only 3 totems",
+          bonus: "+1d6 per element, reduced totem requirement",
+        },
       },
 
-      tags: ['synergy effects', 'elemental', 'damage', 'ultimate', 'stormbringer']
+      tags: [
+        "synergy effects",
+        "elemental",
+        "damage",
+        "ultimate",
+        "stormbringer",
+      ],
     },
 
     // UTILITY SPELLS
     {
-      id: 'prim_totemic_call',
-      name: 'Totemic Call',
-      description: 'Summon all eight sacred totems at once in a powerful ritual for 1 minute (concentration), creating a complete totemic circle. Places all 8 totems simultaneously in optimal positions.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      school: 'Nature',
+      id: "prim_totemic_call",
+      name: "Totemic Call",
+      description:
+        "Summon all eight sacred totems at once in a powerful ritual for 1 minute (concentration), creating a complete totemic circle. Places all 8 totems simultaneously in optimal positions.",
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      school: "Nature",
       level: 7,
-      specialization: 'utility',
+      specialization: "utility",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: '1 minute',
-        concentration: true
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "1 minute",
+        concentration: true,
       },
 
       targetingConfig: {
-        range: 'Self',
+        range: "Self",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 30,
-          unit: 'feet',
-          description: 'Totems placed in circle around caster'
+          unit: "feet",
+          description: "Totems placed in circle around caster",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 10
+        mana: 10,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'SUMMON',
-            creature: 'All 8 Totems',
-            description: 'Summons Healing, Guardian, Flamecaller, Storm, Rejuvenation, Earth, Frost, and Wind totems',
-            duration: '1 minute'
-          }
-        ]
+            type: "SUMMON",
+            creature: "All 8 Totems",
+            description:
+              "Summons Healing, Guardian, Flamecaller, Storm, Rejuvenation, Earth, Frost, and Wind totems",
+            duration: "1 minute",
+          },
+        ],
       },
 
       specialMechanics: {
         ultimateAbility: {
-          description: 'Places all 8 totems simultaneously in optimal positions',
-          synergyGeneration: '8 points immediately, then 8 per turn'
+          description:
+            "Places all 8 totems simultaneously in optimal positions",
+          synergyGeneration: "8 points immediately, then 8 per turn",
         },
         multiSynergy: {
-          description: 'Can trigger multiple synergy effects simultaneously',
-          note: 'With 8 totems, can activate 2 different synergies at once'
-        }
+          description: "Can trigger multiple synergy effects simultaneously",
+          note: "With 8 totems, can activate 2 different synergies at once",
+        },
       },
 
-      tags: ['utility', 'ultimate', 'totem', 'all specs']
+      tags: ["utility", "ultimate", "totem", "all specs"],
     },
 
     {
-      id: 'prim_totemic_recall',
-      name: 'Totemic Recall',
-      description: 'Instantly reposition all active totems to your current location, maintaining their effects.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      school: 'Nature',
+      id: "prim_totemic_recall",
+      name: "Totemic Recall",
+      description:
+        "Instantly reposition all active totems to your current location, maintaining their effects.",
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      school: "Nature",
       level: 3,
-      specialization: 'utility',
+      specialization: "utility",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 Action Point',
-        duration: 'Instant',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 Action Point",
+        duration: "Instant",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: 'Self',
+        range: "Self",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 20,
-          unit: 'feet',
-          description: 'Totems repositioned around caster'
+          unit: "feet",
+          description: "Totems repositioned around caster",
         },
-        validTargets: ['TOTEMS']
+        validTargets: ["TOTEMS"],
       },
 
       resourceCost: {
-        mana: 4
+        mana: 4,
       },
 
       resolution: {
-        type: 'AUTOMATIC',
+        type: "AUTOMATIC",
         effects: [
           {
-            type: 'SPECIAL',
-            description: 'Repositions all active totems to caster\'s location without destroying them'
-          }
-        ]
+            type: "SPECIAL",
+            description:
+              "Repositions all active totems to caster's location without destroying them",
+          },
+        ],
       },
 
       specialMechanics: {
         repositioning: {
-          description: 'Moves all totems without breaking synergies or resetting durations',
-          note: 'Useful for maintaining synergies while repositioning'
+          description:
+            "Moves all totems without breaking synergies or resetting durations",
+          note: "Useful for maintaining synergies while repositioning",
         },
         spiritcallerBonus: {
-          description: 'Spiritcaller specialization: Costs 0 action points instead of 1',
-          bonus: 'No action cost'
-        }
+          description:
+            "Spiritcaller specialization: Costs 0 action points instead of 1",
+          bonus: "No action cost",
+        },
       },
 
-      tags: ['utility', 'totem', 'mobility', 'spiritcaller', 'all specs']
+      tags: ["utility", "totem", "mobility", "spiritcaller", "all specs"],
     },
 
     {
-      id: 'prim_earthquake',
-      name: 'Earthquake',
-      description: 'Channel the fury of the earth to create a massive tremor that shakes the ground and devastates enemies.',
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shatter',
-      school: 'Earth',
+      id: "prim_earthquake",
+      name: "Earthquake",
+      description:
+        "Channel the fury of the earth to create a massive tremor that shakes the ground and devastates enemies.",
+      spellType: "ACTION",
+      icon: "Nature/Earth Shatter",
+      school: "Earth",
       level: 8,
-      specialization: 'utility',
+      specialization: "utility",
 
       typeConfig: {
-        actionType: 'SPELL',
-        castTime: '1 action',
-        duration: 'Instant',
-        concentration: false
+        actionType: "SPELL",
+        castTime: "1 action",
+        duration: "Instant",
+        concentration: false,
       },
 
       targetingConfig: {
-        range: '120 feet',
+        range: "120 feet",
         areaOfEffect: {
-          type: 'RADIUS',
+          type: "RADIUS",
           size: 50,
-          unit: 'feet',
-          description: 'All creatures in 50-foot radius'
+          unit: "feet",
+          description: "All creatures in 50-foot radius",
         },
-        validTargets: ['GROUND']
+        validTargets: ["GROUND"],
       },
 
       resourceCost: {
-        mana: 8
+        mana: 8,
       },
 
       resolution: {
-        type: 'SAVING_THROW',
+        type: "SAVING_THROW",
         savingThrow: {
-          ability: 'AGILITY',
+          ability: "AGILITY",
           dc: 16,
-          onSave: 'HALF_DAMAGE',
-          onFail: 'FULL_DAMAGE_AND_PRONE'
+          onSave: "HALF_DAMAGE",
+          onFail: "FULL_DAMAGE_AND_PRONE",
         },
         damage: {
-          amount: '4d6',
-          type: 'BLUDGEONING'
+          amount: "4d6",
+          type: "BLUDGEONING",
         },
         effects: [
           {
-            type: 'CONDITION',
-            condition: 'PRONE',
-            description: 'Knocks all creatures prone on failed save'
-          }
-        ]
+            type: "CONDITION",
+            condition: "PRONE",
+            description: "Knocks all creatures prone on failed save",
+          },
+        ],
       },
 
       specialMechanics: {
         terrainEffect: {
-          description: 'Creates difficult terrain in the area for 1 minute',
-          note: 'Enemies have disadvantage on Dexterity saves while in area'
-        }
+          description: "Creates difficult terrain in the area for 1 minute",
+          note: "Enemies have disadvantage on Dexterity saves while in area",
+        },
       },
 
-      tags: ['utility', 'damage', 'earth', 'aoe', 'ultimate', 'all specs']
-    }
+      tags: ["utility", "damage", "earth", "aoe", "ultimate", "all specs"],
+    },
   ],
 
   // Comprehensive Spell List (Levels 1-10, 3 spells each, following template)
   spells: [
     // ===== LEVEL 1 SPELLS =====
     {
-      id: 'primalist_earth_bolt',
-      name: 'Earth Bolt',
-      description: 'Hurl a bolt of solid earth at your enemy, dealing bludgeoning damage. Generates 1 Totemic Synergy from the earth connection.',
+      id: "primalist_earth_bolt",
+      name: "Earth Bolt",
+      description:
+        "Hurl a bolt of solid earth at your enemy, dealing bludgeoning damage. Generates 1 Totemic Synergy from the earth connection.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Nature/Roots',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      icon: "Nature/Roots",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'bludgeoning',
-        icon: 'Nature/Roots',
-        tags: ['attack', 'damage', 'earth', 'primalist'],
+        school: "nature",
+        secondaryElement: "bludgeoning",
+        icon: "Nature/Roots",
+        tags: ["attack", "damage", "earth", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '1d8 + spirit',
-        elementType: 'bludgeoning',
-        damageTypes: ['nature', 'bludgeoning'],
-        resolution: 'DICE',
+        formula: "1d8 + spirit",
+        elementType: "bludgeoning",
+        damageTypes: ["nature", "bludgeoning"],
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 60,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 5, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'earth', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "DICE",
+      tags: ["attack", "damage", "earth", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_basic_healing_totem',
-      name: 'Basic Healing Totem',
-      description: 'Place a totem that heals nearby allies each round. Generates 2 Totemic Synergy from totem placement.',
+      id: "primalist_basic_healing_totem",
+      name: "Basic Healing Totem",
+      description:
+        "Place a totem that heals nearby allies each round. Generates 2 Totemic Synergy from totem placement.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Healing/Heal Wound',
-      effectTypes: ['healing', 'summoning'],
+      spellType: "ACTION",
+      icon: "Healing/Heal Wound",
+      effectTypes: ["healing", "summoning"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Healing/Heal Wound',
-        tags: ['healing', 'totem', 'support', 'primalist'],
+        school: "nature",
+        icon: "Healing/Heal Wound",
+        tags: ["healing", "totem", "support", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       healingConfig: {
-        formula: '1d6 + spirit/2',
-        healingType: 'hot',
+        formula: "1d6 + spirit/2",
+        healingType: "hot",
         hasHotEffect: true,
-        hotFormula: '1d6 + spirit/2',
+        hotFormula: "1d6 + spirit/2",
         hotDuration: 3,
-        hotTickType: 'round',
+        hotTickType: "round",
         isProgressiveHot: false,
-        resolution: 'DICE'
+        resolution: "DICE",
       },
       summoningConfig: {
-        creatures: [{
-          id: 'healing_totem_basic',
-          name: 'Basic Healing Totem',
-          description: 'A simple totem that channels healing energy',
-          size: 'Small',
-          type: 'construct',
-          tokenIcon: 'spell_nature_healingtouch',
-          stats: {
-            maxHp: 15,
-            armor: 10,
-            maxMana: 0
+        creatures: [
+          {
+            id: "healing_totem_basic",
+            name: "Basic Healing Totem",
+            description: "A simple totem that channels healing energy",
+            size: "Small",
+            type: "construct",
+            tokenIcon: "spell_nature_healingtouch",
+            stats: {
+              maxHp: 15,
+              armor: 10,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 1,
+              duration: 3,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 3,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'autonomous',
-            controlRange: 0
-          }
-        }],
+        ],
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 0,
-        controlType: 'autonomous'
+        controlType: "autonomous",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 10 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 6, totemic_synergy: -2 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-      resolution: 'DICE',
-      tags: ['healing', 'totem', 'support', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "DICE",
+      tags: ["healing", "totem", "support", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_natures_blessing',
+      id: "primalist_natures_blessing",
       name: "Nature's Blessing",
-      description: 'Bless an ally with the power of nature, granting them bonus damage on their next attack. Generates 1 Totemic Synergy from the nature bond.',
+      description:
+        "Bless an ally with the power of nature, granting them bonus damage on their next attack. Generates 1 Totemic Synergy from the nature bond.",
       level: 1,
-      spellType: 'ACTION',
-      icon: 'Nature/Nature Natural',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Nature Natural',
-        tags: ['buff', 'support', 'nature', 'primalist'],
+        school: "nature",
+        icon: "Nature/Nature Natural",
+        tags: ["buff", "support", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'nature_damage_boost',
-          name: "Nature's Blessing",
-          description: 'Next attack deals +1d6 nature damage for 2 rounds',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 1,
-            magnitudeType: 'dice'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "nature_damage_boost",
+            name: "Nature's Blessing",
+            description: "Next attack deals +1d6 nature damage for 2 rounds",
+            statModifier: {
+              stat: "damage",
+              magnitude: 1,
+              magnitudeType: "dice",
+            },
+          },
+        ],
         durationValue: 2,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 4, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'support', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "support", "nature", "primalist", "synergy"],
     },
 
     // ===== LEVEL 2 SPELLS =====
     {
-      id: 'primalist_storm_gale',
-      name: 'Storm Gale',
-      description: 'Summon a powerful gust of wind that pushes enemies back and creates difficult terrain. Generates 1 Totemic Synergy from elemental forces.',
+      id: "primalist_storm_gale",
+      name: "Storm Gale",
+      description:
+        "Summon a powerful gust of wind that pushes enemies back and creates difficult terrain. Generates 1 Totemic Synergy from elemental forces.",
       level: 2,
-      spellType: 'ACTION',
-      icon: 'Nature/Wind Gust',
-      effectTypes: ['control', 'utility'],
+      spellType: "ACTION",
+      icon: "Nature/Wind Gust",
+      effectTypes: ["control", "utility"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Wind Gust',
-        tags: ['control', 'utility', 'air', 'primalist'],
+        school: "nature",
+        icon: "Nature/Wind Gust",
+        tags: ["control", "utility", "air", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'forcedMovement',
-        strength: 'moderate',
+        controlType: "forcedMovement",
+        strength: "moderate",
         distance: 10,
-        distanceUnit: 'feet',
+        distanceUnit: "feet",
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: {
-          ability: 'strength',
+          ability: "strength",
           difficultyClass: 13,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
-        effects: [{
-          id: 'push_back',
-          controlType: 'forcedMovement',
-          name: 'Pushed Back',
-          icon: 'Nature/Wind Gust',
-          description: 'Target is pushed 10 feet away and the area becomes difficult terrain',
-          config: {
-            duration: 1,
-            durationUnit: 'rounds',
-            strength: 'moderate',
-            movementType: 'push',
-            distance: 10
-          }
-        }]
+        effects: [
+          {
+            id: "push_back",
+            controlType: "forcedMovement",
+            name: "Pushed Back",
+            icon: "Nature/Wind Gust",
+            description:
+              "Target is pushed 10 feet away and the area becomes difficult terrain",
+            config: {
+              duration: 1,
+              durationUnit: "rounds",
+              strength: "moderate",
+              movementType: "push",
+              distance: 10,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        aoeShape: 'cone',
+        aoeShape: "cone",
         aoeParameters: { length: 15, width: 15 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 4,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: true
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 8, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
-      resolution: 'DICE',
-      tags: ['control', 'utility', 'air', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "DICE",
+      tags: ["control", "utility", "air", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_earthen_shield',
-      name: 'Earthen Shield',
-      description: 'Encase yourself or an ally in a shell of stone that absorbs incoming damage. Generates 1 Totemic Synergy from the earth bond.',
+      id: "primalist_earthen_shield",
+      name: "Earthen Shield",
+      description:
+        "Encase yourself or an ally in a shell of stone that absorbs incoming damage. Generates 1 Totemic Synergy from the earth bond.",
       level: 2,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Earth Shield',
-        tags: ['buff', 'defense', 'earth', 'primalist'],
+        school: "nature",
+        icon: "Nature/Earth Shield",
+        tags: ["buff", "defense", "earth", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'earthen_shield_absorb',
-          name: 'Earthen Shield',
-          description: 'Absorbs the next 10 damage dealt to the target over 3 rounds',
-          statModifier: {
-            stat: 'damage_absorption',
-            magnitude: 10,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "earthen_shield_absorb",
+            name: "Earthen Shield",
+            description:
+              "Absorbs the next 10 damage dealt to the target over 3 rounds",
+            statModifier: {
+              stat: "damage_absorption",
+              magnitude: 10,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 8, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'defense', 'earth', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "defense", "earth", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_spirit_sight',
-      name: 'Spirit Sight',
-      description: 'Open your senses to the spirit world, revealing hidden enemies and magical effects in the area. Generates 1 Totemic Synergy from spirit communion.',
+      id: "primalist_spirit_sight",
+      name: "Spirit Sight",
+      description:
+        "Open your senses to the spirit world, revealing hidden enemies and magical effects in the area. Generates 1 Totemic Synergy from spirit communion.",
       level: 2,
-      spellType: 'ACTION',
-      icon: 'Utility/Hide',
-      effectTypes: ['utility'],
+      spellType: "ACTION",
+      icon: "Utility/Hide",
+      effectTypes: ["utility"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Utility/Hide',
-        tags: ['utility', 'detection', 'spirit', 'primalist'],
+        school: "nature",
+        icon: "Utility/Hide",
+        tags: ["utility", "detection", "spirit", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       utilityConfig: {
-        utilityType: 'detection',
-        selectedEffects: [{
-          id: 'spirit_sight_reveal',
-          name: 'Spirit Sight',
-          description: 'Reveals invisible creatures, hidden doors, and magical effects within 30 feet for 3 rounds'
-        }],
+        utilityType: "detection",
+        selectedEffects: [
+          {
+            id: "spirit_sight_reveal",
+            name: "Spirit Sight",
+            description:
+              "Reveals invisible creatures, hidden doors, and magical effects within 30 feet for 3 rounds",
+          },
+        ],
         duration: 3,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         concentration: false,
-        power: 'minor',
-        resolution: 'AUTOMATIC'
+        power: "minor",
+        resolution: "AUTOMATIC",
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 6, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
-      resolution: 'AUTOMATIC',
-      tags: ['utility', 'detection', 'spirit', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "AUTOMATIC",
+      tags: ["utility", "detection", "spirit", "primalist", "synergy"],
     },
 
     // ===== LEVEL 3 SPELLS =====
     {
-      id: 'primalist_venomous_totem',
-      name: 'Venomous Totem',
-      description: 'Place a totem that poisons enemies within range, dealing poison and nature damage each turn. Generates 2 Totemic Synergy from totem placement.',
+      id: "primalist_venomous_totem",
+      name: "Venomous Totem",
+      description:
+        "Place a totem that poisons enemies within range, dealing poison and nature damage each turn. Generates 2 Totemic Synergy from totem placement.",
       level: 3,
-      spellType: 'ACTION',
-      icon: 'Nature/Thorned Flower',
-      effectTypes: ['damage', 'summoning'],
+      spellType: "ACTION",
+      icon: "Nature/Thorned Flower",
+      effectTypes: ["damage", "summoning"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'poison',
-        icon: 'Nature/Thorned Flower',
-        tags: ['damage', 'totem', 'poison', 'primalist'],
+        school: "nature",
+        secondaryElement: "poison",
+        icon: "Nature/Thorned Flower",
+        tags: ["damage", "totem", "poison", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '1d6 + spirit/2',
-        elementType: 'poison',
-        damageTypes: ['poison', 'nature'],
-        resolution: 'DICE',
+        formula: "1d6 + spirit/2",
+        elementType: "poison",
+        damageTypes: ["poison", "nature"],
+        resolution: "DICE",
       },
       summoningConfig: {
-        creatures: [{
-          id: 'venomous_totem',
-          name: 'Venomous Totem',
-          description: 'A totem seeping with natural toxins',
-          size: 'Small',
-          type: 'construct',
-          tokenIcon: 'spell_nature_corrosivebreath',
-          stats: {
-            maxHp: 10,
-            armor: 12,
-            maxMana: 0
+        creatures: [
+          {
+            id: "venomous_totem",
+            name: "Venomous Totem",
+            description: "A totem seeping with natural toxins",
+            size: "Small",
+            type: "construct",
+            tokenIcon: "spell_nature_corrosivebreath",
+            stats: {
+              maxHp: 10,
+              armor: 12,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 1,
+              duration: 4,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 4,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'autonomous',
-            controlRange: 0
-          }
-        }],
+        ],
         duration: 4,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 0,
-        controlType: 'autonomous'
+        controlType: "autonomous",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 30,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 10 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 10, totemic_synergy: -2 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-      resolution: 'DICE',
-      tags: ['damage', 'totem', 'poison', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "DICE",
+      tags: ["damage", "totem", "poison", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_natures_grasp',
+      id: "primalist_natures_grasp",
       name: "Nature's Grasp",
-      description: 'Thorny vines erupt from the ground, rooting a single enemy in place. Generates 1 Totemic Synergy from the earth connection.',
+      description:
+        "Thorny vines erupt from the ground, rooting a single enemy in place. Generates 1 Totemic Synergy from the earth connection.",
       level: 3,
-      spellType: 'ACTION',
-      icon: 'Nature/Roots',
-      effectTypes: ['control'],
+      spellType: "ACTION",
+      icon: "Nature/Roots",
+      effectTypes: ["control"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Roots',
-        tags: ['control', 'root', 'nature', 'primalist'],
+        school: "nature",
+        icon: "Nature/Roots",
+        tags: ["control", "root", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
-        controlType: 'restraint',
-        strength: 'moderate',
+        controlType: "restraint",
+        strength: "moderate",
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: {
-          ability: 'strength',
+          ability: "strength",
           difficultyClass: 14,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
-        effects: [{
-          id: 'entangled',
-          controlType: 'restraint',
-          name: 'Entangled',
-          icon: 'Nature/Roots',
-          description: 'Target is rooted in place and cannot move. Can still attack and cast spells.',
-          config: {
-            duration: 2,
-            durationUnit: 'rounds',
-            strength: 'moderate',
-            savingThrowType: 'strength',
-            difficultyClass: 14,
-            restraintType: 'root'
-          }
-        }]
+        effects: [
+          {
+            id: "entangled",
+            controlType: "restraint",
+            name: "Entangled",
+            icon: "Nature/Roots",
+            description:
+              "Target is rooted in place and cannot move. Can still attack and cast spells.",
+            config: {
+              duration: 2,
+              durationUnit: "rounds",
+              strength: "moderate",
+              savingThrowType: "strength",
+              difficultyClass: 14,
+              restraintType: "root",
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 10, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['control', 'root', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: ["control", "root", "nature", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_ancestral_bond',
-      name: 'Ancestral Bond',
-      description: 'Call upon ancestral spirits to grant an ally resistance to one damage type for 3 rounds. Generates 1 Totemic Synergy from the ancestral connection.',
+      id: "primalist_ancestral_bond",
+      name: "Ancestral Bond",
+      description:
+        "Call upon ancestral spirits to grant an ally resistance to one damage type for 3 rounds. Generates 1 Totemic Synergy from the ancestral connection.",
       level: 3,
-      spellType: 'ACTION',
-      icon: 'Nature/Nature Natural',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      icon: "Nature/Nature Natural",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Nature Natural',
-        tags: ['buff', 'defense', 'spirit', 'primalist'],
+        school: "nature",
+        icon: "Nature/Nature Natural",
+        tags: ["buff", "defense", "spirit", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'ancestral_resistance',
-          name: 'Ancestral Bond',
-          description: 'Gain resistance to one damage type chosen by the caster for 3 rounds',
-          statModifier: {
-            stat: 'resistance_choice',
-            magnitude: 1,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "ancestral_resistance",
+            name: "Ancestral Bond",
+            description:
+              "Gain resistance to one damage type chosen by the caster for 3 rounds",
+            statModifier: {
+              stat: "resistance_choice",
+              magnitude: 1,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 10, totemic_synergy: -1 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'defense', 'spirit', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "defense", "spirit", "primalist", "synergy"],
     },
 
     // ===== LEVEL 4 SPELLS =====
     {
-      id: 'primalist_earthquake_strike',
-      name: 'Earthquake Strike',
-      description: 'Slam your weapon into the ground, creating a localized earthquake that deals bludgeoning damage and knocks down enemies. Costs 4 Totemic Synergy.',
+      id: "primalist_earthquake_strike",
+      name: "Earthquake Strike",
+      description:
+        "Slam your weapon into the ground, creating a localized earthquake that deals bludgeoning damage and knocks down enemies. Costs 4 Totemic Synergy.",
       level: 4,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shatter',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      icon: "Nature/Earth Shatter",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'bludgeoning',
-        icon: 'Nature/Earth Shatter',
-        tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist'],
+        school: "nature",
+        secondaryElement: "bludgeoning",
+        icon: "Nature/Earth Shatter",
+        tags: ["attack", "damage", "control", "earth", "aoe", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '5d6 + spirit',
-        elementType: 'bludgeoning',
-        damageTypes: ['nature', 'bludgeoning'],
+        formula: "5d6 + spirit",
+        elementType: "bludgeoning",
+        damageTypes: ["nature", "bludgeoning"],
         savingThrow: {
-          ability: 'agility',
+          ability: "agility",
           difficultyClass: 15,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
-        resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'moderate',
+        controlType: "incapacitation",
+        strength: "moderate",
         duration: 1,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: {
-          ability: 'strength',
+          ability: "strength",
           difficultyClass: 15,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
-        effects: [{
-          id: 'trip',
-          controlType: 'forcedMovement',
-          name: 'Knocked Prone',
-          icon: 'Nature/Earth Shatter',
-          description: 'Target is knocked prone and must use movement to stand',
-          config: {
-            duration: 1,
-            durationUnit: 'rounds',
-            strength: 'moderate',
-            savingThrowType: 'strength',
-            difficultyClass: 15
-          }
-        }]
+        effects: [
+          {
+            id: "trip",
+            controlType: "forcedMovement",
+            name: "Knocked Prone",
+            icon: "Nature/Earth Shatter",
+            description:
+              "Target is knocked prone and must use movement to stand",
+            config: {
+              duration: 1,
+              durationUnit: "rounds",
+              strength: "moderate",
+              savingThrowType: "strength",
+              difficultyClass: 15,
+            },
+          },
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "circle",
         aoeParameters: { radius: 15 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 8,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 18, totemic_synergy: 4 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 3 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'earth', 'aoe', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "control",
+        "earth",
+        "aoe",
+        "primalist",
+        "synergy",
+      ],
     },
 
     {
-      id: 'primalist_spirit_wolves',
-      name: 'Spirit Wolves',
-      description: 'Summon two spectral wolves to fight alongside you. Costs 5 Totemic Synergy.',
+      id: "primalist_spirit_wolves",
+      name: "Spirit Wolves",
+      description:
+        "Summon two spectral wolves to fight alongside you. Costs 5 Totemic Synergy.",
       level: 4,
-      spellType: 'ACTION',
-      icon: 'Nature/Wolf Dash',
-      effectTypes: ['summoning'],
+      spellType: "ACTION",
+      icon: "Nature/Wolf Dash",
+      effectTypes: ["summoning"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Wolf Dash',
-        tags: ['summoning', 'spirit', 'nature', 'primalist'],
+        school: "nature",
+        icon: "Nature/Wolf Dash",
+        tags: ["summoning", "spirit", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       summoningConfig: {
-        creatures: [{
-          id: 'spirit_wolf',
-          name: 'Spirit Wolf',
-          description: 'A spectral wolf made of primal energy',
-          size: 'Medium',
-          type: 'spirit',
-          tokenIcon: 'ability_hunter_pet_wolf',
-          stats: {
-            maxHp: 30,
-            armor: 13,
-            maxMana: 0
+        creatures: [
+          {
+            id: "spirit_wolf",
+            name: "Spirit Wolf",
+            description: "A spectral wolf made of primal energy",
+            size: "Medium",
+            type: "spirit",
+            tokenIcon: "ability_hunter_pet_wolf",
+            stats: {
+              maxHp: 30,
+              armor: 13,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 2,
+              duration: 5,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "mental",
+              controlRange: 60,
+            },
           },
-          config: {
-            quantity: 2,
-            duration: 5,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'mental',
-            controlRange: 60
-          }
-        }],
+        ],
         duration: 5,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 60,
-        controlType: 'mental'
+        controlType: "mental",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 40,
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 20, totemic_synergy: 5 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
-      resolution: 'AUTOMATIC',
-      tags: ['summoning', 'spirit', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "spirit", "nature", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_primal_fury',
-      name: 'Primal Fury',
-      description: 'Channel primal rage into yourself or an ally, increasing damage output by 25%. Costs 4 Totemic Synergy.',
+      id: "primalist_primal_fury",
+      name: "Primal Fury",
+      description:
+        "Channel primal rage into yourself or an ally, increasing damage output by 25%. Costs 4 Totemic Synergy.",
       level: 4,
-      spellType: 'ACTION',
-      icon: 'General/Rage',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      icon: "General/Rage",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'General/Rage',
-        tags: ['buff', 'damage', 'nature', 'primalist'],
+        school: "nature",
+        icon: "General/Rage",
+        tags: ["buff", "damage", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'primal_fury_damage',
-          name: 'Primal Fury',
-          description: 'All damage increased by 25% for 3 rounds',
-          statModifier: {
-            stat: 'damage',
-            magnitude: 25,
-            magnitudeType: 'percentage'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "primal_fury_damage",
+            name: "Primal Fury",
+            description: "All damage increased by 25% for 3 rounds",
+            statModifier: {
+              stat: "damage",
+              magnitude: 25,
+              magnitudeType: "percentage",
+            },
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'single',
-        rangeType: 'ranged',
+        targetingType: "single",
+        rangeType: "ranged",
         rangeDistance: 40,
-        targetRestrictions: ['ally', 'self'],
+        targetRestrictions: ["ally", "self"],
         maxTargets: 1,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 16, totemic_synergy: 4 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'damage', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "damage", "nature", "primalist", "synergy"],
     },
 
     // ===== LEVEL 5 SPELLS (need 2 more) =====
     {
-      id: 'primalist_thorn_barrier',
-      name: 'Thorn Barrier',
-      description: 'Create a wall of thorns that damages enemies who pass through it with piercing and nature damage. Costs 5 Totemic Synergy.',
+      id: "primalist_thorn_barrier",
+      name: "Thorn Barrier",
+      description:
+        "Create a wall of thorns that damages enemies who pass through it with piercing and nature damage. Costs 5 Totemic Synergy.",
       level: 5,
-      spellType: 'ACTION',
-      icon: 'Nature/Thorned Flower',
-      effectTypes: ['utility', 'damage'],
+      spellType: "ACTION",
+      icon: "Nature/Thorned Flower",
+      effectTypes: ["utility", "damage"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'piercing',
-        icon: 'Nature/Thorned Flower',
-        tags: ['utility', 'damage', 'terrain', 'nature', 'primalist'],
+        school: "nature",
+        secondaryElement: "piercing",
+        icon: "Nature/Thorned Flower",
+        tags: ["utility", "damage", "terrain", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '6d6 + spirit',
-        elementType: 'piercing',
-        damageTypes: ['piercing', 'nature'],
-        resolution: 'DICE',
+        formula: "6d6 + spirit",
+        elementType: "piercing",
+        damageTypes: ["piercing", "nature"],
+        resolution: "DICE",
       },
       utilityConfig: {
-        utilityType: 'environment',
-        selectedEffects: [{
-          id: 'thorn_wall',
-          name: 'Thorn Barrier',
-          description: 'Creates a 30-foot wall of thorns that blocks movement and damages creatures'
-        }],
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "thorn_wall",
+            name: "Thorn Barrier",
+            description:
+              "Creates a 30-foot wall of thorns that blocks movement and damages creatures",
+          },
+        ],
         duration: 5,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         concentration: false,
-        power: 'moderate'
+        power: "moderate",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: 'wall',
+        aoeShape: "wall",
         aoeParameters: { length: 30, height: 10, width: 5 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 20, totemic_synergy: 5 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
-      resolution: 'DICE',
-      tags: ['utility', 'damage', 'terrain', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "DICE",
+      tags: ["utility", "damage", "terrain", "nature", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_ancestral_guardian',
-      name: 'Ancestral Guardian',
-      description: 'Summon a powerful ancestral spirit to protect and fight for you. Costs 6 Totemic Synergy.',
+      id: "primalist_ancestral_guardian",
+      name: "Ancestral Guardian",
+      description:
+        "Summon a powerful ancestral spirit to protect and fight for you. Costs 6 Totemic Synergy.",
       level: 5,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      effectTypes: ['summoning'],
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      effectTypes: ["summoning"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Earth Shield',
-        tags: ['summoning', 'spirit', 'nature', 'primalist'],
+        school: "nature",
+        icon: "Nature/Earth Shield",
+        tags: ["summoning", "spirit", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       summoningConfig: {
-        creatures: [{
-          id: 'ancestral_guardian',
-          name: 'Ancestral Guardian',
-          description: 'A powerful spirit of the ancestors',
-          size: 'Large',
-          type: 'spirit',
-          tokenIcon: 'spell_nature_guardianward',
-          stats: {
-            maxHp: 50,
-            armor: 15,
-            maxMana: 0
+        creatures: [
+          {
+            id: "ancestral_guardian",
+            name: "Ancestral Guardian",
+            description: "A powerful spirit of the ancestors",
+            size: "Large",
+            type: "spirit",
+            tokenIcon: "spell_nature_guardianward",
+            stats: {
+              maxHp: 50,
+              armor: 15,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 1,
+              duration: 4,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: true,
+              controlType: "mental",
+              controlRange: 60,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 4,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: true,
-            controlType: 'mental',
-            controlRange: 60
-          }
-        }],
+        ],
         duration: 4,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: true,
         controlRange: 60,
-        controlType: 'mental'
+        controlType: "mental",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 40,
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 24, totemic_synergy: 6 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
-      resolution: 'AUTOMATIC',
-      tags: ['summoning', 'spirit', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      tags: ["summoning", "spirit", "nature", "primalist", "synergy"],
     },
 
     // ===== LEVEL 6 SPELLS (need 2 more) =====
     {
-      id: 'primalist_elemental_fury_totem',
-      name: 'Elemental Fury Totem',
-      description: 'Place a powerful totem that unleashes fire and lightning damage on enemies within range each round. Costs 8 Totemic Synergy.',
+      id: "primalist_elemental_fury_totem",
+      name: "Elemental Fury Totem",
+      description:
+        "Place a powerful totem that unleashes fire and lightning damage on enemies within range each round. Costs 8 Totemic Synergy.",
       level: 6,
-      spellType: 'ACTION',
-      icon: 'Nature/Claw Marks',
-      effectTypes: ['damage', 'summoning'],
+      spellType: "ACTION",
+      icon: "Nature/Claw Marks",
+      effectTypes: ["damage", "summoning"],
       typeConfig: {
-        school: 'fire',
-        secondaryElement: 'lightning',
-        icon: 'Nature/Claw Marks',
-        tags: ['damage', 'totem', 'elemental', 'primalist'],
+        school: "fire",
+        secondaryElement: "lightning",
+        icon: "Nature/Claw Marks",
+        tags: ["damage", "totem", "elemental", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '8d6 + spirit',
-        elementType: 'fire',
-        damageTypes: ['fire', 'lightning'],
-        resolution: 'DICE',
+        formula: "8d6 + spirit",
+        elementType: "fire",
+        damageTypes: ["fire", "lightning"],
+        resolution: "DICE",
       },
       summoningConfig: {
-        creatures: [{
-          id: 'elemental_fury_totem',
-          name: 'Elemental Fury Totem',
-          description: 'A totem channeling elemental destruction',
-          size: 'Medium',
-          type: 'construct',
-          tokenIcon: 'spell_nature_wrathv2',
-          stats: {
-            maxHp: 40,
-            armor: 12,
-            maxMana: 0
+        creatures: [
+          {
+            id: "elemental_fury_totem",
+            name: "Elemental Fury Totem",
+            description: "A totem channeling elemental destruction",
+            size: "Medium",
+            type: "construct",
+            tokenIcon: "spell_nature_wrathv2",
+            stats: {
+              maxHp: 40,
+              armor: 12,
+              maxMana: 0,
+            },
+            config: {
+              quantity: 1,
+              duration: 4,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 4,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'autonomous',
-            controlRange: 0
-          }
-        }],
+        ],
         duration: 4,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 0,
-        controlType: 'autonomous'
+        controlType: "autonomous",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 40,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 20 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 26, totemic_synergy: 8 },
         useFormulas: {},
         actionPoints: 2,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 4 },
-      resolution: 'DICE',
-      tags: ['damage', 'totem', 'elemental', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
+      resolution: "DICE",
+      tags: ["damage", "totem", "elemental", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_stone_skin',
-      name: 'Stone Skin',
-      description: 'Transform your skin into stone, granting significant damage reduction. Costs 6 Totemic Synergy.',
+      id: "primalist_stone_skin",
+      name: "Stone Skin",
+      description:
+        "Transform your skin into stone, granting significant damage reduction. Costs 6 Totemic Synergy.",
       level: 6,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shield',
-      effectTypes: ['buff'],
+      spellType: "ACTION",
+      icon: "Nature/Earth Shield",
+      effectTypes: ["buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Earth Shield',
-        tags: ['buff', 'defense', 'earth', 'primalist'],
+        school: "nature",
+        icon: "Nature/Earth Shield",
+        tags: ["buff", "defense", "earth", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'stone_skin_armor',
-          name: 'Stone Skin',
-            description: 'Reduces incoming damage by 25% (percentage reduction) for 3 rounds',
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "stone_skin_armor",
+            name: "Stone Skin",
+            description:
+              "Reduces incoming damage by 25% (percentage reduction) for 3 rounds",
             statModifier: {
-              stat: 'damage_reduction',
+              stat: "damage_reduction",
               magnitude: 25,
-              magnitudeType: 'percentage'
-            }
-        }],
+              magnitudeType: "percentage",
+            },
+          },
+        ],
         durationValue: 3,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 25, totemic_synergy: 6 },
         useFormulas: {},
         actionPoints: 1,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'defense', 'earth', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      tags: ["buff", "defense", "earth", "primalist", "synergy"],
     },
 
     // ===== LEVEL 7 SPELLS (need 2 more) =====
     {
-      id: 'primalist_meteor_storm',
-      name: 'Meteor Storm',
-      description: 'Call down meteors from the sky to devastate your enemies with fire and bludgeoning damage. Costs 10 Totemic Synergy.',
+      id: "primalist_meteor_storm",
+      name: "Meteor Storm",
+      description:
+        "Call down meteors from the sky to devastate your enemies with fire and bludgeoning damage. Costs 10 Totemic Synergy.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Utility/Explosive Detonation',
-      effectTypes: ['damage'],
+      spellType: "ACTION",
+      icon: "Utility/Explosive Detonation",
+      effectTypes: ["damage"],
       typeConfig: {
-        school: 'fire',
-        secondaryElement: 'bludgeoning',
-        icon: 'Utility/Explosive Detonation',
-        tags: ['attack', 'damage', 'aoe', 'fire', 'primalist'],
+        school: "fire",
+        secondaryElement: "bludgeoning",
+        icon: "Utility/Explosive Detonation",
+        tags: ["attack", "damage", "aoe", "fire", "primalist"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '10d6 + spirit * 2',
-        elementType: 'fire',
-        damageTypes: ['fire', 'bludgeoning'],
+        formula: "10d6 + spirit * 2",
+        elementType: "fire",
+        damageTypes: ["fire", "bludgeoning"],
         savingThrow: {
-          ability: 'agility',
+          ability: "agility",
           difficultyClass: 17,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
-        resolution: 'DICE',
+        resolution: "DICE",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 100,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 15,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 28, totemic_synergy: 10 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A fragment of a meteor'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "A fragment of a meteor",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'fire', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: ["attack", "damage", "aoe", "fire", "primalist", "synergy"],
     },
 
     {
-      id: 'primalist_natures_wrath',
+      id: "primalist_natures_wrath",
       name: "Nature's Wrath",
-      description: 'Unleash the full wrath of nature, empowering all active totems with bonus damage and dealing massive nature damage to enemies. Costs 10 Totemic Synergy. Allies within range gain +2 to all stats for 4 rounds.',
+      description:
+        "Unleash the full wrath of nature, empowering all active totems with bonus damage and dealing massive nature damage to enemies. Costs 10 Totemic Synergy. Allies within range gain +2 to all stats for 4 rounds.",
       level: 7,
-      spellType: 'ACTION',
-      icon: 'Nature/Growth',
-      effectTypes: ['damage', 'buff'],
+      spellType: "ACTION",
+      icon: "Nature/Growth",
+      effectTypes: ["damage", "buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Growth',
-        tags: ['damage', 'buff', 'totem', 'nature', 'primalist'],
+        school: "nature",
+        icon: "Nature/Growth",
+        tags: ["damage", "buff", "totem", "nature", "primalist"],
         castTime: 1,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '8d8 + spirit * 1.5',
-        elementType: 'nature',
-        damageTypes: ['nature'],
-        resolution: 'DICE',
+        formula: "8d8 + spirit * 1.5",
+        elementType: "nature",
+        damageTypes: ["nature"],
+        resolution: "DICE",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'natures_wrath_totem_power',
-          name: "Nature's Wrath",
-          description: 'All active totems deal bonus damage and grant +2 to all stats for 4 rounds',
-          damageFormula: '+2d6',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "natures_wrath_totem_power",
+            name: "Nature's Wrath",
+            description:
+              "All active totems deal bonus damage and grant +2 to all stats for 4 rounds",
+            damageFormula: "+2d6",
+            statModifier: {
+              stat: "all_stats",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 4,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: true
+        canBeDispelled: true,
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'self_centered',
-        targetingMode: 'effect',
-        aoeShape: 'circle',
+        targetingType: "area",
+        rangeType: "self_centered",
+        targetingMode: "effect",
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
-        targetRestrictions: ['any'],
+        targetRestrictions: ["any"],
         maxTargets: 10,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       effectTargeting: {
         damage: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 40 },
-          targetRestrictions: ['enemy'],
-          maxTargets: 10
+          targetRestrictions: ["enemy"],
+          maxTargets: 10,
         },
         buff: {
-          targetingType: 'area',
-          rangeType: 'self_centered',
-          aoeShape: 'circle',
+          targetingType: "area",
+          rangeType: "self_centered",
+          aoeShape: "circle",
           aoeParameters: { radius: 40 },
-          targetRestrictions: ['ally', 'self'],
-          maxTargets: 10
-        }
+          targetRestrictions: ["ally", "self"],
+          maxTargets: 10,
+        },
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 28, totemic_synergy: 10 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['damage', 'buff', 'totem', 'nature', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: ["damage", "buff", "totem", "nature", "primalist", "synergy"],
     },
 
     // ===== LEVEL 8 SPELLS (need 2 more) =====
     {
-      id: 'primalist_primal_apocalypse',
-      name: 'Primal Apocalypse',
-      description: 'Summon the apocalyptic fury of nature, dealing massive nature and bludgeoning damage and creating permanent terrain changes. Costs 12 Totemic Synergy.',
+      id: "primalist_primal_apocalypse",
+      name: "Primal Apocalypse",
+      description:
+        "Summon the apocalyptic fury of nature, dealing massive nature and bludgeoning damage and creating permanent terrain changes. Costs 12 Totemic Synergy.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Nature/Entangled',
-      effectTypes: ['damage', 'utility'],
+      spellType: "ACTION",
+      icon: "Nature/Entangled",
+      effectTypes: ["damage", "utility"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'bludgeoning',
-        icon: 'Nature/Entangled',
-        tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist'],
+        school: "nature",
+        secondaryElement: "bludgeoning",
+        icon: "Nature/Entangled",
+        tags: [
+          "attack",
+          "damage",
+          "terrain",
+          "aoe",
+          "nature",
+          "epic",
+          "primalist",
+        ],
         castTime: 3,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '14d6 + spirit',
-        elementType: 'nature',
-        damageTypes: ['nature', 'bludgeoning'],
+        formula: "14d6 + spirit",
+        elementType: "nature",
+        damageTypes: ["nature", "bludgeoning"],
         savingThrow: {
-          ability: 'constitution',
+          ability: "constitution",
           difficultyClass: 18,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
-        resolution: 'DICE',
+        resolution: "DICE",
       },
       utilityConfig: {
-        utilityType: 'environment',
-        selectedEffects: [{
-          id: 'primal_terrain',
-          name: 'Primal Terrain',
-          description: 'Creates permanent difficult terrain and natural hazards in the area'
-        }],
+        utilityType: "environment",
+        selectedEffects: [
+          {
+            id: "primal_terrain",
+            name: "Primal Terrain",
+            description:
+              "Creates permanent difficult terrain and natural hazards in the area",
+          },
+        ],
         duration: 0,
-        durationUnit: 'permanent',
+        durationUnit: "permanent",
         concentration: false,
-        power: 'major'
+        power: "major",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 120,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 50 },
-        targetRestrictions: ['enemy'],
+        targetRestrictions: ["enemy"],
         maxTargets: 20,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 32, totemic_synergy: 12 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'The heart of an ancient earth elemental'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "The heart of an ancient earth elemental",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'terrain', 'aoe', 'nature', 'epic', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "terrain",
+        "aoe",
+        "nature",
+        "epic",
+        "primalist",
+        "synergy",
+      ],
     },
 
     {
-      id: 'primalist_grand_totem_circle',
-      name: 'Grand Totem Circle',
-      description: 'Place four powerful totems simultaneously, creating an unbreakable circle of power. Costs 12 Totemic Synergy to channel this much totemic energy at once.',
+      id: "primalist_grand_totem_circle",
+      name: "Grand Totem Circle",
+      description:
+        "Place four powerful totems simultaneously, creating an unbreakable circle of power. Costs 12 Totemic Synergy to channel this much totemic energy at once.",
       level: 8,
-      spellType: 'ACTION',
-      icon: 'Necrotic/Resurrect',
-      effectTypes: ['summoning', 'buff'],
+      spellType: "ACTION",
+      icon: "Necrotic/Resurrect",
+      effectTypes: ["summoning", "buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Necrotic/Resurrect',
-        tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist'],
+        school: "nature",
+        icon: "Necrotic/Resurrect",
+        tags: ["summoning", "buff", "totem", "nature", "epic", "primalist"],
         castTime: 2,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       summoningConfig: {
         creatures: [
           {
-            id: 'grand_healing_totem',
-            name: 'Grand Healing Totem',
-            description: 'A powerful healing totem',
-            size: 'Medium',
-            type: 'construct',
-            tokenIcon: 'spell_nature_healingtouch',
+            id: "grand_healing_totem",
+            name: "Grand Healing Totem",
+            description: "A powerful healing totem",
+            size: "Medium",
+            type: "construct",
+            tokenIcon: "spell_nature_healingtouch",
             stats: { maxHp: 60, armor: 15, maxMana: 0 },
             config: {
               quantity: 1,
               duration: 5,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'autonomous',
-              controlRange: 0
-            }
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
           {
-            id: 'grand_damage_totem',
-            name: 'Grand Damage Totem',
-            description: 'A powerful offensive totem',
-            size: 'Medium',
-            type: 'construct',
-            tokenIcon: 'spell_nature_lightningshield',
+            id: "grand_damage_totem",
+            name: "Grand Damage Totem",
+            description: "A powerful offensive totem",
+            size: "Medium",
+            type: "construct",
+            tokenIcon: "spell_nature_lightningshield",
             stats: { maxHp: 60, armor: 15, maxMana: 0 },
             config: {
               quantity: 1,
               duration: 5,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'autonomous',
-              controlRange: 0
-            }
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
           {
-            id: 'grand_defense_totem',
-            name: 'Grand Defense Totem',
-            description: 'A powerful defensive totem',
-            size: 'Medium',
-            type: 'construct',
-            tokenIcon: 'spell_nature_stoneskintotem',
+            id: "grand_defense_totem",
+            name: "Grand Defense Totem",
+            description: "A powerful defensive totem",
+            size: "Medium",
+            type: "construct",
+            tokenIcon: "spell_nature_stoneskintotem",
             stats: { maxHp: 60, armor: 15, maxMana: 0 },
             config: {
               quantity: 1,
               duration: 5,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'autonomous',
-              controlRange: 0
-            }
+              controlType: "autonomous",
+              controlRange: 0,
+            },
           },
           {
-            id: 'grand_utility_totem',
-            name: 'Grand Utility Totem',
-            description: 'A powerful utility totem',
-            size: 'Medium',
-            type: 'construct',
-            tokenIcon: 'spell_nature_earthbindtotem',
+            id: "grand_utility_totem",
+            name: "Grand Utility Totem",
+            description: "A powerful utility totem",
+            size: "Medium",
+            type: "construct",
+            tokenIcon: "spell_nature_earthbindtotem",
             stats: { maxHp: 60, armor: 15, maxMana: 0 },
             config: {
               quantity: 1,
               duration: 5,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'autonomous',
-              controlRange: 0
-            }
-          }
+              controlType: "autonomous",
+              controlRange: 0,
+            },
+          },
         ],
         duration: 5,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: true,
         controlRange: 0,
-        controlType: 'autonomous'
+        controlType: "autonomous",
       },
       buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'grand_circle_power',
-          name: 'Grand Totem Circle',
-          description: 'All allies gain +3 to all stats and regenerate HP per round for 5 rounds',
-          healingFormula: '2d8',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 3,
-            magnitudeType: 'flat'
-          }
-        }],
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "grand_circle_power",
+            name: "Grand Totem Circle",
+            description:
+              "All allies gain +3 to all stats and regenerate HP per round for 5 rounds",
+            healingFormula: "2d8",
+            statModifier: {
+              stat: "all_stats",
+              magnitude: 3,
+              magnitudeType: "flat",
+            },
+          },
+        ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: true,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 40,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 30 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 32, totemic_synergy: 12 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'AUTOMATIC',
-      tags: ['summoning', 'buff', 'totem', 'nature', 'epic', 'primalist', 'synergy']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      tags: [
+        "summoning",
+        "buff",
+        "totem",
+        "nature",
+        "epic",
+        "primalist",
+        "synergy",
+      ],
     },
 
     // ===== LEVEL 9 SPELLS =====
     {
-      id: 'primalist_world_tree_avatar',
-      name: 'World Tree Avatar',
-      description: 'Transform into an avatar of the World Tree, gaining immense power and control over nature. Costs 15 Totemic Synergy to channel the essence of the World Tree.',
+      id: "primalist_world_tree_avatar",
+      name: "World Tree Avatar",
+      description:
+        "Transform into an avatar of the World Tree, gaining immense power and control over nature. Costs 15 Totemic Synergy to channel the essence of the World Tree.",
       level: 9,
-      spellType: 'STATE',
-      icon: 'Healing/Heart Ripple',
-      effectTypes: ['transformation', 'buff'],
+      spellType: "STATE",
+      icon: "Healing/Heart Ripple",
+      effectTypes: ["transformation", "buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Healing/Heart Ripple',
-        tags: ['transformation', 'buff', 'nature', 'legendary', 'primalist'],
-        stateVisibility: 'visible',
+        school: "nature",
+        icon: "Healing/Heart Ripple",
+        tags: ["transformation", "buff", "nature", "legendary", "primalist"],
+        stateVisibility: "visible",
         cooldownAfterTrigger: 0,
-        cooldownUnit: 'seconds',
-        maxTriggers: 1
+        cooldownUnit: "seconds",
+        maxTriggers: 1,
       },
       transformationConfig: {
-        transformationType: 'elemental',
-        targetType: 'self',
+        transformationType: "elemental",
+        targetType: "self",
         duration: 5,
-        durationUnit: 'rounds',
-        power: 'major',
-        newForm: 'World Tree Avatar',
-        description: 'Channel the essence of the World Tree, becoming a conduit of nature.',
+        durationUnit: "rounds",
+        power: "major",
+        newForm: "World Tree Avatar",
+        description:
+          "Channel the essence of the World Tree, becoming a conduit of nature.",
         grantedAbilities: [
-          { id: 'nature_immunity', name: 'Nature Immunity', description: 'Immune to nature damage' },
-          { id: 'totem_protection', name: 'Totem Protection', description: 'All totems gain +50 HP and resistance to all damage' },
-          { id: 'instant_totems', name: 'Instant Totems', description: 'Totem placement costs 0 action points' },
-          { id: 'world_tree_stats', name: '+5 All Stats', description: 'Gain +5 to all attributes' }
-        ]
+          {
+            id: "nature_immunity",
+            name: "Nature Immunity",
+            description: "Immune to nature damage",
+          },
+          {
+            id: "totem_protection",
+            name: "Totem Protection",
+            description: "All totems gain +50 HP and resistance to all damage",
+          },
+          {
+            id: "instant_totems",
+            name: "Instant Totems",
+            description: "Totem placement costs 0 action points",
+          },
+          {
+            id: "world_tree_stats",
+            name: "+5 All Stats",
+            description: "Gain +5 to all attributes",
+          },
+        ],
       },
       buffConfig: {
-        buffType: 'statEnhancement',
+        buffType: "statEnhancement",
         effects: [
           {
-            id: 'world_tree_power',
-            name: 'World Tree Stats',
-            description: '+5 to all stats',
+            id: "world_tree_power",
+            name: "World Tree Stats",
+            description: "+5 to all stats",
             statModifier: {
-              stat: 'all_stats',
+              stat: "all_stats",
               magnitude: 5,
-              magnitudeType: 'flat'
-            }
+              magnitudeType: "flat",
+            },
           },
           {
-            id: 'world_tree_defense',
-            name: 'World Tree Defense',
-            description: 'Gain 80% damage reduction for 5 rounds',
+            id: "world_tree_defense",
+            name: "World Tree Defense",
+            description: "Gain 80% damage reduction for 5 rounds",
             statModifier: {
-              stat: 'damage_reduction',
+              stat: "damage_reduction",
               magnitude: 80,
-              magnitudeType: 'percentage'
-            }
-          }
+              magnitudeType: "percentage",
+            },
+          },
         ],
         durationValue: 5,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
+        durationType: "rounds",
+        durationUnit: "rounds",
         concentrationRequired: false,
-        canBeDispelled: false
+        canBeDispelled: false,
       },
       targetingConfig: {
-        targetingType: 'self'
+        targetingType: "self",
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 36, totemic_synergy: 15 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic']
+        components: ["verbal", "somatic"],
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'AUTOMATIC',
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
     },
 
     {
-      id: 'primalist_cataclysm',
-      name: 'Cataclysm',
-      description: 'Unleash a natural cataclysm that devastates the entire battlefield with nature and bludgeoning damage. Costs 15 Totemic Synergy.',
+      id: "primalist_cataclysm",
+      name: "Cataclysm",
+      description:
+        "Unleash a natural cataclysm that devastates the entire battlefield with nature and bludgeoning damage. Costs 15 Totemic Synergy.",
       level: 9,
-      spellType: 'ACTION',
-      icon: 'Nature/Earth Shatter',
-      effectTypes: ['damage', 'control'],
+      spellType: "ACTION",
+      icon: "Nature/Earth Shatter",
+      effectTypes: ["damage", "control"],
       typeConfig: {
-        school: 'nature',
-        secondaryElement: 'bludgeoning',
-        icon: 'Nature/Earth Shatter',
-        tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist'],
+        school: "nature",
+        secondaryElement: "bludgeoning",
+        icon: "Nature/Earth Shatter",
+        tags: [
+          "attack",
+          "damage",
+          "control",
+          "aoe",
+          "nature",
+          "legendary",
+          "primalist",
+        ],
         castTime: 4,
-        castTimeType: 'IMMEDIATE'
+        castTimeType: "IMMEDIATE",
       },
       damageConfig: {
-        formula: '18d6 + spirit',
-        elementType: 'nature',
-        damageTypes: ['nature', 'bludgeoning'],
+        formula: "18d6 + spirit",
+        elementType: "nature",
+        damageTypes: ["nature", "bludgeoning"],
         savingThrow: {
-          ability: 'constitution',
+          ability: "constitution",
           difficultyClass: 19,
-          saveOutcome: 'half_damage'
+          saveOutcome: "half_damage",
         },
-        resolution: 'DICE',
+        resolution: "DICE",
       },
       controlConfig: {
-        controlType: 'incapacitation',
-        strength: 'extreme',
+        controlType: "incapacitation",
+        strength: "extreme",
         duration: 2,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         savingThrow: {
-          ability: 'strength',
+          ability: "strength",
           difficultyClass: 19,
-          saveOutcome: 'negates'
+          saveOutcome: "negates",
         },
-        effects: [{
-          id: 'stagger',
-          controlType: 'incapacitation',
-          name: 'Staggered by Cataclysm',
-          icon: 'Nature/Earth Shatter',
-          description: 'Target is knocked prone and stunned for 2 rounds. DC 19 Strength save to negate.',
-          config: {
-            duration: 2,
-            durationUnit: 'rounds',
-            strength: 'extreme',
-            savingThrowType: 'strength',
-            difficultyClass: 19
-          }
-        }]
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'sight',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 80 },
-        targetRestrictions: ['enemy'],
-        maxTargets: 30,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
-      },
-      resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
-        resourceValues: { mana: 36, totemic_synergy: 15 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A shard of the primordial earth, worth 50,000 gold'
-      },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'control', 'aoe', 'nature', 'legendary', 'primalist', 'synergy']
-    },
-
-    {
-      id: 'primalist_eternal_totem',
-      name: 'Eternal Totem',
-      description: 'Place a legendary totem that can never be destroyed and empowers all nearby allies. Costs 15 Totemic Synergy to anchor this indestructible conduit of nature.',
-      level: 9,
-      spellType: 'ACTION',
-      icon: 'General/Increase Strength',
-      effectTypes: ['summoning', 'buff'],
-      typeConfig: {
-        school: 'nature',
-        icon: 'General/Increase Strength',
-        tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist'],
-        castTime: 3,
-        castTimeType: 'IMMEDIATE'
-      },
-      summoningConfig: {
-        creatures: [{
-          id: 'eternal_totem',
-          name: 'Eternal Totem',
-          description: 'An indestructible totem of legendary power',
-          size: 'Large',
-          type: 'construct',
-          tokenIcon: 'spell_nature_strengthofearth',
-          stats: {
-            maxHp: 500,
-            armor: 25,
-            maxMana: 0,
-            indestructible: true
+        effects: [
+          {
+            id: "stagger",
+            controlType: "incapacitation",
+            name: "Staggered by Cataclysm",
+            icon: "Nature/Earth Shatter",
+            description:
+              "Target is knocked prone and stunned for 2 rounds. DC 19 Strength save to negate.",
+            config: {
+              duration: 2,
+              durationUnit: "rounds",
+              strength: "extreme",
+              savingThrowType: "strength",
+              difficultyClass: 19,
+            },
           },
-          config: {
-            quantity: 1,
-            duration: 10,
-            durationUnit: 'rounds',
-            hasDuration: true,
-            concentration: false,
-            controlType: 'autonomous',
-            controlRange: 0
-          }
-        }],
-        duration: 10,
-        durationUnit: 'rounds',
-        hasDuration: true,
-        concentration: false,
-        controlRange: 0,
-        controlType: 'autonomous'
-      },
-      buffConfig: {
-        buffType: 'statEnhancement',
-        effects: [{
-          id: 'eternal_empowerment',
-          name: 'Eternal Empowerment',
-          description: 'All allies gain +2 to all stats, regenerate HP per round, and gain resistance to one damage type of their choice for 10 rounds',
-          healingFormula: '2d10',
-          statModifier: {
-            stat: 'all_stats',
-            magnitude: 2,
-            magnitudeType: 'flat'
-          }
-        }],
-        durationValue: 10,
-        durationType: 'rounds',
-        durationUnit: 'rounds',
-        concentrationRequired: false,
-        canBeDispelled: false
+        ],
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
-        rangeDistance: 60,
-        aoeShape: 'circle',
-        aoeParameters: { radius: 50 },
-        targetRestrictions: [],
-        maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetingType: "area",
+        rangeType: "sight",
+        aoeShape: "circle",
+        aoeParameters: { radius: 80 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 30,
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 36, totemic_synergy: 15 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'The essence of the World Tree'
+        components: ["verbal", "somatic", "material"],
+        materialComponents:
+          "A shard of the primordial earth, worth 50,000 gold",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'AUTOMATIC',
-      tags: ['summoning', 'buff', 'totem', 'nature', 'legendary', 'primalist', 'synergy']
-    },
-
-    // ===== LEVEL 10 SPELLS =====
-    {
-      id: 'primalist_primal_ascension',
-      name: 'Primal Ascension',
-      description: 'Ascend to become one with nature itself, gaining godlike power over totemic magic. Spends 20 Totemic Synergy to achieve perfect harmony with the primal forces.',
-      level: 10,
-      spellType: 'PASSIVE',
-      icon: 'Healing/Heart Ripple',
-      effectTypes: ['buff', 'transformation'],
-      typeConfig: {
-        school: 'nature',
-        icon: 'Healing/Heart Ripple',
-        tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable'],
-        toggleable: true
-      },
-      transformationConfig: {
-        transformationType: 'elemental',
-        targetType: 'self',
-        duration: 0,
-        durationUnit: 'permanent',
-        power: 'major',
-        newForm: 'Primal Ascendant',
-        description: 'Achieve perfect harmony with nature, enhancing your totemic powers.',
-        grantedAbilities: [
-          { id: 'totem_link', name: 'Totem Link', description: 'Gain damage resistance while at least one totem is active' },
-          { id: 'extended_totems', name: 'Extended Totems', description: 'Totem durations increased by 100%' },
-          { id: 'totem_master', name: 'Totem Master', description: 'Can maintain 2 additional totems simultaneously' },
-          { id: 'enhanced_effects', name: 'Enhanced Effects', description: 'All totem healing and damage effects increased by 25%' }
-        ]
-      },
-      buffConfig: {
-        buffType: 'custom',
-        effects: [{
-          id: 'primal_ascension',
-          name: 'Primal Ascension',
-          description: 'Enhanced totem mastery with damage resistance while totems are active',
-          customDescription: 'You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem durations doubled, can maintain 2 extra totems, and all totem effects enhanced by 25%.',
-          mechanicsText: 'Damage resistance while totems active. Totem damage doubled. Immune to fear.',
-          damageReduction: { value: 25, magnitudeType: 'percentage' }
-        }],
-        durationValue: 0,
-        durationType: 'permanent',
-        durationUnit: 'permanent',
-        concentrationRequired: false,
-        canBeDispelled: false
-      },
-      targetingConfig: {
-        targetingType: 'self'
-      },
-      resourceCost: {
-        resourceTypes: ['totemic_synergy'],
-        resourceValues: { totemic_synergy: 20 },
-        useFormulas: {},
-        actionPoints: 0,
-        components: ['ritual'],
-        materialComponents: 'The blessing of the primordial spirits, 100,000 gold worth of natural artifacts'
-      },
-      cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 0 },
-      resolution: 'AUTOMATIC',
-      tags: ['buff', 'transformation', 'passive', 'nature', 'legendary', 'primalist', 'toggleable']
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "control",
+        "aoe",
+        "nature",
+        "legendary",
+        "primalist",
+        "synergy",
+      ],
     },
 
     {
-      id: 'primalist_gaia_wrath',
-      name: "Gaia's Wrath",
-      description: 'Channel the wrath of the earth mother, obliterating all enemies on the battlefield with primal nature damage. Spends 20 Totemic Synergy.',
-      level: 10,
-      spellType: 'ACTION',
-      icon: 'Nature/Entangled',
-      effectTypes: ['damage'],
+      id: "primalist_eternal_totem",
+      name: "Eternal Totem",
+      description:
+        "Place a legendary totem that can never be destroyed and empowers all nearby allies. Costs 15 Totemic Synergy to anchor this indestructible conduit of nature.",
+      level: 9,
+      spellType: "ACTION",
+      icon: "General/Increase Strength",
+      effectTypes: ["summoning", "buff"],
       typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Entangled',
-        tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist'],
-        castTime: 5,
-        castTimeType: 'IMMEDIATE'
-      },
-      damageConfig: {
-        formula: '22d6 + spirit',
-        elementType: 'nature',
-        damageTypes: ['nature', 'bludgeoning'],
-        secondaryElementType: 'bludgeoning',
-        savingThrow: {
-          ability: 'constitution',
-          difficultyClass: 20,
-          saveOutcome: 'half_damage'
-        },
-        resolution: 'DICE',
-      },
-      targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'sight',
-        aoeShape: 'circle',
-        aoeParameters: { radius: 150 },
-        targetRestrictions: ['enemy'],
-        maxTargets: 100,
-        targetSelectionMethod: 'automatic',
-        requiresLineOfSight: false
-      },
-      resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
-        resourceValues: { mana: 40, totemic_synergy: 20 },
-        useFormulas: {},
-        actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'A tear of the earth mother, priceless'
-      },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['attack', 'damage', 'aoe', 'nature', 'legendary', 'primalist', 'synergy']
-    },
-
-    {
-      id: 'primalist_genesis',
-      name: 'Genesis',
-      description: 'Create life itself, summoning an army of nature spirits and creatures. Spends 18 Totemic Synergy to unleash the full creative force of the natural world.',
-      level: 10,
-      spellType: 'ACTION',
-      icon: 'Nature/Growth',
-      effectTypes: ['summoning'],
-      typeConfig: {
-        school: 'nature',
-        icon: 'Nature/Growth',
-        tags: ['summoning', 'nature', 'legendary', 'primalist'],
-        castTime: 4,
-        castTimeType: 'IMMEDIATE'
+        school: "nature",
+        icon: "General/Increase Strength",
+        tags: [
+          "summoning",
+          "buff",
+          "totem",
+          "nature",
+          "legendary",
+          "primalist",
+        ],
+        castTime: 3,
+        castTimeType: "IMMEDIATE",
       },
       summoningConfig: {
         creatures: [
           {
-            id: 'nature_army_treants',
-            name: 'Treant',
-            description: 'Massive tree creatures',
-            size: 'Huge',
-            type: 'plant',
-            tokenIcon: 'ability_druid_treeoflife',
+            id: "eternal_totem",
+            name: "Eternal Totem",
+            description: "An indestructible totem of legendary power",
+            size: "Large",
+            type: "construct",
+            tokenIcon: "spell_nature_strengthofearth",
+            stats: {
+              maxHp: 500,
+              armor: 25,
+              maxMana: 0,
+              indestructible: true,
+            },
+            config: {
+              quantity: 1,
+              duration: 10,
+              durationUnit: "rounds",
+              hasDuration: true,
+              concentration: false,
+              controlType: "autonomous",
+              controlRange: 0,
+            },
+          },
+        ],
+        duration: 10,
+        durationUnit: "rounds",
+        hasDuration: true,
+        concentration: false,
+        controlRange: 0,
+        controlType: "autonomous",
+      },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "eternal_empowerment",
+            name: "Eternal Empowerment",
+            description:
+              "All allies gain +2 to all stats, regenerate HP per round, and gain resistance to one damage type of their choice for 10 rounds",
+            healingFormula: "2d10",
+            statModifier: {
+              stat: "all_stats",
+              magnitude: 2,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 10,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: false,
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        aoeShape: "circle",
+        aoeParameters: { radius: 50 },
+        targetRestrictions: [],
+        maxTargets: 0,
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
+      },
+      resourceCost: {
+        resourceTypes: ["mana", "totemic_synergy"],
+        resourceValues: { mana: 36, totemic_synergy: 15 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "The essence of the World Tree",
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "AUTOMATIC",
+      tags: [
+        "summoning",
+        "buff",
+        "totem",
+        "nature",
+        "legendary",
+        "primalist",
+        "synergy",
+      ],
+    },
+
+    // ===== LEVEL 10 SPELLS =====
+    {
+      id: "primalist_primal_ascension",
+      name: "Primal Ascension",
+      description:
+        "Ascend to become one with nature itself, gaining godlike power over totemic magic. Spends 20 Totemic Synergy to achieve perfect harmony with the primal forces.",
+      level: 10,
+      spellType: "PASSIVE",
+      icon: "Healing/Heart Ripple",
+      effectTypes: ["buff", "transformation"],
+      typeConfig: {
+        school: "nature",
+        icon: "Healing/Heart Ripple",
+        tags: [
+          "buff",
+          "transformation",
+          "passive",
+          "nature",
+          "legendary",
+          "primalist",
+          "toggleable",
+        ],
+        toggleable: true,
+      },
+      transformationConfig: {
+        transformationType: "elemental",
+        targetType: "self",
+        duration: 0,
+        durationUnit: "permanent",
+        power: "major",
+        newForm: "Primal Ascendant",
+        description:
+          "Achieve perfect harmony with nature, enhancing your totemic powers.",
+        grantedAbilities: [
+          {
+            id: "totem_link",
+            name: "Totem Link",
+            description:
+              "Gain damage resistance while at least one totem is active",
+          },
+          {
+            id: "extended_totems",
+            name: "Extended Totems",
+            description: "Totem durations increased by 100%",
+          },
+          {
+            id: "totem_master",
+            name: "Totem Master",
+            description: "Can maintain 2 additional totems simultaneously",
+          },
+          {
+            id: "enhanced_effects",
+            name: "Enhanced Effects",
+            description:
+              "All totem healing and damage effects increased by 25%",
+          },
+        ],
+      },
+      buffConfig: {
+        buffType: "custom",
+        effects: [
+          {
+            id: "primal_ascension",
+            name: "Primal Ascension",
+            description:
+              "Enhanced totem mastery with damage resistance while totems are active",
+            customDescription:
+              "You have achieved primal ascension. Gain damage resistance while at least one totem is active. Totem durations doubled, can maintain 2 extra totems, and all totem effects enhanced by 25%.",
+            mechanicsText:
+              "Damage resistance while totems active. Totem damage doubled. Immune to fear.",
+            damageReduction: { value: 25, magnitudeType: "percentage" },
+          },
+        ],
+        durationValue: 0,
+        durationType: "permanent",
+        durationUnit: "permanent",
+        concentrationRequired: false,
+        canBeDispelled: false,
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: ["totemic_synergy"],
+        resourceValues: { totemic_synergy: 20 },
+        useFormulas: {},
+        actionPoints: 0,
+        components: ["ritual"],
+        materialComponents:
+          "The blessing of the primordial spirits, 100,000 gold worth of natural artifacts",
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
+      resolution: "AUTOMATIC",
+      tags: [
+        "buff",
+        "transformation",
+        "passive",
+        "nature",
+        "legendary",
+        "primalist",
+        "toggleable",
+      ],
+    },
+
+    {
+      id: "primalist_gaia_wrath",
+      name: "Gaia's Wrath",
+      description:
+        "Channel the wrath of the earth mother, obliterating all enemies on the battlefield with primal nature damage. Spends 20 Totemic Synergy.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Nature/Entangled",
+      effectTypes: ["damage"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Entangled",
+        tags: ["attack", "damage", "aoe", "nature", "legendary", "primalist"],
+        castTime: 5,
+        castTimeType: "IMMEDIATE",
+      },
+      damageConfig: {
+        formula: "22d6 + spirit",
+        elementType: "nature",
+        damageTypes: ["nature", "bludgeoning"],
+        secondaryElementType: "bludgeoning",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 20,
+          saveOutcome: "half_damage",
+        },
+        resolution: "DICE",
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "sight",
+        aoeShape: "circle",
+        aoeParameters: { radius: 150 },
+        targetRestrictions: ["enemy"],
+        maxTargets: 100,
+        targetSelectionMethod: "automatic",
+        requiresLineOfSight: false,
+      },
+      resourceCost: {
+        resourceTypes: ["mana", "totemic_synergy"],
+        resourceValues: { mana: 40, totemic_synergy: 20 },
+        useFormulas: {},
+        actionPoints: 3,
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "A tear of the earth mother, priceless",
+      },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: [
+        "attack",
+        "damage",
+        "aoe",
+        "nature",
+        "legendary",
+        "primalist",
+        "synergy",
+      ],
+    },
+
+    {
+      id: "primalist_genesis",
+      name: "Genesis",
+      description:
+        "Create life itself, summoning an army of nature spirits and creatures. Spends 18 Totemic Synergy to unleash the full creative force of the natural world.",
+      level: 10,
+      spellType: "ACTION",
+      icon: "Nature/Growth",
+      effectTypes: ["summoning"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Growth",
+        tags: ["summoning", "nature", "legendary", "primalist"],
+        castTime: 4,
+        castTimeType: "IMMEDIATE",
+      },
+      summoningConfig: {
+        creatures: [
+          {
+            id: "nature_army_treants",
+            name: "Treant",
+            description: "Massive tree creatures",
+            size: "Huge",
+            type: "plant",
+            tokenIcon: "ability_druid_treeoflife",
             stats: { maxHp: 100, armor: 18, maxMana: 0 },
             config: {
               quantity: 1,
               duration: 10,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'mental',
-              controlRange: 120
-            }
+              controlType: "mental",
+              controlRange: 120,
+            },
           },
           {
-            id: 'nature_army_elementals',
-            name: 'Earth Elemental',
-            description: 'Powerful earth elementals',
-            size: 'Large',
-            type: 'elemental',
-            tokenIcon: 'spell_nature_strength',
+            id: "nature_army_elementals",
+            name: "Earth Elemental",
+            description: "Powerful earth elementals",
+            size: "Large",
+            type: "elemental",
+            tokenIcon: "spell_nature_strength",
             stats: { maxHp: 80, armor: 16, maxMana: 0 },
             config: {
               quantity: 2,
               duration: 10,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'mental',
-              controlRange: 120
-            }
+              controlType: "mental",
+              controlRange: 120,
+            },
           },
           {
-            id: 'nature_army_beasts',
-            name: 'Primal Beast',
-            description: 'Ferocious primal beasts',
-            size: 'Large',
-            type: 'beast',
-            tokenIcon: 'ability_druid_catform',
+            id: "nature_army_beasts",
+            name: "Primal Beast",
+            description: "Ferocious primal beasts",
+            size: "Large",
+            type: "beast",
+            tokenIcon: "ability_druid_catform",
             stats: { maxHp: 60, armor: 14, maxMana: 0 },
             config: {
               quantity: 4,
               duration: 10,
-              durationUnit: 'rounds',
+              durationUnit: "rounds",
               hasDuration: true,
               concentration: false,
-              controlType: 'mental',
-              controlRange: 120
-            }
-          }
+              controlType: "mental",
+              controlRange: 120,
+            },
+          },
         ],
         duration: 10,
-        durationUnit: 'rounds',
+        durationUnit: "rounds",
         hasDuration: true,
         concentration: false,
         controlRange: 120,
-        controlType: 'mental'
+        controlType: "mental",
       },
       targetingConfig: {
-        targetingType: 'area',
-        rangeType: 'ranged',
+        targetingType: "area",
+        rangeType: "ranged",
         rangeDistance: 80,
-        aoeShape: 'circle',
+        aoeShape: "circle",
         aoeParameters: { radius: 40 },
         targetRestrictions: [],
         maxTargets: 0,
-        targetSelectionMethod: 'manual',
-        requiresLineOfSight: true
+        targetSelectionMethod: "manual",
+        requiresLineOfSight: true,
       },
       resourceCost: {
-        resourceTypes: ['mana', 'totemic_synergy'],
+        resourceTypes: ["mana", "totemic_synergy"],
         resourceValues: { mana: 40, totemic_synergy: 18 },
         useFormulas: {},
         actionPoints: 3,
-        components: ['verbal', 'somatic', 'material'],
-        materialComponents: 'Seeds from the World Tree, worth 80,000 gold'
+        components: ["verbal", "somatic", "material"],
+        materialComponents: "Seeds from the World Tree, worth 80,000 gold",
       },
-      cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
-      resolution: 'DICE',
-      tags: ['summoning', 'nature', 'legendary', 'primalist', 'synergy']
-    }
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      tags: ["summoning", "nature", "legendary", "primalist", "synergy"],
+    },
   ],
 
   // Spell Pools by Level
   spellPools: {
     1: [
-      'primalist_earth_bolt',
-      'primalist_basic_healing_totem',
-      'primalist_natures_blessing'
+      "primalist_earth_bolt",
+      "primalist_basic_healing_totem",
+      "primalist_natures_blessing",
     ],
     2: [
-      'primalist_storm_gale',
-      'primalist_earthen_shield',
-      'primalist_spirit_sight'
+      "primalist_storm_gale",
+      "primalist_earthen_shield",
+      "primalist_spirit_sight",
     ],
     3: [
-      'primalist_venomous_totem',
-      'primalist_natures_grasp',
-      'primalist_ancestral_bond'
+      "primalist_venomous_totem",
+      "primalist_natures_grasp",
+      "primalist_ancestral_bond",
     ],
     4: [
-      'primalist_earthquake_strike',
-      'primalist_spirit_wolves',
-      'primalist_primal_fury'
+      "primalist_earthquake_strike",
+      "primalist_spirit_wolves",
+      "primalist_primal_fury",
     ],
-    5: [
-      'primalist_thorn_barrier',
-      'primalist_ancestral_guardian'
-    ],
-    6: [
-      'primalist_elemental_fury_totem',
-      'primalist_stone_skin'
-    ],
-    7: [
-      'primalist_meteor_storm',
-      'primalist_natures_wrath'
-    ],
-    8: [
-      'primalist_primal_apocalypse',
-      'primalist_grand_totem_circle'
-    ],
+    5: ["primalist_thorn_barrier", "primalist_ancestral_guardian"],
+    6: ["primalist_elemental_fury_totem", "primalist_stone_skin"],
+    7: ["primalist_meteor_storm", "primalist_natures_wrath"],
+    8: ["primalist_primal_apocalypse", "primalist_grand_totem_circle"],
     9: [
-      'primalist_world_tree_avatar',
-      'primalist_cataclysm',
-      'primalist_eternal_totem'
+      "primalist_world_tree_avatar",
+      "primalist_cataclysm",
+      "primalist_eternal_totem",
     ],
     10: [
-      'primalist_primal_ascension',
-      'primalist_gaia_wrath',
-      'primalist_genesis'
-    ]
-  }
+      "primalist_primal_ascension",
+      "primalist_gaia_wrath",
+      "primalist_genesis",
+    ],
+  },
 };
-

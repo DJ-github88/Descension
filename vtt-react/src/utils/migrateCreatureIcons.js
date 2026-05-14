@@ -1,5 +1,9 @@
 
 import { getDefaultCreatureIconByType } from './assetManager';
+import { CREATURE_LIBRARY_VERSION } from '../data/creatureLibraryData';
+
+// localStorage key tracking which library version was last icon-migrated
+const ICON_MIGRATION_VERSION_KEY = 'creature-icon-migration-version';
 
 /**
  * Convert an icon ID to a proper creature icon path
@@ -89,6 +93,13 @@ export const migrateCreatureIcons = (creatures) => {
  * This should be called from the app initialization
  */
 export const runCreatureIconMigration = () => {
+  // PERFORMANCE: Skip migration if already done for this library version
+  const lastMigratedVersion = localStorage.getItem(ICON_MIGRATION_VERSION_KEY);
+  if (lastMigratedVersion === CREATURE_LIBRARY_VERSION) {
+    console.log(`[Icon Migration] Already up-to-date (v${CREATURE_LIBRARY_VERSION}), skipping.`);
+    return;
+  }
+
   // Dynamically import creatureStore to avoid circular dependencies
   import('../store/creatureStore').then(({ default: useCreatureStore }) => {
     const creatureState = useCreatureStore.getState();
@@ -98,10 +109,12 @@ export const runCreatureIconMigration = () => {
 
     if (creatures.length === 0) {
       console.log('[Icon Migration] No creatures to migrate');
+      // Still mark as done so we don't retry on empty library
+      localStorage.setItem(ICON_MIGRATION_VERSION_KEY, CREATURE_LIBRARY_VERSION);
       return;
     }
 
-    console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures...`);
+    console.log(`[Icon Migration] Starting migration for ${creatures.length} creatures (v${CREATURE_LIBRARY_VERSION})...`);
     const results = migrateCreatureIcons(creatures);
 
     if (results.migrated > 0) {
@@ -120,6 +133,9 @@ export const runCreatureIconMigration = () => {
     if (results.errors.length > 0) {
       console.warn('[Icon Migration] Errors:', results.errors);
     }
+
+    // Mark this version as migrated so we skip on future startups
+    localStorage.setItem(ICON_MIGRATION_VERSION_KEY, CREATURE_LIBRARY_VERSION);
   }).catch(error => {
     console.error('[Icon Migration] Failed to run migration:', error);
   });

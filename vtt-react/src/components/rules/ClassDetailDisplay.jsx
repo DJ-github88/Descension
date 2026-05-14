@@ -6,6 +6,7 @@ import { getIconUrl, getCustomIconUrl } from '../../utils/assetManager';
 import { getClassResourceConfig } from '../../data/classResources';
 import SphereComboFinder from './SphereComboFinder';
 import './ClassDetailDisplay.css';
+import ClassIcon from '../common/ClassIcon';
 import './SphereComboFinder.css';
 
 /**
@@ -1602,16 +1603,12 @@ const ClassDetailDisplay = ({ classData, onBack }) => {
       <div className="class-detail-header premium-header">
         <div className="class-header-left">
           <div className="class-header-icon-container">
-            <img 
+            <ClassIcon 
               src={`/assets/icons/classes/${classData.name.toLowerCase().replace(/ /g, '_')}.png`} 
               alt={classData.name} 
+              size="large"
               className="header-pixel-icon" 
-              data-class={classData.name}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                const iconEl = e.target.parentElement.querySelector('i');
-                if (iconEl) iconEl.style.display = 'block';
-              }}
+              dataClass={classData.name}
             />
             <i className={classData.icon} style={{ display: 'none' }}></i>
           </div>

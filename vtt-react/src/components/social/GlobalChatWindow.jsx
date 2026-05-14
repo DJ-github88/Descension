@@ -5,7 +5,7 @@
  * Uses a split-pane layout with resizable divider.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import WowWindow from '../windows/WowWindow';
 import OnlineUsersList from './OnlineUsersList';
 import ChatTabs from './ChatTabs';
@@ -20,6 +20,7 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
   const [splitPosition, setSplitPosition] = useState(35); // 35% for users list
   const [isDragging, setIsDragging] = useState(false);
   const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(false);
+  const splitRafRef = useRef(null);  // RAF handle for throttled split-pane drag
 
   const { user, userData } = useAuthStore();
   // Get character data from characterStore - use individual selectors to trigger updates
@@ -148,9 +149,15 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
     const rect = container.getBoundingClientRect();
     const newPosition = ((e.clientX - rect.left) / rect.width) * 100;
+    const clamped = Math.max(20, Math.min(50, newPosition));
 
-    // Constrain between 20% and 50%
-    setSplitPosition(Math.max(20, Math.min(50, newPosition)));
+    // Throttle state update to one per animation frame
+    if (!splitRafRef.current) {
+      splitRafRef.current = requestAnimationFrame(() => {
+        splitRafRef.current = null;
+        setSplitPosition(clamped);
+      });
+    }
   };
 
   const handleMouseUp = () => {

@@ -42,6 +42,7 @@ const DraggableWindow = forwardRef(({
 
     const nodeRef = useRef(null);
     const windowRef = useRef(null);
+    const rafHandleRef = useRef(null); // For RAF-throttled drag updates
 
     useEffect(() => {
         if (document && !document.getElementById('react-draggable-style-el')) {
@@ -131,6 +132,10 @@ const DraggableWindow = forwardRef(({
     useEffect(() => {
         return () => {
             document.body.classList.remove('window-dragging');
+            // Cancel any pending RAF on unmount
+            if (rafHandleRef.current) {
+                cancelAnimationFrame(rafHandleRef.current);
+            }
         };
     }, []);
 
@@ -164,6 +169,12 @@ const DraggableWindow = forwardRef(({
         setIsDragging(true);
         document.body.classList.add('window-dragging');
 
+        // Cancel any pending RAF from a previous drag to start clean
+        if (rafHandleRef.current) {
+            cancelAnimationFrame(rafHandleRef.current);
+            rafHandleRef.current = null;
+        }
+
         if (!window.multiplayerDragState) {
             window.multiplayerDragState = new Map();
         }
@@ -182,11 +193,20 @@ const DraggableWindow = forwardRef(({
         }
     }, [zIndex, onDragStart, handleClassName]);
 
-    // Handle drag - setPosition must be synchronous for react-draggable controlled mode
-    // Performance is handled by: virtualized grids + CSS contain + React.memo on children
+    // Handle drag - use requestAnimationFrame to throttle React state updates.
+    // react-draggable itself handles the visual movement via its own transform;
+    // we only need to sync our position state at most once per frame.
     const handleDrag = useCallback((e, data) => {
-        setPosition({ x: data.x, y: data.y });
+        // Always keep the ref up-to-date (used by handleDragStop)
         positionRef.current = { x: data.x, y: data.y };
+
+        // Throttle the React state update to one per animation frame
+        if (!rafHandleRef.current) {
+            rafHandleRef.current = requestAnimationFrame(() => {
+                rafHandleRef.current = null;
+                setPosition({ x: positionRef.current.x, y: positionRef.current.y });
+            });
+        }
 
         if (e.target && typeof e.target.closest === 'function' && e.target.closest(`.${handleClassName}`)) {
             e.stopPropagation();

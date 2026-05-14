@@ -1,0 +1,35 @@
+/* ===== CLASS ICON COMPONENT ===== */
+
+.class-icon-img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    will-change: opacity;
+}
+
+.class-icon-img.loaded {
+    opacity: 1;
+}
+
+/* Shared icon rendering defaults */
+.class-icon-img {
+    object-fit: contain;
+    image-rendering: auto;
+    /* Multiply blends white → transparent against any background */
+    mix-blend-mode: multiply;
+    filter: contrast(1.1) brightness(1.1);
+    /* Radial mask: fades out the parchment edges and white box border */
+    -webkit-mask-image: radial-gradient(
+        circle at center,
+        black 45%,
+        rgba(0,0,0,0.85) 55%,
+        rgba(0,0,0,0.5) 68%,
+        transparent 78%
+    );
+    mask-image: radial-gradient(
+        circle at center,
+        black 45%,
+        rgba(0,0,0,0.85) 55%,
+        rgba(0,0,0,0.5) 68%,
+        transparent 78%
+    );
+}

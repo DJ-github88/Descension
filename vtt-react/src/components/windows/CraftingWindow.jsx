@@ -4,6 +4,7 @@ import useCraftingStore, { PROFESSIONS, SKILL_LEVELS } from '../../store/craftin
 import ProfessionSelection from '../crafting/ProfessionSelection';
 import AlchemyInterface from '../crafting/AlchemyInterface';
 import FirstAidInterface from '../crafting/FirstAidInterface';
+import BlacksmithingInterface from '../crafting/BlacksmithingInterface';
 import useChatStore from '../../store/chatStore';
 import useInventoryStore from '../../store/inventoryStore';
 import useItemStore from '../../store/itemStore';
@@ -64,6 +65,8 @@ function CraftingWindow({ isOpen, onClose }) {
                     return <AlchemyInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 case 'first-aid':
                     return <FirstAidInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
+                case 'blacksmithing':
+                    return <BlacksmithingInterface onBack={handleBackToProfessions} activeTab={activeTab} onTabChange={setActiveTab} />;
                 default:
                     return (
                         <div className="profession-not-implemented">
@@ -173,6 +176,16 @@ function CraftingWindow({ isOpen, onClose }) {
                 { id: 'medical-tools', quantity: 3 }
             ];
             message = 'Added test first aid crafting materials to inventory!';
+        } else if (selectedProfession === 'blacksmithing') {
+            testMaterials = [
+                // Basic materials for blacksmithing
+                { id: 'red-copper', quantity: 20 },
+                { id: 'bog-iron', quantity: 20 },
+                { id: 'copper-ingot', quantity: 10 },
+                { id: 'iron-ingot', quantity: 10 },
+                { id: 'metal-rivets', quantity: 10 }
+            ];
+            message = 'Added test blacksmithing crafting materials to inventory!';
         } else {
             return; // Unknown profession
         }

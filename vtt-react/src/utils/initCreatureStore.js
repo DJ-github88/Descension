@@ -37,15 +37,21 @@ const initCreatureStore = () => {
       console.log(`📦 Library version changed: ${storedVersion} -> ${CREATURE_LIBRARY_VERSION}`);
     }
     
-    // Clear existing creatures and add new ones
-    creatureStore.setCreatures([]);
-    
-    // Add all library creatures
+    // Clear existing creatures and add new ones in a single batch
     let addedCount = 0;
+    const newCreatures = [];
+    
     LIBRARY_CREATURES.forEach(creature => {
-      creatureStore.addCreature(creature);
+      newCreatures.push({
+        ...creature,
+        id: creature.id || `creature_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        dateCreated: new Date().toISOString(),
+        lastModified: new Date().toISOString()
+      });
       addedCount++;
     });
+    
+    creatureStore.setCreatures(newCreatures);
     
     // Store the new version
     localStorage.setItem(STORAGE_VERSION_KEY, CREATURE_LIBRARY_VERSION);

@@ -168,45 +168,58 @@ const mapUpdateBatcher = {
         if (mapUpdateBatcher.isEmitting) return;
 
         // CRITICAL FIX: Do NOT emit during map switch to prevent data bleeding
-        // Mouse events from the old map might still be in the batcher
         if (typeof window !== 'undefined' && window._isMapSwitching) {
-            console.warn('⚠️ [Batcher] Blocking emit during map switch');
             return;
         }
 
         const updates = { ...mapUpdateBatcher.pendingUpdates };
-        // Use override if provided (retry), otherwise captured, otherwise null
-        const targetMapId = overrideTargetMapId || mapUpdateBatcher.capturedMapId;
-
-        console.log('[Batcher] Preparing emit. TargetMapId:', targetMapId, 'Captured:', mapUpdateBatcher.capturedMapId);
-
-
         const updateKeys = Object.keys(updates);
         if (updateKeys.length === 0) return;
 
-        // Sequence detection to prevent duplicate emits within the same batch cycle
-        // CRITICAL FIX: Use the targetMapId that was resolved at the start of emit()
-        const dataHash = JSON.stringify({ updates, targetMapId }); // Include targetMapId in hash
-        if (dataHash === mapUpdateBatcher.lastEmittedData) {
-            mapUpdateBatcher.pendingUpdates = {};
-            // mapUpdateBatcher.capturedMapId = null; // Do NOT clear here, as we might be re-checking same batch
-            return;
-        }
-
-        mapUpdateBatcher.isEmitting = true;
-        mapUpdateBatcher.pendingUpdates = {};
-        mapUpdateBatcher.capturedMapId = null; // Clear captured mapId after emission
-        if (mapUpdateBatcher.timeout) {
-            clearTimeout(mapUpdateBatcher.timeout);
-            mapUpdateBatcher.timeout = null;
-        }
-        mapUpdateBatcher.lastEmitTime = Date.now();
-        mapUpdateBatcher.lastEmittedData = dataHash;
-
+        // PERFORMANCE FIX: Check multiplayer status BEFORE doing expensive work like JSON.stringify
         try {
             const { default: useGameStore } = await import('./gameStore');
-            const { default: useMapStore } = await import('./mapStore');
             const gameStore = useGameStore.getState();
+            
+            if (!gameStore.isInMultiplayer || !gameStore.multiplayerSocket?.connected || !gameStore.isGMMode) {
+                // If not in multiplayer, we don't need to emit anything.
+                // Clear the batch and return.
+                mapUpdateBatcher.pendingUpdates = {};
+                mapUpdateBatcher.capturedMapId = null;
+                if (mapUpdateBatcher.timeout) {
+                    clearTimeout(mapUpdateBatcher.timeout);
+                    mapUpdateBatcher.timeout = null;
+                }
+                return;
+            }
+
+            // If we are receiving an update, wait for it to finish
+            if (window._isReceivingMapUpdate) {
+                return;
+            }
+
+            // Continue with emission...
+            const targetMapId = overrideTargetMapId || mapUpdateBatcher.capturedMapId;
+            const dataHash = JSON.stringify({ updates, targetMapId }); 
+            
+            if (dataHash === mapUpdateBatcher.lastEmittedData) {
+                mapUpdateBatcher.pendingUpdates = {};
+                return;
+            }
+
+            mapUpdateBatcher.isEmitting = true;
+            mapUpdateBatcher.pendingUpdates = {};
+            mapUpdateBatcher.capturedMapId = null; 
+            
+            if (mapUpdateBatcher.timeout) {
+                clearTimeout(mapUpdateBatcher.timeout);
+                mapUpdateBatcher.timeout = null;
+            }
+            
+            mapUpdateBatcher.lastEmitTime = Date.now();
+            mapUpdateBatcher.lastEmittedData = dataHash;
+
+            const { default: useMapStore } = await import('./mapStore');
             const mapStore = useMapStore.getState();
 
             // CRITICAL FIX: Use mapId captured when updates were queued (capturedMapId)

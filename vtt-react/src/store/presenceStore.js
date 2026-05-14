@@ -232,21 +232,47 @@ const usePresenceStore = create((set, get) => ({
 
   /**
    * Subscribe to all online users
+   *
+   * PERF: The Firestore onSnapshot fires on every field write including heartbeats.
+   * Each write comes in two phases (pending local → committed server), which causes
+   * the online-user count to flicker 0→1→0→1 while server timestamps settle.
+   * We fix this with two guards:
+   *   1. Debounce: batch rapid Firestore events into a single update (500 ms window).
+   *   2. Change-detection: skip set() if the serialized user list is identical.
    */
   subscribeToOnlineUsers: () => {
+    let debounceTimer = null;
+    let lastSnapshot = ''; // Serialized key for change detection
+
     const unsubscribe = presenceService.subscribeToOnlineUsers((users) => {
-      const usersMap = new Map();
-      users.forEach(user => {
-        usersMap.set(user.userId, user);
-      });
+      // Debounce: wait until Firestore stops firing for 500 ms before updating state
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        debounceTimer = null;
 
-      // Always include current user in the map to ensure visibility
-      const { currentUserPresence } = get();
-      if (currentUserPresence && currentUserPresence.userId) {
-        usersMap.set(currentUserPresence.userId, currentUserPresence);
-      }
+        const usersMap = new Map();
+        users.forEach(user => {
+          usersMap.set(user.userId, user);
+        });
 
-      set({ onlineUsers: usersMap });
+        // Always include current user in the map to ensure visibility
+        const { currentUserPresence } = get();
+        if (currentUserPresence && currentUserPresence.userId) {
+          usersMap.set(currentUserPresence.userId, currentUserPresence);
+        }
+
+        // Change-detection: build a cheap fingerprint of userId+status pairs.
+        // Skip the state update (and the re-render cascade) if nothing changed.
+        const fingerprint = Array.from(usersMap.entries())
+          .map(([id, u]) => `${id}:${u.status}`)
+          .sort()
+          .join('|');
+
+        if (fingerprint === lastSnapshot) return;
+        lastSnapshot = fingerprint;
+
+        set({ onlineUsers: usersMap });
+      }, 500);
     });
 
     set({ presenceUnsubscribe: unsubscribe });

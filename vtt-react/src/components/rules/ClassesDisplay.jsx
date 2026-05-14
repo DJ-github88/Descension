@@ -7,6 +7,7 @@ import {
     faDove, faBolt
 } from '@fortawesome/free-solid-svg-icons';
 import './ClassesDisplay.css';
+import ClassIcon from '../common/ClassIcon';
 
 const DAMAGE_COLORS = {
     fire: '#e74c3c',
@@ -89,7 +90,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
     const [activeDamageType, setActiveDamageType] = useState(null);
     const [tooltipData, setTooltipData] = useState(null);
     const [tooltipPos, setTooltipPos] = useState({ top: 0, left: 0 });
-    const tooltipTimeout = useRef(null);
+    const showTimeout = useRef(null);
 
     const filteredClasses = useMemo(() => {
         let result = CLASS_DATA;
@@ -103,7 +104,8 @@ const ClassesDisplay = ({ onSelectClass }) => {
     }, [activeFilter, activeDamageType]);
 
     const handleMouseEnter = useCallback((cls, e) => {
-        if (tooltipTimeout.current) clearTimeout(tooltipTimeout.current);
+        if (showTimeout.current) clearTimeout(showTimeout.current);
+        
         const rect = e.currentTarget.getBoundingClientRect();
         const tooltipWidth = 320;
         const tooltipHeight = 260;
@@ -120,19 +122,17 @@ const ClassesDisplay = ({ onSelectClass }) => {
             top = window.innerHeight - tooltipHeight - 16;
         }
 
-        setTooltipPos({ top, left });
-        setTooltipData(cls);
+        // Clear existing data immediately on new entry to prevent "ghost" tooltips
+        setTooltipData(null);
+
+        showTimeout.current = setTimeout(() => {
+            setTooltipPos({ top, left });
+            setTooltipData(cls);
+        }, 300); // 300ms delay to prevent accidental popups when scanning
     }, []);
 
     const handleMouseLeave = useCallback(() => {
-        tooltipTimeout.current = setTimeout(() => setTooltipData(null), 100);
-    }, []);
-
-    const handleTooltipEnter = useCallback(() => {
-        if (tooltipTimeout.current) clearTimeout(tooltipTimeout.current);
-    }, []);
-
-    const handleTooltipLeave = useCallback(() => {
+        if (showTimeout.current) clearTimeout(showTimeout.current);
         setTooltipData(null);
     }, []);
 
@@ -175,7 +175,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
             <div className="classes-intro">
                 <div className="classes-intro-header">
                     <div className="classes-intro-icon">
-                        <img src="/assets/icons/classes/arcanoneer.png" alt="Classes" className="header-pixel-icon" data-class="Arcanoneer" />
+                        <ClassIcon src="/assets/icons/classes/arcanoneer.png" alt="Classes" size="small" className="header-pixel-icon" dataClass="Arcanoneer" />
                     </div>
                     <div className="classes-intro-title">
                         <h2>Classes</h2>
@@ -203,7 +203,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                             onClick={() => setActiveFilter(filter.key)}
                         >
                             {filter.imageIcon ? (
-                                <img src={filter.imageIcon} alt={filter.label} className="filter-pixel-icon" data-class={filter.label} />
+                                <ClassIcon src={filter.imageIcon} alt={filter.label} size="tiny" className="filter-pixel-icon" dataClass={filter.label} />
                             ) : (
                                 <i className={filter.icon}></i>
                             )}
@@ -257,7 +257,7 @@ const ClassesDisplay = ({ onSelectClass }) => {
                     >
                         <div className="class-card-icon">
                             {cls.imageIcon ? (
-                                <img src={cls.imageIcon} alt={cls.name} className="class-pixel-icon" data-class={cls.name} />
+                                <ClassIcon src={cls.imageIcon} alt={cls.name} size="medium" className="class-pixel-icon" dataClass={cls.name} />
                             ) : (
                                 <FontAwesomeIcon icon={cls.icon} />
                             )}
@@ -291,8 +291,6 @@ const ClassesDisplay = ({ onSelectClass }) => {
                 <div
                     className="class-tooltip"
                     style={{ top: tooltipPos.top, left: tooltipPos.left }}
-                    onMouseEnter={handleTooltipEnter}
-                    onMouseLeave={handleTooltipLeave}
                     onTouchEnd={(e) => e.stopPropagation()}
                 >
                     <div className="class-tooltip-header" style={{ borderColor: tooltipData.roleColor }}>

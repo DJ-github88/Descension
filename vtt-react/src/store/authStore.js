@@ -35,6 +35,10 @@ const useAuthStore = create(
       rememberMe: false, // Remember me setting
 
       // Actions
+      setIsAuthInitialized: (isInitialized) => {
+        set({ isAuthInitialized: isInitialized });
+      },
+
       setUser: (user) => {
         set({
           user,
