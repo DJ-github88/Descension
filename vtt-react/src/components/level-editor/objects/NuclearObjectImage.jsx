@@ -1,26 +1,69 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getObjectImageCache } from './ObjectSystem';
+
+const nuclearImageCache = new Map();
+
+const isImageAlreadyTransparent = (img) => {
+    try {
+        const canvas = document.createElement('canvas');
+        const size = Math.min(img.width, img.height, 32);
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, size, size);
+        const data = ctx.getImageData(0, 0, size, size).data;
+        let transparent = 0;
+        let total = 0;
+        for (let i = 3; i < data.length; i += 16) {
+            total++;
+            if (data[i] < 200) transparent++;
+        }
+        return total > 0 && (transparent / total) > 0.15;
+    } catch {
+        return false;
+    }
+};
 
 const NuclearObjectImage = ({ src, alt, className, style }) => {
     const [processedSrc, setProcessedSrc] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const cacheRef = useRef(new Map());
+    const processingRef = useRef(false);
 
     useEffect(() => {
         if (!src) return;
-        
-        // Check local cache
-        if (cacheRef.current.has(src)) {
-            setProcessedSrc(cacheRef.current.get(src));
+
+        if (nuclearImageCache.has(src)) {
+            setProcessedSrc(nuclearImageCache.get(src));
             setIsLoading(false);
             return;
         }
 
+        const globalCache = getObjectImageCache();
+        const cachedImg = globalCache.get(src);
+        if (cachedImg && cachedImg.src) {
+            nuclearImageCache.set(src, cachedImg.src);
+            setProcessedSrc(cachedImg.src);
+            setIsLoading(false);
+            return;
+        }
+
+        if (processingRef.current) return;
+        processingRef.current = true;
         setIsLoading(true);
+
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.src = src;
         
         img.onload = () => {
+            if (isImageAlreadyTransparent(img)) {
+                nuclearImageCache.set(src, src);
+                setProcessedSrc(src);
+                setIsLoading(false);
+                processingRef.current = false;
+                return;
+            }
+
             const canvas = document.createElement('canvas');
             canvas.width = img.width;
             canvas.height = img.height;
@@ -32,7 +75,6 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
             const width = canvas.width;
             const height = canvas.height;
             
-            // 1. Identify Background Seed Colors
             const seeds = [];
             const step = 0.2; 
             for (let t = 0; t <= 1; t += step) {
@@ -47,17 +89,14 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
                 return [data[i], data[i+1], data[i+2]];
             });
 
-            // Calculate Average Seed Color
             let avgR = 0, avgG = 0, avgB = 0;
             seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
             avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
 
-            // Check if background is vibrant
-            const isVibrantBg = (avgR > 180 && avgG < 120 && avgB > 180) || // Magenta
-                               (avgR < 120 && avgG > 180 && avgB < 120) || // Green
-                               (avgR < 120 && avgG < 120 && avgB > 180);   // Blue
+            const isVibrantBg = (avgR > 180 && avgG < 120 && avgB > 180) ||
+                               (avgR < 120 && avgG > 180 && avgB < 120) ||
+                               (avgR < 120 && avgG < 120 && avgB > 180);
 
-            // 2. Flood Fill Transparency (from edges)
             const visited = new Uint8Array(width * height);
             const queue = [...seeds];
             seeds.forEach(p => visited[p.y * width + p.x] = 1);
@@ -74,7 +113,6 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
                     }
                 }
                 
-                // Catch checkerboard colors
                 if (!isMatch && !isVibrantBg && r > 160 && g > 160 && b > 160) {
                     const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
                     if (diff < 40) isMatch = true; 
@@ -92,7 +130,6 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
                 }
             }
 
-            // 3. Global Pocket Scan
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i+3] === 0) continue;
                 const r = data[i], g = data[i+1], b = data[i+2];
@@ -100,10 +137,8 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
                 const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
                 const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
 
-                // Priority 1: If it matches a seed color (background), CLEAR IT regardless of saturation
                 let isMatch = false;
                 for (const s of seedColors) {
-                    // Increased tolerance (from 35 to 45) to catch remnants like magenta ropes
                     if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
                         isMatch = true; break;
                     }
@@ -113,19 +148,16 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
                     continue;
                 }
 
-                // Priority 2: If it's very saturated (vibrant colors), PROTECT IT
-                const isVerySaturated = diff > 60; // Lowered from 75 to protect more detail
+                const isVerySaturated = diff > 60;
                 if (isVerySaturated) continue;
 
                 if (isVibrantBg) {
-                    if (distToBg < 70) data[i + 3] = 0; // Increased for better vibrant cleanup
+                    if (distToBg < 70) data[i + 3] = 0;
                 } else if ((distToBg < 55 && diff < 40) || (r > 195 && g > 195 && b > 195 && diff < 20)) {
-                    // Lowered distToBg from 110 to 55 to protect object details like gray stones/ash
                     data[i + 3] = 0;
                 }
             }
             
-            // 4. Post-Process: Clean edges but preserve vibrant highlights
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i+3] === 0) continue;
                 const r = data[i], g = data[i+1], b = data[i+2];
@@ -150,14 +182,16 @@ const NuclearObjectImage = ({ src, alt, className, style }) => {
             
             ctx.putImageData(imageData, 0, 0);
             const dataUrl = canvas.toDataURL();
-            cacheRef.current.set(src, dataUrl);
+            nuclearImageCache.set(src, dataUrl);
             setProcessedSrc(dataUrl);
             setIsLoading(false);
+            processingRef.current = false;
         };
 
         img.onerror = () => {
-            setProcessedSrc(src); // Fallback to original
+            setProcessedSrc(src);
             setIsLoading(false);
+            processingRef.current = false;
         };
     }, [src]);
 

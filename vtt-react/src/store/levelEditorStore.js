@@ -2594,6 +2594,50 @@ const useLevelEditorStore = create((set, get) => ({
         });
     },
 
+    loadCompleteLevelEditorState: (data) => {
+        const updates = {};
+
+        if (data.terrainData !== undefined) updates.terrainData = data.terrainData || {};
+        if (data.terrainDataVersion !== undefined) {
+            updates.terrainDataVersion = data.terrainDataVersion;
+        } else if (data.terrainData !== undefined) {
+            const current = get().terrainDataVersion || 0;
+            updates.terrainDataVersion = current + 1;
+        }
+        if (data.wallData !== undefined) updates.wallData = data.wallData || {};
+        if (data.windowOverlays !== undefined) updates.windowOverlays = data.windowOverlays || {};
+        if (data.environmentalObjects !== undefined) updates.environmentalObjects = data.environmentalObjects || [];
+        if (data.drawingPaths !== undefined) updates.drawingPaths = data.drawingPaths || [];
+        if (data.drawingLayers !== undefined) updates.drawingLayers = data.drawingLayers || initialState.drawingLayers;
+        if (data.fogOfWarData !== undefined) updates.fogOfWarData = data.fogOfWarData || {};
+        if (data.fogOfWarPaths !== undefined) updates.fogOfWarPaths = data.fogOfWarPaths || [];
+        if (data.fogErasePaths !== undefined) updates.fogErasePaths = data.fogErasePaths || [];
+        if (data.exploredAreas !== undefined) updates.exploredAreas = data.exploredAreas || {};
+        if (data.lightSources !== undefined) updates.lightSources = data.lightSources || {};
+        if (data.dynamicFogEnabled !== undefined) updates.dynamicFogEnabled = !!data.dynamicFogEnabled;
+        if (data.respectLineOfSight !== undefined) updates.respectLineOfSight = !!data.respectLineOfSight;
+        if (data.dndElements !== undefined) updates.dndElements = data.dndElements || [];
+        if (data.currentPlayerId !== undefined) updates.currentPlayerId = data.currentPlayerId;
+        if (data.atmosphericEffects !== undefined) updates.atmosphericEffects = data.atmosphericEffects;
+        if (data.weatherEffects !== undefined) updates.weatherEffects = data.weatherEffects;
+
+        set(updates);
+
+        if (data.drawingPaths) {
+            const mapStore = require('./mapStore').default;
+            const currentMapId = mapStore.getState().currentMapId || 'default';
+            mapStore.getState().updateMap(currentMapId, { drawingPaths: data.drawingPaths });
+        }
+        if (data.dndElements) {
+            const mapStore = require('./mapStore').default;
+            const currentMapId = mapStore.getState().currentMapId || 'default';
+            const batcher = get().mapUpdateBatcher;
+            if (batcher && batcher.addUpdate) {
+                batcher.addUpdate(currentMapId, { dndElements: data.dndElements });
+            }
+        }
+    },
+
     // Enhanced clear all with layer support
     clearAllProfessionalData: () => {
         const state = get();

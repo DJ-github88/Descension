@@ -866,7 +866,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Sword Pierce",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Sword Pierce",
         tags: ["melee", "damage", "momentum_generation", "starter"],
         castTime: 1,
@@ -893,8 +893,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -909,6 +909,29 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
+      },
+
+      momentumGain: 1,
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Flourish of Steel",
+        description: "Your blade finds its own rhythm — each strike a surprise even to you.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Stumble", effect: "Clumsy stroke. No Momentum generated this hit." },
+          { range: { min: 2, max: 4 }, customName: "Flat of the Blade", effect: "Strike with the flat. Half damage." },
+          { range: { min: 5, max: 8 }, customName: "Clean Cut", effect: "Standard strike. Normal damage + 1 Momentum." },
+          { range: { min: 9, max: 11 }, customName: "Rising Tempo", effect: "The rhythm builds. Normal damage + 2 Momentum." },
+          { range: { min: 12, max: 14 }, customName: "Wind-Up Slash", effect: "1d6 bonus slashing damage." },
+          { range: { min: 15, max: 16 }, customName: "Flowing Arc", effect: "1d8 bonus slashing + 1 Momentum to adjacent ally." },
+          { range: { min: 17, max: 18 }, customName: "Blade Song", effect: "1d10 bonus slashing + next attack gains advantage." },
+          { range: { min: 19, max: 19 }, customName: "Perfect Rhythm", effect: "2d8 bonus slashing + 3 Momentum." },
+          { range: { min: 20, max: 20 }, customName: "Master's Stroke", effect: "Automatic critical hit + 1 Flourish token." },
+        ],
       },
 
       tags: [
@@ -970,6 +993,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["utility", "stance", "transition", "starter", "bladedancer"],
@@ -1030,6 +1054,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1052,7 +1077,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Speed Boot",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Utility/Speed Boot",
         tags: ["movement", "damage", "mobility", "starter"],
         castTime: 1,
@@ -1079,8 +1104,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d6 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1090,7 +1115,10 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
+
+      momentumGain: 1,
 
       tags: ["movement", "damage", "mobility", "starter", "bladedancer"],
     },
@@ -1109,7 +1137,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Quick Slash",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Quick Slash",
         tags: ["melee", "damage", "stance-transition", "momentum_scaling"],
         castTime: 1,
@@ -1136,8 +1164,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d6 + agility + floor(CurrentMomentum / 2)",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1163,6 +1191,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1184,7 +1213,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Whirl",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Whirl",
         tags: ["melee", "damage", "multi-attack", "momentum_generation"],
         castTime: 1,
@@ -1211,8 +1240,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d6 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1222,6 +1251,28 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+      },
+
+      momentumGain: 2,
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Waltz Patterns",
+        description: "The dance takes on a life of its own — no two waltzes are ever the same.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Stepped On Toes", effect: "Clumsy waltz. Lose 1 Momentum." },
+          { range: { min: 2, max: 4 }, customName: "Off-Balance", effect: "Stumbling rhythm. Only 1 hit lands instead of full waltz." },
+          { range: { min: 5, max: 8 }, customName: "Standard Waltz", effect: "Clean flowing strikes. Normal damage." },
+          { range: { min: 9, max: 11 }, customName: "Crescendo", effect: "+1d6 slashing damage." },
+          { range: { min: 12, max: 14 }, customName: "Whirling Partner", effect: "Strike two targets instead of one for half damage each." },
+          { range: { min: 15, max: 16 }, customName: "Accelerando", effect: "+2d6 slashing + 2 bonus Momentum." },
+          { range: { min: 17, max: 18 }, customName: "Grand Jete", effect: "+3d6 slashing + reposition 10ft free." },
+          { range: { min: 19, max: 19 }, customName: "Perfect Waltz", effect: "+4d6 slashing + 3 Momentum + next action has advantage." },
+          { range: { min: 20, max: 20 }, customName: "Eternal Dance", effect: "Double damage + 1 Flourish token." },
+        ],
       },
 
       tags: [
@@ -1399,7 +1450,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Piercing/Spear Thrust",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Piercing/Spear Thrust",
         tags: ["melee", "damage", "precision", "stance_striking_serpent"],
         castTime: 1,
@@ -1426,11 +1477,18 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d8 + agility + 1d8",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "piercing",
+        damageTypes: ["piercing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
+        criticalConfig: {
+          enabled: true,
+          critType: "dice",
+          critMultiplier: 2,
+          critRange: [19, 20],
+          critBonusDamage: "1d8",
+        },
         description:
           "Precise strike with advantage, enhanced by serpent-like speed",
         resolution: "DICE",
@@ -1440,6 +1498,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1461,7 +1520,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Piercing/Poison Dagger",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Piercing/Poison Dagger",
         tags: [
           "melee",
@@ -1496,8 +1555,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "piercing",
+        damageTypes: ["piercing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1527,8 +1586,11 @@ STANCES (starting stance: 💧 Flowing Water):
         durationType: "rounds",
         durationUnit: "rounds",
         difficultyClass: 14,
-        savingThrowType: "constitution",
-        saveOutcome: "ends_early",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 14,
+          saveOutcome: "reduced_duration",
+        },
       },
 
       isSignatureMove: true,
@@ -1561,7 +1623,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Cleave",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Cleave",
         tags: ["melee", "damage", "aoe", "stance_whirling_wind"],
         castTime: 1,
@@ -1589,8 +1651,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1601,6 +1663,26 @@ STANCES (starting stance: 💧 Flowing Water):
       stanceRequirement: "whirling_wind",
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Cyclone Patterns",
+        description: "The wind is unpredictable — your cyclone follows no rules but its own.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 2 }, customName: "Dizzy Spin", effect: "You lose your bearings. -2 to next attack roll." },
+          { range: { min: 3, max: 5 }, customName: "Gentle Breeze", effect: "Weak cyclone. Half damage to all targets." },
+          { range: { min: 6, max: 9 }, customName: "Steady Whirl", effect: "Standard cyclone. Normal damage to all enemies." },
+          { range: { min: 10, max: 12 }, customName: "Dust Devil", effect: "+1d6 slashing + enemies are blinded for 1 round." },
+          { range: { min: 13, max: 14 }, customName: "Gale Force", effect: "+2d6 slashing + knockback 5ft." },
+          { range: { min: 15, max: 16 }, customName: "Tornado", effect: "+2d8 slashing + knockback 10ft + 2 Momentum." },
+          { range: { min: 17, max: 18 }, customName: "Hurricane", effect: "+3d8 slashing + knockback 15ft + enemies knocked prone." },
+          { range: { min: 19, max: 19 }, customName: "Cyclone King", effect: "+4d8 slashing + enemies disarmed for 1 round." },
+          { range: { min: 20, max: 20 }, customName: "Eye of the Storm", effect: "Double damage + enemies pulled 5ft toward you + 1 Flourish." },
+        ],
+      },
 
       tags: ["melee", "damage", "aoe", "stance_whirling_wind", "bladedancer"],
     },
@@ -1615,7 +1697,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Whirl",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Whirl",
         tags: [
           "melee",
@@ -1650,8 +1732,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1672,6 +1754,26 @@ STANCES (starting stance: 💧 Flowing Water):
       stanceRequirement: "whirling_wind",
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Tempest Chaos",
+        description: "The tempest obeys no master — its fury is a wild, beautiful disaster.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Still Air", effect: "The tempest dies. Half damage, no knockback." },
+          { range: { min: 2, max: 4 }, customName: "Light Breeze", effect: "Weak tempest. Normal damage but no knockback." },
+          { range: { min: 5, max: 8 }, customName: "Steady Gale", effect: "Standard tempest. 2d8 + AGI damage, 10ft knockback." },
+          { range: { min: 9, max: 11 }, customName: "Squall", effect: "+1d8 bonus + enemies deafened for 1 round." },
+          { range: { min: 12, max: 14 }, customName: "Windstorm", effect: "+2d8 bonus + knockback 15ft + 2 Momentum." },
+          { range: { min: 15, max: 16 }, customName: "Micro-Tornado", effect: "+2d8 + one enemy launched 20ft up (falls for 2d6)." },
+          { range: { min: 17, max: 18 }, customName: "Derecho", effect: "+3d8 + enemies knocked prone + dragged 10ft toward you." },
+          { range: { min: 19, max: 19 }, customName: "Supercell", effect: "+4d8 + all enemies stunned 1 round + 2 Flourish." },
+          { range: { min: 20, max: 20 }, customName: "Category Five", effect: "Double damage + enemies hurled to edge of range + 1 Flourish." },
+        ],
+      },
 
       tags: [
         "melee",
@@ -1696,7 +1798,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Parry",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Utility/Parry",
         tags: ["reaction", "parry", "counter", "stance_rooted_stone"],
         castTime: 0,
@@ -1723,8 +1825,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d6 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1736,6 +1838,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1835,7 +1938,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Crossed Swords",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Crossed Swords",
         tags: ["melee", "damage", "multi-attack", "stance_dancing_blade"],
         castTime: 1,
@@ -1862,8 +1965,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1876,6 +1979,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1897,7 +2001,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Whirl",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Whirl",
         tags: [
           "melee",
@@ -1932,8 +2036,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "3d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -1946,7 +2050,29 @@ STANCES (starting stance: 💧 Flowing Water):
       flourishGenerated: 1,
       stanceRequirement: "dancing_blade",
 
+      propagation: { method: "chain", behavior: "bounce", count: 3, range: 5, decay: 0.9 },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Blade Improvisation",
+        description: "Even you do not know what comes next — the blade decides.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Fumbled Routine", effect: "All three strikes miss. Lose 2 Momentum." },
+          { range: { min: 2, max: 4 }, customName: "Rehearsed Sequence", effect: "Going through the motions. 2d8 instead of 3d8." },
+          { range: { min: 5, max: 8 }, customName: "Standard Improv", effect: "Three solid strikes from different traditions. 3d8 + AGI." },
+          { range: { min: 9, max: 11 }, customName: "Crowd Pleaser", effect: "+1d8 bonus + 1 Momentum per enemy hit." },
+          { range: { min: 12, max: 14 }, customName: "Off-Script Flourish", effect: "+2d8 + one target is disarmed for 1 round." },
+          { range: { min: 15, max: 16 }, customName: "Standing Ovation", effect: "+2d8 + all hits are critical strikes." },
+          { range: { min: 17, max: 18 }, customName: "Master Improv", effect: "+3d8 + teleport 15ft after each strike + 2 Flourish." },
+          { range: { min: 19, max: 19 }, customName: "Legendary Performance", effect: "+4d8 + each strike ignores armor." },
+          { range: { min: 20, max: 20 }, customName: "The Dance That Kills", effect: "Triple damage. Each target saves or drops to 1 HP." },
+        ],
+      },
 
       tags: [
         "melee",
@@ -1971,7 +2097,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Piercing/Night Dagger",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Piercing/Night Dagger",
         tags: ["melee", "damage", "teleport", "burst", "stance_shadow_step"],
         castTime: 1,
@@ -1998,8 +2124,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d8 + agility + 3d6",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "piercing",
+        damageTypes: ["piercing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2169,7 +2295,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Crossed Swords",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Crossed Swords",
         tags: ["melee", "damage", "multi-attack", "momentum_scaling"],
         castTime: 1,
@@ -2196,8 +2322,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d6 + agility + floor(CurrentMomentum / 2)",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2207,6 +2333,27 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
+      },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Flurry Patterns",
+        description: "Each flurry is a torrent — where each blade lands is chaos incarnate.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Tangled Blades", effect: "Blades catch each other. -1 Momentum and half damage." },
+          { range: { min: 2, max: 4 }, customName: "Wild Swings", effect: "More enthusiasm than precision. 1d4 bonus damage." },
+          { range: { min: 5, max: 8 }, customName: "Controlled Flurry", effect: "Standard flurry strikes. Normal damage." },
+          { range: { min: 9, max: 11 }, customName: "Rising Storm", effect: "+1d6 slashing per 3 Momentum you currently have." },
+          { range: { min: 12, max: 14 }, customName: "Thousand Paper Cuts", effect: "+2d6 slashing + target takes 1 bleed/round for 2 rounds." },
+          { range: { min: 15, max: 16 }, customName: "Flurry of Fury", effect: "+3d6 slashing + 2 Momentum." },
+          { range: { min: 17, max: 18 }, customName: "Blademaster Rain", effect: "+3d8 slashing + target stunned 1 round." },
+          { range: { min: 19, max: 19 }, customName: "Unstoppable Onslaught", effect: "+4d8 slashing + hit target and 1 adjacent enemy." },
+          { range: { min: 20, max: 20 }, customName: "Flurry of Legends", effect: "Double damage + guaranteed crit on highest die + 1 Flourish." },
+        ],
       },
 
       tags: [
@@ -2228,7 +2375,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Whirl",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Whirl",
         tags: [
           "melee",
@@ -2262,8 +2409,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "3d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2277,7 +2424,29 @@ STANCES (starting stance: 💧 Flowing Water):
         resolution: "DICE",
       },
 
+      propagation: { method: "chain", behavior: "bounce", count: 3, range: 5, decay: 0.85 },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Chain Dance Variations",
+        description: "Three forms collide — the chain warps and bends with each iteration.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Broken Chain", effect: "The chain snaps. Only 1 strike lands for half damage." },
+          { range: { min: 2, max: 4 }, customName: "Tangled Steps", effect: "Two clumsy strikes. 2d8 instead of 3d8." },
+          { range: { min: 5, max: 8 }, customName: "Flowing Chain", effect: "Standard three-form chain. 3d8 + AGI damage." },
+          { range: { min: 9, max: 11 }, customName: "Water-Serpent Link", effect: "+1d8 bonus + first target is slowed." },
+          { range: { min: 12, max: 14 }, customName: "Wind-Stone Link", effect: "+1d8 bonus + you gain +2 armor until next turn." },
+          { range: { min: 15, max: 16 }, customName: "Shadow-Blade Link", effect: "+2d8 bonus + 2 bonus Momentum." },
+          { range: { min: 17, max: 18 }, customName: "Perfect Chain", effect: "+3d8 bonus + all three hits target different enemies freely." },
+          { range: { min: 19, max: 19 }, customName: "Forbidden Combo", effect: "+4d8 bonus + all targets stunned for 1 round." },
+          { range: { min: 20, max: 20 }, customName: "Legendary Chain", effect: "Double damage + 1 Flourish + recover 4 Momentum." },
+        ],
+      },
 
       tags: [
         "melee",
@@ -2303,7 +2472,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Parry",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Utility/Parry",
         tags: ["reaction", "parry", "counter", "momentum_generation"],
         castTime: 0,
@@ -2330,13 +2499,19 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "3d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "agility",
+        elementType: "piercing",
+        damageTypes: ["piercing"],
+        savingThrow: {
+          ability: "agility",
           difficultyClass: 15,
           saveOutcome: "negates",
+        },
+        criticalConfig: {
+          enabled: true,
+          critType: "dice",
+          critMultiplier: 2,
+          critRange: [19, 20],
+          critBonusDamage: "2d8",
         },
         description:
           "Devastating counter-attack that may be avoided with an agility save",
@@ -2345,6 +2520,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -2366,7 +2542,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Cleave",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Cleave",
         tags: ["defense", "damage", "aoe", "mobility"],
         castTime: 1,
@@ -2394,8 +2570,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2465,7 +2641,10 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
+
+      momentumGain: 2,
 
       tags: ["reaction", "defense", "mobility", "counter", "bladedancer"],
     },
@@ -2540,7 +2719,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Piercing/Backstab",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Piercing/Backstab",
         tags: ["melee", "damage", "bleed", "critical", "flourish_generation"],
         castTime: 1,
@@ -2567,8 +2746,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "4d10 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "piercing",
+        damageTypes: ["piercing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2576,6 +2755,8 @@ STANCES (starting stance: 💧 Flowing Water):
           enabled: true,
           critType: "dice",
           critMultiplier: 2,
+          critRange: [18, 19, 20],
+          critBonusDamage: "2d10",
         },
         description: "Massive piercing damage to vital organs",
         resolution: "DICE",
@@ -2602,8 +2783,11 @@ STANCES (starting stance: 💧 Flowing Water):
         durationType: "rounds",
         durationUnit: "rounds",
         difficultyClass: 15,
-        savingThrowType: "constitution",
-        saveOutcome: "ends_early",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 15,
+          saveOutcome: "reduced_duration",
+        },
       },
 
       cooldownConfig: {
@@ -2630,7 +2814,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Speed Boot",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Utility/Speed Boot",
         tags: [
           "melee",
@@ -2664,8 +2848,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "2d6 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2673,7 +2857,29 @@ STANCES (starting stance: 💧 Flowing Water):
         resolution: "DICE",
       },
 
+      propagation: { method: "chain", behavior: "bounce", count: 3, range: 5, decay: 0.8 },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Death Waltz Variations",
+        description: "Death dance has many forms — each one a different kind of ending.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Wrong Partner", effect: "Stumble into an enemy blade. Take 1d8 damage to yourself." },
+          { range: { min: 2, max: 4 }, customName: "Slow Dance", effect: "Only 1 target is hit for half damage." },
+          { range: { min: 5, max: 8 }, customName: "Deaths Waltz", effect: "Standard waltz. 2d6 + AGI to up to 3 targets." },
+          { range: { min: 9, max: 11 }, customName: "Accelerating Doom", effect: "+1d6 per target hit. Each kill refunds 2 Momentum." },
+          { range: { min: 12, max: 14 }, customName: "Final Curtain", effect: "+2d6 + targets marked (take +2d6 from your next attack)." },
+          { range: { min: 15, max: 16 }, customName: "Dance of Shadows", effect: "+2d8 + become invisible for 1 round after the dance." },
+          { range: { min: 17, max: 18 }, customName: "Grim Waltz", effect: "+3d8 + targets cannot be healed for 2 rounds." },
+          { range: { min: 19, max: 19 }, customName: "Danse Macabre", effect: "+4d8 + all targets lose 1 action point." },
+          { range: { min: 20, max: 20 }, customName: "Last Dance", effect: "Triple damage + 1 Flourish + all targets flee 15ft in terror." },
+        ],
+      },
 
       tags: [
         "melee",
@@ -2695,7 +2901,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Piercing/Night Dagger",
 
       typeConfig: {
-        school: "physical",
+        school: "piercing",
         icon: "Piercing/Night Dagger",
         tags: ["melee", "damage", "teleport", "advantage", "stance-transition"],
         castTime: 1,
@@ -2722,8 +2928,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "3d8 + agility + (stance_shadow_step ? 3d6 : 0)",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "piercing",
+        damageTypes: ["piercing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2775,6 +2981,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -2797,7 +3004,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Whirl",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Whirl",
         tags: ["defense", "damage", "aoe", "concentration"],
         castTime: 1,
@@ -2839,8 +3046,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "1d6 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         description: "Whirling blades damage enemies that enter the barrier",
         resolution: "DICE",
       },
@@ -2881,7 +3088,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Bludgeoning/Blood Punch",
 
       typeConfig: {
-        school: "physical",
+        school: "force",
         icon: "Bludgeoning/Blood Punch",
         tags: ["damage", "aoe", "momentum_spend", "burst"],
         castTime: 1,
@@ -2909,8 +3116,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "min(momentum_spent, 10) * 1d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "force",
+        damageTypes: ["force"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -2920,6 +3127,26 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Shockwave Patterns",
+        description: "When all that rhythm explodes outward, even the Bladedancer cannot predict the blast.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Fizzle", effect: "The burst collapses inward. Take 2d6 force to yourself." },
+          { range: { min: 2, max: 4 }, customName: "Dud", effect: "Weak explosion. Half damage, no knockback." },
+          { range: { min: 5, max: 8 }, customName: "Clean Burst", effect: "Standard shockwave. Normal damage to all enemies." },
+          { range: { min: 9, max: 11 }, customName: "Concussive Wave", effect: "+2d6 force + enemies deafened for 2 rounds." },
+          { range: { min: 12, max: 14 }, customName: "Shockwave", effect: "+3d6 force + knockback 15ft + 2 Momentum refund." },
+          { range: { min: 15, max: 16 }, customName: "Resonance Blast", effect: "+3d8 force + allies in range gain +2 Momentum." },
+          { range: { min: 17, max: 18 }, customName: "Seismic Burst", effect: "+4d8 force + all enemies knocked prone." },
+          { range: { min: 19, max: 19 }, customName: "Momentum Supernova", effect: "Double damage + stagger all enemies 1 round." },
+          { range: { min: 20, max: 20 }, customName: "Total Release", effect: "Triple damage + 15ft radius becomes 30ft + 1 Flourish." },
+        ],
+      },
 
       tags: ["damage", "aoe", "momentum_spend", "burst", "bladedancer"],
     },
@@ -2938,7 +3165,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Hide",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Utility/Hide",
         tags: [
           "melee",
@@ -2984,8 +3211,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "6d10 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -3141,6 +3368,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["reaction", "defense", "reflection", "counter", "bladedancer"],
@@ -3216,6 +3444,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -3237,7 +3466,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Crossed Swords",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Crossed Swords",
         tags: ["melee", "damage", "multi-attack", "combo", "flow_master"],
         castTime: 1,
@@ -3264,8 +3493,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "4d6 + agility * 1.5",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 3,
         critDiceOnly: false,
@@ -3274,6 +3503,26 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Combo Outcomes",
+        description: "The perfect combination — or a beautiful disaster. The flow decides.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Combo Breaker", effect: "The flow stops dead. Half damage, lose 3 Momentum." },
+          { range: { min: 2, max: 4 }, customName: "Hesitant Flow", effect: "Choppy combination. 2d6 instead of 4d6." },
+          { range: { min: 5, max: 8 }, customName: "Solid Combo", effect: "Standard flowing combination. 4d6 + AGI*1.5." },
+          { range: { min: 9, max: 11 }, customName: "Rising Combo", effect: "+1d6 per previous stance used this combat." },
+          { range: { min: 12, max: 14 }, customName: "Stance Crossover", effect: "+2d6 + next stance transition is free (0 Momentum)." },
+          { range: { min: 15, max: 16 }, customName: "Flow State", effect: "+3d6 + 4 Momentum generated + advantage on next attack." },
+          { range: { min: 17, max: 18 }, customName: "Perfect Flow", effect: "+4d6 + x4 crit multiplier instead of x3 + 1 Flourish." },
+          { range: { min: 19, max: 19 }, customName: "Transcendent Combo", effect: "Double damage + immediately take a free stance transition." },
+          { range: { min: 20, max: 20 }, customName: "The Infinite Flow", effect: "Triple damage + refund all Momentum spent + 2 Flourish." },
+        ],
+      },
 
       tags: [
         "melee",
@@ -3295,7 +3544,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Force/Sonic Boom",
 
       typeConfig: {
-        school: "physical",
+        school: "force",
         icon: "Force/Sonic Boom",
         tags: ["damage", "buff", "aoe", "momentum_spend"],
         castTime: 1,
@@ -3324,7 +3573,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: "momentum_spent / 2 + agility",
         elementType: "force",
-        damageTypes: ["direct"],
+        damageTypes: ["force"],
         description: "Wave of momentum energy that damages enemies",
         resolution: "DICE",
       },
@@ -3351,6 +3600,26 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Wave Resonance",
+        description: "The wave carries more than force — it carries intent, and intent is chaos.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Wave Collapse", effect: "The wave implodes. You take 3d6 force damage." },
+          { range: { min: 2, max: 4 }, customName: "Ripple", effect: "Weak wave. Half damage, no buff." },
+          { range: { min: 5, max: 8 }, customName: "Clean Wave", effect: "Standard wave. Damage to enemies, buff to you." },
+          { range: { min: 9, max: 11 }, customName: "Resonant Wave", effect: "+2d6 force + allies in range gain 3 Momentum." },
+          { range: { min: 12, max: 14 }, customName: "Tidal Surge", effect: "+3d6 force + knockback 20ft instead of buff." },
+          { range: { min: 15, max: 16 }, customName: "Empowering Wave", effect: "Buff increased to +10 Momentum Generation for 2 rounds." },
+          { range: { min: 17, max: 18 }, customName: "Tsunami", effect: "+4d8 force + enemies stunned 1 round + allies gain 5 Momentum." },
+          { range: { min: 19, max: 19 }, customName: "Perfect Wave", effect: "Double damage + all allies gain advantage for 1 round." },
+          { range: { min: 20, max: 20 }, customName: "The Wave That Remembers", effect: "Triple damage + 1 Flourish + all cooldowns reduced by 1." },
+        ],
+      },
 
       tags: ["damage", "buff", "aoe", "momentum_spend", "bladedancer"],
     },
@@ -3425,6 +3694,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["passive", "stance", "mastery", "universal", "bladedancer"],
@@ -3440,7 +3710,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Utility/Speed Boot",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Utility/Speed Boot",
         tags: ["damage", "teleport", "multi-target", "mobility"],
         castTime: 1,
@@ -3468,8 +3738,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "4d8 + agility",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -3477,7 +3747,29 @@ STANCES (starting stance: 💧 Flowing Water):
         resolution: "DICE",
       },
 
+      propagation: { method: "chain", behavior: "bounce", count: 4, range: 30, decay: 0.75 },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Teleport Massacre Patterns",
+        description: "Each blink carries a different kind of death — the blade is everywhere at once.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Spatial Confusion", effect: "You reappear in the wrong spot. Hit yourself for 2d8 slashing." },
+          { range: { min: 2, max: 4 }, customName: "Incomplete Blinks", effect: "Only 2 of 4 strikes land for half damage each." },
+          { range: { min: 5, max: 8 }, customName: "Clean Dance", effect: "Four teleport-strikes. 4d8 + AGI across up to 4 targets." },
+          { range: { min: 9, max: 11 }, customName: "Afterimage Strikes", effect: "+1d8 per target. Afterimages persist for 1 round." },
+          { range: { min: 12, max: 14 }, customName: "Dimensional Shear", effect: "+2d8 + targets take 1d8 force from spatial tear." },
+          { range: { min: 15, max: 16 }, customName: "Blink Storm", effect: "+3d8 + targets marked (advantage on attacks vs them 1 round)." },
+          { range: { min: 17, max: 18 }, customName: "Shadow Quadruple", effect: "+4d8 + become invisible after the dance for 1 round." },
+          { range: { min: 19, max: 19 }, customName: "Reality Blade", effect: "Double damage + all attacks bypass armor." },
+          { range: { min: 20, max: 20 }, customName: "Omnipresent Death", effect: "Triple damage + hit up to 8 targets instead of 4 + 2 Flourish." },
+        ],
+      },
 
       tags: ["damage", "teleport", "multi-target", "mobility", "bladedancer"],
     },
@@ -3537,6 +3829,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["passive", "stance", "echo", "mastery", "bladedancer"],
@@ -3556,7 +3849,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "Slashing/Cross Slash",
 
       typeConfig: {
-        school: "physical",
+        school: "slashing",
         icon: "Slashing/Cross Slash",
         tags: ["aoe", "damage", "multi-attack", "flourish_spend", "ultimate"],
         castTime: 2,
@@ -3585,8 +3878,8 @@ STANCES (starting stance: 💧 Flowing Water):
 
       damageConfig: {
         formula: "6d10 + agility * 2",
-        elementType: "physical",
-        damageTypes: ["direct"],
+        elementType: "slashing",
+        damageTypes: ["slashing"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -3601,6 +3894,26 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Six Stance Apocalypse",
+        description: "All six stances unleashed in one impossible instant — even the Bladedancer cannot predict the result.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Form Collapse", effect: "The stances reject unity. 3d10 damage only + lose 2 Flourish." },
+          { range: { min: 2, max: 4 }, customName: "Incomplete Mastery", effect: "Only 4 of 6 stances land. 4d10 + AGI." },
+          { range: { min: 5, max: 8 }, customName: "Full Thousand Cuts", effect: "All six stances. 6d10 + AGI*2 damage." },
+          { range: { min: 9, max: 11 }, customName: "Flowing Onslaught", effect: "+2d10 bonus + enemies knocked prone." },
+          { range: { min: 12, max: 14 }, customName: "Storm of Steel", effect: "+3d10 bonus + AoE expands to 20ft radius." },
+          { range: { min: 15, max: 16 }, customName: "Dance of Annihilation", effect: "+4d10 bonus + all enemies stunned for 2 rounds." },
+          { range: { min: 17, max: 18 }, customName: "Sixfold Perfection", effect: "+5d10 bonus + refund 2 Flourish tokens." },
+          { range: { min: 19, max: 19 }, customName: "Thousand Cuts Ascendant", effect: "Double damage + all hits are guaranteed crits." },
+          { range: { min: 20, max: 20 }, customName: "Dance Beyond Death", effect: "Triple damage + enemies below half HP are instantly slain." },
+        ],
+      },
 
       tags: [
         "aoe",
@@ -3622,7 +3935,7 @@ STANCES (starting stance: 💧 Flowing Water):
       icon: "General/Rage",
 
       typeConfig: {
-        school: "physical",
+        school: "force",
         icon: "General/Rage",
         tags: ["damage", "critical", "flourish_spend", "stance_power"],
         castTime: 1,
@@ -3651,7 +3964,7 @@ STANCES (starting stance: 💧 Flowing Water):
       damageConfig: {
         formula: "6d8 + agility * 2",
         elementType: "force",
-        damageTypes: ["direct"],
+        damageTypes: ["force"],
         canCrit: true,
         critMultiplier: 2,
         critDiceOnly: false,
@@ -3661,6 +3974,26 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Six Essence Strike",
+        description: "Six essences collide in your blade — the resulting strike is beyond prediction.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Essence Rejection", effect: "The stances rebel. Only 3d8 damage + lose 1 Flourish." },
+          { range: { min: 2, max: 4 }, customName: "Partial Unity", effect: "Four essences align. 4d8 + AGI instead of 6d8." },
+          { range: { min: 5, max: 8 }, customName: "Harmonious Strike", effect: "All six essences. 6d8 + AGI*2 force damage." },
+          { range: { min: 9, max: 11 }, customName: "Essence Surge", effect: "+2d8 bonus + target loses 1 action point." },
+          { range: { min: 12, max: 14 }, customName: "Shattering Blow", effect: "+3d8 bonus + target armor reduced by half for 3 rounds." },
+          { range: { min: 15, max: 16 }, customName: "Sixfold Critical", effect: "Automatic critical hit with x3 multiplier." },
+          { range: { min: 17, max: 18 }, customName: "Essence Explosion", effect: "+4d8 + explodes dealing 2d8 force to enemies within 10ft." },
+          { range: { min: 19, max: 19 }, customName: "Perfect Sixfold", effect: "Double damage + refund 1 Flourish + 5 Momentum." },
+          { range: { min: 20, max: 20 }, customName: "Transcendent Strike", effect: "Triple damage + target saves CON DC 20 or paralyzed 3 rounds." },
+        ],
+      },
 
       tags: [
         "damage",
@@ -3726,6 +4059,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["passive", "stance", "harmony", "mastery", "bladedancer"],
@@ -3804,6 +4138,27 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "long_rest",
+        cooldownValue: 0,
+      },
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Transcendent Winds",
+        description: "When you become the dance itself, reality bends. No two ascensions are alike.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Wind Collapse", effect: "The forms cannot sustain. Duration reduced to 1 round." },
+          { range: { min: 2, max: 4 }, customName: "Struggling Wind", effect: "Only 4 of 6 stances activate. Partial passives only." },
+          { range: { min: 5, max: 8 }, customName: "Six Winds Ascendant", effect: "Full transformation. All passives, free transitions, 2x Momentum." },
+          { range: { min: 9, max: 11 }, customName: "Accelerated Wind", effect: "+1 round duration + all attacks deal +2d6 bonus." },
+          { range: { min: 12, max: 14 }, customName: "Tireless Wind", effect: "Momentum generation tripled instead of doubled." },
+          { range: { min: 15, max: 16 }, customName: "Unstoppable Wind", effect: "Immune to all CC for the duration + flight speed 30ft." },
+          { range: { min: 17, max: 18 }, customName: "Eternal Wind", effect: "Duration doubled (2 min) + all stance abilities cost 0 Momentum." },
+          { range: { min: 19, max: 19 }, customName: "Six Winds Perfection", effect: "All attacks auto-crit + damage ignores all resistances." },
+          { range: { min: 20, max: 20 }, customName: "The Unending Dance", effect: "Duration 10 min + refund 3 Flourish + all allies gain 5 Momentum." },
+        ],
       },
 
       tags: [
@@ -3870,6 +4225,7 @@ STANCES (starting stance: 💧 Flowing Water):
 
       cooldownConfig: {
         cooldownType: "none",
+        cooldownValue: 0,
       },
 
       tags: ["passive", "mastery", "ultimate", "stance", "bladedancer"],

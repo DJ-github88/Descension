@@ -6,6 +6,10 @@ import useMapStore from '../../../store/mapStore';
 import { getGridSystem } from '../../../utils/InfiniteGridSystem';
 import UnifiedContextMenu from '../UnifiedContextMenu';
 
+const globalObjectImageCache = new Map();
+
+export const getObjectImageCache = () => globalObjectImageCache;
+
 // Professional object types for VTT
 export const PROFESSIONAL_OBJECTS = {
     gmNotes: {
@@ -618,7 +622,6 @@ export const PROFESSIONAL_OBJECTS = {
 
 const ObjectSystem = () => {
     const canvasRef = useRef(null);
-    const imageCache = useRef(new Map());
     const [isDragging, setIsDragging] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const [resizeHandle, setResizeHandle] = useState(null); // 'tl', 'tr', 'bl', 'br'
@@ -677,210 +680,262 @@ const ObjectSystem = () => {
 
     const { getCurrentMapId } = useMapStore();
 
-    // Load images into cache - deferred to avoid blocking initial render
-    useEffect(() => {
-        let cancelled = false;
-        const pendingImages = [];
-
-        const processImage = (img, url) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const data = imageData.data;
-            const width = canvas.width;
-            const height = canvas.height;
-            
-            const seeds = [];
-            const step = 0.2;
-            for (let t = 0; t <= 1; t += step) {
-                seeds.push({x: Math.floor(t * (width-1)), y: 0});
-                seeds.push({x: Math.floor(t * (width-1)), y: height-1});
-                seeds.push({x: 0, y: Math.floor(t * (height-1))});
-                seeds.push({x: width-1, y: Math.floor(t * (height-1))});
-            }
-            
-            const seedColors = seeds.map(p => {
-                const i = (p.y * width + p.x) * 4;
-                return [data[i], data[i+1], data[i+2]];
-            });
-
-            let avgR = 0, avgG = 0, avgB = 0;
-            seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
-            avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
-
-            const isVibrantBg = (avgR > 200 && avgG < 100 && avgB > 200) ||
-                               (avgR < 100 && avgG > 200 && avgB < 100) ||
-                               (avgR < 100 && avgG < 100 && avgB > 200);
-
-            const visited = new Uint8Array(width * height);
-            const queue = [...seeds];
-            seeds.forEach(p => visited[p.y * width + p.x] = 1);
-
-            while (queue.length > 0) {
-                const {x, y} = queue.shift();
-                const i = (y * width + x) * 4;
-                const r = data[i], g = data[i+1], b = data[i+2];
+    const processSingleImage = useCallback((img, url) => {
+        return new Promise((resolve) => {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
                 
-                let isMatch = false;
-                for (const s of seedColors) {
-                    if (Math.abs(r - s[0]) < 50 && Math.abs(g - s[1]) < 50 && Math.abs(b - s[2]) < 50) {
-                        isMatch = true; break;
-                    }
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                const seeds = [];
+                const step = 0.2;
+                for (let t = 0; t <= 1; t += step) {
+                    seeds.push({x: Math.floor(t * (width-1)), y: 0});
+                    seeds.push({x: Math.floor(t * (width-1)), y: height-1});
+                    seeds.push({x: 0, y: Math.floor(t * (height-1))});
+                    seeds.push({x: width-1, y: Math.floor(t * (height-1))});
                 }
                 
-                if (!isMatch && !isVibrantBg && r > 180 && g > 180 && b > 180) {
-                    const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
-                    if (diff < 30) isMatch = true; 
-                }
-
-                if (isMatch) {
-                    data[i + 3] = 0; 
-                    const neighbors = [{nx: x+1, ny: y}, {nx: x-1, ny: y}, {nx: x, ny: y+1}, {nx: x, ny: y-1}];
-                    for (const {nx, ny} of neighbors) {
-                        if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[ny * width + nx]) {
-                            visited[ny * width + nx] = 1;
-                            queue.push({x: nx, y: ny});
-                        }
-                    }
-                }
-            }
-
-            for (let i = 0; i < data.length; i += 4) {
-                if (data[i+3] === 0) continue;
-                const r = data[i], g = data[i+1], b = data[i+2];
-                
-                const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
-                const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
-
-                let isMatch = false;
-                for (const s of seedColors) {
-                    if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
-                        isMatch = true; break;
-                    }
-                }
-                if (isMatch) {
-                    data[i + 3] = 0;
-                    continue;
-                }
-
-                const isVerySaturated = diff > 60;
-                if (isVerySaturated) continue;
-
-                if (isVibrantBg) {
-                    if (distToBg < 70) data[i + 3] = 0;
-                } else if (distToBg < 45 && diff < 30) {
-                    data[i + 3] = 0;
-                }
-            }
-
-            for (let i = 0; i < data.length; i += 4) {
-                if (data[i+3] === 0) continue;
-                const r = data[i], g = data[i+1], b = data[i+2];
-                
-                if (r > 215 && g > 215 && b > 215) {
-                    const diff = Math.abs(r-g) + Math.abs(g-b);
-                    if (diff < 15) {
-                        const x = (i/4) % width;
-                        const y = Math.floor((i/4) / width);
-                        let hasTransNeighbor = false;
-                        if (x > 0 && data[i - 4 + 3] === 0) hasTransNeighbor = true;
-                        else if (x < width - 1 && data[i + 4 + 3] === 0) hasTransNeighbor = true;
-                        else if (y > 0 && data[i - width * 4 + 3] === 0) hasTransNeighbor = true;
-                        else if (y < height - 1 && data[i + width * 4 + 3] === 0) hasTransNeighbor = true;
-                        
-                        if (hasTransNeighbor) {
-                            data[i + 3] = Math.max(0, data[i + 3] - 120);
-                        }
-                    }
-                }
-            }
-            
-            ctx.putImageData(imageData, 0, 0);
-            const processedImg = new Image();
-            processedImg.src = canvas.toDataURL();
-            processedImg.onload = () => {
-                if (!cancelled) {
-                    imageCache.current.set(url, processedImg);
-                    renderObjects();
-                }
-            };
-        };
-
-        const scheduleImageProcessing = () => {
-            const allObjects = Object.values(PROFESSIONAL_OBJECTS);
-            let index = 0;
-
-            const processNext = () => {
-                if (cancelled || index >= allObjects.length) return;
-
-                const obj = allObjects[index];
-                index++;
-                const imagesToLoad = [];
-                if (obj.image) imagesToLoad.push(obj.image);
-                if (obj.multiAngle && obj.angles) {
-                    Object.values(obj.angles).forEach(url => imagesToLoad.push(url));
-                }
-
-                let loaded = 0;
-                const totalImages = imagesToLoad.length;
-
-                imagesToLoad.forEach(url => {
-                    if (imageCache.current.has(url)) {
-                        loaded++;
-                        return;
-                    }
-                    const img = new Image();
-                    img.crossOrigin = "anonymous";
-                    img.src = url;
-                    img.onload = () => {
-                        if (!cancelled) {
-                            processImage(img, url);
-                            loaded++;
-                            if (loaded >= totalImages) {
-                                if (typeof requestIdleCallback === 'function') {
-                                    requestIdleCallback(processNext, { timeout: 100 });
-                                } else {
-                                    setTimeout(processNext, 16);
-                                }
-                            }
-                        }
-                    };
-                    img.onerror = () => {
-                        loaded++;
-                        if (loaded >= totalImages) {
-                            if (typeof requestIdleCallback === 'function') {
-                                requestIdleCallback(processNext, { timeout: 100 });
-                            } else {
-                                setTimeout(processNext, 16);
-                            }
-                        }
-                    };
+                const seedColors = seeds.map(p => {
+                    const i = (p.y * width + p.x) * 4;
+                    return [data[i], data[i+1], data[i+2]];
                 });
 
-                if (totalImages === 0) {
-                    if (typeof requestIdleCallback === 'function') {
-                        requestIdleCallback(processNext, { timeout: 100 });
-                    } else {
-                        setTimeout(processNext, 16);
+                let avgR = 0, avgG = 0, avgB = 0;
+                seedColors.forEach(c => { avgR += c[0]; avgG += c[1]; avgB += c[2]; });
+                avgR /= seedColors.length; avgG /= seedColors.length; avgB /= seedColors.length;
+
+                const isVibrantBg = (avgR > 200 && avgG < 100 && avgB > 200) ||
+                                   (avgR < 100 && avgG > 200 && avgB < 100) ||
+                                   (avgR < 100 && avgG < 100 && avgB > 200);
+
+                const visited = new Uint8Array(width * height);
+                const queue = [...seeds];
+                seeds.forEach(p => visited[p.y * width + p.x] = 1);
+
+                while (queue.length > 0) {
+                    const {x, y} = queue.shift();
+                    const i = (y * width + x) * 4;
+                    const r = data[i], g = data[i+1], b = data[i+2];
+                    
+                    let isMatch = false;
+                    for (const s of seedColors) {
+                        if (Math.abs(r - s[0]) < 50 && Math.abs(g - s[1]) < 50 && Math.abs(b - s[2]) < 50) {
+                            isMatch = true; break;
+                        }
+                    }
+                    
+                    if (!isMatch && !isVibrantBg && r > 180 && g > 180 && b > 180) {
+                        const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
+                        if (diff < 30) isMatch = true; 
+                    }
+
+                    if (isMatch) {
+                        data[i + 3] = 0; 
+                        const neighbors = [{nx: x+1, ny: y}, {nx: x-1, ny: y}, {nx: x, ny: y+1}, {nx: x, ny: y-1}];
+                        for (const {nx, ny} of neighbors) {
+                            if (nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[ny * width + nx]) {
+                                visited[ny * width + nx] = 1;
+                                queue.push({x: nx, y: ny});
+                            }
+                        }
                     }
                 }
+
+                for (let i = 0; i < data.length; i += 4) {
+                    if (data[i+3] === 0) continue;
+                    const r = data[i], g = data[i+1], b = data[i+2];
+                    
+                    const distToBg = Math.abs(r - avgR) + Math.abs(g - avgG) + Math.abs(b - avgB);
+                    const diff = Math.abs(r-g) + Math.abs(g-b) + Math.abs(r-b);
+
+                    let isMatch = false;
+                    for (const s of seedColors) {
+                        if (Math.abs(r - s[0]) < 45 && Math.abs(g - s[1]) < 45 && Math.abs(b - s[2]) < 45) {
+                            isMatch = true; break;
+                        }
+                    }
+                    if (isMatch) {
+                        data[i + 3] = 0;
+                        continue;
+                    }
+
+                    const isVerySaturated = diff > 60;
+                    if (isVerySaturated) continue;
+
+                    if (isVibrantBg) {
+                        if (distToBg < 70) data[i + 3] = 0;
+                    } else if (distToBg < 45 && diff < 30) {
+                        data[i + 3] = 0;
+                    }
+                }
+
+                for (let i = 0; i < data.length; i += 4) {
+                    if (data[i+3] === 0) continue;
+                    const r = data[i], g = data[i+1], b = data[i+2];
+                    
+                    if (r > 215 && g > 215 && b > 215) {
+                        const diff = Math.abs(r-g) + Math.abs(g-b);
+                        if (diff < 15) {
+                            const x = (i/4) % width;
+                            const y = Math.floor((i/4) / width);
+                            let hasTransNeighbor = false;
+                            if (x > 0 && data[i - 4 + 3] === 0) hasTransNeighbor = true;
+                            else if (x < width - 1 && data[i + 4 + 3] === 0) hasTransNeighbor = true;
+                            else if (y > 0 && data[i - width * 4 + 3] === 0) hasTransNeighbor = true;
+                            else if (y < height - 1 && data[i + width * 4 + 3] === 0) hasTransNeighbor = true;
+                            
+                            if (hasTransNeighbor) {
+                                data[i + 3] = Math.max(0, data[i + 3] - 120);
+                            }
+                        }
+                    }
+                }
+                
+                ctx.putImageData(imageData, 0, 0);
+                const processedImg = new Image();
+                processedImg.src = canvas.toDataURL();
+                processedImg.onload = () => {
+                    globalObjectImageCache.set(url, processedImg);
+                    resolve(true);
+                };
+                processedImg.onerror = () => resolve(false);
+            } catch (e) {
+                resolve(false);
+            }
+        });
+    }, []);
+
+    const renderObjectsRef = useRef(null);
+
+    const ensureImageCached = useCallback((url) => {
+        if (globalObjectImageCache.has(url)) return;
+        if (globalObjectImageCache.has(`__loading:${url}`)) return;
+
+        globalObjectImageCache.set(`__loading:${url}`, true);
+
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = url;
+        img.onload = () => {
+            processSingleImage(img, url).then((success) => {
+                globalObjectImageCache.delete(`__loading:${url}`);
+                if (success && renderObjectsRef.current) renderObjectsRef.current();
+            });
+        };
+        img.onerror = () => {
+            globalObjectImageCache.delete(`__loading:${url}`);
+        };
+    }, [processSingleImage]);
+
+    useEffect(() => {
+        if (!environmentalObjects || environmentalObjects.length === 0) return;
+
+        const neededUrls = new Set();
+        environmentalObjects.forEach(obj => {
+            const objDef = PROFESSIONAL_OBJECTS[obj.type];
+            if (!objDef) return;
+            if (objDef.image) neededUrls.add(objDef.image);
+            if (objDef.multiAngle && objDef.angles) {
+                Object.values(objDef.angles).forEach(url => neededUrls.add(url));
+            }
+        });
+
+        const uncached = [...neededUrls].filter(url => !globalObjectImageCache.has(url) && !globalObjectImageCache.has(`__loading:${url}`));
+        if (uncached.length === 0) return;
+
+        let index = 0;
+        const processNext = () => {
+            if (index >= uncached.length) return;
+            const url = uncached[index];
+            index++;
+
+            globalObjectImageCache.set(`__loading:${url}`, true);
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = url;
+            img.onload = () => {
+                processSingleImage(img, url).then((success) => {
+                    globalObjectImageCache.delete(`__loading:${url}`);
+                    if (success && renderObjectsRef.current) renderObjectsRef.current();
+                    if (typeof requestIdleCallback === 'function') {
+                        requestIdleCallback(processNext, { timeout: 200 });
+                    } else {
+                        setTimeout(processNext, 50);
+                    }
+                });
             };
+            img.onerror = () => {
+                globalObjectImageCache.delete(`__loading:${url}`);
+                if (typeof requestIdleCallback === 'function') {
+                    requestIdleCallback(processNext, { timeout: 200 });
+                } else {
+                    setTimeout(processNext, 50);
+                }
+            };
+        };
+
+        if (typeof requestIdleCallback === 'function') {
+            requestIdleCallback(processNext, { timeout: 500 });
+        } else {
+            setTimeout(processNext, 200);
+        }
+    }, [environmentalObjects, processSingleImage]);
+
+    useEffect(() => {
+        let index = 0;
+        const allObjects = Object.values(PROFESSIONAL_OBJECTS);
+        const preloadNext = () => {
+            if (index >= allObjects.length) return;
+            const obj = allObjects[index];
+            index++;
+
+            const urls = [];
+            if (obj.image) urls.push(obj.image);
+            if (obj.multiAngle && obj.angles) {
+                Object.values(obj.angles).forEach(url => urls.push(url));
+            }
+
+            urls.forEach(url => {
+                if (globalObjectImageCache.has(url) || globalObjectImageCache.has(`__loading:${url}`)) return;
+                globalObjectImageCache.set(`__loading:${url}`, true);
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = url;
+                img.onload = () => {
+                    processSingleImage(img, url).then(() => {
+                        globalObjectImageCache.delete(`__loading:${url}`);
+                    });
+                };
+                img.onerror = () => {
+                    globalObjectImageCache.delete(`__loading:${url}`);
+                };
+            });
 
             if (typeof requestIdleCallback === 'function') {
-                requestIdleCallback(processNext, { timeout: 200 });
+                requestIdleCallback(preloadNext, { timeout: 2000 });
             } else {
-                setTimeout(processNext, 100);
+                setTimeout(preloadNext, 1000);
             }
         };
 
-        scheduleImageProcessing();
+        const timer = setTimeout(() => {
+            if (typeof requestIdleCallback === 'function') {
+                requestIdleCallback(preloadNext, { timeout: 5000 });
+            } else {
+                setTimeout(preloadNext, 3000);
+            }
+        }, 3000);
 
-        return () => { cancelled = true; };
-    }, []);
+        return () => clearTimeout(timer);
+    }, [processSingleImage]);
 
     // Helper to get current map ID explicitly (prevents stale reads during rapid updates)
     const getExplicitCurrentMapId = () => {
@@ -1098,6 +1153,8 @@ const ObjectSystem = () => {
         });
     }, [environmentalObjects, effectiveZoom, gridToScreen, isEditorMode, gridSize, cameraX, cameraY, isGMMode, drawingLayers, pickParentMode, pendingChildId]);
 
+    renderObjectsRef.current = renderObjects;
+
     // Render object based on its category
     const renderObjectByCategory = (ctx, obj, objectDef, screenPos, width, height) => {
         ctx.save();
@@ -1202,7 +1259,7 @@ const ObjectSystem = () => {
             finalRotation = diff * Math.PI / 180;
         }
 
-        const img = imageCache.current.get(imageUrl);
+        const img = globalObjectImageCache.get(imageUrl);
         if (img) {
             ctx.save();
             if (finalRotation !== 0) {

@@ -261,7 +261,7 @@ GENERATION:
       id: "chaos_weaver-chaos_dice-chaos_bolt",
       name: "Chaos Bolt",
       description:
-        "A bolt of pure chaotic force — each cast is different. Roll on the Chaos Bolt table to see what happens: the bolt might bounce, split, phase through armor, or trigger a reality glitch.",
+        "A bolt of pure chaotic force — each cast is different. Roll on the Chaos Bolt table to see what happens: the bolt might bounce, phase through armor, reverse gravity, or trigger a reality glitch.",
       level: 1,
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
@@ -284,8 +284,6 @@ GENERATION:
         mana: 4,
         classResource: { type: "mayhem", cost: -2 },
         components: ["verbal", "somatic"],
-        verbalText: "Chaos bolt!",
-        somaticText: "Fling a bolt of pure chaos",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
       resolution: "DICE",
@@ -299,8 +297,8 @@ GENERATION:
           enabled: true,
           tableName: "Chaos Bolt Effects",
           description:
-            "Roll on this table each time you cast Chaos Bolt to determine the bolt's behavior",
-          diceFormula: "1d8",
+            "Roll on this table each time you cast Chaos Bolt to determine the bolt's chaotic behavior",
+          diceFormula: "1d12",
           entries: [
             {
               range: { min: 1, max: 1 },
@@ -340,12 +338,13 @@ GENERATION:
               range: { min: 4, max: 4 },
               customName: "Gravity Warp",
               effect:
-                "1d8 force damage + target is launched 10ft upward and crashes down for 1d6 falling damage",
+                "1d8 force damage + target floats 10ft upward for 1 round then crashes down for 1d6 falling damage",
               effectConfig: {
                 damageFormula: "1d8",
                 damageType: "force",
                 launchHeight: 10,
                 fallDamage: "1d6",
+                floatDuration: 1,
               },
             },
             {
@@ -371,9 +370,9 @@ GENERATION:
             },
             {
               range: { min: 7, max: 7 },
-              customName: "Probability inversion",
+              customName: "Probability Inversion",
               effect:
-                "1d8 force damage + target's next attack roll that would hit misses, and next miss becomes a hit",
+                "1d8 force damage + target's next attack that would hit misses, and next miss becomes a hit",
               effectConfig: {
                 damageFormula: "1d8",
                 damageType: "force",
@@ -382,9 +381,59 @@ GENERATION:
             },
             {
               range: { min: 8, max: 8 },
+              customName: "Pocket Dimension Pocket",
+              effect:
+                "1d8 force damage + target's left boot vanishes to a pocket dimension. -10 speed for 2 rounds. Boot returns smelling of lavender",
+              effectConfig: {
+                damageFormula: "1d8",
+                damageType: "force",
+                speedPenalty: -10,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Midas Glitch",
+              effect:
+                "1d8 force damage + target's weapon turns to gold for 1 round: +3 damage this round, then crumbles to dust (target is disarmed for 1 round)",
+              effectConfig: {
+                damageFormula: "1d8",
+                damageType: "force",
+                bonusDamage: 3,
+                disarmDuration: 1,
+              },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Quantum Entanglement",
+              effect:
+                "1d8 force damage + you and target swap positions and resistances for 1 round",
+              effectConfig: {
+                damageFormula: "1d8",
+                damageType: "force",
+                swapPositions: true,
+                swapResistances: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 11, max: 11 },
+              customName: "Spaghettification",
+              effect:
+                "1d8 force damage + target's limbs stretch absurdly. Reach +10ft but -2 to all dexterity checks for 1 round",
+              effectConfig: {
+                damageFormula: "1d8",
+                damageType: "force",
+                reachBonus: 10,
+                dexPenalty: -2,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 12, max: 12 },
               customName: "Chaos Butterfly",
               effect:
-                "1d8 force damage + a chaotic butterfly flutters by. Roll again on this table for a secondary effect (ignoring 8s)",
+                "1d8 force damage + a chaotic butterfly flutters by. Roll again on this table for a secondary effect (ignoring 12s)",
               effectConfig: {
                 damageFormula: "1d8",
                 damageType: "force",
@@ -402,7 +451,7 @@ GENERATION:
       id: "chaos_weaver-reality_bending-reality_flicker",
       name: "Reality Flicker",
       description:
-        "Slip between dimensions for a heartbeat — become ghostly, pass through walls, and ignore non-magical attacks for 1 round.",
+        "Slip between dimensions for a heartbeat — become ghostly, pass through walls, and ignore non-magical attacks for 1 round. Roll on the Flicker Table to see what dimensional side effect tags along.",
       level: 1,
       icon: "Arcane/Quick Step",
       spellType: "ACTION",
@@ -410,7 +459,9 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Quick Step",
-        tags: ["chaos", "defense"],
+        tags: ["chaos", "defense", "rollable table", "reality bending"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
         buffType: "custom",
@@ -420,14 +471,99 @@ GENERATION:
             name: "Incorporeal",
             description:
               "You become incorporeal for 1 round. You can move through objects and are immune to non-magical attacks.",
-            mechanicsText:
-              "Incorporeal for 1 round. Can move through objects. Immune to non-magical attacks.",
+            mechanicsText: "",
           },
         ],
         durationType: "rounds",
         durationValue: 1,
         durationUnit: "rounds",
         canBeDispelled: false,
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Flicker Side Effects",
+          description:
+            "When you flicker between dimensions, something strange comes back with you",
+          diceFormula: "1d10",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Echo Afterimage",
+              effect:
+                "A shimmering duplicate of you lingers for 1 round. Enemies have 50% chance to target the echo instead of you",
+              effectConfig: { illusionDuration: 1, misdirectChance: 50 },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Dimensional Scent",
+              effect:
+                "You return smelling of ozone and burnt toast. All creatures within 10ft must save (CHA DC 12) or be distracted (disadvantage on next attack)",
+              effectConfig: { distractRadius: 10, saveDC: 12, saveType: "charisma" },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Gravity Bleed",
+              effect:
+                "Residual dimensional energy makes you weightless for an extra round. +15ft movement speed but you cannot be knocked prone",
+              effectConfig: { speedBonus: 15, immuneProne: true, duration: 1 },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Entropic Feedback",
+              effect:
+                "The dimension you left behind collapses violently. Generate +1d3 Mayhem",
+              effectConfig: { mayhemGain: "1d3" },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Mirror Glimpse",
+              effect:
+                "You glimpse a parallel timeline. Gain advantage on your next saving throw",
+              effectConfig: { advantageNextSave: true },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Phantom Itch",
+              effect:
+                "Something from the other side is still touching you. You have disadvantage on your next attack roll but gain +1d4 psychic damage on it",
+              effectConfig: { attackDisadvantage: true, bonusDamage: "1d4", bonusType: "psychic" },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Pocket Dimension Pocket",
+              effect:
+                "Your left boot vanishes to a pocket dimension. +5ft movement (barefoot running) but -2 to charisma checks for 1 round. Boot returns smelling of cheese",
+              effectConfig: { speedBonus: 5, charismaPenalty: -2, duration: 1 },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Reality Lag",
+              effect:
+                "You flicker back 1 second late. Your next action happens twice — roll damage twice and take the higher",
+              effectConfig: { doubleAction: true, nextActionOnly: true },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Chromatic Residue",
+              effect:
+                "You return dripping with prismatic goo. The next creature that hits you with a melee attack takes 1d6 random elemental damage",
+              effectConfig: { reactiveDamage: "1d6", damageType: "random", duration: 1 },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Cosmic Flatulence",
+              effect:
+                "Something followed you back. 1d4 psychic damage to all creatures within 5ft and nobody can use stealth near you for 1 hour due to the smell of interdimensional ozone",
+              effectConfig: {
+                damageFormula: "1d4",
+                damageType: "psychic",
+                radius: 5,
+                stealthBlocked: true,
+              },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "self",
@@ -438,36 +574,28 @@ GENERATION:
         mana: 2,
         classResource: { type: "mayhem", cost: -2 },
         components: ["verbal", "somatic"],
-        verbalText: "Reality bends!",
-        somaticText: "Flicker between dimensions",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
-      tags: ["chaos", "defense", "reality bending"],
+      tags: ["chaos", "defense", "rollable table", "reality bending"],
       specialization: "reality_bending",
     },
     {
       id: "chaos_weaver-entropy_control-entropic_touch",
       name: "Entropic Touch",
       description:
-        "Rot your target's defenses — necrotic damage that carves away armor for 3 rounds.",
+        "Rot your target's defenses — necrotic damage that carves away armor for 3 rounds. Roll on the Entropy Table for additional decay effects.",
       level: 1,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: [
-          "chaos",
-          "entropy",
-          "debuff",
-          "damage",
-          "necrotic",
-          "entropy control",
-        ],
+        tags: ["necrotic", "entropy", "debuff", "damage", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "1d6 + intelligence",
         damageTypes: ["necrotic"],
@@ -482,7 +610,7 @@ GENERATION:
             description: "-1 Armor for 3 Rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 1,
+              magnitude: -1,
               magnitudeType: "flat",
             },
           },
@@ -491,6 +619,87 @@ GENERATION:
         durationValue: 3,
         durationUnit: "rounds",
         canBeDispelled: true,
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Entropic Decay Effects",
+          description:
+            "The touch of entropy produces unpredictable rot in the target",
+          diceFormula: "1d10",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Rust Touch",
+              effect:
+                "Target's metal equipment rusts. -2 additional armor (stacks with base debuff) for 2 rounds",
+              effectConfig: { extraArmorReduction: 2, duration: 2 },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Withering Gaze",
+              effect:
+                "Target's muscles atrophy. -1 Strength for 2 rounds in addition to armor reduction",
+              effectConfig: { statReduction: "strength", amount: 1, duration: 2 },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Entropic Feedback",
+              effect:
+                "The decay feeds back into you. Generate +2 Mayhem from the entropic resonance",
+              effectConfig: { mayhemBonus: 2 },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Decay Spores",
+              effect:
+                "Foul spores erupt from the target. All creatures within 5ft of target take 1d4 necrotic damage",
+              effectConfig: { secondaryDamage: "1d4", damageType: "necrotic", radius: 5 },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Brittle Bones",
+              effect:
+                "Target becomes fragile. Next physical attack against them crits on 18-20 for 2 rounds",
+              effectConfig: { expandedCritRange: [18, 19, 20], duration: 2 },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Accelerated Rot",
+              effect:
+                "Base debuff doubles: -2 Armor for 3 rounds instead of -1",
+              effectConfig: { doubleDebuff: true },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Entropy Glow",
+              effect:
+                "Target glows sickly green. They are visible through walls and have disadvantage on stealth for 2 rounds. The glow whispers their secrets",
+              effectConfig: { glowVisible: true, stealthDisadvantage: true, duration: 2 },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Shadow Rot",
+              effect:
+                "Target's shadow withers and falls off. They lose Darkvision and have -1 to Perception for 2 rounds",
+              effectConfig: { loseDarkvision: true, perceptionPenalty: -1, duration: 2 },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Temporal Rust",
+              effect:
+                "Target's equipment ages 100 years in a second. All non-magical items become brittle and break on a natural 1 attack roll for 2 rounds",
+              effectConfig: { brittleItems: true, breakOnCritFail: true, duration: 2 },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Spontaneous Combustion",
+              effect:
+                "The entropy ignites. Target takes 1d6 fire damage and their hair catches fire (cosmetic but very distracting, -1 to Cha checks for 1 round)",
+              effectConfig: { fireDamage: "1d6", charismaPenalty: -1, duration: 1 },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "single",
@@ -503,26 +712,17 @@ GENERATION:
         mana: 4,
         classResource: { type: "mayhem", cost: -2 },
         components: ["verbal", "somatic"],
-        verbalText: "Decay!",
-        somaticText: "Touch target with entropic energy",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       resolution: "DICE",
-      tags: [
-        "chaos",
-        "entropy",
-        "debuff",
-        "damage",
-        "necrotic",
-        "entropy control",
-      ],
+      tags: ["necrotic", "entropy", "debuff", "damage", "entropy control", "rollable table"],
       specialization: "entropy_control",
     },
     {
       id: "chaos_weaver-shared-chaotic_infusion",
       name: "Chaotic Infusion",
       description:
-        "Draw raw chaos into yourself, converting it into usable Mayhem. No damage — pure resource generation.",
+        "Draw raw chaos into yourself, converting it into usable Mayhem. No damage — pure resource generation. But chaos always has side effects. Roll on the Infusion Table.",
       level: 1,
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
@@ -530,16 +730,104 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
-        tags: ["chaos", "utility", "mayhem", "resource"],
+        tags: ["chaos", "utility", "mayhem", "resource", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       utilityConfig: {
         utilityType: "resource",
         subtype: "mayhem_generation",
-        description: "Generate 1d4 Mayhem",
+        description: "Generate 1d4 Mayhem with a chaotic side effect",
         power: "minor",
         resourceGain: "1d4",
         resourceType: "mayhem",
         charges: 1,
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Infusion Side Effects",
+          description:
+            "Drawing raw chaos into yourself always produces a side effect",
+          diceFormula: "1d10",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Overcharge",
+              effect:
+                "Generate 1d4 extra Mayhem (total 2d4). Your hair stands on end and sparks fly from your fingertips",
+              effectConfig: { bonusMayhem: "1d4" },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Entropy Glow",
+              effect:
+                "You glow with chaotic energy. Enemies within 15ft have disadvantage on their next attack targeting you",
+              effectConfig: { glowRadius: 15, duration: 1 },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Temporal Surge",
+              effect:
+                "Time speeds up for you. Gain +5ft movement speed for 2 rounds",
+              effectConfig: { speedBonus: 5, duration: 2 },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Chaotic Resonance",
+              effect:
+                "Your next spell deals +1d4 bonus damage of a random type",
+              effectConfig: { bonusDamageNextSpell: "1d4", damageType: "random" },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Reality Hiccup",
+              effect:
+                "A small object near you vanishes and reappears in a random location within 10ft. No mechanical effect, but everyone stares",
+              effectConfig: { flavorOnly: true },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Cosmic Flatulence",
+              effect:
+                "2d4 psychic damage to all creatures within 5ft (enemies and allies). You cannot use stealth for 1 hour due to the lingering smell of burnt ozone",
+              effectConfig: {
+                damageFormula: "2d4",
+                damageType: "psychic",
+                radius: 5,
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Quantum Lock",
+              effect:
+                "You become intangible for 1 second. The next attack against you this round automatically misses as you briefly phase through it",
+              effectConfig: { autoDodge: true, duration: 1 },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Chaos Butterfly",
+              effect:
+                "A butterfly of pure chaos lands on your shoulder. Your next roll gains +1d4 (like Bardic Inspiration). The butterfly then vanishes with a tiny wink",
+              effectConfig: { bonusDie: "1d4", singleUse: true },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Planar Echo",
+              effect:
+                "A version of you from another timeline whispers a warning. You cannot be surprised until the start of your next turn",
+              effectConfig: { cannotBeSurprised: true, duration: 1 },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Chromatic Skin",
+              effect:
+                "Your skin cycles through every color for 2 rounds. You have advantage on Intimidation checks but disadvantage on Stealth. You look FABULOUS",
+              effectConfig: { advantageIntimidation: true, disadvantageStealth: true, duration: 2 },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "self",
@@ -550,18 +838,17 @@ GENERATION:
         mana: 4,
         classResource: { type: "mayhem", cost: -3 },
         components: ["somatic"],
-        somaticText: "Draw chaos into your body",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       resolution: "DICE",
-      tags: ["chaos", "utility", "mayhem", "resource"],
+      tags: ["chaos", "utility", "mayhem", "resource", "rollable table"],
       specialization: "chaos_dice",
     },
     {
       id: "chaos_weaver-wild_magic-wild_surge",
       name: "Wild Surge",
       description:
-        "Pierce the veil of order and let raw magic bleed through — the surge generates Mayhem and triggers a random wild effect.",
+        "Pierce the veil of order and let raw magic bleed through — the surge generates Mayhem and triggers a random wild effect from the expanded Wild Surge Table.",
       level: 1,
       icon: "Nature/Nature Wild 1",
       spellType: "ACTION",
@@ -570,14 +857,16 @@ GENERATION:
         school: "chaos",
         icon: "Nature/Nature Wild 1",
         tags: ["chaos", "damage", "utility", "wild magic", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Wild Surge Effects",
           description:
-            "Raw magic bleeds through in one of these unpredictable forms",
-          diceFormula: "1d10",
+            "Raw magic bleeds through in one of these unpredictable, reality-glitching forms",
+          diceFormula: "1d20",
           entries: [
             {
               range: { min: 1, max: 1 },
@@ -625,7 +914,7 @@ GENERATION:
               range: { min: 6, max: 6 },
               customName: "Temporal Stutter",
               effect:
-                "Target acts 3 seconds behind reality. Their next roll has -2 penalty and their movement speed is halved for 1 round",
+                "Target acts 3 seconds behind reality. Their next roll has -2 penalty and movement speed is halved for 1 round",
               effectConfig: {
                 temporalDelay: true,
                 rollPenalty: -2,
@@ -637,7 +926,7 @@ GENERATION:
               range: { min: 7, max: 7 },
               customName: "Color Storm",
               effect:
-                "Everything within 20ft becomes a random eye-searing color. Enemies must make a CHA save (DC 13) or be dazzled (disadvantage on attacks) for 1 round",
+                "Everything within 20ft becomes a random eye-searing color. Enemies save CHA DC 13 or be dazzled (disadvantage on attacks) for 1 round",
               effectConfig: {
                 colorRadius: 20,
                 saveDC: 13,
@@ -649,18 +938,17 @@ GENERATION:
               range: { min: 8, max: 8 },
               customName: "Pocket Dimension Pocket",
               effect:
-                "Target's left boot vanishes to a pocket dimension. -10 speed for 2 rounds. The boot returns smelling of lavender",
+                "Target's left boot vanishes to a pocket dimension. -10 speed for 2 rounds. Boot returns smelling of lavender",
               effectConfig: {
                 speedPenalty: -10,
                 duration: 2,
-                flavorText: "Boot smells of lavender",
               },
             },
             {
               range: { min: 9, max: 9 },
               customName: "Quantum Entanglement",
               effect:
-                "You and the target swap positions and resistances for 1 round. What hurts them less hurts you more and vice versa",
+                "You and the target swap positions and resistances for 1 round",
               effectConfig: {
                 swapPositions: true,
                 swapResistances: true,
@@ -669,13 +957,109 @@ GENERATION:
             },
             {
               range: { min: 10, max: 10 },
+              customName: "Borrowed Tomorrow",
+              effect:
+                "Target takes 2d8 psychic damage now, but heals 1d8 at the start of their next turn",
+              effectConfig: {
+                damageFormula: "2d8",
+                damageType: "psychic",
+                delayedHealing: "1d8",
+              },
+            },
+            {
+              range: { min: 11, max: 11 },
+              customName: "Reality Lag",
+              effect:
+                "Target's next action happens at end of initiative order instead of their normal turn for 1 round",
+              effectConfig: { initiativeDelay: true, duration: 1 },
+            },
+            {
+              range: { min: 12, max: 12 },
+              customName: "Mirror Dimension",
+              effect:
+                "A copy of the target appears as an ally for 1 round. The copy has 1 HP and deals 1d4 force damage on hit",
+              effectConfig: {
+                summonMirror: true,
+                mirrorHP: 1,
+                mirrorDamage: "1d4",
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 13, max: 13 },
+              customName: "Spaghettification",
+              effect:
+                "Target's limbs stretch absurdly. Reach +10ft but -2 to all dexterity checks for 1 round",
+              effectConfig: {
+                reachBonus: 10,
+                dexPenalty: -2,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 14, max: 14 },
+              customName: "Cosmic Flatulence",
+              effect:
+                "2d6 psychic damage to target. Target cannot use stealth for 1 hour due to lingering smell of burnt ozone",
+              effectConfig: {
+                damageFormula: "2d6",
+                damageType: "psychic",
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 15, max: 15 },
+              customName: "Probability Storm",
+              effect:
+                "All d20 rolls within 30ft are rolled twice for 1 round — allies take the higher, enemies take the lower",
+              effectConfig: { probabilityRadius: 30, duration: 1 },
+            },
+            {
+              range: { min: 16, max: 16 },
+              customName: "Midas Glitch",
+              effect:
+                "Target's weapon turns to gold: +3 damage this round, then crumbles to dust (target disarmed for 1 round)",
+              effectConfig: {
+                bonusDamage: 3,
+                disarmDuration: 1,
+              },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Weather Pop",
+              effect:
+                "A 15ft zone experiences extreme localized weather (DM's choice: rain, hail, or boiling mist). All creatures in area take 1d6 of appropriate elemental damage",
+              effectConfig: { weatherRadius: 15, damageFormula: "1d6", damageType: "random_elemental" },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Size Shuffle",
+              effect:
+                "Target becomes tiny (half size) or huge (double size) for 1 round (50/50 chance). Tiny: -4 STR +10 speed. Huge: +4 STR -10 speed",
+              effectConfig: { sizeChange: true, duration: 1 },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Shadow Detachment",
+              effect:
+                "Your shadow peels off and harasses the target. Target has disadvantage on next 2 attacks. Shadow returns after 2 rounds",
+              effectConfig: { shadowHarass: true, attackDisadvantageRounds: 2 },
+            },
+            {
+              range: { min: 20, max: 20 },
               customName: "Chaos Butterfly",
               effect:
-                "A butterfly of pure chaos flutters by. Roll again on this table for a secondary effect (ignoring 10s)",
+                "A butterfly of pure chaos flutters by. Roll again on this table for a secondary effect (ignoring 20s)",
               effectConfig: { rollTwice: true, noRecurse: true },
             },
           ],
         },
+      },
+      damageConfig: { formula: '1d8', damageTypes: ['chaos'], resolution: 'DICE' },
+      utilityConfig: {
+        utilityType: "resource",
+        subtype: "mayhem_generation",
+        description: "Triggers a random wild effect from the expanded table",
       },
       targetingConfig: {
         targetingType: "self",
@@ -686,8 +1070,6 @@ GENERATION:
         mana: 3,
         classResource: { type: "mayhem", cost: -2 },
         components: ["verbal", "somatic"],
-        verbalText: "Let it surge!",
-        somaticText: "Tear open the magical veil",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       resolution: "DICE",
@@ -698,21 +1080,24 @@ GENERATION:
       id: "chaos_weaver-chaos_dice-chaotic_bolt",
       name: "Chaotic Bolt",
       description:
-        "A bolt that refuses to behave — each cast rolls a d20 to determine if it forks, explodes, pierces armor, or warps reality.",
+        "A bolt that refuses to behave — each cast rolls a d20 to determine if it forks, explodes, warps reality, or triggers a chaotic anomaly.",
       level: 2,
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
       effectTypes: ["damage"],
+      damageConfig: { formula: '3d6', damageTypes: ['force'], resolution: 'DICE' },
       typeConfig: {
-        school: "chaos",
+        school: "force",
         icon: "Arcane/Spellcasting Aura",
-        tags: ["chaos", "damage", "rollable table"],
+        tags: ["force", "damage", "rollable table", "chaos dice"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Chaotic Bolt Effects",
-          description: "Roll on this table to determine the bolt's effect",
+          description: "Roll on this table to determine the bolt's chaotic behavior",
           diceFormula: "1d20",
           entries: [
             {
@@ -722,7 +1107,7 @@ GENERATION:
               effectConfig: { damageFormula: "2d6", damageType: "force" },
             },
             {
-              range: { min: 4, max: 6 },
+              range: { min: 4, max: 5 },
               customName: "Forking Bolt",
               effect:
                 "Deal 2d6 force damage and strike an additional random enemy within range",
@@ -733,7 +1118,7 @@ GENERATION:
               },
             },
             {
-              range: { min: 7, max: 9 },
+              range: { min: 6, max: 7 },
               customName: "Exploding Bolt",
               effect: "Deal 3d6 force damage in 10ft radius",
               effectConfig: {
@@ -744,7 +1129,7 @@ GENERATION:
               },
             },
             {
-              range: { min: 10, max: 12 },
+              range: { min: 8, max: 9 },
               customName: "Piercing Bolt",
               effect: "Deal 2d6 force damage, ignores 50% of armor",
               effectConfig: {
@@ -754,7 +1139,20 @@ GENERATION:
               },
             },
             {
-              range: { min: 13, max: 15 },
+              range: { min: 10, max: 11 },
+              customName: "Gravity Warp Bolt",
+              effect:
+                "2d6 force damage + target floats 10ft upward for 1 round, then crashes for 1d6 falling damage",
+              effectConfig: {
+                damageFormula: "2d6",
+                damageType: "force",
+                launchHeight: 10,
+                fallDamage: "1d6",
+                floatDuration: 1,
+              },
+            },
+            {
+              range: { min: 12, max: 13 },
               customName: "Arcane Surge",
               effect: "Deal 3d6 force damage, gain +2 Mayhem",
               effectConfig: {
@@ -764,18 +1162,53 @@ GENERATION:
               },
             },
             {
-              range: { min: 16, max: 18 },
+              range: { min: 14, max: 15 },
               customName: "Reality Rift",
-              effect: "Deal 2d6 force damage, teleport target 15 feet",
+              effect: "Deal 2d6 force damage, teleport target 15 feet in a random direction",
               effectConfig: {
                 damageFormula: "2d6",
                 damageType: "force",
                 teleportDistance: 15,
+                randomDirection: true,
+              },
+            },
+            {
+              range: { min: 16, max: 16 },
+              customName: "Temporal Stutter Bolt",
+              effect:
+                "2d6 force damage + target's next action is delayed to end of initiative order",
+              effectConfig: {
+                damageFormula: "2d6",
+                damageType: "force",
+                delayEffect: true,
+              },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Probability Inversion Bolt",
+              effect:
+                "2d6 force damage + target's next attack that would hit misses, and next miss becomes a hit",
+              effectConfig: {
+                damageFormula: "2d6",
+                damageType: "force",
+                probabilityInvert: true,
+              },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Mirror Bolt",
+              effect:
+                "2d6 force damage + a mirror duplicate of target appears as your ally for 1 round (1 HP, deals 1d4 on hit)",
+              effectConfig: {
+                damageFormula: "2d6",
+                damageType: "force",
+                summonMirror: true,
+                duration: 1,
               },
             },
             {
               range: { min: 19, max: 19 },
-              customName: "Chaos Nova",
+              customName: "Chaos Nova Bolt",
               effect: "Deal 4d6 force damage to all enemies within 20ft",
               effectConfig: {
                 damageFormula: "4d6",
@@ -786,13 +1219,13 @@ GENERATION:
             },
             {
               range: { min: 20, max: 20 },
-              customName: "Reality Storm",
+              customName: "Reality Storm Bolt",
               effect:
-                "Deal 3d6 force damage + random effect (roll d6: 1=knockback 15ft, 2=stun 1rd (DC 14), 3=burn 2d6, 4=freeze 1rd, 5=disarm, 6=heal caster 2d6)",
+                "3d6 force damage + roll on Wild Surge Effects table for a secondary effect",
               effectConfig: {
                 damageFormula: "3d6",
                 damageType: "force",
-                secondaryEffect: "random",
+                secondaryTable: "wild_surge",
               },
             },
           ],
@@ -809,19 +1242,17 @@ GENERATION:
         mana: 6,
         classResource: { type: "mayhem", cost: 2 },
         components: ["verbal", "somatic"],
-        verbalText: "Wild bolt!",
-        somaticText: "Cast unpredictable chaos bolt",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
       resolution: "DICE",
-      tags: ["chaos", "damage", "rollable table", "chaos dice"],
+      tags: ["force", "damage", "rollable table", "chaos dice"],
       specialization: "chaos_dice",
     },
     {
       id: "chaos_weaver-reality_bending-dimensional_rift",
       name: "Dimensional Rift",
       description:
-        "Tear a hole in space and shove your target through it — they reappear up to 20ft away, disoriented.",
+        "Tear a hole in space and shove your target through it — they reappear up to 20ft away, disoriented. Roll on the Rift Destination Table to see where they end up.",
       level: 2,
       icon: "Arcane/Open Portal",
       spellType: "ACTION",
@@ -829,30 +1260,109 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Open Portal",
-        tags: ["chaos", "control", "reality bending", "forced movement"],
+        tags: ["chaos", "control", "reality bending", "forced movement", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
         controlType: "forcedMovement",
         strength: "moderate",
         duration: 0,
         durationUnit: "instant",
-        saveDC: 13,
-        saveType: "strength",
-        saveOutcome: "negates",
-        savingThrow: true,
         effects: [
           {
             id: "teleport",
-            name: "Teleport",
-            description: "Teleport the target up to 20 feet in any direction",
+            name: "Dimensional Shove",
+            description: "Teleport the target up to 20 feet in a random direction. DC 14 Con save to resist.",
             config: {
               movementType: "teleport",
               distance: 20,
               saveDC: 14,
-              saveType: "dexterity",
+              saveType: "constitution",
             },
           },
         ],
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Rift Destination Effects",
+          description:
+            "When you shove someone through a dimensional rift, they don't always come back the same",
+          diceFormula: "1d10",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Clean Exit",
+              effect:
+                "Target reappears 20ft away in a random direction. No additional effect",
+              effectConfig: { cleanTeleport: true, distance: 20 },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Upside Down",
+              effect:
+                "Target reappears upside down 15ft in the air, falling for 1d6 damage and landing prone",
+              effectConfig: { fallDamage: "1d6", prone: true, height: 15 },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Planar Echo",
+              effect:
+                "Target reappears but a shimmering afterimage of them remains for 1 round, causing enemies to have 50% miss chance against the real target",
+              effectConfig: { illusionDuration: 1, misdirectChance: 50 },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Dimensional Nausea",
+              effect:
+                "Target reappears and is sickened. -2 to all attacks for 1 round",
+              effectConfig: { attackPenalty: -2, duration: 1 },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Wrong You",
+              effect:
+                "Target reappears but swapped with an adjacent creature (ally or enemy). Both are disoriented",
+              effectConfig: { swapWithAdjacent: true },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Gravity Flip",
+              effect:
+                "Target reappears on the ceiling for 1 round. They fall at the start of their next turn",
+              effectConfig: { ceilingStuck: true, duration: 1 },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Entropic Residue",
+              effect:
+                "Target reappears trailing void energy. 1d4 necrotic damage to all creatures within 5ft of their landing spot",
+              effectConfig: { landingDamage: "1d4", damageType: "necrotic", radius: 5 },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Temporal Drag",
+              effect:
+                "Target reappears but 3 seconds behind reality. Their movement speed is halved for 2 rounds",
+              effectConfig: { speedPenalty: 0.5, duration: 2 },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Mayhem Feedback",
+              effect:
+                "The rift generates entropic energy. Gain +1d3 Mayhem from the dimensional tear",
+              effectConfig: { mayhemGain: "1d3" },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Rift Keeps Them",
+              effect:
+                "Target doesn't come back for 1 round. They reappear at the start of your next turn, disoriented and rattled",
+              effectConfig: { banishDuration: 1, disorientedOnReturn: true },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "single",
@@ -865,29 +1375,28 @@ GENERATION:
         mana: 5,
         classResource: { type: "mayhem", cost: -2 },
         components: ["verbal", "somatic"],
-        verbalText: "Reality shift!",
-        somaticText: "Gesture to teleport target",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
-      tags: ["chaos", "control", "forced movement", "reality bending"],
+      tags: ["chaos", "control", "forced movement", "reality bending", "rollable table"],
       specialization: "reality_bending",
     },
     {
       id: "chaos_weaver-entropy_control-chaotic_decay",
       name: "Chaotic Decay",
       description:
-        "Accelerate entropy in a target — necrotic damage that shreds both strength and armor. Crits spread decay to nearby foes.",
+        "Accelerate entropy in a target — necrotic damage that shreds both strength and armor. Roll on the Decay Table for additional corruption. Crits spread decay to nearby foes.",
       level: 2,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "damage", "debuff", "entropy", "entropy control"],
+        tags: ["necrotic", "damage", "debuff", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "2d6 + intelligence",
         damageTypes: ["necrotic"],
@@ -912,10 +1421,10 @@ GENERATION:
           {
             id: "strength_reduction",
             name: "Strength Reduction",
-            description: "-2 Strength",
+            description: "-2 Strength for 3 Rounds",
             statModifier: {
               stat: "strength",
-              magnitude: 2,
+              magnitude: -2,
               magnitudeType: "flat",
             },
           },
@@ -925,7 +1434,7 @@ GENERATION:
             description: "-2 Armor for 3 Rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 2,
+              magnitude: -2,
               magnitudeType: "flat",
             },
           },
@@ -933,9 +1442,70 @@ GENERATION:
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
-        saveDC: 14,
-        saveType: "constitution",
-        saveOutcome: "negates",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 14,
+          saveOutcome: "negates",
+        },
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Chaotic Decay Effects",
+          description:
+            "The accelerated entropy produces unpredictable corruption",
+          diceFormula: "1d10",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Iron Rot",
+              effect: "Target's armor rusts further. Additional -2 armor for 2 rounds (stacks with base debuff)",
+              effectConfig: { extraArmorReduction: 2, duration: 2 },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Wither",
+              effect: "Target's muscles waste. Additional -1 Constitution for 2 rounds",
+              effectConfig: { statReduction: "constitution", amount: 1, duration: 2 },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Entropic Feedback",
+              effect: "The decay feeds back into your Mayhem gauge. Generate +1d3 Mayhem",
+              effectConfig: { mayhemGain: "1d3" },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Necrotic Leech",
+              effect: "You absorb the target's life force. Heal for half the damage dealt by this spell",
+              effectConfig: { lifestealPercent: 0.5 },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Decay Spores",
+              effect: "Fungal spores erupt. All creatures within 5ft of target take 1d6 necrotic damage and are poisoned for 1 round",
+              effectConfig: { secondaryDamage: "1d6", damageType: "necrotic", radius: 5, poisonDuration: 1 },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Brittle Bones",
+              effect: "Target's bones become brittle. Next physical attack against them crits on 18-20 for 2 rounds",
+              effectConfig: { expandedCritRange: [18, 19, 20], duration: 2 },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Shadow of Decay",
+              effect: "A shadowy copy of the target appears and attacks them once for 1d6 necrotic damage, then vanishes",
+              effectConfig: { shadowAttackDamage: "1d6", damageType: "necrotic" },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Accelerated Rot",
+              effect: "Base debuff doubles: -4 Strength and -4 Armor for 3 rounds instead of -2",
+              effectConfig: { doubleDebuff: true },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "single",
@@ -948,12 +1518,10 @@ GENERATION:
         mana: 7,
         classResource: { type: "mayhem", cost: -3 },
         components: ["verbal", "somatic"],
-        verbalText: "Decay!",
-        somaticText: "Channel entropic decay",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
-      tags: ["chaos", "damage", "debuff", "entropy control"],
+      tags: ["necrotic", "damage", "debuff", "entropy control", "rollable table"],
       specialization: "entropy_control",
     },
 
@@ -964,110 +1532,123 @@ GENERATION:
       id: "chaos_weaver-chaos_dice-prismatic_chaos",
       name: "Prismatic Chaos",
       description:
-        "A kaleidoscope of destruction — roll a d33 to unleash fire, frost, lightning, necrotic, radiant, psychic, or pure golden chaos across a 20ft zone.",
+        "A kaleidoscope of destruction — roll a d33 to unleash fire, frost, lightning, necrotic, radiant, psychic, or pure golden chaos across a 20ft zone, each with bizarre reality-warping side effects.",
       level: 3,
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
       effectTypes: ["damage"],
+      damageConfig: { formula: '4d6', damageTypes: ['chaos'], resolution: 'DICE' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
         tags: ["chaos", "damage", "area", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Prismatic Chaos Effects",
-          description: "Roll on this table to determine the prismatic effect",
+          description: "Roll on this table to determine the prismatic effect with chaotic side effects",
           diceFormula: "1d33",
           entries: [
             {
               range: { min: 1, max: 3 },
               customName: "Red Prism",
-              effect: "Fire damage - 4d6 fire damage in 20ft radius",
+              effect: "4d6 fire damage in 20ft radius + ground becomes molten for 1 round (1d4 fire to anyone walking through)",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "fire",
                 areaShape: "circle",
                 areaRadius: 20,
+                groundEffect: "molten",
+                groundDamage: "1d4",
+                groundDuration: 1,
               },
             },
             {
               range: { min: 4, max: 6 },
               customName: "Orange Prism",
               effect:
-                "Acid damage - 4d6 poison damage, reduces armor by 3 for 2 rounds",
+                "4d6 poison damage + target's skin turns orange and becomes slick. -2 to grapple checks and -10 speed for 2 rounds",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "poison",
-                armorReduction: 3,
-                debuffDuration: 2,
+                speedPenalty: -10,
+                grapplePenalty: -2,
+                duration: 2,
               },
             },
             {
               range: { min: 7, max: 9 },
               customName: "Yellow Prism",
               effect:
-                "Lightning damage - 4d6 lightning damage, chains to 2 additional targets",
+                "4d6 lightning damage, chains to 2 additional targets. Each chain target's hair stands on end (disadvantage on next stealth check)",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "lightning",
                 chainTargets: 2,
+                stealthDisadvantage: true,
               },
             },
             {
               range: { min: 10, max: 12 },
               customName: "Green Prism",
               effect:
-                "Poison damage - 4d6 poison damage, targets poisoned for 1 round",
+                "4d6 poison damage + targets hallucinate. On failed CON save DC 14, they attack the nearest creature (ally or enemy) on their next turn",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "poison",
-                poisonDuration: 1,
+                hallucinationSave: 14,
+                hallucinationDuration: 1,
               },
             },
             {
               range: { min: 13, max: 15 },
               customName: "Blue Prism",
               effect:
-                "Frost damage - 4d6 frost damage, slows targets by 50% for 2 rounds",
+                "4d6 frost damage + all moisture in area freezes solid. Ground becomes ice (difficult terrain) for 2 rounds",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "frost",
-                slowAmount: 0.5,
-                slowDuration: 2,
+                difficultTerrain: true,
+                terrainDuration: 2,
               },
             },
             {
               range: { min: 16, max: 18 },
               customName: "Indigo Prism",
               effect:
-                "Force damage - 4d6 force damage, knocks targets back 15 feet",
+                "4d6 force damage + gravity in area reverses for 1 round. Creatures float upward 10ft then crash down",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "force",
-                knockbackDistance: 15,
+                gravityReverse: true,
+                floatHeight: 10,
+                duration: 1,
               },
             },
             {
               range: { min: 19, max: 21 },
               customName: "Violet Prism",
               effect:
-                "Necrotic damage - 4d6 necrotic damage, heals caster for half damage dealt",
+                "4d6 necrotic damage + all colors drain from affected creatures (they appear grayscale). Heals caster for 25% of damage dealt",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "necrotic",
-                lifestealPercent: 0.5,
+                lifestealPercent: 0.25,
+                colorDrain: true,
               },
             },
             {
               range: { min: 22, max: 24 },
               customName: "White Prism",
               effect:
-                "Radiant damage - 4d6 radiant damage, blinds targets for 1 round",
+                "4d6 radiant damage + area is flooded with blinding light. Targets save CON DC 14 or are blinded for 1 round",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "radiant",
+                blindSave: 14,
                 blindDuration: 1,
               },
             },
@@ -1075,29 +1656,30 @@ GENERATION:
               range: { min: 25, max: 27 },
               customName: "Black Prism",
               effect:
-                "Necrotic damage - 4d6 necrotic damage, creates 20ft radius darkness for 2 rounds",
+                "4d6 necrotic damage + area becomes absolute darkness for 1 round. All creatures inside are blind and deafened",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "necrotic",
                 darknessRadius: 20,
-                darknessDuration: 2,
+                darknessDuration: 1,
               },
             },
             {
               range: { min: 28, max: 30 },
               customName: "Silver Prism",
               effect:
-                "Psychic damage - 4d6 psychic damage, confuses targets for 1 round",
+                "4d6 psychic damage + targets' minds are scrambled. They speak in reverse for 1 round (cannot cast spells with verbal components)",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "psychic",
-                confuseDuration: 1,
+                silenceVerbal: true,
+                duration: 1,
               },
             },
             {
               range: { min: 31, max: 33 },
               customName: "Golden Prism",
-              effect: "Ultimate Chaos - Roll twice more and combine effects",
+              effect: "Ultimate Chaos — Roll twice more on this table and combine both effects",
               effectConfig: { rollTwice: true, noRecurse: true },
             },
           ],
@@ -1115,8 +1697,6 @@ GENERATION:
         mana: 12,
         classResource: { type: "mayhem", cost: 4 },
         components: ["verbal", "somatic"],
-        verbalText: "Prismatic chaos!",
-        somaticText: "Unleash prismatic energy",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
@@ -1127,7 +1707,7 @@ GENERATION:
       id: "chaos_weaver-reality_bending-fractured_realms",
       name: "Fractured Realms",
       description:
-        "Shatter the boundary between planes — fire, ice, void, or storm rifts tear open in a 15ft zone, each with different hazards.",
+        "Shatter the boundary between planes — fire, ice, void, or storm rifts tear open in a 15ft zone, each with different bizarre hazards.",
       level: 3,
       icon: "Arcane/Open Portal",
       spellType: "ACTION",
@@ -1135,13 +1715,9 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Open Portal",
-        tags: [
-          "chaos",
-          "control",
-          "reality bending",
-          "rollable table",
-          "terrain",
-        ],
+        tags: ["chaos", "control", "reality bending", "rollable table", "terrain"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -1151,9 +1727,9 @@ GENERATION:
           diceFormula: "1d20",
           entries: [
             {
-              range: { min: 1, max: 4 },
+              range: { min: 1, max: 3 },
               customName: "Fire Rift",
-              effect: "Creates 3d6 fire damage area that persists for 2 rounds",
+              effect: "3d6 fire damage area that persists for 2 rounds. The flames are alive and whisper insults at passersby",
               effectConfig: {
                 damageFormula: "3d6",
                 damageType: "fire",
@@ -1163,10 +1739,10 @@ GENERATION:
               },
             },
             {
-              range: { min: 5, max: 8 },
+              range: { min: 4, max: 6 },
               customName: "Ice Rift",
               effect:
-                "Freezes ground, creating difficult terrain and 2d6 frost damage per turn",
+                "Freezes ground (difficult terrain) and 2d6 frost damage per turn for 3 rounds. Frozen whispers cause targets to speak in icicles",
               effectConfig: {
                 damageFormula: "2d6",
                 damageType: "frost",
@@ -1175,17 +1751,17 @@ GENERATION:
               },
             },
             {
-              range: { min: 9, max: 12 },
+              range: { min: 7, max: 9 },
               customName: "Void Rift",
               effect:
-                "Teleports all creatures in area to random locations within 30 feet",
-              effectConfig: { teleportRadius: 30 },
+                "Teleports all creatures in area to random locations within 30ft. A void wisp escapes and follows the caster for 1 round (cosmetic)",
+              effectConfig: { teleportRadius: 30, voidWisp: true },
             },
             {
-              range: { min: 13, max: 16 },
+              range: { min: 10, max: 12 },
               customName: "Storm Rift",
               effect:
-                "Creates lightning storm, 3d6 lightning damage to random targets each round for 2 rounds",
+                "Creates localized thunderstorm: 3d6 lightning damage to random targets each round for 2 rounds. The storm sounds like distant laughter",
               effectConfig: {
                 damageFormula: "3d6",
                 damageType: "lightning",
@@ -1194,10 +1770,24 @@ GENERATION:
               },
             },
             {
-              range: { min: 17, max: 19 },
+              range: { min: 13, max: 14 },
+              customName: "Gravity Rift",
+              effect:
+                "Gravity in the area becomes sideways. All creatures slide 15ft in one direction and are knocked prone. Lasts 2 rounds",
+              effectConfig: { gravityDirection: "sideways", slideDistance: 15, prone: true, duration: 2 },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Mirror Rift",
+              effect:
+                "A mirror dimension overlaps the area. 1d4 illusory duplicates of each creature appear. All attacks in area have 50% miss chance for 2 rounds",
+              effectConfig: { mirrorDuplicates: "1d4", missChance: 50, duration: 2 },
+            },
+            {
+              range: { min: 17, max: 18 },
               customName: "Healing Rift",
               effect:
-                "Restorative energies heal allies in area for 3d6 each round for 2 rounds",
+                "Restorative energies heal allies in area for 3d6 each round for 2 rounds. The air smells like fresh rain",
               effectConfig: {
                 healingFormula: "3d6",
                 duration: 2,
@@ -1205,13 +1795,37 @@ GENERATION:
               },
             },
             {
+              range: { min: 19, max: 19 },
+              customName: "Temporal Rift",
+              effect:
+                "Time in the area freezes for 1 round. Only the caster can act within it. Mayhem cost: +3 additional",
+              effectConfig: { timeStop: true, duration: 1, mayhemSurcharge: 3 },
+            },
+            {
               range: { min: 20, max: 20 },
               customName: "Chaos Rift",
-              effect: "Roll on Wild Magic Surge table for area effect",
+              effect: "Roll on the Wild Surge Effects table for an area-wide effect",
               effectConfig: { wildMagicSurge: true },
             },
           ],
         },
+      },
+      damageConfig: {
+        formula: "3d6",
+        damageTypes: ["chaos"],
+        resolution: "DICE",
+      },
+      controlConfig: {
+        controlType: "battlefield_control",
+        effects: [
+          {
+            id: "chaos_control",
+            name: "Chaos Control",
+            description: "Varies by table result",
+          },
+        ],
+        duration: 1,
+        durationUnit: "rounds",
       },
       targetingConfig: {
         targetingType: "area",
@@ -1225,76 +1839,64 @@ GENERATION:
         mana: 10,
         classResource: { type: "mayhem", cost: 3 },
         components: ["verbal", "somatic"],
-        verbalText: "Realms fracture!",
-        somaticText: "Shatter reality boundaries",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       resolution: "DICE",
-      tags: [
-        "chaos",
-        "control",
-        "terrain",
-        "reality bending",
-        "rollable table",
-      ],
+      tags: ["chaos", "control", "terrain", "reality bending", "rollable table"],
       specialization: "reality_bending",
     },
     {
       id: "chaos_weaver-entropy_control-chaos_burst",
       name: "Chaos Burst",
       description:
-        "An explosion of entropic energy — each burst randomly corrupts, poisons, blinds, or collapses matter with double-damage void hits.",
+        "An explosion of entropic energy — each burst randomly corrupts, poisons, blinds, warps reality, or collapses matter.",
       level: 3,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
+      damageConfig: { formula: '5d6', damageTypes: ['chaos'], resolution: 'DICE' },
+      debuffConfig: { debuffType: 'statusEffect', effects: [{ id: 'chaos_debuff', name: 'Chaos Debuff', description: 'Varies by table result' }], durationType: 'rounds', durationValue: 2, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Radiant/Radiant Divinity",
-        tags: [
-          "chaos",
-          "damage",
-          "debuff",
-          "entropy control",
-          "rollable table",
-        ],
+        tags: ["chaos", "damage", "debuff", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Chaos Burst Effects",
-          description: "Roll on this table to determine the burst effect",
+          description: "Roll on this table to determine the burst's chaotic effect",
           diceFormula: "1d12",
           entries: [
             {
-              range: { min: 1, max: 2 },
+              range: { min: 1, max: 1 },
               customName: "Necrotic Burst",
-              effect: "5d6 necrotic damage, reduces strength by 3 for 2 rounds",
+              effect: "5d6 necrotic damage + target's shadow detaches and attacks them for 1d4 next round",
               effectConfig: {
                 damageFormula: "5d6",
                 damageType: "necrotic",
-                statReduction: "strength",
-                reductionAmount: 3,
-                debuffDuration: 2,
+                shadowAttack: "1d4",
+                shadowDuration: 1,
               },
             },
             {
-              range: { min: 3, max: 4 },
+              range: { min: 2, max: 2 },
               customName: "Acid Burst",
-              effect: "5d6 poison damage, reduces armor by 4 for 3 rounds",
+              effect: "5d6 poison damage + target's armor dissolves. -4 armor for 3 rounds (the acid smells like lemons)",
               effectConfig: {
                 damageFormula: "5d6",
                 damageType: "poison",
-                statReduction: "armor",
-                reductionAmount: 4,
+                armorReduction: 4,
                 debuffDuration: 3,
               },
             },
             {
-              range: { min: 5, max: 6 },
+              range: { min: 3, max: 3 },
               customName: "Poison Burst",
               effect:
-                "4d6 poison damage, poisons targets (2d6 poison damage per turn for 3 rounds)",
+                "4d6 poison damage + targets poisoned (2d6 poison damage per turn for 3 rounds). Their skin turns a lovely shade of green",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "poison",
@@ -1303,9 +1905,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 7, max: 8 },
+              range: { min: 4, max: 4 },
               customName: "Shadow Burst",
-              effect: "5d6 necrotic damage, blinds targets for 2 rounds",
+              effect: "5d6 necrotic damage + blinds targets for 2 rounds. They can only see in shades of purple",
               effectConfig: {
                 damageFormula: "5d6",
                 damageType: "necrotic",
@@ -1313,25 +1915,94 @@ GENERATION:
               },
             },
             {
-              range: { min: 9, max: 10 },
-              customName: "Chaos Burst",
-              effect:
-                "4d6 random damage type + random debuff (roll d4: 1=slow 50%, 2=weaken -2 to dmg, 3=confuse, 4=stun 1rd (DC 15))",
+              range: { min: 5, max: 5 },
+              customName: "Gravity Burst",
+              effect: "4d6 force damage + all creatures in area float 10ft upward for 1 round, then crash down for 1d6 falling damage",
               effectConfig: {
                 damageFormula: "4d6",
-                damageType: "random",
-                randomDebuff: true,
+                damageType: "force",
+                floatHeight: 10,
+                fallDamage: "1d6",
+                duration: 1,
               },
             },
             {
-              range: { min: 11, max: 12 },
+              range: { min: 6, max: 6 },
+              customName: "Temporal Burst",
+              effect: "4d6 force damage + targets act 1 round in the past. They repeat their last action involuntarily next turn",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                repeatAction: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Probability Burst",
+              effect: "4d6 random damage + target's next 3 rolls are inverted (high becomes low, low becomes high)",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "random",
+                invertRolls: 3,
+              },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Spore Burst",
+              effect:
+                "4d6 poison damage + explosive fungal growth covers the area. Difficult terrain for 2 rounds",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "poison",
+                difficultTerrain: true,
+                terrainDuration: 2,
+              },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Chromatic Burst",
+              effect: "4d6 random elemental damage + the area becomes a blinding kaleidoscope. Disadvantage on all ranged attacks into/from area for 2 rounds",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "random",
+                rangedDisadvantage: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Midas Burst",
+              effect:
+                "4d6 force damage + all non-magical items in area turn to gold for 1 round (creatures holding them are encumbered), then crumble to dust",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                midasEffect: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 11, max: 11 },
+              customName: "Size Shuffle Burst",
+              effect: "4d6 force damage + all creatures in area randomly become tiny or huge for 1 round",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                sizeChange: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 12, max: 12 },
               customName: "Void Burst",
               effect:
-                "6d6 necrotic damage, targets make Constitution save or take double damage",
+                "6d6 necrotic damage + targets make Constitution save DC 15 or take double damage. The void hungers",
               effectConfig: {
                 damageFormula: "6d6",
                 damageType: "necrotic",
                 saveType: "constitution",
+                saveDC: 15,
                 doubleDamage: true,
               },
             },
@@ -1350,8 +2021,6 @@ GENERATION:
         mana: 9,
         classResource: { type: "mayhem", cost: 2 },
         components: ["verbal", "somatic"],
-        verbalText: "Chaos burst!",
-        somaticText: "Release entropic burst",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
@@ -1366,7 +2035,7 @@ GENERATION:
       id: "chaos_weaver-reality_bending-reality_swap",
       name: "Reality Swap",
       description:
-        "Scramble everyone's position — all creatures in a 20ft zone are randomly teleported, swapping places in an instant.",
+        "Scramble everyone's position — all creatures in a 20ft zone are randomly teleported, swapping places. Roll on the Swap Table to see what happens during the scramble.",
       level: 4,
       icon: "Arcane/Quick Step",
       spellType: "ACTION",
@@ -1374,31 +2043,160 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Quick Step",
-        tags: ["chaos", "control", "reality bending", "forced movement"],
+        tags: ["chaos", "control", "reality bending", "forced movement", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       controlConfig: {
         controlType: "forcedMovement",
         strength: "strong",
         duration: 0,
         durationUnit: "instant",
-        saveDC: 15,
-        saveType: "charisma",
-        saveOutcome: "negates",
-        savingThrow: true,
         effects: [
           {
             id: "swap",
             name: "Position Swap",
             description:
-              "Swap positions with all creatures in the area randomly",
+              "Swap positions with all creatures in the area randomly. DC 15 Cha save to resist.",
             config: {
               movementType: "swap",
               randomSwap: true,
               saveDC: 15,
-              saveType: "dexterity",
+              saveType: "charisma",
             },
           },
         ],
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Reality Swap Effects",
+          description:
+            "When you scramble reality, something always goes slightly wrong (or hilariously right)",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Clean Swap",
+              effect: "All creatures swap positions cleanly. No additional effect",
+              effectConfig: { cleanSwap: true },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Dizzy Swap",
+              effect: "All creatures are disoriented after the swap. -2 to their next attack roll",
+              effectConfig: { attackPenalty: -2, duration: 1 },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Armor Shuffle",
+              effect: "All creatures' armor classes are randomly redistributed among them for 1 round",
+              effectConfig: { armorShuffle: true, duration: 1 },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Mayhem Surge",
+              effect: "The spatial distortion generates extra Mayhem. Gain +1d4 Mayhem",
+              effectConfig: { mayhemGain: "1d4" },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Gravity Flip",
+              effect: "Gravity reverses in the area for 1 round after the swap. Everyone floats upward 10ft",
+              effectConfig: { gravityReverse: true, floatHeight: 10, duration: 1 },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Identity Crisis",
+              effect: "All swapped creatures believe they ARE the creature they swapped with for 1 round. They attack their own allies",
+              effectConfig: { identitySwap: true, duration: 1 },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Equipment Swap",
+              effect: "All creatures in area swap their held weapons/shields with each other randomly",
+              effectConfig: { equipmentSwap: true },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Size Confusion",
+              effect: "All creatures in area become randomly tiny or huge for 1 round after the swap",
+              effectConfig: { randomSize: true, duration: 1 },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Temporal Drag",
+              effect: "All creatures are 3 seconds out of sync with reality after the swap. Movement halved for 1 round",
+              effectConfig: { speedPenalty: 0.5, duration: 1 },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Shadow Swap",
+              effect: "Everyone swaps AND their shadows don't follow. Disadvantage on stealth for all affected for 2 rounds",
+              effectConfig: { shadowDetach: true, stealthDisadvantage: true, duration: 2 },
+            },
+            {
+              range: { min: 11, max: 11 },
+              customName: "Pocket Swap",
+              effect: "Everyone's left boot is swapped with someone else's. -5 speed for all affected for 2 rounds",
+              effectConfig: { bootSwap: true, speedPenalty: -5, duration: 2 },
+            },
+            {
+              range: { min: 12, max: 12 },
+              customName: "Double Swap",
+              effect: "Swap happens TWICE. All creatures end up somewhere completely different than expected",
+              effectConfig: { doubleSwap: true },
+            },
+            {
+              range: { min: 13, max: 13 },
+              customName: "Quantum Entanglement Swap",
+              effect: "Two random swapped creatures become quantum-entangled for 2 rounds. When one takes damage, the other takes half",
+              effectConfig: { quantumLink: true, linkDuration: 2 },
+            },
+            {
+              range: { min: 14, max: 14 },
+              customName: "Mirror Swap",
+              effect: "All swapped creatures leave behind a mirror duplicate at their original position for 1 round. 50% miss chance on attacks targeting either",
+              effectConfig: { mirrorDuplicate: true, missChance: 50, duration: 1 },
+            },
+            {
+              range: { min: 15, max: 15 },
+              customName: "Spaghettification Swap",
+              effect: "All creatures' limbs stretch during the swap. +5ft reach but -2 Dexterity checks for 1 round",
+              effectConfig: { reachBonus: 5, dexPenalty: -2, duration: 1 },
+            },
+            {
+              range: { min: 16, max: 16 },
+              customName: "Probability Inversion",
+              effect: "The swap inverts probability. For 1 round, the next attack that would hit a swapped creature misses, and vice versa",
+              effectConfig: { probabilityInvert: true, duration: 1 },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Color Storm Swap",
+              effect: "The area erupts with eye-searing colors. All swapped creatures save CHA DC 14 or be dazzled (disadvantage on attacks) for 1 round",
+              effectConfig: { saveDC: 14, saveType: "charisma", dazzleDuration: 1 },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Cosmic Flatulence Swap",
+              effect: "The dimensional tear releases interdimensional gas. 1d4 psychic damage to all creatures in area. Stealth impossible for 1 hour",
+              effectConfig: { damageFormula: "1d4", damageType: "psychic", stealthBlocked: true },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Weather Pop Swap",
+              effect: "The swap displaces local weather. Extreme localized weather (DM's choice) affects the area for 2 rounds: 1d6 random elemental damage per round",
+              effectConfig: { weatherDamage: "1d6", damageType: "random_elemental", duration: 2 },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Chaos Butterfly Swap",
+              effect: "A butterfly made of pure chaos witnesses the swap. Roll again on this table for a secondary effect (ignoring 20s)",
+              effectConfig: { rollAgain: true, excludeSelf: true },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "area",
@@ -1412,35 +2210,31 @@ GENERATION:
         mana: 14,
         classResource: { type: "mayhem", cost: 3 },
         components: ["verbal", "somatic"],
-        verbalText: "Reality swap!",
-        somaticText: "Swap positions with gesture",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       resolution: "DICE",
-      tags: ["chaos", "control", "forced movement", "reality bending"],
+      tags: ["chaos", "control", "forced movement", "reality bending", "rollable table"],
       specialization: "reality_bending",
     },
     {
       id: "chaos_weaver-entropy_control-chaos_wave",
       name: "Chaos Wave",
       description:
-        "A cone of entropic decay that strips strength, constitution, and armor from everyone caught in its path.",
+        "A cone of entropic decay that strips strength, constitution, and armor from everyone caught in its path. Roll on the Decay Table for additional chaotic rot effects.",
       level: 4,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "damage", "debuff", "entropy control"],
+        tags: ["necrotic", "damage", "debuff", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "6d6 + intelligence * 1.5",
         damageTypes: ["necrotic"],
-        areaShape: "cone",
-        areaParameters: { length: 40 },
-        criticalConfig: { enabled: true, critMultiplier: 2 },
         resolution: "DICE",
       },
       debuffConfig: {
@@ -1449,20 +2243,20 @@ GENERATION:
           {
             id: "strength_reduction",
             name: "Strength Reduction",
-            description: "-3 Strength",
+            description: "-3 Strength for 4 Rounds",
             statModifier: {
               stat: "strength",
-              magnitude: 3,
+              magnitude: -3,
               magnitudeType: "flat",
             },
           },
           {
             id: "constitution_reduction",
             name: "Constitution Reduction",
-            description: "-3 Constitution",
+            description: "-3 Constitution for 4 Rounds",
             statModifier: {
               stat: "constitution",
-              magnitude: 3,
+              magnitude: -3,
               magnitudeType: "flat",
             },
           },
@@ -1472,7 +2266,7 @@ GENERATION:
             description: "-4 Armor for 4 Rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 4,
+              magnitude: -4,
               magnitudeType: "flat",
             },
           },
@@ -1480,9 +2274,93 @@ GENERATION:
         durationType: "rounds",
         durationValue: 4,
         durationUnit: "rounds",
-        saveDC: 16,
-        saveType: "constitution",
-        saveOutcome: "negates",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Chaos Wave Decay Effects",
+          description: "The wave of decay carries one of these entropic side effects",
+          diceFormula: "1d12",
+          entries: [
+            {
+              range: { min: 1, max: 1 },
+              customName: "Iron Rot Wave",
+              effect: "Additional -2 armor for 2 rounds (stacks with base debuff). Metal equipment groans and crumbles",
+              effectConfig: { extraArmorReduction: 2, duration: 2 },
+            },
+            {
+              range: { min: 2, max: 2 },
+              customName: "Muscle Wasting Wave",
+              effect: "Additional -2 Strength for 2 rounds. Affected creatures' arms wobble like jelly",
+              effectConfig: { statReduction: "strength", amount: 2, duration: 2 },
+            },
+            {
+              range: { min: 3, max: 3 },
+              customName: "Entropic Feedback Wave",
+              effect: "The wave resonates with your Mayhem gauge. Generate +1d3 Mayhem from the entropic resonance",
+              effectConfig: { mayhemGain: "1d3" },
+            },
+            {
+              range: { min: 4, max: 4 },
+              customName: "Decay Spores Wave",
+              effect: "Fungal spores ride the wave. All creatures within 5ft behind the cone take 1d6 necrotic damage",
+              effectConfig: { secondaryDamage: "1d6", damageType: "necrotic", radius: 5 },
+            },
+            {
+              range: { min: 5, max: 5 },
+              customName: "Accelerated Wave",
+              effect: "Base debuff doubles: -6 Str, -6 Con, -8 Armor for 4 rounds. The decay is RAVENOUS",
+              effectConfig: { doubleDebuff: true },
+            },
+            {
+              range: { min: 6, max: 6 },
+              customName: "Necrotic Leech Wave",
+              effect: "You absorb the wave's life force. Heal for half the damage dealt by this spell",
+              effectConfig: { lifestealPercent: 0.5 },
+            },
+            {
+              range: { min: 7, max: 7 },
+              customName: "Shadow Wave",
+              effect: "A shadow copy of each target appears and attacks them once for 1d6 necrotic damage, then dissolves into smoke",
+              effectConfig: { shadowAttackDamage: "1d6", damageType: "necrotic" },
+            },
+            {
+              range: { min: 8, max: 8 },
+              customName: "Brittle Wave",
+              effect: "Targets become incredibly fragile. Next physical attack against them crits on 17-20 for 2 rounds",
+              effectConfig: { expandedCritRange: [17, 18, 19, 20], duration: 2 },
+            },
+            {
+              range: { min: 9, max: 9 },
+              customName: "Entropy Glow Wave",
+              effect: "Targets glow sickly green and are visible through walls. Disadvantage on stealth for 2 rounds. The glow whispers their fears",
+              effectConfig: { glowVisible: true, stealthDisadvantage: true, duration: 2 },
+            },
+            {
+              range: { min: 10, max: 10 },
+              customName: "Spaghettification Wave",
+              effect: "Targets' limbs stretch grotesquely. +5ft reach but -2 Dexterity for 1 round. They look like melted candles",
+              effectConfig: { reachBonus: 5, dexPenalty: -2, duration: 1 },
+            },
+            {
+              range: { min: 11, max: 11 },
+              customName: "Chaos Butterfly Wave",
+              effect: "A butterfly of decay flutters by. Roll again on this table for a secondary effect (ignoring 11s and 12s)",
+              effectConfig: { rollAgain: true, excludeSelf: true },
+            },
+            {
+              range: { min: 12, max: 12 },
+              customName: "Cosmic Flatulence Wave",
+              effect: "The wave carries a terrible odor. 1d4 psychic damage to all creatures in the cone. Stealth impossible for 1 hour. The stench lingers through dimensions",
+              effectConfig: { damageFormula: "1d4", damageType: "psychic", stealthBlocked: true },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "cone",
@@ -1496,27 +2374,28 @@ GENERATION:
         mana: 16,
         classResource: { type: "mayhem", cost: -5 },
         components: ["verbal", "somatic"],
-        verbalText: "Chaos wave!",
-        somaticText: "Unleash wave of entropy",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
       resolution: "DICE",
-      tags: ["chaos", "damage", "debuff", "entropy control"],
+      tags: ["necrotic", "damage", "debuff", "entropy control", "rollable table"],
       specialization: "entropy_control",
     },
     {
       id: "chaos_weaver-chaos_dice-chaos_storm",
       name: "Chaos Storm",
       description:
-        "THE signature spell — a d100 table of catastrophe. Minor storms, void, fire, frost, entropy, or reality apocalypse await.",
+        "THE signature spell — a d100 table of catastrophe. Minor storms, void, fire, frost, entropy, reality apocalypse, or bizarre cosmic anomalies await.",
       level: 4,
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
       effectTypes: ["damage"],
+      damageConfig: { formula: '8d6', damageTypes: ['chaos'], resolution: 'DICE' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
         tags: ["chaos", "damage", "storm", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -1528,7 +2407,7 @@ GENERATION:
             {
               range: { min: 1, max: 10 },
               customName: "Minor Storm",
-              effect: "6d6 random damage in 25ft radius",
+              effect: "6d6 random damage in 25ft radius. The storm is underwhelmed and apologizes",
               effectConfig: {
                 damageFormula: "6d6",
                 damageType: "random",
@@ -1539,7 +2418,7 @@ GENERATION:
             {
               range: { min: 11, max: 20 },
               customName: "Lightning Storm",
-              effect: "8d6 lightning damage, chains between all targets",
+              effect: "8d6 lightning damage, chains between all targets. The air smells of burnt copper",
               effectConfig: {
                 damageFormula: "8d6",
                 damageType: "lightning",
@@ -1550,36 +2429,38 @@ GENERATION:
               range: { min: 21, max: 30 },
               customName: "Fire Storm",
               effect:
-                "7d6 fire damage, leaves burning areas (2d6 fire damage per turn)",
+                "7d6 fire damage + leaves burning areas (2d6 fire per turn for 2 rounds). Flames form faces that silently scream",
               effectConfig: {
                 damageFormula: "7d6",
                 damageType: "fire",
                 burningAreas: true,
                 burnDamage: "2d6",
+                burnDuration: 2,
               },
             },
             {
               range: { min: 31, max: 40 },
               customName: "Frost Storm",
-              effect: "7d6 frost damage, freezes ground for 3 rounds",
+              effect: "7d6 frost damage + ground becomes a frozen lake (difficult terrain) for 3 rounds. Ice sculptures of the targets briefly form",
               effectConfig: {
                 damageFormula: "7d6",
                 damageType: "frost",
                 freezeDuration: 3,
+                difficultTerrain: true,
               },
             },
             {
               range: { min: 41, max: 50 },
               customName: "Void Storm",
               effect:
-                "Mass teleport - all creatures in area teleported randomly within 60 feet",
-              effectConfig: { teleportRadius: 60 },
+                "Mass teleport — all creatures in area teleported randomly within 60ft. A void whale sings in the distance",
+              effectConfig: { teleportRadius: 60, voidWhale: true },
             },
             {
               range: { min: 51, max: 60 },
               customName: "Chaos Storm",
               effect:
-                "9d6 random damage type in 30ft radius + random terrain change",
+                "9d6 random damage in 30ft radius + terrain transforms into random biome (desert/jungle/tundra/swamp)",
               effectConfig: {
                 damageFormula: "9d6",
                 damageType: "random",
@@ -1589,10 +2470,21 @@ GENERATION:
               },
             },
             {
-              range: { min: 61, max: 70 },
+              range: { min: 61, max: 65 },
+              customName: "Gravity Storm",
+              effect: "6d6 force damage + gravity reverses for 2 rounds. Everything falls upward then crashes back down",
+              effectConfig: {
+                damageFormula: "6d6",
+                damageType: "force",
+                gravityReverse: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 66, max: 70 },
               customName: "Reality Storm",
               effect:
-                "6d6 force damage + random reality effect (time acceleration, gravity change, etc.)",
+                "6d6 force damage + random reality effect: time speeds up (all actions next round), gravity doubles (half speed), or everyone swaps bodies for 1 round",
               effectConfig: {
                 damageFormula: "6d6",
                 damageType: "force",
@@ -1600,10 +2492,10 @@ GENERATION:
               },
             },
             {
-              range: { min: 71, max: 80 },
+              range: { min: 71, max: 75 },
               customName: "Entropy Storm",
               effect:
-                "8d6 necrotic damage, all targets have armor reduced by 6 for 4 rounds",
+                "8d6 necrotic damage + all targets' armor crumbles. -6 armor for 4 rounds",
               effectConfig: {
                 damageFormula: "8d6",
                 damageType: "necrotic",
@@ -1612,9 +2504,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 81, max: 90 },
+              range: { min: 76, max: 80 },
               customName: "Primal Storm",
-              effect: "10d6 random elemental damage in 35ft radius",
+              effect: "10d6 random elemental damage in 35ft radius. Two random elements clash in the storm",
               effectConfig: {
                 damageFormula: "10d6",
                 damageType: "elemental_random",
@@ -1623,10 +2515,19 @@ GENERATION:
               },
             },
             {
-              range: { min: 91, max: 95 },
+              range: { min: 81, max: 85 },
+              customName: "Probability Storm",
+              effect: "All d20 rolls in the area are inverted for 2 rounds — natural 1s become crits, natural 20s become failures",
+              effectConfig: {
+                probabilityInvert: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 86, max: 90 },
               customName: "Cataclysmic Storm",
               effect:
-                "12d6 random damage + all creatures make DC 18 save or stunned for 1 round",
+                "12d6 random damage + all creatures make DC 18 Con save or stunned for 1 round. The ground cracks open",
               effectConfig: {
                 damageFormula: "12d6",
                 damageType: "random",
@@ -1634,17 +2535,39 @@ GENERATION:
               },
             },
             {
-              range: { min: 96, max: 100 },
+              range: { min: 91, max: 95 },
+              customName: "Cosmic Anomaly",
+              effect:
+                "Stars briefly visible indoors. 14d6 radiant damage in 40ft radius + all undead take double. Mayhem generated: +1d8",
+              effectConfig: {
+                damageFormula: "14d6",
+                damageType: "radiant",
+                areaShape: "circle",
+                areaRadius: 40,
+                undeadDouble: true,
+                mayhemGain: "1d8",
+              },
+            },
+            {
+              range: { min: 96, max: 99 },
               customName: "Reality Apocalypse",
               effect:
-                "15d6 random damage in 40ft radius + random planar rift opens",
+                "15d6 random damage in 40ft radius + a random planar rift opens, pulling everything toward it for 1 round",
               effectConfig: {
                 damageFormula: "15d6",
                 damageType: "random",
                 areaShape: "circle",
                 areaRadius: 40,
                 planarRift: true,
+                pullEffect: true,
               },
+            },
+            {
+              range: { min: 100, max: 100 },
+              customName: "The Storm Chooses",
+              effect:
+                "Roll TWICE on this table and apply BOTH effects. If both are 100, the DM must buy pizza next session",
+              effectConfig: { rollTwice: true, noRecurse: true },
             },
           ],
         },
@@ -1661,8 +2584,6 @@ GENERATION:
         mana: 18,
         classResource: { type: "mayhem", cost: 6 },
         components: ["verbal", "somatic"],
-        verbalText: "Chaos storm!",
-        somaticText: "Unleash catastrophic storm",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       resolution: "DICE",
@@ -1677,80 +2598,179 @@ GENERATION:
       id: "chaos_weaver-entropy_control-discordant_strike",
       name: "Discordant Strike",
       description:
-        "Infuse your weapon with a random element — necrotic, acid, lightning, fire, or pure chaos — each with a different bonus effect.",
+        "Infuse your weapon with a random element — necrotic, acid, lightning, fire, frost, or pure chaos — each with a different chaotic bonus effect.",
       level: 5,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage"],
+      damageConfig: { formula: '5d6', damageTypes: ['chaos'], resolution: 'DICE' },
       typeConfig: {
         school: "chaos",
         icon: "Radiant/Radiant Divinity",
-        tags: [
-          "chaos",
-          "damage",
-          "weapon",
-          "entropy control",
-          "rollable table",
-        ],
+        tags: ["chaos", "damage", "weapon", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Discordant Strike Effects",
-          description: "Your weapon strike produces one of these effects",
-          diceFormula: "1d10",
+          description: "Your weapon strike produces one of these chaotic elemental effects",
+          diceFormula: "1d20",
           entries: [
             {
               range: { min: 1, max: 2 },
               customName: "Necrotic Strike",
-              effect: "Weapon deals +4d6 necrotic damage, target poisoned",
+              effect: "+4d6 necrotic damage + target's shadow peels off and attacks them for 1d4 necrotic next round",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "necrotic",
-                poisonEffect: true,
+                shadowAttack: "1d4",
               },
             },
             {
               range: { min: 3, max: 4 },
               customName: "Acid Strike",
-              effect: "Weapon deals +4d6 poison damage, reduces armor by 3",
+              effect: "+4d6 poison damage + target's armor dissolves (-3 armor for 3 rounds). Smells of lemons",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "poison",
                 armorReduction: 3,
+                debuffDuration: 3,
               },
             },
             {
               range: { min: 5, max: 6 },
               customName: "Lightning Strike",
               effect:
-                "Weapon deals +4d6 lightning damage, chains to nearby enemy",
+                "+4d6 lightning damage + chains to nearby enemy within 15ft. Target's hair stands on end for 1 hour",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "lightning",
                 chainTarget: true,
+                chainRange: 15,
               },
             },
             {
               range: { min: 7, max: 8 },
               customName: "Fire Strike",
               effect:
-                "Weapon deals +4d6 fire damage, target burns for 2d6 per turn",
+                "+4d6 fire damage + target burns for 2d6 per turn for 2 rounds. The flames are blue and whisper secrets",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "fire",
                 burnDamage: "2d6",
+                burnDuration: 2,
               },
             },
             {
               range: { min: 9, max: 10 },
+              customName: "Frost Strike",
+              effect: "+4d6 frost damage + target's weapon arm freezes. Cannot make opportunity attacks for 2 rounds",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "frost",
+                noOpportunity: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Void Strike",
+              effect: "+4d6 necrotic damage + heals you for 50% of damage dealt. The void drinks deep",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "necrotic",
+                lifestealPercent: 0.5,
+              },
+            },
+            {
+              range: { min: 13, max: 13 },
+              customName: "Midas Strike",
+              effect:
+                "+4d6 force damage + target's weapon turns to gold for 1 round (+3 damage), then crumbles (disarmed for 1 round)",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                midasWeapon: true,
+                bonusDamage: 3,
+                disarmDuration: 1,
+              },
+            },
+            {
+              range: { min: 14, max: 14 },
+              customName: "Gravity Strike",
+              effect: "+4d6 force damage + target is launched 10ft upward and crashes down for 1d6 falling damage",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                launchHeight: 10,
+                fallDamage: "1d6",
+              },
+            },
+            {
+              range: { min: 15, max: 15 },
+              customName: "Temporal Strike",
+              effect: "+4d6 force damage + target's next action is delayed to end of initiative order for 1 round",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                delayEffect: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 16, max: 16 },
+              customName: "Probability Strike",
+              effect: "+4d6 force damage + target's next 3 dice rolls are inverted (high becomes low, low becomes high)",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "force",
+                invertRolls: 3,
+              },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Shadow Strike",
+              effect: "+4d6 necrotic damage + your shadow peels off and makes a free attack on the target for 1d6 damage, then returns",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "necrotic",
+                shadowAttackDamage: "1d6",
+              },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Radiant Strike",
+              effect: "+4d6 radiant damage + undead take double damage from this strike. The light briefly blinds all within 10ft for 1 round (CON DC 14 negates)",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "radiant",
+                undeadDouble: true,
+                blindSave: 14,
+                blindDuration: 1,
+              },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Entropy Strike",
+              effect: "+4d6 necrotic damage + target loses 1d4 from a random stat for 2 rounds",
+              effectConfig: {
+                damageFormula: "4d6",
+                damageType: "necrotic",
+                randomStatDrain: "1d4",
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 20, max: 20 },
               customName: "Chaos Strike",
               effect:
-                "Weapon deals +6d6 random damage type, random secondary effect",
+                "+6d6 random damage type + roll on Wild Surge Effects table for a secondary effect",
               effectConfig: {
                 damageFormula: "6d6",
                 damageType: "random",
-                secondaryEffect: "random",
+                secondaryTable: "wild_surge",
               },
             },
           ],
@@ -1767,8 +2787,6 @@ GENERATION:
         mana: 12,
         classResource: { type: "mayhem", cost: 2 },
         components: ["verbal", "somatic"],
-        verbalText: "Discordant strike!",
-        somaticText: "Infuse weapon with chaos",
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       resolution: "DICE",
@@ -1784,10 +2802,13 @@ GENERATION:
       icon: "Fire/Hellfire",
       spellType: "ACTION",
       effectTypes: ["damage"],
+      damageConfig: { formula: '8d6', damageTypes: ['chaos'], resolution: 'DICE' },
       typeConfig: {
         school: "chaos",
         icon: "Fire/Hellfire",
         tags: ["chaos", "damage", "pulse", "wild magic", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -1923,6 +2944,8 @@ GENERATION:
         school: "chaos",
         icon: "Arcane/Open Portal",
         tags: ["chaos", "utility", "defense", "reality bending"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       utilityConfig: {
         utilityType: "defense",
@@ -1976,6 +2999,8 @@ GENERATION:
         school: "chaos",
         icon: "Nature/Nature Wild 1",
         tags: ["chaos", "utility", "mayhem", "wild magic", "resource"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       utilityConfig: {
         utilityType: "resource",
@@ -2013,6 +3038,8 @@ GENERATION:
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '8d6', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
@@ -2024,6 +3051,8 @@ GENERATION:
           "reality bending",
           "rollable table",
         ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -2036,26 +3065,26 @@ GENERATION:
             {
               range: { min: 1, max: 3 },
               customName: "Time Warp",
-              effect: "Creature ages or de-ages 1d10 years",
+              effect: "Creature ages or de-ages 1d10 years. Their voice temporarily becomes that of a child or elderly person",
               effectConfig: { effectType: "time_warp", ageChange: "1d10" },
             },
             {
               range: { min: 4, max: 6 },
               customName: "Gravity Shift",
-              effect: "Creature floats or sinks for 3 rounds",
+              effect: "Creature floats or sinks for 3 rounds. The ground becomes their ceiling (or vice versa)",
               effectConfig: { effectType: "gravity_shift", duration: 3 },
             },
             {
               range: { min: 7, max: 9 },
               customName: "Size Change",
-              effect: "Creature becomes giant or tiny for 2 rounds",
+              effect: "Creature becomes giant (+4 STR, -10 speed) or tiny (-4 STR, +10 speed) for 2 rounds",
               effectConfig: { effectType: "size_change", duration: 2 },
             },
             {
               range: { min: 10, max: 12 },
               customName: "Elemental Shift",
               effect:
-                "Creature becomes resistant or vulnerable to random element",
+                "Creature becomes resistant to one random element but vulnerable to another",
               effectConfig: {
                 effectType: "elemental_shift",
                 randomElement: true,
@@ -2064,7 +3093,7 @@ GENERATION:
             {
               range: { min: 13, max: 15 },
               customName: "Mirror Image",
-              effect: "Creature creates 1d4 illusory duplicates",
+              effect: "Creature creates 1d4 illusory duplicates that mimic their actions. Attacks against them have 50% miss chance per duplicate",
               effectConfig: {
                 effectType: "mirror_image",
                 duplicateCount: "1d4",
@@ -2074,38 +3103,50 @@ GENERATION:
               range: { min: 16, max: 18 },
               customName: "Phasing",
               effect:
-                "Creature phases in and out of reality, gaining advantage on attacks",
+                "Creature phases in and out of reality, gaining advantage on all defenses but disadvantage on attacks for 3 rounds",
               effectConfig: { effectType: "phasing", duration: 3 },
             },
             {
-              range: { min: 19, max: 21 },
+              range: { min: 19, max: 20 },
               customName: "Chaos Form",
-              effect: "Creature transforms into chaotic elemental form",
+              effect: "Creature transforms into chaotic elemental form. All their damage becomes random type for 4 rounds",
               effectConfig: { effectType: "chaos_form", duration: 4 },
             },
             {
-              range: { min: 22, max: 24 },
+              range: { min: 21, max: 22 },
               customName: "Reality Anchor",
               effect:
-                "Creature becomes immune to teleportation and forced movement",
+                "Creature becomes immune to teleportation and forced movement for 3 rounds. They also cannot be moved voluntarily",
               effectConfig: { effectType: "reality_anchor", duration: 3 },
             },
             {
-              range: { min: 25, max: 27 },
-              customName: "Dimensional Rift",
-              effect: "Creature pulled into mini-dimension for 1 round",
+              range: { min: 23, max: 25 },
+              customName: "Dimensional Pocket",
+              effect: "Creature pulled into a mini-dimension for 1 round. They disappear entirely and reappear disoriented",
               effectConfig: { effectType: "dimensional_rift", duration: 1 },
             },
             {
-              range: { min: 28, max: 30 },
+              range: { min: 26, max: 27 },
               customName: "Chaos Echo",
-              effect: "Creature repeats last action next turn",
+              effect: "Creature involuntarily repeats their last action next turn. If they attacked an ally, they attack that ally again",
               effectConfig: { effectType: "chaos_echo", duration: 1 },
             },
             {
-              range: { min: 31, max: 33 },
+              range: { min: 28, max: 29 },
+              customName: "Probability Inversion",
+              effect: "All of the creature's dice rolls are inverted for 2 rounds. High becomes low, low becomes high",
+              effectConfig: { effectType: "probability_invert", duration: 2 },
+            },
+            {
+              range: { min: 30, max: 31 },
+              customName: "Shadow Detachment",
+              effect: "Creature's shadow peels off and attacks them each round for 1d6 necrotic damage for 3 rounds",
+              effectConfig: { effectType: "shadow_detach", shadowDamage: "1d6", duration: 3 },
+            },
+            {
+              range: { min: 32, max: 33 },
               customName: "Reality Fragment",
-              effect: "Roll twice and apply both effects",
+              effect: "Roll twice on this table and apply BOTH effects to the creature",
               effectConfig: { effectType: "double_effect" },
             },
           ],
@@ -2147,6 +3188,8 @@ GENERATION:
       icon: "Nature/Nature Wild 1",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '10d6', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Nature/Nature Wild 1",
@@ -2158,6 +3201,8 @@ GENERATION:
           "eruption",
           "rollable table",
         ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -2165,12 +3210,12 @@ GENERATION:
           tableName: "Chaotic Eruption Effects",
           description:
             "The eruption produces one of these catastrophic effects",
-          diceFormula: "1d20",
+          diceFormula: "1d33",
           entries: [
             {
               range: { min: 1, max: 4 },
               customName: "Meteor Storm",
-              effect: "Meteors rain down, 10d6 fire damage in 40ft radius",
+              effect: "Meteors rain down, 10d6 fire damage in 40ft radius. The meteors briefly form a smiling face",
               effectConfig: {
                 damageFormula: "10d6",
                 damageType: "fire",
@@ -2182,7 +3227,7 @@ GENERATION:
               range: { min: 5, max: 8 },
               customName: "Void Rift",
               effect:
-                "Opens rift that sucks creatures in, 8d6 necrotic damage + pull toward center",
+                "Opens rift that sucks creatures in, 8d6 necrotic damage + pull toward center. Sounds of distant weeping emanate from the rift",
               effectConfig: {
                 damageFormula: "8d6",
                 damageType: "necrotic",
@@ -2205,7 +3250,7 @@ GENERATION:
               range: { min: 13, max: 16 },
               customName: "Reality Quake",
               effect:
-                "Ground shakes, 9d6 force damage + all creatures knocked prone",
+                "Ground shakes, 9d6 force damage + all creatures knocked prone. The ground briefly becomes transparent",
               effectConfig: {
                 damageFormula: "9d6",
                 damageType: "force",
@@ -2216,18 +3261,77 @@ GENERATION:
               range: { min: 17, max: 19 },
               customName: "Chaos Vortex",
               effect:
-                "Swirling vortex, 11d6 random damage + creatures teleported randomly",
+                "Swirling vortex, 11d6 random damage + creatures teleported randomly within 30ft",
               effectConfig: {
                 damageFormula: "11d6",
                 damageType: "random",
                 randomTeleport: true,
+                teleportRange: 30,
               },
             },
             {
-              range: { min: 20, max: 20 },
+              range: { min: 20, max: 22 },
+              customName: "Gravity Eruption",
+              effect: "8d6 force damage + gravity reverses in 30ft radius for 2 rounds. Everything falls upward then crashes back",
+              effectConfig: {
+                damageFormula: "8d6",
+                damageType: "force",
+                gravityReverse: true,
+                areaRadius: 30,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 23, max: 25 },
+              customName: "Temporal Eruption",
+              effect: "7d6 force damage + all creatures in area repeat their last action involuntarily next turn",
+              effectConfig: {
+                damageFormula: "7d6",
+                damageType: "force",
+                repeatAction: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 26, max: 28 },
+              customName: "Probability Eruption",
+              effect: "9d6 random damage + all d20 rolls in area are inverted (high becomes low) for 2 rounds",
+              effectConfig: {
+                damageFormula: "9d6",
+                damageType: "random",
+                probabilityInvert: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 29, max: 31 },
+              customName: "Shadow Eruption",
+              effect: "10d6 necrotic damage + all affected creatures' shadows detach and attack them for 2 rounds (1d6 per round)",
+              effectConfig: {
+                damageFormula: "10d6",
+                damageType: "necrotic",
+                shadowDetach: true,
+                shadowDamage: "1d6",
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 32, max: 32 },
+              customName: "Cosmic Flatulence",
+              effect: "A rip in reality expels... something. 8d6 psychic damage to all creatures in 40ft. No one can use stealth for 1 hour. The smell transcends dimensions",
+              effectConfig: {
+                damageFormula: "8d6",
+                damageType: "psychic",
+                areaShape: "circle",
+                areaRadius: 40,
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 33, max: 33 },
               customName: "Wild Magic Apocalypse",
               effect:
-                "Ultimate chaos - 15d6 random damage + roll 3 times on Wild Magic Surge table",
+                "Ultimate chaos — 15d6 random damage + roll 3 times on Wild Surge Effects table",
               effectConfig: {
                 damageFormula: "15d6",
                 damageType: "random",
@@ -2268,26 +3372,21 @@ GENERATION:
       id: "chaos_weaver-entropy_control-decay_cascade",
       name: "Decay Cascade",
       description:
-        "Entropic chains — necrotic damage leaps between up to 5 targets, draining strength, constitution, and armor with each link.",
+        "Entropic chains — necrotic damage leaps between up to 5 targets, draining strength, constitution, and armor with each link. Roll on the Cascade Decay Table for additional chain effects.",
       level: 6,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "damage", "debuff", "entropy control", "cascade"],
+        tags: ["necrotic", "damage", "debuff", "entropy control", "cascade"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "10d6 + intelligence * 2.5",
         damageTypes: ["necrotic"],
-        areaShape: "chain",
-        propagation: {
-          method: "chain",
-          behavior: "nearest",
-          parameters: { count: 5, range: 15, decay: 0.25 },
-        },
         criticalConfig: { enabled: true, critMultiplier: 2 },
         resolution: "DICE",
       },
@@ -2300,7 +3399,7 @@ GENERATION:
             description: "Reduces target strength by 4 for 6 rounds",
             statModifier: {
               stat: "strength",
-              magnitude: 4,
+              magnitude: -4,
               magnitudeType: "flat",
             },
           },
@@ -2310,7 +3409,7 @@ GENERATION:
             description: "Reduces target constitution by 4 for 6 rounds",
             statModifier: {
               stat: "constitution",
-              magnitude: 4,
+              magnitude: -4,
               magnitudeType: "flat",
             },
           },
@@ -2320,7 +3419,7 @@ GENERATION:
             description: "Reduces target armor by 6 for 6 rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 6,
+              magnitude: -6,
               magnitudeType: "flat",
             },
           },
@@ -2328,9 +3427,100 @@ GENERATION:
         durationType: "rounds",
         durationValue: 6,
         durationUnit: "rounds",
-        saveDC: 18,
-        saveType: "constitution",
-        saveOutcome: "negates",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 18,
+          saveOutcome: "negates",
+        },
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Cascade Decay Effects",
+          description: "Each chain link carries an additional entropic surprise",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Iron Rot Chain",
+              effect: "Additional -2 armor per chain target for 3 rounds (stacks). The rust sounds like screaming metal",
+              effectConfig: { extraArmorReduction: 2, duration: 3 },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Wither Chain",
+              effect: "Additional -2 Constitution per chain target for 3 rounds. Muscles visibly wither",
+              effectConfig: { statReduction: "constitution", amount: 2, duration: 3 },
+            },
+            {
+              range: { min: 5, max: 6 },
+              customName: "Entropic Feedback Chain",
+              effect: "Each chain link feeds your Mayhem gauge. Gain +1 Mayhem per target hit",
+              effectConfig: { mayhemPerTarget: 1 },
+            },
+            {
+              range: { min: 7, max: 8 },
+              customName: "Shadow Chain",
+              effect: "Each target's shadow detaches and attacks them for 1d4 necrotic next round",
+              effectConfig: { shadowAttackDamage: "1d4", damageType: "necrotic" },
+            },
+            {
+              range: { min: 9, max: 10 },
+              customName: "Necrotic Leech Chain",
+              effect: "You drain life from the chain. Heal for 25% of total damage dealt to all targets",
+              effectConfig: { lifestealPercent: 0.25 },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Spore Chain",
+              effect: "Decay spores erupt at each chain target. All creatures within 5ft take 1d6 necrotic damage",
+              effectConfig: { secondaryDamage: "1d6", damageType: "necrotic", radius: 5 },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Gravity Chain",
+              effect: "Each target is launched 10ft upward and crashes for 1d6 falling damage. The chain briefly becomes visible as a pillar of darkness",
+              effectConfig: { launchHeight: 10, fallDamage: "1d6" },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Temporal Drag Chain",
+              effect: "Each target is 3 seconds behind reality. Movement halved for 1 round per target",
+              effectConfig: { speedPenalty: 0.5, duration: 1 },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Probability Inversion Chain",
+              effect: "All chain targets' next 3 dice rolls are inverted (high becomes low, low becomes high)",
+              effectConfig: { invertRolls: 3 },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Mirror Chain",
+              effect: "Illusory duplicates of each target appear. 50% miss chance on attacks against them for 1 round",
+              effectConfig: { mirrorDuplicates: true, missChance: 50, duration: 1 },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Size Shuffle Chain",
+              effect: "Each target randomly becomes tiny or huge for 1 round. The size changes ripple along the chain visually",
+              effectConfig: { sizeChange: true, duration: 1 },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Cascade Overload",
+              effect: "The chain overloads and jumps to 3 additional targets within 20ft, dealing half damage to them",
+              effectConfig: { bonusChainTargets: 3, bonusChainRange: 20, halfDamage: true },
+            },
+          ],
+        },
+      },
+      propagation: {
+        method: "chain",
+        behavior: "nearest",
+        count: 5,
+        range: 15,
+        decay: 0.25,
       },
       targetingConfig: {
         targetingType: "chain",
@@ -2365,6 +3555,8 @@ GENERATION:
       icon: "Nature/Nature Wild 1",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '14d6', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Nature/Nature Wild 1",
@@ -2376,6 +3568,8 @@ GENERATION:
           "wild magic",
           "rollable table",
         ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -2383,71 +3577,209 @@ GENERATION:
           tableName: "Chaos Nova Effects",
           description:
             "The nova produces these effects on all creatures and terrain in the area",
-          diceFormula: "1d12",
+          diceFormula: "1d33",
           entries: [
             {
               range: { min: 1, max: 2 },
               customName: "Fire Nova",
-              effect: "14d6 fire damage + terrain becomes lava for 5 rounds",
+              effect: "14d6 fire damage + terrain becomes lava for 3 rounds (2d6 fire to anyone entering)",
               effectConfig: {
                 damageFormula: "14d6",
                 damageType: "fire",
                 terrainChange: "lava",
-                duration: 5,
+                terrainDamage: "2d6",
+                duration: 3,
               },
             },
             {
               range: { min: 3, max: 4 },
               customName: "Frost Nova",
-              effect: "13d6 frost damage + everything frozen for 3 rounds",
+              effect: "13d6 frost damage + everything frozen solid for 2 rounds. Creatures are encased in ice (restrained)",
               effectConfig: {
                 damageFormula: "13d6",
                 damageType: "frost",
-                freezeDuration: 3,
+                freezeDuration: 2,
+                restraint: true,
               },
             },
             {
               range: { min: 5, max: 6 },
               customName: "Storm Nova",
               effect:
-                "12d6 lightning damage + creates thunderstorm for 4 rounds",
+                "12d6 lightning damage + creates localized thunderstorm for 3 rounds. Thunderbolts strike random creatures each round for 2d6 lightning",
               effectConfig: {
                 damageFormula: "12d6",
                 damageType: "lightning",
-                stormDuration: 4,
+                stormDuration: 3,
+                stormDamage: "2d6",
               },
             },
             {
               range: { min: 7, max: 8 },
               customName: "Void Nova",
               effect:
-                "16d6 necrotic damage + creates gravity well pulling creatures together",
+                "16d6 necrotic damage + creates gravity well pulling all creatures toward center for 2 rounds",
               effectConfig: {
                 damageFormula: "16d6",
                 damageType: "necrotic",
                 gravityWell: true,
+                pullDuration: 2,
               },
             },
             {
               range: { min: 9, max: 10 },
-              customName: "Chaos Nova",
-              effect: "15d6 random damage type + random terrain transformation",
+              customName: "Entropy Nova",
+              effect: "15d6 necrotic damage + reduces ALL stats of affected creatures by 3 for 3 rounds. Their flesh briefly becomes translucent",
               effectConfig: {
                 damageFormula: "15d6",
-                damageType: "random",
-                randomTerrain: true,
+                damageType: "necrotic",
+                statReduction: 3,
+                debuffDuration: 3,
               },
             },
             {
               range: { min: 11, max: 12 },
+              customName: "Prismatic Nova",
+              effect: "13d6 random damage + each creature is affected by a different random prism effect (roll on Prismatic Chaos table)",
+              effectConfig: {
+                damageFormula: "13d6",
+                damageType: "random",
+                prismaticEffect: true,
+              },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Gravity Nova",
+              effect: "14d6 force damage + gravity in area doubles then halves over 3 rounds. Creatures are tossed like ragdolls",
+              effectConfig: {
+                damageFormula: "14d6",
+                damageType: "force",
+                gravityChaos: true,
+                duration: 3,
+              },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Temporal Nova",
+              effect: "12d6 force damage + time in area freezes for 1 round except for the caster. They may take 1 extra action",
+              effectConfig: {
+                damageFormula: "12d6",
+                damageType: "force",
+                timeStop: true,
+                extraAction: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 17, max: 18 },
+              customName: "Probability Nova",
+              effect: "13d6 random damage + all dice rolls in the area are inverted for 2 rounds. The universe briefly runs on nightmare logic",
+              effectConfig: {
+                damageFormula: "13d6",
+                damageType: "random",
+                probabilityInvert: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 19, max: 20 },
+              customName: "Mirror Nova",
+              effect: "12d6 force damage + illusory duplicates of every creature appear. 50% miss chance on all attacks for 2 rounds",
+              effectConfig: {
+                damageFormula: "12d6",
+                damageType: "force",
+                mirrorDuplicates: true,
+                missChance: 50,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 21, max: 22 },
+              customName: "Shadow Nova",
+              effect: "14d6 necrotic damage + all affected creatures' shadows detach and attack them for 1d6 per round for 3 rounds",
+              effectConfig: {
+                damageFormula: "14d6",
+                damageType: "necrotic",
+                shadowDetach: true,
+                shadowDamage: "1d6",
+                duration: 3,
+              },
+            },
+            {
+              range: { min: 23, max: 24 },
+              customName: "Size Nova",
+              effect: "12d6 force damage + all creatures randomly become tiny or huge for 2 rounds. The size shifts are accompanied by cartoonish sound effects",
+              effectConfig: {
+                damageFormula: "12d6",
+                damageType: "force",
+                sizeChange: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 25, max: 26 },
+              customName: "Midas Nova",
+              effect: "12d6 force damage + all non-magical metal in area turns to gold for 1 round then crumbles to dust. Everyone briefly looks rich",
+              effectConfig: {
+                damageFormula: "12d6",
+                damageType: "force",
+                midasEffect: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 27, max: 28 },
+              customName: "Chaos Echo Nova",
+              effect: "13d6 random damage + all affected creatures involuntarily repeat their last action next turn. If they healed, they heal again. If they attacked an ally...",
+              effectConfig: {
+                damageFormula: "13d6",
+                damageType: "random",
+                repeatAction: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 29, max: 30 },
+              customName: "Cosmic Flatulence Nova",
+              effect: "11d6 psychic damage to ALL creatures in 45ft (including caster). No stealth possible for 1 hour. The nova's odor transcends dimensions",
+              effectConfig: {
+                damageFormula: "11d6",
+                damageType: "psychic",
+                areaShape: "circle",
+                areaRadius: 45,
+                includesCaster: true,
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 31, max: 31 },
               customName: "Reality Nova",
               effect:
-                "18d6 force damage + all creatures swap positions randomly",
+                "18d6 force damage + all creatures swap positions randomly + their resistances and vulnerabilities are shuffled",
               effectConfig: {
                 damageFormula: "18d6",
                 damageType: "force",
                 randomSwap: true,
+                shuffleResistances: true,
               },
+            },
+            {
+              range: { min: 32, max: 32 },
+              customName: "Singularity Nova",
+              effect: "20d6 force damage + all creatures pulled to center and crushed. DC 20 Con save or take double damage. A miniature black hole flickers into existence and immediately dies",
+              effectConfig: {
+                damageFormula: "20d6",
+                damageType: "force",
+                pullToCenter: true,
+                saveDC: 20,
+                doubleDamage: true,
+              },
+            },
+            {
+              range: { min: 33, max: 33 },
+              customName: "Omega Nova",
+              effect: "Roll TWICE on this table and apply both effects. If both are 33, all creatures in area are banished to a random plane for 1d4 rounds",
+              effectConfig: { rollTwice: true, noRecurse: true },
             },
           ],
         },
@@ -2481,15 +3813,18 @@ GENERATION:
       id: "chaos_weaver-reality_bending-chaos_gate",
       name: "Chaos Gate",
       description:
-        "Rip open a portal to the chaos realm — 5 chaotic entities pour through and fight under your mental command.",
+        "Rip open a portal to the chaos realm — 5 chaotic entities pour through and fight under your mental command. Roll on the Entity Table to see what type of chaos creatures emerge.",
       level: 7,
       icon: "Arcane/Open Portal",
       spellType: "ACTION",
       effectTypes: ["control", "summoning"],
+      controlConfig: { controlType: 'summoning', effects: [{ id: 'gate_control', name: 'Gate Control', description: 'Commands summoned chaos entities' }], duration: 10, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Open Portal",
         tags: ["chaos", "control", "summoning", "reality bending"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       summoningConfig: {
         creatureType: "chaos_entity",
@@ -2497,6 +3832,82 @@ GENERATION:
         duration: 10,
         minions: 5,
         controlType: "mental",
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Chaos Gate Entity Effects",
+          description: "The entities that pour through the chaos gate carry unpredictable properties",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Fire Elementals",
+              effect: "5 chaos fire elementals. They deal 2d6 fire damage per hit and set targets ablaze for 1d4/round for 2 rounds",
+              effectConfig: { entityDamageType: "fire", entityDamage: "2d6", dotDamage: "1d4", dotDuration: 2 },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Void Wraiths",
+              effect: "5 void wraiths. They deal 2d6 necrotic damage per hit and heal you for 10% of damage dealt",
+              effectConfig: { entityDamageType: "necrotic", entityDamage: "2d6", lifestealPercent: 0.1 },
+            },
+            {
+              range: { min: 5, max: 6 },
+              customName: "Chaos Slimes",
+              effect: "5 chaos slimes. They deal 1d8 random damage per hit and leave difficult terrain where they die",
+              effectConfig: { entityDamageType: "random", entityDamage: "1d8", leaveTerrain: true },
+            },
+            {
+              range: { min: 7, max: 8 },
+              customName: "Lightning Sprites",
+              effect: "5 lightning sprites. They chain 1d6 lightning damage to adjacent enemies within 10ft on hit",
+              effectConfig: { entityDamageType: "lightning", entityDamage: "1d6", chainRange: 10 },
+            },
+            {
+              range: { min: 9, max: 10 },
+              customName: "Shadow Mimics",
+              effect: "5 shadow mimics. They disguise as objects and ambush enemies for 3d6 necrotic on first strike",
+              effectConfig: { entityDamageType: "necrotic", entityDamage: "3d6", ambushBonus: true },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Frost Wisps",
+              effect: "5 frost wisps. They deal 1d8 frost damage and slow targets for 1 round on hit",
+              effectConfig: { entityDamageType: "frost", entityDamage: "1d8", slowDuration: 1 },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Gravity Elementals",
+              effect: "5 gravity elementals. They launch enemies 10ft upward on hit for 1d6 falling damage + 2d6 force",
+              effectConfig: { entityDamageType: "force", entityDamage: "2d6", launchHeight: 10, fallDamage: "1d6" },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Entropy Sprites",
+              effect: "5 entropy sprites. Each hit reduces target's armor by 1 for 3 rounds (stacking)",
+              effectConfig: { entityDamageType: "necrotic", entityDamage: "1d6", armorReduction: 1, debuffDuration: 3 },
+            },
+            {
+              range: { min: 17, max: 18 },
+              customName: "Probability Wisps",
+              effect: "5 probability wisps. Enemies within 15ft have all dice rolls inverted for 2 rounds",
+              effectConfig: { entityDamageType: "force", entityDamage: "1d6", probabilityInvert: true, duration: 2 },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Cosmic Flatulence Elementals",
+              effect: "5 entities made of pure interdimensional gas. 2d4 psychic damage per hit. No stealth possible for 1 hour. They are deeply apologetic about it",
+              effectConfig: { entityDamageType: "psychic", entityDamage: "2d4", stealthBlocked: true },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Chaos God Minions",
+              effect: "5 minor chaos god servants. They deal 3d6 random damage per hit and generate +1 Mayhem per kill",
+              effectConfig: { entityDamageType: "random", entityDamage: "3d6", mayhemPerKill: 1 },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "area",
@@ -2525,6 +3936,8 @@ GENERATION:
       icon: "Arcane/Spellcasting Aura",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '15d6', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
@@ -2536,6 +3949,8 @@ GENERATION:
           "chaos dice",
           "rollable table",
         ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
@@ -2543,13 +3958,13 @@ GENERATION:
           tableName: "Ultimate Chaos Effects",
           description:
             "The ultimate chaos manifests in one of these reality-shattering effects",
-          diceFormula: "1d20",
+          diceFormula: "1d33",
           entries: [
             {
               range: { min: 1, max: 3 },
               customName: "Reality Shred",
               effect:
-                "25d6 force damage in 60ft radius + all creatures teleported to random planes",
+                "25d6 force damage in 60ft radius + all creatures teleported to random planes for 1 round",
               effectConfig: {
                 damageFormula: "25d6",
                 damageType: "force",
@@ -2561,43 +3976,97 @@ GENERATION:
             {
               range: { min: 4, max: 6 },
               customName: "Time Apocalypse",
-              effect: "All creatures in area age 1d100 years instantly",
+              effect: "All creatures in area age 1d100 years instantly. Some grow magnificent beards, others become toddlers briefly",
               effectConfig: { ageChange: "1d100" },
             },
             {
               range: { min: 7, max: 9 },
               customName: "Chaos Incarnate",
-              effect: "Summons 10 chaos elementals that fight for you",
-              effectConfig: { summonChaosElementals: 10 },
+              effect: "Summons 10 chaos elementals that fight for you for 3 rounds. They argue with each other constantly",
+              effectConfig: { summonChaosElementals: 10, duration: 3 },
             },
             {
               range: { min: 10, max: 12 },
               customName: "Void Cataclysm",
-              effect: "Creates 100ft radius void zone that sucks everything in",
-              effectConfig: { voidZoneRadius: 100 },
+              effect: "Creates 100ft radius void zone that sucks everything toward center for 2 rounds. The void hums a tune",
+              effectConfig: { voidZoneRadius: 100, pullDuration: 2 },
             },
             {
               range: { min: 13, max: 15 },
               customName: "Wild Magic Ragnarok",
-              effect: "Triggers 10 Wild Magic Surges simultaneously",
-              effectConfig: { wildMagicSurges: 10 },
+              effect: "Triggers 5 Wild Magic Surges simultaneously. The resulting chain reaction reshapes the local landscape",
+              effectConfig: { wildMagicSurges: 5 },
             },
             {
               range: { min: 16, max: 18 },
               customName: "Reality Reset",
-              effect: "Resets all ongoing effects and cooldowns in the area",
+              effect: "Resets all ongoing effects and cooldowns in the area. Everyone starts fresh. The universe breathes",
               effectConfig: { realityReset: true },
             },
             {
-              range: { min: 19, max: 19 },
-              customName: "Chaos God Manifestation",
-              effect: "Summons avatar of chaos god for 10 rounds",
-              effectConfig: { summonChaosGod: true, duration: 10 },
+              range: { min: 19, max: 21 },
+              customName: "Gravity Collapse",
+              effect: "30d6 force damage as gravity in the area becomes 100x normal for 1 round, then vanishes entirely for 1 round",
+              effectConfig: {
+                damageFormula: "30d6",
+                damageType: "force",
+                gravityCollapse: true,
+                duration: 2,
+              },
             },
             {
-              range: { min: 20, max: 20 },
+              range: { min: 22, max: 24 },
+              customName: "Probability Storm",
+              effect: "For 3 rounds, every die roll in a 60ft radius is rolled 3 times and the WORST result is kept for enemies, BEST for allies",
+              effectConfig: {
+                probabilityStorm: true,
+                radius: 60,
+                duration: 3,
+              },
+            },
+            {
+              range: { min: 25, max: 27 },
+              customName: "Shadow World",
+              effect: "The area overlaps with the Shadow Plane for 3 rounds. All damage is necrotic. Shadows of every creature come alive and attack their originals",
+              effectConfig: {
+                shadowPlane: true,
+                shadowDamage: true,
+                duration: 3,
+              },
+            },
+            {
+              range: { min: 28, max: 29 },
+              customName: "Cosmic Flatulence",
+              effect: "Reality itself cuts one. 20d6 psychic damage to ALL creatures within 60ft (including caster). No stealth possible for 24 hours. The smell defies description",
+              effectConfig: {
+                damageFormula: "20d6",
+                damageType: "psychic",
+                areaShape: "circle",
+                areaRadius: 60,
+                includesCaster: true,
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 30, max: 31 },
+              customName: "Chaos God Whisper",
+              effect: "A chaos god whispers a secret. 15d6 psychic damage + all affected creatures gain a random permanent personality quirk",
+              effectConfig: {
+                damageFormula: "15d6",
+                damageType: "psychic",
+                personalityQuirk: true,
+              },
+            },
+            {
+              range: { min: 32, max: 32 },
+              customName: "Chaos God Manifestation",
+              effect: "Summons avatar of a chaos god for 3 rounds. It attacks everyone indiscriminately with 20d6 random damage per round",
+              effectConfig: { summonChaosGod: true, duration: 3 },
+            },
+            {
+              range: { min: 33, max: 33 },
               customName: "True Apocalypse",
-              effect: "Roll 5 times on this table and combine all effects",
+              effect: "Roll 5 times on this table and combine all effects. If any result is 33, the DM must describe the chaos for at least 1 full minute",
               effectConfig: { rollFiveTimes: true },
             },
           ],
@@ -2636,22 +4105,21 @@ GENERATION:
       id: "chaos_weaver-entropy_control-entropy_plague",
       name: "Entropy Plague",
       description:
-        "A spreading sickness of decay — infected targets take necrotic damage each turn and spread the plague to adjacent creatures on failed saves.",
+        "A spreading sickness of decay — infected targets take necrotic damage each turn and spread the plague to adjacent creatures on failed saves. Roll on the Plague Symptoms Table for additional horrific effects.",
       level: 8,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "damage", "debuff", "entropy control", "plague"],
+        tags: ["necrotic", "damage", "debuff", "entropy control", "plague"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "5d8 + intelligence",
         damageTypes: ["necrotic"],
-        areaShape: "circle",
-        areaParameters: { radius: 20 },
         criticalConfig: { enabled: true, critMultiplier: 2 },
         resolution: "DICE",
       },
@@ -2662,18 +4130,102 @@ GENERATION:
             id: "entropy_plague",
             name: "Entropy Plague",
             description:
-              "Target takes 2d6 necrotic damage at start of turn, spreads to adjacent creatures on failed CON save",
+              "Target takes 2d6 necrotic damage at start of turn, spreads to adjacent creatures on failed CON save DC 16",
             statusType: "disease",
             level: "severe",
-            dotFormula: "2d6",
-            dotDamageType: "necrotic",
             damagePerTurn: "2d6",
           },
         ],
         durationType: "rounds",
         durationValue: 3,
-        saveDC: 16,
-        saveType: "constitution",
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Plague Symptom Effects",
+          description: "The entropy plague manifests with one of these additional horrific symptoms",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Festering Wounds",
+              effect: "Plague DoT damage increases by 1d6 per round (stacking). The wounds bubble and hiss",
+              effectConfig: { increasingDot: "1d6", stacking: true },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Entropy Cough",
+              effect: "Affected creatures cough necrotic spores each round. All creatures within 5ft take 1d4 necrotic damage",
+              effectConfig: { sporeDamage: "1d4", sporeRadius: 5 },
+            },
+            {
+              range: { min: 5, max: 6 },
+              customName: "Decay Visions",
+              effect: "Targets hallucinate their own decay. -2 to all attack rolls for the duration",
+              effectConfig: { attackPenalty: -2 },
+            },
+            {
+              range: { min: 7, max: 8 },
+              customName: "Necrotic Sweat",
+              effect: "Targets sweat black ooze. Their armor becomes slippery, -3 AC for the duration",
+              effectConfig: { armorReduction: 3 },
+            },
+            {
+              range: { min: 9, max: 10 },
+              customName: "Shadow Sickness",
+              effect: "Targets' shadows become diseased and attack them for 1d4 necrotic each round",
+              effectConfig: { shadowDamage: "1d4", shadowDuration: 3 },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Brittle Bones Plague",
+              effect: "Targets' bones become brittle. Critical hits against them crit on 17-20 for the duration",
+              effectConfig: { expandedCritRange: [17, 18, 19, 20] },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Entropic Feedback Plague",
+              effect: "Each infected creature generates +1 Mayhem for you per round as their entropy feeds your gauge",
+              effectConfig: { mayhemPerInfectedPerRound: 1 },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Muscle Wasting Plague",
+              effect: "Targets lose 1d4 Strength per round for the duration (max -6). They visibly shrink",
+              effectConfig: { statDrainPerRound: "1d4", maxDrain: 6, drainStat: "strength" },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Lifesteal Plague",
+              effect: "You absorb the plague's life force. Heal for 25% of all plague damage dealt each round",
+              effectConfig: { lifestealPercent: 0.25 },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Probability Plague",
+              effect: "Infected creatures have all dice rolls inverted (high becomes low) for the duration",
+              effectConfig: { probabilityInvert: true },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Cosmic Flatulence Plague",
+              effect: "The plague has an... odor. 1d4 psychic damage to all creatures within 10ft of infected each round. Stealth impossible for 1 hour. The smell has been described as 'existential'",
+              effectConfig: { auraDamage: "1d4", auraDamageType: "psychic", auraRadius: 10, stealthBlocked: true },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Apocalypse Plague",
+              effect: "The plague mutates: DoT damage doubles and the plague spreads to ALL creatures within 10ft (allies and enemies) on failed CON DC 16 save",
+              effectConfig: { doubleDot: true, expandedSpread: 10 },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "area",
@@ -2690,7 +4242,7 @@ GENERATION:
       },
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
       resolution: "DICE",
-      tags: ["chaos", "damage", "debuff", "entropy control", "plague"],
+      tags: ["chaos", "damage", "debuff", "entropy control", "plague", "rollable table"],
       specialization: "entropy_control",
     },
     {
@@ -2702,6 +4254,8 @@ GENERATION:
       icon: "Nature/Nature Wild 1",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '6d8', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Nature/Nature Wild 1",
@@ -2713,19 +4267,21 @@ GENERATION:
           "wild magic",
           "rollable table",
         ],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Chaos Cascade Effects",
           description:
-            "Roll twice on this table, applying each effect in sequence",
-          diceFormula: "1d8",
+            "Roll twice on this table, applying each effect in sequence. Double the chaos, double the stories",
+          diceFormula: "1d33",
           entries: [
             {
               range: { min: 1, max: 1 },
               customName: "Backfire",
-              effect: "Cascade rebounds - you take 4d6 random damage",
+              effect: "Cascade rebounds — you take 4d6 random damage. The cascade laughs at you",
               effectConfig: {
                 damageFormula: "4d6",
                 damageType: "random",
@@ -2733,9 +4289,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 2, max: 2 },
+              range: { min: 2, max: 3 },
               customName: "Fire Cascade",
-              effect: "5d8 fire damage + burning for 2 rounds",
+              effect: "5d8 fire damage + burning for 2 rounds. The flames hum an off-key melody",
               effectConfig: {
                 damageFormula: "5d8",
                 damageType: "fire",
@@ -2743,9 +4299,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 3, max: 3 },
+              range: { min: 4, max: 5 },
               customName: "Frost Cascade",
-              effect: "5d8 frost damage + slowed for 1 round",
+              effect: "5d8 frost damage + slowed for 1 round. Ice crystals form rude shapes on affected creatures",
               effectConfig: {
                 damageFormula: "5d8",
                 damageType: "frost",
@@ -2753,9 +4309,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 4, max: 4 },
+              range: { min: 6, max: 7 },
               customName: "Lightning Cascade",
-              effect: "4d10 lightning damage that chains to 2 targets",
+              effect: "4d10 lightning damage that chains to 2 targets. The crackling sounds like distant applause",
               effectConfig: {
                 damageFormula: "4d10",
                 damageType: "lightning",
@@ -2763,9 +4319,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 5, max: 5 },
+              range: { min: 8, max: 9 },
               customName: "Void Cascade",
-              effect: "5d8 necrotic damage + pulled 10ft toward center",
+              effect: "5d8 necrotic damage + pulled 10ft toward center. Shadows briefly form hands reaching upward",
               effectConfig: {
                 damageFormula: "5d8",
                 damageType: "necrotic",
@@ -2773,9 +4329,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 6, max: 6 },
+              range: { min: 10, max: 11 },
               customName: "Force Cascade",
-              effect: "6d8 force damage + knocked prone",
+              effect: "6d8 force damage + knocked prone. The force feels like a giant invisible hand",
               effectConfig: {
                 damageFormula: "6d8",
                 damageType: "force",
@@ -2783,9 +4339,9 @@ GENERATION:
               },
             },
             {
-              range: { min: 7, max: 7 },
+              range: { min: 12, max: 13 },
               customName: "Chaos Surge",
-              effect: "5d10 random damage + random 15ft teleport",
+              effect: "5d10 random damage + random 15ft teleport. You briefly glimpse where you might have ended up",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "random",
@@ -2793,14 +4349,134 @@ GENERATION:
               },
             },
             {
-              range: { min: 8, max: 8 },
+              range: { min: 14, max: 15 },
               customName: "Wild Overdrive",
-              effect: "6d10 random damage + generate 1d4 Mayhem",
+              effect: "6d10 random damage + generate 1d4 Mayhem. Your eyes glow with unstable energy",
               effectConfig: {
                 damageFormula: "6d10",
                 damageType: "random",
                 mayhemGenerate: "1d4",
               },
+            },
+            {
+              range: { min: 16, max: 17 },
+              customName: "Gravity Cascade",
+              effect: "4d8 force damage + creatures float 10ft up for 1 round, then crash down for 1d6 falling damage",
+              effectConfig: {
+                damageFormula: "4d8",
+                damageType: "force",
+                floatHeight: 10,
+                fallDamage: "1d6",
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 18, max: 19 },
+              customName: "Temporal Cascade",
+              effect: "4d8 force damage + affected creatures repeat their last action next turn involuntarily",
+              effectConfig: {
+                damageFormula: "4d8",
+                damageType: "force",
+                repeatAction: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 20, max: 21 },
+              customName: "Shadow Cascade",
+              effect: "5d8 necrotic damage + all affected creatures' shadows detach and attack them for 2 rounds (1d6 per round)",
+              effectConfig: {
+                damageFormula: "5d8",
+                damageType: "necrotic",
+                shadowDetach: true,
+                shadowDamage: "1d6",
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 22, max: 23 },
+              customName: "Probability Cascade",
+              effect: "4d8 force damage + all dice rolls in area are inverted for 1 round (high becomes low)",
+              effectConfig: {
+                damageFormula: "4d8",
+                damageType: "force",
+                probabilityInvert: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 24, max: 25 },
+              customName: "Size Cascade",
+              effect: "4d8 force damage + all creatures randomly become tiny or huge for 1 round",
+              effectConfig: {
+                damageFormula: "4d8",
+                damageType: "force",
+                sizeChange: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 26, max: 27 },
+              customName: "Midas Cascade",
+              effect: "4d8 force damage + all non-magical metal in area turns to gold for 1 round, then crumbles to dust",
+              effectConfig: {
+                damageFormula: "4d8",
+                damageType: "force",
+                midasEffect: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 28, max: 29 },
+              customName: "Mirror Cascade",
+              effect: "5d8 force damage + illusory duplicates of all affected creatures appear. Attacks in area have 50% miss chance for 1 round",
+              effectConfig: {
+                damageFormula: "5d8",
+                damageType: "force",
+                mirrorDuplicates: true,
+                missChance: 50,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 30, max: 30 },
+              customName: "Cosmic Flatulence Cascade",
+              effect: "5d8 psychic damage + no one in area can use stealth for 1 hour. The cascade smells of burnt ozone and regret",
+              effectConfig: {
+                damageFormula: "5d8",
+                damageType: "psychic",
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 31, max: 31 },
+              customName: "Reality Cascade",
+              effect: "8d10 force damage + all creatures swap positions + resistances shuffled for 1 round. Reality hiccups violently",
+              effectConfig: {
+                damageFormula: "8d10",
+                damageType: "force",
+                randomSwap: true,
+                shuffleResistances: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 32, max: 32 },
+              customName: "Cascade Singularity",
+              effect: "8d10 force damage + all creatures pulled to center of area and stunned for 1 round (DC 18 Con to resist). A brief singularity forms and collapses",
+              effectConfig: {
+                damageFormula: "8d10",
+                damageType: "force",
+                pullToCenter: true,
+                stunDC: 18,
+                stunDuration: 1,
+              },
+            },
+            {
+              range: { min: 33, max: 33 },
+              customName: "Omega Cascade",
+              effect: "Roll THREE times on this table and apply all effects. If any result is 33, the cascade achieves sentience for 1 round and the DM narrates its brief, confused existence",
+              effectConfig: { rollThreeTimes: true, sentientCascade: true },
             },
           ],
         },
@@ -2841,15 +4517,18 @@ GENERATION:
       id: "chaos_weaver-reality_bending-chaos_conduit",
       name: "Chaos Conduit",
       description:
-        "Become a living channel for chaos — +4 spell damage and +1 die on all chaos spells for 3 rounds, but raw energy burns you for 2d6 each turn.",
+        "Become a living channel for chaos — +4 spell damage and +1 die on all chaos spells for 3 rounds, but raw energy burns you for 2d6 each turn. The conduit leaks chaotic side effects each round.",
       level: 9,
       icon: "Arcane/Open Portal",
       spellType: "ACTION",
       effectTypes: ["buff", "control"],
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'conduit_control', name: 'Conduit Control', description: 'Channels chaos energy through the caster' }], duration: 3, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Open Portal",
-        tags: ["chaos", "buff", "control", "reality bending"],
+        tags: ["chaos", "buff", "control", "reality bending", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       buffConfig: {
         buffType: "statusEffect",
@@ -2874,6 +4553,88 @@ GENERATION:
         durationUnit: "rounds",
         canBeDispelled: true,
       },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Conduit Overflow Effects",
+          description: "The chaos flowing through you leaks unpredictably each round",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Chaos Bleed",
+              effect: "Chaos energy bleeds from you. All creatures within 10ft take 1d6 random elemental damage",
+              effectConfig: { bleedDamage: "1d6", damageType: "random", radius: 10 },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Power Surge",
+              effect: "Conduit power increases! +2 additional spell damage this round only. Your eyes glow white",
+              effectConfig: { bonusSpellDamage: 2, temporaryBoost: true },
+            },
+            {
+              range: { min: 5, max: 6 },
+              customName: "Entropic Exhaust",
+              effect: "Generate +1d3 Mayhem from the chaotic exhaust. Sparks fly from your fingertips",
+              effectConfig: { mayhemGain: "1d3" },
+            },
+            {
+              range: { min: 7, max: 8 },
+              customName: "Chromatic Aura",
+              effect: "Your skin cycles through colors. Enemies within 15ft have disadvantage on attacks targeting you for 1 round",
+              effectConfig: { auraRadius: 15, attackDisadvantage: true, duration: 1 },
+            },
+            {
+              range: { min: 9, max: 10 },
+              customName: "Gravity Warp",
+              effect: "Chaos warps gravity around you. All creatures within 10ft float 5ft up for 1 round",
+              effectConfig: { floatRadius: 10, floatHeight: 5, duration: 1 },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Probability Shift",
+              effect: "Probability bends around the conduit. Your next spell auto-rolls twice and takes the better result",
+              effectConfig: { advantageNextSpell: true },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Shadow Conduit",
+              effect: "Your shadow peels off and makes a free attack on the nearest enemy for 2d6 necrotic, then returns",
+              effectConfig: { shadowAttackDamage: "2d6", damageType: "necrotic" },
+            },
+            {
+              range: { min: 15, max: 16 },
+              customName: "Temporal Flicker",
+              effect: "You flicker 1 second into the future. You are immune to the next attack this round as it passes through your afterimage",
+              effectConfig: { temporalDodge: true, duration: 1 },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Mirror Conduit",
+              effect: "A mirror duplicate of you appears for 1 round. It mimics your next spell at 50% power",
+              effectConfig: { mirrorDuplicate: true, mimicSpell: true, mimicPower: 0.5, duration: 1 },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Size Flicker",
+              effect: "You randomly become tiny or huge for 1 round. Tiny: +10 speed. Huge: +4 STR",
+              effectConfig: { sizeChange: true, duration: 1 },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Cosmic Flatulence Conduit",
+              effect: "The chaos finds an... outlet. 2d4 psychic damage to all creatures within 5ft. No stealth for 1 hour. The conduit vibrates with shame",
+              effectConfig: { damageFormula: "2d4", damageType: "psychic", radius: 5, stealthBlocked: true },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Conduit Overload",
+              effect: "The conduit overcharges: +8 spell damage this round only AND your next spell gains +2 dice. Your body briefly becomes transparent, showing swirling chaos within",
+              effectConfig: { bonusSpellDamage: 8, bonusDice: 2, temporaryBoost: true },
+            },
+          ],
+        },
+      },
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
@@ -2893,22 +4654,21 @@ GENERATION:
       id: "chaos_weaver-entropy_control-entropy_wave",
       name: "Entropy Wave",
       description:
-        "A crushing wave of pure decay — necrotic damage plus a blanket reduction to ALL enemy stats and armor.",
+        "A crushing wave of pure decay — necrotic damage plus a blanket reduction to ALL enemy stats and armor. Roll on the Entropy Wave Table for an additional entropic anomaly.",
       level: 9,
       icon: "Radiant/Radiant Divinity",
       spellType: "ACTION",
       effectTypes: ["damage", "debuff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "damage", "debuff", "entropy control"],
+        tags: ["necrotic", "damage", "debuff", "entropy control", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
-      damageTypes: ["necrotic"],
       damageConfig: {
         formula: "6d10 + intelligence",
         damageTypes: ["necrotic"],
-        areaShape: "circle",
-        areaParameters: { radius: 25 },
         criticalConfig: { enabled: true, critMultiplier: 2 },
         resolution: "DICE",
       },
@@ -2921,7 +4681,7 @@ GENERATION:
             description: "Reduces all stats by 2 for 3 rounds",
             statModifier: {
               stat: "all",
-              magnitude: 2,
+              magnitude: -2,
               magnitudeType: "flat",
             },
           },
@@ -2931,7 +4691,7 @@ GENERATION:
             description: "Reduces target armor by 4 for 3 rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 4,
+              magnitude: -4,
               magnitudeType: "flat",
             },
           },
@@ -2939,9 +4699,99 @@ GENERATION:
         durationType: "rounds",
         durationValue: 3,
         durationUnit: "rounds",
-        saveDC: 18,
-        saveType: "constitution",
-        saveOutcome: "half",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 18,
+          saveOutcome: "half_damage",
+        },
+      },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Entropy Wave Effects",
+          description: "The wave of pure decay carries an additional entropic anomaly",
+          diceFormula: "1d20",
+          entries: [
+            {
+              range: { min: 1, max: 2 },
+              customName: "Crumbling Wave",
+              effect: "Armor reduction doubles: -8 armor for 3 rounds instead of -4. Equipment visibly flakes away",
+              effectConfig: { doubleArmorReduction: true },
+            },
+            {
+              range: { min: 3, max: 4 },
+              customName: "Withering Wave",
+              effect: "Additional -2 to all stats for 3 rounds (stacks with base). Creatures visibly age",
+              effectConfig: { extraStatReduction: 2, duration: 3 },
+            },
+            {
+              range: { min: 5, max: 6 },
+              customName: "Entropic Feedback Wave",
+              effect: "The wave feeds your Mayhem gauge. Generate +1d4 Mayhem from the entropic resonance",
+              effectConfig: { mayhemGain: "1d4" },
+            },
+            {
+              range: { min: 7, max: 8 },
+              customName: "Shadow Wave",
+              effect: "All targets' shadows detach and attack them for 1d6 necrotic per round for 2 rounds",
+              effectConfig: { shadowDetach: true, shadowDamage: "1d6", duration: 2 },
+            },
+            {
+              range: { min: 9, max: 10 },
+              customName: "Necrotic Leech Wave",
+              effect: "You absorb the wave's entropy. Heal for 50% of damage dealt",
+              effectConfig: { lifestealPercent: 0.5 },
+            },
+            {
+              range: { min: 11, max: 12 },
+              customName: "Gravity Collapse Wave",
+              effect: "The wave becomes so dense it warps gravity. All targets pulled 10ft toward center and knocked prone",
+              effectConfig: { pullDistance: 10, knockProne: true },
+            },
+            {
+              range: { min: 13, max: 14 },
+              customName: "Spore Wave",
+              effect: "Decay spores ride the wave. Difficult terrain in the area for 3 rounds. The spores glow faintly green",
+              effectConfig: { difficultTerrain: true, terrainDuration: 3 },
+            },
+            {
+              range: { min: 15, max: 15 },
+              customName: "Probability Decay Wave",
+              effect: "The wave decays probability itself. All dice rolls by affected creatures are inverted for 2 rounds",
+              effectConfig: { probabilityInvert: true, duration: 2 },
+            },
+            {
+              range: { min: 16, max: 16 },
+              customName: "Temporal Decay Wave",
+              effect: "Targets experience accelerated time. They age 1d10 years temporarily and move at half speed for 2 rounds",
+              effectConfig: { speedPenalty: 0.5, temporalAge: "1d10", duration: 2 },
+            },
+            {
+              range: { min: 17, max: 17 },
+              customName: "Mirror Decay Wave",
+              effect: "Illusory duplicates of each target appear. 50% miss chance on all attacks for 1 round. The duplicates look healthier than the originals",
+              effectConfig: { mirrorDuplicates: true, missChance: 50, duration: 1 },
+            },
+            {
+              range: { min: 18, max: 18 },
+              customName: "Size Decay Wave",
+              effect: "Targets randomly become tiny or huge for 1 round. The size change is accompanied by the sound of cracking bones",
+              effectConfig: { sizeChange: true, duration: 1 },
+            },
+            {
+              range: { min: 19, max: 19 },
+              customName: "Cosmic Flatulence Wave",
+              effect: "The wave of decay releases interdimensional gas. 2d4 psychic damage to all creatures in area. Stealth impossible for 1 hour. The entropy has an odor",
+              effectConfig: { damageFormula: "2d4", damageType: "psychic", stealthBlocked: true },
+            },
+            {
+              range: { min: 20, max: 20 },
+              customName: "Apocalypse Wave",
+              effect: "The wave reaches maximum entropy. All debuffs double in magnitude and the wave pulses again for half damage. Reality groans under the weight of decay",
+              effectConfig: { doubleDebuffs: true, secondaryPulse: true, pulseDamageMultiplier: 0.5 },
+            },
+          ],
+        },
       },
       targetingConfig: {
         targetingType: "area",
@@ -2958,7 +4808,7 @@ GENERATION:
       },
       cooldownConfig: { cooldownType: "encounter", cooldownValue: 1 },
       resolution: "DICE",
-      tags: ["chaos", "damage", "debuff", "entropy control"],
+      tags: ["chaos", "damage", "debuff", "entropy control", "rollable table"],
       specialization: "entropy_control",
     },
 
@@ -2970,7 +4820,7 @@ GENERATION:
       id: "chaos_weaver-reality_bending-chaos_avatar",
       name: "Chaos Avatar",
       description:
-        "Transform into a being of living chaos for 3 rounds — +6 spell damage, chaos spells roll twice and take the better result, but raw chaos burns you each turn.",
+        "Transform into a being of living chaos for 3 rounds — +6 spell damage, chaos spells roll twice and take the better result, but raw chaos burns you each turn. Each round in avatar form triggers a chaotic side effect from the Avatar Form table.",
       level: 10,
       icon: "Arcane/Open Portal",
       spellType: "ACTION",
@@ -2978,7 +4828,9 @@ GENERATION:
       typeConfig: {
         school: "chaos",
         icon: "Arcane/Open Portal",
-        tags: ["chaos", "transformation", "reality bending"],
+        tags: ["chaos", "transformation", "reality bending", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       transformationConfig: {
         transformationType: "elemental",
@@ -3009,6 +4861,94 @@ GENERATION:
           },
         ],
       },
+      mechanicsConfig: {
+        rollableTable: {
+          enabled: true,
+          tableName: "Chaos Avatar Form Effects",
+          description: "Each round in Chaos Avatar form, your unstable body produces one of these reality-warping side effects",
+          diceFormula: "1d33",
+          entries: [
+            {
+              range: { min: 1, max: 3 },
+              customName: "Chaos Pulse",
+              effect: "Emit a pulse of chaos. All enemies within 20ft take 3d6 random elemental damage. Your form flickers between elements",
+              effectConfig: { damageFormula: "3d6", damageType: "random", areaRadius: 20 },
+            },
+            {
+              range: { min: 4, max: 6 },
+              customName: "Gravity Warp",
+              effect: "Gravity warps around you. All creatures within 15ft float 10ft upward for 1 round. You hover serenely above them",
+              effectConfig: { floatRadius: 15, floatHeight: 10, duration: 1 },
+            },
+            {
+              range: { min: 7, max: 9 },
+              customName: "Probability Shift",
+              effect: "Probability bends in your favor. For 1 round, all your rolls gain +1d4 and all enemy rolls in 30ft take -1d4",
+              effectConfig: { bonusDie: "1d4", enemyPenalty: "1d4", duration: 1, radius: 30 },
+            },
+            {
+              range: { min: 10, max: 12 },
+              customName: "Shadow Army",
+              effect: "1d4 shadow copies of you emerge and attack random enemies for 2d6 necrotic each, then dissipate",
+              effectConfig: { shadowCount: "1d4", shadowDamage: "2d6", damageType: "necrotic" },
+            },
+            {
+              range: { min: 13, max: 15 },
+              customName: "Temporal Acceleration",
+              effect: "Time slows for everyone but you. Gain 1 additional action this turn. Your form leaves afterimages as you move",
+              effectConfig: { extraAction: true },
+            },
+            {
+              range: { min: 16, max: 18 },
+              customName: "Elemental Storm",
+              effect: "Chaos lightning, fire, frost, and poison rain in a 25ft radius around you. 4d6 random elemental damage to all enemies in area",
+              effectConfig: { damageFormula: "4d6", damageType: "random", areaRadius: 25 },
+            },
+            {
+              range: { min: 19, max: 21 },
+              customName: "Mirror Dimension",
+              effect: "A pocket dimension overlaps reality within 20ft. 50% miss chance on all attacks into/from the area for 1 round. You can see through both dimensions",
+              effectConfig: { mirrorDimension: true, missChance: 50, radius: 20, duration: 1 },
+            },
+            {
+              range: { min: 22, max: 24 },
+              customName: "Mayhem Overload",
+              effect: "Your chaos form generates massive Mayhem. Gain +2d4 Mayhem. Your form blazes with chaotic energy",
+              effectConfig: { mayhemGain: "2d4" },
+            },
+            {
+              range: { min: 25, max: 26 },
+              customName: "Size Fluctuation",
+              effect: "You randomly grow huge (+4 STR, -10 speed) or shrink tiny (-4 STR, +10 speed) for 1 round. The transformation is disorienting but amusing",
+              effectConfig: { sizeChange: true, duration: 1 },
+            },
+            {
+              range: { min: 27, max: 28 },
+              customName: "Entropic Aura",
+              effect: "Your presence decays matter. All enemies within 15ft lose 1d4 from a random stat for 2 rounds. Objects age and crack",
+              effectConfig: { statDrain: "1d4", radius: 15, duration: 2 },
+            },
+            {
+              range: { min: 29, max: 30 },
+              customName: "Cosmic Flatulence Avatar",
+              effect: "Your chaos form releases interdimensional gas. 3d6 psychic damage to ALL creatures within 15ft (including allies). No stealth for 1 hour. Your form vibrates with embarrassment",
+              effectConfig: { damageFormula: "3d6", damageType: "psychic", areaRadius: 15, includesAllies: true, stealthBlocked: true },
+            },
+            {
+              range: { min: 31, max: 32 },
+              customName: "Reality Tear",
+              effect: "A tear in reality opens. All enemies within 20ft are pulled toward it (DC 18 Con to resist). Those who fail take 6d6 force damage from the spatial distortion",
+              effectConfig: { damageFormula: "6d6", damageType: "force", pullRadius: 20, saveDC: 18 },
+            },
+            {
+              range: { min: 33, max: 33 },
+              customName: "Avatar Ascension",
+              effect: "For 1 round, you become PURE chaos. All your spells this round are free (0 mana, 0 AP cost) and auto-crit. Your form becomes blindingly radiant. After this round, take 4d6 damage from the strain",
+              effectConfig: { freeSpells: true, autoCrit: true, strainDamage: "4d6", duration: 1 },
+            },
+          ],
+        },
+      },
       targetingConfig: {
         targetingType: "self",
         rangeType: "self",
@@ -3028,67 +4968,74 @@ GENERATION:
       id: "chaos_weaver-wild_magic-chaos_storm_ultimate",
       name: "Storm of Chaos",
       description:
-        "Three chaotic storms strike simultaneously — roll 3d6 and apply ALL results. Fire, frost, lightning, force, void, and pure chaos collide.",
+        "Three chaotic storms strike simultaneously — roll 3 times on a d100 table and apply ALL results. Fire, frost, lightning, force, void, psychic, radiant, and pure chaos collide in apocalyptic splendor.",
       level: 10,
       icon: "Nature/Nature Wild 1",
       spellType: "ACTION",
       effectTypes: ["damage", "control"],
+      damageConfig: { formula: '8d10', damageTypes: ['chaos'], resolution: 'DICE' },
+      controlConfig: { controlType: 'battlefield_control', effects: [{ id: 'chaos_control', name: 'Chaos Control', description: 'Varies by table result' }], duration: 1, durationUnit: 'rounds' },
       typeConfig: {
         school: "chaos",
         icon: "Nature/Nature Wild 1",
         tags: ["chaos", "damage", "control", "wild magic", "rollable table"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
       },
       mechanicsConfig: {
         rollableTable: {
           enabled: true,
           tableName: "Storm of Chaos Effects",
-          description: "The chaos storm rolls 3 times, applying all effects",
-          diceFormula: "3d6",
+          description: "The chaos storm rolls 3 times on this table, applying ALL effects simultaneously",
+          diceFormula: "1d100",
           entries: [
             {
-              range: { min: 1, max: 1 },
+              range: { min: 1, max: 10 },
               customName: "Fire Storm",
-              effect: "5d10 fire damage + burning for 2 rounds",
+              effect: "5d10 fire damage + burning for 3 rounds. The flames are alive and hungry",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "fire",
-                burnDuration: 2,
+                burnDuration: 3,
               },
             },
             {
-              range: { min: 2, max: 2 },
+              range: { min: 11, max: 20 },
               customName: "Frost Storm",
-              effect: "5d10 frost damage + slowed for 2 rounds",
+              effect: "5d10 frost damage + frozen in ice (restrained) for 1 round. The ice whispers",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "frost",
-                slowDuration: 2,
+                restraint: true,
+                restraintDuration: 1,
               },
             },
             {
-              range: { min: 3, max: 3 },
+              range: { min: 21, max: 30 },
               customName: "Lightning Storm",
-              effect: "5d10 lightning damage + stunned for 1 round",
+              effect: "5d10 lightning damage + stunned for 1 round (DC 20 Con to resist)",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "lightning",
                 stunDuration: 1,
+                stunDC: 20,
               },
             },
             {
-              range: { min: 4, max: 4 },
+              range: { min: 31, max: 40 },
               customName: "Force Storm",
-              effect: "5d10 force damage + pushed 20ft",
+              effect: "5d10 force damage + pushed 20ft and knocked prone",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "force",
                 pushDistance: 20,
+                knockProne: true,
               },
             },
             {
-              range: { min: 5, max: 5 },
+              range: { min: 41, max: 50 },
               customName: "Void Storm",
-              effect: "5d10 necrotic damage + blinded for 1 round",
+              effect: "5d10 necrotic damage + blinded for 1 round. A void eye briefly opens in the sky",
               effectConfig: {
                 damageFormula: "5d10",
                 damageType: "necrotic",
@@ -3096,14 +5043,153 @@ GENERATION:
               },
             },
             {
-              range: { min: 6, max: 6 },
-              customName: "Chaos Storm",
-              effect: "6d10 random damage + teleported 15ft randomly",
+              range: { min: 51, max: 55 },
+              customName: "Psychic Storm",
+              effect: "6d10 psychic damage + target's mind is scrambled. They cannot cast spells for 1 round",
               effectConfig: {
                 damageFormula: "6d10",
-                damageType: "random",
-                randomTeleport: 15,
+                damageType: "psychic",
+                silenceDuration: 1,
               },
+            },
+            {
+              range: { min: 56, max: 60 },
+              customName: "Radiant Storm",
+              effect: "5d10 radiant damage + all undead in area take double damage. The light is blinding and beautiful",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "radiant",
+                undeadDouble: true,
+              },
+            },
+            {
+              range: { min: 61, max: 65 },
+              customName: "Gravity Storm",
+              effect: "5d10 force damage + gravity reverses for 2 rounds. Everything falls upward",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "force",
+                gravityReverse: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 66, max: 70 },
+              customName: "Temporal Storm",
+              effect: "5d10 force damage + all affected creatures are frozen in time for 1 round (except caster)",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "force",
+                timeStop: true,
+                duration: 1,
+              },
+            },
+            {
+              range: { min: 71, max: 75 },
+              customName: "Shadow Storm",
+              effect: "5d10 necrotic damage + all affected creatures' shadows detach and attack them for 2 rounds",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "necrotic",
+                shadowDetach: true,
+                shadowDamage: "1d8",
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 76, max: 80 },
+              customName: "Entropy Storm",
+              effect: "5d10 necrotic damage + ALL stats reduced by 3 for 3 rounds",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "necrotic",
+                statReduction: 3,
+                debuffDuration: 3,
+              },
+            },
+            {
+              range: { min: 81, max: 85 },
+              customName: "Probability Storm",
+              effect: "5d10 random damage + all dice in area inverted for 2 rounds. Reality runs on nightmare logic",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "random",
+                probabilityInvert: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 86, max: 88 },
+              customName: "Size Storm",
+              effect: "5d10 force damage + all creatures randomly become tiny or huge for 2 rounds",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "force",
+                sizeChange: true,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 89, max: 91 },
+              customName: "Mirror Storm",
+              effect: "5d10 force damage + illusory duplicates of all creatures appear. 50% miss chance on all attacks for 2 rounds",
+              effectConfig: {
+                damageFormula: "5d10",
+                damageType: "force",
+                mirrorDuplicates: true,
+                missChance: 50,
+                duration: 2,
+              },
+            },
+            {
+              range: { min: 92, max: 94 },
+              customName: "Elemental Storm",
+              effect: "8d10 random elemental damage. ALL four elements rage simultaneously",
+              effectConfig: {
+                damageFormula: "8d10",
+                damageType: "elemental_random",
+              },
+            },
+            {
+              range: { min: 95, max: 96 },
+              customName: "Cosmic Flatulence",
+              effect: "7d10 psychic damage to ALL creatures in 60ft (including caster). No stealth for 24 hours. The apocalypse has a smell",
+              effectConfig: {
+                damageFormula: "7d10",
+                damageType: "psychic",
+                areaRadius: 60,
+                includesCaster: true,
+                stealthBlocked: true,
+              },
+            },
+            {
+              range: { min: 97, max: 98 },
+              customName: "Reality Tear",
+              effect: "10d10 force damage + a permanent planar rift opens in the area. Terrain is permanently changed",
+              effectConfig: {
+                damageFormula: "10d10",
+                damageType: "force",
+                planarRift: true,
+                permanent: true,
+              },
+            },
+            {
+              range: { min: 99, max: 99 },
+              customName: "Singularity",
+              effect: "12d10 force damage + all creatures pulled to center and crushed. DC 20 Con save or take double damage",
+              effectConfig: {
+                damageFormula: "12d10",
+                damageType: "force",
+                pullToCenter: true,
+                saveDC: 20,
+                doubleDamage: true,
+              },
+            },
+            {
+              range: { min: 100, max: 100 },
+              customName: "The Storm Becomes",
+              effect: "The storm achieves sentience. Roll 5 more times on this table. The DM narrates the end of the world for 1 full minute",
+              effectConfig: { rollFiveTimes: true, sentient: true },
             },
           ],
         },
@@ -3136,9 +5222,11 @@ GENERATION:
       spellType: "PASSIVE",
       effectTypes: ["buff"],
       typeConfig: {
-        school: "chaos",
+        school: "necrotic",
         icon: "Radiant/Radiant Divinity",
-        tags: ["chaos", "buff", "entropy control", "passive"],
+        tags: ["necrotic", "buff", "entropy control", "passive"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
       },
       buffConfig: {
         buffType: "statEnhancement",
@@ -3166,11 +5254,12 @@ GENERATION:
       resourceCost: {
         actionPoints: 0,
         mana: 0,
+        classResource: { type: "mayhem", cost: 0 },
         components: [],
       },
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 },
       resolution: "NONE",
-      tags: ["chaos", "buff", "entropy control", "passive"],
+      tags: ["necrotic", "buff", "entropy control", "passive"],
       specialization: "entropy_control",
     },
     {
@@ -3186,6 +5275,8 @@ GENERATION:
         school: "chaos",
         icon: "Arcane/Spellcasting Aura",
         tags: ["chaos", "buff", "chaos dice", "passive"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
       },
       buffConfig: {
         buffType: "statEnhancement",
@@ -3210,6 +5301,7 @@ GENERATION:
       resourceCost: {
         actionPoints: 0,
         mana: 0,
+        classResource: { type: "mayhem", cost: 0 },
         components: [],
       },
       cooldownConfig: { cooldownType: "none", cooldownValue: 0 },

@@ -1877,6 +1877,7 @@ MAX BANKED SPHERES: 12
         formula: "1d8 + intelligence/4",
         damageTypes: ["arcane"],
         resolution: "DICE",
+        armorPiercing: 2,
         description:
           "The bolt strikes with precise arcane force, dealing direct force damage.",
       },
@@ -1946,6 +1947,7 @@ MAX BANKED SPHERES: 12
             level: "minor",
             statPenalty: { stat: "movement_speed", value: -10 },
             movementPenalty: -10,
+            mechanicsText: "Movement speed reduced by 10 feet for 1 round",
           },
         ],
         durationValue: 1,
@@ -1959,6 +1961,17 @@ MAX BANKED SPHERES: 12
       cooldownConfig: {
         cooldownType: "turn_based",
         cooldownValue: 0,
+      },
+
+      triggerConfig: {
+        conditionalEffects: [
+          {
+            id: "frost_shatter",
+            condition: "next_physical_attack_against_target",
+            effect: "+1d4 bonus damage from the next physical attack against the frozen target",
+            mechanicsText: "Frozen targets take +1d4 bonus damage from the next physical attack",
+          },
+        ],
       },
 
       tags: ["ice", "damage", "debuff", "touch", "starter"],
@@ -1975,7 +1988,7 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "healing",
+        school: "holy",
         icon: "Radiant/Radiant Bolt",
         tags: ["healing", "support", "starter"],
         castTime: 1,
@@ -2029,7 +2042,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Missile",
 
       typeConfig: {
-        school: "arcane",
+        school: "force",
         icon: "Arcane/Missile",
         tags: ["arcane", "damage", "starter"],
         castTime: 0,
@@ -2058,6 +2071,7 @@ MAX BANKED SPHERES: 12
         formula: "1d8 + intelligence/4",
         damageTypes: ["force"],
         resolution: "DICE",
+        autoHit: true,
         description:
           "An unerring missile strikes with pinpoint accuracy, delivering a concentrated burst of force.",
       },
@@ -2122,9 +2136,13 @@ MAX BANKED SPHERES: 12
         strength: "weak",
         duration: 1,
         durationUnit: "rounds",
-        saveDC: 12,
+        saveDC: 13,
         saveType: "strength",
-        savingThrow: true,
+        savingThrow: {
+          ability: "strength",
+          difficultyClass: 13,
+          saveOutcome: "negates",
+        },
         effects: [
           {
             id: "snare",
@@ -2248,7 +2266,7 @@ MAX BANKED SPHERES: 12
       icon: "Void/Red Energy Burst",
 
       typeConfig: {
-        school: "necromancy",
+        school: "necrotic",
         icon: "Void/Red Energy Burst",
         tags: ["shadow", "damage"],
         castTime: 1,
@@ -2311,7 +2329,7 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Bolt",
 
       typeConfig: {
-        school: "evocation",
+        school: "radiant",
         icon: "Radiant/Radiant Bolt",
         tags: ["holy", "arcane", "damage", "healing"],
         castTime: 1,
@@ -2396,7 +2414,7 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Fiery Bolt",
 
       typeConfig: {
-        school: "evocation",
+        school: "fire",
         icon: "Fire/Fiery Bolt",
         tags: ["fire", "damage"],
         castTime: 1,
@@ -2412,7 +2430,7 @@ MAX BANKED SPHERES: 12
 
       propagation: {
         method: "explosion",
-        behavior: "instant",
+        behavior: "aoe",
         parameters: {
           secondaryRadius: 10,
         },
@@ -2456,7 +2474,7 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frost Touch",
 
       typeConfig: {
-        school: "evocation",
+        school: "frost",
         icon: "Frost/Frost Touch",
         tags: ["ice", "damage", "debuff"],
         castTime: 1,
@@ -2506,6 +2524,7 @@ MAX BANKED SPHERES: 12
             level: "minor",
             statPenalty: { stat: "movement_speed", value: -10 },
             movementPenalty: -10,
+            mechanicsText: "Movement speed reduced by 10 feet for 2 rounds",
           },
         ],
       },
@@ -2529,7 +2548,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Spiral Vortex",
 
       typeConfig: {
-        school: "evocation",
+        school: "force",
         icon: "Arcane/Spiral Vortex",
         tags: ["arcane", "damage", "debuff", "aoe"],
         castTime: 1,
@@ -2569,7 +2588,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 14,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         description:
           "The arcane detonation strikes with pure force energy, hitting targets like an invisible battering ram. The shockwave causes internal trauma as organs are compressed and bones are rattled by the concussive blast. Those who manage to dive for cover still feel the force ripple through their bodies, though with reduced intensity.",
@@ -2595,6 +2614,7 @@ MAX BANKED SPHERES: 12
               { stat: "attack", value: -2 },
               { stat: "saving_throws", value: -2 },
             ],
+            mechanicsText: "-2 to attack rolls and saving throws for 1 round",
           },
         ],
       },
@@ -2621,7 +2641,7 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Fire Storm",
 
       typeConfig: {
-        school: "evocation",
+        school: "fire",
         icon: "Fire/Fire Storm",
         tags: ["fire", "damage", "aoe"],
         castTime: 1,
@@ -2658,7 +2678,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: "1d4",
-          damageTypes: ["fire"],
+          damageType: "fire",
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -2670,7 +2690,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 14,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -2693,7 +2713,7 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Ice Orb",
 
       typeConfig: {
-        school: "evocation",
+        school: "frost",
         icon: "Frost/Ice Orb",
         tags: ["ice", "damage", "debuff", "aoe"],
         castTime: 1,
@@ -2732,7 +2752,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 14,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         description:
           "The frost nova strikes with bone-chilling cold, causing immediate tissue damage as cells freeze and rupture. The cold penetrates deep, making targets feel as if their very blood is turning to ice. Those with strong constitutions can resist some of the damage, but even they feel the numbing effects of the magical cold.",
@@ -2760,6 +2780,7 @@ MAX BANKED SPHERES: 12
               magnitudeType: "percentage",
             },
             movementPenalty: -50,
+            mechanicsText: "Movement speed halved for 2 rounds",
           },
         ],
       },
@@ -2783,7 +2804,7 @@ MAX BANKED SPHERES: 12
       icon: "Void/Maw Gripping Fear",
 
       typeConfig: {
-        school: "necromancy",
+        school: "necrotic",
         icon: "Void/Maw Gripping Fear",
         tags: ["shadow", "damage", "debuff"],
         castTime: 1,
@@ -2817,7 +2838,7 @@ MAX BANKED SPHERES: 12
         dotConfig: {
           enabled: true,
           damagePerTick: "1d6",
-          damageTypes: ["necrotic"],
+          damageType: "necrotic",
           tickFrequency: "round",
           duration: 2,
           canStack: false,
@@ -2833,9 +2854,10 @@ MAX BANKED SPHERES: 12
             name: "Weakened",
             description:
               "Strength reduced by 2 for 2 rounds. The target's physical power is diminished, making them weaker and less effective in combat.",
+            mechanicsText: "-2 Strength for 2 rounds",
             statModifier: {
               stat: "strength",
-              magnitude: 2,
+              magnitude: -2,
               magnitudeType: "flat",
             },
           },
@@ -2909,7 +2931,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 15,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -2932,7 +2954,7 @@ MAX BANKED SPHERES: 12
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "evocation",
+        school: "holy",
         icon: "Healing/Golden Heart",
         tags: ["holy", "healing", "support"],
         castTime: 1,
@@ -3015,35 +3037,30 @@ MAX BANKED SPHERES: 12
         rollableTable: {
           enabled: true,
           tableName: "Chaos Bolt",
+          description: "Roll 1d4 to determine which chaotic effect this bolt unleashes.",
           diceFormula: "1d4",
+          resolutionType: "DICE",
+          resolutionConfig: { diceType: "d4" },
           entries: [
             {
-              min: 1,
-              max: 1,
-              effect:
-                "Chaos Nova — 15ft radius, 3d8+INT/2 chaos damage to all enemies",
-              weight: 1,
+              range: { min: 1, max: 1 },
+              customName: "Chaos Nova",
+              effect: "15ft radius, 3d8+INT/2 chaos damage to all enemies",
             },
             {
-              min: 2,
-              max: 2,
-              effect:
-                "Entropy Drain — 3d8+INT/2 chaos damage, heal yourself for the same amount",
-              weight: 1,
+              range: { min: 2, max: 2 },
+              customName: "Entropy Drain",
+              effect: "3d8+INT/2 chaos damage, heal yourself for the same amount",
             },
             {
-              min: 3,
-              max: 3,
-              effect:
-                "Polymorphic Blast — 4d8+INT/2 damage of a random element, target must save or be stunned 1 round",
-              weight: 1,
+              range: { min: 3, max: 3 },
+              customName: "Polymorphic Blast",
+              effect: "4d8+INT/2 damage of a random element, target must save or be stunned 1 round",
             },
             {
-              min: 4,
-              max: 4,
-              effect:
-                "Arcane Feedback — 3d8+INT/2 force damage chains to 1d4 random targets within 30ft",
-              weight: 1,
+              range: { min: 4, max: 4 },
+              customName: "Arcane Feedback",
+              effect: "3d8+INT/2 force damage chains to 1d4 random targets within 30ft",
             },
           ],
         },
@@ -3076,7 +3093,7 @@ MAX BANKED SPHERES: 12
       icon: "Frost/Frozen in Ice",
 
       typeConfig: {
-        school: "abjuration",
+        school: "frost",
         icon: "Frost/Frozen in Ice",
         tags: ["ice", "healing", "holy", "buff"],
         castTime: 1,
@@ -3123,7 +3140,7 @@ MAX BANKED SPHERES: 12
             name: "Frost Armor",
             description:
               "Gain +2 armor and 50% frost resistance for 3 rounds. A layer of protective enchanted ice forms around you, deflecting blows and absorbing frost.",
-            mechanicsText: "",
+            mechanicsText: "+2 armor and 50% frost resistance for 3 rounds",
             statModifier: {
               stat: "armor",
               magnitude: 2,
@@ -3156,7 +3173,7 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "abjuration",
+        school: "arcane",
         icon: "Radiant/Radiant Divinity",
         tags: ["arcane", "holy", "nature", "buff", "purification"],
         castTime: 1,
@@ -3203,7 +3220,7 @@ MAX BANKED SPHERES: 12
             name: "Prismatic Shield",
             description:
               "Absorbs up to 15 damage over 3 rounds. The shimmering ward deflects incoming attacks with flashes of multicolored light.",
-            mechanicsText: "",
+            mechanicsText: "Absorbs 15 damage over 3 rounds",
           },
         ],
         durationValue: 3,
@@ -3221,7 +3238,7 @@ MAX BANKED SPHERES: 12
             name: "Prismatic Cleanse",
             description:
               "Removes one debuff or negative status effect from each ally in the area.",
-            mechanicsText: "",
+            mechanicsText: "Removes 1 debuff per ally in area",
           },
         ],
         strength: "moderate",
@@ -3246,7 +3263,7 @@ MAX BANKED SPHERES: 12
       icon: "Nature/Growth",
 
       typeConfig: {
-        school: "restoration",
+        school: "nature",
         icon: "Nature/Growth",
         tags: ["nature", "healing", "holy", "aoe", "hot"],
         castTime: 1,
@@ -3292,7 +3309,7 @@ MAX BANKED SPHERES: 12
         resolution: "DICE",
         hotConfig: {
           enabled: true,
-          healPerTick: "3d6 + spirit/2",
+          healingPerTick: "3d6 + spirit/2",
           tickFrequency: "round",
           duration: 3,
           canStack: false,
@@ -3321,7 +3338,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Quick Step",
 
       typeConfig: {
-        school: "conjuration",
+        school: "arcane",
         icon: "Arcane/Quick Step",
         tags: ["arcane", "shadow", "chaos", "utility", "teleport", "damage"],
         castTime: 0,
@@ -3365,7 +3382,7 @@ MAX BANKED SPHERES: 12
             name: "Phase Shift",
             description:
               "Teleport up to 40 feet to an unoccupied space you can see.",
-            mechanicsText: "",
+            mechanicsText: "Teleport up to 40 feet to unoccupied space (line of sight required)",
             distance: 40,
             needsLineOfSight: true,
           },
@@ -3405,7 +3422,8 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Rapid Fire Projectiles",
 
       typeConfig: {
-        school: "evocation",
+        school: "fire",
+        secondaryElement: "frost",
         icon: "Fire/Rapid Fire Projectiles",
         tags: ["fire", "ice", "nature", "holy", "damage", "aoe"],
         castTime: 2,
@@ -3457,7 +3475,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -3479,7 +3497,7 @@ MAX BANKED SPHERES: 12
       icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
-        school: "evocation",
+        school: "radiant",
         icon: "Radiant/Radiant Divinity",
         tags: ["holy", "healing", "arcane", "damage", "aoe"],
         castTime: 1,
@@ -3548,7 +3566,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -3579,7 +3597,7 @@ MAX BANKED SPHERES: 12
       icon: "Healing/Golden Heart",
 
       typeConfig: {
-        school: "restoration",
+        school: "holy",
         icon: "Healing/Golden Heart",
         tags: ["holy", "shadow", "healing", "chaos", "buff", "aoe"],
         castTime: 2,
@@ -3635,7 +3653,7 @@ MAX BANKED SPHERES: 12
             name: "Harmonic Attunement",
             description:
               "All allies gain +2 to saving throws and resistance to all damage types (half damage) for 2 rounds.",
-            mechanicsText: "",
+            mechanicsText: "+2 saving throws, resistance to all damage for 2 rounds",
           },
         ],
         durationValue: 2,
@@ -3663,7 +3681,8 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Rapid Fire Projectiles",
 
       typeConfig: {
-        school: "evocation",
+        school: "force",
+        secondaryElement: "fire",
         icon: "Fire/Rapid Fire Projectiles",
         tags: ["arcane", "fire", "ice", "nature", "damage", "control", "aoe"],
         castTime: 2,
@@ -3715,7 +3734,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -3726,7 +3745,11 @@ MAX BANKED SPHERES: 12
         durationUnit: "rounds",
         saveDC: 16,
         saveType: "constitution",
-        savingThrow: true,
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
         effects: [
           {
             id: "elemental_disorientation",
@@ -3799,35 +3822,30 @@ MAX BANKED SPHERES: 12
         rollableTable: {
           enabled: true,
           tableName: "Chaos Storm",
+          description: "Roll 1d4 to determine the type of chaotic elemental destruction.",
           diceFormula: "1d4",
+          resolutionType: "DICE",
+          resolutionConfig: { diceType: "d4" },
           entries: [
             {
-              min: 1,
-              max: 1,
-              effect:
-                "Elemental Cascade — 15ft radius, 14d6+INT chaos damage, all enemies",
-              weight: 1,
+              range: { min: 1, max: 1 },
+              customName: "Elemental Cascade",
+              effect: "15ft radius, 14d6+INT chaos damage, all enemies",
             },
             {
-              min: 2,
-              max: 2,
-              effect:
-                "Gravity Well — 20ft radius, 10d6+INT chaos damage, all enemies pulled to center",
-              weight: 1,
+              range: { min: 2, max: 2 },
+              customName: "Gravity Well",
+              effect: "20ft radius, 10d6+INT chaos damage, all enemies pulled to center",
             },
             {
-              min: 3,
-              max: 3,
-              effect:
-                "Bifurcation — Two 8d6+INT chaos bolts hitting separate targets",
-              weight: 1,
+              range: { min: 3, max: 3 },
+              customName: "Bifurcation",
+              effect: "Two 8d6+INT chaos bolts hitting separate targets",
             },
             {
-              min: 4,
-              max: 4,
-              effect:
-                "Feedback Loop — 12d6+INT chaos damage to enemies, heal all allies 3d6 in 20ft radius",
-              weight: 1,
+              range: { min: 4, max: 4 },
+              customName: "Feedback Loop",
+              effect: "12d6+INT chaos damage to enemies, heal all allies 3d6 in 20ft radius",
             },
           ],
         },
@@ -3843,7 +3861,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 16,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -3868,7 +3886,8 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Ebon Blaze",
 
       typeConfig: {
-        school: "evocation",
+        school: "force",
+        secondaryElement: "chaos",
         icon: "Arcane/Ebon Blaze",
         tags: ["ultimate", "damage", "aoe", "all elements", "self damage"],
         castTime: 3,
@@ -3945,7 +3964,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -4008,48 +4027,40 @@ MAX BANKED SPHERES: 12
         rollableTable: {
           enabled: true,
           tableName: "Chaos Vortex",
+          description: "Roll 1d6 to determine the vortex's chaotic manifestation.",
           diceFormula: "1d6",
+          resolutionType: "DICE",
+          resolutionConfig: { diceType: "d6" },
           entries: [
             {
-              min: 1,
-              max: 1,
-              effect:
-                "Annihilation — 20d6+INT chaos damage in 25ft radius, all creatures (including allies)",
-              weight: 1,
+              range: { min: 1, max: 1 },
+              customName: "Annihilation",
+              effect: "20d6+INT chaos damage in 25ft radius, all creatures (including allies)",
             },
             {
-              min: 2,
-              max: 2,
-              effect:
-                "Siphon Storm — 14d6+INT chaos damage, heal all allies in radius for half the damage dealt",
-              weight: 1,
+              range: { min: 2, max: 2 },
+              customName: "Siphon Storm",
+              effect: "14d6+INT chaos damage, heal all allies in radius for half the damage dealt",
             },
             {
-              min: 3,
-              max: 3,
-              effect:
-                "Gravity Collapse — 12d6+INT chaos damage, all enemies pulled to center and restrained 1 round",
-              weight: 1,
+              range: { min: 3, max: 3 },
+              customName: "Gravity Collapse",
+              effect: "12d6+INT chaos damage, all enemies pulled to center and restrained 1 round",
             },
             {
-              min: 4,
-              max: 4,
-              effect:
-                "Elemental Barrage — 16d6+INT damage split evenly across 4 random elements (fire, frost, lightning, radiant)",
-              weight: 1,
+              range: { min: 4, max: 4 },
+              customName: "Elemental Barrage",
+              effect: "16d6+INT damage split evenly across 4 random elements (fire, frost, lightning, radiant)",
             },
             {
-              min: 5,
-              max: 5,
-              effect:
-                "Time Warp — 10d6+INT chaos damage, all enemies in area lose their next turn",
-              weight: 1,
+              range: { min: 5, max: 5 },
+              customName: "Time Warp",
+              effect: "10d6+INT chaos damage, all enemies in area lose their next turn",
             },
             {
-              min: 6,
-              max: 6,
-              effect: "Chaos Perfection — Choose any of the above effects",
-              weight: 1,
+              range: { min: 6, max: 6 },
+              customName: "Chaos Perfection",
+              effect: "Choose any of the above effects",
             },
           ],
         },
@@ -4065,7 +4076,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 17,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -4094,7 +4105,7 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Missile",
 
       typeConfig: {
-        school: "enchantment",
+        school: "arcane",
         icon: "Arcane/Missile",
         tags: ["arcane", "holy", "shadow", "fire", "buff", "healing", "aoe"],
         castTime: 2,
@@ -4133,7 +4144,7 @@ MAX BANKED SPHERES: 12
         spheres: ["Arcane", "Holy", "Shadow", "Fire"],
       },
 
-      effectTypes: ["buff", "healing"],
+      effectTypes: ["buff", "healing", "debuff"],
 
       buffConfig: {
         buffType: "custom",
@@ -4143,7 +4154,7 @@ MAX BANKED SPHERES: 12
             name: "Elemental Synthesis",
             description:
               "All allies gain +3 to attack rolls, +2 to spell damage, and regenerate 1d4 HP at the start of each turn for 3 rounds.",
-            mechanicsText: "",
+            mechanicsText: "+3 attack, +2 spell damage, 1d4 regen/turn for 3 rounds",
           },
         ],
         durationValue: 3,
@@ -4160,14 +4171,14 @@ MAX BANKED SPHERES: 12
       },
 
       debuffConfig: {
-        debuffType: "self",
+        debuffType: "statPenalty",
         effects: [
           {
             id: "synthesis_drain",
             name: "Synthesis Drain",
             description:
               "The caster has -2 to spell attack rolls for 1 round from the strain of balancing opposing elements.",
-            mechanicsText: "",
+            mechanicsText: "-2 to spell attack rolls for 1 round (self)",
             isSelfDebuff: true,
             statPenalty: { stat: "spell_attack", value: -2 },
           },
@@ -4198,7 +4209,8 @@ MAX BANKED SPHERES: 12
       icon: "Arcane/Ebon Blaze",
 
       typeConfig: {
-        school: "evocation",
+        school: "force",
+        secondaryElement: "fire",
         icon: "Arcane/Ebon Blaze",
         tags: [
           "ultimate",
@@ -4259,7 +4271,7 @@ MAX BANKED SPHERES: 12
         ],
       },
 
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "debuff"],
 
       damageConfig: {
         formula: "20d6 + intelligence",
@@ -4278,7 +4290,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -4289,7 +4301,7 @@ MAX BANKED SPHERES: 12
       },
 
       debuffConfig: {
-        debuffType: "self",
+        debuffType: "statPenalty",
         effects: [
           {
             id: "convergence_exhaustion",
@@ -4332,7 +4344,8 @@ MAX BANKED SPHERES: 12
       icon: "Void/Shadowy Blaze",
 
       typeConfig: {
-        school: "conjuration",
+        school: "force",
+        secondaryElement: "necrotic",
         icon: "Void/Shadowy Blaze",
         tags: ["ultimate", "damage", "control", "aoe", "void", "self damage"],
         castTime: 2,
@@ -4382,7 +4395,7 @@ MAX BANKED SPHERES: 12
           difficultyClass: 18,
           partialEffect: true,
           partialEffectFormula: "damage/2",
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
       },
 
@@ -4393,7 +4406,11 @@ MAX BANKED SPHERES: 12
         durationUnit: "rounds",
         saveDC: 18,
         saveType: "constitution",
-        savingThrow: true,
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 18,
+          saveOutcome: "negates",
+        },
         effects: [
           {
             id: "void_disorientation",
@@ -4440,7 +4457,7 @@ MAX BANKED SPHERES: 12
       icon: "Fire/Volcanic Erupt",
 
       typeConfig: {
-        school: "transmutation",
+        school: "arcane",
         icon: "Fire/Volcanic Erupt",
         tags: ["ultimate", "buff", "transformation", "mastery"],
         castTime: 2,
@@ -4490,7 +4507,7 @@ MAX BANKED SPHERES: 12
             name: "Elemental Apotheosis",
             description:
               "4 rounds: +4 spell damage, +3 armor, fire/frost/lightning resistance, 2-sphere spells cost half mana (rounded down). Your body radiates prismatic elemental energy as a living conduit of force.",
-            mechanicsText: "",
+            mechanicsText: "+4 spell damage, +3 armor, elemental resistance, half mana on 2-sphere spells for 4 rounds",
           },
         ],
         durationValue: 4,

@@ -1757,7 +1757,7 @@
   position: fixed !important;
   z-index: 1000 !important;
   backdrop-filter: blur(4px) !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 .wow-nav-grid {
@@ -1876,6 +1876,139 @@
   opacity: 1 !important;
   background: var(--pf-gold) !important;
   border-color: var(--pf-gold-dark) !important;
+}
+
+/* ===== NAV COLLAPSE/REVEAL ===== */
+.nav-wrapper {
+}
+
+.nav-wrapper--collapsed {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(0.2) translateY(-200px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.nav-collapse-toggle {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 16px;
+  background: linear-gradient(180deg,
+    #d5cbb0 0%,
+    #c4b59a 100%);
+  border: 1px solid var(--pf-brown-medium);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  color: var(--pf-brown-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease, background 0.2s ease, color 0.2s ease;
+  z-index: 1001;
+  pointer-events: auto;
+  box-shadow: 0 2px 4px rgba(45, 24, 16, 0.2);
+}
+
+.nav-collapse-toggle svg {
+  width: 12px;
+  height: 12px;
+}
+
+.nav-collapse-toggle--visible {
+  opacity: 1;
+}
+
+.nav-collapse-toggle:hover {
+  opacity: 1 !important;
+  background: linear-gradient(180deg,
+    var(--pf-gold-light) 0%,
+    var(--pf-gold) 100%);
+  border-color: var(--pf-gold-dark);
+  color: var(--pf-brown-darkest);
+}
+
+/* Navigation Orb - parchment-themed */
+.nav-orb {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  z-index: 1000;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+.nav-orb-inner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%,
+    #f8f4e6 0%,
+    #ede4d3 35%,
+    #d5cbb0 60%,
+    #a08c70 100%);
+  border: 2px solid var(--pf-brown-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 2px 8px rgba(45, 24, 16, 0.25),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.nav-orb-inner svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--pf-brown-dark);
+  stroke-width: 2;
+  fill: none;
+}
+
+.nav-orb:hover .nav-orb-inner {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 10px rgba(212, 175, 55, 0.3),
+    0 3px 10px rgba(45, 24, 16, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  border-color: var(--pf-gold-dark);
+}
+
+.nav-orb:hover .nav-orb-inner svg {
+  stroke: var(--pf-brown-darkest);
+}
+
+.nav-orb-pulse {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--pf-brown-light);
+  animation: nav-orb-pulse-anim 3s ease-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes nav-orb-pulse-anim {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
 /* ===== COMPACT NAV BAR (smaller laptops) ===== */

@@ -442,46 +442,21 @@ function GameScreen() {
             let hasLevelEditorData = false;
 
             if (gameState.levelEditor) {
-                // Load all level editor data
-                if (gameState.levelEditor.terrainData) {
-                    levelEditorStore.setTerrainData(gameState.levelEditor.terrainData);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.environmentalObjects) {
-                    levelEditorStore.setEnvironmentalObjects(gameState.levelEditor.environmentalObjects);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.lightSources) {
-                    levelEditorStore.setLightSources(gameState.levelEditor.lightSources);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.wallData) {
-                    levelEditorStore.setWallData(gameState.levelEditor.wallData);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.dndElements) {
-                    levelEditorStore.setDndElements(gameState.levelEditor.dndElements);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.fogOfWarData) {
-                    levelEditorStore.setFogOfWarData(gameState.levelEditor.fogOfWarData);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.fogOfWarPaths !== undefined) {
-                    levelEditorStore.setFogOfWarPaths(gameState.levelEditor.fogOfWarPaths);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.fogErasePaths !== undefined) {
-                    levelEditorStore.setFogErasePaths(gameState.levelEditor.fogErasePaths);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.drawingPaths) {
-                    levelEditorStore.setDrawingPaths(gameState.levelEditor.drawingPaths);
-                    hasLevelEditorData = true;
-                }
-                if (gameState.levelEditor.drawingLayers) {
-                    levelEditorStore.setDrawingLayers(gameState.levelEditor.drawingLayers);
-                    hasLevelEditorData = true;
+                const le = gameState.levelEditor;
+                const batchData = {};
+                if (le.terrainData) { batchData.terrainData = le.terrainData; hasLevelEditorData = true; }
+                if (le.environmentalObjects) { batchData.environmentalObjects = le.environmentalObjects; hasLevelEditorData = true; }
+                if (le.lightSources) { batchData.lightSources = le.lightSources; hasLevelEditorData = true; }
+                if (le.wallData) { batchData.wallData = le.wallData; hasLevelEditorData = true; }
+                if (le.dndElements) { batchData.dndElements = le.dndElements; hasLevelEditorData = true; }
+                if (le.fogOfWarData) { batchData.fogOfWarData = le.fogOfWarData; hasLevelEditorData = true; }
+                if (le.fogOfWarPaths !== undefined) { batchData.fogOfWarPaths = le.fogOfWarPaths; hasLevelEditorData = true; }
+                if (le.fogErasePaths !== undefined) { batchData.fogErasePaths = le.fogErasePaths; hasLevelEditorData = true; }
+                if (le.drawingPaths) { batchData.drawingPaths = le.drawingPaths; hasLevelEditorData = true; }
+                if (le.drawingLayers) { batchData.drawingLayers = le.drawingLayers; hasLevelEditorData = true; }
+                
+                if (hasLevelEditorData) {
+                    levelEditorStore.loadCompleteLevelEditorState(batchData);
                 }
             }
 
@@ -494,45 +469,22 @@ function GameScreen() {
                     const { default: levelEditorPersistenceService } = await import('./services/levelEditorPersistenceService');
                     const levelEditorData = levelEditorPersistenceService.loadLevelEditorState(roomId);
                     if (levelEditorData) {
-                        // Merge terrain data instead of replacing to preserve any tiles that might have been set
-                        const currentTerrainData = levelEditorStore.terrainData || {};
-                        const mergedTerrainData = { ...currentTerrainData, ...(levelEditorData.terrainData || {}) };
-
-                        // Only use loadMapState if we don't have terrain data, otherwise merge manually
-                        if (Object.keys(currentTerrainData).length === 0) {
+                        if (Object.keys(levelEditorStore.terrainData || {}).length === 0) {
                             useLevelEditorStore.getState().loadMapState(levelEditorData);
                         } else {
-                            // Merge individual properties to preserve existing terrain
-                            if (levelEditorData.terrainData && Object.keys(mergedTerrainData).length > 0) {
-                                levelEditorStore.setTerrainData(mergedTerrainData);
-                            }
-                            if (levelEditorData.environmentalObjects) {
-                                levelEditorStore.setEnvironmentalObjects(levelEditorData.environmentalObjects);
-                            }
-                            if (levelEditorData.lightSources) {
-                                levelEditorStore.setLightSources(levelEditorData.lightSources);
-                            }
-                            if (levelEditorData.wallData) {
-                                levelEditorStore.setWallData(levelEditorData.wallData);
-                            }
-                            if (levelEditorData.dndElements) {
-                                levelEditorStore.setDndElements(levelEditorData.dndElements);
-                            }
-                            if (levelEditorData.fogOfWarData) {
-                                levelEditorStore.setFogOfWarData(levelEditorData.fogOfWarData);
-                            }
-                            if (levelEditorData.fogOfWarPaths !== undefined) {
-                                levelEditorStore.setFogOfWarPaths(levelEditorData.fogOfWarPaths);
-                            }
-                            if (levelEditorData.fogErasePaths !== undefined) {
-                                levelEditorStore.setFogErasePaths(levelEditorData.fogErasePaths);
-                            }
-                            if (levelEditorData.drawingPaths) {
-                                levelEditorStore.setDrawingPaths(levelEditorData.drawingPaths);
-                            }
-                            if (levelEditorData.drawingLayers) {
-                                levelEditorStore.setDrawingLayers(levelEditorData.drawingLayers);
-                            }
+                            const mergedTerrainData = { ...levelEditorStore.terrainData, ...(levelEditorData.terrainData || {}) };
+                            levelEditorStore.loadCompleteLevelEditorState({
+                                terrainData: mergedTerrainData,
+                                environmentalObjects: levelEditorData.environmentalObjects,
+                                lightSources: levelEditorData.lightSources,
+                                wallData: levelEditorData.wallData,
+                                dndElements: levelEditorData.dndElements,
+                                fogOfWarData: levelEditorData.fogOfWarData,
+                                fogOfWarPaths: levelEditorData.fogOfWarPaths,
+                                fogErasePaths: levelEditorData.fogErasePaths,
+                                drawingPaths: levelEditorData.drawingPaths,
+                                drawingLayers: levelEditorData.drawingLayers
+                            });
                         }
                     }
                 } catch (error) {

@@ -700,6 +700,21 @@ const InventoryHeaderButton = () => {
 export default function Navigation({ onReturnToLanding }) {
     const [openWindows, setOpenWindows] = useState(new Set());
     const [showExitConfirm, setShowExitConfirm] = useState(false);
+    const [isNavCollapsed, setIsNavCollapsed] = useState(() => {
+        try { return localStorage.getItem('mythrill-nav-collapsed') === 'true'; } catch { return false; }
+    });
+    const [isNavHovered, setIsNavHovered] = useState(false);
+    const [orbPosition, setOrbPosition] = useState(() => {
+        try {
+            const saved = localStorage.getItem('mythrill-nav-orb');
+            if (saved) return JSON.parse(saved);
+        } catch {}
+        return { x: window.innerWidth / 2 - 20, y: 80 };
+    });
+    const orbRef = useRef(null);
+    const orbPositionRef = useRef(orbPosition);
+    orbPositionRef.current = orbPosition;
+    const orbDragRef = useRef(false);
 
     // Level editor store
     const { isEditorMode, setEditorMode } = useLevelEditorStore();
@@ -820,7 +835,28 @@ export default function Navigation({ onReturnToLanding }) {
     });
     const nodeRef = useRef(null);
 
-
+    const handleToggleCollapse = useCallback(() => {
+        setIsNavCollapsed(prev => {
+            const next = !prev;
+            try { localStorage.setItem('mythrill-nav-collapsed', String(next)); } catch {}
+            if (next) {
+                setPosition(cur => {
+                    const orbPos = { x: cur.x + size.width / 2 - 20, y: cur.y + size.height + 10 };
+                    setOrbPosition(orbPos);
+                    orbPositionRef.current = orbPos;
+                    try { localStorage.setItem('mythrill-nav-orb', JSON.stringify(orbPos)); } catch {}
+                    return cur;
+                });
+            } else {
+                const op = orbPositionRef.current;
+                setPosition({
+                    x: Math.max(0, op.x - size.width / 2),
+                    y: Math.max(0, op.y - size.height - 40)
+                });
+            }
+            return next;
+        });
+    }, [size.width, size.height]);
 
     // Memoize buttons to prevent unnecessary re-renders
     const buttons = useMemo(() => getVisibleButtons(), [isGMMode]);
@@ -864,8 +900,13 @@ export default function Navigation({ onReturnToLanding }) {
     }, [openWindows, isEditorMode, setEditorMode, isGMMode, isSelectionMode, isInCombat, startSelectionMode, cancelSelectionMode, isCommunityWindowOpen, setCommunityWindowOpen]);
 
     const handleKeyPress = useCallback((e) => {
-        // Don't handle shortcuts if user is typing in an input field or content editable element
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+
+        if (e.key === '`' || e.key === '~') {
+            e.preventDefault();
+            handleToggleCollapse();
+            return;
+        }
 
         const key = e.key.toUpperCase();
         const button = buttons.find(b => b.shortcut.toUpperCase() === key);
@@ -937,7 +978,7 @@ export default function Navigation({ onReturnToLanding }) {
             e.preventDefault();
             handleButtonClick(button.id);
         }
-    }, [handleButtonClick, onReturnToLanding]);
+    }, [handleButtonClick, onReturnToLanding, handleToggleCollapse]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyPress);
@@ -1485,13 +1526,55 @@ export default function Navigation({ onReturnToLanding }) {
 
                 {/* Desktop Navigation */}
                 {!isMobile && (
-                    <Draggable
-                        handle=".wow-nav-grid"
-                        position={position}
-                        onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
-                        nodeRef={nodeRef}
-                    >
-                        <div ref={nodeRef}>
+                    <>
+                        {/* Navigation Orb - shown when nav is collapsed */}
+                        {isNavCollapsed && (
+                            <Draggable
+                                position={orbPosition}
+                                onStart={() => { orbDragRef.current = false; }}
+                                onDrag={() => { orbDragRef.current = true; }}
+                                onStop={(e, data) => {
+                                    const newPos = { x: data.x, y: data.y };
+                                    setOrbPosition(newPos);
+                                    orbPositionRef.current = newPos;
+                                    try { localStorage.setItem('mythrill-nav-orb', JSON.stringify(newPos)); } catch {}
+                                    if (!orbDragRef.current) {
+                                        setIsNavCollapsed(false);
+                                        try { localStorage.setItem('mythrill-nav-collapsed', 'false'); } catch {}
+                                        setPosition({
+                                            x: Math.max(0, newPos.x - size.width / 2),
+                                            y: Math.max(0, newPos.y - size.height - 40)
+                                        });
+                                    }
+                                }}
+                                nodeRef={orbRef}
+                            >
+                                <div
+                                    ref={orbRef}
+                                    className="nav-orb"
+                                    title="Expand Navigation (~)"
+                                >
+                                    <div className="nav-orb-inner">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M6 9l6 6 6-6" />
+                                        </svg>
+                                    </div>
+                                    <div className="nav-orb-pulse" />
+                                </div>
+                            </Draggable>
+                        )}
+                        <Draggable
+                            handle=".wow-nav-grid"
+                            position={position}
+                            onStop={(e, data) => setPosition({ x: data.x, y: data.y })}
+                            nodeRef={nodeRef}
+                        >
+                            <div
+                                ref={nodeRef}
+                                className={`nav-wrapper ${isNavCollapsed ? 'nav-wrapper--collapsed' : ''}`}
+                                onMouseEnter={() => setIsNavHovered(true)}
+                                onMouseLeave={() => setIsNavHovered(false)}
+                            >
                             <Resizable
                                 width={size.width}
                                 height={size.height}
@@ -1508,11 +1591,10 @@ export default function Navigation({ onReturnToLanding }) {
                                 }}>
                                     <div className="wow-nav-grid">
                                         {buttons.filter(button => button && button.id).map(button => {
-                                            // Special handling for level editor and combat active states
                                             const isActive = button.id === 'leveleditor'
                                                 ? isEditorMode
                                                 : button.id === 'combat'
-                                                    ? isSelectionMode || isInCombat  // Active during selection mode OR combat
+                                                    ? isSelectionMode || isInCombat
                                                     : openWindows.has(button.id);
 
                                             return (
@@ -1594,10 +1676,36 @@ export default function Navigation({ onReturnToLanding }) {
                                         )}
 
                                     </div>
+
+                                    {/* Collapse toggle below the nav bar */}
+                                    <button
+                                        className={`nav-collapse-toggle ${isNavHovered ? 'nav-collapse-toggle--visible' : ''}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            const orbPos = {
+                                                x: position.x + size.width / 2 - 18,
+                                                y: position.y + size.height + 10
+                                            };
+                                            setOrbPosition(orbPos);
+                                            orbPositionRef.current = orbPos;
+                                            try {
+                                                localStorage.setItem('mythrill-nav-collapsed', 'true');
+                                                localStorage.setItem('mythrill-nav-orb', JSON.stringify(orbPos));
+                                            } catch {}
+                                            setIsNavCollapsed(true);
+                                        }}
+                                        title="Collapse to Orb (~)"
+                                    >
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M12 3v18M5 12l7 7 7-7" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </Resizable>
                         </div>
                     </Draggable>
+                    </>
                 )}
 
                 {/* Grid Coordinates Display */}

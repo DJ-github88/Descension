@@ -666,6 +666,8 @@ OVERHEAT (101+): 1 round to spend below 101
       resolution: "DICE",
       effectTypes: ["damage"],
 
+      rageGain: "1d6",
+
       damageConfig: {
         formula: "1d8 + strength",
         damageTypes: ["bludgeoning"],
@@ -676,10 +678,33 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: ["melee", "damage", "rage generation", "starter", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Rage Surge",
+        description: "Your fury erupts unpredictably with each strike, sometimes empowering you, sometimes spiraling out of control.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Fizzle", effect: "Your rage misfires. Take 1d4 self damage from suppressed fury." },
+          { range: { min: 2, max: 3 }, customName: "Weak Strike", effect: "The blow lands feebly. Half damage on this attack." },
+          { range: { min: 4, max: 6 }, customName: "Steady Hit", effect: "A clean strike. Normal damage, +1 Rage." },
+          { range: { min: 7, max: 9 }, customName: "Fueled by Fury", effect: "Deal +1d6 bonus damage as rage empowers the strike." },
+          { range: { min: 10, max: 12 }, customName: "Raging Blow", effect: "Deal +1d8 bonus damage and gain +2 Rage." },
+          { range: { min: 13, max: 14 }, customName: "Brutal Slam", effect: "Knock the target 5 ft back. Deal +2d4 damage." },
+          { range: { min: 15, max: 16 }, customName: "Blood Spray", effect: "Strike an artery. Target takes 1d4 bleeding damage per round for 2 rounds." },
+          { range: { min: 17, max: 17 }, customName: "Rage Overflow", effect: "Deal +2d6 damage but take 1d4 self damage from uncontrolled fury." },
+          { range: { min: 18, max: 18 }, customName: "Primal Howl", effect: "Let out a terrifying roar. All enemies within 10 ft are Frightened for 1 round." },
+          { range: { min: 19, max: 19 }, customName: "Fury Unleashed", effect: "Deal +3d6 damage. Gain +1d8 Rage." },
+          { range: { min: 20, max: 20 }, customName: "Berserker Epiphany", effect: "The rage achieves terrible clarity. Deal +4d6 damage and gain +2d6 Rage. Next attack has advantage." },
+        ],
+      },
     },
 
     {
@@ -755,7 +780,8 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -842,7 +868,8 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -870,7 +897,7 @@ OVERHEAT (101+): 1 round to spend below 101
       icon: "Slashing/Cleave",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "slashing",
         icon: "Slashing/Cleave",
         tags: ["melee", "damage", "rage generation", "frenzied"],
         castTime: 1,
@@ -893,12 +920,14 @@ OVERHEAT (101+): 1 round to spend below 101
           "Unleash a whirlwind of savage strikes, vision red with fury",
       },
 
+      rageGain: "1d6",
+
       resolution: "DICE",
       effectTypes: ["damage"],
 
       damageConfig: {
         formula: "1d8 + strength + 1d6",
-        damageTypes: ["bludgeoning"],
+        damageTypes: ["slashing"],
 
         canCrit: true,
         critMultiplier: 2,
@@ -925,10 +954,33 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: ["melee", "damage", "rage generation", "frenzied", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Frenzy Mayhem",
+        description: "Your frenzied slashes spiral into unpredictable violence — extra strikes, wild arcs, and self-destructive flurries.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Self-Mutilation", effect: "You slash yourself in the frenzy. Take 1d6 slashing damage." },
+          { range: { min: 2, max: 3 }, customName: "Wild Miss", effect: "The slash goes wide. Half damage and you stumble, losing 5 ft of movement." },
+          { range: { min: 4, max: 6 }, customName: "Glancing Blow", effect: "A shallow cut. Normal damage." },
+          { range: { min: 7, max: 9 }, customName: "Double Slash", effect: "Your fury speeds your blade. Hit the target twice at half damage each." },
+          { range: { min: 10, max: 12 }, customName: "Rending Tear", effect: "The slash tears deep. Deal +1d8 slashing and the target bleeds for 1d4/round for 2 rounds." },
+          { range: { min: 13, max: 14 }, customName: "Whirlwind Slash", effect: "Spin and slash all enemies within 5 ft for full damage." },
+          { range: { min: 15, max: 16 }, customName: "Savage Laceration", effect: "Carve a deep wound. +2d6 damage and target has disadvantage on next attack." },
+          { range: { min: 17, max: 17 }, customName: "Blind Fury", effect: "Deal +3d6 damage but take 1d6 recoil damage. Gain +1d8 Rage." },
+          { range: { min: 18, max: 18 }, customName: "Executioner's Arc", effect: "The slash finds the neck. Critical hit if target is below 25% HP." },
+          { range: { min: 19, max: 19 }, customName: "Blood Frenzy", effect: "The strike drinks deep. Heal for half the damage dealt." },
+          { range: { min: 20, max: 20 }, customName: "Frenzied Massacre", effect: "Unleash a devastating flurry. +4d6 damage, target is Stunned for 1 round, and you gain +2d6 Rage." },
+        ],
+      },
     },
 
     {
@@ -1035,6 +1087,28 @@ OVERHEAT (101+): 1 round to spend below 101
         "frenzied",
         "berserker",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "War Cry Chaos",
+        description: "Your battle cry reverberates with unpredictable primal fury, sometimes inspiring beyond reason, sometimes shattering eardrums indiscriminately.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Choked Scream", effect: "Your voice cracks. No buff applied. Take 1d4 psychic damage from embarrassment." },
+          { range: { min: 2, max: 4 }, customName: "Weak Shout", effect: "A passable yell. Buff duration reduced to 1 round." },
+          { range: { min: 5, max: 8 }, customName: "Rallying Cry", effect: "A solid war cry. Normal effects apply." },
+          { range: { min: 9, max: 11 }, customName: "Deafening Blast", effect: "The sonic boom is overwhelming. Enemies within range are Deafened for 1 round in addition to normal effects." },
+          { range: { min: 12, max: 13 }, customName: "Inspiring Roar", effect: "Allies gain +1d6 bonus damage instead of +1d4 for the duration." },
+          { range: { min: 14, max: 15 }, customName: "Terrifying Bellow", effect: "Enemies within range must make a DC 14 Spirit save or become Frightened for 1 round." },
+          { range: { min: 16, max: 16 }, customName: "Shattered Ground", effect: "The force cracks the earth. Difficult terrain in a 10 ft radius for 2 rounds." },
+          { range: { min: 17, max: 17 }, customName: "Echoing Fury", effect: "The cry echoes. Buff duration extended to 3 rounds and enemies take an extra 1d4 damage." },
+          { range: { min: 18, max: 18 }, customName: "Primal Surge", effect: "You and all allies gain +1d8 Rage (or equivalent resource). +2 to all attack rolls for duration." },
+          { range: { min: 19, max: 19 }, customName: "Warcry of the Ancients", effect: "The cry channels ancestral fury. All allies gain +2d4 damage and are immune to Fear for 2 rounds." },
+          { range: { min: 20, max: 20 }, customName: "Cataclysmic Howl", effect: "Reality trembles. Enemies take 2d8 bludgeoning damage and are knocked prone. Allies gain +3 attack for 2 rounds. You gain +2d8 Rage." },
+        ],
+      },
     },
 
     {
@@ -1047,7 +1121,7 @@ OVERHEAT (101+): 1 round to spend below 101
       icon: "Necrotic/Drain Soul",
 
       typeConfig: {
-        school: "bludgeoning",
+        school: "slashing",
         icon: "Necrotic/Drain Soul",
         tags: ["healing", "self sustain", "rage generation", "frenzied"],
         castTime: 1,
@@ -1124,12 +1198,14 @@ OVERHEAT (101+): 1 round to spend below 101
       healingConfig: {
         formula: "damageDealt / 2",
         healingType: "direct",
+        resolution: "DICE",
         description:
           "Stolen life force flows through you, closing wounds and restoring strength.",
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: [
@@ -1141,6 +1217,28 @@ OVERHEAT (101+): 1 round to spend below 101
         "frenzied",
         "berserker",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Bloodthirst Hunger",
+        description: "Your ravenous strike feeds on life essence in unpredictable ways — sometimes the hunger spirals beyond your control.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Blood Rejection", effect: "The stolen vitality curdles. Take 1d6 necrotic damage instead of healing." },
+          { range: { min: 2, max: 4 }, customName: "Thin Blood", effect: "Only a trickle of life force. Heal for only 25% of damage dealt instead of half." },
+          { range: { min: 5, max: 8 }, customName: "Steady Drain", effect: "The hunger is sated. Normal lifesteal effect applies." },
+          { range: { min: 9, max: 11 }, customName: "Deep Thirst", effect: "You drink deep. Heal for 75% of damage dealt instead of half." },
+          { range: { min: 12, max: 13 }, customName: "Bleeding Bite", effect: "The wound gushes. Target takes 1d4 bleeding damage per round for 2 rounds. Normal healing." },
+          { range: { min: 14, max: 15 }, customName: "Vampiric Surge", effect: "The life force invigorates you. Heal full damage dealt and gain +5 ft movement for 1 round." },
+          { range: { min: 16, max: 16 }, customName: "Blood Frenzy", effect: "The taste sends you into a frenzy. Heal full damage and gain +1d6 Rage. Next attack has advantage." },
+          { range: { min: 17, max: 17 }, customName: "Hemorrhaging Strike", effect: "You tear free a chunk. +2d6 damage and target bleeds for 1d6/round for 3 rounds." },
+          { range: { min: 18, max: 18 }, customName: "Crimson Shield", effect: "Excess life force forms a barrier. Gain a shield equal to half the damage dealt, lasting 2 rounds." },
+          { range: { min: 19, max: 19 }, customName: "Soul Drink", effect: "You drain something deeper. Heal for full damage dealt. Target has disadvantage on all rolls for 1 round." },
+          { range: { min: 20, max: 20 }, customName: "Blood God's Feast", effect: "The hunger transcends mortality. Heal for DOUBLE damage dealt. Gain +2d8 Rage. All nearby enemies are Frightened for 1 round." },
+        ],
+      },
     },
 
     {
@@ -1244,6 +1342,8 @@ OVERHEAT (101+): 1 round to spend below 101
       resolution: "DICE",
       effectTypes: ["damage"],
 
+      rageGain: "1d4",
+
       damageConfig: {
         formula: "1d6 + strength",
         damageTypes: ["bludgeoning"],
@@ -1312,7 +1412,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 14,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -1344,6 +1444,29 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["aoe", "damage", "control", "primal", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Primal Roar Effects",
+        description: "Your roar carries the weight of ancient predators — the effect depends on which primal spirit answers your call.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Choked Silence", effect: "Your voice fails. Take 1d4 psychic damage. No effect on enemies." },
+          { range: { min: 2, max: 3 }, customName: "Feeble Growl", effect: "A weak roar. Enemies take half damage and are not frightened." },
+          { range: { min: 4, max: 6 }, customName: "Primal Bellow", effect: "A solid roar. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Thunderous Roar", effect: "The roar cracks stone. Full damage and enemies are deafened for 1 round in addition to being frightened." },
+          { range: { min: 10, max: 11 }, customName: "Wolf's Howl", effect: "The call of the pack. You and allies within 30 ft gain +2 to attack rolls for 1 round." },
+          { range: { min: 12, max: 13 }, customName: "Bear's Fury", effect: "The roar shakes the earth. Enemies are knocked prone. Damage becomes 3d6 + strength." },
+          { range: { min: 14, max: 15 }, customName: "Dragon's Bellow", effect: "Primal fire spills from your throat. Add 1d8 fire damage to the roar effect." },
+          { range: { min: 16, max: 16 }, customName: "Terrifying Visage", effect: "Your face twists into something inhuman. Enemies flee at double speed away from you for 2 rounds." },
+          { range: { min: 17, max: 17 }, customName: "Shatter Will", effect: "The roar breaks minds. One target is Stunned for 1 round instead of frightened (DC 14 Con save)." },
+          { range: { min: 18, max: 18 }, customName: "Primal Awakening", effect: "The roar awakens something ancient. All allies within 30 ft gain 1d8 temporary HP. You gain +1d6 Rage." },
+          { range: { min: 19, max: 19 }, customName: "Beastlord's Command", effect: "The roar dominates lesser creatures. All affected enemies are Charmed for 1 round and frightened for 2 rounds." },
+          { range: { min: 20, max: 20 }, customName: "Apex Predator", effect: "You become the apex. Enemies take 4d6 + strength damage, are Frightened for 3 rounds, and you enter the next Rage State immediately." },
+        ],
+      },
     },
 
     {
@@ -1382,6 +1505,7 @@ OVERHEAT (101+): 1 round to spend below 101
       healingConfig: {
         formula: "1d8 + constitution",
         healingType: "direct",
+        resolution: "DICE",
         hasHotEffect: true,
         hotFormula: "1d4 + constitution/2",
         hotDuration: 3,
@@ -1458,7 +1582,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 15,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -1489,6 +1613,30 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["movement", "damage", "aoe", "control", "primal", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Impact Chaos",
+        description: "Your leap sends shockwaves through the earth. What happens when you land depends on how the ground receives you.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Face Plant", effect: "You miscalculate the landing. Take 1d8 self damage and are knocked prone. Enemies take half damage." },
+          { range: { min: 2, max: 4 }, customName: "Heavy Landing", effect: "The impact shakes the ground. Normal effects." },
+          { range: { min: 5, max: 7 }, customName: "Crater Impact", effect: "Your landing creates a small crater. Enemies within 10 ft are knocked prone. +1d6 damage." },
+          { range: { min: 8, max: 9 }, customName: "Shockwave Bounce", effect: "The impact bounces you back up. You can leap again to a second location within 15 ft as a free action." },
+          { range: { min: 10, max: 11 }, customName: "Ground Splitter", effect: "The landing cracks the earth in a line. All enemies in a 15 ft line from the landing point take damage and are knocked prone." },
+          { range: { min: 12, max: 12 }, customName: "Primal Tremor", effect: "Aftershocks ripple outward. Enemies in the area take 1d6 additional damage at the start of next round." },
+          { range: { min: 13, max: 14 }, customName: "Predator Pounce", effect: "You land on the primary target like a beast. Target is pinned (Restrained) for 1 round. DC 15 Str to break free." },
+          { range: { min: 15, max: 15 }, customName: "Rage Impact", effect: "The landing fuels your fury. Gain +1d8 Rage. +2d6 bonus damage to all affected." },
+          { range: { min: 16, max: 16 }, customName: "Meteor Strike", effect: "You descend like a meteor. Primary target takes double damage. All others take normal. Area ignites (1d4 fire/round for 1 round)." },
+          { range: { min: 17, max: 17 }, customName: "Berserker Bounce", effect: "The impact sends you caroming. After landing, bounce to one more enemy within 15 ft and deal damage again." },
+          { range: { min: 18, max: 18 }, customName: "Earth Shatter", effect: "The landing shatters stone. Area becomes difficult terrain for 3 rounds. +3d6 damage to all." },
+          { range: { min: 19, max: 19 }, customName: "Apex Predator Drop", effect: "The perfect kill strike. +4d6 damage. If target is below 40% HP, they are executed. Gain +2d6 Rage." },
+          { range: { min: 20, max: 20 }, customName: "Extinction Impact", effect: "The ground itself surrenders. All creatures in 15 ft take 6d8 damage. The terrain is permanently cratered. All enemies are Stunned for 1 round. Gain +3d6 Rage." },
+        ],
+      },
     },
 
     {
@@ -1536,7 +1684,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "strength",
           difficultyClass: 14,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -1616,13 +1764,13 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "strength",
           difficultyClass: 15,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
 
       controlConfig: {
-        controlType: "movement",
+        controlType: "battlefield_control",
         effects: [
           {
             id: "slow",
@@ -1646,7 +1794,8 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       cooldownConfig: {
-        cooldownType: "none",
+        cooldownType: "turn_based",
+        cooldownValue: 0,
       },
 
       tags: ["melee", "damage", "aoe", "control", "carnage", "berserker"],
@@ -1736,6 +1885,29 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["melee", "damage", "carnage", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Carnage Chaos",
+        description: "Your devastating strike spirals into unpredictable brutality — sometimes empowering, sometimes backfiring with catastrophic force.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Catastrophic Miss", effect: "You overextend catastrophically. Take 2d6 self damage and are Stunned for 1 round." },
+          { range: { min: 2, max: 3 }, customName: "Glancing Blow", effect: "The strike clips the target. Half damage, no critical effects possible." },
+          { range: { min: 4, max: 7 }, customName: "Brutal Hit", effect: "A savage strike. Normal damage and effects." },
+          { range: { min: 8, max: 10 }, customName: "Rending Strike", effect: "The blow tears through armor. +1d8 damage and target has -2 AC for 1 round." },
+          { range: { min: 11, max: 12 }, customName: "Carnage Explosion", effect: "Impact creates a shockwave. All enemies within 10 ft take 1d8 bludgeoning damage." },
+          { range: { min: 13, max: 14 }, customName: "Devastating Cleave", effect: "The strike cleaves through. Hit a second adjacent enemy for half damage." },
+          { range: { min: 15, max: 15 }, customName: "Gore-Spatter", effect: "The wound sprays arterial blood. All adjacent enemies take 1d4 damage and are Disgusted for 1 round." },
+          { range: { min: 16, max: 16 }, customName: "Skull Cracker", effect: "The blow connects with the skull. Target is Stunned for 1 round regardless of save. +2d6 damage." },
+          { range: { min: 17, max: 17 }, customName: "Carnage Feedback", effect: "The violence feeds back into you. Deal +3d6 damage but take 1d8 self damage. Gain +1d8 Rage." },
+          { range: { min: 18, max: 18 }, customName: "Executioner's Strike", effect: "If target is below 30% HP, they are executed outright. Otherwise +4d6 damage." },
+          { range: { min: 19, max: 19 }, customName: "Savage Rampage", effect: "The strike triggers a rampage. Make two additional attacks against the same target at full damage." },
+          { range: { min: 20, max: 20 }, customName: "Carnage Incarnate", effect: "The strike transcends mortality. +5d8 damage, target is Stunned for 2 rounds, all nearby enemies are Frightened, and you gain +3d6 Rage." },
+        ],
+      },
     },
 
     {
@@ -2030,6 +2202,30 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["melee", "damage", "control", "cataclysm", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Cataclysmic Mayhem",
+        description: "The sheer force of your cataclysmic blow warps reality around the impact. Chaos reigns in the aftermath.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Catastrophic Backfire", effect: "The fury destroys you. Take 3d8 self damage. Target takes half damage. You are Stunned for 1 round." },
+          { range: { min: 2, max: 3 }, customName: "Earth Shudders", effect: "The ground cracks beneath you. Difficult terrain in 15 ft radius for 2 rounds. Normal damage." },
+          { range: { min: 4, max: 6 }, customName: "Devastating Impact", effect: "The blow lands with cataclysmic force. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Shockwave", effect: "The impact creates a shockwave. All enemies within 15 ft take 2d6 bludgeoning and are knocked prone." },
+          { range: { min: 10, max: 11 }, customName: "Aftershock", effect: "The ground continues to crack. Target takes an additional 2d8 damage at the start of next round." },
+          { range: { min: 12, max: 13 }, customName: "Rift in the Earth", effect: "A chasm opens. Target must make DC 16 Dex save or fall 10 ft into a pit, becoming Restrained." },
+          { range: { min: 14, max: 14 }, customName: "Primal Eruption", effect: "Cataclysmic energy erupts. Add 3d8 fire damage to the strike. Target catches fire (1d6/round for 2 rounds)." },
+          { range: { min: 15, max: 15 }, customName: "Titan's Crush", effect: "The blow compresses reality. Target is Crushed — Restrained and takes 1d8/round for 2 rounds. DC 17 Str to break free." },
+          { range: { min: 16, max: 16 }, customName: "Cataclysm Bleed", effect: "The wound is catastrophic. Target bleeds for 2d6/round for 3 rounds. No save." },
+          { range: { min: 17, max: 17 }, customName: "Reality Fracture", effect: "The blow tears reality. Target takes +4d8 force damage and is Stunned for 1 round. You take 2d6 psychic damage." },
+          { range: { min: 18, max: 18 }, customName: "Obliteration Precursor", effect: "A taste of Obliteration. Deal +5d6 damage. If this kills the target, gain +3d8 Rage immediately." },
+          { range: { min: 19, max: 19 }, customName: "Cataclysm Cascade", effect: "The impact chains. Up to 3 additional targets within 20 ft take 3d8 bludgeoning each. Primary target takes double damage." },
+          { range: { min: 20, max: 20 }, customName: "End of All Things", effect: "The blow ends civilizations. +8d8 damage. Target is Annihilated if below 50% HP (no save). All creatures within 30 ft take 4d6 and are Stunned for 1 round. You gain +4d6 Rage. The ground becomes permanently cracked." },
+        ],
+      },
     },
 
     {
@@ -2090,6 +2286,31 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       tags: ["buff", "immunity", "cataclysm", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Unstoppable Chaos",
+        description: "When nothing can stop you, nothing CAN stop you — including your own good judgment. The effects of your unstoppable surge are unpredictable.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Juggernaut Reversal", effect: "The momentum works against you. Immunity lasts only until your next turn starts. You are Disoriented (disadvantage on next attack)." },
+          { range: { min: 2, max: 4 }, customName: "Iron Will", effect: "Standard unstoppable effect. Immune to conditions and forced movement for 1 round." },
+          { range: { min: 5, max: 7 }, customName: "Battering Ram", effect: "Your momentum carries through enemies. You can move through enemy spaces, dealing 1d6 damage to each you pass through." },
+          { range: { min: 8, max: 9 }, customName: "Condition Purge", effect: "The surge purges all existing conditions from you in addition to granting immunity." },
+          { range: { min: 10, max: 11 }, customName: "Tunnel Vision", effect: "Immunity to conditions, but you MUST move toward and attack the nearest enemy. Cannot retreat." },
+          { range: { min: 12, max: 12 }, customName: "Seismic Charge", effect: "Your movement cracks the earth. Path becomes difficult terrain. Enemies adjacent to your path take 1d8 damage." },
+          { range: { min: 13, max: 13 }, customName: "Rage Amplifier", effect: "The unstoppable fury builds rage. Gain +1d6 Rage per enemy you pass through this turn." },
+          { range: { min: 14, max: 14 }, customName: "Untouchable", effect: "Immunity extended to include damage resistance (25%) for the round." },
+          { range: { min: 15, max: 15 }, customName: "Wrecking Ball", effect: "You can charge through objects and walls. All destroyed barriers deal 1d8 debris damage to adjacent enemies." },
+          { range: { min: 16, max: 16 }, customName: "Fear the Unstoppable", effect: "Enemies within 15 ft become Frightened for 1 round at the sight of your relentless advance." },
+          { range: { min: 17, max: 17 }, customName: "Endurance Surge", effect: "The surge sustains you. Heal 2d8 HP. Immunity duration extended to 2 rounds." },
+          { range: { min: 18, max: 18 }, customName: "Relentless Pursuit", effect: "If your attack drops the target, you can immediately move 15 ft toward another enemy and attack again (free action)." },
+          { range: { min: 19, max: 19 }, customName: "Juggernaut", effect: "True unstoppable force. Immune to ALL effects for 2 rounds. Your movement is doubled. Every creature you pass through is knocked prone." },
+          { range: { min: 20, max: 20 }, customName: "Force of Nature", effect: "You become an act of god. Immune to ALL damage and effects for 2 rounds. Double movement. Attacks deal +3d6 damage. All enemies in your path are thrown 10 ft aside. Gain +2d8 Rage." },
+        ],
+      },
     },
 
     {
@@ -2168,7 +2389,7 @@ OVERHEAT (101+): 1 round to spend below 101
       },
 
       debuffConfig: {
-        debuffType: "statReduction",
+        debuffType: "statPenalty",
         effects: [
           {
             id: "demoralized",
@@ -2177,7 +2398,7 @@ OVERHEAT (101+): 1 round to spend below 101
               "Shakes their resolve, making them less effective in combat.",
             statModifier: {
               stat: "attack",
-              magnitude: 2,
+              magnitude: -2,
               magnitudeType: "flat",
             },
           },
@@ -2240,7 +2461,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 15,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         triggerCondition: "activation",
         triggerDescription:
@@ -2257,11 +2478,31 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: ["aoe", "damage", "self damage", "cataclysm", "berserker"],
-    },
 
-    // ========================================
-    // LEVEL 6 SPELLS - Ultimate Abilities
-    // ========================================
+      rollableTable: {
+        enabled: true,
+        tableName: "Eruption Chaos",
+        description: "Your rage explodes outward in an uncontrolled detonation of primal fury. The collateral damage is anyone's guess.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Implosion", effect: "The fury collapses inward. Take 4d6 self damage. No damage to enemies. You are Stunned for 1 round." },
+          { range: { min: 2, max: 3 }, customName: "Fizzle", effect: "The eruption sputters. Enemies take half damage. You take normal self damage." },
+          { range: { min: 4, max: 6 }, customName: "Violent Eruption", effect: "Rage explodes outward. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Crimson Geyser", effect: "Blood and fury spray everywhere. All affected enemies bleed for 1d6/round for 2 rounds." },
+          { range: { min: 10, max: 11 }, customName: "Ground Shatter", effect: "The eruption cracks the earth. Area becomes difficult terrain for 3 rounds. +1d8 damage." },
+          { range: { min: 12, max: 13 }, customName: "Shockwave", effect: "The blast sends everyone flying. All affected creatures are pushed 10 ft outward. No self damage taken." },
+          { range: { min: 14, max: 14 }, customName: "Pyroclastic Burst", effect: "Superheated rage ignites the air. Add 2d8 fire damage to the eruption. Fires start in the area." },
+          { range: { min: 15, max: 15 }, customName: "Friendly Fire", effect: "The eruption is indiscriminate. Allies in range also take full damage. You take no self damage." },
+          { range: { min: 16, max: 16 }, customName: "Overpressure", effect: "The blast compresses then explodes. Enemies take damage twice (once on impact, once on detonation). Total: double damage." },
+          { range: { min: 17, max: 17 }, customName: "Rage Vortex", effect: "The eruption becomes a swirling vortex of fury for 2 rounds. Enemies in area take 2d6/round and are Slowed." },
+          { range: { min: 18, max: 18 }, customName: "Soul Eruption", effect: "The blast tears at life essence. +3d8 necrotic damage. You heal for each enemy hit (1d8 per enemy)." },
+          { range: { min: 19, max: 19 }, customName: "Cataclysm Unleashed", effect: "The eruption devastates everything. Double area (30 ft radius), +4d6 damage. You take 2d6 self damage but gain +3d6 Rage." },
+          { range: { min: 20, max: 20 }, customName: "Ragnarok Spark", effect: "This eruption is a taste of the end times. All enemies in 30 ft take 6d8 + strength damage and are Stunned for 1 round. You take 3d6 self damage. The area is permanently scorched. Gain +4d6 Rage." },
+        ],
+      },
+    },
 
     {
       id: "berserk_obliterating_strike",
@@ -2307,7 +2548,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 18,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
@@ -2334,6 +2575,31 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: ["aoe", "damage", "ultimate", "obliteration", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Obliteration Chaos",
+        description: "Your Obliterating Strike tears at the fabric of existence. The devastation is absolute, unpredictable, and possibly self-destructive.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Total Collapse", effect: "The fury annihilates YOU. Take 5d8 self damage. Enemies take half damage. You are Stunned for 2 rounds. Reset Rage to 0." },
+          { range: { min: 2, max: 3 }, customName: "Fizzling Obliteration", effect: "The strike lacks killing intent. Enemies take half damage. No critical effects. You still pay full Rage cost." },
+          { range: { min: 4, max: 6 }, customName: "Devastating Force", effect: "Obliteration strikes true. Normal effects apply with full force." },
+          { range: { min: 7, max: 9 }, customName: "Obliteration Wave", effect: "The shockwave expands. Radius increases to 30 ft. All affected are knocked prone." },
+          { range: { min: 10, max: 11 }, customName: "Atomized", effect: "The force pulverizes matter. Non-magical objects in the area are destroyed. Enemies take +3d6 force damage." },
+          { range: { min: 12, max: 12 }, customName: "Crater Formation", effect: "A crater forms. Area becomes a 20 ft pit. Enemies in the area fall and are Restrained at the bottom." },
+          { range: { min: 13, max: 13 }, customName: "Obliteration Cascade", effect: "The energy chains to secondary targets. Up to 4 additional enemies within 40 ft take 3d8 each." },
+          { range: { min: 14, max: 14 }, customName: "Temporal Fracture", effect: "The strike breaks time. Affected enemies are Slowed for 3 rounds. You gain an extra action this turn." },
+          { range: { min: 15, max: 15 }, customName: "Catastrophic Hemorrhage", effect: "The force liquefies organs. All affected bleed for 2d8/round for 3 rounds. No save." },
+          { range: { min: 16, max: 16 }, customName: "Black Hole Impact", effect: "The strike creates a momentary singularity. All enemies within 40 ft are pulled 20 ft toward center. Those within 10 ft take double damage." },
+          { range: { min: 17, max: 17 }, customName: "Rage Supernova", effect: "Your Rage detonates supernaturally. Triple the area (40 ft). All affected are Stunned for 1 round and take +4d6 damage. Take 2d8 self damage." },
+          { range: { min: 18, max: 18 }, customName: "Erasure", effect: "The strike erases matter. One target below 50% HP is destroyed outright (no save). Others take +5d6 force damage." },
+          { range: { min: 19, max: 19 }, customName: "Obliteration Protocol", effect: "Pure destruction algorithm. All affected take maximum possible damage (no roll needed). All are Stunned for 2 rounds. Ground is permanently destroyed." },
+          { range: { min: 20, max: 20 }, customName: "End of Reason", effect: "The strike breaks existence. All creatures in 40 ft take 10d10 damage and are Stunned for 2 rounds. The terrain is permanently altered. You enter Apocalypse State regardless of current Rage. You are immune to all damage for 1 round." },
+        ],
+      },
     },
 
     {
@@ -2402,6 +2668,32 @@ OVERHEAT (101+): 1 round to spend below 101
         "obliteration",
         "berserker",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Wrath Manifestation",
+        description: "The full power of your fury manifests in unpredictable ways. Your wrath takes on a life of its own.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Wrath Collapse", effect: "The power crushes you. Take 3d6 damage. Buff lasts only 1 round. You are Exhausted afterward." },
+          { range: { min: 2, max: 3 }, customName: "Simmering Wrath", effect: "The fury doesn't fully ignite. +3 damage instead of +5. No advantage." },
+          { range: { min: 4, max: 6 }, customName: "Wrath of the Berserker", effect: "Standard wrath. +5 damage and advantage on attacks for 3 rounds." },
+          { range: { min: 7, max: 8 }, customName: "Aura of Wrath", effect: "Your wrath radiates outward. All enemies within 15 ft take 1d6 damage per round while the buff is active." },
+          { range: { min: 9, max: 10 }, customName: "Blessing of Fury", effect: "Your wrath empowers allies too. All allies within 30 ft gain +2 damage for the duration." },
+          { range: { min: 11, max: 11 }, customName: "Endless Wrath", effect: "The fury won't stop. Duration extended to 4 rounds instead of 3." },
+          { range: { min: 12, max: 12 }, customName: "Wrath Regeneration", effect: "The wrath sustains your body. Heal 1d8 HP at the start of each turn during the buff." },
+          { range: { min: 13, max: 13 }, customName: "Savage Criticals", effect: "Wrath sharpens your strikes. Crit range expands to 18-20 during the buff." },
+          { range: { min: 14, max: 14 }, customName: "Unrelenting", effect: "The wrath refuses death. If you drop to 0 HP during the buff, you stay at 1 HP instead (once)." },
+          { range: { min: 15, max: 15 }, customName: "Blood Wrath", effect: "The wrath drinks blood. 25% lifesteal on all attacks during the buff." },
+          { range: { min: 16, max: 16 }, customName: "Primal Fury", effect: "The wrath transcends. +8 damage instead of +5. Advantage on all STR and CON checks too." },
+          { range: { min: 17, max: 17 }, customName: "Wrath Storm", effect: "Your fury creates a storm around you. All attacks against you have disadvantage. All your attacks have advantage. +1d6 lightning on each hit." },
+          { range: { min: 18, max: 18 }, customName: "Avatar of Wrath", effect: "You become wrath incarnate. +10 damage. Crit range 17-20. Cannot be slowed, stunned, or controlled for the duration." },
+          { range: { min: 19, max: 19 }, customName: "Worldbreaker's Wrath", effect: "Your strikes can break the world. +12 damage. Each hit causes a localized earthquake — enemies within 5 ft of your target take 1d8 damage." },
+          { range: { min: 20, max: 20 }, customName: "Wrath Eternal", effect: "THE FURY NEVER ENDS. Duration: rest of combat. +10 damage. Advantage on ALL rolls. Crit range 17-20. Every kill extends all active buffs by 1 round. At combat end, take 4d6 exhaustion damage. Worth it." },
+        ],
+      },
     },
 
     {
@@ -2496,6 +2788,8 @@ OVERHEAT (101+): 1 round to spend below 101
         targetingType: "self",
         rangeType: "self",
       },
+
+      targetingMode: "effect",
 
       effectTargeting: {
         transformation: {
@@ -2605,7 +2899,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "strength",
           difficultyClass: 18,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         criticalConfig: {
           enabled: true,
@@ -2653,6 +2947,30 @@ OVERHEAT (101+): 1 round to spend below 101
         "obliteration",
         "berserker",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Cyclone of Chaos",
+        description: "Your living cyclone of primal fury drags in everything around it — allies, enemies, debris, and sometimes things from beyond.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Cyclone Collapse", effect: "The cyclone implodes. Take 3d8 self damage and are knocked prone. Enemies take half damage." },
+          { range: { min: 2, max: 3 }, customName: "Weak Whirlwind", effect: "The cyclone sputters. Enemies take half damage and are not knocked down." },
+          { range: { min: 4, max: 6 }, customName: "Primal Cyclone", effect: "The whirlwind howls. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Debris Storm", effect: "The cyclone hurls debris. All affected take +2d6 damage and are Blinded for 1 round." },
+          { range: { min: 10, max: 11 }, customName: "Tornado Alley", effect: "The cyclone elongates. Line of effect extends to 30 ft long, 10 ft wide. +1d8 damage." },
+          { range: { min: 12, max: 13 }, customName: "Vacuum Center", effect: "The cyclone pulls everything in. All creatures within 25 ft are pulled 15 ft toward you before taking damage." },
+          { range: { min: 14, max: 14 }, customName: "Lightning Cyclone", effect: "Static builds in the vortex. Add 2d8 lightning damage to all affected. You are immune to the lightning." },
+          { range: { min: 15, max: 15 }, customName: "Blood Hurricane", effect: "The cyclone drinks blood. Heal for 1d8 per enemy hit. Affected enemies bleed for 1d6/round for 2 rounds." },
+          { range: { min: 16, max: 16 }, customName: "Ancient Howl", effect: "The cyclone amplifies your roar. All affected are Frightened for 2 rounds in addition to knockdown." },
+          { range: { min: 17, max: 17 }, customName: "Elemental Vortex", effect: "Primal energy surges. Add 1d6 fire, 1d6 lightning, and 1d6 cold damage to the cyclone." },
+          { range: { min: 18, max: 18 }, customName: "Rampage Extension", effect: "The fury sustains you. Cyclone persists for 1 additional round, dealing half damage again." },
+          { range: { min: 19, max: 19 }, customName: "Primal Devastation", effect: "The cyclone carves a scar into the earth. +5d8 damage. Area becomes permanently difficult terrain. Gain +3d6 Rage." },
+          { range: { min: 20, max: 20 }, customName: "World Eater", effect: "The cyclone becomes a force of nature. Double radius. All affected take 8d8 damage, are thrown 20 ft, and are Stunned for 2 rounds. The terrain is permanently destroyed. Gain +4d6 Rage." },
+        ],
+      },
     },
 
     {
@@ -2714,11 +3032,32 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 7 },
 
       tags: ["buff", "healing", "obliteration", "berserker"],
-    },
 
-    // ========================================
-    // LEVEL 8 SPELLS - Legendary Abilities
-    // ========================================
+      rollableTable: {
+        enabled: true,
+        tableName: "Blood Frenzy Surge",
+        description: "Your blood-fueled frenzy has unpredictable effects on your physiology — sometimes enhancing, sometimes warping your body in unsettling ways.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Blood Rejection", effect: "Your body rejects the frenzy. Take 2d8 damage immediately. Healing per kill reduced to 5 HP." },
+          { range: { min: 2, max: 4 }, customName: "Steady Frenzy", effect: "Standard blood frenzy. Heal 20 HP per kill (max 60/round)." },
+          { range: { min: 5, max: 7 }, customName: "Enhanced Bloodlust", effect: "The frenzy is potent. Heal 25 HP per kill (max 80/round)." },
+          { range: { min: 8, max: 9 }, customName: "Crimson Claws", effect: "Your fingernails elongate. Unarmed attacks deal 1d8 slashing. You can make one bonus unarmed attack per turn." },
+          { range: { min: 10, max: 11 }, customName: "Blood Sight", effect: "You can see the blood in creatures' veins. Gain advantage on attacks against bleeding or wounded targets." },
+          { range: { min: 12, max: 12 }, customName: "Sanguine Speed", effect: "Blood accelerates your movements. +10 ft movement and +1 action point per turn during the frenzy." },
+          { range: { min: 13, max: 13 }, customName: "Hemoglobin Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to 2 × enemies killed (max 40 HP). Lasts until end of frenzy." },
+          { range: { min: 14, max: 14 }, customName: "Vampiric Aura", effect: "Your frenzy pulls life from nearby enemies. All enemies within 10 ft take 1d4 necrotic/round. You heal that amount." },
+          { range: { min: 15, max: 15 }, customName: "Massacre Healer", effect: "Killing blows send a pulse of healing to all allies within 30 ft. Each ally heals for 1d8 per kill you make." },
+          { range: { min: 16, max: 16 }, customName: "Blood Rain", effect: "Your frenzy sprays blood in a 10 ft radius. All enemies in range are Blinded for 1 round per kill." },
+          { range: { min: 17, max: 17 }, customName: "Undying Frenzy", effect: "The blood frenzy keeps you alive. If reduced to 0 HP during frenzy, stay at 1 HP instead (once). Duration extends by 1 round." },
+          { range: { min: 18, max: 18 }, customName: "Blood God's Favor", effect: "The Blood God rewards your devotion. Heal 30 HP per kill (max 100/round). All allies within 15 ft gain +2 damage." },
+          { range: { min: 19, max: 19 }, customName: "Crimson Hurricane", effect: "Your frenzy becomes a whirlwind of blood. Each turn, all adjacent enemies take 2d6 slashing. You heal for each enemy hit." },
+          { range: { min: 20, max: 20 }, customName: "Sanguine Ascension", effect: "You transcend mortality through blood. Become immune to HP reduction for the duration. All kills grant permanent +5 max HP for the combat. Duration extended to 6 rounds. When it ends, you are Exhausted for 1 round." },
+        ],
+      },
+    },
 
     {
       id: "berserk_ragnarok_fury",
@@ -2766,7 +3105,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 19,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -2798,6 +3137,30 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 7 },
 
       tags: ["aoe", "damage", "fire", "control", "obliteration", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Ragnarok Mayhem",
+        description: "Your apocalyptic concussive force carries the wrath of endings — reality itself buckles under the strain of your fury.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Premature Ragnarok", effect: "The apocalypse turns inward. Take 6d8 self damage. Enemies take half damage. You are Stunned for 2 rounds." },
+          { range: { min: 2, max: 3 }, customName: "Dud Apocalypse", effect: "The fury fizzles. Half damage. No stun effect. Shameful." },
+          { range: { min: 4, max: 6 }, customName: "Apocalyptic Force", effect: "Ragnarok strikes. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Meteoric Impact", effect: "The force calls down destruction. Add 3d8 fire damage. Area ignites, dealing 1d8 fire/round for 2 rounds." },
+          { range: { min: 10, max: 11 }, customName: "Tectonic Rupture", effect: "The ground shatters. Area becomes a 25 ft crater. Difficult terrain permanently. All enemies are Restrained." },
+          { range: { min: 12, max: 13 }, customName: "Ragnarok Winds", effect: "Hurricane-force winds. All affected are pushed to the edge of the area and take +2d6 bludgeoning from debris." },
+          { range: { min: 14, max: 14 }, customName: "Ash and Ruin", effect: "The blast fills the area with choking ash. Affected enemies are Blinded and Suffocating for 2 rounds." },
+          { range: { min: 15, max: 15 }, customName: "Worldscar", effect: "The strike permanently scars the earth. A rift opens. Enemies within 10 ft of center fall in and take ongoing 2d6/round until they climb out." },
+          { range: { min: 16, max: 16 }, customName: "Soul Ragnarok", effect: "The force tears at souls. Add 3d8 necrotic damage. Affected enemies lose 1 highest-level spell slot or ability use." },
+          { range: { min: 17, max: 17 }, customName: "Extinction Event", effect: "The blast simulates mass extinction. All non-boss enemies below 40% HP are slain outright. Others take double damage." },
+          { range: { min: 18, max: 18 }, customName: "Ragnarok Recursion", effect: "The apocalypse echoes. After initial damage, the area detonates again at start of your next turn for half damage." },
+          { range: { min: 19, max: 19 }, customName: "Twilight of the Gods", effect: "Divine-level destruction. +6d8 damage. All affected are Stunned for 3 rounds. All structures in area collapse. Gain +4d8 Rage." },
+          { range: { min: 20, max: 20 }, customName: "True Ragnarok", effect: "THE END. 50 ft radius. All creatures take 12d10 damage. Non-bosses below 75% HP are annihilated. Area is permanently a scorched wasteland. You enter Apocalypse State. Gain immunity for 1 round. Take 4d8 self damage." },
+        ],
+      },
     },
 
     {
@@ -2858,6 +3221,30 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
 
       tags: ["buff", "immortality", "obliteration", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Death Defiance",
+        description: "When you reject death itself, the cosmos takes notice. The aftermath of your immortality is never predictable.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "False Immortality", effect: "Death was not truly denied. Duration reduced to 1 round. When it ends, take 4d6 damage and are Stunned for 2 rounds." },
+          { range: { min: 2, max: 4 }, customName: "Heavy Toll", effect: "The strain is immense. After effect ends: Stunned 1 round + 4d6 exhaustion damage (worse than normal)." },
+          { range: { min: 5, max: 7 }, customName: "Death's Grip", effect: "Standard immortality. Normal aftereffect applies." },
+          { range: { min: 8, max: 9 }, customName: "Undying Fury", effect: "Your defiance fuels rage. Gain +1d8 Rage per round while immortal. Normal aftereffect." },
+          { range: { min: 10, max: 11 }, customName: "Phantom Pain", effect: "You feel every blow that should have killed you. Gain resistance to the next damage type that hits you. Aftereffect: only 2d6 damage." },
+          { range: { min: 12, max: 13 }, customName: "Death Aura", effect: "Your defiance radiates necrotic energy. All enemies within 10 ft take 1d8 necrotic per round while you are immortal." },
+          { range: { min: 14, max: 14 }, customName: "Resurrection Surge", effect: "If you were below 25% HP when activated, heal to 50% HP. Normal aftereffect." },
+          { range: { min: 15, max: 15 }, customName: "Soul Anchor", effect: "Your soul is anchored to your body. Aftereffect reduced: only 1d6 damage, no Stun." },
+          { range: { min: 16, max: 16 }, customName: "Lich-Strike", effect: "Your immortal blows steal life. Melee attacks during immortality heal you for 25% of damage dealt." },
+          { range: { min: 17, max: 17 }, customName: "Eternal Warrior", effect: "Duration extended to 4 rounds. Aftereffect: Stunned 1 round + 2d6 damage." },
+          { range: { min: 18, max: 18 }, customName: "Death Reversal", effect: "If an ally within 30 ft dies during your immortality, they are revived with half HP. Aftereffect unchanged." },
+          { range: { min: 19, max: 19 }, customName: "Beyond Death", effect: "For the duration, you deal +3d6 damage on all attacks and are immune to all conditions. Aftereffect: only 1d6 damage." },
+          { range: { min: 20, max: 20 }, customName: "Undying God", effect: "True immortality for 3 rounds. Immune to ALL damage and conditions. All allies within 30 ft gain resistance to all damage. Aftereffect: no Stun, only 1d8 damage. You are Exhausted for 1 round (disadvantage on all rolls)." },
+        ],
+      },
     },
 
     {
@@ -2905,7 +3292,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 19,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -2935,6 +3322,30 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
 
       tags: ["aoe", "damage", "control", "obliteration", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Earthshaker Chaos",
+        description: "The earth itself rebels at your touch. What rises from the cracks is anyone's guess.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Self Bury", effect: "The ground swallows YOU. Take 3d6 damage. You are Restrained for 1 round. Enemies take half damage." },
+          { range: { min: 2, max: 3 }, customName: "Tremor", effect: "A mild shake. Enemies take half damage and are not pulled." },
+          { range: { min: 4, max: 6 }, customName: "Earthshaker Impact", effect: "The ground cracks. Normal effects apply." },
+          { range: { min: 7, max: 9 }, customName: "Sinkhole", effect: "The ground collapses. Area becomes a 20 ft pit. Enemies who fall are Restrained." },
+          { range: { min: 10, max: 11 }, customName: "Debris Avalanche", effect: "Shattered rock buries enemies. Affected targets are buried and take +2d6 damage. DC 19 Str to break free." },
+          { range: { min: 12, max: 13 }, customName: "Fissure", effect: "A crack races outward. Line extends 40 ft. All creatures in the line take damage and are knocked prone." },
+          { range: { min: 14, max: 14 }, customName: "Magma Vent", effect: "Underground heat erupts. Add 3d8 fire damage. Area ignites, dealing 1d8 fire/round for 2 rounds." },
+          { range: { min: 15, max: 15 }, customName: "Stone Prison", effect: "Rising stone walls trap enemies. Affected targets are Encased in Stone — Restrained and line of sight blocked for 2 rounds." },
+          { range: { min: 16, max: 16 }, customName: "Gravitational Collapse", effect: "The earth compresses then rebounds. Enemies are pulled 30 ft toward center. Those at center take double damage." },
+          { range: { min: 17, max: 17 }, customName: "Tectonic Cascade", effect: "The quake triggers aftershocks. At start of next 2 rounds, all enemies in area take 2d6 bludgeoning." },
+          { range: { min: 18, max: 18 }, customName: "Earth Eruption", effect: "Stalagmites burst from the ground. +4d8 piercing damage. Area becomes impassable terrain for 3 rounds." },
+          { range: { min: 19, max: 19 }, customName: "Continental Sunder", effect: "The earth splits permanently. +5d8 damage. A 40 ft chasm opens. Enemies on either side are separated." },
+          { range: { min: 20, max: 20 }, customName: "Worldbreaker", effect: "The planet cracks. All creatures in 50 ft take 10d8 bludgeoning. The terrain is permanently reshaped. Structures collapse. Gain +4d8 Rage. Take 3d8 self damage." },
+        ],
+      },
     },
 
     // ========================================
@@ -2986,7 +3397,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 18,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -3022,10 +3433,34 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: {
         cooldownType: "combat",
         cooldownValue: 1,
-        description: "Once per combat",
       },
 
       tags: ["aoe", "damage", "obliteration", "berserker", "self damage"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Primal Cataclysm Chaos",
+        description: "The accumulated fury of an entire battle erupts in a single devastating moment. What rises from the aftermath cannot be predicted.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Self Annihilation", effect: "The cataclysm consumes you. Take 6d10 self damage. Enemies take half damage. You are Incapacitated for 2 rounds." },
+          { range: { min: 2, max: 3 }, customName: "Seismic Ripple", effect: "The impact is dampened. Half damage to enemies. Self damage still applies." },
+          { range: { min: 4, max: 6 }, customName: "Primal Devastation", effect: "The fury finds its mark. Normal effects." },
+          { range: { min: 7, max: 9 }, customName: "Ground Zero", effect: "The impact creates a permanent crater. +2d10 damage. Enemies within 10 ft of center take double damage." },
+          { range: { min: 10, max: 11 }, customName: "Rage Afterimage", effect: "Your fury lingers. Area becomes a Primal Zone for 3 rounds — enemies entering take 2d6/round." },
+          { range: { min: 12, max: 12 }, customName: "Primal Storm", effect: "The cataclysm summons a storm. Area is engulfed in thunder and lightning. Add 3d8 thunder + 2d8 lightning damage." },
+          { range: { min: 13, max: 13 }, customName: "Bone Shatter", effect: "The force crushes bone. All affected have -2 to all physical rolls for 3 rounds. No save." },
+          { range: { min: 14, max: 14 }, customName: "Soul Rend", effect: "The cataclysm tears at spirit. Add 3d8 necrotic. Affected enemies lose 1 action point next turn." },
+          { range: { min: 15, max: 15 }, customName: "Primal Regeneration", effect: "The released fury heals you. Heal 2d8 + constitution. Self damage negated. Gain +2d6 Rage." },
+          { range: { min: 16, max: 16 }, customName: "Chain Cataclysm", effect: "The impact triggers secondary explosions. 3 random points within 40 ft explode for 3d8 each." },
+          { range: { min: 17, max: 17 }, customName: "Berserker Ascension", effect: "The fury elevates you. Instantly enter next Rage State. +4d8 damage. Self damage reduced to 1d6." },
+          { range: { min: 18, max: 18 }, customName: "Extinction Level", effect: "Mass extinction force. All non-boss enemies in area below 50% HP are annihilated. Others take +5d10 damage." },
+          { range: { min: 19, max: 19 }, customName: "Primal Singularity", effect: "The fury creates a momentary singularity. All creatures in 30 ft are pulled to center. Those at center take 8d10 damage. Area becomes permanently devastated." },
+          { range: { min: 20, max: 20 }, customName: "End of the Primal Age", effect: "The world ends and begins again. 40 ft radius. 12d10 damage to all. Terrain permanently reshaped. Non-boss enemies below 75% are annihilated. You heal to full HP. Gain Apocalypse State regardless of Rage. Self damage negated." },
+        ],
+      },
     },
 
     {
@@ -3162,6 +3597,31 @@ OVERHEAT (101+): 1 round to spend below 101
       mechanicsText:
         "25% lifesteal on melee attacks. Toggle off anytime or auto-ends at 5 rounds. Exhaustion: 1d8 × rounds maintained.",
 
+      rollableTable: {
+        enabled: true,
+        tableName: "Bloodrage Backlash",
+        description: "When the blood frenzy ends, the toll it extracts is never predictable — sometimes merciful, often catastrophic.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Hemorrhagic Collapse", effect: "Your blood vessels rupture. Take 2d8 × rounds maintained instead of 1d8. Stunned for 1 round." },
+          { range: { min: 2, max: 3 }, customName: "Severe Exhaustion", effect: "The frenzy nearly killed you. Take 1d10 × rounds maintained. Disadvantage on all rolls for 2 rounds." },
+          { range: { min: 4, max: 6 }, customName: "Blood Price", effect: "Normal exhaustion. 1d8 × rounds maintained damage." },
+          { range: { min: 7, max: 8 }, customName: "Iron Constitution", effect: "Your body absorbs the shock. Take only 1d6 × rounds maintained." },
+          { range: { min: 9, max: 10 }, customName: "Blood Rush", effect: "The frenzy leaves you energized instead of drained. No exhaustion damage. Gain +1d6 Rage." },
+          { range: { min: 11, max: 12 }, customName: "Crimson Afterimage", effect: "The blood frenzy lingers as a phantom. Gain +1d4 bonus damage for 2 rounds after ending." },
+          { range: { min: 13, max: 13 }, customName: "Blood Echo", effect: "The last enemy you hit during frenzy takes 2d6 necrotic damage as the stolen life reasserts itself." },
+          { range: { min: 14, max: 14 }, customName: "Vampiric Residue", effect: "Residual lifesteal persists. Heal for 10% of damage dealt for 1 round after ending." },
+          { range: { min: 15, max: 15 }, customName: "Sanguine Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to rounds maintained × 5. Lasts 1 round." },
+          { range: { min: 16, max: 16 }, customName: "Primal Purge", effect: "The blood frenzy purges toxins. Remove all debuffs and negative effects from yourself." },
+          { range: { min: 17, max: 17 }, customName: "Blood Gift", effect: "Excess life force flows to allies. All allies within 30 ft heal for 2d8." },
+          { range: { min: 18, max: 18 }, customName: "Crimson Awakening", effect: "The frenzy evolves you permanently. For the rest of combat, lifesteal is 10% (no toggle needed)." },
+          { range: { min: 19, max: 19 }, customName: "Sanguine Transcendence", effect: "The blood frenzy achieves perfection. No exhaustion damage. Gain permanent +5 HP. Lifesteal 15% for rest of combat." },
+          { range: { min: 20, max: 20 }, customName: "Blood God's Chosen", effect: "The Blood God claims you as their vessel. No exhaustion. Full HP restored. Enter next Rage State. All allies within 30 ft gain Bloodrage (15% lifesteal) for 3 rounds. You emit a Terrifying Aura (enemies within 15 ft have -2 to all rolls) for 3 rounds." },
+        ],
+      },
+
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: [
@@ -3223,7 +3683,7 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           savingThrowType: "constitution",
           difficultyClass: 18,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -3238,7 +3698,6 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: {
         cooldownType: "combat",
         cooldownValue: 1,
-        description: "Once per combat",
       },
 
       tags: [
@@ -3249,6 +3708,32 @@ OVERHEAT (101+): 1 round to spend below 101
         "berserker",
         "self damage",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Ultimate Cataclysm",
+        description: "You pour EVERYTHING into this final explosion of rage. The result is beyond mortal comprehension — a chaos event that reshapes the battlefield forever.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Self Obliteration", effect: "The fury annihilates its vessel. Take 8d10 self damage. Enemies take quarter damage. You are Incapacitated for 3 rounds. Rage resets to 0." },
+          { range: { min: 2, max: 3 }, customName: "Fading Fury", effect: "The explosion sputters. Half damage to all enemies. You take double self damage (6d6). Gain no Rage." },
+          { range: { min: 4, max: 6 }, customName: "Cataclysmic Release", effect: "The fury detonates. Normal effects apply in full." },
+          { range: { min: 7, max: 8 }, customName: "Primal Inferno", effect: "The explosion ignites the air. Add 4d8 fire damage. Area becomes a Fire Storm (2d8/round) for 3 rounds." },
+          { range: { min: 9, max: 10 }, customName: "Shockwave of Ages", effect: "The blast sends a wave across the battlefield. Radius expands to 40 ft. All affected are pushed to the edge and knocked prone." },
+          { range: { min: 11, max: 11 }, customName: "Soul Cataclysm", effect: "The fury tears at the spiritual plane. Add 4d8 necrotic damage. All affected lose their highest remaining ability use." },
+          { range: { min: 12, max: 12 }, customName: "Rage Singularity", effect: "The explosion collapses into a point then re-expands. Enemies within 10 ft of center take triple damage. All others take normal damage." },
+          { range: { min: 13, max: 13 }, customName: "Dimensional Tear", effect: "The fury breaks reality. A portal opens at the impact point for 1 round. Random enemies within 10 ft are teleported 30 ft in random directions." },
+          { range: { min: 14, max: 14 }, customName: "Cataclysm Regeneration", effect: "The released fury heals instead of harms you. Heal to full HP. Self damage negated. Gain +3d8 Rage." },
+          { range: { min: 15, max: 15 }, customName: "Extinction Protocol", effect: "The blast targets the weak. All non-boss enemies below 60% HP in 40 ft are slain outright." },
+          { range: { min: 16, max: 16 }, customName: "Primal Resonance", effect: "The cataclysm echoes through all allies. All allies within 60 ft gain +4d6 damage on their next attack and are inspired (+2 to all rolls) for 2 rounds." },
+          { range: { min: 17, max: 17 }, customName: "Time Fracture", effect: "The blast breaks causality. All affected enemies lose their next turn. You gain an extra turn immediately." },
+          { range: { min: 18, max: 18 }, customName: "Godslayer", effect: "The fury threatens the divine. +8d8 damage. Boss enemies take a permanent -2 to all rolls. Non-bosses below 75% are annihilated." },
+          { range: { min: 19, max: 19 }, customName: "Cataclysm Rebirth", effect: "From total destruction comes renewal. All enemies take maximum damage (no roll). You heal to full, gain Apocalypse State, and all abilities come off cooldown. Self damage negated." },
+          { range: { min: 20, max: 20 }, customName: "Ragnarok Manifest", effect: "THE END OF ALL THINGS. 60 ft radius. ALL creatures take 15d10 unresistable damage. Non-bosses are annihilated regardless of HP. Bosses take a permanent -4 to all rolls. The terrain is permanently obliterated — a scorched void. You are restored to full HP, enter Apocalypse State, gain immunity to all damage for 2 rounds, and all allies within 60 ft gain +4 to all rolls for 3 rounds. The battlefield will never be the same." },
+        ],
+      },
     },
 
     {
@@ -3317,10 +3802,35 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: {
         cooldownType: "combat",
         cooldownValue: 1,
-        description: "Once per combat",
       },
 
       tags: ["transformation", "obliteration", "berserker"],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "War Incarnate Chaos",
+        description: "Your transformation into a living engine of war has unpredictable effects on reality — the battlefield warps around your newfound perfection of violence.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Weapon Breaks", effect: "Your weapon cannot withstand the fury. It shatters. You fight unarmed for the duration (1d8 damage instead of weapon damage)." },
+          { range: { min: 2, max: 3 }, customName: "Friendly Fire Risk", effect: "Your strikes are indiscriminate. 25% chance each attack hits a random adjacent ally instead of the target." },
+          { range: { min: 4, max: 6 }, customName: "Perfect War Machine", effect: "The transformation is flawless. Normal effects apply." },
+          { range: { min: 7, max: 8 }, customName: "Accelerated Violence", effect: "Your speed is terrifying. Gain +1 extra action point per round for the duration." },
+          { range: { min: 9, max: 10 }, customName: "Aura of Carnage", effect: "Your mere presence wounds. All enemies within 10 ft take 1d8 damage at the start of each of your turns." },
+          { range: { min: 11, max: 11 }, customName: "Blade Storm", effect: "Every attack hits all enemies within melee range. No additional action cost." },
+          { range: { min: 12, max: 12 }, customName: "Iron Constitution", effect: "Your body becomes living metal. Gain +4 Armor for the duration. Immune to bleeding and poison." },
+          { range: { min: 13, max: 13 }, customName: "Bloodlust Unending", effect: "Each kill during transformation heals you for 2d8 and extends duration by 1 round." },
+          { range: { min: 14, max: 14 }, customName: "Terrifying Momentum", effect: "Each consecutive hit increases damage by +1d4 (stacking). Resets if you miss." },
+          { range: { min: 15, max: 15 }, customName: "Critical Perfection", effect: "Crit range expands to 17-20 during transformation. Crits deal +2d8 extra damage." },
+          { range: { min: 16, max: 16 }, customName: "Unstoppable Advance", effect: "You cannot be stopped. Immune to all movement-impairing effects. Gain +15 ft movement." },
+          { range: { min: 17, max: 17 }, customName: "War God's Blessing", effect: "Divine power surges through you. All attacks deal an additional 2d8 radiant damage." },
+          { range: { min: 18, max: 18 }, customName: "Avatar of War", effect: "You become a colossus. Double in size. +4 damage becomes +8. Reach extends to 15 ft. All melee hits affect a 10 ft area." },
+          { range: { min: 19, max: 19 }, customName: "Eternal Combatant", effect: "The transformation sustains itself. Duration becomes 'until combat ends.' No drain afterward." },
+          { range: { min: 20, max: 20 }, customName: "War Itself", effect: "You ARE war. Duration 5 rounds. +12 damage (replaces +6). Crit range 16-20. Every attack generates +1d8 Rage. All melee attacks cleave all enemies in range. When transformation ends, all enemies within 30 ft take 5d8 damage from the shockwave of your return to mortality." },
+        ],
+      },
     },
 
     {
@@ -3394,7 +3904,6 @@ OVERHEAT (101+): 1 round to spend below 101
       cooldownConfig: {
         cooldownType: "combat",
         cooldownValue: 1,
-        description: "Once per combat",
       },
 
       tags: [
@@ -3404,6 +3913,32 @@ OVERHEAT (101+): 1 round to spend below 101
         "berserker",
         "self damage",
       ],
+
+      rollableTable: {
+        enabled: true,
+        tableName: "Apex Predator Chaos",
+        description: "At the absolute pinnacle of berserker rage, you touch something primal and terrible. The effects ripple through all nearby life forms, reshaping fate itself.",
+        diceFormula: "1d20",
+        resolutionType: "DICE",
+        resolutionConfig: { diceType: "d20" },
+        entries: [
+          { range: { min: 1, max: 1 }, customName: "Primal Regression", effect: "You devolve into a mindless beast. Lose all class abilities for the duration. Attack randomly (GM picks target). Take 4d8 self damage when transformation ends." },
+          { range: { min: 2, max: 3 }, customName: "Feral Overload", effect: "The power is too much. Transformation lasts only 1 round. Take 3d8 exhaustion damage when it ends." },
+          { range: { min: 4, max: 6 }, customName: "Primal Perfection", effect: "The apex state achieves balance. Normal effects apply." },
+          { range: { min: 7, max: 8 }, customName: "Predator's Mark", effect: "Your gaze marks prey. Designate one target — all attacks against them have advantage and deal +2d8 damage for the duration." },
+          { range: { min: 9, max: 10 }, customName: "Apex Regeneration", effect: "Your body regenerates at supernatural speed. Heal 2d8 HP at the start of each turn during transformation." },
+          { range: { min: 11, max: 11 }, customName: "Pack Leader", effect: "Your apex state empowers allies. All allies within 30 ft gain +2d4 damage and advantage on their next attack." },
+          { range: { min: 12, max: 12 }, customName: "Territorial Dominance", effect: "You claim the battlefield. All enemies within 30 ft must make DC 18 Spirit save or be Frightened for the duration." },
+          { range: { min: 13, max: 13 }, customName: "Primal Senses", effect: "Your senses become supernatural. Cannot be surprised. Always know enemy positions. Immune to Blinded/Deafened. +4 to initiative." },
+          { range: { min: 14, max: 14 }, customName: "Apex Speed", effect: "You move like lightning. Double movement speed. Can take a bonus action to make an additional attack each turn." },
+          { range: { min: 15, max: 15 }, customName: "Flesh of the Ancients", effect: "Your body becomes prehistoric armor. Resistance to ALL damage for the duration. No exhaustion damage when transformation ends." },
+          { range: { min: 16, max: 16 }, customName: "Devouring Maw", effect: "Your attacks consume life. 50% lifesteal on all attacks during transformation. Killing a target extends duration by 1 round." },
+          { range: { min: 17, max: 17 }, customName: "Primal Command", effect: "Your apex presence dominates lesser beings. Once per round, command one non-boss enemy to flee (no save) as a free action." },
+          { range: { min: 18, max: 18 }, customName: "Apex Catalyst", effect: "The transformation catalyzes your Rage. At the end of transformation, instead of exhaustion, gain permanent +2 damage for the rest of combat." },
+          { range: { min: 19, max: 19 }, customName: "Berserker God", effect: "You ascend beyond mortal limits. Duration 5 rounds. +16 damage (replaces +12). 75% damage resistance. All melee hits are automatic crits on 18-20. When it ends, take only 1d8 exhaustion damage (not 2d8). All allies gain Inspiration." },
+          { range: { min: 20, max: 20 }, customName: "Apex of Existence", effect: "You become the APEX OF ALL BERSERKERS. Duration: rest of combat. +20 damage. 80% damage resistance. Crit range 15-20. All melee attacks hit every enemy in range. Immune to ALL conditions. Every kill grants +2d8 Rage and heals you for 3d8. ALL allies within 60 ft gain +4 damage and are immune to Fear. When combat ends, you collapse (Incapacitated for 1 minute) but suffer no permanent damage. Legends will be written about this moment." },
+        ],
+      },
     },
   ],
 

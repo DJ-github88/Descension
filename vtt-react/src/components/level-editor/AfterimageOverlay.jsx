@@ -39,9 +39,6 @@ const AfterimageOverlay = () => {
     const visibleArea = useLevelEditorStore(state => state.visibleArea);
     const visibilityPolygon = useLevelEditorStore(state => state.visibilityPolygon);
     const wallData = useLevelEditorStore(state => state.wallData);
-    const terrainData = useLevelEditorStore(state => state.terrainData);
-    const environmentalObjects = useLevelEditorStore(state => state.environmentalObjects);
-    const dndElements = useLevelEditorStore(state => state.dndElements);
 
     // Per-player memory subscriptions
     const currentPlayerId = useLevelEditorStore(state => state.currentPlayerId);
@@ -115,6 +112,14 @@ const AfterimageOverlay = () => {
 
     // State for triggering re-renders when images load
     const [imageLoadTrigger, setImageLoadTrigger] = useState(0);
+    const imageLoadBatchTimerRef = useRef(null);
+    const batchImageLoad = useCallback(() => {
+        if (imageLoadBatchTimerRef.current) return;
+        imageLoadBatchTimerRef.current = setTimeout(() => {
+            imageLoadBatchTimerRef.current = null;
+            setImageLoadTrigger(prev => prev + 1);
+        }, 100);
+    }, []);
 
     // PERFORMANCE FIX: Helper function to get or create cached grayscale image
     // This prevents re-processing every tile on every frame
@@ -185,15 +190,13 @@ const AfterimageOverlay = () => {
             img.onload = () => {
                 entry.loaded = true;
                 entry.image = img;
-                // Trigger re-render when image loads
-                setImageLoadTrigger(prev => prev + 1);
+                batchImageLoad();
                 resolve(img);
             };
             img.onerror = () => {
                 entry.loaded = false;
                 entry.image = null;
-                // Trigger re-render even on error
-                setImageLoadTrigger(prev => prev + 1);
+                batchImageLoad();
                 resolve(null);
             };
             img.src = url;
@@ -918,15 +921,13 @@ const AfterimageOverlay = () => {
                     img.onload = () => {
                         entry.loaded = true;
                         entry.image = img;
-                        // Trigger re-render when image loads
-                        setImageLoadTrigger(prev => prev + 1);
+                        batchImageLoad();
                     };
 
                     img.onerror = () => {
                         entry.loaded = false;
                         entry.image = null;
-                        // Still trigger re-render even on error to show fallback
-                        setImageLoadTrigger(prev => prev + 1);
+                        batchImageLoad();
                     };
 
                     img.src = imageUrl;

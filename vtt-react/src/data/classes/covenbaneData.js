@@ -733,6 +733,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
           saveOutcome: "negates",
         },
       },
+      triggerConfig: {
+        conditionalEffects: {
+          debuff: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "-2 Spell Attack, -1 Spell DC, disadvantage on concentration",
+              default: "-2 Spell Attack, -1 Spell DC",
+            },
+          },
+        },
+      },
       tags: ["debuff", "curse", "anti magic", "spellbreaker"],
     },
 
@@ -1084,6 +1096,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
           saveOutcome: "negates",
         },
       },
+      triggerConfig: {
+        conditionalEffects: {
+          debuff: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "Radiant damage doubled + disadvantage on concentration",
+              default: "Radiant damage doubled",
+            },
+          },
+        },
+      },
       tags: ["debuff", "curse", "anti magic", "demonhunter"],
     },
 
@@ -1154,6 +1178,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ],
         concentrationRequired: true,
         canBeDispelled: true,
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          control: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "Restrained + silenced, speed 0",
+              default: "Restrained, speed 0",
+            },
+          },
+        },
       },
       tags: ["crowd control", "root", "silence", "control", "shadowbane"],
     },
@@ -1244,6 +1280,10 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         },
       },
       tags: ["buff", "accuracy", "anti magic", "demonhunter"],
+    },
+
+    {
+      id: "cov_silver_storm",
       name: "Silver Storm",
       description:
         "Fill a 20ft radius with whirling silver shards. Deals 5d6 radiant (Agility save DC 15 halves). Marks survivors — attacks vs marked creatures have advantage until your next turn.",
@@ -1316,10 +1356,20 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         durationUnit: "rounds",
         canBeDispelled: true,
       },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "5d6 radiant + advantage on all attacks vs marked",
+              default: "5d6 radiant",
+            },
+          },
+        },
+      },
       tags: ["damage", "aoe", "radiant", "demonhunter"],
     },
-
-    // ===== LEVEL 5 SPELLS — Powerful (3-4 charges) =====
 
     {
       id: "cov_hexbreaker_execution",
@@ -1609,6 +1659,195 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       classResource: { type: "hexbreaker", cost: 5 },
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       damageConfig: {
+        formula: "8d6",
+        elementType: "necrotic",
+        damageTypes: ["necrotic"],
+        canCrit: false,
+        resolution: "DICE",
+      },
+      resolution: "SAVE",
+      savingThrow: {
+        ability: "constitution",
+        difficultyClass: 17,
+        saveOutcome: "half_damage",
+      },
+      controlConfig: {
+        controlType: "stunned",
+        strength: "severe",
+        duration: 1,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "constitution",
+          difficultyClass: 17,
+          saveOutcome: "negates",
+        },
+        effects: [
+          {
+            id: "anti_magic_burst",
+            name: "Anti-Magic Burst",
+            description:
+              "Stunned for 1 round on failed save. Half damage on successful save.",
+            saveType: "constitution",
+            saveDC: 17,
+            condition: "stunned",
+            duration: 1,
+            durationUnit: "rounds",
+            mechanicsText: "8d6 necrotic",
+          },
+        ],
+        canBeDispelled: true,
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "8d6 necrotic + stun + dispel enchantments",
+              default: "8d6 necrotic + stun",
+            },
+          },
+        },
+      },
+      tags: ["aoe", "damage", "stun", "ultimate", "spellbreaker"],
+    },
+
+    {
+      id: "cov_shadow_eruption",
+      name: "Shadow Eruption",
+      description:
+        "Erupt shadows upward in a 15-foot cone. Deals 8d6 necrotic damage (Agility save DC 17 halves) and blinds targets for 2 rounds, causing them to move randomly.",
+      level: 6,
+      spellType: "ACTION",
+      effectTypes: ["damage", "debuff"],
+      icon: "Void/Consumed by Void",
+      typeConfig: {
+        school: "shadow",
+        icon: "Void/Consumed by Void",
+        castTime: "1 action",
+        castTimeType: "action",
+        range: "self",
+        rangeType: "self",
+        tags: ["aoe", "damage", "debuff", "vision", "shadowbane"],
+      },
+      targetingConfig: {
+        targetingType: "area",
+        rangeType: "self_centered",
+        aoeShape: "cone",
+        aoeParameters: { radius: 15 },
+        targetRestrictions: ["enemies"],
+      },
+      durationConfig: {
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        requiresConcentration: false,
+      },
+      resourceCost: {
+        resourceTypes: ["hexbreakerCharges"],
+        resourceValues: { hexbreakerCharges: 4 },
+        actionPoints: 2,
+        components: ["verbal", "somatic"],
+      },
+      classResource: { type: "hexbreaker", cost: 4 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      damageConfig: {
+        formula: "8d6",
+        elementType: "necrotic",
+        damageTypes: ["necrotic"],
+        canCrit: false,
+        resolution: "DICE",
+      },
+      resolution: "SAVE",
+      savingThrow: {
+        ability: "agility",
+        difficultyClass: 17,
+        saveOutcome: "half_damage",
+      },
+      debuffConfig: {
+        debuffType: "statusEffect",
+        effects: [
+          {
+            id: "shadow_blindness",
+            name: "Shadow Blindness",
+            description:
+              "Blinded for 2 rounds. Cannot see, automatically fails sight-based checks, disadvantage on attack rolls. Moves in a random direction at start of each turn.",
+            statPenalty: {
+              stat: "attack",
+              value: -99,
+              magnitudeType: "disadvantage",
+            },
+            mechanicsText:
+              "Disadvantage on attack rolls for 2 rounds. Moves randomly.",
+            statusType: "blinded",
+            level: "moderate",
+          },
+        ],
+        durationType: "rounds",
+        durationValue: 2,
+        durationUnit: "rounds",
+        canBeDispelled: true,
+        savingThrow: {
+          ability: "agility",
+          difficultyClass: 17,
+          saveOutcome: "negates",
+        },
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "8d6 necrotic + blind + silence 1 round",
+              default: "8d6 necrotic + blind",
+            },
+          },
+        },
+      },
+      tags: ["aoe", "damage", "debuff", "vision", "shadowbane"],
+    },
+
+    {
+      id: "cov_spell_nullification",
+      name: "Spell Nullification",
+      description:
+        "Seal one of the target's known spells for 1 hour, making it completely inaccessible. Deals 3d8 psychic damage to evil magic users (Spirit save DC 17 negates).",
+      level: 6,
+      spellType: "ACTION",
+      effectTypes: ["control", "damage"],
+      icon: "Radiant/Golden Ring",
+      typeConfig: {
+        school: "necrotic",
+        icon: "Radiant/Golden Ring",
+        castTime: "1 action",
+        castTimeType: "action",
+        range: "60 feet",
+        rangeType: "ranged",
+        tags: ["anti magic", "seal", "spellbreaker"],
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 60,
+        targetRestrictions: ["enemies"],
+      },
+      durationConfig: {
+        durationType: "hours",
+        durationValue: 1,
+        durationUnit: "hours",
+        requiresConcentration: false,
+      },
+      resourceCost: {
+        resourceTypes: ["hexbreakerCharges"],
+        resourceValues: { hexbreakerCharges: 4 },
+        actionPoints: 2,
+        components: ["verbal"],
+      },
+      classResource: { type: "hexbreaker", cost: 4 },
+      cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
+      damageConfig: {
         formula: "3d8",
         elementType: "psychic",
         damageTypes: ["psychic"],
@@ -1648,6 +1887,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ],
         canBeDispelled: true,
         dispelDifficulty: "very_hard",
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "Seal spell + 3d8 psychic damage",
+              default: "Seal spell only",
+            },
+          },
+        },
       },
       tags: ["anti magic", "seal", "spellbreaker"],
     },
@@ -1807,6 +2058,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
           },
         ],
       },
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "+4d10 radiant vs evil, auto-detect alignment",
+              default: "Melee reach 30ft, ignore armor",
+            },
+          },
+        },
+      },
       tags: ["transformation", "mobility", "damage", "shadowbane"],
     },
 
@@ -1878,7 +2141,19 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         healingType: "percentage",
         resolution: "AUTOMATIC",
       },
-      tags: ["buff", "damage", "last stand", "demonhunter"],
+      triggerConfig: {
+        conditionalEffects: {
+          buff: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "+3d8 radiant vs evil, immune fear/charm, cannot die",
+              default: "+3d8 radiant, immune fear/charm, cannot die",
+            },
+          },
+        },
+      },
+      tags: ["buff", "healing", "last stand", "demonhunter"],
     },
 
     // ===== LEVEL 8 SPELLS — Ultimate-Tier (6 charges) =====
@@ -1939,6 +2214,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ability: "charisma",
         difficultyClass: 19,
         saveOutcome: "half_damage",
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "10d10 radiant + holy ignition + fear aura",
+              default: "10d10 radiant",
+            },
+          },
+        },
       },
       tags: ["aoe", "damage", "judgment", "demonhunter"],
     },
@@ -2007,6 +2294,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
               "Swap positions with any creature within 60ft as a bonus action, becoming invisible until start of next turn",
           },
         ],
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "30ft reach + 2d6 necrotic echo + teleport + invisible on swap",
+              default: "30ft reach + 2d6 necrotic echo + teleport",
+            },
+          },
+        },
       },
       tags: ["transformation", "stealth", "damage", "shadowbane"],
     },
@@ -2083,6 +2382,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         concentrationRequired: true,
         canBeDispelled: true,
         dispelDifficulty: "very_hard",
+      },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "10d6 necrotic + spells cost +2 slots + items suppressed",
+              default: "10d6 necrotic + spells cost +2 slots",
+            },
+          },
+        },
       },
       tags: ["aoe", "damage", "dispel", "spellbreaker"],
     },
@@ -2161,6 +2472,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ],
         power: "major",
       },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "12d10 necrotic + destroy all magic + silence 1d4 rounds + silence aura",
+              default: "12d10 necrotic + destroy all magic",
+            },
+          },
+        },
+      },
       tags: ["aoe", "damage", "permanent", "spellbreaker"],
     },
 
@@ -2180,7 +2503,19 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         castTimeType: "action",
         range: "self",
         rangeType: "self",
-        tags: ["transformation", "stealth", "assassination", "shadowbane"],
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "4d10 necrotic bypass all defenses + intangible + 120ft teleport",
+              default: "4d10 necrotic bypass all defenses + intangible + 120ft teleport",
+            },
+          },
+        },
+      },
+      tags: ["transformation", "stealth", "assassination", "shadowbane"],
       },
       targetingConfig: {
         targetingType: "self",
@@ -2299,6 +2634,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
           },
         ],
       },
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "+4d10 radiant vs evil + immune evil damage + detect alignment",
+              default: "+4d10 radiant + detect alignment",
+            },
+          },
+        },
+      },
       tags: ["transformation", "damage", "demonhunter"],
     },
 
@@ -2373,6 +2720,18 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ],
         power: "major",
       },
+      triggerConfig: {
+        conditionalEffects: {
+          damage: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "18d6 necrotic + permanently lose spellcasting on fail",
+              default: "18d6 necrotic + magic destroyed",
+            },
+          },
+        },
+      },
       tags: ["aoe", "damage", "permanent", "anti magic", "spellbreaker"],
     },
 
@@ -2392,7 +2751,19 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         castTimeType: "action",
         range: "self",
         rangeType: "self",
-        tags: ["transformation", "ultimate", "shadowbane"],
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "Auto-crit vs evil + immune all but radiant + 120ft teleport",
+              default: "Immune all but radiant + 120ft teleport",
+            },
+          },
+        },
+      },
+      tags: ["transformation", "ultimate", "shadowbane"],
       },
       targetingConfig: {
         targetingType: "self",
@@ -2464,7 +2835,19 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         castTimeType: "action",
         range: "self",
         rangeType: "self",
-        tags: ["transformation", "ultimate", "demonhunter"],
+      triggerConfig: {
+        conditionalEffects: {
+          transformation: {
+            isConditional: true,
+            defaultEnabled: false,
+            conditionalFormulas: {
+              evil_magic_user: "3d8 radiant/round aura + instant kill 50 HP evil + immune evil",
+              default: "Immune evil damage + divine aura",
+            },
+          },
+        },
+      },
+      tags: ["transformation", "ultimate", "demonhunter"],
       },
       targetingConfig: {
         targetingType: "self",

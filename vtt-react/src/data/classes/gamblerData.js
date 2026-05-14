@@ -607,10 +607,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
     ],
   },
 
-  // Example Spells - showcasing the gambling mechanics
   exampleSpells: [
     {
-      id: "lucky-strike",
+      id: "gambler_lucky_strike",
       name: "Lucky Strike",
       icon: "Healing/Renewal",
       spellType: "ACTION",
@@ -621,6 +620,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
+        icon: "Healing/Renewal",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -668,6 +668,18 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         diceMatching: {
           dice: "4d12",
           matchingRules: "Compare dice for matching numbers",
+        },
+        gamblingGame: {
+          gameType: "yahtzee",
+          description: "Roll 4d12 and match for multipliers",
+          resolution: "DICE",
+          rules: { diceCount: 4, dieType: 12, matchType: "value" },
+          outcomeTiers: [
+            { condition: "4_of_a_kind", name: "Quad", multiplier: 4, fpGain: 3 },
+            { condition: "3_of_a_kind", name: "Triple", multiplier: 3, fpGain: 2 },
+            { condition: "pair", name: "Pair", multiplier: 2, fpGain: 1 },
+            { condition: "all_different", name: "Miss", multiplier: 1, fpGain: 0 },
+          ],
         },
       },
 
@@ -728,6 +740,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
+        icon: "Utility/Utility",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -769,8 +782,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             name: "Fate's Favor",
             description:
               "Choose one of six coin effects before flipping. Heads grants a powerful benefit, tails gives a lesser benefit or minor drawback.",
-            mechanicsText:
-              "Choose one of six coin effects. Heads: powerful benefit, Tails: lesser benefit or minor drawback",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -806,13 +818,23 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           choices: 6,
           description: "Choose one of six coin effects before flipping",
         },
+        gamblingGame: {
+          gameType: "coin_flip",
+          description: "Choose one of six effects then flip a coin",
+          resolution: "COINS",
+          rules: { flipCount: 1, choiceCount: 6 },
+          outcomeTiers: [
+            { condition: "heads", name: "Powerful Benefit", fpGain: 1 },
+            { condition: "tails", name: "Lesser Benefit", fpGain: 0 },
+          ],
+        },
       },
 
       rollableTable: {
         enabled: true,
         name: "Fate's Coin Effects",
         description: "Choose one effect, then flip a coin",
-        resolutionType: "COIN_FLIP",
+        resolutionType: "COINS",
         resolutionConfig: { diceType: "coin" },
         entries: [
           {
@@ -879,6 +901,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "psychic",
+        icon: "Utility/Utility",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -944,6 +967,22 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           mechanic: "sum_based",
           sumRange: "3-60",
           averageSum: "31.5",
+        },
+        gamblingGame: {
+          gameType: "slot_machine",
+          description: "Roll 3d20 slot machine and sum for outcome tiers",
+          resolution: "DICE",
+          rules: { diceCount: 3, dieType: 20, mechanic: "sum_based", tripleBonus: true },
+          outcomeTiers: [
+            { condition: "sum_3", name: "Critical Failure", fpChange: -5 },
+            { condition: "sum_4_12", name: "Bad Luck", fpGain: 1 },
+            { condition: "sum_13_25", name: "Small Win", fpGain: 1 },
+            { condition: "sum_26_38", name: "Moderate Win", fpGain: 1 },
+            { condition: "sum_39_48", name: "Big Win", fpGain: 2 },
+            { condition: "sum_49_55", name: "Massive Win", fpGain: 2 },
+            { condition: "sum_56_59", name: "Near Jackpot", fpGain: 3 },
+            { condition: "sum_60", name: "Perfect Jackpot", fpGain: 5 },
+          ],
         },
       },
 
@@ -1132,6 +1171,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "psychic",
+        icon: "Social/Dice Roll",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -1164,9 +1204,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["healing", "utility"],
 
       healingConfig: {
-        formula: "variable",
+        formula: "d100_result_dependent",
         healingType: "direct",
-        description: "Roll d100. Results determine your fate.",
+        resolution: "DICE",
       },
 
       utilityConfig: {
@@ -1199,6 +1239,17 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             "5 FP spent": { safe: "1-95", death: "96-100" },
             "10 FP spent": { safe: "1-100", death: "ELIMINATED" },
           },
+        },
+        gamblingGame: {
+          gameType: "roulette",
+          description: "Roll d100 with a shrinking death window based on FP spent",
+          resolution: "DICE",
+          rules: { diceType: "d100", deathWindowBase: "91-100", fpShrinkPer: 1, maxFP: 10 },
+          outcomeTiers: [
+            { condition: "1-50", name: "Double HP", healing: "double_hp", fpGain: 2 },
+            { condition: "51-90", name: "Full Heal", healing: "full", fpGain: 2 },
+            { condition: "91+", name: "Death Window", damage: "drop_to_0", fpGain: 0 },
+          ],
         },
       },
 
@@ -1256,6 +1307,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "psychic",
+        icon: "Necrotic/Demonic Empowerment",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -1290,13 +1342,12 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["damage", "control"],
 
       damageConfig: {
-        formula: "1d10 to 10d10",
+        formula: "WINNER_CHOICE * d10",
         damageTypes: ["psychic"],
         description:
           "Winner chooses how many d10s (1-10) the loser takes as psychic damage",
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "spirit",
+        savingThrow: {
+          ability: "spirit",
           difficultyClass: 15,
           saveOutcome: "negates",
         },
@@ -1308,9 +1359,11 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         strength: "moderate",
         duration: 1,
         durationUnit: "rounds",
-        saveDC: 15,
-        saveType: "spirit",
-        savingThrow: true,
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 15,
+          saveOutcome: "negates",
+        },
         effects: [
           {
             id: "stun",
@@ -1318,8 +1371,6 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             description:
               "Loser is stunned for 1 round, unable to take actions or reactions",
             config: {
-              saveType: "constitution",
-              saveDC: 15,
               duration: 1,
               durationUnit: "rounds",
               durationType: "rounds",
@@ -1345,6 +1396,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           type: "spirit",
           dc: "8 + proficiency + Charisma",
           onFail: "Compelled to play",
+        },
+        gamblingGame: {
+          gameType: "death_roll",
+          description: "Descending d20 ceiling — first to roll over loses",
+          resolution: "DICE",
+          rules: { dieType: 20, mechanic: "descending_ceiling", rounds: "variable", loserDamage: "1-10d10 psychic" },
+          outcomeTiers: [
+            { condition: "caster_wins", name: "Victor", damage: "winner_chooses_1_to_10d10", fpGain: 2 },
+            { condition: "target_wins", name: "Defeated", selfDamage: "winner_chooses_1_to_10d10", fpGain: 0 },
+          ],
         },
       },
 
@@ -1378,6 +1439,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "psychic",
+        icon: "Utility/Empowered Warrior",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -1407,11 +1469,11 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         classResource: { type: "fortune_points", cost: 3 },
       },
 
-      resolution: "ATTACK_ROLL",
+      resolution: "DICE",
 
       damageConfig: {
-        formula: "weapon_or_spell",
-        damageTypes: ["variable"],
+        formula: "2d10 + charisma",
+        damageTypes: ["psychic"],
         scalingType: "critical_on_hit",
         resolution: "DICE",
       },
@@ -1429,6 +1491,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         selfDamage: {
           condition: "on_miss",
           amount: "equal_to_would_be_damage",
+        },
+        gamblingGame: {
+          gameType: "double_or_nothing",
+          description: "Attack roll — hit doubles damage as crit, miss reflects damage to self",
+          resolution: "DICE",
+          rules: { hitEffect: "auto_crit_double", missEffect: "self_damage_equal" },
+          outcomeTiers: [
+            { condition: "hit", name: "Jackpot Crit", multiplier: 2, fpGain: 2 },
+            { condition: "miss", name: "Backlash", selfDamage: "2d10 + CHA", fpGain: 0 },
+          ],
         },
       },
 
@@ -1460,6 +1532,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "psychic",
+        icon: "Radiant/Radiant Warrior",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: ["damage", "prediction", "skill based", "gambler", "card-sharp"],
@@ -1488,8 +1561,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       resolution: "DICE",
 
       damageConfig: {
-        formula: "4d6",
-        damageTypes: ["force"],
+        formula: "3d10",
+        damageTypes: ["psychic"],
         scalingType: "accuracy_based",
         resolution: "DICE",
       },
@@ -1504,10 +1577,21 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           range: "1-20",
           successMargin: 3,
           failureMargin: 4,
+          failureDamage: "1d10 to self",
         },
         synergy: {
           cardCounting:
             "Card Sharp passive: After observing 5 d20 rolls in combat, your next Taunt the Odds auto-hits (target takes 3d10 damage with no risk of self-damage). No guess needed — you already know the answer.",
+        },
+        gamblingGame: {
+          gameType: "over_under",
+          description: "Guess a d20 result — within 3 deals damage, off by 4+ hurts you",
+          resolution: "DICE",
+          rules: { guessRange: "1-20", successThreshold: 3, failureThreshold: 4 },
+          outcomeTiers: [
+            { condition: "within_3", name: "Called It", damage: "3d10", fpGain: 1 },
+            { condition: "off_by_4+", name: "Miss", selfDamage: "1d10", fpGain: 0 },
+          ],
         },
       },
 
@@ -1531,6 +1615,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
+        icon: "Utility/Utility",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: [
@@ -1549,9 +1634,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "hours",
         duration: 1,
-        durationUnit: "hour",
+        durationUnit: "hours",
       },
 
       resourceCost: {
@@ -1564,7 +1649,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         classResource: { type: "fortune_points", cost: 1 },
       },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
+
+      effectTypes: ["buff", "debuff"],
 
       buffConfig: {
         buffType: "statEnhancement",
@@ -1573,7 +1660,8 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             id: "coin_toss_buff",
             name: "Coin Toss Buff",
             description:
-              "On heads: +2 to all rolls. On tails: -2 to all rolls.",
+              "On heads: +2 to all rolls.",
+            mechanicsText: "",
             statModifier: {
               stat: "all_rolls",
               magnitude: 2,
@@ -1589,6 +1677,29 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         canBeDispelled: true,
       },
 
+      debuffConfig: {
+        debuffType: "statPenalty",
+        effects: [
+          {
+            id: "coin_toss_debuff",
+            name: "Coin Toss Penalty",
+            description:
+              "On tails: -2 to all rolls.",
+            mechanicsText: "",
+            statPenalty: {
+              stat: "all_rolls",
+              magnitude: -2,
+              magnitudeType: "flat",
+              condition: "on_tails",
+            },
+          },
+        ],
+        durationValue: 1,
+        durationType: "hours",
+        durationUnit: "hours",
+        canBeDispelled: true,
+      },
+
       specialMechanics: {
         fortunePoints: {
           cost: 1,
@@ -1600,13 +1711,23 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           heads: 2,
           tails: 1,
         },
+        gamblingGame: {
+          gameType: "wheel_of_fortune",
+          description: "Flip a coin for a lasting buff or debuff",
+          resolution: "COINS",
+          rules: { flipCount: 1, durationEffect: true },
+          outcomeTiers: [
+            { condition: "heads", name: "Fortune Smiles", buff: "+2 all rolls", fpGain: 1 },
+            { condition: "tails", name: "Fortune Frowns", debuff: "-2 all rolls", fpGain: 0 },
+          ],
+        },
       },
 
       rollableTable: {
         enabled: true,
         name: "Coin Toss Results",
         description: "Flip a coin",
-        resolutionType: "COIN_FLIP",
+        resolutionType: "COINS",
         resolutionConfig: { diceType: "coin" },
         entries: [
           {
@@ -1649,6 +1770,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
+        icon: "Psychic/Focused Mind",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: ["utility", "social", "detection", "gambler"],
@@ -1661,9 +1783,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "minutes",
         duration: 10,
-        durationUnit: "minute",
+        durationUnit: "minutes",
       },
 
       resourceCost: {
@@ -1677,17 +1799,17 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       resolution: "AUTOMATIC",
+      effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "skillEnhancement",
+        buffType: "combatAdvantage",
         effects: [
           {
             id: "gamblers_insight",
             name: "Gambler's Insight",
             description:
               "Gain advantage on Insight and Perception checks against target for 10 minutes",
-            mechanicsText:
-              "Advantage on Insight and Perception checks for 10 minutes",
+            mechanicsText: "",
             skillModifier: {
               skills: ["Insight", "Perception"],
               magnitude: 1,
@@ -1719,6 +1841,15 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             "Social encounters",
           ],
         },
+        gamblingGame: {
+          gameType: "three_card_monte",
+          description: "Find the truth among deception — read the target like a marked deck",
+          resolution: "AUTOMATIC",
+          rules: { detectionType: "insight_perception", duration: "10 minutes" },
+          outcomeTiers: [
+            { condition: "success", name: "Read", buff: "advantage Insight/Perception", fpGain: 1 },
+          ],
+        },
       },
 
       tags: ["utility", "social", "detection", "gambler"],
@@ -1743,6 +1874,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
+        icon: "Utility/Utility",
         castTime: 1,
         castTimeType: "IMMEDIATE",
         tags: ["utility", "illusion", "deception", "gambler"],
@@ -1754,9 +1886,9 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
 
       durationConfig: {
-        durationType: "rounds",
+        durationType: "hours",
         duration: 1,
-        durationUnit: "hour",
+        durationUnit: "hours",
       },
 
       resourceCost: {
@@ -1804,6 +1936,15 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             "Baiting traps",
           ],
         },
+        gamblingGame: {
+          gameType: "scratch_ticket",
+          description: "Create illusory treasure that vanishes when touched",
+          resolution: "AUTOMATIC",
+          rules: { maxValue: "100gp", duration: "1 hour", detectionMethod: "touch" },
+          outcomeTiers: [
+            { condition: "cast", name: "Illusion Created", fpGain: 1 },
+          ],
+        },
       },
 
       tags: ["utility", "illusion", "deception", "gambler"],
@@ -1814,9 +1955,6 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
     },
 
-    // ========================================
-    // LEVEL 1 SPELLS
-    // ========================================
     {
       id: "gambler_lucky_toss",
       name: "Lucky Toss",
@@ -1828,9 +1966,10 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       typeConfig: {
         school: "force",
-        icon: "Utility/Utility",
+        icon: "Social/Dice Roll",
         castTime: 1,
-        castTimeType: "IMMEDIATE",
+        castTimeType: "BONUS",
+        tags: ["buff", "reroll", "level 5", "gambler"],
       },
 
       targetingConfig: {
@@ -1850,7 +1989,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         classResource: { type: "fortune_points", gain: 1 },
       },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
       effectTypes: ["damage", "buff"],
 
       damageConfig: {
@@ -1884,6 +2023,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         coinFlip: {
           heads: { effect: "damage", target: "enemy" },
           tails: { effect: "buff", target: "self" },
+        },
+        gamblingGame: {
+          gameType: "coin_flip",
+          description: "Flip a coin — heads attacks, tails buffs",
+          resolution: "COINS",
+          rules: { flipCount: 1, dualOutcome: true },
+          outcomeTiers: [
+            { condition: "heads", name: "Lucky Hit", damage: "1d10 + CHA force", fpGain: 1 },
+            { condition: "tails", name: "Lucky Charm", buff: "+1 next roll", fpGain: 1 },
+          ],
         },
       },
 
@@ -1929,25 +2078,41 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "advantage",
+        buffType: "combatAdvantage",
         effects: [
           {
             id: "beginners_advantage",
             name: "Beginner's Advantage",
             description:
               "Gain advantage on your next ability check or attack roll",
-            mechanicsText: "Advantage on next ability check or attack roll",
+            mechanicsText: "",
             charges: 1,
           },
         ],
         durationValue: 1,
         durationType: "rounds",
-        durationUnit: "uses",
+        durationUnit: "rounds",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
       tags: ["buff", "luck", "level 1", "gambler"],
+
+      specialMechanics: {
+        fortunePoints: {
+          gain: 1,
+          description: "Successful cast generates 1 FP",
+        },
+        gamblingGame: {
+          gameType: "lucky_draw",
+          description: "Draw on beginner's fortune for advantage",
+          resolution: "AUTOMATIC",
+          rules: { advantageType: "ability_check_or_attack", uses: 1 },
+          outcomeTiers: [
+            { condition: "cast", name: "Beginner's Fortune", buff: "advantage next check", fpGain: 1 },
+          ],
+        },
+      },
     },
 
     {
@@ -1991,6 +2156,24 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         resolution: "DICE",
       },
 
+      specialMechanics: {
+        fortunePoints: {
+          optionalCost: 1,
+          effect: "Spend 1 FP to add +1d6 damage to this attack",
+          bonusFormula: "+1d6",
+        },
+        gamblingGame: {
+          gameType: "craps",
+          description: "Throw an enchanted die — spend FP to load the outcome",
+          resolution: "DICE",
+          rules: { baseDamage: "1d8", bonusDamage: "+1d6 per 1 FP spent" },
+          outcomeTiers: [
+            { condition: "base", name: "Hit", damage: "1d8 force", fpGain: 1 },
+            { condition: "fp_boosted", name: "Loaded Die", damage: "1d8 + 1d6 force", fpCost: 1 },
+          ],
+        },
+      },
+
       tags: ["damage", "ranged", "level 1", "gambler"],
 
       cooldownConfig: {
@@ -1999,9 +2182,6 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       },
     },
 
-    // ========================================
-    // LEVEL 5 SPELLS
-    // ========================================
     {
       id: "gambler_hot_streak",
       name: "Hot Streak",
@@ -2016,6 +2196,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Fire/Enveloping Fire",
         castTime: 1,
         castTimeType: "BONUS",
+        tags: ["buff", "damage", "level 5", "gambler"],
       },
 
       targetingConfig: {
@@ -2036,15 +2217,14 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "damageIncrease",
         effects: [
           {
             id: "hot_streak",
             name: "Hot Streak",
             description:
               "Each hit this turn grants +1d6 damage on your next attack, stacking up to 4 times.",
-            mechanicsText:
-              "+1d6 damage per hit this turn, stacking up to 4 times",
+            mechanicsText: "",
             charges: 4,
           },
         ],
@@ -2056,6 +2236,25 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: ["buff", "damage", "level 5", "gambler"],
+
+      specialMechanics: {
+        fortunePoints: {
+          cost: 4,
+          description: "Spend FP to ignite a damage-escalating streak",
+        },
+        gamblingGame: {
+          gameType: "farkle",
+          description: "Push your luck — each hit adds stacking bonus damage",
+          resolution: "AUTOMATIC",
+          rules: { stackPerHit: "+1d6", maxStacks: 4, duration: "this turn" },
+          outcomeTiers: [
+            { condition: "1_hit", name: "Hot", bonusDamage: "+1d6", fpGain: 1 },
+            { condition: "2_hits", name: "Hotter", bonusDamage: "+2d6", fpGain: 1 },
+            { condition: "3_hits", name: "Blazing", bonusDamage: "+3d6", fpGain: 2 },
+            { condition: "4_hits", name: "Inferno", bonusDamage: "+4d6", fpGain: 2 },
+          ],
+        },
+      },
     },
 
     {
@@ -2072,6 +2271,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Utility/Utility",
         castTime: 1,
         castTimeType: "REACTION",
+        tags: ["buff", "coin flip", "high risk", "level 5", "gambler"],
       },
 
       targetingConfig: {
@@ -2088,7 +2288,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         classResource: { type: "fortune_points", cost: 4 },
       },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
       effectTypes: ["buff"],
 
       buffConfig: {
@@ -2098,7 +2298,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             id: "mirage_flip_double",
             name: "Mirage Flip Double",
             description: "On heads: double damage. On tails: zero damage.",
-            mechanicsText: "Heads: double damage. Tails: zero damage.",
+            mechanicsText: "",
           },
         ],
       },
@@ -2109,6 +2309,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           tails: { effect: "no_damage", multiplier: 0 },
         },
         trigger: "on_attack_hit",
+        gamblingGame: {
+          gameType: "blackjack",
+          description: "Double or nothing — flip a coin to double damage or nullify it",
+          resolution: "COINS",
+          rules: { flipCount: 1, triggerType: "reaction_on_attack" },
+          outcomeTiers: [
+            { condition: "heads", name: "Blackjack", multiplier: 2, fpGain: 1 },
+            { condition: "tails", name: "Bust", multiplier: 0, fpGain: 0 },
+          ],
+        },
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
@@ -2150,15 +2360,14 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "reroll",
+        buffType: "custom",
         effects: [
           {
             id: "fate_reroll",
             name: "Fate Reroll",
             description:
               "Reroll any dice this turn and take the better result.",
-            mechanicsText:
-              "Reroll any dice this turn and take the better result",
+            mechanicsText: "",
           },
         ],
         durationValue: 1,
@@ -2169,11 +2378,24 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: ["buff", "reroll", "level 5", "gambler"],
+
+      specialMechanics: {
+        fortunePoints: {
+          cost: 4,
+          description: "Spend FP to guarantee reroll advantage",
+        },
+        gamblingGame: {
+          gameType: "liar's_dice",
+          description: "Call bluff on fate itself — reroll and take the better result",
+          resolution: "AUTOMATIC",
+          rules: { rerollCount: "all", keepBest: true, duration: "this turn" },
+          outcomeTiers: [
+            { condition: "cast", name: "Fate Rewritten", buff: "reroll all dice take best", fpGain: 1 },
+          ],
+        },
+      },
     },
 
-    // ========================================
-    // LEVEL 6 SPELLS
-    // ========================================
     {
       id: "gambler_house_advantage",
       name: "House Advantage",
@@ -2188,6 +2410,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Psychic/Mind Roar",
         castTime: 1,
         castTimeType: "IMMEDIATE",
+        tags: ["debuff", "buff", "luck", "level 6", "gambler"],
       },
 
       targetingConfig: {
@@ -2213,40 +2436,39 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["debuff", "buff"],
 
       debuffConfig: {
-        debuffType: "disadvantage",
+        debuffType: "statusEffect",
         effects: [
           {
             id: "stolen_luck",
             name: "Stolen Luck",
             description:
               "Enemies have disadvantage on attack rolls and saving throws.",
-            statPenalty: [
-              { stat: "attack", value: -99, magnitudeType: "disadvantage" },
-              {
-                stat: "saving_throws",
-                value: -99,
-                magnitudeType: "disadvantage",
-              },
-            ],
-            mechanicsText: "Disadvantage on attack rolls and saving throws",
+            statPenalty: {
+              stat: "attack_and_saves",
+              magnitude: -99,
+              magnitudeType: "disadvantage",
+            },
+            mechanicsText: "",
           },
         ],
         durationValue: 3,
         durationType: "rounds",
         durationUnit: "rounds",
-        saveDC: 16,
-        saveType: "spirit",
-        saveOutcome: "negates",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
       },
 
       buffConfig: {
-        buffType: "advantage",
+        buffType: "combatAdvantage",
         effects: [
           {
             id: "house_advantage",
             name: "House Advantage",
             description: "You have advantage on all rolls for the duration.",
-            mechanicsText: "Advantage on all rolls for the duration",
+            mechanicsText: "",
           },
         ],
         durationValue: 3,
@@ -2257,6 +2479,22 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 5 },
 
       tags: ["debuff", "buff", "luck", "level 6", "gambler"],
+
+      specialMechanics: {
+        fortunePoints: {
+          cost: 5,
+          description: "Spend FP to tilt the odds in your favor",
+        },
+        gamblingGame: {
+          gameType: "poker",
+          description: "Read the table and steal luck — disadvantage for enemies, advantage for you",
+          resolution: "AUTOMATIC",
+          rules: { range: "60ft", radius: 20, duration: 3 },
+          outcomeTiers: [
+            { condition: "cast", name: "House Wins", debuff: "disadvantage enemies", buff: "advantage self", fpGain: 2 },
+          ],
+        },
+      },
     },
 
     {
@@ -2273,6 +2511,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Psychic/Mental Chaos",
         castTime: 1,
         castTimeType: "IMMEDIATE",
+        tags: ["rollable table", "variable", "level 6", "gambler"],
       },
 
       targetingConfig: {
@@ -2341,6 +2580,25 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         "level 6",
         "gambler",
       ],
+
+      specialMechanics: {
+        fortunePoints: {
+          cost: 5,
+          description: "Spend FP to draw from the magical deck",
+        },
+        gamblingGame: {
+          gameType: "poker",
+          description: "Draw a card from a magical deck — suit determines the effect",
+          resolution: "CARDS",
+          rules: { drawCount: 1, deckType: "standard_suits", suits: 4 },
+          outcomeTiers: [
+            { condition: "spades", name: "Spades", damage: "6d8 force", fpGain: 1 },
+            { condition: "hearts", name: "Hearts", healing: "5d8 HP", fpGain: 1 },
+            { condition: "diamonds", name: "Diamonds", shield: "30 damage", fpGain: 1 },
+            { condition: "clubs", name: "Clubs", control: "stun 2 rounds", fpGain: 1 },
+          ],
+        },
+      },
     },
 
     {
@@ -2357,6 +2615,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "General/Fiery Rage",
         castTime: 1,
         castTimeType: "BONUS",
+        tags: ["buff", "immunity", "mental", "level 6", "gambler"],
       },
 
       targetingConfig: {
@@ -2377,14 +2636,14 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       effectTypes: ["buff"],
 
       buffConfig: {
-        buffType: "immunity",
+        buffType: "statusEffectBuff",
         effects: [
           {
             id: "poker_face",
             name: "Poker Face",
             description: "Immune to charm, fear, and mind-reading effects.",
-            mechanicsText: "Immune to charm, fear, and mind-reading effects",
-            damageImmunity: ["charm", "fear", "mind_reading"],
+            mechanicsText: "",
+            statusImmunities: ["charm", "fear", "mind_reading"],
           },
         ],
         durationValue: 5,
@@ -2395,11 +2654,24 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 4 },
 
       tags: ["buff", "immunity", "mental", "level 6", "gambler"],
+
+      specialMechanics: {
+        fortunePoints: {
+          cost: 5,
+          description: "Spend FP to maintain an unreadable facade",
+        },
+        gamblingGame: {
+          gameType: "liar's_dice",
+          description: "The ultimate bluff — become unreadable to charm, fear, and mind-reading",
+          resolution: "AUTOMATIC",
+          rules: { immunityDuration: 5, immunityTypes: ["charm", "fear", "mind_reading"] },
+          outcomeTiers: [
+            { condition: "cast", name: "Stone Face", buff: "immune charm/fear/mind_reading 5 rounds", fpGain: 1 },
+          ],
+        },
+      },
     },
 
-    // ========================================
-    // LEVEL 9 SPELLS
-    // ========================================
     {
       id: "gambler_high_roller",
       name: "High Roller",
@@ -2414,6 +2686,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Social/Dice Roll",
         castTime: 1,
         castTimeType: "IMMEDIATE",
+        tags: ["damage", "high risk", "high reward", "level 9", "gambler"],
       },
 
       targetingConfig: {
@@ -2449,6 +2722,17 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           neutral: { min: 6, max: 14, effect: "deal_half_damage" },
           failure: { max: 5, effect: "deal_damage_to_self" },
         },
+        gamblingGame: {
+          gameType: "war",
+          description: "Roll d20 — high card deals devastating damage, low card hurts you",
+          resolution: "DICE",
+          rules: { diceType: "d20", successThreshold: 15, neutralRange: "6-14", failureThreshold: 5 },
+          outcomeTiers: [
+            { condition: "15+", name: "High Card", damage: "18d6 + CHA force", fpGain: 3 },
+            { condition: "6-14", name: "Push", damage: "9d6 + CHA/2 force (half)", fpGain: 1 },
+            { condition: "1-5", name: "Low Card", selfDamage: "18d6 + CHA force", fpGain: 0 },
+          ],
+        },
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -2470,6 +2754,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Radiant/Radiant Glow",
         castTime: 1,
         castTimeType: "IMMEDIATE",
+        tags: ["damage", "aoe", "high reward", "level 9", "gambler"],
       },
 
       targetingConfig: {
@@ -2497,11 +2782,10 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: "16d6 + charisma",
         damageTypes: ["force"],
-        savingThrowConfig: {
-          enabled: true,
-          savingThrowType: "agility",
+        savingThrow: {
+          ability: "agility",
           difficultyClass: 19,
-          saveOutcome: "halves",
+          saveOutcome: "half_damage",
         },
         resolution: "DICE",
       },
@@ -2516,6 +2800,17 @@ You may spend talent points in any tree, but your specialization's tree synergiz
               description: "JACKPOT! Quadruple damage!",
             },
           },
+        },
+        gamblingGame: {
+          gameType: "slot_machine",
+          description: "Roll 3d6 — matching dice multiply damage exponentially",
+          resolution: "DICE",
+          rules: { diceCount: 3, dieType: 6, matchType: "value", aoeRadius: 25 },
+          outcomeTiers: [
+            { condition: "3_match", name: "JACKPOT", multiplier: 4, fpGain: 5 },
+            { condition: "2_match", name: "Small Jackpot", multiplier: 2, fpGain: 3 },
+            { condition: "no_match", name: "No Match", multiplier: 1, fpGain: 1 },
+          ],
         },
       },
 
@@ -2539,6 +2834,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         icon: "Arcane/Rewind Time",
         castTime: 1,
         castTimeType: "IMMEDIATE",
+        tags: ["utility", "coin flip", "high risk", "level 9", "gambler"],
       },
 
       targetingConfig: {
@@ -2558,8 +2854,24 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         classResource: { type: "fortune_points", cost: 8 },
       },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
       effectTypes: ["utility"],
+
+      utilityConfig: {
+        utilityType: "fate_manipulation",
+        selectedEffects: [
+          {
+            id: "hp_swap",
+            name: "HP Swap",
+            description:
+              "Swap your current HP percentage with a target enemy on heads, or gain advantage on next attack on tails.",
+          },
+        ],
+        duration: 0,
+        durationUnit: "instant",
+        concentration: false,
+        power: "major",
+      },
 
       specialMechanics: {
         coinFlip: {
@@ -2573,6 +2885,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
               "Swap fails. Instead, you learn the target's current and maximum HP, and gain advantage on your next attack against them.",
           },
         },
+        gamblingGame: {
+          gameType: "arm_wrestling",
+          description: "Opposed fortune check — swap HP percentages or settle for intel",
+          resolution: "COINS",
+          rules: { flipCount: 1, highStakesHP: true },
+          outcomeTiers: [
+            { condition: "heads", name: "Fortune Flipped", effect: "swap HP% with target", fpGain: 3 },
+            { condition: "tails", name: "Consolation", effect: "learn target HP + advantage next attack", fpGain: 1 },
+          ],
+        },
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -2580,8 +2902,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       tags: ["utility", "coin flip", "high risk", "level 9", "gambler"],
     },
 
-    // ADDITIONAL LEVEL 4 SPELLS
-    // ADDITIONAL LEVEL 7 SPELL
+
     {
       id: "gambler_all_or_nothing",
       name: "All or Nothing",
@@ -2589,7 +2910,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         "Flip a coin to unleash devastating force on all enemies or take damage yourself.",
       level: 7,
       spellType: "ACTION",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "control"],
 
       typeConfig: {
         school: "force",
@@ -2611,11 +2932,31 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: "12d6",
         damageTypes: ["force"],
-        criticalConfig: {
-          critType: "effect",
-          critEffects: ["all_or_nothing_stun"],
-        },
         resolution: "DICE",
+      },
+
+      controlConfig: {
+        controlType: "incapacitation",
+        duration: 1,
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 16,
+          saveOutcome: "negates",
+        },
+        effects: [
+          {
+            id: "all_or_nothing_stun",
+            name: "Stunned",
+            description:
+              "Enemies who fail the save are stunned for 1 round",
+            config: {
+              duration: 1,
+              durationUnit: "rounds",
+              recoveryMethod: "automatic",
+            },
+          },
+        ],
       },
 
       specialMechanics: {
@@ -2632,9 +2973,19 @@ You may spend talent points in any tree, but your specialization's tree synergiz
           },
         },
         fortunePoints: {
-          cost: 1,
+          optionalCost: 1,
           effect: "Flip the coin result (Heads to Tails or vice versa)",
           guarantee: "With 1 FP, guarantee the heads outcome",
+        },
+        gamblingGame: {
+          gameType: "all_in",
+          description: "Flip a coin — heads devastates all enemies, tails hurts you instead",
+          resolution: "COINS",
+          rules: { flipCount: 1, aoeRadius: 30, selfDamageOnTails: "6d6" },
+          outcomeTiers: [
+            { condition: "heads", name: "All or Nothing", damage: "12d6 force AoE", fpGain: 3 },
+            { condition: "tails", name: "Nothing", selfDamage: "6d6 force", fpGain: 0 },
+          ],
         },
       },
 
@@ -2648,11 +2999,11 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 8 },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
       tags: ["damage", "aoe", "coin flip", "ultimate", "universal"],
     },
 
-    // ADDITIONAL LEVEL 8 SPELL
+
     {
       id: "gambler_weighted_dice",
       name: "Weighted Dice",
@@ -2675,14 +3026,13 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         rangeType: "ranged",
         rangeDistance: 50,
         targetRestrictions: ["enemy"],
-        maxTargets: 1,
       },
 
       damageConfig: {
         formula: "14d6",
         damageTypes: ["force"],
         criticalConfig: {
-          critType: "dice",
+          enabled: true,
           critMultiplier: 2,
           critDiceOnly: false,
         },
@@ -2696,6 +3046,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
             "Spend 5 FP: 5 of your 14d6 automatically count as 6. Roll the remaining 9d6 normally.",
           guarantee:
             "At 7 FP spent, half your dice are guaranteed maximum. The most reliable spell in the Gambler arsenal — because the best gamblers know when to cheat.",
+        },
+        gamblingGame: {
+          gameType: "loaded_dice",
+          description: "Pure cheating — spend FP to treat d6s as if they rolled 6",
+          resolution: "DICE",
+          rules: { baseDamage: "14d6", maxWeightedDice: 7, fpPerWeightedDie: 1 },
+          outcomeTiers: [
+            { condition: "base", name: "Honest Roll", damage: "14d6 force", fpGain: 1 },
+            { condition: "fp_boosted", name: "Loaded", damage: "14d6 (N dice auto-6)", fpCost: "1-7" },
+          ],
         },
       },
 
@@ -2713,7 +3073,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       tags: ["damage", "guaranteed", "fortune point spending", "universal"],
     },
 
-    // ADDITIONAL LEVEL 10 SPELL
+
     {
       id: "gambler_divine_jackpot",
       name: "Divine Jackpot",
@@ -2721,7 +3081,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         "Flip a coin wreathed in divine fire. Heads: deal 20d6 force damage to all enemies in 60ft — enemies below 50% HP make a Spirit DC 20 save or are stunned for 2 rounds (instead of instantly defeated). Tails: take 20d6 force damage but survive at 1 HP with advantage on all rolls for 1 round.",
       level: 10,
       spellType: "ACTION",
-      effectTypes: ["damage"],
+      effectTypes: ["damage", "control"],
 
       typeConfig: {
         school: "force",
@@ -2743,11 +3103,31 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       damageConfig: {
         formula: "20d6",
         damageTypes: ["force"],
-        criticalConfig: {
-          critType: "effect",
-          critEffects: ["divine_judgment", "fortune_mercy"],
-        },
         resolution: "DICE",
+      },
+
+      controlConfig: {
+        controlType: "incapacitation",
+        duration: 2,
+        durationUnit: "rounds",
+        savingThrow: {
+          ability: "spirit",
+          difficultyClass: 20,
+          saveOutcome: "negates",
+        },
+        effects: [
+          {
+            id: "divine_stun",
+            name: "Divine Stun",
+            description:
+              "Enemies below 50% HP stunned for 2 rounds on failed save, enemies above 50% HP stunned for 1 round on failed save",
+            config: {
+              duration: 2,
+              durationUnit: "rounds",
+              recoveryMethod: "automatic",
+            },
+          },
+        ],
       },
 
       specialMechanics: {
@@ -2765,6 +3145,16 @@ You may spend talent points in any tree, but your specialization's tree synergiz
         },
         loreNote:
           "Fortune is a cruel mistress. She either destroys your enemies, or she teaches you why you should have folded.",
+        gamblingGame: {
+          gameType: "wheel_of_fortune",
+          description: "Divine coin flip — heads devastates enemies, tails wrecks you",
+          resolution: "COINS",
+          rules: { flipCount: 1, aoeRadius: 60, selfDamageOnTails: "20d6" },
+          outcomeTiers: [
+            { condition: "heads", name: "Divine Judgment", damage: "20d6 force AoE + stun", fpGain: 5 },
+            { condition: "tails", name: "Fortune's Mercy", selfDamage: "20d6 force", fpGain: 0 },
+          ],
+        },
       },
 
       resourceCost: {
@@ -2777,7 +3167,7 @@ You may spend talent points in any tree, but your specialization's tree synergiz
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
-      resolution: "COIN_FLIP",
+      resolution: "COINS",
       tags: ["damage", "coin flip", "ultimate", "jackpot", "universal"],
     },
   ],

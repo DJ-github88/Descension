@@ -174,23 +174,28 @@ const ShadowOverlay = () => {
         return () => window.removeEventListener('resize', updateCanvasSize);
     }, [renderShadows]);
 
-    // Animation loop for dynamic shadows
+    // Animation loop for dynamic shadows - deferred start to avoid competing during initial load
     useEffect(() => {
         if (!lightingEnabled) return;
 
+        renderShadows();
+
         let animationId;
         
-        const animate = () => {
-            renderShadows();
-            animationId = requestAnimationFrame(animate);
+        const startLoop = () => {
+            const animate = () => {
+                renderShadows();
+                animationId = requestAnimationFrame(animate);
+            };
+            if (Object.keys(shadowDataRef.current).length > 0) {
+                animationId = requestAnimationFrame(animate);
+            }
         };
 
-        // Only animate if we have shadows to render
-        if (Object.keys(shadowDataRef.current).length > 0) {
-            animationId = requestAnimationFrame(animate);
-        }
+        const startDelay = setTimeout(startLoop, 2000);
 
         return () => {
+            clearTimeout(startDelay);
             if (animationId) {
                 cancelAnimationFrame(animationId);
             }

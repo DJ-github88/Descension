@@ -234,6 +234,18 @@ const TerrainSystem = () => {
     });
     const bufferPadding = 500; // Extra pixels to render around the viewport
     const [terrainDataVersion, setTerrainDataVersion] = useState(0);
+    const pendingImageLoadsRef = useRef(0);
+    const imageLoadBatchTimerRef = useRef(null);
+
+    const batchTerrainVersionBump = useCallback(() => {
+        pendingImageLoadsRef.current--;
+        if (pendingImageLoadsRef.current > 0) return;
+        if (imageLoadBatchTimerRef.current) return;
+        imageLoadBatchTimerRef.current = setTimeout(() => {
+            imageLoadBatchTimerRef.current = null;
+            setTerrainDataVersion(v => v + 1);
+        }, 50);
+    }, []);
 
     // Store connections
     const {
@@ -563,7 +575,8 @@ const TerrainSystem = () => {
                         const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
-                            img.onload = () => setTerrainDataVersion(v => v + 1);
+                            pendingImageLoadsRef.current++;
+                            img.onload = () => batchTerrainVersionBump();
                             img.src = `${tileVariationPath}?v=35`;
                             imageCache[tileVariationPath] = img;
                         }
@@ -629,7 +642,8 @@ const TerrainSystem = () => {
                         const tileVariationPath = terrain.tileVariations[variationIndex] || terrain.tileVariations[0];
                         if (!imageCache[tileVariationPath]) {
                             const img = new Image();
-                            img.onload = () => setTerrainDataVersion(v => v + 1);
+                            pendingImageLoadsRef.current++;
+                            img.onload = () => batchTerrainVersionBump();
                             img.src = `${tileVariationPath}?v=35`;
                             imageCache[tileVariationPath] = img;
                         }

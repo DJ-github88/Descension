@@ -6416,44 +6416,7 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       try {
         // Apply level editor state
         if (levelEditorState) {
-          const levelEditorStore = useLevelEditorStore.getState();
-
-          if (levelEditorState.terrainData !== undefined) {
-            levelEditorStore.setTerrainData(levelEditorState.terrainData);
-          }
-          if (levelEditorState.wallData !== undefined) {
-            levelEditorStore.setWallData(levelEditorState.wallData);
-          }
-          if (levelEditorState.windowOverlays !== undefined) {
-            levelEditorStore.setWindowOverlays(levelEditorState.windowOverlays);
-          }
-          if (levelEditorState.environmentalObjects !== undefined) {
-            levelEditorStore.setEnvironmentalObjects(levelEditorState.environmentalObjects);
-          }
-          if (levelEditorState.drawingPaths !== undefined) {
-            levelEditorStore.setDrawingPaths(levelEditorState.drawingPaths);
-          }
-          if (levelEditorState.drawingLayers !== undefined) {
-            levelEditorStore.setDrawingLayers(levelEditorState.drawingLayers);
-          }
-          if (levelEditorState.fogOfWarData !== undefined) {
-            levelEditorStore.setFogOfWarData(levelEditorState.fogOfWarData);
-          }
-          if (levelEditorState.exploredAreas !== undefined) {
-            levelEditorStore.setExploredAreas(levelEditorState.exploredAreas);
-          }
-          if (levelEditorState.lightSources !== undefined) {
-            levelEditorStore.setLightSources(levelEditorState.lightSources);
-          }
-          if (levelEditorState.dynamicFogEnabled !== undefined) {
-            levelEditorStore.setDynamicFogEnabled(levelEditorState.dynamicFogEnabled);
-          }
-          if (levelEditorState.respectLineOfSight !== undefined) {
-            levelEditorStore.setRespectLineOfSight(levelEditorState.respectLineOfSight);
-          }
-          if (levelEditorState.dndElements !== undefined) {
-            levelEditorStore.setDndElements(levelEditorState.dndElements);
-          }
+          useLevelEditorStore.getState().loadCompleteLevelEditorState(levelEditorState);
 
           // CRITICAL: Load grid items for initial sync
           if (levelEditorState.gridItems) {
@@ -6989,48 +6952,22 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
           try {
             const levelEditorStore = useLevelEditorStore.getState();
 
-            if (mapData.terrainData !== undefined && Object.keys(mapData.terrainData).length > 0) {
-              levelEditorStore.setTerrainData(mapData.terrainData);
-            }
-            if (mapData.wallData !== undefined && Object.keys(mapData.wallData).length > 0) {
-              levelEditorStore.setWallData(mapData.wallData);
-            }
-            if (mapData.windowOverlays !== undefined) {
-              levelEditorStore.setWindowOverlays(mapData.windowOverlays);
-            }
-            if (mapData.environmentalObjects !== undefined && mapData.environmentalObjects.length > 0) {
-              levelEditorStore.setEnvironmentalObjects(mapData.environmentalObjects);
-            }
-            if (mapData.drawingPaths !== undefined && mapData.drawingPaths.length > 0) {
-              levelEditorStore.setDrawingPaths(mapData.drawingPaths);
-            }
-            if (mapData.drawingLayers !== undefined) {
-              levelEditorStore.setDrawingLayers(mapData.drawingLayers);
-            }
-            if (mapData.fogOfWarData !== undefined && Object.keys(mapData.fogOfWarData).length > 0) {
-              levelEditorStore.setFogOfWarData(mapData.fogOfWarData);
-            }
-            if (mapData.exploredAreas !== undefined && mapData.exploredAreas.length > 0) {
-              levelEditorStore.setExploredAreas(mapData.exploredAreas);
-            }
-            if (mapData.lightSources !== undefined && Object.keys(mapData.lightSources).length > 0) {
-              levelEditorStore.setLightSources(mapData.lightSources);
-            }
-            if (mapData.fogOfWarPaths !== undefined) {
-              levelEditorStore.setFogOfWarPaths?.(mapData.fogOfWarPaths);
-            }
-            if (mapData.fogErasePaths !== undefined) {
-              levelEditorStore.setFogErasePaths?.(mapData.fogErasePaths);
-            }
-            if (mapData.dynamicFogEnabled !== undefined) {
-              levelEditorStore.setDynamicFogEnabled(mapData.dynamicFogEnabled);
-            }
-            if (mapData.respectLineOfSight !== undefined) {
-              levelEditorStore.setRespectLineOfSight(mapData.respectLineOfSight);
-            }
-            if (mapData.dndElements !== undefined) {
-              levelEditorStore.setDndElements(mapData.dndElements);
-            }
+            levelEditorStore.loadCompleteLevelEditorState({
+              terrainData: mapData.terrainData,
+              wallData: mapData.wallData,
+              windowOverlays: mapData.windowOverlays,
+              environmentalObjects: mapData.environmentalObjects,
+              drawingPaths: mapData.drawingPaths,
+              drawingLayers: mapData.drawingLayers,
+              fogOfWarData: mapData.fogOfWarData,
+              exploredAreas: mapData.exploredAreas,
+              lightSources: mapData.lightSources,
+              fogOfWarPaths: mapData.fogOfWarPaths,
+              fogErasePaths: mapData.fogErasePaths,
+              dynamicFogEnabled: mapData.dynamicFogEnabled,
+              respectLineOfSight: mapData.respectLineOfSight,
+              dndElements: mapData.dndElements
+            });
 
             // Also apply grid settings from gameState if not already set
             const gs = room.gameState.gridSettings;
@@ -7622,8 +7559,10 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
         if (room.gameState?.weather && !isGameMaster) {
           const weather = room.gameState.weather;
           if (weather.enabled && weather.type && weather.type !== 'none') {
-            useLevelEditorStore.setState({ atmosphericEffects: true });
-            useLevelEditorStore.getState().setWeatherEffect(weather.type, weather.intensity, weather.enabled);
+            useLevelEditorStore.getState().loadCompleteLevelEditorState({
+              atmosphericEffects: true,
+              weatherEffects: { type: weather.type, intensity: weather.intensity, enabled: weather.enabled }
+            });
           }
         }
       } catch (e) {
