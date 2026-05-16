@@ -639,20 +639,16 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
     const handleMouseMove = (e) => {
       try {
-        // Start dragging immediately if mouse is down and we're not dragging yet
         if (isMouseDownRef.current && !isDraggingRef.current) {
           setIsDragging(true);
           isDraggingRef.current = true;
-          // PERFORMANCE: Set global flag to prevent expensive fog recalculations during token drag
           window._isDraggingToken = true;
 
-          // Track drag state globally to prevent feedback loops in multiplayer
           if (!window.multiplayerDragState) {
             window.multiplayerDragState = new Map();
           }
           window.multiplayerDragState.set(`token_${tokenId}`, true);
 
-          // Start movement visualization if enabled (works in and out of combat)
           if (showMovementVisualization && typeof startMovementVisualization === 'function') {
             startMovementVisualization(tokenId, { x: position.x, y: position.y });
           }
@@ -660,42 +656,49 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
 
         if (!isDraggingRef.current) return;
 
-        // Prevent all default behaviors and stop propagation immediately
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        // Calculate new screen position IMMEDIATELY for responsive visual feedback
         const screenX = e.clientX - dragOffset.x;
         const screenY = e.clientY - dragOffset.y;
 
-        // Get viewport dimensions for proper coordinate conversion
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // Convert screen position back to world coordinates
         const worldPos = gridSystem.screenToWorld(screenX, screenY, viewportWidth, viewportHeight);
 
-        // Update local position for React state
-        setLocalPosition({ x: worldPos.x, y: worldPos.y });
+        // Use RAF for visual position updates instead of setState every frame
+        if (screenPositionRef.current) {
+          const newScreenPos = gridSystem.worldToScreen(worldPos.x, worldPos.y, viewportWidth, viewportHeight);
+          const roundedX = Math.round(newScreenPos.x);
+          const roundedY = Math.round(newScreenPos.y);
+
+          if (screenPositionRef.current.x !== roundedX || screenPositionRef.current.y !== roundedY) {
+            screenPositionRef.current = { x: roundedX, y: roundedY };
+            if (tokenRef.current) {
+              tokenRef.current.style.transform = `translate3d(${roundedX}px, ${roundedY}px, 0) translate(-50%, -50%)`;
+            }
+          }
+        }
+        currentPosRef.current = worldPos;
 
         const now = Date.now();
 
-        // UPDATE: Higher frequency for store updates during drag (16ms = ~60fps)
-        // This ensures TokenVisibilityCalculator sees the movement in real-time
-        if (now - lastNetworkUpdate > 16) { 
+        // Throttle store updates to 50ms (~20fps) to prevent re-rendering all tokens
+        if (now - lastNetworkUpdate > 50) {
           const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
-          // Update store directly for smooth persistence through re-renders
+          setLocalPosition(worldPos);
+
           if (typeof updateTokenPosition === 'function') {
             updateTokenPosition(token.id, {
               ...snappedPos,
-              isSyncEvent: false // Marks as local move
+              isSyncEvent: false
             });
           }
 
-          // Update global tracking for echo prevention
           if (!window.recentTokenMovements) window.recentTokenMovements = new Map();
           window.recentTokenMovements.set(`token_${tokenId}`, {
             position: { x: snappedPos.x, y: snappedPos.y },
@@ -706,8 +709,7 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           lastNetworkUpdate = now;
         }
 
-        // Update movement visualization and distance calculation during drag
-        if (dragStartPosition && now - lastCombatUpdate > 50) { // 20fps
+        if (dragStartPosition && now - lastCombatUpdate > 100) {
           const gridCoords = gridSystem.worldToGrid(worldPos.x, worldPos.y);
           const snappedPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
 
@@ -715,7 +717,6 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
             updateMovementVisualization({ x: snappedPos.x, y: snappedPos.y });
           }
 
-          // Update temporary distance in store
           if (typeof updateTempMovementDistance === 'function') {
             const distance = gridSystem.calculateDistance(dragStartPosition, snappedPos);
             updateTempMovementDistance(tokenId, distance);

@@ -2066,13 +2066,16 @@ function GridComponent({
         const handleDragStart = (e) => {
             // Check if this is a creature drag by looking at the dataTransfer types
             const isCreatureDrag = e.dataTransfer.types.includes('creature/id');
+            const isSummonDrag = e.dataTransfer.types.includes('application/summon-token');
 
             // Only set isDraggingCreature for actual creature drags
             if (isCreatureDrag) {
                 setIsDraggingCreature(true);
+            }
 
-                // Note: We can't get the creature ID here because dataTransfer.getData()
-                // only works in drop events. We'll get it during the drop event instead.
+            // Track summon drags globally so dragover/drop can handle them
+            if (isSummonDrag) {
+                window._isDraggingSummonToken = true;
             }
         };
 
@@ -2080,6 +2083,7 @@ function GridComponent({
         const handleDragEnd = () => {
             setIsDraggingCreature(false);
             setDraggedCreatureId(null);
+            window._isDraggingSummonToken = false;
         };
 
         // Handle drop event for document-level drops
@@ -2217,6 +2221,39 @@ function GridComponent({
                 }
             }
 
+            // Handle summon token drops from Token Bar
+            const summonTokenData = e.dataTransfer.getData('application/summon-token');
+            if (summonTokenData) {
+                e.preventDefault();
+                try {
+                    const summonData = JSON.parse(summonTokenData);
+                    const gridCoords = gridSystem.getGridCoordinateFromEvent(e, gridRef.current);
+                    const worldPos = gridSystem.gridToWorld(gridCoords.x, gridCoords.y);
+
+                    const { summonTokenFromTemplate } = require('../services/tokenSummonService');
+                    const charStore = useCharacterStore.getState();
+                    const character = {
+                        characterClass: charStore.class,
+                        race: charStore.race,
+                        subrace: charStore.subrace,
+                        level: charStore.level,
+                        name: charStore.name,
+                        stats: { maxHp: charStore.health?.max, maxMana: charStore.mana?.max },
+                        currentHp: charStore.health?.current,
+                        currentMana: charStore.mana?.current,
+                    };
+                    summonTokenFromTemplate(summonData.templateId, worldPos, character);
+
+                    setTimeout(() => { forceSaveCurrentRoom(); }, 500);
+                } catch (error) {
+                    console.error('Error handling summon token drop:', error);
+                }
+
+                window._isDraggingSummonToken = false;
+                setIsDraggingCreature(false);
+                return;
+            }
+
             // Handle creature drops
             if (!isDraggingCreature) {
                 return;
@@ -2269,9 +2306,9 @@ function GridComponent({
 
         // Handle drag over event for document
         const handleDocumentDragOver = (e) => {
-            // Must preventDefault for ALL drags (items and creatures) to allow drop events to fire
+            // Must preventDefault for ALL drags (items, creatures, summons) to allow drop events to fire
             // This is required by HTML5 drag and drop API
-            if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem) {
+            if (isDraggingCreature || isDraggingItemRef.current || window.isDraggingItem || window._isDraggingSummonToken) {
                 e.preventDefault();
             }
 
@@ -2560,19 +2597,6 @@ function GridComponent({
 
                 // Add as D&D element so it renders on the grid like other objects
                 addDndElement(portalData);
-                return;
-            }
-
-            // Check for summon token drops from the Token Bar
-            const summonTokenData = e.dataTransfer.getData('application/summon-token');
-            if (summonTokenData) {
-                const summonData = JSON.parse(summonTokenData);
-                const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
-
-                const { summonTokenFromTemplate } = require('../services/tokenSummonService');
-                const character = useCharacterStore.getState().character;
-                summonTokenFromTemplate(summonData.templateId, worldPos, character);
-
                 return;
             }
 

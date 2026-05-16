@@ -116,10 +116,13 @@ export const summonTokenFromTemplate = (templateId, position, character, overrid
   if (template.subTypes && template.subTypes.length > 0) {
     for (const subType of template.subTypes) {
       for (let i = 0; i < (subType.quantity || 1); i++) {
-        const offset = {
-          x: position.x + (i % 3) * 30 - 30,
-          y: position.y + Math.floor(i / 3) * 30 - 15,
-        };
+        const totalSubTypes = template.subTypes.length;
+        const offset = totalSubTypes > 1 || (subType.quantity || 1) > 1
+          ? {
+              x: position.x + (i % 3) * 30 - 30,
+              y: position.y + Math.floor(i / 3) * 30 - 15,
+            }
+          : position;
         const subOverrides = {
           name: subType.name,
           stats: { maxHp: subType.stats?.maxHp || 10 },
@@ -136,10 +139,12 @@ export const summonTokenFromTemplate = (templateId, position, character, overrid
     }
   } else {
     for (let i = 0; i < quantity; i++) {
-      const offset = {
-        x: position.x + (i % 3) * 30 - 30,
-        y: position.y + Math.floor(i / 3) * 30 - 15,
-      };
+      const offset = quantity > 1
+        ? {
+            x: position.x + (i % 3) * 30 - 30,
+            y: position.y + Math.floor(i / 3) * 30 - 15,
+          }
+        : position;
       const creatureData = templateToCreatureData(template, character, overrides);
       creatureData._summonMeta.ownerId = ownerSocketId;
       creatureData._summonMeta.ownerName = ownerName;

@@ -50,6 +50,35 @@ const SummonTokenCard = ({ template, character, onDragStart, onDragEnd, onClick,
       templateName: template.name,
     }));
     e.dataTransfer.effectAllowed = 'copy';
+
+    // Create circular icon drag image matching creature library style
+    const dragImage = document.createElement('div');
+    dragImage.style.width = '40px';
+    dragImage.style.height = '40px';
+    dragImage.style.borderRadius = '50%';
+    dragImage.style.border = `2px solid ${typeColor}`;
+    dragImage.style.backgroundSize = 'cover';
+    dragImage.style.backgroundPosition = 'center';
+    dragImage.style.position = 'absolute';
+    dragImage.style.top = '-1000px';
+
+    if (iconUrl) {
+      dragImage.style.backgroundImage = `url(${iconUrl})`;
+    } else {
+      dragImage.style.backgroundColor = '#e6dcc6';
+      dragImage.style.display = 'flex';
+      dragImage.style.alignItems = 'center';
+      dragImage.style.justifyContent = 'center';
+      dragImage.style.color = '#7a3b2e';
+      dragImage.style.fontSize = '18px';
+      dragImage.style.fontWeight = 'bold';
+      dragImage.textContent = template.name.charAt(0);
+    }
+
+    document.body.appendChild(dragImage);
+    e.dataTransfer.setDragImage(dragImage, 20, 20);
+    setTimeout(() => { if (document.body.contains(dragImage)) document.body.removeChild(dragImage); }, 100);
+
     if (onDragStart) onDragStart(template, e);
   };
 
