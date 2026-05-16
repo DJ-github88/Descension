@@ -8,9 +8,9 @@
 import { useEffect, useCallback, useRef, useState } from 'react';
 import { doc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import useAuthStore from '../store/authStore';
 
 export const useRealtimeSync = (collection, documentId, onRemoteChange, options = {}) => {
+  const useAuthStore = require('../store/authStore').default;
   const { user } = useAuthStore();
   const [isConnected, setIsConnected] = useState(false);
   const [lastRemoteUpdate, setLastRemoteUpdate] = useState(null);

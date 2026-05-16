@@ -6,8 +6,6 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useMapStore from '../store/mapStore';
 import { saveUserMap, loadUserMaps, updateUserMap, deleteUserMap } from '../services/firebase/userMapsService';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -17,6 +15,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
  * Custom hook to manage persistence of user-created custom maps
  */
 export const useUserMapsPersistence = () => {
+  const useAuthStore = require('../store/authStore').default;
+  const useMapStore = require('../store/mapStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
   const maps = useMapStore(useShallow(state => state.maps));

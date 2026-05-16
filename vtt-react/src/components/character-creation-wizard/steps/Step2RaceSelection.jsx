@@ -36,60 +36,62 @@ const SubracePickerModal = ({ isOpen, race, onPickSubrace, onCancel }) => {
                 <div className="subrace-comparison-container">
                     {race.subraces.map((subrace) => (
                         <div key={subrace.id} className="subrace-comparison-card">
-                            <div className="comparison-card-header">
-                                <div className="comparison-card-icon">
-                                    <i className="fas fa-dna"></i>
+                            <div className="comparison-card-body">
+                                <div className="comparison-card-header">
+                                    <div className="comparison-card-icon">
+                                        <i className="fas fa-dna"></i>
+                                    </div>
+                                    <h4 className="comparison-card-name">{subrace.name}</h4>
                                 </div>
-                                <h4 className="comparison-card-name">{subrace.name}</h4>
-                            </div>
-                            
-                            <div className="comparison-card-description">
-                                <p>{subrace.description}</p>
-                            </div>
 
-                            {subrace.statModifiers && Object.keys(subrace.statModifiers).length > 0 && (
-                                <div className="comparison-card-section">
-                                    <h5 className="comparison-section-title">
-                                        <i className="fas fa-chart-bar"></i> Stat Modifiers
-                                    </h5>
-                                    <div className="comparison-stat-grid">
-                                        {Object.entries(subrace.statModifiers).map(([stat, modifier]) => (
-                                            modifier !== 0 && (
-                                                <div 
-                                                    key={stat} 
-                                                    className={`comparison-stat ${modifier >= 0 ? 'positive' : 'negative'}`}
-                                                >
-                                                    <span className="stat-abbr">{stat.slice(0, 3).toUpperCase()}</span>
-                                                    <span className="stat-mod">{modifier >= 0 ? '+' : ''}{modifier}</span>
+                                <div className="comparison-card-description">
+                                    <p>{subrace.description}</p>
+                                </div>
+
+                                {subrace.statModifiers && Object.keys(subrace.statModifiers).length > 0 && (
+                                    <div className="comparison-card-section">
+                                        <h5 className="comparison-section-title">
+                                            <i className="fas fa-chart-bar"></i> Stat Modifiers
+                                        </h5>
+                                        <div className="comparison-stat-grid">
+                                            {Object.entries(subrace.statModifiers).map(([stat, modifier]) => (
+                                                modifier !== 0 && (
+                                                    <div
+                                                        key={stat}
+                                                        className={`comparison-stat ${modifier >= 0 ? 'positive' : 'negative'}`}
+                                                    >
+                                                        <span className="stat-abbr">{stat.slice(0, 3).toUpperCase()}</span>
+                                                        <span className="stat-mod">{modifier >= 0 ? '+' : ''}{modifier}</span>
+                                                    </div>
+                                                )
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {subrace.traits && subrace.traits.length > 0 && (
+                                    <div className="comparison-card-section">
+                                        <h5 className="comparison-section-title">
+                                            <i className="fas fa-star"></i> Key Traits
+                                        </h5>
+                                        <div className="comparison-traits-list">
+                                            {subrace.traits.slice(0, 3).map((trait, index) => (
+                                                <div key={index} className="comparison-trait-item">
+                                                    <i className="fas fa-check"></i>
+                                                    <span>{trait.name}</span>
                                                 </div>
-                                            )
-                                        ))}
+                                            ))}
+                                            {subrace.traits.length > 3 && (
+                                                <div className="comparison-more-traits">
+                                                    +{subrace.traits.length - 3} more traits
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
 
-                            {subrace.traits && subrace.traits.length > 0 && (
-                                <div className="comparison-card-section">
-                                    <h5 className="comparison-section-title">
-                                        <i className="fas fa-star"></i> Key Traits
-                                    </h5>
-                                    <div className="comparison-traits-list">
-                                        {subrace.traits.slice(0, 3).map((trait, index) => (
-                                            <div key={index} className="comparison-trait-item">
-                                                <i className="fas fa-check"></i>
-                                                <span>{trait.name}</span>
-                                            </div>
-                                        ))}
-                                        {subrace.traits.length > 3 && (
-                                            <div className="comparison-more-traits">
-                                                +{subrace.traits.length - 3} more traits
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
-                            <button 
+                            <button
                                 className="comparison-select-btn"
                                 onClick={() => onPickSubrace(subrace)}
                             >
@@ -342,82 +344,82 @@ const Step2RaceSelection = () => {
                     Choose Your Heritage
                 </h2>
                 <p className="step-description">
-                    Every hero is shaped by their bloodline. Will you be forged in the frozen peaks of the Nordmark, 
-                    rise from the shadowed depths as Corvani, or perhaps carry the ancient fire of the Emberth within your veins? 
+                    Every hero is shaped by their bloodline. Will you be forged in the frozen peaks of the Nordmark,
+                    rise from the shadowed depths as Corvani, or perhaps carry the ancient fire of the Emberth within your veins?
                     Your race grants unique abilities, traits, and a destiny written in your very soul.
                 </p>
             </div>
             <div className="step-body">
-            <div className="race-selection-layout-fullwidth">
-                <div className="race-selection-panel">
-                    <div className="race-section">
-                        <h3 className="section-title">
-                            <i className="fas fa-users"></i>
-                            Available Races
-                        </h3>
-                        <div className="race-grid-fullwidth">
-                            {raceList.map((race) => (
-                                <div
-                                    key={race.id}
-                                    className={`race-card ${selectedRace === race.id ? 'selected' : ''}`}
-                                    onClick={() => handleRaceCardClick(race.id)}
-                                    style={{ '--race-gradient': race.gradient }}
-                                >
-                                    <div className="race-card-icon">
-                                        <i className={race.icon}></i>
+                <div className="race-selection-layout-fullwidth">
+                    <div className="race-selection-panel">
+                        <div className="race-section">
+                            <h3 className="section-title">
+                                <i className="fas fa-users"></i>
+                                Available Races
+                            </h3>
+                            <div className="race-grid-fullwidth">
+                                {raceList.map((race) => (
+                                    <div
+                                        key={race.id}
+                                        className={`race-card ${selectedRace === race.id ? 'selected' : ''}`}
+                                        onClick={() => handleRaceCardClick(race.id)}
+                                        style={{ '--race-gradient': race.gradient }}
+                                    >
+                                        <div className="race-card-icon">
+                                            <i className={race.icon}></i>
+                                        </div>
+                                        <h4 className="race-name">{race.name}</h4>
+                                        {race.essence && <p className="race-essence">{race.essence}</p>}
+                                        <button className="race-view-btn">
+                                            <i className="fas fa-eye"></i> View Details
+                                        </button>
                                     </div>
-                                    <h4 className="race-name">{race.name}</h4>
-                                    {race.essence && <p className="race-essence">{race.essence}</p>}
-                                    <button className="race-view-btn">
-                                        <i className="fas fa-eye"></i> View Details
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {selectedRace && selectedSubrace && (
-                        <div className="selected-race-summary">
-                            <div className="summary-header">
-                                <i className="fas fa-check-circle"></i>
-                                <span>Selected: <strong>{selectedRaceData?.name}</strong> - <strong>{
-                                    selectedRaceData?.subraces.find(s => s.id === selectedSubrace)?.name
-                                }</strong></span>
+                                ))}
                             </div>
-                            <button
-                                className="change-selection-btn"
-                                onClick={() => handleRaceCardClick(selectedRace)}
-                            >
-                                <i className="fas fa-edit"></i> View Details
-                            </button>
                         </div>
-                    )}
+
+                        {selectedRace && selectedSubrace && (
+                            <div className="selected-race-summary">
+                                <div className="summary-header">
+                                    <i className="fas fa-check-circle"></i>
+                                    <span>Selected: <strong>{selectedRaceData?.name}</strong> - <strong>{
+                                        selectedRaceData?.subraces.find(s => s.id === selectedSubrace)?.name
+                                    }</strong></span>
+                                </div>
+                                <button
+                                    className="change-selection-btn"
+                                    onClick={() => handleRaceCardClick(selectedRace)}
+                                >
+                                    <i className="fas fa-edit"></i> View Details
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
 
-            <SubracePickerModal
-                isOpen={showSubracePicker}
-                race={viewingRace}
-                onPickSubrace={handleSubracePickerSelect}
-                onCancel={handleSubracePickerCancel}
-            />
+                <SubracePickerModal
+                    isOpen={showSubracePicker}
+                    race={viewingRace}
+                    onPickSubrace={handleSubracePickerSelect}
+                    onCancel={handleSubracePickerCancel}
+                />
 
-            <TabbedSelectionModal
-                isOpen={showModal}
-                onClose={() => {
-                    setShowModal(false);
-                    setViewingRace(null);
-                    setPendingSubrace(null);
-                }}
-                onSelect={handleModalSelect}
-                selectedItem={pendingSubrace ? { name: `${viewingRace?.name} - ${pendingSubrace?.name}` } : null}
-                selectionType={`${viewingRace?.name || 'Race'}${pendingSubrace ? ` - ${pendingSubrace.name}` : ''}`}
-                tabs={buildModalTabs()}
-                width="950px"
-                icon={viewingRace?.icon}
-                gradient={viewingRace?.gradient}
-                defaultTab="overview"
-            />
+                <TabbedSelectionModal
+                    isOpen={showModal}
+                    onClose={() => {
+                        setShowModal(false);
+                        setViewingRace(null);
+                        setPendingSubrace(null);
+                    }}
+                    onSelect={handleModalSelect}
+                    selectedItem={pendingSubrace ? { name: `${viewingRace?.name} - ${pendingSubrace?.name}` } : null}
+                    selectionType={`${viewingRace?.name || 'Race'}${pendingSubrace ? ` - ${pendingSubrace.name}` : ''}`}
+                    tabs={buildModalTabs()}
+                    width="950px"
+                    icon={viewingRace?.icon}
+                    gradient={viewingRace?.gradient}
+                    defaultTab="overview"
+                />
             </div>
         </div>
     );

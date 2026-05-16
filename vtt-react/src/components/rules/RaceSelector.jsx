@@ -84,7 +84,7 @@ const transformTraitToSpell = (trait) => {
       restorationConfig: trait.restorationConfig,
       purificationConfig: trait.purificationConfig
     };
-    
+
     // Return directly without caching (new format traits are already properly structured)
     return spell;
   }
@@ -711,634 +711,634 @@ const transformTraitToSpell = (trait) => {
 
 // Memoized Race Card Component
 const RaceCard = React.memo(({ race, isSelected, onSelect }) => (
-    <div
-        className={`race-card ${isSelected ? 'selected' : ''}`}
-        onClick={() => onSelect(race.id)}
-        style={{ '--race-gradient': race.gradient }}
-    >
-        <div className="race-card-icon">
-            <i className={race.icon}></i>
-        </div>
-        <h4 className="race-card-name">{race.name}</h4>
-        {race.essence && <p className="race-card-essence">{race.essence}</p>}
-        <div className="race-card-info">
-            <span className="info-badge">
-                <i className="fas fa-users"></i>
-                {race.variantCount} Variants
-            </span>
-        </div>
+  <div
+    className={`race-card ${isSelected ? 'selected' : ''}`}
+    onClick={() => onSelect(race.id)}
+    style={{ '--race-gradient': race.gradient }}
+  >
+    <div className="race-card-icon">
+      <i className={race.icon}></i>
     </div>
+    <h4 className="race-card-name">{race.name}</h4>
+    {race.essence && <p className="race-card-essence">{race.essence}</p>}
+    <div className="race-card-info">
+      <span className="info-badge">
+        <i className="fas fa-users"></i>
+        {race.variantCount} Variants
+      </span>
+    </div>
+  </div>
 ));
 
 // Memoized Variant Card Component
 const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => (
-    <div
-        className={`variant-card ${isSelected ? 'selected' : ''}`}
-        onClick={() => onSelect(variantId)}
-    >
-        <h4 className="variant-card-name">{variant.name}</h4>
-        <p className="variant-card-description">{variant.description}</p>
-        <StatModifiersMini statModifiers={variant.statModifiers} />
-    </div>
+  <div
+    className={`variant-card ${isSelected ? 'selected' : ''}`}
+    onClick={() => onSelect(variantId)}
+  >
+    <h4 className="variant-card-name">{variant.name}</h4>
+    <p className="variant-card-description">{variant.description}</p>
+    <StatModifiersMini statModifiers={variant.statModifiers} />
+  </div>
 ));
 
 // Memoized Stat Modifiers Mini Component
 const StatModifiersMini = React.memo(({ statModifiers }) => (
-    <div className="stat-modifiers-mini">
-        {Object.entries(statModifiers).map(([stat, modifier]) => {
-            if (modifier === 0) return null;
-            return (
-                <span key={stat} className={`stat-mod ${modifier > 0 ? 'positive' : 'negative'}`}>
-                    {stat.substring(0, 3).toUpperCase()} {modifier > 0 ? '+' : ''}{modifier}
-                </span>
-            );
-        })}
-    </div>
+  <div className="stat-modifiers-mini">
+    {Object.entries(statModifiers).map(([stat, modifier]) => {
+      if (modifier === 0) return null;
+      return (
+        <span key={stat} className={`stat-mod ${modifier > 0 ? 'positive' : 'negative'}`}>
+          {stat.substring(0, 3).toUpperCase()} {modifier > 0 ? '+' : ''}{modifier}
+        </span>
+      );
+    })}
+  </div>
 ));
 
 // Memoized Stat Modifiers Full Component
 const StatModifiersFull = React.memo(({ statModifiers }) => (
-    <div className="stat-block">
-        <h4 className="stat-block-title">STAT MODIFIERS</h4>
-        <div className="stat-modifiers-row">
-            {Object.entries(statModifiers).map(([stat, modifier]) => (
-                <span key={stat} className={`stat-modifier ${modifier > 0 ? 'positive' : modifier < 0 ? 'negative' : 'neutral'}`}>
-                    {stat.substring(0, 3).toUpperCase()} {modifier > 0 ? '+' : ''}{modifier}
-                </span>
-            ))}
-        </div>
+  <div className="stat-block">
+    <h4 className="stat-block-title">STAT MODIFIERS</h4>
+    <div className="stat-modifiers-row">
+      {Object.entries(statModifiers).map(([stat, modifier]) => (
+        <span key={stat} className={`stat-modifier ${modifier > 0 ? 'positive' : modifier < 0 ? 'negative' : 'neutral'}`}>
+          {stat.substring(0, 3).toUpperCase()} {modifier > 0 ? '+' : ''}{modifier}
+        </span>
+      ))}
     </div>
+  </div>
 ));
 
 // Derive concise passive summaries: 1 line flavor text, then game mechanics
 const getPassiveSummary = (trait = {}) => {
-    const parts = [];
-    
-    // Extract first sentence of description as flavor text
-    if (trait.description) {
-        const firstSentence = trait.description.split(/[.!?]+/)[0].trim();
-        if (firstSentence) parts.push(firstSentence + '.');
-    }
+  const parts = [];
 
-    // Extract condition from triggerConfig if present
-    let conditionText = '';
-    if (trait.triggerConfig?.global?.compoundTriggers) {
-        const healthTrigger = trait.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
-        if (healthTrigger?.parameters) {
-            const percentage = healthTrigger.parameters.percentage;
-            const comparison = healthTrigger.parameters.comparison;
-            if (percentage && comparison) {
-                if (comparison === 'less_than' || comparison === 'below') {
-                    conditionText = `when below ${percentage}% HP`;
-                } else if (comparison === 'greater_than' || comparison === 'above') {
-                    conditionText = `when above ${percentage}% HP`;
-                }
-            }
+  // Extract first sentence of description as flavor text
+  if (trait.description) {
+    const firstSentence = trait.description.split(/[.!?]+/)[0].trim();
+    if (firstSentence) parts.push(firstSentence + '.');
+  }
+
+  // Extract condition from triggerConfig if present
+  let conditionText = '';
+  if (trait.triggerConfig?.global?.compoundTriggers) {
+    const healthTrigger = trait.triggerConfig.global.compoundTriggers.find(t => t.id === 'health_threshold');
+    if (healthTrigger?.parameters) {
+      const percentage = healthTrigger.parameters.percentage;
+      const comparison = healthTrigger.parameters.comparison;
+      if (percentage && comparison) {
+        if (comparison === 'less_than' || comparison === 'below') {
+          conditionText = `when below ${percentage}% HP`;
+        } else if (comparison === 'greater_than' || comparison === 'above') {
+          conditionText = `when above ${percentage}% HP`;
         }
+      }
     }
+  }
 
-    const formatStatMod = (mod = {}) => {
-        const stat = (mod.stat || 'stat').replace(/_/g, ' ');
-        let mag;
-        if (mod.magnitudeType === 'dice' && mod.formula) {
-            mag = mod.formula;
-        } else if (mod.magnitudeType === 'percentage') {
-            mag = `${mod.magnitude}%`;
-        } else {
-            mag = `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
-        }
-        return `${stat} ${mag}`;
-    };
-
-    // Group stat modifiers together
-    const statMods = [];
-    const otherEffects = [];
-
-    // Process buff effects
-    if (trait.buffConfig?.effects) {
-        trait.buffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
-            }
-        });
+  const formatStatMod = (mod = {}) => {
+    const stat = (mod.stat || 'stat').replace(/_/g, ' ');
+    let mag;
+    if (mod.magnitudeType === 'dice' && mod.formula) {
+      mag = mod.formula;
+    } else if (mod.magnitudeType === 'percentage') {
+      mag = `${mod.magnitude}%`;
+    } else {
+      mag = `${mod.magnitude > 0 ? '+' : ''}${mod.magnitude}`;
     }
+    return `${stat} ${mag}`;
+  };
 
-    // Process debuff effects
-    if (trait.debuffConfig?.effects) {
-        trait.debuffConfig.effects.forEach(effect => {
-            if (effect.statModifier) {
-                statMods.push(formatStatMod(effect.statModifier));
-            } else if (effect.statusEffect) {
-                otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
-            }
-        });
-    }
+  // Group stat modifiers together
+  const statMods = [];
+  const otherEffects = [];
 
-    // Add healing config
-    if (trait.healingConfig) {
-        const { formula = 'healing', hotTickInterval, hotDuration, durationType } = trait.healingConfig;
-        const intervalText = hotTickInterval
-            ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
-            : '';
-        const durationText = hotDuration
-            ? ` while ${hotDuration}`
-            : durationType === 'permanent'
-                ? ' continuously'
-                : '';
-        parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
-    }
+  // Process buff effects
+  if (trait.buffConfig?.effects) {
+    trait.buffConfig.effects.forEach(effect => {
+      if (effect.statModifier) {
+        statMods.push(formatStatMod(effect.statModifier));
+      } else if (effect.statusEffect) {
+        otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+      }
+    });
+  }
 
-    // Add stat modifiers (grouped together)
-    if (statMods.length > 0) {
-        const modText = statMods.join(', ');
-        parts.push(conditionText ? `${modText} ${conditionText}` : modText);
-    }
+  // Process debuff effects
+  if (trait.debuffConfig?.effects) {
+    trait.debuffConfig.effects.forEach(effect => {
+      if (effect.statModifier) {
+        statMods.push(formatStatMod(effect.statModifier));
+      } else if (effect.statusEffect) {
+        otherEffects.push(effect.name || effect.statusEffect.type || 'Status effect');
+      }
+    });
+  }
 
-    // Add other effects
-    if (otherEffects.length > 0) {
-        parts.push(otherEffects.join(', '));
-    }
+  // Add healing config
+  if (trait.healingConfig) {
+    const { formula = 'healing', hotTickInterval, hotDuration, durationType } = trait.healingConfig;
+    const intervalText = hotTickInterval
+      ? ` every ${hotTickInterval} round${hotTickInterval > 1 ? 's' : ''}`
+      : '';
+    const durationText = hotDuration
+      ? ` while ${hotDuration}`
+      : durationType === 'permanent'
+        ? ' continuously'
+        : '';
+    parts.push(`Regenerates ${formula}${intervalText}${durationText}`.trim() + '.');
+  }
 
-    return parts.length ? parts.join(' ') : 'No description available';
+  // Add stat modifiers (grouped together)
+  if (statMods.length > 0) {
+    const modText = statMods.join(', ');
+    parts.push(conditionText ? `${modText} ${conditionText}` : modText);
+  }
+
+  // Add other effects
+  if (otherEffects.length > 0) {
+    parts.push(otherEffects.join(', '));
+  }
+
+  return parts.length ? parts.join(' ') : 'No description available';
 };
 
 // Memoized Trait Icon Component
 const TraitIcon = React.memo(({ trait, isSelected, onTraitClick }) => (
-    <div
-        className={`trait-icon-item ${isSelected ? 'selected' : ''}`}
-        onClick={() => onTraitClick(trait)}
-        title={trait.name}
-    >
-        {trait.icon && (
-            <img
-                src={getIconUrl(trait.icon, 'abilities')}
-                alt={trait.name}
-                className="trait-icon"
-                onError={(e) => {
-                    e.target.src = getIconUrl('Utility/Utility', 'abilities');
-                }}
-            />
-        )}
-    </div>
+  <div
+    className={`trait-icon-item ${isSelected ? 'selected' : ''}`}
+    onClick={() => onTraitClick(trait)}
+    title={trait.name}
+  >
+    {trait.icon && (
+      <img
+        src={getIconUrl(trait.icon, 'abilities')}
+        alt={trait.name}
+        className="trait-icon"
+        onError={(e) => {
+          e.target.src = getIconUrl('Utility/Utility', 'abilities');
+        }}
+      />
+    )}
+  </div>
 ));
 
 const RaceSelector = () => {
-    const [selectedRace, setSelectedRace] = useState(null);
-    const [selectedVariant, setSelectedVariant] = useState(null);
-    const [selectedTrait, setSelectedTrait] = useState(null);
-    const [loadedRaceData, setLoadedRaceData] = useState(new Map());
-    const [allRaces, setAllRaces] = useState([]);
-    const [racesLoading, setRacesLoading] = useState(true);
-    const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
-    const [showEpicLore, setShowEpicLore] = useState(false);
-    const raceGridRef = useRef(null);
+  const [selectedRace, setSelectedRace] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedTrait, setSelectedTrait] = useState(null);
+  const [loadedRaceData, setLoadedRaceData] = useState(new Map());
+  const [allRaces, setAllRaces] = useState([]);
+  const [racesLoading, setRacesLoading] = useState(true);
+  const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
+  const [showEpicLore, setShowEpicLore] = useState(false);
+  const raceGridRef = useRef(null);
 
-    // Load race list on component mount
-    useEffect(() => {
-        const loadRaces = async () => {
-            try {
-                const raceList = await getRaceList();
-                setAllRaces(raceList);
-                setRacesLoading(false);
-            } catch (error) {
-                console.error('Failed to load race list:', error);
-                setRacesLoading(false);
-            }
-        };
+  // Load race list on component mount
+  useEffect(() => {
+    const loadRaces = async () => {
+      try {
+        const raceList = await getRaceList();
+        setAllRaces(raceList);
+        setRacesLoading(false);
+      } catch (error) {
+        console.error('Failed to load race list:', error);
+        setRacesLoading(false);
+      }
+    };
 
-        loadRaces();
-    }, []);
+    loadRaces();
+  }, []);
 
-    // Only show visible races for performance
-    const races = useMemo(() => {
-        return allRaces.slice(0, visibleRaceCount);
-    }, [allRaces, visibleRaceCount]);
+  // Only show visible races for performance
+  const races = useMemo(() => {
+    return allRaces.slice(0, visibleRaceCount);
+  }, [allRaces, visibleRaceCount]);
 
-    // Load more races when scrolling near the bottom
-    const loadMoreRaces = useCallback(() => {
-        setVisibleRaceCount(prev => Math.min(prev + 24, allRaces.length));
-    }, [allRaces.length]);
+  // Load more races when scrolling near the bottom
+  const loadMoreRaces = useCallback(() => {
+    setVisibleRaceCount(prev => Math.min(prev + 24, allRaces.length));
+  }, [allRaces.length]);
 
-    // Intersection observer to load more races when approaching the bottom
-    useEffect(() => {
-        if (!raceGridRef.current || visibleRaceCount >= allRaces.length || racesLoading) return;
+  // Intersection observer to load more races when approaching the bottom
+  useEffect(() => {
+    if (!raceGridRef.current || visibleRaceCount >= allRaces.length || racesLoading) return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    loadMoreRaces();
-                }
-            },
-            { threshold: 0.1, rootMargin: '100px' }
-        );
-
-        // Observe the last race card
-        const lastCard = raceGridRef.current.lastElementChild;
-        if (lastCard) {
-            observer.observe(lastCard);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreRaces();
         }
-
-        return () => observer.disconnect();
-    }, [visibleRaceCount, allRaces.length, loadMoreRaces, racesLoading]);
-
-    // Lazy load full race data only when needed
-    const raceData = useMemo(() => {
-        if (!selectedRace) return null;
-
-        // Check if already loaded
-        if (loadedRaceData.has(selectedRace)) {
-            return loadedRaceData.get(selectedRace);
-        }
-
-        // Trigger async loading
-        loadRaceData(selectedRace).then(fullData => {
-            if (fullData) {
-                setLoadedRaceData(prev => new Map(prev).set(selectedRace, fullData));
-            }
-        });
-
-        return null; // Return null while loading
-    }, [selectedRace, loadedRaceData]);
-
-    // Memoize variant data to prevent unnecessary lookups
-    const variantData = useMemo(() =>
-        selectedVariant && raceData ? raceData.subraces[selectedVariant] : null,
-        [selectedVariant, raceData]
+      },
+      { threshold: 0.1, rootMargin: '100px' }
     );
 
-    const handleRaceSelect = useCallback((raceId) => {
-        setSelectedRace(raceId);
-        setSelectedVariant(null); // Reset variant when race changes
+    // Observe the last race card
+    const lastCard = raceGridRef.current.lastElementChild;
+    if (lastCard) {
+      observer.observe(lastCard);
+    }
 
-        // Preload adjacent races for better UX
-        const currentIndex = allRaces.findIndex(r => r.id === raceId);
-        if (currentIndex !== -1) {
-            // Preload next and previous races
-            const preloadIndices = [
-                currentIndex - 1,
-                currentIndex + 1,
-                currentIndex - 2,
-                currentIndex + 2
-            ].filter(idx => idx >= 0 && idx < allRaces.length);
+    return () => observer.disconnect();
+  }, [visibleRaceCount, allRaces.length, loadMoreRaces, racesLoading]);
 
-            preloadIndices.forEach(idx => {
-                const preloadRaceId = allRaces[idx].id;
-                if (!loadedRaceData.has(preloadRaceId)) {
-                    loadRaceData(preloadRaceId).then(fullData => {
-                        if (fullData) {
-                            setLoadedRaceData(prev => new Map(prev).set(preloadRaceId, fullData));
-                        }
-                    }).catch(() => {
-                        // Silently fail preloading - not critical
-                    });
-                }
-            });
+  // Lazy load full race data only when needed
+  const raceData = useMemo(() => {
+    if (!selectedRace) return null;
+
+    // Check if already loaded
+    if (loadedRaceData.has(selectedRace)) {
+      return loadedRaceData.get(selectedRace);
+    }
+
+    // Trigger async loading
+    loadRaceData(selectedRace).then(fullData => {
+      if (fullData) {
+        setLoadedRaceData(prev => new Map(prev).set(selectedRace, fullData));
+      }
+    });
+
+    return null; // Return null while loading
+  }, [selectedRace, loadedRaceData]);
+
+  // Memoize variant data to prevent unnecessary lookups
+  const variantData = useMemo(() =>
+    selectedVariant && raceData ? raceData.subraces[selectedVariant] : null,
+    [selectedVariant, raceData]
+  );
+
+  const handleRaceSelect = useCallback((raceId) => {
+    setSelectedRace(raceId);
+    setSelectedVariant(null); // Reset variant when race changes
+
+    // Preload adjacent races for better UX
+    const currentIndex = allRaces.findIndex(r => r.id === raceId);
+    if (currentIndex !== -1) {
+      // Preload next and previous races
+      const preloadIndices = [
+        currentIndex - 1,
+        currentIndex + 1,
+        currentIndex - 2,
+        currentIndex + 2
+      ].filter(idx => idx >= 0 && idx < allRaces.length);
+
+      preloadIndices.forEach(idx => {
+        const preloadRaceId = allRaces[idx].id;
+        if (!loadedRaceData.has(preloadRaceId)) {
+          loadRaceData(preloadRaceId).then(fullData => {
+            if (fullData) {
+              setLoadedRaceData(prev => new Map(prev).set(preloadRaceId, fullData));
+            }
+          }).catch(() => {
+            // Silently fail preloading - not critical
+          });
         }
-    }, [allRaces, loadedRaceData]);
+      });
+    }
+  }, [allRaces, loadedRaceData]);
 
-    const handleVariantSelect = (variantId) => {
-        setSelectedVariant(variantId);
-    };
+  const handleVariantSelect = (variantId) => {
+    setSelectedVariant(variantId);
+  };
 
-    const handleTraitClick = (trait) => {
-        setSelectedTrait(trait);
-    };
+  const handleTraitClick = (trait) => {
+    setSelectedTrait(trait);
+  };
 
-    // Determine current step for conditional rendering
-    const currentStep = !selectedRace ? 'race' : !selectedVariant ? 'variant' : 'details';
+  // Determine current step for conditional rendering
+  const currentStep = !selectedRace ? 'race' : !selectedVariant ? 'variant' : 'details';
 
-    return (
-        <div className="race-selector-container">
-            {/* Step 1: Race Selection - Always shown */}
-            <div className="race-selection-step">
-                <h3 className="step-title">
-                    Select a Race
-                </h3>
-                {racesLoading ? (
-                    <div className="race-loading">
-                        <i className="fas fa-spinner fa-spin"></i>
-                        <p>Loading races...</p>
-                    </div>
-                ) : (
-                    <div className="race-grid" ref={raceGridRef}>
-                        {races.map(race => (
-                            <RaceCard
-                                key={race.id}
-                                race={race}
-                                isSelected={selectedRace === race.id}
-                                onSelect={handleRaceSelect}
-                            />
-                        ))}
-                        {visibleRaceCount < allRaces.length && (
-                            <div className="loading-more-races">
-                                <i className="fas fa-spinner fa-spin"></i>
-                                Loading more races...
-                            </div>
+  return (
+    <div className="race-selector-container">
+      {/* Step 1: Race Selection - Always shown */}
+      <div className="race-selection-step">
+        <h3 className="step-title">
+          Select a Race
+        </h3>
+        {racesLoading ? (
+          <div className="race-loading">
+            <i className="fas fa-spinner fa-spin"></i>
+            <p>Loading races...</p>
+          </div>
+        ) : (
+          <div className="race-grid" ref={raceGridRef}>
+            {races.map(race => (
+              <RaceCard
+                key={race.id}
+                race={race}
+                isSelected={selectedRace === race.id}
+                onSelect={handleRaceSelect}
+              />
+            ))}
+            {visibleRaceCount < allRaces.length && (
+              <div className="loading-more-races">
+                <i className="fas fa-spinner fa-spin"></i>
+                Loading more races...
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Step 2: Variant Selection - Only shown when race is selected */}
+      {currentStep === 'variant' && (
+        raceData ? (
+          <div className="variant-selection-step">
+            <h3 className="step-title">
+              Select a Variant for {raceData.name}
+            </h3>
+            <div className="variant-grid">
+              {Object.entries(raceData.subraces).map(([variantId, variant]) => (
+                <VariantCard
+                  key={variantId}
+                  variantId={variantId}
+                  variant={variant}
+                  isSelected={selectedVariant === variantId}
+                  onSelect={handleVariantSelect}
+                />
+              ))}
+            </div>
+            <div className="empty-state">
+              <i className="fas fa-hand-pointer"></i>
+              <p>Select a variant to view detailed information</p>
+            </div>
+          </div>
+        ) : (
+          <div className="race-loading">
+            <i className="fas fa-spinner fa-spin"></i>
+            <p>Loading race details...</p>
+          </div>
+        )
+      )}
+
+      {/* Step 3: Detailed View - Only shown when variant is selected */}
+      {currentStep === 'details' && variantData && raceData && (
+        <div className="variant-details-view">
+          <div className="step-title">
+            {variantData.name} Details
+            {raceData.epicHistory && (
+              <button
+                className="epic-lore-button"
+                onClick={() => setShowEpicLore(true)}
+              >
+                <i className="fas fa-book-open"></i>
+                Lore
+              </button>
+            )}
+          </div>
+
+          <div className="details-layout">
+            {/* Left Column: Stats & Basic Info */}
+            <div className="details-left">
+              {/* Stat Block */}
+              <StatModifiersFull statModifiers={variantData.statModifiers} />
+
+              {/* Base Stats Block */}
+              {(() => {
+                const baseStats = getRacialBaseStats(raceData.id, variantData.id);
+                if (baseStats && Object.keys(baseStats).length > 0) {
+                  return (
+                    <div className="info-block">
+                      <h4 className="info-block-title">BASE STATS</h4>
+                      <div className="info-grid">
+                        {baseStats.armor !== undefined && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">ARMOR:</span>
+                            <span className="info-value">{baseStats.armor}</span>
+                          </div>
                         )}
+                        {baseStats.hp !== undefined && baseStats.hp !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">HP:</span>
+                            <span className="info-value">{baseStats.hp > 0 ? '+' : ''}{baseStats.hp}</span>
+                          </div>
+                        )}
+                        {baseStats.mana !== undefined && baseStats.mana !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">MANA:</span>
+                            <span className="info-value">{baseStats.mana > 0 ? '+' : ''}{baseStats.mana}</span>
+                          </div>
+                        )}
+                        {baseStats.ap !== undefined && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">ACTION POINTS:</span>
+                            <span className="info-value">{baseStats.ap}</span>
+                          </div>
+                        )}
+                        {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">PASSIVE PERCEPTION:</span>
+                            <span className="info-value">{baseStats.passivePerception > 0 ? '+' : ''}{baseStats.passivePerception}</span>
+                          </div>
+                        )}
+                        {baseStats.swimSpeed !== undefined && baseStats.swimSpeed !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">SWIM SPEED:</span>
+                            <span className="info-value">{baseStats.swimSpeed > 0 ? '+' : ''}{baseStats.swimSpeed} ft</span>
+                          </div>
+                        )}
+                        {baseStats.climbSpeed !== undefined && baseStats.climbSpeed !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">CLIMB SPEED:</span>
+                            <span className="info-value">{baseStats.climbSpeed > 0 ? '+' : ''}{baseStats.climbSpeed} ft</span>
+                          </div>
+                        )}
+                        {baseStats.visionRange !== undefined && baseStats.visionRange !== 60 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">VISION RANGE:</span>
+                            <span className="info-value">{baseStats.visionRange} ft</span>
+                          </div>
+                        )}
+                        {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">DARKVISION:</span>
+                            <span className="info-value">{baseStats.darkvision} ft</span>
+                          </div>
+                        )}
+                        {baseStats.initiative !== undefined && baseStats.initiative !== 0 && (
+                          <div className="info-row info-row-no-bg">
+                            <span className="info-label">INITIATIVE:</span>
+                            <span className="info-value">{baseStats.initiative > 0 ? '+' : ''}{baseStats.initiative}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                )}
+                  );
+                }
+                return null;
+              })()}
+
+              {/* Saving Throw Modifiers Block */}
+              {(() => {
+                const savingThrowMods = getRacialSavingThrowModifiers(raceData.id, variantData.id);
+                if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
+                  return (
+                    <div className="info-block">
+                      <h4 className="info-block-title">SAVING THROW MODIFIERS</h4>
+                      <div className="info-grid">
+                        {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
+                          <div className="info-row info-row-full info-row-no-bg">
+                            <span className="info-label">ADVANTAGE:</span>
+                            <span className="info-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                          </div>
+                        )}
+                        {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
+                          <div className="info-row info-row-full info-row-no-bg">
+                            <span className="info-label">DISADVANTAGE:</span>
+                            <span className="info-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
+
+              {/* Basic Information */}
+              <div className="info-block">
+                <h4 className="info-block-title">BASIC INFORMATION</h4>
+                <div className="info-grid">
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">SIZE:</span>
+                    <span className="info-value">{raceData.baseTraits.size}</span>
+                  </div>
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">HEIGHT:</span>
+                    <span className="info-value">{raceData.baseTraits.height || 'MISSING'}</span>
+                  </div>
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">WEIGHT:</span>
+                    <span className="info-value">{raceData.baseTraits.weight || 'MISSING'}</span>
+                  </div>
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">BUILD:</span>
+                    <span className="info-value">{raceData.baseTraits.build || 'MISSING'}</span>
+                  </div>
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">SPEED:</span>
+                    <span className="info-value">{raceData.baseTraits.baseSpeed} ft</span>
+                  </div>
+                  <div className="info-row info-row-no-bg">
+                    <span className="info-label">LIFESPAN:</span>
+                    <span className="info-value">{raceData.baseTraits.lifespan}</span>
+                  </div>
+                  <div className="info-row info-row-full info-row-no-bg">
+                    <span className="info-label">LANGUAGES:</span>
+                    <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Step 2: Variant Selection - Only shown when race is selected */}
-            {currentStep === 'variant' && (
-                raceData ? (
-                <div className="variant-selection-step">
-                    <h3 className="step-title">
-                        Select a Variant for {raceData.name}
-                    </h3>
-                    <div className="variant-grid">
-                        {Object.entries(raceData.subraces).map(([variantId, variant]) => (
-                            <VariantCard
-                                key={variantId}
-                                variantId={variantId}
-                                variant={variant}
-                                isSelected={selectedVariant === variantId}
-                                onSelect={handleVariantSelect}
-                            />
-                        ))}
-                    </div>
-                    <div className="empty-state">
-                        <i className="fas fa-hand-pointer"></i>
-                        <p>Select a variant to view detailed information</p>
-                    </div>
-                </div>
-                ) : (
-                    <div className="race-loading">
-                        <i className="fas fa-spinner fa-spin"></i>
-                        <p>Loading race details...</p>
-                    </div>
-                )
-            )}
-
-            {/* Step 3: Detailed View - Only shown when variant is selected */}
-            {currentStep === 'details' && variantData && raceData && (
-                <div className="variant-details-view">
-                    <div className="step-title">
-                        {variantData.name} Details
-                        {raceData.epicHistory && (
-                            <button
-                                className="epic-lore-button"
-                                onClick={() => setShowEpicLore(true)}
-                            >
-                                <i className="fas fa-book-open"></i>
-                                Lore
-                            </button>
-                        )}
-                    </div>
-
-                    <div className="details-layout">
-                        {/* Left Column: Stats & Basic Info */}
-                        <div className="details-left">
-                            {/* Stat Block */}
-                            <StatModifiersFull statModifiers={variantData.statModifiers} />
-
-                            {/* Base Stats Block */}
-                            {(() => {
-                                const baseStats = getRacialBaseStats(raceData.id, variantData.id);
-                                if (baseStats && Object.keys(baseStats).length > 0) {
-                                    return (
-                                        <div className="info-block">
-                                            <h4 className="info-block-title">BASE STATS</h4>
-                                            <div className="info-grid">
-                                                {baseStats.armor !== undefined && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">ARMOR:</span>
-                                                        <span className="info-value">{baseStats.armor}</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.hp !== undefined && baseStats.hp !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">HP:</span>
-                                                        <span className="info-value">{baseStats.hp > 0 ? '+' : ''}{baseStats.hp}</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.mana !== undefined && baseStats.mana !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">MANA:</span>
-                                                        <span className="info-value">{baseStats.mana > 0 ? '+' : ''}{baseStats.mana}</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.ap !== undefined && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">ACTION POINTS:</span>
-                                                        <span className="info-value">{baseStats.ap}</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.passivePerception !== undefined && baseStats.passivePerception !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">PASSIVE PERCEPTION:</span>
-                                                        <span className="info-value">{baseStats.passivePerception > 0 ? '+' : ''}{baseStats.passivePerception}</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.swimSpeed !== undefined && baseStats.swimSpeed !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">SWIM SPEED:</span>
-                                                        <span className="info-value">{baseStats.swimSpeed > 0 ? '+' : ''}{baseStats.swimSpeed} ft</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.climbSpeed !== undefined && baseStats.climbSpeed !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">CLIMB SPEED:</span>
-                                                        <span className="info-value">{baseStats.climbSpeed > 0 ? '+' : ''}{baseStats.climbSpeed} ft</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.visionRange !== undefined && baseStats.visionRange !== 60 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">VISION RANGE:</span>
-                                                        <span className="info-value">{baseStats.visionRange} ft</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.darkvision !== undefined && baseStats.darkvision !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">DARKVISION:</span>
-                                                        <span className="info-value">{baseStats.darkvision} ft</span>
-                                                    </div>
-                                                )}
-                                                {baseStats.initiative !== undefined && baseStats.initiative !== 0 && (
-                                                    <div className="info-row info-row-no-bg">
-                                                        <span className="info-label">INITIATIVE:</span>
-                                                        <span className="info-value">{baseStats.initiative > 0 ? '+' : ''}{baseStats.initiative}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })()}
-
-                            {/* Saving Throw Modifiers Block */}
-                            {(() => {
-                                const savingThrowMods = getRacialSavingThrowModifiers(raceData.id, variantData.id);
-                                if (savingThrowMods && (savingThrowMods.advantage || savingThrowMods.disadvantage)) {
-                                    return (
-                                        <div className="info-block">
-                                            <h4 className="info-block-title">SAVING THROW MODIFIERS</h4>
-                                            <div className="info-grid">
-                                                {savingThrowMods.advantage && Array.isArray(savingThrowMods.advantage) && savingThrowMods.advantage.length > 0 && (
-                                                    <div className="info-row info-row-full info-row-no-bg">
-                                                        <span className="info-label">ADVANTAGE:</span>
-                                                        <span className="info-value">{savingThrowMods.advantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
-                                                    </div>
-                                                )}
-                                                {savingThrowMods.disadvantage && Array.isArray(savingThrowMods.disadvantage) && savingThrowMods.disadvantage.length > 0 && (
-                                                    <div className="info-row info-row-full info-row-no-bg">
-                                                        <span className="info-label">DISADVANTAGE:</span>
-                                                        <span className="info-value">{savingThrowMods.disadvantage.map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(', ')}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })()}
-
-                            {/* Basic Information */}
-                            <div className="info-block">
-                                <h4 className="info-block-title">BASIC INFORMATION</h4>
-                                <div className="info-grid">
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">SIZE:</span>
-                                        <span className="info-value">{raceData.baseTraits.size}</span>
-                                    </div>
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">HEIGHT:</span>
-                                        <span className="info-value">{raceData.baseTraits.height || 'MISSING'}</span>
-                                    </div>
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">WEIGHT:</span>
-                                        <span className="info-value">{raceData.baseTraits.weight || 'MISSING'}</span>
-                                    </div>
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">BUILD:</span>
-                                        <span className="info-value">{raceData.baseTraits.build || 'MISSING'}</span>
-                                    </div>
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">SPEED:</span>
-                                        <span className="info-value">{raceData.baseTraits.baseSpeed} ft</span>
-                                    </div>
-                                    <div className="info-row info-row-no-bg">
-                                        <span className="info-label">LIFESPAN:</span>
-                                        <span className="info-value">{raceData.baseTraits.lifespan}</span>
-                                    </div>
-                                    <div className="info-row info-row-full info-row-no-bg">
-                                        <span className="info-label">LANGUAGES:</span>
-                                        <span className="info-value">{raceData.baseTraits.languages.join(', ')}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right Column: Traits */}
-                        <div className="details-right">
-                            <div className="traits-block">
-                                <h4 className="traits-block-title">Racial Traits</h4>
-                                <div className="traits-icons">
-                                    {variantData.traits.map((trait, index) => (
-                                        <TraitIcon
-                                            key={`${trait.name}-${index}`}
-                                            trait={trait}
-                                            isSelected={selectedTrait && selectedTrait.id === trait.id}
-                                            onTraitClick={handleTraitClick}
-                                        />
-                                    ))}
-                                </div>
-                                {selectedTrait && (
-                                    isPassiveStatModifier(selectedTrait) ? (
-                                        <div className="passive-display">
-                                            <div className="passive-summary-item">
-                                                <div className="passive-summary-icon-wrapper">
-                                                    <img
-                                                        src={getIconUrl(selectedTrait.icon || 'spell_holy_devotion', 'abilities')}
-                                                        alt={selectedTrait.name}
-                                                        className="passive-summary-icon"
-                                                        onError={(e) => e.target.src = getIconUrl('ui_icon_questionmark', 'ui')}
-                                                    />
-                                                </div>
-                                                <div className="passive-summary-details">
-                                                    <div className="passive-summary-name">{selectedTrait.name}</div>
-                                                    <div className="passive-summary-description">{getPassiveSummary(selectedTrait)}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <UnifiedSpellCard
-                                            spell={transformTraitToSpell(selectedTrait)}
-                                            variant="rules"
-                                            showDescription={true}
-                                        />
-                                    )
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Cultural Background */}
-                    {raceData.culturalBackground && (
-                        <div className="cultural-section">
-                            <h4 className="cultural-title">
-                                <i className="fas fa-book"></i> Cultural Background
-                            </h4>
-                            <p className="cultural-text">{raceData.culturalBackground}</p>
-                        </div>
-                    )}
-
-                     {/* Integration Notes */}
-                    {raceData.integrationNotes && (
-                        <div className="integration-section">
-                            <h4 className="integration-title">
-                                <i className="fas fa-link"></i> Integration with Game Systems
-                            </h4>
-                            <div className="integration-grid">
-                                {raceData.integrationNotes.actionPointSystem && (
-                                    <div className="integration-card">
-                                        <h5>Action Points</h5>
-                                        <p>{raceData.integrationNotes.actionPointSystem}</p>
-                                    </div>
-                                )}
-                                {raceData.integrationNotes.backgroundSynergy && (
-                                    <div className="integration-card">
-                                        <h5>Background Synergy</h5>
-                                        <p>{raceData.integrationNotes.backgroundSynergy}</p>
-                                    </div>
-                                )}
-                                {raceData.integrationNotes.classCompatibility && (
-                                    <div className="integration-card">
-                                        <h5>Class Compatibility</h5>
-                                        <p>{raceData.integrationNotes.classCompatibility}</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                </div>
-            )}
-
-             {/* Initial Empty State */}
-            {currentStep === 'race' && (
-                <div className="empty-state">
-                    <i className="fas fa-hand-pointer"></i>
-                    <p>Select a race above to view variants and details</p>
-                </div>
-            )}
-
-            {/* Epic Lore Modal/Overlay */}
-            {showEpicLore && raceData && (
-                <div className="epic-lore-overlay">
-                    <RaceEpicLore
-                        raceData={raceData}
-                        availableTabs={['history', 'figures', 'locations', 'crisis', 'practices']}
-                        onClose={() => setShowEpicLore(false)}
+            {/* Right Column: Traits */}
+            <div className="details-right">
+              <div className="traits-block">
+                <h4 className="traits-block-title">Racial Traits</h4>
+                <div className="traits-icons">
+                  {variantData.traits.map((trait, index) => (
+                    <TraitIcon
+                      key={`${trait.name}-${index}`}
+                      trait={trait}
+                      isSelected={selectedTrait && selectedTrait.id === trait.id}
+                      onTraitClick={handleTraitClick}
                     />
+                  ))}
                 </div>
-            )}
+                {selectedTrait && (
+                  isPassiveStatModifier(selectedTrait) ? (
+                    <div className="passive-display">
+                      <div className="passive-summary-item">
+                        <div className="passive-summary-icon-wrapper">
+                          <img
+                            src={getIconUrl(selectedTrait.icon || 'spell_holy_devotion', 'abilities')}
+                            alt={selectedTrait.name}
+                            className="passive-summary-icon"
+                            onError={(e) => e.target.src = getIconUrl('ui_icon_questionmark', 'ui')}
+                          />
+                        </div>
+                        <div className="passive-summary-details">
+                          <div className="passive-summary-name">{selectedTrait.name}</div>
+                          <div className="passive-summary-description">{getPassiveSummary(selectedTrait)}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <UnifiedSpellCard
+                      spell={transformTraitToSpell(selectedTrait)}
+                      variant="rules"
+                      showDescription={true}
+                    />
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Cultural Background */}
+          {raceData.culturalBackground && (
+            <div className="cultural-section">
+              <h4 className="cultural-title">
+                <i className="fas fa-book"></i> Cultural Background
+              </h4>
+              <p className="cultural-text">{raceData.culturalBackground}</p>
+            </div>
+          )}
+
+          {/* Integration Notes */}
+          {raceData.integrationNotes && (
+            <div className="integration-section">
+              <h4 className="integration-title">
+                <i className="fas fa-link"></i> Integration with Game Systems
+              </h4>
+              <div className="integration-grid">
+                {raceData.integrationNotes.actionPointSystem && (
+                  <div className="integration-card">
+                    <h5>Action Points</h5>
+                    <p>{raceData.integrationNotes.actionPointSystem}</p>
+                  </div>
+                )}
+                {raceData.integrationNotes.backgroundSynergy && (
+                  <div className="integration-card">
+                    <h5>Background Synergy</h5>
+                    <p>{raceData.integrationNotes.backgroundSynergy}</p>
+                  </div>
+                )}
+                {raceData.integrationNotes.classCompatibility && (
+                  <div className="integration-card">
+                    <h5>Class Compatibility</h5>
+                    <p>{raceData.integrationNotes.classCompatibility}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
         </div>
-    );
+      )}
+
+      {/* Initial Empty State */}
+      {currentStep === 'race' && (
+        <div className="empty-state">
+          <i className="fas fa-hand-pointer"></i>
+          <p>Select a race above to view variants and details</p>
+        </div>
+      )}
+
+      {/* Epic Lore Modal/Overlay */}
+      {showEpicLore && raceData && (
+        <div className="epic-lore-overlay">
+          <RaceEpicLore
+            raceData={raceData}
+            availableTabs={['history', 'figures', 'locations', 'crisis', 'practices']}
+            onClose={() => setShowEpicLore(false)}
+          />
+        </div>
+      )}
+
+    </div>
+  );
 };
 
 export default RaceSelector;

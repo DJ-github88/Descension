@@ -2234,6 +2234,21 @@ const CharacterToken = ({
                     );
                 }
 
+                // Allow players to remove their own character token
+                if (!isGMMode && isSelf) {
+                    tokenActionsSubmenu.push({
+                        icon: <i className="fas fa-trash"></i>,
+                        label: 'Remove Token',
+                        onClick: (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowContextMenu(false);
+                            handleRemoveToken();
+                        },
+                        className: 'danger'
+                    });
+                }
+
                 menuItems.push({
                     icon: <i className="fas fa-cog"></i>,
                     label: 'Token Actions',

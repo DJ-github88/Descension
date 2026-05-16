@@ -1048,6 +1048,7 @@ const RoomManager = () => {
                   onDelete={room.userRole === 'gm' ? handleDeleteRoom : null}
                   onUpdateRoom={handleUpdateMultiplayerRoom}
                   showDeleteButton={room.userRole === 'gm'}
+                  showShareButton={room.userRole === 'gm'}
                   className="room-card-unified"
                 />
               );

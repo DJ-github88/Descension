@@ -6,12 +6,14 @@
  */
 
 import React, { useEffect, useCallback } from 'react';
-import { useCharacterPersistence } from '../../hooks/useCharacterPersistence';
 import ConflictResolutionModal from '../common/ConflictResolutionModal';
-import useCharacterStore from '../../store/characterStore';
-import useAuthStore from '../../store/authStore';
 
 const CharacterPersistenceProvider = ({ children }) => {
+  // Use dynamic require to break circular dependencies
+  const useAuthStore = require('../../store/authStore').default;
+  const useCharacterStore = require('../../store/characterStore').default;
+  const { useCharacterPersistence } = require('../../hooks/useCharacterPersistence');
+
   const { user } = useAuthStore();
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
   const {

@@ -5,13 +5,14 @@
  * Handles sessions, NPCs, locations, quests, homebrew, etc.
  * Integrates with the CampaignManager component.
  */
-
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import persistenceService from '../services/firebase/persistenceService';
 import campaignService from '../services/campaignService';
 
 export const useCampaignPersistence = (campaignId) => {
+  const persistenceService = require('../services/firebase/persistenceService').default;
+  // Use dynamic require to break circular dependencies
+  const useAuthStore = require('../store/authStore').default;
+
   const { user } = useAuthStore();
 
   // Auto-save timer refs

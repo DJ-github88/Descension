@@ -1,11 +1,10 @@
-// Game State Manager - Handles automatic saving and loading of permanent room state
 import { saveCompleteGameState, loadCompleteGameState, updateGameStateSection } from './roomService';
 
 class GameStateManager {
   constructor() {
     this.currentRoomId = null;
     this.isAutoSaveEnabled = true;
-    this.autoSaveInterval = 30000; // 30 seconds
+    this.autoSaveInterval = 30000;
     this.autoSaveTimer = null;
     this.lastSaveTime = 0;
     this.pendingChanges = new Set();
@@ -13,11 +12,6 @@ class GameStateManager {
     this.isSaving = false;
   }
 
-  /**
-   * Initialize game state manager for a room
-   * @param {string} roomId - Room ID
-   * @param {boolean} enableAutoSave - Whether to enable auto-save (GM only)
-   */
   async initialize(roomId, enableAutoSave = true) {
     this.currentRoomId = roomId;
     this.isAutoSaveEnabled = enableAutoSave;
@@ -26,61 +20,71 @@ class GameStateManager {
       clearInterval(this.autoSaveTimer);
     }
 
-    // Only load game state for GMs to prevent permission errors for players
     if (enableAutoSave) {
       await this.loadGameState();
-
-      // Set up store change listeners for auto-save triggers (GM only)
       this.setupStoreListeners();
       this.startAutoSave();
     }
   }
 
-  /**
-   * Set up listeners for store changes to trigger saves
-   */
   setupStoreListeners() {
     const useCreatureStore = require('../store/creatureStore').default;
     const useLevelEditorStore = require('../store/levelEditorStore').default;
     const useGameStore = require('../store/gameStore').default;
     const useCombatStore = require('../store/combatStore').default;
     const useGridItemStore = require('../store/gridItemStore').default;
+    const useTravelStore = require('../store/travelStore').default;
+    const useBuffStore = require('../store/buffStore').default;
+    const useDebuffStore = require('../store/debuffStore').default;
+    const useContainerStore = require('../store/containerStore').default;
+    const useCharacterTokenStore = require('../store/characterTokenStore').default;
 
-    // Listen for token changes
-    const creatureStore = useCreatureStore.getState();
     this.unsubscribeCreatures = useCreatureStore.subscribe((state, prevState) => {
-      if (state.tokens !== prevState.tokens) {
+      if (state.tokens !== prevState.tokens || state.creatures !== prevState.creatures) {
         this.markChanged('tokens');
       }
     });
 
-    // Listen for level editor changes
-    const levelEditorStore = useLevelEditorStore.getState();
     this.unsubscribeLevelEditor = useLevelEditorStore.subscribe((state, prevState) => {
       if (state.terrainData !== prevState.terrainData ||
         state.environmentalObjects !== prevState.environmentalObjects ||
         state.wallData !== prevState.wallData ||
         state.fogOfWarData !== prevState.fogOfWarData ||
+        state.fogOfWarPaths !== prevState.fogOfWarPaths ||
+        state.fogErasePaths !== prevState.fogErasePaths ||
+        state.windowOverlays !== prevState.windowOverlays ||
         state.drawingPaths !== prevState.drawingPaths ||
-        state.lightSources !== prevState.lightSources) {
+        state.drawingLayers !== prevState.drawingLayers ||
+        state.lightSources !== prevState.lightSources ||
+        state.dndElements !== prevState.dndElements ||
+        state.weatherEffects !== prevState.weatherEffects ||
+        state.tokenVisionRanges !== prevState.tokenVisionRanges ||
+        state.dynamicFogEnabled !== prevState.dynamicFogEnabled ||
+        state.respectLineOfSight !== prevState.respectLineOfSight ||
+        state.playerMemories !== prevState.playerMemories ||
+        state.exploredAreas !== prevState.exploredAreas ||
+        state.exploredCircles !== prevState.exploredCircles ||
+        state.exploredPolygons !== prevState.exploredPolygons) {
         this.markChanged('levelEditor');
       }
     });
 
-    // Listen for game state changes (camera, backgrounds)
-    const gameStore = useGameStore.getState();
     this.unsubscribeGame = useGameStore.subscribe((state, prevState) => {
       if (state.cameraX !== prevState.cameraX ||
         state.cameraY !== prevState.cameraY ||
         state.zoomLevel !== prevState.zoomLevel ||
         state.backgrounds !== prevState.backgrounds ||
-        state.activeBackgroundId !== prevState.activeBackgroundId) {
+        state.activeBackgroundId !== prevState.activeBackgroundId ||
+        state.gridSize !== prevState.gridSize ||
+        state.gridOffsetX !== prevState.gridOffsetX ||
+        state.gridOffsetY !== prevState.gridOffsetY ||
+        state.gridType !== prevState.gridType ||
+        state.gridLineColor !== prevState.gridLineColor ||
+        state.gridLineThickness !== prevState.gridLineThickness) {
         this.markChanged('mapData');
       }
     });
 
-    // Listen for combat changes
-    const combatStore = useCombatStore.getState();
     this.unsubscribeCombat = useCombatStore.subscribe((state, prevState) => {
       if (state.isInCombat !== prevState.isInCombat ||
         state.turnOrder !== prevState.turnOrder ||
@@ -90,16 +94,12 @@ class GameStateManager {
       }
     });
 
-    // Listen for inventory changes
-    const gridItemStore = useGridItemStore.getState();
     this.unsubscribeGridItems = useGridItemStore.subscribe((state, prevState) => {
       if (state.gridItems !== prevState.gridItems) {
         this.markChanged('inventory');
       }
     });
 
-    // Listen for travel state changes
-    const useTravelStore = require('../store/travelStore').default;
     this.unsubscribeTravel = useTravelStore.subscribe((state, prevState) => {
       const travelKeys = [
         'currentBiome', 'weather', 'weatherRoll', 'weatherDuration', 'weatherRemaining',
@@ -112,11 +112,31 @@ class GameStateManager {
       }
     });
 
+    this.unsubscribeBuffs = useBuffStore.subscribe((state, prevState) => {
+      if (state.activeBuffs !== prevState.activeBuffs) {
+        this.markChanged('buffs');
+      }
+    });
+
+    this.unsubscribeDebuffs = useDebuffStore.subscribe((state, prevState) => {
+      if (state.activeDebuffs !== prevState.activeDebuffs) {
+        this.markChanged('debuffs');
+      }
+    });
+
+    this.unsubscribeContainers = useContainerStore.subscribe((state, prevState) => {
+      if (state.containers !== prevState.containers) {
+        this.markChanged('containers');
+      }
+    });
+
+    this.unsubscribeCharacterTokens = useCharacterTokenStore.subscribe((state, prevState) => {
+      if (state.characterTokens !== prevState.characterTokens) {
+        this.markChanged('characterTokens');
+      }
+    });
   }
 
-  /**
-   * Load complete game state from Firebase and apply to stores
-   */
   async loadGameState() {
     if (!this.currentRoomId || this.isLoading) return;
 
@@ -129,34 +149,23 @@ class GameStateManager {
         await this.applyGameStateToStores(gameState);
       }
     } catch (error) {
-      // Check if this is a permission error
       if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
-        console.warn('⚠️ Firebase permission denied for game state loading. This is expected for socket-only room joins. Continuing with empty state.');
-        // Don't retry permission errors to prevent spam
+        console.warn('[GameStateManager] Firebase permission denied for loading. Continuing with empty state.');
         return;
       }
 
-      console.error('❌ Error loading game state:', error);
-      // Continue with empty state rather than failing
+      console.error('[GameStateManager] Error loading game state:', error);
     } finally {
       this.isLoading = false;
     }
   }
 
-  /**
-   * Apply loaded game state to all relevant stores
-   * @param {Object} gameState - Complete game state object
-   */
   async applyGameStateToStores(gameState) {
     try {
-      // Apply creature/token data using loadToken for map filtering
       if (gameState.tokens && Object.keys(gameState.tokens).length > 0) {
         const useCreatureStore = require('../store/creatureStore').default;
         const creatureStore = useCreatureStore.getState();
-        // Use loadToken instead of setTokens to ensure map filtering is applied
-        // This prevents cross-map contamination when loading game state
         Object.values(gameState.tokens).forEach(tokenData => {
-          // Ensure token has proper id field
           const normalizedToken = {
             ...tokenData,
             id: tokenData.id || tokenData.creatureId
@@ -165,7 +174,6 @@ class GameStateManager {
         });
       }
 
-      // Apply level editor data
       if (gameState.levelEditor) {
         const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
@@ -178,9 +186,31 @@ class GameStateManager {
         if (levelEditor.drawingPaths) levelEditorStore.setDrawingPaths(levelEditor.drawingPaths);
         if (levelEditor.drawingLayers) levelEditorStore.setDrawingLayers(levelEditor.drawingLayers);
         if (levelEditor.lightSources) levelEditorStore.setLightSources(levelEditor.lightSources);
+        if (levelEditor.fogOfWarPaths) levelEditorStore.setFogOfWarPaths(levelEditor.fogOfWarPaths);
+        if (levelEditor.fogErasePaths) levelEditorStore.setFogErasePaths(levelEditor.fogErasePaths);
+        if (levelEditor.windowOverlays) levelEditorStore.setWindowOverlays(levelEditor.windowOverlays);
+        if (levelEditor.dndElements) levelEditorStore.setDndElements(levelEditor.dndElements);
+        if (levelEditor.dynamicFogEnabled !== undefined) levelEditorStore.setDynamicFogEnabled(levelEditor.dynamicFogEnabled);
+        if (levelEditor.respectLineOfSight !== undefined) levelEditorStore.setRespectLineOfSight(levelEditor.respectLineOfSight);
       }
 
-      // Apply game data (camera, backgrounds, etc.)
+      if (gameState.weatherEffects) {
+        const useLevelEditorStore = require('../store/levelEditorStore').default;
+        const levelEditorStore = useLevelEditorStore.getState();
+        if (levelEditorStore.setWeatherEffect) {
+          levelEditorStore.setWeatherEffect(
+            gameState.weatherEffects.type || 'none',
+            gameState.weatherEffects.intensity ?? 0.5,
+            gameState.weatherEffects.enabled ?? false
+          );
+        }
+      }
+
+      if (gameState.tokenVisionRanges) {
+        const useLevelEditorStore = require('../store/levelEditorStore').default;
+        useLevelEditorStore.setState({ tokenVisionRanges: gameState.tokenVisionRanges });
+      }
+
       if (gameState.mapData) {
         const useGameStore = require('../store/gameStore').default;
         const gameStore = useGameStore.getState();
@@ -200,12 +230,10 @@ class GameStateManager {
         }
       }
 
-      // Apply combat state
       if (gameState.combat) {
         const useCombatStore = require('../store/combatStore').default;
         const combatStore = useCombatStore.getState();
         if (gameState.combat.isActive) {
-          // Restore combat state carefully
           combatStore.setIsInCombat(gameState.combat.isActive);
           if (gameState.combat.turnOrder) {
             combatStore.setTurnOrder(gameState.combat.turnOrder);
@@ -219,37 +247,63 @@ class GameStateManager {
         }
       }
 
-      // Apply inventory/grid items
       if (gameState.inventory) {
-      const useGridItemStore = require('../store/gridItemStore').default;
-      const useTravelStore = require('../store/travelStore').default;
-      const gridItemStore = useGridItemStore.getState();
-      const travelStore = useTravelStore.getState();
+        const useGridItemStore = require('../store/gridItemStore').default;
+        const gridItemStore = useGridItemStore.getState();
         if (gameState.inventory.droppedItems) {
-          // Convert dropped items back to grid items
           const gridItems = Object.values(gameState.inventory.droppedItems);
           gridItemStore.setGridItems(gridItems);
         }
       }
 
-      // Apply per-player memories (for permanent rooms)
-      // Each player has individual explored areas and token afterimages
+      if (gameState.buffs && Array.isArray(gameState.buffs) && gameState.buffs.length > 0) {
+        const useBuffStore = require('../store/buffStore').default;
+        useBuffStore.setState({ activeBuffs: gameState.buffs });
+      }
+
+      if (gameState.debuffs && Array.isArray(gameState.debuffs) && gameState.debuffs.length > 0) {
+        const useDebuffStore = require('../store/debuffStore').default;
+        useDebuffStore.setState({ activeDebuffs: gameState.debuffs });
+      }
+
+      if (gameState.containers && Array.isArray(gameState.containers) && gameState.containers.length > 0) {
+        const useContainerStore = require('../store/containerStore').default;
+        useContainerStore.setState({ containers: gameState.containers });
+      }
+
+      if (gameState.characterTokens && Object.keys(gameState.characterTokens).length > 0) {
+        const useCharacterTokenStore = require('../store/characterTokenStore').default;
+        const characterTokenStore = useCharacterTokenStore.getState();
+        const tokens = Array.isArray(gameState.characterTokens)
+          ? gameState.characterTokens
+          : Object.values(gameState.characterTokens);
+        tokens.forEach(token => {
+          if (characterTokenStore.addCharacterTokenFromServer) {
+            characterTokenStore.addCharacterTokenFromServer(token.id, token.position, token.playerId);
+          }
+        });
+      }
+
+      if (gameState.characters && Object.keys(gameState.characters).length > 0) {
+        const useCreatureStore = require('../store/creatureStore').default;
+        const creatureStore = useCreatureStore.getState();
+        if (creatureStore.setCreatures) {
+          creatureStore.setCreatures(Object.values(gameState.characters));
+        }
+      }
+
       if (gameState.playerMemories) {
         const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
         levelEditorStore.setPlayerMemories(gameState.playerMemories);
-        console.log('✅ Loaded per-player memories:', Object.keys(gameState.playerMemories).length, 'players');
       }
 
-      // Apply legacy explored areas (for backward compatibility)
       if (gameState.exploredAreas || gameState.exploredCircles || gameState.exploredPolygons) {
         const useLevelEditorStore = require('../store/levelEditorStore').default;
         const levelEditorStore = useLevelEditorStore.getState();
         if (gameState.exploredAreas) levelEditorStore.setExploredAreas(gameState.exploredAreas);
-        // Note: exploredCircles and exploredPolygons are stored in playerMemories now
       }
 
-      // Apply travel state
       if (gameState.travel) {
         const useTravelStore = require('../store/travelStore').default;
         const travelStore = useTravelStore.getState();
@@ -257,13 +311,10 @@ class GameStateManager {
       }
 
     } catch (error) {
-      console.error('❌ Error applying game state to stores:', error);
+      console.error('[GameStateManager] Error applying game state to stores:', error);
     }
   }
-  /**
-   * Collect current game state from all stores
-   * @returns {Object} - Complete game state object
-   */
+
   collectGameStateFromStores() {
     try {
       const useCreatureStore = require('../store/creatureStore').default;
@@ -271,33 +322,50 @@ class GameStateManager {
       const useGameStore = require('../store/gameStore').default;
       const useCombatStore = require('../store/combatStore').default;
       const useGridItemStore = require('../store/gridItemStore').default;
+      const useTravelStore = require('../store/travelStore').default;
+      const useBuffStore = require('../store/buffStore').default;
+      const useDebuffStore = require('../store/debuffStore').default;
+      const useContainerStore = require('../store/containerStore').default;
+      const useCharacterTokenStore = require('../store/characterTokenStore').default;
 
       const creatureStore = useCreatureStore.getState();
       const levelEditorStore = useLevelEditorStore.getState();
       const gameStore = useGameStore.getState();
       const combatStore = useCombatStore.getState();
       const gridItemStore = useGridItemStore.getState();
+      const travelStore = useTravelStore.getState();
+      const buffStore = useBuffStore.getState();
+      const debuffStore = useDebuffStore.getState();
+      const containerStore = useContainerStore.getState();
+      const characterTokenStore = useCharacterTokenStore.getState();
 
       const gameState = {
-        // Tokens and creatures
         tokens: creatureStore.tokens.reduce((acc, token) => {
           acc[token.id] = token;
           return acc;
         }, {}),
 
-        // Level editor data
+        characterTokens: characterTokenStore.characterTokens.reduce((acc, token) => {
+          acc[token.id] = token;
+          return acc;
+        }, {}),
+
         levelEditor: {
-          terrainData: levelEditorStore.terrainData || [],
+          terrainData: levelEditorStore.terrainData || {},
           environmentalObjects: levelEditorStore.environmentalObjects || [],
-          wallData: levelEditorStore.wallData || [],
+          wallData: levelEditorStore.wallData || {},
           dndElements: levelEditorStore.dndElements || [],
-          fogOfWarData: levelEditorStore.fogOfWarData || [],
+          fogOfWarData: levelEditorStore.fogOfWarData || {},
+          fogOfWarPaths: levelEditorStore.fogOfWarPaths || [],
+          fogErasePaths: levelEditorStore.fogErasePaths || [],
+          windowOverlays: levelEditorStore.windowOverlays || {},
           drawingPaths: levelEditorStore.drawingPaths || [],
           drawingLayers: levelEditorStore.drawingLayers || [],
-          lightSources: levelEditorStore.lightSources || []
+          lightSources: levelEditorStore.lightSources || {},
+          dynamicFogEnabled: levelEditorStore.dynamicFogEnabled,
+          respectLineOfSight: levelEditorStore.respectLineOfSight
         },
 
-        // Map and camera data
         mapData: {
           backgrounds: gameStore.backgrounds || [],
           activeBackgroundId: gameStore.activeBackgroundId,
@@ -310,12 +378,12 @@ class GameStateManager {
             size: gameStore.gridSize || 50,
             offsetX: gameStore.gridOffsetX || 0,
             offsetY: gameStore.gridOffsetY || 0,
-            color: 'rgba(212, 175, 55, 0.8)',
-            thickness: 2
+            type: gameStore.gridType || 'square',
+            color: gameStore.gridLineColor || '#000000',
+            thickness: gameStore.gridLineThickness || 2
           }
         },
 
-        // Combat state
         combat: {
           isActive: combatStore.isInCombat || false,
           currentTurn: combatStore.currentTurn || null,
@@ -323,68 +391,68 @@ class GameStateManager {
           round: combatStore.round || 0
         },
 
-        // Inventory and dropped items
         inventory: {
           droppedItems: gridItemStore.gridItems.reduce((acc, item) => {
             acc[item.id] = item;
             return acc;
           }, {}),
-          lootBags: {} // TODO: Implement loot bags
+          lootBags: {}
         },
 
-        // Character data
         characters: creatureStore.creatures.reduce((acc, creature) => {
           acc[creature.id] = creature;
           return acc;
         }, {}),
 
-        // Fog of war
+        buffs: (buffStore.activeBuffs || []).map(b => ({
+          ...b,
+          duration: Math.max(0, Math.ceil((b.endTime - Date.now()) / 1000))
+        })),
+
+        debuffs: (debuffStore.activeDebuffs || []).map(d => ({
+          ...d,
+          duration: Math.max(0, Math.ceil((d.endTime - Date.now()) / 1000))
+        })),
+
+        containers: containerStore.containers || [],
+
         fogOfWar: levelEditorStore.fogOfWarData || {},
 
-        // Lighting
         lighting: {
           globalIllumination: 0.3,
-          lightSources: levelEditorStore.lightSources || []
+          lightSources: levelEditorStore.lightSources || {}
         },
 
-        // Per-player memories - each player has individual exploration memories
-        // This is the key data for the fog/memory system
         playerMemories: levelEditorStore.playerMemories || {},
         currentPlayerId: levelEditorStore.currentPlayerId || null,
 
-        // Legacy explored areas (for backward compatibility)
         exploredAreas: levelEditorStore.exploredAreas || {},
         exploredCircles: levelEditorStore.exploredCircles || [],
         exploredPolygons: levelEditorStore.exploredPolygons || [],
 
-        // Notes (placeholder for future implementation)
-        notes: {
-          gmNotes: [],
-          playerNotes: [],
-          sharedNotes: []
+        weatherEffects: levelEditorStore.weatherEffects || {
+          type: 'none',
+          intensity: 0.5,
+          enabled: false
         },
 
-        // Travel tracker state
+        tokenVisionRanges: levelEditorStore.tokenVisionRanges || {},
+
         travel: travelStore.getExportState()
       };
 
       return gameState;
     } catch (error) {
-      console.error('❌ Error collecting game state from stores:', error);
+      console.error('[GameStateManager] Error collecting game state from stores:', error);
       return {};
     }
   }
 
-  /**
-   * Save current game state to Firebase (GM only)
-   * @param {boolean} force - Force save even if no changes detected
-   */
   async saveGameState(force = false) {
-    // Skip saving for players to prevent permission errors
     if (!this.isAutoSaveEnabled || !this.currentRoomId || this.isSaving) return;
 
     if (!force && this.pendingChanges.size === 0) {
-      return; // No changes to save
+      return;
     }
 
     this.isSaving = true;
@@ -396,31 +464,23 @@ class GameStateManager {
       this.lastSaveTime = Date.now();
       this.pendingChanges.clear();
     } catch (error) {
-      // Check if this is a permission error for players
       if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
-        console.warn('⚠️ Firebase permission denied for game state saving. Disabling auto-save for this session.');
+        console.warn('[GameStateManager] Firebase permission denied for saving. Disabling auto-save.');
         this.isAutoSaveEnabled = false;
         this.stopAutoSave();
         return;
       }
 
-      console.error('❌ Error saving game state:', error);
+      console.error('[GameStateManager] Error saving game state:', error);
     } finally {
       this.isSaving = false;
     }
   }
 
-  /**
-   * Mark that changes have been made and need saving
-   * @param {string} section - Section that changed
-   */
   markChanged(section = 'general') {
     this.pendingChanges.add(section);
   }
 
-  /**
-   * Start auto-save timer
-   */
   startAutoSave() {
     if (this.autoSaveTimer) {
       clearInterval(this.autoSaveTimer);
@@ -429,12 +489,8 @@ class GameStateManager {
     this.autoSaveTimer = setInterval(() => {
       this.saveGameState();
     }, this.autoSaveInterval);
-
   }
 
-  /**
-   * Stop auto-save timer
-   */
   stopAutoSave() {
     if (this.autoSaveTimer) {
       clearInterval(this.autoSaveTimer);
@@ -442,50 +498,29 @@ class GameStateManager {
     }
   }
 
-  /**
-   * Cleanup when leaving room
-   */
   async cleanup() {
-
-    // Save final state
     if (this.currentRoomId && this.pendingChanges.size > 0) {
       await this.saveGameState(true);
     }
 
-    // Unsubscribe from store listeners
-    if (this.unsubscribeCreatures) {
-      this.unsubscribeCreatures();
-      this.unsubscribeCreatures = null;
-    }
-    if (this.unsubscribeLevelEditor) {
-      this.unsubscribeLevelEditor();
-      this.unsubscribeLevelEditor = null;
-    }
-    if (this.unsubscribeGame) {
-      this.unsubscribeGame();
-      this.unsubscribeGame = null;
-    }
-    if (this.unsubscribeCombat) {
-      this.unsubscribeCombat();
-      this.unsubscribeCombat = null;
-    }
-    if (this.unsubscribeGridItems) {
-      this.unsubscribeGridItems();
-      this.unsubscribeGridItems = null;
-    }
-    if (this.unsubscribeTravel) {
-      this.unsubscribeTravel();
-      this.unsubscribeTravel = null;
-    }
+    const unsubscribes = [
+      'unsubscribeCreatures', 'unsubscribeLevelEditor', 'unsubscribeGame',
+      'unsubscribeCombat', 'unsubscribeGridItems', 'unsubscribeTravel',
+      'unsubscribeBuffs', 'unsubscribeDebuffs', 'unsubscribeContainers',
+      'unsubscribeCharacterTokens'
+    ];
+    unsubscribes.forEach(key => {
+      if (this[key]) {
+        this[key]();
+        this[key] = null;
+      }
+    });
 
     this.stopAutoSave();
     this.currentRoomId = null;
     this.pendingChanges.clear();
   }
 
-  /**
-   * Get current status
-   */
   getStatus() {
     return {
       roomId: this.currentRoomId,
@@ -498,7 +533,6 @@ class GameStateManager {
   }
 }
 
-// Create singleton instance
 const gameStateManager = new GameStateManager();
 
 export default gameStateManager;

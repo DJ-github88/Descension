@@ -671,4 +671,25 @@
   color: #9ca3af;
   margin: 4px 0 0 0;
   font-style: italic;
+}.room-card-button.share {
+  background: linear-gradient(135deg, #4a90d9, #357abd);
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.room-card-button.share:hover {
+  background: linear-gradient(135deg, #5aa0e9, #4a90d9);
+  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.4);
+}
+
+.room-card-button.share i {
+  font-size: 0.8rem;
 }

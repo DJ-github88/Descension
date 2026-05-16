@@ -6,16 +6,18 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useCharacterStore from '../store/characterStore';
-import useInventoryStore from '../store/inventoryStore';
-import useBuffStore from '../store/buffStore';
-import useDebuffStore from '../store/debuffStore';
-import useQuestStore from '../store/questStore';
-import persistenceService from '../services/firebase/persistenceService';
 import { useRealtimeSync } from './useRealtimeSync';
 
 export const useCharacterPersistence = () => {
+  const persistenceService = require('../services/firebase/persistenceService').default;
+  // Use dynamic require to break circular dependencies
+  const useAuthStore = require('../store/authStore').default;
+  const useCharacterStore = require('../store/characterStore').default;
+  const useInventoryStore = require('../store/inventoryStore').default;
+  const useBuffStore = require('../store/buffStore').default;
+  const useDebuffStore = require('../store/debuffStore').default;
+  const useQuestStore = require('../store/questStore').default;
+
   const { user } = useAuthStore();
   const currentCharacterId = useCharacterStore(state => state.currentCharacterId);
 

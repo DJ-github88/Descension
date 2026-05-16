@@ -6,8 +6,6 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useCreatureStore from '../store/creatureStore';
 import { saveUserCreature, loadUserCreatures, updateUserCreature, deleteUserCreature } from '../services/firebase/userCreaturesService';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -17,6 +15,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
  * Custom hook to manage persistence of user-created custom creatures
  */
 export const useUserCreaturesPersistence = () => {
+  const useAuthStore = require('../store/authStore').default;
+  const useCreatureStore = require('../store/creatureStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
   const creatures = useCreatureStore(useShallow(state => state.creatures));

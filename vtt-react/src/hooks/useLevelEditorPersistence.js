@@ -5,11 +5,11 @@
 
 import { useEffect, useCallback, useRef } from 'react';
 import levelEditorPersistenceService from '../services/levelEditorPersistenceService';
-import useLevelEditorStore from '../store/levelEditorStore';
-import useGameStore from '../store/gameStore';
 import { useRoomContext } from '../contexts/RoomContext';
 
 export const useLevelEditorPersistence = () => {
+  const useLevelEditorStore = require('../store/levelEditorStore').default;
+  const useGameStore = require('../store/gameStore').default;
   const { currentRoomId, isInRoom } = useRoomContext();
 
   // Get level editor state and actions

@@ -5,9 +5,9 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import actionBarPersistenceService from '../services/actionBarPersistenceService';
-import useCharacterStore from '../store/characterStore';
 
 export const useActionBarPersistence = (roomId = 'global') => {
+  const useCharacterStore = require('../store/characterStore').default;
   const [actionSlots, setActionSlots] = useState(Array(10).fill(null));
   const [isLoading, setIsLoading] = useState(true);
   const [lastSaveTime, setLastSaveTime] = useState(null);

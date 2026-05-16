@@ -69,6 +69,12 @@ const validationSchemas = {
     isDragging: Joi.boolean().optional()
   }),
 
+  token_dismissed: Joi.object({
+    tokenId: Joi.string().required(),
+    roomId: Joi.string().optional(),
+    mapId: Joi.string().optional()
+  }),
+
   character_moved: Joi.object({
     tokenId: Joi.string().required(),
     characterId: Joi.string().optional().allow(null, ''),

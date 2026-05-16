@@ -1269,6 +1269,32 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
       }
     });
 
+    socket.on('token_dismissed', async (data) => {
+      try {
+        const validation = validateRoomMembership(socket, data.roomId);
+        if (!validation.valid) return;
+
+        const { room } = validation;
+        const mapId = data.mapId || room.gameState.defaultMapId || 'default';
+        const map = validateMapExists(room, mapId);
+
+        delete map.tokens[data.tokenId];
+        delete room.gameState.tokens[data.tokenId];
+
+        io.to(room.id).emit('token_dismissed', {
+          tokenId: data.tokenId,
+          mapId,
+          dismissedBy: socket.id,
+          sequence: getNextEventSequence()
+        });
+
+        firebaseBatchWriter.queueWrite(room.id, room.gameState);
+
+      } catch (error) {
+        logger.error('[token_dismissed] Error:', { error: error.message });
+      }
+    });
+
     socket.on('character_token_removed', async (data) => {
       try {
         const validation = validateRoomMembership(socket, data.roomId);
@@ -1362,6 +1388,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           timestamp: Date.now()
         });
 
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(room.id, room.gameState);
+        }
+
       } catch (error) {
         logger.error('[character_resource_delta] Error:', { error: error.message });
       }
@@ -1425,6 +1455,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         logger.debug('[character_updated] Character updated', { playerId: player.id });
 
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(room.id, room.gameState);
+        }
+
       } catch (error) {
         logger.error('[character_updated] Error:', { error: error.message });
       }
@@ -1450,6 +1484,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           equipment: data.equipment,
           updatedBy: socket.id
         });
+
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(room.id, room.gameState);
+        }
 
       } catch (error) {
         logger.error('[character_equipment_updated] Error:', { error: error.message });
@@ -1563,6 +1601,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           resource: data.resource,
           isGM: isGMUpdate
         });
+
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(room.id, room.gameState);
+        }
 
       } catch (error) {
         logger.error('[character_resource_updated] Error:', { error: error.message });
@@ -2352,6 +2394,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
           settings: room.settings
         });
 
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        }
+
       } catch (error) {
         logger.error('[sync_gameplay_settings] Error:', { error: error.message });
       }
@@ -2402,6 +2448,13 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
         logger.info('[travel_sync] Relaying to room', { socketId: socket.id, roomId: data.roomId });
         socket.to(data.roomId).emit('travel_sync', data);
+
+        const { room } = validation;
+        if (room.isPermanent && data.travelState) {
+          if (!room.gameState.travel) room.gameState.travel = {};
+          room.gameState.travel = { ...room.gameState.travel, ...data.travelState };
+          firebaseBatchWriter.queueWrite(data.roomId, room.gameState);
+        }
       } catch (error) {
         logger.error('[travel_sync] Error:', { error: error.message });
       }
@@ -2534,6 +2587,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             turnIndex: data.turnIndex,
             round: room.gameState.combat.round
           });
+
+          if (room.isPermanent) {
+            firebaseBatchWriter.queueWrite(room.id, room.gameState);
+          }
         }
 
       } catch (error) {
@@ -4435,6 +4492,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
         }
 
         logger.info('Audio broadcast', { roomId: player.roomId, trackCount: data.tracks.length });
+
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+        }
       } catch (error) {
         logger.error('Error in audio_broadcast:', { error: error.message });
         socket.emit('audio_error', { error: 'Failed to broadcast audio' });
@@ -4477,6 +4538,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
             t => !data.trackIds.includes(t.trackId)
           );
         }
+
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
+        }
       } catch (error) {
         logger.error('Error in audio_stop:', { error: error.message });
       }
@@ -4510,6 +4575,10 @@ function registerSocketHandlers(io, rooms, players, parties, userToParty, partyI
 
         if (room.gameState.audioState) {
           room.gameState.audioState.playingTracks = [];
+        }
+
+        if (room.isPermanent) {
+          firebaseBatchWriter.queueWrite(player.roomId, room.gameState);
         }
       } catch (error) {
         logger.error('Error in audio_stop_all:', { error: error.message });

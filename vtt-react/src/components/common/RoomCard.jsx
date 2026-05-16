@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import './RoomCard.css';
 import AssetPickerModal from './AssetPickerModal';
+import ShareCampaignModal from '../account/ShareCampaignModal';
 
-/**
- * Unified RoomCard Component
- * Handles both local and multiplayer rooms with consistent pathfinder beige aesthetic
- */
 const RoomCard = ({
   room,
   onJoin,
   onDelete,
-  onUpdateRoom, // New prop for updating room data
+  onUpdateRoom,
   isConnecting = false,
   showDeleteButton = false,
+  showShareButton = false,
   className = ''
 }) => {
   // State for editing
@@ -24,6 +22,7 @@ const RoomCard = ({
   const [editedPassword, setEditedPassword] = useState(room.password || '');
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [isAssetPickerOpen, setIsAssetPickerOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Determine room type and styling
   const isTestRoom = room.isTestRoom || room.name?.toLowerCase().includes('test');
@@ -393,11 +392,31 @@ const RoomCard = ({
             className="room-card-button primary"
             onClick={() => onJoin(room)}
             disabled={isConnecting}
+            title="Enter Test Lab"
           >
             <i className="fas fa-flask"></i>
             Enter Test Lab
           </button>
+
+          {showShareButton && (
+            <button
+              className="room-card-button share"
+              onClick={() => setIsShareModalOpen(true)}
+              title="Share as Campaign"
+            >
+              <i className="fas fa-share-alt"></i>
+              Share
+            </button>
+          )}
         </div>
+
+        {isShareModalOpen && (
+          <ShareCampaignModal
+            room={room}
+            onClose={() => setIsShareModalOpen(false)}
+            onSuccess={() => setIsShareModalOpen(false)}
+          />
+        )}
       </div>
     );
   }
@@ -603,6 +622,17 @@ const RoomCard = ({
           {roleInfo.label === 'GM' ? 'Resume as GM' : 'Join'}
         </button>
 
+        {showShareButton && isMultiplayerRoom && room.userRole === 'gm' && (
+          <button
+            className="room-card-button share"
+            onClick={() => setIsShareModalOpen(true)}
+            title="Share as Campaign"
+          >
+            <i className="fas fa-share-alt"></i>
+            Share
+          </button>
+        )}
+
         {showDeleteButton && onDelete && (
           <button
             className="room-card-button danger"
@@ -627,6 +657,16 @@ const RoomCard = ({
         onSelect={handleAssetSelect}
         currentAsset={room.customImage}
       />
+
+      {isShareModalOpen && (
+        <ShareCampaignModal
+          room={room}
+          onClose={() => setIsShareModalOpen(false)}
+          onSuccess={(campaignId) => {
+            setIsShareModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

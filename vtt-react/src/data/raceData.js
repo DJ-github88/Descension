@@ -179,7 +179,16 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'battle_fury_nordmark',
@@ -200,7 +209,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_slashing_damage',
                                     name: 'Rage Slashing Damage',
-                                    description: 'Gain +5 slashing damage when below 50% HP',
+                                    description: 'The fury of your warrior-king ancestors sharpens every blade strike with primal rage',
                                     statModifier: {
                                         stat: 'slashing_damage',
                                         magnitude: 5,
@@ -210,7 +219,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_bludgeoning_damage',
                                     name: 'Rage Bludgeoning Damage',
-                                    description: 'Gain +5 bludgeoning damage when below 50% HP',
+                                    description: 'Each blow carries the weight of glacier-splitting hammers from the age of warrior-kings',
                                     statModifier: {
                                         stat: 'bludgeoning_damage',
                                         magnitude: 5,
@@ -220,7 +229,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_piercing_damage',
                                     name: 'Rage Piercing Damage',
-                                    description: 'Gain +5 piercing damage when below 50% HP',
+                                    description: 'Your strikes pierce like the winter winds that carved your bloodline',
                                     statModifier: {
                                         stat: 'piercing_damage',
                                         magnitude: 5,
@@ -230,7 +239,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_ranged_damage',
                                     name: 'Rage Ranged Damage',
-                                    description: 'Gain +5 ranged damage when below 50% HP',
+                                    description: 'Even thrown weapons sing with the fury of the eternal white',
                                     statModifier: {
                                         stat: 'ranged_damage',
                                         magnitude: 5,
@@ -240,7 +249,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_defense',
                                     name: 'Reckless Defense',
-                                    description: 'Lose 2 armor when below 50% HP',
+                                    description: 'The rage burns so hot it cares nothing for defense, leaving you exposed to the steel you should fear',
                                     statModifier: {
                                         stat: 'armor',
                                         magnitude: -2,
@@ -250,7 +259,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                 {
                                     id: 'berserker_saves',
                                     name: 'Reckless Courage',
-                                    description: '-2 to all saving throws when below 50% HP',
+                                    description: 'The berserker fury makes you reckless, ignoring dangers that wiser folk would avoid',
                                     statModifier: {
                                         stat: 'saving_throws',
                                         magnitude: -2,
@@ -294,8 +303,8 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                             components: []
                         },
                         cooldownConfig: {
-                            type: 'long_rest',
-                            value: 1
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -345,7 +354,16 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -427,12 +445,21 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'ancestral_whispers_nordmark',
                         name: 'Ancestral Whispers',
-                        description: 'Commune with ancestor spirits for guidance, gaining insight but owing them stories in return.',
+                        description: 'Close your eyes and the ancestors answer—voices of frozen kings and shield-maidens murmuring through the ice, offering glimpses of paths unseen and truths unspoken, though every vision demands a story told at the longhouse fire in payment.',
                         level: 1,
                         icon: 'spell_shadow_coneofsilence',
                         spellType: 'ACTION',
@@ -482,8 +509,8 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -539,7 +566,16 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -632,7 +668,7 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         },
                         utilityConfig: {
                             utilityType: 'survival',
-                            effects: [{
+                            selectedEffects: [{
                                 id: 'arctic_survival',
                                 name: 'Arctic Survival',
                                 description: 'Survive in arctic conditions indefinitely without shelter or supplies'
@@ -644,12 +680,21 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'winters_guidance_nordmark',
                         name: 'Winter\'s Guidance',
-                        description: 'The eternal winter speaks to you, revealing safe paths through blizzards and predicting weather changes.',
+                        description: 'The wind itself bends to whisper in your ear, carrying the breath of ancient blizzards that reveal paths no map has ever charted and foretell the fury of storms hours before the first snowfall.',
                         level: 1,
                         icon: 'spell_nature_naturetouchgrow',
                         spellType: 'ACTION',
@@ -682,8 +727,8 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -709,7 +754,7 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take double fire damage',
+                                    description: 'Your frostbound blood, adapted to the deepest cold, boils and ruptures when exposed to flames that would merely warm lesser folk',
                                     statusEffect: {
                                         vulnerabilityType: 'fire',
                                         vulnerabilityPercent: 100
@@ -734,7 +779,16 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -755,508 +809,6 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                     // Frostbound are hardy survivors but vulnerable to magical effects
                     advantage: ['exhaustion'], // Hardy survivors resist exhaustion
                     disadvantage: ['charm'] // Cold nature vulnerable to magical charm effects
-                }
-            }
-        }
-    },
-
-    corvani: {
-        id: 'corvani',
-        name: 'Corvani',
-        description: 'The mystical Corvani of the fog-choked peaks have spent countless generations serving as bridges between the mundane world and whatever lies beyond the mist. Secure in their impregnable settlements clinging to cliffs where maps mean nothing and the veil between worlds grows thin, Corvani rarely venture beyond the treacherous highland paths that only they can navigate. Even so, when the boundaries between realms began to fray and threats emerged from spaces between worlds, Corvani offered their sight to the defense of all who stood against the darkness. The wise and unflinching Corvani proved to be the eyes of the alliance against otherworldly threats and helped warn of dangers that would have claimed the unprepared. Recently Corvani rediscovered a series of ancient mist-oracles that held the key to the secrets of their lost heritage-prophecies spoken by ancestors who first dared to make bargains with entities that wear raven shapes. Driven to discover the truth about his people\'s fabled origins, Seer Council of the Raven-Seers ordered that the Corvani shift their focus from tribal isolation to the preservation of the veil itself. The council helped to create the Mist-Guard\'s Circle, a group utterly devoted to plumbing the secrets of the thin places and delving out the truth of the Corvani\'s fabled existence. An integral part of the highland defense, the enigmatic Corvani have been called away to battle forces that would pierce the veil and bring madness to all realms. In these perilous times, the defense of the border between worlds falls to brave Corvani like you. The spirits of the mist watch over you, and the veil itself is your strength. The future of your people is in your hands.',
-        essence: 'Mist-weaving seers',
-        gradient: 'linear-gradient(135deg, #6B5B95 0%, #4A3F70 100%)',
-        icon: 'fas fa-crow',
-        overview: `The Corvani are mountain folk whose ancestors made pacts with things that dwell in the mists. Their raven-black markings aren't tattoos. They're inherited patterns that shift with each generation, darkening with each prophecy spoken, each glimpse through the veil. The markings mark those chosen by the old powers. They live in isolated tribal communities scattered across fog-choked peaks, villages built where the veil between worlds grows thin. The Corvani don't choose to see things others miss. It's in their blood, passed down through tribal lineages. They serve as guides, messengers, mediators between the mundane world and whatever lies beyond the mist.`,
-        culturalBackground: `Corvani society runs on tribal bloodlines and old traditions. Their settlements cling to mist-shrouded peaks, cut off from the lowlands by paths that shouldn't exist and fog that never lifts. Each tribe traces its lineage to ancestors who made bargains with entities that wear raven shapes. Pacts that granted survival in exchange for service. The markings on their skin are inherited. They darken with each generation, each prophecy spoken, each glimpse of the other side. Tribal elders pass down the old ways. How to read omens in the mist. How to navigate paths that shouldn't exist. How to speak with things that don't belong in this world. Corvani children are raised knowing they'll inherit the sight. The burden. The duty to serve as bridges between realms. Tribal disputes settle through divination and mediation, seers reading futures in fog patterns. They trade in secrets and warnings. Their services are valuable but costly. Those who seek Corvani counsel pay in coin, blood, or pieces of their own fate.`,
-        variantDiversity: 'The Corvani are divided into two major bloodlines: The Raven-Seers dedicate themselves to prophecy and fate-reading, serving as seers and advisors, while the Mist-Runners train as messengers and scouts, navigating the treacherous highland paths.',
-        integrationNotes: {
-            actionPointSystem: 'Corvani abilities often involve perception, divination, and mobility, offering unique tactical advantages in information gathering and positioning.',
-            backgroundSynergy: 'Corvani excel in backgrounds that emphasize spirit, perception, and supernatural connections. Their prophetic abilities complement mystical and spiritual paths.',
-            classCompatibility: 'Corvani make excellent spellcasters, scouts, and support characters. Their perception bonuses and divination abilities enhance classes that rely on information and foresight.'
-        },
-        meaningfulTradeoffs: 'Corvani variants gain powerful perception and divination abilities but often suffer from physical frailty or vulnerability to specific damage types. Their gifts come with compulsions and drawbacks.',
-        baseTraits: {
-            languages: ['Common', 'Corvid'],
-            lifespan: '90-110 years',
-            baseSpeed: 30,
-            size: 'Medium',
-            height: '5\'6" - 6\'2"',
-            weight: '130-190 lbs',
-            build: 'Slender and agile'
-        },
-        epicHistory: `
-The First Pact was made before memory could hold it. Ancient entities of the mist, shapeless and hungry, approached the highland tribes with promises of protection and power. For three generations, the tribes accepted. They gained secrets of divination, control over the swirling fog, and visions of futures that had not yet come to pass. But then the hunger became absolute. The entities demanded more. First it was livestock. Then it was tribute of rare herbs. Finally, it was the tribe's own children—firstborn sons and daughters sent into the eternal white as offerings.
-
-The elders who refused saw their tribes transformed before their eyes, flesh becoming shadows, their bones turning to mist that drifted away from their homes. Those who complied survived, changed but whole. Their skin grew pale as clouds, their eyes clouded with visions of futures yet to come. Their voices became whispers that made listeners shudder without knowing why.
-
-The Raven-Seers, once tribal mystics, became the first to understand what was happening. They tried to read the omens, to divine the price, to find a way to break the First Pact. But every reading ended the same way: the seer would go blank, their eyes rolling back, their breath forming mist that smelled of the Other. They'd scream before going still, their souls unmade by visions of payment yet to be made.
-
-The Mist-Guard's Circle was formed as a last line of defense. These warriors, their bodies marked by the entities' touch, learned to fight the creatures that had once been their protectors. They mastered the art of fighting within the eternal white, developing techniques to track movement by patterns in the fog, to strike where their enemies could not see. But even they could not stop the hunger. The entities took what they wanted, then began demanding payment in blood.
-
-Now the veil between worlds grows thin. The entities stir again in the deep fog, calling for new pacts. The tribes stand divided—some believing the price was worth the power gained, others seeking to break the First Pact before it consumes them entirely. The Raven-Seers grow fewer with each generation, their bloodlines thinning, their knowledge of the old ways fading. The Mist-Guards train daily, but with the fear that they will be the last.
-        `,
-        notableFigures: [
-            {
-                name: 'Prophet-Keeper Veth Raven-Eyes',
-                title: 'The Weaving Prophet',
-                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
-                backstory: `
-The last of the Raven-Seers who remember the time before the First Pact, Veth has lived through three transformations of his people—from free tribes, to pawns of the entities, to survivors hiding in the highest peaks. His eyes are clouded with cataracts of white, marking him as one who has seen too many futures. Yet still he scrys, for he believes there is one future the entities cannot see—a future where the Corvani are free once more.
-
-Veth led the creation of the Mist-Guard's Circle, training warriors whose bodies bear the entities' touch to fight the creatures their people once served. He remembers when the Mist-Guards were formed, remembers their first battles, remembers their terror at discovering their new abilities. He carries that weight, knowing that his teachings have transformed his people into the last line of defense against the eternal white.
-
-The Council of Raven-Seers looks to him as elder and prophet, his visions given weight despite the clouding of his sight. But the young warriors see only an old man whose hands shake when he holds a cup, whose voice trembles when he speaks of futures that make their blood run cold. They don't understand that his trembling comes from having seen too much, not from weakness.
-
-Recently, Veth received a vision that broke the pattern of his readings. He saw not the Corvani's doom, but their salvation. He saw the First Pact being challenged, not by the tribe, but by outsiders whose knowledge of the entities' weaknesses is greater than the Raven-Seers'. He has begun teaching these secrets to the Mist-Guards, preparing for a confrontation that could end his people's bondage or destroy them entirely.
-                `
-            },
-            {
-                name: 'Mist-Runner Lira',
-                title: 'The Last Scout',
-                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
-                backstory: `
-Lira was the last Corvani born with the natural gifts of their ancestors, her abilities manifesting in the white mist that surrounded her cradle. While other children of her generation were sent as payment to the entities, Lira was hidden by the elders who saw her potential for something greater. She grew up watching from the cliffs, learning to navigate paths that should not exist, to read omens in patterns of fog that made no sense to those who hadn't spent their lives staring at the eternal white.
-
-When the Mist-Guard Circle formed, Lira was the first to realize that the training they received could serve another purpose. She developed techniques of silent movement through the fog, of leaving no trail, of striking from positions where enemies could not see. Her fellow guards marveled at her ability to vanish before their very eyes, reappearing behind enemy lines as if she had walked through the stone.
-
-During the recent border skirmishes, Lira became known as the Ghost of the High Pass. She led three hundred Corvani warriors through enemy territory, guiding them through the mist on paths she had memorized as a child, striking supply lines before the enemy knew they were under attack. The highland army called her a demon, a spirit, something unnatural. But to the Corvani, she was simply what they could become if they remembered the old ways.
-
-Now Lira trains the next generation of Mist-Runners, teaching them to move like the fog, to read the omens in the swirling white, to carry messages between distant tribes without being seen by those who would hunt them. She remembers the days when the veil was thin but not broken, when the Corvani could walk freely between the realms. She worries that her children will only know a world of boundaries, of pacts, of payments due.
-                `
-            },
-            {
-                name: 'Seer-Mara Mist-Oracle',
-                title: 'The Voice of the Veil',
-                portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
-                backstory: `
-Mara was born with the entities' mark upon her skin—patterns of shifting darkness that darken when she speaks of futures yet to come. The Raven-Seers recognized her immediately as one of their most gifted, for she could see not just the futures of the Corvani, but the futures of the entities themselves. They brought her to the Mist-Orales at the age of eight, and by twelve she was reading the fog better than elders who had spent decades at the craft.
-
-The Mist-Orales are the sacred places where the Corvani store their most dangerous knowledge—the histories of pacts, the prices paid, the secrets of the entities that cannot be forgotten. Mara was chosen as keeper of one of these orales, a position of immense responsibility. She guards knowledge that could save her people or destroy them, knowledge that the entities would do anything to prevent from falling into the wrong hands.
-
-Recently, the entities have begun speaking to Mara in her dreams—not with threats, but with offers. They show her visions of the First Pact being broken, of the Corvani freed from their bondage. They whisper that she could be the one to undo the ancient bargain, if she would only speak the words that would release them. She has not spoken of this to the Council of Raven-Seers, for she fears they would not understand—that she would be seen as having been corrupted by the entities' promises.
-
-Mara walks between worlds, her body marked by darkness that few can see and none can understand. She carries the weight of her people's survival, the power to save them or doom them, and the temptation of knowledge that comes at too great a price. In the mist, where past and future are one, she alone sees clearly.
-                `
-            }
-        ],
-        majorLocations: [
-            {
-                name: 'Mist-Orales',
-                description: `
-Hidden within the fog-choked peaks, the Mist-Orales are the sacred libraries of the Corvani, carved into the very stone of the highland mountains. These underground chambers hold the accumulated knowledge of centuries—prophecies spoken, pacts made, prices paid, secrets of the entities that cannot be forgotten. The walls are lined with runes that glow with pale light, illuminating texts written in the ancient Corvid tongue that only the trained seers can read.
-
-The greatest of the oracles was built where the veil between worlds grows so thin that the entities' whispers can be heard clearly. Scholars from the lowlands have spent fortunes trying to locate this place, but none have ever found it. Some say it doesn't exist on this plane at all—that the Mist-Orales exist in the spaces between worlds, accessible only to those who can navigate the eternal white.
-
-Currently, the Mist-Orales operate with only a fraction of their former keepers. Many seers have died in recent years, their visions driving them to look too deep into the futures, their souls consumed by the weight of what they've seen. The young acolytes struggle to maintain the ancient rites, their knowledge of the old ways incomplete. The entities have begun pressing upon the orales, demanding access to knowledge that has always been forbidden.
-
-The few remaining seers speak of doors within the orales that should not be opened, of chambers that hold secrets no living Corvani should know. They fear that the entities themselves will soon breach the walls that have protected their people for generations, seeking to claim the knowledge that could finally break the First Pact—or use it to bind the Corvani forever.
-                `
-            },
-            {
-                name: 'Raven-Seer Peak',
-                description: `
-The highest settlement of the Corvani, built into the very cliffs where the veil between worlds is at its thinnest. From here, the Raven-Seers of old could watch the eternal white for signs of the entities' approach, could read omens in the swirling fog patterns, and could send warnings to the tribes below through the ravens that serve as their eyes.
-
-The settlement itself is a marvel of ancient engineering—homes built directly into the living stone, their foundations carved from the same rock as the mountain. The Corvani have never used quarries or mortar here. They asked the stone itself to yield to their tools, and the mountains answered. But that was before the First Pact. After the entities came, the stone stopped responding to the Corvani's will, though their enemies who found the peak found it could be shaped like clay by the unseen hands.
-
-The Council of Raven-Seers once met here, making decisions that affected the fate of all Corvani tribes. It was here that they authorized the First Pact. It was here that they voted to create the Mist-Guard Circle. It was here that they debated whether to try to break the entities' hold, ultimately deciding that the price was worth the protection they received.
-
-Today, the settlement is a shadow of what it once was. The Raven-Seers are gone or dying, their numbers too few to fill the council chamber. The Mist-Guards train daily in fear of an attack that never comes. The ravens still circle the peak, watching for signs that their former masters taught them to recognize—the approach of the entities, the thinning of the veil, the end of the Corvani's long wait for salvation.
-                `
-            }
-        ],
-        currentCrisis: `
-The First Pact has begun to strain against its limits. The entities demand payment more frequently, their hunger growing with each generation. The Raven-Seers grow fewer, their bloodlines thinning, the old ways of reading the omens fading from living memory. The tribes stand divided—some believing the price was worth the power gained, others believing the price has become too high.
-
-The lowland armies have discovered the Corvani's weakness—their numbers are small, their dependence on the entities' power total. Kingdoms to the south speak openly of conquering the mist-choked peaks, of ending the threat of the entities once and for all. Merchant caravans probe the highland borders, seeking weaknesses in the Corvani's defenses, offering gold for secrets of the Mist-Orales.
-
-The entities themselves grow restless. The veil between worlds is thinning in places it never was before. Outsiders who have learned the entities' true names seek to summon them directly, bypassing the First Pact entirely. The Mist-Guards train for war against these new enemies, while the Raven-Seers scry for a way to protect their people.
-
-The Corvani must make a choice. Continue the ancient pact, exchanging children for power that has protected them for generations, or risk everything on the hope of breaking free. The Raven-Seers have begun receiving visions of a third path—one where the First Pact is challenged by those who know the entities' weaknesses. The Mist-Guards prepare to defend the peaks with their last breath. The ravens watch, their eyes seeing what the Corvani cannot—the approach of the end of the age of pacts.
-        `,
-        culturalPractices: `
-Corvani children are marked by the entities before they can walk, their skin bearing patterns of shifting darkness that will darken with each prophecy they speak. The markings are inherited, mapping family lines to the ancient bargains made by their ancestors. Every child learns to read omens in the fog before they learn to speak, for the mist whispers of what will come before it ever becomes clear that their people will survive.
-
-The First Pact is the foundation of Corvani society. Every generation, the tribe sends their firstborn into the eternal white as payment for the entities' protection. The elders say this is a small price—that without the entities' power, the highland armies would have slaughtered them long ago. The payment is made with ceremony, the children walking willingly into the fog never to return, their sacrifice honored in song and story.
-
-The Mist-Orales are the sacred libraries of the people, carved into the living stone of the highland mountains. Only the trained seers may enter, and even then, only the chambers they have earned the right to read. The knowledge stored there includes prophecies of futures that came to pass, the names of entities who cannot be spoken, and the secrets of using the mist to travel between worlds. The walls are lined with runes that glow, illuminating texts in the ancient Corvid tongue.
-
-The Raven-Seers are the mystics who guide the Corvani through the treacherous highland paths that should not exist. They read omens in the swirling fog, divine the will of the entities, and speak warnings that save tribes from walking into ambushes. The ravens are their eyes and their messengers, carrying messages between distant settlements and returning with news of the lowlands that the lowlanders would never hear.
-
-The Mist-Guard Circle was formed when the Corvani realized they could fight the creatures that the entities commanded. These warriors, marked by the entities' touch, learned to navigate the eternal white without losing their way. They mastered the art of fighting blind, using the ravens to spot enemies the creatures couldn't see, and striking from positions where their opponents couldn't predict. The training is brutal—many die learning to fight in the swirling white—but those who survive become the most feared warriors in all the realms.
-
-When a Corvani dies, their spirit does not join the ancestors in the eternal white. Instead, they become part of the mist itself, their essence woven into the veil that separates the worlds. The elders say this is the entities' final gift—the promise that even in death, the Corvani will never truly leave the service they entered with the First Pact. Some whisper this is a mercy. Others whisper it is the ultimate cage.
-        `,
-
-        subraces: {
-            oracle: {
-                id: 'oracle_corvani',
-                name: 'Raven Seer',
-                description: 'Many Corvani secrets were lost to mists that swallow whole mountains, but the ancient oracles of Raven-Seers, carved into fog-shrouded peaks deep within the highlands, have never surrendered their sight to the veil. A marvel to the Corvani\'s skill at peering into futures, Raven-Seer sanctuaries were constructed in places where the veil grows thin: vast underground networks of seers, prophets, and fate-weavers. While the highland traditions have been weakened by centuries of isolation, the Raven-Seers of the Mist-Orales, led by Prophet-Keeper Veth Raven-Eyes, are weaving a new understanding of what lies beyond the mist. Eyes glazed from seeing too many futures. Markings darken with each prophecy spoken, skin becoming a map of fates seen. Premature gray hair, faces marked by the weight of visions. When they scry, their eyes go blank white and their breath forms mist patterns.',
-                statModifiers: {
-                    spirit: 3,
-                    intelligence: 2,
-                    constitution: -3
-                },
-                traits: [
-                    {
-                        id: 'prophetic_glimpse_corvani',
-                        name: 'Prophetic Glimpse',
-                        description: 'Advantage on one roll • 1d6 psychic damage',
-                        level: 1,
-                        icon: 'spell_holy_prophecy',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'damage'],
-                        typeConfig: {
-                            school: 'divination',
-                            secondaryElement: 'time',
-                            icon: 'spell_holy_prophecy',
-                            tags: ['divination', 'future-sight', 'prophecy']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            effects: [
-                                {
-                                    id: 'prophetic_insight',
-                                    name: 'Prophetic Insight',
-                                    description: 'Advantage on one attack, save, or ability check',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You glimpse possible futures'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        damageConfig: {
-                            formula: '1d6',
-                            damageType: 'direct',
-                            elementType: 'psychic'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'raven_sight_corvani',
-                        name: 'Raven Sight',
-                        description: 'Your bloodline\'s gift of glimpsing futures sharpens your senses to pierce illusions and see what others miss, but leaves your fractured mind vulnerable to psychic forces that echo the madness of too many visions.',
-                        level: 1,
-                        icon: 'ability_hunter_eagleeye',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'perception',
-                            secondaryElement: 'detection',
-                            icon: 'ability_hunter_eagleeye',
-                            tags: ['perception', 'illusion-detection', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'enhanced_perception',
-                                    name: 'Enhanced Perception',
-                                    description: 'Advantage on Perception checks',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your senses are supernaturally keen'
-                                    }
-                                },
-                                {
-                                    id: 'illusion_detection',
-                                    name: 'Illusion Detection',
-                                    description: 'Detect illusions within 30 feet'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'psychic_vulnerability',
-                                    name: 'Psychic Vulnerability',
-                                    description: 'Disadvantage on saves against psychic damage'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'fates_burden_corvani',
-                        name: 'Fate\'s Burden',
-                        description: 'The weight of glimpsing countless futures leaves your spirit thin, vulnerable to necrotic forces that extinguish unrealized destinies and psychic intrusions that shatter your fragile hold on reality.',
-                        level: 1,
-                        icon: 'spell_shadow_curseofsargeras',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'fate',
-                            icon: 'spell_shadow_curseofsargeras',
-                            tags: ['vulnerability', 'fate', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'necrotic_vulnerability',
-                                    name: 'Necrotic Vulnerability',
-                                    description: '50% more necrotic damage • Fate\'s burden'
-                                },
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Psychic Vulnerability',
-                                    description: 'Take 50% more psychic damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'psychic',
-                                        vulnerabilityPercent: 50
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Corvid', 'Ethereal'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 24, // Hardy from surviving treacherous peaks
-                    mana: 32, // Enhanced perception from Raven Sight
-                    ap: 3, // Balanced scouts
-                    passivePerception: 15, // Enhanced perception from Raven Sight, seeing futures
-                    swimSpeed: 15, // Survival in mountainous regions
-                    climbSpeed: 20, // Mountain scouts, excellent climbers
-                    visionRange: 60,
-                    darkvision: 30,
-                    initiative: 1 // Alert scouts
-                },
-                savingThrowModifiers: {
-                    // Planar fluidity makes them hard to restrain but vulnerable to confusion
-                    advantage: ['grappled'], // Not fully anchored to reality, hard to physically restrain
-                    disadvantage: ['stun'] // Planar visions make them vulnerable to confusion
-                }
-            },
-            scout: {
-                id: 'scout_corvani',
-                name: 'Mist Runner',
-                description: 'Lean and wiry from constant movement through treacherous paths. Skin pale from endless fog, markings lighter than seers but still visible. Feet calloused from rock and ice. Eyes adapted to low light, pupils wider than normal. Many develop a habit of talking to themselves or the mist. Hair often damp with condensation.',
-                culturalBackground: `The Mist-Runners claim descent from the first messengers who learned to walk paths through the mist that others cannot see. Their tradition requires that every member spend years training as runners. Learning to navigate fog-shrouded peaks where maps fail and compasses spin madly. Mist-Runners are raised from childhood to read the mist. Their instincts honed by generations of mountain navigation. They serve as messengers between isolated Corvani settlements. Guides for those who dare the highland paths. Members learn ancient techniques passed down through generations. How to read wind patterns. How to find paths in impenetrable fog. How to carry messages through territories where normal navigation fails. But the mist takes its toll. Prolonged exposure to the thick fog leaves them disoriented. Minds filled with whispers and shadows that may or may not be real. Many Mist-Runners develop strange habits. Speaking to the mist. Following paths that lead nowhere. The bloodline values duty and reliability. Honor measured in messages delivered and travelers guided safely. They are the pathfinders of Corvani society. Trusted messengers whose service keeps the isolated settlements connected.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    constitution: -2
-                },
-                traits: [
-                    {
-                        id: 'highland_navigation_corvani',
-                        name: 'Highland Navigation',
-                        description: 'Your ancestral knowledge of the highlands grants unparalleled navigation abilities in natural terrain.',
-                        level: 1,
-                        icon: 'ability_druid_dash',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'terrain',
-                            icon: 'ability_druid_dash',
-                            tags: ['navigation', 'movement', 'terrain', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Perfect Navigation',
-                                    description: 'Cannot become lost in natural terrain',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Always know your exact location in natural environments'
-                                    }
-                                },
-                                {
-                                    name: 'Difficult Terrain Mastery',
-                                    description: 'Move at full speed through difficult terrain',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Difficult terrain costs no extra movement'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'navigation',
-                                name: 'Navigation',
-                                description: 'Perfect knowledge of natural terrain and unhindered movement.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'raven_messenger_corvani',
-                        name: 'Raven Messenger',
-                        description: 'Send messages through ravens to any location you have personally visited.',
-                        level: 1,
-                        icon: 'spell_nature_ravenform',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'raven',
-                            icon: 'spell_nature_ravenform',
-                            tags: ['communication', 'messenger', 'raven']
-                        },
-                        utilityConfig: {
-                            utilityType: 'communication',
-                            selectedEffects: [{
-                                id: 'messenger',
-                                name: 'Messenger',
-                                description: 'Send messages via ravens to any location you have visited.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 1,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
-                    },
-                    {
-                        id: 'mist_walker_corvani',
-                        name: 'Mist Walker',
-                        description: 'Step partially into the mists, becoming resistant to physical damage but vulnerable to radiant energies.',
-                        level: 1,
-                        icon: 'spell_nature_invisibilty',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'mist',
-                            icon: 'spell_nature_invisibilty',
-                            tags: ['mist', 'defense', 'vulnerability']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Physical Resistance',
-                                    description: 'Resistance to bludgeoning, piercing, and slashing damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from physical attacks'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take double damage from radiant sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 100,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 1,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 }
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
-                    }
-                ],
-                languages: ['Common', 'Corvid', 'Sylvan'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 22,
-                    mana: 26,
-                    ap: 4, // Scouts/messengers need mobility and quick reactions
-                    passivePerception: 3, // Excellent scouts, navigate fog-shrouded peaks
-                    swimSpeed: 5, // Survival skills include water navigation
-                    climbSpeed: 10, // Excellent climbers, navigate treacherous mountain paths
-                    visionRange: 60,
-                    darkvision: 30, // Eyes adapted to low light, pupils wider than normal
-                    initiative: 2 // Scouts, quick to react
-                },
-                savingThrowModifiers: {
-                    // Mist walkers navigate fog but are vulnerable to confusion
-                    advantage: ['blinded'], // Comfortable navigating fog and low visibility
-                    disadvantage: ['stun'] // Disoriented by mental confusion effects
                 }
             }
         }
@@ -1486,12 +1038,21 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'earth_sense_grimheart',
                         name: 'Earth Sense',
-                        description: 'Sense minerals, passages, and underground features within range.',
+                        description: 'Press your palms to the stone and the deep earth answers—tremors whisper of silver veins and hidden hollows, of passages carved by water and pressure across millennia, revealing what the darkness has kept since the mountains were young.',
                         level: 1,
                         icon: 'spell_nature_earthquake',
                         spellType: 'ACTION',
@@ -1529,8 +1090,8 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -1539,7 +1100,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     {
                         id: 'stone_frailty_grimheart',
                         name: 'Stone Frailty',
-                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
+                        description: 'Your stone-hardened flesh, dense with the minerals of a hundred lifetimes underground, dissolves when acids find the crystalline veins within—what the mountain spent generations building, alchemy unmakes in moments.',
                         level: 1,
                         icon: 'spell_nature_acid_01',
                         spellType: 'PASSIVE',
@@ -1556,7 +1117,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Acid Vulnerability',
-                                    description: 'Take 50% more acid damage',
+                                    description: 'Acid eats through your stone-hardened flesh like water through calcite, dissolving generations of mountain adaptation',
                                     statusEffect: {
                                         vulnerabilityType: 'acid',
                                         vulnerabilityPercent: 50
@@ -1577,7 +1138,16 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Terran', 'Undercommon'],
@@ -1614,7 +1184,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     {
                         id: 'guardians_resolve_grimheart',
                         name: 'Guardian\'s Resolve',
-                        description: 'Sacrifice yourself to protect allies, absorbing damage but taking extra harm from the effort.',
+                        description: 'When blood calls to blood, you answer with your body—throwing yourself before the blow meant for another, your stone-hardened frame absorbing the strike that would kill them, though the effort cracks something deep within that never quite heals.',
                         level: 1,
                         icon: 'spell_holy_powerwordshield',
                         spellType: 'REACTION',
@@ -1682,8 +1252,8 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             }
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -1692,7 +1262,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     {
                         id: 'deep_sight_grimheart',
                         name: 'Deep Sight',
-                        description: 'Enhanced vision adapted to the darkness of the deep earth.',
+                        description: 'Generations of standing guard in shafts where no torch has ever burned have reshaped your eyes into something more than human—pupils that swallow darkness whole and drink in light that does not exist, seeing clearly through the black heart of the mountain where surface folk would find only blindness.',
                         level: 1,
                         icon: 'ability_rogue_findweakness',
                         spellType: 'PASSIVE',
@@ -1729,7 +1299,16 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'stone_vulnerability_grimheart',
@@ -1751,7 +1330,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Lightning Vulnerability',
-                                    description: 'Take 50% more lightning damage',
+                                    description: 'Your mineral-rich flesh conducts lightning like ore in a thunderstorm, every strike arcing through your stone-hardened frame',
                                     statusEffect: {
                                         vulnerabilityType: 'lightning',
                                         vulnerabilityPercent: 50
@@ -1780,7 +1359,16 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
@@ -1864,12 +1452,21 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'forge_craft_grimheart',
                         name: 'Forge Craft',
-                        description: '+1 weapon damage • +1 armor • 1 hour',
+                        description: 'Channel the volcanic breath of the deep forges into steel and stone, tempering a weapon or suit of armor with fire that strengthens blade and bolsters plate for one hour.',
                         level: 1,
                         icon: 'inv_hammer_20',
                         spellType: 'ACTION',
@@ -1886,7 +1483,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'enhanced_weapon',
                                     name: 'Enhanced Weapon',
-                                    description: 'Weapon gains +1 damage',
+                                    description: 'Deep-forge heat aligns the weapon\'s edge to supernatural keenness, each strike carrying the mountain\'s own pressure',
                                     statModifier: {
                                         stat: 'weapon_damage',
                                         magnitude: 1,
@@ -1896,7 +1493,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'enhanced_armor',
                                     name: 'Enhanced Armor',
-                                    description: 'Armor gains +1 protection',
+                                    description: 'Forge-fire tempers the armor\'s plates until they resist blows like the mountain resists the storm',
                                     statModifier: {
                                         stat: 'armor',
                                         magnitude: 1,
@@ -1921,8 +1518,8 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -1931,7 +1528,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     {
                         id: 'stone_frailty_forgemaster',
                         name: 'Stone Frailty',
-                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
+                        description: 'Where forge-heat meets acid, your mineral flesh betrays you—the crystalline lattice that hardens your skin against flame becomes a pathway for corrosives, the very stone you were tempered in melting away like slag in a rainfall of vitriol.',
                         level: 1,
                         icon: 'spell_nature_acid_01',
                         spellType: 'PASSIVE',
@@ -1948,7 +1545,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Acid Vulnerability',
-                                    description: 'Take 50% more acid damage',
+                                    description: 'Forge-heat and stone-hardened flesh cannot resist alchemical acids that dissolve the crystalline lattice of generations of deep-earth work',
                                     statusEffect: {
                                         vulnerabilityType: 'acid',
                                         vulnerabilityPercent: 50
@@ -1969,7 +1566,16 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
@@ -1990,472 +1596,6 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     // Master smiths resist exhaustion but are vulnerable to stunning
                     advantage: ['exhaustion'], // Tireless craftsmen resist exhaustion
                     disadvantage: ['stun'] // Focused work vulnerable to stunning interruptions
-                }
-            }
-        }
-    },
-
-    vheil: {
-        id: 'vheil',
-        name: 'Vheil',
-        essence: 'Mist-walking phantoms',
-        description: 'We exist in the spaces between heartbeats, where the mist never truly lifts. Our skin is the color of bone in moonlight, and our eyes hold the silver sheen of an unobserved mirror. We walk where the world is thin, where the echoes of things long gone still ripple like water. To touch us is to touch the morning frost—we are here, yet we are not. Our voices carry the quiet resonance of a hollow cathedral, speaking in tongues that only the wind understands. We do not belong to your cities or your hearths; we belong to the liminal places, the borderlands where reflection and reality blur. We are the ancestors who stayed behind to watch the gate, the shadows that move when the candle goes out. We do not seek your warmth, for we are made of the very silence that waits at the end of all things.',
-        icon: 'fas fa-ghost',
-        overview: 'The Vheil are pale-skinned folk whose ancestors settled in border regions where the veil between worlds grows thin. Through generations of living in these liminal spaces, their bloodlines have been marked by the ethereal. Their skin never tanning. Their eyes seeing layers of reality others cannot perceive. They are organized into communities that follow the thin places. Settlements built where the mundane world borders the unseen. The Vheil don\'t choose to see spirits. It\'s in their blood, passed down through ancestral lines that have served as bridges between realms for centuries.',
-        culturalBackground: `Vheil communities follow the thin places. Settlements built where the veil between worlds grows thin. Their camps are quiet affairs, lit by pale lanterns that cast no heat. Children taught from birth to recognize the signs of the other side. Each community traces its lineage to ancestors who first learned to commune with spirits. Traditions passed down through generations. Vheil children are raised knowing they'll inherit the sight. Learning to recognize when mist lingers too long. When shadows walk alone. When something unseen watches. Community elders pass down the old ways. How to speak with the dead. How to navigate the spaces between worlds. How to serve as mediators for the restless. They trade in guidance and mediation. Their services valuable but costly. Those who seek Vheil help pay in coin, warmth, or pieces of their own peace. Community disputes settle through spirit-counsel and the wisdom of elders who have seen too much. They are a people bound by duty and haunted by visions. Their role as bridges between worlds both gift and curse.`,
-        variantDiversity: 'The Vheil are divided into two major bloodlines: The Spirit-Talkers dedicate themselves to communication with the dead and serving as intermediaries, while the Between-Walkers traverse the boundaries between planes and explore the spaces between worlds.',
-        integrationNotes: {
-            actionPointSystem: 'Vheil abilities focus on perception, communication with otherworldly entities, and brief planar transitions. Their ethereal nature provides unique utility and defensive options.',
-            backgroundSynergy: 'Vheil excel in backgrounds emphasizing spirit, spirituality, and supernatural knowledge. Their connection to other planes complements mystical and divine paths.',
-            classCompatibility: 'Vheil make excellent clerics, mediums, and support casters. Their ability to perceive hidden threats and communicate with spirits provides valuable party utility.'
-        },
-        meaningfulTradeoffs: 'Vheil gain powerful perception and planar abilities but suffer from physical frailty and mental strain from constant exposure to multiple realities. Their gifts can be overwhelming.',
-        baseTraits: {
-            languages: ['Common', 'Ethereal'],
-            lifespan: '130-170 years',
-            baseSpeed: 30,
-            size: 'Medium',
-            height: '5\'4" - 6\'0"',
-            weight: '110-160 lbs',
-            build: 'Slender and ethereal'
-        },
-        epicHistory: `The First Breaking came before memory could hold it. The veil between worlds has always been thinnest at the border lands, and Vheil have lived in these liminal spaces for countless generations. Ancient entities of the other side approached their ancestors with promises of protection and power, and for three generations, the tribes accepted. They gained the ability to see beyond the material plane, to perceive spirits that wander between realms, and to manipulate the thin reality of border regions.
-
-But then the hunger became absolute. The entities demanded payment more frequently—first livestock, then tribute of rare herbs, and finally the tribe's own children, firstborn sons and daughters sent into the endless white as offerings. The elders who refused to watch their tribes transform saw their bodies becoming shadows, their bones turning to mist that drifted away from their homes. Those who complied survived but were forever changed—their skin grew pale as clouds, their eyes clouded with visions of futures yet to come.
-
-The First Pact bound Vheil bloodlines to eternal service. Every generation, each tribe sent its firstborn into the eternal white as payment for the entities' protection against threats that could not pierce the veil between worlds. The elders say this is a small price—that without the entities' power, highland armies would have slaughtered them long ago. The payment is made with ceremony, with children walking willingly into the fog never to return, their sacrifice honored in song and story.
-
-Now the veil between worlds grows thin. The entities stir again in the deep fog, calling for new pacts. The tribes stand divided—some believing the price was worth the power gained, others seeking to break the First Pact before it consumes them entirely. The Vheil who can still perceive the other side have begun receiving visions of a third path—one where the First Pact is challenged by those who know the entities' weaknesses. The Spirit-Talkers grow fewer with each generation, their bloodlines thinning, their knowledge of the old ways fading. The Between-Walkers train daily but with fear that they will be the last to walk the paths that should not exist.
-        `,
-        notableFigures: [
-            {
-                name: 'Guildmaster Tharn Deepvein',
-                title: 'The Last Deep-Delver',
-                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
-                backstory: `
-The last master of the ancient expeditions, Tharn survived the Great Collapse when every other Deep-Delver of his generation perished. He spent his youth in the deepest mines of the mountain, learning to read the veins of silver like they were written in the stone itself. When the collapse began, he was the only one who realized what was happening—the mountain was not just shaking, it was dying.
-
-Tharn led the survivors back to the surface, his hands still trembling from the remembered vibrations of the mountain's death throes. He founded the new Deep-Delver guild on the principle of respect for the earth's grief. Every shaft must be warded before entering. Every expedition must be marked by stone guardians. No delving too deep, no extraction without permission. Under his leadership, the Deep-Delvers have survived, though they are fewer than they once were.
-
-Many young Grimheart seek out Tharn for wisdom about the deep earth. He speaks in a voice that resonates with the stone, his words carrying the weight of memories he wishes he could forget. His hands, once steady enough to forge masterwork weapons, now shake when he tries to hold a cup. The mountain still calls to him, and he fears the day he can no longer resist the pull of the veins below.
-
-Tharn knows the old stories. He remembers when the Grimheart could shape stone with their bare hands, when gems would pulse with the heart's beat, when silver sang through ore like living song. He fears that the new generation, born after the Great Collapse, has lost this connection. That they are no longer the people who could hear the mountain's voice. That they are surface folk now, mining the earth like any other, indifferent to the wisdom that lives beneath their feet.
-                `
-            },
-            {
-                name: 'Forge-Mistress Hela Stone-Singer',
-                title: 'The Voice of the Mountain',
-                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
-                backstory: `
-Hela was born with a gift that is both blessing and curse. She can hear the mountain itself—not just its vibrations through her feet, but its consciousness speaking directly into her mind. The stones whisper to her, the gems hum their secrets, the very earth tells her of treasures buried beneath the weight of the world.
-
-She serves as the chief negotiator between the three mining guilds. When the Deep-Delvers, Stone-Smiths, and Earth-Wardens dispute over a vein, it is to Hela's longhouse that they come. She speaks with the mountain's voice on their behalf, translating the earth's concerns into words they can understand. The Stone-Smiths respect her knowledge, for she knows which ores grow in which seasons and where the silver veins run thickest. The Earth-Wardens bring their disputes to her, trusting her to find the words that will make the stone guardians stand down.
-
-But the mountain is grieving. The Great Collapse wounded it deeply, and its pain flows through every conversation Hela holds. The ancient mines that once sang with light have gone silent. The silver veins that once pulsed with the mountain's heartbeat have grown cold. The stone guardians, once animated by the deep earth's breath, now stand as lifeless statues trapped between wards.
-
-Hela spends her nights trying to ease the mountain's suffering. She sings to it the old songs of the Deep-Delvers, stories she learned from the elders who remembered when the stones could still speak. She touches the faces of the stone guardians, weeping for the companions who once protected the mines. The other Grimheart see her as strange—a woman who talks to the mountain as if it were a living person—and they don't know whether to worship her or fear her.
-
-The surface world does not understand. Merchants see Hela as a tool to be exploited, offering her gold for secrets of the deep earth. The kings of distant realms send spies to learn how she negotiates between the guilds. But Hela serves only the mountain, and what it tells her is what she carries to the guilds. If the mountain ever truly dies, the Grimheart will lose more than their wisdom—they will lose the only being who can speak to the stone.
-                `
-            },
-            {
-                name: 'Earth-Warden Kaelen Stonebound',
-                title: 'The Living Guardian',
-                portraitIcon: 'Armor/Head/head-split-orange-faceplate-helmet',
-                backstory: `
-Kaelen is one of the last of the old generation, the final Earth-Warden to be forged with the deep earth's breath before the Great Collapse shattered that ancient practice. His body was animated at birth, his skin taking on the hardness of stone, his blood infused with the very essence of the mountain itself. Unlike modern Stone-Smiths who create guardians through rituals, Kaelen's existence comes from the mountain's will itself.
-
-He remembers the old days. When the mines were alive with singing stones and humming gems, Kaelen stood watch at the deepest shafts, his body moving with the slow deliberation of the rock. The Deep-Delvers would bring their disputes to him, asking the stone to judge whose claim was true. The Stone-Smiths would seek his blessing for their creations, asking him to infuse their works with the earth's permanence. He spoke seldom, but his words carried weight that the mountain itself gave them.
-
-Kaelen was one of the few who felt the Great Collapse before it happened. Days before the mountain began to shake, he heard the earth screaming. The silver veins stopped pulsing. The ancient mines fell silent. The Stone-Smiths' creations lost their power. Only the stone guardians, animated by the mountain's breath, remained standing—the last remnants of a time when the deep earth spoke freely.
-
-Now the mountain is dead. Its consciousness faded, though its pain still echoes through every shaft Kaelen watches. The Stone-Smiths have tried to recreate guardians with their rituals, but they fail. Their creations come out as inert stone, without the mountain's breath. The Deep-Delvers dig into the earth without consulting the Earth-Wardens, ignoring the signs that the mountain is dead. Kaelen stands alone among them, the last of his kind—a living memory of a world that has passed.
-
-The surface world sees Kaelen as a curiosity, a museum piece from a forgotten age. They don't understand that his existence means the mountain can never truly die. That his stone-bound blood is not just blood but the earth's will made flesh. They don't fear him—how could they? A being who cannot be unmade, who cannot age, who cannot die. But Kaelen knows that even he can fade. The mountain's voice, once speaking in his mind, grows quieter each year. When it finally falls silent, the Grimheart will lose the last living connection to the deep earth.
-                `
-            }
-        ],
-        majorLocations: [
-            {
-                name: 'The Deep Mines',
-                description: `
-Ancient mines that descend beneath the mountains, reaching depths where light cannot reach. These are the places where the Grimheart found the wonders that changed them forever—veins of silver that sang through stone, gems that glowed with stored sunlight, and stones that hummed with the voices of the deep earth.
-
-The entrance to the mines is marked by great stone doors, each sealed with ancient wards and carved with the symbols of the three guilds. The Deep-Delvers tell of these doors as the boundary between the living world and the deep earth's domain. To pass them is to request permission from the very mountain itself.
-
-Inside, the mines are vast networks of shafts and tunnels, carved through centuries of delving. The air is thick with dust of precious metals and the scent of ancient ore. Strange luminescent mushrooms grow in the deep earth, providing the only light in places where the sun never reaches. The walls are lined with the marks of countless miners, their chisel scores counting generations of labor.
-
-Since the Great Collapse, many of the deepest mines have been abandoned. The shafts that once rang with the sound of labor are now silent. The stone guardians, once animated by the mountain's breath, stand as lifeless statues in the darkness. The Earth-Wardens forbid entry to these places, for the mountain's grief still echoes from their depths, and they fear what might be disturbed.
-
-The Deep-Delvers continue to work the upper mines, but they mark every expedition to the abandoned depths with solemn ceremony. They say the earth below is sleeping, and to wake it would be to invite another collapse. The younger Grimheart see the abandoned mines as places of mystery and horror, whispering about the treasures that remain buried where no living person dares to descend.
-                `
-            },
-            {
-                name: 'Guildhall of Stone',
-                description: `
-The great meeting hall of the three mining guilds, carved directly into the living rock of a mountain's peak. This is where the Deep-Delvers, Stone-Smiths, and Earth-Wardens have settled their disputes for centuries, where the future of the Grimheart was debated and decided.
-
-The Guildhall is a marvel of ancient architecture—pillars that seem to grow from the floor itself, ceilings that glow with the light of crystals brought from the deepest mines, walls lined with the tools of master craftsmen who have been dead for generations. The very air inside tastes of the ancient stone, filled with the dust of silver and the hum of secrets whispered over centuries.
-
-This is where the Guildmasters meet, sitting on thrones carved from solid blocks of granite mined from the very earth they've dedicated their lives to. Their voices echo in the vast chamber, their words carrying the weight of decisions that have shaped the Grimheart's fate. When the three guilds battled during the Stone Wars, it was here that they authorized expeditions, here that they declared peace, here that they accepted the Great Collapse as the mountain's will.
-
-Since the Collapse, the Guildhall has been quieter. Fewer guildmasters sit on the thrones, fewer disputes echo through the chamber. The younger Grimheart look upon the ancient meeting place with awe and sadness, seeing the remnants of a time when the three guilds were united in purpose. The Deep-Delvers still meet here, but now they speak of rebuilding and preservation. The Stone-Smiths still bring their creations to be blessed by the Earth-Wardens, though there are fewer and fewer who can infuse them with the mountain's power. The Earth-Wardens stand watch, their stone bodies worn by time, their granite patience tested by a world that has forgotten the meaning of their existence.
-                `
-            }
-        ],
-        currentCrisis: `
-The Great Collapse shattered the Grimheart's ancient power, killing thousands and wounding the very mountain itself. The veins of silver stopped singing, the gems faded to cold stone, the ancient mines fell silent. The Stone-Smiths' magic failed, their creations losing the permanence the mountain once gave them. The Earth-Wardens went still, the stone guardians becoming lifeless statues of a forgotten age.
-
-The Grimheart are rebuilding, but they are forever changed. The survivors who emerged from the collapse bear the mountain's grief—their gray skin, their dark-adapted eyes, their dense bodies that no longer respond to the surface world's light. The younger generation knows only the world of the mines, has never heard the mountain sing, has never felt its breath. They are Grimheart in name but not in nature, surface folk who have forgotten what it means to hear the deep earth.
-
-The surface kingdoms have grown bold. Merchants from the lowlands send caravans into the mountains, demanding the precious metals that the Grimheart can no longer extract with their ancient skill. The kings of distant realms speak of conquering the dwarfholds, of taking by force what the Grimheart can no longer defend. The mountain's grief has made them vulnerable, and the surface world sees this as weakness to be exploited.
-
-The Earth-Wardens have begun to awaken from their stone sleep, their memories returning with the mountain's slow thoughts. They do not understand the modern world, but they know that it threatens to reduce the mines to simple quarries again. The Deep-Delvers have begun to explore new depths, searching for signs that the mountain might heal. The Stone-Smiths work frantically to rediscover the ancient techniques, desperate to infuse their creations with the magic that has faded.
-
-You must defend the mines from those who would steal the ancient secrets of the deep earth. You must protect the Earth-Wardens who have stood watch for centuries. You must learn to listen to the mountain yourself, to feel the vibration of the veins, to understand what the earth is trying to say. The very survival of the Grimheart depends on whether the new generation can bridge the gap between the surface world and the deep earth—or whether you will be the last of the old blood, the final memory of a world where the stones could still speak.
-        `,
-        culturalPractices: `
-Grimheart children are tested for their connection to the earth at birth. A master Stone-Smith places their hands on a living vein, and if the child can feel the metal's pulse, if they can make the earth hum in response to their touch, they are recognized as having the gift and begin their apprenticeship.
-
-The three guilds serve as the pillars of Grimheart society. The Deep-Delvers, masters of extraction; the Stone-Smiths, artisans of crafting; the Earth-Wardens, guardians of ancient knowledge. Each child must choose a guild, and that choice defines their entire life. Guild loyalty is absolute. The betrayal of one's guild is the betrayal of all Grimheart. Guild disputes are settled in the Great Forge, where all three Guildmasters meet to hammer out judgments that cannot be appealed.
-
-The Earth-Wardens are created through the oldest and most dangerous of Grimheart rites. A child with the stone-bound blood must undergo the Awakening—a ritual where they are buried alive within the earth for three days, only emerging when they have successfully bonded with a stone guardian. Those who fail become hollow, their eyes empty of the mountain's light, their bodies forever disconnected from the earth's wisdom. Most survive, changed but whole. Those who fail often serve as warnings to others.
-
-The Deep-Delvers mark every expedition to the mines with solemn ceremony. They touch the ancient wards, they listen for signs from the earth, they leave offerings of their own blood at the shaft entrance. They speak to the mountain directly, asking permission to delve into its domain. They say the earth below is sleeping, and they honor it by ensuring their delving does not disturb what cannot be woken. When a Deep-Delver dies in the mines, they are buried with their tools and a piece of the earth they loved, so that their body returns to the deep even in death.
-
-When a Grimheart dies, they do not join the ancient mines in the afterlife. Instead, they become part of the earth itself, their essence merging with the veins of silver and the deep places they once worked. The Earth-Wardens guide their spirits to the mountain's heart, and there they join the stone guardians in their eternal watch. The mountain remembers them all, and the Grimheart believe that even in death, they serve as protectors of the deep earth's treasures.
-        `,
-
-        subraces: {
-            medium: {
-                id: 'medium_vheil',
-                name: 'Spirit Talker',
-                description: 'Palest of all Vheil, skin nearly translucent. Eyes completely black, reflecting only the other side. Voices carry unnatural echoes, layers of sound as if multiple voices speak at once. Skin grows colder with each spirit communed. Many develop a habit of speaking to empty air. Fingers often show signs of frostbite despite never being in cold weather.',
-                culturalBackground: `The Spirit-Talkers trace their lineage to the first mediums who learned to speak with the dead and commune with wandering spirits. Their tradition requires that every member undergo initiation rites during their fifteenth year. Nights spent in graveyards and thin places where their connection to the other side awakens. Spirit-Talker voices carry unnatural echoes. Normal conversation unsettles those who listen. A sign that spirits speak through them. Members serve as mediators, negotiators, guides. Helping the dead find peace and the living understand what lies beyond. They practice ancient rituals passed down through generations. How to call spirits. How to negotiate with the restless. How to sever connections before they consume you. But each conversation chips away at their humanity. Pale skin grows paler with each spirit they commune with. Eyes darkening until they reflect only what lies beyond. The bloodline values service and mediation. Honor measured in spirits laid to rest and connections severed before they consume. They are the bridge-builders of Vheil society. Both necessary and feared for what they become.`,
-                statModifiers: {
-                    spirit: 3,
-                    intelligence: 2,
-                    constitution: -2
-                },
-                traits: [
-                    {
-                        id: 'spirit_communion_vheil',
-                        name: 'Spirit Communion',
-                        description: 'Commune with spirits for information. Gain advantage on one Intelligence or Spirit check.',
-                        level: 1,
-                        icon: 'spell_shadow_haunting',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'ethereal',
-                            icon: 'spell_shadow_haunting',
-                            tags: ['communication', 'spirit', 'guidance']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
-                            effects: [
-                                {
-                                    name: 'Spirit Guidance',
-                                    description: 'Advantage on one Intelligence or Spirit check',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Spirits provide insight and knowledge'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'communication',
-                                name: 'Communication',
-                                description: 'Commune with nearby spirits to gain information or guidance.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 2,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
-                    },
-                    {
-                        id: 'ethereal_sight_vheil',
-                        name: 'Ethereal Sight',
-                        description: 'Can see into the Ethereal Plane and detect invisible creatures within 30 feet.',
-                        level: 1,
-                        icon: 'spell_shadow_eyeofkilrogg',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'perception',
-                            secondaryElement: 'ethereal',
-                            icon: 'spell_shadow_eyeofkilrogg',
-                            tags: ['perception', 'ethereal', 'detection', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Ethereal Vision',
-                                    description: 'Can see into the Ethereal Plane',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Perceive creatures and objects in the Ethereal Plane'
-                                    }
-                                },
-                                {
-                                    name: 'Invisibility Detection',
-                                    description: 'Detect invisible creatures within 30 feet',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your sight pierces magical concealment'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'radiant_vulnerability_vheil',
-                        name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) as your connection to the spirit realm makes you susceptible to purifying holy energies.',
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Ethereal', 'Celestial'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 18, // Nearly translucent, physically frail from spirit communion
-                    mana: 36, // Strong spiritual connection grants extra mana
-                    ap: 2, // More contemplative, less action-oriented (spirit communion takes time)
-                    passivePerception: 15, // Ethereal Sight - can see into Ethereal Plane, detect invisible
-                    swimSpeed: 20, // Not swimmers, calculated from speed
-                    climbSpeed: 15, // Physically frail, not climbers
-                    visionRange: 60,
-                    darkvision: 0, // Can see ethereal, but not darkvision
-                    initiative: -2 // Slow to react, focused on spirit realm
-                },
-                savingThrowModifiers: {
-                    // Spirit communion enhances mental clarity but makes them vulnerable to paralysis
-                    disadvantage: ['paralyze'], // Spirit realm connection vulnerable to paralysis effects
-                    advantage: ['fear'] // Spirit communion resists fear effects
-                }
-            },
-            walker: {
-                id: 'walker_vheil',
-                name: 'Between Walker',
-                description: 'Forms blur at the edges, as if not fully present. Skin sometimes semi-transparent in certain light. Eyes flicker between normal and seeing through reality. Many have a habit of phasing slightly, their outline wavering. Hands sometimes pass through objects without meaning to. Movement is fluid, gliding rather than walking. Their presence feels unstable, like they could vanish at any moment.',
-                culturalBackground: `The Between-Walkers claim descent from the first explorers who learned to step through the spaces between worlds. Their tradition requires that every member spend years training in the thin places. Learning to navigate boundaries where reality grows unstable. Between-Walkers are raised from childhood to sense planar rifts. Their instincts honed by generations of walking between worlds. They serve as messengers, guides, explorers. Traveling paths that exist only in the spaces between. Members learn ancient techniques passed down through generations. How to find gaps in reality. How to step through shadows that shouldn't exist. How to navigate the liminal spaces without getting lost. But walking between worlds takes its toll. Prolonged exposure leaves them disoriented. Forms blurring at the edges. Connection to any single reality weakening. Many Between-Walkers develop strange habits. Speaking to shadows. Following paths that lead nowhere. The bloodline values exploration and service. Honor measured in messages delivered and travelers guided safely through dangerous boundaries. They are the pathfinders of Vheil society. Trusted with tasks that require traversing impossible spaces.`,
-                statModifiers: {
-                    agility: 3,
-                    intelligence: 2,
-                    constitution: -3
-                },
-                traits: [
-                    {
-                        id: 'ethereal_step_vheil',
-                        name: 'Ethereal Step',
-                        description: 'Briefly step into the Ethereal Plane to avoid attacks.',
-                        level: 1,
-                        icon: 'spell_arcane_blink',
-                        spellType: 'REACTION',
-                        effectTypes: ['utility', 'defense'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'ethereal',
-                            icon: 'spell_arcane_blink',
-                            tags: ['movement', 'ethereal', 'evasion', 'reaction']
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'planar_shift',
-                                name: 'Planar Shift',
-                                description: 'Step briefly into the Ethereal Plane to avoid damage.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'OR',
-                                compoundTriggers: [
-                                    {
-                                        triggerType: 'on_attack_targeted',
-                                        conditions: {
-                                            targetType: 'self'
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'reality_anchor_vheil',
-                        name: 'Reality Anchor',
-                        description: 'Immune to forced planar travel and can stabilize dimensional rifts.',
-                        level: 1,
-                        icon: 'spell_holy_holyprotection',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'abjuration',
-                            secondaryElement: 'planar',
-                            icon: 'spell_holy_holyprotection',
-                            tags: ['immunity', 'planar', 'stability', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Planar Immunity',
-                                    description: 'Immune to forced planar travel',
-                                    statusEffect: {
-                                        level: 'major',
-                                        description: 'Cannot be forcibly banished or transported to other planes'
-                                    }
-                                },
-                                {
-                                    name: 'Rift Stabilization',
-                                    description: 'Can stabilize dimensional rifts',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your presence calms unstable planar boundaries'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'force_vulnerability_vheil',
-                        name: 'Force Vulnerability',
-                        description: 'Vulnerable to force damage (+50% damage) as your tenuous connection to reality makes you susceptible to energies that disrupt planar boundaries.',
-                        level: 1,
-                        icon: 'spell_arcane_blast',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'force',
-                            icon: 'spell_arcane_blast',
-                            tags: ['vulnerability', 'force', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Force Vulnerability',
-                                    description: 'Take 50% more force damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'force',
-                                        vulnerabilityPercent: 50
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Ethereal', 'Abyssal'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 20, // Forms blur at edges, tenuous reality connection makes them physically frail
-                    mana: 34, // Strong planar connection grants enhanced mana
-                    ap: 4, // Quick and agile, can step between planes - extra action point
-                    passivePerception: 14, // Can sense planar rifts and navigate boundaries
-                    swimSpeed: 18, // Can phase through water barriers
-                    climbSpeed: 15, // Can phase through solid obstacles
-                    visionRange: 65,
-                    darkvision: 0,
-                    initiative: 3 // Quick to react, fluid movement, gliding rather than walking
-                },
-                savingThrowModifiers: {
-                    // Planar fluidity allows escape from restraints but vulnerability to stunning
-                    advantage: ['grappled'], // Fluid movement allows escape from grapples
-                    disadvantage: ['stun'] // Tenuous reality connection vulnerable to stunning effects
                 }
             }
         }
@@ -2619,7 +1759,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                     {
                         id: 'perfect_mimicry_mimir',
                         name: 'Perfect Mimicry',
-                        description: 'Copy appearance and voice of observed creatures. Gain advantage on disguise checks.',
+                        description: 'The curse of the Face Thief allows you to steal the very countenance of those you observe — your flesh ripples like dark water, bones shifting and skin reweaving until you wear another\'s face as your own.',
                         level: 1,
                         icon: 'spell_magic_lesserinvisibilty',
                         spellType: 'ACTION',
@@ -2652,8 +1792,8 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -2662,7 +1802,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                     {
                         id: 'adaptive_form_mimir',
                         name: 'Adaptive Form',
-                        description: 'Alter physical features for disguise or advantage on social checks.',
+                        description: 'Your form flows like memory — cheekbones shift, eyes deepen, skin finds new tones — letting you melt into any crowd as though you had always belonged there.',
                         level: 1,
                         icon: 'ability_druid_forceofnature',
                         spellType: 'ACTION',
@@ -2713,8 +1853,8 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -2740,7 +1880,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Silver Vulnerability',
-                                    description: 'Take 50% more damage from silver weapons',
+                                    description: 'Silver sears your shifting flesh, the pure metal burning through the curse that makes your form malleable',
                                     statusEffect: {
                                         vulnerabilityType: 'silver',
                                         vulnerabilityPercent: 50
@@ -2749,7 +1889,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
+                                    description: 'Holy radiance burns away the stolen faces you wear, searing the curse that allows your shape to shift',
                                     statusEffect: {
                                         vulnerabilityType: 'radiant',
                                         vulnerabilityPercent: 50
@@ -2762,7 +1902,16 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Thieves\' Cant'],
@@ -2786,174 +1935,135 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                 }
             },
             broken: {
-                id: 'broken_mimir',
-                name: 'Shattered',
-                description: 'Features shift randomly, never fully settling on one form. Eyes show multiple colors at once, fractured like stained glass. Movements are jerky, as if controlled by different minds. Many keep journals of memories they are trying to preserve. Speech patterns change mid-sentence. Some have physical fractures visible on their skin, lines where their form breaks apart. They avoid all reflective surfaces.',
-                culturalBackground: `The Shattered trace their lineage to Mimir whose sense of self broke under the weight of too many transformations. Their tradition is one of recovery and memory-keeping. Communities built around preserving what fragments of identity remain. Shattered communities are quiet places of reflection. Members avoiding mirrors and focusing on the few memories they can hold onto. They practice ancient memory-keeping techniques. How to preserve identity fragments. How to resist personality bleed. How to piece together who they might have been. But their minds are kaleidoscopes of stolen memories and fading recollections. Personalities shifting with the light. A Shattered might act like a child one moment and a sage the next. Fractured mind making them unpredictable. They hoard shards of identity like precious gems. Desperately trying to piece together who they were before the breaking. The bloodline values memory and stability. Honor measured in fragments preserved and identities remembered. They are the memory-keepers of Mimir society. Pitied for their broken state but respected for what they remember.`,
+                id: 'shattered_mimir',
+                name: 'Broken',
+                description: 'Features never quite settle — always flickering between two or three partial identities. One eye blue, the other brown and shifting. Left hand slightly larger than the right. A jawline that cycles angular to round moment to moment. They carry small mirrors compulsively, checking their reflection to see which face is currently winning. Skin has a cracked quality, faint lines where identity fragments meet and conflict. Eyes are the most unsettling — each can be a different color simultaneously. Their voice sometimes changes mid-sentence, pitch and accent shifting without warning. They are the ones who fought the curse and partially lost.',
+                culturalBackground: 'The Broken are Mimir who fought against their shapeshifting nature and lost, but did not lose entirely. Their identities are fractured — pieces of themselves held together by will and ritual. They practice the techniques of face-binding: creating anchors to their original identity through personal objects, rituals, and mantras. The Broken serve as teachers, helping young Mimir resist personality bleed. They know the cost of transformation better than anyone. Their communities are quiet places of meditation and identity-preservation.',
                 statModifiers: {
-                    intelligence: 3,
-                    spirit: 2,
-                    agility: 1
+                    constitution: 2,
+                    wisdom: 1
                 },
                 traits: [
                     {
-                        id: 'fractured_mind_mimir',
-                        name: 'Fractured Mind',
-                        description: 'Resistance to charm and fear effects due to mental fragmentation.',
-                        level: 1,
-                        icon: 'spell_shadow_mindrot',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'mental',
-                            secondaryElement: 'defense',
-                            icon: 'spell_shadow_mindrot',
-                            tags: ['resistance', 'charm', 'fear', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Charm Resistance',
-                                    description: 'Resistance to charm effects',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fragmented mind is difficult to control'
-                                    }
-                                },
-                                {
-                                    name: 'Fear Resistance',
-                                    description: 'Resistance to fear effects',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fractured mind cannot focus on fear'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'memory_fragments_mimir',
-                        name: 'Memory Fragments',
-                        description: 'Access random knowledge or skills from fragmented memories. Gain advantage on one Intelligence or Spirit check.',
+                        id: 'fragmented_defense',
+                        name: 'Fragmented Defense',
+                        description: 'When targeted by an enchantment, illusion, or mind-affecting effect, fragment your identity to scatter the attack. Roll a Wisdom save with advantage. On success, the effect is negated — a fragment absorbs it. On failure, you take half effect and one random personality trait shifts for 1 hour.',
                         level: 1,
                         icon: 'spell_holy_mindvision',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'mental',
-                            secondaryElement: 'memory',
-                            icon: 'spell_holy_mindvision',
-                            tags: ['knowledge', 'memory', 'mental']
-                        },
+                        spellType: 'REACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
                         buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
+                            buffType: 'saving_throw_enhancement',
                             effects: [
-                                {
-                                    name: 'Memory Access',
-                                    description: 'Access fragments of past knowledge',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Memories surface to provide insight'
-                                    }
-                                }
+                                { type: 'save_advantage', mechanicsText: 'Wisdom save with advantage vs enchantment/illusion/mind-affecting' },
+                                { type: 'effect_negation', mechanicsText: 'Negate effect on success, fragment absorbs it' }
                             ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'knowledge',
-                                name: 'Knowledge',
-                                description: 'Access fragments of absorbed memories to recall knowledge you may have never learned.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
+                        debuffConfig: {
+                            debuffType: 'side_effect',
+                            effects: [
+                                { type: 'personality_shift', mechanicsText: 'On failure: half effect and one random personality trait shifts for 1 hour' }
+                            ],
+                            durationValue: 1, durationType: 'hours', durationUnit: 'hours'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
                     },
                     {
-                        id: 'psychic_vulnerability_mimir',
-                        name: 'Psychic Vulnerability',
-                        description: 'Vulnerable to psychic damage (+50% damage) as your fractured mind is susceptible to mental intrusions.',
+                        id: 'face_anchor',
+                        name: 'Face Anchor',
+                        description: 'Touch a personal object and bind a fragment of your identity to it. For 24 hours, advantage on saves vs identity loss, personality bleed, and transformation. If the object is destroyed, take 2d6 psychic damage and become dazed for 1 round.',
+                        level: 1,
+                        icon: 'spell_holy_divinespirit',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'identity_anchor',
+                            effects: [
+                                { type: 'identity_protection', mechanicsText: 'Advantage on saves vs identity loss, personality bleed, and transformation effects' }
+                            ],
+                            durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'penalty',
+                            effects: [
+                                { type: 'anchor_destruction', value: '2d6', mechanicsText: 'If anchor object is destroyed: take 2d6 psychic damage and dazed 1 round' }
+                            ],
+                            durationValue: 0, durationType: 'conditional', durationUnit: 'on_anchor_destroyed'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', targetRestrictions: ['object'] },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'identity_shield',
+                        name: 'Identity Shield',
+                        description: 'Your fractured mind resists assault because there is no single self to target — only fragments. Resistance to psychic damage. Advantage on saves vs charm, fear, and mind-control.',
+                        level: 1,
+                        icon: 'spell_shadow_antimagicshell',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'passive_resistance',
+                            effects: [
+                                { type: 'psychic_resistance', mechanicsText: 'Resistance to psychic damage' },
+                                { type: 'mental_save_advantage', mechanicsText: 'Advantage on saves vs charm, fear, and mind-control' }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'fragment_memory',
+                        name: 'Fragment Memory',
+                        description: 'Your identity fragments each carry different memories. Advantage on Intelligence checks to recall information — if your primary mind does not know, one of your fragments might. You can attempt any Intelligence check even if untrained.',
+                        level: 1,
+                        icon: 'spell_arcane_arcanebrilliance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'passive_enhancement',
+                            effects: [
+                                { type: 'intelligence_advantage', mechanicsText: 'Advantage on Intelligence checks to recall information' },
+                                { type: 'untrained_attempt', mechanicsText: 'Can attempt any Intelligence check even if untrained' }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'mirror_vulnerability_mimir',
+                        name: 'Mirror Vulnerability',
+                        description: 'Seeing your own reflection forces a Wisdom save (DC 13) or you take 1d6 psychic damage from identity conflict. Silvered mirrors deal 2d6 instead. You avoid mirrors whenever possible — the sight of your fractured self is painful.',
                         level: 1,
                         icon: 'spell_shadow_psychichorrors',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'psychic',
-                            icon: 'spell_shadow_psychichorrors',
-                            tags: ['vulnerability', 'psychic', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
-                                {
-                                    name: 'Psychic Vulnerability',
-                                    description: 'Take +50% damage from psychic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
+                                { type: 'reflection_damage', value: '1d6', mechanicsText: 'Seeing own reflection: Wisdom save DC 13 or 1d6 psychic damage (2d6 from silvered mirrors)' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     }
                 ],
-                languages: ['Common', 'Changeling', 'Deep Speech'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 26, // Fractured but physically intact
-                    mana: 32, // Memory fragments grant enhanced mana
-                    ap: 2, // Fractured mind, jerky movements - less action-oriented
-                    passivePerception: 13, // Memory keepers, hoard fragments of knowledge
-                    swimSpeed: 20, // Not swimmers, calculated from speed
-                    climbSpeed: 15, // Jerky movements, not climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: -1 // Jerky movements, unpredictable - slower to react
-                },
-                savingThrowModifiers: {
-                    // Fractured mind resistant to fear but vulnerable to confusion
-                    disadvantage: ['stun'], // Fractured mind vulnerable to confusion
-                    advantage: ['fear'] // Fractured mind resists fear
-                }
+                baseStats: { health: 11, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['psychic', 'charm'], disadvantage: ['identity_effects'] }
             }
         }
     },
@@ -3113,506 +2223,655 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
             courtly: {
                 id: 'courtly_briaran',
                 name: 'Oathbound',
-                description: 'Thorns bloom beautifully, often growing flowers alongside the barbs. Skin marked by elegant thorn patterns that shift when contracts are made. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises. Speech patterns formal, every word chosen carefully. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
-                culturalBackground: `The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. They practice ancient techniques passed down through generations. How to craft binding promises. How to read intent in words. How to enforce contracts through thorn and pain. Their thorns serve as living lie detectors. An Oathbound's handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward. Tearing at their flesh from within. The bloodline values honor and precision. Worth measured in contracts fulfilled and promises kept. They are the diplomats of Briaran society. Their word law but their freedom forever bound by the thorns that enforce it.`,
-                statModifiers: {
-                    charisma: 3,
-                    intelligence: 2,
-                    constitution: -2
-                },
+                description: 'Thorns bloom beautifully along their forearms and shoulders, often growing small flowers alongside the barbs — roses, nightshade, pale foxglove. Skin marked by elegant thorn patterns that shift and rearrange when contracts are made or broken. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises — pupils contract sharply when a lie is spoken nearby. Speech patterns formal, every word chosen with the care of someone who knows that a misplaced syllable can bind. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
+                culturalBackground: 'The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. Their thorns serve as living lie detectors. An Oathbound handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward, tearing at their flesh from within.',
+                statModifiers: { charisma: 2, intelligence: 1 },
                 traits: [
                     {
-                        id: 'binding_oath_briaran',
+                        id: 'binding_oath',
                         name: 'Binding Oath',
-                        description: 'Create magical contracts. Targets must succeed on Spirit save (DC 14) or be bound by terms. You are also bound by your own contracts.',
+                        description: 'Speak an oath and watch living thorns grow between you and your sworn companion — ancient fae magic that binds your words with writhing vines of contract. The thorns turn inward on any who break the bargain, punishment carved in blood.',
                         level: 1,
                         icon: 'spell_holy_prayerofhealing',
                         spellType: 'ACTION',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: {
-                            school: 'enchantment',
-                            secondaryElement: 'fae',
-                            icon: 'spell_holy_prayerofhealing',
-                            tags: ['contract', 'social', 'binding', 'fae']
-                        },
-                        utilityConfig: {
-                            utilityType: 'contract',
-                            selectedEffects: [{
-                                id: 'binding',
-                                name: 'Binding',
-                                description: 'Create a magical contract that binds both parties to agreed terms.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'pact',
+                            effects: [
+                                { type: 'ability_check_bonus', value: 2, mechanicsText: '+2 to all ability checks for 1 hour' },
+                                { type: 'saving_throw_bonus', value: 2, mechanicsText: '+2 to all saving throws for 1 hour' },
+                                { type: 'location_awareness', value: 1, mechanicsText: 'Know the exact location of your pact partner' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'oath_breaker',
                             effects: [
                                 {
-                                    name: 'Oath Bound',
-                                    description: 'You are bound by your own contract terms',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Breaking the oath results in severe consequences'
-                                    }
+                                    name: 'Oath Breaker',
+                                    description: '3d6 psychic damage if oath terms are broken',
+                                    damageRoll: '3d6',
+                                    damageType: 'psychic'
                                 }
                             ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            saveDC: 14,
-                            saveType: 'spirit',
-                            saveOutcome: 'negates',
+                            durationValue: 1,
+                            durationType: 'hours',
+                            durationUnit: 'hours',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'single',
-                            rangeType: 'touch',
+                            rangeType: 'ranged',
+                            rangeDistance: 30,
                             targetRestrictions: ['willing']
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'long_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'court_etiquette_briaran',
-                        name: 'Court Etiquette',
-                        description: 'Fae blood grants you perfect grace in the courts of nobility and fair folk.',
-                        level: 1,
-                        icon: 'spell_holy_divineprovidence',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'social',
-                            secondaryElement: 'fae',
-                            icon: 'spell_holy_divineprovidence',
-                            tags: ['social', 'nobility', 'fae', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Court Etiquette',
-                                    description: 'Advantage on social interactions with nobility and fae creatures',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fae heritage grants insight into courtly behavior'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
                         }
                     },
                     {
-                        id: 'iron_vulnerability_briaran_oathbound',
-                        name: 'Iron Vulnerability',
-                        description: 'Fae heritage leaves you vulnerable to cold iron (+50% damage from iron weapons).',
-                        level: 1,
-                        icon: 'inv_ingot_iron',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'iron',
-                            icon: 'inv_ingot_iron',
-                            tags: ['vulnerability', 'iron', 'fae', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Iron Vulnerability',
-                                    description: 'Cold iron wounds your fae-touched flesh (+50% damage from iron weapons)',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Sylvan', 'Celestial'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 20, // Elegant but physically weaker from fae heritage
-                    mana: 35, // Fae connection grants enhanced mana
-                    ap: 3, // Diplomatic, standard AP
-                    passivePerception: 13, // Precise and careful, read intent in words
-                    swimSpeed: 10, // Not swimmers, calculated from speed
-                    climbSpeed: 10, // Courtly, not climbers
-                    visionRange: 50,
-                    darkvision: 0,
-                    initiative: 0 // Formal and careful, not quick to react
-                },
-                savingThrowModifiers: {
-                    // Fae heritage makes them vulnerable to iron damage
-                    disadvantage: ['poison'], // Vulnerable to iron poisoning from fae heritage
-                    advantage: ['charm'] // Master diplomats resist social control
-                }
-            },
-            wild: {
-                id: 'wild_briaran',
-                name: 'Thornscar',
-                description: 'Skin covered in scars where thorns turned inward. Thorns grow twisted and jagged, broken from attempts to remove them. Hands calloused from fighting and survival. Eyes fierce and untamed. Many have thorns still embedded in old wounds, causing constant low pain. They move with primal grace, muscles built from living wild. Hair often tangled with briars and thorns they refuse to remove.',
-                culturalBackground: `The Thornscar trace their lineage to Briaran who broke their fae contracts. Thorns turning inward and scarring their flesh as punishment. Their tradition is one of rejection and freedom. Communities built away from fae courts in wild groves where thorns grow wild. Thornscar settlements are primal places where nature magic runs free. Members serving as warriors, hunters, protectors of the wild. They practice ancient survival arts passed down through generations. How to fight with thorns. How to channel nature's fury. How to live free despite the scars. Their skin is a tapestry of old wounds. Each scar telling a story of obligation rejected and freedom won. But freedom comes at a cost. Their thorns still grow. Still bind. Still cause pain when promises are made. The bloodline values independence and strength. Honor measured in scars earned and chains broken. They are the wild ones of Briaran society. Free from court etiquette but forever marked by the thorns that turned against them.`,
-                statModifiers: {
-                    strength: 3,
-                    constitution: 2,
-                    agility: 2
-                },
-                traits: [
-                    {
-                        id: 'briar_form_briaran',
-                        name: 'Briar Form',
-                        description: 'Transform into thorny vines. Gain resistance to bludgeoning/slashing damage but become immobile.',
+                        id: 'thorn_lash',
+                        name: 'Thorn Lash',
+                        description: 'Thorns tear through your own flesh to lash outward in a crackling whip of barbed vine — a punishment for falsehood that tears through lies as readily as it tears through skin.',
                         level: 1,
                         icon: 'spell_nature_thorns',
                         spellType: 'ACTION',
-                        effectTypes: ['buff', 'transformation'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'transformation',
-                            icon: 'spell_nature_thorns',
-                            tags: ['transformation', 'defense', 'nature']
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: {
+                            damageType: 'piercing',
+                            damageRoll: '1d8',
+                            secondaryDamage: {
+                                damageType: 'psychic',
+                                damageRoll: '1d6'
+                            }
                         },
-                        buffConfig: {
-                            buffType: 'statusEffect',
+                        debuffConfig: {
+                            debuffType: 'truth_enforcement',
                             effects: [
                                 {
-                                    name: 'Physical Resistance',
-                                    description: 'Resistance to bludgeoning and slashing damage',
+                                    name: 'Truth Enforced',
+                                    description: 'Unable to speak deliberate lies',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Your form becomes thorny vines'
-                                    }
-                                },
-                                {
-                                    name: 'Immobile',
-                                    description: 'Cannot move while in briar form',
-                                    statusEffect: {
-                                        level: 'minor',
-                                        description: 'Your roots anchor you in place'
+                                        description: 'Thorns compel honesty'
                                     }
                                 }
                             ],
                             durationValue: 1,
                             durationType: 'minutes',
                             durationUnit: 'minutes',
-                            canBeDispelled: false
-                        },
-                        transformationConfig: {
-                            transformationType: 'physical',
-                            targetType: 'self',
-                            duration: 1,
-                            durationUnit: 'minutes',
-                            power: 'moderate',
-                            specialEffects: ['damage_resistance', 'immobile', 'thorns']
+                            saveType: 'charisma',
+                            saveOutcome: 'negates',
+                            canBeDispelled: true
                         },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'single',
+                            rangeType: 'ranged',
+                            rangeDistance: 15
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     },
                     {
-                        id: 'thorn_strike_briaran',
-                        name: 'Thorn Strike',
-                        description: 'Living thorns grown from fae bargains deal +1 damage and cause bleeding (1d4/round for 3 rounds).',
+                        id: 'living_lie_detector',
+                        name: 'Living Lie Detector',
+                        description: 'The thorns along your forearms bristle and draw beads of blood whenever a lie is spoken nearby — a painful gift that makes deception impossible to ignore and truth impossible to miss.',
                         level: 1,
-                        icon: 'ability_druid_ferociousbite',
+                        icon: 'spell_holy_divineprovidence',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'combat',
-                            secondaryElement: 'nature',
-                            icon: 'ability_druid_ferociousbite',
-                            tags: ['combat', 'natural-weapons', 'bleeding', 'passive']
+                        effectTypes: ['utility'],
+                        utilityConfig: {
+                            utilityType: 'lie_detection',
+                            selectedEffects: [{
+                                id: 'lie_detection',
+                                name: 'Lie Detection',
+                                description: 'Detect deliberate lies within 30ft'
+                            }],
+                            range: 30,
+                            power: 'major'
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'insight_advantage',
+                            effects: [
+                                { type: 'skill_advantage', value: 1, mechanicsText: 'Advantage on Insight checks' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'contract_craft',
+                        name: 'Contract Craft',
+                        description: 'Prick your own finger and let thorn-blood drip onto parchment — the words that form are alive, binding those who sign with magic older than any court. Each violation sends the contract\'s thorns burrowing deeper into the oathbreaker\'s mind.',
+                        level: 1,
+                        icon: 'spell_holy_blessed',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        utilityConfig: {
+                            utilityType: 'magical_contract',
+                            selectedEffects: [{
+                                id: 'magical_contract',
+                                name: 'Magical Contract',
+                                description: 'Draft a binding contract; violators take 1d6 psychic damage'
+                            }],
+                            power: 'major',
+                            limitations: ['one active contract at a time']
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'iron_vulnerability_briaran_oathbound',
+                        name: 'Iron Vulnerability',
+                        description: 'Cold iron severs the ancient bindings that give your fae blood its power — it burns through thorn and contract alike, leaving your magic hollowed out and your wounds torn wide.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    name: 'Thorn Damage',
-                                    description: 'Natural weapons deal +1 piercing damage',
-                                    statModifier: {
-                                        stat: 'weapon_damage',
-                                        magnitude: 1,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    name: 'Bleeding Strike',
-                                    description: 'Attacks cause bleeding (1d4 damage per round for 3 rounds)',
+                                    id: 'iron_vulnerability',
+                                    name: 'Iron Vulnerability',
+                                    description: 'Cold iron burns through fae blood like acid, each wound torn wider by the metal\'s antipathy for ancient bindings',
                                     statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your thorns cause persistent bleeding wounds'
+                                        vulnerabilityType: 'iron',
+                                        vulnerabilityPercent: 100,
+                                        suppressionDuration: 1,
+                                        suppressionUnit: 'rounds'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                    }
+                ],
+                baseStats: { health: 10, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['charmed'], disadvantage: ['iron_effects'] }
+            },
+            wild: {
+                id: 'wild_briaran',
+                name: 'Thornscar',
+                description: 'Skin covered in pale scars where thorns turned inward \u2014 the marks of broken fae contracts written permanently across their bodies. Thorns still grow but twisted, jagged, broken from attempts to remove them. Hands calloused from fighting and survival. Eyes fierce and untamed, pupils that reflect light like a cat\'s. Many have thorns still embedded in old wounds. They move with primal grace. Hair often tangled with briars they refuse to remove \u2014 badges of freedom.',
+                culturalBackground: 'The Thornscar trace their lineage to Briaran who broke their fae contracts. Thorns turning inward and scarring their flesh as punishment. Their tradition is one of rejection and freedom. Communities built away from fae courts in wild groves where thorns grow wild. Members serving as warriors, hunters, protectors of the wild. Their skin is a tapestry of old wounds, each scar telling a story of obligation rejected and freedom won.',
+                statModifiers: { dexterity: 2, constitution: 1 },
+                traits: [
+                    {
+                        id: 'thorn_burst',
+                        name: 'Thorn Burst',
+                        description: 'The thorns you have suppressed for so long finally erupt — jagged barbs tear free from old scars and explode outward in a violent bloom, leaving you bleeding but surrounded by enemies screaming through mouths full of thorns.',
+                        level: 1,
+                        icon: 'ability_druid_ferociousbite',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: {
+                            damageType: 'piercing',
+                            damageRoll: '2d6',
+                            saveType: 'dexterity',
+                            saveOutcome: 'half',
+                            selfDamage: {
+                                damageRoll: '1d4',
+                                damageType: 'piercing'
+                            }
+                        },
+                        debuffConfig: {
+                            debuffType: 'embedded_thorns',
+                            effects: [
+                                {
+                                    name: 'Embedded Thorns',
+                                    description: '1 piercing damage per turn for 1 minute',
+                                    damagePerTurn: 1,
+                                    damageType: 'piercing'
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            areaOfEffect: {
+                                type: 'radius',
+                                value: 15,
+                                unit: 'ft'
+                            }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'pain_focus',
+                        name: 'Pain Focus',
+                        description: 'Pain is a lens that focuses your fragmented will — every wound sharpens your purpose into a single devastating strike, fury refined through suffering into something precise and terrible.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'pain_focus',
+                            effects: [
+                                { type: 'attack_advantage', value: 1, mechanicsText: 'Advantage on next attack after taking damage' },
+                                { type: 'damage_bonus', value: 6, mechanicsText: '+1d6 bonus damage on next attack' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'scarred_resilience',
+                        name: 'Scarred Resilience',
+                        description: 'The thorn-scars across your body have hardened your mind against intrusion, and the barbs still embedded in your flesh punish anyone foolish enough to strike you — they come away with blood that is not entirely yours.',
+                        level: 1,
+                        icon: 'ability_warrior_defensivestance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        buffConfig: {
+                            buffType: 'resilience',
+                            effects: [
+                                { type: 'damage_resistance', value: 50, mechanicsText: 'Resistance to psychic damage (half damage)' },
+                                { type: 'reflect_damage', value: 2, mechanicsText: 'Melee attackers take 2 piercing when you are at half HP or below' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'freedom_instinct',
+                        name: 'Freedom Instinct',
+                        description: 'You have already broken the contracts that once bound you — no fae honeyed words or phantom terrors can take hold in a heart that has already paid the price of freedom in blood and scars.',
+                        level: 1,
+                        icon: 'spell_holy_removecurse',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        buffConfig: {
+                            buffType: 'freedom',
+                            effects: [
+                                { type: 'condition_immunity', value: 1, mechanicsText: 'Immune to charm and fear from fae sources' },
+                                { type: 'save_advantage', value: 1, mechanicsText: 'Advantage vs enchantment and compulsion' },
+                                { type: 'movement_save', value: 1, mechanicsText: 'Charisma save to ignore movement restriction' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         }
                     },
                     {
                         id: 'iron_vulnerability_briaran_wild',
                         name: 'Iron Vulnerability',
-                        description: 'Shattered fae pacts leave you vulnerable to cold iron and purifying flame (+50% damage from each).',
+                        description: 'Cold iron finds every old wound and torn contract still written in your flesh, the metal drinking deep of the fae blood that refuses to stop flowing.',
                         level: 1,
-                        icon: 'inv_ingot_iron',
+                        icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'iron',
-                            icon: 'inv_ingot_iron',
-                            tags: ['vulnerability', 'iron', 'fire', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
+                                    id: 'iron_vulnerability',
                                     name: 'Iron Vulnerability',
-                                    description: 'Cold iron wounds you grievously (+50% damage from iron weapons)',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                },
-                                {
-                                    name: 'Fire Vulnerability',
-                                    description: 'Purifying flames burn away your fae heritage (+50% damage from fire)',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    description: 'Cold iron finds every old wound in your fae flesh, drinking deep of blood that refuses to stop flowing',
+                                    statusEffect: {
+                                        vulnerabilityType: 'iron',
+                                        vulnerabilityPercent: 100
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
-                languages: ['Common', 'Sylvan'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 30, // Warriors, hunters, built from living wild - extra durability
-                    mana: 22,
-                    ap: 4, // Primal warriors, quick reactions - extra action point
-                    passivePerception: 2, // Hunters, protectors of the wild
-                    swimSpeed: 5, // Survival skills include water
-                    climbSpeed: 10, // Primal grace, excellent climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: 2 // Fierce and untamed, quick to react
-                },
-                savingThrowModifiers: {
-                    // Broken fae contracts make them vulnerable to iron and fire
-                    disadvantage: ['poison'], // Vulnerable to iron's poisonous effects
-                    advantage: ['fear'] // Warrior spirit resists fear
-                }
+                baseStats: { health: 12, mana: 3, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['restrained'], disadvantage: ['iron_effects'] }
             },
             dusk: {
                 id: 'dusk_briaran',
                 name: 'Dusk Walker',
-                description: 'Thorns glow faintly in twilight, dimming in daylight and darkness. Skin changes tone with the time of day, darker at dusk. Eyes reflect both day and night, pupils that adjust unnaturally. They seem to fade slightly in bright light and deep dark. Movement is fluid, existing between moments. Their presence feels transient, like they could slip into shadow or light at any moment.',
-                culturalBackground: `The Dusk-Walkers trace their lineage to Briaran who made bargains during the twilight hours. Binding themselves to the boundary between day and night. Their tradition requires that every member learn to navigate liminal spaces. Apprenticeships spent mastering the art of existing between worlds. Dusk-Walker communities are built in places where day meets night. Settlements thriving in the twilight hours when the fae courts are closest. They practice ancient boundary-walking techniques passed down through generations. How to exist in two worlds. How to negotiate during transition. How to make bargains that span day and night. Their thorns glow faintly in twilight. Blood running darker as the sun sets. Marking them as creatures of transition. But this boundary existence comes at a cost. They are weakened by both pure daylight and deepest night. Thriving only in the liminal hours. The bloodline values balance and transition. Honor measured in boundaries navigated and worlds bridged. They are the mediators of Briaran society. Existing between court and wild, day and night. Forever bound to the twilight that birthed them.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    spirit: 2
-                },
+                description: 'Thorns glow faintly in twilight, dimming in full daylight and darkness. Skin changes tone with time of day — warm bronze at noon, cool silver at midnight. Eyes reflect both day and night. They fade slightly in bright light and deep dark, most solid during dawn and dusk. Movement fluid, existing between moments.',
+                culturalBackground: 'The Dusk-Walkers trace their lineage to Briaran who made bargains during twilight hours, binding themselves to the boundary between day and night. They navigate liminal spaces. Communities built where day meets night. They are weakened by pure daylight and deepest night, thriving only in liminal hours.',
+                statModifiers: { dexterity: 1, charisma: 2 },
                 traits: [
                     {
-                        id: 'twilight_step_briaran',
+                        id: 'twilight_step',
                         name: 'Twilight Step',
-                        description: 'Teleport short distances through shadows. Only during dawn or dusk.',
+                        description: 'Step through the twilight boundary where day bleeds into night — you vanish through the seam between light and shadow, leaving behind a flash of dim radiance that burns the eyes of those standing too close.',
                         level: 1,
                         icon: 'ability_rogue_shadowstep',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'shadow',
-                            icon: 'ability_rogue_shadowstep',
-                            tags: ['teleport', 'shadow', 'movement', 'twilight']
-                        },
+                        effectTypes: ['movement', 'debuff'],
+                        typeConfig: { category: 'racial' },
                         utilityConfig: {
-                            utilityType: 'movement',
+                            utilityType: 'teleport',
                             selectedEffects: [{
-                                id: 'teleport',
-                                name: 'Teleport',
-                                description: 'Teleport up to 30 feet through shadows during twilight hours.'
+                                id: 'twilight_teleport',
+                                name: 'Twilight Teleport',
+                                description: 'Teleport to a space with different lighting within 60ft'
                             }],
-                            duration: 0,
-                            durationUnit: 'instant',
+                            range: 60,
                             power: 'moderate'
+                        },
+                        debuffConfig: {
+                            debuffType: 'blindness',
+                            effects: [
+                                {
+                                    name: 'Briefly Blinded',
+                                    description: 'Creatures within 5ft of departure are briefly blinded',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Flash of twilight energy causes momentary blindness'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
                         },
                         targetingConfig: {
                             targetingType: 'location',
                             rangeType: 'ranged',
-                            rangeDistance: 30
+                            rangeDistance: 60
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'shadow_veil',
+                        name: 'Shadow Veil',
+                        description: 'Wrap yourself in the twilight that is your natural home — the grey veil between sun and moon clings to your skin like a second shadow, hiding you from eyes that search only in light or darkness.',
+                        level: 1,
+                        icon: 'spell_shadow_twilight',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'shadow_veil',
+                            effects: [
+                                { type: 'stealth_advantage', value: 1, mechanicsText: 'Advantage on Stealth in dim light or darkness' },
+                                { type: 'perception_disadvantage_others', value: 1, mechanicsText: 'Others have disadvantage on Perception to detect you' },
+                                { type: 'darkvision_enhancement', value: 1, mechanicsText: 'See in magical darkness' }
+                            ],
+                            durationValue: 10,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     },
                     {
-                        id: 'duality_briaran',
-                        name: 'Duality',
-                        description: 'Existing between worlds grants you perfect clarity in twilight\'s embrace.',
+                        id: 'liminal_existence',
+                        name: 'Liminal Existence',
+                        description: 'You are strongest in the fleeting moments when day surrenders to night and night yields to morning — the threshold between states is your true home, while the extremes leave you diminished and unmoored.',
                         level: 1,
                         icon: 'spell_shadow_twilight',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'perception',
-                            secondaryElement: 'twilight',
-                            icon: 'spell_shadow_twilight',
-                            tags: ['stealth', 'perception', 'low-light', 'passive']
-                        },
+                        effectTypes: ['buff', 'debuff'],
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'liminal_boost',
+                            effects: [
+                                { type: 'all_checks_bonus', value: 1, mechanicsText: '+1 to all checks and saves during dawn and dusk' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'light_sensitivity',
                             effects: [
                                 {
-                                    name: 'Low Light Advantage',
-                                    description: 'Advantage on stealth and perception checks in low light',
+                                    name: 'Light Sensitivity',
+                                    description: '-1 to all checks in bright daylight or complete darkness',
                                     statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You thrive in twilight conditions'
+                                        level: 'minor',
+                                        description: 'Weakened outside of liminal hours'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'between_moments',
+                        name: 'Between Moments',
+                        description: 'Slip between moments in time, existing in the space between heartbeats where others cannot act — but the world exacts a toll for your absence, and you return to find yourself slower, left behind by the flow you escaped.',
+                        level: 1,
+                        icon: 'ability_rogue_stealth',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        buffConfig: {
+                            buffType: 'extra_action',
+                            effects: [
+                                { type: 'extra_action', value: 1, mechanicsText: 'Once per combat, take an extra action at initiative count 10' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'initiative_penalty',
+                            effects: [
+                                {
+                                    name: 'Initiative Drain',
+                                    description: '-2 initiative for the rest of combat after using extra action',
+                                    statModifier: {
+                                        stat: 'initiative',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'combat',
+                            durationUnit: 'combat',
+                            canBeDispelled: false
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         }
                     },
                     {
                         id: 'radiant_necrotic_vulnerability_briaran',
-                        name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) during daylight and necrotic damage (+50% damage) in darkness.',
+                        name: 'Radiant and Necrotic Vulnerability',
+                        description: 'Caught forever between light and shadow, your twilight nature makes you vulnerable to both extremes — the searing purity of radiance burns you like dawn burns the night, while the absolute void of necrotic entropy swallows the fragile half-light that sustains you.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'twilight',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'necrotic', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability (Day)',
-                                    description: 'Take 50% more radiant damage during daylight',
+                                    id: 'radiant_vulnerability',
+                                    name: 'Radiant Vulnerability',
+                                    description: 'The searing purity of radiance burns you like dawn burns the night — your twilight nature cannot withstand absolute light',
                                     statusEffect: {
                                         vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
+                                        vulnerabilityPercent: 100
                                     }
                                 },
                                 {
-                                    name: 'Necrotic Vulnerability (Night)',
-                                    description: 'Take +50% damage from necrotic sources in darkness',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    id: 'necrotic_vulnerability',
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'The absolute void of necrotic entropy swallows the fragile half-light that sustains you — darkness devours twilight',
+                                    statusEffect: {
+                                        vulnerabilityType: 'necrotic',
+                                        vulnerabilityPercent: 100
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
-                languages: ['Common', 'Sylvan', 'Umbral'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 20, // Exists between worlds, not particularly hardy
-                    mana: 28, // Twilight connection grants some mana
-                    ap: 4, // Quick and fluid, exists between moments - extra action point
-                    passivePerception: 3, // Advantage on perception in low light, navigate boundaries
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Thrives in twilight, can see in low light
-                    initiative: 3 // Fluid movement, exists between moments - quick to react
-                },
-                savingThrowModifiers: {
-                    // Weakened by pure daylight and deepest night
-                    disadvantage: ['blinded'], // Vulnerable to bright light extremes
-                    advantage: ['stun'] // Fluid movement helps resist disorientation
-                }
+                baseStats: { health: 10, mana: 4, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['blinded'], disadvantage: ['iron_effects'] }
             }
-        }
+        },
     },
 
     groven: {
@@ -3776,557 +3035,122 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
             guardian: {
                 id: 'guardian_groven',
                 name: 'Grove Guardian',
-                description: 'Bark grows in patches across their skin, thickest on arms and chest. Antlers largest of all Groven, branching like ancient trees. Skin shows grain patterns like wood. Roots sometimes visible beneath their feet when they stand still. Many have moss growing in the crevices of their bark. They move slowly but with purpose, their steps settling like roots.',
-                culturalBackground: `The Grove-Guardians trace their lineage to the first Groven who swore to protect ancient forests. Bloodline marked by deep bonds with specific groves. Their tradition requires that every member bond with a sacred grove during their sixteenth year. Flesh slowly growing bark as the bond deepens. Grove-Guardian settlements are built within the heart of ancient forests. Members serving as protectors, sentinels, living fortresses. They practice ancient guardian techniques passed down through generations. How to call roots from the earth. How to grow thorns as weapons. How to hear the forest warnings days before threats arrive. But this connection demands sacrifice. They cannot abide the cutting of living wood. Proximity to dead forests causes them physical pain. Many Grove-Guardians become hermits in their bonded groves. Bodies slowly becoming indistinguishable from the trees they protect. The bloodline values protection and duty. Honor measured in threats prevented and groves preserved. They are the shield-wall of Groven society. Their bond with nature unmatched but their freedom forever tied to the groves they guard.`,
+                description: 'Bark grows in thick patches across their skin, heaviest on arms, chest, and back \u2014 natural plate armor that creaks when they move. Antlers largest of all Groven, branching like ancient oaks, sometimes heavy enough to require bowing through doorways. Skin shows deep grain patterns like old growth wood, with rings visible on close inspection. Roots sometimes visible beneath their feet when they stand still for too long, anchoring them to the earth. Many have moss growing in the crevices of their bark \u2014 soft green contrast to the hardness underneath. They move slowly but with absolute purpose, each step settling like roots finding purchase in soil.',
+                culturalBackground: `The Grove-Guardians trace their lineage to the first Groven who swore to protect ancient forests. Bloodline marked by deep bonds with specific groves. Their tradition requires that every member bond with a sacred grove during their sixteenth year, flesh slowly growing bark as the bond deepens. Grove-Guardian settlements are built within the heart of ancient forests, members serving as protectors, sentinels, living fortresses. They practice ancient guardian techniques passed down through generations. How to call roots from the earth. How to grow thorns as weapons. How to hear the forest warnings days before threats arrive. But this connection demands sacrifice. They cannot abide the cutting of living wood. Proximity to dead forests causes them physical pain. Many Grove-Guardians become hermits in their bonded groves, bodies slowly becoming indistinguishable from the trees they protect.`,
                 statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    agility: -2
+                    constitution: 2,
+                    strength: 1
                 },
                 traits: [
                     {
-                        id: 'forest_guardian_groven',
-                        name: 'Forest Guardian',
-                        description: 'Your bond with the ancient grove flows through your bark-like skin, granting you the forest\'s watchful eyes and the earth\'s unyielding defense when protecting what you hold sacred.',
+                        id: 'root_wall',
+                        name: 'Root Wall',
+                        description: 'Drive your feet into the ground and call upon your bonded grove. A wall of living roots erupts in a 20ft line, providing full cover for 1 minute. The wall has 30 HP and is resistant to piercing and slashing. If the wall is destroyed, you take 1d6 psychic damage from the severed connection. Creatures on the other side of the wall cannot see or target through it.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'utility'],
+                        spellType: 'ACTION',
+                        effectTypes: ['utility', 'defense'],
                         typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'protection',
-                            icon: 'spell_nature_natureguard',
-                            tags: ['defense', 'nature', 'detection', 'passive']
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'creation',
+                            selectedEffects: [
+                                { id: 'wall_creation', name: 'Root Wall', description: 'Create a 20ft root wall with 30 HP. Full cover. Resistant to piercing/slashing.' },
+                                { id: 'psychic_backlash', name: 'Psychic Backlash', description: 'Take 1d6 psychic damage if wall is destroyed' }
+                            ],
+                            duration: 1,
+                            durationUnit: 'minutes'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeShape: 'line',
+                            aoeParameters: { length: 20 }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 2,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'antler_charge',
+                        name: 'Antler Charge',
+                        description: 'Lower your massive antlers and charge in a straight line up to 30ft. All creatures in your path must make a Strength save or take 2d8 piercing damage and be knocked prone. You ignore difficult terrain during the charge. If you hit a solid wall, you take 1d6 bludgeoning damage.',
+                        level: 1,
+                        icon: 'ability_druid_ferociousbite',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'control', 'movement'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        damageConfig: {
+                            damageTypes: ['piercing'],
+                            formula: '2d8',
+                            resolution: 'save'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                { type: 'prone', mechanicsText: 'Targets knocked prone on failed save' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            saveConfig: {
+                                saveType: 'strength',
+                                saveDC: 'spell',
+                                successEffect: 'half_damage_no_prone'
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'line',
+                            rangeType: 'self_centered',
+                            aoeShape: 'line',
+                            aoeParameters: { length: 30 }
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 2,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'bark_armor',
+                        name: 'Bark Armor',
+                        description: 'Bark grows thick across your flesh like the armored plates of the ancient oaks you protect, hardening your body against harm. But flame cracks this living armor — when fire touches you, the bark splits and peels, leaving you vulnerable until you can rest among the roots and streams of a natural place and let it grow anew.',
+                        level: 1,
+                        icon: 'ability_warrior_shieldmastery',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            category: 'racial'
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'permanent',
                             effects: [
-                                {
-                                    id: 'nature_sense',
-                                    name: 'Nature Sense',
-                                    description: 'Sense threats to natural areas within 1 mile'
-                                },
-                                {
-                                    id: 'natures_shield',
-                                    name: 'Nature\'s Shield',
-                                    description: 'Gain +1 armor when defending nature',
-                                    statModifier: {
-                                        stat: 'armor',
-                                        magnitude: 1,
-                                        magnitudeType: 'flat'
-                                    }
-                                }
+                                { type: 'ac_bonus', value: 2, mechanicsText: '+2 AC from bark-like skin' },
+                                { type: 'fire_disables', mechanicsText: 'Fire damage removes AC bonus until short rest in natural environment' }
                             ],
                             durationValue: 0,
                             durationType: 'permanent',
                             durationUnit: 'permanent',
                             canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            effects: [{
-                                id: 'nature_detection',
-                                name: 'Nature Detection',
-                                description: 'Sense threats to natural areas within 1 mile radius'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'antler_strike_groven',
-                        name: 'Antler Strike',
-                        description: 'Natural weapons deal +1 damage. Can charge through difficult terrain.',
-                        level: 1,
-                        icon: 'ability_druid_prowl',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['damage', 'utility'],
-                        typeConfig: {
-                            school: 'combat',
-                            secondaryElement: 'nature',
-                            icon: 'ability_druid_prowl',
-                            tags: ['combat', 'natural-weapons', 'charge', 'passive']
-                        },
-                        damageConfig: {
-                            damageType: 'direct',
-                            elementType: 'piercing',
-                            bonusDamage: 1
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'charge',
-                                name: 'Charge',
-                                description: 'Charge through difficult terrain without penalty.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'fire_vulnerability_groven',
-                        name: 'Fire Vulnerability',
-                        description: 'Vulnerable to fire damage (+50% damage) due to your connection to living wood.',
-                        level: 1,
-                        icon: 'spell_fire_flamestrike',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'fire',
-                            icon: 'spell_fire_flamestrike',
-                            tags: ['vulnerability', 'fire', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Fire Vulnerability',
-                                    description: 'Take +50% damage from fire sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Druidic', 'Beast Speech'],
-                speed: 35,
-                baseStats: {
-                    armor: 0, // Forest Guardian passive adds +1 when defending, so base is 0
-                    hp: 35, // Bark-like skin, living fortresses - extra durability
-                    mana: 20,
-                    ap: 3, // Protectors, sentinels - standard AP
-                    passivePerception: 3, // Nature Sense, hear forest warnings days before threats
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Can call roots from earth, decent climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: -1 // Move slowly but with purpose, slower to react
-                },
-                savingThrowModifiers: {
-                    // Living wood connection makes them vulnerable to fire but sturdy against physical harm
-                    disadvantage: ['poison'], // Fire destroys living wood
-                    advantage: ['paralyze'] // Sturdy bark resists paralysis
-                }
-            },
-            wanderer: {
-                id: 'wanderer_groven',
-                name: 'Trail Walker',
-                description: 'Lean and wiry from constant movement. Antlers smaller, often broken from travel. Feet heavily calloused, able to walk over rough terrain without pain. Eyes constantly scanning the horizon. Skin weathered by sun and wind. They carry the smell of distant places. Many have small scars from thorns and rocks. They seem to fade slightly when standing still, restless energy visible.',
-                culturalBackground: `The Trail-Walkers trace their lineage to Groven who rejected grove bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient migration routes. Apprenticeships spent following seasonal paths that their ancestors walked. Trail-Walker communities are nomadic. Following herds and seasons across vast territories. Members serving as guides, scouts, messengers between distant groves. They practice ancient pathfinding techniques passed down through generations. How to read ley lines. How to find water in deserts. How to navigate by the stars and the earth energy. Their bodies adapt to long travel. Feet becoming calloused and sure. Senses sharpening to detect threats miles away. But the call to wander never stops. They become restless in settlements. Dreaming of open skies and untamed lands. The bloodline values freedom and exploration. Honor measured in paths walked and messages delivered. They are the wanderers of Groven society. Free from grove bonds but forever bound to the endless trail.`,
-                statModifiers: {
-                    agility: 4,
-                    spirit: 2,
-                    intelligence: 1
-                },
-                traits: [
-                    {
-                        id: 'seasonal_adaptation_groven',
-                        name: 'Seasonal Adaptation',
-                        description: 'Advantage on Survival checks during current season. Disadvantage during opposite season.',
-                        level: 1,
-                        icon: 'spell_nature_regenerate',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'adaptation',
-                            icon: 'spell_nature_regenerate',
-                            tags: ['survival', 'seasonal', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Seasonal Advantage',
-                                    description: 'Advantage on Survival during current season',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You are attuned to seasonal rhythms'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Seasonal Weakness',
-                                    description: 'Disadvantage on Survival during opposite season',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'The opposing season disrupts your natural attunement'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'pathfinder_groven',
-                        name: 'Pathfinder',
-                        description: 'Your wild blood knows every root and stone, guiding you through nature\'s labyrinth.',
-                        level: 1,
-                        icon: 'ability_druid_dash',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'navigation',
-                            icon: 'ability_druid_dash',
-                            tags: ['navigation', 'nature', 'passive']
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'navigation',
-                                name: 'Navigation',
-                                description: 'Cannot become lost in natural environments. Advantage on navigation checks.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'poison_vulnerability_groven',
-                        name: 'Poison Vulnerability',
-                        description: 'Vulnerable to poison damage (+50% damage) due to exposure to wild toxins.',
-                        level: 1,
-                        icon: 'spell_nature_nullifypoison_02',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'poison',
-                            icon: 'spell_nature_nullifypoison_02',
-                            tags: ['vulnerability', 'poison', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Poison Vulnerability',
-                                    description: 'Take +50% damage from poison sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Druidic', 'Primordial'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 24, // Lean and wiry, not particularly hardy
-                    mana: 26,
-                    ap: 4, // Nomadic wanderers, quick reactions - extra action point
-                    passivePerception: 3, // Eyes constantly scanning horizon, senses sharpened
-                    swimSpeed: 5, // Survival skills include water
-                    climbSpeed: 10, // Excellent climbers, navigate rough terrain
-                    visionRange: 60, // Enhanced vision from constant travel
-                    darkvision: 0,
-                    initiative: 2 // Restless energy, quick to react
-                },
-                savingThrowModifiers: {
-                    // Wild exposure makes them vulnerable to poison but nimble against restraints
-                    disadvantage: ['poison'], // Vulnerable to wild toxins
-                    advantage: ['restrained'] // Nimble wanderers escape restraints
-                }
-            },
-            shaman: {
-                id: 'shaman_groven',
-                name: 'Spirit Speaker',
-                description: 'Antlers decorated with bones and feathers. Eyes shift between normal and animal-like, pupils dilating unnaturally. Necklaces of animal teeth and bones clatter when they move. Skin marked with ritual scars from spirit-binding ceremonies. Many have animalistic mannerisms, twitches that mirror the spirits they commune with. Their voices sometimes carry animal sounds, growls or bird calls bleeding through.',
-                culturalBackground: `The Spirit-Speakers trace their lineage to the first Groven shamans who learned to commune with the spirits of beasts and ancestors. Bloodline marked by deep spiritual connections. Their tradition requires that every member undergo vision quests during their eighteenth year. Learning to hear the voices of every animal that ever died. Spirit-Speaker communities are built around sacred circles where the boundary between worlds grows thin. Members serving as shamans, mediators, spirit-callers. They practice ancient rituals passed down through generations. How to summon spirit beasts. How to divine from animal bones. How to channel primal energies through their antlers. They wear necklaces of animal teeth and bones. Each one a connection to the spirits they call upon. But this communion comes at a cost. They share the beasts primal instincts. Sometimes losing themselves to animal rage or cunning. Many Spirit-Speakers live in isolation. Minds filled with too many voices to maintain normal relationships. The bloodline values wisdom and spiritual connection. Honor measured in spirits communed with and knowledge gained. They are the spirit-keepers of Groven society. Their connection to the other side unmatched but their sanity forever fractured by too many voices.`,
-                statModifiers: {
-                    spirit: 3,
-                    intelligence: 2,
-                    constitution: -2
-                },
-                traits: [
-                    {
-                        id: 'spirit_communion_groven',
-                        name: 'Spirit Communion',
-                        description: 'Commune with nature spirits. Gain advantage on one Nature or Spirit check.',
-                        level: 1,
-                        icon: 'spell_nature_spiritarmor',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'nature',
-                            icon: 'spell_nature_spiritarmor',
-                            tags: ['communion', 'spirit', 'nature']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Advantage on one Nature or Spirit check',
-                            effects: [
-                                {
-                                    name: 'Spirit Guidance',
-                                    description: 'Nature spirits provide insight',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Spirits share their spirit'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'communication',
-                                name: 'Communication',
-                                description: 'Commune with nature spirits to gain spirit about the natural world.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            actionPoints: 2,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
-                    },
-                    {
-                        id: 'elemental_affinity_groven',
-                        name: 'Elemental Affinity',
-                        description: 'Channel elemental forces for minor effects.',
-                        level: 1,
-                        icon: 'spell_nature_elementalshields',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'elemental',
-                            secondaryElement: 'nature',
-                            icon: 'spell_nature_elementalshields',
-                            tags: ['elemental', 'nature', 'utility']
-                        },
-                        utilityConfig: {
-                            utilityType: 'elemental',
-                            selectedEffects: [{
-                                id: 'manipulation',
-                                name: 'Manipulation',
-                                description: 'Channel minor elemental effects.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'radiant_vulnerability_groven',
-                        name: 'Radiant Vulnerability',
-                        description: 'Vulnerable to radiant damage (+50% damage) due to your spiritual connection to nature.',
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Druidic', 'Elemental'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 18, // Spiritual connection makes them physically frail
-                    mana: 38, // Strong spiritual connection grants enhanced mana
-                    ap: 2, // Shamans, contemplative - less action-oriented
-                    passivePerception: 14, // Commune with spirits, hear animal voices
-                    swimSpeed: 18, // Natural affinity for water
-                    climbSpeed: 20, // Can climb with primal grace
-                    visionRange: 65,
-                    darkvision: 0,
-                    initiative: -1 // Minds filled with voices, slower to react
-                },
-                savingThrowModifiers: {
-                    // Spiritual connection enhances clarity but makes them vulnerable to radiant damage
-                    disadvantage: ['blinded'], // Vulnerable to radiant light from spiritual connection
-                    advantage: ['fear', 'charm'] // Spirit communion enhances mental clarity and resistance
-                }
-            },
-            lightfoot: {
-                id: 'lightfoot_wildkin',
-                name: 'Rootrunner',
-                description: 'Smallest of all Groven, standing shorter than most. Antlers small and delicate, often hidden. Skin smoother, less bark-like. Feet quick and light, making little sound. Eyes dart constantly, always aware of surroundings. They blend into natural environments easily, becoming hard to spot when still. Hair often braided with small plants and flowers.',
-                statModifiers: {
-                    agility: 3,
-                    charisma: 2,
-                    constitution: -2
-                },
-                traits: [
-                    {
-                        id: 'naturally_stealthy_groven',
-                        name: 'Naturally Stealthy',
-                        description: 'Your bark-like skin and wild heritage let you vanish into the natural world.',
-                        level: 1,
-                        icon: 'ability_rogue_stealth',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'stealth',
-                            secondaryElement: 'nature',
-                            icon: 'ability_rogue_stealth',
-                            tags: ['stealth', 'nature', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Natural Stealth',
-                                    description: 'Advantage on Stealth checks in natural environments',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You blend seamlessly into natural surroundings'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'lucky_groven',
-                        name: 'Lucky',
-                        description: 'Once per short rest, reroll a 1 on any d20 roll.',
-                        level: 1,
-                        icon: 'spell_holy_blessed',
-                        spellType: 'REACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'luck',
-                            secondaryElement: 'fate',
-                            icon: 'spell_holy_blessed',
-                            tags: ['luck', 'reroll', 'reaction']
-                        },
-                        utilityConfig: {
-                            utilityType: 'reroll',
-                            selectedEffects: [{
-                                id: 'luck',
-                                name: 'Luck',
-                                description: 'Reroll a 1 on any d20 roll.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        triggerConfig: {
-                            global: {
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    {
-                                        triggerType: 'on_roll_result',
-                                        conditions: {
-                                            result: 1
-                                        }
-                                    }
-                                ]
-                            }
                         },
                         resourceCost: {
                             resourceTypes: [],
@@ -4335,67 +3159,533 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             components: []
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     },
                     {
-                        id: 'size_vulnerability_groven',
-                        name: 'Size Vulnerability',
-                        description: 'Vulnerable to damage from Large or larger creatures (+50% damage).',
+                        id: 'grove_sense',
+                        name: 'Grove Sense',
+                        description: 'The grove speaks to you in a language older than words — a shiver in the roots when something threatens the wild, a sigh in the canopy when sickness creeps near. Every tree within reach is a sentinel, and every blade of grass a whisper of warning carried on the green breath of the land.',
                         level: 1,
-                        icon: 'ability_warrior_charge',
+                        icon: 'spell_nature_natureguard',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
+                        effectTypes: ['detection'],
                         typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'size',
-                            icon: 'ability_warrior_charge',
-                            tags: ['vulnerability', 'size', 'passive']
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [
+                                { id: 'threat_detection', name: 'Threat Detection', description: 'Sense threats to natural areas within 1 mile' },
+                                { id: 'plant_health_sense', name: 'Plant Health Sense', description: 'Know the health of all plant life within 300ft' },
+                                { id: 'tree_whispers', name: 'Tree Whispers', description: 'Trees warn of approaching creatures, fires, and disease hours in advance' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'fire_vulnerability_groven',
+                        name: 'Fire Vulnerability',
+                        description: 'Your bark-like flesh is kindling to open flame \u2014 the deeper your bond with the grove, the more devastating fire becomes.',
+                        level: 1,
+                        icon: 'spell_fire_flamestrike',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: {
+                            category: 'racial',
+                            isWeakness: true
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Size Vulnerability',
-                                    description: 'Take +50% damage from Large or larger creatures',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'fire_vulnerability',
+                                name: 'Fire Vulnerability',
+                                description: 'Your bark-like flesh is kindling to open flame \u2014 living wood burns with terrifying intensity',
+                                statusEffect: {
+                                    vulnerabilityType: 'fire',
+                                    vulnerabilityPercent: 100
                                 }
-                            ],
+                            }],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         }
                     }
                 ],
-                languages: ['Common', 'Halfling', 'Druidic'],
-                speed: 25,
                 baseStats: {
-                    armor: 0,
-                    hp: 20, // Smallest of all Groven, physically frail
-                    mana: 8,
-                    ap: 3, // Quick and light, standard AP
-                    passivePerception: 2, // Eyes dart constantly, always aware
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Quick and light, decent climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: 2 // Quick and light, quick to react
+                    health: 15,
+                    mana: 2,
+                    actionPoints: 3,
+                    initiative: -1
                 },
                 savingThrowModifiers: {
-                    // Small size makes them vulnerable to being grappled but agile in movement
-                    disadvantage: ['grappled'], // Small size vulnerable to grappling
-                    advantage: ['restrained'] // Agile and nimble, escapes restraints
+                    advantage: ['paralyzed', 'grappled'],
+                    disadvantage: ['fire_effects']
+                }
+            },
+            wanderer: {
+                id: 'wanderer_groven',
+                name: 'Trail Walker',
+                description: 'Lean and wiry from constant movement, their bark thinner and more flexible than other Groven. Antlers smaller, often broken and regrown from travel through tight passages. Feet heavily calloused, able to walk over sharp stone and frozen ground without slowing. Eyes constantly scanning the horizon, reading weather patterns and animal movements. Skin weathered by sun and wind, grain patterns smoothed by exposure. They carry the smell of distant places \u2014 pine resin, ocean salt, mountain stone. Many have small scars from thorns and rocks. They seem to fade slightly when standing still, restless energy barely contained.',
+                culturalBackground: `The Trail-Walkers trace their lineage to Groven who rejected grove bonds for the freedom of endless wandering. Bloodline marked by the call of the horizon. Their tradition requires that every member learn the ancient migration routes. Apprenticeships spent following seasonal paths that their ancestors walked. Trail-Walker communities are nomadic, following herds and seasons across vast territories. Members serving as guides, scouts, messengers between distant groves. They practice ancient pathfinding techniques passed down through generations. How to read ley lines. How to find water in deserts. How to navigate by the stars and the earth energy. Their bodies adapt to long travel, feet becoming calloused and sure, senses sharpening to detect threats miles away. But the call to wander never stops. They become restless in settlements, dreaming of open skies and untamed lands.`,
+                statModifiers: {
+                    dexterity: 2,
+                    wisdom: 1
+                },
+                traits: [
+                    {
+                        id: 'ley_line_step',
+                        name: 'Ley Line Step',
+                        description: 'The ley lines hum beneath your feet, threads of living energy that connect every rooted place in the world. You step along them like invisible roads, vanishing from one place and appearing in another — and when your feet meet forest floor or living soil, the land itself rushes up to mend your wounds.',
+                        level: 1,
+                        icon: 'ability_druid_dash',
+                        spellType: 'ACTION',
+                        effectTypes: ['movement', 'healing'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'teleport', name: 'Natural Step Teleport', description: 'Teleport to any visible natural location within 60ft' },
+                                { id: 'rejuvenation', name: 'Natural Rejuvenation', description: 'Gain 5 temporary HP if arriving in a natural area' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        targetingConfig: {
+                            targetingType: 'location',
+                            rangeType: 'ranged',
+                            rangeDistance: 60
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'migration_path',
+                        name: 'Migration Path',
+                        description: 'Mark a trail between your current location and a destination you name. For 24 hours, you and any allies you designate can travel between these two points at double speed, ignoring difficult terrain. The path is visible only to you and designated allies. Only one migration path can be active at a time.',
+                        level: 1,
+                        icon: 'spell_nature_astralrecalgroup',
+                        spellType: 'ACTION',
+                        effectTypes: ['movement', 'utility'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'fast_travel', name: 'Fast Travel', description: 'Travel at double speed between marked points for 24 hours' },
+                                { id: 'ignore_difficult_terrain', name: 'Pathfinder Stride', description: 'Ignore difficult terrain along the marked path' }
+                            ],
+                            duration: 24,
+                            durationUnit: 'hours'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'pathfinder',
+                        name: 'Pathfinder',
+                        description: 'The forest does not let its children wander astray. Roots shift to point the way home, streams murmur directions, and the moss on the stones whispers of the path ahead. The land itself is your guide — it shows you water where none seems to flow, turns your feet toward safety, and plants the certainty of north in your bones like a compass carved into your soul.',
+                        level: 1,
+                        icon: 'ability_hunter_trackingspeed',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'navigation',
+                            selectedEffects: [
+                                { id: 'no_lost', name: 'Unerring Direction', description: 'Cannot become lost in natural environments' },
+                                { id: 'survival_advantage', name: 'Survival Instinct', description: 'Advantage on all Survival checks' },
+                                { id: 'water_finding', name: 'Water Finding', description: 'Find drinkable water within 1 mile (except desert)' },
+                                { id: 'direction_sense', name: 'Direction Sense', description: 'Always know which direction is north' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'weathered_skin',
+                        name: 'Weathered Skin',
+                        description: 'Advantage on saving throws against extreme weather (heat, cold, storms). You do not suffer movement penalties from natural difficult terrain (mud, snow, undergrowth). Your calloused feet feel no pain from rough ground.',
+                        level: 1,
+                        icon: 'spell_nature_regenerate',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'movement'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        buffConfig: {
+                            buffType: 'passive_resistance',
+                            effects: [
+                                { type: 'weather_resistance', mechanicsText: 'Advantage on saves vs extreme weather' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'ignore_natural_terrain', name: 'Forest Stride', description: 'No movement penalty from natural difficult terrain' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'fire_vulnerability_groven_wanderer',
+                        name: 'Fire Vulnerability',
+                        description: 'Even thin bark burns \u2014 fire finds purchase in your woody flesh where it would merely warm others.',
+                        level: 1,
+                        icon: 'spell_fire_flamestrike',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: {
+                            category: 'racial',
+                            isWeakness: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'fire_vulnerability',
+                                name: 'Fire Vulnerability',
+                                description: 'Even thin bark burns \u2014 fire consumes your woody flesh with devastating efficiency',
+                                statusEffect: {
+                                    vulnerabilityType: 'fire',
+                                    vulnerabilityPercent: 100
+                                }
+                            }],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    }
+                ],
+                baseStats: {
+                    health: 12,
+                    mana: 3,
+                    actionPoints: 3,
+                    initiative: 2
+                },
+                savingThrowModifiers: {
+                    advantage: ['restrained'],
+                    disadvantage: ['fire_effects']
+                }
+            },
+            shaman: {
+                id: 'shaman_groven',
+                name: 'Spirit Speaker',
+                description: 'Antlers decorated with bones, feathers, and small carved totems that rattle softly when they turn their head. Eyes shift between normal and animal-like, pupils dilating unnaturally when spirits speak through them. Necklaces of animal teeth and bones clatter when they move. Skin marked with ritual scars from spirit-binding ceremonies \u2014 pale lines that form patterns of claws, wings, and eyes. Many have animalistic mannerisms: a twitch of the ear, a tilt of the head, a growl that slips out unbidden. Their voices sometimes carry animal sounds, growls or bird calls bleeding through human speech like watercolors running together.',
+                culturalBackground: `The Spirit-Speakers trace their lineage to the first Groven shamans who learned to commune with the spirits of beasts and ancestors. Bloodline marked by deep spiritual connections. Their tradition requires that every member undergo vision quests during their eighteenth year, learning to hear the voices of every animal that ever died. Spirit-Speaker communities are built around sacred circles where the boundary between worlds grows thin. Members serving as shamans, mediators, spirit-callers. They practice ancient rituals passed down through generations. How to summon spirit beasts. How to divine from animal bones. How to channel primal energies through their antlers. But this communion comes at a cost. They share the beasts primal instincts, sometimes losing themselves to animal rage or cunning. Many Spirit-Speakers live in isolation, minds filled with too many voices.`,
+                statModifiers: {
+                    wisdom: 2,
+                    intelligence: 1
+                },
+                traits: [
+                    {
+                        id: 'spirit_call',
+                        name: 'Spirit Call',
+                        description: 'Summon the spirit of a predator beast (wolf, bear, or eagle) that appears within 30ft. The spirit lasts for 1 minute and can: make a melee attack (1d8 piercing for wolf, 1d10 bludgeoning for bear) or a ranged attack (1d6 piercing for eagle, range 60ft). The spirit has 15 HP and uses your spell save DC for attacks. Only one spirit can be active at a time.',
+                        level: 1,
+                        icon: 'spell_nature_spiritarmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['summon', 'damage'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        damageConfig: {
+                            damageTypes: ['piercing'],
+                            formula: '1d8',
+                            resolution: 'attack'
+                        },
+                        utilityConfig: {
+                            utilityType: 'summon',
+                            selectedEffects: [
+                                { id: 'spirit_summon', name: 'Spirit Summon', description: 'Summon a wolf (1d8 piercing melee), bear (1d10 bludgeoning melee), or eagle (1d6 piercing ranged) spirit for 1 minute' },
+                                { id: 'spirit_hp', name: 'Spirit Vitality', description: 'Spirit has 15 HP' }
+                            ],
+                            duration: 1,
+                            durationUnit: 'minutes'
+                        },
+                        targetingConfig: {
+                            targetingType: 'location',
+                            rangeType: 'ranged',
+                            rangeDistance: 30
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'bone_divination',
+                        name: 'Bone Divination',
+                        description: 'Cast a handful of animal bones and read the patterns. Learn one of the following: the general direction and distance of the nearest danger, the outcome of a planned action (favorable/unfavorable/neutral), or the answer to a yes/no question about the immediate area. The spirits do not always answer clearly \u2014 there is a 20% chance the reading is cryptic instead.',
+                        level: 1,
+                        icon: 'spell_nature_elementalshields',
+                        spellType: 'ACTION',
+                        effectTypes: ['divination'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [
+                                { id: 'danger_detection', name: 'Danger Detection', description: 'Learn direction and distance to nearest danger' },
+                                { id: 'outcome_reading', name: 'Outcome Reading', description: 'Learn if a planned action is favorable, unfavorable, or neutral' },
+                                { id: 'yes_no_answer', name: 'Yes/No Answer', description: 'Answer to one yes/no question about the immediate area' },
+                                { id: 'cryptic_risk', name: 'Cryptic Risk', description: '20% chance the reading is cryptic rather than clear' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'spirit_sight',
+                        name: 'Spirit Sight',
+                        description: 'You can see spirits, ghosts, and invisible creatures within 60ft. You have advantage on checks to detect illusions. Animals are naturally calm around you and will not attack unless provoked.',
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['detection', 'buff'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        buffConfig: {
+                            buffType: 'passive_enhancement',
+                            effects: [
+                                { type: 'spirit_detection', value: 60, mechanicsText: 'See spirits, ghosts, and invisible creatures within 60ft' },
+                                { type: 'illusion_detection', mechanicsText: 'Advantage on checks to detect illusions' },
+                                { type: 'animal_calm', mechanicsText: 'Animals are naturally calm around you and will not attack unless provoked' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'ancestor_whispers',
+                        name: 'Ancestor Whispers',
+                        description: 'You can hear the voices of your ancestors at will. Advantage on History and Religion checks. When you enter a new location, you sometimes receive warnings from ancestor spirits about dangers that killed previous Groven in that area. This is not reliable \u2014 the spirits speak when they choose.',
+                        level: 1,
+                        icon: 'spell_nature_spiritarmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['detection', 'utility'],
+                        typeConfig: {
+                            category: 'racial'
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [
+                                { id: 'ancestor_communion', name: 'Ancestor Communion', description: 'Hear the voices of ancestors at will' },
+                                { id: 'knowledge_advantage', name: 'Ancestral Knowledge', description: 'Advantage on History and Religion checks' },
+                                { id: 'danger_warnings', name: 'Spirit Warnings', description: 'Spirits sometimes warn of dangers that killed previous Groven in new locations' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'fire_vulnerability_groven_shaman',
+                        name: 'Fire Vulnerability',
+                        description: 'The spirits that bind to you fear flame above all else \u2014 it severs their connection to the material world.',
+                        level: 1,
+                        icon: 'spell_fire_flamestrike',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: {
+                            category: 'racial',
+                            isWeakness: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'fire_vulnerability',
+                                name: 'Fire Vulnerability',
+                                description: 'Flame severs the spirit bonds that hold you together \u2014 fire consumes flesh and spirit alike',
+                                statusEffect: {
+                                    vulnerabilityType: 'fire',
+                                    vulnerabilityPercent: 100
+                                }
+                            }],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    }
+                ],
+                baseStats: {
+                    health: 11,
+                    mana: 5,
+                    actionPoints: 3,
+                    initiative: 0
+                },
+                savingThrowModifiers: {
+                    advantage: ['fear', 'charmed'],
+                    disadvantage: ['fire_effects']
                 }
             }
         },
@@ -4674,7 +3964,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'forge_heart_emberth',
                         name: 'Forge Heart',
-                        description: 'Work metal without tools. Items gain +1 damage or armor.',
+                        description: 'The Fire Within flows through your hands, shaping metal with volcanic heat alone — weapons forged in your grip carry traces of the eternal flame, and armor you temper holds the strength of cooling slag.',
                         level: 1,
                         icon: 'inv_hammer_20',
                         spellType: 'ACTION',
@@ -4708,8 +3998,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -4746,7 +4036,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'frost_vulnerability_forgeborn',
@@ -4768,7 +4067,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Frost Vulnerability',
-                                    description: 'Take 50% more frost damage',
+                                    description: 'The eternal flame within your bloodline sputters and dims when frost bites deep, the cold threatening to extinguish generations of forge-fire',
                                     statusEffect: {
                                         vulnerabilityType: 'frost',
                                         vulnerabilityPercent: 50
@@ -4783,7 +4082,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Terran'],
@@ -4820,7 +4128,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'ember_trail_emberth',
                         name: 'Ember Trail',
-                        description: 'Leave a trail of embers for tracking or signaling.',
+                        description: 'Scorch the earth behind you with each step, leaving a blazing trail of dying embers that marks your passage and guides allies through the volcanic waste.',
                         level: 1,
                         icon: 'spell_fire_burnout',
                         spellType: 'ACTION',
@@ -4853,8 +4161,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -4863,7 +4171,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'ash_cloud_emberth',
                         name: 'Ash Cloud',
-                        description: 'Create concealing ash cloud. Grants advantage on Stealth.',
+                        description: 'Exhale a billowing cloud of superheated ash that clings to the air, shrouding your movements in swirling grey that blinds your enemies and swallows light.',
                         level: 1,
                         icon: 'spell_fire_smokecloud',
                         spellType: 'ACTION',
@@ -4915,8 +4223,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -4942,7 +4250,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                                 {
                                     id: 'frost_vulnerability',
                                     name: 'Frost Vulnerability',
-                                    description: 'Take +50% damage from frost sources'
+                                    description: 'Frost seeps into the volcanic vents of your blood, quenching the inner heat that sustains your ash-scarred frame'
                                 }
                             ],
                             durationType: 'permanent',
@@ -4951,7 +4259,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Ignan', 'Auran'],
@@ -4988,7 +4305,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'battle_rage_emberth',
                         name: 'Battle Rage',
-                        description: 'Enter battle rage when reducing enemy to 0 HP. +2 attack, +1d6 fire damage for 1 minute.',
+                        description: 'When an enemy falls beneath your volcanic fury, the Fire Within erupts — your eyes blaze with inner flame and every strike burns with the fury of a forge pushed past its limits.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'REACTION',
@@ -5013,7 +4330,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             effects: [
                                 {
                                     name: 'Fire Damage',
-                                    description: '+1d6 fire damage to attacks',
+                                    description: 'Volcanic fury ignites every blow, flame trailing from your fists like fresh-lava sparks',
                                     statusEffect: {
                                         level: 'moderate',
                                         description: 'Your attacks burn with inner fire'
@@ -5046,8 +4363,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -5056,7 +4373,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'scarred_hide_emberth',
                         name: 'Scarred Hide',
-                        description: '+1 Armor from toughened skin. Advantage on saves against fear.',
+                        description: 'A thousand battles have tempered your flesh like slag-cooled steel, each scar a forge mark that hardened what it touched and burned away the capacity for fear.',
                         level: 1,
                         icon: 'ability_warrior_defensivestance',
                         spellType: 'PASSIVE',
@@ -5094,12 +4411,21 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'frost_vulnerability_warborn',
                         name: 'Frost Vulnerability',
-                        description: 'Vulnerable to frost damage (+50% damage) as your inner fire can be quenched.',
+                        description: 'The cold that would merely chill lesser folk strikes at the volcanic heart within you, threatening to quench the Fire Within that keeps your forge-blood flowing.',
                         level: 1,
                         icon: 'spell_frost_frostbolt02',
                         spellType: 'PASSIVE',
@@ -5116,7 +4442,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                                 {
                                     id: 'frost_vulnerability',
                                     name: 'Frost Vulnerability',
-                                    description: 'Take +50% damage from frost sources'
+                                    description: 'Frost creeps into the war-forges of your blood, threatening to extinguish the volcanic fury that drives your battle rage'
                                 }
                             ],
                             durationType: 'permanent',
@@ -5125,7 +4451,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Ignan'],
@@ -5190,7 +4525,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'beast_form_vreken',
                         name: 'Beast Form',
-                        description: 'Transform into a predatory animal form, gaining enhanced physical abilities and natural weapons.',
+                        description: 'The cursed blood in your veins boils as bones crack and reform — the beast within tears free of its prison of flesh, reshaping you into a predator hungry for the hunt.',
                         level: 1,
                         icon: 'ability_druid_primaltenacity',
                         spellType: 'ACTION',
@@ -5248,8 +4583,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -5258,7 +4593,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'predators_instinct_vreken',
                         name: 'Predator\'s Instinct',
-                        description: 'Enhanced senses allow you to track prey and sense emotional states, but the beast within may take control.',
+                        description: 'The beast sharpens your senses beyond mortal limits — you taste fear on the wind, hear heartbeats through stone, and track prey by the scent of terror alone, though the predator\'s hunger grows harder to silence with each kill.',
                         level: 1,
                         icon: 'ability_hunter_mastermarksman',
                         spellType: 'PASSIVE',
@@ -5298,12 +4633,21 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                                     }
                                 ]
                             }
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'cursed_vulnerability_vreken',
                         name: 'Cursed Vulnerability',
-                        description: 'Your shapeshifting curse makes you vulnerable to silver weapons and radiant damage.',
+                        description: 'The forbidden magic woven into your bloodline can be severed by that which purifies — silver cuts through the curse\'s protection like moonlight through shadow, and radiant light burns the dark weave that holds your shapeshifting together.',
                         level: 1,
                         icon: 'spell_holy_harmundeadaura',
                         spellType: 'PASSIVE',
@@ -5337,7 +4681,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Primal'],
@@ -5374,7 +4727,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'controlled_transformation_vreken',
                         name: 'Controlled Transformation',
-                        description: 'Temporarily access beast abilities while maintaining control, but the internal struggle takes its toll.',
+                        description: 'You grip the chains of your curse and haul the beast to heel just long enough to borrow its strength — but every moment of that control costs you, the iron links biting deeper as body and spirit war against each other.',
                         level: 1,
                         icon: 'ability_druid_supriseattack',
                         spellType: 'ACTION',
@@ -5421,8 +4774,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             saveOutcome: 'partial_immunity'
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -5431,7 +4784,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'curse_resistance_vreken',
                         name: 'Curse Resistance',
-                        description: 'Your struggle against the beast curse grants resistance to supernatural afflictions.',
+                        description: 'Every waking moment spent wrestling the beast within has forged an iron will — hexes, possessions, and enchantments slide off a mind already occupied by an endless war between man and monster.',
                         level: 1,
                         icon: 'spell_holy_removecurse',
                         spellType: 'PASSIVE',
@@ -5473,12 +4826,21 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
                         id: 'iron_vulnerability_vreken',
                         name: 'Iron Vulnerability',
-                        description: 'Iron weapons and frost damage exploit your chained nature, weakening your connection to the beast.',
+                        description: 'The cold iron of your chains is no mere metaphor — iron weapons bite deeper against a body held together by cursed magic, and frost seeps through the cracks in your will, numbing the beast you so desperately cling to.',
                         level: 1,
                         icon: 'inv_ingot_iron',
                         spellType: 'PASSIVE',
@@ -5494,7 +4856,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             effects: [
                                 {
                                     name: 'Iron Vulnerability',
-                                    description: 'Take +50% damage from iron weapons',
+                                    description: 'Cold iron sears your cursed flesh, the metal that chains the beast also poisoning your bloodline',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -5503,7 +4865,7 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                                 },
                                 {
                                     name: 'Frost Vulnerability',
-                                    description: 'Take +50% damage from frost sources',
+                                    description: 'Frost stiffens the chains that bind your beast, the cold making your struggle against transformation all the more painful',
                                     statModifier: {
                                         stat: 'damage_taken',
                                         magnitude: 50,
@@ -5525,7 +4887,16 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Beast Speech', 'Celestial'],
@@ -5579,1326 +4950,404 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
             hoarder: {
                 id: 'hoarder_neth',
                 name: 'Vault Keeper',
-                description: 'Bodies most preserved of all Graveworn, decay slowed by proximity to treasures. Eyes constantly scanning, always watching. Hands often show wear from handling coins and gems. Many develop a habit of counting and organizing. Their gaze seems to follow anyone near their guarded items. They move stiffly, joints protesting after centuries of standing guard.',
-                culturalBackground: `The Vault-Keepers trace their lineage to Graveworn who swore oaths to guard treasures until death. Bloodline marked by eternal guardianship of hoards and vaults. Their tradition requires that every member learn to appraise and protect treasures. Apprenticeships spent mastering the art of guarding what was sworn to protect. Vault-Keeper tombs are built around the treasures they guard. Members serving as eternal sentinels in forgotten vaults. They practice ancient guardianship techniques passed down through generations. How to ward against thieves. How to sense the worth of treasures. How to maintain vigilance for centuries. Their presence wards against thieves. Mere gaze causing shadows to deepen and locks to strengthen. But their obsession grows. They begin to see people as potential thieves. Protective instincts turning paranoid. Many Vault-Keepers live in isolation. Tombs becoming prisons of their own making. The bloodline values protection and dedication. Honor measured in treasures guarded and oaths kept. They are the guardians of Graveworn society. Their vigilance unmatched but their souls forever bound by vows that cannot be broken.`,
-                statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    intelligence: 1
-                },
+                description: 'Bodies most preserved of all Morthel, decay slowed to near-suspension by proximity to the treasures they guard. Eyes constantly scanning, always watching — pupils like dark coins that reflect gold in lamplight. Hands often show wear from centuries of handling coins and gems. Many develop a habit of counting and organizing that borders on compulsion. Their gaze seems to follow anyone who approaches their guarded items. They move stiffly, joints protesting after centuries of standing guard in the same corridor, but their grip strength has not diminished one bit.',
+                culturalBackground: 'The Vault-Keepers trace their lineage to Morthel who swore oaths to guard treasures until the mountains crumble. Bloodline marked by eternal guardianship of hoards and vaults. Their tradition requires that every member learn to appraise and protect treasures. Apprenticeships spent mastering the art of guarding what was sworn to protect. Vault-Keeper tombs are built around the treasures they guard, members serving as eternal sentinels in forgotten vaults. They practice ancient guardianship techniques passed down through generations. How to ward against thieves. How to sense the worth of treasures. How to maintain vigilance for centuries without rest. Their presence wards against thieves, mere gaze causing shadows to deepen and locks to strengthen. But their obsession grows. They begin to see people as potential thieves, protective instincts turning paranoid. Many Vault-Keepers live in isolation, tombs becoming prisons of their own making.',
+                statModifiers: { constitution: 2, strength: 1 },
+                baseStats: { health: 14, mana: 2, actionPoints: 3, initiative: -1 },
+                savingThrowModifiers: { advantage: ['fear', 'poison'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
-                        id: 'treasure_sense_morthel',
+                        id: 'deathless_guard',
+                        name: 'Deathless Guard',
+                        description: 'When a creature attempts to open a container, door, or barrier you are guarding, you can immediately teleport to an unoccupied space adjacent to them and make a melee attack against them. On hit, deal 2d8 necrotic damage and the target must succeed on a Wisdom save or be frightened of you for 1 minute.',
+                        level: 1,
+                        icon: 'spell_shadow_deathsembrace',
+                        spellType: 'REACTION',
+                        effectTypes: ['damage', 'control', 'movement'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['necrotic'], formula: '2d8', resolution: 'attack' },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [{ type: 'frightened', mechanicsText: 'Target is frightened for 1 minute on failed Wisdom save' }],
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes',
+                            saveConfig: { saveType: 'wisdom', saveDC: 'spell', successEffect: 'negates' }
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{ id: 'teleport', name: 'Shadow Step Teleport', description: 'Teleport to adjacent space near target' }],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['enemy'] },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'treasure_sense',
                         name: 'Treasure Sense',
-                        description: 'Detect valuable items within 120 feet and know their worth.',
+                        description: 'Close your eyes and sense the value of all objects within 60ft. You know the approximate worth of each item, whether it is magical, and if anything has been recently moved or disturbed in the area. You cannot be surprised by creatures carrying valuable items.',
                         level: 1,
                         icon: 'inv_misc_coin_01',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'detection',
-                            secondaryElement: 'treasure',
-                            icon: 'inv_misc_coin_01',
-                            tags: ['detection', 'treasure', 'appraisal']
-                        },
+                        effectTypes: ['detection', 'utility'],
+                        typeConfig: { category: 'racial' },
                         utilityConfig: {
                             utilityType: 'detection',
-                            selectedEffects: [{
-                                id: 'treasure',
-                                name: 'Treasure',
-                                description: 'Detect valuable items within 120 feet and know their worth.'
-                            }],
+                            selectedEffects: [
+                                { id: 'treasure_detection', name: 'Treasure Detection', description: 'Detect all valuable objects within 60ft and know their worth' },
+                                { id: 'magic_detection', name: 'Magic Detection', description: 'Know if detected items are magical' },
+                                { id: 'disturbance_detection', name: 'Disturbance Detection', description: 'Sense if anything has been recently moved or disturbed' }
+                            ],
                             duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            durationUnit: 'instant'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
                     },
                     {
-                        id: 'undead_resilience_morthel',
+                        id: 'undead_resilience',
                         name: 'Undead Resilience',
-                        description: 'Immune to poison, disease, and exhaustion.',
+                        description: 'Your undead nature renders you immune to poison damage, disease, and exhaustion. You do not need to sleep, eat, or breathe. Your body is a preserved instrument of oath-keeping, untroubled by mortal frailties.',
                         level: 1,
                         icon: 'spell_shadow_deathsembrace',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'undead',
-                            secondaryElement: 'resilience',
-                            icon: 'spell_shadow_deathsembrace',
-                            tags: ['immunity', 'undead', 'passive']
-                        },
+                        typeConfig: { category: 'racial' },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'immunity',
                             effects: [
-                                {
-                                    name: 'Poison Immunity',
-                                    description: 'Immune to poison damage and effects',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'Your undead nature is unaffected by toxins'
-                                    }
-                                },
-                                {
-                                    name: 'Disease Immunity',
-                                    description: 'Immune to disease',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'Your undead body cannot be infected'
-                                    }
-                                },
-                                {
-                                    name: 'Exhaustion Immunity',
-                                    description: 'Immune to exhaustion',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'Your undead body needs no rest'
-                                    }
-                                }
+                                { type: 'poison_immunity', value: 'immune', mechanicsText: 'Immune to poison damage and the poisoned condition' },
+                                { type: 'disease_immunity', value: 'immune', mechanicsText: 'Immune to all diseases' },
+                                { type: 'exhaustion_immunity', value: 'immune', mechanicsText: 'Immune to exhaustion' },
+                                { type: 'no_sleep_eat_breathe', mechanicsText: 'Do not need to sleep, eat, or breathe' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'grave_lock',
+                        name: 'Grave Lock',
+                        description: 'As a bonus action, you can lock any non-magical container, door, or gate by touching it. The lock cannot be picked and can only be opened by you or by dealing 20 or more damage to it in a single hit. You always know if something you have locked has been tampered with, regardless of distance.',
+                        level: 1,
+                        icon: 'inv_misc_key_06',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'security',
+                            selectedEffects: [
+                                { id: 'magical_lock', name: 'Magical Lock', description: 'Lock any non-magical container, door, or gate by touch. Cannot be picked. Opens only for you or by dealing 20+ damage.' },
+                                { id: 'tamper_detection', name: 'Tamper Detection', description: 'Always know if something you locked has been tampered with, regardless of distance.' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', targetRestrictions: ['object'] },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     },
                     {
                         id: 'radiant_vulnerability_morthel_hoarder',
                         name: 'Radiant Vulnerability',
-                        description: 'Your undead essence rebels against the purifying light of life, making holy energies burn through your preserved form.',
+                        description: 'Your preserved form is held together by the negative energy of undeath — holy radiance unravels that binding like sunlight burning away shadow.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'undead', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'radiant_vulnerability',
+                                name: 'Radiant Vulnerability',
+                                description: 'Holy radiance unravels the negative energy that holds your preserved form together — sunlight burns away shadow',
+                                statusEffect: {
+                                    vulnerabilityType: 'radiant',
+                                    vulnerabilityPercent: 100
                                 }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     }
-                ],
-                languages: ['Common', 'Necril', 'Draconic'],
-                speed: 25,
-                baseStats: {
-                    armor: 0,
-                    hp: 30, // Most preserved, decay slowed by proximity to treasures - extra durability
-                    mana: 8,
-                    ap: 2, // Move stiffly, joints protesting - less action-oriented
-                    passivePerception: 3, // Eyes constantly scanning, always watching, Treasure Sense
-                    swimSpeed: 0, // Undead, poor swimmers (bodies refuse to decay but not good in water)
-                    climbSpeed: 0, // Move stiffly, not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Undead, can see in darkness
-                    initiative: -2 // Move stiffly, joints protesting - slow to react
-                },
-                savingThrowModifiers: {
-                    // Undead nature makes them vulnerable to radiant but resistant to mental effects
-                    disadvantage: ['blinded'], // Radiant damage harms undead eyes
-                    advantage: ['fear'] // Undead resilience against fear
-                }
+                ]
             },
             scholar: {
                 id: 'scholar_neth',
-                name: 'Dust Scribe',
-                description: 'Bodies covered in dust from handling ancient texts. Fingers stained with ink that never washes off. Eyes glow with accumulated knowledge. They move slowly, carefully, as if afraid to damage something fragile. Many have quills and scrolls always at hand. Their speech sometimes references ancient events as if they happened yesterday.',
-                culturalBackground: `The Dust-Scribes trace their lineage to Graveworn who swore oaths to protect scrolls and secrets until the end of time. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge. Apprenticeships spent mastering the art of maintaining perfect memory across centuries. Dust-Scribe tombs are built around libraries and archives. Members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore. Capable of recalling any text they have read. They are patient researchers. Capable of spending centuries deciphering ancient mysteries. But this knowledge comes at a cost. They lose touch with current events. Minds filled with too many voices from the past. Many Dust-Scribes become reclusive scholars in forgotten libraries. Bodies slowly crumbling like the pages they protect. The bloodline values knowledge and preservation. Honor measured in secrets guarded and wisdom preserved. They are the archivists of Graveworn society. Their memory unmatched but their souls forever bound by oaths to preserve what others have forgotten.`,
-                statModifiers: {
-                    intelligence: 3,
-                    spirit: 2,
-                    strength: -2
-                },
+                name: 'Lore Keeper',
+                description: 'Bodies covered in a fine layer of dust from handling ancient texts for centuries. Fingers permanently stained with ink that never washes off — colors shifting between black, silver, and deep violet. Eyes glow with accumulated knowledge, irises like pages of script. They move slowly, carefully, as if afraid to damage something fragile. Many have quills and scrolls always at hand, held in positions of readiness. Their speech sometimes references ancient events as if they happened yesterday, because to their undying mind, they nearly did.',
+                culturalBackground: 'The Lore Keepers trace their lineage to Morthel who swore oaths to protect scrolls and secrets until the end of time. Bloodline marked by eternal preservation of knowledge. Their tradition requires that every member learn to preserve and archive knowledge. Apprenticeships spent mastering the art of maintaining perfect memory across centuries. Lore Keeper tombs are built around libraries and archives, members serving as eternal scholars in forgotten repositories. They practice ancient preservation techniques passed down through generations. How to maintain perfect memory. How to preserve texts through undeath. How to guard secrets that must never be lost. Their minds are vast repositories of forgotten lore, capable of recalling any text they have ever read. They are patient researchers, capable of spending centuries deciphering ancient mysteries. But this knowledge comes at a cost. They lose touch with current events, minds filled with too many voices from the past.',
+                statModifiers: { intelligence: 2, wisdom: 1 },
+                baseStats: { health: 10, mana: 5, actionPoints: 3, initiative: -1 },
+                savingThrowModifiers: { advantage: ['charmed', 'stun'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
-                        id: 'perfect_memory_morthel',
+                        id: 'forbidden_knowledge',
+                        name: 'Forbidden Knowledge',
+                        description: 'Consult the vast archives of your undying memory. Choose one creature you can see — you recall (or intuit) one of its vulnerabilities, resistances, or immunities, AND one piece of its history (a secret, a weakness, a fear). In combat, your next attack against that creature this turn has advantage and deals an additional 1d8 psychic damage as you exploit the knowledge.',
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'ACTION',
+                        effectTypes: ['detection', 'damage'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['psychic'], formula: '1d8', resolution: 'attack' },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [
+                                { id: 'weakness_revelation', name: 'Weakness Revelation', description: 'Learn one vulnerability, resistance, or immunity of target creature' },
+                                { id: 'secret_revelation', name: 'Secret Revelation', description: 'Learn one secret, weakness, or fear of target' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        buffConfig: {
+                            buffType: 'combat_advantage',
+                            effects: [{ type: 'attack_advantage', mechanicsText: 'Next attack against target has advantage' }],
+                            durationValue: 1, durationType: 'turns', durationUnit: 'turns'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 60, targetRestrictions: ['enemy'] },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'echo_of_the_dead',
+                        name: 'Echo of the Dead',
+                        description: 'Your voice carries the weight of centuries. Speak a word of power learned from an ancient text. All creatures within 20ft must make a Wisdom save or be silenced for 1 minute as the voices of the dead fill their minds. Undead creatures are immune. Creatures that fail by 5 or more also take 2d6 psychic damage.',
+                        level: 1,
+                        icon: 'spell_shadow_curse',
+                        spellType: 'ACTION',
+                        effectTypes: ['control', 'damage'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['psychic'], formula: '2d6', resolution: 'save' },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [{ type: 'silenced', mechanicsText: 'Target cannot speak or cast verbal spells for 1 minute' }],
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes',
+                            saveConfig: { saveType: 'wisdom', saveDC: 'spell', successEffect: 'negates' }
+                        },
+                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', aoeShape: 'sphere', aoeParameters: { radius: 20 } },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'perfect_memory',
                         name: 'Perfect Memory',
-                        description: 'Perfect recall of everything you\'ve read. Can learn languages and skills permanently.',
+                        description: 'You have perfect recall of everything you have ever read, seen, or heard. You can learn any language by studying a text for 1 hour. You have advantage on all Intelligence (History, Arcana, Religion) checks.',
                         level: 1,
                         icon: 'spell_holy_mindvision',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'knowledge',
-                            secondaryElement: 'undead',
-                            icon: 'spell_holy_mindvision',
-                            tags: ['memory', 'knowledge', 'undead', 'passive']
-                        },
+                        typeConfig: { category: 'racial' },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'passive_enhancement',
                             effects: [
-                                {
-                                    name: 'Perfect Recall',
-                                    description: 'Remember everything you have read',
-                                    statusEffect: {
-                                        level: 'major',
-                                        description: 'Your undead mind preserves all knowledge'
-                                    }
-                                }
+                                { type: 'perfect_recall', mechanicsText: 'Perfect recall of everything ever read, seen, or heard' },
+                                { type: 'rapid_language_learning', mechanicsText: 'Learn any language by studying a text for 1 hour' },
+                                { type: 'knowledge_advantage', mechanicsText: 'Advantage on Intelligence (History, Arcana, Religion) checks' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     },
                     {
-                        id: 'deathless_vigil_morthel',
+                        id: 'deathless_vigil',
                         name: 'Deathless Vigil',
-                        description: 'No need for sleep. Can work continuously for days.',
+                        description: 'You do not need to sleep and are immune to exhaustion. During a long rest, you remain fully conscious and aware of your surroundings. You cannot be surprised while other party members sleep.',
                         level: 1,
                         icon: 'spell_shadow_demonicfortitude',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'undead',
-                            secondaryElement: 'endurance',
-                            icon: 'spell_shadow_demonicfortitude',
-                            tags: ['sleepless', 'undead', 'endurance', 'passive']
-                        },
+                        typeConfig: { category: 'racial' },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'passive_enhancement',
                             effects: [
-                                {
-                                    name: 'No Sleep Needed',
-                                    description: 'You do not need to sleep',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your undead body requires no rest'
-                                    }
-                                }
+                                { type: 'sleeplessness', mechanicsText: 'No need for sleep. Remain conscious during long rests.' },
+                                { type: 'exhaustion_immunity', value: 'immune', mechanicsText: 'Immune to exhaustion' },
+                                { type: 'no_surprise', mechanicsText: 'Cannot be surprised while party members sleep' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     },
                     {
                         id: 'radiant_vulnerability_morthel_scholar',
                         name: 'Radiant Vulnerability',
-                        description: 'The spark of unlife within you recoils from the holy radiance that banishes the dead, searing through your preserved intellect.',
+                        description: 'Holy light sears away the accumulated knowledge preserved in undeath — centuries of learning undone by pure radiance.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'undead', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take +50% damage from radiant sources',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'radiant_vulnerability',
+                                name: 'Radiant Vulnerability',
+                                description: 'Holy light burns away the accumulated knowledge preserved in undeath — radiance devours centuries of stored intellect',
+                                statusEffect: {
+                                    vulnerabilityType: 'radiant',
+                                    vulnerabilityPercent: 100
                                 }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     }
-                ],
-                languages: ['Common', 'Necril', 'All Ancient Languages'],
-                speed: 25,
-                baseStats: {
-                    armor: 0,
-                    hp: -5, // Bodies covered in dust, physically frail
-                    mana: 10, // Perfect memory, vast repositories of knowledge - extra mana
-                    ap: 2, // Move slowly, carefully - less action-oriented
-                    passivePerception: 3, // Eyes glow with accumulated knowledge, perfect recall
-                    swimSpeed: 0, // Undead, poor swimmers
-                    climbSpeed: 0, // Move slowly, carefully, not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Undead, can see in darkness
-                    initiative: -2 // Move slowly, carefully - slow to react
-                },
-                savingThrowModifiers: {
-                    // Undead nature makes them vulnerable to radiant but knowledgeable against confusion
-                    disadvantage: ['blinded'], // Radiant damage harms undead eyes
-                    advantage: ['stun'] // Vast knowledge protects against confusion
-                }
-            }
-        }
-    },
-
-    volketh: {
-        id: 'volketh',
-        name: 'Volketh',
-        essence: 'Sky-born wind-riders',
-        description: 'The sky is not a place we visit; it is our true home, and the earth is merely where we rest our weary wings. Our bones are hollowed by the ambition of flight, and our hearts beat with the frantic urgency of the gale. We see the world from above, a tapestry of colors and movements that those tethered to the ground can never truly comprehend. The wind is our sibling, whispering secrets of the mountain peaks and the distant oceans into our ears. Our plumage is a mosaic of the storm and the sun, and our eyes are as sharp as the talons we carry. We do not just fly; we navigate the invisible currents of the world, dancing on the edge of the clouds where the air is thin and pure. We are the heralds of the high places, the scouts of the infinite blue who have traded the safety of the soil for the freedom of the vertical. To us, a wall is an insult and a roof is a cage.',
-        icon: 'fas fa-bolt',
-        overview: 'The Volketh are people whose ancestors survived terrible storms. Those struck by lightning and lived. Or born during tempests that killed their families. Through generations of living in storm-prone regions, their bloodlines have been marked by electrical damage. Scarred skin that glows faintly during storms. Nervous systems permanently damaged by electrical burns passed down through bloodlines. They are organized into nomadic bands that follow storm patterns. Settlements built in the wake of thunderstorms. The Volketh do not choose to attract storms. It is their heritage, passed down through bloodlines that carry the storm damage.',
-        culturalBackground: `Volketh society is built on nomadic bands that follow storm patterns. Communities organized around surviving the tempests that shaped their ancestors. Each band traces its lineage to survivors of legendary disasters. Farmers whose homes were struck. Sailors pulled from shipwrecks. Children who watched their families die in floods. Their camps huddle in the wake of thunderstorms. Tents pitched in muddy fields where lightning still crackles in the air. Band elders pass down the old ways. How to read storm signs. How to survive lightning strikes. How to find shelter when the sky turns deadly. Their skin scars glow during storms. Making them targets for superstitious folk who blame them for the weather. They do not control storms. They attract them. Their damaged bodies acting like lightning rods. Band disputes settle through storm-trials and the testimony of those who have survived the most strikes. They are a people bound by storm and survival. Their knowledge of weather unmatched but their bodies forever marked by the forces that shaped them.`,
-        variantDiversity: 'The Volketh are divided into three major band bloodlines: The Lightning-Struck bear scars from direct strikes and act as living lightning rods, the Nerve-Wracked have nervous systems damaged by continuous electrical exposure, and the Wind-Broken survived hurricanes that scarred their lungs and minds.',
-        integrationNotes: {
-            actionPointSystem: 'Volketh abilities focus on lightning damage, mobility, and area control. Their electrical nature provides powerful offensive options but can be unpredictable.',
-            backgroundSynergy: 'Volketh excel in backgrounds emphasizing survival, trauma, and disaster recovery. Their storm-scarred nature complements aggressive and mobile playstyles.',
-            classCompatibility: 'Volketh make excellent elemental casters, mobile strikers, and warriors who channel their trauma. Their lightning abilities enhance classes that deal burst damage.'
-        },
-        meaningfulTradeoffs: 'Volketh gain powerful lightning abilities and high mobility but are vulnerable to grounding effects and struggle with fine control. Their damaged nervous systems make them unreliable.',
-        baseTraits: {
-            languages: ['Common', 'Auran', 'Primordial'],
-            lifespan: '60-90 years',
-            baseSpeed: 35,
-            size: 'Medium',
-            height: '5\'4" - 6\'0"',
-            weight: '120-180 lbs',
-            build: 'Jittery and energetic'
-        },
-        subraces: {
-            thundercaller: {
-                id: 'thundercaller_volketh',
-                name: 'Lightning Struck',
-                description: 'Scars form branching patterns like lightning across their skin. These scars glow during storms. Skin feels warm to the touch, like banked electricity. Eyes flash with electrical light when agitated. Their hair stands on end constantly. Many have burns where lightning entered and exited. Their scars ache before storms arrive.',
-                culturalBackground: `The Lightning-Struck trace their lineage to Volketh who survived direct lightning strikes. Bloodline marked by scars that conduct electrical charge. Their tradition requires that every member learn to read storm signs from their own scars. Apprenticeships spent understanding how their damaged flesh reacts to atmospheric pressure. Lightning-Struck bands serve as weather-readers and storm-warners. Members acting as living lightning rods that can sense approaching tempests. They practice ancient survival techniques passed down through generations. How to ground themselves during strikes. How to read scar-pain as weather prediction. How to warn others before storms arrive. Their scars ache before storms. Damaged nerves reacting to atmospheric pressure changes. But this is not a gift. It is nerve damage that makes them suffer. The scars sometimes discharge static. Shocking those who touch them. During calm weather, the damaged nerves settle. But storms bring agony as their scars burn with phantom electricity. The bloodline values warning and protection. Honor measured in storms predicted and lives saved. They are the storm-readers of Volketh society. Their knowledge valuable but their bodies forever marked by the lightning that shaped them.`,
-                statModifiers: {
-                    charisma: 3,
-                    constitution: 2,
-                    strength: 1
-                },
-                traits: [
-                    {
-                        id: 'thunder_voice_volketh',
-                        name: 'Thunder Voice',
-                        description: 'Voice carries thunder power. Deal sonic damage and stun enemies.',
-                        level: 1,
-                        icon: 'spell_nature_thunderclap',
-                        spellType: 'ACTION',
-                        effectTypes: ['damage', 'debuff'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'sonic',
-                            icon: 'spell_nature_thunderclap',
-                            tags: ['sonic', 'stun', 'damage']
-                        },
-                        damageConfig: {
-                            damageType: 'direct',
-                            elementType: 'thunder',
-                            formula: '2d6'
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Stunned',
-                                    description: 'Target is stunned for 1 round',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Thunder stuns the target'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeSize: 15
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'storm_presence_volketh',
-                        name: 'Storm Presence',
-                        description: 'Allies within 30 feet gain intimidation bonus.',
-                        level: 1,
-                        icon: 'spell_nature_lightning',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'social',
-                            icon: 'spell_nature_lightning',
-                            tags: ['aura', 'intimidation', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Intimidating Presence',
-                                    description: 'Allies gain intimidation bonus',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your storm-scarred presence inspires fear'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeSize: 30
-                        }
-                    },
-                    {
-                        id: 'grounding_vulnerability_volketh',
-                        name: 'Grounding Vulnerability',
-                        description: 'Vulnerable to effects that ground electricity (+50% damage from metal weapons and water attacks).',
-                        level: 1,
-                        icon: 'spell_nature_earthbind',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'grounding',
-                            icon: 'spell_nature_earthbind',
-                            tags: ['vulnerability', 'grounding', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Grounding Vulnerability',
-                                    description: 'Take +50% damage from metal and water attacks',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Auran', 'Primordial'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 12, // Scarred by lightning but resilient
-                    mana: 8, // Electrical energy grants some mana
-                    ap: 3, // Storm-readers, standard AP
-                    passivePerception: 13, // Read storm signs, scars ache before storms
-                    swimSpeed: 15, // Grounding vulnerability makes swimming difficult
-                    climbSpeed: 20, // Not climbers
-                    visionRange: 65,
-                    darkvision: 0,
-                    initiative: 1 // Living lightning rods, quick to react
-                },
-                savingThrowModifiers: {
-                    // Grounding vulnerability makes them susceptible to metal and water damage
-                    disadvantage: ['poison'], // Vulnerable to grounding effects from metal and water
-                    advantage: ['fear'] // Storm presence makes them intimidating
-                }
+                ]
             },
-            lightningborn: {
-                id: 'lightningborn_stormborn',
-                name: 'Nerve Wracked',
-                description: 'Constant twitches and spasms mark their movement. Eyes dart erratically, unable to focus long. Hands shake, making precise work difficult. Their reflexes are hyperactive, movements jerky. Skin shows burn marks from electrical exposure. Many have trouble speaking clearly, words interrupted by spasms. They move fast but uncontrolled.',
-                culturalBackground: `The Nerve-Wracked trace their lineage to Volketh who were exposed to continuous electrical storms during childhood. Bloodline marked by permanently damaged nervous systems. Their tradition requires that every member learn to function despite neurological damage. Apprenticeships spent mastering control over twitchy reflexes. Nerve-Wracked bands serve as messengers and scouts. Members hyperactive reflexes allowing them to move quickly despite the damage. They practice ancient coping techniques passed down through generations. How to channel twitches into movement. How to think clearly despite electrical interference. How to function when nerves misfire. Their reflexes are hyperactive. Not fast by choice, but twitchy and uncontrolled. Muscles responding to phantom electrical signals. During calm weather, the damage settles and they can think clearly. But storms bring mental chaos as their damaged nerves short-circuit. Many Nerve-Wracked struggle with basic tasks. Nervous systems too damaged for precision work. The bloodline values adaptation and resilience. Honor measured in tasks completed despite the damage. They are the survivors of Volketh society. Their resilience unmatched but their bodies forever marked by currents that flowed through them too long.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    spirit: 1
-                },
+            wraith: {
+                id: 'wraith_morthel',
+                name: 'Wraith',
+                description: 'The boundary between flesh and shadow has blurred past recognition. Their forms flicker at the edges, sometimes translucent, sometimes solid enough to cast a shadow. Eyes burn with cold pale fire in a face that might have been handsome centuries ago — now gaunt, cheekbones cutting through skin like blade edges. Dark veins trace patterns beneath translucent skin that pulse with something blacker than blood. Ravens are drawn to them, perching on shoulders and circling overhead in unsettling numbers. Their voice echoes, as if spoken from the bottom of a well. In dim light, they are barely visible — a silhouette that could be mistaken for a trick of the darkness.',
+                culturalBackground: 'The Wraiths are the most cursed of all Morthel bloodlines. Their ancestors swore oaths so binding, so absolute, that the weight of their promises began to literally unmake their physical forms. Generation by generation, flesh gave way to shadow. Bone dissolved into something that was neither material nor immaterial. They are the inheritors of the Corvani tradition — the raven-speakers who once served as psychopomps, guiding souls between life and death. When the Corvani were folded into the Morthel, the raven-spirits followed, and now every Wraith carries a murder of phantom ravens in their shadow. They practice the ancient arts of the between-places. How to fade through walls. How to speak with the recently dead. How to ride the shadows like roads. But each use of their gift pulls them further from the material world. The oldest Wraiths are barely visible even in daylight — more memory than person. The bloodline values restraint and the careful balance between existence and dissolution.',
+                statModifiers: { dexterity: 2, charisma: 1 },
+                baseStats: { health: 9, mana: 4, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['grappled', 'restrained'], disadvantage: ['radiant_effects'] },
                 traits: [
                     {
-                        id: 'lightning_reflexes_volketh',
-                        name: 'Lightning Reflexes',
-                        description: 'Move at lightning speed in bursts, but become exhausted.',
+                        id: 'fade_through',
+                        name: 'Fade Through',
+                        description: 'Become partially incorporeal for 1 minute. You can move through solid objects (but not creatures) at half speed. You take half damage from all non-magical, non-radiant sources. You cannot interact with physical objects or make physical attacks while faded. You can end the effect early as a bonus action. If you are inside a solid object when the effect ends, you are ejected to the nearest open space and take 3d6 force damage.',
                         level: 1,
-                        icon: 'spell_nature_lightningoverload',
+                        icon: 'spell_shadow_invisibility',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'movement',
-                            icon: 'spell_nature_lightningoverload',
-                            tags: ['movement', 'speed', 'lightning']
+                        effectTypes: ['movement', 'buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'incorporeal',
+                            effects: [
+                                { type: 'pass_through_objects', mechanicsText: 'Move through solid objects at half speed' },
+                                { type: 'damage_reduction', value: 'half', mechanicsText: 'Half damage from non-magical, non-radiant sources' }
+                            ],
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true
                         },
+                        debuffConfig: {
+                            debuffType: 'restriction',
+                            effects: [{ type: 'no_physical_interaction', mechanicsText: 'Cannot interact with physical objects or make physical attacks while faded' }],
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes'
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 2, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'raven_scout',
+                        name: 'Raven Scout',
+                        description: 'Summon a phantom raven from your shadow and send it to any point within 1 mile that you have previously seen. For 10 minutes, you see and hear everything the raven perceives. The raven is invisible to all but you and other Morthel. If the raven would take damage, it dissolves and you take 1d4 psychic damage.',
+                        level: 1,
+                        icon: 'inv_raven_hold',
+                        spellType: 'ACTION',
+                        effectTypes: ['detection', 'summon'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'scouting',
+                            selectedEffects: [
+                                { id: 'remote_sight', name: 'Remote Sight', description: 'See and hear through phantom raven up to 1 mile away for 10 minutes' },
+                                { id: 'invisibility', name: 'Raven Invisibility', description: 'Raven is invisible to all but you and other Morthel' }
+                            ],
+                            duration: 10,
+                            durationUnit: 'minutes'
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'shadow_step',
+                        name: 'Shadow Step',
+                        description: 'When you are in dim light or darkness, you can teleport up to 30ft to an unoccupied space you can see that is also in dim light or darkness as a bonus action. You leave behind a faint afterimage that lingers for 1 round.',
+                        level: 1,
+                        icon: 'ability_rogue_shadowstep',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['movement'],
+                        typeConfig: { category: 'racial' },
                         utilityConfig: {
                             utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'dash',
-                                name: 'Dash',
-                                description: 'Move at incredible speed for a short burst.'
-                            }],
+                            selectedEffects: [
+                                { id: 'shadow_teleport', name: 'Shadow Teleport', description: 'Teleport 30ft between dim light or darkness as a bonus action' },
+                                { id: 'afterimage', name: 'Afterimage', description: 'Leave a faint afterimage that lingers for 1 round' }
+                            ],
                             duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
+                            durationUnit: 'permanent'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     },
                     {
-                        id: 'chain_reaction_volketh',
-                        name: 'Chain Reaction',
-                        description: 'Attacks can arc to nearby enemies, but may hit allies.',
+                        id: 'fading',
+                        name: 'Fading',
+                        description: 'You have resistance to necrotic damage. However, your physical form is unstable — you have -1 to your maximum HP per character level (minimum 1 HP). In bright sunlight, all Constitution checks are at disadvantage as the light pulls at your form. Ravens are naturally drawn to you and will follow you in groups of 3-12.',
                         level: 1,
-                        icon: 'spell_nature_chainlightning',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['damage'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'chain',
-                            icon: 'spell_nature_chainlightning',
-                            tags: ['chain', 'lightning', 'damage', 'passive']
-                        },
-                        damageConfig: {
-                            damageType: 'direct',
-                            elementType: 'lightning',
-                            chainDistance: 10
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'water_vulnerability_volketh',
-                        name: 'Water Vulnerability',
-                        description: 'Vulnerable to water-based effects (+50% damage from water attacks).',
-                        level: 1,
-                        icon: 'spell_frost_waterbolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'water',
-                            icon: 'spell_frost_waterbolt',
-                            tags: ['vulnerability', 'water', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Water Vulnerability',
-                                    description: 'Take +50% damage from water attacks',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Auran', 'Primordial'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 24, // Nerve damage, not particularly hardy
-                    mana: 8,
-                    ap: 4, // Hyperactive reflexes, move fast - extra action point
-                    passivePerception: 1, // Eyes dart erratically, unable to focus long
-                    swimSpeed: 0, // Water vulnerability, poor swimmers
-                    climbSpeed: 5, // Hyperactive reflexes, decent climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: 4 // Hyperactive reflexes, quick to react (but uncontrolled)
-                },
-                savingThrowModifiers: {
-                    // Nerve damage makes them vulnerable to stunning but agile against paralysis
-                    disadvantage: ['stun'], // Nerve damage vulnerable to stunning
-                    advantage: ['paralyze'] // Hyperactive reflexes resist paralysis
-                }
-            },
-            tempest: {
-                id: 'tempest_stormborn',
-                name: 'Wind Broken',
-                description: 'Breathing is labored, audible even at rest. Lungs scarred from pressure damage show in their chest movements. Skin sometimes shows signs of oxygen deprivation, bluish tint around lips. Their breath creates strange air currents when they exert themselves. Many have coughs that never fully heal. They tire easily but push through with determination.',
-                culturalBackground: `The Wind-Broken trace their lineage to Volketh who survived hurricanes and tornadoes that destroyed everything they knew. Bloodline marked by damaged lungs from pressure changes and debris. Their tradition requires that every member learn to function despite respiratory damage. Apprenticeships spent mastering breathing techniques that compensate for scarred lung tissue. Wind-Broken bands serve as fighters and protectors. Members damaged breathing creating unintended air disturbances that confuse enemies. They practice ancient survival techniques passed down through generations. How to breathe despite damage. How to channel panic into strength. How to fight when lungs do not work properly. Their breathing creates strange air currents. Not from power but from scarred lung tissue that does not expand properly. Strong emotions trigger panic attacks that manifest as irregular breathing patterns. Which superstitious folk mistake for weather control. But this is not control. It is trauma response. Their bodies reacting to memories of wind and destruction. Many Wind-Broken develop severe anxiety disorders. Unable to cope with the sounds of wind or approaching storms. The bloodline values strength and survival. Honor measured in battles fought despite the damage. They are the fighters of Volketh society. Their resilience unmatched but their bodies forever marked by the storms that took their homes.`,
-                statModifiers: {
-                    strength: 4,
-                    constitution: 2,
-                    agility: 1
-                },
-                traits: [
-                    {
-                        id: 'storm_rage_volketh',
-                        name: 'Storm Rage',
-                        description: 'Enter berserk rage. +3 attack, +2d6 lightning damage, resistance to physical damage.',
-                        level: 1,
-                        icon: 'ability_warrior_rampage',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'rage',
-                            icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'lightning', 'combat']
-                        },
-                        buffConfig: {
-                            buffType: 'statEnhancement',
-                            statModifiers: [
-                                {
-                                    id: 'rage_attack',
-                                    name: 'Attack Bonus',
-                                    magnitude: 3,
-                                    magnitudeType: 'flat',
-                                    category: 'combat'
-                                }
-                            ],
-                            effects: [
-                                {
-                                    name: 'Lightning Damage',
-                                    description: '+2d6 lightning damage',
-                                    statusEffect: {
-                                        level: 'major',
-                                        description: 'Your attacks crackle with lightning'
-                                    }
-                                },
-                                {
-                                    name: 'Physical Resistance',
-                                    description: 'Resistance to physical damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Storm energy protects you'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'eye_of_the_storm_volketh',
-                        name: 'Eye of the Storm',
-                        description: 'Create zone of calm protecting allies, but cannot move.',
-                        level: 1,
-                        icon: 'spell_nature_nullifydisease',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'lightning',
-                            secondaryElement: 'protection',
-                            icon: 'spell_nature_nullifydisease',
-                            tags: ['protection', 'zone', 'allies']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Calm Zone',
-                                    description: 'Allies in zone are protected from storm effects',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'The eye of the storm provides safety'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'environment',
-                            selectedEffects: [{
-                                id: 'weather_control',
-                                name: 'Weather Control',
-                                description: 'Create a 20-foot radius zone of calm weather, protecting allies from storm effects.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeSize: 20
-                        },
-                        resourceCost: {
-                            actionPoints: 2,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
-                    },
-                    {
-                        id: 'pressure_vulnerability_volketh',
-                        name: 'Pressure Vulnerability',
-                        description: 'Hurricane-scarred lungs struggle against pressure changes that once nearly crushed them, leaving your body vulnerable to crushing forces that echo the storms of your ancestors.',
-                        level: 1,
-                        icon: 'ability_warrior_sunder',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'pressure',
-                            icon: 'ability_warrior_sunder',
-                            tags: ['vulnerability', 'pressure', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Pressure Vulnerability',
-                                    description: 'Hurricane-damaged lungs make you vulnerable to crushing attacks that mirror the pressure changes that scarred your ancestors',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Auran'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 28, // Fighters and protectors, damaged lungs but determined - extra durability
-                    mana: 8,
-                    ap: 4, // Fighters, storm rage - extra action point
-                    passivePerception: 1, // Not particularly perceptive
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: 2 // Fighters, quick to react
-                },
-                savingThrowModifiers: {
-                    // Damaged lungs make them vulnerable to poison but determined against exhaustion
-                    disadvantage: ['poison'], // Damaged lungs vulnerable to poison
-                    advantage: ['exhaustion'] // Fighters push through exhaustion
-                }
-            }
-        }
-    },
-
-    drennar: {
-        id: 'drennar',
-        name: 'Drennar',
-        essence: 'Abyssal survivors',
-        description: 'The weight of the ocean is a cold, heavy hand that never lets go, even in the driest of lands. We are the architects of the deep, our bones compressed by the crushing pressure of the abyss and our skin glowing with the bioluminescent fever of the trenches. We do not walk; we endure the dragging burden of gravity that feels like a pale imitation of the sea’s embrace. Our eyes are wide and dark, hungry for the faint, flickering lights that are the only stars we ever knew. We carry the silence of the sunken cities in our lungs, and our voices are the low, distant rumble of shifting tectonic plates. We are the survivors of the great floods and the deep mines, the ones who grew accustomed to the dark until the light became a weapon against us. We are not of your world; we are the memory of what the earth hides beneath its waves.',
-        icon: 'fas fa-water',
-        overview: 'The Drennar are people whose ancestors survived underwater disasters. Miners trapped in flooded tunnels. Sailors dragged to crushing depths. Divers who stayed too long in the abyss. Through generations of living in pressure-damaged bodies, their bloodlines have been marked by deep-sea trauma. Deformed skeletons. Crushed organs. Skin that glows from bacterial infections passed down through generations. They are organized into communities built around abandoned mines and sunken wrecks. Settlements clustered where the pressure-damaged can survive. The Drennar do not choose to glow. It is their heritage, passed down through bloodlines that carry the corruption of deep-sea wounds.',
-        culturalBackground: `Drennar society is built on communities clustered around abandoned mines and sunken wrecks. Settlements built where pressure-damaged bodies can survive. Each community traces its lineage to survivors of legendary disasters. Miners trapped in flooded tunnels. Sailors dragged to crushing depths. Divers who stayed too long in the abyss. Their settlements cluster in places where the crushing dark is familiar. Inhabitants living proof that some survive the depths. Though perhaps they should not have. Community elders pass down the old ways. How to survive pressure changes. How to read deep-sea currents. How to function despite deformed bodies. The glowing patterns on their skin are not decoration. They are infected scars from pressure injuries. Bioluminescent bacteria that colonized their damaged tissue. Passed down through generations. Their slow movements are not patience but permanent damage. Joints crushed by pressure. Bones that never healed right. Community disputes settle through pressure-trials and the testimony of those who have survived the deepest dives. They avoid the surface not from preference but necessity. Their deformed bodies struggle with normal gravity. Pressure-damaged lungs cannot handle thin air. They are a people bound by depth and survival. Their knowledge of the abyss unmatched but their bodies forever marked by the pressure that shaped them.`,
-        variantDiversity: 'The Drennar are divided into three major community bloodlines: The Crush-Scarred bear permanent deformities from surviving the crushing abyss, the Abyss-Walkers adapted to deep-sea environments through generations of suffering, and the Pressure-Torn survived rapid pressure changes that left them unstable.',
-        integrationNotes: {
-            actionPointSystem: 'Drennar abilities focus on pressure manipulation, bioluminescence, and aquatic superiority. Their pressure-damaged bodies provide unique tactical options.',
-            backgroundSynergy: 'Drennar excel in backgrounds emphasizing survival, endurance, and trauma recovery. Their deformed bodies create interesting challenges on land.',
-            classCompatibility: 'Drennar make excellent ambush specialists, pressure mages, and patient strategists. Their abilities enhance classes that rely on positioning and control.'
-        },
-        meaningfulTradeoffs: 'Drennar gain powerful aquatic abilities and pressure resistance but suffer on land and in bright light. Their deformities make social interaction difficult.',
-        baseTraits: {
-            languages: ['Common', 'Aquan', 'Deep Speech'],
-            lifespan: '150-200 years',
-            baseSpeed: 25,
-            size: 'Medium',
-            height: '5\'8" - 6\'4"',
-            weight: '180-280 lbs',
-            build: 'Deformed and bulky'
-        },
-        subraces: {
-            abyssal: {
-                id: 'abyssal_drennar',
-                name: 'Crush Scarred',
-                description: 'Most deformed of all Drennar. Bodies twisted by pressure, bones visibly warped. Movement is slow and painful. Skin glows brightest, patterns marking old injuries. Many have permanently hunched postures. Their joints crack audibly when they move. They struggle to walk on land, their bodies shaped for the deep.',
-                culturalBackground: `The Crush-Scarred trace their lineage to Drennar who survived depths that should have pulverized their bones. Bloodline marked by permanent deformities from crushing pressure. Their tradition requires that every member learn to function despite severe physical damage. Apprenticeships spent mastering movement with deformed skeletons and crushed organs. Crush-Scarred communities serve as deep-miners and abyss-explorers. Members able to survive depths that would kill others because their bodies are already broken. They practice ancient survival techniques passed down through generations. How to move with crushed vertebrae. How to function with damaged joints. How to survive what has already broken them. Their bodies are maps of injuries that never healed properly. Bones warped by forces that reshaped them. They can survive in the deep not from adaptation but because their bodies are already broken. What would kill others has already happened to them. Many Crush-Scarred become reclusive hermits. Unable to interact normally due to their deformities. The bloodline values endurance and survival. Honor measured in depths reached despite the damage. They are the deep-explorers of Drennar society. Their resilience unmatched but their bodies forever marked by the pressure that broke them.`,
-                statModifiers: {
-                    constitution: 4,
-                    strength: 1,
-                    spirit: 1
-                },
-                traits: [
-                    {
-                        id: 'pressure_adaptation_drennar',
-                        name: 'Pressure Adaptation',
-                        description: 'Resistant to bludgeoning damage. Can survive any ocean depth.',
-                        level: 1,
-                        icon: 'spell_shadow_demonicfortitude',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'defense',
-                            secondaryElement: 'pressure',
-                            icon: 'spell_shadow_demonicfortitude',
-                            tags: ['resistance', 'bludgeoning', 'pressure', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Bludgeoning Resistance',
-                                    description: 'Resistance to bludgeoning damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your pressure-adapted body resists crushing blows'
-                                    }
-                                },
-                                {
-                                    name: 'Depth Survival',
-                                    description: 'Can survive any ocean depth',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'No depth can crush your adapted form'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'abyssal_resilience_drennar',
-                        name: 'Abyssal Resilience',
-                        description: 'Resistant to frost and acid damage.',
-                        level: 1,
-                        icon: 'spell_nature_nullifydisease',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'defense',
-                            secondaryElement: 'abyssal',
-                            icon: 'spell_nature_nullifydisease',
-                            tags: ['resistance', 'frost', 'acid', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Frost Resistance',
-                                    description: 'Resistance to frost damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'The deep frost no longer harms you'
-                                    }
-                                },
-                                {
-                                    name: 'Acid Resistance',
-                                    description: 'Resistance to acid damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Deep-sea chemicals have toughened you'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'light_sensitivity_drennar',
-                        name: 'Light Sensitivity',
-                        description: 'Vulnerable to radiant damage (+50% damage) and blinded by daylight.',
-                        level: 1,
-                        icon: 'spell_holy_holybolt',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'light',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'light', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
-                                },
-                                {
-                                    name: 'Daylight Blindness',
-                                    description: 'Blinded by daylight',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Bright light overwhelms your adapted eyes'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Aquan', 'Deep Speech'],
-                speed: 25,
-                baseStats: {
-                    armor: 0,
-                    hp: 10, // Most deformed, bodies already broken - extra durability from adaptation
-                    mana: 8,
-                    ap: 2, // Move slowly and painfully - less action-oriented
-                    passivePerception: 1, // Not particularly perceptive
-                    swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
-                    climbSpeed: 0, // Bodies deformed, not climbers
-                    visionRange: 60,
-                    darkvision: 120, // Eyes adapted to absolute darkness
-                    initiative: -2 // Move slowly and painfully - slow to react
-                },
-                savingThrowModifiers: {
-                    // Light sensitivity makes them vulnerable to blinding but pressure-adapted against stunning
-                    disadvantage: ['blinded'], // Light sensitivity causes blinding
-                    advantage: ['stun'] // Pressure adaptation resists stunning
-                }
-            },
-            trench: {
-                id: 'trench_drennar',
-                name: 'Abyss Walker',
-                description: 'Bodies compressed from years in the deep. Bones denser, shorter stature. Eyes adapted to absolute darkness, pupils huge. Skin glows with bacterial patterns. They move awkwardly on land, their bodies shaped for pressure. Many have developed webbing between fingers and toes. Their senses are tuned to the deep, struggling on the surface.',
-                culturalBackground: `The Abyss-Walkers trace their lineage to Drennar who were trapped in deep-sea environments for extended periods. Bloodline marked by slow adaptation to crushing pressure through generations. Their tradition requires that every member spend years in the deepest trenches. Learning to function in permanent darkness and crushing pressure. Abyss-Walker communities serve as deep-sea traders and abyss-guides. Members able to navigate crushing depths where others cannot survive. They practice ancient adaptation techniques passed down through generations. How to function with compressed bones. How to see in absolute darkness. How to survive through slow change. Their bodies changed through suffering. Bones compressing. Organs shifting. Senses rewiring to function in permanent darkness. Their bioluminescence is not control but infection. Glowing bacteria that colonized their pressure wounds. Making them visible targets in the dark. Many Abyss-Walkers become solitary because normal interaction is too painful. Deformed bodies making them outcasts. The bloodline values adaptation and endurance. Honor measured in depths survived and changes endured. They are the deep-navigators of Drennar society. Their adaptation unmatched but their bodies forever marked by the slow crushing that shaped them.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    constitution: 1
-                },
-                traits: [
-                    {
-                        id: 'bioluminescent_lure_drennar',
-                        name: 'Bioluminescent Lure',
-                        description: 'Create hypnotic light patterns to lure and confuse enemies.',
-                        level: 1,
-                        icon: 'spell_arcane_arcanepower',
-                        spellType: 'ACTION',
-                        effectTypes: ['debuff', 'control'],
-                        typeConfig: {
-                            school: 'illusion',
-                            secondaryElement: 'light',
-                            icon: 'spell_arcane_arcanepower',
-                            tags: ['illusion', 'hypnotic', 'lure']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Hypnotized',
-                                    description: 'Target is lured and confused',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'The hypnotic patterns capture their attention'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            saveDC: 12,
-                            saveType: 'spirit',
-                            saveOutcome: 'negates',
-                            canBeDispelled: false
-                        },
-                        controlConfig: {
-                            controlType: 'mind_control',
-                            strength: 'weak',
-                            duration: 1,
-                            durationUnit: 'rounds',
-                            saveDC: 12,
-                            saveType: 'spirit',
-                            savingThrow: true,
-                            effects: [{
-                                id: 'confuse',
-                                name: 'Lured',
-                                description: 'Target is drawn toward the hypnotic lights and has disadvantage on attacks against you',
-                                config: {
-                                    controlLevel: 'distraction',
-                                    mentalApproach: 'subtle'
-                                }
-                            }]
-                        },
-                        targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'ranged',
-                            rangeDistance: 30
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'ambush_predator_drennar',
-                        name: 'Ambush Predator',
-                        description: 'Double damage on surprise attacks, but disadvantage in direct combat.',
-                        level: 1,
-                        icon: 'ability_rogue_ambush',
+                        icon: 'spell_shadow_twilight',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'combat',
-                            secondaryElement: 'ambush',
-                            icon: 'ability_rogue_ambush',
-                            tags: ['ambush', 'surprise', 'combat', 'passive']
-                        },
+                        typeConfig: { category: 'racial' },
                         buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Ambush Damage',
-                                    description: 'Double damage on surprise attacks',
-                                    statusEffect: {
-                                        level: 'major',
-                                        description: 'You strike from the shadows with deadly precision'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            buffType: 'resistance',
+                            effects: [{ type: 'necrotic_resistance', mechanicsText: 'Resistance to necrotic damage' }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
-                                {
-                                    name: 'Direct Combat Weakness',
-                                    description: 'Disadvantage in direct combat',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You struggle in face-to-face confrontations'
-                                    }
-                                }
+                                { type: 'reduced_max_hp', value: -1, mechanicsText: '-1 max HP per character level (minimum 1 HP)' },
+                                { type: 'sunlight_weakness', mechanicsText: 'Disadvantage on Constitution checks in bright sunlight' },
+                                { type: 'raven_attraction', mechanicsText: 'Ravens are naturally drawn to you (3-12 follow at any time)' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     },
                     {
-                        id: 'surface_frailty_drennar',
-                        name: 'Surface Frailty',
-                        description: 'Vulnerable to radiant damage (+50% damage) and take damage in bright light.',
+                        id: 'radiant_vulnerability_morthel_wraith',
+                        name: 'Radiant Vulnerability',
+                        description: 'You are a creature of shadow and void — pure light and raw magical force can tear your incorporeal form apart.',
                         level: 1,
                         icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'light',
-                            icon: 'spell_holy_holybolt',
-                            tags: ['vulnerability', 'radiant', 'light', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
-                                },
-                                {
-                                    name: 'Light Damage',
-                                    description: '1d4 radiant damage per minute in bright light',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Bright light harms your adapted eyes'
-                                    }
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'radiant_vulnerability',
+                                name: 'Radiant Vulnerability',
+                                description: 'Pure radiant light tears at the shadow that constitutes your form — holy radiance is anathema to creatures of the void',
+                                statusEffect: {
+                                    vulnerabilityType: 'radiant',
+                                    vulnerabilityPercent: 100
                                 }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Aquan', 'Deep Speech'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 32, // Bodies compressed, not particularly hardy
-                    mana: 8,
-                    ap: 4, // Deep-sea traders, quick reactions - extra action point
-                    passivePerception: 3, // Senses tuned to the deep, bioluminescent lure
-                    swimSpeed: 20, // Adapted to deep-sea, excellent swimmers
-                    climbSpeed: 0, // Bodies compressed, not climbers
-                    visionRange: 60,
-                    darkvision: 120, // Eyes adapted to absolute darkness
-                    initiative: 2 // Deep-sea traders, quick to react
-                },
-                savingThrowModifiers: {
-                    // Surface frailty makes them vulnerable to radiant
-                    disadvantage: ['blinded'], // Vulnerable to radiant light effects
-                    advantage: ['restrained'] // Adapted to deep-sea, agile movement
-                }
-            },
-            twilight: {
-                id: 'twilight_drennar',
-                name: 'Pressure Torn',
-                description: 'Bodies show signs of violent pressure shifts. Eardrums often burst, hearing damaged. Lungs scarred, breathing labored. Skin shows patterns from pressure damage. They move carefully, as if every movement causes pain. Many have trouble with balance. Their bodies cannot settle in one environment for long.',
-                culturalBackground: `The Pressure-Torn trace their lineage to Drennar who survived rapid pressure changes. Submarine disasters. Diving accidents. Sudden decompression. Bloodline marked by bodies damaged by violent shifts. Their tradition requires that every member learn to function despite constant pain. Apprenticeships spent mastering adaptation to pressure changes that cause agony. Pressure-Torn communities serve as boundary-walkers and pressure-mediators. Members able to move between depths that would kill others. They practice ancient survival techniques passed down through generations. How to function with burst eardrums. How to breathe with scarred lungs. How to survive despite blood vessel damage. Their bodies were damaged by the violent shifts. Eardrums burst. Lungs scarred. Blood vessels permanently damaged. They can function in different environments not from adaptation but because their bodies are already broken. They feel pain everywhere. Belonging nowhere. Many Pressure-Torn become wanderers not by choice but because they cannot stay anywhere long. The pressure changes cause them constant pain. The bloodline values resilience and boundary-walking. Honor measured in transitions survived despite the pain. They are the mediators of Drennar society. Their versatility unmatched but their bodies forever marked by the violent shifts that broke them.`,
-                statModifiers: {
-                    agility: 3,
-                    intelligence: 2,
-                    spirit: 1
-                },
-                traits: [
-                    {
-                        id: 'adaptive_gills_drennar',
-                        name: 'Adaptive Gills',
-                        description: 'Can breathe both water and air.',
-                        level: 1,
-                        icon: 'spell_frost_summonwaterelemental',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'aquatic',
-                            secondaryElement: 'adaptation',
-                            icon: 'spell_frost_summonwaterelemental',
-                            tags: ['breathing', 'aquatic', 'amphibious', 'passive']
-                        },
-                        utilityConfig: {
-                            utilityType: 'environmental',
-                            selectedEffects: [{
-                                id: 'breathing',
-                                name: 'Breathing',
-                                description: 'Breathe both underwater and in air.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'chromatic_display_drennar',
-                        name: 'Chromatic Display',
-                        description: 'Change bioluminescent patterns for communication.',
-                        level: 1,
-                        icon: 'spell_arcane_arcanepower',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'communication',
-                            secondaryElement: 'light',
-                            icon: 'spell_arcane_arcanepower',
-                            tags: ['communication', 'light', 'display']
-                        },
-                        utilityConfig: {
-                            utilityType: 'communication',
-                            selectedEffects: [{
-                                id: 'visual',
-                                name: 'Visual',
-                                description: 'Communicate through changing light patterns.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'pressure_instability_drennar',
-                        name: 'Pressure Instability',
-                        description: 'Vulnerable to thunder damage (+50% damage) from pressure waves.',
-                        level: 1,
-                        icon: 'spell_nature_thunderclap',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'thunder',
-                            icon: 'spell_nature_thunderclap',
-                            tags: ['vulnerability', 'thunder', 'pressure', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Thunder Vulnerability',
-                                    description: 'Take +50% damage from thunder sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
+                            }, {
+                                id: 'force_vulnerability',
+                                name: 'Force Vulnerability',
+                                description: 'Raw magical force can tear your incorporeal form apart — you are vulnerable to the fundamental energy that shapes reality',
+                                statusEffect: {
+                                    vulnerabilityType: 'force',
+                                    vulnerabilityPercent: 50
                                 }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
                     }
-                ],
-                languages: ['Common', 'Aquan'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 26, // Bodies damaged by violent pressure shifts, physically frail
-                    mana: 8,
-                    ap: 3, // Boundary-walkers, standard AP
-                    passivePerception: 2, // Can move between depths, sense pressure changes
-                    swimSpeed: 15, // Adaptive gills, decent swimmers
-                    climbSpeed: 0, // Bodies damaged, not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Adapted to different environments
-                    initiative: 0 // Move carefully, as if every movement causes pain - not quick to react
-                },
-                savingThrowModifiers: {
-                    // Pressure instability makes them vulnerable to thunder
-                    disadvantage: ['stun'], // Vulnerable to thunder/pressure wave stunning effects
-                    advantage: ['restrained'] // Boundary-walkers, can move between depths
-                }
+                ]
             }
         }
     },
@@ -6931,430 +5380,1089 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
             voidwalker: {
                 id: 'voidwalker_astren',
                 name: 'Void Walker',
-                description: 'Coldest touch of all Astren. Skin pale as starlight, eyes dark like the void. Their presence makes air feel thin. They seem to fade slightly at the edges. Many have trouble staying in one place. Their movements sometimes leave trails of shadow. They speak rarely, voices carrying echoes of empty space.',
-                culturalBackground: `The Void-Walkers trace their lineage to Astren who fell from the empty spaces between stars. Bloodline marked by the cold void that birthed them. Their tradition requires that every member learn to navigate the spaces between reality. Apprenticeships spent mastering the art of walking paths that others cannot see. Void-Walker craters are built in places where the void touches earth. Members serving as navigators and seekers of hidden knowledge. They practice ancient void-walking techniques passed down through generations. How to step through shadows that are not there. How to hear the void whispers. How to find lost places in the emptiness. They claim the void speaks to them in the silence between heartbeats. Showing them paths through reality that others cannot see. But the void hungers. Prolonged use of their gifts leaves them feeling empty and disconnected. Many Void-Walkers become reclusive seekers of hidden knowledge. Minds filled with too much cosmic silence. The bloodline values knowledge and navigation. Honor measured in paths found and voids traversed. They are the navigators of Astren society. Their void-walking unmatched but their souls forever marked by the emptiness that birthed them.`,
-                statModifiers: {
-                    spirit: 4,
-                    intelligence: 3,
-                    agility: 1
-                },
+                description: 'Coldest touch of all Astren — fingertips leave frost on warm surfaces. Skin pale as starlight, nearly translucent at the wrists and neck where constellations map their bloodlines in faint silver lines. Eyes are dark like the void between stars, no whites visible, just depth that swallows light. Their presence makes air feel thin, as if reality itself recoils. They seem to fade slightly at the edges, outlines blurring. Many have trouble staying in one place — their body remembers the void between stars and yearns for weightlessness. Movements sometimes leave trails of shadow that dissipate slowly.',
+                culturalBackground: 'The Void-Walkers trace their lineage to Astren who fell from the empty spaces between stars. Bloodline marked by the cold void that birthed them. They learn to navigate spaces between reality, walking paths others cannot see. Void-Walker craters are built where the void touches earth. Members serving as navigators and seekers of hidden knowledge. They claim the void speaks in silence between heartbeats, showing paths through reality others cannot see. But the void hungers — prolonged use of gifts leaves them feeling empty and disconnected.',
+                statModifiers: { wisdom: 2, intelligence: 1 },
+                baseStats: { health: 9, mana: 5, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['charmed', 'frightened'], disadvantage: ['psychic_effects'] },
                 traits: [
                     {
-                        id: 'void_step_astren',
+                        id: 'void_step',
                         name: 'Void Step',
-                        description: 'Teleport through the void between spaces.',
+                        description: 'You step sideways through the emptiness between stars, where no light has ever reached and no warmth survives. For a heartbeat you are nowhere — suspended in the silent dark that birthed your bloodline — then reality folds open again and you stand elsewhere, leaving a wound of absolute cold behind you.',
                         level: 1,
                         icon: 'spell_arcane_blink',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'void',
-                            secondaryElement: 'teleport',
-                            icon: 'spell_arcane_blink',
-                            tags: ['teleport', 'void', 'movement']
-                        },
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['movement', 'damage'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['cold'], formula: '1d6', resolution: 'DICE' },
                         utilityConfig: {
                             utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'teleport',
-                                name: 'Teleport',
-                                description: 'Step through the void to another location within 60 feet.'
-                            }],
+                            selectedEffects: [{ id: 'teleport', name: 'Void Step Teleport', description: 'Teleport up to 60 feet through the void between spaces' }],
                             duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
+                            durationUnit: 'instant'
                         },
-                        targetingConfig: {
-                            targetingType: 'location',
-                            rangeType: 'ranged',
-                            rangeDistance: 60
-                        },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
                         },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
                     },
                     {
-                        id: 'cosmic_isolation_astren',
+                        id: 'void_gaze',
+                        name: 'Void Gaze',
+                        description: 'When you open your eyes fully, others glimpse the void between stars staring back — an infinite dark that sees through every deception and every veil. Illusions unravel like mist, hidden things blaze with terrible clarity, and the mundane world lays bare its secrets. Those who meet your gaze during this time flinch away, unsettled by the cosmic nothing that moves behind your pupils.',
+                        level: 1,
+                        icon: 'spell_shadow_antimagicshell',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['detection', 'buff'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [
+                                { id: 'see_invisible', name: 'See Invisible', description: 'Perceive invisible creatures and objects within 60 feet' },
+                                { id: 'pierce_illusions', name: 'Pierce Illusions', description: 'See through magical illusions within 60 feet' },
+                                { id: 'detect_magic', name: 'Detect Magic', description: 'Sense magical effects and auras within 60 feet' }
+                            ],
+                            duration: 1,
+                            durationUnit: 'minute'
+                        },
+                        buffConfig: { buffType: 'passive_enhancement', effects: [{ id: 'void_gaze_vision', name: 'Void Gaze Vision', description: 'See invisible creatures, pierce illusions, and detect magical effects', statusEffect: { level: 'major', description: 'Void-touched eyes reveal hidden truths' } }], durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true },
+                        debuffConfig: { debuffType: 'ability_impairment', effects: [{ id: 'void_gaze_charisma_drain', name: 'Void Gaze Charisma Drain', description: 'Disadvantage on Charisma checks while Void Gaze is active', statusEffect: { level: 'minor', description: 'Unsettling void gaze causes social disadvantage' } }], targetRestriction: 'self' },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'cosmic_isolation',
                         name: 'Cosmic Isolation',
-                        description: 'Immune to mind-affecting effects and fear.',
+                        description: 'Immune to charm and fear effects. Your mind has seen the void between stars — mortal manipulation feels trivial. However, you have disadvantage on Persuasion checks with non-Astren.',
                         level: 1,
                         icon: 'spell_shadow_antimagicshell',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'mental',
-                            secondaryElement: 'cosmic',
-                            icon: 'spell_shadow_antimagicshell',
-                            tags: ['immunity', 'mind', 'fear', 'passive']
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: { buffType: 'passive_enhancement', effects: [{ id: 'cosmic_isolation_immunity', name: 'Cosmic Isolation', description: 'Immune to charm and fear effects — mortal manipulation feels trivial after witnessing the void between stars', statusEffect: { level: 'extreme', description: 'Immune to charm and fear' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        debuffConfig: { debuffType: 'ability_impairment', effects: [{ id: 'cosmic_isolation_social_drain', name: 'Cosmic Isolation Social Drain', description: 'Disadvantage on Persuasion checks with non-Astren', statusEffect: { level: 'minor', description: 'Void-touched presence unsettles non-Astren' } }], targetRestriction: 'non-astren' },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
                         },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Mind Immunity',
-                                    description: 'Immune to mind-affecting effects',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'Your alien mind is beyond mortal manipulation'
-                                    }
-                                },
-                                {
-                                    name: 'Fear Immunity',
-                                    description: 'Immune to fear',
-                                    statusEffect: {
-                                        level: 'extreme',
-                                        description: 'The void has shown you true terror'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
                     },
                     {
-                        id: 'void_hunger_astren',
-                        name: 'Void Hunger',
-                        description: 'Vulnerable to necrotic damage (+50% damage) as the void within draws in death energies.',
+                        id: 'void_whispers',
+                        name: 'Void Whispers',
+                        description: 'You hear whispers from the void between moments. Once per long rest, you can ask the void a question and receive a one-word answer (GM\'s discretion). The void knows things that have been forgotten by the living.',
                         level: 1,
-                        icon: 'spell_shadow_deathsembrace',
+                        icon: 'spell_arcane_arcanebrilliance',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'necrotic',
-                            icon: 'spell_shadow_deathsembrace',
-                            tags: ['vulnerability', 'necrotic', 'void', 'passive']
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['divination'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{ id: 'void_whisper', name: 'Void Whisper', description: 'Ask the void one question and receive a one-word answer, once per long rest' }],
+                            duration: 0,
+                            durationUnit: 'instant'
                         },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'radiant_vulnerability_astren_voidwalker',
+                        name: 'Radiant Vulnerability',
+                        description: 'You are a creature of void and shadow — pure light unravels your connection to the spaces between stars.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Necrotic Vulnerability',
-                                    description: 'Take +50% damage from necrotic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'radiant_vulnerability',
+                                name: 'Radiant Vulnerability',
+                                description: 'Pure light unravels your connection to the spaces between stars — radiance is anathema to void-touched flesh',
+                                statusEffect: {
+                                    vulnerabilityType: 'radiant',
+                                    vulnerabilityPercent: 100
                                 }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
                     }
-                ],
-                languages: ['Celestial', 'Cosmic', 'Deep Speech'],
-                speed: 30
+                ]
             },
             sunborn: {
                 id: 'sunborn_astren',
-                name: 'Sun Bound',
-                description: 'Skin warm to the touch, sometimes glowing faintly. Eyes bright like captured starlight. Their presence warms the air around them. Many have hair that seems to flicker like flame. They glow slightly, especially in darkness. Their touch can leave warmth behind. They move with radiant energy, never fully still.',
-                culturalBackground: `The Sun-Bound trace their lineage to Astren who fell from dying stars. Bloodline marked by the stellar fire that birthed them. Their tradition requires that every member learn to channel solar energy. Apprenticeships spent mastering the art of controlling the stellar fire within. Sun-Bound craters are built in places where solar energy collects. Members serving as healers, warriors, beacons of light. They practice ancient solar techniques passed down through generations. How to ignite flames with a glance. How to heal with solar warmth. How to channel stellar radiance. Their skin burns warm to the touch even in winter. Presence inspiring hope in dark times. They claim the sun death screams taught them the value of light and warmth. Making them radiant beacons. But the stellar fire consumes them. They must rest in darkness to avoid burning out completely. Many Sun-Bound become wandering healers or warriors of light. Inner fire both blessing and burden. The bloodline values light and warmth. Honor measured in darkness dispelled and wounds healed. They are the beacons of Astren society. Their solar fire unmatched but their bodies forever marked by the dying stars that birthed them.`,
-                statModifiers: {
-                    strength: 2,
-                    charisma: 3,
-                    spirit: -2
-                },
+                name: 'Sunborn',
+                description: 'Warm where other Astren are cold, skin faintly luminous like embers buried in ash. Eyes burn with inner fire — gold and orange, pupils like tiny suns that leave afterimages when they blink. Hair moves as if in solar wind even indoors. Touch radiates gentle warmth. When emotional, their skin crackles with faint coronas. They smell of ozone and distant fire. The constellations on their skin glow warmer — silver lines that pulse with heat rather than cold.',
+                culturalBackground: 'The Sunborn trace their lineage to Astren who carried the fire of dying suns within their fall to earth. Bloodline marked by the stellar flame that burns in their veins. They learn to channel solar energy, to wield the fire that once lit a star. Their warmth makes them the most approachable of the Astren, but their emotions burn hotter — anger can ignite, grief can scorch. They carry the Volketh tradition of storms — when a Sunborn rages, lightning follows.',
+                statModifiers: { charisma: 2, constitution: 1 },
+                baseStats: { health: 12, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['fire_effects', 'exhaustion'], disadvantage: ['cold_effects'] },
                 traits: [
                     {
-                        id: 'stellar_radiance_astren',
-                        name: 'Stellar Radiance',
-                        description: 'Emit intense light and heat. Damage nearby enemies.',
+                        id: 'solar_flare',
+                        name: 'Solar Flare',
+                        description: 'You open your mouth and the fire of a dying sun pours forth — the same stellar flame that burned in the veins of the first Sunborn when they fell screaming through the sky. It roars from you in a searing cascade, and where it passes, darkness itself cannot survive, burned away by light that remembers what it was to be a star.',
                         level: 1,
-                        icon: 'spell_holy_innerfire',
+                        icon: 'spell_fire_flamestrike',
                         spellType: 'ACTION',
-                        effectTypes: ['damage'],
-                        typeConfig: {
-                            school: 'fire',
-                            secondaryElement: 'radiant',
-                            icon: 'spell_holy_innerfire',
-                            tags: ['radiant', 'fire', 'aoe', 'damage']
-                        },
-                        damageConfig: {
-                            damageType: 'direct',
-                            elementType: 'radiant',
-                            formula: '2d6'
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeSize: 10
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'solar_healing_astren',
-                        name: 'Solar Healing',
-                        description: 'While in direct sunlight, you regain 1d4 + your proficiency bonus hit points at the start of each of your turns. This regeneration does not function while you are at 0 HP or unconscious.',
-                        level: 1,
-                        icon: 'spell_holy_renew',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['healing'],
-                        typeConfig: {
-                            school: 'healing',
-                            secondaryElement: 'solar',
-                            icon: 'spell_holy_renew',
-                            tags: ['healing', 'regeneration', 'solar', 'passive']
-                        },
-                        healingConfig: {
-                            healingType: 'hot',
-                            formula: '1d4 + proficiency',
-                            hasHotEffect: true,
-                            hotTickInterval: 1,
-                            hotDuration: 'while in direct sunlight (no effect at 0 HP or while unconscious)'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'shadow_frailty_astren',
-                        name: 'Shadow Frailty',
-                        description: 'Vulnerable to necrotic damage (+50% damage) as darkness extinguishes your stellar fire.',
-                        level: 1,
-                        icon: 'spell_shadow_deathsembrace',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'necrotic',
-                            icon: 'spell_shadow_deathsembrace',
-                            tags: ['vulnerability', 'necrotic', 'shadow', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Necrotic Vulnerability',
-                                    description: 'Take +50% damage from necrotic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['damage', 'utility'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['fire'], formula: '3d6', resolution: 'DICE', savingThrow: { ability: 'agility', difficultyClass: 'spell', saveOutcome: 'half_damage' } },
+                        utilityConfig: {
+                            utilityType: 'light',
+                            selectedEffects: [
+                                { id: 'solar_radiance', name: 'Solar Radiance', description: 'Emit bright light in a 30-foot radius that dispels magical darkness' }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            duration: 1,
+                            durationUnit: 'minute'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'storm_call',
+                        name: 'Storm Call',
+                        description: 'In the Volketh tradition, the storm is the voice of stellar rage — and now you give it throat. Lightning crackles down from a sky that had been clear moments before, rain howls sideways, and the air fills with the fury of a star that refuses to die quietly. Arrows lose their way in the tempest, and anything caught within hears only the thunder of a dying sun screaming back to life.',
+                        level: 1,
+                        icon: 'spell_nature_lightning',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['damage', 'control'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['lightning'], formula: '1d6', resolution: 'DICE', savingThrow: { ability: 'agility', difficultyClass: 'spell', saveOutcome: 'negates' } },
+                        duration: 3,
+                        durationUnit: 'rounds',
+                        debuffConfig: { debuffType: 'sensory_impairment', effects: [{ id: 'storm_call_tempest', name: 'Storm Call Tempest', description: 'Ranged attacks have disadvantage and visibility is reduced to 30ft within the storm', statusEffect: { level: 'moderate', description: 'Tempest obscures vision and disrupts ranged attacks' } }], targetRestriction: 'enemies_in_range', range: 30, rangeUnit: 'ft' },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'stellar_warmth',
+                        name: 'Stellar Warmth',
+                        description: 'The dying sun within you has not gone gentle — it burns still, a furnace of stellar warmth banked beneath your ribs. Heat radiates from you like the last breath of a hearth, shielding those nearby from the bitterest cold. Frost retreats from your presence, and winter itself gives way to the memory of light.',
+                        level: 1,
+                        icon: 'spell_fire_firearmor',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: { buffType: 'aura', effects: [{ id: 'stellar_warmth_aura', name: 'Stellar Warmth Aura', description: '10ft aura grants allies cold resistance, cold immunity, advantage on cold saves, and extreme cold protection', statusEffect: { level: 'major', description: 'Stellar warmth shields against cold' } }, { id: 'stellar_warmth_self', name: 'Stellar Warmth Self', description: 'Cold resistance and extreme cold protection', statusEffect: { level: 'major', description: 'Warded by stellar heat' } }], aura: { radius: 10, unit: 'ft', affects: 'allies' }, durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'inner_fire',
+                        name: 'Inner Fire',
+                        description: 'When you roll a 1 on an attack roll or saving throw, you can reroll it (once per long rest). The fire of a dying sun burns within you — it does not let you fail completely.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: { buffType: 'passive_enhancement', effects: [{ id: 'inner_fire_reroll', name: 'Inner Fire Reroll', description: 'Reroll a natural 1 on attack rolls or saving throws, once per long rest', statusEffect: { level: 'moderate', description: 'Stellar fire refuses to let you fail completely' }, reroll: { trigger: 'natural_1', appliesTo: ['attack', 'saving_throw'], usesPerRest: 1, restType: 'long' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'cold_vulnerability_astren_sunborn',
+                        name: 'Cold Vulnerability',
+                        description: 'The stellar fire within you can be quenched by extreme cold — frost suffocates the solar flame that burns in your veins.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'cold_vulnerability',
+                                name: 'Cold Vulnerability',
+                                description: 'Frost suffocates the solar flame that burns in your veins — extreme cold can quench the stellar fire within',
+                                statusEffect: {
+                                    vulnerabilityType: 'cold',
+                                    vulnerabilityPercent: 100
+                                }
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
                     }
-                ],
-                languages: ['Common', 'Celestial', 'Ignan'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 10, // Stellar fire gives them some durability but consumes their spirit
-                    mana: 15, // Moderate stellar energy grants some mana
-                    ap: 3, // Radiant energy gives them standard action points
-                    passivePerception: 12, // Stellar awareness enhances perception
-                    swimSpeed: 5, // Not natural swimmers, water can quench their fire
-                    climbSpeed: 5, // Not natural climbers
-                    visionRange: 65,
-                    darkvision: 0,
-                    initiative: 1 // Radiant energy makes them quick to react
-                },
-                savingThrowModifiers: {
-                    // Stellar fire provides advantage against cold and darkness effects
-                    advantage: ['stun', 'fear'] // Inner fire resists cold shock and fear effects
-                }
+                ]
             },
-            constellation: {
-                id: 'constellation_astren',
-                name: 'Star Mapped',
-                description: 'Skin marked with patterns like constellations. These patterns sometimes glow faintly at night. Eyes reflect star patterns when they focus. Many have trouble focusing on immediate things. They move with purpose that seems driven by unseen forces. Their presence makes you feel watched by distant stars. Many wear robes that reveal their patterns.',
-                culturalBackground: `The Star-Mapped trace their lineage to Astren who fell bearing the patterns of constellations. Bloodline marked by star-maps etched into their very essence. Their tradition requires that every member learn to read the patterns written in the heavens. Apprenticeships spent mastering the art of navigating by stars and reading fate in constellations. Star-Mapped craters are built under open skies where the stars are clearest. Members serving as astronomers, prophets, counselors. They practice ancient star-reading techniques passed down through generations. How to read fate in star patterns. How to navigate by the night sky. How to see the grand patterns in random events. Their skin bears the patterns of constellations. Souls mapped by the stars themselves. They claim the stars guide their fates. Showing them destinies written in the heavens. But this cosmic awareness overwhelms them. They struggle to focus on immediate concerns. Minds always reaching for the bigger picture. Many Star-Mapped become astronomers or prophets. Living under open skies. The bloodline values knowledge and prophecy. Honor measured in patterns read and fates understood. They are the seers of Astren society. Their star-reading unmatched but their minds forever fractured by patterns that cannot be unseen.`,
-                statModifiers: {
-                    spirit: 4,
-                    intelligence: 3,
-                    agility: 1
-                },
+            starmapped: {
+                id: 'starmapped_astren',
+                name: 'Constellation',
+                description: 'The silver constellation lines on their skin are the most pronounced — bright, shifting patterns that rearrange nightly to match the sky above. Eyes reflect whatever constellations are currently visible, even indoors. They move with mathematical precision, each step calculated, as if tracing a pattern only they can see. When they concentrate, the constellation lines on their skin glow brighter, projecting faint star-charts onto nearby surfaces. Their speech sometimes fractures into geometric patterns, thoughts not linear but stellated.',
+                culturalBackground: 'The Constellations trace their lineage to Astren who mapped the patterns written in stars during their fall. Bloodline marked by the ability to read fate in the arrangement of celestial bodies. They learn to interpret the patterns — in skin, in stars, in the geometry of events. Their minds fracture under cosmic truths, seeing futures that have not happened, remembering lives never lived. They serve as seers, astrologers, and fate-readers. But the patterns are not always clear, and sometimes the reading drives the reader mad.',
+                statModifiers: { intelligence: 2, wisdom: 1 },
+                baseStats: { health: 10, mana: 5, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['illusion', 'psychic'], disadvantage: ['confusion_effects'] },
                 traits: [
                     {
-                        id: 'star_reading_astren',
-                        name: 'Star Reading',
-                        description: 'Read fate in the stars. Gain advantage on one divination check.',
+                        id: 'fate_reading',
+                        name: 'Fate Reading',
+                        description: 'Read the constellation patterns in a creature\'s fate. Choose one willing creature within 30ft. For 1 hour, that creature gains advantage on one type of d20 roll of your choice (attack rolls, ability checks, or saving throws). However, you learn one secret about that creature that they may not want known.',
                         level: 1,
-                        icon: 'spell_holy_prophecy',
+                        icon: 'spell_arcane_arcanebrilliance',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'divination',
-                            secondaryElement: 'cosmic',
-                            icon: 'spell_holy_prophecy',
-                            tags: ['divination', 'fate', 'stars']
-                        },
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['buff', 'divination'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: { buffType: 'passive_enhancement', effects: [{ id: 'fate_reading_advantage', name: 'Fate Reading Advantage', description: 'Advantage on one chosen type of d20 roll (attack, ability check, or saving throw) for 1 hour', statusEffect: { level: 'moderate', description: 'Fate-guided rolls' }, advantage: { rollType: 'chosen', duration: 1, durationUnit: 'hour' } }], durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true },
                         utilityConfig: {
                             utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'fate',
-                                name: 'Fate',
-                                description: 'Read the patterns in the stars to divine the future.'
-                            }],
+                            selectedEffects: [{ id: 'reveal_secret', name: 'Reveal Secret', description: 'Learn one hidden secret about a creature or object within 30 feet' }],
                             duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            durationUnit: 'instant'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
                         },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
                     },
                     {
-                        id: 'constellation_form_astren',
-                        name: 'Constellation Form',
-                        description: 'Transform into starlight. Become intangible but cannot affect physical world.',
+                        id: 'star_bolt',
+                        name: 'Star Bolt',
+                        description: 'You gather the light of distant, dead constellations into the palm of your hand and hurl it like a falling star. The bolt strikes true — and against creatures of darkness and undeath, the starlight burns with the fury of every sun that creature\'s corruption ever extinguished.',
                         level: 1,
-                        icon: 'spell_arcane_blink',
+                        icon: 'spell_arcane_starfire',
                         spellType: 'ACTION',
-                        effectTypes: ['transformation', 'buff'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'starlight',
-                            icon: 'spell_arcane_blink',
-                            tags: ['transformation', 'intangible', 'starlight']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Starlight Form',
-                                    description: 'Become intangible',
-                                    statusEffect: {
-                                        level: 'major',
-                                        description: 'You become made of pure starlight'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
-                        },
-                        transformationConfig: {
-                            transformationType: 'elemental',
-                            targetType: 'self',
-                            duration: 1,
-                            durationUnit: 'minutes',
-                            power: 'major',
-                            specialEffects: ['intangible', 'luminous', 'cannot_attack']
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['damage'],
+                        typeConfig: { category: 'racial' },
+                        damageConfig: { damageTypes: ['radiant'], formula: '2d8', resolution: 'DICE', bonusDice: { count: 1, size: 8, condition: 'fiend_or_undead' } },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
                         resourceCost: {
-                            actionPoints: 2,
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 }
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
                         },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        }
                     },
                     {
-                        id: 'cosmic_strain_astren',
-                        name: 'Cosmic Strain',
-                        description: 'Vulnerable to psychic damage (+50% damage) as cosmic awareness makes you susceptible to mental intrusions.',
+                        id: 'cosmic_awareness',
+                        name: 'Cosmic Awareness',
+                        description: 'The stars have already seen what is about to happen — they traced the pattern of the coming moment before you drew your first breath. Their warnings arrive as a prickling at the edge of your awareness, a certainty that lets you move before danger fully materializes, always one step ahead of the unfolding fate.',
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: { buffType: 'passive_enhancement', effects: [{ id: 'cosmic_awareness_no_surprise', name: 'Cosmic Awareness — No Surprise', description: 'Cannot be surprised — the stars warn of danger before it materializes', statusEffect: { level: 'major', description: 'Cannot be surprised' } }, { id: 'cosmic_awareness_initiative', name: 'Cosmic Awareness — Initiative Advantage', description: 'Advantage on initiative rolls — you move before danger fully materializes', statusEffect: { level: 'moderate', description: 'Advantage on initiative' } }], durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'pattern_memory',
+                        name: 'Pattern Memory',
+                        description: 'You remember every spatial pattern you\'ve ever seen — maps, dungeon layouts, trap mechanisms, combat formations. You can perfectly reproduce any pattern from memory. You have advantage on Investigation checks and can always retrace your steps to any location you\'ve visited.',
+                        level: 1,
+                        icon: 'ability_hunter_trackingspeed',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['utility'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'awareness',
+                            selectedEffects: [
+                                { id: 'pattern_memory', name: 'Pattern Memory', description: 'Perfectly recall any pattern, map, or layout you have seen' },
+                                { id: 'investigation_advantage', name: 'Stellar Investigation', description: 'Advantage on Investigation checks — the stars guide your perception' },
+                                { id: 'pathfinding', name: 'Cosmic Pathfinding', description: 'Always know the shortest path to any destination you have visited' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'psychic_vulnerability_astren_starmapped',
+                        name: 'Psychic Vulnerability',
+                        description: 'Your mind is already fractured by cosmic truths — additional psychic pressure can shatter it further.',
                         level: 1,
                         icon: 'spell_shadow_psychichorrors',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'psychic',
-                            icon: 'spell_shadow_psychichorrors',
-                            tags: ['vulnerability', 'psychic', 'cosmic', 'passive']
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'psychic_vulnerability',
+                                name: 'Psychic Vulnerability',
+                                description: 'Your fractured mind cannot withstand additional psychic pressure — cosmic truths have already left your consciousness fragile',
+                                statusEffect: {
+                                    vulnerabilityType: 'psychic',
+                                    vulnerabilityPercent: 100
+                                }
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [], resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    }
+                ]
+            }
+        }
+    },
+    ferrick: {
+        id: 'ferrick',
+        name: 'Ferrick',
+        essence: 'Scrap-born tinkerers',
+        description: 'We are the forgotten children of progress, the ones who were deemed too small, too clever, too inconvenient for the empires that built and then discarded us. Born from the alchemical runoff of arcane forges, our blood runs with quicksilver and our bones are laced with the rust of a thousand broken machines. We are small — yes, smaller than you — but our minds are engines that never stop turning. Every scrap of metal is a puzzle waiting to be solved, every broken mechanism a patient that can be cured. Our fingers are stained with oil that will never wash out, our eyes reflect the blue-white flash of arc-light, and our hearts beat with the rhythm of clockwork that we did not choose but have learned to love. We build because we must. We tinker because the alternative is to be nothing more than the waste product of someone else\'s ambition. And from that waste, we have forged something entirely our own.',
+        icon: 'fas fa-cog',
+        overview: 'The Ferrick are small folk born from alchemical runoff near ancient arcane forges. Their blood carries quicksilver, their bones hold traces of forge-rust. Organized into workshop-clans built around scrap heaps and salvage yards. They are Small (3\'2\"-3\'10\"), the only Small race, making them uniquely nimble but vulnerable to larger creatures.',
+        culturalBackground: 'Ferrick society is built around workshop-clans that inhabit scrapyards, abandoned forges, and salvage yards. Each clan claims a junk pile as ancestral territory, defending it fiercely. Children learn to scavenge before they can walk properly. The Ferrick do not choose invention — it is their nature, passed down through bloodlines that remember the alchemical fires that birthed them.',
+        variantDiversity: 'The Ferrick are divided into two major workshop-clan bloodlines: The Scrapwrights build and create from salvage, turning trash into treasure. The Bonesmiths practice the forbidden art of bone-metal grafting, reinforcing their own skeletons with salvaged metal.',
+        integrationNotes: {
+            actionPointSystem: 'Ferrick abilities focus on crafting, salvage, and inventive solutions. Their small size provides stealth advantages but combat penalties against larger foes.',
+            backgroundSynergy: 'Ferrick excel as tinkers, engineers, and salvage experts. Their crafting abilities make them valuable party members.',
+            classCompatibility: 'Ferrick make excellent artificers, rogues, and ranged combatants. Their small size and crafting skills complement utility-focused classes.'
+        },
+        meaningfulTradeoffs: 'Ferrick gain powerful crafting abilities and small-size advantages but are physically weaker than most races. Vulnerable to being grappled by larger creatures and their quicksilver blood reacts badly to certain magics.',
+        baseTraits: {
+            languages: ['Common', 'Ferric'],
+            lifespan: '40-60 years',
+            baseSpeed: 25,
+            size: 'Small',
+            sizeCategory: 'Small',
+            height: '3\'2\" - 3\'10\"',
+            weight: '40-60 lbs',
+            build: 'Compact and wiry'
+        },
+        epicHistory: 'The Ferrick were not born — they were made. Ancient arcane forges produced runoff that pooled in forgotten corners, and from that alchemical soup, the first Ferrick crawled. Small, quick, and endlessly curious. The empires that made them considered them vermin. The Ferrick proved them wrong by building civilizations from the empires\' garbage. Every scrap heap is a Ferrick heritage site. Every broken machine is a ancestor speaking. They are Small but they are not lesser — they are the ultimate proof that worth is not measured in size.',
+        notableFigures: [
+            {
+                name: 'Scrapsmith Glim',
+                title: 'The First Tinker',
+                portraitIcon: 'Armor/Head/head-golden-crown-helmet',
+                backstory: 'The legendary first Ferrick who turned a pile of broken swords into a functioning clockwork workshop. Glim proved that the Ferrick could build anything from nothing.'
+            }
+        ],
+        majorLocations: [
+            {
+                name: 'The Great Scrapheap',
+                description: 'The largest Ferrick settlement, built into a mountain of salvage from three fallen empires. A labyrinth of tunnels and workshops where every piece of junk has a purpose.'
+            }
+        ],
+        currentCrisis: 'The spreading darkness threatens the scrapyards. The Ferrick prepare by weaponizing their inventions and reinforcing their workshop-clans.',
+        culturalPractices: 'Ferrick children learn to scavenge before they can walk. Every object is assessed for potential. Nothing is wasted. Clan disputes are settled through crafting competitions.',
+        subraces: {
+            scrapwright: {
+                id: 'scrapwright_ferrick',
+                name: 'Scrapwright',
+                description: 'Scrapwright Ferrick are builders and creators who turn salvage into treasure. Their fingers are permanently stained with machine oil, their eyes sharp for any piece of salvage that can be repurposed. They carry toolbelts that clink with salvaged instruments and their workshops are organized chaos of half-finished projects.',
+                culturalBackground: 'Scrapwrights build and create from salvage, turning trash into treasure. Their workshop-clans are the architects of Ferrick society, responsible for turning scrap heaps into functioning communities. They value ingenuity above all and settle disputes through crafting competitions.',
+                statModifiers: { intelligence: 2, dexterity: 1 },
+                baseStats: { health: 8, mana: 4, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['investigation', 'crafting'], disadvantage: ['grapple_effects'] },
+                traits: [
+                    {
+                        id: 'salvage_kit',
+                        name: 'Salvage Kit',
+                        description: 'Disassemble any non-magical object into raw components. Then craft a temporary item: smoke bomb (15ft obscurement 1 round), caltrops (10ft difficult terrain), or flash powder (creatures within 10ft must Con save or be blinded 1 round). Lasts 1 encounter.',
+                        level: 1,
+                        icon: 'inv_misc_enggizmos_27',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['utility'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'crafting',
+                            selectedEffects: [
+                                { id: 'salvage', name: 'Salvage', description: 'Harvest useful components from mechanical debris and wreckage' },
+                                { id: 'craft_smoke_bomb', name: 'Craft Smoke Bomb', description: 'Improvises a smoke bomb from salvaged materials' },
+                                { id: 'craft_caltrops', name: 'Craft Caltrops', description: 'Improvises caltrops from salvaged materials' },
+                                { id: 'craft_flash_powder', name: 'Craft Flash Powder', description: 'Improvises flash powder from salvaged materials' }
+                            ],
+                            duration: 1,
+                            durationUnit: 'encounter'
+                        },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'quick_repair',
+                        name: 'Quick Repair',
+                        description: 'Touch a broken or damaged object (non-magical) and restore it to working condition. Can also restore 1d8 HP to a construct.',
+                        level: 1,
+                        icon: 'inv_hammer_20',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['healing', 'utility'],
+                        typeConfig: { category: 'racial' },
+                        healingConfig: { formula: '1d8', healType: 'construct', resolution: 'DICE' },
+                        utilityConfig: {
+                            utilityType: 'repair',
+                            selectedEffects: [{ id: 'repair_object', name: 'Quick Repair', description: 'Mend a non-magical object, restoring it to working condition' }],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'scavenger_eye',
+                        name: 'Scavenger Eye',
+                        description: 'Advantage on Investigation checks to find hidden objects. Can determine the function of any device or mechanism by studying it for 1 minute. Always find the most valuable item in any pile of salvage.',
+                        level: 1,
+                        icon: 'ability_rogue_findweakness',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['detection', 'utility'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'investigation',
+                            selectedEffects: [
+                                { id: 'investigation_advantage', name: 'Tinkerer\'s Eye', description: 'Advantage on Investigation checks involving mechanical devices and traps' },
+                                { id: 'identify_device', name: 'Identify Device', description: 'Instantly understand the function of any mechanical device you examine' },
+                                { id: 'best_loot', name: 'Scavenger\'s Intuition', description: 'Always find the most valuable salvage in any wreckage' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'small_and_quick',
+                        name: 'Small and Quick',
+                        description: 'Can move through the space of any creature that is Medium or larger without provoking opportunity attacks. Advantage on Stealth checks when in urban environments, workshops, or places with lots of objects to hide behind.',
+                        level: 1,
+                        icon: 'ability_rogue_stealth',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['movement', 'buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                { id: 'small_quick_move_through', name: 'Slip Through', description: 'Can move through the space of any creature that is Medium or larger without provoking opportunity attacks', statusEffect: { level: 'minor', description: 'Movement through larger creatures spaces' } },
+                                { id: 'small_quick_stealth', name: 'Urban Stealth', description: 'Advantage on Stealth checks in urban environments, workshops, or cluttered areas', statModifier: { stat: 'stealth', magnitude: 'advantage', magnitudeType: 'advantage', conditions: ['urban', 'workshop', 'cluttered'] } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'quicksilver_vulnerability_ferrick',
+                        name: 'Quicksilver Vulnerability',
+                        description: 'The quicksilver in your blood supercharges and courses through your veins when struck by lightning, frying your small frame from within.',
+                        level: 1,
+                        icon: 'spell_nature_lightning',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'lightning_vulnerability',
+                                name: 'Lightning Vulnerability',
+                                description: 'The quicksilver in your blood supercharges when struck by lightning — electrical current courses through your veins, frying your frame from within',
+                                statusEffect: {
+                                    vulnerabilityType: 'lightning',
+                                    vulnerabilityPercent: 100
+                                }
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    }
+                ]
+            },
+            bonesmith: {
+                id: 'bonesmith_ferrick',
+                name: 'Bonesmith',
+                description: 'Bonesmith Ferrick practice the forbidden art of bone-metal grafting, reinforcing their own skeletons with salvaged metal. Their movements carry a faint metallic rasp, their skin shows ridges where metal meets bone beneath. They are heavier and sturdier than other Ferrick, trading agility for durability.',
+                culturalBackground: 'Bonesmiths practice the forbidden art of bone-metal grafting, reinforcing their own skeletons with salvaged metal. Their workshop-clans are the defenders of Ferrick society, using their enhanced bodies to protect scrapyards from threats. They value endurance and view the body as a machine that can be improved.',
+                statModifiers: { constitution: 2, strength: 1 },
+                baseStats: { health: 10, mana: 2, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['poison', 'disease'], disadvantage: ['lightning_effects'] },
+                traits: [
+                    {
+                        id: 'bone_plating',
+                        name: 'Bone Plating',
+                        description: 'Graft salvaged metal plates onto your bones. Gain +2 AC for 1 hour. While plated, your unarmed strikes deal 1d6 bludgeoning instead of normal.',
+                        level: 1,
+                        icon: 'inv_shield_06',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                { id: 'bone_plating_armor', name: 'Bone Plate Armor', description: 'Salvaged metal plates grafted to your skeleton reinforce your natural defenses', statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' } },
+                                { id: 'bone_plating_fists', name: 'Reinforced Fists', description: 'Metal-laced knuckles transform your unarmed strikes into devastating blows', statusEffect: { level: 'moderate', description: 'Unarmed strikes deal 1d6 bludgeoning' } }
+                            ],
+                            durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'metal_fist',
+                        name: 'Metal Fist',
+                        description: 'Deliver a devastating punch with your metal-reinforced fist. One creature within 5ft takes 2d8 bludgeoning damage and must make a Strength save or be knocked back 10ft.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['damage', 'control'],
+                        typeConfig: { category: 'racial' },
+                        targetingConfig: { range: 5, unit: 'ft' },
+                        damageConfig: { damageTypes: ['bludgeoning'], formula: '2d8', resolution: 'DICE' },
                         debuffConfig: {
                             debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Psychic Vulnerability',
-                                    description: 'Take +50% damage from psychic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            effects: [{ type: 'knockback', name: 'Knockback', description: 'The impact sends the target flying backwards', mechanicsText: 'Strength save or knocked back 10 feet' }],
+                            durationValue: 0, durationType: 'instant', durationUnit: 'instant',
+                            saveConfig: { saveType: 'strength', saveDC: 'spell', successEffect: 'no_knockback' }
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'iron_constitution',
+                        name: 'Iron Constitution',
+                        description: 'Advantage on saving throws against poison and disease. Your metal-laced bones resist what would break normal skeletons. Resistance to necrotic damage.',
+                        level: 1,
+                        icon: 'spell_shadow_demonicfortitude',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                { id: 'iron_constitution_save', name: 'Iron Resilience', description: 'Your metal-laced bones resist poison and disease', statModifier: { stat: 'saving_throws', magnitude: 'advantage', magnitudeType: 'advantage', conditions: ['poison', 'disease'] } },
+                                { id: 'iron_constitution_resist', name: 'Necrotic Resistance', description: 'Your reinforced skeleton resists necrotic energy', statusEffect: { level: 'moderate', description: 'Resistance to necrotic damage' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'scrap_arsenal',
+                        name: 'Scrap Arsenal',
+                        description: 'You always count as having a weapon. Your metal-reinforced limbs count as light weapons (1d4 piercing) and you can never be disarmed. You can spend 10 minutes to improvise a weapon from any scrap pile.',
+                        level: 1,
+                        icon: 'inv_hammer_20',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['utility'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'combat',
+                            selectedEffects: [
+                                { id: 'always_armed', name: 'Always Armed', description: 'You always count as having a weapon' },
+                                { id: 'natural_weapon', name: 'Natural Weapon', description: 'Your metal-reinforced limbs count as light weapons dealing 1d4 piercing damage' },
+                                { id: 'cannot_be_disarmed', name: 'Disarm Immune', description: 'You can never be disarmed' },
+                                { id: 'improvised_weapon', name: 'Scrap Improvisation', description: 'You can spend 10 minutes to improvise a weapon from any scrap pile' }
+                            ],
+                            power: 'moderate'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                    },
+                    {
+                        id: 'magnetic_vulnerability_ferrick',
+                        name: 'Magnetic Vulnerability',
+                        description: 'The metal in your bones attracts electrical current like a lightning rod — lightning damage pulls you toward the source and tears through your metallic frame.',
+                        level: 1,
+                        icon: 'spell_nature_lightning',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [{
+                                id: 'lightning_vulnerability',
+                                name: 'Lightning Vulnerability',
+                                description: 'The metal in your bones conducts electrical current with devastating efficiency — lightning tears through your metallic frame',
+                                statusEffect: {
+                                    vulnerabilityType: 'lightning',
+                                    vulnerabilityPercent: 100
+                                }
+                            }, {
+                                id: 'magnetic_pull',
+                                name: 'Magnetic Pull',
+                                description: 'The metal in your bones is magnetically drawn toward the source of lightning damage — pulled 10 feet toward the source',
+                                statusEffect: {
+                                    pullDistance: 10,
+                                    pullUnit: 'ft',
+                                    pullTrigger: 'lightning_damage'
+                                }
+                            }],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
                     }
-                ],
-                languages: ['Common', 'Celestial', 'Cosmic'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 5, // Cosmic awareness makes them physically frail
-                    mana: 12, // Strong connection to the stars grants enhanced mana
-                    ap: 2, // Minds filled with cosmic patterns, less action-oriented
-                    passivePerception: 13, // Cosmic awareness enhances perception
-                    swimSpeed: 10, // Not natural swimmers
-                    climbSpeed: 10, // Not natural climbers
-                    visionRange: 60,
-                    darkvision: 30,
-                    initiative: -1 // Cosmic awareness makes them slower to react to immediate threats
-                },
-                savingThrowModifiers: {
-                    // Cosmic awareness provides advantage against divination and mental effects
-                    advantage: ['charm', 'fear', 'stun'] // Star reading resists mental control, fear, and confusion
-                }
+                ]
+            }
+        }
+    },
+    human: {
+        id: 'human',
+        name: 'Human',
+        essence: 'The rootstock',
+        description: 'We are the rootstock — the unaltered, the unblessed, the ones who refused the shaping. When the gods offered power, we asked the price. When the spirits offered change, we kept our faces. When the beast called, we built walls instead of answering. This is not weakness. This is the oldest strength: the refusal to become something other than what we are. Our empires rise and fall not because we lack power, but because we refuse to trade our nature for it. We are merchants who built networks that span continents, homesteaders who carved farms from wilderness with nothing but iron and stubbonness, and soldiers who fight not with claws or fire but with the discipline of those who chose their battles. We are Human — and we remain.',
+        icon: 'fas fa-user',
+        overview: 'Humans are the rootstock race — the baseline from which all other races diverged or were shaped. They refused magical transformation, elemental binding, and divine alteration. Instead they built through trade, stubbornness, and sheer numbers. Organized into two broad cultures: Lowlanders (merchant-networkers) and Hillfolk (stubborn homesteaders).',
+        culturalBackground: 'Human society is vast and varied, spanning more territory than any single non-human race. Their strength lies not in individual power but in networks — of trade, of alliance, of blood. Lowlanders build cities at crossroads and ports, creating merchant networks that span continents. Hillfolk carve homesteads from wilderness, building communities that endure through sheer stubbornness. Both cultures value self-determination above all.',
+        variantDiversity: 'Humans are divided into two broad cultural traditions: The Lowlanders build merchant networks and thrive in cities, using charm and connections to compensate for their lack of supernatural power. The Hillfolk are stubborn homesteaders who endure through sheer willpower and endurance.',
+        integrationNotes: {
+            actionPointSystem: 'Human abilities focus on social networks, survival, and stubborn resilience. They lack supernatural power but gain versatile utility.',
+            backgroundSynergy: 'Humans excel as merchants, diplomats, soldiers, and homesteaders. Their adaptability makes them fit any background.',
+            classCompatibility: 'Humans can excel at any class through sheer determination. Their lack of racial power is offset by versatility.'
+        },
+        meaningfulTradeoffs: 'Humans gain social utility and stubborn resilience but lack the supernatural abilities of other races. Their strength is in numbers, networks, and refusing to quit.',
+        baseTraits: {
+            languages: ['Common'],
+            lifespan: '70-90 years',
+            baseSpeed: 30,
+            size: 'Medium',
+            sizeCategory: 'Medium',
+            height: '5\'4\" - 6\'0\"',
+            weight: '130-200 lbs',
+            build: 'Variable'
+        },
+        epicHistory: 'Humans are the oldest race — or at least the most stubborn. Every other race was shaped, transformed, cursed, or blessed by external forces. Humans refused. They watched the Nordmark freeze, the Grimheart petrify, the Vreken succumb to the beast. And they built walls. When the magical cataclysms came, humans survived not through power but through preparation. Their merchant networks fed cities through famines. Their homesteads endured when empires fell. The greatest human empire lasted 800 years not because of magic, but because of roads, laws, and the stubborn insistence that tomorrow is worth planning for.',
+        notableFigures: [
+            {
+                name: 'Marcus the Stubborn',
+                title: 'The Last Homesteader',
+                portraitIcon: 'Armor/Head/head-hooded-helmet',
+                backstory: 'When the darkness came to the frontier, every other race retreated to their ancestral homes. Marcus stayed. He reinforced his farmstead, planted his fields, and when the shadow creatures came, he fought them off with a pitchfork and lantern. His homestead still stands — a beacon of human stubbornness.'
+            }
+        ],
+        majorLocations: [
+            {
+                name: 'Crossroads Market',
+                description: 'The largest trading hub on the continent, built at the intersection of five major trade routes. Run by Lowlander merchant families, it is said that anything can be bought here if the price is right.'
+            }
+        ],
+        currentCrisis: 'The spreading darkness threatens human trade routes and frontier settlements. Lowlanders use their networks to coordinate defense. Hillfolk refuse to leave their homesteads and instead fortify.',
+        culturalPractices: 'Humans value practical skill over innate ability. A good blacksmith is worth more than a mediocre mage. Their celebrations center on harvest, trade, and survival — the three things that have kept them alive when more powerful races fell.',
+        subraces: {
+            lowlander: {
+                id: 'lowlander_human',
+                name: 'Lowlander',
+                description: 'Lowlander Humans are merchants and networkers who thrive in cities and settlements. Their charm and connections compensate for their lack of supernatural power. They carry ledgers as readily as swords and know the value of a firm handshake.',
+                culturalBackground: 'Lowlanders build merchant networks and thrive in cities, using charm and connections to compensate for their lack of supernatural power. Their communities center around markets, guildhalls, and the bustling crossroads of civilization.',
+                statModifiers: { charisma: 2, intelligence: 1 },
+                baseStats: { health: 10, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['deception', 'persuasion'], disadvantage: ['naive_trust_effects'] },
+                traits: [
+                    {
+                        id: 'call_in_a_favor',
+                        name: 'Call in a Favor',
+                        description: 'Name a type of assistance you need (information, equipment, shelter, passage). If you are in any settlement, you can find someone who owes you or your family a favor. The assistance arrives within 1d4 hours. The GM determines the quality based on location.',
+                        level: 1,
+                        icon: 'spell_holy_prayerofhealing',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['utility', 'social'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'social',
+                            selectedEffects: [
+                                { id: 'call_favor', name: 'Call in a Favor', description: 'Summon help from contacts in any settlement — information, equipment, shelter, or passage' },
+                                { id: 'favor_arrival', name: 'Contact Arrival', description: 'Allies arrive within 1d4 hours to provide assistance' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant'
+                        },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'streetwise',
+                        name: 'Streetwise',
+                        description: 'Spend 10 minutes gathering rumors in any settlement. Learn one useful piece of information about the area: a danger to avoid, a hidden opportunity, or a powerful individual\'s secret.',
+                        level: 1,
+                        icon: 'ability_rogue_findweakness',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['detection', 'social'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'information',
+                            selectedEffects: [{ id: 'gather_information', name: 'Gather Information', description: 'Spend 10 minutes in any settlement to learn about local dangers, opportunities, and secrets' }],
+                            duration: 10,
+                            durationUnit: 'minutes'
+                        },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'dealbroker',
+                        name: 'Dealbroker',
+                        description: 'When buying or selling goods, you always get 20% better prices. Advantage on Persuasion checks in commercial negotiations. You can assess the true value of any trade good by examining it for 1 minute.',
+                        level: 1,
+                        icon: 'inv_misc_coin_01',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['utility', 'social'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'commercial',
+                            selectedEffects: [
+                                { id: 'price_bonus', name: 'Keen Appraiser', description: 'Get 20% better prices on all trades and purchases' },
+                                { id: 'commercial_persuasion', name: 'Commercial Persuasion', description: 'Advantage on Persuasion checks in commercial transactions' },
+                                { id: 'appraise', name: 'Appraise', description: 'Accurately determine the value of any item in 1 minute' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'connections',
+                        name: 'Connections',
+                        description: 'In any settlement with more than 100 people, you can find a helpful contact within 1 hour. The contact provides basic assistance: a place to sleep, a hot meal, local news, or directions. The quality depends on location and your reputation.',
+                        level: 1,
+                        icon: 'fas fa-users',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['social', 'information'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'social',
+                            selectedEffects: [{ id: 'find_contact', name: 'Find Contact', description: 'In any settlement of 100+ people, find someone within an hour who provides shelter, a meal, news, or directions' }],
+                            duration: 1,
+                            durationUnit: 'hour'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'naive_trust',
+                        name: 'Naive Trust',
+                        description: 'Disadvantage on saves vs charm from creatures that offered you a deal, gift, or promise within the last hour. Lowlanders want to believe in the best in people — and cunning creatures exploit this.',
+                        level: 1,
+                        icon: 'fas fa-heart-broken',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [
+                                { type: 'save_disadvantage', mechanicsText: 'Disadvantage on saves vs charm from creatures that offered a deal, gift, or promise within the last hour', saveDisadvantage: { condition: 'charm', trigger: 'deal_gift_promise_within_hour' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    }
+                ]
+            },
+            hillfolk: {
+                id: 'hillfolk_human',
+                name: 'Hillfolk',
+                description: 'Hillfolk Humans are stubborn homesteaders who endure through sheer willpower and endurance. Their hands are calloused from work that never ends, their eyes sharp from watching horizons for threats. They build walls when others would flee.',
+                culturalBackground: 'Hillfolk are stubborn homesteaders who endure through sheer willpower and endurance. Their communities are built on mutual reliance and the unspoken understanding that every neighbor is a lifeline. They measure a person by what they do when things get hard.',
+                statModifiers: { constitution: 2, strength: 1 },
+                baseStats: { health: 12, mana: 2, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['exhaustion', 'poison'], disadvantage: ['isolation_effects'] },
+                traits: [
+                    {
+                        id: 'stubborn_will',
+                        name: 'Stubborn Will',
+                        description: 'When you fail a saving throw against charm, fear, or compulsion, you can choose to succeed instead. You take 1d6 psychic damage from the mental strain.',
+                        level: 1,
+                        icon: 'spell_holy_divinespirit',
+                        spellType: 'REACTION',
+                        actionPoints: 0,
+                        components: ['verbal'],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'save_override',
+                            effects: [
+                                { type: 'save_override', mechanicsText: 'Succeed instead on failed saves vs charm, fear, or compulsion', saveOverride: { successInstead: true, conditions: ['charm', 'fear', 'compulsion'] } },
+                                { type: 'psychic_backlash', mechanicsText: 'Take 1d6 psychic damage from the mental strain', psychicBacklash: { damageType: 'psychic', diceCount: 1, diceSize: 6 } }
+                            ],
+                            durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'trench_fighting',
+                        name: 'Trench Fighting',
+                        description: 'Enter a defensive stance. For 1 minute, gain +2 AC and any creature that hits you with a melee attack takes 1d4 piercing damage from your counter-attacks. You cannot move more than 5ft per turn while in this stance.',
+                        level: 1,
+                        icon: 'ability_warrior_defensivestance',
+                        spellType: 'ACTION',
+                        actionPoints: 1,
+                        components: ['verbal', 'somatic'],
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'defensive_stance',
+                            effects: [
+                                { type: 'ac_bonus', mechanicsText: '+2 AC while in defensive stance', acBonus: 2 },
+                                { type: 'thorns', mechanicsText: '1d4 piercing damage to melee attackers', thorns: { diceCount: 1, diceSize: 4, damageType: 'piercing', trigger: 'melee_hit' } },
+                                { type: 'movement_restriction', mechanicsText: 'Cannot move more than 5ft per turn', movementRestriction: 5 }
+                            ],
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minute', canBeDispelled: true
+                        },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'endurance_march',
+                        name: 'Endurance March',
+                        description: 'Travel at double pace without gaining exhaustion. Ignore difficult terrain when moving toward your homestead or toward allies. You never suffer fatigue from forced marches.',
+                        level: 1,
+                        icon: 'fas fa-hiking',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['movement', 'survival'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'travel',
+                            selectedEffects: [
+                                { id: 'double_pace', name: 'Double Pace', description: 'Travel at twice normal speed without penalty' },
+                                { id: 'no_exhaustion', name: 'Relentless Endurance', description: 'Cannot suffer exhaustion from forced march' },
+                                { id: 'homestead_path', name: 'Homestead Path', description: 'Ignore difficult terrain when traveling toward home or allies' },
+                                { id: 'no_march_fatigue', name: 'No March Fatigue', description: 'Never fatigue from overland travel' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'homestead',
+                        name: 'Homestead',
+                        description: 'Short rests at a place you consider home take half the time. Cannot be surprised while resting at home. When you defend a fixed position (building, wall, trench), gain +1 AC.',
+                        level: 1,
+                        icon: 'fas fa-campground',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['healing', 'rest', 'buff'],
+                        typeConfig: { category: 'racial' },
+                        utilityConfig: {
+                            utilityType: 'rest',
+                            selectedEffects: [
+                                { id: 'short_rest_reduction', name: 'Rapid Recovery', description: 'Short rests take half the normal time at your homestead' },
+                                { id: 'no_surprise_home', name: 'Home Ground Advantage', description: 'Cannot be surprised while at your homestead' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        buffConfig: {
+                            buffType: 'positional_bonus',
+                            effects: [
+                                { type: 'fixed_position_ac_bonus', mechanicsText: '+1 AC when defending a fixed position', fixedPositionACBonus: 1 }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    },
+                    {
+                        id: 'isolation',
+                        name: 'Isolation',
+                        description: 'When no ally is within 30ft, disadvantage on all attack rolls and ability checks. Hillfolk draw strength from community — alone, they falter.',
+                        level: 1,
+                        icon: 'fas fa-heart-broken',
+                        spellType: 'PASSIVE',
+                        actionPoints: 0,
+                        components: [],
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [
+                                { type: 'attack_disadvantage', mechanicsText: 'Disadvantage on all attack rolls when no ally is within 30ft', attackDisadvantage: { condition: 'no_ally_within_30ft' } },
+                                { type: 'ability_check_disadvantage', mechanicsText: 'Disadvantage on all ability checks when no ally is within 30ft', abilityCheckDisadvantage: { condition: 'no_ally_within_30ft' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent'
+                        },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, mana: 0, components: [] },
+                    }
+                ]
             }
         }
     }

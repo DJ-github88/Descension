@@ -98,7 +98,7 @@
 
 .race-card.selected::before {
     opacity: 1;
-    background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0.5) 50%, #fff 100%);
+    background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.5) 50%, #fff 100%);
 }
 
 .race-card.selected .race-card-name,
@@ -792,6 +792,7 @@
         opacity: 0;
         backdrop-filter: blur(0px);
     }
+
     to {
         opacity: 1;
         backdrop-filter: blur(8px);
@@ -810,6 +811,7 @@
         opacity: 0;
         transform: translateY(40px) scale(0.97);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -825,4 +827,3 @@
         grid-template-columns: 1fr;
     }
 }
-

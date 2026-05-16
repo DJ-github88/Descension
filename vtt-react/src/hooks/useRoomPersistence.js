@@ -6,12 +6,12 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useGameStore from '../store/gameStore';
-import persistenceService from '../services/firebase/persistenceService';
 import { useRealtimeSync } from './useRealtimeSync';
 
 export const useRoomPersistence = (roomId) => {
+  const useAuthStore = require('../store/authStore').default;
+  const useGameStore = require('../store/gameStore').default;
+  const persistenceService = require('../services/firebase/persistenceService').default;
   const { user } = useAuthStore();
   const currentRoomId = roomId || useGameStore(state => state.currentRoomId);
 

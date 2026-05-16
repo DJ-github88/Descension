@@ -1,22 +1,4 @@
-/**
- * Persistence Provider
- *
- * Master provider that orchestrates all data persistence throughout the app.
- * Combines character, room, journal, and campaign persistence.
- */
-
 import React, { useEffect, createContext, useContext } from 'react';
-import useAuthStore from '../../store/authStore';
-import useGameStore from '../../store/gameStore';
-import CharacterPersistenceProvider from './CharacterPersistenceProvider';
-import { useJournalPersistence } from '../../hooks/useJournalPersistence';
-import { useRoomPersistence } from '../../hooks/useRoomPersistence';
-import { useCampaignPersistence } from '../../hooks/useCampaignPersistence';
-import { useUserItemsPersistence } from '../../hooks/useUserItemsPersistence';
-import { useUserCreaturesPersistence } from '../../hooks/useUserCreaturesPersistence';
-import { useUserMapsPersistence } from '../../hooks/useUserMapsPersistence';
-import persistenceService from '../../services/firebase/persistenceService';
-import useSettingsStore from '../../store/settingsStore';
 
 // Create context for persistence status
 const PersistenceContext = createContext({
@@ -29,6 +11,18 @@ const PersistenceContext = createContext({
 export const usePersistence = () => useContext(PersistenceContext);
 
 const PersistenceProvider = ({ children }) => {
+  // Use dynamic require to break circular dependencies
+  const useAuthStore = require('../../store/authStore').default;
+  const useGameStore = require('../../store/gameStore').default;
+  const useSettingsStore = require('../../store/settingsStore').default;
+  const persistenceService = require('../../services/firebase/persistenceService').default;
+  const CharacterPersistenceProvider = require('./CharacterPersistenceProvider').default;
+  const { useJournalPersistence } = require('../../hooks/useJournalPersistence');
+  const { useRoomPersistence } = require('../../hooks/useRoomPersistence');
+  const { useUserItemsPersistence } = require('../../hooks/useUserItemsPersistence');
+  const { useUserCreaturesPersistence } = require('../../hooks/useUserCreaturesPersistence');
+  const { useUserMapsPersistence } = require('../../hooks/useUserMapsPersistence');
+
   const { user } = useAuthStore();
   const currentRoomId = useGameStore(state => state.currentRoomId);
 

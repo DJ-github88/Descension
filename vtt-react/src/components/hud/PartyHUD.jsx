@@ -14,6 +14,8 @@ import useChatStore from '../../store/chatStore';
 import usePresenceStore from '../../store/presenceStore';
 import useAuthStore from '../../store/authStore'; // CRITICAL: For userId identification
 import ClassResourceBar from './ClassResourceBar';
+import SummonTokenBar from './SummonTokenBar';
+import { getTokensForCharacter } from '../../data/summonableTokens';
 import ConditionDurationModal from '../modals/ConditionDurationModal';
 import { showPlayerLeaveNotification } from '../../utils/playerNotifications';
 import { getBackgroundData } from '../../data/backgroundData';
@@ -1043,7 +1045,7 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                             </div>
                         )}
 
-                        {/* Class Resource Bar - Only show if character has a real class (not 'Unknown') and class resource */}
+                        {/* Class Resource Bar */}
                         {member.character?.class && member.character?.class !== 'Unknown' && member.character?.classResource && (
                             <ClassResourceBar
                                 key={`classResource-${member.id}`}
@@ -1053,13 +1055,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                                 isOwner={isCurrentPlayer}
                                 onResourceClick={isCurrentPlayer ? ((resourceType) => onResourceAdjust(member.id, resourceType)) : null}
                                 onClassResourceUpdate={isCurrentPlayer && onClassResourceUpdate ? (field, value) => {
-                                    console.log('🎯 ClassResourceBar callback triggered:', {
-                                        memberId: member.id,
-                                        memberName: member.name,
-                                        field,
-                                        value,
-                                        isCurrentPlayer
-                                    });
                                     onClassResourceUpdate(member.id, field, value);
                                 } : null}
                                 size="small"
@@ -1074,16 +1069,15 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     <div className={`status-dot ${member.status || 'online'}`}></div>
                 </div>
             </div>
-            {/* Buffs, Debuffs, and Conditions - Now visible for all party members */}
+            {/* Buffs, Debuffs, and Conditions */}
             {(() => {
                 const gameStore = useGameStore.getState();
                 const currentPlayerId = gameStore.currentPlayer?.id;
-                
+
                 const memberId = member.id;
                 const memberUserId = member.userId;
                 const memberSocketId = member.socketId;
 
-                // Get all relevant store buffs/debuffs for this member
                 let rawBuffs = [...getBuffsForTarget(memberId)];
                 let rawDebuffs = [...getDebuffsForTarget(memberId)];
 
@@ -1097,7 +1091,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(memberSocketId)];
                 }
 
-                // If this IS the current player, also include buffs on aliases
                 if (isCurrentPlayer) {
                     rawBuffs = [
                         ...rawBuffs,
@@ -1109,32 +1102,27 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                         ...getDebuffsForTarget('player'),
                         ...getDebuffsForTarget('current-player')
                     ];
-                    
+
                     if (currentPlayerId && memberId !== currentPlayerId) {
                          rawBuffs = [...rawBuffs, ...getBuffsForTarget(currentPlayerId)];
                          rawDebuffs = [...rawDebuffs, ...getDebuffsForTarget(currentPlayerId)];
                     }
                 }
-                
-                // Debug logging for buff display
 
-                // Get conditions from member's character token
-                const memberToken = characterTokens.find(t => 
-                    t.playerId === memberId || 
-                    t.playerId === memberUserId || 
+                const memberToken = characterTokens.find(t =>
+                    t.playerId === memberId ||
+                    t.playerId === memberUserId ||
                     t.playerId === memberSocketId ||
                     t.id === memberId
                 );
                 const rawConditions = memberToken?.state?.conditions || [];
 
-                // CONSOLIDATION & DEDUPLICATION LOGIC (Same as TargetHUD)
                 const finalBuffs = [];
                 const finalDebuffs = [];
                 const seenBuffNames = new Set();
                 const seenDebuffNames = new Set();
                 const seenIds = new Set();
 
-                // 1. Process store buffs
                 rawBuffs.forEach(b => {
                     if (seenIds.has(b.id) || seenBuffNames.has(b.name.toLowerCase())) return;
                     finalBuffs.push(b);
@@ -1142,7 +1130,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     seenBuffNames.add(b.name.toLowerCase());
                 });
 
-                // 2. Process store debuffs (independent dedup from buffs)
                 rawDebuffs.forEach(d => {
                     if (seenIds.has(d.id) || seenDebuffNames.has(d.name.toLowerCase())) return;
                     finalDebuffs.push(d);
@@ -1150,7 +1137,6 @@ const PartyMemberFrame = ({ member, isCurrentPlayer = false, leaderId, onContext
                     seenDebuffNames.add(d.name.toLowerCase());
                 });
 
-                // 3. Process token conditions
                 rawConditions.forEach(c => {
                     const name = (c.name || c.id || '').toLowerCase();
                     const conditionData = CONDITIONS[c.id] || CONDITIONS[name] || { type: c.type || 'debuff' };
@@ -1545,6 +1531,8 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
     const [customAmountType, setCustomAmountType] = useState(''); // 'damage', 'heal', 'mana-damage', 'mana-heal', 'xp'
     const [showOverhealModal, setShowOverhealModal] = useState(false);
     const [overhealData, setOverhealData] = useState(null); // { resourceType, amount, memberId }
+    const [showSummonTokenBar, setShowSummonTokenBar] = useState(false);
+    const [summonTokenBarCharacter, setSummonTokenBarCharacter] = useState(null);
     const nodeRefs = useRef({});
     const resourceBarRefs = useRef({}); // Store refs to resource bars for floating text positioning
 
@@ -3260,6 +3248,40 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     });
                 }
 
+                // Summon Token Bar - show only for classes/races that have summonable tokens
+                {
+                    const charClass = contextMenuMember?.character?.class || contextMenuMember?.characterClass;
+                    const charRace = contextMenuMember?.character?.race || contextMenuMember?.characterRace;
+                    const charSubrace = contextMenuMember?.character?.subrace;
+                    const charLevel = contextMenuMember?.character?.level || contextMenuMember?.characterLevel || 1;
+                    if (charClass || charRace) {
+                        const { getTokensForClass, getTokensForRace, resolveClassId } = require('../../data/summonableTokens');
+                        const resolvedClassId = resolveClassId(charClass);
+                        const classTokens = resolvedClassId ? getTokensForClass(charClass) : [];
+                        const raceTokens = charRace ? getTokensForRace(charRace, charSubrace) : [];
+                        const hasTokens = classTokens.length > 0 || raceTokens.length > 0;
+                        if (hasTokens) {
+                            menuItems.push({
+                                icon: <i className="fas fa-dragon" style={{ color: '#a78bfa' }}></i>,
+                                label: 'Summon Tokens',
+                                onClick: () => {
+                                    setSummonTokenBarCharacter({
+                                        ...contextMenuMember,
+                                        characterClass: charClass,
+                                        race: charRace,
+                                        subrace: charSubrace || charRace,
+                                        level: charLevel,
+                                        name: contextMenuMember?.name,
+                                    });
+                                    setShowSummonTokenBar(true);
+                                    setShowContextMenu(false);
+                                },
+                                className: 'summon-token-bar-item',
+                            });
+                        }
+                    }
+                }
+
                 // Health adjustment options - only show if GM mode
                 if (isGMMode) {
                     menuItems.push({ type: 'separator' });
@@ -3996,6 +4018,12 @@ const PartyHUD = ({ onOpenCharacterSheet, onCreateToken }) => {
                     </div>
                 </div>
             )}
+
+            <SummonTokenBar
+                isOpen={showSummonTokenBar}
+                onClose={() => setShowSummonTokenBar(false)}
+                character={summonTokenBarCharacter}
+            />
         </>
     );
 };

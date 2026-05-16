@@ -6,8 +6,6 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useItemStore from '../store/itemStore';
 import { saveUserItem, loadUserItems, updateUserItem, deleteUserItem } from '../services/firebase/userItemsService';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -17,6 +15,8 @@ const AUTO_SAVE_DELAY = 3000; // 3 seconds debounce
  * Custom hook to manage persistence of user-created custom items
  */
 export const useUserItemsPersistence = () => {
+  const useAuthStore = require('../store/authStore').default;
+  const useItemStore = require('../store/itemStore').default;
   const { user } = useAuthStore();
   const saveTimerRef = useRef(null);
   const items = useItemStore(useShallow(state => state.items));

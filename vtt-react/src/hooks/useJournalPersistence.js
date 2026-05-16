@@ -6,11 +6,12 @@
  */
 
 import { useEffect, useCallback, useRef } from 'react';
-import useAuthStore from '../store/authStore';
-import useShareableStore from '../store/shareableStore';
-import persistenceService from '../services/firebase/persistenceService';
-
 export const useJournalPersistence = () => {
+  const persistenceService = require('../services/firebase/persistenceService').default;
+  // Use dynamic require to break circular dependencies
+  const useAuthStore = require('../store/authStore').default;
+  const useShareableStore = require('../store/shareableStore').default;
+
   const { user } = useAuthStore();
 
   const playerKnowledge = useShareableStore(state => state.playerKnowledge);

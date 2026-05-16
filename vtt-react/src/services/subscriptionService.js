@@ -19,6 +19,8 @@ const TIER_FEATURE_FLAGS = {
   earlyAccess: { PRO: true, ULTIMATE: true },
   analytics: { ULTIMATE: true },
   customRoomThemes: { ULTIMATE: true },
+  campaignPublishing: { ULTIMATE: true, DEV_PREVIEW: true },
+  campaignDownloading: { ULTIMATE: true, DEV_PREVIEW: true },
   communitySharing: { FREE: true, PRO: true, ULTIMATE: true },
   friendsList: { FREE: true, PRO: true, ULTIMATE: true },
   autoBackups: { FREE: true, PRO: true, ULTIMATE: true },

@@ -2028,6 +2028,12 @@ const MultiplayerApp = ({ onReturnToSinglePlayer }) => {
       }
     });
 
+    socket.on('token_dismissed', (data) => {
+      if (data && data.tokenId) {
+        removeToken(data.tokenId, false);
+      }
+    });
+
     // Listen for character token removal
     socket.on('character_token_removed', (data) => {
       if (data && data.tokenId) {

@@ -2563,6 +2563,19 @@ function GridComponent({
                 return;
             }
 
+            // Check for summon token drops from the Token Bar
+            const summonTokenData = e.dataTransfer.getData('application/summon-token');
+            if (summonTokenData) {
+                const summonData = JSON.parse(summonTokenData);
+                const worldPos = gridSystem.gridToWorld(tile.gridX, tile.gridY);
+
+                const { summonTokenFromTemplate } = require('../services/tokenSummonService');
+                const character = useCharacterStore.getState().character;
+                summonTokenFromTemplate(summonData.templateId, worldPos, character);
+
+                return;
+            }
+
             const dataText = e.dataTransfer.getData('text/plain');
 
 

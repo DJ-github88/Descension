@@ -137,6 +137,18 @@ service cloud.firestore {
     }
 
     // ===== COMMUNITY CONTENT =====
+
+    // Shared campaigns - published campaigns for download (Archmage tier)
+    match /sharedCampaigns/{campaignId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.publisherId;
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.publisherId ||
+        request.resource.data.keys().hasOnly(['downloads'])
+      );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.publisherId;
+    }
+
     // Public game data (items, spells, etc.) - read only
     match /gameData/{document=**} {
       allow read: if true;

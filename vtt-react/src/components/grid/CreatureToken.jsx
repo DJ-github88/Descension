@@ -1968,8 +1968,12 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
         }
       } else {
         // Creature token not controlled by this player - block dragging
-        setShowTooltip(false);
-        return;
+        // Exception: players can drag their own summoned tokens
+        const isOwnedSummon = creature?._summonMeta?.sourceType === 'summon' && isOwnToken;
+        if (!isOwnedSummon) {
+          setShowTooltip(false);
+          return;
+        }
       }
     }
 
@@ -2053,11 +2057,13 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
     return null;
   }
 
+  const isSummonedToken = !!(creature?._summonMeta?.sourceType === 'summon');
+
   return (
     <>
       <div
         ref={tokenRef}
-        className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''} ${isViewingFrom ? 'viewing-from' : ''}`}
+        className={`creature-token ${isDragging ? 'dragging' : ''} ${isTargeted ? 'targeted' : ''} ${isSelectedForCombat ? 'selected-for-combat' : ''} ${isMyTurn ? 'my-turn' : ''} ${isHiddenFromPlayers && isGMMode ? 'gm-hidden' : ''} ${isViewingFrom ? 'viewing-from' : ''} ${isSummonedToken ? 'summoned-token' : ''}`}
         style={{
           // CRITICAL: Use transform3d for GPU-accelerated positioning to prevent flickering during drag
           left: 0,
@@ -2072,13 +2078,19 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
           touchAction: 'none',
           willChange: 'transform',
           borderRadius: '50%',
-          borderWidth: '3px',
-          borderStyle: 'solid',
-          borderColor: creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
+          borderWidth: isSummonedToken ? '3px' : '3px',
+          borderStyle: isSummonedToken ? 'dashed' : 'solid',
+          borderColor: isSummonedToken
+            ? (isOwnToken ? '#a78bfa' : '#7c3aed')
+            : creature.isShopkeeper ? '#FFD700' : isViewingFrom ? '#00BFFF' : (isMyTurn ? '#FFD700' : isSelectedForCombat ? '#00FF00' : isTargeted ? '#FF9800' : creature.tokenBorder),
           overflow: 'visible',
           opacity: isGreyedOut ? 0.4 : 1, // Greyed out when in explored but not visible
           filter: isGreyedOut ? 'grayscale(0.8) brightness(0.6)' : 'none', // Grey filter for explored areas
-          boxShadow: creature.isShopkeeper
+          boxShadow: isSummonedToken
+            ? (isOwnToken
+              ? '0 0 12px rgba(167,139,250,0.6), 0 0 6px rgba(167,139,250,0.4), 0 2px 8px rgba(0,0,0,0.3)'
+              : '0 0 8px rgba(124,58,237,0.4), 0 2px 8px rgba(0,0,0,0.3)')
+            : creature.isShopkeeper
             ? '0 0 20px rgba(255, 215, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3)'
             : isViewingFrom
               ? '0 0 25px rgba(0, 191, 255, 1), 0 0 15px rgba(0, 191, 255, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3)'
@@ -2362,6 +2374,21 @@ const CreatureToken = ({ tokenId, position, onRemove }) => {
               }
             }
           );
+        }
+
+        // Allow non-GM players to remove their own tokens (character + summons)
+        if (!isGMMode && !canControlCreature && isOwnToken) {
+          tokenActionsSubmenu.push({
+            icon: <i className="fas fa-trash"></i>,
+            label: creature?._summonMeta?.sourceType === 'summon' ? 'Dismiss Summon' : 'Remove Token',
+            onClick: (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setShowContextMenu(false);
+              handleRemoveToken();
+            },
+            className: 'danger'
+          });
         }
 
         menuItems.push({
