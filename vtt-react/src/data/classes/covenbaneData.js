@@ -13,11 +13,11 @@ export const COVENBANE_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Covenbane builds Hexbreaker Charges (0-6) through combat — attacking and defeating enemies — then unleashes those charges on devastating anti-magic abilities that shut down spellcasters, dispel enchantments, and banish demonic threats. Against evil magic users, every ability hits harder with bonus effects. No magic user is safe when a Covenbane is hunting.
+      content: `**What You Need to Know**: The Covenbane builds Hexbreaker Charges (0-6) by witnessing, disrupting, and enduring enemy magic. Attacking mundane enemies generates NOTHING — you are a weapon forged specifically to break spellcasters. Only magical confrontation fuels your power. Against evil magic users, every ability hits harder with bonus effects. No magic user is safe when a Covenbane is hunting.
 
-**Core Mechanic**: Fight enemies → Generate Hexbreaker Charges from attacks and kills → Spend charges on escalating anti-magic abilities → Bonus effects against evil magic users
+**Core Mechanic**: Encounter enemy magic → Generate Hexbreaker Charges from anti-magic events (being targeted by spells, dispelling, counterspelling, witnessing spell failure, killing evil magic users) → Spend charges on escalating anti-magic abilities → Bonus effects against evil magic users
 
-**Resource**: Hexbreaker Charges (0-6 scale, generated through combat)
+**Resource**: Hexbreaker Charges (0-6 scale, generated ONLY through anti-magic events)
 
 **Passive**: Witch Hunter's Precision — Every 3rd attack against an evil magic user deals 1d6 radiant damage that bypasses all resistance
 
@@ -26,7 +26,7 @@ export const COVENBANE_DATA = {
 **Best For**: Players who love shutting down enemy casters, hunting specific targets, and being the ultimate counter to magical threats`,
     },
 
-    description: `The Covenbane is a relentless hunter of evil magic, wielding powerful anti-magic abilities to track, weaken, and destroy spellcasters who wield dark forces. Through the Hexbreaker Charge mechanic, Covenbanes build power through combat — effective against all foes, but devastating against evil magic users with bonus debuffs, instant kills, and Witch Hunter's Precision triggering bonus radiant damage.`,
+    description: `The Covenbane is a relentless hunter of evil magic, wielding powerful anti-magic abilities to track, weaken, and destroy spellcasters who wield dark forces. Through the Hexbreaker Charge mechanic, Covenbanes build power exclusively through magical confrontation — every spell cast at you, every enchantment you dispel, every caster you bring down fills your anti-magic reservoir. Against mundane foes you are a capable fighter, but without magical opposition your charges run dry. This is the price of absolute specialization.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -55,16 +55,18 @@ Covenbanes understand that magic itself is not evil, but that evil corrupts ever
 
 **Strengths**:
 - Can completely shut down enemy spellcasters
-- Builds charges through any combat, with bonuses against evil magic users
+- Builds charges from magical confrontation — every enemy spell is fuel for your retaliation
 - Excellent at hunting and eliminating evil creatures
 - Provides anti-magic protection for allies
 - Witch Hunter's Precision adds passive bonus damage against evil casters
-- Still effective in mundane encounters (full spell damage works on all targets)
+- Spells deal full damage to all targets (only bonus effects require evil magic users)
 
 **Weaknesses**:
 - Bonus effects (debuffs, instant kills, charge refunds) only trigger against evil magic users
-- Requires building Hexbreaker charges to use powerful abilities
-- Less utility in non-magical encounters — a capable fighter, but not a specialist
+- Hexbreaker Charges can ONLY be generated through anti-magic events — mundane combat yields NOTHING
+- Charges decay by -1 per round when no magical event occurs
+- In encounters with zero spellcasters, you are a capable fighter with no access to your strongest abilities
+- You are HUNGRY for magic. Without it, you weaken. This is the cost of being the ultimate anti-mage
 
 The Covenbane shines in campaigns with significant magical threats, demonic encounters, and spellcaster antagonists. They are the perfect counter to evil sorcerers and fiendish invaders.`,
     },
@@ -73,11 +75,16 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       title: "Playstyle & Strategy",
       content: `Playing a Covenbane is about strategic anti-magic warfare and resource management. Key considerations:
 
-**Building Hexbreaker Charges**:
-- Deal damage to any enemy (+1 charge per hit)
-- Use Covenbane spells (+1 charge per cast)
-- Kill any enemy (+1 charge), kill evil magic users (+3 charges)
-- Attack marked targets with Shadow Hunt for bonus charges
+**Building Hexbreaker Charges** (Anti-Magic Events Only):
+- Be targeted by a spell (+1 charge — the magic washes over you and you drink it in)
+- Successfully dispel or counterspell (+2 charges — unraveling magic feeds your power)
+- Witness an enemy spell fail, fizzle, or be resisted (+1 charge — the void answers)
+- Use a Covenbane spell against a magic-using target (+1 charge)
+- Kill an evil magic user (+3 charges — the ultimate reward)
+- Kill a mundane enemy: NO CHARGE GENERATED
+- Hit a mundane enemy: NO CHARGE GENERATED
+
+⚠️ **The Hunter's Curse**: Without magical opposition, your charges decay by -1 per round. You cannot build power from bandits and beasts. You need WITCHES.
 
 **Witch Hunter's Precision** (Level 2 Passive):
 - Every 3rd weapon attack against an evil magic user deals 1d6 radiant damage bypassing resistance
@@ -196,14 +203,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
     title: "Hexbreaker Charges",
     subtitle: "Anti-Magic Power Through Confrontation",
 
-    description: `The Covenbane is the ultimate answer to the corruption of dark magic. You build Hexbreaker Charges through relentless confrontation—attacking any foe builds your bank, but hunting evil magic users provides massive influxes of power. You spend these charges to unravel enchantments, silence casters, and deliver radiant judgment.`,
+    description: `The Covenbane is the ultimate answer to the corruption of dark magic. You build Hexbreaker Charges exclusively through anti-magic events — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates NOTHING. You are a weapon forged to break casters, and without magical opposition, your power wanes. Charges decay by -1 per round when no magical event occurs. This is the price of absolute specialization.`,
 
     cards: [
       {
         title: "Hexbreaker Charges (0-6)",
-        stats: "Built through Combat",
+        stats: "Built Through Anti-Magic Events Only",
         details:
-          "Your stored anti-magic potential. Charges are generated by engaging in the hunt (attacks, kills, and spells) and persist between encounters.",
+          "Your stored anti-magic potential. Charges are generated ONLY when magic is used against you, near you, or by enemies you fight. Mundane combat yields no charges. Charges decay -1/round when no magical event occurs.",
       },
       {
         title: "Witch Hunter's Precision",
@@ -217,26 +224,50 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       headers: ["Trigger", "Charges", "Notes"],
       rows: [
         [
-          "Weapon Attack (Any target)",
+          "Enemy casts a spell targeting you",
           "+1",
-          "Reliable building through combat",
+          "Their magic is your fuel — absorb it",
         ],
         [
-          "Cast Covenbane Spell",
+          "Enemy casts a spell targeting an ally within 30ft",
           "+1",
-          "Low-level spells often pay for themselves",
+          "You sense the magic and it feeds you",
         ],
         [
-          "Attack Marked Target",
-          "+1 (Bonus)",
-          "Use Shadow Hunt to accelerate your power",
+          "Successfully dispel or counterspell",
+          "+2",
+          "Unraveling magic is the richest feast",
+        ],
+        [
+          "Witness enemy spell fail, fizzle, or be resisted",
+          "+1",
+          "The void answers failed magic",
+        ],
+        [
+          "Cast Covenbane spell at a magic-using target",
+          "+1",
+          "Anti-magic begets anti-magic",
         ],
         [
           "Defeat Evil Magic User",
           "+3",
           "The ultimate reward for a successful hunt",
         ],
-        ["Defeat Any Other Enemy", "+1", "Minor trophies from the battlefield"],
+        [
+          "Weapon Attack (Mundane Target)",
+          "+0",
+          "NO CHARGE — you need WITCHES, not bandits",
+        ],
+        [
+          "Defeat Mundane Enemy",
+          "+0",
+          "NO CHARGE — a hollow victory",
+        ],
+        [
+          "No magical event this round",
+          "-1",
+          "The Hunter's Curse — charges decay without magic",
+        ],
       ],
     },
 
@@ -248,32 +279,37 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
     },
 
     overheatRules: {
-      title: "Anti-Magic Superiority",
-      content: `While the Covenbane doesn't "overheat," your efficiency depends entirely on the **nature of your target**.
+      title: "Anti-Magic Superiority & The Hunter's Curse",
+      content: `Your efficiency depends entirely on the **presence of magic** on the battlefield. This is not optional — it is your lifeblood.
 
-**Mundane Targets**: 
+**Mundane Encounters (NO magic users present)**:
 - Your spells deal full damage.
 - You lose all "Bane" effects (dispel, silence, or bonus damage).
+- You CANNOT generate Hexbreaker Charges. They decay -1/round.
+- You are a competent fighter with no access to your defining abilities.
+- ⚠️ This is your crippling weakness. Accept it.
 
-**Evil Magic Users**: 
-- Your abilities are supercharged. 
+**Magical Encounters (Spellcasters present)**:
+- Every spell cast at you or near you feeds your charges.
+- Your abilities are supercharged against evil magic users.
 - Spells like "Silver Bolt" curve around cover, and "Hexbreaker Execution" can instantly destroy targets at low health.
 
-**The Sense**: 
-- You can detect evil magic within 60 feet. Use this to prioritize targets before they even begin casting.`,
+**The Sense**:
+- You can detect evil magic within 60 feet. Use this to prioritize targets before they even begin casting.
+- The moment you sense magic, the hunt begins — and your charges start building.`,
     },
 
     strategicConsiderations: {
       title: "The Hunt: Targeting & Resource Management",
-      content: `**Phase 1: The Mark (0-2 Charges)**: Cast 'Shadow Hunt' on the primary caster. Focus on building charges through quick strikes or 'Hex Strike'. You want to hit your mid-tier threshold as fast as possible.
+      content: `**Phase 1: Bait the Magic (0-1 Charges)**: You NEED the enemy to cast spells at you. Position aggressively — make yourself a target. Each spell aimed at you is +1 charge. Cast 'Shadow Hunt' to mark the primary caster, marking them for the pack.
 
-**Phase 2: Disruption (3-4 Charges)**: Use 'Spellbreaker' or 'Anti-Magic Barrier' to shut down enemy rituals. You are now the most dangerous person on the field for a caster.
+**Phase 2: Feast on Disruption (2-3 Charges)**: Use 'Spellbreaker' or 'Curse Eater' to dispel enemy buffs. Each successful dispel = +2 charges. You are building power by UNRAVELING their magic.
 
 **Phase 3: Judgment (5-6 Charges)**: Unleash 'Hexbreaker Execution'. Against an evil caster, this is your "I Win" button, dealing massive damage and bypassing protections.
 
-**Retention Strategy**: Don't spend all your charges on a minor bandit. Keep 3+ charges banked if you suspect a magical threat is looming nearby, as they persist between fights.
+**The Starvation Risk**: In encounters with no spellcasters, your charges decay to 0. You cannot bank charges between mundane fights. Plan accordingly — ask your party to bait out enemy magic if possible.
 
-**Team Protection**: Stand near your allies. Your anti-magic zones can negate the fireballs and curses that would otherwise wipe your party.`,
+**Team Protection**: Stand near your allies. Your anti-magic zones can negate the fireballs and curses that would otherwise wipe your party — and each spell they cast at your allies feeds YOU.`,
     },
 
     playingInPerson: {
@@ -313,7 +349,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       id: "hexbreaker_charges",
       name: "Hexbreaker Charges",
       description:
-        "You build Hexbreaker charges by attacking evil magic users and using anti-magic abilities. Charges power your most devastating spells.",
+        "You build Hexbreaker charges exclusively through anti-magic events — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates no charges. Charges decay -1/round without magical opposition.",
       level: 1,
     },
     {
@@ -1115,7 +1151,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       id: "cov_spirit_shackle",
       name: "Spirit Shackle",
       description:
-        "Pin a target's shadow to the ground with anti-magic chains. The target is restrained for up to 1 minute (Spirit save DC 15 at end of each turn ends the effect). Attacks against the restrained target have advantage. Against evil magic users, the target is also silenced.",
+        "Pin a target's shadow to the ground with anti-magic chains. ⚠️ REQUIRES 3+ HEXBREAKER CHARGES. The target is restrained for up to 1 minute (Spirit save DC 15 at end of each turn ends the effect). Attacks against the restrained target have advantage. Against evil magic users, the target is also silenced. This is the Covenbane's ONLY hard CC — it demands heavy resource investment and is useless without charges built up from absorbing enemy magic.",
       level: 4,
       spellType: "ACTION",
       effectTypes: ["control"],
@@ -1127,7 +1163,7 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         castTimeType: "action",
         range: "30 feet",
         rangeType: "ranged",
-        tags: ["crowd control", "root", "silence", "control"],
+        tags: ["crowd control", "root", "silence", "control", "resource_gated"],
       },
       targetingConfig: {
         targetingType: "single",
@@ -1143,12 +1179,14 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
       },
       resourceCost: {
         resourceTypes: ["hexbreakerCharges"],
-        resourceValues: { hexbreakerCharges: 2 },
+        resourceValues: { hexbreakerCharges: 3 },
         actionPoints: 2,
         components: ["verbal", "somatic"],
+        minimumChargesRequired: 3,
+        description: "Requires 3 Hexbreaker Charges (gained only from anti-magic events). This ability is IMPOSSIBLE without first being targeted by or witnessing enemy spellcasting.",
       },
-      classResource: { type: "hexbreaker", cost: 2 },
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 1 },
+      classResource: { type: "hexbreaker", cost: 3 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
       controlConfig: {
         controlType: "restrained",
         strength: "strong",
@@ -2903,6 +2941,59 @@ The Covenbane shines in campaigns with significant magical threats, demonic enco
         ],
       },
       tags: ["transformation", "ultimate", "demonhunter"],
+    },    {
+      id: "cov_silver_dependency",
+      name: "Silver Dependency",
+      description:
+        "Your anti-magic weapons must be coated in silver. You begin each encounter with 5 Silver Coatings. Each anti-magic or anti-spell ability costs 1 Silver Coating. At 0 coatings, anti-magic abilities have their duration halved and their save DC reduced by 2.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Physical/Silver Weapon",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "Physical/Silver Weapon",
+        tags: ["passive", "resource", "silver", "anti-magic dependency", "covenbane"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "resource", "silver", "anti-magic dependency", "covenbane"],
+    },
+    {
+      id: "cov_righteous_fury",
+      name: "Righteous Fury",
+      description:
+        "You cannot attack allies, even if they are mind-controlled, charmed, or possessed. You must find another way to break the effect. Your oath forbids harming the innocent -- even when they wear an enemy's face.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Holy/Holy Shield",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "holy",
+        icon: "Holy/Holy Shield",
+        tags: ["passive", "restriction", "no friendly fire", "oath", "covenbane"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "restriction", "no friendly fire", "oath", "covenbane"],
     },
   ],
 

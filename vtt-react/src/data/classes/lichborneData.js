@@ -316,7 +316,16 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
     title: "Dual-Mode Casting & Harvester Phylactery",
     subtitle: "Burn Your Life for Power, Harvest the Dead to Return",
 
-    description: `The Lichborne is an undying frost-master who treats their own life force as just another spell slot. By toggling their Eternal Frost Aura, they switch from standard mana casting to a devastating HP-burning mode that freezes the air around them. Every kill feeds their Phylactery, building a pool of life that triggers a tactical resurrection and battlefield-wide freeze when they finally succumb to their own power.`,
+    description: `The Lichborne is an undying frost-master who treats their own life force as just another spell slot. By toggling their Eternal Frost Aura, they switch from standard mana casting to a devastating HP-burning mode that freezes the air around them. Every kill feeds their Phylactery, building a pool of life that triggers a tactical resurrection and battlefield-wide freeze when they finally succumb to their own power.
+
+**Phylactery Fragment Quest**: Unlike the Deathcaller (whose Blood Tokens are volatile and chaotic), the Lichborne's power is METHODICAL and RITUALISTIC. Your Phylactery has 5 Fragment Slots. Each Fragment is earned through a specific achievement:
+- **Fragment of First Frost**: Freeze 3 enemies in a single combat (earned once, permanent)
+- **Fragment of the Harvest**: Kill 10 enemies with frost spells total (across all combats)
+- **Fragment of Resurrection**: Successfully resurrect via Phylactery for the first time
+- **Fragment of the Abyss**: Spend 5 consecutive turns in Aura Mode without dropping below 25% HP
+- **Fragment of Eternity**: Reach Level 10 (automatic)
+
+Each Fragment grants a PERMANENT bonus (+5 max Phylactery HP, +1 to frost spell DC, etc.). At 5 Fragments, the Phylactery becomes INDESTRUCTIBLE — you always resurrect at minimum 10 HP even if the pool was empty. ⚠️ This is the Lichborne's signature: the Deathcaller rides chaos; you BUILD toward immortality. One is a gambler, the other is an architect.`,
 
     cards: [
       {
@@ -326,10 +335,10 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
           "Switch between Normal (Mana) and Aura (HP) casting. Aura mode adds damage and Chills targets, but drains HP every turn.",
       },
       {
-        title: "Harvester Phylactery (0–50)",
+        title: "Harvester Phylactery (0-50)",
         stats: "+1d6 HP per Kill",
         details:
-          "Harvest the souls of fallen enemies. This pool is automatically spent on death to resurrect you at the stored value.",
+          "Harvest the souls of fallen enemies. This pool is automatically spent on death to resurrect you at the stored value. ⚠️ PHYLACTERY FRAGMENTS: 5 permanent Fragment Slots earned through specific achievements. Each Fragment grants permanent bonuses. At 5/5, Phylactery becomes indestructible.",
       },
       {
         title: "Death Trigger (Burst)",
@@ -348,6 +357,11 @@ You're not a safe, sustainable caster. You're an UNDEAD PREDATOR who burns your 
         ["Start of Turn", "-1d6/d8/d10 HP", "Aura drain (scales with level)"],
         ["Death", "Spent All Stored", "Resurrect + Death Trigger freeze"],
         ["Short Rest", "+10 Phylactery", "Manual HP transfer fallback"],
+        ["Fragment of First Frost", "Permanent", "Freeze 3 enemies in 1 combat → +5 max Phylactery"],
+        ["Fragment of the Harvest", "Permanent", "Kill 10 enemies with frost → +1 frost DC"],
+        ["Fragment of Resurrection", "Permanent", "Resurrect via Phylactery once → +5 max Phylactery"],
+        ["Fragment of the Abyss", "Permanent", "5 turns Aura without <25% HP → Aura drain reduced by 1 die size"],
+        ["Fragment of Eternity", "Permanent", "Reach Level 10 → Phylactery indestructible (always rez at 10+)"],
       ],
     },
 
@@ -4438,6 +4452,59 @@ Many players enhance the Lichborne experience with:
         "legendary",
         "lichborne",
       ],
+    },    {
+      id: "lich_frostbite_soul",
+      name: "Frostbite Soul",
+      description:
+        "Your undead body is eternally cold. You take +3 damage from all fire and radiant attacks. Additionally, any ally who ends their turn adjacent to you takes 1d4 cold damage (they feel the death radiating from you). Your presence is harmful to the living.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Frost/Frost Armor",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "frost",
+        icon: "Frost/Frost Armor",
+        tags: ["passive", "debuff", "cold", "fire weakness", "lichborne"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "cold", "fire weakness", "lichborne"],
+    },
+    {
+      id: "lich_resurrection_cost",
+      name: "Resurrection Cost",
+      description:
+        "Each time you are reduced to 0 HP and revive through Lichborne abilities, your maximum HP permanently decreases by 5 until your next long rest. This stacks. A Lichborne who dies 10 times in a day finds themselves with 50 less maximum HP. Death is not free.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Necrotic/Necrotic Wither",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Necrotic Wither",
+        tags: ["passive", "debuff", "hp reduction", "death penalty", "lichborne"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "hp reduction", "death penalty", "lichborne"],
     },
   ],
 

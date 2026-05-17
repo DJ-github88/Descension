@@ -50,6 +50,20 @@ const AccountDashboard = ({ user }) => {
     };
   }, []);
 
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) setMobileMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile menu on navigation
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   // Initialize social listeners and presence tracking
   useEffect(() => {
     if (user?.uid) {
@@ -84,6 +98,7 @@ const AccountDashboard = ({ user }) => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showAccountDeleteConfirm, setShowAccountDeleteConfirm] = useState(false);
   const [accountDeleteText, setAccountDeleteText] = useState('');
   const [isDeletingAccount, setIsDeletingAccount] = useState(false);
@@ -421,7 +436,6 @@ const AccountDashboard = ({ user }) => {
               >
                 <span>Characters</span>
               </button>
-              {/* Campaign Manager Tab - Hidden for guests */}
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'campaigns' ? 'active' : ''}`}
@@ -430,7 +444,6 @@ const AccountDashboard = ({ user }) => {
                   <span>Campaigns</span>
                 </button>
               )}
-              {/* Journal Tab - Hidden for guests */}
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'journal' ? 'active' : ''}`}
@@ -439,7 +452,6 @@ const AccountDashboard = ({ user }) => {
                   <span>Journal</span>
                 </button>
               )}
-              {/* Social Tab - Hidden for guests; interact via Community window instead */}
               {!isGuest && (
                 <button
                   className={`fan-tab ${activeTab === 'social' ? 'active' : ''}`}
@@ -511,12 +523,7 @@ const AccountDashboard = ({ user }) => {
             </div>
 
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('AccountDashboard: Home button clicked - navigating to /');
-                navigate('/', { replace: false });
-              }}
+              onClick={() => navigate('/')}
               className="action-btn home-btn"
             >
               <i className="fas fa-home"></i>
@@ -527,7 +534,97 @@ const AccountDashboard = ({ user }) => {
               <span>Sign Out</span>
             </button>
           </div>
+
+          <button
+            className={`account-mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setMobileMenuOpen(prev => !prev)}
+            aria-label="Menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </header>
+
+        <div className={`account-mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+          <nav className="account-mobile-nav">
+            <button
+              className={`account-mobile-nav-item ${activeTab === 'rooms' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('rooms'); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-door-open"></i>
+              Rooms
+            </button>
+            <button
+              className={`account-mobile-nav-item ${activeTab === 'characters' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('characters'); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-user-friends"></i>
+              Characters
+            </button>
+            {!isGuest && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'campaigns' ? 'active' : ''}`}
+                onClick={() => { setActiveTab('campaigns'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-map"></i>
+                Campaigns
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'journal' ? 'active' : ''}`}
+                onClick={() => { setActiveTab('journal'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-book"></i>
+                Journal
+              </button>
+            )}
+            {!isGuest && (
+              <button
+                className={`account-mobile-nav-item ${activeTab === 'social' ? 'active' : ''}`}
+                onClick={() => { setActiveTab('social'); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-heart"></i>
+                Social
+              </button>
+            )}
+            <button
+              className={`account-mobile-nav-item ${activeTab === 'membership' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('membership'); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-star"></i>
+              Membership
+            </button>
+          </nav>
+          <div className="account-mobile-divider"></div>
+          <div className="account-mobile-actions">
+            <button
+              className="account-mobile-action-item"
+              onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-home"></i>
+              Home
+            </button>
+            {receivedRequests.length > 0 && (
+              <button
+                className="account-mobile-action-item"
+                onClick={() => { setShowNotifications(true); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-bell"></i>
+                Friend Requests
+                <span className="account-mobile-badge">{receivedRequests.length}</span>
+              </button>
+            )}
+            <button
+              className="account-mobile-action-item danger"
+              onClick={() => { handleSignOut(); setMobileMenuOpen(false); }}
+            >
+              <i className="fas fa-sign-out-alt"></i>
+              Sign Out
+            </button>
+          </div>
+        </div>
 
         {/* Guest Info Banner */}
           {isGuest && (

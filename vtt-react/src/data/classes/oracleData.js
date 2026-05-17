@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Oracle Class Data
  *
  * Complete class information for the Oracle - a diviner who sees past, present, and future
@@ -19,18 +19,18 @@ export const ORACLE_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: Oracles peer through the veil of time, declaring predictions about combat events and rewarded with Prophetic Visions when proven right—visions they then spend to twist fate itself.
+      content: `**What You Need to Know**: Oracles peer through the veil of time, declaring predictions about combat events and rewarded with Prophetic Visions when proven rightâ€”visions they then spend to twist fate itself.
 
-**Core Mechanic**: Declare Prediction → Correct Outcome → Gain Prophetic Visions → Spend Visions to Force Rerolls, Buff Allies, or Unleash Divination Magic
+**Core Mechanic**: Declare Prediction â†’ Correct Outcome â†’ Gain Prophetic Visions â†’ Spend Visions to Force Rerolls, Buff Allies, or Unleash Divination Magic
 
-**Resource**: Prophetic Visions (0–10 scale, gained from accurate predictions and witnessing fate)
+**Resource**: Prophetic Visions (0â€“10 scale, gained from accurate predictions and witnessing fate)
 
 **Playstyle**: Tactical prediction-based support
 
 **Best For**: Players who love reading the battlefield, making bold calls, and turning foresight into devastating tactical advantage`,
     },
 
-    description: `Oracles pierce the veil between past, present, and future. They declare bold predictions about combat — and when proven right, are rewarded with Prophetic Visions they spend to twist fate itself.`,
+    description: `Oracles pierce the veil between past, present, and future. They declare bold predictions about combat â€” and when proven right, are rewarded with Prophetic Visions they spend to twist fate itself.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
@@ -51,11 +51,12 @@ Oracles often struggle with the burden of knowledge - seeing tragedies before th
 
 **Prediction & Preparation**: Foreseeing enemy actions and granting allies advantage
 **Information Warfare**: Revealing enemy weaknesses, hidden threats, and tactical opportunities
-**Fate Manipulation**: Forcing rerolls, altering outcomes, and bending probability
 **Debuff & Control**: Cursing enemies with ill omens and prophesied doom
 **Utility & Revelation**: Detecting traps, seeing through illusions, and uncovering secrets
 
-      Oracles are not direct damage dealers but force multipliers who make their allies more effective and their enemies less so. They shine in complex encounters where information and tactical advantage matter more than raw damage.`,
+âš ï¸ **THE ORACLE DOES NOT REROLL DICE**. The Oracle is NOT a probability manipulator â€” that is the Fate Weaver's exclusive domain. The Oracle SEES what IS and REVEALS it. Your power is KNOWLEDGE: enemy resistances, hidden HP thresholds, upcoming attack patterns, trap locations, and enemy intentions. You don't change fate â€” you read it aloud so your party can act on it. Forcing rerolls is the Fate Weaver's job. Your job is making sure the party never walks into an ambush.
+
+      Oracles are not direct damage dealers but force multipliers who make their allies more effective through superior information. They shine in complex encounters where knowledge and tactical advantage matter more than raw damage.`,
     },
 
     whatOracleIsNot: {
@@ -64,11 +65,17 @@ Oracles often struggle with the burden of knowledge - seeing tragedies before th
 
 **Not a Healer**: You have no healing abilities. Bring a dedicated healer or rely on potions.
 
-**Not a Tank**: You have light armor and low HP. Your survival comes from foresight (dodging, forcing rerolls, placing Fate Triggers) — not from absorbing hits.
+**Not a Tank**: You have light armor and low HP. Your survival comes from foresight (seeing attacks before they land, knowing when to reposition) â€” not from absorbing hits or forcing rerolls.
 
-**Not Passive**: Every turn requires a decision — predict, spend Visions, or position for Witnessing Fate. An Oracle who does nothing contributes nothing.
+**Not a Reroller**: You do NOT force rerolls. That is the Fate Weaver's exclusive domain. You REVEAL information â€” enemy stats, weaknesses, intentions â€” and let your party act on it.
 
-**Not Random**: Your power comes from accurate predictions and smart Vision spending, not from luck. A skilled Oracle is the most consistent force on the battlefield.`,
+**Not Passive**: Every turn requires a decision â€” predict, spend Visions on revelations, or position for Witnessing Fate. An Oracle who does nothing contributes nothing.
+
+**Not Random**: Your power comes from accurate predictions and smart Vision spending, not from luck. A skilled Oracle is the most consistent force on the battlefield.
+
+**Vision Strain - The Burden of Sight**: Holding too many futures in your mind is dangerous. At the end of each of your turns, if you have 6 or more unspent Prophetic Visions, you take 1d4 psychic damage per Vision above 5. No save, no reduction. The future burns when you hoard it. SPEND your Visions or suffer.
+
+**Oracle's Blindness**: If you end a combat encounter with 8+ Prophetic Visions unspent, you are Blinded for the first round of the next combat as your mind reels from unresolved futures. A short rest clears this condition.`
     },
 
     playstyle: {
@@ -92,7 +99,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**Turn 1 — First Prediction (Visions: 3 → 4)**
+**Turn 1 â€” First Prediction (Visions: 3 â†’ 4)**
 
 *The assassins emerge from the shadows, blades drawn. You close your eyes and SEE. The future unfolds before you like a tapestry.*
 
@@ -101,20 +108,20 @@ The class has a unique prediction mechanic where you declare what you think will
 
 *You open your eyes. "The master will strike our tank. Be ready."*
 
-**Assassin #1's Turn**: Attacks your mage → [16] → Hit! → 2d6+3 → [5, 4] + 3 = 12 damage
+**Assassin #1's Turn**: Attacks your mage â†’ [16] â†’ Hit! â†’ 2d6+3 â†’ [5, 4] + 3 = 12 damage
 
-**Assassin Master's Turn**: Attacks your tank → [18] → Hit! → 3d6+5 → [6, 5, 4] + 5 = 20 damage
+**Assassin Master's Turn**: Attacks your tank â†’ [18] â†’ Hit! â†’ 3d6+5 â†’ [6, 5, 4] + 5 = 20 damage
 
 *Your prediction was CORRECT. The master attacked the tank.*
 
-**Prediction Result**: CORRECT! → +1 Prophetic Vision (Simple)
+**Prediction Result**: CORRECT! â†’ +1 Prophetic Vision (Simple)
 **Prophetic Visions**: 3 + 1 = **4/10**
 
-**Fateseer Passive — Premonition**: Your prediction was correct! Spend 1 Vision to apply a fate effect immediately.
+**Fateseer Passive â€” Premonition**: Your prediction was correct! Spend 1 Vision to apply a fate effect immediately.
 **Choice**: Subtract 1d6 from the assassin master's next attack roll.
 **Cost**: 1 Vision
 
-*You whisper a single word. The assassin master's next strike will falter—you've seen it, and now you've woven it.*
+*You whisper a single word. The assassin master's next strike will falterâ€”you've seen it, and now you've woven it.*
 
 **Prophetic Visions**: 4 - 1 = **3/10**
 
@@ -129,13 +136,13 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**Turn 2 — Witnessing Fate (Visions: 3 → 6)**
+**Turn 2 â€” Witnessing Fate (Visions: 3 â†’ 6)**
 
-**Your Party's Tank**: Attacks Assassin #1 → [20] → **CRITICAL HIT!** → 4d8+5 → [7, 8, 6, 7] + 5 = 33 damage → Assassin #1 DEAD
+**Your Party's Tank**: Attacks Assassin #1 â†’ [20] â†’ **CRITICAL HIT!** â†’ 4d8+5 â†’ [7, 8, 6, 7] + 5 = 33 damage â†’ Assassin #1 DEAD
 
 *A critical hit occurs within 30 feet of you. You WITNESS the threads of fate aligning.*
 
-**Witnessing Fate**: Natural 20 within 30 ft → +1 Prophetic Vision
+**Witnessing Fate**: Natural 20 within 30 ft â†’ +1 Prophetic Vision
 **Prophetic Visions**: 3 + 1 = **4/10**
 
 **Your Action (1 AP)**: Make a Moderate Prediction
@@ -144,14 +151,14 @@ The class has a unique prediction mechanic where you declare what you think will
 *You speak with certainty. "The master's blade will find only air."*
 
 **Assassin Master's Turn**: Attacks your tank
-**Attack Roll**: d20+7 → [9] → 9 + 7 = 16 → Miss! (tank's Armor is 17)
+**Attack Roll**: d20+7 â†’ [9] â†’ 9 + 7 = 16 â†’ Miss! (tank's Armor is 17)
 
-*The assassin master's blade swings wide—just as you predicted. Your Premonition from last turn subtracted 1d6, but it wasn't even needed. Fate agreed with you.*
+*The assassin master's blade swings wideâ€”just as you predicted. Your Premonition from last turn subtracted 1d6, but it wasn't even needed. Fate agreed with you.*
 
-**Prediction Result**: CORRECT! → +2 Prophetic Visions (Moderate)
+**Prediction Result**: CORRECT! â†’ +2 Prophetic Visions (Moderate)
 **Prophetic Visions**: 4 + 2 = **6/10**
 
-**Fateseer Passive — Premonition**: Correct prediction! Spend 1 Vision for an immediate fate effect.
+**Fateseer Passive â€” Premonition**: Correct prediction! Spend 1 Vision for an immediate fate effect.
 **Choice**: Grant your tank advantage on their next attack.
 **Cost**: 1 Vision
 
@@ -164,13 +171,13 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**Turn 3 — Altering Fate (Visions: 5 → 2)**
+**Turn 3 â€” Altering Fate (Visions: 5 â†’ 2)**
 
-*Assassin #2 attacks your mage. She's at 20 HP—this could kill her.*
+*Assassin #2 attacks your mage. She's at 20 HPâ€”this could kill her.*
 
-**Assassin #2's Turn**: Attacks your mage → [18] → Hit! → 2d6+3 → [6, 5] + 3 = 14 damage
+**Assassin #2's Turn**: Attacks your mage â†’ [18] â†’ Hit! â†’ 2d6+3 â†’ [6, 5] + 3 = 14 damage
 
-*Your mage drops to 6 HP. She's barely standing. But you saw this moment before combat even began—you have a Fate Trigger prepared.*
+*Your mage drops to 6 HP. She's barely standing. But you saw this moment before combat even beganâ€”you have a Fate Trigger prepared.*
 
 **Fate Trigger** (pre-placed earlier): "When an ally drops below 10 HP, they gain +4 Armor until end of round."
 **Cost**: Already paid (2 Visions)
@@ -184,7 +191,7 @@ The class has a unique prediction mechanic where you declare what you think will
 **You**: "I placed a fate trigger before combat. When you fell below 10 HP, my woven thread caught you."
 
 **Your Action (Reaction)**: Cast **Twist Fate** on Assassin #2's next roll (1 AP, 2 Visions)
-**Effect**: Add or subtract 1d6 from the target's next roll—you choose after seeing the result.
+**Effect**: Add or subtract 1d6 from the target's next rollâ€”you choose after seeing the result.
 
 *You reach into the timestream and twist. "Your next roll belongs to me."*
 
@@ -199,7 +206,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**Turn 4 — Grand Prediction (Visions: 3 → 7)**
+**Turn 4 â€” Grand Prediction (Visions: 3 â†’ 7)**
 
 **Your Action (1 AP)**: Make a Grand Prediction
 **Prediction**: "Our tank will land a critical hit on the assassin master this turn."
@@ -207,21 +214,21 @@ The class has a unique prediction mechanic where you declare what you think will
 *You speak with absolute certainty. "The master will fall to our tank's blade. I have SEEN it."*
 
 **Your Party's Tank's Turn**: Attacks Assassin Master (has advantage from Premonition, +2 from Divine Insight)
-**Attack Roll**: d20+6 with ADVANTAGE → [19, 12] → Take 19 → **CRITICAL HIT!** (19-20 crit range)
-**Damage**: 2d8+5 → [8, 7] + 5 = 20 damage → DOUBLED = 40 damage
+**Attack Roll**: d20+6 with ADVANTAGE â†’ [19, 12] â†’ Take 19 â†’ **CRITICAL HIT!** (19-20 crit range)
+**Damage**: 2d8+5 â†’ [8, 7] + 5 = 20 damage â†’ DOUBLED = 40 damage
 **Total Damage**: **40!**
 
 *The tank's blade strikes PERFECT. The assassin master staggers, mortally wounded.*
 
-**Assassin Master**: 42 HP remaining → 2 HP (barely alive)
+**Assassin Master**: 42 HP remaining â†’ 2 HP (barely alive)
 
-**Prediction Result**: CORRECT! → +3 Prophetic Visions (Grand)
+**Prediction Result**: CORRECT! â†’ +3 Prophetic Visions (Grand)
 **Prophetic Visions**: 3 + 3 = **6/10**
 
-**Witnessing Fate**: Natural 20 within 30 ft → +1 Prophetic Vision
+**Witnessing Fate**: Natural 20 within 30 ft â†’ +1 Prophetic Vision
 **Prophetic Visions**: 6 + 1 = **7/10**
 
-**Fateseer Passive — Premonition**: Correct prediction! Spend 1 Vision for immediate fate effect.
+**Fateseer Passive â€” Premonition**: Correct prediction! Spend 1 Vision for immediate fate effect.
 **Choice**: Force the assassin master to reroll his next attack with disadvantage.
 **Cost**: 1 Vision
 
@@ -234,21 +241,21 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**Turn 5 — Rewriting Fate (Visions: 6 → 1)**
+**Turn 5 â€” Rewriting Fate (Visions: 6 â†’ 1)**
 
-*The assassin master, barely alive, lunges at your mage. You predicted he would attack—you were right.*
+*The assassin master, barely alive, lunges at your mage. You predicted he would attackâ€”you were right.*
 
 **Assassin Master's Turn**: Attacks your mage (rerolling with disadvantage from Premonition)
-**Attack Roll**: d20+7 with DISADVANTAGE → [4, 11] → Take 4 → 4 + 7 = 11 → Miss! (mage's Armor is 15)
+**Attack Roll**: d20+7 with DISADVANTAGE â†’ [4, 11] â†’ Take 4 â†’ 4 + 7 = 11 â†’ Miss! (mage's Armor is 15)
 
 *Your Premonition ensured he would miss. Now you end this.*
 
 **Your Action**: Cast **Fate Strike** on Assassin Master (1 AP, 22 mana)
-**Effect**: 5d8 force damage, guaranteed to hit—no attack roll needed
+**Effect**: 5d8 force damage, guaranteed to hitâ€”no attack roll needed
 
 *You point at the dying master. "Your fate was sealed the moment I saw it."*
 
-**Damage**: 5d8 → [6, 7, 5, 8, 4] = 30 force damage
+**Damage**: 5d8 â†’ [6, 7, 5, 8, 4] = 30 force damage
 
 **Assassin Master**: DEAD
 
@@ -256,24 +263,24 @@ The class has a unique prediction mechanic where you declare what you think will
 
 **Mana**: 30 - 22 = 8/60
 
-**Assassin #2's Turn**: Attacks your tank → [14] → 14 + 5 = 19 → Hit! → 8 damage
+**Assassin #2's Turn**: Attacks your tank â†’ [14] â†’ 14 + 5 = 19 â†’ Hit! â†’ 8 damage
 *But you have Twist Fate active! You choose to subtract 1d6 from the roll.*
-**Twist Fate**: Subtract [4] → 19 - 4 = 15 → Now MISSES! (tank's Armor is 17)
+**Twist Fate**: Subtract [4] â†’ 19 - 4 = 15 â†’ Now MISSES! (tank's Armor is 17)
 
-*The blade veers off course—your Twist Fate pulled it aside at the last moment.*
+*The blade veers off courseâ€”your Twist Fate pulled it aside at the last moment.*
 
-**Your Action (1 AP)**: Simple Prediction — "Assassin #3 will flee."
+**Your Action (1 AP)**: Simple Prediction â€” "Assassin #3 will flee."
 *Assassin #3, seeing the master fall, bolts for the door.*
 
-**Prediction Result**: CORRECT! → +1 Prophetic Vision
+**Prediction Result**: CORRECT! â†’ +1 Prophetic Vision
 **Prophetic Visions**: 6 + 1 = **7/10**
 
 *But you're not letting him escape. You spend 3 Visions.*
 
 **Your Action**: Cast **Twist Fate** as a reaction on Assassin #3's Agility check to open the door (2 Visions)
-**Effect**: Subtract 1d6 → [5] from their check. They fail to open the door.
+**Effect**: Subtract 1d6 â†’ [5] from their check. They fail to open the door.
 
-*The assassin claws at the handle. You've seen this moment—you twist fate, and the door stays shut.*
+*The assassin claws at the handle. You've seen this momentâ€”you twist fate, and the door stays shut.*
 
 **Prophetic Visions**: 7 - 2 = **5/10**
 
@@ -285,7 +292,7 @@ The class has a unique prediction mechanic where you declare what you think will
 
 **Your Party's Mage**: "You saved me twice. The fate trigger when I would have died, and the Twist Fate that made the master miss."
 **You**: "I foresaw both moments before combat began. I placed a Fate Trigger for your survival, and used Premonition to turn my correct predictions into immediate fate effects. Every time I was right, I got to twist reality."
-**Your Party's Tank**: "And that guaranteed hit—Fate Strike—on the master?"
+**Your Party's Tank**: "And that guaranteed hitâ€”Fate Strikeâ€”on the master?"
 **You**: "5d8 force damage. No roll needed. I SAW him die. Fate just needed a push."
 **Your Party's Rogue**: "How many Visions do you have now?"
 **You**: "Five. I started with 3, gained 8 through correct predictions, witnessing fate, and Premonition triggers, spent 6 total. I'll reset to 3 at our next long rest."
@@ -294,17 +301,17 @@ The class has a unique prediction mechanic where you declare what you think will
 
 ---
 
-**The Lesson — How the Fateseer Oracle Plays**:
+**The Lesson â€” How the Fateseer Oracle Plays**:
 
-1. **Predict** → Made 4 predictions (Simple, Moderate, Grand, Simple). Gained 1/2/3/1 Visions when correct.
-2. **Witness Fate** → Gained +1 Vision each time a Natural 20 occurred within 30 ft (2 crits = +2 Visions).
-3. **Premonition (Fateseer Passive)** → Each correct prediction let me spend 1 Vision for a free fate effect: subtract 1d6 from an enemy, grant advantage, force disadvantage. This is the Fateseer's engine—accuracy fuels manipulation.
-4. **Fate Triggers** → Pre-placed conditional effects ("When X happens, Y occurs") that fire automatically. I placed one before combat that saved the mage.
-5. **Twist Fate (Reaction Spell)** → Spend 2 Visions to add/subtract 1d6 from any roll after seeing the result. I used it to turn a hit into a miss and to stop a fleeing enemy.
-6. **Fate Strike (Universal Spell)** → Guaranteed 5d8 damage for 22 mana. When I need something dead without trusting the dice.
+1. **Predict** â†’ Made 4 predictions (Simple, Moderate, Grand, Simple). Gained 1/2/3/1 Visions when correct.
+2. **Witness Fate** â†’ Gained +1 Vision each time a Natural 20 occurred within 30 ft (2 crits = +2 Visions).
+3. **Premonition (Fateseer Passive)** â†’ Each correct prediction let me spend 1 Vision for a free fate effect: subtract 1d6 from an enemy, grant advantage, force disadvantage. This is the Fateseer's engineâ€”accuracy fuels manipulation.
+4. **Fate Triggers** â†’ Pre-placed conditional effects ("When X happens, Y occurs") that fire automatically. I placed one before combat that saved the mage.
+5. **Twist Fate (Reaction Spell)** â†’ Spend 2 Visions to add/subtract 1d6 from any roll after seeing the result. I used it to turn a hit into a miss and to stop a fleeing enemy.
+6. **Fate Strike (Universal Spell)** â†’ Guaranteed 5d8 damage for 22 mana. When I need something dead without trusting the dice.
 7. **Vision Economy**: Started with 3, gained 8, spent 6, ended with 5. The key insight: correct predictions feed your fate manipulation through Premonition, creating a virtuous cycle.
 
-**You're not a damage dealer. You're a FATESEER.** You predict outcomes, and when you're right, fate itself bends to your will. The Fateseer's unique power is that every correct prediction isn't just a reward—it's an opportunity to immediately reshape reality. Predict accurately, and you become the most powerful force on the battlefield. Predict poorly, and you're vulnerable. Skill matters more than luck. Read the battlefield. See the future. Make it real.`,
+**You're not a damage dealer. You're a FATESEER.** You predict outcomes, and when you're right, fate itself bends to your will. The Fateseer's unique power is that every correct prediction isn't just a rewardâ€”it's an opportunity to immediately reshape reality. Predict accurately, and you become the most powerful force on the battlefield. Predict poorly, and you're vulnerable. Skill matters more than luck. Read the battlefield. See the future. Make it real.`,
     },
   },
 
@@ -315,13 +322,13 @@ The class has a unique prediction mechanic where you declare what you think will
     abilityPriorities: {
       primary: "Spirit",
       primaryDesc:
-        "Powers your Prophetic Visions, determines spell save DCs, and fuels your divination magic — your most important stat.",
+        "Powers your Prophetic Visions, determines spell save DCs, and fuels your divination magic â€” your most important stat.",
       secondary: "Intelligence",
       secondaryDesc:
         "Boosts psychic damage on spells like Future Strike and Past Sins, and supports investigation/lore skills.",
       tertiary: "Constitution",
       tertiaryDesc:
-        "Survivability. You are frontline-adjacent (30ft for Witnessing Fate) with light armor — every HP counts.",
+        "Survivability. You are frontline-adjacent (30ft for Witnessing Fate) with light armor â€” every HP counts.",
     },
 
     startingEquipment: {
@@ -347,7 +354,7 @@ The class has a unique prediction mechanic where you declare what you think will
           name: "Choose 1",
           options: [
             "Necklace of Fate (+1 Spirit, +1 INT)",
-            "Oracle's Tarot Deck (tool — grants advantage on fortune-telling checks, 1 free Simple Prediction per day)",
+            "Oracle's Tarot Deck (tool â€” grants advantage on fortune-telling checks, 1 free Simple Prediction per day)",
           ],
         },
       ],
@@ -395,11 +402,11 @@ The class has a unique prediction mechanic where you declare what you think will
     title: "Prophetic Visions",
     subtitle: "The Eye of Fate & The Prediction Engine",
 
-    description: `Oracles generate Prophetic Visions by reading the flow of time and declaring predictions about combat. These visions allow them to reach into the timeline and manually reweave fate, forcing rerolls and altering outcomes in real-time.`,
+    description: `Oracles generate Prophetic Visions by reading the flow of time and declaring predictions about combat. These visions are spent NOT on rerolling dice, but on REVEALING hidden information: enemy resistances, HP thresholds, attack intentions, trap locations, hidden enemies, and impending dangers. The Oracle is an information warfare specialist â€” they see what others cannot, and that knowledge is their weapon. âš ï¸ If you want to force rerolls, play the Fate Weaver. The Oracle reads fate; the Fate Weaver changes it.`,
 
     cards: [
       {
-        title: "The Eye of Prophecy (0–10)",
+        title: "The Eye of Prophecy (0â€“10)",
         stats: "10 Vision Max | +1 per Turn",
         details:
           "A mystical eye UI tracks your foresight. It glows brighter as your clarity increases, granting reality-warping power at higher tiers.",
@@ -408,7 +415,7 @@ The class has a unique prediction mechanic where you declare what you think will
         title: "Prediction Engine",
         stats: "Simple / Moderate / Grand",
         details:
-          "Declare what will happen next. Correct forecasts grant 1–3 Visions immediately, rewarding tactical insight over blind luck.",
+          "Declare what will happen next. Correct forecasts grant 1â€“3 Visions immediately, rewarding tactical insight over blind luck.",
       },
       {
         title: "Fate Manipulation",
@@ -460,10 +467,10 @@ The class has a unique prediction mechanic where you declare what you think will
     forecastDice: {
       title: "Forecast Dice",
       subtitle: "The Oracle's Unique Ability",
-      description: `At the start of each day (after a long rest), the Oracle rolls **5 Forecast Dice** of their own choosing. You may select any combination of dice types (d4, d6, d8, d10, d12, d20) — for example, 2d6 + 1d8 + 1d10 + 1d20. The results are **banked** and can be spent throughout the day to replace any single die roll with a forecast die result.`,
+      description: `At the start of each day (after a long rest), the Oracle rolls **5 Forecast Dice** of their own choosing. You may select any combination of dice types (d4, d6, d8, d10, d12, d20) â€” for example, 2d6 + 1d8 + 1d10 + 1d20. The results are **banked** and can be spent throughout the day to replace any single die roll with a forecast die result.`,
       rules: [
         "**Rolling**: At the start of each day, choose your 5 dice and roll them. Record each result separately (e.g., d6=4, d6=2, d8=7, d10=3, d20=14).",
-        "**Spending**: At any point during the day, you may spend one forecast die to replace the result of ANY die roll — yours, an ally's, or an enemy's. This includes attack rolls, damage rolls, saving throws, ability checks, and healing rolls.",
+        "**Spending**: At any point during the day, you may spend one forecast die to replace the result of ANY die roll â€” yours, an ally's, or an enemy's. This includes attack rolls, damage rolls, saving throws, ability checks, and healing rolls.",
         '**Declaration**: You must declare the swap BEFORE the result is applied. "I swap my forecast d8 showing 7 for this attack roll."',
         "**One-for-One**: Each forecast die can only be used once. Once spent, it is consumed.",
         "**Timing**: You can use forecast dice in combat, during skill challenges, social encounters, or any other situation involving die rolls.",
@@ -506,26 +513,26 @@ The class has a unique prediction mechanic where you declare what you think will
       momentum:
         'Use Simple Predictions to steadily climb to 5+ Visions. Once your Eye is bright, you have the "Fate Bank" to save allies from lethal critical hits.',
       flourish:
-        "⚠️ Prediction AP: Predictions cost 1 Action Point (0 AP for Seers). Always leave 1 AP in your tank if you need to generate Visions for a big turn.",
+        "âš ï¸ Prediction AP: Predictions cost 1 Action Point (0 AP for Seers). Always leave 1 AP in your tank if you need to generate Visions for a big turn.",
     },
 
     overheatRules: {
       title: "Prophetic Clarity",
       content: `Your current Vision level determines the intensity of your connection to the timestream:
 
-**👁️ Maximum Foresight (9–10 Visions)**:
+**ðŸ‘ï¸ Maximum Foresight (9â€“10 Visions)**:
 - **Status**: Omniscient Sight.
 - **Effect**: The Eye of Prophecy blazes gold. You can see the ethereal "Fate Threads" connecting all combatants. Once per round as a reaction, you may spend 1 Vision to add +2 to your AC against one attack.
 
-**👁️ High Insight (6–8 Visions)**:
+**ðŸ‘ï¸ High Insight (6â€“8 Visions)**:
 - **Status**: Prophetic Clarity.
 - **Effect**: silver-blue light radiates from your irises. You have enough reserve to use "Twist Destiny" (5 Visions) to completely change a hit to a miss.
 
-**👁️ Moderate Insight (3–5 Visions)**:
+**ðŸ‘ï¸ Moderate Insight (3â€“5 Visions)**:
 - **Status**: Clear Sight.
 - **Effect**: Soft blue glow. This is your safe zone for using Reactions like "Force Reroll" (3 Visions).
 
-**👁️ Low Insight (0–2 Visions)**:
+**ðŸ‘ï¸ Low Insight (0â€“2 Visions)**:
 - **Status**: Limited Foresight.
 - **Effect**: Dim light. You are vulnerable and must focus on basic predictions to rebuild your connection to the future.`,
     },
@@ -555,7 +562,7 @@ The class has a unique prediction mechanic where you declare what you think will
 **Tactile Tracking**:
 1. **The Eye**: Arrange your 10 tokens in a circle (an "Eye") on the table.
 2. **Declaring**: When you make a prediction, write it on a sticky note and place it in the center of your token circle.
-3. **Resolving**: When the event happens, if you were right, move 1–3 tokens from your "Reserve" into the "Eye."
+3. **Resolving**: When the event happens, if you were right, move 1â€“3 tokens from your "Reserve" into the "Eye."
 
 **The "Fate Thread" Hack**:
 Use a silver string or measuring tape. Any critical event within 30ft of your miniature grants you +1 Vision. Having a physical 30ft marker helps you stay in the "Witnessing" pocket without constantly asking the DM for distances.`,
@@ -625,7 +632,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         color: "#FFD700",
         theme: "Information Warfare & Exposed Weakness",
 
-        description: `Truthseekers don't just uncover secrets—they weaponize them. They pierce through enemy defenses, expose hidden weaknesses, and strip away every advantage their opponents thought they had. In combat: Reveal → Expose → Exploit. Out of combat: unmatched investigation and revelation.`,
+        description: `Truthseekers don't just uncover secretsâ€”they weaponize them. They pierce through enemy defenses, expose hidden weaknesses, and strip away every advantage their opponents thought they had. In combat: Reveal â†’ Expose â†’ Exploit. Out of combat: unmatched investigation and revelation.`,
 
         playstyle:
           "Information warfare, enemy debilitation, weakness exploitation, unmatched out-of-combat investigation",
@@ -640,7 +647,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
         weaknesses: [
           "Relies on enemies having secrets to expose (less effective against mindless foes)",
-          "Limited direct damage—empowers allies instead",
+          "Limited direct damageâ€”empowers allies instead",
           "Requires an action to study enemies before exploiting weaknesses",
           "Out-of-combat abilities don't help in pure slugfests",
         ],
@@ -656,12 +663,12 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
         keyAbilities: [
           "Unmask: Strip one buff or immunity from a studied target (2 Visions)",
-          "Reveal Weakness: Expose a target's vulnerability—attacks against them gain advantage and deal +1d6 damage for 3 rounds (3 Visions)",
-          "Exploit Truth: Deal psychic damage to a target equal to the number of debuffs currently affecting them ×2d6 (4 Visions)",
+          "Reveal Weakness: Expose a target's vulnerabilityâ€”attacks against them gain advantage and deal +1d6 damage for 3 rounds (3 Visions)",
+          "Exploit Truth: Deal psychic damage to a target equal to the number of debuffs currently affecting them Ã—2d6 (4 Visions)",
         ],
 
         combatLoop:
-          "Study enemy (learn secrets) → Unmask (strip buffs) → Reveal Weakness (expose vulnerability) → Allies exploit the exposed target",
+          "Study enemy (learn secrets) â†’ Unmask (strip buffs) â†’ Reveal Weakness (expose vulnerability) â†’ Allies exploit the exposed target",
 
         recommendedFor:
           "Players who love turning knowledge into power, dismantling enemy strategies, and making allies devastating",
@@ -674,45 +681,45 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         color: "#FF1493",
         theme: "Prediction-First Fate Manipulation",
 
-        description: `Fateseers don't blindly twist probability—they SEE the future first, then reshape what they've foreseen. Every fate manipulation must flow through a prediction. You cannot alter what you haven't foreseen. This is what separates you from a Fate Weaver: they manipulate chance blindly; you manipulate fate through foresight.`,
+        description: `Fateseers don't blindly twist probabilityâ€”they SEE the future first, then reshape what they've foreseen. Every fate manipulation must flow through a prediction. You cannot alter what you haven't foreseen. This is what separates you from a Fate Weaver: they manipulate chance blindly; you manipulate fate through foresight.`,
 
         playstyle:
-          "Predict outcomes → Spend Visions to reshape what you predicted → Set fate triggers for future events",
+          "Predict outcomes â†’ Spend Visions to reshape what you predicted â†’ Set fate triggers for future events",
 
         strengths: [
           "Fate manipulation is gated through correct predictions (rewarding accuracy)",
-          'Can pre-place "fate triggers" — conditional effects that fire when predicted events occur',
+          'Can pre-place "fate triggers" â€” conditional effects that fire when predicted events occur',
           "Echo correct predictions to repeat their effects",
           "Strongest late-game fate control when prediction accuracy is high",
         ],
 
         weaknesses: [
-          "Cannot manipulate fate without first predicting it—vulnerable when predictions fail",
+          "Cannot manipulate fate without first predicting itâ€”vulnerable when predictions fail",
           "Requires prediction accuracy to unlock manipulation (high skill ceiling)",
           "Less immediate impact than specs that don't depend on predictions",
           "Burns through Visions quickly when manipulating multiple fate threads",
         ],
 
         failedPredictionFallback:
-          "On a failed prediction, you still gain 1 Vision as a consolation — but you cannot trigger Premonition or use prediction-conditional abilities until your next correct prediction. This prevents total dead turns from bad luck.",
+          "On a failed prediction, you still gain 1 Vision as a consolation â€” but you cannot trigger Premonition or use prediction-conditional abilities until your next correct prediction. This prevents total dead turns from bad luck.",
 
         specPassive: {
           name: "Premonition",
           description:
-            "Once per round, when one of your predictions resolves as correct, you may spend 1 Vision to immediately apply one fate effect (reroll, ±1d6, or advantage/disadvantage) related to that prediction. This fate manipulation is free from action point cost.",
+            "Once per round, when one of your predictions resolves as correct, you may spend 1 Vision to immediately apply one fate effect (reroll, Â±1d6, or advantage/disadvantage) related to that prediction. This fate manipulation is free from action point cost.",
         },
 
         keyAbilities: [
-          'Fate Trigger: Spend 2 Visions to place a conditional effect—"When X happens, Y occurs." Triggers last until used or 1 minute. (2 Visions per trigger)',
+          'Fate Trigger: Spend 2 Visions to place a conditional effectâ€”"When X happens, Y occurs." Triggers last until used or 1 minute. (2 Visions per trigger)',
           "Fate Echo: When a correct prediction resolves, repeat its effect on a new target for free (3 Visions)",
           "Destiny Lock: After making a correct precise prediction, spend 5 Visions to guarantee the predicted outcome is maximized (crits deal max damage, saves auto-fail, etc.)",
         ],
 
         combatLoop:
-          "Predict an outcome → If correct, trigger Premonition for free fate effect → Place Fate Triggers for future contingencies → Echo successful predictions to double impact",
+          "Predict an outcome â†’ If correct, trigger Premonition for free fate effect â†’ Place Fate Triggers for future contingencies â†’ Echo successful predictions to double impact",
 
         recommendedFor:
-          "Players who want the Oracle's prediction system to be the engine that drives ALL their power—high skill ceiling, enormous payoff",
+          "Players who want the Oracle's prediction system to be the engine that drives ALL their powerâ€”high skill ceiling, enormous payoff",
       },
     ],
   },
@@ -1089,11 +1096,11 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
     // ===== FATESEER SPECIALIZATION =====
     {
       id: "oracle_twist_fate",
-      name: "Twist Fate",
+      name: "Read the Threads",
       description:
-        "Having foreseen this moment, you reach out and twist the threads of destiny. You must have made a correct prediction this combat to use this ability.",
+        "Having foreseen this moment, you read the threads of destiny surrounding a creature. You reveal critical information to your party rather than manipulating the roll. You must have made a correct prediction this combat to use this ability.",
       spellType: "REACTION",
-      icon: "Arcane/Ebon Blaze",
+      icon: "Arcane/All-Seeing Eye",
       level: 2,
       specialization: "fateseer",
 
@@ -1119,7 +1126,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         resourceValues: { visions: 2 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        description: "Spend 2 Visions to twist fate",
+        description: "Spend 2 Visions to read fate's threads",
       },
 
       duration: {
@@ -1129,13 +1136,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       resolution: "AUTOMATIC",
-      effectTypes: ["utility"],
+      effectTypes: ["utility", "information"],
 
       effects: {
-        primary: "Add or subtract 1d6 from the target's roll",
+        primary: "Reveal the target's exact roll result AND whether they succeeded or failed BEFORE the DM announces it",
         secondary:
-          "You choose whether to add or subtract after seeing the initial roll",
-        tertiary: "Can turn a success into a failure or vice versa",
+          "Reveal one hidden piece of information about the target: lowest resistance, current HP, or one active buff/debuff",
+        tertiary: "Your party gains tactical advantage through knowledge, not manipulation",
+        informationWarfareNote: "The Oracle does NOT reroll or modify any dice. They REVEAL what fate has already decided, allowing the party to react with perfect information.",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -2472,7 +2480,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       id: "oracle_fate_whisper_strike",
       name: "Fate's Whisper Strike",
       description:
-        "Channel a sliver of prophetic energy into a basic attack. Costs no mana and no Visions — your ever-present connection to the timestream.",
+        "Channel a sliver of prophetic energy into a basic attack. Costs no mana and no Visions â€” your ever-present connection to the timestream.",
       level: 0,
       spellType: "ACTION",
       icon: "Psychic/Mind Read",
@@ -2514,7 +2522,7 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
         elementType: "psychic",
         damageTypes: ["direct"],
         specialRules:
-          "Grants +1 Prophetic Vision on hit. Always available — no cooldown.",
+          "Grants +1 Prophetic Vision on hit. Always available â€” no cooldown.",
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
@@ -2696,19 +2704,19 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
     // ADDITIONAL LEVEL 5 SPELL
     {
-      id: "oracle_destiny_rewrite",
-      name: "Destiny Rewrite",
+      id: "oracle_destiny_insight",
+      name: "Destiny Insight",
       description:
-        "Rewrite the destiny of an ally, allowing them to reroll any roll with advantage for 5 rounds.",
+        "Open an ally's eyes to the threads of fate surrounding them. For 5 rounds, the target can see enemy intentions before they act â€” granting advantage on all saving throws and the ability to see the result of any d20 roll targeting them before deciding whether to use a reaction.",
       level: 5,
       spellType: "ACTION",
       specialization: "universal",
-      effectTypes: ["buff"],
+      effectTypes: ["buff", "information"],
 
       typeConfig: {
         school: "divination",
         icon: "Radiant/Divine Halo",
-        tags: ["buff", "destiny", "advantage", "universal"],
+        tags: ["buff", "information", "foresight", "universal"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2722,14 +2730,14 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
       },
 
       buffConfig: {
-        buffType: "statEnhancement",
+        buffType: "informationEnhancement",
         effects: [
           {
-            id: "destiny_rewrite",
-            name: "Destiny Rewrite",
-            description: "Can reroll any roll with advantage for 5 rounds",
+            id: "destiny_insight",
+            name: "Destiny Insight",
+            description: "Advantage on all saving throws for 5 rounds. Can see d20 roll results targeting them before deciding to use reactions.",
             statModifier: {
-              stat: "all_rolls",
+              stat: "saving_throws",
               magnitude: 1,
               magnitudeType: "advantage",
             },
@@ -2755,6 +2763,59 @@ Use a silver string or measuring tape. Any critical event within 30ft of your mi
 
       resolution: "DICE",
       tags: ["buff", "destiny", "advantage", "universal"],
+    },    {
+      id: "oracle_failed_prophecy",
+      name: "Failed Prophecy",
+      description:
+        "When a prophecy or prediction you make turns out to be wrong (the predicted outcome does not occur), you take 2d6 psychic damage as the timeline snaps back. Your accuracy is your weapon -- and your vulnerability.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Scream",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psychic Scream",
+        tags: ["passive", "debuff", "self-damage", "prophecy penalty", "oracle"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "self-damage", "prophecy penalty", "oracle"],
+    },
+    {
+      id: "oracle_vision_burnout",
+      name: "Vision Burnout",
+      description:
+        "At the end of any turn where you used 3 or more divination or prediction abilities, you are Blinded for 1 round. The sheer volume of possible futures overloads your senses. Seeing too much has consequences.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Eye",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psychic Eye",
+        tags: ["passive", "debuff", "blindness", "divination overload", "oracle"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "blindness", "divination overload", "oracle"],
     },
   ],
 

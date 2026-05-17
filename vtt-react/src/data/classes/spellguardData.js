@@ -400,6 +400,11 @@ Against spellcasters, you're nearly INVINCIBLE. Against physical attackers, you'
           "+5 bonus",
           "Reward for Spell Breaker spec timing",
         ],
+        [
+          "⚠️ AEP Overflow (at 100)",
+          "ARCANE BACKLASH",
+          "Roll 1d10 at start of turn while at cap. Self-damage, ally damage, mana loss, or worse. SPEND before you cap.",
+        ],
       ],
     },
 
@@ -415,6 +420,18 @@ Against spellcasters, you're nearly INVINCIBLE. Against physical attackers, you'
 **Phase 2: Shielding (21-50 AEP)**: Your active zone. You have enough buffer to absorb moderate spell bursts and still have reserves for reactions. Pre-emptively shield squishy allies (casters, rogues) before big enemy turns. Watch for telltale casting gestures and prime Reflective Barrier against the highest-damage enemy caster.
 
 **Phase 3: Overcharged (51-100 AEP)**: Maximum threat. At 80+ AEP, Arcane Nova becomes fight-ending. Cluster enemies before detonating. If an enemy caster is still alive, hold 25+ AEP for Reflective Barrier — sending their own spell back with bonus damage is devastating. Consider whether detonating Nova or saving for reflection is the higher-value play.
+
+**⚠️ ARCANE BACKLASH (Cap Penalty)**: If your AEP reaches 100 (maximum capacity), the stored energy becomes unstable. At the start of your turn while at 100 AEP, roll 1d10 on the Arcane Backlash table:
+
+| d10 | Backlash Effect |
+|-----|----------------|
+| 1-3 | **Arcane Scream** — Take 2d8 force damage. All creatures within 10ft take 1d8 force damage (allies included). |
+| 4-6 | **Energy Leak** — Lose 2d10 AEP (overflow lost). You are deafened for 1 round as energy screams from your ears. |
+| 7-8 | **Static Discharge** — Your next spell costs double mana as the energy interferes with casting. Lose 1d4 mana. |
+| 9 | **Phantom Pain** — Take 4d8 psychic damage as the stored magic burns your mind. No save. |
+| 10 | **The Gate Opens** — Roll on the Arcane Backlash table again. If you roll 10 a second time, a minor void rift opens at your location (15ft radius, 3d8 void damage to all creatures, persists for 2 rounds). |
+
+**Design Intent**: You WANT to stay in the 70-90 AEP range. Cap is dangerous. Spend aggressively when approaching 100. The Spellguard who hoards AEP is the Spellguard who kills their own party.
 
 **The Mana Drain Loop**: Your melee attacks drain 1d4 mana from casters per hit. Every stolen mana point = +1 AEP. Against caster-heavy encounters, you passively generate AEP while dealing damage. Prioritize caster targets — each melee hit starves them of resources while feeding yours.
 
@@ -1005,7 +1022,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
       id: "sg_arcane_rejuvenation",
       name: "Arcane Rejuvenation",
       description:
-        "Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal yourself or an ally for 1d6 per 5 AEP spent (2d6 to 8d6).",
+        "Convert absorbed arcane energy into healing power. Spend 10-40 AEP to heal an ALLY for 1d6 per 5 AEP spent (2d6 to 8d6). ⚠️ CANNOT TARGET SELF — the Spellguard absorbs magic but cannot direct it inward for healing. You channel it outward to mend others, not yourself. The Spellguard is protected by wards, not restoration.",
       spellType: "ACTION",
       icon: "Healing/Golden Heart",
       level: 2,
@@ -1021,7 +1038,7 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
+        targetRestrictions: ["ally"],
       },
 
       durationConfig: {
@@ -2743,6 +2760,64 @@ String 10 beads on a cord (each worth 10 AEP). Slide beads from one end to the o
 
       resolution: "AUTOMATIC",
       tags: ["buff", "shield", "reflection", "aep cost", "spellguard"],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "spellguard_arcane_fragility",
+      name: "Arcane Fragility",
+      description:
+        "Your body has been warped by absorbing arcane energy, making you vulnerable to physical attacks. You take +2 damage from all non-magical weapon attacks (slashing, piercing, bludgeoning from non-enchanted sources). Your arcane-hardened body repels magic but is brittle against steel.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Explosion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Explosion",
+        tags: ["passive", "spellguard", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "spellguard", "weakness"],
+    },
+    {
+      id: "spellguard_spell_addiction",
+      name: "Spell Addiction",
+      description:
+        "Your body craves absorbed arcane energy. When you have 0 Arcane Energy Points (AEP), you suffer -2 to all spell attack rolls and your spell save DC decreases by 2. This penalty is removed the moment you absorb any spell and gain at least 1 AEP. The hunger for magic is real.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Vulnerability",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Vulnerability",
+        tags: ["passive", "spellguard", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "spellguard", "weakness"],
+    },
+    {
+      id: "spellguard_absorb_or_reflect",
+      name: "Absorb or Reflect",
+      description:
+        "You cannot do both simultaneously. At the start of each turn, choose: Absorb mode (gain AEP from spells hitting you, no reflect) or Reflect mode (reflect spells back at casters for partial damage, gain 0 AEP). Switching modes is free but locks you in for the entire turn. This choice defines your tactical approach each round.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Shield",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Shield",
+        tags: ["passive", "spellguard", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "spellguard", "restriction"],
     },
   ],
 };

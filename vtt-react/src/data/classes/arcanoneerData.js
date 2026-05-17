@@ -10,7 +10,7 @@ export const ARCANONEER_DATA = {
   name: "Arcanoneer",
   icon: "fas fa-atom",
   imageIcon: "/assets/icons/classes/arcanoneer.png",
-  role: "Damage/Utility",
+  role: "Damage/Utility (Pure Caster -- Zero Healing)",
   damageTypes: [
     "arcane",
     "holy",
@@ -53,7 +53,7 @@ export const ARCANONEER_DATA = {
 
     description: `The Arcanoneer doesn't memorize spells. The Arcanoneer *mixes* them.
 
-Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental reactions that occur when two elemental spheres collide. Fire + Ice = Steam. Shadow + Healing = Drain Life. Holy + Holy = Radiance. These combinations are as natural as chemistry: predictable, repeatable, and always available.
+Every Arcanoneer carries an instinctive knowledge of the **Combination Matrix** — the 36 fundamental reactions that occur when two elemental spheres collide. Fire + Ice = Steam. Shadow + Healing = Void Shield. Holy + Holy = Radiance. These combinations are as natural as chemistry: predictable, repeatable, and always available.
 
 But raw combination is only the beginning. Through study and practice, Arcanoneers learn **Recipes** — refined formulas that supercharge specific combinations. A novice combining Fire + Ice gets basic Steam: some damage, some mist. A master who has learned the *Steam Burst* recipe gets a pressurized cone of superheated vapor that blinds and scorches everything in its path. Same ingredients. Dramatically different results.
 
@@ -76,7 +76,7 @@ Common Arcanoneer archetypes:
       title: "Combat Role",
       content: `**Primary Role**: Adaptive damage dealer and utility caster
 
-**The Arcanoneer's Promise**: You will always have an answer. Not necessarily the *best* answer — that depends on what the dice give you — but always *an* answer. 36 matrix combinations cover every damage type, every targeting pattern, and both damage and healing. You are never caught completely helpless.
+**The Arcanoneer's Promise**: You will always have an answer. Not necessarily the *best* answer — that depends on what the dice give you — but always *an* answer. 36 matrix combinations cover every damage type, every targeting pattern, and both damage and utility. You are never caught completely helpless.
 
 **How You Fight**:
 1. **Roll your spheres** (4d8, or 5d8 for Entropy Weavers)
@@ -87,13 +87,14 @@ Common Arcanoneer archetypes:
 **Strengths**:
 - Can produce ANY damage type (8 elements = massive enemy weakness coverage)
 - Dual damage types on mixed combos (Fire+Ice hits both fire-weak AND ice-weak enemies)
-- Built-in healing and support options (Healing+Healing, Healing+Holy, etc.)
+- Built-in defensive and utility options (Healing+Healing for barriers, Healing+Holy for purification, etc.)
 - Chaos combos provide wild swing potential (high risk, high reward)
 - Scales with game knowledge — the more combos and recipes you know, the deadlier you become
 
 **Weaknesses**:
 - RNG-dependent — bad rolls mean suboptimal turns
 - 2-sphere base damage is modest (1d8 + INT/4) — you need Recipes or multi-sphere combos for big numbers. Recipes scale: 2d8 + INT/3 at level 3-4, 3d8 + INT/2 at level 5.
+- Zero self-healing -- you deal damage and provide utility, but you cannot heal yourself or allies. Entropy Drain grants TEMP HP only, not actual healing.
 - Complex decision-making every turn (analysis paralysis is real)
 - Sphere banking requires patience — turns spent saving are turns spent not casting`,
     },
@@ -109,8 +110,8 @@ Every turn begins the same way: you roll 4d8 and watch your spheres appear. Then
 You roll: Fire, Fire, Ice, Healing. Your mind races through the matrix:
 - Fire + Fire = *Flame Burst* (single target fire damage)
 - Fire + Ice = *Steam* (cone of mixed damage + blind)
-- Fire + Healing = *Cauterize* (heal an ally with fire)
-- Ice + Healing = *Frost Mend* (heal + frost armor buff)
+- Fire + Healing = *Cauterize* (burn away one debuff, deals fire damage to ally)
+- Ice + Healing = *Frost Armor* (+3 Armor for 3 rounds)
 
 Do you have Recipes for any of these? If you've learned *Steam Burst*, then Fire + Ice suddenly adds a blinding cone effect. If you've learned *Firestorm*, then Fire + Fire adds a massive AoE burning vortex.
 
@@ -134,7 +135,7 @@ You banked all 4 spheres from Turn 1. Now you roll Arcane, Shadow, Nature, Chaos
       title: "Combat Example: The Ambush at Grimhollow Bridge",
       content: `**The Setup**: Your party is crossing a stone bridge over a ravine when three bandits drop from the trees above. A fourth — their leader — stands at the far end, chanting. Your fighter charges forward. Your cleric holds the line. You stand at the center, fingers already twitching toward the elemental currents.
 
-**You are a Level 4 Arcanoneer** with 34 mana (10 + INT×2). You regenerate 4 mana per turn. You've learned Shadow Embrace (your one Level 4 Recipe) and carry three Level 1-2 Recipes: Spark Bolt, Healing Light, and Steam Burst.
+**You are a Level 4 Arcanoneer** with 34 mana (10 + INT×2). You regenerate 4 mana per turn. You've learned Shadow Embrace (your one Level 4 Recipe) and carry three Level 1-2 Recipes: Spark Bolt, Spark Shield, and Steam Burst.
 
 **Turn 1 — The Opening Reaction** *(2 AP available, 34 mana)*
 
@@ -226,7 +227,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         step: 1,
         title: "Prioritize Intelligence",
         content:
-          "Intelligence drives your combo damage (1d8 + INT/4 at base). Spirit drives your healing combos. Decide: do you want to be a damage-focused combo caster, or a hybrid who can also heal? Most Arcanoneers prioritize INT and treat healing as a situational tool.",
+          "Intelligence drives your combo damage (1d8 + INT/4 at base). Spirit drives your defensive combo potency. Decide: do you want to be a damage-focused combo caster, or a hybrid with shields and utility? Most Arcanoneers prioritize INT and treat defensive combos as a situational tool.",
       },
       {
         step: 2,
@@ -238,7 +239,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
         step: 3,
         title: "Pick Your First 3 Recipes",
         content:
-          "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (frost damage + slow + fragile), Healing Light (ally healing), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 1 damage, 1 healing, 1 utility.",
+          "Choose from 5 Level 1 spells: Spark Bolt (arcane damage, pierces armor), Frost Touch (frost damage + slow + fragile), Spark Shield (arcane absorb shield), Arcane Missile (force damage, cannot miss), Nature Vine (nature damage + restraint). Recommend: 2 damage, 1 defensive.",
       },
       {
         step: 4,
@@ -486,7 +487,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
           {
             level: "Lv 6",
             name: "Glacial Blessing",
-            upgrade: "Ice+Healing+Holy → 8d6 heal + armor + resist",
+            upgrade: "Ice+Healing+Holy → +4 Armor + fire resist (Glacial Blessing, no healing)",
           },
           {
             level: "Lv 9",
@@ -626,7 +627,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
 **Reading Your Options**:
 - **Pure combos** (Fire+Fire, Ice+Ice): Focused single-target damage. Reliable.
 - **Opposing combos** (Fire+Ice, Holy+Shadow): Unique mixed effects. Steam, Twilight — these are the "chemistry" combos.
-- **Healing combos** (Healing+Healing, Healing+X): Essential for party support. Never underestimate a well-timed Frost Mend or Bloom.
+- **Healing combos** (Healing+Healing, Healing+X): Defensive and utility effects -- barriers, armor, teleports, purification. Never underestimate a well-timed Frost Armor or Thunder Step.
 - **Chaos combos** (Chaos+X): Wild swings. Use them when you're desperate or when the Entropy Weaver in you wants to gamble.
 
 **The Multi-Cast Trick**: If you have the action points, you can cast TWO 2-sphere combos in one turn. Fire+Ice for Steam on the front line, then Healing+Healing for Rejuvenation on your tank. One turn, two spells, total battlefield control. This costs 10 mana and 2 AP — expensive, but devastating when it works.
@@ -649,7 +650,7 @@ You have banked spheres (Fire, Healing, Arcane, Nature, Chaos, Shadow, Ice, Holy
 **Rookie Mistake**: "Fire + Fire = Flame Burst! Maximum fire damage!"
 - Result: Wasted spheres on a fire-resistant enemy. Your base matrix damage (1d8 + INT/4) barely tickles it.
 
-**Smart Play**: "Ice + Healing = **Frost Mend** on our tank. Give them a heal AND frost armor. Then bank the two Fire spheres — the goblins aren't fire-resistant."
+**Smart Play**: "Ice + Ice = **Frost Armor** on our tank. Give them +3 Armor for 3 rounds. Then bank the two Fire spheres — the goblins aren't fire-resistant."
 - Result: Tank gets healed + armor buff. Fire spheres banked for next turn.
 
 **Turn 2 Roll**: [1, 3, 6, 8] → Arcane, Shadow, Nature, Chaos
@@ -703,13 +704,13 @@ All 36 two-sphere base combos. Cost varies by Action type (4-7 mana; see Action 
 
 | | Arcane | Holy | Shadow | Fire | Ice | Nature | Healing | Chaos |
 |---|---|---|---|---|---|---|---|---|
-| **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Arcane Mend | Wild Magic ★ |
-| **Holy** | → | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Holy Mend | Chaos Light ★ |
-| **Shadow** | → | → | Dark Bolt | Hellfire | Frostbite | Blight | Drain Life | Entropy ★ |
+| **Arcane** | Arcane Pulse | Divine Bolt | Void Bolt | Arcane Flame | Crystal Shard | Thunderstrike | Arcane Barrier | Wild Magic ★ |
+| **Holy** | u{2192} | Radiance | Twilight | Solar Flare | Aurora | Verdant Light | Purification | Chaos Light ★ |
+| **Shadow** | u{2192} | u{2192} | Dark Bolt | Hellfire | Frostbite | Blight | Void Shield | Entropy ★ |
 | **Fire** | → | → | → | Flame Burst | Steam † | Wildfire | Cauterize | Chaos Flame ★ |
-| **Ice** | → | → | → | → | Frost Spike | Hailstorm | Frost Mend | Glitch Ice ★ |
-| **Nature** | → | → | → | → | → | Storm Surge | Bloom | Primal Chaos ★ |
-| **Healing** | → | → | → | → | → | → | Rejuvenation | Fate's Gift ★ |
+| **Ice** | u{2192} | u{2192} | u{2192} | u{2192} | Frost Spike | Hailstorm | Frost Armor | Glitch Ice ★ |
+| **Nature** | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | Storm Surge | Thunder Step | Primal Chaos ★ |
+| **Healing** | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | u{2192} | Restoration Ward | Chaos Shield ★ |
 | **Chaos** | → | → | → | → | → | → | → | Chaos Bolt ★ |
 
 ★ = Chaos combo — each has its own specific random effect table. If no specific table applies, roll on the general Chaos Effects d20 table instead.
@@ -730,36 +731,36 @@ All 36 two-sphere base combos. Cost varies by Action type (4-7 mana; see Action 
 | Flame Burst | Fire | Single target damage |
 | Frost Spike | Frost | Single target + slow |
 | Storm Surge | Nature | Single target damage |
-| Rejuvenation | — | Heal single ally |
+| Restoration Ward | Arcane | Barrier, blocks movement 2 rounds |
 | Chaos Bolt | Chaos | ★ Random effect |
 | Divine Bolt | Force, Radiant | Cannot miss |
 | Void Bolt | Force, Necrotic | Barrier-piercing |
 | Arcane Flame | Force, Fire | Barrier-piercing fire |
 | Crystal Shard | Force, Frost | Armor-piercing |
 | Thunderstrike | Force, Nature | Lightning bolt |
-| Arcane Mend | Force | Heal ally |
+| Arcane Barrier | Force | Absorb shield (4d8) |
 | Wild Magic | Chaos | ★ Random effect |
 | Twilight | Radiant, Necrotic | Dual damage |
 | Solar Flare | Radiant, Fire | Heavy burn |
 | Aurora | Radiant, Frost | Damage + slow |
 | Verdant Light | Radiant, Nature | Burning vines |
-| Holy Mend | — | Heal + cleanse debuff |
+| Purification | Radiant | Remove all debuffs + 1d6 radiant/debuff |
 | Chaos Light | Chaos | ★ Random effect |
 | Hellfire | Necrotic, Fire | Shadow flames |
 | Frostbite | Necrotic, Frost | Rot + slow |
 | Blight | Necrotic, Nature | Poison thorns |
-| Drain Life | Necrotic | Damage + self-heal |
+| Void Shield | Necrotic | Absorb spell + reflect 50% |
 | Entropy | Chaos | ★ Random effect |
 | Steam | Fire, Frost | 20ft cone + blind |
 | Wildfire | Fire, Nature | Burning vines |
-| Cauterize | Fire | Heal ally (fire) |
+| Cauterize | Fire | Remove 1 debuff + 2d6 fire damage |
 | Chaos Flame | Chaos | ★ Random effect |
 | Hailstorm | Frost, Nature | 10ft AoE |
-| Frost Mend | — | Heal + armor buff |
+| Frost Armor | Frost | +3 Armor for 3 rounds |
 | Glitch Ice | Chaos | ★ Random effect |
-| Bloom | — | Heal + regen |
+| Thunder Step | Nature | Teleport 15ft |
 | Primal Chaos | Chaos | ★ Random effect |
-| Fate's Gift | Chaos | ★ Random effect |
+| Chaos Shield | Chaos | ★ Roll 1d4 defensive effect |
 
 ---
 
@@ -1043,16 +1044,19 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "healing_healing",
-        name: "Rejuvenation",
+        name: "Restoration Ward",
         elements: ["healing", "healing"],
-        damageTypes: [],
-        targetType: "single_ally",
-        range: 60,
-        primaryEffect: "healing",
+        damageTypes: ["arcane"],
+        targetType: "area",
+        range: 30,
+        aoeShape: "circle",
+        aoeParameters: { radius: 10 },
+        primaryEffect: "control",
+        secondaryEffect: "barrier",
         effectDescription:
-          "A warm pulse of restorative energy mends wounds on a single ally.",
+          "Create a barrier of pure restorative energy that blocks movement. All creatures within 10 feet cannot move beyond the barrier for 2 rounds.",
         flavorText:
-          "The two healing spheres merge into a soft golden glow that pulses like a heartbeat. You guide it toward your ally with an open palm, and it sinks into their skin like sunlight through water, closing wounds and easing pain.",
+          "The two healing spheres do not mend wounds -- they crystallize into a shimmering dome of golden force. Nothing crosses the boundary. The warmth becomes a wall, and the wall does not yield.",
       },
       {
         id: "chaos_chaos",
@@ -1086,10 +1090,12 @@ MAX BANKED SPHERES: 12
           {
             name: "Entropy Drain",
             description:
-              "The bolt siphons vitality from the target, dealing chaos damage and healing you for the same amount.",
+              "The bolt siphons vitality from the target, dealing chaos damage and granting you temporary HP equal to the damage dealt. ⚠️ NOT healing — you gain a TEMP HP buffer that decays at the end of combat. The Arcanoneer CANNOT heal. This is absorption, not restoration.",
             damageTypes: ["chaos"],
             targetType: "single",
-            selfHeal: true,
+            selfHeal: false,
+            tempHP: true,
+            tempHPDecay: "end_of_combat",
           },
           {
             name: "Wild Surge",
@@ -1171,19 +1177,19 @@ MAX BANKED SPHERES: 12
         flavorText:
           "The arcane sphere becomes a lightning rod, drawing the nature sphere's storm energy into a single crackling bolt. You point, thunder peals, and a fork of white-hot lightning arcs toward your target.",
       },
-      {
+{
         id: "arcane_healing",
-        name: "Arcane Mend",
+        name: "Arcane Barrier",
         elements: ["arcane", "healing"],
         damageTypes: ["force"],
         targetType: "single_ally",
         range: 30,
-        primaryEffect: "healing",
-        secondaryEffect: "damage",
+        primaryEffect: "barrier",
+        secondaryEffect: "shield",
         effectDescription:
-          "Arcane energy accelerates the body's natural healing. Restores health to an ally.",
+          "Conjure an arcane shield of pure magical force around your target. Absorbs damage equal to 4d8.",
         flavorText:
-          "Healing energy wrapped in arcane precision — the violet glow knits flesh with surgical accuracy while the golden warmth soothes the pain. A strange warmth that tingles like static.",
+          "Arcane energy wraps around the healing sphere, not to mend but to harden. The result is a shimmering cocoon of violet-gold force that hovers around the target, deflecting incoming harm.",
       },
       {
         id: "arcane_chaos",
@@ -1292,17 +1298,17 @@ MAX BANKED SPHERES: 12
       },
       {
         id: "holy_healing",
-        name: "Holy Mend",
+        name: "Purification",
         elements: ["holy", "healing"],
-        damageTypes: [],
+        damageTypes: ["radiant"],
         targetType: "single_ally",
         range: 60,
-        primaryEffect: "healing",
-        secondaryEffect: "cleanse",
+        primaryEffect: "cleanse",
+        secondaryEffect: "damage",
         effectDescription:
-          "A powerful surge of divine healing that also purifies one debuff or negative effect.",
+          "A burst of divine radiance that burns away corruption. Removes all debuffs from the target but deals 1d6 radiant damage per debuff removed.",
         flavorText:
-          "Golden light and warm healing merge into a single brilliant pulse. It washes over your ally like a warm sunrise, closing wounds and burning away corruption with equal tenderness.",
+          "Holy fire meets healing light, and instead of soothing, it scourges. The golden radiance does not close wounds -- it burns the corruption out of them. Painful, but effective. Your ally screams, but stands cleansed.",
       },
       {
         id: "holy_chaos",
@@ -1398,19 +1404,19 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Nature twisted by shadow — black thorns that grow from darkness itself, dripping with poison that rots from within. They wrap around the target and squeeze, each thorn injecting decay.",
       },
-      {
+{
         id: "shadow_healing",
-        name: "Drain Life",
+        name: "Void Shield",
         elements: ["shadow", "healing"],
         damageTypes: ["necrotic"],
-        targetType: "single",
-        range: 60,
-        primaryEffect: "damage",
-        secondaryEffect: "self_heal",
+        targetType: "self",
+        range: 0,
+        primaryEffect: "barrier",
+        secondaryEffect: "reflect",
         effectDescription:
-          "Siphons life force from an enemy, dealing necrotic damage and healing you for the same amount.",
+          "Encase yourself in shadow that absorbs the next incoming spell. Reflect 50% of the absorbed spell's damage back at the caster.",
         flavorText:
-          "The shadow sphere hungers, and the healing sphere provides the conduit. Dark tendrils reach for your enemy, and where they touch, vitality flows back through the link like water through a pipe — from them, to you.",
+          "Shadow wraps around the healing sphere, inverting its purpose. Where it once mended, it now devours -- forming a writhing cocoon of dark energy around you. The next spell that strikes does not hurt you. It hurts them.",
       },
       {
         id: "shadow_chaos",
@@ -1495,19 +1501,19 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Fire and nature have an ancient pact: nature provides the fuel, fire provides the transformation. Vines of living flame lash outward, burning as they bind.",
       },
-      {
+{
         id: "fire_healing",
         name: "Cauterize",
         elements: ["fire", "healing"],
         damageTypes: ["fire"],
         targetType: "single_ally",
         range: 30,
-        primaryEffect: "healing",
-        secondaryEffect: "minor_damage",
+        primaryEffect: "cleanse",
+        secondaryEffect: "damage",
         effectDescription:
-          "Burns a wound shut while healing energy accelerates recovery. The ally receives healing over time.",
+          "Burn away afflictions with searing flame. Deals 2d6 fire damage to the target and removes ONE debuff or condition.",
         flavorText:
-          "Healing through harm — the oldest medical technique, given magical form. The fire sphere sterilizes as the healing sphere regenerates. It hurts. It also saves your life.",
+          "Fire does not heal -- it purges. The arcane sphere focuses the flame into a precise burn that chars away disease, poison, and curse. Your ally gasps as the fire licks their skin, but when it fades, the affliction is gone. Scars remain. The alternative was worse.",
       },
       {
         id: "fire_chaos",
@@ -1577,19 +1583,19 @@ MAX BANKED SPHERES: 12
         flavorText:
           "Ice and nature conspire to create the worst weather imaginable — frozen thorns driven by howling wind, crackling with lightning. It's localized, at least. Small mercies.",
       },
-      {
+{
         id: "ice_healing",
-        name: "Frost Mend",
+        name: "Frost Armor",
         elements: ["ice", "healing"],
-        damageTypes: [],
+        damageTypes: ["frost"],
         targetType: "single_ally",
         range: 30,
-        primaryEffect: "healing",
+        primaryEffect: "buff",
         secondaryEffect: "armor_buff",
         effectDescription:
-          "Healing energy crystallizes into a thin layer of frost armor, mending wounds and providing protection.",
+          "Encase the target in a shell of hardened ice, granting +3 Armor for 3 rounds.",
         flavorText:
-          "The ice doesn't numb — it stabilizes. Healing energy flows through the frost, mending tissue while the ice hardens into a protective shell. Like a bandage made of winter.",
+          "The healing sphere does not mend -- it crystallizes. Ice snaps into place around your target like living armor, each plate locking with a satisfying click. Cold, yes. Protective, absolutely. The frost knows how to take a hit.",
       },
       {
         id: "ice_chaos",
@@ -1646,17 +1652,17 @@ MAX BANKED SPHERES: 12
       // ========================================
       {
         id: "nature_healing",
-        name: "Bloom",
+        name: "Thunder Step",
         elements: ["nature", "healing"],
-        damageTypes: [],
-        targetType: "single_ally",
-        range: 30,
-        primaryEffect: "healing",
-        secondaryEffect: "regen",
+        damageTypes: ["nature"],
+        targetType: "self",
+        range: 0,
+        primaryEffect: "utility",
+        secondaryEffect: "teleport",
         effectDescription:
-          "Nature energy accelerates the body's natural healing, creating a bloom of restorative flowers that mend wounds over time.",
+          "Transform nature energy into a crackling teleport. Teleport up to 15 feet to an unoccupied space you can see.",
         flavorText:
-          "Where healing meets nature, life flourishes. Tiny luminescent flowers bloom across your ally's wounds, their petals knitting flesh together with gentle, unstoppable growth.",
+          "Nature energy does not bloom -- it crackles. The healing sphere destabilizes the nature sphere, and suddenly you are somewhere else, trailing ozone and crackling with leftover static. The air where you stood pops with displaced thunder.",
       },
       {
         id: "nature_chaos",
@@ -1710,52 +1716,54 @@ MAX BANKED SPHERES: 12
 
       // ========================================
       // HEALING MIXED (1 combo)
-      // Life energy warped by chaos
+      // Life energy warped into defensive chaos
       // ========================================
-      {
+{
         id: "healing_chaos",
-        name: "Fate's Gift",
+        name: "Chaos Shield",
         elements: ["healing", "chaos"],
         damageTypes: ["chaos"],
-        targetType: "random",
-        range: 60,
+        targetType: "self",
+        range: 0,
         primaryEffect: "random",
         isChaosCombo: true,
         effectDescription:
-          "Healing energy warped by chaos — it might heal, harm, buff, or do all three at once.",
+          "Unpredictable magical ward. Roll 1d4: 1=+2 Armor for 2 rounds, 2=absorb next spell, 3=reflect next attack, 4=nothing happens.",
         flavorText:
-          "You offer healing to chaos. Chaos considers the offer. Then does whatever it wants.",
+          "You smash healing and chaos together and hope for a shield. You might get one. You might get nothing. That is the price of asking chaos to protect you.",
         randomEffects: [
           {
-            name: "Fate's Blessing",
+            name: "Iron Ward",
             description:
-              "A random ally is healed for double the base healing amount.",
+              "Gain +2 Armor for 2 rounds. The chaos solidifies into something useful for once.",
             damageTypes: [],
-            targetType: "random_ally",
-            doubleHeal: true,
+            targetType: "self",
+            armorBuff: 2,
+            duration: 2,
           },
           {
-            name: "Chaos Cure",
+            name: "Spell Sponge",
             description:
-              "Remove all debuffs from yourself or a random ally, but take 1d4 chaos damage.",
-            damageTypes: ["chaos"],
-            targetType: "self_or_random_ally",
-            cleanseAll: true,
-          },
-          {
-            name: "Reversal",
-            description:
-              "The healing inverts — deal necrotic damage to a random enemy equal to the base healing.",
-            damageTypes: ["necrotic"],
-            targetType: "random_enemy",
-          },
-          {
-            name: "Wild Growth",
-            description:
-              "A random ally gains regeneration (1d4 HP per round) for 3 rounds.",
+              "Absorb the next spell cast at you. The chaos eats magic for breakfast.",
             damageTypes: [],
-            targetType: "random_ally",
-            regen: true,
+            targetType: "self",
+            absorbSpell: true,
+          },
+          {
+            name: "Retaliation",
+            description:
+              "Reflect the next attack back at the attacker. The chaos decides you are not the target today.",
+            damageTypes: [],
+            targetType: "self",
+            reflectAttack: true,
+          },
+          {
+            name: "Dud",
+            description:
+              "Nothing happens. The chaos yawns and goes back to sleep.",
+            damageTypes: [],
+            targetType: "self",
+            noEffect: true,
           },
         ],
       },
@@ -1979,18 +1987,18 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_healing_light",
-      name: "Healing Light",
+      name: "Spark Shield",
       description:
-        "Channels restorative energy into a warm beam of golden light that mends wounds on a single ally.",
+        "Conjure a crackling shield of arcane sparks around an ally. Absorbs 2d8 damage.",
       level: 1,
-      enhancesCombo: "healing_healing",
+      enhancesCombo: "arcane_arcane",
       spellType: "ACTION",
-      icon: "Radiant/Radiant Bolt",
+      icon: "Arcane/Ebon Blaze",
 
       typeConfig: {
-        school: "holy",
-        icon: "Radiant/Radiant Bolt",
-        tags: ["healing", "support", "starter"],
+        school: "arcane",
+        icon: "Arcane/Ebon Blaze",
+        tags: ["arcane", "defensive", "starter"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2003,24 +2011,24 @@ MAX BANKED SPHERES: 12
       },
 
       resourceCost: {
-        resourceTypes: ["mana", "healing_sphere"],
-        resourceValues: { mana: 4, healing_sphere: 2 },
+        resourceTypes: ["mana", "arcane_sphere"],
+        resourceValues: { mana: 4, arcane_sphere: 2 },
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Lux Sanare!",
+        verbalText: "Scutum Sparks!",
         somaticText:
-          "Hands glow with golden-white radiance, extending a beam of warm healing light toward the target",
+          "Arcs of violet energy crackle between your fingers as you project a shimmering shield around the target",
       },
 
-      effectTypes: ["healing"],
+      effectTypes: ["defensive"],
 
-      healingConfig: {
-        formula: "1d8 + spirit/4",
-        healingType: "direct",
+      defensiveConfig: {
+        shieldType: "absorb",
+        formula: "2d8",
         resolution: "DICE",
         description:
-          "Golden light mends wounds and restores vitality to the target.",
+          "A crackling barrier of arcane sparks absorbs incoming damage until depleted.",
       },
 
       cooldownConfig: {
@@ -2028,7 +2036,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["healing", "support", "starter"],
+      tags: ["arcane", "defensive", "starter"],
     },
 
     {
@@ -2302,12 +2310,18 @@ MAX BANKED SPHERES: 12
           "The shadow bolt strikes with necrotic force, actively draining life energy from the target. They feel their vitality being siphoned away, experiencing a deep cold that seems to come from within their very soul. The wound left behind appears blackened and necrotic, as if the flesh itself has died.",
       },
 
-      healingConfig: {
-        formula: "damage/4",
-        healingType: "leech",
-        resolution: "DICE",
-        description:
-          "You absorb 25% of the damage dealt as healing energy, closing your own wounds with stolen vitality.",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        effects: [
+          {
+            id: "soul_drain",
+            name: "Soul Drain",
+            description: "The target's vitality is siphoned away, reducing their resilience. -1 to all saving throws.",
+            mechanicsText: "-1 to all saving throws for 2 rounds",
+          },
+        ],
       },
 
       cooldownConfig: {
@@ -2386,10 +2400,23 @@ MAX BANKED SPHERES: 12
           "The celestial ray burns enemies with searing radiant energy, as if they've been exposed to concentrated sunlight. Their flesh smokes and chars where the light touches, and they feel an intense burning sensation that seems to come from within their very soul.",
       },
 
-      healingConfig: {
-        formula: "1d8 + spirit/4",
-        healingType: "direct",
-        resolution: "DICE",
+      buffConfig: {
+        buffType: "statEnhancement",
+        durationValue: 2,
+        durationType: "rounds",
+        effects: [
+          {
+            id: "radiant_exposure",
+            name: "Radiant Exposure",
+            description: "Target's defenses are weakened by searing light, granting attackers +1 to hit them.",
+            mechanicsText: "+1 to attack rolls against target for 2 rounds",
+            statModifier: {
+              stat: "armor",
+              magnitude: -1,
+              magnitudeType: "flat",
+            },
+          },
+        ],
       },
 
       cooldownConfig: {
@@ -2945,18 +2972,18 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_divine_healing",
-      name: "Divine Healing",
+      name: "Radiant Ward",
       description:
-        "A powerful burst of divine energy that restores significant health to your target.",
+        "Create a permanent-seeming ward of holy light around a target. The next time they would take damage, reduce it by half.",
       level: 5,
       enhancesCombo: "holy_healing",
       spellType: "ACTION",
-      icon: "Healing/Golden Heart",
+      icon: "Radiant/Radiant Divinity",
 
       typeConfig: {
         school: "holy",
-        icon: "Healing/Golden Heart",
-        tags: ["holy", "healing", "support"],
+        icon: "Radiant/Radiant Divinity",
+        tags: ["holy", "defensive", "support"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -2974,17 +3001,22 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 1,
         components: ["verbal", "somatic"],
-        verbalText: "Sanctus Sanare!",
-        somaticText: "Channel divine healing energy",
+        verbalText: "Sanctus Scutum!",
+        somaticText:
+          "Trace a radiant sigil in the air that settles over the target as a glowing ward",
         spheres: ["Holy", "Healing"],
       },
 
-      effectTypes: ["healing"],
+      effectTypes: ["defensive"],
 
-      healingConfig: {
-        formula: "3d8 + spirit/2",
-        healingType: "direct",
-        resolution: "DICE",
+      defensiveConfig: {
+        shieldType: "damage_reduction",
+        reductionPercent: 50,
+        triggers: 1,
+        duration: "until_triggered",
+        resolution: "FLAT",
+        description:
+          "A golden sigil hovers over the target. The next time they take damage, it is reduced by half. The ward then fades.",
       },
 
       cooldownConfig: {
@@ -2992,7 +3024,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["holy", "healing", "support"],
+      tags: ["holy", "defensive", "support"],
     },
 
     {
@@ -3050,7 +3082,7 @@ MAX BANKED SPHERES: 12
             {
               range: { min: 2, max: 2 },
               customName: "Entropy Drain",
-              effect: "3d8+INT/2 chaos damage, heal yourself for the same amount",
+              effect: "3d8+INT/2 chaos damage to target, random side effect on 1d4",
             },
             {
               range: { min: 3, max: 3 },
@@ -3087,7 +3119,7 @@ MAX BANKED SPHERES: 12
       id: "arc_glacial_blessing",
       name: "Glacial Blessing",
       description:
-        "Weave ice, healing, and holy spheres into crystalline armor of frost and divine light. Wounds close beneath the icy shell as restorative energy heals and shields your target.",
+        "Weave ice and holy spheres into crystalline armor. Target gains +4 Armor and resistance to fire damage for 3 rounds.",
       level: 6,
       spellType: "ACTION",
       icon: "Frost/Frozen in Ice",
@@ -3095,7 +3127,7 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "frost",
         icon: "Frost/Frozen in Ice",
-        tags: ["ice", "healing", "holy", "buff"],
+        tags: ["ice", "holy", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -3124,26 +3156,20 @@ MAX BANKED SPHERES: 12
         spheres: ["Ice", "Healing", "Holy"],
       },
 
-      effectTypes: ["healing", "buff"],
-
-      healingConfig: {
-        formula: "8d6 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
-      },
+      effectTypes: ["buff"],
 
       buffConfig: {
         buffType: "statEnhancement",
         effects: [
           {
-            id: "frost_armor",
-            name: "Frost Armor",
+            id: "glacial_armor",
+            name: "Glacial Armor",
             description:
-              "Gain +2 armor and 50% frost resistance for 3 rounds. A layer of protective enchanted ice forms around you, deflecting blows and absorbing frost.",
-            mechanicsText: "+2 armor and 50% frost resistance for 3 rounds",
+              "Gain +4 Armor and resistance to fire damage for 3 rounds. Crystalline armor of ice and holy light deflects blows and absorbs heat.",
+            mechanicsText: "+4 armor and fire resistance for 3 rounds",
             statModifier: {
               stat: "armor",
-              magnitude: 2,
+              magnitude: 4,
               magnitudeType: "flat",
             },
           },
@@ -3160,7 +3186,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 0,
       },
 
-      tags: ["ice", "healing", "holy", "buff"],
+      tags: ["ice", "holy", "buff"],
     },
 
     {
@@ -3255,9 +3281,9 @@ MAX BANKED SPHERES: 12
 
     {
       id: "arc_verdant_rejuvenation",
-      name: "Verdant Rejuvenation",
+      name: "Verdant Arsenal",
       description:
-        "Nature, healing, and holy spheres bloom into luminous wildflowers and golden light. Wounds slowly close as nature energy knits flesh and bone together over several rounds.",
+        "Nature and holy spheres bloom into weapons of living wood and golden light. Target gains +2d6 damage on their next 3 attacks and +10ft movement speed.",
       level: 6,
       spellType: "ACTION",
       icon: "Nature/Growth",
@@ -3265,17 +3291,15 @@ MAX BANKED SPHERES: 12
       typeConfig: {
         school: "nature",
         icon: "Nature/Growth",
-        tags: ["nature", "healing", "holy", "aoe", "hot"],
+        tags: ["nature", "holy", "buff"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: "area",
+        targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 60,
-        aoeShape: "circle",
-        aoeParameters: { radius: 15 },
         targetRestrictions: ["ally", "self"],
       },
 
@@ -3295,26 +3319,47 @@ MAX BANKED SPHERES: 12
         useFormulas: {},
         actionPoints: 2,
         components: ["verbal", "somatic"],
-        verbalText: "Floreo Sanitas!",
+        verbalText: "Floreo Bellum!",
         somaticText:
-          "Release the merged spheres into the ground, causing healing wildflowers to bloom across the area",
+          "Shape the merged spheres into weapons of living wood and golden light, pressing them into the target's hands",
         spheres: ["Nature", "Healing", "Holy"],
       },
 
-      effectTypes: ["healing"],
+      effectTypes: ["buff"],
 
-      healingConfig: {
-        formula: "4d6 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
-        hotConfig: {
-          enabled: true,
-          healingPerTick: "3d6 + spirit/2",
-          tickFrequency: "round",
-          duration: 3,
-          canStack: false,
-          maxStacks: 1,
-        },
+      buffConfig: {
+        buffType: "statEnhancement",
+        effects: [
+          {
+            id: "verdant_weapons",
+            name: "Verdant Weapons",
+            description:
+              "Gain +2d6 damage on the next 3 attacks. Living wood and golden light wreath your weapon.",
+            mechanicsText: "+2d6 damage on next 3 attacks",
+            statModifier: {
+              stat: "bonus_damage",
+              formula: "2d6",
+              triggers: 3,
+            },
+          },
+          {
+            id: "verdant_swiftness",
+            name: "Verdant Swiftness",
+            description:
+              "Gain +10ft movement speed for 3 rounds. Nature energy quickens your steps.",
+            mechanicsText: "+10ft movement speed for 3 rounds",
+            statModifier: {
+              stat: "movement_speed",
+              magnitude: 10,
+              magnitudeType: "flat",
+            },
+          },
+        ],
+        durationValue: 3,
+        durationType: "rounds",
+        durationUnit: "rounds",
+        concentrationRequired: false,
+        canBeDispelled: true,
       },
 
       cooldownConfig: {
@@ -3322,7 +3367,7 @@ MAX BANKED SPHERES: 12
         cooldownValue: 2,
       },
 
-      tags: ["nature", "healing", "holy", "aoe", "hot"],
+      tags: ["nature", "holy", "buff"],
     },
 
     // ========================================
@@ -3570,10 +3615,18 @@ MAX BANKED SPHERES: 12
         },
       },
 
-      healingConfig: {
-        formula: "8d6 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
+      debuffConfig: {
+        debuffType: "statusEffect",
+        durationValue: 2,
+        durationType: "rounds",
+        effects: [
+          {
+            id: "celestial_blinding",
+            name: "Celestial Blindness",
+            description: "Targets caught in the celestial storm are blinded by searing radiance.",
+            mechanicsText: "-2 to attack rolls for 2 rounds",
+          },
+        ],
       },
 
       cooldownConfig: {
@@ -3637,12 +3690,20 @@ MAX BANKED SPHERES: 12
         spheres: ["Holy", "Shadow", "Healing", "Chaos"],
       },
 
-      effectTypes: ["healing", "buff"],
+      effectTypes: ["buff"],
 
-      healingConfig: {
-        formula: "12d6 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
+      buffConfig: {
+        buffType: "statEnhancement",
+        durationValue: 3,
+        durationType: "rounds",
+        effects: [
+          {
+            id: "harmonic_attunement",
+            name: "Harmonic Attunement",
+            description: "All allies within range gain +2 to all saving throws and +1d8 damage on their next spell or attack.",
+            mechanicsText: "+2 to saves, +1d8 damage on next attack/spell for 3 rounds",
+          },
+        ],
       },
 
       buffConfig: {
@@ -3845,7 +3906,7 @@ MAX BANKED SPHERES: 12
             {
               range: { min: 4, max: 4 },
               customName: "Feedback Loop",
-              effect: "12d6+INT chaos damage to enemies, heal all allies 3d6 in 20ft radius",
+              effect: "12d6+INT chaos damage to enemies, all allies in 20ft radius gain +2 Armor for 3 rounds",
             },
           ],
         },
@@ -4040,7 +4101,7 @@ MAX BANKED SPHERES: 12
             {
               range: { min: 2, max: 2 },
               customName: "Siphon Storm",
-              effect: "14d6+INT chaos damage, heal all allies in radius for half the damage dealt",
+              effect: "14d6+INT chaos damage, all allies in radius gain +2d6 damage on next attack for 3 rounds",
             },
             {
               range: { min: 3, max: 3 },
@@ -4164,10 +4225,18 @@ MAX BANKED SPHERES: 12
         canBeDispelled: true,
       },
 
-      healingConfig: {
-        formula: "10d6 + spirit",
-        healingType: "direct",
-        resolution: "DICE",
+      buffConfig: {
+        buffType: "custom",
+        durationValue: 0,
+        durationType: "instant",
+        effects: [
+          {
+            id: "synthesis_overflow",
+            name: "Synthesis Overflow",
+            description: "The elemental fusion restores 4 random spheres to your bank instead of healing.",
+            mechanicsText: "Restore 4 random spheres to your bank",
+          },
+        ],
       },
 
       debuffConfig: {
@@ -4524,6 +4593,31 @@ MAX BANKED SPHERES: 12
       },
 
       tags: ["ultimate", "buff", "transformation", "mastery"],
+    },
+
+    {
+      id: "arc_sphere_exhaustion",
+      name: "Sphere Exhaustion",
+      description:
+        "If you end your turn with 0 spheres banked, you take -1 to all spell damage on your next turn. Going all-out has a cost -- conserve or suffer.",
+      level: 1,
+      spellType: "PASSIVE",
+      effectTypes: ["debuff"],
+      typeConfig: {
+        school: "arcane",
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "PASSIVE",
+      tags: ["passive", "arcane", "debuff", "mechanic"],
     },
   ],
 };

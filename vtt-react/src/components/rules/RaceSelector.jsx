@@ -38,6 +38,8 @@ const getRaceList = async () => {
       id: race.id,
       name: race.name,
       description: race.description,
+      essence: race.essence,
+      gradient: race.gradient,
       icon: race.icon,
       variantCount: Object.keys(race.subraces || {}).length
     }));
@@ -710,25 +712,40 @@ const transformTraitToSpell = (trait) => {
 
 
 // Memoized Race Card Component
-const RaceCard = React.memo(({ race, isSelected, onSelect }) => (
-  <div
-    className={`race-card ${isSelected ? 'selected' : ''}`}
-    onClick={() => onSelect(race.id)}
-    style={{ '--race-gradient': race.gradient }}
-  >
-    <div className="race-card-icon">
-      <i className={race.icon}></i>
+const RaceCard = React.memo(({ race, isSelected, onSelect }) => {
+  const truncatedDesc = race.description
+    ? race.description.length > 220
+      ? race.description.substring(0, 220).trim() + '...'
+      : race.description
+    : null;
+
+  return (
+    <div
+      className={`race-card ${isSelected ? 'selected' : ''}`}
+      onClick={() => onSelect(race.id)}
+      style={{ '--race-gradient': race.gradient }}
+    >
+      <div className="race-card-header">
+        <div className="race-card-icon">
+          <i className={race.icon}></i>
+        </div>
+        <div className="race-card-title-area">
+          <h4 className="race-card-name">{race.name}</h4>
+          {race.essence && <p className="race-card-essence">{race.essence}</p>}
+        </div>
+      </div>
+      {truncatedDesc && (
+        <p className="race-card-description">{truncatedDesc}</p>
+      )}
+      <div className="race-card-info">
+        <span className="info-badge">
+          <i className="fas fa-users"></i>
+          {race.variantCount} {race.variantCount === 1 ? 'Variant' : 'Variants'}
+        </span>
+      </div>
     </div>
-    <h4 className="race-card-name">{race.name}</h4>
-    {race.essence && <p className="race-card-essence">{race.essence}</p>}
-    <div className="race-card-info">
-      <span className="info-badge">
-        <i className="fas fa-users"></i>
-        {race.variantCount} Variants
-      </span>
-    </div>
-  </div>
-));
+  );
+});
 
 // Memoized Variant Card Component
 const VariantCard = React.memo(({ variantId, variant, isSelected, onSelect }) => (
@@ -893,6 +910,7 @@ const RaceSelector = () => {
   const [racesLoading, setRacesLoading] = useState(true);
   const [visibleRaceCount, setVisibleRaceCount] = useState(24); // Start with 24 races
   const [showEpicLore, setShowEpicLore] = useState(false);
+  const [raceOverviewExpanded, setRaceOverviewExpanded] = useState(false);
   const raceGridRef = useRef(null);
 
   // Load race list on component mount
@@ -970,9 +988,9 @@ const RaceSelector = () => {
 
   const handleRaceSelect = useCallback((raceId) => {
     setSelectedRace(raceId);
-    setSelectedVariant(null); // Reset variant when race changes
+    setSelectedVariant(null);
+    setRaceOverviewExpanded(false);
 
-    // Preload adjacent races for better UX
     const currentIndex = allRaces.findIndex(r => r.id === raceId);
     if (currentIndex !== -1) {
       // Preload next and previous races
@@ -1041,13 +1059,80 @@ const RaceSelector = () => {
         )}
       </div>
 
-      {/* Step 2: Variant Selection - Only shown when race is selected */}
+      {/* Step 2: Race Info + Variant Selection */}
       {currentStep === 'variant' && (
         raceData ? (
           <div className="variant-selection-step">
-            <h3 className="step-title">
-              Select a Variant for {raceData.name}
-            </h3>
+            {/* Race Info Panel */}
+            <div className="race-info-panel">
+              <div className="race-info-header">
+                <div className="race-info-title-row">
+                  <div className="race-info-icon">
+                    <i className={raceData.icon}></i>
+                  </div>
+                  <div className="race-info-title-area">
+                    <h3 className="race-info-name">{raceData.name}</h3>
+                    {raceData.essence && <p className="race-info-essence">{raceData.essence}</p>}
+                  </div>
+                  {raceData.epicHistory && (
+                    <button
+                      className="epic-lore-button"
+                      onClick={() => setShowEpicLore(true)}
+                    >
+                      <i className="fas fa-book-open"></i>
+                      Lore
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Race Overview */}
+              {raceData.overview && (
+                <div className="race-overview-section">
+                  <div
+                    className={`race-overview-text ${raceOverviewExpanded ? 'expanded' : ''}`}
+                  >
+                    {raceData.overview}
+                  </div>
+                  {raceData.overview.length > 300 && (
+                    <button
+                      className="overview-toggle"
+                      onClick={() => setRaceOverviewExpanded(prev => !prev)}
+                    >
+                      {raceOverviewExpanded ? 'Show Less' : 'Read More'}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Shared Base Traits */}
+              <div className="race-base-traits-compact">
+                <div className="base-trait-chip">
+                  <i className="fas fa-ruler-vertical"></i>
+                  <span>{raceData.baseTraits.size}</span>
+                </div>
+                <div className="base-trait-chip">
+                  <i className="fas fa-shoe-prints"></i>
+                  <span>{raceData.baseTraits.baseSpeed} ft</span>
+                </div>
+                <div className="base-trait-chip">
+                  <i className="fas fa-hourglass-half"></i>
+                  <span>{raceData.baseTraits.lifespan}</span>
+                </div>
+                <div className="base-trait-chip">
+                  <i className="fas fa-globe"></i>
+                  <span>{raceData.baseTraits.languages.join(', ')}</span>
+                </div>
+              </div>
+
+              {/* Variant Diversity */}
+              {raceData.variantDiversity && (
+                <p className="race-variant-diversity">{raceData.variantDiversity}</p>
+              )}
+            </div>
+
+            {/* Variant Selection */}
+            <h3 className="step-title">Choose a Variant</h3>
             <div className="variant-grid">
               {Object.entries(raceData.subraces).map(([variantId, variant]) => (
                 <VariantCard

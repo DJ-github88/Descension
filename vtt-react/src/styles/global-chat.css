@@ -2276,28 +2276,50 @@
   .global-chat-container {
     flex-direction: column;
     overflow: hidden;
+    position: relative;
   }
 
-  /* Make users pane a slide-over drawer on mobile */
+  .global-chat-window .window-content {
+    overflow: hidden !important;
+    height: calc(100dvh - 48px) !important;
+  }
+
+  .mobile-drawer-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+    animation: backdropFadeIn 0.2s ease-out;
+  }
+
+  @keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
   .users-pane {
     position: absolute;
     top: 0;
     left: 0;
     width: 85% !important;
-    /* Take up most of the screen width */
+    max-width: 360px;
     height: 100%;
     z-index: 1000;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.4);
     border-right: 2px solid #8b7355;
     background: #f5e6d3;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Hidden state for mobile drawer */
   .global-chat-container.users-pane-hidden .users-pane {
     transform: translateX(-100%);
     opacity: 1;
-    /* Keep opacity but slide out */
     width: 85% !important;
   }
 
@@ -2309,81 +2331,134 @@
 
   .split-divider {
     display: none;
-    /* No resizing divider on mobile */
   }
 
-  /* Make the toggle button more prominent on mobile */
+  .chat-tabs {
+    height: 44px;
+    padding: 0 4px;
+    gap: 2px;
+    align-items: flex-end;
+  }
+
   .chat-tabs .toggle-users-pane-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 36px;
     background: #8b7355;
     color: #f5e6d3;
     border-color: #5d4037;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 50%;
+    border-radius: 6px 6px 0 0;
     font-size: 18px;
+    flex-shrink: 0;
   }
 
   .chat-tabs .toggle-users-pane-btn:hover {
     background: #7a634a;
   }
 
-  /* Move chat tabs to make room for toggle button on mobile */
-  .chat-tabs-container {
-    padding-left: 60px !important;
+  .chat-tab {
+    min-width: 56px;
+    height: 32px;
+    padding: 0 8px;
+    gap: 4px;
+    font-size: 10px;
   }
 
-  /* Adjust message bubbles for mobile */
+  .chat-tab span {
+    display: none;
+  }
+
+  .chat-tab i {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .chat-tab.active {
+    height: 36px;
+  }
+
+  .chat-tab .tab-clear-btn,
+  .chat-tab .close-tab-btn {
+    display: none;
+  }
+
   .chat-message {
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: 8px 10px;
+    margin-bottom: 4px;
+    border-radius: 6px;
   }
 
   .message-header {
     font-size: 12px;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
   }
 
   .sender-name {
-    font-size: 13px;
+    font-size: 12px;
   }
 
-  .chat-input-container {
-    padding: 10px;
+  .sender-class {
+    display: none;
   }
 
-  /* Ensure users list items are easy to tap */
+  .message-content,
+  .message-text {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .message-time,
+  .timestamp {
+    font-size: 10px;
+  }
+
+  .tabbed-chat .chat-input-form {
+    padding: 8px;
+    flex-shrink: 0;
+  }
+
+  .tabbed-chat .chat-input {
+    height: 42px;
+    font-size: 16px;
+    padding: 0 100px 0 12px;
+  }
+
+  .tabbed-chat .send-button {
+    width: 42px;
+    height: 34px;
+  }
+
   .user-card {
     padding: 12px 10px;
     margin-bottom: 2px;
+    min-height: 48px;
   }
 
   .user-card:active {
-    background-color: rgba(139, 115, 85, 0.1);
+    background-color: rgba(139, 115, 85, 0.15);
   }
 
-  /* Status selector on mobile */
   .status-selector {
     padding: 12px;
   }
 
-  /* Search bar on mobile */
   .users-search {
-    padding: 15px 12px;
+    padding: 12px;
   }
 
   .users-search input {
-    height: 40px;
+    height: 42px;
     font-size: 16px;
-    /* Prevent zoom on iOS */
   }
 
-  /* Add friend button on mobile */
   .add-friend-by-id-btn {
     padding: 14px;
     font-size: 14px;
   }
 
-  /* Achievement messages on mobile */
   .chat-message.achievement-message {
     padding: 10px;
   }
@@ -2397,7 +2472,6 @@
     font-size: 14px;
   }
 
-  /* Context Menu on mobile - should be full width or centered */
   .user-context-menu {
     position: fixed !important;
     bottom: 0 !important;
@@ -2408,6 +2482,8 @@
     border-radius: 20px 20px 0 0 !important;
     transform: none !important;
     animation: slideUp 0.3s ease-out;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   @keyframes slideUp {
@@ -2424,15 +2500,47 @@
     padding: 16px 20px !important;
     font-size: 16px !important;
   }
+
+  .users-tab {
+    padding: 10px 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .users-tab i {
+    font-size: 14px;
+  }
+
+  .users-tab .tab-count {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+
+  .unread-badge {
+    min-width: 16px;
+    height: 16px;
+    font-size: 9px;
+    padding: 1px 4px;
+  }
 }
 
 @media (max-width: 480px) {
   .users-pane {
     width: 92% !important;
+    max-width: none;
   }
 
   .global-chat-container.users-pane-hidden .users-pane {
     width: 92% !important;
+  }
+
+  .chat-tab {
+    min-width: 44px;
+    padding: 0 6px;
+  }
+
+  .chat-tab i {
+    font-size: 14px;
   }
 }
 

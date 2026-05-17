@@ -2931,5 +2931,63 @@ You're the SECOND-HIGHEST DAMAGE CLASS in the game. You ascend through Inferno L
 
       tags: ["fire", "damage", "aoe"],
     },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "pyrofiend_burnout",
+      name: "Burnout",
+      description:
+        "When you have no active fire effects (no burning targets, no active Inferno Level, no fire auras), your inner flame sputters. You suffer -2 to all spell attack rolls and your fire spells deal -1d6 damage. This penalty is removed the moment you cast any fire spell that deals damage. The fire must burn or you burn out.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Fire/Fire Shield",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "fire",
+        icon: "Fire/Fire Shield",
+        tags: ["passive", "pyrofiend", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "pyrofiend", "weakness"],
+    },
+    {
+      id: "pyrofiend_fire_dependency",
+      name: "Fire Dependency",
+      description:
+        "You take +3 damage from all cold and water-based attacks. Additionally, if you are submerged in water or affected by a cold-based environment effect, your Inferno Level decreases by 2 per round instead of the normal descent rate. Water is not just uncomfortable -- it is antithetical to your existence.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Ice/Frost Shield",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "fire",
+        icon: "Ice/Frost Shield",
+        tags: ["passive", "pyrofiend", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "pyrofiend", "weakness"],
+    },
+    {
+      id: "pyrofiend_heat_signature",
+      name: "Heat Signature",
+      description:
+        "Your body radiates intense heat at all times. You cannot benefit from Stealth or invisibility effects -- the thermal glow gives you away. Enemies have advantage on Perception checks to detect you within 60 feet. Additionally, ice-based terrain melts within 10 feet of you, and water terrain deals you 1d6 damage per round of immersion.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Fire/Fire Nova",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "fire",
+        icon: "Fire/Fire Nova",
+        tags: ["passive", "pyrofiend", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "pyrofiend", "weakness"],
+    },
   ],
 };

@@ -6,6 +6,10 @@
  *
  * Complete class information for the Fate Weaver - a card-based destiny manipulator
  * who uses Threads of Destiny to control the flow of fate.
+ *
+ * ⚠️ EXCLUSIVE DOMAIN: The Fate Weaver is the ONLY class that can force rerolls and
+ * directly manipulate dice outcomes. The Oracle reveals information — the Fate Weaver
+ * CHANGES results. No other class should have reroll mechanics.
  */
 
 export const FATE_WEAVER_DATA = {
@@ -3536,6 +3540,64 @@ Embraces failure as power, generating Threads at an accelerated rate. Risk-taker
         "level 10",
         "fate weaver",
       ],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "fate_weaver_deck_exhaustion",
+      name: "Deck Exhaustion",
+      description:
+        "When your deck runs out and requires reshuffling, the strain of reshaping reality exhausts you. You take 1d6 psychic damage and cannot call cards (spend Threads for specific draws) on the turn you reshuffle. A Fate Weaver without a deck is just a person holding air.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Vulnerability",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Vulnerability",
+        tags: ["passive", "fate-weaver", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "fate-weaver", "weakness"],
+    },
+    {
+      id: "fate_weaver_fates_wrath",
+      name: "Fate's Wrath",
+      description:
+        "Destiny does not like being manipulated. Each time you use the 'Call Card' ability (spend 2 Threads to search for a specific card), there is a 10% chance the deck rebels: the called card is discarded instead, you lose the Threads spent, and you take 1d8 psychic damage. The more you cheat fate, the more fate pushes back. This chance increases by 5% per call in the same combat (resets on reshuffle).",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Explosion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Explosion",
+        tags: ["passive", "fate-weaver", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "fate-weaver", "weakness"],
+    },
+    {
+      id: "fate_weaver_empty_hand",
+      name: "Empty Hand",
+      description:
+        "When you have 0 cards in your hand and 0 Threads of Destiny, you are at fate's mercy. You have disadvantage on all saving throws until you draw at least 1 card or gain 1 Thread. The cards are your shield -- without them, you are exposed to the very forces you manipulate.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "General/Defense Down",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "General/Defense Down",
+        tags: ["passive", "fate-weaver", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "fate-weaver", "weakness"],
     },
   ],
 };

@@ -59,9 +59,9 @@ export const WITCH_DOCTOR_DATA = {
 
 **Damage Output**: Moderate sustained damage through curses and poisons. High burst potential through loa invocations.
 
-**Survivability**: Moderate. Relies on totems for protection and healing, with some defensive rituals available.
+**Survivability**: Moderate. Relies on totems for protection and ally healing. Self-heal is limited to Soul Siphon (lifesteal) and expensive loa invocations. Cannot use Mending Wax on yourself.
 
-**Utility**: Exceptional. Provides curses, healing, resurrection, teleportation, and powerful buffs through loa invocations.
+**Utility**: Exceptional. Provides curses, ally healing, resurrection, teleportation (Papa Legba only), and powerful buffs through loa invocations.
 
 **Complexity**: Moderate-High. Requires tracking Voodoo Essence and one precursor per loa, but the system is designed to be intuitive — each precursor is a simple battlefield condition.`,
     },
@@ -249,7 +249,7 @@ You're a VOODOO PRACTITIONER who channels the power of ancient loa. You build Vo
     title: "Voodoo Essence & Loa Invocation",
     subtitle: "Spiritual Energy & Divine Channeling",
 
-    description: `The Witch Doctor's power stems from Voodoo Essence, a spiritual resource generated through voodoo practices. This essence is spent to invoke powerful loa (voodoo gods), each requiring a single battlefield condition to be met. Mastering the balance between essence generation, precursor awareness, and strategic invocation timing is the key to becoming a powerful Witch Doctor.`,
+    description: `The Witch Doctor's power stems from Voodoo Essence, a spiritual resource generated through voodoo practices. This essence is spent to invoke powerful loa (voodoo gods), each requiring a single battlefield condition to be met. ⚠️ **Loa Disfavor**: The loa are jealous gods. If you end your turn at 10+ Essence WITHOUT invoking a loa (when a precursor is met), you suffer Disfavor — lose 2 Essence and take 1d6 psychic damage per loa whose precursor is currently satisfied. The gods DEMAND service. ⚠️ This is what makes you different from the Plaguebringer (who passively cultivates) and Toxicologist (who crafts contraptions). You CHANNEL GODS — and gods are not patient. Mastering the balance between essence generation, precursor awareness, and strategic invocation timing is the key to becoming a powerful Witch Doctor.`,
 
     cards: [
       {
@@ -297,6 +297,16 @@ Each loa has exactly ONE precursor condition. If the condition is not met, you c
 
 **Managing the Dual Pressure**:
 You must balance two things simultaneously: generating enough Essence AND ensuring the precursor is met. A Witch Doctor who has 12 Essence but no allies below half HP cannot invoke Simbi. You may need to delay your invocation and spend turns enabling the precursor (letting allies take damage, applying more curses, generating more Essence) rather than invoking immediately.
+
+**Loa Disfavor (The Gods Are Not Patient)**:
+The loa are jealous, demanding entities. If you end your turn at 10+ Voodoo Essence AND at least one loa's precursor condition is currently met, you suffer Disfavor:
+- Lose 2 Voodoo Essence per loa whose precursor is satisfied
+- Take 1d6 psychic damage per applicable loa (the gods punish your hoarding)
+- This damage CANNOT be reduced or avoided — it is divine retribution
+
+⚠️ Disfavor forces the Witch Doctor to ACT, not hoard. If Baron Samedi's precursor is met (3+ cursed enemies) and you have 12 Essence but haven't invoked him, the Baron himself strikes you for your hesitation. This creates a THIRD pressure: time. You don't just need Essence and precursors — you need the WILL to invoke before the gods grow angry.
+
+**Differentiation Note**: Unlike the Plaguebringer (who passively benefits from disease spread) or the Toxicologist (who safely deploys contraptions), the Witch Doctor is in a RELATIONSHIP with their power source. The loa are not tools — they are divine beings who demand respect, tribute, and timely service. Ignore them at your peril.
 
 **Recovery Between Fights**:
 Essence carries between encounters (no reset on short rest). If you finish a fight at 12 Essence, you start the next fight halfway to Baron Samedi. Plan your rest strategy — if you are low on Essence, a short rest to regain resources and reposition may be better than pressing forward.`,
@@ -976,7 +986,7 @@ SPEC DISCOUNTS:
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
+        targetRestrictions: ["ally"],
         maxTargets: 1,
         targetSelectionMethod: "manual",
         requiresLineOfSight: true,
@@ -2926,6 +2936,64 @@ SPEC DISCOUNTS:
         curse: { type: "ultimate_doom", countsTowardBaronSamedi: true },
       },
       tags: ["damage", "debuff", "curse", "death", "legendary", "witch doctor"],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "witch_doctor_loa_disfavor",
+      name: "Loa Disfavor",
+      description:
+        "The loa are fickle spirits. If you invoke a loa without meeting their precursor condition, the loa is offended and you enter Loa Disfavor for 2 rounds. During Disfavor: all loa invocations are blocked, you generate 0 Voodoo Essence, and your curses deal half damage. You must re-establish proper worship to regain favor.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Necrotic/Necrotic Death",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Necrotic Death",
+        tags: ["passive", "witch doctor", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "witch doctor", "weakness"],
+    },
+    {
+      id: "witch_doctor_grave_reagent",
+      name: "Grave Reagent Dependency",
+      description:
+        "Your voodoo magic requires grave dust, bone fragments, and other morbid reagents. You begin each encounter with 5 Grave Reagents. Each spell cast consumes 1 Grave Reagent. If you have 0 Grave Reagents, all spells cost +3 mana. You gain 1 Grave Reagent per enemy killed within 30 feet. Without your reagents, your magic is weakened but not broken.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Necrotic/Bone Shield",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Bone Shield",
+        tags: ["passive", "witch doctor", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "witch doctor", "restriction"],
+    },
+    {
+      id: "witch_doctor_restricted_healing",
+      name: "Blood Price",
+      description:
+        "The only healing you can perform on yourself comes through violence or sacrifice. You cannot use Mending Wax, Invoke Simbi, or Totem of Healing to heal yourself. Your self-healing is limited to Soul Siphon (lifesteal) and Invoke Erzulie (mass healing that incidentally includes you). The spirits demand a price for every drop of life restored.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Necrotic/Blood Ritual",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Blood Ritual",
+        tags: ["passive", "witch doctor", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "witch doctor", "restriction"],
     },
   ],
 

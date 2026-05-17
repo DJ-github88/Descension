@@ -2602,6 +2602,32 @@ The class creates a unique rhythm where you're constantly generating resources f
         "healing",
         "powerful",
       ],
+    },    {
+      id: "augur_desperate_omen",
+      name: "Desperate Omen",
+      description:
+        "When you are reduced below 25% HP, you automatically receive a Desperate Omen -- a vision of your own death. You are Frightened for 1 round (no save). However, this omen also grants you +2 to your next attack roll as the fear sharpens your instincts.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Doom",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psychic Doom",
+        tags: ["passive", "debuff", "omen", "frightened", "augur"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "omen", "frightened", "augur"],
     },
   ],
 

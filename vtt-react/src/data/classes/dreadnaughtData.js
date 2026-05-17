@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Dreadnaught Class Data
  *
  * Complete class information for the Dreadnaught - a dark resilient tank
@@ -19,19 +19,19 @@ export const DREADNAUGHT_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `You are a Dreadnaught. Pain is your fuel. Every hit you take charges your Dark Resilience Points (DRP). Spend them on shields and strikes â€” or save them to cheat death.
+      content: `You are a Dreadnaught. Pain is your fuel. Every hit you take charges your Dark Resilience Points (DRP). Spend them on shields and strikes Ã¢â‚¬â€ or save them to cheat death.
 
-**Core Mechanic**: Take damage â†’ Generate DRP â†’ Spend on abilities OR save for passive benefits + emergency Dark Rebirth
+**Core Mechanic**: Take damage Ã¢â€ â€™ Generate DRP Ã¢â€ â€™ Spend on abilities OR save for passive benefits + emergency Dark Rebirth
 
-**Resource**: Dark Resilience Points (0-50). Gain **1 DRP per 4 damage taken** (round down). *Passive benefits snapshot at the start of your turn â€” spend freely during your turn, effects update next turn.*
+**Resource**: Dark Resilience Points (0-50). Gain **1 DRP per 4 damage taken** (round down). *Passive benefits snapshot at the start of your turn Ã¢â‚¬â€ spend freely during your turn, effects update next turn.*
 
-**Snapshot Rule**: Your passive tier (regen, resistance) locks in at the start of each turn based on current DRP. Spend DRP during your turn without immediately losing benefits â€” the cost catches up next turn.
+**Snapshot Rule**: Your passive tier (regen, resistance) locks in at the start of each turn based on current DRP. Spend DRP during your turn without immediately losing benefits Ã¢â‚¬â€ the cost catches up next turn.
 
 **Playstyle**: Frontline tank, damage-to-power conversion, adaptive defense, last stand specialist
 
 **Best For**: Players who enjoy tanking, converting pain into power, and managing a damage-based resource
 
-**Note**: Some talent tree nodes reference card draws and coin flips â€” these are universal game mechanics. See Core Rules for details.`,
+**Note**: Some talent tree nodes reference card draws and coin flips Ã¢â‚¬â€ these are universal game mechanics. See Core Rules for details.`,
     },
 
     description: `The Dreadnaught taps into their dark connection to fuel their resilience and power. As they take damage, they build up Dark Resilience Points (DRP), which can be used to enhance their defensive and offensive capabilities. This system emphasizes the Dreadnaught's ability to absorb and utilize Damage Taken, turning it into a powerful resource for both offense and defense.`,
@@ -70,7 +70,7 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 - Gain 1 DRP for every 4 Damage Taken (round down)
 - Maximum capacity: 50 DRP
 - Position yourself to take hits and build resources
-- **Snapshot Rule**: Passives lock at turn start â€” spend freely during your turn
+- **Snapshot Rule**: Passives lock at turn start Ã¢â‚¬â€ spend freely during your turn
 
 **DRP Spending Priorities**: 
 - **Shadow Shield** (2:1 ratio): Spend DRP to absorb twice the damage
@@ -87,13 +87,17 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 **Dark Rebirth**: 
 - Automatically triggers when reaching 0 HP
 - Spend all remaining DRP to regain HP equal to twice the DRP
-- Your ultimate survival tool â€” see "The Dreadnaught's Gambit" for when to spend vs save
+- Your ultimate survival tool Ã¢â‚¬â€ see "The Dreadnaught's Gambit" for when to spend vs save
 
 **Resource Management**:
 - Balance between offensive (Wraith Strike) and defensive (Shadow Shield) spending
 - Time Necrotic Aura for maximum impact when surrounded
-- At 10+ DRP your passive benefits activate â€” weigh spending against losing them
-- For high-cost spells, see "The Dreadnaught's Gambit" â€” sometimes going all-in is the right play`,
+- At 10+ DRP your passive benefits activate Ã¢â‚¬â€ weigh spending against losing them
+- For high-cost spells, see "The Dreadnaught's Gambit" -- sometimes going all-in is the right play
+
+**DRP DECAY - The Ravening Dark**: The darkness that empowers you is hungry. If you take NO damage during a round, you lose 5 DRP at the end of that round. The dark does not reward cowardice - it rewards pain. A Dreadnaught who avoids damage is a Dreadnaught the darkness abandons.
+
+**The Atrophy Spiral**: If you reach 0 DRP through decay (not spending), you gain 1 level of exhaustion as the darkness turns inward and feeds on YOU instead. This exhaustion persists until your next short rest or until you generate 10+ DRP in a single round.`
     },
 
     immersiveCombatExample: {
@@ -102,50 +106,50 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 
 **Starting State**: HP: 120/120 | DRP: 0/50 | Armor: 18
 
-**Turn 1 - Taking the Hits (HP: 120 â†’ 85, DRP: 0 â†’ 9)**
+**Turn 1 - Taking the Hits (HP: 120 Ã¢â€ â€™ 85, DRP: 0 Ã¢â€ â€™ 9)**
 
 *The wolves surround you. The alpha snarls. You plant your feet and raise your shield. "Come on, then."*
 
 **Wolves' Turn**: 3 wolves attack you (2 hit, 1 miss)
-- Wolf 1: Attack roll [18] â†’ Hit! â†’ 2d6+3 â†’ [5, 4] + 3 = 12 damage
-- Wolf 2: Attack roll [16] â†’ Hit! â†’ 2d6+3 â†’ [6, 5] + 3 = 14 damage
-- Wolf 3: Attack roll [11] â†’ Miss!
+- Wolf 1: Attack roll [18] Ã¢â€ â€™ Hit! Ã¢â€ â€™ 2d6+3 Ã¢â€ â€™ [5, 4] + 3 = 12 damage
+- Wolf 2: Attack roll [16] Ã¢â€ â€™ Hit! Ã¢â€ â€™ 2d6+3 Ã¢â€ â€™ [6, 5] + 3 = 14 damage
+- Wolf 3: Attack roll [11] Ã¢â€ â€™ Miss!
 
 **Damage Taken**: 12 + 14 = 26 damage
 **HP**: 120 - 26 = 94 HP
-**DRP Generated**: 26 Ã· 4 = 6.5 â†’ **6 DRP** (round down)
+**DRP Generated**: 26 ÃƒÂ· 4 = 6.5 Ã¢â€ â€™ **6 DRP** (round down)
 
-*You feel the wolves' teeth sink into your armor. Pain flaresâ€”but with it comes POWER. Dark energy swirls around you.*
+*You feel the wolves' teeth sink into your armor. Pain flaresÃ¢â‚¬â€but with it comes POWER. Dark energy swirls around you.*
 
-**Alpha Wolf's Turn**: Attacks you â†’ [19] â†’ Hit! â†’ 3d6+4 â†’ [6, 5, 4] + 4 = 19 damage
+**Alpha Wolf's Turn**: Attacks you Ã¢â€ â€™ [19] Ã¢â€ â€™ Hit! Ã¢â€ â€™ 3d6+4 Ã¢â€ â€™ [6, 5, 4] + 4 = 19 damage
 **HP**: 94 - 19 = 75 HP
-**DRP Generated**: 19 Ã· 4 = 4.75 â†’ **4 DRP**
+**DRP Generated**: 19 ÃƒÂ· 4 = 4.75 Ã¢â€ â€™ **4 DRP**
 **Total DRP**: 6 + 4 = **10 DRP**
 
-*The alpha's jaws clamp down on your shoulder. You don't scream. You SMILE. The darkness feeds on your pain. You've hit 10 DRP â€” passive benefits activate next turn.*
+*The alpha's jaws clamp down on your shoulder. You don't scream. You SMILE. The darkness feeds on your pain. You've hit 10 DRP Ã¢â‚¬â€ passive benefits activate next turn.*
 
 **Your Turn**: Attack alpha wolf with Wraith Strike (spend 5 DRP for +1d6 necrotic)
 **DRP**: 10 - 5 = 5 DRP remaining
-**Attack Roll**: d20+6 â†’ [15] â†’ Hit!
-**Damage**: 2d8 (weapon) + 1d6 (Wraith Strike) â†’ [7, 6] + [5] = 18 damage
+**Attack Roll**: d20+6 Ã¢â€ â€™ [15] Ã¢â€ â€™ Hit!
+**Damage**: 2d8 (weapon) + 1d6 (Wraith Strike) Ã¢â€ â€™ [7, 6] + [5] = 18 damage
 
 *Your blade strikes, wreathed in dark energy. The alpha yelps.*
 
 **Current State**: HP: 75/120 | DRP: 5/50
 
-**Turn 2 - Building Power (HP: 75 â†’ 37, DRP: 5 â†’ 15)**
+**Turn 2 - Building Power (HP: 75 Ã¢â€ â€™ 37, DRP: 5 Ã¢â€ â€™ 15)**
 
 *More wolves attack. You're bleeding, but the darkness is growing stronger.*
 
-**Snapshot**: 5 DRP at turn start â€” no passive tier yet. Keep building.
+**Snapshot**: 5 DRP at turn start Ã¢â‚¬â€ no passive tier yet. Keep building.
 
 **Wolves' Turn**: 4 wolves attack you (3 hit, 1 miss)
 - Total Damage: 13 + 11 + 14 = 38 damage
 **HP**: 75 - 38 = 37 HP
-**DRP Generated**: 38 Ã· 4 = 9.5 â†’ **9 DRP**
+**DRP Generated**: 38 ÃƒÂ· 4 = 9.5 Ã¢â€ â€™ **9 DRP**
 **Total DRP**: 5 + 9 = **14 DRP**
 
-*You're at 37/120 HP (31%), but you've hit 14 DRP â€” past the threshold for passive benefits next turn.*
+*You're at 37/120 HP (31%), but you've hit 14 DRP Ã¢â‚¬â€ past the threshold for passive benefits next turn.*
 
 **Passive Benefits Activate Next Turn**:
 - **Dark Resistance**: Choose slashing damage (wolves deal slashing)
@@ -161,9 +165,9 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 
 **Current State**: HP: 37/120 | DRP: 4/50 | Shadow Shield: 20
 
-**Turn 3 - The Shield Holds (HP: 37 â†’ 30, DRP: 4 â†’ 11)**
+**Turn 3 - The Shield Holds (HP: 37 Ã¢â€ â€™ 30, DRP: 4 Ã¢â€ â€™ 11)**
 
-*Snapshot at turn start: 4 DRP â€” no passive tier this turn (spent too much last turn).*
+*Snapshot at turn start: 4 DRP Ã¢â‚¬â€ no passive tier this turn (spent too much last turn).*
 
 *The wolves attack again, but your shadow shield absorbs the blows.*
 
@@ -172,33 +176,33 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 **Shadow Shield**: Absorbs 20 damage
 **Remaining Damage**: 27 - 20 = 7 damage
 **HP**: 37 - 7 = 30 HP
-**DRP Generated**: 27 Ã· 4 = 6.75 â†’ **6 DRP** (you generate DRP from total damage, not just what gets through!)
+**DRP Generated**: 27 ÃƒÂ· 4 = 6.75 Ã¢â€ â€™ **6 DRP** (you generate DRP from total damage, not just what gets through!)
 
 *The shadow shield shatters, but it saved you. You're still standing.*
 
-**Alpha Wolf's Turn**: Attacks â†’ [17] â†’ Hit! â†’ 18 damage
+**Alpha Wolf's Turn**: Attacks Ã¢â€ â€™ [17] Ã¢â€ â€™ Hit! Ã¢â€ â€™ 18 damage
 **Resistance**: Slashing damage (Dark Resistance active from last turn's snapshot!)
-**Damage Taken**: 18 Ã· 2 = 9 damage (halved!)
+**Damage Taken**: 18 ÃƒÂ· 2 = 9 damage (halved!)
 **HP**: 30 - 9 = 21 HP
-**DRP Generated**: 18 Ã· 4 = 4.5 â†’ **4 DRP** (calculated from full damage before resistance!)
+**DRP Generated**: 18 ÃƒÂ· 4 = 4.5 Ã¢â€ â€™ **4 DRP** (calculated from full damage before resistance!)
 **Total DRP**: 4 + 6 + 4 = **14 DRP**
 
-*Wait â€” the snapshot rule means your passive from last turn (Dark Resistance: Slashing) is still active THIS turn. The alpha's bite is weakened by your dark aura.*
+*Wait Ã¢â‚¬â€ the snapshot rule means your passive from last turn (Dark Resistance: Slashing) is still active THIS turn. The alpha's bite is weakened by your dark aura.*
 
 *Next turn, at 14 DRP, your passives snapshot again: Dark Resistance + 1 HP regen.*
 
 **Your Turn**: Attack alpha wolf
-**Attack Roll**: d20+6 â†’ [16] â†’ Hit!
-**Damage**: 2d8 â†’ [8, 7] = 15 damage
+**Attack Roll**: d20+6 Ã¢â€ â€™ [16] Ã¢â€ â€™ Hit!
+**Damage**: 2d8 Ã¢â€ â€™ [8, 7] = 15 damage
 **Alpha Wolf**: DEAD
 
 *The alpha falls. The pack hesitates.*
 
 **Current State**: HP: 21/120 | DRP: 14/50
 
-**Turn 4 - The Comeback (HP: 21 â†’ 0 â†’ 28, DRP: 14 â†’ 0)**
+**Turn 4 - The Comeback (HP: 21 Ã¢â€ â€™ 0 Ã¢â€ â€™ 28, DRP: 14 Ã¢â€ â€™ 0)**
 
-*Snapshot at turn start: 14 DRP â€” Dark Resistance active, 1 HP regen.*
+*Snapshot at turn start: 14 DRP Ã¢â‚¬â€ Dark Resistance active, 1 HP regen.*
 
 *The remaining wolves attack in desperation.*
 
@@ -210,15 +214,15 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 
 *You fall. The world goes dark. But the darkness is your ally. It will not let you die.*
 
-**Dark Rebirth Effect**: Spend all remaining DRP (14 DRP) to regain HP equal to 2Ã— DRP
-**HP Regained**: 14 Ã— 2 = 28 HP
-**HP**: 0 â†’ 28 HP (YOU LIVE!)
+**Dark Rebirth Effect**: Spend all remaining DRP (14 DRP) to regain HP equal to 2Ãƒâ€” DRP
+**HP Regained**: 14 Ãƒâ€” 2 = 28 HP
+**HP**: 0 Ã¢â€ â€™ 28 HP (YOU LIVE!)
 **DRP**: 14 - 14 = 0 DRP
 
 *You rise from the ground, dark energy pouring from your wounds. The wolves back away, terrified.*
 
-**Your Party's Mage**: Casts Fireball â†’ Kills 2 wolves
-**Your Party's Rogue**: Sneak attack â†’ Kills 1 wolf
+**Your Party's Mage**: Casts Fireball Ã¢â€ â€™ Kills 2 wolves
+**Your Party's Rogue**: Sneak attack Ã¢â€ â€™ Kills 1 wolf
 **Remaining**: 1 wolf (fleeing)
 
 **Your Turn**: Let it run. You've made your point.
@@ -229,14 +233,14 @@ The Dreadnaught's power scales with the danger they face. The more damage they t
 **You**: "Death is just another resource. I spent it wisely."
 
 **The Lesson**: Dreadnaught gameplay is about:
-1. **Damage-to-Power**: Took 145 damage total, generated ~36 DRP from combat (145 Ã· 4 â‰ˆ 36)
-2. **Snapshot Rule**: Passives lock at turn start â€” spend freely during your turn, feel the cost next turn
+1. **Damage-to-Power**: Took 145 damage total, generated ~36 DRP from combat (145 ÃƒÂ· 4 Ã¢â€°Ë† 36)
+2. **Snapshot Rule**: Passives lock at turn start Ã¢â‚¬â€ spend freely during your turn, feel the cost next turn
 3. **Shadow Shield**: Spent 10 DRP for 20 damage absorption (2:1 ratio = efficient!)
 4. **Dark Rebirth**: Auto-triggered at 0 HP, spent 14 DRP to regain 28 HP (saved your life!)
-5. **Resistance Math**: Alpha's 18 damage â†’ 9 after resistance, but DRP calculated from full 18
+5. **Resistance Math**: Alpha's 18 damage Ã¢â€ â€™ 9 after resistance, but DRP calculated from full 18
 6. **Strategic Spending**: Spent 15 DRP total (5 on Wraith Strike, 10 on Shadow Shield), saved 14 for Dark Rebirth
 
-You're not a tank who avoids damage—you're a tank who CONVERTS damage into power. The more you suffer, the stronger you become. Death itself is just another tool in your arsenal.`,
+You're not a tank who avoids damageâ€”you're a tank who CONVERTS damage into power. The more you suffer, the stronger you become. Death itself is just another tool in your arsenal.`,
     },
   },
 
@@ -303,7 +307,7 @@ You're not a tank who avoids damage—you're a tank who CONVERTS damage into pow
 
     overheatRules: {
       title: "The Dreadnaught's Gambit",
-      content: `The Dreadnaught doesn't "Overheat"—they **Empty the Tank**. 
+      content: `The Dreadnaught doesn't "Overheat"â€”they **Empty the Tank**. 
 
 **Tier Scaling**:
 - **10-19 DRP**: Resistance + 1 HP/turn
@@ -396,7 +400,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
 - **Damage Conversion**: Keep a small "Incoming Pain" tray. Put a white bead in it for every 4 damage taken. At the end of the enemy's turn, dump the white beads and replace them with DRP tokens in your main pool.
 - **Resistance Math**: Create a cheat sheet for the 4:1 conversion (4=1, 8=2, 12=3...) to keep combat moving fast.
 
-**Pro Tip**: Use a specialized d50 (or two d10s) to track DRP if you hate beads. Just remember the Snapshot Coin rule—it is the only way to play accurately at the table!`,
+**Pro Tip**: Use a specialized d50 (or two d10s) to track DRP if you hate beads. Just remember the Snapshot Coin ruleâ€”it is the only way to play accurately at the table!`,
     },
   },
 
@@ -420,7 +424,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         playstyle: "Maximum defense, high regeneration, damage absorption",
 
         strengths: [
-          "Shadow Shield absorbs 2.5Ã— DRP instead of 2Ã—",
+          "Shadow Shield absorbs 2.5Ãƒâ€” DRP instead of 2Ãƒâ€”",
           "Regeneration increased by 50%",
           "Dark Resistance applies to two damage types instead of one",
           "Can use Shadow Shield as a reaction",
@@ -442,7 +446,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         specPassive: {
           name: "Void Embrace",
           description:
-            "Shadow Shield absorbs 2.5Ã— DRP spent instead of 2Ã—. Regeneration from DRP increased by 50%. Dark Resistance applies to two damage types.",
+            "Shadow Shield absorbs 2.5Ãƒâ€” DRP spent instead of 2Ãƒâ€”. Regeneration from DRP increased by 50%. Dark Resistance applies to two damage types.",
         },
       },
       {
@@ -525,7 +529,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
   // Spells - organized by level, showcasing DRP system
   spells: [
     // ========================================
-    // LEVEL 1 SPELLS â€” Core Survivability
+    // LEVEL 1 SPELLS Ã¢â‚¬â€ Core Survivability
     // The bedrock of what makes a Dreadnaught: take damage, grow stronger, refuse to die.
     // ========================================
 
@@ -573,7 +577,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         resourceSpent: "all_drp",
         oncePer: "long_rest",
         description:
-          "Triggers automatically at 0 HP. Spends all remaining DRP and restores HP equal to 2Ã— DRP consumed. Requires at least 1 DRP.",
+          "Triggers automatically at 0 HP. Spends all remaining DRP and restores HP equal to 2Ãƒâ€” DRP consumed. Requires at least 1 DRP.",
       },
 
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
@@ -632,7 +636,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
             id: "shadow_shield_absorption",
             name: "Shadow Shield",
             description:
-              "Absorbs damage equal to 2Ã— DRP spent. DRP generation still occurs from absorbed damage.",
+              "Absorbs damage equal to 2Ãƒâ€” DRP spent. DRP generation still occurs from absorbed damage.",
             tempHPFormula: "2 * DRP Spent",
             tempHPType: "absorption",
           },
@@ -739,7 +743,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       id: "dread_dark_regeneration",
       name: "Dark Regeneration",
       description:
-        "Amplify your passive regeneration. Spend 5 DRP to DOUBLE your current passive HP regeneration rate for 1 minute. Stacks with your baseline passive â€” does not replace it.",
+        "Amplify your passive regeneration. Spend 5 DRP to DOUBLE your current passive HP regeneration rate for 1 minute. Stacks with your baseline passive Ã¢â‚¬â€ does not replace it.",
       level: 1,
       spellType: "ACTION",
       icon: "Necrotic/Blood Skull",
@@ -1558,31 +1562,31 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
     // LEVEL 6 SPELLS
     // ========================================
     {
-      id: "dread_shadow_step",
-      name: "Shadow Step",
+      id: "dread_grasp_of_the_grave",
+      name: "Grasp of the Grave",
       description:
-        "Dissolve into shadows and teleport up to 30 feet. Shadows linger at departure and arrival points, obscuring vision.",
+        "The dead reach up from below. A spectral hand erupts from the ground and drags an enemy up to 30 feet toward you. You do NOT move â€” the battlefield comes to YOU. The Dreadnaught is an immovable fortress; enemies are pulled into your killing range.",
       level: 6,
       spellType: "ACTION",
-      icon: "Utility/Phantom Dash",
+      icon: "Necrotic/Grasping Hand",
       school: "shadow",
 
       typeConfig: {
         school: "shadow",
-        icon: "Utility/Phantom Dash",
-        tags: ["movement", "teleport", "shadow", "drp"],
+        icon: "Necrotic/Grasping Hand",
+        tags: ["movement", "forced_pull", "shadow", "drp"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
 
       targetingConfig: {
-        targetingType: "area",
+        targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["location"],
+        targetRestrictions: ["enemy"],
         maxTargets: 1,
         targetSelectionMethod: "manual",
-        requiresLineOfSight: false,
+        requiresLineOfSight: true,
         propagationMethod: "none",
       },
 
@@ -1592,39 +1596,34 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
         useFormulas: {},
         actionPoints: 1,
         components: ["somatic"],
-        somaticText: "Dissolve into shadows",
+        somaticText: "Reach into the ground and pull the grave's grip upward",
       },
 
-      resolution: "NONE",
-      effectTypes: ["utility", "debuff"],
+      resolution: "SAVE",
+      effectTypes: ["forced_movement", "debuff"],
 
-      utilityConfig: {
-        utilityType: "Teleport",
-        selectedEffects: [
-          {
-            id: "teleport",
-            name: "Teleport",
-            description: "Teleport through shadows up to 30 feet",
-            distance: 30,
-            needsLineOfSight: false,
-            requiresUnoccupied: true,
-          },
-        ],
-        duration: 0,
-        durationUnit: "instant",
-        concentration: false,
-        power: "moderate",
+      forcedMovementConfig: {
+        type: "pull",
+        distance: 30,
+        direction: "toward_caster",
+        description: "Drag target up to 30 feet toward you",
+        saveConfig: {
+          saveType: "strength",
+          saveDC: "8 + proficiency + constitution",
+          successEffect: "Resist the pull â€” moved only half distance",
+          failureEffect: "Dragged the full distance to the Dreadnaught",
+        },
       },
 
       debuffConfig: {
         debuffType: "statusEffect",
         effects: [
           {
-            id: "shadow_obscurement",
-            name: "Shadow Obscurement",
+            id: "grave_chill",
+            name: "Grave Chill",
             description:
-              "Heavily obscured area - creatures have disadvantage on Perception checks and movement speed reduced by 10 feet",
-            statusType: "obscured",
+              "The touch of the grave slows the target â€” movement speed reduced by 10 feet for 2 rounds",
+            statusType: "slowed",
             level: "moderate",
             statModifier: {
               stat: "speed",
@@ -1633,20 +1632,15 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
             },
           },
         ],
-        durationValue: 3,
+        durationValue: 2,
         durationType: "rounds",
         durationUnit: "rounds",
-        areaShape: "circle",
-        areaParameters: { radius: 10 },
-        triggerCondition: "area_entry",
-        triggerDescription:
-          "Creatures that enter or start their turn in the shadow areas are affected",
         canBeDispelled: true,
       },
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 0 },
 
-      tags: ["movement", "teleport", "shadow", "drp", "level 6", "dreadnaught"],
+      tags: ["movement", "forced_pull", "shadow", "drp", "level 6", "dreadnaught"],
     },
 
     {
@@ -2769,7 +2763,7 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
       id: "dread_void_annihilation",
       name: "Void Annihilation",
       description:
-        "Become the void itself â€” a yawning darkness that swallows all in range. Targets that fail their save are unmade, their essence dissolving into the darkness that feeds you.",
+        "Become the void itself Ã¢â‚¬â€ a yawning darkness that swallows all in range. Targets that fail their save are unmade, their essence dissolving into the darkness that feeds you.",
       level: 10,
       spellType: "ACTION",
       icon: "Void/Black Hole",
@@ -2902,6 +2896,52 @@ Spending DRP for offense (Wraith Strike) or utility (Necrotic Aura) drops your p
 
       resolution: "DICE",
       tags: ["damage", "necrotic", "execute", "ultimate", "dreadnaught"],
+    },    {
+      id: "dread_pain_starvation",
+      name: "Pain Starvation",
+      description:
+        "If you take 0 damage for 2 consecutive rounds, your pain-fueled powers weaken. You lose 1d6 Fury per round (minimum 0) and your damage resistance decreases by 1 per round until you take damage again. The Dreadnaught NEEDS pain to function.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Physical/Blood Rage",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "Physical/Blood Rage",
+        tags: ["passive", "debuff", "fury loss", "pain dependency", "dreadnaught"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "fury loss", "pain dependency", "dreadnaught"],
+    },
+    {
+      id: "dread_blood_price",
+      name: "The Blood Price",
+      description: "Every point of HP you restore through dark magic costs DRP. Your lifesteal abilities (Necrotic Touch, Vampiric Strike, Soul Storm) cost 2 DRP per activation. Your passive regeneration costs 1 DRP per turn at 10+ DRP, 2 DRP at 20+, 3 DRP at 30+. Dark Rebirth resurrects you but leaves you at 0 DRP. The darkness does not give freely ` it taxes. A Dreadnaught who heals without fighting is a Dreadnaught who drains their own power.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Shadow/Shadow Bolt",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "shadow",
+        icon: "Shadow/Shadow Bolt",
+        tags: ["passive", "restriction", "healing cost", "drp cost", "dreadnaught"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "restriction", "healing cost", "drp cost", "dreadnaught"],
     },
   ],
 };

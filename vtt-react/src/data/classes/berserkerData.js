@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Berserker Class Data
  *
  * Complete class information for the Berserker - a fury-driven warrior
@@ -19,9 +19,9 @@ export const BERSERKER_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Berserker builds Rage (0-100) through combat actions and ascends through six escalating Rage States, each unlocking more powerful abilities. The longer you fight, the stronger you become—but exceed 101 Rage without spending it and you Overheat, taking 2d6 damage and resetting to 0.
+      content: `**What You Need to Know**: The Berserker builds Rage (0-100) through combat actions and ascends through six escalating Rage States, each unlocking more powerful abilities. The longer you fight, the stronger you becomeâ€”but exceed 101 Rage without spending it and you Overheat, taking 2d6 damage and resetting to 0.
 
-**Core Mechanic**: Attack/take damage → Build Rage → Ascend through Rage States → Spend Rage on devastating abilities → Avoid Overheat
+**Core Mechanic**: Attack/take damage â†’ Build Rage â†’ Ascend through Rage States â†’ Spend Rage on devastating abilities â†’ Avoid Overheat
 
 **Resource**: Rage (0-100 scale, visualized as 2d10 dice)
 
@@ -50,7 +50,7 @@ Common Berserker archetypes include:
       content: `The Berserker is a frontline damage dealer who thrives in the thick of combat. They excel at:
 
 **Sustained Damage**: Building Rage through combat actions creates escalating damage output
-**Resilience**: Higher Rage States grant defensive bonuses and damage resistance
+**Resilience**: Higher Rage States grant defensive bonuses and damage resistance. Self-healing is entirely violence-dependent -- blood must flow for wounds to close
 **Momentum**: The longer the fight, the more dangerous the Berserker becomes
 **Battlefield Control**: AOE abilities and intimidating presence affect multiple enemies
 
@@ -63,13 +63,13 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Rage State Management**: 
 - Smoldering (0-20): Building phase, basic abilities only, +1 skill checks
-- Frenzied (21-40): +1 attack, +5 ft movement, +1 melee damage — but -1 ranged
-- Primal (41-60): +2 attack, +2 melee damage, 1 HP lifesteal on crits — but -1 Armor
-- Carnage (61-80): +3 attack, +3 melee damage, -1 incoming weapon damage — but -2 ranged, no Stealth
-- Cataclysm (81-100): +4 attack, +4 melee damage, immune to Frightened — but enemies gain +1 to hit, 1d4 recoil on miss
-- Obliteration (101-124): +5 attack, +5 melee damage, crits splash +1d6 — but -2 Armor, enemies gain +2 to hit, MUST SPEND OR OVERHEAT
-- Annihilation (125-149): +6 attack, +6 melee damage, +10 ft movement, expanded crit range — but -3 Armor, enemies gain +3 to hit, 1d6 damage/turn
-- Apocalypse (150+): +7 attack, +8 melee damage, +15 ft movement, all melee hits adjacent enemies, immune to all conditions — but -5 Armor, enemies gain +4 to hit, 2d6 damage/turn, no ranged attacks
+- Frenzied (21-40): +1 attack, +5 ft movement, +1 melee damage â€” but -1 ranged
+- Primal (41-60): +2 attack, +2 melee damage, 1 HP lifesteal on crits â€” but -1 Armor
+- Carnage (61-80): +3 attack, +3 melee damage, -1 incoming weapon damage â€” but -2 ranged, no Stealth
+- Cataclysm (81-100): +4 attack, +4 melee damage, immune to Frightened â€” but enemies gain +1 to hit, 1d4 recoil on miss
+- Obliteration (101-124): +5 attack, +5 melee damage, crits splash +1d6 â€” but -2 Armor, enemies gain +2 to hit, MUST SPEND OR OVERHEAT
+- Annihilation (125-149): +6 attack, +6 melee damage, +10 ft movement, expanded crit range â€” but -3 Armor, enemies gain +3 to hit, 1d6 damage/turn
+- Apocalypse (150+): +7 attack, +8 melee damage, +15 ft movement, all melee hits adjacent enemies, immune to all conditions â€” but -5 Armor, enemies gain +4 to hit, 2d6 damage/turn, no ranged attacks
 
 **Building Rage**: 
 - Attack consistently to generate 1d6 Rage per attack
@@ -79,7 +79,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 **Spending Rage**: 
 - Use abilities at appropriate Rage States for maximum efficiency
-- Don't hoard Rage—spending it prevents Overheat and unleashes power
+- Don't hoard Rageâ€”spending it prevents Overheat and unleashes power
 - Time your big spenders (Carnage Strike, Cataclysmic Blow) for critical moments
 
 **Rage Decay**: 
@@ -93,109 +93,109 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
     immersiveCombatExample: {
       title: "Combat Example: The Arena of Blood",
-      content: `**The Setup**: You stand in the center of a gladiatorial arena, facing three armored pit fighters. The crowd roars for blood. Your greataxe feels light in your hands. Your Rage is at 0 — for now.
+      content: `**The Setup**: You stand in the center of a gladiatorial arena, facing three armored pit fighters. The crowd roars for blood. Your greataxe feels light in your hands. Your Rage is at 0 â€” for now.
 
-**Turn 1 - First Blood (Rage: 0 → 8)**
+**Turn 1 - First Blood (Rage: 0 â†’ 8)**
 
 *The first pit fighter charges. You meet him head-on, your axe swinging in a brutal arc.*
 
-**Action**: Attack with greataxe → Hit!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage
-**Enemy Counterattack**: Pit fighter strikes you → 8 damage taken
-**Rage Generation**: Roll 1d4 → [2] → Gain 2 Rage
+**Action**: Attack with greataxe â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [6] â†’ Gain 6 Rage
+**Enemy Counterattack**: Pit fighter strikes you â†’ 8 damage taken
+**Rage Generation**: Roll 1d4 â†’ [2] â†’ Gain 2 Rage
 
 **Current Rage: 8** (Smoldering State)
 
-*You feel the first stirrings of fury. Your muscles tense. Your breathing quickens. The pain from the pit fighter's blade doesn't hurt — it FUELS you.*
+*You feel the first stirrings of fury. Your muscles tense. Your breathing quickens. The pain from the pit fighter's blade doesn't hurt â€” it FUELS you.*
 
-**Turn 2 - Building Fury (Rage: 8 → 23)**
+**Turn 2 - Building Fury (Rage: 8 â†’ 23)**
 
 *The second pit fighter joins the fray. Two against one. Good. More targets.*
 
-**Action**: Attack pit fighter #1 → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 13)
-**Action**: Second attack (extra attack from action points) → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 17)
-**Enemy Attacks**: Both pit fighters strike you → 12 damage total
-**Rage Generation**: Roll 1d4 → [6] → Gain 6 Rage (now at 23)
+**Action**: Attack pit fighter #1 â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [5] â†’ Gain 5 Rage (now at 13)
+**Action**: Second attack (extra attack from action points) â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [4] â†’ Gain 4 Rage (now at 17)
+**Enemy Attacks**: Both pit fighters strike you â†’ 12 damage total
+**Rage Generation**: Roll 1d4 â†’ [6] â†’ Gain 6 Rage (now at 23)
 
 **Current Rage: 23** (Frenzied State - UNLOCKED!)
 
-*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State — +1 to attack rolls, +5 ft movement, +1 melee damage.*
+*Your vision starts to tinge red. Veins bulge in your neck and arms. You let out a guttural roar that echoes through the arena. The crowd goes wild. You've entered the Frenzied State â€” +1 to attack rolls, +5 ft movement, +1 melee damage.*
 
-**Turn 3 - Ascending Wrath (Rage: 23 → 43)**
+**Turn 3 - Ascending Wrath (Rage: 23 â†’ 43)**
 
 *The third pit fighter hesitates. He sees the fury in your eyes. Smart man. Won't save him.*
 
-**Action**: Frenzied Slash (Rage ability) on pit fighter #1 → CRITICAL HIT!
+**Action**: Frenzied Slash (Rage ability) on pit fighter #1 â†’ CRITICAL HIT!
 **Rage Cost**: Spend 8 Rage (now at 15)
-**Rage Generation**: Roll 2d6 → [5, 6] = 11 → Gain 11 Rage (now at 26)
+**Rage Generation**: Roll 2d6 â†’ [5, 6] = 11 â†’ Gain 11 Rage (now at 26)
 **Result**: Pit fighter #1 drops, blood spraying across the sand
-**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 34)
-**Enemy Attack**: Pit fighter #2 strikes you → 6 damage
-**Rage Generation**: Roll 1d4 → [3] → Gain 3 Rage (now at 37)
-**Action**: Charge pit fighter #2 → Hit!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 43)
+**Rage Generation**: Defeated enemy â†’ Roll 1d8 â†’ [8] â†’ Gain 8 Rage (now at 34)
+**Enemy Attack**: Pit fighter #2 strikes you â†’ 6 damage
+**Rage Generation**: Roll 1d4 â†’ [3] â†’ Gain 3 Rage (now at 37)
+**Action**: Charge pit fighter #2 â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [6] â†’ Gain 6 Rage (now at 43)
 
 **Current Rage: 43** (Primal State - UNLOCKED!)
 
-*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust — you now regenerate health each turn. +2 to attack rolls, +2 melee damage, 1 HP lifesteal on crits. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
+*Something primal awakens inside you. Your muscles swell beyond natural limits. Blood from your wounds seems to flow backward, sealing cuts through sheer force of will. You've unlocked Bloodlust â€” you now regenerate health each turn. +2 to attack rolls, +2 melee damage, 1 HP lifesteal on crits. The crowd's roar fades to a dull hum. All you hear is your heartbeat. All you see is prey.*
 
-**Turn 4 - Peak Carnage (Rage: 43 → 61)**
+**Turn 4 - Peak Carnage (Rage: 43 â†’ 61)**
 
 *Two pit fighters remain. They're backing away. Cowards.*
 
-**Passive**: Bloodlust activates → Heal 1d8 HP → [6] → Regain 6 HP
+**Passive**: Bloodlust activates â†’ Heal 1d8 HP â†’ [6] â†’ Regain 6 HP
 **Action**: Primal Roar (AoE intimidation + damage)
 **Rage Cost**: Spend 15 Rage (now at 28)
 **Effect**: Both pit fighters take 2d6 damage and are frightened
-**Action**: Attack frightened pit fighter #2 → Hit with advantage!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 34)
-**Action**: Second attack → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 38)
-**Enemy Attacks**: Pit fighter #3 attacks with disadvantage (frightened) → hits you for 8 damage
-**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 42)
+**Action**: Attack frightened pit fighter #2 â†’ Hit with advantage!
+**Rage Generation**: Roll 1d6 â†’ [6] â†’ Gain 6 Rage (now at 34)
+**Action**: Second attack â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [4] â†’ Gain 4 Rage (now at 38)
+**Enemy Attacks**: Pit fighter #3 attacks with disadvantage (frightened) â†’ hits you for 8 damage
+**Rage Generation**: Roll 1d4 â†’ [4] â†’ Gain 4 Rage (now at 42)
 
 *You laugh. A sound like grinding stone. You attack again.*
 
-**Action**: Third attack → CRITICAL HIT!
-**Rage Generation**: Roll 2d6 → [6, 5] = 11 → Gain 11 Rage (now at 53)
+**Action**: Third attack â†’ CRITICAL HIT!
+**Rage Generation**: Roll 2d6 â†’ [6, 5] = 11 â†’ Gain 11 Rage (now at 53)
 **Result**: Pit fighter #2 falls, skull caved in
-**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 61)
+**Rage Generation**: Defeated enemy â†’ Roll 1d8 â†’ [8] â†’ Gain 8 Rage (now at 61)
 
 **Current Rage: 61** (Carnage State - UNLOCKED!)
 
-*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State — +3 to attack rolls, +3 melee damage, reduce incoming weapon damage by 1. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
+*Your body is a weapon. Your axe is just an extension of your will. You've reached Carnage State â€” +3 to attack rolls, +3 melee damage, reduce incoming weapon damage by 1. The last pit fighter drops his weapon and runs. The crowd screams for you to finish him.*
 
-**Turn 5 - The Overheat Danger (Rage: 61 → 87)**
+**Turn 5 - The Overheat Danger (Rage: 61 â†’ 87)**
 
 *You chase him down. He's fast. You're faster.*
 
 **Action**: Carnage Strike (massive Rage-fueled attack)
 **Rage Cost**: Spend 20 Rage (now at 41)
-**Effect**: 4d10 damage → Pit fighter #3 is nearly dead
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 47)
-**Action**: Basic attack to finish him → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 52)
+**Effect**: 4d10 damage â†’ Pit fighter #3 is nearly dead
+**Rage Generation**: Roll 1d6 â†’ [6] â†’ Gain 6 Rage (now at 47)
+**Action**: Basic attack to finish him â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [5] â†’ Gain 5 Rage (now at 52)
 **Result**: Pit fighter #3 dies
-**Rage Generation**: Defeated enemy → Roll 1d8 → [8] → Gain 8 Rage (now at 60)
+**Rage Generation**: Defeated enemy â†’ Roll 1d8 â†’ [8] â†’ Gain 8 Rage (now at 60)
 
-*The crowd erupts. They want MORE. They throw weapons into the arena. A massive armored champion enters — the Arena Master himself.*
+*The crowd erupts. They want MORE. They throw weapons into the arena. A massive armored champion enters â€” the Arena Master himself.*
 
-**Action**: You roar and charge → Hit!
-**Rage Generation**: Roll 1d6 → [6] → Gain 6 Rage (now at 66)
-**Enemy Attack**: Arena Master's massive hammer strikes you → 15 damage!
-**Rage Generation**: Roll 1d4 → [4] → Gain 4 Rage (now at 70)
-**Action**: Second attack → CRITICAL HIT!
-**Rage Generation**: Roll 2d6 → [6, 6] = 12 → Gain 12 Rage (now at 82)
-**Action**: Third attack → Hit!
-**Rage Generation**: Roll 1d6 → [5] → Gain 5 Rage (now at 87)
+**Action**: You roar and charge â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [6] â†’ Gain 6 Rage (now at 66)
+**Enemy Attack**: Arena Master's massive hammer strikes you â†’ 15 damage!
+**Rage Generation**: Roll 1d4 â†’ [4] â†’ Gain 4 Rage (now at 70)
+**Action**: Second attack â†’ CRITICAL HIT!
+**Rage Generation**: Roll 2d6 â†’ [6, 6] = 12 â†’ Gain 12 Rage (now at 82)
+**Action**: Third attack â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [5] â†’ Gain 5 Rage (now at 87)
 
 **Current Rage: 87** (Cataclysm State - DANGER ZONE!)
 
 *You're at the peak. +4 to attack rolls, +4 melee damage, immune to Frightened. But enemies gain +1 to hit you, and a miss deals 1d4 recoil damage. You're 14 points from Obliteration. One bad crit sequence and you'll Overheat.*
 
-**Turn 6 - Controlled Destruction (Rage: 87 → 64)**
+**Turn 6 - Controlled Destruction (Rage: 87 â†’ 64)**
 
 *You need to spend this Rage NOW or it will consume you.*
 **Action**: Cataclysmic Blow (ultimate Rage ability)
@@ -205,17 +205,17 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
 *You feel the fury drain from you like water from a broken dam. Your vision clears slightly. Your muscles ache. But you're still in Carnage State (57 Rage), still dangerous.*
 
-**Action**: Attack while he's stunned → Hit!
-**Rage Generation**: Roll 1d6 → [3] → Gain 3 Rage (now at 60)
-**Action**: Second attack → Hit!
-**Rage Generation**: Roll 1d6 → [4] → Gain 4 Rage (now at 64)
+**Action**: Attack while he's stunned â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [3] â†’ Gain 3 Rage (now at 60)
+**Action**: Second attack â†’ Hit!
+**Rage Generation**: Roll 1d6 â†’ [4] â†’ Gain 4 Rage (now at 64)
 **Result**: Arena Master falls to his knees, defeated
 
-*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (64 → 59 → 54...), but the battle is won.*
+*You stand over him, axe raised. The crowd chants your name. Your Rage slowly begins to decay (64 â†’ 59 â†’ 54...), but the battle is won.*
 
-**The Lesson**: The Berserker is about riding the wave of fury — building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.
+**The Lesson**: The Berserker is about riding the wave of fury â€” building it through aggression, spending it before it consumes you, and knowing when to unleash your most devastating abilities. You're not just managing a resource; you're wrestling with a beast inside you that wants to break free.
 
-> **What If — The Overheat Scenario**: In Turn 5, imagine your third attack had crit instead of hitting normally. Roll 2d6 → [6, 6] = 12 instead of 5. You'd hit 94 Rage instead of 87. Then if the Arena Master's counterattack had dealt 18 instead of 15 damage, the 1d4 Rage would be [4], pushing you to 98. One more crit on your next attack and you're at 110+ — Obliteration. You'd have ONE round to spend Obliterating Strike (60 Rage) or eat 2d6 damage and reset to 0. This is the razor's edge every Berserker dances on.`,
+> **What If â€” The Overheat Scenario**: In Turn 5, imagine your third attack had crit instead of hitting normally. Roll 2d6 â†’ [6, 6] = 12 instead of 5. You'd hit 94 Rage instead of 87. Then if the Arena Master's counterattack had dealt 18 instead of 15 damage, the 1d4 Rage would be [4], pushing you to 98. One more crit on your next attack and you're at 110+ â€” Obliteration. You'd have ONE round to spend Obliterating Strike (60 Rage) or eat 2d6 damage and reset to 0. This is the razor's edge every Berserker dances on.`,
     },
   },
 
@@ -256,7 +256,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
     ],
 
     notes:
-      "Berserkers cannot start with ranged weapons heavier than a throwing axe or throwing hammer. Your fury is a close-quarters weapon — the bow is for cowards.",
+      "Berserkers cannot start with ranged weapons heavier than a throwing axe or throwing hammer. Your fury is a close-quarters weapon â€” the bow is for cowards.",
   },
 
   creationSteps: [
@@ -282,7 +282,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
       step: 4,
       title: "Understand Overheat",
       description:
-        "Rage exceeding 100 triggers Overheat — you have one round to spend below 100 or take 2d6 damage and reset. Always have an escape valve.",
+        "Rage exceeding 100 triggers Overheat â€” you have one round to spend below 100 or take 2d6 damage and reset. Always have an escape valve.",
     },
     {
       step: 5,
@@ -297,7 +297,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
     title: "Rage States",
     subtitle: "Escalating Fury Mechanic",
 
-    description: `Rage is a pressure gauge, not a savings account. It builds through aggression, decays through passivity, and unlocks escalating power as it climbs through six states. The goal is to ride the wave — keep Rage high, spend it before it explodes, and ride the edge of Obliteration.`,
+    description: `Rage is a pressure gauge, not a savings account. It builds through aggression, decays through passivity, and unlocks escalating power as it climbs through six states. The goal is to ride the wave â€” keep Rage high, spend it before it explodes, and ride the edge of Obliteration.`,
 
     cards: [
       {
@@ -315,7 +315,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
         [
           "Critical Hit",
           "+2d6",
-          "Major spike — watch for Overheat at high Rage",
+          "Major spike â€” watch for Overheat at high Rage",
         ],
         ["Taking Damage", "+1d4", "Pain fuels the fury"],
         ["Defeating an Enemy", "+1d8", "Bloodlust surge"],
@@ -327,7 +327,7 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
         ],
         [
           "Overheat (101+, unspent)",
-          "→ Reset to 0",
+          "â†’ Reset to 0",
           "2d6 self-damage, lose all State bonuses",
         ],
       ],
@@ -335,14 +335,14 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 
     usage: {
       momentum:
-        "Ability costs range 5–100 Rage. Spending brings you back down through States — time it to maximize your current State bonuses before dropping.",
+        "Ability costs range 5â€“100 Rage. Spending brings you back down through States â€” time it to maximize your current State bonuses before dropping.",
       flourish:
-        "⚠️ Overheat: Exceed 101 Rage without spending within 1 round → 2d6 damage, Rage resets to 0. Advanced tactic: push to 101 intentionally to access Obliterating Strike, then spend immediately.",
+        "âš ï¸ Overheat: Exceed 101 Rage without spending within 1 round â†’ 2d6 damage, Rage resets to 0. Advanced tactic: push to 101 intentionally to access Obliterating Strike, then spend immediately.",
     },
 
     overheatRules: {
       title: "Overheat",
-      content: `When Rage exceeds 100 you enter the Obliteration State — the most powerful state, but a ticking clock.
+      content: `When Rage exceeds 100 you enter the Obliteration State â€” the most powerful state, but a ticking clock.
 
 **You have ONE ROUND** to spend Rage below 101. If you don't:
 - Take **2d6 damage** (fury turns inward)
@@ -350,11 +350,11 @@ However, Berserkers must carefully manage their Rage. Letting it decay wastes th
 - Lose **all State bonuses**
 
 **How much do you need to spend?**
-- At 101 Rage → spend 1+
-- At 109 Rage → spend 9+
-- At 115 Rage → spend 15+
+- At 101 Rage â†’ spend 1+
+- At 109 Rage â†’ spend 9+
+- At 115 Rage â†’ spend 15+
 
-**Advanced Play — Intentional Overheat:**
+**Advanced Play â€” Intentional Overheat:**
 Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Berserker is viable. You take the 2d6 hit, but the payoff can end the fight. Use it when you're confident or desperate.`,
     },
 
@@ -408,7 +408,7 @@ Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Bers
           "101-124",
           "Obliterating Strike, Wrath of the Berserker",
           "+5 attack, +5 damage, Crits explode: +1d6 splash to adjacent",
-          "-2 Armor, Attackers gain +2 to hit — SPEND OR OVERHEAT",
+          "-2 Armor, Attackers gain +2 to hit â€” SPEND OR OVERHEAT",
         ],
         [
           "Annihilation",
@@ -429,25 +429,25 @@ Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Bers
 
     strategicConsiderations: {
       title: "Combat Phases & Decision-Making",
-      content: `**Building (0–40 Rage)**: Attack relentlessly. Don't waste Rage on abilities yet — every point is climbing toward real power. Use basic abilities only if absolutely necessary.
+      content: `**Building (0â€“40 Rage)**: Attack relentlessly. Don't waste Rage on abilities yet â€” every point is climbing toward real power. Use basic abilities only if absolutely necessary.
 
-**Sweet Spot (41–80 Rage)**: Primal and Carnage are your bread and butter. You have strong bonuses AND enough buffer to spend without dropping too low. Alternate spending and building — keep the rhythm.
+**Sweet Spot (41â€“80 Rage)**: Primal and Carnage are your bread and butter. You have strong bonuses AND enough buffer to spend without dropping too low. Alternate spending and building â€” keep the rhythm.
 
-**Peak Fury (81–100 Rage)**: Maximum effectiveness. Plan every spend carefully. One bad crit and you're at 101+. Before attacking, ask: "If I crit, can I spend what it would push me to?"
+**Peak Fury (81â€“100 Rage)**: Maximum effectiveness. Plan every spend carefully. One bad crit and you're at 101+. Before attacking, ask: "If I crit, can I spend what it would push me to?"
 
 **Overheat Zone (101+ Rage)**: Emergency. Use your most expensive ability immediately. Obliterating Strike (60 Rage) is your best escape valve. Do NOT miss.
 
-**Advanced Play — Intentional Overheat**: At 90+ Rage, deliberately chase crits to hit 101+, access Obliteration bonuses, and immediately spend Obliterating Strike before the round ends. High-risk, high-reward — only when confident.
+**Advanced Play â€” Intentional Overheat**: At 90+ Rage, deliberately chase crits to hit 101+, access Obliteration bonuses, and immediately spend Obliterating Strike before the round ends. High-risk, high-reward â€” only when confident.
 
 **Rage Decay**: If combat slows and you're at 60+ Rage, spend on a utility ability (Raging Defense, Intimidating Presence) rather than letting it decay. Wasted Rage is wasted power.
 
 **Worked Example (87 Rage, Cataclysm, Boss at 40% HP)**:
-- **Option A** — Cataclysmic Blow (−30 Rage): Drops to Primal, but may end the fight. Best if boss looks fragile.
-- **Option B** — Primal Roar (−15 Rage): Stays at Cataclysm, but lower burst. Best if you need AoE or the healer can hold.
-- **Option C** — Attack → build to 95+, then Obliterating Strike: Best if boss is clearly tanky.
-- **Option D** — Push to 101+, spend Obliterating Strike: Only if you're willing to eat 2d6 and the reward justifies it.
+- **Option A** â€” Cataclysmic Blow (âˆ’30 Rage): Drops to Primal, but may end the fight. Best if boss looks fragile.
+- **Option B** â€” Primal Roar (âˆ’15 Rage): Stays at Cataclysm, but lower burst. Best if you need AoE or the healer can hold.
+- **Option C** â€” Attack â†’ build to 95+, then Obliterating Strike: Best if boss is clearly tanky.
+- **Option D** â€” Push to 101+, spend Obliterating Strike: Only if you're willing to eat 2d6 and the reward justifies it.
 
-→ **Best default**: Option A. Boss at 40% is within one massive hit. Cash in the fury.`,
+â†’ **Best default**: Option A. Boss at 40% is within one massive hit. Cash in the fury.`,
     },
 
     playingInPerson: {
@@ -456,47 +456,47 @@ Pushing past 101 deliberately to access Obliterating Strike or Wrath of the Bers
       content: `Two red d10s on the table in front of you. Left die = tens. Right die = ones. That's your Rage. Watch it climb.
 
 **Required Materials**:
-- **2d10** (red/orange for thematic fire — but any d10s work)
+- **2d10** (red/orange for thematic fire â€” but any d10s work)
 - **Rage State reference card** (thresholds + bonuses at a glance)
 
 **How to Read Your Rage**:
-- Left [6], Right [3] = 63 Rage → Carnage State
-- Left [8], Right [7] = 87 Rage → Cataclysm State
-- Left [0], Right [0] = 0 Rage → Smoldering
-- **101+**: Both dice physically can't show this cleanly — use a token beside them as the ⚠️ Overheat marker
+- Left [6], Right [3] = 63 Rage â†’ Carnage State
+- Left [8], Right [7] = 87 Rage â†’ Cataclysm State
+- Left [0], Right [0] = 0 Rage â†’ Smoldering
+- **101+**: Both dice physically can't show this cleanly â€” use a token beside them as the âš ï¸ Overheat marker
 
-**Each Turn — Adjust the Dice**:
-- Hit → roll 1d6, add to dice total
-- Crit → roll 2d6, add to dice total
-- Take damage → roll 1d4, add to dice total
-- Kill → roll 1d8, add to dice total
-- Spend ability → subtract cost from dice total
-- No attack this round → subtract 5 at end of round
+**Each Turn â€” Adjust the Dice**:
+- Hit â†’ roll 1d6, add to dice total
+- Crit â†’ roll 2d6, add to dice total
+- Take damage â†’ roll 1d4, add to dice total
+- Kill â†’ roll 1d8, add to dice total
+- Spend ability â†’ subtract cost from dice total
+- No attack this round â†’ subtract 5 at end of round
 
 **Rage State Reference**:
 \`\`\`
 RAGE STATES (2d10 = Tens + Ones):
 
-🔥 Smoldering  0–20  | No bonuses
-🔥 Frenzied   21–40  | +1 ATK, +5 ft
-🔥 Primal     41–60  | +2 ATK, +10 ft, +1d4 dmg
-🔥 Carnage    61–80  | +3 ATK, +15 ft, +1d6 dmg, 25% resist
-💀 Cataclysm  81–100 | +4 ATK, +20 ft, +1d8 dmg, 50% resist, immune fear/stun
-⚠️ Obliteration 101+ | +5 ATK, +25 ft, +2d6 dmg, 50% resist, immune all — SPEND OR OVERHEAT
+ðŸ”¥ Smoldering  0â€“20  | No bonuses
+ðŸ”¥ Frenzied   21â€“40  | +1 ATK, +5 ft
+ðŸ”¥ Primal     41â€“60  | +2 ATK, +10 ft, +1d4 dmg
+ðŸ”¥ Carnage    61â€“80  | +3 ATK, +15 ft, +1d6 dmg, 25% resist
+ðŸ’€ Cataclysm  81â€“100 | +4 ATK, +20 ft, +1d8 dmg, 50% resist, immune fear/stun
+âš ï¸ Obliteration 101+ | +5 ATK, +25 ft, +2d6 dmg, 50% resist, immune all â€” SPEND OR OVERHEAT
 
 RAGE GENERATION:
-  Hit → +1d6 | Crit → +2d6 | Damage → +1d4 | Kill → +1d8
-  No attack → −5/round
+  Hit â†’ +1d6 | Crit â†’ +2d6 | Damage â†’ +1d4 | Kill â†’ +1d8
+  No attack â†’ âˆ’5/round
 
 OVERHEAT (101+): 1 round to spend below 101
-  → Fail: 2d6 self-damage, Rage resets to 0
+  â†’ Fail: 2d6 self-damage, Rage resets to 0
 \`\`\`
 
 **Pro Tips**:
-- Slam the dice down when you enter a new State — make it dramatic
+- Slam the dice down when you enter a new State â€” make it dramatic
 - Keep the reference card visible at all times so you know your bonuses instantly
 - At 80+ Rage: before every attack, check "if I crit, where does that put me?" and have a spend ready
-- **Intentional Overheat**: If at 90+ and holding Obliterating Strike — go for the crit, push past 101, spend immediately. That's Berserker mastery.`,
+- **Intentional Overheat**: If at 90+ and holding Obliterating Strike â€” go for the crit, push past 101, spend immediately. That's Berserker mastery.`,
     },
   },
 
@@ -963,7 +963,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Frenzy Mayhem",
-        description: "Your frenzied slashes spiral into unpredictable violence — extra strikes, wild arcs, and self-destructive flurries.",
+        description: "Your frenzied slashes spiral into unpredictable violence â€” extra strikes, wild arcs, and self-destructive flurries.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -1115,7 +1115,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_bloodthirst",
       name: "Bloodthirst",
       description:
-        "Strike your foe with ravenous hunger, drinking deep of their life essence. The more damage you deal, the more you heal. Critical hits drain so fiercely that enemies are visibly weakened.",
+        "Strike your foe with ravenous fury, channeling pain into temporary endurance. You do not heal â€” you refuse to die. Grants temporary HP (not healing) based on damage dealt. Critical hits overwhelm enemies with sheer aggression.",
       level: 2,
       spellType: "ACTION",
       icon: "Necrotic/Drain Soul",
@@ -1123,7 +1123,7 @@ OVERHEAT (101+): 1 round to spend below 101
       typeConfig: {
         school: "slashing",
         icon: "Necrotic/Drain Soul",
-        tags: ["healing", "self sustain", "rage generation", "frenzied"],
+        tags: ["temp hp", "self sustain", "rage generation", "frenzied"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1143,7 +1143,7 @@ OVERHEAT (101+): 1 round to spend below 101
           rangeDistance: 5,
           targetRestrictions: ["enemy"],
         },
-        healing: {
+        tempHP: {
           targetingType: "self",
         },
       },
@@ -1154,11 +1154,11 @@ OVERHEAT (101+): 1 round to spend below 101
         actionPoints: 1,
         components: ["somatic"],
         somaticText:
-          "Strike with dark energy, draining life force as red mist flows into you",
+          "Strike with violent fury, adrenaline surging as red mist swirls around you",
       },
 
       resolution: "DICE",
-      effectTypes: ["damage", "healing"],
+      effectTypes: ["damage", "tempHP"],
 
       damageConfig: {
         formula: "1d6 + strength",
@@ -1171,9 +1171,9 @@ OVERHEAT (101+): 1 round to spend below 101
           enabled: true,
           critType: "dice",
           critMultiplier: 2,
-          critEffects: ["life_drain"],
-          lifeDrainConfig: {
-            percentage: 50,
+          critEffects: ["adrenaline_surge"],
+          adrenalineSurgeConfig: {
+            tempHPBonus: "1d8",
           },
         },
         chanceOnHitConfig: {
@@ -1191,16 +1191,18 @@ OVERHEAT (101+): 1 round to spend below 101
           },
         },
         description:
-          "Tears into your enemy with savage force, opening wounds that bleed freely while siphoning their vitality into yourself.",
+          "Tears into your enemy with savage force, opening wounds that bleed freely while adrenaline surges through your body.",
         resolution: "DICE",
       },
 
-      healingConfig: {
+      tempHPConfig: {
         formula: "damageDealt / 2",
-        healingType: "direct",
+        tempHPType: "adrenaline",
         resolution: "DICE",
         description:
-          "Stolen life force flows through you, closing wounds and restoring strength.",
+          "Adrenaline floods your body, granting temporary HP that represents your refusal to fall. This is NOT healing â€” wounds remain open, but you fight through them.",
+        doesNotStack: true,
+        duration: "until_start_of_next_turn",
       },
 
       cooldownConfig: {
@@ -1211,7 +1213,7 @@ OVERHEAT (101+): 1 round to spend below 101
       tags: [
         "melee",
         "damage",
-        "healing",
+        "tempHP",
         "self sustain",
         "rage generation",
         "frenzied",
@@ -1221,7 +1223,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Bloodthirst Hunger",
-        description: "Your ravenous strike feeds on life essence in unpredictable ways — sometimes the hunger spirals beyond your control.",
+        description: "Your ravenous strike feeds on life essence in unpredictable ways â€” sometimes the hunger spirals beyond your control.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -1304,7 +1306,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_counter_rage",
       name: "Counter-Rage",
       description:
-        "When an enemy hits you, your fury erupts into an immediate retaliatory strike. Pain is fuel — every blow against you is answered.",
+        "When an enemy hits you, your fury erupts into an immediate retaliatory strike. Pain is fuel â€” every blow against you is answered.",
       level: 2,
       spellType: "REACTION",
       icon: "General/Combat Downward Strike",
@@ -1448,7 +1450,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Primal Roar Effects",
-        description: "Your roar carries the weight of ancient predators — the effect depends on which primal spirit answers your call.",
+        description: "Your roar carries the weight of ancient predators â€” the effect depends on which primal spirit answers your call.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -1889,7 +1891,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Carnage Chaos",
-        description: "Your devastating strike spirals into unpredictable brutality — sometimes empowering, sometimes backfiring with catastrophic force.",
+        description: "Your devastating strike spirals into unpredictable brutality â€” sometimes empowering, sometimes backfiring with catastrophic force.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -2218,7 +2220,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 10, max: 11 }, customName: "Aftershock", effect: "The ground continues to crack. Target takes an additional 2d8 damage at the start of next round." },
           { range: { min: 12, max: 13 }, customName: "Rift in the Earth", effect: "A chasm opens. Target must make DC 16 Dex save or fall 10 ft into a pit, becoming Restrained." },
           { range: { min: 14, max: 14 }, customName: "Primal Eruption", effect: "Cataclysmic energy erupts. Add 3d8 fire damage to the strike. Target catches fire (1d6/round for 2 rounds)." },
-          { range: { min: 15, max: 15 }, customName: "Titan's Crush", effect: "The blow compresses reality. Target is Crushed — Restrained and takes 1d8/round for 2 rounds. DC 17 Str to break free." },
+          { range: { min: 15, max: 15 }, customName: "Titan's Crush", effect: "The blow compresses reality. Target is Crushed â€” Restrained and takes 1d8/round for 2 rounds. DC 17 Str to break free." },
           { range: { min: 16, max: 16 }, customName: "Cataclysm Bleed", effect: "The wound is catastrophic. Target bleeds for 2d6/round for 3 rounds. No save." },
           { range: { min: 17, max: 17 }, customName: "Reality Fracture", effect: "The blow tears reality. Target takes +4d8 force damage and is Stunned for 1 round. You take 2d6 psychic damage." },
           { range: { min: 18, max: 18 }, customName: "Obliteration Precursor", effect: "A taste of Obliteration. Deal +5d6 damage. If this kills the target, gain +3d8 Rage immediately." },
@@ -2290,7 +2292,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Unstoppable Chaos",
-        description: "When nothing can stop you, nothing CAN stop you — including your own good judgment. The effects of your unstoppable surge are unpredictable.",
+        description: "When nothing can stop you, nothing CAN stop you â€” including your own good judgment. The effects of your unstoppable surge are unpredictable.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -2690,7 +2692,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 16, max: 16 }, customName: "Primal Fury", effect: "The wrath transcends. +8 damage instead of +5. Advantage on all STR and CON checks too." },
           { range: { min: 17, max: 17 }, customName: "Wrath Storm", effect: "Your fury creates a storm around you. All attacks against you have disadvantage. All your attacks have advantage. +1d6 lightning on each hit." },
           { range: { min: 18, max: 18 }, customName: "Avatar of Wrath", effect: "You become wrath incarnate. +10 damage. Crit range 17-20. Cannot be slowed, stunned, or controlled for the duration." },
-          { range: { min: 19, max: 19 }, customName: "Worldbreaker's Wrath", effect: "Your strikes can break the world. +12 damage. Each hit causes a localized earthquake — enemies within 5 ft of your target take 1d8 damage." },
+          { range: { min: 19, max: 19 }, customName: "Worldbreaker's Wrath", effect: "Your strikes can break the world. +12 damage. Each hit causes a localized earthquake â€” enemies within 5 ft of your target take 1d8 damage." },
           { range: { min: 20, max: 20 }, customName: "Wrath Eternal", effect: "THE FURY NEVER ENDS. Duration: rest of combat. +10 damage. Advantage on ALL rolls. Crit range 17-20. Every kill extends all active buffs by 1 round. At combat end, take 4d6 exhaustion damage. Worth it." },
         ],
       },
@@ -2951,7 +2953,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Cyclone of Chaos",
-        description: "Your living cyclone of primal fury drags in everything around it — allies, enemies, debris, and sometimes things from beyond.",
+        description: "Your living cyclone of primal fury drags in everything around it â€” allies, enemies, debris, and sometimes things from beyond.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -3036,7 +3038,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Blood Frenzy Surge",
-        description: "Your blood-fueled frenzy has unpredictable effects on your physiology — sometimes enhancing, sometimes warping your body in unsettling ways.",
+        description: "Your blood-fueled frenzy has unpredictable effects on your physiology â€” sometimes enhancing, sometimes warping your body in unsettling ways.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -3047,7 +3049,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 8, max: 9 }, customName: "Crimson Claws", effect: "Your fingernails elongate. Unarmed attacks deal 1d8 slashing. You can make one bonus unarmed attack per turn." },
           { range: { min: 10, max: 11 }, customName: "Blood Sight", effect: "You can see the blood in creatures' veins. Gain advantage on attacks against bleeding or wounded targets." },
           { range: { min: 12, max: 12 }, customName: "Sanguine Speed", effect: "Blood accelerates your movements. +10 ft movement and +1 action point per turn during the frenzy." },
-          { range: { min: 13, max: 13 }, customName: "Hemoglobin Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to 2 × enemies killed (max 40 HP). Lasts until end of frenzy." },
+          { range: { min: 13, max: 13 }, customName: "Hemoglobin Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to 2 Ã— enemies killed (max 40 HP). Lasts until end of frenzy." },
           { range: { min: 14, max: 14 }, customName: "Vampiric Aura", effect: "Your frenzy pulls life from nearby enemies. All enemies within 10 ft take 1d4 necrotic/round. You heal that amount." },
           { range: { min: 15, max: 15 }, customName: "Massacre Healer", effect: "Killing blows send a pulse of healing to all allies within 30 ft. Each ally heals for 1d8 per kill you make." },
           { range: { min: 16, max: 16 }, customName: "Blood Rain", effect: "Your frenzy sprays blood in a 10 ft radius. All enemies in range are Blinded for 1 round per kill." },
@@ -3141,7 +3143,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Ragnarok Mayhem",
-        description: "Your apocalyptic concussive force carries the wrath of endings — reality itself buckles under the strain of your fury.",
+        description: "Your apocalyptic concussive force carries the wrath of endings â€” reality itself buckles under the strain of your fury.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -3167,7 +3169,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_immortal_rage",
       name: "Immortal Rage",
       description:
-        "Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense — when it ends, you collapse.",
+        "Your fury transcends death itself, granting immortality for 3 rounds. You become immune to death and all lethal damage, but the strain is immense â€” when it ends, you collapse.",
       level: 8,
       spellType: "ACTION",
       icon: "Necrotic/Screaming Skull",
@@ -3338,7 +3340,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 10, max: 11 }, customName: "Debris Avalanche", effect: "Shattered rock buries enemies. Affected targets are buried and take +2d6 damage. DC 19 Str to break free." },
           { range: { min: 12, max: 13 }, customName: "Fissure", effect: "A crack races outward. Line extends 40 ft. All creatures in the line take damage and are knocked prone." },
           { range: { min: 14, max: 14 }, customName: "Magma Vent", effect: "Underground heat erupts. Add 3d8 fire damage. Area ignites, dealing 1d8 fire/round for 2 rounds." },
-          { range: { min: 15, max: 15 }, customName: "Stone Prison", effect: "Rising stone walls trap enemies. Affected targets are Encased in Stone — Restrained and line of sight blocked for 2 rounds." },
+          { range: { min: 15, max: 15 }, customName: "Stone Prison", effect: "Rising stone walls trap enemies. Affected targets are Encased in Stone â€” Restrained and line of sight blocked for 2 rounds." },
           { range: { min: 16, max: 16 }, customName: "Gravitational Collapse", effect: "The earth compresses then rebounds. Enemies are pulled 30 ft toward center. Those at center take double damage." },
           { range: { min: 17, max: 17 }, customName: "Tectonic Cascade", effect: "The quake triggers aftershocks. At start of next 2 rounds, all enemies in area take 2d6 bludgeoning." },
           { range: { min: 18, max: 18 }, customName: "Earth Eruption", effect: "Stalagmites burst from the ground. +4d8 piercing damage. Area becomes impassable terrain for 3 rounds." },
@@ -3449,7 +3451,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 2, max: 3 }, customName: "Seismic Ripple", effect: "The impact is dampened. Half damage to enemies. Self damage still applies." },
           { range: { min: 4, max: 6 }, customName: "Primal Devastation", effect: "The fury finds its mark. Normal effects." },
           { range: { min: 7, max: 9 }, customName: "Ground Zero", effect: "The impact creates a permanent crater. +2d10 damage. Enemies within 10 ft of center take double damage." },
-          { range: { min: 10, max: 11 }, customName: "Rage Afterimage", effect: "Your fury lingers. Area becomes a Primal Zone for 3 rounds — enemies entering take 2d6/round." },
+          { range: { min: 10, max: 11 }, customName: "Rage Afterimage", effect: "Your fury lingers. Area becomes a Primal Zone for 3 rounds â€” enemies entering take 2d6/round." },
           { range: { min: 12, max: 12 }, customName: "Primal Storm", effect: "The cataclysm summons a storm. Area is engulfed in thunder and lightning. Add 3d8 thunder + 2d8 lightning damage." },
           { range: { min: 13, max: 13 }, customName: "Bone Shatter", effect: "The force crushes bone. All affected have -2 to all physical rolls for 3 rounds. No save." },
           { range: { min: 14, max: 14 }, customName: "Soul Rend", effect: "The cataclysm tears at spirit. Add 3d8 necrotic. Affected enemies lose 1 action point next turn." },
@@ -3467,7 +3469,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_veterans_resolve",
       name: "Veteran's Resolve",
       description:
-        "Channel brutal combat experience, hardening strikes with deadly precision for 3 rounds. This fury demands aggression—if you don't attack on your turn, the effect ends.",
+        "Channel brutal combat experience, hardening strikes with deadly precision for 3 rounds. This fury demands aggressionâ€”if you don't attack on your turn, the effect ends.",
       level: 9,
       spellType: "ACTION",
       icon: "General/Rage",
@@ -3590,30 +3592,30 @@ OVERHEAT (101+): 1 round to spend below 101
           baseFormula: "1d8",
           scaling: "per_round_maintained",
           description: "Exhaustion damage scales with rounds maintained",
-          damageFormula: "1d8 × rounds",
+          damageFormula: "1d8 Ã— rounds",
         },
       },
 
       mechanicsText:
-        "25% lifesteal on melee attacks. Toggle off anytime or auto-ends at 5 rounds. Exhaustion: 1d8 × rounds maintained.",
+        "25% lifesteal on melee attacks. Toggle off anytime or auto-ends at 5 rounds. Exhaustion: 1d8 Ã— rounds maintained.",
 
       rollableTable: {
         enabled: true,
         tableName: "Bloodrage Backlash",
-        description: "When the blood frenzy ends, the toll it extracts is never predictable — sometimes merciful, often catastrophic.",
+        description: "When the blood frenzy ends, the toll it extracts is never predictable â€” sometimes merciful, often catastrophic.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
         entries: [
-          { range: { min: 1, max: 1 }, customName: "Hemorrhagic Collapse", effect: "Your blood vessels rupture. Take 2d8 × rounds maintained instead of 1d8. Stunned for 1 round." },
-          { range: { min: 2, max: 3 }, customName: "Severe Exhaustion", effect: "The frenzy nearly killed you. Take 1d10 × rounds maintained. Disadvantage on all rolls for 2 rounds." },
-          { range: { min: 4, max: 6 }, customName: "Blood Price", effect: "Normal exhaustion. 1d8 × rounds maintained damage." },
-          { range: { min: 7, max: 8 }, customName: "Iron Constitution", effect: "Your body absorbs the shock. Take only 1d6 × rounds maintained." },
+          { range: { min: 1, max: 1 }, customName: "Hemorrhagic Collapse", effect: "Your blood vessels rupture. Take 2d8 Ã— rounds maintained instead of 1d8. Stunned for 1 round." },
+          { range: { min: 2, max: 3 }, customName: "Severe Exhaustion", effect: "The frenzy nearly killed you. Take 1d10 Ã— rounds maintained. Disadvantage on all rolls for 2 rounds." },
+          { range: { min: 4, max: 6 }, customName: "Blood Price", effect: "Normal exhaustion. 1d8 Ã— rounds maintained damage." },
+          { range: { min: 7, max: 8 }, customName: "Iron Constitution", effect: "Your body absorbs the shock. Take only 1d6 Ã— rounds maintained." },
           { range: { min: 9, max: 10 }, customName: "Blood Rush", effect: "The frenzy leaves you energized instead of drained. No exhaustion damage. Gain +1d6 Rage." },
           { range: { min: 11, max: 12 }, customName: "Crimson Afterimage", effect: "The blood frenzy lingers as a phantom. Gain +1d4 bonus damage for 2 rounds after ending." },
           { range: { min: 13, max: 13 }, customName: "Blood Echo", effect: "The last enemy you hit during frenzy takes 2d6 necrotic damage as the stolen life reasserts itself." },
           { range: { min: 14, max: 14 }, customName: "Vampiric Residue", effect: "Residual lifesteal persists. Heal for 10% of damage dealt for 1 round after ending." },
-          { range: { min: 15, max: 15 }, customName: "Sanguine Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to rounds maintained × 5. Lasts 1 round." },
+          { range: { min: 15, max: 15 }, customName: "Sanguine Shield", effect: "Coagulated blood forms a barrier. Gain a shield equal to rounds maintained Ã— 5. Lasts 1 round." },
           { range: { min: 16, max: 16 }, customName: "Primal Purge", effect: "The blood frenzy purges toxins. Remove all debuffs and negative effects from yourself." },
           { range: { min: 17, max: 17 }, customName: "Blood Gift", effect: "Excess life force flows to allies. All allies within 30 ft heal for 2d8." },
           { range: { min: 18, max: 18 }, customName: "Crimson Awakening", effect: "The frenzy evolves you permanently. For the rest of combat, lifesteal is 10% (no toggle needed)." },
@@ -3712,7 +3714,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "Ultimate Cataclysm",
-        description: "You pour EVERYTHING into this final explosion of rage. The result is beyond mortal comprehension — a chaos event that reshapes the battlefield forever.",
+        description: "You pour EVERYTHING into this final explosion of rage. The result is beyond mortal comprehension â€” a chaos event that reshapes the battlefield forever.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -3731,7 +3733,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 17, max: 17 }, customName: "Time Fracture", effect: "The blast breaks causality. All affected enemies lose their next turn. You gain an extra turn immediately." },
           { range: { min: 18, max: 18 }, customName: "Godslayer", effect: "The fury threatens the divine. +8d8 damage. Boss enemies take a permanent -2 to all rolls. Non-bosses below 75% are annihilated." },
           { range: { min: 19, max: 19 }, customName: "Cataclysm Rebirth", effect: "From total destruction comes renewal. All enemies take maximum damage (no roll). You heal to full, gain Apocalypse State, and all abilities come off cooldown. Self damage negated." },
-          { range: { min: 20, max: 20 }, customName: "Ragnarok Manifest", effect: "THE END OF ALL THINGS. 60 ft radius. ALL creatures take 15d10 unresistable damage. Non-bosses are annihilated regardless of HP. Bosses take a permanent -4 to all rolls. The terrain is permanently obliterated — a scorched void. You are restored to full HP, enter Apocalypse State, gain immunity to all damage for 2 rounds, and all allies within 60 ft gain +4 to all rolls for 3 rounds. The battlefield will never be the same." },
+          { range: { min: 20, max: 20 }, customName: "Ragnarok Manifest", effect: "THE END OF ALL THINGS. 60 ft radius. ALL creatures take 15d10 unresistable damage. Non-bosses are annihilated regardless of HP. Bosses take a permanent -4 to all rolls. The terrain is permanently obliterated â€” a scorched void. You are restored to full HP, enter Apocalypse State, gain immunity to all damage for 2 rounds, and all allies within 60 ft gain +4 to all rolls for 3 rounds. The battlefield will never be the same." },
         ],
       },
     },
@@ -3740,7 +3742,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_battle_incarnate",
       name: "Battle Incarnate",
       description:
-        "Become a living engine of war, your every movement optimized for destruction. While transformed, your Rage State bonuses are replaced by these effects. This state demands total commitment — you cannot retreat or defend, only attack.",
+        "Become a living engine of war, your every movement optimized for destruction. While transformed, your Rage State bonuses are replaced by these effects. This state demands total commitment â€” you cannot retreat or defend, only attack.",
       level: 10,
       spellType: "ACTION",
       icon: "Bludgeoning/Blood Punch",
@@ -3809,7 +3811,7 @@ OVERHEAT (101+): 1 round to spend below 101
       rollableTable: {
         enabled: true,
         tableName: "War Incarnate Chaos",
-        description: "Your transformation into a living engine of war has unpredictable effects on reality — the battlefield warps around your newfound perfection of violence.",
+        description: "Your transformation into a living engine of war has unpredictable effects on reality â€” the battlefield warps around your newfound perfection of violence.",
         diceFormula: "1d20",
         resolutionType: "DICE",
         resolutionConfig: { diceType: "d20" },
@@ -3837,7 +3839,7 @@ OVERHEAT (101+): 1 round to spend below 101
       id: "berserk_primal_apex",
       name: "Primal Apex",
       description:
-        "Reach the absolute pinnacle of berserker rage — a state of pure, unthinking violence that few warriors ever achieve. All enemies within sight tremble. While transformed, your Rage State bonuses are replaced by these effects. The transformation is overwhelming, leaving you temporarily drained when it ends.",
+        "Reach the absolute pinnacle of berserker rage â€” a state of pure, unthinking violence that few warriors ever achieve. All enemies within sight tremble. While transformed, your Rage State bonuses are replaced by these effects. The transformation is overwhelming, leaving you temporarily drained when it ends.",
       level: 10,
       spellType: "ACTION",
       icon: "General/Fiery Rage",
@@ -3925,7 +3927,7 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 1, max: 1 }, customName: "Primal Regression", effect: "You devolve into a mindless beast. Lose all class abilities for the duration. Attack randomly (GM picks target). Take 4d8 self damage when transformation ends." },
           { range: { min: 2, max: 3 }, customName: "Feral Overload", effect: "The power is too much. Transformation lasts only 1 round. Take 3d8 exhaustion damage when it ends." },
           { range: { min: 4, max: 6 }, customName: "Primal Perfection", effect: "The apex state achieves balance. Normal effects apply." },
-          { range: { min: 7, max: 8 }, customName: "Predator's Mark", effect: "Your gaze marks prey. Designate one target — all attacks against them have advantage and deal +2d8 damage for the duration." },
+          { range: { min: 7, max: 8 }, customName: "Predator's Mark", effect: "Your gaze marks prey. Designate one target â€” all attacks against them have advantage and deal +2d8 damage for the duration." },
           { range: { min: 9, max: 10 }, customName: "Apex Regeneration", effect: "Your body regenerates at supernatural speed. Heal 2d8 HP at the start of each turn during transformation." },
           { range: { min: 11, max: 11 }, customName: "Pack Leader", effect: "Your apex state empowers allies. All allies within 30 ft gain +2d4 damage and advantage on their next attack." },
           { range: { min: 12, max: 12 }, customName: "Territorial Dominance", effect: "You claim the battlefield. All enemies within 30 ft must make DC 18 Spirit save or be Frightened for the duration." },
@@ -3939,6 +3941,45 @@ OVERHEAT (101+): 1 round to spend below 101
           { range: { min: 20, max: 20 }, customName: "Apex of Existence", effect: "You become the APEX OF ALL BERSERKERS. Duration: rest of combat. +20 damage. 80% damage resistance. Crit range 15-20. All melee attacks hit every enemy in range. Immune to ALL conditions. Every kill grants +2d8 Rage and heals you for 3d8. ALL allies within 60 ft gain +4 damage and are immune to Fear. When combat ends, you collapse (Incapacitated for 1 minute) but suffer no permanent damage. Legends will be written about this moment." },
         ],
       },
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "berserker_violence_dependency",
+      name: "Violence Dependency",
+      description:
+        "Your body only knits its wounds when blood flows from your enemies. If you dealt 0 melee damage in the previous round, all healing effects on you are reduced by 50%. If you dealt 0 melee damage for 2 consecutive rounds, all healing effects are reduced by 75%. Additionally, your lifesteal never exceeds 25% of damage dealt — you are a warrior, not a vampire. Even at the height of Bloodrage Frenzy, you cannot heal more than 25% of any single attack damage. Violence is mandatory. Passivity kills.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "General/Rage",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "General/Rage",
+        tags: ["passive", "berserker", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "berserker", "restriction"],
+    },
+    {
+      id: "berserker_pain_starvation",
+      name: "Pain Starvation",
+      description:
+        "If you go 2 full rounds without dealing melee damage, the rage turns inward. You lose 1d6 Rage per round (minimum 0) until you deal melee damage again. Additionally, during Pain Starvation, you have disadvantage on all non-attack ability checks. The rage demands to be fed.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "General/Exhaustion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "General/Exhaustion",
+        tags: ["passive", "berserker", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "berserker", "weakness"],
     },
   ],
 

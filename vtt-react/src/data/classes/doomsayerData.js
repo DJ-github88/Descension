@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Doomsayer Class Data
  *
  * Complete class information for the Doomsayer - a Prophet of Catastrophe
@@ -3053,6 +3053,96 @@ Your first combat will feel slow—you have 0 Havoc. Cast Doom Bolt or your spec
         cooldownValue: 1,
       },
       tags: ["ultimate", "death", "prophecy", "requiem", "absolute"],
+    },
+    {
+      id: "doomsayer_doom_fatigue",
+      name: "Doom Fatigue",
+      description:
+        "Each doom or prophecy you have active beyond the first drains you. For each active doom beyond 1, you take 1d4 necrotic damage at the start of your turn. Spreading doom exhausts the prophet. You can feel each prophecy like a weight on your soul.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Magic/Doom",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necromancy",
+        icon: "Magic/Doom",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+        rangeDistance: 0,
+        targetRestrictions: ["self"],
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "weakness"],
+    },
+    {
+      id: "doomsayer_inevitable_isolation",
+      name: "Inevitable Isolation",
+      description:
+        "You cannot benefit from ally healing spells or positive buffs while you have an active doom prophecy. The weight of your visions isolates you from hope. Allies can still target you, but their healing and buffs simply fail to take hold on a soul so saturated with doom.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Magic/Doom",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necromancy",
+        icon: "Magic/Doom",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+        rangeDistance: 0,
+        targetRestrictions: ["self"],
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "weakness"],
+    },
+    {
+      id: "doomsayer_prophets_burden",
+      name: "Prophet's Burden",
+      description:
+        "When a doom prophecy you placed is cleansed, dispelled, or removed before it resolves naturally, you take psychic damage equal to the doom's remaining potential damage (minimum 1d6). Failed prophecies hurt the prophet -- your visions demand to be fulfilled.",
+      level: 5,
+      spellType: "PASSIVE",
+      icon: "Magic/Doom",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necromancy",
+        icon: "Magic/Doom",
+        tags: ["passive", "weakness"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+        rangeType: "self",
+        rangeDistance: 0,
+        targetRestrictions: ["self"],
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "weakness"],
     },
   ],
 

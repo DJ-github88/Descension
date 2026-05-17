@@ -2945,5 +2945,63 @@ Never leave a demon at 0 DD at the end of your turn unless you are prepared to f
       resolution: "DICE",
       tags: ["transformation", "ultimate", "god form", "possessed"],
     },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "exorcist_demonic_backlash",
+      name: "Demonic Backlash",
+      description:
+        "Binding demons is not without risk. When a bound demon is destroyed by enemy action (not released voluntarily), the binding contracts shatter. You take 2d6 necrotic damage per demon tier that was destroyed and lose concentration on any other active bindings for 1 round. The demon's death scream echoes through your soul.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Necrotic/Necrotic Death",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Necrotic Death",
+        tags: ["passive", "exorcist", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "exorcist", "weakness"],
+    },
+    {
+      id: "exorcist_binding_components",
+      name: "Binding Components",
+      description:
+        "Your demon-binding rituals require holy implements: blessed chalk, silver chains, and sanctified incense. You begin each encounter with 5 Binding Components. Each binding ritual costs 1 component. At 0 components, binding rituals have a 50% chance to fail (the demon resists). You regain 1 component per demon slain. Without your tools, demons slip their chains.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Radiant/Holy Light",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Radiant/Holy Light",
+        tags: ["passive", "exorcist", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "exorcist", "restriction"],
+    },
+    {
+      id: "exorcist_holy_corruption",
+      name: "Holy Corruption",
+      description:
+        "Every demon you bind taints your holy aura slightly. For each bound demon currently active, you lose 1 point of radiant damage on your holy spells (minimum 0). Additionally, healing spells cast by other classes on you are 10% less effective per bound demon. The darkness bleeds through.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Shadow/Shadow Portal",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "shadow",
+        icon: "Shadow/Shadow Portal",
+        tags: ["passive", "exorcist", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "exorcist", "weakness"],
+    },
   ],
 };

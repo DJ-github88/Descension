@@ -278,21 +278,21 @@ export const CLASS_RESOURCE_TYPES = {
 
     // TRICKSTER PATH
     'Chaos Weaver': {
-        id: 'mayhemModifiers',
-        name: 'Mayhem Modifiers',
-        shortName: 'MM',
+        id: 'mayhemGauge',
+        name: 'Mayhem Gauge',
+        shortName: 'Mayhem',
         type: 'mayhem',
-        description: 'Chaotic energy used to influence random spell outcomes and control unpredictability',
+        description: 'Passive chaos pressure gauge — CANNOT be spent. Passively amplifies all spells as it rises. Only release is Wild Surge at 100.',
         visual: {
-            type: 'mayhem-modifiers',
-            count: 20, // Max 20 modifiers
-            arrangement: 'vortex-arc',
+            type: 'mayhem-gauge',
+            count: 100, // Max 100 pressure
+            arrangement: 'pressure-bar',
             baseColor: '#4A0E4E', // Deep purple base
             activeColor: '#9333EA', // Bright purple
             glowColor: '#D946EF', // Magenta glow
             vortexColor: '#7C3AED', // Violet vortex
-            icon: 'fas fa-dice',
-            effects: ['chaos', 'reality-distortion', 'swirling-energy'],
+            icon: 'fas fa-fire',
+            effects: ['chaos', 'reality-distortion', 'pressure'],
             specializations: {
                 'reality-bending': {
                     color: '#9B59B6',
@@ -312,26 +312,27 @@ export const CLASS_RESOURCE_TYPES = {
             }
         },
         mechanics: {
-            max: 20, // Fixed max of 20 Mayhem Modifiers
+            max: 100, // Pressure gauge max
             current: 0,
             regen: 0,
-            consumeVerb: 'spend',
-            gainVerb: 'generate'
+            consumeVerb: 'release',
+            gainVerb: 'accumulate',
+            unspendable: true,
+            description: 'Mayhem CANNOT be spent. It passively amplifies all spells — more targets, bigger dice, wider AoE. At 100, triggers Wild Surge (uncontrollable release). There is no safety valve.'
         },
         tooltip: {
-            title: 'Mayhem Modifiers: {current}/{max}',
-            description: 'Spend modifiers to adjust random table results by ±1 per modifier. Generate through specific abilities.',
+            title: 'Mayhem Pressure: {current}/{max}',
+            description: 'Passive chaos pressure — CANNOT be spent. Amplifies all spells as it rises. Only release: Wild Surge at 100.',
             mechanics: [
-                'Each modifier adjusts table results by ±1',
-                'Max 20 modifiers can be stored',
-                'Generated through Chaotic Infusion, Wild Conduit, etc.',
-                'Spent to control chaos spell outcomes'
+                'Mayhem CANNOT be spent — it is passive pressure only',
+                'Higher Mayhem = more spell targets, bigger dice, wider AoE',
+                'At 100: Wild Surge triggers (uncontrollable chaos explosion)',
+                'No safety valve — chaos only escalates'
             ],
-            tables: ['d20 Chaos Tables', 'd33 Wild Magic', 'd100 Pandemonium'],
-            showDice: true,
-            showChaos: true
-        },
-        dice: ['d20', 'd33', 'd100']
+            thresholds: ['25: Minor amplification', '50: Moderate amplification', '75: Major amplification', '100: Wild Surge (uncontrollable)'],
+            showDice: false,
+            showPressure: true
+        }
     },
 
     'Fate Weaver': {
@@ -489,7 +490,7 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Necrotic Ascension & Blood Tokens',
         shortName: 'NA/BT',
         type: 'ascension-blood',
-        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (ticking time bomb)',
+        description: 'Dual resource system: Necrotic Ascension Paths (permanent power/curses) and Blood Tokens (VOLATILE ticking time bombs with escalating self-damage)',
         visual: {
             type: 'ascension-blood',
             ascensionPaths: {
@@ -500,32 +501,40 @@ export const CLASS_RESOURCE_TYPES = {
                 icon: '💀'
             },
             bloodTokens: {
-                max: 30, // Soft cap for display, no hard limit
+                max: 20,
                 baseColor: '#2d0a0a',
                 activeColor: '#B22222',
                 glowColor: '#FF4444',
                 warningColor: '#FF6B6B',
                 dangerColor: '#FF0000',
-                icon: '🩸'
+                icon: '🩸',
+                volatilityTiers: {
+                    stable: { max: 5, label: 'Stable', color: '#B22222' },
+                    unstable: { min: 6, max: 10, label: 'Unstable', color: '#FF4444', selfDamage: '1/turn' },
+                    volatile: { min: 11, max: 15, label: 'Volatile', color: '#FF6B6B', selfDamage: '1d4/token/turn', healingBlocked: true },
+                    criticalMass: { min: 16, max: 20, label: 'CRITICAL MASS', color: '#FF0000', selfDamage: '1d6/token/turn', nuclearDetonation: '1d10/token to 30ft radius on death' }
+                }
             }
         },
         mechanics: {
-            max: 7, // 7 Ascension Paths
+            max: 7,
             current: 0,
             bloodTokens: 0,
-            tokenTimer: 600, // 10 minutes in seconds
+            tokenTimer: 600,
             regen: 0,
             consumeVerb: 'activate',
-            gainVerb: 'unlock'
+            gainVerb: 'unlock',
+            volatilityNote: 'Blood Tokens are VOLATILE. 6+ = self-damage/turn. 11+ = cannot be healed. 16+ = nuclear detonation on death. The Deathcaller rides a chain reaction, not a battery.'
         },
         tooltip: {
             title: 'Necrotic Ascension & Blood Tokens',
-            description: 'Activate paths for permanent power/curses. Generate Blood Tokens from HP sacrifice.',
+            description: 'Activate paths for permanent power/curses. Blood Tokens are VOLATILE — escalating self-damage at 6/11/16 tokens.',
             showPaths: true,
             showBoons: true,
             showCurses: true,
             showTokens: true,
-            showTimer: true
+            showTimer: true,
+            showVolatility: true
         },
         paths: [
             {
@@ -595,7 +604,7 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Devotion Gauge',
         shortName: 'Devotion',
         type: 'devotion-gauge',
-        description: 'Power through sacrifice - accumulate damage to unlock devotion levels with passive effects',
+        description: 'ACTIVE sacrifice required — bleed willingly or Devotion decays. Voluntary Offering (1d8 HP free action) accelerates progress. Lose 1 level after 2 rounds without damage/sacrifice. The Martyr BLEEDS; the Dreadnaught absorbs.',
         visual: {
             type: 'devotion-gauge',
             count: 6,
@@ -619,23 +628,27 @@ export const CLASS_RESOURCE_TYPES = {
                 name: 'Ascetic'
             },
             icon: 'fa-cross',
-            effects: ['holy', 'sacrifice', 'devotion']
+            effects: ['holy', 'sacrifice', 'devotion', 'active-bleed']
         },
         mechanics: {
             max: 6, // Devotion Levels 0-6
             current: 0,
             damage: 0, // Accumulated damage toward next level
             regen: 0,
-            consumeVerb: 'spend',
-            gainVerb: 'build',
-            thresholds: [0, 10, 20, 40, 60, 80, 100] // Damage thresholds for each level
+            consumeVerb: 'bleed',
+            gainVerb: 'sacrifice',
+            thresholds: [0, 10, 20, 40, 60, 80, 100],
+            decay: 'Lose 1 Devotion level after 2 consecutive rounds without taking damage or using Voluntary Offering',
+            voluntaryOffering: 'Free action: sacrifice 1d8 HP to gain Devotion progress (counts as damage for decay prevention)',
+            differentiationNote: 'NOT passive absorption like Dreadnaught. The Martyr must ACTIVELY choose to bleed.'
         },
         tooltip: {
             title: 'Devotion Level {current}',
-            description: 'Build through damage taken or Intervene. Spend for amplified spells.',
+            description: 'Build through ACTIVE sacrifice (damage taken + Voluntary Offering). Decays without blood. Spend for amplified spells.',
             showStage: true,
             showPassive: true,
-            showAmplify: true
+            showAmplify: true,
+            decayWarning: '⚠️ DECAY: Lose 1 level after 2 rounds without damage/sacrifice'
         },
         stages: [
             { name: 'Mortal Resolve', level: 0, requirement: 'Starting state', passive: 'None' },
@@ -907,7 +920,7 @@ export const CLASS_RESOURCE_TYPES = {
         name: 'Eternal Frost Aura & Phylactery',
         shortName: 'Phylactery',
         type: 'frost_undead',
-        description: 'Phylactery stores HP for resurrection',
+        description: 'Phylactery stores HP for resurrection. ⚠️ PHYLACTERY FRAGMENTS: 5 permanent achievement-based upgrades that make the Phylactery progressively more powerful. Unlike the Deathcaller (volatile chaos), the Lichborne METHODICALLY BUILDS toward immortality.',
         visual: {
             type: 'eternal-frost-phylactery',
             arrangement: 'horizontal-segmented',
@@ -915,7 +928,6 @@ export const CLASS_RESOURCE_TYPES = {
             activeColor: '#4A90E2',
             glowColor: '#00FFFF',
             icon: 'fa-gem',
-            // Specialization configurations
             frostbound_tyrant: {
                 name: 'Frostbound Tyrant',
                 maxPhylactery: 50,
@@ -950,21 +962,34 @@ export const CLASS_RESOURCE_TYPES = {
                 chillingEffect: '-10 ft movement'
             },
             phylactery: {
-                max: 50, // Can store up to 50 HP (75 for Phylactery Guardian)
+                max: 50,
                 current: 0,
-                resurrectionCost: 'all_stored', // Spend entire stored Phylactery HP
-                resurrectionHP: 'stored_value', // Resurrect at the full stored value
+                resurrectionCost: 'all_stored',
+                resurrectionHP: 'stored_value',
                 limitPerCombat: 1,
                 rechargePerRest: 10
+            },
+            fragments: {
+                total: 5,
+                earned: 0,
+                slots: [
+                    { id: 'first_frost', name: 'Fragment of First Frost', requirement: 'Freeze 3 enemies in 1 combat', bonus: '+5 max Phylactery HP', earned: false },
+                    { id: 'harvest', name: 'Fragment of the Harvest', requirement: 'Kill 10 enemies with frost total', bonus: '+1 frost spell DC', earned: false },
+                    { id: 'resurrection', name: 'Fragment of Resurrection', requirement: 'Resurrect via Phylactery once', bonus: '+5 max Phylactery HP', earned: false },
+                    { id: 'abyss', name: 'Fragment of the Abyss', requirement: '5 turns Aura without <25% HP', bonus: 'Aura drain reduced by 1 die size', earned: false },
+                    { id: 'eternity', name: 'Fragment of Eternity', requirement: 'Reach Level 10', bonus: 'Phylactery indestructible (always rez at 10+)', earned: false }
+                ],
+                completeBonus: 'At 5/5 Fragments, Phylactery becomes indestructible — always resurrect at minimum 10 HP even if pool was empty'
             },
             consumeVerb: 'spend',
             gainVerb: 'store'
         },
         tooltip: {
             title: 'Eternal Frost Aura & Phylactery',
-            description: 'Phylactery stores HP for resurrection',
+            description: 'Phylactery stores HP for resurrection. 5 Fragments earned through achievements grant permanent bonuses.',
             showAuraStatus: true,
-            showPhylacteryHP: true
+            showPhylacteryHP: true,
+            showFragments: true
         }
     }
 };
@@ -1927,7 +1952,7 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
     name: 'Hexbreaker Charges',
     shortName: 'HB',
     type: 'charges',
-    description: 'Dark energy accumulated from hunting evil magic users, tracked with a d6 (max 6)',
+    description: 'Anti-magic energy accumulated ONLY through magical confrontation — being targeted by spells, dispelling enchantments, witnessing spell failure, and destroying evil magic users. Mundane combat generates NOTHING.',
     visual: {
         type: 'hexbreaker-charges',
         count: 6,
@@ -1943,15 +1968,20 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
         max: 6,
         current: 0,
         generation: {
-            attackEvilMagicUser: 1,
             targetedBySpell: 1,
-            fromStealth: '+1 (Shadowbane passive)'
+            allyTargetedBySpellWithin30ft: 1,
+            successfulDispelOrCounterspell: 2,
+            witnessSpellFailOrFizzle: 1,
+            castCovenbaneSpellAtMagicTarget: 1,
+            defeatEvilMagicUser: 3,
+            weaponAttackMundaneTarget: 0,
+            defeatMundaneEnemy: 0
         },
         decay: {
-            outOfCombat: '1 per hour'
+            noMagicalEventPerRound: -1,
+            description: 'The Hunter\'s Curse — charges decay -1 per round when no magical event occurs'
         },
         consumption: {
-            shadowStep: 1,
             curseEater: 2,
             darkPursuit: 3,
             spiritShackle: 4,
@@ -1972,10 +2002,11 @@ CLASS_RESOURCE_TYPES['Covenbane'] = {
     },
     tooltip: {
         title: 'Hexbreaker Charges: {current}/6',
-        description: 'Higher charges = more power.',
+        description: 'Anti-magic power. Generated ONLY through magical confrontation. Decays -1/round without magic. Mundane combat = NO charges.',
         showCharges: true,
         showPassiveBonuses: true,
-        showNextThreshold: true
+        showNextThreshold: true,
+        showDecayWarning: true
     },
     witchHunterPrecision: {
         trigger: 'every_third_attack',
@@ -2265,11 +2296,12 @@ CLASS_RESOURCE_TYPES['Huntress'] = {
             max: 5,
             current: 0,
             generation: {
-                glaiveHit: 1,
+                coordinatedStrike: 2,
                 companionHit: 1,
-                criticalHit: 2,
+                companionTakesDamage: 1,
                 companionCrit: 2,
-                markQuarryAbility: 1
+                markQuarryAbility: 1,
+                glaiveHitSolo: 0
             },
             spending: {
                 enhanceCompanion: 1,
@@ -2277,6 +2309,10 @@ CLASS_RESOURCE_TYPES['Huntress'] = {
                 companionSpecial: 3,
                 ultimate: 5
             },
+            turnCap: 3,
+            beastmasterTurnCap: 4,
+            decay: '1 per minute outside combat (after 1 min grace period)',
+            companionDeathRule: 'If companion is dead, ZERO Quarry Marks can be generated until revived',
             persistence: 'Marks persist between combats'
         },
         companion: {
@@ -2288,9 +2324,10 @@ CLASS_RESOURCE_TYPES['Huntress'] = {
     },
     tooltip: {
         title: 'Quarry Marks: {current}/5 | Companion: {companionHP}/{maxCompanionHP} HP',
-        description: 'Generate marks through attacks, spend on powerful abilities and companion enhancements',
+        description: 'Generate marks through COMPANION SYNERGY only — coordinated strikes, companion hits, and pack tactics. Solo glaive hits generate NOTHING. Keep your companion alive.',
         showQuarryMarks: true,
-        showCompanion: true
+        showCompanion: true,
+        showDecayWarning: true
     }
 };
 
@@ -2326,14 +2363,13 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
     name: 'Prophetic Visions',
     shortName: 'PV',
     type: 'divination',
-    description: 'Mystic insight gained through accurate predictions and revelations, spent to manipulate fate',
+    description: 'Mystic insight gained through accurate predictions, spent on REVEALING hidden information. ⚠️ The Oracle does NOT reroll dice — that is the Fate Weaver\'s exclusive domain. The Oracle SEES and REVEALS.',
     visual: {
         type: 'prophetic-visions',
         max: 10,
         baseColor: '#1A0F2E',
         emptyColor: '#0D0718',
         segmentBorder: '#2E1A5E',
-        // Specialization-specific visuals
         seer: {
             name: 'Seer',
             activeColor: '#9370DB',
@@ -2352,16 +2388,16 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
             name: 'Fateseer',
             activeColor: '#DAA520',
             glowColor: '#FFD700',
-            icon: 'fa-dice',
-            theme: 'Prediction-First Fate Manipulation'
+            icon: 'fa-eye',
+            theme: 'Fate Reading & Information Warfare'
         }
     },
     mechanics: {
         visions: {
             max: 10,
-            current: 3, // Start with 3 after long rest
+            current: 3,
             generation: {
-                passivePerTurn: 1, // Only while at 5 or fewer Visions
+                passivePerTurn: 1,
                 simpleCorrectPrediction: 1,
                 moderateCorrectPrediction: 2,
                 complexCorrectPrediction: 3,
@@ -2371,9 +2407,11 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
                 witnessCritical: 1
             },
             spending: {
-                alterFateMinor: 1,
-                alterFateModerate: 2,
-                alterFateMajor: 3,
+                revealEnemyStats: 1,
+                revealHiddenThreat: 1,
+                revealEnemyIntent: 2,
+                revealWeakness: 2,
+                revealTrapLocation: 1,
                 divinationSpell: 'varies',
                 prophecyActivation: 'varies'
             },
@@ -2382,26 +2420,26 @@ CLASS_RESOURCE_TYPES['Oracle'] = {
         predictionTracking: {
             totalPredictions: 0,
             correctPredictions: 0,
-            accuracyChain: 0, // Consecutive correct predictions
-            lastPredictionType: null // 'simple' | 'moderate' | 'complex'
+            accuracyChain: 0,
+            lastPredictionType: null
         },
         revelations: {
             secretsRevealed: 0,
             liesDetected: 0,
-            illusionsExposed: 0
+            illusionsExposed: 0,
+            weaknessesRevealed: 0,
+            trapsDiscovered: 0,
+            enemyIntentionsForeseen: 0
         },
-        fateManipulation: {
-            rerollsForced: 0,
-            fateLocksApplied: 0,
-            threadsManipulated: 0
-        }
+        forbiddenNote: 'The Oracle CANNOT force rerolls or manipulate dice. That is the Fate Weaver\'s EXCLUSIVE domain. The Oracle reveals information; the Fate Weaver changes outcomes.'
     },
     tooltip: {
         title: 'Prophetic Visions: {current}/10',
-        description: 'Mystic insight gained through predictions and revelations',
+        description: 'Mystic insight for REVEALING hidden information — NOT for rerolling dice',
         showVisions: true,
         showSpecPassive: true,
-        showPredictionAccuracy: true
+        showPredictionAccuracy: true,
+        noRerollWarning: '⚠️ No reroll abilities. Reveal information to let your party act with perfect knowledge.'
     }
 };
 
@@ -2410,7 +2448,7 @@ CLASS_RESOURCE_TYPES['Warden'] = {
     name: 'Vengeance Points',
     shortName: 'VP',
     type: 'vengeance-points',
-    description: 'Build power through attacks, evasions, and critical hits to unleash devastating abilities',
+    description: 'Build power through attacks, evasions, and critical hits to unleash devastating abilities. Pursuit Movement: +5ft speed per VP toward marked target (max +50ft). The Warden does NOT teleport.',
     visual: {
         type: 'vengeance-points',
         count: 10,

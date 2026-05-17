@@ -65,11 +65,12 @@ Minstrels understand that every sound has meaning, every rhythm has power, and e
 - Can adapt to different party compositions
 
 **Weaknesses**:
+- Requires an instrument to cast (Instrument Dependency -- disarmed = no spells)
 - Requires setup time to build notes
-- Less effective when caught alone
-- Lower burst healing than dedicated healers
+- Cannot self-heal -- all healing targets allies only
 - Combo system requires planning and foresight
 - Vulnerable to silence and interruption effects
+- Fragile while performing (-2 AC while playing any active song)
 
 The Minstrel shines in group content where they can orchestrate the flow of battle, building notes through builder spells and unleashing devastating cadences at critical moments.`,
     },
@@ -381,7 +382,7 @@ Your chosen instrument modifies your abilities:
           "Deceptive Cadence",
           "Enchanter's Trick",
           "IV→VII→V→IV",
-          "Stun enemy (DC 15 Spirit save)",
+          "Disorient enemy (-2 attacks/saves, DC 15 Spirit save)",
           "Interrupt dangerous casts",
         ],
         [
@@ -544,7 +545,7 @@ Use: Apply early to enemy groups
 
 DECEPTIVE CADENCE (IV-VII-V-IV)
 Cost: IV(2), VII(1), V(1) = 4 notes total
-Effect: Stun enemy (DC 15 Spirit save)
+Effect: Disorient enemy (-2 attacks/saves for 1 round, DC 15 Spirit save)
 Use: Interrupt dangerous casts
 
 AUTHENTIC CADENCE (I-VI-III-I)
@@ -2481,7 +2482,7 @@ Before combat, decide which cadences you want to prioritize:
       id: "minstrel_deceptive_cadence",
       name: "Deceptive Cadence",
       description:
-        "Play a deceptive progression (IV→VII→V→IV) that stuns an enemy, breaking their concentration and resolve.",
+        "Play a deceptive progression (IV→VII→V→IV) that disorients an enemy, imposing -2 to attacks and saves for 1 round (DC 15 Spirit save to resist).",
       level: 4,
       spellType: "ACTION",
       icon: "Psychic/Mind Strike",
@@ -2493,7 +2494,7 @@ Before combat, decide which cadences you want to prioritize:
           "resolver",
           "cadence",
           "control",
-          "stun",
+          "disoriented",
           "dissonance",
           "level 4",
         ],
@@ -2530,10 +2531,10 @@ Before combat, decide which cadences you want to prioritize:
         controlType: "incapacitation",
         effects: [
           {
-            id: "stunned",
-            controlType: "stun",
-            name: "Stunned",
-            description: "Target is stunned",
+            id: "disoriented",
+            controlType: "disoriented",
+            name: "Disoriented",
+            description: "Target is disoriented (-2 attacks/saves)",
             config: {
               duration: 1,
               durationUnit: "rounds",
@@ -2562,7 +2563,7 @@ Before combat, decide which cadences you want to prioritize:
 
       cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
 
-      tags: ["resolver", "cadence", "control", "stun", "dissonance", "level 4"],
+      tags: ["resolver", "cadence", "control", "disoriented", "dissonance", "level 4"],
     },
 
     {
@@ -4024,6 +4025,64 @@ Before combat, decide which cadences you want to prioritize:
 
       resolution: "DICE",
       tags: ["damage", "force", "note generation", "universal"],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "minstrel_instrument_dependency",
+      name: "Instrument Dependency",
+      description:
+        "Your magic flows through your instrument. You must have a musical instrument equipped to cast any spell. If you are disarmed, silenced, or your instrument is destroyed, you cannot cast spells or maintain active songs. A replacement instrument costs 50 gold and requires a short rest to attune.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "General/Music",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "enchantment",
+        icon: "General/Music",
+        tags: ["passive", "minstrel", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "minstrel", "restriction"],
+    },
+    {
+      id: "minstrel_songbird_fragility",
+      name: "Songbird Fragility",
+      description:
+        "While you are playing an active song or maintaining a cadence, your guard is lowered. You suffer -2 AC for the duration of any actively maintained musical effect. This penalty stacks with other effects but cannot reduce AC below 10.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "General/Defense Down",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "enchantment",
+        icon: "General/Defense Down",
+        tags: ["passive", "minstrel", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "minstrel", "weakness"],
+    },
+    {
+      id: "minstrel_dissonant_feedback",
+      name: "Dissonant Feedback",
+      description:
+        "When a musical combo fails (wrong notes played, interrupted, or target resists your cadence), the discordant energy feeds back through your instrument. You take 1d4 psychic damage per note level of the failed combo. This damage cannot be reduced or prevented.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Scream",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "enchantment",
+        icon: "Psychic/Psychic Scream",
+        tags: ["passive", "minstrel", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "minstrel", "weakness"],
     },
   ],
 };

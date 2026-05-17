@@ -3704,7 +3704,7 @@ STANCES (starting stance: 💧 Flowing Water):
       id: "bladedancer_blade_dance",
       name: "Blade Dance",
       description:
-        "Blink between four targets in the span of a breath — a teleporting massacre that leaves each enemy nursing a wound they never saw coming.",
+        "Blink between four targets in the span of a breath — a teleporting massacre that leaves each enemy nursing a wound they never saw coming. ⚠️ OFFENSIVE ONLY — you must end each blink adjacent to a target. This is NOT an escape ability; it is an attack pattern.",
       level: 8,
       spellType: "ACTION",
       icon: "Utility/Speed Boot",
@@ -3908,7 +3908,7 @@ STANCES (starting stance: 💧 Flowing Water):
           { range: { min: 5, max: 8 }, customName: "Full Thousand Cuts", effect: "All six stances. 6d10 + AGI*2 damage." },
           { range: { min: 9, max: 11 }, customName: "Flowing Onslaught", effect: "+2d10 bonus + enemies knocked prone." },
           { range: { min: 12, max: 14 }, customName: "Storm of Steel", effect: "+3d10 bonus + AoE expands to 20ft radius." },
-          { range: { min: 15, max: 16 }, customName: "Dance of Annihilation", effect: "+4d10 bonus + all enemies stunned for 2 rounds." },
+          { range: { min: 15, max: 16 }, customName: "Dance of Annihilation", effect: "+4d10 bonus + all enemies DAZED 1 round (disadvantage on attacks, cannot use reactions). Stun removed — AoE stun is not the Bladedancer's role." },
           { range: { min: 17, max: 18 }, customName: "Sixfold Perfection", effect: "+5d10 bonus + refund 2 Flourish tokens." },
           { range: { min: 19, max: 19 }, customName: "Thousand Cuts Ascendant", effect: "Double damage + all hits are guaranteed crits." },
           { range: { min: 20, max: 20 }, customName: "Dance Beyond Death", effect: "Triple damage + enemies below half HP are instantly slain." },
@@ -3991,7 +3991,7 @@ STANCES (starting stance: 💧 Flowing Water):
           { range: { min: 15, max: 16 }, customName: "Sixfold Critical", effect: "Automatic critical hit with x3 multiplier." },
           { range: { min: 17, max: 18 }, customName: "Essence Explosion", effect: "+4d8 + explodes dealing 2d8 force to enemies within 10ft." },
           { range: { min: 19, max: 19 }, customName: "Perfect Sixfold", effect: "Double damage + refund 1 Flourish + 5 Momentum." },
-          { range: { min: 20, max: 20 }, customName: "Transcendent Strike", effect: "Triple damage + target saves CON DC 20 or paralyzed 3 rounds." },
+          { range: { min: 20, max: 20 }, customName: "Transcendent Strike", effect: "Triple damage + target saves CON DC 20 or STUNNED 1 round. ⚠️ Paralyze removed — the Bladedancer is a damage dealer, not a CC class. This is a devastating hit that momentarily overwhelms, not a 3-round lockdown." },
         ],
       },
 
@@ -4229,6 +4229,59 @@ STANCES (starting stance: 💧 Flowing Water):
       },
 
       tags: ["passive", "mastery", "ultimate", "stance", "bladedancer"],
+    },    {
+      id: "bd_broken_rhythm",
+      name: "Broken Rhythm",
+      description:
+        "If you go 2 consecutive rounds without attacking (spending an action on an attack roll), you lose your Blade Dance rhythm. All attack rolls have disadvantage until you successfully make a melee attack. The dance must flow -- stop dancing and you stumble.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Physical/Broken Blade",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "Physical/Broken Blade",
+        tags: ["passive", "debuff", "rhythm", "attack penalty", "bladedancer"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "rhythm", "attack penalty", "bladedancer"],
+    },
+    {
+      id: "bd_momentum_dependency",
+      name: "Momentum Dependency",
+      description:
+        "Your defensive abilities depend on constant movement. If you end your turn in the same space you started it (did not move at least 5 feet), you lose all Blade Dance dodge and parry bonuses until you move again. A stationary bladedancer is a dead bladedancer.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Physical/Dodge",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "Physical/Dodge",
+        tags: ["passive", "debuff", "movement", "defense penalty", "bladedancer"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "movement", "defense penalty", "bladedancer"],
     },
   ],
 

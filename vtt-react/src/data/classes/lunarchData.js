@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Lunarch Class Data
  *
  * Complete class information for the Lunarch - a celestial archer and lunar mage
@@ -21,7 +21,7 @@ export const LUNARCH_DATA = {
       title: "Quick Overview",
       content: `**What You Need to Know**: The Lunarch channels power from four moon phases, each granting distinct bonuses that cycle naturally or can be shifted manually for mana.
 
-**Core Mechanic**: New Moon (defense/recovery) → Waxing Moon (support/healing) → Full Moon (offense/damage) → Waning Moon (control/efficiency)
+**Core Mechanic**: New Moon (defense/recovery) â†’ Waxing Moon (support/healing) â†’ Full Moon (offense/damage) â†’ Waning Moon (control/efficiency)
 
 **Resource**: Mana (8 per Phase Shift), 4-phase cycle (auto-advances every 3 rounds)
 
@@ -61,12 +61,21 @@ Lunarchs tend to be contemplative, patient, and attuned to natural cycles. They 
 **Combat Weaknesses**:
 - Requires careful phase management and timing
 - Less effective when caught in wrong phase for situation
-- Moderate armor and hit points (cloth/leather wearer)
+- Cannot self-heal (all healing is ally-targeted only)
+- No teleport abilities (Moon Glide provides speed, not instant repositioning)
+- Phase Lock: taking damage while shifting phases cancels the shift and costs the mana
+- Eclipse Vulnerability: During the round you shift phases, the celestial transition leaves you exposed. Roll 1d4 on the Transition Shock table each time you shift:
+| d4 | Effect |
+|---|---|
+| 1 | Celestial Burn - Take 1d8 radiant damage as the phase tears through you. |
+| 2 | Lunar Dizziness - You have disadvantage on your next attack roll this turn. |
+| 3 | Mana Drain - Lose 1d4 mana as the shift consumes energy. |
+| 4 | Exposed - You take double damage from the next attack that hits you this round. |
 - Mana-dependent for both spells and phase shifting
 - Vulnerable in melee range
 
 **Optimal Positioning**:
-Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefits—staying near allies during support phases, maintaining distance during offensive phases.`,
+Lunarchs excel at medium to long range (30-60 feet), where they can safely cast spells and loose arrows while maintaining awareness of the battlefield. They should position to maximize phase benefitsâ€”staying near allies during support phases, maintaining distance during offensive phases.`,
     },
 
     playstyle: {
@@ -80,7 +89,7 @@ The key to mastering the Lunarch is understanding when to shift phases and when 
 - **Waning Moon**: Control and efficiency phase. Extend debuffs, reduce mana costs, and maintain battlefield control.
 
 **Resource Economy**:
-Manual phase shifting costs 8 mana, so balance between natural cycling (every 3 rounds) and tactical shifts. Don't waste mana shifting unnecessarily—plan ahead and anticipate combat flow.
+Manual phase shifting costs 8 mana, so balance between natural cycling (every 3 rounds) and tactical shifts. Don't waste mana shifting unnecessarilyâ€”plan ahead and anticipate combat flow.
 
 **Spell Selection**:
 Choose spells that synergize with your preferred phases. Moonlight Sentinels focus on damage spells enhanced by Full Moon, Starfall Invokers leverage AoE during all phases, and Moonwell Guardians maximize Waxing Moon healing.
@@ -96,7 +105,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
       title: "Combat Example: The Lunar Cycle",
       content: `**The Setup**: You're a Lunarch (Moonlight Sentinel specialization) facing a group of shadow creatures (4 shadow wraiths + 1 shadow lord). Your party is with you. Starting Phase: New Moon (all Lunarchs start combat in New Moon). Starting Mana: 50/60. Your goal: Cycle through lunar phases strategically, using each phase's unique bonuses to adapt to the battle.
 
-> **PHASE SKIP RULE**: When you manually shift to any phase, the 3-round timer resets. After your shifted phase ends, the cycle resumes from the NEXT phase in order. For example, shifting New Moon → Full Moon means after Full expires, you cycle to Waning (Waxing was skipped). Waxing returns after Waning completes.
+> **PHASE SKIP RULE**: When you manually shift to any phase, the 3-round timer resets. After your shifted phase ends, the cycle resumes from the NEXT phase in order. For example, shifting New Moon â†’ Full Moon means after Full expires, you cycle to Waning (Waxing was skipped). Waxing returns after Waning completes.
 
 **Starting State**: Phase: New Moon | Mana: 50/60 | HP: 65/65 | Round: 1
 
@@ -104,27 +113,27 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Turn 1 - New Moon: Recovery and Preparation (Phase: New Moon, Round 1/3)**
 
-*The shadow wraiths emerge from the darkness, their forms shifting and ethereal. You raise your bow, moonlight gathering around you. The moon is NEW—dark, hidden, a time for recovery and preparation.*
+*The shadow wraiths emerge from the darkness, their forms shifting and ethereal. You raise your bow, moonlight gathering around you. The moon is NEWâ€”dark, hidden, a time for recovery and preparation.*
 
 **New Moon Bonuses**:
 - +2 Armor (defensive bonus)
 - +1d6 HP regeneration per turn
 - Advantage on stealth checks
 
-**Regeneration**: +1d6 HP → [4] = +4 HP
+**Regeneration**: +1d6 HP â†’ [4] = +4 HP
 **Your HP**: 65 + 4 = 69/65 (over max, capped at 65)
 
 *You feel the new moon's energy flowing through you, subtle and protective.*
 
 **Your Action**: Cast "Moonbeam" at Shadow Wraith #1 (6 mana)
-**Attack Roll**: d20+6 → [15] = Hit!
-**Damage**: 2d10 radiant → [8, 7] = **15 radiant damage**
+**Attack Roll**: d20+6 â†’ [15] = Hit!
+**Damage**: 2d10 radiant â†’ [8, 7] = **15 radiant damage**
 
 *A beam of pale moonlight strikes the wraith. It shrieks, recoiling from the radiant energy.*
 
 **Mana**: 50 - 6 = 44/60
 
-**Shadow Wraith #1's Turn**: Attacks you → [14] → Miss! (your Armor is 16 + 2 = 18 from New Moon)
+**Shadow Wraith #1's Turn**: Attacks you â†’ [14] â†’ Miss! (your Armor is 16 + 2 = 18 from New Moon)
 
 *The wraith's claws pass through empty air. The new moon's protection shields you.*
 
@@ -132,21 +141,21 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Turn 2 - New Moon: Continued Defense (Phase: New Moon, Round 2/3)**
 
-**Regeneration**: +1d6 HP → [3] = +3 HP (already at max, no effect)
+**Regeneration**: +1d6 HP â†’ [3] = +3 HP (already at max, no effect)
 
 **Your Action**: Cast "Lunar Arrow" at Shadow Wraith #2 (4 mana)
-**Attack Roll**: d20+6 → [17] = Hit!
-**Damage**: 1d8+4 radiant → [7] + 4 = **11 radiant damage**
+**Attack Roll**: d20+6 â†’ [17] = Hit!
+**Damage**: 1d8+4 radiant â†’ [7] + 4 = **11 radiant damage**
 
 **Mana**: 44 - 4 = 40/60
 
-**Shadow Lord's Turn**: Casts "Shadow Bolt" at you → [16] → Miss! (armor 18)
+**Shadow Lord's Turn**: Casts "Shadow Bolt" at you â†’ [16] â†’ Miss! (armor 18)
 
 *The shadow bolt dissipates against your new moon protection.*
 
 **Current State**: Phase: New Moon (Round 2/3) | Mana: 40/60 | HP: 65/65
 
-**Turn 3 - New Moon Ending, Manual Shift to Full Moon (Phase: New Moon → Full Moon)**
+**Turn 3 - New Moon Ending, Manual Shift to Full Moon (Phase: New Moon â†’ Full Moon)**
 
 *The new moon phase is ending. Normally it would cycle to Waxing Moon, but you need DAMAGE. Time to shift to Full Moon.*
 
@@ -154,7 +163,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 *You reach out to the lunar energies and PULL. The moon in your mind's eye SWELLS from new to full. Brilliant silver light erupts around you.*
 
-**Phase Shift**: New Moon → **Full Moon**
+**Phase Shift**: New Moon â†’ **Full Moon**
 **Mana**: 40 - 8 = 32/60
 **Phase Timer**: Reset to Round 1/3 (Full Moon will last 3 rounds)
 
@@ -166,9 +175,9 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 - Advantage on attack rolls
 
 **Your Action**: Cast "Moonbeam" at Shadow Wraith #3 (6 mana, with Full Moon bonus)
-**Attack Roll**: d20+6 with ADVANTAGE → [18, 12] → Take 18 = Hit!
-**Base Damage**: 2d10 radiant → [9, 8] = 17 damage
-**Full Moon Bonus**: +2d6 radiant → [5, 6] = +11 damage
+**Attack Roll**: d20+6 with ADVANTAGE â†’ [18, 12] â†’ Take 18 = Hit!
+**Base Damage**: 2d10 radiant â†’ [9, 8] = 17 damage
+**Full Moon Bonus**: +2d6 radiant â†’ [5, 6] = +11 damage
 **Total Damage**: 17 + 11 = **28 radiant damage!**
 
 *The moonbeam BLAZES with full moon power. The wraith is VAPORIZED.*
@@ -184,9 +193,9 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 *The full moon's power surges through you. Your attacks are DEVASTATING.*
 
 **Your Action**: Cast "Lunar Arrow" at Shadow Lord (4 mana, with Full Moon bonus)
-**Attack Roll**: d20+6 with ADVANTAGE → [19, 14] → Take 19 = **CRITICAL HIT!** (19-20 crit range)
-**Base Damage**: 1d8+4 radiant → [8] + 4 = 12 damage → DOUBLED = 24 damage
-**Full Moon Bonus**: +2d6 radiant → [6, 5] = +11 damage → DOUBLED = 22 damage
+**Attack Roll**: d20+6 with ADVANTAGE â†’ [19, 14] â†’ Take 19 = **CRITICAL HIT!** (19-20 crit range)
+**Base Damage**: 1d8+4 radiant â†’ [8] + 4 = 12 damage â†’ DOUBLED = 24 damage
+**Full Moon Bonus**: +2d6 radiant â†’ [6, 5] = +11 damage â†’ DOUBLED = 22 damage
 **Total Damage**: 24 + 22 = **46 radiant damage!**
 
 *Your arrow EXPLODES with full moon energy, striking the shadow lord with devastating force. It staggers, badly wounded.*
@@ -197,11 +206,11 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 
 **Current State**: Phase: Full Moon (Round 2/3) | Mana: 22/60 | HP: 65/65
 
-**Turn 5 - Full Moon Ending, Natural Cycle to Waning Moon (Phase: Full Moon → Waning Moon)**
+**Turn 5 - Full Moon Ending, Natural Cycle to Waning Moon (Phase: Full Moon â†’ Waning Moon)**
 
 *The full moon phase ends naturally. The moon begins to WANE, shifting to the waning phase.*
 
-**Phase Cycle**: Full Moon → **Waning Moon** (natural cycle, no mana cost)
+**Phase Cycle**: Full Moon â†’ **Waning Moon** (natural cycle, no mana cost)
 **Phase Timer**: Reset to Round 1/3
 
 **WANING MOON PHASE (Rounds 6-8)**
@@ -212,8 +221,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 - +10 ft spell range
 
 **Your Action**: Cast "Moonbeam" at Shadow Lord (6 mana - 2 = 4 mana, with Waning Moon cost reduction)
-**Attack Roll**: d20+6 → [16] = Hit!
-**Damage**: 2d10 radiant → [9, 7] = **16 radiant damage**
+**Attack Roll**: d20+6 â†’ [16] = Hit!
+**Damage**: 2d10 radiant â†’ [9, 7] = **16 radiant damage**
 **Result**: Shadow Lord DEAD (was already severely wounded)
 
 *The shadow lord falls, dissolving into darkness.*
@@ -230,8 +239,8 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **Turn 6 - Waning Moon: Mana Efficiency (Phase: Waning Moon, Round 2/3)**
 
 **Your Action**: Cast "Lunar Arrow" at Shadow Wraith #4 (4 mana - 2 = 2 mana)
-**Attack Roll**: d20+6 → [18] = Hit!
-**Damage**: 1d8+4 radiant → [6] + 4 = **10 radiant damage**
+**Attack Roll**: d20+6 â†’ [18] = Hit!
+**Damage**: 1d8+4 radiant â†’ [6] + 4 = **10 radiant damage**
 **Result**: Shadow Wraith #4 DEAD
 
 **Mana**: 18 - 2 = 16/60 (saved 2 mana!)
@@ -241,7 +250,7 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 *You lower your bow. The shadow creatures are gone, dissolved by moonlight. The waning moon's energy fades, and you feel the cycle preparing to begin anew.*
 
 **Your Party's Mage**: "Your arrows... they were GLOWING. And that one critical hit did FORTY-SIX damage. What happened?"
-**You**: "I shifted to Full Moon phase. +2d6 radiant damage on all attacks, advantage on attack rolls, and critical hits on 19-20. That's why the critical did so much—both the base damage AND the Full Moon bonus were doubled."
+**You**: "I shifted to Full Moon phase. +2d6 radiant damage on all attacks, advantage on attack rolls, and critical hits on 19-20. That's why the critical did so muchâ€”both the base damage AND the Full Moon bonus were doubled."
 **Your Party's Tank**: "And at the end? Your spells cost less mana?"
 **You**: "Waning Moon phase. All spell costs reduced by 2 mana. I cast Moonbeam for 4 mana instead of 6, and Lunar Arrow for 2 mana instead of 4. Saved 4 mana total."
 **Your Party's Healer**: "And at the start? The wraiths couldn't hit you."
@@ -252,9 +261,9 @@ Choose spells that synergize with your preferred phases. Moonlight Sentinels foc
 **The Lesson**: Lunarch gameplay is about:
 1. **Phase Cycling**: Started in New Moon (defensive), manually shifted to Full Moon (offensive), naturally cycled to Waning Moon (efficiency)
 2. **Manual Shifting**: Spent 8 mana Turn 3 to shift from New Moon to Full Moon (skipped Waxing Moon because didn't need healing)
-3. **Full Moon Damage**: Moonbeam: 17 → 28 damage (+11 from +2d6), Lunar Arrow crit: 12 → 46 damage (doubled base + doubled Full Moon bonus)
-4. **Waning Moon Efficiency**: Saved 4 mana total (Moonbeam 6 → 4, Lunar Arrow 4 → 2)
-5. **New Moon Defense**: +2 armor caused 2 attacks to miss (armor 16 → 18)
+3. **Full Moon Damage**: Moonbeam: 17 â†’ 28 damage (+11 from +2d6), Lunar Arrow crit: 12 â†’ 46 damage (doubled base + doubled Full Moon bonus)
+4. **Waning Moon Efficiency**: Saved 4 mana total (Moonbeam 6 â†’ 4, Lunar Arrow 4 â†’ 2)
+5. **New Moon Defense**: +2 armor caused 2 attacks to miss (armor 16 â†’ 18)
 6. **Phase Duration**: Each phase lasts 3 rounds naturally, manual shift resets timer
 7. **Strategic Shifting**: Skipped Waxing Moon (healing) because didn't need it, went straight to Full Moon for damage
 
@@ -266,29 +275,29 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
     title: "The Lunar Cycle",
     subtitle: "Flowing Through the Four Phases",
 
-    description: `The Lunarch is a celestial master who channels the shifting phases of the moon to adapt their combat role. By flowing through the Lunar Cycle—from the defensive stillness of the New Moon to the radiant fury of the Full Moon—they adapt to the battlefield's needs. Whether they are healing wounds under a Waxing Moon or conserving mana during the Waning phase, the Lunarch's strength lies in their rhythmic mastery of time and celestial alignment.`,
+    description: `The Lunarch is a celestial master who channels the shifting phases of the moon to adapt their combat role. By flowing through the Lunar Cycleâ€”from the defensive stillness of the New Moon to the radiant fury of the Full Moonâ€”they adapt to the battlefield's needs. Whether they are healing wounds under a Waxing Moon or conserving mana during the Waning phase, the Lunarch's strength lies in their rhythmic mastery of time and celestial alignment.`,
 
     cards: [
       {
-        title: "🌑 New Moon (Defensive)",
+        title: "ðŸŒ‘ New Moon (Defensive)",
         stats: "+2 Armor | +1d6 HP Regen | Stealth Adv",
         details:
           "The phase of hidden potential. Use this for recovery and preparation. You start every combat encounter here.",
       },
       {
-        title: "🌒 Waxing Moon (Growth)",
+        title: "ðŸŒ’ Waxing Moon (Growth)",
         stats: "+1d6 Healing | +10ft Speed",
         details:
           "The phase of expansion. Your supportive spells and movement are enhanced, allowing you to reposition and mend allies.",
       },
       {
-        title: "🌕 Full Moon (Radiance)",
+        title: "ðŸŒ• Full Moon (Radiance)",
         stats: "+2d6 Radiant DMG | Crit 19-20",
         details:
           "The phase of peak power. Unleash your most devastating attacks. Advantage on all attack rolls while the moon is full.",
       },
       {
-        title: "🌘 Waning Moon (Efficiency)",
+        title: "ðŸŒ˜ Waning Moon (Efficiency)",
         stats: "-2 Mana Costs | +1 Rnd Debuffs",
         details:
           "The phase of release. Conserve your mana and ensure your control effects linger longer on the battlefield.",
@@ -316,26 +325,26 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
       momentum:
         'Coordinate your burst with the Full Moon. If the timer is almost up, spend the mana to "Shift" back into Full Moon to reset the 3-round clock and stay in the offensive pocket.',
       flourish:
-        "⚠️ Phase Awareness: Don’t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.",
+        "âš ï¸ Phase Awareness: Donâ€™t get caught in Full Moon when your team is at critical health. Anticipate the cycle and shift to Waxing Moon early if danger is spiked.",
     },
 
     overheatRules: {
       title: "Celestial Alignment",
       content: `Your current lunar phase determines your **Stance**, significantly altering your role on the battlefield. 
 
-**🌑 New Moon (Defensive Stance)**:
+**ðŸŒ‘ New Moon (Defensive Stance)**:
 - **Focus**: High survivability and recovery.
 - **Strategy**: Use this time for mana-free utility or to reposition safely. The +2 Armor bonus makes you a difficult target for ranged enemies.
 
-**🌒 Waxing Moon (Support Stance)**:
+**ðŸŒ’ Waxing Moon (Support Stance)**:
 - **Focus**: Enhancing allies and mobility.
 - **Strategy**: Move to the frontline to distribute heals. The speed bonus allows you to kite enemies while keeping your tank healthy.
 
-**🌕 Full Moon (Offensive Stance)**:
+**ðŸŒ• Full Moon (Offensive Stance)**:
 - **Focus**: Maximum aggression and burst.
 - **Strategy**: This is your "Go" window. Spend your mana on your most expensive spells. The expanded crit range and bonus radiant damage make your damage output peak here.
 
-**🌘 Waning Moon (Efficiency Stance)**:
+**ðŸŒ˜ Waning Moon (Efficiency Stance)**:
 - **Focus**: Crowd control and stabilization.
 - **Strategy**: Use the reduced mana costs to spam control spells. The increased debuff duration ensures your slowing and blinding effects stabilize the field before the cycle resets.`,
     },
@@ -344,7 +353,7 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
       title: "The Rhythmic Archer",
       content: `**The 3-Round Rhythm**: Every combat has a pulse. You have 3 rounds to maximize each phase. Don't waste "Full Moon" rounds moving; move during "Waxing Moon" so you're planted and ready to fire when the light peaks.
 
-**The Mana-Rich Shift**: Shifting costs 8 Mana—more than many spells. Only shift when the situation is desperate or when skipping a phase (like Waning) allows you to secure a kill that ends the fight early.
+**The Mana-Rich Shift**: Shifting costs 8 Manaâ€”more than many spells. Only shift when the situation is desperate or when skipping a phase (like Waning) allows you to secure a kill that ends the fight early.
 
 **Defensive Pivoting**: If you are focused by a boss, shift to New Moon immediately. The +2 Armor and HP regeneration can be the difference between a wipe and a recovery.
 
@@ -360,8 +369,8 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
       content: `Tracking a 4-phase cycle that changes every 3 rounds can be tricky. Use physical props to keep the rhythm.
 
 **Required Materials**:
-- **Lunar Phase Wheel** — A paper plate or card with the 4 phases. Use a clothespin to mark the current phase.
-- **Cycle d6** — Use a die to track rounds. (1-2 = Rnd 1, 3-4 = Rnd 2, 5-6 = Rnd 3).
+- **Lunar Phase Wheel** â€” A paper plate or card with the 4 phases. Use a clothespin to mark the current phase.
+- **Cycle d6** â€” Use a die to track rounds. (1-2 = Rnd 1, 3-4 = Rnd 2, 5-6 = Rnd 3).
 
 **The Physical Hack**:
 - **The Moon Coin**: Use a large silver coin or token. When you shift to Full Moon, place it prominently on your character sheet. When it cycles to Waning, move it half-off the sheet.
@@ -369,7 +378,7 @@ You're not a static caster. You're a LUNAR MAGE who flows through moon phases. N
 
 **Quick Reference**:
 \`\`\`
-CYCLE: New 🌑 → Waxing 🌒 → Full 🌕 → Waning 🌘
+CYCLE: New ðŸŒ‘ â†’ Waxing ðŸŒ’ â†’ Full ðŸŒ• â†’ Waning ðŸŒ˜
 TIMER: 3 Rounds per Phase (Auto-Advances)
 SHIFT: 8 Mana to change immediately (Resets Timer)
 \`\`\`
@@ -1465,7 +1474,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       specialMechanics: {
         phaseInteraction: {
           newMoon:
-            "Damage type becomes necrotic, and you heal for half damage dealt",
+            "Damage type becomes necrotic, and target loses 1d4 mana (or takes 1d4 extra necrotic if no mana)",
           waxingMoon: "Damage increases to 2d6+1d4",
           fullMoon:
             "Damage increases to 2d6+1d6 and beam cannot be broken by movement",
@@ -2491,7 +2500,7 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       specialMechanics: {
         phaseInteraction: {
           newMoon:
-            "Damage type becomes necrotic, and you heal for half damage dealt",
+            "Damage type becomes necrotic, and target loses 1d4 mana (or takes 1d4 extra necrotic if no mana)",
           waxingMoon: "Add +1d4 radiant damage",
           fullMoon: "Add +1d6 radiant damage",
           waningMoon: "Costs 1d4 less mana (minimum 1)",
@@ -2558,10 +2567,10 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
 
     // ADDITIONAL LEVEL 2 SPELLS
     {
-      id: "lunarch_phase_step",
-      name: "Phase Step",
+      id: "lunarch_moon_glide",
+      name: "Moon Glide",
       description:
-        "Shift through phases of the moon to teleport up to 30 feet.",
+        "Channel lunar energy into your movement, gaining +30ft speed and immunity to opportunity attacks for 1 turn. You glide across the battlefield bathed in moonlight.",
       level: 2,
       spellType: "ACTION",
       icon: "Nature/Ethereal Bird",
@@ -2583,10 +2592,12 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
         utilityType: "movement",
         selectedEffects: [
           {
-            id: "phase_shift",
-            name: "Phase Shift",
+            id: "moon_glide_speed",
+            name: "Moon Glide",
             distance: 30,
             needsLineOfSight: false,
+            isSpeedBoost: true,
+            grantsOpportunityAttackImmunity: true,
           },
         ],
         duration: 0,
@@ -2611,15 +2622,15 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       specialMechanics: {
         phaseInteraction: {
           newMoon:
-            "Teleport range increases to 45 feet and you become invisible until end of turn",
-          waxingMoon: "After teleporting, heal yourself for 1d6",
+            "Speed boost increases to +45 feet and you become invisible until end of turn",
+          waxingMoon: "After moving, gain +2 AC until end of turn",
           fullMoon:
             "After teleporting, gain advantage on your next attack roll",
           waningMoon: "Costs 1d4 less mana (minimum 1)",
         },
       },
 
-      tags: ["utility", "teleport", "movement", "universal"],
+      tags: ["utility", "movement", "speed", "universal"],
     },
 
     {
@@ -2885,6 +2896,64 @@ SHIFT: 8 Mana to change immediately (Resets Timer)
       },
 
       tags: ["damage", "radiant", "aoe", "eclipse", "universal"],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "lunarch_no_self_heal",
+      name: "Lunar Conduit",
+      description:
+        "You channel the moon's power outward to others but cannot turn it inward. You can never heal yourself with your own lunar spells. All healing effects from your abilities target allies only. This is the price of being a conduit -- the moon's light passes through you but never pools within.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Star Fall",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "radiant",
+        icon: "Arcane/Star Fall",
+        tags: ["passive", "lunarch", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "lunarch", "restriction"],
+    },
+    {
+      id: "lunarch_phase_lock",
+      name: "Phase Lock",
+      description:
+        "When you take damage during a phase shift (changing between moon phases), the shift is interrupted and fails. You still spend the mana for the shift but remain in your current phase. You must wait until your next turn to attempt another shift.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Arcane/Time Lock",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Time Lock",
+        tags: ["passive", "lunarch", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "lunarch", "weakness"],
+    },
+    {
+      id: "lunarch_eclipse_vulnerability",
+      name: "Eclipse Vulnerability",
+      description:
+        "During the round you shift from one moon phase to another, the celestial transition leaves you exposed. Roll 1d4 on the Transition Shock table: 1=Take 1d8 radiant damage (Celestial Burn), 2=Disadvantage on next attack (Lunar Dizziness), 3=Lose 1d4 mana (Mana Drain), 4=Double damage from next hit (Exposed). The stars demand a toll for every change.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Arcane/Arcane Explosion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "arcane",
+        icon: "Arcane/Arcane Explosion",
+        tags: ["passive", "lunarch", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "lunarch", "weakness"],
     },
   ],
 };

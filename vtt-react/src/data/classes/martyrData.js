@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Martyr Class Data
  *
  * Complete class information for the Martyr - a selfless protector
@@ -19,24 +19,26 @@ export const MARTYR_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The Martyr grows stronger through suffering, building Devotion Levels by taking damage and sacrificing their own vitality to protect and heal allies.
+      content: `**What You Need to Know**: The Martyr grows stronger through ACTIVE self-sacrifice, not passive damage absorption. You don't just "get hit" â€” you deliberately bleed yourself to build Devotion. Use Intervene to intercept attacks, cast self-damaging spells like Penance of Pain, and actively sacrifice HP to cross Devotion thresholds faster.
 
-**Core Mechanic**: Take damage → Cross damage thresholds → Unlock Devotion Levels → Spend Devotion to amplify spells or gain passive power
+**Core Mechanic**: ACTIVELY sacrifice HP (Intervene, self-damage spells, voluntary offering) â†’ Cross damage thresholds â†’ Unlock Devotion Levels â†’ Spend Devotion to amplify healing/buffs
 
 **Resource**: Devotion Gauge (6 levels, thresholds at 10/20/40/60/80/100 damage taken)
 
-**Playstyle**: Frontline tank who intercepts damage to build Devotion, then converts suffering into party-wide healing and buffs
+**âš ï¸ CRITICAL DIFFERENCE FROM DREADNAUGHT**: The Dreadnaught is an immovable fortress that absorbs damage and converts it into shields. The Martyr is a BLEEDING FAITH HEALER who actively wounds themselves to heal others. The Dreadnaught's power comes from what hits them. The Martyr's power comes from what they CHOOSE to suffer.
 
-**Best For**: Players who enjoy protective gameplay, martyrdom fantasy, and turning suffering into divine strength`,
+**Playstyle**: Frontline tank who ACTIVELY sacrifices HP to build Devotion, then converts suffering into party-wide healing and buffs
+
+**Best For**: Players who enjoy protective gameplay, martyrdom fantasy, and turning deliberate self-harm into divine strength`,
     },
 
-    description: `The Martyr is a devoted protector who draws strength from unwavering faith and willingness to endure suffering for their allies. Through the Devotion Gauge — a resource that fills as they take damage — Martyrs transform pain into power, unlocking increasingly potent abilities as they sacrifice their own vitality. Each wound they bear becomes a blessing for their companions.`,
+    description: `The Martyr is a devoted protector who draws strength from ACTIVE self-sacrifice, not passive endurance. Through the Devotion Gauge â€” a resource that fills as they deliberately bleed themselves for their allies â€” Martyrs transform willing suffering into healing power. Unlike the Dreadnaught who passively absorbs whatever hits them, the Martyr must ACTIVELY choose to suffer: casting self-damaging spells, using Intervene to intercept attacks, and offering their own HP to cross Devotion thresholds faster. Each wound they CHOOSE to bear becomes a blessing for their companions.`,
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `Martyrs are driven by unshakeable conviction—whether religious faith, loyalty to a cause, or devotion to their companions. They have sworn oaths to protect others, even at the cost of their own lives. This dedication manifests as divine power that grows stronger the more they sacrifice.
+      content: `Martyrs are driven by unshakeable convictionâ€”whether religious faith, loyalty to a cause, or devotion to their companions. They have sworn oaths to protect others, even at the cost of their own lives. This dedication manifests as divine power that grows stronger the more they sacrifice.
 
-Their devotion often shows physically: scars that glow with holy light, stigmata that bleed radiant energy, or an aura of serenity even in the midst of agony. At high Devotion Levels, they may appear transfigured—wreathed in golden light, bearing phantom wings, or surrounded by spectral guardians.
+Their devotion often shows physically: scars that glow with holy light, stigmata that bleed radiant energy, or an aura of serenity even in the midst of agony. At high Devotion Levels, they may appear transfiguredâ€”wreathed in golden light, bearing phantom wings, or surrounded by spectral guardians.
 
 Common Martyr archetypes include:
 - **The Penitent Knight**: Atoning for past sins through selfless service
@@ -65,11 +67,15 @@ Martyrs understand that true strength comes not from avoiding pain, but from end
 - Provides both defensive and offensive support
 
 **Weaknesses**:
-- Requires taking damage to reach full potential
-- Can become overwhelmed if focused by too many enemies
+- Requires ACTIVE self-sacrifice to reach full potential â€” passive damage absorption alone is too slow
+- Can become overwhelmed if they sacrifice too aggressively
 - Less effective when allies are spread out
 - Devotion spending requires careful resource management
 - Vulnerable to burst damage before building Devotion
+    - If you go **1 round** without taking damage or sacrificing HP, you lose 1 Devotion Level. The faith that is not tested fades IMMEDIATELY. A Martyr who does not bleed is a Martyr the divine forgets.
+
+    **Devotion Collapse (The Spiral)**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become **Faithless** for 2 rounds: all healing you deal is halved, and you cannot use Intervene. The divine does not reward fair-weather believers. Recover by sacrificing at least 15 HP in a single round.
+- Fundamentally different from Dreadnaught: Dreadnaught absorbs whatever hits them (passive tank). Martyr must CHOOSE to bleed (active sacrifice tank).
 
 The Martyr shines in prolonged encounters where they can build Devotion Levels and unleash devastating amplified abilities at critical moments.`,
     },
@@ -78,10 +84,13 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
       title: "Playstyle & Strategy",
       content: `Playing a Martyr is about strategic sacrifice and resource management. Key considerations:
 
-**Building Devotion**:
-- Take damage naturally through combat (10/20/40/60/80/100 damage thresholds)
-- Use Martyr's Intervene to protect allies and advance Devotion faster
-- Some spells inflict self-damage to build Devotion while providing benefits
+**Building Devotion** (Active Sacrifice, NOT Passive Tanking):
+- **Intervene**: Intercept an attack meant for an ally â†’ Take the damage â†’ +1 bonus Devotion level per intercept (THIS is your primary Devotion engine)
+- **Self-Damage Spells**: Cast Penance of Pain, Burning Sacrifice, or other self-harming spells â†’ Build Devotion while healing/buffing allies
+- **Voluntary Offering (NEW)**: At the start of your turn, you may sacrifice up to 1d8 HP as a free action to gain +1 Devotion progress toward the next threshold
+- **Passive Damage**: Being hit naturally contributes, but this is SLOW. A Martyr who just stands there and gets hit is a BAD Martyr. You must ACTIVELY seek suffering.
+- If you go **1 round** without taking any damage or sacrificing HP, you lose 1 Devotion Level. Faith that is not tested fades.
+- **Devotion Collapse**: If you lose 3 Devotion Levels through decay in a single combat (not through spending), you become Faithless for 2 rounds (healing halved, cannot Intervene). Recover by sacrificing 15+ HP in a single round.
 - Balance building Devotion with staying alive
 
 **Devotion Level Strategy**:
@@ -115,112 +124,112 @@ The Martyr shines in prolonged encounters where they can build Devotion Levels a
 
 **DEVOTION LEVEL 0**
 
-**Turn 1 — First Sacrifice**
+**Turn 1 â€” First Sacrifice**
 
-*A lesser demon charges your mage. She's at 25 HP—one solid hit will drop her.*
+*A lesser demon charges your mage. She's at 25 HPâ€”one solid hit will drop her.*
 
-**Your Reaction — Intervene** (4 mana, redirect attack to self):
-**Demon's Attack**: Redirected to you → 2d8+5 → [7, 8]+5 = **20 damage**
+**Your Reaction â€” Intervene** (4 mana, redirect attack to self):
+**Demon's Attack**: Redirected to you â†’ 2d8+5 â†’ [7, 8]+5 = **20 damage**
 **No passives active** (Devotion 0)
-**Your HP**: 100 − 20 = **80/100**
+**Your HP**: 100 âˆ’ 20 = **80/100**
 **Total Damage Taken**: 20
 
-**Devotion Check**: 20 ≥ 10 and 20 ≥ 20 → crossed 2 thresholds → **Devotion Level 2**
+**Devotion Check**: 20 â‰¥ 10 and 20 â‰¥ 20 â†’ crossed 2 thresholds â†’ **Devotion Level 2**
 **Passive Gained (Level 1)**: Resistance to the first damage instance you receive each round (half damage, rounded down)
 **Passive Gained (Level 2)**: Regain 1d6 HP at the start of your turn
-**Redemptive Grace**: Intervene heals the protected ally for 2d6 → [4, 5] = 9 → Mage: 25 + 9 = **34/70**
+**Redemptive Grace**: Intervene heals the protected ally for 2d6 â†’ [4, 5] = 9 â†’ Mage: 25 + 9 = **34/70**
 **Suffering's Gift**: Requires Devotion 3+, not yet active
 
 *Golden light flares from your wounds. Your first sacrifice awakens something divine.*
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [7]+3 = 10 damage
-**Level 1 Passive (first instance this round)**: Resistance → 10 ÷ 2 = **5 damage**
-**Your HP**: 80 − 5 = **75/100**
+**Attack**: 1d10+3 â†’ [7]+3 = 10 damage
+**Level 1 Passive (first instance this round)**: Resistance â†’ 10 Ã· 2 = **5 damage**
+**Your HP**: 80 âˆ’ 5 = **75/100**
 **Total Damage Taken**: 20 + 5 = 25
-**Devotion Check**: 25 ≥ 20 but < 40 → still 2 thresholds → Devotion **2**
+**Devotion Check**: 25 â‰¥ 20 but < 40 â†’ still 2 thresholds â†’ Devotion **2**
 
 **Your Party's Mage**: "You took that hit for me..."
 **You**: "That's what I'm here for. My pain is your protection."
 
 **Current State**: HP: 75/100 | Devotion: 2 (2 crossed, 0 spent) | Total Damage: 25 | Mana: 46/60
 
-**Turn 2 — The Demon Lord Strikes**
+**Turn 2 â€” The Demon Lord Strikes**
 
 *The demon lord turns its burning gaze to you, flames licking along its massive blade.*
 
-**Start of Turn — Level 2 Passive**: Regain 1d6 HP → [4] = 4 → HP: 75 + 4 = **79**
+**Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [4] = 4 â†’ HP: 75 + 4 = **79**
 
 **Demon Lord attacks you**:
-**Attack**: 3d10+6 fire → [8, 9, 7]+6 = **30 fire damage**
-**Level 1 Passive (first instance this round)**: Resistance → 30 ÷ 2 = **15 damage**
-**Your HP**: 79 − 15 = **64/100**
+**Attack**: 3d10+6 fire â†’ [8, 9, 7]+6 = **30 fire damage**
+**Level 1 Passive (first instance this round)**: Resistance â†’ 30 Ã· 2 = **15 damage**
+**Your HP**: 79 âˆ’ 15 = **64/100**
 **Total Damage Taken**: 25 + 15 = 40
 
-**Devotion Check**: 40 ≥ 40 → crossed 3 thresholds → **Devotion Level 3!**
-**Passive Gained (Level 3) — Suffering's Gift**: When you take damage, all allies within 10 ft gain temporary HP equal to your Devotion Level (3). Triggers once per damage instance. Self-inflicted damage does not trigger this effect.
-**Suffering's Gift fires**: Allies gain 3 temp HP → Mage: **3 temp HP**, Tank: **3 temp HP**
+**Devotion Check**: 40 â‰¥ 40 â†’ crossed 3 thresholds â†’ **Devotion Level 3!**
+**Passive Gained (Level 3) â€” Suffering's Gift**: When you take damage, all allies within 10 ft gain temporary HP equal to your Devotion Level (3). Triggers once per damage instance. Self-inflicted damage does not trigger this effect.
+**Suffering's Gift fires**: Allies gain 3 temp HP â†’ Mage: **3 temp HP**, Tank: **3 temp HP**
 
 *More wounds. More light. Your scars glow brighter.*
 
-**Your Action — Divine Shield** (10 mana, AoE within 10 ft):
-**Effect**: All allies within 10 ft gain 1d6 temporary HP → [5] = **5 temp HP**
-**Temp HP comparison**: 5 (Divine Shield) > 3 (Suffering's Gift) → higher value applies
+**Your Action â€” Divine Shield** (10 mana, AoE within 10 ft):
+**Effect**: All allies within 10 ft gain 1d6 temporary HP â†’ [5] = **5 temp HP**
+**Temp HP comparison**: 5 (Divine Shield) > 3 (Suffering's Gift) â†’ higher value applies
 **Result**: Mage: **5 temp HP**, Tank: **5 temp HP**
 
 **Lesser Demon #2 attacks Tank**:
-**Attack**: 1d10+3 → [6]+3 = 9 damage
+**Attack**: 1d10+3 â†’ [6]+3 = 9 damage
 **No ally resistance passive** (Level 4 not yet reached)
-**Tank's 5 temp HP** absorbs 5 → Tank takes 4 → Tank: 50 − 4 = **46/90** (0 temp HP remaining)
+**Tank's 5 temp HP** absorbs 5 â†’ Tank takes 4 â†’ Tank: 50 âˆ’ 4 = **46/90** (0 temp HP remaining)
 
 **Current State**: HP: 64/100 | Devotion: 3 (3 crossed, 0 spent) | Total Damage: 40 | Mana: 36/60
 Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 
-**Turn 3 — Push to Peak, Amplified Sacrifice**
+**Turn 3 â€” Push to Peak, Amplified Sacrifice**
 
 *The demons surround you. You're bleeding from a dozen wounds, but golden light pulses from every scar.*
 
-**Start of Turn — Level 2 Passive**: Regain 1d6 HP → [3] = 3 → HP: 64 + 3 = **67**
+**Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [3] = 3 â†’ HP: 64 + 3 = **67**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire → [7, 8]+6 = **21 fire damage**
-**Level 1 Passive (first instance this round)**: Resistance → 21 ÷ 2 = **10 damage** (rounded down)
-**Your HP**: 67 − 10 = **57/100**
+**Attack**: 2d10+6 fire â†’ [7, 8]+6 = **21 fire damage**
+**Level 1 Passive (first instance this round)**: Resistance â†’ 21 Ã· 2 = **10 damage** (rounded down)
+**Your HP**: 67 âˆ’ 10 = **57/100**
 **Total Damage Taken**: 40 + 10 = 50
-**Devotion Check**: 50 ≥ 40 but < 60 → still 3 thresholds → Devotion **3**
-**Suffering's Gift**: Allies gain 3 temp HP → Mage has 5 (3 < 5, no change) | Tank has 0 → Tank: **3 temp HP**
+**Devotion Check**: 50 â‰¥ 40 but < 60 â†’ still 3 thresholds â†’ Devotion **3**
+**Suffering's Gift**: Allies gain 3 temp HP â†’ Mage has 5 (3 < 5, no change) | Tank has 0 â†’ Tank: **3 temp HP**
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [9]+3 = 12 damage
-**Second instance this round — no resistance**
-**Your HP**: 57 − 12 = **45/100**
+**Attack**: 1d10+3 â†’ [9]+3 = 12 damage
+**Second instance this round â€” no resistance**
+**Your HP**: 57 âˆ’ 12 = **45/100**
 **Total Damage Taken**: 50 + 12 = 62
 
-**Devotion Check**: 62 ≥ 60 → crossed 4 thresholds → **Devotion Level 4!**
+**Devotion Check**: 62 â‰¥ 60 â†’ crossed 4 thresholds â†’ **Devotion Level 4!**
 **Passive Gained (Level 4)**: All allies within 10 ft resist the first damage type they receive each round (half damage, rounded down)
-**Suffering's Gift**: Allies gain 4 temp HP → Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) → Tank: **4 temp HP**
+**Suffering's Gift**: Allies gain 4 temp HP â†’ Mage has 5 (4 < 5, no change) | Tank has 3 (4 > 3) â†’ Tank: **4 temp HP**
 
 **Lesser Demon #2 attacks Mage**:
-**Attack**: 1d10+3 → [5]+3 = 8 slashing damage
-**Level 4 Passive**: Allies resist first damage type → 8 ÷ 2 = **4 damage** to Mage
-**Mage's 5 temp HP** absorbs 4 → Mage takes 0 → Mage: **34/70** (1 temp HP remaining)
+**Attack**: 1d10+3 â†’ [5]+3 = 8 slashing damage
+**Level 4 Passive**: Allies resist first damage type â†’ 8 Ã· 2 = **4 damage** to Mage
+**Mage's 5 temp HP** absorbs 4 â†’ Mage takes 0 â†’ Mage: **34/70** (1 temp HP remaining)
 
-*Your wounds are radiant. Power surges through you. The mage is safe. Now—amplify.*
+*Your wounds are radiant. Power surges through you. The mage is safe. Nowâ€”amplify.*
 
-**Your Action — Restorative Prayer AMPLIFIED** on Mage (5 mana + spend 2 Devotion Levels):
-**Devotion Spent**: 2 → Effective Devotion: 4 crossed − 2 spent = **Level 2**
-**Rise Check**: Total damage (62) crosses a NEW threshold (80)? No → stays at Level 2
-**Base Healing**: 1d4 + Spirit(4) → [3]+4 = 7 HP
-**Amplification Bonus**: +2d8 per Devotion Level spent (2) = +4d8 → [6, 7, 4, 8] = +25 HP
-**Total Healing**: 7 + 25 = **32 HP** → Mage: 34 + 32 = **66/70**
+**Your Action â€” Restorative Prayer AMPLIFIED** on Mage (5 mana + spend 2 Devotion Levels):
+**Devotion Spent**: 2 â†’ Effective Devotion: 4 crossed âˆ’ 2 spent = **Level 2**
+**Rise Check**: Total damage (62) crosses a NEW threshold (80)? No â†’ stays at Level 2
+**Base Healing**: 1d4 + Spirit(4) â†’ [3]+4 = 7 HP
+**Amplification Bonus**: +2d8 per Devotion Level spent (2) = +4d8 â†’ [6, 7, 4, 8] = +25 HP
+**Total Healing**: 7 + 25 = **32 HP** â†’ Mage: 34 + 32 = **66/70**
 
-**Self-Damage (Amplified Spell Cost)**: 1d6 per Devotion Level spent (2) = 2d6 → [3, 2] = **5 damage**
-**Self-inflicted → does NOT add to Total Damage Taken**
-**Self-inflicted → does NOT trigger Suffering's Gift**
-**Your HP**: 45 − 5 = **40/100**
+**Self-Damage (Amplified Spell Cost)**: 1d6 per Devotion Level spent (2) = 2d6 â†’ [3, 2] = **5 damage**
+**Self-inflicted â†’ does NOT add to Total Damage Taken**
+**Self-inflicted â†’ does NOT trigger Suffering's Gift**
+**Your HP**: 45 âˆ’ 5 = **40/100**
 **Total Damage Taken**: still **62**
 
-**Mana**: 36 − 5 = **31/60**
+**Mana**: 36 âˆ’ 5 = **31/60**
 
 **Your Party's Tank**: "You're glowing like a furnace! Are you holding up?"
 **You**: "I've been better. But the mage just got healed for 32 HP. That's what matters."
@@ -228,37 +237,37 @@ Mage: 34/70 + 5 temp HP | Tank: 46/90 + 0 temp HP
 **Current State**: HP: 40/100 | Devotion: 2 (4 crossed, 2 spent) | Total Damage: 62 | Mana: 31/60
 Mage: 66/70 + 1 temp HP | Tank: 46/90 + 4 temp HP
 
-**Turn 4 — Rebuild and Finish**
+**Turn 4 â€” Rebuild and Finish**
 
-*You're at 40 HP. The demons are relentless. But your Devotion is rebuilding—each wound brings you closer to the next threshold.*
+*You're at 40 HP. The demons are relentless. But your Devotion is rebuildingâ€”each wound brings you closer to the next threshold.*
 
-**Start of Turn — Level 2 Passive**: Regain 1d6 HP → [5] = 5 → HP: 40 + 5 = **45**
+**Start of Turn â€” Level 2 Passive**: Regain 1d6 HP â†’ [5] = 5 â†’ HP: 40 + 5 = **45**
 
 **Demon Lord attacks you**:
-**Attack**: 2d10+6 fire → [9, 7]+6 = **22 fire damage**
-**Level 1 Passive (first instance this round)**: Resistance → 22 ÷ 2 = **11 damage**
-**Your HP**: 45 − 11 = **34/100**
+**Attack**: 2d10+6 fire â†’ [9, 7]+6 = **22 fire damage**
+**Level 1 Passive (first instance this round)**: Resistance â†’ 22 Ã· 2 = **11 damage**
+**Your HP**: 45 âˆ’ 11 = **34/100**
 **Total Damage Taken**: 62 + 11 = 73
-**Devotion Check**: 73 < 80 → still 4 thresholds → Devotion **2**
+**Devotion Check**: 73 < 80 â†’ still 4 thresholds â†’ Devotion **2**
 
 **Lesser Demon #1 attacks you**:
-**Attack**: 1d10+3 → [8]+3 = 11 damage
-**Second instance this round — no resistance**
-**Your HP**: 34 − 11 = **23/100**
+**Attack**: 1d10+3 â†’ [8]+3 = 11 damage
+**Second instance this round â€” no resistance**
+**Your HP**: 34 âˆ’ 11 = **23/100**
 **Total Damage Taken**: 73 + 11 = 84
 
-**Devotion Check**: 84 ≥ 80 → NEW threshold crossed! 5 thresholds total → Effective Devotion: 5 − 2 = **Level 3!**
-**Suffering's Gift**: Allies gain 3 temp HP → Mage has 1 (3 > 1) → Mage: **3 temp HP** | Tank has 4 (3 < 4, no change)
+**Devotion Check**: 84 â‰¥ 80 â†’ NEW threshold crossed! 5 thresholds total â†’ Effective Devotion: 5 âˆ’ 2 = **Level 3!**
+**Suffering's Gift**: Allies gain 3 temp HP â†’ Mage has 1 (3 > 1) â†’ Mage: **3 temp HP** | Tank has 4 (3 < 4, no change)
 
 *New Devotion surges through you. Not full power, but enough.*
 
-**Your Action — Devoted Strike** at Lesser Demon #2 (6 mana, melee):
-**Attack Roll**: d20+5 → [18] = Hit!
-**Damage**: 1d8 + Strength(3) → [7]+3 = **10 radiant damage**
-**Self-Heal**: Strength(3) ÷ 2 = 1 HP → HP: 23 + 1 = **24/100**
+**Your Action â€” Devoted Strike** at Lesser Demon #2 (6 mana, melee):
+**Attack Roll**: d20+5 â†’ [18] = Hit!
+**Damage**: 1d8 + Strength(3) â†’ [7]+3 = **10 radiant damage**
+**Self-Heal**: Strength(3) Ã· 2 = 1 HP â†’ HP: 23 + 1 = **24/100**
 **Result**: Lesser Demon #2 is wounded
 
-*Your allies finish the fight—the tank crushes the wounded demon, and the mage's fire spell scorches the last one.*
+*Your allies finish the fightâ€”the tank crushes the wounded demon, and the mage's fire spell scorches the last one.*
 
 **Combat Over**
 
@@ -271,19 +280,19 @@ Mage: 66/70 + 3 temp HP | Tank: 46/90 + 4 temp HP
 
 1. **Building Devotion Through Sacrifice**: You intercepted a killing blow on Turn 1 with Intervene (4 mana), immediately crossing two thresholds and reaching Devotion 2. Every hit you absorbed after that pushed you higher.
 
-2. **Model A Devotion Spending**: On Turn 3, you spent 2 Devotion Levels to amplify Restorative Prayer. Your effective Devotion dropped from 4 to 2. Your total damage taken (62) did NOT decrease—only your available Devotion did. You could not rise back until your total damage crossed a NEW threshold (80).
+2. **Model A Devotion Spending**: On Turn 3, you spent 2 Devotion Levels to amplify Restorative Prayer. Your effective Devotion dropped from 4 to 2. Your total damage taken (62) did NOT decreaseâ€”only your available Devotion did. You could not rise back until your total damage crossed a NEW threshold (80).
 
 3. **Self-Damage Exclusion**: The 2d6 self-damage from amplification (5 HP) did NOT contribute to your Devotion thresholds and did NOT trigger Suffering's Gift. Only damage from external sources counts.
 
-4. **Recovering Devotion**: On Turn 4, when your total damage hit 84, you crossed the 80 threshold for the first time—earning a 5th Devotion level. With 2 spent, your effective Devotion rose from 2 back to 3. To fully recover to Level 5, you would need to spend no more Devotion.
+4. **Recovering Devotion**: On Turn 4, when your total damage hit 84, you crossed the 80 threshold for the first timeâ€”earning a 5th Devotion level. With 2 spent, your effective Devotion rose from 2 back to 3. To fully recover to Level 5, you would need to spend no more Devotion.
 
-5. **Layered Passive Protection**: Your passives provided constant value—Level 1 resistance halved the demon lord's 30-damage hit to 15, Level 2 regen restored 17 HP across four turns, Suffering's Gift buffered your allies with temp HP, and Level 4 resistance protected the Mage from an 8-damage hit entirely.
+5. **Layered Passive Protection**: Your passives provided constant valueâ€”Level 1 resistance halved the demon lord's 30-damage hit to 15, Level 2 regen restored 17 HP across four turns, Suffering's Gift buffered your allies with temp HP, and Level 4 resistance protected the Mage from an 8-damage hit entirely.
 
-6. **Amplified Healing at the Right Moment**: Spending 2 Devotion on Turn 3 turned a modest 7 HP heal into 32 HP—saving the Mage when she needed it most. The cost was real: 5 self-damage and dropping from Devotion 4 to 2. But the Mage lived.
+6. **Amplified Healing at the Right Moment**: Spending 2 Devotion on Turn 3 turned a modest 7 HP heal into 32 HPâ€”saving the Mage when she needed it most. The cost was real: 5 self-damage and dropping from Devotion 4 to 2. But the Mage lived.
 
 7. **Devotion Persistence**: Your Devotion (Level 3, with 84 total damage) persists until you complete a Short Rest or are healed above 80% of your maximum HP (80 HP). Even after combat ends, you carry that power into the next fight.
 
-You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attacks meant for allies. You endure suffering so they don't have to. And when your Devotion peaks, you convert that pain into amplified healing that can save a dying ally. The key is timing—spend Devotion when it matters most, and trust that more wounds will rebuild what you spent. Your wounds are your power. Your pain is their salvation.`,
+You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attacks meant for allies. You endure suffering so they don't have to. And when your Devotion peaks, you convert that pain into amplified healing that can save a dying ally. The key is timingâ€”spend Devotion when it matters most, and trust that more wounds will rebuild what you spent. Your wounds are your power. Your pain is their salvation.`,
     },
   },
 
@@ -295,19 +304,19 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
 
     cards: [
       {
-        title: "Flickering Faith (Level 1–2)",
+        title: "Flickering Faith (Level 1â€“2)",
         stats: "Resist 1st Hit | 1d6 HP Regen",
         details:
           "The foundation of endurance. At these levels, your faith provides personal survival, ensuring you can stay on the frontline to take more hits.",
       },
       {
-        title: "Radiant Sacrifice (Level 3–4)",
+        title: "Radiant Sacrifice (Level 3â€“4)",
         stats: "+1 Armor Aura | Resists for Allies",
         details:
           "Your pain becomes their protection. Allies within 10ft gain armor and resistance to damage types as you bleed for them.",
       },
       {
-        title: "Celestial Protector (Level 5–6)",
+        title: "Celestial Protector (Level 5â€“6)",
         stats: "+10 Radiant DMG | Massive Resist",
         details:
           "Transcendence. You gain phantom wings and a halo, granting your entire party resistance to ALL damage types within 15ft.",
@@ -345,35 +354,35 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
       momentum:
         'Use Intervene aggressively in the first three rounds. Your goal is to "spike" into Level 3 as fast as possible to grant your allies the +1 Armor aura.',
       flourish:
-        "⚠️ The Spending Trap: Amplified spells are seductive, but they strip your passive auras. If you spend Level 6 to save one person, you might lose the resistance that was keeping the rest of the party alive.",
+        "âš ï¸ The Spending Trap: Amplified spells are seductive, but they strip your passive auras. If you spend Level 6 to save one person, you might lose the resistance that was keeping the rest of the party alive.",
     },
 
     overheatRules: {
       title: "Sacrificial Tiers",
       content: `Your **Devotion Level** determines the strength of your passive auras and the magnitude of your divine presence.
 
-**✨ Transfigured (Level 5–6)**:
+**âœ¨ Transfigured (Level 5â€“6)**:
 - **Effect**: God-Tier Protection.
 - **Strategy**: This is your peak state. You provide resistance to all damage types for the entire team. Do not spend these levels on amplified spells unless it is for a game-ending Smite or a life-saving burst heal.
 
-**🛡️ Ascendant (Level 3–4)**:
+**ðŸ›¡ï¸ Ascendant (Level 3â€“4)**:
 - **Effect**: Support Anchor.
 - **Strategy**: The optimal state for most of the battle. You provide balanced armor buffs and have moderate amplification power ready for emergency interventions.
 
-**🩸 Mortal (Level 0–2)**:
+**ðŸ©¸ Mortal (Level 0â€“2)**:
 - **Effect**: Vulnerability.
 - **Strategy**: You are just a man. Your priority is to Intercept attacks immediately and use self-sacrificial spells to reach higher tiers before the party takes significant damage.`,
     },
 
     strategicConsiderations: {
       title: "The Living Shield",
-      content: `**The Intervene Priority**: Your best resource isn't your mana—it's your HP. If an ally is targeted by a multi-hit attack, use Intervene on the largest single hit to maximize your "Bonus Devotion" gain (Damage/10).
+      content: `**The Intervene Priority**: Your best resource isn't your manaâ€”it's your HP. If an ally is targeted by a multi-hit attack, use Intervene on the largest single hit to maximize your "Bonus Devotion" gain (Damage/10).
 
 **Passive vs Active**: A Level 6 Martyr is practically a win-condition due to the group-wide resistance. Spending those levels should be your last resort, used only when the "Amplified" healing is the only way to prevent a death.
 
 **The Self-Damage Loop**: Some spells, like Penance of Pain, hurt you to heal others. This is a "double-win": you provide necessary support while manually pushing your Devotion Gauge into the next tier. However, self-damage from amplified spells does NOT contribute to your total damage taken for Devotion threshold purposes. This prevents infinite loops where amplified spell self-damage immediately recovers spent Devotion Levels.
 
-**Suffering's Gift**: At Devotion Level 3+, this triggers once per instance of damage received. Temporary HP does not stack — the higher value applies. Self-inflicted damage does NOT trigger this effect.
+**Suffering's Gift**: At Devotion Level 3+, this triggers once per instance of damage received. Temporary HP does not stack â€” the higher value applies. Self-inflicted damage does NOT trigger this effect.
 
 **Worked Example (The Threshold Jump)**:
 - **Scenario**: You are at Level 2 (20 damage taken). A boss targets your Wizard with a 20-damage fireball.
@@ -388,9 +397,9 @@ You're not a traditional healer. You're a LIVING SACRIFICE. You intercept attack
       content: `Tracking six levels of devotion and cumulative damage can be messy. Use "Blood Stacks" for clarity.
 
 **Required Materials**:
-- **Devotion Track** — A strip of cardstock with 1-6 marked on it.
-- **Red Glass Beads** — Use these for your current HP.
-- **Gold Tokens** — Use these to mark unlocked Devotion Levels.
+- **Devotion Track** â€” A strip of cardstock with 1-6 marked on it.
+- **Red Glass Beads** â€” Use these for your current HP.
+- **Gold Tokens** â€” Use these to mark unlocked Devotion Levels.
 
 **The Physical Hack**:
 - **The Altar**: Place your Devotion Track in the center of the table. As you take damage, move a marker up the track. When you "Amplify," physically hand the tokens to the GM. It makes the sacrifice feel heavy and significant.
@@ -446,7 +455,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             name: "Suffering's Gift",
             tier: "Path Passive",
             description:
-              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack — the higher value applies. Self-inflicted damage does not trigger this effect.",
+              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack â€” the higher value applies. Self-inflicted damage does not trigger this effect.",
             sharedBy: "All Martyrs",
           },
           {
@@ -492,14 +501,14 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             name: "Suffering's Gift",
             tier: "Path Passive",
             description:
-              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack — the higher value applies. Self-inflicted damage does not trigger this effect.",
+              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack â€” the higher value applies. Self-inflicted damage does not trigger this effect.",
             sharedBy: "All Martyrs",
           },
           {
             name: "Zealous Wrath",
             tier: "Specialization Passive",
             description:
-              "Your radiant damage spells deal additional damage equal to your current Devotion Level × 2. When you damage an enemy with a radiant spell, you heal for 15% of the damage dealt.",
+              "Your radiant damage spells deal additional damage equal to your current Devotion Level Ã— 2. When you damage an enemy with a radiant spell, you heal for 15% of the damage dealt.",
             uniqueTo: "Zealot",
           },
         ],
@@ -538,7 +547,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             name: "Suffering's Gift",
             tier: "Path Passive",
             description:
-              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack — the higher value applies. Self-inflicted damage does not trigger this effect.",
+              "At Devotion Level 3 or higher, whenever you take damage from an external source, all allies within 10 feet gain temporary HP equal to your current Devotion Level. Triggers once per instance of damage received. Temporary HP does not stack â€” the higher value applies. Self-inflicted damage does not trigger this effect.",
             sharedBy: "All Martyrs",
           },
           {
@@ -746,7 +755,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
         healingType: "direct",
         hasHotEffect: false,
         description:
-          "Your pain becomes your ally's salvation. The healing energy flows from your wounds, carrying with it the power to mend their injuries. The more wounded you are, the more powerful the healing becomes—your suffering is the price of their recovery.",
+          "Your pain becomes your ally's salvation. The healing energy flows from your wounds, carrying with it the power to mend their injuries. The more wounded you are, the more powerful the healing becomesâ€”your suffering is the price of their recovery.",
       },
 
       devotionRequired: 1,
@@ -1467,7 +1476,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       id: "martyr_shield_of_faith",
       name: "Shield of Faith",
       description:
-        "Create a divine shield around an ally that absorbs 3d8 + spirit×2 damage. Lasts up to 10 rounds or until the shield is depleted.",
+        "Create a divine shield around an ally that absorbs 3d8 + spiritÃ—2 damage. Lasts up to 10 rounds or until the shield is depleted.",
       level: 4,
       spellType: "ACTION",
       icon: "Radiant/Radiant Golden Shield",
@@ -1506,7 +1515,7 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
             id: "faith_shield",
             name: "Shield of Faith",
             description:
-              "Absorbs 3d8 + spirit×2 damage until depleted. Lasts up to 10 rounds.",
+              "Absorbs 3d8 + spiritÃ—2 damage until depleted. Lasts up to 10 rounds.",
             shieldValue: {
               formula: "3d8 + spirit * 2",
               shieldType: "absorption",
@@ -2775,6 +2784,32 @@ AMPLIFY: Spend 1-5 Levels for Massive Spells
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
 
       tags: ["buff", "protection", "ultimate", "party", "level 10"],
+    },    {
+      id: "martyr_burden_of_faith",
+      name: "Burden of Faith",
+      description:
+        "Your healing power flows through sacrifice, not generosity. You can never heal yourself with any Martyr ability. All your healing spells target allies only. The only HP you gain is through suffering for others. Self-preservation is antithetical to the martyr's path.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Holy/Holy Seal",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "holy",
+        icon: "Holy/Holy Seal",
+        tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "restriction", "no self-heal", "sacrifice", "martyr"],
     },
   ],
 };

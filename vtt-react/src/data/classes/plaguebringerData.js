@@ -255,7 +255,8 @@ Your LAST category determines the final plague's archetype:
 - **Affliction**: A cultivatable disease on a specific target. Each affliction has a Base Spell, up to 3 Category stages, and optionally a Final Form. A single target can have up to 2 active afflictions simultaneously. The global affliction cap across all targets is 10.
 - **Virulence Decay**: At the start of each of your turns, lose 2 Virulence (minimum 0).
 - **Threshold Bonuses**: Virulence thresholds are checked when you cast a spell. Bonuses apply to that spell and any afflictions created or advanced by it, even if Virulence later drops below the threshold.
-- **Consumed**: When an affliction is consumed (e.g., Harvest finale), it is removed from the target entirely, freeing one affliction slot.`,
+- **Consumed**: When an affliction is consumed (e.g., Harvest finale), it is removed from the target entirely, freeing one affliction slot.
+- **Plague Carrier (Core Mechanic)**: When an afflicted enemy DIES, all their afflictions explode outward — every enemy within 10ft (+5ft per Virulence threshold reached) must make a Constitution save (DC 14 + your Virulence/20) or contract ALL the dying target's afflictions at Stage 0 (Seed). This makes the Plaguebringer the ONLY class that benefits from enemies dying — your kills create new vectors. ⚠️ This is what makes you different from the Toxicologist (who deploys contraptions) and Witch Doctor (who invokes gods). You are a DISEASE VECTOR — your strength compounds exponentially as enemies fall.`,
 
     cards: [
       {
@@ -287,6 +288,11 @@ Your LAST category determines the final plague's archetype:
           "Peak Harvest (75+)",
           "Max Buffs",
           "Afflictions ignore first dispel, +2 damage dice",
+        ],
+        [
+          "Plague Carrier (enemy death)",
+          "+5 per enemy infected",
+          "Afflicted enemy dies → all afflictions spread to nearby enemies as Seeds (Con save negates). YOUR kills create NEW vectors.",
         ],
       ],
     },
@@ -1292,7 +1298,7 @@ FINAL ARCHETYPES (Last Token):
       effectTypes: ["damage", "control"],
       name: "Agonizing Wail",
       description:
-        "An excruciating wail dealing psychic damage and paralyzing with fear. Advances any affliction with the TORMENT category.",
+        "An excruciating wail dealing psychic damage and crippling the target with supernatural terror. ⚠️ REQUIRES TARGET TO HAVE AT LEAST 2 ACTIVE AFFLICTIONS. Without sufficient cultivated afflictions, the wail deals damage only — no control effect. The Plaguebringer must INFECT before they can CRIPPLE. Advances any affliction with the TORMENT category.",
       spellType: "ACTION",
       icon: "Necrotic/Screaming Skull",
       level: 3,
@@ -1320,8 +1326,8 @@ FINAL ARCHETYPES (Last Token):
         enabled: true,
         attribute: "spirit",
         difficulty: 16,
-        onSuccess: "half_damage_no_paralyze",
-        onFailure: "full_damage_and_paralyze",
+        onSuccess: "half_damage_no_effect",
+        onFailure: "full_damage_and_frightened",
       },
       damageConfig: {
         formula: "3d6 + intelligence",
@@ -1338,22 +1344,28 @@ FINAL ARCHETYPES (Last Token):
         },
       },
       controlConfig: {
-        controlType: "incapacitation",
-        duration: 1,
+        controlType: "frightened",
+        description: "NOT a paralyze. The target is FRIGHTENED (disadvantage on attacks while they can see the Plaguebringer, cannot willingly move closer). This only applies if the target has 2+ active afflictions. With 4+ active afflictions, the target also loses their reaction. The Plaguebringer WORKS for their CC — it requires deliberate affliction cultivation.",
+        duration: 2,
         durationUnit: "rounds",
         saveDC: 16,
         saveType: "spirit",
         savingThrow: true,
+        afflictionGate: {
+          minimumAfflictions: 2,
+          enhancedEffectThreshold: 4,
+          noAfflictionsEffect: "damage_only",
+        },
         effects: [
           {
-            id: "paralyzed_fear",
-            name: "Paralyzed by Fear",
-            description: "Paralyzed with fear, loses next action",
-            statusType: "paralyzed",
-            level: "severe",
-            saveType: "charisma",
-            saveDC: 15,
-            duration: 1,
+            id: "terror_frightened",
+            name: "Supernatural Terror",
+            description: "Frightened — disadvantage on attacks vs Plaguebringer, cannot approach. With 4+ afflictions, also loses reaction.",
+            statusType: "frightened",
+            level: "moderate",
+            saveType: "spirit",
+            saveDC: 16,
+            duration: 2,
             durationUnit: "rounds",
           },
         ],
@@ -3043,6 +3055,59 @@ FINAL ARCHETYPES (Last Token):
         "plaguebringer",
       ],
       flavorText: "All five categories. One affliction. Total ruin.",
+    },    {
+      id: "plague_incubation_period",
+      name: "Incubation Period",
+      description:
+        "Your diseases do not take effect immediately. All disease effects you apply have a 1-round delay before they begin dealing damage or applying debuffs. This gives enemies time to seek cures or kill you before the plague takes hold.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Poison/Poison Cloud",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "poison",
+        icon: "Poison/Poison Cloud",
+        tags: ["passive", "restriction", "delayed effect", "disease", "plaguebringer"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "restriction", "delayed effect", "disease", "plaguebringer"],
+    },
+    {
+      id: "plague_sterile_environment",
+      name: "Sterile Environment",
+      description:
+        "In areas cleansed by holy magic, healing spells, or alchemical purification, your disease effects are suppressed entirely. You cannot apply new diseases and existing diseases you applied stop dealing damage for as long as you remain in the cleansed area. Purity is your weakness.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Holy/Holy Purify",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "poison",
+        icon: "Holy/Holy Purify",
+        tags: ["passive", "weakness", "holy vulnerability", "suppression", "plaguebringer"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "weakness", "holy vulnerability", "suppression", "plaguebringer"],
     },
   ],
 };

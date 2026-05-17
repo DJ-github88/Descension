@@ -5,7 +5,7 @@
  * Uses a split-pane layout with resizable divider.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import WowWindow from '../windows/WowWindow';
 import OnlineUsersList from './OnlineUsersList';
 import ChatTabs from './ChatTabs';
@@ -16,11 +16,15 @@ import useCharacterStore from '../../store/characterStore';
 import useSocialStore from '../../store/socialStore';
 import '../../styles/global-chat.css';
 
+const isMobile = () => window.innerWidth <= 768;
+
 const GlobalChatWindow = ({ isOpen, onClose }) => {
-  const [splitPosition, setSplitPosition] = useState(35); // 35% for users list
+  const [splitPosition, setSplitPosition] = useState(35);
   const [isDragging, setIsDragging] = useState(false);
-  const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(false);
-  const splitRafRef = useRef(null);  // RAF handle for throttled split-pane drag
+  const [isUsersPaneHidden, setIsUsersPaneHidden] = useState(isMobile());
+  const splitRafRef = useRef(null);
+
+  const isMobileRef = useRef(isMobile());
 
   const { user, userData } = useAuthStore();
   // Get character data from characterStore - use individual selectors to trigger updates
@@ -126,7 +130,6 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     }
   }, [characterId, characterName, characterClass, characterRace, characterSubrace, characterRaceDisplayName, characterBackground, characterBackgroundDisplayName, characterPath, characterLevel]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (!isOpen) {
@@ -135,29 +138,41 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
     };
   }, [isOpen]);
 
-  // Handle split pane dragging
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    e.preventDefault();
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = isMobile();
+      if (mobile && !isMobileRef.current) {
+        setIsUsersPaneHidden(true);
+      }
+      isMobileRef.current = mobile;
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-
+  const handleDragMove = useCallback((clientX) => {
     const container = document.querySelector('.global-chat-container');
     if (!container) return;
-
     const rect = container.getBoundingClientRect();
-    const newPosition = ((e.clientX - rect.left) / rect.width) * 100;
+    const newPosition = ((clientX - rect.left) / rect.width) * 100;
     const clamped = Math.max(20, Math.min(50, newPosition));
-
-    // Throttle state update to one per animation frame
     if (!splitRafRef.current) {
       splitRafRef.current = requestAnimationFrame(() => {
         splitRafRef.current = null;
         setSplitPosition(clamped);
       });
     }
+  }, []);
+
+  const handleMouseDown = (e) => {
+    if (isMobile()) return;
+    setIsDragging(true);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    handleDragMove(e.clientX);
   };
 
   const handleMouseUp = () => {
@@ -171,6 +186,31 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging]);
+
+  const handleTouchStart = (e) => {
+    if (isMobile()) return;
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || !e.touches[0]) return;
+    handleDragMove(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleTouchEnd);
+      return () => {
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
       };
     }
   }, [isDragging]);
@@ -204,7 +244,13 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
 
   // Toggle users pane visibility
   const toggleUsersPane = () => {
-    setIsUsersPaneHidden(!isUsersPaneHidden);
+    setIsUsersPaneHidden(prev => !prev);
+  };
+
+  const closeMobileDrawer = () => {
+    if (isMobile()) {
+      setIsUsersPaneHidden(true);
+    }
   };
 
   if (!isOpen) return null;
@@ -230,11 +276,14 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
         <div
           className={`global-chat-container ${isDragging ? 'dragging' : ''} ${isUsersPaneHidden ? 'users-pane-hidden' : ''}`}
           onMouseMove={isDragging ? handleMouseMove : undefined}
+          onTouchMove={isDragging ? handleTouchMove : undefined}
         >
-          {/* Left Pane - Online Users */}
+          {!isUsersPaneHidden && isMobile() && (
+            <div className="mobile-drawer-backdrop" onClick={closeMobileDrawer} />
+          )}
           <div
             className="users-pane"
-            style={{ width: `${splitPosition}%` }}
+            style={{ width: isMobile() ? undefined : `${splitPosition}%` }}
           >
             <OnlineUsersList
               onUserClick={handleUserClick}
@@ -247,7 +296,8 @@ const GlobalChatWindow = ({ isOpen, onClose }) => {
           <div
             className="split-divider"
             onMouseDown={!isUsersPaneHidden ? handleMouseDown : undefined}
-            style={{ cursor: isUsersPaneHidden ? 'default' : 'col-resize' }}
+            onTouchStart={!isUsersPaneHidden ? handleTouchStart : undefined}
+            style={{ cursor: isUsersPaneHidden || isMobile() ? 'default' : 'col-resize' }}
           >
             <div className="divider-handle">
               <i className="fas fa-grip-lines-vertical"></i>

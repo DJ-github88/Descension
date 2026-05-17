@@ -1329,7 +1329,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       id: "fb_healing_touch",
       name: "Healing Touch",
       description:
-        "Channel nature's healing energy to restore 1d6 + Spirit HP to an ally within 30 feet.",
+        "Channel nature's healing energy to restore 1d6 + Spirit HP to an ally within 30 feet. You cannot use this on yourself -- the power flows outward only.",
       spellType: "ACTION",
       icon: "Healing/Heal Wound",
       level: 2,
@@ -1349,7 +1349,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         rangeType: "ranged",
         rangeDistance: 30,
         requiresLineOfSight: true,
-        targetRestrictions: ["ally", "self"],
+        targetRestrictions: ["ally"],
       },
 
       resourceCost: {
@@ -1516,9 +1516,9 @@ Formbenders can specialize in radically different transformation philosophies. M
 
     {
       id: "formbender_wild_regeneration",
-      name: "Wild Regeneration",
+      name: "Form Regeneration",
       description:
-        "Channel primal healing energy to restore 2d6 + Constitution HP instantly, plus 1d6 HP per round for 2 rounds.",
+        "Channel your animal form's natural healing. Restore 2d6 + Constitution HP instantly, plus 1d6 HP per round for 2 rounds. Only usable while transformed into an animal form. In human form, this spell has no effect.",
       level: 1,
       form: null,
       spellType: "ACTION",
@@ -2041,7 +2041,7 @@ Formbenders can specialize in radically different transformation philosophies. M
       id: "formbender_primal_healing",
       name: "Primal Healing",
       description:
-        "Channel the restorative power of nature to heal 3d8 + Spirit damage and remove afflictions.",
+        "Channel the restorative power of nature to heal an ally for 3d8 + Spirit damage and remove afflictions. You cannot heal yourself with this ability.",
       spellType: "ACTION",
       icon: "Healing/Heart Ripple",
       level: 4,
@@ -2060,7 +2060,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
+        targetRestrictions: ["ally"],
         maxTargets: 1,
         targetSelectionMethod: "manual",
         requiresLineOfSight: true,
@@ -2512,7 +2512,7 @@ Formbenders can specialize in radically different transformation philosophies. M
         targetingType: "single",
         rangeType: "ranged",
         rangeDistance: 30,
-        targetRestrictions: ["ally", "self"],
+        targetRestrictions: ["ally"],
         maxTargets: 1,
         targetSelectionMethod: "manual",
         requiresLineOfSight: true,
@@ -2701,7 +2701,7 @@ Formbenders can specialize in radically different transformation philosophies. M
           rangeType: "self_centered",
           aoeShape: "circle",
           aoeParameters: { radius: 30 },
-          targetRestrictions: ["ally", "self"],
+          targetRestrictions: ["ally"],
         },
       },
       resourceCost: {
@@ -3464,6 +3464,64 @@ Formbenders can specialize in radically different transformation philosophies. M
       cooldownConfig: { cooldownType: "long_rest", cooldownValue: 1 },
       resolution: "NONE",
       tags: ["transformation", "mastery", "formbender"],
+    },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "formbender_human_fragility",
+      name: "Human Fragility",
+      description:
+        "Your body has adapted to shifting forms, making your human shape feel incomplete. While in human form (no active transformation), you have -2 to all saving throws. This penalty is removed the instant you assume any animal or elemental form.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Nature/Wither",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Wither",
+        tags: ["passive", "formbender", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "formbender", "weakness"],
+    },
+    {
+      id: "formbender_primal_collapse",
+      name: "Primal Collapse",
+      description:
+        "Reverting from a transformation to human form is traumatic for your body. When a form expires or you willingly revert, you take 1d4 psychic damage per round you spent in that form (maximum 5d4). If the form was dispelled or forcibly ended by an enemy, increase the damage to 1d6 per round instead. This represents the shock of your body re-adjusting to human physiology.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Nature/Entangling Roots",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Entangling Roots",
+        tags: ["passive", "formbender", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "formbender", "weakness"],
+    },
+    {
+      id: "formbender_no_human_healing",
+      name: "Primal Metabolism",
+      description:
+        "Your healing magic is tied to your transformed state. Healing Touch, Primal Healing, and Nature's Gift cannot target yourself. Form Regeneration only works while you are in an animal form. In human form, you have no access to self-healing through your class abilities. Your only regeneration comes from the resilience of your adopted forms.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Nature/Nature Natural",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Nature Natural",
+        tags: ["passive", "formbender", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "formbender", "restriction"],
     },
   ],
 

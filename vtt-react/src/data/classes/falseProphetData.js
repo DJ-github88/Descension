@@ -1,4 +1,4 @@
-﻿/**
+/**
  * False Prophet Class Data
  *
  * Complete class information for the False Prophet - a chaotic spellcaster
@@ -19,9 +19,9 @@ export const FALSE_PROPHET_DATA = {
 
     quickOverview: {
       title: "Quick Overview",
-      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by preaching the void as divine truth, with each point granting +1 damage to all psychic, void, and necrotic spells. The temptation is relentless—push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
+      content: `**What You Need to Know**: The False Prophet accumulates Madness Points (0-20) by preaching the void as divine truth, with each point granting +1 damage to all psychic, void, and necrotic spells. The temptation is relentless�push toward 20 for godlike power, but cross the threshold and an Insanity Convulsion erupts: catastrophic self-harm, teleportation, stunned turns, or worse. Your Madness resets to zero. You start again.
 
-**Core Mechanic**: Preach void sermons → Roll dice for random Madness gains → Damage scales with Madness (+1 per point to all spell damage types) → Unlock Temptation thresholds at 6, 9, 12 Madness → Reach 20 and trigger Insanity Convulsion → Reset to 0
+**Core Mechanic**: Preach void sermons ? Roll dice for random Madness gains ? Damage scales with Madness (+1 per point to all spell damage types) ? Unlock Temptation thresholds at 6, 9, 12 Madness ? Reach 20 and trigger Insanity Convulsion ? Reset to 0
 
 **Resource**: Madness Points (0-20 scale, random generation and spending)
 
@@ -34,9 +34,9 @@ export const FALSE_PROPHET_DATA = {
 
     roleplayIdentity: {
       title: "Roleplay Identity",
-      content: `False Prophets are conduits for truths too terrible for mortal minds to comprehend. They have glimpsed the void beyond reality and returned changed—their sanity fractured, their perception warped, but their power undeniable. Whether they sought this knowledge willingly or were cursed with unwanted visions, they now walk between worlds.
+      content: `False Prophets are conduits for truths too terrible for mortal minds to comprehend. They have glimpsed the void beyond reality and returned changed�their sanity fractured, their perception warped, but their power undeniable. Whether they sought this knowledge willingly or were cursed with unwanted visions, they now walk between worlds.
 
-Their madness manifests physically: eyes that see too much, whispers only they can hear, reality flickering at the edges of their vision. At high Madness levels, the void bleeds through—shadows writhe unnaturally, impossible geometries appear, and the air itself seems to scream.
+Their madness manifests physically: eyes that see too much, whispers only they can hear, reality flickering at the edges of their vision. At high Madness levels, the void bleeds through�shadows writhe unnaturally, impossible geometries appear, and the air itself seems to scream.
 
 Common False Prophet archetypes include:
 - **The Cursed Oracle**: Burdened with visions they never wanted
@@ -128,61 +128,61 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 
 **Starting State**: Madness: 0/20 | Shadow Damage Bonus: +0 | Mana: 40/50 | HP: 60/60
 
-**Turn 1 - Building Madness (Madness: 0 → 5)**
+**Turn 1 - Building Madness (Madness: 0 ? 5)**
 
 *The bandits charge. You raise your hands, void energy crackling between your fingers. Time to embrace the darkness.*
 
 **Your Action**: Cast "Void Scripture" on Bandit #1 (6 mana, generates 1d6 Madness)
-**Madness Roll**: 1d6 → [5] → +5 Madness Points
+**Madness Roll**: 1d6 ? [5] ? +5 Madness Points
 **Madness**: 0 + 5 = **5 Madness**
 **Damage Bonus**: +5 to all spell damage
-**Spell Damage**: 3d6 psychic + 5 (Madness bonus) → [4, 5, 6] + 5 = 20 damage
+**Spell Damage**: 3d6 psychic + 5 (Madness bonus) ? [4, 5, 6] + 5 = 20 damage
 **Result**: Bandit #1 takes 20 damage, frightened for 2 rounds
 
-*Dark whispers fill the bandit's mind. He screams, clutching his head. You feel the madness building—a sweet, intoxicating power.*
+*Dark whispers fill the bandit's mind. He screams, clutching his head. You feel the madness building�a sweet, intoxicating power.*
 
 **Mana**: 40 - 6 = 34/50
 **Current State**: Madness: 5/20 | Shadow Damage Bonus: +5
 
-**Turn 2 - Approaching the Threshold (Madness: 5 → 11)**
+**Turn 2 - Approaching the Threshold (Madness: 5 ? 11)**
 
 *The bandits are wary now. The captain barks orders. You smile. They have no idea what's coming.*
 
 **Your Action**: Cast "Profane Bolt" on Bandit #2 (5 mana, generates 1d6 Madness)
-**Madness Roll**: 1d6 → [6] → +6 Madness Points
+**Madness Roll**: 1d6 ? [6] ? +6 Madness Points
 **Madness**: 5 + 6 = **11 Madness**
 **Damage Bonus**: +11 to all spell damage
-**Spell Damage**: 2d8 psychic + 11 (Madness bonus) → [7, 6] + 11 = 24 damage!
+**Spell Damage**: 2d8 psychic + 11 (Madness bonus) ? [7, 6] + 11 = 24 damage!
 **Result**: Bandit #2 takes 24 damage, DEAD (overkill)
 
-*The bolt of void energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness—past the 9 threshold. Eldritch Vision is now available.*
+*The bolt of void energy obliterates the bandit. Your vision swims. The world tilts. You're at 11 Madness�past the 9 threshold. Eldritch Vision is now available.*
 
 **Mana**: 34 - 5 = 29/50
 **Temptation Unlocked**: Eldritch Vision (9+ Madness) - See through walls, detect invisible, +1d6 Madness
 
 **Current State**: Madness: 11/20 | Shadow Damage Bonus: +11 | Eldritch Vision Available
 
-**Turn 3 - The Temptation (Madness: 11 → 16)**
+**Turn 3 - The Temptation (Madness: 11 ? 16)**
 
 *The bandit captain ducks behind cover. You can't see him. But you COULD see him... if you used Eldritch Vision. It would cost 1d6 Madness. You're at 11. If you roll high, you could hit 17-18. Close to the edge. But the power...*
 
 **Your Decision**: Use Eldritch Vision (adds 1d6 Madness)
-**Madness Roll**: 1d6 → [5] → +5 Madness Points
+**Madness Roll**: 1d6 ? [5] ? +5 Madness Points
 **Madness**: 11 + 5 = **16 Madness**
 **Damage Bonus**: +16 to all spell damage
 
 *Your eyes turn black. The walls become transparent. You see EVERYTHING. The captain hiding behind the crate. The bandit sneaking up behind your ally. The rats in the walls. The worms in the earth. TOO MUCH. But you can use this.*
 
 **Your Action**: Cast "Shadow Bolt" at bandit captain (behind cover, but you can see him!) (5 mana, no Madness generation)
-**Spell Damage**: 3d6 psychic + 16 (Madness bonus) → [5, 6, 4] + 16 = 31 damage!
+**Spell Damage**: 3d6 psychic + 16 (Madness bonus) ? [5, 6, 4] + 16 = 31 damage!
 **Result**: Bandit captain takes 31 damage, severely wounded (down to 15 HP)
 
-*The captain screams as the bolt phases through the crate and strikes him. "How did you—?!" You don't answer. You're too busy fighting the voices in your head.*
+*The captain screams as the bolt phases through the crate and strikes him. "How did you�?!" You don't answer. You're too busy fighting the voices in your head.*
 
 **Mana**: 29 - 5 = 24/50
 **Current State**: Madness: 16/20 | Shadow Damage Bonus: +16 | **DANGER ZONE**
 
-**Turn 4 - The Decision Point (Madness: 16 → 19)**
+**Turn 4 - The Decision Point (Madness: 16 ? 19)**
 
 *You're at 16 Madness. Four points from Insanity Convulsion. You have two choices:*
 *1. Spend Madness with a spending spell to drop back to safety*
@@ -191,33 +191,33 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 *You're a Voidcaller. You chose this path. MAXIMUM DAMAGE.*
 
 **Your Action**: Cast "Preacher's Grasp" on remaining bandits (7 mana, generates 1d4 Madness)
-**Madness Roll**: 1d4 → [3] → +3 Madness Points
+**Madness Roll**: 1d4 ? [3] ? +3 Madness Points
 **Madness**: 16 + 3 = **19 Madness**
 **Damage Bonus**: +19 to all spell damage
-**Spell Damage**: 4d6 necrotic + 19 (Madness bonus) → [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
+**Spell Damage**: 4d6 necrotic + 19 (Madness bonus) ? [6, 5, 4, 6] + 19 = 40 damage to all bandits in 20ft radius!
 
 *Tendrils of pure void energy erupt from the ground, wrapping around the bandits. They scream as the darkness consumes them.*
 
 **Results**:
-- Bandit #3: 40 damage → DEAD
-- Bandit #4: 40 damage → DEAD
-- Bandit Captain: 15 HP - 40 damage → DEAD (overkill)
+- Bandit #3: 40 damage ? DEAD
+- Bandit #4: 40 damage ? DEAD
+- Bandit Captain: 15 HP - 40 damage ? DEAD (overkill)
 
 *All enemies dead. You're at 19 Madness. ONE POINT from Insanity Convulsion. Your hands shake. The voices are SCREAMING. Reality is fracturing at the edges.*
 
 **Mana**: 24 - 7 = 17/50
 **Current State**: Madness: 19/20 | Shadow Damage Bonus: +19 | **ONE POINT FROM CONVULSION**
 
-**Turn 5 - The Comedown (Madness: 19 → 13)**
+**Turn 5 - The Comedown (Madness: 19 ? 13)**
 
 *Combat is over. You need to spend Madness before you lose control. You have spending spells.*
 
 **Your Action**: Cast "Siphon Sanity" (self-heal, spends 1d6 Madness)
-**Madness Spent**: 1d6 → [6] → -6 Madness Points
+**Madness Spent**: 1d6 ? [6] ? -6 Madness Points
 **Madness**: 19 - 6 = **13 Madness**
-**Healing**: 6 × 2 = 12 HP healed (you weren't damaged, but now you're at full)
+**Healing**: 6 � 2 = 12 HP healed (you weren't damaged, but now you're at full)
 
-*You breathe deeply. The voices quiet. The world solidifies. You're back to 13 Madness—still high, but safe. For now.*
+*You breathe deeply. The voices quiet. The world solidifies. You're back to 13 Madness�still high, but safe. For now.*
 
 **Your Party's Healer**: "Are you... okay? Your eyes were completely black."
 **You**: "I'm fine. Better than fine. Did you see that damage?"
@@ -233,8 +233,8 @@ The False Prophet thrives on chaos and risk, rewarding players who can balance a
 2. **Damage Scaling**: At 19 Madness, +19 damage turned 21 base damage into 40 damage (90% increase!)
 3. **Temptation Abilities**: Eldritch Vision cost 1d6 Madness but provided crucial tactical advantage
 4. **Risk Management**: Stayed at 19 Madness (one point from Convulsion) for maximum damage
-5. **Spending Strategy**: Used Siphon Sanity after combat to drop from 19 → 13, avoiding Convulsion
-6. **Randomness**: If Void Tendrils had rolled 1d4 → [4] instead of [3], would have hit 20 and triggered Convulsion
+5. **Spending Strategy**: Used Siphon Sanity after combat to drop from 19 ? 13, avoiding Convulsion
+6. **Randomness**: If Void Tendrils had rolled 1d4 ? [4] instead of [3], would have hit 20 and triggered Convulsion
 7. **Reward**: Dealt 115 total damage in 4 turns (20 + 24 + 31 + 40) with massive Madness scaling
 
 You're not a safe, predictable caster. You're a chaos mage who gambles with sanity for power. Every spell is a dice roll. Every turn is a risk. And when you hit 19 Madness and unleash 40 damage AoE, it's all worth it. Until it isn't.`,
@@ -246,7 +246,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     title: "Madness Points",
     subtitle: "The Herald of the Void",
 
-    description: `The False Prophet preaches truths too terrible for mortal minds. As you channel the void, your **Madness** accumulates—fracturing your sanity but exponentially increasing your damage. This is a resource of extreme risk and explosive reward; you dance on the edge of godhood, one bad roll away from a total mental collapse.`,
+    description: `The False Prophet preaches truths too terrible for mortal minds. As you channel the void, your **Madness** accumulates�fracturing your sanity but exponentially increasing your damage. This is a resource of extreme risk and explosive reward; you dance on the edge of godhood, one bad roll away from a total mental collapse.`,
 
     cards: [
       {
@@ -290,7 +290,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       momentum:
         'Build Madness early to "ramp" your damage. The False Prophet is weakest at the start of a fight and becomes a god at the end.',
       flourish:
-        "⚠️ Madness Surfing: Try to hover between 15-19 Madness to keep your massive damage bonus active. Only trigger a Convulsion if the battlefield is so chaotic that a random explosion might actually help.",
+        "?? Madness Surfing: Try to hover between 15-19 Madness to keep your massive damage bonus active. Only trigger a Convulsion if the battlefield is so chaotic that a random explosion might actually help.",
     },
 
     overheatRules: {
@@ -336,7 +336,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
     title: "False Prophet Specializations",
     subtitle: "Three Sermons of the Void",
 
-    description: `Every False Prophet preaches the void as divine truth—but the style of their sermon defines their power. Some thunder hellfire from makeshift pulpits. Others whisper poison into willing ears. And some simply perform the old rites, patient and inevitable. Choose your sermon.`,
+    description: `Every False Prophet preaches the void as divine truth�but the style of their sermon defines their power. Some thunder hellfire from makeshift pulpits. Others whisper poison into willing ears. And some simply perform the old rites, patient and inevitable. Choose your sermon.`,
 
     specs: [
       {
@@ -346,7 +346,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#9400D3",
         theme: "Fire-and-Brimstone Preaching",
 
-        description: `Voidcallers are the loudest voice in the room—literally. They channel the void god's wrath through fiery, destructive sermons that shake the battlefield. Their preaching generates Madness faster than any other specialization, pushing them toward godlike power and catastrophic Convulsion in equal measure. When a Voidcaller opens their mouth, something dies.`,
+        description: `Voidcallers are the loudest voice in the room�literally. They channel the void god's wrath through fiery, destructive sermons that shake the battlefield. Their preaching generates Madness faster than any other specialization, pushing them toward godlike power and catastrophic Convulsion in equal measure. When a Voidcaller opens their mouth, something dies.`,
 
         playstyle:
           "High-risk aggression, maximum damage output, rapid Madness generation through destructive sermons",
@@ -393,7 +393,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#8B008B",
         theme: "Whispered Corruption",
 
-        description: `Deceivers don't preach to crowds—they whisper. They specialize in corrupting the faithful, planting doubt in devoted minds, and turning allies against each other with lies dressed as divine revelation. Their Madness fuels manipulation rather than destruction, bending wills and fracturing loyalties until the enemy does the work for them.`,
+        description: `Deceivers don't preach to crowds�they whisper. They specialize in corrupting the faithful, planting doubt in devoted minds, and turning allies against each other with lies dressed as divine revelation. Their Madness fuels manipulation rather than destruction, bending wills and fracturing loyalties until the enemy does the work for them.`,
 
         playstyle:
           "Control-focused, mind manipulation, strategic Madness spending to corrupt and convert",
@@ -440,7 +440,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         color: "#4B0082",
         theme: "Dark Ritual & Ceremony",
 
-        description: `Cultists are the patient shepherds of the void god's flock. They perform methodical dark rituals—curses, sacrifices, and ceremonies—that spread corruption slowly but inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies as easily as they wither enemies. A Cultist's sermon is not loud; it is patient. And it always finishes.`,
+        description: `Cultists are the patient shepherds of the void god's flock. They perform methodical dark rituals�curses, sacrifices, and ceremonies�that spread corruption slowly but inevitably. Their Madness is channeled into sustained destruction rather than burst, and their rites can empower allies as easily as they wither enemies. A Cultist's sermon is not loud; it is patient. And it always finishes.`,
 
         playstyle:
           "Sustained damage through curses and DoT, balanced Madness management, ritual empowerment",
@@ -1436,15 +1436,15 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       id: "fp_communion_of_void",
       name: "Communion of the Void",
       description:
-        "Partake in communion with the void god, spending 1d6 Madness Points to heal yourself for 2 HP per Madness Point spent.",
+        "Partake in communion with the void god, spending Madness Points to heal yourself. ⚠️ COST: Minimum 5 Madness Points spent (up to 1d6). Healing is TEMPORARY HP that decays after 3 rounds — the void does not truly heal, it merely delays. At 15+ Madness Points, this ability BACKFIRES: you take 1d4 psychic damage per Madness Point spent instead of healing. The void is not your friend.",
       level: 4,
       spellType: "ACTION",
-      effectTypes: ["healing"],
+      effectTypes: ["buff"],
 
       typeConfig: {
         school: "necrotic",
         icon: "Necrotic/Drain Soul",
-        tags: ["healing", "self", "madness", "voidcaller"],
+        tags: ["temp_hp", "self", "madness", "voidcaller", "dangerous"],
         castTime: 1,
         castTimeType: "IMMEDIATE",
       },
@@ -1455,9 +1455,14 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       },
 
       healingConfig: {
-        formula: "2 × madness_spent",
-        healingType: "vampiric",
+        formula: "2 * madness_spent",
+        healingType: "temporary_hp",
         resolution: "AUTOMATIC",
+        duration: 3,
+        durationUnit: "rounds",
+        decayNote: "Temporary HP decays after 3 rounds. The void does not truly heal.",
+        backfireThreshold: 15,
+        backfireEffect: "At 15+ Madness, take 1d4 psychic damage per Madness spent instead of gaining temp HP"
       },
 
       resourceCost: {
@@ -1465,9 +1470,10 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
         resourceValues: { mana: 14 },
         actionPoints: 1,
         components: ["verbal", "somatic"],
+        minimumMadness: 5,
       },
 
-      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 2 },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
 
       specialMechanics: {
         madnessSpending: {
@@ -1968,7 +1974,7 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       },
 
       damageConfig: {
-        formula: "4d8 + intelligence + (2 × madness_spent)",
+        formula: "4d8 + intelligence + (2 � madness_spent)",
         damageTypes: ["necrotic"],
         resolution: "DICE",
       },
@@ -3040,6 +3046,59 @@ You're not a safe, predictable caster. You're a chaos mage who gambles with sani
       },
 
       tags: ["transformation", "ultimate", "god form", "madness"],
+    },    {
+      id: "fp_void_whisper",
+      name: "Void Whisper",
+      description:
+        "The void whispers secrets that erode your sanity. At the start of each turn, if you are not actively channeling a prophecy or maintaining an illusion, you take 1d4 psychic damage. The void demands to be heard. This damage stops only when you are actively using your powers.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Scream",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psychic Scream",
+        tags: ["passive", "debuff", "self-damage", "madness", "false prophet"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "self-damage", "madness", "false prophet"],
+    },
+    {
+      id: "fp_fractured_reality",
+      name: "Fractured Reality",
+      description:
+        "Your illusions bleed into your own perception. When an illusion or deception effect you created is dispelled or seen through, you are Confused for 1 round (DC 12 Wisdom save to resist). You cannot tell what is real and what you made.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Psychic/Psychic Confusion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "psychic",
+        icon: "Psychic/Psychic Confusion",
+        tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
+        castTime: 0,
+        castTimeType: "PASSIVE",
+      },
+      targetingConfig: {
+        targetingType: "self",
+      },
+      resourceCost: {
+        resourceTypes: [],
+        resourceValues: {},
+        actionPoints: 0,
+      },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "debuff", "confusion", "illusion", "false prophet"],
     },
   ],
 };

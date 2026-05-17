@@ -13,6 +13,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
   });
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { enableDevelopmentBypass, isDevelopmentBypass, signOut, isAuthenticated: authStoreIsAuthenticated, user: authStoreUser, isDevelopmentBypass: authStoreIsDevelopmentBypass } = useAuthStore();
@@ -35,6 +36,20 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     });
     return total;
   }, [whisperTabs, partyChatUnreadCount]);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) setMobileMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile menu on navigation
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   // Save active section to localStorage when it changes
   useEffect(() => {
@@ -277,6 +292,11 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
     </div>
   );
 
+  const handleNavClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setMobileMenuOpen(false);
+  };
+
   const navigation = [
     { id: 'home', label: 'Home', icon: 'fas fa-home' },
     { id: 'rules', label: 'Rules', icon: 'fas fa-book' },
@@ -306,7 +326,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                 <button
                   key={item.id}
                   className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => handleNavClick(item.id)}
                 >
                   <i className={item.icon}></i>
                   {item.label}
@@ -333,7 +353,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                 Community
               </button>
 
-              {/* Show Account and Logout buttons if logged in, otherwise show Login and Dev Preview */}
               {authStoreIsAuthenticated && authStoreUser ? (
                 <>
                   <button
@@ -342,14 +361,7 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('Account button clicked - navigating to /account');
-                      console.log('Current location:', window.location.href);
-                      try {
-                        navigate('/account', { replace: false });
-                        console.log('Navigation called successfully');
-                      } catch (error) {
-                        console.error('Navigation failed:', error);
-                      }
+                      navigate('/account', { replace: false });
                     }}
                   >
                     <i className="fas fa-user-circle"></i>
@@ -375,7 +387,6 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Account button clicked (dev bypass) - navigating to /account');
                     navigate('/account', { replace: false });
                   }}
                 >
@@ -389,6 +400,85 @@ const LandingPage = ({ onEnterSinglePlayer, onEnterMultiplayer, onShowLogin, onS
                     Dev Preview
                   </button>
                   <button className="login-btn" onClick={onShowLogin}>
+                    <i className="fas fa-user"></i>
+                    Login
+                  </button>
+                </>
+              )}
+            </div>
+
+            <button
+              className={`mobile-hamburger ${mobileMenuOpen ? 'open' : ''}`}
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+              aria-label="Menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+
+          <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
+            <div className="mobile-menu-list">
+              {navigation.map(item => (
+                <button
+                  key={item.id}
+                  className={`mobile-menu-item ${activeSection === item.id ? 'active' : ''}`}
+                  onClick={() => handleNavClick(item.id)}
+                >
+                  <i className={item.icon}></i>
+                  {item.label}
+                </button>
+              ))}
+              <button
+                className="mobile-menu-item"
+                onClick={() => { handleCommunityClick(); setMobileMenuOpen(false); }}
+              >
+                <i className="fas fa-users"></i>
+                Community
+                {totalCommunityUnread > 0 && (
+                  <span className="mobile-menu-badge">{totalCommunityUnread > 99 ? '99+' : totalCommunityUnread}</span>
+                )}
+              </button>
+
+              {authStoreIsAuthenticated && authStoreUser ? (
+                <>
+                  <button
+                    className="mobile-menu-item"
+                    onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
+                  >
+                    <i className="fas fa-user-circle"></i>
+                    Account
+                  </button>
+                  <button
+                    className="mobile-menu-item"
+                    onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
+                  >
+                    <i className="fas fa-sign-out-alt"></i>
+                    Logout
+                  </button>
+                </>
+              ) : authStoreIsDevelopmentBypass ? (
+                <button
+                  className="mobile-menu-item"
+                  onClick={() => { navigate('/account'); setMobileMenuOpen(false); }}
+                >
+                  <i className="fas fa-user-circle"></i>
+                  Account
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="mobile-menu-item"
+                    onClick={() => { handleDevelopmentBypass(); setMobileMenuOpen(false); }}
+                  >
+                    <i className="fas fa-cog"></i>
+                    Dev Preview
+                  </button>
+                  <button
+                    className="mobile-menu-item highlight"
+                    onClick={() => { onShowLogin(); setMobileMenuOpen(false); }}
+                  >
                     <i className="fas fa-user"></i>
                     Login
                   </button>

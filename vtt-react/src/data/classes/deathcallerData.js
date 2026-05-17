@@ -222,7 +222,15 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
     title: "Necrotic Ascension",
     subtitle: "Seven Paths of Dark Power",
 
-    description: `The Deathcaller is a blood sacrifice engine. You pay for forbidden power in flesh, using your own Health as the primary fuel for every spell. This sacrifice generates Blood Tokens—crimson orbs of stored agony that you can unleash for massive damage, or risk them exploding in a lethal burst if the hunt goes on too long.`,
+    description: `The Deathcaller is a blood sacrifice engine. You pay for forbidden power in flesh, using your own Health as the primary fuel for every spell. This sacrifice generates Blood Tokens—crimson orbs of stored agony that you can unleash for massive damage, or risk them exploding in a lethal burst if the hunt goes on too long.
+
+**Blood Token Volatility**: Tokens are NOT safe storage. They are LITERALLY boiling blood orbiting your body.
+- **1-5 Tokens**: Stable. No side effects. You're in control.
+- **6-10 Tokens**: Unstable. You take 1 necrotic damage at the start of each turn as the tokens sear your flesh. Enemies within 5ft take 1 necrotic damage per token (passive aura of agony).
+- **11-15 Tokens**: Volatile. You take 1d4 necrotic damage per token at the start of each turn. All your spell saves are at -2 (the blood is interfering with your casting). You cannot be healed by others — the tokens consume healing as fuel instead.
+- **16-20 Tokens**: CRITICAL MASS. You take 1d6 necrotic damage per token per turn. You have advantage on death saves (the blood refuses to let you die) but disadvantage on all other saves. If you reach 0 HP with 16+ tokens, ALL tokens detonate — 1d10 necrotic damage per token to EVERYTHING within 30ft (including allies). ⚠️ This is the Deathcaller's signature trade-off: you become exponentially more powerful AND more self-destructive as tokens accumulate.
+
+⚠️ **Differentiation**: Unlike the Lichborne (who burns HP intentionally in Aura Mode for controlled damage) or False Prophet (who draws on faith), the Deathcaller's resource is VOLATILE by nature. Blood Tokens are not a battery — they are a chain reaction waiting to happen. The Lichborne toggles modes; the Deathcaller rides a nuclear stockpile.`,
 
     cards: [
       {
@@ -235,7 +243,7 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         title: "Blood Tokens (0-20+)",
         stats: "1 Token per 1 HP Lost",
         details:
-          "Sacrificing HP generates tokens. Spend them for +1d6 damage per token. If not spent within 10-15 mins, they burst for 1d10 self-damage each.",
+          "Sacrificing HP generates tokens. Spend them for +1d6 damage per token. ⚠️ VOLATILE: 6+ tokens = self-damage per turn, 11+ = can't be healed, 16+ = nuclear detonation on death. If not spent within 10-15 mins, they burst for 1d10 self-damage each.",
       },
       {
         title: "Necrotic Ascension",
@@ -606,26 +614,27 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
     },
 
     {
-      id: "dc_shadow_step",
-      name: "Shadow Step",
+      id: "dc_corpse_walk",
+      name: "Corpse Walk",
       description:
-        "Step through the shadows up to 30 feet. You gain +2 Dodge Rating for 1 round upon arrival. Costs 1d6 HP.",
+        "Dissolve into necrotic mist and reappear at a location where a creature has DIED this combat. You can only walk where death has already walked. The Deathcaller does not flee — they follow the corpses. Costs 1d6 HP in addition to mana.",
       level: 1,
       effectTypes: ["utility"],
       typeConfig: {
-        school: "shadow",
-        icon: "Utility/Phantom Dash",
-        tags: ["teleport", "mobility", "necrotic", "blood magic"],
+        school: "necrotic",
+        icon: "Necrotic/Death Coil",
+        tags: ["teleport", "mobility", "necrotic", "blood magic", "corpse_dependent"],
       },
       targetingConfig: {
         targetingType: "area",
         rangeType: "ranged",
-        rangeDistance: 30,
+        rangeDistance: 60,
         targetRestrictions: ["location"],
         maxTargets: 1,
         targetSelectionMethod: "manual",
         requiresLineOfSight: false,
         propagationMethod: "none",
+        restriction: "Target location must be a space where a creature has died during this combat encounter. If no creature has died, this spell CANNOT be cast.",
       },
       resourceCost: {
         resourceTypes: ["mana", "health"],
@@ -645,21 +654,17 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         selectedEffects: [
           {
             id: "teleport",
-            name: "Teleport",
-            description: "Gain +2 Dodge Rating after teleporting.",
-            statModifier: {
-              stat: "dodge",
-              magnitude: 2,
-              magnitudeType: "flat",
-            },
-            distance: 30,
-            duration: 1,
-            durationUnit: "rounds",
+            name: "Corpse Walk",
+            description: "Teleport to a location where a creature died this combat. Leaves a trail of necrotic residue.",
+            distance: 60,
+            duration: 0,
+            durationUnit: "instant",
+            restriction: "Can ONLY teleport to death locations. If nothing has died, this spell is unusable.",
           },
         ],
         power: "minor",
       },
-      tags: ["teleport", "mobility", "necrotic", "blood magic"],
+      tags: ["teleport", "mobility", "necrotic", "blood magic", "corpse_dependent"],
     },
 
     {
@@ -797,6 +802,114 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         concentrationRequired: true,
       },
       tags: ["aura", "necrotic", "debuff", "area"],
+    },
+
+    // ===== LEVEL 3 SPELLS =====
+    {
+      id: "dc_blood_pact",
+      name: "Blood Pact",
+      description:
+        "Forge a dark pact with an ally, binding your life forces together. When either of you drops below 25% HP, the other automatically takes 2d6 necrotic damage and the wounded party is healed for the same amount. The pact lasts for 1 minute or until triggered once. Costs 2 Blood Tokens to establish.",
+      level: 3,
+      spellType: "ACTION",
+      effectTypes: ["utility", "buff"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Blood Ritual",
+        tags: ["support", "protection", "pact", "blood"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["ally"],
+        maxTargets: 1,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 10 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+        classResource: { type: "blood_tokens", cost: 2 },
+      },
+      cooldownConfig: { cooldownType: "short_rest", cooldownValue: 1 },
+      resolution: "DICE",
+      specialMechanics: {
+        bloodPact: {
+          trigger: "ally_or_self_below_25_percent",
+          damageToOther: "2d6 necrotic",
+          healToWounded: "2d6",
+          maxTriggers: 1,
+          duration: "1 minute",
+        },
+      },
+      tags: ["support", "protection", "pact", "blood"],
+    },
+
+    // ===== LEVEL 4 SPELLS =====
+    {
+      id: "dc_crimson_tether",
+      name: "Crimson Tether",
+      description:
+        "Launch a tendril of solidified blood that tethers you to an enemy for 3 rounds. While tethered: the enemy takes 1d6 necrotic damage per round, their movement speed is reduced by 15 feet, and you can spend 1 Blood Token to pull yourself 15 feet toward them as a bonus action. If the enemy moves more than 40 feet from you, the tether breaks.",
+      level: 4,
+      spellType: "ACTION",
+      effectTypes: ["damage", "control"],
+      typeConfig: {
+        school: "necrotic",
+        icon: "Necrotic/Blood Lance",
+        tags: ["attack", "damage", "control", "tether", "necrotic"],
+        castTime: 1,
+        castTimeType: "IMMEDIATE",
+      },
+      targetingConfig: {
+        targetingType: "single",
+        rangeType: "ranged",
+        rangeDistance: 30,
+        targetRestrictions: ["enemy"],
+        maxTargets: 1,
+      },
+      resourceCost: {
+        resourceTypes: ["mana"],
+        resourceValues: { mana: 12 },
+        actionPoints: 1,
+        components: ["verbal", "somatic"],
+      },
+      cooldownConfig: { cooldownType: "turn_based", cooldownValue: 3 },
+      resolution: "SAVE",
+      damageConfig: {
+        formula: "1d6",
+        elementType: "necrotic",
+        damageTypes: ["necrotic"],
+        resolution: "DICE",
+        isDot: true,
+        dotDuration: 3,
+        dotTickType: "round",
+      },
+      controlConfig: {
+        controlType: "tether",
+        effects: [
+          {
+            id: "crimson_tether_slow",
+            name: "Crimson Tether",
+            description: "Movement speed reduced by 15 feet. Tethered to Deathcaller.",
+            config: {
+              speedReduction: 15,
+              maxRange: 40,
+              pullCost: { resource: "blood_tokens", amount: 1 },
+              pullDistance: 15,
+              duration: 3,
+              durationUnit: "rounds",
+              savingThrow: true,
+              savingThrowType: "constitution",
+              difficultyClass: 14,
+            },
+          },
+        ],
+      },
+      tags: ["attack", "damage", "control", "tether", "necrotic"],
     },
 
     {
@@ -972,16 +1085,16 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
     },
 
     {
-      id: "dc_binding_pain",
-      name: "Binding Pain",
+      id: "dc_agony",
+      name: "Agony",
       description:
-        "Paralyze enemies with excruciating pain, dealing damage and immobilizing them.",
+        "Afflict enemies with escalating pain — they CAN still move, but each step costs them. Targets take escalating damage each time they try to move or take an action. This is CHOICE-BASED control, not binary paralyze. The enemy chooses: stay still and take no extra damage, or act and suffer.",
       level: 6,
       effectTypes: ["damage", "control"],
       typeConfig: {
         school: "necrotic",
         icon: "Psychic/Twist Pain",
-        tags: ["crowd control", "paralysis", "necrotic", "area"],
+        tags: ["crowd control", "choice-based", "necrotic", "area"],
       },
       targetingConfig: {
         targetingType: "area",
@@ -1014,9 +1127,10 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         resolution: "DICE",
       },
       controlConfig: {
-        controlType: "incapacitation",
-        strength: "strong",
-        duration: 1,
+        controlType: "choice_based_penalty",
+        strength: "moderate",
+        description: "Targets are NOT paralyzed. Instead, each time a target moves, attacks, or casts a spell, they take 2d6 additional necrotic damage. They may choose to do nothing and take no extra damage. This is tactical pressure, not binary lockdown.",
+        duration: 3,
         durationUnit: "rounds",
         savingThrow: {
           ability: "constitution",
@@ -1025,21 +1139,21 @@ You're not a mage who casts spells with mana—you're a BLOOD MAGE who pays in l
         },
         effects: [
           {
-            id: "pain_paralysis",
-            name: "Pain Paralysis",
-            description: "Paralyzed by overwhelming pain",
+            id: "agony_penalty",
+            name: "Agony",
+            description: "2d6 necrotic damage each time the target moves, attacks, or casts a spell. They may do nothing to avoid extra damage.",
             savingThrow: {
               ability: "constitution",
-              difficultyClass: 15,
+              difficultyClass: 16,
               saveOutcome: "negates",
             },
-            condition: "paralyzed",
-            duration: 1,
+            condition: "agony",
+            duration: 3,
             durationUnit: "rounds",
           },
         ],
       },
-      tags: ["crowd control", "paralysis", "necrotic", "area"],
+      tags: ["crowd control", "choice-based", "necrotic", "area"],
     },
 
     {

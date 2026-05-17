@@ -310,53 +310,24 @@
 
 /* Small Screens / Mobile (below 768px) */
 @media screen and (max-width: 768px) {
-  .account-header-new {
-    padding: 0.75rem;
-    gap: 0.5rem;
-  }
-
   .user-name-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
   }
 
   .user-account-id {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
   }
 
-  .account-avatar-large {
-    width: 40px;
-    height: 40px;
-  }
-
-  .account-welcome .user-display-name {
-    font-size: 1rem;
-  }
-
-  .fan-container {
-    flex-wrap: wrap;
-    gap: 0.25rem;
-  }
-
+  .fan-tabs,
+  .fan-container,
   .fan-tab {
-    min-width: calc(33.33% - 0.5rem);
-    padding: 0.5rem;
-    font-size: 0.8rem;
+    display: none;
   }
 
   .header-actions-new {
-    gap: 0.5rem;
-  }
-
-  .action-btn span {
     display: none;
-    /* Hide text, show only icons on very small screens */
-  }
-
-  .action-btn {
-    min-width: 40px;
-    width: 40px;
   }
 }
 
@@ -1846,9 +1817,10 @@
   }
 
   .account-header-new {
-    flex-direction: column;
-    gap: var(--pf-space-mobile-4);
-    padding: var(--pf-space-mobile-6) var(--pf-space-mobile-4);
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     min-height: auto;
     position: sticky;
     top: 0;
@@ -1857,74 +1829,42 @@
     background: linear-gradient(135deg, rgba(244, 241, 232, 0.98) 0%, rgba(232, 224, 208, 0.98) 100%);
   }
 
-  .account-icon-section {
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-    gap: var(--pf-space-mobile-2);
+  .account-icon-section.clickable {
+    flex: 1;
+    padding: 0.5rem;
+    gap: 0.5rem;
   }
 
   .account-avatar-large {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    border-width: 2px;
+  }
+
+  .account-avatar-large i {
+    font-size: 1.3rem;
   }
 
   .account-welcome .user-display-name {
-    font-size: var(--pf-font-size-mobile-lg);
-    margin-top: var(--pf-space-mobile-2);
+    font-size: 0.9rem;
+    margin-top: 0;
   }
 
-  .guest-notice {
-    margin-top: var(--pf-space-mobile-1);
-    font-size: var(--pf-font-size-mobile-xs);
-  }
-
-  .fan-container {
-    flex-direction: row;
-    gap: var(--pf-space-mobile-1);
-    width: 100%;
-    padding: var(--pf-space-mobile-2);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .fan-container::-webkit-scrollbar {
+  .edit-link {
     display: none;
   }
 
-  .fan-tab {
-    margin: 0;
-    min-width: 120px;
-    border-radius: var(--pf-border-radius-lg);
-    width: 100%;
-    padding: var(--pf-space-mobile-4) var(--pf-space-mobile-3);
-    font-size: var(--pf-font-size-mobile-base);
-    flex-shrink: 0;
-    min-height: var(--pf-touch-target-comfortable);
-    white-space: nowrap;
+  .user-account-id {
+    font-size: 0.65rem;
+  }
+
+  .fan-tabs {
+    display: none;
   }
 
   .header-actions-new {
-    justify-content: center;
-    gap: var(--pf-space-mobile-3);
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .action-btn {
-    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-4);
-    font-size: var(--pf-font-size-mobile-sm);
-    gap: var(--pf-space-mobile-2);
-    min-height: var(--pf-touch-target-min);
-    flex: 1;
-    min-width: 120px;
-    max-width: 140px;
-  }
-
-  .home-btn,
-  .logout-btn {
-    min-width: 100px;
+    display: none;
   }
 
   .account-main {
@@ -2256,26 +2196,211 @@
   }
 }
 
+/* Account Mobile Hamburger Menu */
+.account-mobile-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.account-mobile-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #8b4513;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.account-mobile-hamburger:hover {
+  border-color: #8b4513;
+  background: rgba(139, 69, 19, 0.08);
+}
+
+.account-mobile-hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.account-mobile-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.account-mobile-hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.account-mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: linear-gradient(135deg, rgba(244, 241, 232, 0.98) 0%, rgba(232, 224, 208, 0.98) 100%);
+  border-bottom: 3px solid #8b4513;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  position: sticky;
+  top: 56px;
+  z-index: 99;
+}
+
+.account-mobile-menu.open {
+  max-height: 600px;
+  padding: 8px 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.account-mobile-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-mobile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #4a3728;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.account-mobile-nav-item i {
+  width: 20px;
+  text-align: center;
+  color: #8b4513;
+  font-size: 14px;
+}
+
+.account-mobile-nav-item:hover {
+  background: rgba(139, 69, 19, 0.08);
+  border-left-color: #8b4513;
+}
+
+.account-mobile-nav-item.active {
+  background: rgba(212, 175, 55, 0.12);
+  border-left-color: #d4af37;
+  color: #2d1810;
+  font-weight: 600;
+}
+
+.account-mobile-nav-item.active i {
+  color: #d4af37;
+}
+
+.account-mobile-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 69, 19, 0.3), transparent);
+  margin: 6px 16px;
+}
+
+.account-mobile-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-mobile-action-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 13px 20px;
+  background: none;
+  border: none;
+  border-left: 4px solid transparent;
+  color: #6b5443;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  position: relative;
+}
+
+.account-mobile-action-item i {
+  width: 20px;
+  text-align: center;
+  color: #8b4513;
+  font-size: 14px;
+}
+
+.account-mobile-action-item:hover {
+  background: rgba(139, 69, 19, 0.08);
+  border-left-color: #8b4513;
+}
+
+.account-mobile-action-item.danger {
+  color: #a63d3d;
+}
+
+.account-mobile-action-item.danger i {
+  color: #a63d3d;
+}
+
+.account-mobile-badge {
+  margin-left: auto;
+  background: #d4af37;
+  color: #2c1810;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .account-mobile-hamburger {
+    display: flex;
+  }
+
+  .account-mobile-menu {
+    display: flex;
+  }
+}
+
 /* Small mobile devices */
 @media (max-width: 480px) {
   .account-header-new {
-    padding: var(--pf-space-mobile-4);
+    padding: 0.4rem 0.75rem;
   }
 
-  .fan-tab {
-    min-width: 100px;
-    padding: var(--pf-space-mobile-3) var(--pf-space-mobile-2);
-    font-size: var(--pf-font-size-mobile-sm);
+  .account-avatar-large {
+    width: 32px;
+    height: 32px;
   }
 
-  .header-actions-new {
-    gap: var(--pf-space-mobile-2);
+  .account-welcome .user-display-name {
+    font-size: 0.85rem;
   }
 
-  .action-btn {
-    padding: var(--pf-space-mobile-2) var(--pf-space-mobile-3);
-    font-size: var(--pf-font-size-mobile-xs);
-    min-width: 100px;
+  .account-mobile-hamburger {
+    width: 40px;
+    height: 40px;
+  }
+
+  .account-mobile-nav-item,
+  .account-mobile-action-item {
+    padding: 12px 16px;
+    font-size: 14px;
   }
 
   .stats-overview {

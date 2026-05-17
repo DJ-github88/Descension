@@ -41,14 +41,16 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Strengths**:
 - Versatile support through multiple totem combinations
 - Area control and zone denial
-- Sustained healing and buffing capabilities
+- Sustained healing and buffing for allies (cannot self-heal through totems)
 - Powerful synergy effects when totems are combined
 - Adaptable to different combat scenarios
 
 **Weaknesses**:
-- Totems can be destroyed by enemies
+- Totems can be destroyed by enemies (triggers Shattered Conduit backlash)
+- Cannot receive healing from your own totems (Spirit Channel restriction)
+- Without active totems, your spells weaken and cost more (Totem Bond)
 - Requires setup time to achieve maximum effectiveness
-- Vulnerable while placing totems
+- Vulnerable while placing totems -- enemies targeting your totems also hurt YOU
 - Limited direct damage without totem synergies
 - Positioning-dependent playstyle`,
     },
@@ -94,7 +96,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 **Totemic Synergy**: 1 + 1 (totem placed) = **2**
 **Mana**: 47 - 3 = 44/60
 
-**Healing Totem Effect**: All allies within 10 ft heal 1d6 → [5] = 5 HP
+**Healing Totem Effect**: All allies within 10 ft (except you) heal 1d6 → [5] = 5 HP
 **Guardian Totem Effect**: All allies within 10 ft gain 5-damage shield
 
 **Your Party's Tank**: "I feel... stronger. Protected."
@@ -104,7 +106,7 @@ In roleplay, Primalists are often tribal leaders, spiritual guides, or wandering
 
 **Turn 2 - Building the Circle (Totems: 2 → 4, Synergy: 2 → 6)**
 
-*The demons attack. Your tank takes a hit for 12 damage, but the Guardian shield absorbs 5, reducing it to 7. The Healing Totem pulses, healing everyone for 5 HP.*
+*The demons attack. Your tank takes a hit for 12 damage, but the Guardian shield absorbs 5, reducing it to 7. The Healing Totem pulses, healing your allies for 5 HP (you cannot receive your own totem healing).*
 
 **Start of Turn**: Each active totem generates +1 Synergy
 **Totemic Synergy**: 2 + 2 (2 totems active) = **4**
@@ -340,11 +342,11 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       title: "The Eight Totems",
       headers: ["Totem", "Passive Effect (10ft Radius)", "Mana"],
       rows: [
-        ["Healing", "Heals allies 1d6 HP/turn", "3"],
+        ["Healing", "Heals allies 1d6 HP/turn (not you)", "3"],
         ["Guardian", "Shield absorbs 5 dmg/attack", "3"],
         ["Flamecaller", "+1d6 fire damage to attacks", "3"],
         ["Storm", "+1 Spell Attack/Save DC", "3"],
-        ["Rejuvenation", "Heals 1d4 HP at turn start", "3"],
+        ["Rejuvenation", "Heals allies 1d4 HP at turn start (not you)", "3"],
         ["Earth", "+2 Armor, resist non-magical", "3"],
         ["Frost", "Enemies -10ft movement speed", "3"],
         ["Wind", "+10ft Speed, adv Dex saves", "3"],
@@ -359,7 +361,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           "Healing Sanctuary",
           "Healing, Rejuvenation, Guardian, Earth",
           "12",
-          "25% Dmg Reduc, +3 Armor, 3d6 Heal",
+          "25% Dmg Reduc, +3 Armor, 3d6 Heal (allies only, not you)",
         ],
         [
           "Elemental Fury",
@@ -377,20 +379,20 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           "Storm of Wrath",
           "Flamecaller, Storm, Frost, Healing",
           "15",
-          "+Elemental Dmg, Lifesteal",
+          "+Elemental Dmg, -2 Resist to All Elements on Enemies",
         ],
         [
           "Vital Grove",
           "Healing, Rejuvenation, Guardian, Wind",
           "12",
-          "Rapid HP Regen, +Speed, +Def",
+          "Rapid HP Regen (allies only, not you), +Speed, +Def",
         ],
       ],
     },
 
     strategicConsiderations: {
       title: "Tactical Shamanism",
-      content: `**Phase 1 — The Anchor (1–3 Totems)**: Focus on survival. Place Healing or Guardian totems first to protect your party and yourself while you begin building your synergy pool.
+      content: `**Phase 1 — The Anchor (1–3 Totems)**: Focus on survival. Place Healing or Guardian totems first to protect your party while you begin building your synergy pool (you cannot receive your own totem healing).
 
 **Phase 2 — Resonance (4+ Totems)**: Once you hit 4 totems, you are a priority target. Keep Earth totems near your fragile totems to ensure they aren't destroyed. Use repositioning (1 Action) to keep your circle optimal as enemies move.
 
@@ -459,13 +461,13 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
         specPassive: {
           name: "Earth's Embrace",
           description:
-            "Your healing totems (Healing, Rejuvenation) heal for 50% more. Your defensive totems (Guardian, Earth) grant +1 additional Armor. Healing and defensive totems can overlap their effects with any synergy, even if they would normally be mutually exclusive.",
+            "Your healing totems (Healing, Rejuvenation) heal allies for 50% more (still cannot heal yourself). Your defensive totems (Guardian, Earth) grant +1 additional Armor. Healing and defensive totems can overlap their effects with any synergy, even if they would normally be mutually exclusive.",
         },
 
         keyAbilities: [
           "Sanctuary Aura - Healing Sanctuary lasts 1 additional turn",
           "Earthen Resilience - Totems regenerate 5 HP per turn",
-          "Sacred Ground - Allies standing near totems gain +1 Armor",
+          "Sacred Ground - Allies standing near totems gain +1 Armor (you receive armor/speed/damage buffs from totems, but never healing)",
         ],
       },
       {
@@ -483,7 +485,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
           "Elemental totems deal +1d6 additional damage",
           "Elemental Fury synergy deals 3d6 damage per element",
           "Can trigger synergies with only 3 totems",
-          "Storm of Wrath heals for 100% of damage dealt",
+          "Storm of Wrath applies -2 resistance to all elements on enemies hit for 3 rounds",
         ],
 
         weaknesses: [
@@ -587,7 +589,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
             amount: "1d6",
             timing: "START_OF_TURN",
             description:
-              "Heals all allies within range for 1d6 HP at the start of each turn",
+              "Heals all allies within range (except the Primalist who placed it) for 1d6 HP at the start of each turn",
           },
           {
             type: "SUMMON",
@@ -3543,14 +3545,73 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       resolution: "DICE",
       tags: ["summoning", "nature", "legendary", "primalist", "synergy"],
     },
-  ],
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "primalist_spirit_channel",
+      name: "Spirit Channel",
+      description:
+        "You channel primal power through your totems, acting as a conduit for the spirits. This bond is one-way -- you pour your life force into the totems but cannot receive their healing in return. You are never affected by the healing effect of your own totems (Healing Totem, Rejuvenation Totem, Healing Sanctuary, Vital Grove). Other totem effects (armor, damage, speed) still apply to you normally.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Nature/Spirit Bond",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Spirit Bond",
+        tags: ["passive", "primalist", "restriction"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "primalist", "restriction"],
+    },
+    {
+      id: "primalist_totem_bond",
+      name: "Totem Bond",
+      description:
+        "Your power flows through your totems. When you have 0 active totems, your connection to the primal spirits weakens: all your spell damage is reduced by 2 and all spell mana costs increase by 2. This penalty is removed the moment you place your first totem.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "Nature/Wither",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Wither",
+        tags: ["passive", "primalist", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "primalist", "weakness"],
+    },
+    {
+      id: "primalist_shattered_conduit",
+      name: "Shattered Conduit",
+      description:
+        "When one of your totems is destroyed by enemy action (attacked, dispelled, or targeted by a hostile ability), the spiritual backlash tears through you. You take 1d6 psychic damage and lose 3 Totemic Synergy (minimum 0). Totems that expire naturally or are dismissed by you do not trigger this effect.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "Nature/Entangling Roots",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "nature",
+        icon: "Nature/Entangling Roots",
+        tags: ["passive", "primalist", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "primalist", "weakness"],
+    },
+    ],
 
-  // Spell Pools by Level
   spellPools: {
     1: [
       "primalist_earth_bolt",
       "primalist_basic_healing_totem",
       "primalist_natures_blessing",
+      "primalist_spirit_channel",
+      "primalist_totem_bond",
     ],
     2: [
       "primalist_storm_gale",
@@ -3561,6 +3622,7 @@ You're not a direct damage dealer. You're a TOTEM MASTER. You place totems that 
       "primalist_venomous_totem",
       "primalist_natures_grasp",
       "primalist_ancestral_bond",
+      "primalist_shattered_conduit",
     ],
     4: [
       "primalist_earthquake_strike",

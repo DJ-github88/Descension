@@ -3170,5 +3170,63 @@ You may spend talent points in any tree, but your specialization's tree synergiz
       resolution: "COINS",
       tags: ["damage", "coin flip", "ultimate", "jackpot", "universal"],
     },
+    // ===== PASSIVE ABILITIES =====
+    {
+      id: "gambler_calculated_risk",
+      name: "Calculated Risk",
+      description:
+        "Every bet has a cost. When you spend Fortune Points to modify a roll or outcome, you take 1d4 psychic damage per Fortune Point spent. The universe demands payment for every twist of fate. This damage cannot be reduced or prevented. Gambling is pain.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "General/Crossed Axes",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "General/Crossed Axes",
+        tags: ["passive", "gambler", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "gambler", "weakness"],
+    },
+    {
+      id: "gambler_house_edge",
+      name: "House Edge",
+      description:
+        "The house always wins in the long run. When you roll a natural 1 on any gambling roll (dice, coins, cards), you lose all unspent Fortune Points and cannot generate new Fortune Points until the start of your next turn. Lady Luck is fickle -- she giveth and she taketh away.",
+      level: 1,
+      spellType: "PASSIVE",
+      icon: "General/Target",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "General/Target",
+        tags: ["passive", "gambler", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "gambler", "weakness"],
+    },
+    {
+      id: "gambler_busted",
+      name: "Busted",
+      description:
+        "When you have 0 Fortune Points, you're not just unlucky -- you're marked. You have disadvantage on all gambling-based resolution rolls (dice rolls, coin flips, card draws used for spell effects) until you gain at least 1 Fortune Point. A gambler with no chips at the table is just a person making bad decisions.",
+      level: 3,
+      spellType: "PASSIVE",
+      icon: "General/Exhaustion",
+      effectTypes: ["passive"],
+      typeConfig: {
+        school: "physical",
+        icon: "General/Exhaustion",
+        tags: ["passive", "gambler", "weakness"],
+      },
+      targetingConfig: { targetingType: "self" },
+      resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0 },
+      resolution: "AUTOMATIC",
+      tags: ["passive", "gambler", "weakness"],
+    },
   ],
 };

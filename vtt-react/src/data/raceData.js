@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Race Data Module
  *
  * Defines all playable races and their subraces with complete mechanical data
@@ -150,10 +150,9 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'utility'],
                         typeConfig: {
                             school: 'frost',
-                            secondaryElement: 'frost',
                             icon: 'spell_frost_frostarmor',
                             tags: ['resistance', 'frost', 'environmental', 'passive']
                         },
@@ -168,6 +167,175 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                         stat: 'frost_resistance',
                                         magnitude: 50,
                                         magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'frostborn_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on snow or ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['snow', 'ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'stealth',
+                            selectedEffects: [{
+                                id: 'snow_tracks',
+                                name: 'Trackless Snow',
+                                description: 'Leave no tracks in snow'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'frost_rage_nordmark',
+                        name: 'Frost Rage',
+                        description: 'When death draws near, the ancient berserker blood awakens, flooding your veins with glacial fury that turns your strikes to ice and hardens your flesh against steel.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'frost',
+                            icon: 'ability_warrior_rampage',
+                            tags: ['rage', 'combat', 'berserker', 'frost']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'frost_melee_damage',
+                                    name: 'Frost Strikes',
+                                    description: 'Your melee attacks deal an additional 1d8 frost damage',
+                                    statModifier: {
+                                        stat: 'frost_damage_melee',
+                                        magnitude: '1d8',
+                                        magnitudeType: 'dice'
+                                    }
+                                },
+                                {
+                                    id: 'physical_resistance',
+                                    name: 'Frozen Hide',
+                                    description: 'Your flesh hardens like ice, granting 50% resistance to physical damage',
+                                    statModifier: {
+                                        stat: 'physical_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    id: 'prone_immunity',
+                                    name: 'Unshakable',
+                                    description: 'You are immune to being knocked prone while the rage endures',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Immune to prone'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'restriction',
+                            effects: [
+                                {
+                                    id: 'healing_blocked',
+                                    name: 'Frost Haze',
+                                    description: 'Healing spells cannot target you; only potions from an adjacent ally, regeneration, or killing blows restore health',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Healing blocked except potions from adjacent ally, regen, and killing blows'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        triggerConfig: {
+                            requiredConditions: {
+                                healthBelow: 50
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'blood_on_snow_nordmark',
+                        name: 'Blood on the Snow',
+                        description: 'When the cold has taken hold of your enemy and their blood begins to slow, a single well-placed strike can end them \u2014 crimson on white, mercy in the ice.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'frost',
+                            icon: 'spell_frost_frostbolt',
+                            tags: ['combat', 'critical', 'frost', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'combatAdvantage',
+                            effects: [
+                                {
+                                    id: 'auto_crit_wounded',
+                                    name: 'Executioner\'s Strike',
+                                    description: 'Melee attacks automatically critically hit enemies below 30% HP who have a frost debuff. Once per target per combat.',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Auto-crit enemies below 30% HP with frost debuff, once per target per combat'
                                     }
                                 }
                             ],
@@ -188,127 +356,7 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         cooldownConfig: {
                             cooldownType: 'none',
                             cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'battle_fury_nordmark',
-                        name: 'Battle Fury',
-                        description: 'When death draws near, the ancient berserker blood awakens, flooding your veins with the fury that carved kingdoms from ice, trading caution for primal strength that echoes your warrior-king ancestors.',
-                        level: 1,
-                        icon: 'ability_warrior_rampage',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'physical',
-                            icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'combat', 'berserker', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statEnhancement',
-                            effects: [
-                                {
-                                    id: 'berserker_slashing_damage',
-                                    name: 'Rage Slashing Damage',
-                                    description: 'The fury of your warrior-king ancestors sharpens every blade strike with primal rage',
-                                    statModifier: {
-                                        stat: 'slashing_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_bludgeoning_damage',
-                                    name: 'Rage Bludgeoning Damage',
-                                    description: 'Each blow carries the weight of glacier-splitting hammers from the age of warrior-kings',
-                                    statModifier: {
-                                        stat: 'bludgeoning_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_piercing_damage',
-                                    name: 'Rage Piercing Damage',
-                                    description: 'Your strikes pierce like the winter winds that carved your bloodline',
-                                    statModifier: {
-                                        stat: 'piercing_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_ranged_damage',
-                                    name: 'Rage Ranged Damage',
-                                    description: 'Even thrown weapons sing with the fury of the eternal white',
-                                    statModifier: {
-                                        stat: 'ranged_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_defense',
-                                    name: 'Reckless Defense',
-                                    description: 'The rage burns so hot it cares nothing for defense, leaving you exposed to the steel you should fear',
-                                    statModifier: {
-                                        stat: 'armor',
-                                        magnitude: -2,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_saves',
-                                    name: 'Reckless Courage',
-                                    description: 'The berserker fury makes you reckless, ignoring dangers that wiser folk would avoid',
-                                    statModifier: {
-                                        stat: 'saving_throws',
-                                        magnitude: -2,
-                                        magnitudeType: 'flat'
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered',
-                            validTargets: ['self']
-                        },
-                        triggerConfig: {
-                            global: {
-                                enabled: true,
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    {
-                                        id: 'health_threshold',
-                                        category: 'health',
-                                        name: 'Health Threshold',
-                                        parameters: {
-                                            percentage: 50,
-                                            comparison: 'less_than',
-                                            perspective: 'self',
-                                            threshold_type: 'percentage'
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'long_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        }
                     },
                     {
                         id: 'rage_burn_nordmark',
@@ -416,10 +464,9 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'utility'],
                         typeConfig: {
                             school: 'frost',
-                            secondaryElement: 'frost',
                             icon: 'spell_frost_frostarmor',
                             tags: ['resistance', 'frost', 'environmental', 'passive']
                         },
@@ -434,6 +481,166 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                                         stat: 'frost_resistance',
                                         magnitude: 50,
                                         magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'frostborn_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on snow or ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['snow', 'ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'stealth',
+                            selectedEffects: [{
+                                id: 'snow_tracks',
+                                name: 'Trackless Snow',
+                                description: 'Leave no tracks in snow'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'runic_inscription_nordmark',
+                        name: 'Runic Inscription',
+                        description: 'Close your eyes and the runes answer \u2014 ancient symbols of power carved into the world\'s bones, each stroke a word of creation that reshapes reality itself.',
+                        level: 1,
+                        icon: 'spell_shadow_coneofsilence',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'arcane',
+                            icon: 'spell_shadow_coneofsilence',
+                            tags: ['rune', 'warding', 'divination', 'arcane']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Carve a rune into a surface. Choose one: Rune of Warding (10ft zone, ally entering gains immunity to next status effect, 1 min), Rune of Wrath (attach to weapon, next attack deals 2d8 frost + slow 10ft for 1 round), or Rune of Sight (see through from 1 mile, max 2 active).',
+                            effects: [
+                                {
+                                    id: 'rune_of_warding',
+                                    name: 'Rune of Warding',
+                                    description: 'Carve a protective rune. Allies entering the 10ft zone gain immunity to the next status effect. Lasts 1 minute or absorbs one effect.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Immunity to next status effect within 10ft zone'
+                                    }
+                                },
+                                {
+                                    id: 'rune_of_wrath',
+                                    name: 'Rune of Wrath',
+                                    description: 'Enchant a weapon with frost. Next attack deals 2d8 frost damage and slows target 10ft for 1 round. One-use.',
+                                    statModifier: {
+                                        stat: 'frost_damage_weapon',
+                                        magnitude: '2d8',
+                                        magnitudeType: 'dice'
+                                    }
+                                },
+                                {
+                                    id: 'rune_of_sight',
+                                    name: 'Rune of Sight',
+                                    description: 'Carve a scrying rune. See through it from up to 1 mile away. Maximum 2 active runes.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Remote vision from up to 1 mile, max 2 active'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'runic_inscription',
+                                name: 'Runic Inscription',
+                                description: 'Carve a rune into a surface to create a magical effect'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 8,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'ancestral_echo_nordmark',
+                        name: 'Ancestral Echo',
+                        description: 'The spirits of your ancestors linger at the edge of fate, and when fortune turns against you with the cruelest roll, they reach through the veil to grant you one more chance.',
+                        level: 1,
+                        icon: 'spell_holy_divineintervention',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'spirit',
+                            icon: 'spell_holy_divineintervention',
+                            tags: ['reroll', 'saving_throw', 'ancestral', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Reroll a natural 1 on any saving throw. Must take the new result. Once per long rest.',
+                            effects: [
+                                {
+                                    id: 'ancestral_reroll',
+                                    name: 'Ancestral Intervention',
+                                    description: 'When you roll a natural 1 on a saving throw, you may reroll it. You must take the new result. Once per long rest.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Reroll natural 1 on saving throws, once per long rest'
                                     }
                                 }
                             ],
@@ -452,69 +659,9 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                             components: []
                         },
                         cooldownConfig: {
-                            cooldownType: 'none',
-                            cooldownValue: 0
-                        },
-                    },
-                    {
-                        id: 'ancestral_whispers_nordmark',
-                        name: 'Ancestral Whispers',
-                        description: 'Close your eyes and the ancestors answer—voices of frozen kings and shield-maidens murmuring through the ice, offering glimpses of paths unseen and truths unspoken, though every vision demands a story told at the longhouse fire in payment.',
-                        level: 1,
-                        icon: 'spell_shadow_coneofsilence',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'ancestral',
-                            icon: 'spell_shadow_coneofsilence',
-                            tags: ['spirit', 'guidance', 'ancestral']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
-                            effects: [
-                                {
-                                    name: 'Ancestral Guidance',
-                                    description: 'Advantage on one Intelligence or Spirit check',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Ancestral spirits provide insight and spirit'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'prediction',
-                                name: 'Prediction',
-                                description: 'Communicate with ancestor spirits for guidance and spirit.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
+                            cooldownType: 'long_rest',
                             cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        }
                     },
                     {
                         id: 'vision_vulnerability_nordmark',
@@ -659,6 +806,31 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                                         level: 'moderate',
                                         description: 'Never suffer exhaustion from frost weather'
                                     }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'deep_frost_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
                                 }
                             ],
                             durationValue: 0,
@@ -668,11 +840,18 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         },
                         utilityConfig: {
                             utilityType: 'survival',
-                            selectedEffects: [{
-                                id: 'arctic_survival',
-                                name: 'Arctic Survival',
-                                description: 'Survive in arctic conditions indefinitely without shelter or supplies'
-                            }],
+                            selectedEffects: [
+                                {
+                                    id: 'arctic_survival',
+                                    name: 'Arctic Survival',
+                                    description: 'Survive in arctic conditions indefinitely without shelter or supplies'
+                                },
+                                {
+                                    id: 'snow_tracks',
+                                    name: 'Trackless Snow',
+                                    description: 'Leave no tracks in snow'
+                                }
+                            ],
                             duration: 0,
                             durationUnit: 'instant',
                             power: 'major'
@@ -692,47 +871,90 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         },
                     },
                     {
-                        id: 'winters_guidance_nordmark',
-                        name: 'Winter\'s Guidance',
-                        description: 'The wind itself bends to whisper in your ear, carrying the breath of ancient blizzards that reveal paths no map has ever charted and foretell the fury of storms hours before the first snowfall.',
+                        id: 'flash_freeze_nordmark',
+                        name: 'Flash Freeze',
+                        description: 'With a gesture, the world around you surrenders to the deep cold \u2014 water snaps to ice, ground crystallizes, and your enemies find themselves locked in a prison of frost.',
                         level: 1,
-                        icon: 'spell_nature_naturetouchgrow',
+                        icon: 'spell_frost_frozenorb',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
+                        effectTypes: ['damage', 'debuff', 'utility'],
                         typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'winter',
-                            icon: 'spell_nature_naturetouchgrow',
-                            tags: ['guidance', 'weather', 'survival']
+                            school: 'frost',
+                            icon: 'spell_frost_frozenorb',
+                            tags: ['aoe', 'frost', 'terrain', 'restraint']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'restrain_enemies',
+                                    name: 'Frozen Bonds',
+                                    description: 'Enemies in 30ft radius: CON DC14 save or Restrained. Takes 1d6 frost damage per round. STR DC14 action to break free. Half effect on successful save.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Restrained, 1d6 frost/round, STR DC14 action to break free'
+                                    }
+                                },
+                                {
+                                    id: 'ice_terrain_debuff',
+                                    name: 'Frozen Ground',
+                                    description: 'Ground becomes ice terrain for 10 minutes. Difficult terrain for enemies. AGI save or prone when running. Frost-resistant allies unaffected.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ice terrain, enemies difficult terrain, AGI save or prone when running'
+                                    }
+                                }
+                            ],
+                            durationValue: 10,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        damageConfig: {
+                            damageType: 'frost',
+                            dice: '1d6',
+                            saveStat: 'constitution',
+                            dc: 14,
+                            halfOnSave: true
                         },
                         utilityConfig: {
                             utilityType: 'environment',
-                            selectedEffects: [{
-                                id: 'weather',
-                                name: 'Weather',
-                                description: 'Can sense safe paths through blizzards and predict weather changes within 24 hours.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            selectedEffects: [
+                                {
+                                    id: 'freeze_water',
+                                    name: 'Freeze Water',
+                                    description: 'All water within 30ft becomes solid ice, creating bridges and sealing doors'
+                                },
+                                {
+                                    id: 'ice_terrain_utility',
+                                    name: 'Ice Terrain',
+                                    description: 'Ground becomes ice terrain for 10 minutes'
+                                }
+                            ],
+                            duration: 10,
+                            durationUnit: 'minutes',
+                            power: 'major'
+                        },
+                        triggerConfig: {
+                            requiredConditions: {
+                                terrain_type: ['cold', 'arctic', 'temperate', 'underground']
+                            }
                         },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'self_centered',
+                            rangeType: 'aoe',
+                            radius: 30,
+                            aoeType: 'sphere'
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
+                            actionPoints: 2,
+                            mana: 10,
+                            components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            cooldownType: 'short_rest',
+                            cooldownType: 'long_rest',
                             cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        }
                     },
                     {
                         id: 'heat_frailty_nordmark',
@@ -983,19 +1205,18 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     charisma: -3
                 },
                 traits: [
-                    {
+{
                         id: 'stone_skin_grimheart',
                         name: 'Stone Skin',
-                        description: 'Generations of working the unforgiving deep earth have hardened your flesh and bones to near-stone, granting protection but forever slowing your movements like the mountains themselves.',
+                        description: 'Generations of working the unforgiving deep earth have hardened your flesh and bones to near-stone, granting protection but forever slowing your movements like the mountains themselves. When struck by bludgeoning melee attacks, jagged mineral shards erupt from impact points—attackers take 1d4 piercing damage, increasing to 1d6 when you are below half health. Underground rubble and collapsed tunnels are never difficult terrain for you. You sense structural weaknesses in stone, always knowing whether a surface is load-bearing or collapsible.',
                         level: 1,
-                        icon: 'inv_misc_stonetablet_04',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'stone',
-                            icon: 'inv_misc_stonetablet_04',
-                            tags: ['armor', 'stone', 'defense', 'passive']
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['armor', 'stone', 'defense', 'passive', 'reactive']
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
@@ -1050,54 +1271,130 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         },
                     },
                     {
-                        id: 'earth_sense_grimheart',
-                        name: 'Earth Sense',
-                        description: 'Press your palms to the stone and the deep earth answers—tremors whisper of silver veins and hidden hollows, of passages carved by water and pressure across millennia, revealing what the darkness has kept since the mountains were young.',
+                        id: 'tunnel_crash_grimheart',
+                        name: 'Tunnel Crash',
+                        description: 'You slam your fists into a stone surface with devastating force, sending shockwaves through solid rock. All creatures beyond the stone in a 30-foot cone must make a CON save DC 14 or be Stunned for 1 round and take 2d6 bludgeoning damage, or half damage on a successful save. Thin walls under 2 feet shatter, creating a passage. Creatures with Tremorsense within 60 feet are deafened for 1 round. Only works on stone, earth, or mineral surfaces.',
                         level: 1,
-                        icon: 'spell_nature_earthquake',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
+                        effectTypes: ['damage', 'debuff', 'utility'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'detection',
-                            icon: 'spell_nature_earthquake',
-                            tags: ['detection', 'earth', 'minerals']
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['damage', 'bludgeoning', 'stun', 'utility', 'stone']
+                        },
+                        damageConfig: {
+                            damageType: 'bludgeoning',
+                            diceCount: 2,
+                            diceSize: 6,
+                            saveAttribute: 'constitution',
+                            saveDC: 14,
+                            halfDamageOnSave: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'stun_effect',
+                                    name: 'Stunned',
+                                    description: 'Stunned for 1 round on failed CON save',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Stunned by shockwave through stone'
+                                    }
+                                },
+                                {
+                                    id: 'deafen_tremorsense',
+                                    name: 'Deafen Tremorsense',
+                                    description: 'Tremorsense creatures within 60ft deafened 1 round',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Seismic shock disrupts tremorsense'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
                         },
                         utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'detection',
-                                name: 'Detection',
-                                description: 'Detect minerals and underground passages within 60 feet.'
-                            }],
+                            utilityType: 'terrain',
+                            selectedEffects: [
+                                {
+                                    id: 'shatter_wall',
+                                    name: 'Shatter Thin Walls',
+                                    description: 'Thin walls (under 2ft) shatter creating passage'
+                                }
+                            ],
                             duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
+                            durationUnit: 'permanent',
+                            power: 'moderate'
                         },
                         targetingConfig: {
                             targetingType: 'area',
-                            rangeType: 'ranged',
-                            rangeDistance: 60,
-                            aoeShape: 'sphere',
+                            rangeType: 'self_centered',
+                            aoeShape: 'cone',
                             aoeParameters: {
-                                radius: 60
+                                length: 30
                             }
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
+                            actionPoints: 2,
+                            mana: 8,
+                            components: ['somatic']
                         },
                         cooldownConfig: {
                             cooldownType: 'short_rest',
                             cooldownValue: 1
                         },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
                     },
                     {
+                        id: 'tremorsense_grimheart',
+                        name: 'Tremorsense',
+                        description: 'While your feet touch stone or earth, you feel every vibration within 30 feet—footsteps through walls, the scrape of claws in tunnels, the shift of bodies in the dark. No creature moves on stone near you without your knowledge.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['detection', 'tremorsense', 'passive', 'stone']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'tremorsense_30ft',
+                                    name: 'Tremorsense 30ft',
+                                    description: 'Detect creatures moving on stone/earth within 30ft, even through walls',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Permanent Tremorsense 30ft while touching stone or earth'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                    },
+{
                         id: 'stone_frailty_grimheart',
                         name: 'Stone Frailty',
                         description: 'Your stone-hardened flesh, dense with the minerals of a hundred lifetimes underground, dissolves when acids find the crystalline veins within—what the mountain spent generations building, alchemy unmakes in moments.',
@@ -1181,85 +1478,169 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     agility: -2
                 },
                 traits: [
-                    {
+{
                         id: 'guardians_resolve_grimheart',
                         name: 'Guardian\'s Resolve',
-                        description: 'When blood calls to blood, you answer with your body—throwing yourself before the blow meant for another, your stone-hardened frame absorbing the strike that would kill them, though the effort cracks something deep within that never quite heals.',
+                        description: 'Your stone-hardened frame stands as an unyielding bulwark, granting permanent +2 armor and Tremorsense 60ft through stone. The deep earth speaks to you through vibrations, revealing all that moves within its domain.',
                         level: 1,
-                        icon: 'spell_holy_powerwordshield',
-                        spellType: 'REACTION',
-                        effectTypes: ['buff', 'debuff'],
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'protection',
-                            secondaryElement: 'guardian',
-                            icon: 'spell_holy_powerwordshield',
-                            tags: ['protection', 'sacrifice', 'damage_absorption']
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['armor', 'tremorsense', 'protection', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Absorb damage for allies within 10 feet',
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'guardian_armor',
+                                    name: 'Guardian Armor',
+                                    description: 'Gain +2 armor permanently',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'guardian_tremorsense',
+                                    name: 'Guardian Tremorsense',
+                                    description: 'Tremorsense 60ft through stone',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Detect creatures through stone within 60ft'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                    },
+                    {
+                        id: 'stone_eruption_grimheart',
+                        name: 'Stone Eruption',
+                        description: 'Stone erupts in a 15-foot radius around you. Pillars of rock grant full cover for 1 minute. Enemies must make a STR save DC 14 or be launched 10 feet up and knocked prone, taking 2d6 bludgeoning and 1d6 piercing damage. You and allies in the area gain physical damage resistance while within the pillar zone. The area becomes raised terrain—enemies pay 2x movement cost while allies gain elevated ground advantage.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'buff', 'utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['damage', 'bludgeoning', 'piercing', 'terrain', 'protection']
+                        },
+                        damageConfig: {
+                            damageType: 'bludgeoning',
+                            diceCount: 2,
+                            diceSize: 6,
+                            secondaryDamage: {
+                                damageType: 'piercing',
+                                diceCount: 1,
+                                diceSize: 6
+                            },
+                            saveAttribute: 'strength',
+                            saveDC: 14,
+                            halfDamageOnSave: true
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'physical_resistance',
+                                    name: 'Physical Resistance',
+                                    description: 'Physical damage resistance while in pillar zone',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Stone pillars grant physical damage resistance'
+                                    }
+                                },
+                                {
+                                    id: 'elevated_ground',
+                                    name: 'Elevated Ground',
+                                    description: 'Allies gain elevated ground advantage in the area',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Raised terrain grants elevated ground to allies'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    name: 'Sacrificial Strain',
-                                    description: '50% of absorbed damage as extra harm • Warding backlash',
+                                    id: 'launched_prone',
+                                    name: 'Launched and Prone',
+                                    description: 'Launched 10ft up and knocked prone on failed STR save',
                                     statusEffect: {
                                         level: 'severe',
-                                        description: 'Protecting others causes additional damage to yourself'
+                                        description: 'Stone eruption launches and knocks prone'
                                     }
                                 }
                             ],
                             durationValue: 1,
                             durationType: 'rounds',
                             durationUnit: 'rounds',
-                            canBeDispelled: false
+                            canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'terrain',
+                            selectedEffects: [
+                                {
+                                    id: 'full_cover_pillars',
+                                    name: 'Stone Pillars',
+                                    description: 'Stone pillars provide full cover for 1 minute'
+                                },
+                                {
+                                    id: 'raised_terrain',
+                                    name: 'Raised Terrain',
+                                    description: 'Area becomes raised terrain—enemies 2x movement cost'
+                                }
+                            ],
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'major'
                         },
                         targetingConfig: {
-                            targetingType: 'multi',
-                            rangeType: 'ranged',
-                            rangeDistance: 10,
-                            maxTargets: 5,
-                            targetRestrictions: ['ally']
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        triggerConfig: {
-                            global: {
-                                enabled: true,
-                                logicType: 'OR',
-                                compoundTriggers: [
-                                    {
-                                        id: 'ally_damage',
-                                        category: 'damage',
-                                        name: 'Ally Takes Damage',
-                                        parameters: {
-                                            perspective: 'ally',
-                                            range: 10,
-                                            damageThreshold: 1
-                                        }
-                                    }
-                                ]
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeShape: 'circle',
+                            aoeParameters: {
+                                radius: 15
                             }
                         },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 10,
+                            components: ['somatic', 'verbal']
+                        },
                         cooldownConfig: {
-                            cooldownType: 'short_rest',
+                            cooldownType: 'long_rest',
                             cooldownValue: 1
                         },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
                     },
-                    {
+{
                         id: 'deep_sight_grimheart',
                         name: 'Deep Sight',
                         description: 'Generations of standing guard in shafts where no torch has ever burned have reshaped your eyes into something more than human—pupils that swallow darkness whole and drink in light that does not exist, seeing clearly through the black heart of the mountain where surface folk would find only blindness.',
@@ -1310,7 +1691,7 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             cooldownValue: 0
                         },
                     },
-                    {
+{
                         id: 'stone_vulnerability_grimheart',
                         name: 'Stone Vulnerability',
                         description: 'Your stone-hardened body conducts electricity dangerously and can be shattered by lightning.',
@@ -1402,36 +1783,41 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                     agility: -2
                 },
                 traits: [
-                    {
+{
                         id: 'stone_resilience_grimheart',
                         name: 'Stone Resilience',
                         description: 'Your stone-hardened flesh, tempered by the forges and toxic depths of the deep earth, resists both flame and venom that would consume lesser flesh.',
                         level: 1,
-                        icon: 'spell_fire_fire',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'stone',
-                            icon: 'spell_fire_fire',
-                            tags: ['resistance', 'fire', 'poison', 'passive']
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['resistance', 'fire', 'poison', 'armor', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
                                     id: 'fire_resistance',
                                     name: 'Fire Resistance',
-                                    description: 'Take half damage from fire',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from fire sources'
+                                    description: '50% fire resistance from forge-tempered flesh',
+                                    statModifier: {
+                                        stat: 'fire_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
                                     }
                                 },
                                 {
                                     id: 'poison_resistance',
                                     name: 'Poison Resistance',
-                                    description: 'Take half damage from poison'
+                                    description: '50% poison resistance from deep-earth adaptation',
+                                    statModifier: {
+                                        stat: 'poison_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
                                 },
                                 {
                                     id: 'stone_armor',
@@ -1464,39 +1850,40 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         },
                     },
                     {
-                        id: 'forge_craft_grimheart',
-                        name: 'Forge Craft',
-                        description: 'Channel the volcanic breath of the deep forges into steel and stone, tempering a weapon or suit of armor with fire that strengthens blade and bolsters plate for one hour.',
+                        id: 'runeforge_grimheart',
+                        name: 'Runeforge',
+                        description: 'Touch a non-magical weapon or armor and forge a rune into its very essence. Weapon Rune: +2 damage and a stacking debuff—every hit marks the target, and the third mark triggers Rooted for 1 round. Armor Rune: +2 armor and advantage on your next physical saving throw. Each rune lasts 1 hour. You may maintain up to 3 active Runeforge enchantments at once.',
                         level: 1,
-                        icon: 'inv_hammer_20',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'ACTION',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'utility'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'crafting',
-                            icon: 'inv_hammer_20',
-                            tags: ['enhancement', 'weapons', 'armor', 'crafting']
+                            school: 'arcane',
+                            secondaryElement: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['enchantment', 'rune', 'weapon', 'armor', 'crafting']
                         },
                         buffConfig: {
-                            buffType: 'statEnhancement',
+                            buffType: 'custom',
+                            customDescription: 'Forge a rune into a non-magical weapon or armor',
                             effects: [
                                 {
-                                    id: 'enhanced_weapon',
-                                    name: 'Enhanced Weapon',
-                                    description: 'Deep-forge heat aligns the weapon\'s edge to supernatural keenness, each strike carrying the mountain\'s own pressure',
+                                    id: 'weapon_rune',
+                                    name: 'Weapon Rune',
+                                    description: '+2 damage, stacking debuff (3rd hit → Rooted 1 round). 1 hour.',
                                     statModifier: {
                                         stat: 'weapon_damage',
-                                        magnitude: 1,
+                                        magnitude: 2,
                                         magnitudeType: 'flat'
                                     }
                                 },
                                 {
-                                    id: 'enhanced_armor',
-                                    name: 'Enhanced Armor',
-                                    description: 'Forge-fire tempers the armor\'s plates until they resist blows like the mountain resists the storm',
+                                    id: 'armor_rune',
+                                    name: 'Armor Rune',
+                                    description: '+2 armor and advantage on next physical save. 1 hour.',
                                     statModifier: {
                                         stat: 'armor',
-                                        magnitude: 1,
+                                        magnitude: 2,
                                         magnitudeType: 'flat'
                                     }
                                 }
@@ -1504,7 +1891,8 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             durationValue: 1,
                             durationType: 'hours',
                             durationUnit: 'hours',
-                            canBeDispelled: false
+                            canBeDispelled: true,
+                            maxActiveEnchantments: 3
                         },
                         targetingConfig: {
                             targetingType: 'single',
@@ -1512,20 +1900,71 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
                             actionPoints: 2,
-                            components: ['verbal', 'somatic']
+                            mana: 8,
+                            components: ['somatic', 'verbal']
                         },
                         cooldownConfig: {
                             cooldownType: 'short_rest',
                             cooldownValue: 1
                         },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
                     },
                     {
+                        id: 'master_forge_grimheart',
+                        name: 'Master of the Forge',
+                        description: 'During a short rest near a forge, anvil, or heat source, you may repair any non-magical item and craft one of the following: stone caltrops (cover a 10ft area in difficult terrain), fire-stone (deals 1d6 fire damage in a 5ft square when thrown), or signal marker (visible from 1 mile away, lasts 24 hours).',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['crafting', 'repair', 'utility', 'forge', 'passive']
+                        },
+                        utilityConfig: {
+                            utilityType: 'crafting',
+                            selectedEffects: [
+                                {
+                                    id: 'repair_items',
+                                    name: 'Repair Items',
+                                    description: 'Repair any non-magical item during short rest near forge'
+                                },
+                                {
+                                    id: 'stone_caltrops',
+                                    name: 'Stone Caltrops',
+                                    description: 'Craft stone caltrops creating 10ft difficult terrain'
+                                },
+                                {
+                                    id: 'fire_stone',
+                                    name: 'Fire-Stone',
+                                    description: 'Craft fire-stone dealing 1d6 fire in 5ft square'
+                                },
+                                {
+                                    id: 'signal_marker',
+                                    name: 'Signal Marker',
+                                    description: 'Craft signal marker visible 1 mile for 24 hours'
+                                }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                    },
+{
                         id: 'stone_frailty_forgemaster',
                         name: 'Stone Frailty',
                         description: 'Where forge-heat meets acid, your mineral flesh betrays you—the crystalline lattice that hardens your skin against flame becomes a pathway for corrosives, the very stone you were tempered in melting away like slag in a rainfall of vitriol.',
@@ -1757,108 +2196,80 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                 },
                 traits: [
                     {
-                        id: 'perfect_mimicry_mimir',
-                        name: 'Perfect Mimicry',
-                        description: 'The curse of the Face Thief allows you to steal the very countenance of those you observe — your flesh ripples like dark water, bones shifting and skin reweaving until you wear another\'s face as your own.',
+                        id: 'unbound_form_doppel',
+                        name: 'Unbound Form',
+                        description: 'Your body has no fixed template. You are immune to any effect that would alter your physical form against your will — polymorph, petrification, enemy shape-changing. Your form is already an aberration; there is nothing left to transform.',
                         level: 1,
-                        icon: 'spell_magic_lesserinvisibilty',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'illusion',
-                            secondaryElement: 'shapeshifting',
-                            icon: 'spell_magic_lesserinvisibilty',
-                            tags: ['mimicry', 'disguise', 'shapeshifting']
-                        },
-                        utilityConfig: {
-                            utilityType: 'shapeshifting',
-                            selectedEffects: [{
-                                id: 'mimicry',
-                                name: 'Mimicry',
-                                description: 'Copy the appearance and voice of a creature you have observed.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'adaptive_form_mimir',
-                        name: 'Adaptive Form',
-                        description: 'Your form flows like memory — cheekbones shift, eyes deepen, skin finds new tones — letting you melt into any crowd as though you had always belonged there.',
-                        level: 1,
-                        icon: 'ability_druid_forceofnature',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'shapeshifting',
-                            icon: 'ability_druid_forceofnature',
-                            tags: ['adaptation', 'social', 'shapeshifting']
-                        },
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['immunity', 'shapeshifter', 'passive'] },
                         buffConfig: {
                             buffType: 'custom',
-                            customDescription: 'Advantage on social or disguise checks',
+                            customDescription: 'Immune to forced polymorph, petrification, and enemy shapeshifting. Advantage on death saving throws.',
                             effects: [
-                                {
-                                    name: 'Adaptive Form',
-                                    description: 'Can alter physical features to gain social advantage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your form adapts to social situations'
-                                    }
-                                }
+                                { id: 'form_immunity', name: 'Form Immunity', description: 'Immune to any effect that would alter your physical form against your will', statusEffect: { level: 'extreme', description: 'Cannot be polymorphed, petrified, or forcefully shape-changed' } },
+                                { id: 'death_save_advantage', name: 'Unbound Vitality', description: 'Your body does not know how to die properly', statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'flat' } }
                             ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            durationUnit: 'hours',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'face_steal_mimir',
+                        name: 'Face Steal',
+                        description: 'Touch a willing, unconscious, or recently dead humanoid and assume their identity so completely that even magic cannot pierce the disguise — stealing not just their face but a fragment of their power.',
+                        level: 1,
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility', 'control'],
+                        typeConfig: { school: 'psychic', secondaryElement: 'shadow', icon: 'spell_shadow_shadetrueform', tags: ['disguise', 'identity', 'active'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Assume target identity for 1 hour (24 hours if dead). Undetectable by magic. Gain one observed ability/spell (use once). Duration 24h on dead targets.',
+                            effects: [
+                                { id: 'perfect_disguise', name: 'Perfect Disguise', description: 'Undetectable by Scrying, Detect Magic, or True Seeing', statusEffect: { level: 'extreme', description: 'Magical detection cannot reveal true form' } },
+                                { id: 'stolen_ability', name: 'Stolen Ability', description: 'Gain one ability or spell you observed the target use. Can use it once.', statusEffect: { level: 'moderate', description: 'One borrowed ability from the copied target' } }
+                            ],
+                            durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
                         },
                         utilityConfig: {
-                            utilityType: 'illusion',
-                            selectedEffects: [{
-                                id: 'disguise',
-                                name: 'Disguise',
-                                description: 'Alter your physical appearance to match any humanoid you have seen.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            utilityType: 'disguise',
+                            selectedEffects: [{ id: 'identity_theft', name: 'Identity Theft', description: 'Copy appearance, voice, mannerisms, and biological signature of target humanoid' }],
+                            duration: 1, durationUnit: 'hours', power: 'major'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                        controlConfig: {
+                            controlType: 'incapacitation',
+                            effects: [{ id: 'enemy_command', name: 'Enemy Command', description: 'If target is fallen enemy, issue one verbal order to their allies within 30ft. WIS save DC 14 or they comply (retreat, stand down, drop weapons).', statusEffect: { level: 'moderate', description: 'Verbal command to enemy allies' } }],
+                            savingThrow: { ability: 'spirit', difficultyClass: 14, saveOutcome: 'negates' }
                         },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['humanoid'] },
+                        resourceCost: { actionPoints: 2, mana: 8, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'social_parasite_mimir',
+                        name: 'Social Parasite',
+                        description: 'When wearing a stolen face, you read people who knew the original like open books — their emotional reactions to the familiar face betray everything.',
+                        level: 1,
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['social', 'insight', 'passive'] },
+                        buffConfig: {
+                            buffType: 'combatAdvantage',
+                            customDescription: 'Advantage on Insight checks against those who knew the copied person. Advantage on Deception when the lie is more believable in current form.',
+                            effects: [
+                                { id: 'parasitic_insight', name: 'Parasitic Insight', description: 'Advantage on Insight checks against people who knew the person you are imitating', statModifier: { stat: 'insight', magnitude: 1, magnitudeType: 'flat' } },
+                                { id: 'believable_deception', name: 'Believable Deception', description: 'Advantage on Deception checks when lies are more convincing in your current form', statModifier: { stat: 'deception', magnitude: 1, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
                         id: 'silver_vulnerability_mimir',
@@ -1944,6 +2355,55 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                     wisdom: 1
                 },
                 traits: [
+                    {
+                        id: 'unbound_form_broken',
+                        name: 'Unbound Form',
+                        description: 'Your body has no fixed template. You are immune to any effect that would alter your physical form against your will — polymorph, petrification, enemy shape-changing. Your form is already an aberration; there is nothing left to transform.',
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['immunity', 'shapeshifter', 'passive'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Immune to forced polymorph, petrification, and enemy shapeshifting. Advantage on death saving throws.',
+                            effects: [
+                                { id: 'form_immunity', name: 'Form Immunity', description: 'Immune to any effect that would alter your physical form against your will', statusEffect: { level: 'extreme', description: 'Cannot be polymorphed, petrified, or forcefully shape-changed' } },
+                                { id: 'death_save_advantage', name: 'Unbound Vitality', description: 'Your body does not know how to die properly', statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'shatterstorm_mimir',
+                        name: 'Shatterstorm',
+                        description: 'Your fractured identity violently discharges, releasing a psychic shockwave that shatters the minds of those around you — and obliterates any mind-control effects holding them.',
+                        level: 1,
+                        icon: 'spell_shadow_shadesofdarkness',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'utility'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadesofdarkness', tags: ['psychic', 'mind', 'anti-cc', 'active'] },
+                        damageConfig: {
+                            formula: '2d8',
+                            damageTypes: ['psychic'],
+                            resolution: 'DICE',
+                            savingThrow: { ability: 'spirit', difficultyClass: 14, saveOutcome: 'half_damage' }
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'shatter_reaction', name: 'Reaction Loss', description: 'All enemies in area lose their next reaction as their mind is momentarily shattered' },
+                                { id: 'mind_control_break', name: 'Mind Control Break', description: 'Enemies under any mind-affecting effect (charmed, frightened, controlled, dominated) take 4d8 psychic instead AND the effect is immediately broken' },
+                                { id: 'self_damage', name: 'Fragment Realign', description: 'You take 1d6 psychic damage as your fragments realign painfully' }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, targetRestrictions: ['enemies'] },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
                     {
                         id: 'fragmented_defense',
                         name: 'Fragmented Defense',
@@ -2228,57 +2688,85 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                 statModifiers: { charisma: 2, intelligence: 1 },
                 traits: [
                     {
-                        id: 'binding_oath',
-                        name: 'Binding Oath',
-                        description: 'Speak an oath and watch living thorns grow between you and your sworn companion — ancient fae magic that binds your words with writhing vines of contract. The thorns turn inward on any who break the bargain, punishment carved in blood.',
+                        id: 'thornmarked_oathbound',
+                        name: 'Thornmarked',
+                        description: 'Living thorns cover your skin, a legacy of the fae pact that cursed your bloodline. Any who dare grapple or strike you with bare flesh find themselves impaled on the briars that grow from within.',
                         level: 1,
-                        icon: 'spell_holy_prayerofhealing',
-                        spellType: 'ACTION',
+                        icon: 'spell_nature_thorns',
+                        spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: { category: 'racial' },
+                        typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive'] },
                         buffConfig: {
-                            buffType: 'pact',
+                            buffType: 'custom',
+                            customDescription: 'Grapplers/unarmed melee attackers take 1d4 piercing. When you take piercing damage, embed thorn: 1 piercing/turn until action to remove. Max 3 embedded thorns.',
                             effects: [
-                                { type: 'ability_check_bonus', value: 2, mechanicsText: '+2 to all ability checks for 1 hour' },
-                                { type: 'saving_throw_bonus', value: 2, mechanicsText: '+2 to all saving throws for 1 hour' },
-                                { type: 'location_awareness', value: 1, mechanicsText: 'Know the exact location of your pact partner' }
+                                { id: 'thorn_skin', name: 'Thorn Skin', description: 'Living thorns cover your skin, impaling grapplers and unarmed attackers for 1d4 piercing damage', statModifier: { stat: 'thorns_damage', magnitude: '1d4', magnitudeType: 'dice' } },
+                                { id: 'embedded_thorn', name: 'Embedded Thorn', description: 'Can embed thorns in attackers who deal piercing damage to you. Max 3 active. 1 piercing damage per turn until removed with an action.', statusEffect: { level: 'minor', description: 'Embedded thorns deal 1 piercing per turn' } }
                             ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            durationUnit: 'hours',
-                            canBeDispelled: true
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'fae_tongue_oathbound',
+                        name: 'Fae Tongue',
+                        description: 'The fae pact that marks your bloodline forbids you from speaking deliberate lies — the thorns in your throat would tear you apart. But omission, implication, and redirection remain your birthright.',
+                        level: 1,
+                        icon: 'spell_shadow_coneofsilence',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_coneofsilence', tags: ['fae', 'social', 'passive'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Advantage on Persuasion to mislead, imply, or redirect. Disadvantage on Deception for direct lies.',
+                            effects: [
+                                { id: 'persuasive_misdirection', name: 'Persuasive Misdirection', description: 'Advantage on Persuasion checks to mislead through omission and implication', statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
                         debuffConfig: {
-                            debuffType: 'oath_breaker',
+                            debuffType: 'statusEffect',
                             effects: [
-                                {
-                                    name: 'Oath Breaker',
-                                    description: '3d6 psychic damage if oath terms are broken',
-                                    damageRoll: '3d6',
-                                    damageType: 'psychic'
-                                }
+                                { id: 'truth_compulsion', name: 'Truth Compulsion', description: 'Cannot speak deliberate lies. Attempted lies cause 1d4 psychic damage and emerge as truth anyway.', statusEffect: { level: 'moderate', description: 'Cannot lie. 1d4 psychic damage on attempted lie.' } }
                             ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            durationUnit: 'hours',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'ranged',
-                            rangeDistance: 30,
-                            targetRestrictions: ['willing']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'blood_pact_briaran',
+                        name: 'Blood Pact',
+                        description: 'Speak a vow carved in thorn-blood, binding two souls in a pact that punishes betrayal with agony no armor can stop.',
+                        level: 1,
+                        icon: 'spell_shadow_shadesofdarkness',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: { school: 'psychic', secondaryElement: 'nature', icon: 'spell_shadow_shadesofdarkness', tags: ['pact', 'binding', 'active'] },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            customDescription: 'Both pact members gain +2 to ability checks and saves while acting per pact. Know direction/distance. Breaking: 4d6 psychic (no save, irreducible) + Oathbreaker mark 7 days.',
+                            effects: [
+                                { id: 'pact_bonus', name: 'Pact Bond', description: '+2 to all ability checks and saving throws while acting in accordance with the pact', statModifier: { stat: 'all_checks', magnitude: 2, magnitudeType: 'flat' } },
+                                { id: 'pact_saves', name: 'Pact Resolve', description: '+2 to all saving throws while bound by pact', statModifier: { stat: 'saving_throws', magnitude: 2, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true
                         },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['verbal', 'somatic']
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'pact_location', name: 'Pact Location Sense', description: 'Both members always know the direction and distance to each other' },
+                                { id: 'oathbreaker_mark', name: 'Oathbreaker Punishment', description: 'Breaking pact: 4d6 psychic damage (no save, cannot be reduced). Marked as Oathbreaker for 7 days — all Briaran and fae creatures sense the mark, disadvantage on social interactions.' },
+                                { id: 'pact_limit', name: 'Single Pact', description: 'Only one Blood Pact can be active at a time.' }
+                            ],
+                            duration: 24, durationUnit: 'hours', power: 'major'
                         },
-                        cooldownConfig: {
-                            cooldownType: 'long_rest',
-                            cooldownValue: 1
-                        }
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['ally'] },
+                        resourceCost: { actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
                     },
                     {
                         id: 'thorn_lash',
@@ -2451,58 +2939,57 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                 statModifiers: { dexterity: 2, constitution: 1 },
                 traits: [
                     {
-                        id: 'thorn_burst',
-                        name: 'Thorn Burst',
-                        description: 'The thorns you have suppressed for so long finally erupt — jagged barbs tear free from old scars and explode outward in a violent bloom, leaving you bleeding but surrounded by enemies screaming through mouths full of thorns.',
+                        id: 'thornmarked_thornscar',
+                        name: 'Thornmarked',
+                        description: 'Living thorns cover your skin, a legacy of the fae pact that cursed your bloodline. Any who dare grapple or strike you with bare flesh find themselves impaled on the briars that grow from within.',
                         level: 1,
-                        icon: 'ability_druid_ferociousbite',
+                        icon: 'spell_nature_thorns',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Grapplers/unarmed melee attackers take 1d4 piercing. When you take piercing damage, embed thorn: 1 piercing/turn until action to remove. Max 3 embedded thorns.',
+                            effects: [
+                                { id: 'thorn_skin', name: 'Thorn Skin', description: 'Living thorns cover your skin, impaling grapplers and unarmed attackers for 1d4 piercing damage', statModifier: { stat: 'thorns_damage', magnitude: '1d4', magnitudeType: 'dice' } },
+                                { id: 'embedded_thorn', name: 'Embedded Thorn', description: 'Can embed thorns in attackers who deal piercing damage to you. Max 3 active. 1 piercing damage per turn until removed with an action.', statusEffect: { level: 'minor', description: 'Embedded thorns deal 1 piercing per turn' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'briar_storm_briaran',
+                        name: 'Briar Storm',
+                        description: 'Explode outward in a storm of thorns, creating a briar-choked killing ground that bleeds your enemies while your kin pass freely.',
+                        level: 1,
+                        icon: 'spell_nature_thorns',
                         spellType: 'ACTION',
-                        effectTypes: ['damage', 'debuff'],
-                        typeConfig: { category: 'racial' },
+                        effectTypes: ['damage', 'debuff', 'utility'],
+                        typeConfig: { school: 'nature', secondaryElement: 'piercing', icon: 'spell_nature_thorns', tags: ['thorns', 'aoe', 'hazard', 'active'] },
                         damageConfig: {
-                            damageType: 'piercing',
-                            damageRoll: '2d6',
-                            saveType: 'dexterity',
-                            saveOutcome: 'half',
-                            selfDamage: {
-                                damageRoll: '1d4',
-                                damageType: 'piercing'
-                            }
+                            formula: '2d6 + 1d6',
+                            damageTypes: ['piercing', 'psychic'],
+                            resolution: 'DICE',
+                            savingThrow: { ability: 'agility', difficultyClass: 14, saveOutcome: 'half_damage' }
                         },
                         debuffConfig: {
-                            debuffType: 'embedded_thorns',
+                            debuffType: 'movementImpairment',
                             effects: [
-                                {
-                                    name: 'Embedded Thorns',
-                                    description: '1 piercing damage per turn for 1 minute',
-                                    damagePerTurn: 1,
-                                    damageType: 'piercing'
-                                }
+                                { id: 'briar_zone', name: 'Briar Zone', description: 'Creates 15ft radius Briar Zone for 1 minute. Difficult terrain for enemies. Enemies entering or starting turn take 1d4 piercing. Briaran allies unaffected and gain +5ft speed.', statusEffect: { level: 'moderate', description: 'Briar Zone: difficult terrain, 1d4 piercing/turn to enemies' } }
                             ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: true
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true
                         },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            areaOfEffect: {
-                                type: 'radius',
-                                value: 15,
-                                unit: 'ft'
-                            }
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [{ id: 'self_thorn', name: 'Self Damage', description: '1 piercing damage to self (your body is used to this)' }],
+                            duration: 0, durationUnit: 'instant', power: 'moderate'
                         },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['somatic']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
+                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 15, targetRestrictions: ['enemies'] },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
                     },
                     {
                         id: 'pain_focus',
@@ -2645,51 +3132,98 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                 statModifiers: { dexterity: 1, charisma: 2 },
                 traits: [
                     {
-                        id: 'twilight_step',
-                        name: 'Twilight Step',
-                        description: 'Step through the twilight boundary where day bleeds into night — you vanish through the seam between light and shadow, leaving behind a flash of dim radiance that burns the eyes of those standing too close.',
+                        id: 'thornmarked_dusk_walker',
+                        name: 'Thornmarked',
+                        description: 'Living thorns cover your skin, a legacy of the fae pact that cursed your bloodline. Any who dare grapple or strike you with bare flesh find themselves impaled on the briars that grow from within.',
                         level: 1,
-                        icon: 'ability_rogue_shadowstep',
+                        icon: 'spell_nature_thorns',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Grapplers/unarmed melee attackers take 1d4 piercing. When you take piercing damage, embed thorn: 1 piercing/turn until action to remove. Max 3 embedded thorns.',
+                            effects: [
+                                { id: 'thorn_skin', name: 'Thorn Skin', description: 'Living thorns cover your skin, impaling grapplers and unarmed attackers for 1d4 piercing damage', statModifier: { stat: 'thorns_damage', magnitude: '1d4', magnitudeType: 'dice' } },
+                                { id: 'embedded_thorn', name: 'Embedded Thorn', description: 'Can embed thorns in attackers who deal piercing damage to you. Max 3 active. 1 piercing damage per turn until removed with an action.', statusEffect: { level: 'minor', description: 'Embedded thorns deal 1 piercing per turn' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'dusk_rend_briaran',
+                        name: 'Dusk Rend',
+                        description: 'Tear a rift between light and shadow, stepping through the wound in reality while the afterimage of your passage blinds those nearby.',
+                        level: 1,
+                        icon: 'spell_shadow_shadowwordkill',
                         spellType: 'ACTION',
-                        effectTypes: ['movement', 'debuff'],
-                        typeConfig: { category: 'racial' },
+                        effectTypes: ['utility', 'debuff'],
+                        typeConfig: { school: 'shadow', secondaryElement: 'radiant', icon: 'spell_shadow_shadowwordkill', tags: ['teleport', 'shadow', 'light', 'active'] },
                         utilityConfig: {
-                            utilityType: 'teleport',
-                            selectedEffects: [{
-                                id: 'twilight_teleport',
-                                name: 'Twilight Teleport',
-                                description: 'Teleport to a space with different lighting within 60ft'
-                            }],
-                            range: 60,
-                            power: 'moderate'
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'dusk_teleport', name: 'Light-Shift Teleport', description: 'Teleport up to 60ft to any point in a different lighting condition than your current position (bright to dim, dim to dark, dark to bright, etc.)' },
+                                { id: 'rift_passage', name: 'Rift Passage', description: 'The rift remains open for 1 round. One ally can pass through it (one-way, same distance).' },
+                                { id: 'twilight_free', name: 'Twilight Casting', description: 'In twilight conditions (dawn, dusk, eclipse): this ability costs 0 AP and becomes a free action.' }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'major'
                         },
                         debuffConfig: {
-                            debuffType: 'blindness',
+                            debuffType: 'sensoryImpairment',
+                            effects: [
+                                { id: 'arrival_blind', name: 'Arrival Shock', description: 'Enemies within 5ft of arrival point: CON save DC 14 or Blinded for 1 round. In twilight conditions: blinded for 1d4 rounds.', statusEffect: { level: 'moderate', description: 'Blinded by violent light/shadow shift' } }
+                            ],
+                            savingThrow: { ability: 'constitution', difficultyClass: 14, saveOutcome: 'negates' },
+                            durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: true
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'between_moments',
+                        name: 'Between Moments',
+                        description: 'Slip between moments in time, existing in the space between heartbeats where others cannot act — but the world exacts a toll for your absence, and you return to find yourself slower, left behind by the flow you escaped.',
+                        level: 1,
+                        icon: 'ability_rogue_stealth',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        buffConfig: {
+                            buffType: 'extra_action',
+                            effects: [
+                                { type: 'extra_action', value: 1, mechanicsText: 'Once per combat, take an extra action at initiative count 10' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'initiative_penalty',
                             effects: [
                                 {
-                                    name: 'Briefly Blinded',
-                                    description: 'Creatures within 5ft of departure are briefly blinded',
-                                    statusEffect: {
-                                        level: 'minor',
-                                        description: 'Flash of twilight energy causes momentary blindness'
+                                    name: 'Initiative Drain',
+                                    description: '-2 initiative for the rest of combat after using extra action',
+                                    statModifier: {
+                                        stat: 'initiative',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
                                     }
                                 }
                             ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: true
-                        },
-                        targetingConfig: {
-                            targetingType: 'location',
-                            rangeType: 'ranged',
-                            rangeDistance: 60
+                            durationValue: 0,
+                            durationType: 'combat',
+                            durationUnit: 'combat',
+                            canBeDispelled: false
                         },
                         resourceCost: {
                             resourceTypes: [],
                             resourceValues: {},
-                            actionPoints: 1,
-                            components: ['somatic']
+                            actionPoints: 0,
+                            components: []
                         },
                         cooldownConfig: {
                             cooldownType: 'short_rest',
@@ -2761,53 +3295,6 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
                             durationValue: 0,
                             durationType: 'permanent',
                             durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 0,
-                            components: []
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
-                        id: 'between_moments',
-                        name: 'Between Moments',
-                        description: 'Slip between moments in time, existing in the space between heartbeats where others cannot act — but the world exacts a toll for your absence, and you return to find yourself slower, left behind by the flow you escaped.',
-                        level: 1,
-                        icon: 'ability_rogue_stealth',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        buffConfig: {
-                            buffType: 'extra_action',
-                            effects: [
-                                { type: 'extra_action', value: 1, mechanicsText: 'Once per combat, take an extra action at initiative count 10' }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'initiative_penalty',
-                            effects: [
-                                {
-                                    name: 'Initiative Drain',
-                                    description: '-2 initiative for the rest of combat after using extra action',
-                                    statModifier: {
-                                        stat: 'initiative',
-                                        magnitude: -2,
-                                        magnitudeType: 'flat'
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'combat',
-                            durationUnit: 'combat',
                             canBeDispelled: false
                         },
                         resourceCost: {
@@ -3043,24 +3530,143 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 },
                 traits: [
                     {
-                        id: 'root_wall',
-                        name: 'Root Wall',
-                        description: 'Drive your feet into the ground and call upon your bonded grove. A wall of living roots erupts in a 20ft line, providing full cover for 1 minute. The wall has 30 HP and is resistant to piercing and slashing. If the wall is destroyed, you take 1d6 psychic damage from the severed connection. Creatures on the other side of the wall cannot see or target through it.',
+                        id: 'deeproot_guardian',
+                        name: 'Deeproot',
+                        description: 'Your roots run deep in the forest floor. In forest, jungle, or wooded environments, you gain +10ft movement speed (total 45ft) and can walk through dense undergrowth, thorn walls, and plant-based obstacles as if they do not exist. You always know if any plant or tree within 60ft is diseased, poisoned, or corrupted. Outside natural terrain, you lose 5ft movement speed (total 30ft) and have disadvantage on the first Insight check per session in urban environments.',
+                        level: 1,
+                        icon: 'spell_nature_natureguard',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['movement', 'detection'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['forest', 'terrain', 'movement', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'terrain_bonus',
+                            effects: [
+                                { type: 'forest_speed_bonus', value: 10, mechanicsText: '+10ft movement speed in forest/jungle/wooded environments' },
+                                { type: 'terrain_pass', mechanicsText: 'Pass through dense undergrowth, thorn walls, and plant-based obstacles' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [
+                                { id: 'plant_corruption_sense', name: 'Plant Corruption Sense', description: 'Always know if any plant/tree within 60ft is diseased, poisoned, or corrupted' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        debuffConfig: {
+                            debuffType: 'terrain_penalty',
+                            effects: [
+                                { type: 'non_natural_slow', value: -5, mechanicsText: '-5ft movement speed outside natural terrain' },
+                                { type: 'urban_insight_disadvantage', mechanicsText: 'Disadvantage on first Insight check per session in urban environment' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'barkskin_sympathy_guardian',
+                        name: 'Barkskin Sympathy',
+                        description: 'Your bark skin responds to the magic around it. Fire damage cracks your bark, causing you to lose 1 armor for 1 hour (stacks to -2). Nature and healing magic regrows your bark, granting you 1 armor for 1 hour (stacks to +2, does not stack with Bark Armor passive).',
+                        level: 1,
+                        icon: 'ability_warrior_shieldmastery',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['armor', 'bark', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'conditional_armor',
+                            effects: [
+                                { type: 'nature_armor_bonus', value: 1, mechanicsText: 'Gain 1 armor for 1 hour from nature/healing magic (stacks to +2, not with Bark Armor)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'fire_armor_penalty',
+                            effects: [
+                                { type: 'fire_armor_loss', value: -1, mechanicsText: 'Lose 1 armor for 1 hour from fire damage (stacks to -2)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'living_fortress',
+                        name: 'Living Fortress',
+                        description: 'Drive your antlers and hands deep into the earth. Roots erupt in a 20ft line, forming a living wall with 40 HP that provides Full Cover and lasts 1 minute. The wall is covered in Thorns — any enemy that attacks it in melee takes 1d6 piercing damage. When the wall is destroyed (HP reaches 0), you are Rooted for 1 round — the pain of your living creation dying paralyzes you momentarily. You can still attack but cannot move.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'ACTION',
-                        effectTypes: ['utility', 'defense'],
+                        effectTypes: ['utility', 'buff'],
                         typeConfig: {
-                            category: 'racial'
+                            category: 'racial',
+                            school: 'nature',
+                            secondaryElement: 'physical'
                         },
                         utilityConfig: {
                             utilityType: 'creation',
                             selectedEffects: [
-                                { id: 'wall_creation', name: 'Root Wall', description: 'Create a 20ft root wall with 30 HP. Full cover. Resistant to piercing/slashing.' },
-                                { id: 'psychic_backlash', name: 'Psychic Backlash', description: 'Take 1d6 psychic damage if wall is destroyed' }
+                                { id: 'living_wall', name: 'Living Root Wall', description: 'Create a 20ft living wall with 40 HP. Full cover. Lasts 1 minute.' },
+                                { id: 'wall_thorns', name: 'Thorn Barrier', description: 'Enemies attacking wall in melee take 1d6 piercing damage' }
                             ],
                             duration: 1,
                             durationUnit: 'minutes'
+                        },
+                        debuffConfig: {
+                            debuffType: 'self_rooted',
+                            effects: [
+                                { type: 'rooted', mechanicsText: 'Rooted for 1 round when wall destroyed — cannot move but can attack' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false,
+                            triggerCondition: 'wall_destroyed'
                         },
                         targetingConfig: {
                             targetingType: 'area',
@@ -3129,7 +3735,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'bark_armor',
                         name: 'Bark Armor',
-                        description: 'Bark grows thick across your flesh like the armored plates of the ancient oaks you protect, hardening your body against harm. But flame cracks this living armor — when fire touches you, the bark splits and peels, leaving you vulnerable until you can rest among the roots and streams of a natural place and let it grow anew.',
+                        description: 'Bark grows thick across your flesh like the armored plates of the ancient oaks you protect, hardening your body against harm. But flame cracks this living armor \u2014 when fire touches you, the bark splits and peels, leaving you vulnerable until you can rest among the roots and streams of a natural place and let it grow anew.',
                         level: 1,
                         icon: 'ability_warrior_shieldmastery',
                         spellType: 'PASSIVE',
@@ -3140,8 +3746,8 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                         buffConfig: {
                             buffType: 'permanent',
                             effects: [
-                                { type: 'ac_bonus', value: 2, mechanicsText: '+2 AC from bark-like skin' },
-                                { type: 'fire_disables', mechanicsText: 'Fire damage removes AC bonus until short rest in natural environment' }
+                                { type: 'armor_bonus', value: 2, mechanicsText: '+2 armor from bark-like skin' },
+                                { type: 'fire_disables', mechanicsText: 'Fire damage removes armor bonus until short rest in natural environment' }
                             ],
                             durationValue: 0,
                             durationType: 'permanent',
@@ -3166,7 +3772,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'grove_sense',
                         name: 'Grove Sense',
-                        description: 'The grove speaks to you in a language older than words — a shiver in the roots when something threatens the wild, a sigh in the canopy when sickness creeps near. Every tree within reach is a sentinel, and every blade of grass a whisper of warning carried on the green breath of the land.',
+                        description: 'The grove speaks to you in a language older than words \u2014 a shiver in the roots when something threatens the wild, a sigh in the canopy when sickness creeps near. Every tree within reach is a sentinel, and every blade of grass a whisper of warning carried on the green breath of the land.',
                         level: 1,
                         icon: 'spell_nature_natureguard',
                         spellType: 'PASSIVE',
@@ -3265,9 +3871,163 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 },
                 traits: [
                     {
+                        id: 'deeproot_wanderer',
+                        name: 'Deeproot',
+                        description: 'Your roots run deep in the forest floor. In forest, jungle, or wooded environments, you gain +10ft movement speed and can walk through dense undergrowth, thorn walls, and plant-based obstacles as if they do not exist. You always know if any plant or tree within 60ft is diseased, poisoned, or corrupted. Outside natural terrain, you lose 5ft movement speed and have disadvantage on the first Insight check per session in urban environments.',
+                        level: 1,
+                        icon: 'spell_nature_natureguard',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['movement', 'detection'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['forest', 'terrain', 'movement', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'terrain_bonus',
+                            effects: [
+                                { type: 'forest_speed_bonus', value: 10, mechanicsText: '+10ft movement speed in forest/jungle/wooded environments' },
+                                { type: 'terrain_pass', mechanicsText: 'Pass through dense undergrowth, thorn walls, and plant-based obstacles' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [
+                                { id: 'plant_corruption_sense', name: 'Plant Corruption Sense', description: 'Always know if any plant/tree within 60ft is diseased, poisoned, or corrupted' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        debuffConfig: {
+                            debuffType: 'terrain_penalty',
+                            effects: [
+                                { type: 'non_natural_slow', value: -5, mechanicsText: '-5ft movement speed outside natural terrain' },
+                                { type: 'urban_insight_disadvantage', mechanicsText: 'Disadvantage on first Insight check per session in urban environment' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'barkskin_sympathy_wanderer',
+                        name: 'Barkskin Sympathy',
+                        description: 'Your bark skin responds to the magic around it. Fire damage cracks your bark, causing you to lose 1 armor for 1 hour (stacks to -2). Nature and healing magic regrows your bark, granting you 1 armor for 1 hour (stacks to +2, does not stack with Bark Armor passive).',
+                        level: 1,
+                        icon: 'ability_warrior_shieldmastery',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['armor', 'bark', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'conditional_armor',
+                            effects: [
+                                { type: 'nature_armor_bonus', value: 1, mechanicsText: 'Gain 1 armor for 1 hour from nature/healing magic (stacks to +2, not with Bark Armor)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'fire_armor_penalty',
+                            effects: [
+                                { type: 'fire_armor_loss', value: -1, mechanicsText: 'Lose 1 armor for 1 hour from fire damage (stacks to -2)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'wildstrider',
+                        name: 'Wildstrider',
+                        description: 'Mark a trail between two natural points you can see, up to 1 mile apart. For 24 hours, you and your allies on the trail move at double speed and ignore all difficult terrain. The trail is invisible to enemies unless they have Truesight or succeed on a Survival check DC 16. In forests, you and allies gain +2 to Stealth while on the trail \u2014 the forest conceals your passage. Only one trail at a time; a new trail replaces the old.',
+                        level: 1,
+                        icon: 'spell_nature_astralrecalgroup',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature'
+                        },
+                        buffConfig: {
+                            buffType: 'trail_bonus',
+                            effects: [
+                                { type: 'double_speed', mechanicsText: 'Double speed for you and allies on trail' },
+                                { type: 'ignore_difficult_terrain', mechanicsText: 'Ignore all difficult terrain on trail' },
+                                { type: 'forest_stealth_bonus', value: 2, mechanicsText: '+2 Stealth on trail in forest environments' }
+                            ],
+                            durationValue: 24,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'trail_creation', name: 'Trail Marking', description: 'Mark trail between two natural points up to 1 mile apart' },
+                                { id: 'hidden_trail', name: 'Hidden Trail', description: 'Invisible to enemies unless Truesight or Survival DC 16' }
+                            ],
+                            duration: 24,
+                            durationUnit: 'hours'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 1,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
                         id: 'ley_line_step',
                         name: 'Ley Line Step',
-                        description: 'The ley lines hum beneath your feet, threads of living energy that connect every rooted place in the world. You step along them like invisible roads, vanishing from one place and appearing in another — and when your feet meet forest floor or living soil, the land itself rushes up to mend your wounds.',
+                        description: 'The ley lines hum beneath your feet, threads of living energy that connect every rooted place in the world. You step along them like invisible roads, vanishing from one place and appearing in another \u2014 and when your feet meet forest floor or living soil, the land itself rushes up to mend your wounds.',
                         level: 1,
                         icon: 'ability_druid_dash',
                         spellType: 'ACTION',
@@ -3301,44 +4061,9 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                         }
                     },
                     {
-                        id: 'migration_path',
-                        name: 'Migration Path',
-                        description: 'Mark a trail between your current location and a destination you name. For 24 hours, you and any allies you designate can travel between these two points at double speed, ignoring difficult terrain. The path is visible only to you and designated allies. Only one migration path can be active at a time.',
-                        level: 1,
-                        icon: 'spell_nature_astralrecalgroup',
-                        spellType: 'ACTION',
-                        effectTypes: ['movement', 'utility'],
-                        typeConfig: {
-                            category: 'racial'
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [
-                                { id: 'fast_travel', name: 'Fast Travel', description: 'Travel at double speed between marked points for 24 hours' },
-                                { id: 'ignore_difficult_terrain', name: 'Pathfinder Stride', description: 'Ignore difficult terrain along the marked path' }
-                            ],
-                            duration: 24,
-                            durationUnit: 'hours'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            cooldownType: 'short_rest',
-                            cooldownValue: 1
-                        }
-                    },
-                    {
                         id: 'pathfinder',
                         name: 'Pathfinder',
-                        description: 'The forest does not let its children wander astray. Roots shift to point the way home, streams murmur directions, and the moss on the stones whispers of the path ahead. The land itself is your guide — it shows you water where none seems to flow, turns your feet toward safety, and plants the certainty of north in your bones like a compass carved into your soul.',
+                        description: 'The forest does not let its children wander astray. Roots shift to point the way home, streams murmur directions, and the moss on the stones whispers of the path ahead. The land itself is your guide \u2014 it shows you water where none seems to flow, turns your feet toward safety, and plants the certainty of north in your bones like a compass carved into your soul.',
                         level: 1,
                         icon: 'ability_hunter_trackingspeed',
                         spellType: 'PASSIVE',
@@ -3482,32 +4207,150 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                 },
                 traits: [
                     {
-                        id: 'spirit_call',
-                        name: 'Spirit Call',
-                        description: 'Summon the spirit of a predator beast (wolf, bear, or eagle) that appears within 30ft. The spirit lasts for 1 minute and can: make a melee attack (1d8 piercing for wolf, 1d10 bludgeoning for bear) or a ranged attack (1d6 piercing for eagle, range 60ft). The spirit has 15 HP and uses your spell save DC for attacks. Only one spirit can be active at a time.',
+                        id: 'deeproot_shaman',
+                        name: 'Deeproot',
+                        description: 'Your roots run deep in the forest floor. In forest, jungle, or wooded environments, you gain +10ft movement speed and can walk through dense undergrowth, thorn walls, and plant-based obstacles as if they do not exist. You always know if any plant or tree within 60ft is diseased, poisoned, or corrupted. Outside natural terrain, you lose 5ft movement speed and have disadvantage on the first Insight check per session in urban environments.',
+                        level: 1,
+                        icon: 'spell_nature_natureguard',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['movement', 'detection'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['forest', 'terrain', 'movement', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'terrain_bonus',
+                            effects: [
+                                { type: 'forest_speed_bonus', value: 10, mechanicsText: '+10ft movement speed in forest/jungle/wooded environments' },
+                                { type: 'terrain_pass', mechanicsText: 'Pass through dense undergrowth, thorn walls, and plant-based obstacles' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [
+                                { id: 'plant_corruption_sense', name: 'Plant Corruption Sense', description: 'Always know if any plant/tree within 60ft is diseased, poisoned, or corrupted' }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent'
+                        },
+                        debuffConfig: {
+                            debuffType: 'terrain_penalty',
+                            effects: [
+                                { type: 'non_natural_slow', value: -5, mechanicsText: '-5ft movement speed outside natural terrain' },
+                                { type: 'urban_insight_disadvantage', mechanicsText: 'Disadvantage on first Insight check per session in urban environment' }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'barkskin_sympathy_shaman',
+                        name: 'Barkskin Sympathy',
+                        description: 'Your bark skin responds to the magic around it. Fire damage cracks your bark, causing you to lose 1 armor for 1 hour (stacks to -2). Nature and healing magic regrows your bark, granting you 1 armor for 1 hour (stacks to +2, does not stack with Bark Armor passive).',
+                        level: 1,
+                        icon: 'ability_warrior_shieldmastery',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            category: 'racial',
+                            school: 'nature',
+                            tags: ['armor', 'bark', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'conditional_armor',
+                            effects: [
+                                { type: 'nature_armor_bonus', value: 1, mechanicsText: 'Gain 1 armor for 1 hour from nature/healing magic (stacks to +2, not with Bark Armor)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'fire_armor_penalty',
+                            effects: [
+                                { type: 'fire_armor_loss', value: -1, mechanicsText: 'Lose 1 armor for 1 hour from fire damage (stacks to -2)' }
+                            ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'hours',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: [],
+                            resourceValues: {},
+                            actionPoints: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'ancestral_awakening',
+                        name: 'Ancestral Awakening',
+                        description: 'Call an ancestor spirit that merges with a willing ally (including yourself) for 1 minute. Choose one form: Wolf Ancestor — +10ft speed, advantage on attacks vs enemies below half HP, melee attacks deal +1d6 piercing. Bear Ancestor — +2 armor, resistance to next damage source each round, advantage on STR checks. Eagle Ancestor — ranged attacks +15ft range, no disadvantage from distance, see through invisibility within 60ft. When the duration ends, the host takes 1d6 psychic damage as the spirit departs. Can also summon as an independent creature with 15 HP that acts on your turn with basic attacks only (no stat bonuses).',
                         level: 1,
                         icon: 'spell_nature_spiritarmor',
                         spellType: 'ACTION',
-                        effectTypes: ['summon', 'damage'],
+                        effectTypes: ['buff', 'summoning'],
                         typeConfig: {
-                            category: 'racial'
+                            category: 'racial',
+                            school: 'nature',
+                            secondaryElement: 'spirit'
                         },
-                        damageConfig: {
-                            damageTypes: ['piercing'],
-                            formula: '1d8',
-                            resolution: 'attack'
-                        },
-                        utilityConfig: {
-                            utilityType: 'summon',
-                            selectedEffects: [
-                                { id: 'spirit_summon', name: 'Spirit Summon', description: 'Summon a wolf (1d8 piercing melee), bear (1d10 bludgeoning melee), or eagle (1d6 piercing ranged) spirit for 1 minute' },
-                                { id: 'spirit_hp', name: 'Spirit Vitality', description: 'Spirit has 15 HP' }
+                        buffConfig: {
+                            buffType: 'spirit_merge',
+                            effects: [
+                                { type: 'wolf_ancestor', mechanicsText: 'Wolf: +10ft speed, advantage on attacks vs <half HP enemies, melee +1d6 piercing' },
+                                { type: 'bear_ancestor', mechanicsText: 'Bear: +2 armor, resistance to next damage each round, advantage on STR checks' },
+                                { type: 'eagle_ancestor', mechanicsText: 'Eagle: ranged +15ft range, no distance disadvantage, see invisibility 60ft' },
+                                { type: 'spirit_departure', mechanicsText: 'Host takes 1d6 psychic when duration ends' }
                             ],
+                            durationValue: 1,
+                            durationType: 'timed',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        summoningConfig: {
+                            summonType: 'spirit',
+                            summonStats: {
+                                hp: 15,
+                                attacks: 'basic only',
+                                actsOn: 'your turn',
+                                statBonuses: false
+                            },
                             duration: 1,
                             durationUnit: 'minutes'
                         },
                         targetingConfig: {
-                            targetingType: 'location',
+                            targetingType: 'creature',
                             rangeType: 'ranged',
                             rangeDistance: 30
                         },
@@ -3525,7 +4368,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'bone_divination',
                         name: 'Bone Divination',
-                        description: 'Cast a handful of animal bones and read the patterns. Learn one of the following: the general direction and distance of the nearest danger, the outcome of a planned action (favorable/unfavorable/neutral), or the answer to a yes/no question about the immediate area. The spirits do not always answer clearly \u2014 there is a 20% chance the reading is cryptic instead.',
+                        description: 'Cast a handful of animal bones and read the patterns. Learn one of the following: the general direction and distance of the nearest danger, the outcome of a planned action (favorable/unfavorable/neutral), or the answer to a yes/no question about the immediate area. The spirits do not always answer clearly — there is a 20% chance the reading is cryptic instead.',
                         level: 1,
                         icon: 'spell_nature_elementalshields',
                         spellType: 'ACTION',
@@ -3600,7 +4443,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'ancestor_whispers',
                         name: 'Ancestor Whispers',
-                        description: 'You can hear the voices of your ancestors at will. Advantage on History and Religion checks. When you enter a new location, you sometimes receive warnings from ancestor spirits about dangers that killed previous Groven in that area. This is not reliable \u2014 the spirits speak when they choose.',
+                        description: 'You can hear the voices of your ancestors at will. Advantage on History and Religion checks. When you enter a new location, you sometimes receive warnings from ancestor spirits about dangers that killed previous Groven in that area. This is not reliable — the spirits speak when they choose.',
                         level: 1,
                         icon: 'spell_nature_spiritarmor',
                         spellType: 'PASSIVE',
@@ -3636,7 +4479,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                     {
                         id: 'fire_vulnerability_groven_shaman',
                         name: 'Fire Vulnerability',
-                        description: 'The spirits that bind to you fear flame above all else \u2014 it severs their connection to the material world.',
+                        description: 'The spirits that bind to you fear flame above all else — it severs their connection to the material world.',
                         level: 1,
                         icon: 'spell_fire_flamestrike',
                         spellType: 'PASSIVE',
@@ -3650,7 +4493,7 @@ Every Groven carries the ancient bargains in their blood, thorns growing from pr
                             effects: [{
                                 id: 'fire_vulnerability',
                                 name: 'Fire Vulnerability',
-                                description: 'Flame severs the spirit bonds that hold you together \u2014 fire consumes flesh and spirit alike',
+                                description: 'Flame severs the spirit bonds that hold you together — fire consumes flesh and spirit alike',
                                 statusEffect: {
                                     vulnerabilityType: 'fire',
                                     vulnerabilityPercent: 100

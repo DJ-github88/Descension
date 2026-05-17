@@ -53,6 +53,8 @@
     position: relative;
     overflow: hidden;
     background-clip: padding-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .race-card::before {
@@ -61,23 +63,53 @@
     inset: -2px;
     border-radius: 8px;
     padding: 2px;
-    background: var(--race-gradient);
+    background: var(--race-gradient, linear-gradient(135deg, #d4af37 0%, #b8941f 100%));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-}
-
-.race-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #d4af37 0%, #b8941f 50%, #d4af37 100%);
     opacity: 0;
     transition: opacity 0.2s ease;
+}
+
+.race-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.race-card-header .race-card-icon {
+    font-size: 1.75rem;
+    color: #d4af37;
+    flex-shrink: 0;
+}
+
+.race-card-title-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.race-card-title-area .race-card-name {
+    margin: 0 0 0.15rem 0;
+    text-align: left;
+}
+
+.race-card-title-area .race-card-essence {
+    margin: 0;
+    text-align: left;
+    font-size: 0.75rem;
+}
+
+.race-card .race-card-description {
+    font-size: 0.8rem;
+    color: #5d4037;
+    line-height: 1.45;
+    margin: 0 0 0.75rem 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .race-card:hover {
@@ -102,15 +134,9 @@
 }
 
 .race-card.selected .race-card-name,
-.race-card.selected .race-card-description {
+.race-card.selected .race-card-description,
+.race-card.selected .race-card-essence {
     color: #2c2416;
-}
-
-.race-card-icon {
-    font-size: 2.5rem;
-    color: #d4af37;
-    margin-bottom: 0.75rem;
-    text-align: center;
 }
 
 .race-card.selected .race-card-icon {
@@ -119,27 +145,16 @@
 
 .race-card-name {
     font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: #2c2416;
-    margin: 0 0 0.5rem 0;
-    text-align: center;
-}
-
-.race-card-description {
-    font-size: 0.85rem;
-    color: #5d4037;
-    line-height: 1.4;
-    margin: 0 0 0.75rem 0;
-    text-align: center;
+    margin: 0;
 }
 
 .race-card-essence {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: #2c2416;
     line-height: 1.3;
-    margin: 0 0 0.75rem 0;
-    text-align: center;
     font-family: 'Cinzel', serif;
     font-weight: 600;
     font-style: italic;
@@ -167,6 +182,158 @@
 
 .race-card.selected .info-badge {
     background: rgba(44, 36, 22, 0.2);
+}
+
+/* ===== RACE INFO PANEL (Step 2) ===== */
+
+.race-info-panel {
+    background: linear-gradient(135deg, #fefcf8 0%, #f8f5f0 50%, #f4f1e8 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.race-info-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.race-info-title-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.race-info-icon {
+    font-size: 2.5rem;
+    color: #d4af37;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    border: 1.5px solid rgba(212, 175, 55, 0.3);
+}
+
+.race-info-title-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.race-info-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c2416;
+    margin: 0 0 0.25rem 0;
+}
+
+.race-info-essence {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8b6914;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-style: italic;
+    margin: 0;
+}
+
+.race-info-title-row .epic-lore-button {
+    flex-shrink: 0;
+}
+
+/* Race Overview Section */
+.race-overview-section {
+    margin-bottom: 1rem;
+}
+
+.race-overview-text {
+    font-size: 0.9rem;
+    color: #5d4037;
+    line-height: 1.7;
+    text-align: justify;
+    max-height: 120px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.4s ease;
+}
+
+.race-overview-text:not(.expanded)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #f4f1e8);
+    pointer-events: none;
+}
+
+.race-overview-text.expanded {
+    max-height: none;
+}
+
+.overview-toggle {
+    background: none;
+    border: none;
+    color: #8b6914;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.4rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+}
+
+.overview-toggle:hover {
+    color: #d4af37;
+}
+
+/* Compact Base Traits */
+.race-base-traits-compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.base-trait-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 20px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    color: #5d4037;
+    font-weight: 500;
+}
+
+.base-trait-chip i {
+    color: #d4af37;
+    font-size: 0.7rem;
+}
+
+.race-variant-diversity {
+    font-size: 0.85rem;
+    color: #5d4037;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+    padding: 0.75rem 1rem;
+    background: rgba(139, 90, 60, 0.08);
+    border-left: 3px solid #8b5a3c;
+    border-radius: 0 6px 6px 0;
 }
 
 /* ===== VARIANT SELECTION STEP ===== */
@@ -825,5 +992,18 @@
 
     .variant-grid {
         grid-template-columns: 1fr;
+    }
+
+    .race-info-title-row {
+        flex-wrap: wrap;
+    }
+
+    .race-info-title-row .epic-lore-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .race-base-traits-compact {
+        justify-content: center;
     }
 }
