@@ -749,6 +749,47 @@ export const MIMIR_SUBRACE_ITEMS = [
         availableFor: {
             subraces: ['broken_mimir']
         }
+    },
+    {
+        id: 'silverblood-vial',
+        name: 'Silverblood Vial',
+        type: 'consumable',
+        subtype: 'POTION',
+        quality: 'rare',
+        description: 'A vial of crystallized mirror-blood harvested from a willing Glass-Eaten elder. Restores 2 max HP lost to Shard Exhalation and reduces 1 Fracture stack.',
+        iconId: 'inv_potion_72',
+        value: { platinum: 0, gold: 25, silver: 0, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        stackable: true,
+        maxStack: 5,
+        baseStats: {
+            constitution: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['glass_mimir']
+        }
+    },
+    {
+        id: 'salt-pouch-reinforced',
+        name: 'Void-Sealed Salt Pouch',
+        type: 'accessory',
+        subtype: 'TRINKET',
+        quality: 'uncommon',
+        description: 'A pouch of salt stitched into void-resistant leather. Grants advantage on saves against salt-based vulnerability triggers. The Hollow carry these as others carry holy symbols — protection from their own weakness.',
+        iconId: 'inv_misc_bag_10',
+        value: { platinum: 0, gold: 6, silver: 50, copper: 0 },
+        weight: 1,
+        width: 1,
+        height: 1,
+        slots: ['trinket1', 'trinket2'],
+        baseStats: {
+            spirit: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['hollow_mimir']
+        }
     }
 ];
 
@@ -1041,6 +1082,53 @@ export const VREKEN_SUBRACE_ITEMS = [
         availableFor: {
             subraces: ['penitent_vreken']
         }
+    },
+    {
+        id: 'hollow-bone-plating',
+        name: 'Erupting Bone Harness',
+        type: 'armor',
+        subtype: 'LEATHER',
+        quality: 'uncommon',
+        description: 'A harness designed to accommodate and weaponize the Hollow-Vein\'s involuntary bone growths, channeling erupting bone plates into crude natural armor.',
+        iconId: 'inv_chest_leather_10',
+        value: { platinum: 0, gold: 10, silver: 50, copper: 0 },
+        weight: 4,
+        width: 2,
+        height: 2,
+        slots: ['chest'],
+        combatStats: {
+            armor: { value: 2, isPercentage: false }
+        },
+        baseStats: {
+            constitution: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['hollow_vreken']
+        }
+    },
+    {
+        id: 'bloodgiven-copper-talisman',
+        name: 'Copper Fang Talisman',
+        type: 'accessory',
+        subtype: 'NECKLACE',
+        quality: 'uncommon',
+        description: 'A talisman of annealed copper shaped into a fang, worn close to the throat. It amplifies the Blood-Given\'s siphoning curse at the cost of deepening the hunger.',
+        iconId: 'inv_jewelry_necklace_18',
+        value: { platinum: 0, gold: 11, silver: 25, copper: 0 },
+        weight: 0.2,
+        width: 1,
+        height: 1,
+        slots: ['neck'],
+        combatStats: {
+            mana: { value: 5, isPercentage: false }
+        },
+        baseStats: {
+            spirit: { value: 2, isPercentage: false },
+            charisma: { value: 1, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['bloodgiven_vreken']
+        }
     }
 ];
 
@@ -1230,12 +1318,12 @@ export const FERRICK_SUBRACE_ITEMS = [
 // Human subrace items
 export const HUMAN_SUBRACE_ITEMS = [
     {
-        id: 'lowlander-merchant-ring',
-        name: 'Lowlander\'s Signet Ring',
+        id: 'imperial-commanders-signet',
+        name: 'Commander\'s Signet',
         type: 'accessory',
         subtype: 'RING',
         quality: 'uncommon',
-        description: 'A signet ring that identifies the wearer as a member of a trading house.',
+        description: 'A heavy iron signet bearing the crest of an Imperial command. Worn by officers who have earned their rank through blood and politics in equal measure.',
         iconId: 'inv_jewelry_ring_05',
         value: { platinum: 0, gold: 8, silver: 75, copper: 50 },
         weight: 0.1,
@@ -1243,31 +1331,51 @@ export const HUMAN_SUBRACE_ITEMS = [
         height: 1,
         slots: ['ring1', 'ring2'],
         baseStats: {
-            charisma: { value: 2, isPercentage: false }
+            spirit: { value: 2, isPercentage: false }
         },
         availableFor: {
-            subraces: ['lowlander_human']
+            subraces: ['imperial_human']
         }
     },
     {
-        id: 'hillfolk-iron-pendant',
-        name: 'Hillfolk\'s Iron Pendant',
-        type: 'accessory',
-        subtype: 'NECKLACE',
+        id: 'hearthorn-calloused-gauntlets',
+        name: 'Calloused Gauntlets',
+        type: 'armor',
+        subtype: 'HANDS',
         quality: 'common',
-        description: 'A simple iron pendant worn as a symbol of stubborn endurance.',
-        iconId: 'inv_jewelry_necklace_11',
+        description: 'Thick leather gloves stained with decades of honest labor. The leather has been replaced so many times that nothing of the original remains — but the calluses inside are irreplaceable.',
+        iconId: 'inv_gauntlets_31',
         value: { platinum: 0, gold: 5, silver: 50, copper: 75 },
-        weight: 0.5,
+        weight: 1.5,
         width: 1,
         height: 1,
-        slots: ['neck'],
+        slots: ['hands'],
         baseStats: {
             constitution: { value: 1, isPercentage: false },
-            strength: { value: 1, isPercentage: false }
+            intelligence: { value: 1, isPercentage: false }
         },
         availableFor: {
-            subraces: ['hillfolk_human']
+            subraces: ['hearthorn_human']
+        }
+    },
+    {
+        id: 'paleborn-veilband',
+        name: 'Ashring Veilband',
+        type: 'accessory',
+        subtype: 'HEAD',
+        quality: 'uncommon',
+        description: 'A thin band of crystallized ley-resonance worn across the eyes. It dulls the Pale-Born\'s overwhelming sight in dense magical areas — and dimly glows in the presence of enchantments.',
+        iconId: 'inv_jewelry_necklace_11',
+        value: { platinum: 0, gold: 12, silver: 0, copper: 0 },
+        weight: 0.2,
+        width: 1,
+        height: 1,
+        slots: ['head'],
+        baseStats: {
+            intelligence: { value: 2, isPercentage: false }
+        },
+        availableFor: {
+            subraces: ['paleborn_human']
         }
     }
 ];

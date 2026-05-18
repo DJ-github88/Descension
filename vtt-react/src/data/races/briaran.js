@@ -1,9 +1,9 @@
-export const briaran = {
+﻿export const briaran = {
         id: 'briaran',
         name: 'Briaran',
         essence: 'Thorn-scarred outcasts',
         description: 'Our flesh is a garden of sharp geometry, a living map of the bargains our ancestors struck in the moonlit groves. Every thorn that breaks our skin is a sentence in a contract we cannot flee, a physical enforcement of a word given before the rising of the sun. We do not just make promises; we grow them. When we speak, the vines in our hair tighten; when we lie, the thorns turn inward to taste our own blood. Our eyes hold the silver glint of the Fae-realm, a light that does not warm but only reveals what is hidden. We are the survivors of the Great Bargain, the ones whose very bodies are the ink upon the page. We walk between the courts of the high and the wild of the deep woods, forever bound by the etiquette of the ancient ones. To love us is to bleed; to betray us is to die.',
-        icon: '/assets/icons/races/briaran.png',
+        icon: 'fas fa-leaf',
         overview: 'The Briaran are people whose ancestors made bargains with fae entities in moonlit groves. Binding their bloodlines to supernatural contracts. Through generations of these pacts, their skin has been marked by thorns that grow like living contracts. Enforcing their word with physical pain. They are organized into courts and communities bound by strict etiquette and unbreakable promises. The Briaran don\'t choose to be bound. It\'s their heritage, passed down through bloodlines that cannot break the ancient bargains.',
         culturalBackground: `Briaran society is built on the ancient pacts their ancestors made with fae entities. Communities organized into courts bound by etiquette and obligation. Each court traces its founding to legendary bargains made in moonlit groves. Traditions enforcing the word given centuries ago. Briaran settlements are built around great thorn hedges that bloom with impossible flowers. Halls filled with the scent of blood and roses. Children are taught from birth the dance of words. Every promise must be honored. Every slight avenged. Every favor repaid threefold. Their skin sprouts thorns like living contracts. Beautiful and deadly reminders of bargains that cannot be broken. Court elders pass down the old ways. How to make binding promises. How to enforce contracts. How to navigate the labyrinth of fae etiquette. Breaking a bargain isn't just dishonorable. It's physically painful. The thorns turning inward to punish the oathbreaker. Court disputes settle through ritual duels and the testimony of thorns that remember every promise made. They are a people bound by word and thorn. Their mastery of contracts unmatched but their freedom forever limited by ancient bargains.`,
         variantDiversity: 'The Briaran are divided into three major court bloodlines: The Oathbound are bound to noble fae courts and excel in diplomacy, the Thornscar rejected civilization for primal freedom, and the Dusk-Walkers navigate the twilight boundary between light and shadow.',
@@ -153,506 +153,597 @@ When the darkness comes, the courts and wild groves must unite. The thorns will 
             courtly: {
                 id: 'courtly_briaran',
                 name: 'Oathbound',
-                description: 'Thorns bloom beautifully, often growing flowers alongside the barbs. Skin marked by elegant thorn patterns that shift when contracts are made. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises. Speech patterns formal, every word chosen carefully. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
-                culturalBackground: `The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. They practice ancient techniques passed down through generations. How to craft binding promises. How to read intent in words. How to enforce contracts through thorn and pain. Their thorns serve as living lie detectors. An Oathbound's handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward. Tearing at their flesh from within. The bloodline values honor and precision. Worth measured in contracts fulfilled and promises kept. They are the diplomats of Briaran society. Their word law but their freedom forever bound by the thorns that enforce it.`,
-                statModifiers: {
-                    charisma: 3,
-                    intelligence: 2,
-                    constitution: -2
-                },
+                description: 'Thorns bloom beautifully along their forearms and shoulders, often growing small flowers alongside the barbs — roses, nightshade, pale foxglove. Skin marked by elegant thorn patterns that shift and rearrange when contracts are made or broken. Hands precise and careful, many bear small puncture wounds from thorns testing their own honesty. Eyes carry the weight of unbreakable promises — pupils contract sharply when a lie is spoken nearby. Speech patterns formal, every word chosen with the care of someone who knows that a misplaced syllable can bind. Their thorns serve as living lie detectors, drawing blood from their own hands when they speak false.',
+                culturalBackground: 'The Oathbound trace their lineage to the first Briaran who bound themselves to the noble fae courts. Bloodline marked by thorns that bloom with every promise made. Their tradition requires that every member learn the ancient art of contract-making. Apprenticeships spent studying the complex etiquette of fae courts. Oathbound courts are built around negotiation halls where bargains are made. Members serving as diplomats, mediators, deal-makers. Their thorns serve as living lie detectors. An Oathbound handshake can draw blood if intentions are false. But they pay dearly. Breaking their own promises causes their thorns to turn inward, tearing at their flesh from within.',
+                statModifiers: { charisma: 2, intelligence: 1 },
                 traits: [
                     {
-                        id: 'binding_oath_briaran',
-                        name: 'Binding Oath',
-                        description: 'Create magical contracts. Targets must succeed on Spirit save (DC 14) or be bound by terms. You are also bound by your own contracts.',
+                        id: 'thornmarked_oathbound',
+                        name: 'Thornmarked — Oathbloom',
+                        description: 'Living thorns cover your skin, blooming pale nightshade when you speak truth and bleeding black sap when you lie. Any who dare grapple or strike you with bare flesh find themselves impaled — but your thorns remember every bargain your bloodline ever sealed, and they punish your tongue as readily as your enemies\' hands.',
                         level: 1,
-                        icon: 'Nature/Gnarled Roots',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility', 'debuff'],
-                        typeConfig: {
-                            school: 'enchantment',
-                            secondaryElement: 'fae',
-                            icon: 'Nature/Gnarled Roots',
-                            tags: ['contract', 'social', 'binding', 'fae']
-                        },
-                        utilityConfig: {
-                            utilityType: 'contract',
-                            selectedEffects: [{
-                                id: 'binding',
-                                name: 'Binding',
-                                description: 'Create a magical contract that binds both parties to agreed terms.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
+                        icon: 'spell_nature_thorns',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive', 'fae'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            effects: [
+                                {
+                                    id: 'thorn_skin_oathbound',
+                                    name: 'Oathbloom Thorns',
+                                    description: 'Living thorns impale grapplers and unarmed melee attackers for 1d4 piercing damage',
+                                    statModifier: { stat: 'thorns_damage', magnitude: '1d4', magnitudeType: 'dice' }
+                                },
+                                {
+                                    id: 'persuasive_omission',
+                                    name: 'Persuasive Omission',
+                                    description: 'Advantage on Persuasion checks to mislead through implication and careful omission',
+                                    statModifier: { stat: 'persuasion', magnitude: 1, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    name: 'Oath Bound',
-                                    description: 'You are bound by your own contract terms',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Breaking the oath results in severe consequences'
-                                    }
+                                    id: 'truth_compulsion_oathbound',
+                                    name: 'Truth Compulsion',
+                                    description: 'Cannot speak deliberate lies. Attempted lies deal 1d4 psychic damage and the words emerge as truth regardless. The thorns in your throat will not permit falsehood.',
+                                    statusEffect: { level: 'moderate', description: 'Cannot lie. 1d4 psychic damage on attempted lie — words emerge as truth.' }
                                 }
                             ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            saveDC: 14,
-                            saveType: 'spirit',
-                            saveOutcome: 'negates',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'single',
-                            rangeType: 'touch',
-                            targetRestrictions: ['willing']
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'long_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
-                        id: 'court_etiquette_briaran',
-                        name: 'Court Etiquette',
-                        description: 'Fae blood grants you perfect grace in the courts of nobility and fair folk.',
+                        id: 'blood_pact_oathbound',
+                        name: 'Blood Pact',
+                        description: 'Prick your palm and let your thorn-blood mix with another\'s. The pact writes itself in your veins — a promise so deep it punishes betrayal with agony no armor can stop. But the binding is not one-sided: you feel every wound your partner suffers as a sympathetic sting beneath your own thorns.',
                         level: 1,
-                        icon: 'Nature/Floral Headpiece',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'social',
-                            secondaryElement: 'fae',
-                            icon: 'Nature/Floral Headpiece',
-                            tags: ['social', 'nobility', 'fae', 'passive']
-                        },
+                        icon: 'spell_shadow_shadesofdarkness',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: { school: 'psychic', secondaryElement: 'nature', icon: 'spell_shadow_shadesofdarkness', tags: ['pact', 'binding', 'blood', 'fae'] },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    name: 'Court Etiquette',
-                                    description: 'Advantage on social interactions with nobility and fae creatures',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fae heritage grants insight into courtly behavior'
-                                    }
+                                    id: 'pact_bond_checks',
+                                    name: 'Pact Bond',
+                                    description: '+2 to all ability checks while acting in accordance with the pact',
+                                    statModifier: { stat: 'all_checks', magnitude: 2, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'pact_bond_saves',
+                                    name: 'Pact Resolve',
+                                    description: '+2 to all saving throws while bound by Blood Pact',
+                                    statModifier: { stat: 'saving_throws', magnitude: 2, magnitudeType: 'flat' }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'pact_location_sense', name: 'Pact Location Sense', description: 'Both members always know the direction and approximate distance to each other' },
+                                { id: 'oathbreaker_punishment', name: 'Oathbreaker\'s Agony', description: 'Breaking the pact: 4d6 psychic damage to the breaker (no save, irreducible). Marked as Oathbreaker for 7 days — all Briaran and fae creatures sense the mark. Disadvantage on all social interactions with fae-touched creatures.' },
+                                { id: 'sympathetic_pain', name: 'Sympathetic Pain', description: 'TRADE-OFF: When your pact-partner takes damage, you take 1 psychic damage as the thorns in your skin writhe in sympathetic agony.' },
+                                { id: 'pact_limit', name: 'Single Pact', description: 'Only one Blood Pact can be active at a time. Casting a new one dissolves the old — with consequences.' }
+                            ],
+                            duration: 24, durationUnit: 'hours', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['ally'] },
+                        resourceCost: { actionPoints: 1, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'verdict_of_thorns_oathbound',
+                        name: 'Verdict of Thorns',
+                        description: 'Point your thorn-scarred hand at a creature and name your accusation — or demand a truth they\'ve buried. The thorns tear through your own forearm to extend as a living lash, tasting the air for deception. If they lie, the lash strikes. If they refuse, the thorns press the question into their mind like a splinter behind the eye.',
+                        level: 1,
+                        icon: 'spell_nature_thorns',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff', 'utility'],
+                        typeConfig: { school: 'nature', secondaryElement: 'psychic', icon: 'spell_nature_thorns', tags: ['thorns', 'truth', 'binding', 'active'] },
+                        damageConfig: {
+                            formula: '1d8 + 1d6',
+                            damageTypes: ['piercing', 'psychic'],
+                            resolution: 'DICE',
+                            savingThrow: { ability: 'charisma', difficultyClass: 14, saveOutcome: 'half_damage' }
+                        },
+                        debuffConfig: {
+                            debuffType: 'mentalEffect',
+                            effects: [
+                                {
+                                    id: 'verdict_truth_compulsion',
+                                    name: 'Verdict Compulsion',
+                                    description: 'Target must respond truthfully to the named question or accusation. Refusing: CON save DC 14 or compelled to answer. Lying: thorn lash strikes automatically.',
+                                    statusEffect: { level: 'moderate', description: 'Compelled to answer Verdict truthfully' }
+                                },
+                                {
+                                    id: 'verdict_binding_word',
+                                    name: 'Binding Word',
+                                    description: 'Target\'s answer becomes a binding verbal contract. Breaking their spoken word within 24 hours deals 3d6 psychic damage (no save).',
+                                    statusEffect: { level: 'major', description: 'Spoken word is binding. Breaking it: 3d6 psychic.' }
+                                }
+                            ],
+                            durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'lie_detection_verdict', name: 'Thorn Truth-Sense', description: 'Your thorns detect whether the target\'s response is truthful' },
+                                { id: 'self_lash_cost', name: 'Thornbite', description: 'TRADE-OFF: You take 1 piercing damage as the thorns tear through your own forearm to extend the lash.' },
+                                { id: 'verdict_limit', name: 'One Verdict', description: 'Only one active Verdict contract at a time.' }
+                            ],
+                            duration: 24, durationUnit: 'hours', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'ranged', rangeDistance: 30, targetRestrictions: ['any'] },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'bargain_weight_oathbound',
+                        name: 'The Bargain\'s Weight',
+                        description: 'Every active pact and verdict you maintain hardens the thorns around your body into living armor — but the weight of unbreakable promises crushes the flesh beneath. More contracts mean more protection. More protection means less blood, slower steps, and the creeping realization that your bargains are burying you alive.',
+                        level: 1,
+                        icon: 'ability_warrior_defensivestance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'nature', icon: 'ability_warrior_defensivestance', tags: ['passive', 'contract', 'fae', 'tradeoff'] },
+                        buffConfig: {
+                            buffType: 'damageMitigation',
+                            effects: [
+                                {
+                                    id: 'bargain_armor',
+                                    name: 'Thorn-Hardened',
+                                    description: '+1 Armor per active contract (Blood Pact or Verdict). The thorns calcify around bargains, growing denser and sharper.',
+                                    statModifier: { stat: 'armor', magnitude: 1, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'bargain_blood_toll',
+                                    name: 'Bargain\'s Blood Toll',
+                                    description: '-2 maximum HP per active contract. The thorns drink deeper with every promise you enforce.',
+                                    statModifier: { stat: 'max_health', magnitude: -2, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'bargain_weight',
+                                    name: 'Crushed by Promises',
+                                    description: 'At 3+ active contracts: -5ft movement speed. The thorns grow so thick they impede your stride.',
+                                    statModifier: { stat: 'movement_speed', magnitude: -5, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
                         id: 'iron_vulnerability_briaran_oathbound',
                         name: 'Iron Vulnerability',
-                        description: 'Your fae bloodline reacts violently to the touch of cold iron, as the unyielding metal disrupts the delicate enchantments that weave your form (+50% damage from iron weapons).',
+                        description: 'Cold iron severs the ancient bindings that give your fae blood its power — it burns through thorn and contract alike, leaving your magic hollowed out and your wounds torn wide. The one metal that can undo what your ancestors bargained for.',
                         level: 1,
-                        icon: 'General/Broken Armor',
+                        icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'iron',
-                            icon: 'General/Broken Armor',
-                            tags: ['vulnerability', 'iron', 'fae', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
+                                    id: 'iron_vulnerability',
                                     name: 'Iron Vulnerability',
-                                    description: 'Take 50% more damage from iron weapons.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'iron',
-                                        vulnerabilityPercent: 50
-                                    }
+                                    description: 'Cold iron burns through fae blood like acid. Each wound torn wider by the metal\'s antipathy for ancient bindings.',
+                                    statusEffect: { vulnerabilityType: 'iron', vulnerabilityPercent: 100 }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
                 ],
-                languages: ['Common', 'Sylvan', 'Celestial'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 20, // Elegant but physically weaker from fae heritage
-                    mana: 35, // Fae connection grants enhanced mana
-                    ap: 3, // Diplomatic, standard AP
-                    passivePerception: 13, // Precise and careful, read intent in words
-                    swimSpeed: 10, // Not swimmers, calculated from speed
-                    climbSpeed: 10, // Courtly, not climbers
-                    visionRange: 50,
-                    darkvision: 0,
-                    initiative: 0 // Formal and careful, not quick to react
-                },
-                savingThrowModifiers: {
-                    // Fae heritage makes them vulnerable to iron damage
-                    disadvantage: ['poison'], // Vulnerable to iron poisoning from fae heritage
-                    advantage: ['charm'] // Master diplomats resist social control
-                }
+                baseStats: { health: 10, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['charmed'], disadvantage: ['iron_effects'] }
             },
             wild: {
                 id: 'wild_briaran',
                 name: 'Thornscar',
-                description: 'Skin covered in scars where thorns turned inward. Thorns grow twisted and jagged, broken from attempts to remove them. Hands calloused from fighting and survival. Eyes fierce and untamed. Many have thorns still embedded in old wounds, causing constant low pain. They move with primal grace, muscles built from living wild. Hair often tangled with briars and thorns they refuse to remove.',
-                culturalBackground: `The Thornscar trace their lineage to Briaran who broke their fae contracts. Thorns turning inward and scarring their flesh as punishment. Their tradition is one of rejection and freedom. Communities built away from fae courts in wild groves where thorns grow wild. Thornscar settlements are primal places where nature magic runs free. Members serving as warriors, hunters, protectors of the wild. They practice ancient survival arts passed down through generations. How to fight with thorns. How to channel nature's fury. How to live free despite the scars. Their skin is a tapestry of old wounds. Each scar telling a story of obligation rejected and freedom won. But freedom comes at a cost. Their thorns still grow. Still bind. Still cause pain when promises are made. The bloodline values independence and strength. Honor measured in scars earned and chains broken. They are the wild ones of Briaran society. Free from court etiquette but forever marked by the thorns that turned against them.`,
-                statModifiers: {
-                    strength: 3,
-                    constitution: 2,
-                    agility: 2
-                },
+                description: 'Skin covered in pale scars where thorns turned inward \u2014 the marks of broken fae contracts written permanently across their bodies. Thorns still grow but twisted, jagged, broken from attempts to remove them. Hands calloused from fighting and survival. Eyes fierce and untamed, pupils that reflect light like a cat\'s. Many have thorns still embedded in old wounds. They move with primal grace. Hair often tangled with briars they refuse to remove \u2014 badges of freedom.',
+                culturalBackground: 'The Thornscar trace their lineage to Briaran who broke their fae contracts. Thorns turning inward and scarring their flesh as punishment. Their tradition is one of rejection and freedom. Communities built away from fae courts in wild groves where thorns grow wild. Members serving as warriors, hunters, protectors of the wild. Their skin is a tapestry of old wounds, each scar telling a story of obligation rejected and freedom won.',
+                statModifiers: { dexterity: 2, constitution: 1 },
                 traits: [
                     {
-                        id: 'briar_form_briaran',
-                        name: 'Briar Form',
-                        description: 'Transform into thorny vines. Gain resistance to bludgeoning/slashing damage but become immobile.',
+                        id: 'thornmarked_thornscar',
+                        name: 'Thornmarked — Scartide',
+                        description: 'Your thorns are not the cultivated blooms of the courts. They are broken, jagged, turned inward from the contracts you tore apart — fragments of old bargains still embedded in your flesh like shrapnel. They bite everyone, including you.',
                         level: 1,
-                        icon: 'Nature/Thorny Entanglement',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'transformation'],
-                        typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'transformation',
-                            icon: 'Nature/Thorny Entanglement',
-                            tags: ['transformation', 'defense', 'nature']
-                        },
+                        icon: 'spell_nature_thorns',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive', 'scarred'] },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'custom',
                             effects: [
                                 {
-                                    name: 'Physical Resistance',
-                                    description: 'Resistance to bludgeoning and slashing damage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your form becomes thorny vines'
-                                    }
-                                },
-                                {
-                                    name: 'Immobile',
-                                    description: 'Cannot move while in briar form',
-                                    statusEffect: {
-                                        level: 'minor',
-                                        description: 'Your roots anchor you in place'
-                                    }
+                                    id: 'scartide_thorns',
+                                    name: 'Scartide Thorns',
+                                    description: 'Broken jagged thorns impale grapplers and unarmed melee attackers for 1d6 piercing — viciouser than cultivated court thorns',
+                                    statModifier: { stat: 'thorns_damage', magnitude: '1d6', magnitudeType: 'dice' }
                                 }
                             ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        transformationConfig: {
-                            transformationType: 'physical',
-                            targetType: 'self',
-                            duration: 1,
-                            durationUnit: 'minutes',
-                            power: 'moderate',
-                            specialEffects: ['damage_resistance', 'immobile', 'thorns']
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'scartide_self_bleed',
+                                    name: 'Self-Bleed',
+                                    description: 'TRADE-OFF: Your broken thorns bite you too. Each time Scartide activates against an attacker, you take 1 piercing as the thorns shift and embed deeper in your own scarred flesh.',
+                                    statusEffect: { level: 'minor', description: '1 piercing to self when thorns activate — the scars never stop bleeding.' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
-                        id: 'thorn_strike_briaran',
-                        name: 'Thorn Strike',
-                        description: 'Living thorns grown from fae bargains deal +1 damage and cause bleeding (1d4/round for 3 rounds).',
+                        id: 'briar_eruption_thornscar',
+                        name: 'Briar Eruption',
+                        description: 'The broken thorns detonate outward from your body in a screaming vortex of jagged vine and old bargain-shrapnel, carving a killing ground where nothing moves without bleeding. Your kin pass freely — everyone else pays the toll.',
                         level: 1,
-                        icon: 'Nature/Thorned Flower',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'combat',
-                            secondaryElement: 'nature',
-                            icon: 'Nature/Thorned Flower',
-                            tags: ['combat', 'natural-weapons', 'bleeding', 'passive']
+                        icon: 'spell_nature_thorns',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff', 'utility'],
+                        typeConfig: { school: 'nature', secondaryElement: 'piercing', icon: 'spell_nature_thorns', tags: ['thorns', 'aoe', 'hazard', 'active'] },
+                        damageConfig: {
+                            formula: '2d6 + 1d6',
+                            damageTypes: ['piercing', 'psychic'],
+                            resolution: 'DICE',
+                            savingThrow: { ability: 'agility', difficultyClass: 14, saveOutcome: 'half_damage' }
                         },
-                        buffConfig: {
-                            buffType: 'statusEffect',
+                        debuffConfig: {
+                            debuffType: 'movementImpairment',
                             effects: [
                                 {
-                                    name: 'Thorn Damage',
-                                    description: 'Natural weapons deal +1 piercing damage',
-                                    statModifier: {
-                                        stat: 'weapon_damage',
-                                        magnitude: 1,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    name: 'Bleeding Strike',
-                                    description: 'Attacks cause bleeding (1d4 damage per round for 3 rounds)',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your thorns cause persistent bleeding wounds'
-                                    }
+                                    id: 'briar_zone_thornscar',
+                                    name: 'Briar Zone',
+                                    description: 'Creates 15ft radius Briar Zone for 1 minute. Difficult terrain for enemies. Enemies entering or starting their turn in the zone take 1d4 piercing. The thorns are the remnants of every contract you ever broke, and they are furious.',
+                                    statusEffect: { level: 'moderate', description: 'Briar Zone: difficult terrain, 1d4 piercing/turn to enemies' }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 1, durationType: 'minutes', durationUnit: 'minutes', canBeDispelled: true
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'briaran_passage', name: 'Briaran Passage', description: 'Briaran allies are unaffected by the Briar Zone and gain +5ft speed while inside it — the broken thorns recognize their kin.' },
+                                { id: 'eruption_self_harm', name: 'Eruption Toll', description: 'TRADE-OFF: You take 2 piercing as the thorns tear free from your body to seed the ground. Your flesh is the ammunition.' }
+                            ],
+                            duration: 1, durationUnit: 'minutes', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 15, targetRestrictions: ['enemies'] },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'pain_focus_thornscar',
+                        name: 'Pain Focus',
+                        description: 'Every wound is a lens. Pain focuses your shattered will into a single devastating strike — fury refined through suffering into something precise and terrible. But if you cannot release the pain, it turns inward and gnaws at your next breath.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'physical', icon: 'ability_warrior_rampage', tags: ['pain', 'combat', 'active', 'tradeoff'] },
+                        buffConfig: {
+                            buffType: 'combatAdvantage',
+                            effects: [
+                                {
+                                    id: 'pain_advantage',
+                                    name: 'Pain-Fueled Precision',
+                                    description: 'Advantage on your next attack roll. The suffering sharpens your aim to surgical intensity.',
+                                    statModifier: { stat: 'attack_roll', magnitude: 1, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'pain_bonus_damage',
+                                    name: 'Agonizing Strike',
+                                    description: '+1d6 bonus damage on your next attack. If you have taken 10+ damage this turn, the bonus increases to +2d6 — the pain has become ecstatic.',
+                                    statModifier: { stat: 'bonus_damage', magnitude: '1d6', magnitudeType: 'dice' }
+                                }
+                            ],
+                            durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: false
+                        },
+                        triggerConfig: {
+                            conditionalEffects: {
+                                buff: {
+                                    isConditional: true,
+                                    defaultEnabled: false,
+                                    conditionalFormulas: {
+                                        'damage_taken_10_plus': '2d6',
+                                        'default': '1d6'
+                                    }
+                                }
+                            },
+                            effectTriggers: {
+                                buff: {
+                                    logicType: 'AND',
+                                    compoundTriggers: [
+                                        { id: 'on_damage_taken', type: 'on_damage_taken', description: 'Must activate after taking damage this turn' }
+                                    ]
+                                }
+                            }
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 1, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'turn_based', cooldownValue: 2 }
+                    },
+                    {
+                        id: 'contract_breaker_constitution',
+                        name: 'Contract-Breaker\'s Constitution',
+                        description: 'You have already broken the contracts that once bound you. No fae honey can sweeten your ear. No phantom terror can grip a heart already scarred. But the broken thorns still embedded in your flesh have learned to bite back at anyone foolish enough to strike you when you\'re wounded — they come away with blood that is not entirely yours.',
+                        level: 1,
+                        icon: 'ability_warrior_defensivestance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'nature', icon: 'ability_warrior_defensivestance', tags: ['passive', 'resilience', 'freedom', 'fae'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            effects: [
+                                {
+                                    id: 'fae_freedom',
+                                    name: 'Unbound',
+                                    description: 'Immune to charm and fear effects from fae sources. You have already paid the price of freedom in blood — no honeyed promise can chain you again.',
+                                    statModifier: { stat: 'charm_immunity', magnitude: 100, magnitudeType: 'percentage' }
+                                },
+                                {
+                                    id: 'psychic_scar_armor',
+                                    name: 'Scar-Hardened Mind',
+                                    description: 'Resistance to psychic damage (50%). The inside of your skull is a thorn-choked wasteland — nothing else can take root.',
+                                    statModifier: { stat: 'psychic_resistance', magnitude: 50, magnitudeType: 'percentage' }
+                                },
+                                {
+                                    id: 'thorn_reflect',
+                                    name: 'Scartide Retaliation',
+                                    description: 'When at or below half HP, melee attackers take 2 piercing damage from embedded thorn fragments. The broken bargains bite everyone.',
+                                    statModifier: { stat: 'melee_reflect', magnitude: 2, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
                         id: 'iron_vulnerability_briaran_wild',
                         name: 'Iron Vulnerability',
-                        description: 'Your rejected pacts leave you exposed (+50% damage) to the cold iron of the civilization you fled and the purifying flames that seek to reclaim the wild growth of your skin.',
+                        description: 'Cold iron finds every old wound and torn contract still written in your flesh, the metal drinking deep of the fae blood that refuses to stop flowing. The contracts you broke still course through your veins — iron remembers what you owe.',
                         level: 1,
-                        icon: 'General/Broken Armor',
+                        icon: 'spell_holy_holybolt',
                         spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'iron',
-                            icon: 'General/Broken Armor',
-                            tags: ['vulnerability', 'iron', 'fire', 'passive']
-                        },
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
+                                    id: 'iron_vulnerability',
                                     name: 'Iron Vulnerability',
-                                    description: 'Take 50% more damage from iron weapons.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'iron',
-                                        vulnerabilityPercent: 50
-                                    }
-                                },
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Fire Vulnerability',
-                                    description: 'Take 50% more damage from fire sources.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'fire',
-                                        vulnerabilityPercent: 50
-                                    }
+                                    description: 'Cold iron finds every old wound in your fae flesh, drinking deep of blood that refuses to stop flowing',
+                                    statusEffect: { vulnerabilityType: 'iron', vulnerabilityPercent: 100 }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
                 ],
-                languages: ['Common', 'Sylvan'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 30, // Warriors, hunters, built from living wild - extra durability
-                    mana: 22,
-                    ap: 4, // Primal warriors, quick reactions - extra action point
-                    passivePerception: 2, // Hunters, protectors of the wild
-                    swimSpeed: 5, // Survival skills include water
-                    climbSpeed: 10, // Primal grace, excellent climbers
-                    visionRange: 60,
-                    darkvision: 0,
-                    initiative: 2 // Fierce and untamed, quick to react
-                },
-                savingThrowModifiers: {
-                    // Broken fae contracts make them vulnerable to iron and fire
-                    disadvantage: ['poison'], // Vulnerable to iron's poisonous effects
-                    advantage: ['fear'] // Warrior spirit resists fear
-                }
+                baseStats: { health: 12, mana: 3, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['restrained'], disadvantage: ['iron_effects'] }
             },
             dusk: {
                 id: 'dusk_briaran',
                 name: 'Dusk Walker',
-                description: 'Thorns glow faintly in twilight, dimming in daylight and darkness. Skin changes tone with the time of day, darker at dusk. Eyes reflect both day and night, pupils that adjust unnaturally. They seem to fade slightly in bright light and deep dark. Movement is fluid, existing between moments. Their presence feels transient, like they could slip into shadow or light at any moment.',
-                culturalBackground: `The Dusk-Walkers trace their lineage to Briaran who made bargains during the twilight hours. Binding themselves to the boundary between day and night. Their tradition requires that every member learn to navigate liminal spaces. Apprenticeships spent mastering the art of existing between worlds. Dusk-Walker communities are built in places where day meets night. Settlements thriving in the twilight hours when the fae courts are closest. They practice ancient boundary-walking techniques passed down through generations. How to exist in two worlds. How to negotiate during transition. How to make bargains that span day and night. Their thorns glow faintly in twilight. Blood running darker as the sun sets. Marking them as creatures of transition. But this boundary existence comes at a cost. They are weakened by both pure daylight and deepest night. Thriving only in the liminal hours. The bloodline values balance and transition. Honor measured in boundaries navigated and worlds bridged. They are the mediators of Briaran society. Existing between court and wild, day and night. Forever bound to the twilight that birthed them.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    spirit: 2
-                },
+                description: 'Thorns glow faintly in twilight, dimming in full daylight and darkness. Skin changes tone with time of day — warm bronze at noon, cool silver at midnight. Eyes reflect both day and night. They fade slightly in bright light and deep dark, most solid during dawn and dusk. Movement fluid, existing between moments.',
+                culturalBackground: 'The Dusk-Walkers trace their lineage to Briaran who made bargains during twilight hours, binding themselves to the boundary between day and night. They navigate liminal spaces. Communities built where day meets night. They are weakened by pure daylight and deepest night, thriving only in liminal hours.',
+                statModifiers: { dexterity: 1, charisma: 2 },
                 traits: [
                     {
-                        id: 'twilight_step_briaran',
-                        name: 'Twilight Step',
-                        description: 'Teleport short distances through shadows. Only during dawn or dusk.',
+                        id: 'thornmarked_dusk_walker',
+                        name: 'Thornmarked — Twilight Bloom',
+                        description: 'Your thorns glow faintly in twilight — pale luminescence that pulses at dawn and dusk like a heartbeat. In full daylight they wither to bone-dry husks. In absolute darkness they go cold and still. Only in the space between do they sing.',
                         level: 1,
-                        icon: 'Nature/Steps into Woods',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'shadow',
-                            icon: 'Nature/Steps into Woods',
-                            tags: ['teleport', 'shadow', 'movement', 'twilight']
-                        },
-                        utilityConfig: {
-                            utilityType: 'movement',
-                            selectedEffects: [{
-                                id: 'teleport',
-                                name: 'Teleport',
-                                description: 'Teleport up to 30 feet through shadows during twilight hours.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
-                        },
-                        targetingConfig: {
-                            targetingType: 'location',
-                            rangeType: 'ranged',
-                            rangeDistance: 30
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'duality_briaran',
-                        name: 'Duality',
-                        description: 'Existing between worlds grants you perfect clarity in twilight\'s embrace.',
-                        level: 1,
-                        icon: 'Utility/Stealth 1',
+                        icon: 'spell_nature_thorns',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'perception',
-                            secondaryElement: 'twilight',
-                            icon: 'Utility/Stealth 1',
-                            tags: ['stealth', 'perception', 'low-light', 'passive']
-                        },
+                        typeConfig: { school: 'shadow', secondaryElement: 'nature', icon: 'spell_nature_thorns', tags: ['thorns', 'defensive', 'passive', 'twilight'] },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'custom',
                             effects: [
                                 {
-                                    name: 'Low Light Advantage',
-                                    description: 'Advantage on stealth and perception checks in low light',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'You thrive in twilight conditions'
-                                    }
+                                    id: 'twilight_thorns',
+                                    name: 'Twilight Thorns',
+                                    description: 'Grapplers/unarmed attackers take 1d4 piercing. In twilight conditions (dawn, dusk, eclipse): damage increases to 1d6 and thorns emit soft light (5ft radius). In bright light or complete darkness: reduced to 1 piercing only.',
+                                    statModifier: { stat: 'thorns_damage', magnitude: '1d4', magnitudeType: 'dice' }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
-                        id: 'radiant_necrotic_vulnerability_briaran',
-                        name: 'Twilight Vulnerability',
-                        description: 'Your existence in the liminal spaces leaves you vulnerable (+50% damage) to the extremes of existence: the purifying brilliance of daylight and the soul-chilling void of absolute darkness.',
+                        id: 'dusk_rend_dusk_walker',
+                        name: 'Dusk Rend',
+                        description: 'Tear a wound in the skin of reality where light meets shadow, and step through the screaming rift. The afterimage of your passage blinds those nearby — the world cannot look away from where you broke it. In twilight, the rift opens willingly. Outside of it, you must pry it apart with your own pain.',
                         level: 1,
-                        icon: 'Utility/All Seeing Eye',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'twilight',
-                            icon: 'Utility/All Seeing Eye',
-                            tags: ['vulnerability', 'radiant', 'necrotic', 'passive']
+                        icon: 'spell_shadow_shadowwordkill',
+                        spellType: 'ACTION',
+                        effectTypes: ['utility', 'debuff'],
+                        typeConfig: { school: 'shadow', secondaryElement: 'radiant', icon: 'spell_shadow_shadowwordkill', tags: ['teleport', 'shadow', 'light', 'twilight', 'active'] },
+                        utilityConfig: {
+                            utilityType: 'movement',
+                            selectedEffects: [
+                                { id: 'dusk_teleport', name: 'Light-Shift Teleport', description: 'Teleport up to 60ft to any point in a different lighting condition than your current position (bright to dim, dim to dark, dark to bright, etc.)' },
+                                { id: 'rift_passage', name: 'Rift Passage', description: 'The rift remains open for 1 round. One ally may pass through it one-way (same distance).' },
+                                { id: 'twilight_free', name: 'Twilight Casting', description: 'In twilight conditions (dawn, dusk, eclipse): this ability costs 0 AP and becomes a free action.' },
+                                { id: 'dusk_rend_toll', name: 'Reality\'s Toll', description: 'TRADE-OFF: Outside twilight conditions, take 1d4 psychic damage as reality protests your passage through its wounds.' }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'major'
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'sensoryImpairment',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
-                                    name: 'Radiant Vulnerability (Day)',
-                                    description: 'Take 50% more radiant damage during daylight.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'radiant',
-                                        vulnerabilityPercent: 50
-                                    }
-                                },
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Necrotic Vulnerability (Night)',
-                                    description: 'Take 50% more necrotic damage in darkness.',
-                                    statusEffect: {
-                                        vulnerabilityType: 'necrotic',
-                                        vulnerabilityPercent: 50
-                                    }
+                                    id: 'arrival_blind',
+                                    name: 'Arrival Shock',
+                                    description: 'Enemies within 5ft of arrival point: CON save DC 14 or Blinded for 1 round. In twilight conditions: blinded for 1d4 rounds — the rift screams louder at the threshold.',
+                                    statusEffect: { level: 'moderate', description: 'Blinded by violent light/shadow shift at rift point' }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            savingThrow: { ability: 'constitution', difficultyClass: 14, saveOutcome: 'negates' },
+                            durationValue: 1, durationType: 'rounds', durationUnit: 'rounds', canBeDispelled: true
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'between_moments_dusk_walker',
+                        name: 'Between Moments',
+                        description: 'You slip between heartbeats, existing in the space where time stutters. Once per combat, you act while the world holds its breath — but the world exacts a toll for your absence. You return to find yourself slower, left behind by the flow you escaped. Every borrowed heartbeat costs a piece of your rhythm.',
+                        level: 1,
+                        icon: 'ability_rogue_stealth',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'arcane', icon: 'ability_rogue_stealth', tags: ['temporal', 'passive', 'tradeoff', 'twilight'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            effects: [
+                                {
+                                    id: 'extra_action_dusk',
+                                    name: 'Stolen Moment',
+                                    description: 'Once per combat, take an extra action at initiative count 10. You act in the space between moments where others cannot reach.',
+                                    statModifier: { stat: 'extra_action', magnitude: 1, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'initiative_drain_dusk',
+                                    name: 'Temporal Drag',
+                                    description: 'TRADE-OFF: After using your extra action, your initiative drops by -2 for the rest of combat. The world does not forgive those who step outside its rhythm — you return out of sync.',
+                                    statModifier: { stat: 'initiative', magnitude: -2, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'combat', durationUnit: 'combat', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'encounter', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'liminal_being_dusk_walker',
+                        name: 'Liminal Being',
+                        description: 'You are strongest at thresholds — the door between day and night, the edge of shadow and flame, the moment between life and death. Dawn and dusk sing in your blood. Crossroads and doorways hum with potential you can taste. But pure states — absolute light, total darkness — are anathema to your in-between nature. You wither at the extremes.',
+                        level: 1,
+                        icon: 'spell_shadow_twilight',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: { school: 'shadow', secondaryElement: 'radiant', icon: 'spell_shadow_twilight', tags: ['passive', 'twilight', 'threshold', 'tradeoff'] },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'threshold_power',
+                                    name: 'Threshold Blessing',
+                                    description: '+1 to all ability checks and saving throws during twilight hours (dawn, dusk). At crossroads, doorways, and boundaries: advantage on Stealth. See in magical darkness.',
+                                    statModifier: { stat: 'all_checks', magnitude: 1, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'shadow_veil_passive',
+                                    name: 'Shadow Veil',
+                                    description: 'Advantage on Stealth checks in dim light or darkness. The grey places between visibility are your natural home.',
+                                    statModifier: { stat: 'stealth', magnitude: 1, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'darkvision_enhanced',
+                                    name: 'Twilight Eyes',
+                                    description: 'Can see through magical darkness. The boundary between light and shadow is transparent to you.',
+                                    statModifier: { stat: 'darkvision', magnitude: 60, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'extreme_weakness',
+                                    name: 'Extreme Aversion',
+                                    description: 'TRADE-OFF: -1 to all ability checks in bright daylight or complete darkness. Pure states are agony to your threshold nature — you literally wither at the extremes.',
+                                    statModifier: { stat: 'all_checks', magnitude: -1, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'radiant_necrotic_vulnerability_dusk_walker',
+                        name: 'Radiant & Necrotic Vulnerability',
+                        description: 'Caught forever between light and shadow, your twilight nature makes you vulnerable to both extremes — the searing purity of radiance burns you like dawn burns the night, while the absolute void of necrotic entropy swallows the fragile half-light that sustains you. You exist in the grey. Purity and void will unmake you equally.',
+                        level: 1,
+                        icon: 'spell_holy_holybolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [
+                                {
+                                    id: 'radiant_vulnerability',
+                                    name: 'Radiant Vulnerability',
+                                    description: 'The searing purity of radiance burns you like dawn burns the night — your twilight nature cannot withstand absolute light',
+                                    statusEffect: { vulnerabilityType: 'radiant', vulnerabilityPercent: 100 }
+                                },
+                                {
+                                    id: 'necrotic_vulnerability',
+                                    name: 'Necrotic Vulnerability',
+                                    description: 'The absolute void of necrotic entropy swallows the fragile half-light that sustains you — darkness devours twilight',
+                                    statusEffect: { vulnerabilityType: 'necrotic', vulnerabilityPercent: 100 }
+                                }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
                 ],
-                languages: ['Common', 'Sylvan', 'Umbral'],
-                speed: 35,
-                baseStats: {
-                    armor: 0,
-                    hp: 20, // Exists between worlds, not particularly hardy
-                    mana: 28, // Twilight connection grants some mana
-                    ap: 4, // Quick and fluid, exists between moments - extra action point
-                    passivePerception: 3, // Advantage on perception in low light, navigate boundaries
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Thrives in twilight, can see in low light
-                    initiative: 3 // Fluid movement, exists between moments - quick to react
-                },
-                savingThrowModifiers: {
-                    // Weakened by pure daylight and deepest night
-                    disadvantage: ['blinded'], // Vulnerable to bright light extremes
-                    advantage: ['stun'] // Fluid movement helps resist disorientation
-                }
+                baseStats: { health: 10, mana: 4, actionPoints: 3, initiative: 1 },
+                savingThrowModifiers: { advantage: ['blinded'], disadvantage: ['iron_effects'] }
             }
-        }
-    };
-
-export default briaran;
+        },
+};

@@ -1,9 +1,9 @@
-export const grimheart = {
+﻿export const grimheart = {
         id: 'grimheart',
         name: 'Grimheart',
         essence: 'Stone-hardened delvers',
         description: 'We are the children of the deep Earth, forged in the crushing weight of the world. Our skin is the grey of mountain granite, our bones heavy with the minerals we have spent lifetimes prying from the dark. We do not just mine the stone; we speak to it, and it answers in the low groan of shifting plates. Every callus on our hands is a testament to the iron we have tamed, every scar a map of a tunnel we survived. Our eyes are wide, hunger-bright for the glint of silver in the absolute black where surface lights cannot reach. We do not fear the crushing dark, for we are of the same marrow. We are the architects of the roots of the world, the keepers of the deep-veins that bleed the wealth of kings. We are slow to move and hard to break, as unyielding as the mountains that raised us.',
-        icon: '/assets/icons/races/grimheart.png',
+        icon: 'fas fa-hammer',
         overview: 'The Grimheart are stout folk whose ancestors founded the mining guilds that carved wealth from the deep earth. Through generations of working beneath the mountains, their bloodlines have been marked by the stone. Their flesh hardening. Their bones growing dense. Their very nature shaped by the deep places. They are organized into powerful guilds, each with its own traditions, techniques, ancestral secrets. The Grimheart don\'t just mine. They serve the earth, their craft a calling passed down through bloodlines. But the deep earth whispers to those who work it too long. Many Grimheart find themselves drawn back to the mines, unable to resist the call of what lies beneath.',
         culturalBackground: `Grimheart society runs on guild loyalty and ancestral craft traditions. Each guild traces its founding to legendary miners and smiths who first learned to shape stone and metal. Their techniques passed down through generations like sacred texts. Guild halls are carved deep into mountainsides, stone architecture reflecting the unyielding nature of those who built them. Grimheart children are apprenticed young. Learning their family's craft from masters who are often their own ancestors. The transformation comes slowly. Through generations of working in the deep, their bloodlines have adapted. Flesh hardening like the stone they work. But this adaptation is also a curse. The deep earth whispers to those with stone in their blood. Calling them back to dig ever deeper. Guild disputes settle through craft competitions and the testimony of elder masters. They are a people bound by tradition and haunted by the depths. Their mastery of earth and metal unmatched. But their souls forever marked by what they awakened below.`,
         variantDiversity: 'The Grimheart are divided into three major bloodlines: The Deep-Delvers embrace deep mining and answer the earth\'s call, the Stone-Smiths channel their connection to stone into master crafting, and the Earth-Wardens resist the whispers to serve as guardians and protectors.',
@@ -159,38 +159,37 @@ The deep earth remembers everything it touches, and it calls us to work what we'
             delver: {
                 id: 'delver_grimheart',
                 name: 'Deep Delver',
-                description: 'Flesh hardest of all Grimheart, gray as granite and rough to the touch. Eyes fully adapted to darkness, nearly blind in bright light. Hands permanently stained with mineral dust. Constant twitching and muttering from the whispers they hear. Many bear scars from cave-ins and collapses. They move with a hunched posture, as if always ready to dig.',
-                culturalBackground: `The Deep-Delvers trace their founding to the first miners who broke through into the deep places where the mountain's blood flows. Their tradition demands that every member learn to mine the deepest veins. Apprenticeships spent in caverns where surface folk would perish. Deep-Delver halls are built in the deepest mines. Members living in darkness that would blind others. Through generations of deep mining, their bloodline has adapted. Stone-hardened flesh allowing them to work where others cannot. Eyes seeing in darkness that blinds surface dwellers. Members practice ancient mining techniques passed down through generations. How to read stone patterns. How to find veins that shouldn't exist. How to navigate tunnels that go deeper than any map. But the deep earth whispers to those who work it. Many Deep-Delvers find themselves unable to stay on the surface. Drawn back to dig ever deeper. The bloodline values skill and courage. Honor measured in depths reached and treasures unearthed. They are the deep-miners of Grimheart society. Unmatched in their craft but forever marked by what they awaken below.`,
+                description: 'The mountain didn\'t harden them. It hollowed them. Flesh more granite than meat, eyes like wet charcoal adapted for the absolute black of the deepest mines. Organs replaced by mineral deposits over generations, thoughts replaced by stone-whispers that never stop. Hands permanently stained with ore-dust that has worked its way beneath the nails and into the blood. They move with the hunched, grinding gait of things that belong in tunnels — not walking but excavating, each step a tiny excavation. They dig not for wealth but because the alternative is silence, and silence to a Hollowed one is worse than death.',
+                culturalBackground: `The Deep-Delvers trace their founding to the first miners who broke through into the deep places where the mountain's blood flows — and the mountain thanked them by claiming them. Their tradition demands that every member learn to mine the deepest veins, apprenticeships spent in caverns where surface folk would perish in minutes. Deep-Delver halls are built in the deepest mines, members living in darkness that would blind others. Through generations of deep mining, their bloodline has adapted — not improved, adapted. Stone-hardened flesh replacing what was once soft. Eyes seeing in darkness that blinds surface dwellers but failing in the light they once needed. Members practice ancient mining techniques passed down through generations — how to read stone patterns, how to find veins that shouldn't exist, how to navigate tunnels that go deeper than any map. But the deep earth does not grant these gifts freely. The whispers grow louder with each generation. Many Deep-Delvers find themselves unable to stay on the surface, drawn back to dig ever deeper. The bloodline values skill and courage, honor measured in depths reached and treasures unearthed. They are the deep-miners of Grimheart society. Unmatched in their craft. But what the mountain gave, it can take back — and it always demands more than it offered.`,
                 statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    charisma: -3
+                    constitution: 4,
+                    strength: 1,
+                    charisma: -4
                 },
                 traits: [
                     {
-                        id: 'stone_skin_grimheart',
-                        name: 'Stone Skin',
-                        description: 'Generations of working the unforgiving deep earth have hardened your flesh and bones to near-stone, granting protection but forever slowing your movements like the mountains themselves.',
+                        id: 'calcified_husk_grimheart',
+                        name: 'Calcified Husk',
+                        description: 'The deep earth consumed your soft tissue and replaced it with mineral deposits — what remains is more granite than meat. Your flesh cannot be cut, but it also cannot be mended. Bandages slide off calcified wounds. Healing potions pool in the hollows where organs used to be, unable to find living tissue to knit. You are not armored. You are petrified.',
                         level: 1,
-                        icon: 'inv_misc_stonetablet_04',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'stone',
-                            icon: 'inv_misc_stonetablet_04',
-                            tags: ['armor', 'stone', 'defense', 'passive']
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['armor', 'stone', 'defense', 'passive', 'calcified']
                         },
                         buffConfig: {
                             buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    id: 'stone_armor',
-                                    name: 'Stone Armor',
-                                    description: 'Gain +2 armor from stone-hardened flesh',
+                                    id: 'calcified_armor',
+                                    name: 'Calcified Armor',
+                                    description: '+3 Armor. Your flesh is more stone than meat.',
                                     statModifier: {
                                         stat: 'armor',
-                                        magnitude: 2,
+                                        magnitude: 3,
                                         magnitudeType: 'flat'
                                     }
                                 }
@@ -201,321 +200,689 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             canBeDispelled: false
                         },
                         debuffConfig: {
-                            debuffType: 'statEnhancement',
+                            debuffType: 'statPenalty',
                             effects: [
                                 {
-                                    id: 'stone_slow',
-                                    name: 'Stone Slow',
-                                    description: 'Movement reduced by 5 feet',
+                                    id: 'stone_weight',
+                                    name: 'Weight of Stone',
+                                    description: '-10 movement speed. The mountain drags on every step.',
                                     statModifier: {
                                         stat: 'movement_speed',
-                                        magnitude: -5,
+                                        magnitude: -10,
                                         magnitudeType: 'flat'
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'earth_sense_grimheart',
-                        name: 'Earth Sense',
-                        description: 'Sense minerals, passages, and underground features within range.',
-                        level: 1,
-                        icon: 'spell_nature_earthquake',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'detection',
-                            icon: 'spell_nature_earthquake',
-                            tags: ['detection', 'earth', 'minerals']
-                        },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'detection',
-                                name: 'Detection',
-                                description: 'Detect minerals and underground passages within 60 feet.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'ranged',
-                            rangeDistance: 60,
-                            aoeShape: 'sphere',
-                            aoeParameters: {
-                                radius: 60
-                            }
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'stone_frailty_grimheart',
-                        name: 'Stone Frailty',
-                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
-                        level: 1,
-                        icon: 'spell_nature_acid_01',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'acid',
-                            icon: 'spell_nature_acid_01',
-                            tags: ['vulnerability', 'acid', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Acid Vulnerability',
-                                    description: 'Take 50% more acid damage',
-                                    statusEffect: {
-                                        vulnerabilityType: 'acid',
-                                        vulnerabilityPercent: 50
                                     }
                                 },
                                 {
-                                    name: 'Stone Dissolution',
-                                    description: 'Acid damage reduces your natural armor temporarily',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Acid damage can weaken your stone-hardened defenses'
+                                    id: 'calcified_healing',
+                                    name: 'Calcified Wounds',
+                                    description: 'Combat healing from spells and potions restores only 50%. There is nothing left to knit back together.',
+                                    statModifier: {
+                                        stat: 'healing_received',
+                                        magnitude: -50,
+                                        magnitudeType: 'percentage'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
-                    }
-                ],
-                languages: ['Common', 'Terran', 'Undercommon'],
-                speed: 25,
-                baseStats: {
-                    armor: 0, // Stone Skin passive adds +2, so base is 0
-                    hp: 36, // Stone-hardened flesh, extra durability
-                    mana: 16,
-                    ap: 3, // Steady workers, standard AP
-                    passivePerception: 13, // Earth Sense, detect minerals and passages
-                    swimSpeed: 10, // Dense and stone-like, poor swimmers
-                    climbSpeed: 20, // Excellent climbers, work in deep caves
-                    visionRange: 45,
-                    darkvision: 60, // Eyes fully adapted to darkness
-                    initiative: -2 // Slow and steady, not quick to react
-                },
-                savingThrowModifiers: {
-                    // Deep delvers resist poison but are vulnerable to light
-                    advantage: ['poison'], // Stone nature resists poison effects
-                    disadvantage: ['blinded'] // Deep dwelling vulnerable to bright light effects
-                }
-            },
-            warden: {
-                id: 'warden_grimheart',
-                name: 'Earth Warden',
-                description: 'Broad-shouldered and wide-set, built like living walls. Stone-hardened flesh forms natural plates across chest and shoulders. Eyes constantly scanning, pupils contracted even in darkness. Many stand in rigid postures, having held positions for days. Hands often clenched into fists, ready to strike or guard. The whispers affect them less, but the strain shows in their faces.',
-                culturalBackground: `The Earth-Wardens were founded by guardians who swore to protect surface settlements from what their kin awakened in the deep places. Their tradition requires that every member take vows of protection. Dedicating their lives to guarding against the things that crawl up from below. Earth-Warden halls are built at mine entrances and settlement borders. Members serving as watchful sentinels. Through generations of standing guard, their bloodline has adapted. Stone-hardened flesh making them living fortifications. Their patience legendary. Members practice ancient defensive techniques passed down through generations. How to read ground tremors. How to detect deep-earth movement. How to stand unmoving for days if needed. The bloodline values duty and sacrifice. Honor measured in threats prevented and lives protected. But they hear the same whispers as their mining kin. The deep earth calls to all Grimheart. Many Earth-Wardens eventually succumb, walking into caves that collapse behind them. They are the guardians of Grimheart society. Their sacrifice keeping others safe from what they themselves awakened.`,
-                statModifiers: {
-                    constitution: 3,
-                    spirit: 2,
-                    agility: -2
-                },
-                traits: [
-                    {
-                        id: 'guardians_resolve_grimheart',
-                        name: 'Guardian\'s Resolve',
-                        description: 'Sacrifice yourself to protect allies, absorbing damage but taking extra harm from the effort.',
-                        level: 1,
-                        icon: 'spell_holy_powerwordshield',
-                        spellType: 'REACTION',
-                        effectTypes: ['buff', 'debuff'],
-                        typeConfig: {
-                            school: 'protection',
-                            secondaryElement: 'guardian',
-                            icon: 'spell_holy_powerwordshield',
-                            tags: ['protection', 'sacrifice', 'damage_absorption']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Absorb damage for allies within 10 feet',
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        debuffConfig: {
-                            debuffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Sacrificial Strain',
-                                    description: '50% of absorbed damage as extra harm • Warding backlash',
-                                    statusEffect: {
-                                        level: 'severe',
-                                        description: 'Protecting others causes additional damage to yourself'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'multi',
-                            rangeType: 'ranged',
-                            rangeDistance: 10,
-                            maxTargets: 5,
-                            targetRestrictions: ['ally']
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        triggerConfig: {
-                            global: {
-                                enabled: true,
-                                logicType: 'OR',
-                                compoundTriggers: [
-                                    {
-                                        id: 'ally_damage',
-                                        category: 'damage',
-                                        name: 'Ally Takes Damage',
-                                        parameters: {
-                                            perspective: 'ally',
-                                            range: 10,
-                                            damageThreshold: 1
-                                        }
-                                    }
-                                ]
-                            }
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
                     },
                     {
-                        id: 'deep_sight_grimheart',
-                        name: 'Deep Sight',
-                        description: 'Enhanced vision adapted to the darkness of the deep earth.',
+                        id: 'stone_whispers_grimheart',
+                        name: 'Stone Whispers',
+                        description: 'While your feet touch stone or earth, you hear everything within sixty feet — not through vibration but through the mountain\'s own awareness. The deep knows where every foot falls, where every claw scrapes, where every breath touches rock. On wood, on water, on anything that is not stone, you are deaf to the world beneath. The mountain speaks only to those who belong to it.',
                         level: 1,
                         icon: 'ability_rogue_findweakness',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'darkness',
+                            school: 'physical',
+                            secondaryElement: 'nature',
                             icon: 'ability_rogue_findweakness',
-                            tags: ['darkvision', 'perception', 'passive']
+                            tags: ['detection', 'tremorsense', 'underground', 'passive', 'conditional']
                         },
                         buffConfig: {
                             buffType: 'statusEffect',
                             effects: [
                                 {
-                                    name: 'Superior Darkvision',
-                                    description: 'Darkvision extends to 120 feet',
+                                    id: 'tremorsense_60ft',
+                                    name: 'Tremorsense 60ft',
+                                    description: 'Detect all creatures moving on stone or earth within 60 feet, even through walls. Does not function on non-stone surfaces.',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'See in darkness up to 120 feet'
+                                        description: 'Tremorsense 60ft while touching stone or earth. Inactive on wood, water, or non-mineral surfaces.'
                                     }
                                 },
                                 {
-                                    name: 'Magical Darkness Penetration',
-                                    description: 'Can see through magical darkness',
+                                    id: 'underground_vigilance',
+                                    name: 'Underground Vigilance',
+                                    description: 'Cannot be surprised while underground. The deep earth warns its children.',
                                     statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Magical darkness does not impede vision'
+                                        level: 'minor',
+                                        description: 'Immune to Surprise condition while in underground environments'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     },
                     {
-                        id: 'stone_vulnerability_grimheart',
-                        name: 'Stone Vulnerability',
-                        description: 'Your stone-hardened body conducts electricity dangerously and can be shattered by lightning.',
+                        id: 'entomb_grimheart',
+                        name: 'Entomb',
+                        description: 'You slam your mineralized fists into load-bearing stone and the mountain obeys. Rock collapses in a thunderous cascade, burying everything before you in rubble and screaming dust. The effort cracks your own calcified shell — you feel mineral shards shearing away from your forearms, heard only by you, a sound like breaking teeth.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff', 'utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['damage', 'bludgeoning', 'restraint', 'terrain', 'self-harm']
+                        },
+                        damageConfig: {
+                            formula: '3d6',
+                            damageTypes: ['bludgeoning'],
+                            resolution: 'DICE',
+                            savingThrow: {
+                                ability: 'constitution',
+                                difficultyClass: 14,
+                                saveOutcome: 'half_damage'
+                            }
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'buried_entomb',
+                                    name: 'Buried',
+                                    description: 'Restrained in rubble for 2 rounds on failed CON save. Must use action to make STR check DC 14 to escape.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Buried under collapsed stone. Restrained. STR check DC 14 to escape.'
+                                    }
+                                }
+                            ],
+                            durationValue: 2,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'terrain',
+                            selectedEffects: [
+                                {
+                                    id: 'rubble_collapse',
+                                    name: 'Tunnel Collapse',
+                                    description: 'Creates 20ft cone of difficult terrain from collapsed stone'
+                                }
+                            ],
+                            duration: 0,
+                            durationUnit: 'permanent',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeShape: 'cone',
+                            aoeParameters: {
+                                length: 20
+                            }
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 10,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'sun_sick_grimheart',
+                        name: 'Sun-Sick',
+                        description: 'Eyes that evolved for the absolute black of the deepest mines cannot endure the sun\'s judgment. Daylight does not merely hurt — it unmakes something fundamental. The calcified membranes behind your eyes crack under solar radiation. Your mineralized skin itches and peels like quarry slag. The sun is a wound that never closes for those born of darkness.',
+                        level: 1,
+                        icon: 'spell_holy_searinglight',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'radiant',
+                            icon: 'spell_holy_searinglight',
+                            tags: ['vulnerability', 'radiant', 'sunlight', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'radiant_vulnerability',
+                                    name: 'Radiant Vulnerability',
+                                    description: '+25% radiant damage taken. The sun unmakes what the mountain built.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'radiant',
+                                        vulnerabilityPercent: 25
+                                    }
+                                },
+                                {
+                                    id: 'sunlight_penalty',
+                                    name: 'Sunlight Sickness',
+                                    description: '-2 to all attack rolls in direct sunlight or bright magical light. Disadvantage on Perception checks in bright light.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Attack penalty and perception disadvantage in sunlight or bright magical light'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'grave_hunger_grimheart',
+                        name: 'Grave Hunger',
+                        description: 'The deep earth does not let its children starve — it feeds them, but only on what dies below. When something living perishes within the mountain\'s reach, mineral-rich remains rise to the surface like roots reaching for rain. You consume them. The taste is iron and sorrow. On the surface, no such mercy exists. The mountain calls you home with each passing hour, its whispers becoming screams, your calcified body growing heavier, your thoughts filling with stone-dust.',
+                        level: 1,
+                        icon: 'ability_rogue_hungerforblood',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'necrotic',
+                            icon: 'ability_rogue_hungerforblood',
+                            tags: ['triggered', 'healing', 'underground', 'curse', 'folklore', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'triggeredEffect',
+                            effects: [
+                                {
+                                    id: 'grave_consumption',
+                                    name: 'Grave Consumption',
+                                    description: 'When an enemy is reduced to 0 HP within 30ft while underground, recover 1d8 HP as a free action. This is the ONLY in-combat healing that works at full effectiveness on calcified flesh.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Triggered heal 1d8 HP when enemy dies within 30ft underground'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'mountain_call',
+                                    name: 'The Mountain\'s Call',
+                                    description: 'For every 24 hours spent on the surface without entering an underground space, gain 1 level of Exhaustion (max 3). Resets upon spending at least 1 hour underground. The deep does not forgive those who abandon it.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Accumulating exhaustion while surface-bound. The mountain demands its children return.'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    }
+                ],
+                languages: ['Common', 'Terran', 'Undercommon'],
+                speed: 15,
+                baseStats: {
+                    armor: 0,
+                    hp: 36,
+                    mana: 14,
+                    ap: 3,
+                    passivePerception: 13,
+                    swimSpeed: 5,
+                    climbSpeed: 25,
+                    visionRange: 30,
+                    darkvision: 90,
+                    initiative: -3
+                },
+                savingThrowModifiers: {
+                    advantage: ['poison'],
+                    disadvantage: ['charmed', 'frightened']
+                }
+            },
+            warden: {
+                id: 'warden_grimheart',
+                name: 'Earth Warden',
+                description: 'They heard the whisper and said no. Broad-shouldered and wide-set, built like living walls — but the stone-hardened flesh that plates their chest and shoulders is not a gift from the mountain. It is scar tissue from decades of refusing the deep earth\'s call. Eyes constantly scanning, pupils contracted even in darkness, the strain of perpetual vigilance carved into every line of their faces. Many stand in rigid postures, having held positions for days, because sitting down means the whispers win. Hands often clenched into fists, ready to strike or guard. They are not protectors by choice. They are protectors because the alternative was becoming another tunnel for the mountain to claim.',
+                culturalBackground: `The Earth-Wardens were founded by guardians who swore to protect surface settlements from what their kin awakened in the deep places. Their tradition requires that every member take vows of protection — dedicating their lives to guarding against the things that crawl up from below. Earth-Warden halls are built at mine entrances and settlement borders, members serving as watchful sentinels. Through generations of standing guard, their bloodline has adapted — not evolved, adapted. Stone-hardened flesh formed not by acceptance but by resistance, making them living fortifications. Their patience is legendary. Members practice ancient defensive techniques passed down through generations — how to read ground tremors, how to detect deep-earth movement, how to stand unmoving for days if needed. The bloodline values duty and sacrifice. Honor measured in threats prevented and lives protected. But they hear the same whispers as their mining kin. The deep earth calls to all Grimheart, and the Wardens resist it every waking moment. Many eventually succumb, walking into caves that collapse behind them, their bodies finally giving in to what their minds fought for decades. They are the guardians of Grimheart society. Their sacrifice keeping others safe from what they themselves awakened. Every scar on their flesh is a battle won against their own nature.`,
+                statModifiers: {
+                    constitution: 3,
+                    spirit: 3,
+                    agility: -3
+                },
+                traits: [
+                    {
+                        id: 'scar_tissue_grimheart',
+                        name: 'Scar Tissue',
+                        description: 'Your stone-hardened flesh is not a gift from the mountain — it is scar tissue from decades of refusing the deep earth\'s call. Every inch of calcification is a battle won against your own bloodline\'s curse. The scars can take blows meant for others, but each intercept fractures the tissue further. You protect until you cannot. That is the oath.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['armor', 'intercept', 'protection', 'passive', 'degrading']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'scar_armor',
+                                    name: 'Scar Tissue Armor',
+                                    description: '+2 Armor from calcified scar tissue.',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'intercept_blow',
+                                    name: 'Intercept the Blow',
+                                    description: 'Reaction (once per round): When an ally within 5ft is hit by a melee attack, redirect the damage to yourself instead.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Redirect melee damage from adjacent ally to self, once per round as reaction'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'fracturing_scars',
+                                    name: 'Fracturing Scars',
+                                    description: 'Each intercepted attack reduces your Armor by 1 until your next short rest (minimum 0). The scar tissue cracks with every blow you absorb for another.',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: -1,
+                                        magnitudeType: 'stacking_per_intercept'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'bedrock_stance_grimheart',
+                        name: 'Bedrock Stance',
+                        description: 'You plant your feet and become the mountain. Not like it — of it. Roots of stone grip your legs, your spine locks into the earth\'s bones, and for one terrible minute you are not a person standing on the ground but a piece of the ground that learned to stand. The earth speaks through you with terrible clarity — but you cannot move. Cannot run. Cannot even step aside. The mountain holds you as surely as any chain.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['stance', 'armor', 'tremorsense', 'immobile', 'fortress']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'bedrock_armor',
+                                    name: 'Bedrock Armor',
+                                    description: '+4 Armor while Bedrock Stance is active. You are the mountain.',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 4,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'bedrock_tremorsense',
+                                    name: 'Bedrock Awareness',
+                                    description: 'Tremorsense 90ft while in Bedrock Stance. The earth sees through you.',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Tremorsense extends to 90ft — the earth itself is your senses'
+                                    }
+                                },
+                                {
+                                    id: 'immovable',
+                                    name: 'Immovable',
+                                    description: 'Immune to forced movement, knockback, and prone.',
+                                    statusEffect: {
+                                        level: 'major',
+                                        description: 'Cannot be moved, pushed, or knocked prone by any means'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'fullControl',
+                            effects: [
+                                {
+                                    id: 'rooted_immobile',
+                                    name: 'Rooted to the Stone',
+                                    description: 'Movement speed reduced to 0. Cannot Dodge. Cannot take any action that requires movement. You are part of the terrain.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Completely immobile. Movement speed 0. Cannot Dodge or take move actions.'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 8,
+                            components: ['somatic', 'verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'fissure_grimheart',
+                        name: 'Fissure',
+                        description: 'You stomp the ground with the accumulated defiance of every refusal, every night you told the mountain NO, every morning you woke up harder and more brittle than the last. The earth splits open in a jagged wound, racing toward your enemies like a screaming mouth. Stone jaws grip their feet. The ground itself fights for those who refused to become it.',
+                        level: 1,
+                        icon: 'spell_nature_stonearmor',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'buff', 'utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['damage', 'bludgeoning', 'terrain', 'protection', 'line']
+                        },
+                        damageConfig: {
+                            formula: '2d6',
+                            damageTypes: ['bludgeoning'],
+                            resolution: 'DICE',
+                            savingThrow: {
+                                ability: 'constitution',
+                                difficultyClass: 14,
+                                saveOutcome: 'half_damage'
+                            }
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffectBuff',
+                            effects: [
+                                {
+                                    id: 'defiant_ground',
+                                    name: 'Defiant Ground',
+                                    description: 'Allies in the fissure\'s path gain +2 to their next saving throw. The Warden\'s refusal empowers those nearby.',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: '+2 to next saving throw for allies in fissure path'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'terrain',
+                            selectedEffects: [
+                                {
+                                    id: 'fissure_zone',
+                                    name: 'Fissure Zone',
+                                    description: '30ft line becomes difficult terrain for enemies for 1 minute. The cracked earth bites at every step.'
+                                }
+                            ],
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'moderate'
+                        },
+                        debuffConfig: {
+                            debuffType: 'movementImpairment',
+                            effects: [
+                                {
+                                    id: 'stone_grip',
+                                    name: 'Stone Grip',
+                                    description: 'Failed CON save: movement speed reduced to 0 for 1 round. The earth grips their feet like a closing fist.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Speed 0 for 1 round — the fissure holds them'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeShape: 'line',
+                            aoeParameters: {
+                                length: 30,
+                                width: 5
+                            }
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 6,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'turn_based',
+                            cooldownValue: 3
+                        }
+                    },
+                    {
+                        id: 'brittle_defiance_grimheart',
+                        name: 'Brittle Defiance',
+                        description: 'The mountain punished your refusal by making you rigid. Unyielding. Every inch of scar tissue is calcified defiance — hard as granite, and just as brittle under the right force. Sonic thunder finds every micro-fracture in your stone-scarred flesh, vibrating through the crystalline lattice of your refusal until it shatters. When thunder strikes, your armor doesn\'t dent — it detonates. Stone shrapnel buries itself in what remains of the soft tissue underneath.',
                         level: 1,
                         icon: 'spell_nature_lightning',
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
-                            secondaryElement: 'lightning',
+                            secondaryElement: 'thunder',
                             icon: 'spell_nature_lightning',
-                            tags: ['vulnerability', 'lightning', 'passive']
+                            tags: ['vulnerability', 'thunder', 'armor-loss', 'passive']
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
-                                    name: 'Lightning Vulnerability',
-                                    description: 'Take 50% more lightning damage',
+                                    id: 'thunder_vulnerability',
+                                    name: 'Thunder Vulnerability',
+                                    description: '+50% thunder damage taken. Sonic force finds every fracture in your scar-tissue armor.',
                                     statusEffect: {
-                                        vulnerabilityType: 'lightning',
+                                        vulnerabilityType: 'thunder',
                                         vulnerabilityPercent: 50
                                     }
                                 },
                                 {
-                                    name: 'Conductive Body',
-                                    description: 'Lightning damage you take can deal half damage to allies within 5 feet',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Lightning strikes may arc to nearby creatures'
-                                    }
-                                },
-                                {
-                                    name: 'Stone Shattering',
-                                    description: 'Lightning damage over 20 can reduce armor by 2 for 1 minute',
+                                    id: 'shattering_defiance',
+                                    name: 'Shattering Defiance',
+                                    description: 'When hit by thunder damage, lose ALL armor bonuses (base + passive) for 1 round. The scar tissue detonates. Armor returns at the start of your next turn.',
                                     statusEffect: {
                                         level: 'severe',
-                                        description: 'Electrical forces can crack stone-hardened defenses'
+                                        description: 'Thunder hits strip all armor for 1 round — scar tissue shatters and must reform'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'oath_boundary_grimheart',
+                        name: 'Oath of the Boundary',
+                        description: 'At the start of each battle, speak the name of the one you will protect. This is not a choice — it is a compulsion carved into your calcified heart by decades of refusing the mountain\'s call. While your Ward lives and stands near you, your defiance is iron. But if they fall, something inside you fractures that no forge can repair. The oath is the only thing stronger than the whispers. When it breaks, you break.',
+                        level: 1,
+                        icon: 'spell_holy_devotionaura',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'holy',
+                            icon: 'spell_holy_devotionaura',
+                            tags: ['oath', 'protection', 'ward', 'save-bonus', 'curse', 'folklore', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'auraEffect',
+                            effects: [
+                                {
+                                    id: 'ward_bond',
+                                    name: 'Ward Bond',
+                                    description: 'At combat start, choose one ally as your Ward. While within 15ft of your Ward: +2 to all your saving throws, Ward gains +1 to all saving throws.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Warden +2 saves, Ward +1 saves while within 15ft'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'broken_oath',
+                                    name: 'Broken Oath',
+                                    description: 'If your Ward is reduced to 0 HP, you immediately gain 2 levels of Exhaustion and lose all Oath of the Boundary bonuses until your next long rest. Something fractures inside you that cannot be repaired until dawn.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Ward death: 2 Exhaustion levels, all oath bonuses lost until long rest'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     }
                 ],
@@ -523,68 +890,63 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                 speed: 25,
                 baseStats: {
                     armor: 0,
-                    hp: 34, // Living fortifications, extra durability
+                    hp: 34,
                     mana: 18,
-                    ap: 3, // Defensive guardians, standard AP
-                    passivePerception: 3, // Watchful sentinels, constantly scanning
-                    swimSpeed: 0, // Not swimmers, calculated from speed
-                    climbSpeed: 5, // Decent climbers, but not as good as delvers
+                    ap: 3,
+                    passivePerception: 14,
+                    swimSpeed: 0,
+                    climbSpeed: 5,
                     visionRange: 60,
-                    darkvision: 120, // Superior darkvision from Deep Sight trait
-                    initiative: 1 // Watchful, quick to react to threats
+                    darkvision: 60,
+                    initiative: -1
                 },
                 savingThrowModifiers: {
-                    // Stone guardians resist petrification but are vulnerable to stunning effects
-                    advantage: ['petrify'], // Stone nature resists petrification
-                    disadvantage: ['stun'] // Stone rigidity vulnerable to stunning effects
+                    advantage: ['petrify'],
+                    disadvantage: ['stun']
                 }
             },
             forgemaster: {
                 id: 'forgemaster_grimheart',
                 name: 'Stone Smith',
-                description: 'Hands permanently marked by forge burns and metal work, fingertips calloused into patterns. Forearms scarred from sparks and hot metal. Eyes squinted from years staring into forge fire. Skin shows a reddish tint from constant heat exposure mixed with the gray stone-hardening. Many have missing fingers or fused joints from accidents. They move with purpose, every gesture precise from years of craft.',
-                culturalBackground: `The Stone-Smiths claim descent from the first smiths who learned to work metal in volcanic forges deep beneath the mountains. Their tradition requires that every member apprentice for years in the heat of geothermal workshops. Learning techniques passed down through generations. Stone-Smith halls are built around volcanic vents. Forges fueled by the earth's inner fire. Through generations of working with stone and metal, their bloodline has adapted. Stone-hardened skin allowing them to handle materials that would burn others. Hands shaped by years of precise craft. Members practice ancient smithing techniques. How to read metal grain. How to forge weapons that never break. How to shape stone with tools that seem to move on their own. The bloodline values perfection and mastery. Honor measured in items crafted and techniques mastered. But the forge demands constant work. Many Stone-Smiths find themselves unable to rest. Driven to create until their bodies become one with their masterworks. They are the master craftsmen of Grimheart society. Their creations legendary but their obsession consuming.`,
+                description: 'The forge doesn\'t consume fuel. It consumes you. Hands permanently marked by forge burns and metal work, fingertips calloused into patterns that spell forgotten guild-words. Forearms scarred from sparks and hot metal, skin showing a reddish tint from constant heat exposure mixed with the gray stone-hardening. Eyes squinted from years staring into forge fire. Many have missing fingers or fused joints from accidents — the forge takes its payment in pieces. They move with purpose, every gesture precise from decades of craft, but there is something hungry in how they approach the anvil. The old stories say the first Smiths didn\'t use tools at all.',
+                culturalBackground: `The Stone-Smiths claim descent from the first smiths who learned to work metal in volcanic forges deep beneath the mountains — and the forges never let them forget it. Their tradition requires that every member apprentice for years in the heat of geothermal workshops, learning techniques passed down through generations. Stone-Smith halls are built around volcanic vents, forges fueled by the earth's inner fire. Through generations of working with stone and metal, their bloodline has adapted — not merely skilled, but changed. Stone-hardened skin allowing them to handle materials that would burn others. Hands shaped by years of precise craft. But the adaptation has a hunger. Members practice ancient smithing techniques — how to read metal grain, how to forge weapons that never break, how to shape stone with tools that seem to move on their own. The bloodline values perfection and mastery. Honor measured in items crafted and techniques mastered. But the forge demands constant work. Many Stone-Smiths find themselves unable to rest, driven to create until their bodies become one with their masterworks. Fingers fuse. Joints calcify. Eyesight dims to the exact wavelength of forge-fire and nothing else. They are the master craftsmen of Grimheart society. Their creations legendary. But the forge devours the Smith far more thoroughly than it ever devours the ore.`,
                 statModifiers: {
-                    constitution: 3,
-                    strength: 2,
-                    agility: -2
+                    constitution: 2,
+                    strength: 3,
+                    intelligence: 1,
+                    charisma: -2
                 },
                 traits: [
                     {
-                        id: 'stone_resilience_grimheart',
-                        name: 'Stone Resilience',
-                        description: 'Your stone-hardened flesh, tempered by the forges and toxic depths of the deep earth, resists both flame and venom that would consume lesser flesh.',
+                        id: 'volcanic_temperament_grimheart',
+                        name: 'Volcanic Temperament',
+                        description: 'Decades of working volcanic forges have tempered your flesh like ore in a crucible. Your skin runs hot to the touch, cracked like cooling lava, fingertips permanently blackened by forge-soot that no soap can reach. The fire knows you as one of its own and refuses to burn what it has already claimed.',
                         level: 1,
                         icon: 'spell_fire_fire',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'stone',
+                            school: 'fire',
                             icon: 'spell_fire_fire',
-                            tags: ['resistance', 'fire', 'poison', 'passive']
+                            tags: ['resistance', 'fire', 'armor', 'forge', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
                                     id: 'fire_resistance',
-                                    name: 'Fire Resistance',
-                                    description: 'Take half damage from fire',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Take half damage from fire sources'
+                                    name: 'Forge-Forged',
+                                    description: '50% fire resistance. The flame recognizes its own.',
+                                    statModifier: {
+                                        stat: 'fire_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
                                     }
                                 },
                                 {
-                                    id: 'poison_resistance',
-                                    name: 'Poison Resistance',
-                                    description: 'Take half damage from poison'
-                                },
-                                {
-                                    id: 'stone_armor',
-                                    name: 'Stone Armor',
-                                    description: 'Gain +1 armor from stone-hardened flesh',
+                                    id: 'tempered_armor',
+                                    name: 'Tempered Flesh',
+                                    description: '+1 Armor from forge-hardened skin.',
                                     statModifier: {
                                         stat: 'armor',
                                         magnitude: 1,
@@ -600,42 +962,53 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     },
                     {
-                        id: 'forge_craft_grimheart',
-                        name: 'Forge Craft',
-                        description: '+1 weapon damage • +1 armor • 1 hour',
+                        id: 'runebrand_grimheart',
+                        name: 'Runebrand',
+                        description: 'You do not carve runes into metal with a chisel. You carve them with your own fingernails, scoring ancient guild-signs into steel while your blood fills the grooves. The enchantment takes hold because you paid for it in flesh — not the metal\'s, yours. The wound doesn\'t close until the rune fades. Maximum 2 active runebrands. The old stories say the first Smiths didn\'t use tools at all.',
                         level: 1,
-                        icon: 'inv_hammer_20',
+                        icon: 'spell_nature_stonearmor',
                         spellType: 'ACTION',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'debuff'],
                         typeConfig: {
-                            school: 'earth',
-                            secondaryElement: 'crafting',
-                            icon: 'inv_hammer_20',
-                            tags: ['enhancement', 'weapons', 'armor', 'crafting']
+                            school: 'arcane',
+                            secondaryElement: 'physical',
+                            icon: 'spell_nature_stonearmor',
+                            tags: ['enchantment', 'rune', 'blood-magic', 'weapon', 'armor', 'sacrifice']
                         },
                         buffConfig: {
-                            buffType: 'statEnhancement',
+                            buffType: 'custom',
+                            customDescription: 'Engrave a blood-rune into a non-magical weapon or armor. Max 2 active runebrands.',
                             effects: [
                                 {
-                                    id: 'enhanced_weapon',
-                                    name: 'Enhanced Weapon',
-                                    description: 'Weapon gains +1 damage',
+                                    id: 'weapon_runebrand',
+                                    name: 'Weapon Runebrand',
+                                    description: '+1d4 damage matching the weapon\'s type for 1 hour. Your blood in the steel.',
                                     statModifier: {
                                         stat: 'weapon_damage',
                                         magnitude: 1,
-                                        magnitudeType: 'flat'
+                                        magnitudeType: 'dice',
+                                        diceSize: 4
                                     }
                                 },
                                 {
-                                    id: 'enhanced_armor',
-                                    name: 'Enhanced Armor',
-                                    description: 'Armor gains +1 protection',
+                                    id: 'armor_runebrand',
+                                    name: 'Armor Runebrand',
+                                    description: '+2 Armor for 1 hour. Your blood in the plates.',
                                     statModifier: {
                                         stat: 'armor',
-                                        magnitude: 1,
+                                        magnitude: 2,
                                         magnitudeType: 'flat'
                                     }
                                 }
@@ -643,6 +1016,25 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             durationValue: 1,
                             durationType: 'hours',
                             durationUnit: 'hours',
+                            canBeDispelled: true,
+                            maxActiveEnchantments: 2
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'blood_price',
+                                    name: 'Blood Price',
+                                    description: 'Take 1d4 piercing damage that cannot be reduced or healed for 1 round. Your blood is in the rune now.',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Self-inflicted 1d4 piercing, cannot be reduced or healed for 1 round'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
                             canBeDispelled: false
                         },
                         targetingConfig: {
@@ -651,23 +1043,70 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             targetRestrictions: ['object']
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
+                            actionPoints: 1,
+                            mana: 6,
+                            components: ['somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     },
                     {
-                        id: 'stone_frailty_forgemaster',
-                        name: 'Stone Frailty',
-                        description: 'Your stone-hardened flesh is vulnerable to acids that dissolve mineral matter.',
+                        id: 'molten_blood_grimheart',
+                        name: 'Molten Blood',
+                        description: 'When steel bites into you, your blood does not flow — it sprays. Molten iron-hot, the forge still burning in your veins from decades of breathing volcanic ash. It arcs onto whoever wounded you and sticks, searing through armor gaps, welding chain links to flesh. The smell is you. But blood doesn\'t regenerate from nothing. Each spray leaves less behind.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'REACTION',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            icon: 'spell_fire_fire',
+                            tags: ['reaction', 'fire', 'melee', 'blood', 'deterrent']
+                        },
+                        damageConfig: {
+                            formula: '1d6',
+                            damageTypes: ['fire'],
+                            resolution: 'DICE'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'slag_armor',
+                                    name: 'Slag Armor',
+                                    description: 'If attacker wears metal armor, it loses 1 AC permanently until repaired at a forge. Molten blood welds the joints.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Metal armor -1 AC permanently. Must be repaired at a forge.'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'melee',
+                            targetRestrictions: ['enemies']
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 4,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'turn_based',
+                            cooldownValue: 2
+                        }
+                    },
+                    {
+                        id: 'slag_sickness_grimheart',
+                        name: 'Slag Sickness',
+                        description: 'What the forge strengthens, the vat unmakes. The mineral lattice forged into your flesh by decades of volcanic heat — crystalline veins of iron and copper that make your skin harder than leather — dissolves under alchemical acids like slag in a rainfall of vitriol. The forge gave you armor. Alchemy takes it apart at the molecular level, reducing generations of heat-tempering to bubbling puddles of what used to be your skin.',
                         level: 1,
                         icon: 'spell_nature_acid_01',
                         spellType: 'PASSIVE',
@@ -682,53 +1121,126 @@ The deep earth remembers everything it touches, and it calls us to work what we'
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    id: 'damage_vulnerability',
+                                    id: 'acid_vulnerability',
                                     name: 'Acid Vulnerability',
-                                    description: 'Take 50% more acid damage',
+                                    description: '+50% acid damage taken. Vitriol dissolves the forge-tempered mineral lattice of your flesh.',
                                     statusEffect: {
                                         vulnerabilityType: 'acid',
                                         vulnerabilityPercent: 50
                                     }
                                 },
                                 {
-                                    name: 'Stone Dissolution',
-                                    description: 'Acid damage reduces your natural armor temporarily',
+                                    id: 'slag_dissolution',
+                                    name: 'Slag Dissolution',
+                                    description: 'Acid damage temporarily reduces your natural armor. Each acid hit: -1 Armor until your next short rest.',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Acid damage can weaken your stone-hardened defenses'
+                                        description: 'Acid hits strip forge-tempered armor, -1 per hit until short rest'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'forge_toll_grimheart',
+                        name: 'The Forge\'s Toll',
+                        description: 'The forge is not a tool. It is a mouth. It demands to be fed — your time, your attention, the best hours of your waking life. Neglect it and the fire inside you begins to die, your joints calcifying into rigidity, your thoughts filling with the static of cold iron. But when you work it, truly work it, the warmth radiates outward. The old stories say that a Smith at their forge could heat an entire hall just by being there. They didn\'t mention the Smith never got to leave.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['utility', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'physical',
+                            icon: 'spell_fire_fire',
+                            tags: ['crafting', 'forge', 'utility', 'curse', 'folklore', 'passive']
+                        },
+                        utilityConfig: {
+                            utilityType: 'crafting',
+                            selectedEffects: [
+                                {
+                                    id: 'forge_craft',
+                                    name: 'Forge Craft',
+                                    description: 'During short rest at forge: craft stone caltrops (10ft difficult terrain), fire-stone (1d6 fire in 5ft), or signal marker (visible 1 mile, 24hr). Repair any non-magical item.'
+                                },
+                                {
+                                    id: 'forge_warmth',
+                                    name: 'Forge\'s Warmth',
+                                    description: 'When you craft at a forge during a short rest, all allies within 30ft recover an additional 1d6 HP from the warmth of creation.'
+                                }
+                            ],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'forge_dependency',
+                                    name: 'Forge Dependency',
+                                    description: 'Must work a forge for at least 1 hour every 48 hours or suffer: -1 Agility and -1 to all attack rolls per day missed (max -3 each). Penalties reset after 1 hour at a forge. The fire inside you dies without fuel.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Degenerating Agility and attack penalty without forge access. Max -3 each.'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         }
                     }
                 ],
                 languages: ['Common', 'Terran', 'Primordial'],
                 speed: 25,
                 baseStats: {
-                    armor: 0, // Stone Resilience passive adds +1, so base is 0
-                    hp: 30, // Stone-hardened craftsmen
-                    mana: 20,
-                    ap: 3, // Steady craftsmen, standard AP
-                    passivePerception: 12, // Precise craft requires good perception
-                    swimSpeed: 10, // Not swimmers, calculated from speed
-                    climbSpeed: 15, // Decent climbers, work in volcanic forges
+                    armor: 0,
+                    hp: 28,
+                    mana: 22,
+                    ap: 3,
+                    passivePerception: 12,
+                    swimSpeed: 10,
+                    climbSpeed: 15,
                     visionRange: 50,
-                    darkvision: 30, // Work in forges, adapted to low light
-                    initiative: 0 // Precise but not quick to react
+                    darkvision: 30,
+                    initiative: 0
                 },
                 savingThrowModifiers: {
-                    // Master smiths resist exhaustion but are vulnerable to stunning
-                    advantage: ['exhaustion'], // Tireless craftsmen resist exhaustion
-                    disadvantage: ['stun'] // Focused work vulnerable to stunning interruptions
+                    advantage: ['exhaustion'],
+                    disadvantage: ['poison']
                 }
             }
         }
-    };
-
-export default grimheart;
+};

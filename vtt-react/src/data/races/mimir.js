@@ -1,4 +1,4 @@
-export const mimir = {
+﻿export const mimir = {
         id: 'mimir',
         name: 'Mimir',
         essence: 'Face-thieving chameleons',
@@ -6,7 +6,7 @@ export const mimir = {
         icon: 'fas fa-mask',
         overview: 'The Mimir are people whose ancestors suffered a curse that stripped them of their original forms. Through generations of adapting to survive, their bloodlines have mastered shapeshifting. But at the cost of ever truly knowing who they are. They are organized into communities that hide in plain sight. Settlements built in places where reflections multiply. Beneath cities, in abandoned factories, anywhere mirrors and glass create endless copies. The Mimir don\'t choose to change. It\'s their nature, passed down through bloodlines that remember the loss of form.',
         culturalBackground: `Mimir communities are hidden enclaves built in places where reflections multiply endlessly. Beneath cities, in abandoned mirror factories, anywhere glass and polished surfaces create copies of reality. Each community traces its lineage to ancestors who lost their true forms. Traditions focused on survival through adaptation. Mimir children are taught from birth to avoid mirrors. Prolonged reflection can shatter their fragile sense of self. Community elders pass down the old ways. How to copy forms perfectly. How to maintain a facade. How to trade in identities and secrets. They practice ancient techniques passed down through generations. How to read faces to copy them. How to adopt mannerisms. How to become anyone except themselves. But every transformation erodes another piece of their soul. Memories fade. Habits change. Until they wonder if any face is truly theirs. Community disputes settle through deception competitions and the testimony of those who remember the most faces. They are a people bound by the need to adapt and haunted by the question of who they once were. Their mastery of deception unmatched but their own identity forever lost.`,
-        variantDiversity: 'The Mimir are divided into two major bloodlines: The Face-Thieves perfect the art of impersonation and embrace their shapeshifting nature, while the Shattered struggle with fragmented identities and the pieces of who they once were.',
+        variantDiversity: 'The Mimir are divided into four bloodlines: The Face-Thieves perfect the art of impersonation and embrace their shapeshifting nature. The Broken struggle with fragmented identities and the pieces of who they once were. The Glass-Eaten are crystallized mirror-flesh — living weapons that fracture with every blow. The Hollow are absences wearing skin, draining memories from the living to postpone their dissolution into nothing.',
         integrationNotes: {
             actionPointSystem: 'Mimir abilities focus on deception, adaptation, and identity manipulation. Their shapeshifting provides unique infiltration and social options.',
             backgroundSynergy: 'Mimir excel in backgrounds emphasizing deception, adaptability, and social manipulation. Their identity crisis can create compelling roleplay opportunities.',
@@ -154,108 +154,80 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                 },
                 traits: [
                     {
-                        id: 'perfect_mimicry_mimir',
-                        name: 'Perfect Mimicry',
-                        description: 'Copy appearance and voice of observed creatures. Gain advantage on disguise checks.',
+                        id: 'unbound_form_doppel',
+                        name: 'Unbound Form',
+                        description: 'Your body has no fixed template. You are immune to any effect that would alter your physical form against your will — polymorph, petrification, enemy shape-changing. Your form is already an aberration; there is nothing left to transform.',
                         level: 1,
-                        icon: 'spell_magic_lesserinvisibilty',
-                        spellType: 'ACTION',
-                        effectTypes: ['utility'],
-                        typeConfig: {
-                            school: 'illusion',
-                            secondaryElement: 'shapeshifting',
-                            icon: 'spell_magic_lesserinvisibilty',
-                            tags: ['mimicry', 'disguise', 'shapeshifting']
-                        },
-                        utilityConfig: {
-                            utilityType: 'shapeshifting',
-                            selectedEffects: [{
-                                id: 'mimicry',
-                                name: 'Mimicry',
-                                description: 'Copy the appearance and voice of a creature you have observed.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'major'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
-                            actionPoints: 2,
-                            components: ['verbal', 'somatic']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'adaptive_form_mimir',
-                        name: 'Adaptive Form',
-                        description: 'Alter physical features for disguise or advantage on social checks.',
-                        level: 1,
-                        icon: 'ability_druid_forceofnature',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'transmutation',
-                            secondaryElement: 'shapeshifting',
-                            icon: 'ability_druid_forceofnature',
-                            tags: ['adaptation', 'social', 'shapeshifting']
-                        },
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['immunity', 'shapeshifter', 'passive'] },
                         buffConfig: {
                             buffType: 'custom',
-                            customDescription: 'Advantage on social or disguise checks',
+                            customDescription: 'Immune to forced polymorph, petrification, and enemy shapeshifting. Advantage on death saving throws.',
                             effects: [
-                                {
-                                    name: 'Adaptive Form',
-                                    description: 'Can alter physical features to gain social advantage',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your form adapts to social situations'
-                                    }
-                                }
+                                { id: 'form_immunity', name: 'Form Immunity', description: 'Immune to any effect that would alter your physical form against your will', statusEffect: { level: 'extreme', description: 'Cannot be polymorphed, petrified, or forcefully shape-changed' } },
+                                { id: 'death_save_advantage', name: 'Unbound Vitality', description: 'Your body does not know how to die properly', statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'flat' } }
                             ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            durationUnit: 'hours',
-                            canBeDispelled: false
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'face_steal_mimir',
+                        name: 'Face Steal',
+                        description: 'Touch a willing, unconscious, or recently dead humanoid and assume their identity so completely that even magic cannot pierce the disguise — stealing not just their face but a fragment of their power.',
+                        level: 1,
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility', 'control'],
+                        typeConfig: { school: 'psychic', secondaryElement: 'shadow', icon: 'spell_shadow_shadetrueform', tags: ['disguise', 'identity', 'active'] },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Assume target identity for 1 hour (24 hours if dead). Undetectable by magic. Gain one observed ability/spell (use once). Duration 24h on dead targets.',
+                            effects: [
+                                { id: 'perfect_disguise', name: 'Perfect Disguise', description: 'Undetectable by Scrying, Detect Magic, or True Seeing', statusEffect: { level: 'extreme', description: 'Magical detection cannot reveal true form' } },
+                                { id: 'stolen_ability', name: 'Stolen Ability', description: 'Gain one ability or spell you observed the target use. Can use it once.', statusEffect: { level: 'moderate', description: 'One borrowed ability from the copied target' } }
+                            ],
+                            durationValue: 1, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
                         },
                         utilityConfig: {
-                            utilityType: 'illusion',
-                            selectedEffects: [{
-                                id: 'disguise',
-                                name: 'Disguise',
-                                description: 'Alter your physical appearance to match any humanoid you have seen.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            utilityType: 'disguise',
+                            selectedEffects: [{ id: 'identity_theft', name: 'Identity Theft', description: 'Copy appearance, voice, mannerisms, and biological signature of target humanoid' }],
+                            duration: 1, durationUnit: 'hours', power: 'major'
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                        controlConfig: {
+                            controlType: 'incapacitation',
+                            effects: [{ id: 'enemy_command', name: 'Enemy Command', description: 'If target is fallen enemy, issue one verbal order to their allies within 30ft. WIS save DC 14 or they comply (retreat, stand down, drop weapons).', statusEffect: { level: 'moderate', description: 'Verbal command to enemy allies' } }],
+                            savingThrow: { ability: 'spirit', difficultyClass: 14, saveOutcome: 'negates' }
                         },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', rangeDistance: 5, targetRestrictions: ['humanoid'] },
+                        resourceCost: { actionPoints: 2, mana: 8, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'social_parasite_mimir',
+                        name: 'Social Parasite',
+                        description: 'When wearing a stolen face, you read people who knew the original like open books — their emotional reactions to the familiar face betray everything.',
+                        level: 1,
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['social', 'insight', 'passive'] },
+                        buffConfig: {
+                            buffType: 'combatAdvantage',
+                            customDescription: 'Advantage on Insight checks against those who knew the copied person. Advantage on Deception when the lie is more believable in current form.',
+                            effects: [
+                                { id: 'parasitic_insight', name: 'Parasitic Insight', description: 'Advantage on Insight checks against people who knew the person you are imitating', statModifier: { stat: 'insight', magnitude: 1, magnitudeType: 'flat' } },
+                                { id: 'believable_deception', name: 'Believable Deception', description: 'Advantage on Deception checks when lies are more convincing in your current form', statModifier: { stat: 'deception', magnitude: 1, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
                         },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
                         id: 'silver_vulnerability_mimir',
@@ -277,7 +249,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Silver Vulnerability',
-                                    description: 'Take 50% more damage from silver weapons',
+                                    description: 'Silver sears your shifting flesh, the pure metal burning through the curse that makes your form malleable',
                                     statusEffect: {
                                         vulnerabilityType: 'silver',
                                         vulnerabilityPercent: 50
@@ -286,7 +258,7 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Radiant Vulnerability',
-                                    description: 'Take 50% more radiant damage',
+                                    description: 'Holy radiance burns away the stolen faces you wear, searing the curse that allows your shape to shift',
                                     statusEffect: {
                                         vulnerabilityType: 'radiant',
                                         vulnerabilityPercent: 50
@@ -299,7 +271,16 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Changeling', 'Thieves\' Cant'],
@@ -323,297 +304,709 @@ Death rites for Mimir focus on one question: who was this person truly? Before d
                 }
             },
             broken: {
-                id: 'broken_mimir',
-                name: 'Shattered',
-                description: 'Features shift randomly, never fully settling on one form. Eyes show multiple colors at once, fractured like stained glass. Movements are jerky, as if controlled by different minds. Many keep journals of memories they are trying to preserve. Speech patterns change mid-sentence. Some have physical fractures visible on their skin, lines where their form breaks apart. They avoid all reflective surfaces.',
-                culturalBackground: `The Shattered trace their lineage to Mimir whose sense of self broke under the weight of too many transformations. Their tradition is one of recovery and memory-keeping. Communities built around preserving what fragments of identity remain. Shattered communities are quiet places of reflection. Members avoiding mirrors and focusing on the few memories they can hold onto. They practice ancient memory-keeping techniques. How to preserve identity fragments. How to resist personality bleed. How to piece together who they might have been. But their minds are kaleidoscopes of stolen memories and fading recollections. Personalities shifting with the light. A Shattered might act like a child one moment and a sage the next. Fractured mind making them unpredictable. They hoard shards of identity like precious gems. Desperately trying to piece together who they were before the breaking. The bloodline values memory and stability. Honor measured in fragments preserved and identities remembered. They are the memory-keepers of Mimir society. Pitied for their broken state but respected for what they remember.`,
+                id: 'shattered_mimir',
+                name: 'Broken',
+                description: 'Features never quite settle — always flickering between two or three partial identities. One eye blue, the other brown and shifting. Left hand slightly larger than the right. A jawline that cycles angular to round moment to moment. They carry small mirrors compulsively, checking their reflection to see which face is currently winning. Skin has a cracked quality, faint lines where identity fragments meet and conflict. Eyes are the most unsettling — each can be a different color simultaneously. Their voice sometimes changes mid-sentence, pitch and accent shifting without warning. They are the ones who fought the curse and partially lost.',
+                culturalBackground: 'The Broken are Mimir who fought against their shapeshifting nature and lost, but did not lose entirely. Their identities are fractured — pieces of themselves held together by will and ritual. They practice the techniques of face-binding: creating anchors to their original identity through personal objects, rituals, and mantras. The Broken serve as teachers, helping young Mimir resist personality bleed. They know the cost of transformation better than anyone. Their communities are quiet places of meditation and identity-preservation.',
                 statModifiers: {
-                    intelligence: 3,
-                    spirit: 2,
-                    agility: 1
+                    constitution: 2,
+                    wisdom: 1
                 },
                 traits: [
                     {
-                        id: 'fractured_mind_mimir',
-                        name: 'Fractured Mind',
-                        description: 'Resistance to charm and fear effects due to mental fragmentation.',
-                        level: 1,
-                        icon: 'spell_shadow_mindrot',
+                        id: 'unbound_form_broken',
+                        name: 'Unbound Form',
+                        description: 'Your body has no fixed template. You are immune to any effect that would alter your physical form against your will — polymorph, petrification, enemy shape-changing. Your form is already an aberration; there is nothing left to transform.',
+                        icon: 'spell_shadow_shadetrueform',
                         spellType: 'PASSIVE',
                         effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'mental',
-                            secondaryElement: 'defense',
-                            icon: 'spell_shadow_mindrot',
-                            tags: ['resistance', 'charm', 'fear', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statusEffect',
-                            effects: [
-                                {
-                                    name: 'Charm Resistance',
-                                    description: 'Resistance to charm effects',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fragmented mind is difficult to control'
-                                    }
-                                },
-                                {
-                                    name: 'Fear Resistance',
-                                    description: 'Resistance to fear effects',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Your fractured mind cannot focus on fear'
-                                    }
-                                }
-                            ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'memory_fragments_mimir',
-                        name: 'Memory Fragments',
-                        description: 'Access random knowledge or skills from fragmented memories. Gain advantage on one Intelligence or Spirit check.',
-                        level: 1,
-                        icon: 'spell_holy_mindvision',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'mental',
-                            secondaryElement: 'memory',
-                            icon: 'spell_holy_mindvision',
-                            tags: ['knowledge', 'memory', 'mental']
-                        },
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadetrueform', tags: ['immunity', 'shapeshifter', 'passive'] },
                         buffConfig: {
                             buffType: 'custom',
-                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
+                            customDescription: 'Immune to forced polymorph, petrification, and enemy shapeshifting. Advantage on death saving throws.',
+                            effects: [
+                                { id: 'form_immunity', name: 'Form Immunity', description: 'Immune to any effect that would alter your physical form against your will', statusEffect: { level: 'extreme', description: 'Cannot be polymorphed, petrified, or forcefully shape-changed' } },
+                                { id: 'death_save_advantage', name: 'Unbound Vitality', description: 'Your body does not know how to die properly', statModifier: { stat: 'death_saves', magnitude: 1, magnitudeType: 'flat' } }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'shatterstorm_mimir',
+                        name: 'Shatterstorm',
+                        description: 'Your fractured identity violently discharges, releasing a psychic shockwave that shatters the minds of those around you — and obliterates any mind-control effects holding them.',
+                        level: 1,
+                        icon: 'spell_shadow_shadesofdarkness',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'utility'],
+                        typeConfig: { school: 'psychic', icon: 'spell_shadow_shadesofdarkness', tags: ['psychic', 'mind', 'anti-cc', 'active'] },
+                        damageConfig: {
+                            formula: '2d8',
+                            damageTypes: ['psychic'],
+                            resolution: 'DICE',
+                            savingThrow: { ability: 'spirit', difficultyClass: 14, saveOutcome: 'half_damage' }
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                { id: 'shatter_reaction', name: 'Reaction Loss', description: 'All enemies in area lose their next reaction as their mind is momentarily shattered' },
+                                { id: 'mind_control_break', name: 'Mind Control Break', description: 'Enemies under any mind-affecting effect (charmed, frightened, controlled, dominated) take 4d8 psychic instead AND the effect is immediately broken' },
+                                { id: 'self_damage', name: 'Fragment Realign', description: 'You take 1d6 psychic damage as your fragments realign painfully' }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'area', rangeType: 'self_centered', areaShape: 'circle', areaSize: 20, targetRestrictions: ['enemies'] },
+                        resourceCost: { actionPoints: 2, mana: 0, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'fragmented_defense',
+                        name: 'Fragmented Defense',
+                        description: 'When targeted by an enchantment, illusion, or mind-affecting effect, fragment your identity to scatter the attack. Roll a Wisdom save with advantage. On success, the effect is negated — a fragment absorbs it. On failure, you take half effect and one random personality trait shifts for 1 hour.',
+                        level: 1,
+                        icon: 'spell_holy_mindvision',
+                        spellType: 'REACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'saving_throw_enhancement',
+                            effects: [
+                                { type: 'save_advantage', mechanicsText: 'Wisdom save with advantage vs enchantment/illusion/mind-affecting' },
+                                { type: 'effect_negation', mechanicsText: 'Negate effect on success, fragment absorbs it' }
+                            ],
+                            durationValue: 0, durationType: 'instant', durationUnit: 'instant', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'side_effect',
+                            effects: [
+                                { type: 'personality_shift', mechanicsText: 'On failure: half effect and one random personality trait shifts for 1 hour' }
+                            ],
+                            durationValue: 1, durationType: 'hours', durationUnit: 'hours'
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['verbal'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'face_anchor',
+                        name: 'Face Anchor',
+                        description: 'Touch a personal object and bind a fragment of your identity to it. For 24 hours, advantage on saves vs identity loss, personality bleed, and transformation. If the object is destroyed, take 2d6 psychic damage and become dazed for 1 round.',
+                        level: 1,
+                        icon: 'spell_holy_divinespirit',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'identity_anchor',
+                            effects: [
+                                { type: 'identity_protection', mechanicsText: 'Advantage on saves vs identity loss, personality bleed, and transformation effects' }
+                            ],
+                            durationValue: 24, durationType: 'hours', durationUnit: 'hours', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'penalty',
+                            effects: [
+                                { type: 'anchor_destruction', value: '2d6', mechanicsText: 'If anchor object is destroyed: take 2d6 psychic damage and dazed 1 round' }
+                            ],
+                            durationValue: 0, durationType: 'conditional', durationUnit: 'on_anchor_destroyed'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'touch', targetRestrictions: ['object'] },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 1, components: ['somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 },
+                    },
+                    {
+                        id: 'identity_shield',
+                        name: 'Identity Shield',
+                        description: 'Your fractured mind resists assault because there is no single self to target — only fragments. Resistance to psychic damage. Advantage on saves vs charm, fear, and mind-control.',
+                        level: 1,
+                        icon: 'spell_shadow_antimagicshell',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'passive_resistance',
+                            effects: [
+                                { type: 'psychic_resistance', mechanicsText: 'Resistance to psychic damage' },
+                                { type: 'mental_save_advantage', mechanicsText: 'Advantage on saves vs charm, fear, and mind-control' }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'fragment_memory',
+                        name: 'Fragment Memory',
+                        description: 'Your identity fragments each carry different memories. Advantage on Intelligence checks to recall information — if your primary mind does not know, one of your fragments might. You can attempt any Intelligence check even if untrained.',
+                        level: 1,
+                        icon: 'spell_arcane_arcanebrilliance',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: { category: 'racial' },
+                        buffConfig: {
+                            buffType: 'passive_enhancement',
+                            effects: [
+                                { type: 'intelligence_advantage', mechanicsText: 'Advantage on Intelligence checks to recall information' },
+                                { type: 'untrained_attempt', mechanicsText: 'Can attempt any Intelligence check even if untrained' }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    },
+                    {
+                        id: 'mirror_vulnerability_mimir',
+                        name: 'Mirror Vulnerability',
+                        description: 'Seeing your own reflection forces a Wisdom save (DC 13) or you take 1d6 psychic damage from identity conflict. Silvered mirrors deal 2d6 instead. You avoid mirrors whenever possible — the sight of your fractured self is painful.',
+                        level: 1,
+                        icon: 'spell_shadow_psychichorrors',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['vulnerability'],
+                        typeConfig: { category: 'racial', isWeakness: true },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                { type: 'reflection_damage', value: '1d6', mechanicsText: 'Seeing own reflection: Wisdom save DC 13 or 1d6 psychic damage (2d6 from silvered mirrors)' }
+                            ],
+                            durationValue: 0, durationType: 'permanent', durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { resourceTypes: [], resourceValues: {}, actionPoints: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 },
+                    }
+                ],
+                baseStats: { health: 11, mana: 4, actionPoints: 3, initiative: 0 },
+                savingThrowModifiers: { advantage: ['psychic', 'charm'], disadvantage: ['identity_effects'] }
+            },
+            glass: {
+                id: 'glass_mimir',
+                name: 'Glass-Eaten',
+                description: 'Skin stretched taut over a skeleton of mirror-shard. Blood runs silver and heavy — liquid glass that costs a fortune to replace. Translucent membrane reveals the lattice of crystallized identity beneath, catching light in patterns that spell out names the Glass-Eaten have never heard. Their teeth are glass. Their tears cut. When they speak, the sound is wind chimes in an empty house. They do not shapeshift — they fracture. Exploding outward in storms of shrapnel that used to be ribs, reforming with one more crack, one more missing piece, one more sliver of themselves left embedded in some distant wall. Children are born with glass smiles. Elders die by shattering into piles of silvered dust that still reflect the faces of everyone they ever touched.',
+                culturalBackground: `The Glass-Eaten trace their curse to a single ancestor who stared into the Hall of First Reflections for seven days without blinking. The mirrors reached back. They climbed inside her flesh and made it their home. Her children were born with glass bones. Their children with silver blood. By the third generation, the transformation was hereditary and irreversible. Glass-Eaten communities exist at the edges of Mirror Warrens — ghettos of crystallized flesh where the walls are padded with cloth because an uncareful shoulder-check can cost a neighbor a finger. They are pitied by other Mimir. Treated as living warnings. "Do not stare too long. Do not love the mirrors too much. Or they will love you back." The Glass-Eaten have turned their condition into a weapon. Their crystalline bodies make natural armor. Their silver blood makes natural weaponry. Their fracturing makes natural devastation. But every use costs something irreplaceable. A shard exhaled is a rib lost. A blood-spray is a decade of vitality spent. A fracture accumulated is a step closer to the final shattering — the death that is not death but becoming: an explosion of mirrored fragments that embed in every surface within thirty feet, each one carrying a perfect reflection of every face the Glass-Eaten ever wore. Forever.`,
+                statModifiers: {
+                    constitution: 3,
+                    strength: 2,
+                    agility: -1
+                },
+                traits: [
+                    {
+                        id: 'vitreous_flesh_glass',
+                        name: 'Vitreous Flesh',
+                        description: 'Mirror-glass replaced your bones before you drew your first breath. Blades glance off your crystallized skin. But strike true with something heavy, something that resonates — and your entire body rings like a funeral bell made of fragments that used to be a person.',
+                        level: 1,
+                        icon: 'spell_fire_firearmor',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'arcane',
+                            secondaryElement: 'physical',
+                            icon: 'spell_fire_firearmor',
+                            tags: ['armor', 'glass', 'fragility', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    name: 'Memory Access',
-                                    description: 'Access fragments of past knowledge',
+                                    id: 'glass_armor',
+                                    name: 'Crystalline Armor',
+                                    description: '+2 Armor. Mirror-glass bone and silver-blood flesh turn blades aside. What is already broken cannot be cut.',
+                                    mechanicsText: '',
+                                    statModifier: { stat: 'armor', magnitude: 2, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'spell_reflect_glass',
+                                    name: 'Partial Reflection',
+                                    description: '15% chance to reflect any targeted spell back at the caster. The mirrors remember who made them.',
+                                    statusEffect: { level: 'permanent', description: '15% spell reflection chance' }
+                                }
+                            ],
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'glass_weight',
+                                    name: 'Crystalline Drag',
+                                    description: '-10ft movement speed. Glass bones are heavy. Every step sounds like wind chimes in a graveyard.',
+                                    statModifier: { stat: 'speed', magnitude: -10, magnitudeType: 'flat' }
+                                },
+                                {
+                                    id: 'resonant_vulnerability_thunder',
+                                    name: 'Resonant Fragility',
+                                    description: '+50% damage from thunder and bludgeoning. Impact resonates through your crystalline structure, splitting faults that were always there.',
+                                    statusEffect: { vulnerabilityType: 'thunder', vulnerabilityPercent: 50 }
+                                }
+                            ],
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'shard_exhalation_glass',
+                        name: 'Shard Exhalation',
+                        description: 'You exhale a storm of mirror-glass that was once part of your ribcage. Every shard carries a face you once wore — a lover, a victim, a child whose name you stole and can never return. They bury themselves in flesh and stay there, marking your enemies with the ghosts of your collected sins.',
+                        level: 1,
+                        icon: 'spell_fire_selfdestruct',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: {
+                            school: 'arcane',
+                            secondaryElement: 'psychic',
+                            icon: 'spell_fire_selfdestruct',
+                            tags: ['glass', 'slashing', 'self-harm', 'tracking', 'active']
+                        },
+                        damageConfig: {
+                            formula: '3d6',
+                            damageTypes: ['slashing'],
+                            resolution: 'DICE'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'mirror_marked',
+                                    name: 'Mirror-Marked',
+                                    description: 'Marked targets are visible to you through any reflective surface within 60ft for 1 hour. The shards hum when they breathe. You hear every heartbeat through the glass in their skin.',
+                                    statusEffect: { level: 'moderate', description: 'Visible through reflective surfaces within 60ft for 1 hour' }
+                                }
+                            ],
+                            durationType: 'hours', durationValue: 1, durationUnit: 'hours', canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                {
+                                    id: 'self_fragmentation',
+                                    name: 'Self-Fragmentation',
+                                    description: 'You lose 3 max HP until your next long rest. The shards came from somewhere. They came from you.'
+                                }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'cone',
+                            rangeType: 'self_centered',
+                            areaShape: 'cone',
+                            areaSize: 15,
+                            targetRestrictions: ['enemies']
+                        },
+                        resourceCost: { actionPoints: 2, mana: 5, components: ['somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'silver_blood_eruption_glass',
+                        name: 'Silver-Blood Eruption',
+                        description: 'Your blood is not blood. It is liquid mirror — heavy, cold, and honest. When steel opens your skin, the silver sprays across your attacker and shows them their own face as the world sees it. No lies survive the reflection. Neither do you, entirely.',
+                        level: 1,
+                        icon: 'spell_shadow_shadowmend',
+                        spellType: 'REACTION',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: {
+                            school: 'arcane',
+                            secondaryElement: 'psychic',
+                            icon: 'spell_shadow_shadowmend',
+                            tags: ['reaction', 'glass', 'silver', 'self-harm']
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    { id: 'damage_taken', category: 'combat', name: 'Melee Damage Taken', parameters: { damage_type: 'melee', perspective: 'self' } }
+                                ]
+                            }
+                        },
+                        damageConfig: {
+                            formula: '1d8 + constitution/2',
+                            damageTypes: ['slashing'],
+                            resolution: 'DICE'
+                        },
+                        debuffConfig: {
+                            debuffType: 'mentalEffect',
+                            effects: [
+                                {
+                                    id: 'confession_spray',
+                                    name: 'The Confession',
+                                    description: 'Attacker has disadvantage on their next attack. The silver-blood shows them what they are. Most cannot bear to look twice.',
+                                    statusEffect: { level: 'moderate', description: 'Disadvantage on next attack from reflected guilt' }
+                                }
+                            ],
+                            savingThrow: { ability: 'spirit', difficultyClass: 13, saveOutcome: 'negates' },
+                            durationType: 'rounds', durationValue: 1, durationUnit: 'rounds', canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                {
+                                    id: 'silver_loss',
+                                    name: 'Silver Loss',
+                                    description: 'You take 1d4 irreducible slashing damage. You are bleeding something that takes decades to grow back.'
+                                }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'minor'
+                        },
+                        targetingConfig: { targetingType: 'single', rangeType: 'melee', rangeDistance: 5, targetRestrictions: ['enemies'] },
+                        resourceCost: { actionPoints: 1, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'fracture_point_glass',
+                        name: 'Fracture Point',
+                        description: 'Your body keeps a ledger of every impact it has survived. Each crack is a fault-line that runs deeper than bone. At five, you can feel yourself slowing — the glass grinding against itself. At ten, you are a held breath away from becoming a pile of silvered dust that will reflect the faces of everyone you failed until the end of time.',
+                        level: 1,
+                        icon: 'spell_holy_silence',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'physical',
+                            icon: 'spell_holy_silence',
+                            tags: ['fracture', 'accumulation', 'glass', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'fracture_accumulation',
+                                    name: 'Fracture Accumulation',
+                                    description: 'Gain 1 Fracture stack each time you take bludgeoning or thunder damage. At 5 Fractures: -25% damage dealt. At 10 Fractures: take 2d6 irreducible slashing and become Dazed for 1 round as faults split open. Fractures reset on long rest. Resting 1 hour near a mirror reduces Fractures by 1.',
                                     statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Memories surface to provide insight'
+                                        level: 'progressive',
+                                        description: 'Accumulating structural damage from blunt impact. At 5 stacks: -25% damage dealt. At 10: 2d6 slashing + Dazed 1 round.'
                                     }
                                 }
                             ],
-                            durationValue: 1,
-                            durationType: 'rounds',
-                            durationUnit: 'rounds',
-                            canBeDispelled: false
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
                         },
-                        utilityConfig: {
-                            utilityType: 'divination',
-                            selectedEffects: [{
-                                id: 'knowledge',
-                                name: 'Knowledge',
-                                description: 'Access fragments of absorbed memories to recall knowledge you may have never learned.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     },
                     {
-                        id: 'psychic_vulnerability_mimir',
-                        name: 'Psychic Vulnerability',
-                        description: 'Vulnerable to psychic damage (+50% damage) as your fractured mind is susceptible to mental intrusions.',
+                        id: 'silence_sickness_glass',
+                        name: 'Silence Sickness',
+                        description: 'Sound is the hand that holds your pieces together. The hum of conversation, the crackle of fire, the wet percussion of a heartbeat — these frequencies keep your crystalline structure stable. In total silence, you begin to vibrate. Quietly at first. Then not quietly at all. The Shatter spell does not merely hurt you. It sings your body apart.',
                         level: 1,
                         icon: 'spell_shadow_psychichorrors',
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
-                            secondaryElement: 'psychic',
+                            secondaryElement: 'thunder',
                             icon: 'spell_shadow_psychichorrors',
-                            tags: ['vulnerability', 'psychic', 'passive']
+                            tags: ['vulnerability', 'silence', 'thunder', 'folklore', 'passive']
                         },
                         debuffConfig: {
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    name: 'Psychic Vulnerability',
-                                    description: 'Take +50% damage from psychic sources',
-                                    statModifier: {
-                                        stat: 'damage_taken',
-                                        magnitude: 50,
-                                        magnitudeType: 'percentage'
+                                    id: 'silence_disadvantage',
+                                    name: 'Silence Sickness',
+                                    description: 'In areas of magical silence or complete quiet: disadvantage on all saving throws. Your glass body resonates destructively without ambient sound to stabilize it.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Disadvantage on all saves in silence. Shatter deals maximum damage and applies Stun (1 round).'
+                                    }
+                                },
+                                {
+                                    id: 'shatter_vulnerability_glass',
+                                    name: 'Shatter Vulnerability',
+                                    description: 'The Shatter spell deals maximum damage to you and stuns you for 1 round instead of its normal effect. The frequency was always inside you. It just needed permission.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'thunder',
+                                        vulnerabilityPercent: 100,
+                                        trigger: 'shatter_spell'
                                     }
                                 }
                             ],
-                            durationType: 'permanent',
-                            canBeDispelled: false
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
                     }
                 ],
-                languages: ['Common', 'Changeling', 'Deep Speech'],
+                languages: ['Common', 'Changeling', 'Terran'],
+                speed: 20,
+                baseStats: {
+                    armor: 2,
+                    hp: 28,
+                    mana: 15,
+                    ap: 3,
+                    passivePerception: 12,
+                    swimSpeed: 0,
+                    climbSpeed: 0,
+                    visionRange: 60,
+                    darkvision: 30,
+                    initiative: -1
+                },
+                savingThrowModifiers: {
+                    disadvantage: ['thunder', 'bludgeoning'],
+                    advantage: ['slashing', 'piercing']
+                }
+            },
+            hollow: {
+                id: 'hollow_mimir',
+                name: 'The Hollow',
+                description: 'No face. Not blurred, not shifting — simply absent. A smooth expanse of skin-toned nothing where features should be, like a doll that was never finished. The void inside them is so complete that standing nearby feels like standing at the edge of a well with no bottom. Their presence makes children cry without reason. Animals fall silent. Candles flicker and lean away. They do not shapeshift — they empty. Every year of their life, something else drains away: a hobby, a preference, a loved one\'s birthday, until all that remains is hunger-shaped nothing wearing person-skin. They steal memories from the living to fill the void, but the void is bottomless and every stolen moment dissolves within a day. Running water recoils from their touch. Salt burns their flesh like confession burns a liar.',
+                culturalBackground: `The Hollow are what happens when the Mimir curse reaches its terminus. Not fragmentation (the Broken). Not mastery (the Face Thief). Simply cessation. The identity doesn't break — it drains, like water through cracked glass, until the vessel is empty and the only thing keeping the shape is the rigid memory of having once been a person. Hollow communities exist in the deepest, darkest parts of Mimir settlements — places where even other Mimir do not go. They live in rooms without mirrors (not out of fear, but because mirrors show nothing where they stand). They speak in borrowed voices, stolen from memory-leeching, that fade to whispers by evening. Other Mimir regard them with a mixture of pity and existential terror. The Hollow are the reminder that the curse does not merely reshape — it consumes. Eventually, every Mimir who lives long enough will feel the pull. A memory that doesn't surface as easily. A preference that stops mattering. A name that becomes difficult to remember. The Hollow are the destination. Every other subrace is just a different path to the same void. Their elders teach a single practice: the Memory Chain. Each Hollow must steal at least one memory per day and speak it aloud before sleep, a chain of borrowed experiences that forms a rope preventing them from falling completely into the nothing. Miss a single day, and the void claims another inch. The elders who have lived longest are barely visible — translucent outlines of people, their voices carried on wind that has no source, their touch leaving impressions of cold absence on everything they contact.`,
+                statModifiers: {
+                    spirit: 3,
+                    agility: 2,
+                    constitution: -2
+                },
+                traits: [
+                    {
+                        id: 'void_countenance_hollow',
+                        name: 'Void Countenance',
+                        description: 'Your face is a smooth expanse of nothing — no eyes, no mouth, no nose, just the faint impression of features that dissolve when examined directly. You are an absence wearing skin. The unreal is hard to strike. It is also impossible to mend.',
+                        level: 1,
+                        icon: 'spell_shadow_shadesofdarkness',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'void',
+                            secondaryElement: 'shadow',
+                            icon: 'spell_shadow_shadesofdarkness',
+                            tags: ['evasion', 'void', 'healing-lockout', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'damageMitigation',
+                            effects: [
+                                {
+                                    id: 'unreal_evasion',
+                                    name: 'Unreal Evasion',
+                                    description: '+2 Dodge. You do not fully exist. Attacks pass through where a person should have been.',
+                                    mechanicsText: '',
+                                    statModifier: { stat: 'dodge', magnitude: 2, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'healing_void',
+                                    name: 'The Healing Void',
+                                    description: 'Cannot be targeted by beneficial spells or healing from allies unless currently wearing a stolen face. There is nothing inside you for magic to mend.',
+                                    statusEffect: { level: 'permanent', description: 'Immune to ally healing and buffs when faceless' }
+                                },
+                                {
+                                    id: 'void_presence',
+                                    name: 'Void Presence',
+                                    description: '-2 Charisma. People cannot remember your face. Conversations trail off. You are a gap in social reality.',
+                                    statModifier: { stat: 'charisma', magnitude: -2, magnitudeType: 'flat' }
+                                }
+                            ],
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    },
+                    {
+                        id: 'memory_leech_hollow',
+                        name: 'Memory Leech',
+                        description: 'You press your absence against their mind and drink. A childhood. A first love. The name of their dead mother. It slides down your throat like cold water and fills the void for one precious day. Then it is gone. And they are left with a hole where something used to live.',
+                        level: 1,
+                        icon: 'spell_shadow_lifedrain',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'utility'],
+                        typeConfig: {
+                            school: 'void',
+                            secondaryElement: 'psychic',
+                            icon: 'spell_shadow_lifedrain',
+                            tags: ['memory', 'drain', 'void', 'folklore', 'active']
+                        },
+                        damageConfig: {
+                            formula: '2d6',
+                            damageTypes: ['psychic'],
+                            resolution: 'DICE'
+                        },
+                        utilityConfig: {
+                            utilityType: 'custom',
+                            selectedEffects: [
+                                {
+                                    id: 'memory_theft',
+                                    name: 'Memory Theft',
+                                    description: 'Steal one specific memory from the target. Gain perfect recall of that memory for 24 hours. Use it to bypass passwords, security questions, or knowledge checks the target would know. The target permanently loses the memory (restorable via restoration magic).'
+                                },
+                                {
+                                    id: 'void_sustenance',
+                                    name: 'Void Sustenance',
+                                    description: 'The stolen memory sustains your void for 24 hours. You appear marginally more real — allies can target you with one beneficial effect of their choice.'
+                                }
+                            ],
+                            duration: 1, durationUnit: 'days', power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            rangeDistance: 5,
+                            targetRestrictions: ['humanoid']
+                        },
+                        resourceCost: { actionPoints: 2, mana: 8, components: ['somatic'] },
+                        cooldownConfig: { cooldownType: 'short_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'borrowed_pulse_hollow',
+                        name: 'Borrowed Pulse',
+                        description: 'You climb inside a corpse\'s identity like pulling on a wet coat. For one hour, you have a heartbeat. You have warmth. Your face resolves into something recognizable. You are almost a person. Then the hour ends and the dead flesh sloughs off in sheets, taking whatever it borrowed from you along with it.',
+                        level: 1,
+                        icon: 'spell_shadow_shadetrueform',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'void',
+                            secondaryElement: 'necrotic',
+                            icon: 'spell_shadow_shadetrueform',
+                            tags: ['transformation', 'death', 'healing', 'self-harm']
+                        },
+                        buffConfig: {
+                            buffType: 'transformation',
+                            effects: [
+                                {
+                                    id: 'borrowed_life',
+                                    name: 'Borrowed Life',
+                                    description: 'Assume the form of a dead humanoid you have touched within 7 days. Gain temporary HP equal to half their maximum HP. Gain one physical ability or trait they possessed. Appear fully alive to all detection — heartbeat, warmth, breath. Allies can target you normally while this form lasts.',
+                                    statusEffect: { level: 'major', description: 'Functionally alive for 1 hour. Gains temporary HP and one ability from the deceased.' }
+                                }
+                            ],
+                            durationType: 'hours', durationValue: 1, durationUnit: 'hours', canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'rejection_rot',
+                                    name: 'The Rejection',
+                                    description: 'When Borrowed Pulse ends, the dead flesh violently rejects you. Take necrotic damage equal to half the temporary HP gained. Lose any borrowed ability. Return to Void Countenance state immediately.',
+                                    statusEffect: { level: 'severe', description: 'Necrotic backlash equal to half temp HP on expiry' }
+                                }
+                            ],
+                            durationType: 'conditional', durationValue: 0, durationUnit: 'on_expiry', canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            rangeDistance: 5,
+                            targetRestrictions: ['corpse']
+                        },
+                        resourceCost: { actionPoints: 2, mana: 10, components: ['verbal', 'somatic'] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'the_erasure_hollow',
+                        name: 'The Erasure',
+                        description: 'You fold yourself into the void between moments. The spell finds only empty air where you stood. It is not teleportation. It is not dodging. For one heartbeat, you are truly nothing — and the relief of nonexistence is so profound that returning to reality costs you something that cannot be measured in blood.',
+                        level: 1,
+                        icon: 'spell_arcane_blink',
+                        spellType: 'REACTION',
+                        effectTypes: ['utility'],
+                        typeConfig: {
+                            school: 'void',
+                            icon: 'spell_arcane_blink',
+                            tags: ['reaction', 'void', 'erasure', 'self-harm']
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    { id: 'spell_reflect', category: 'combat', name: 'Targeted by Spell', parameters: { perspective: 'self' } }
+                                ]
+                            }
+                        },
+                        utilityConfig: {
+                            utilityType: 'protection',
+                            selectedEffects: [
+                                {
+                                    id: 'full_negation',
+                                    name: 'Complete Negation',
+                                    description: 'The triggering spell is completely negated. It passes through the empty space where you stood. You are untouched.'
+                                },
+                                {
+                                    id: 'erasure_cost',
+                                    name: 'Erasure Cost',
+                                    description: 'You take 1d8 psychic damage and lose 1 AP on your next turn. The void took something while you were away. You cannot remember what.'
+                                }
+                            ],
+                            duration: 0, durationUnit: 'instant', power: 'major'
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 1, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'long_rest', cooldownValue: 1 }
+                    },
+                    {
+                        id: 'water_salt_vulnerability_hollow',
+                        name: 'Running Water & Salt Vulnerability',
+                        description: 'The grandmother\'s tale speaks true: what has no soul cannot cross what flows, for flowing water is alive and you are not. Salt is the bones of the earth — permanent, real, crystallized truth. You are an absence. Salt burns absence like lye burns an open wound. Lay a line of salt across a threshold and the Hollow cannot follow. They will stand on the other side, their smooth face pressed against nothing, waiting for you to sweep.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'void',
+                            icon: 'spell_frost_frostbolt02',
+                            tags: ['vulnerability', 'folklore', 'water', 'salt', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'running_water_bane',
+                                    name: 'Running Water Bane',
+                                    description: 'Cannot cross running water (rivers, streams, flowing rain gutters) without spending double AP on movement. If submerged in running water, take 1d6 force damage per round as the void-form dissolves.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'water',
+                                        vulnerabilityPercent: 100,
+                                        description: 'Running water dissolves void-flesh. Double AP cost to cross. 1d6 force/round if submerged.'
+                                    }
+                                },
+                                {
+                                    id: 'salt_barrier',
+                                    name: 'Salt Barrier',
+                                    description: 'Cannot cross a line of salt laid across a threshold or pathway. Contact with salt deals 1d4 radiant damage per round as crystallized truth burns through void-flesh. A handful of thrown salt forces a Spirit save DC 13 or become Dazed for 1 round.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'salt',
+                                        vulnerabilityPercent: 50,
+                                        description: 'Salt lines block movement. Salt contact deals radiant damage and can daze.'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent', durationValue: 0, durationUnit: 'permanent', canBeDispelled: false
+                        },
+                        targetingConfig: { targetingType: 'self', rangeType: 'self_centered' },
+                        resourceCost: { actionPoints: 0, mana: 0, components: [] },
+                        cooldownConfig: { cooldownType: 'none', cooldownValue: 0 }
+                    }
+                ],
+                languages: ['Common', 'Changeling', 'Void-Speech'],
                 speed: 30,
                 baseStats: {
                     armor: 0,
-                    hp: 26, // Fractured but physically intact
-                    mana: 32, // Memory fragments grant enhanced mana
-                    ap: 2, // Fractured mind, jerky movements - less action-oriented
-                    passivePerception: 13, // Memory keepers, hoard fragments of knowledge
-                    swimSpeed: 20, // Not swimmers, calculated from speed
-                    climbSpeed: 15, // Jerky movements, not climbers
+                    hp: 18,
+                    mana: 35,
+                    ap: 3,
+                    passivePerception: 16,
+                    swimSpeed: 0,
+                    climbSpeed: 10,
                     visionRange: 60,
                     darkvision: 0,
-                    initiative: -1 // Jerky movements, unpredictable - slower to react
+                    initiative: 3
                 },
                 savingThrowModifiers: {
-                    // Fractured mind resistant to fear but vulnerable to confusion
-                    disadvantage: ['stun'], // Fractured mind vulnerable to confusion
-                    advantage: ['fear'] // Fractured mind resists fear
+                    disadvantage: ['radiant', 'water'],
+                    advantage: ['psychic', 'void']
                 }
             }
-        },
-        epicHistory: `
-The Cursing of Forgotten Forms came before our bloodlines can remember, before any written record of what we were before transformation took us. Our ancestors had faces and names and identities that belonged only to them. Then something stripped those things away - a curse that took their ability to remember their own faces and replaced it with the ability to copy any form they saw.
-
-The first generations suffered horribly. They woke unable to remember their own faces, unable to hold one identity long enough to know who they were, their features shifting constantly as they tried to remember what they looked like. Communities fell apart as people became whoever the curse decided, unable to recognize family members or maintain relationships.
-
-The Face-Thief emerged from those first generations - those who chose to embrace the curse, to perfect the art of impersonation until it was skill rather than affliction. They learned to copy faces completely, to wear identities like purposeful art, to use what the curse gave them rather than fighting against it.
-
-The Shattered emerged differently - those who fought the curse, who struggled to hold onto pieces of themselves between transformations. They developed techniques to maintain identity, to resist the constant pull of shapeshifting, to remember what they were before the curse took their ability to remember completely.
-
-During the Wars of Faces, the Mimir were used as weapons by armies who didn't understand the curse. Face-Thief infiltrated enemy courts, wearing faces of generals and advisors, learning plans and betraying them from inside. Shattered were forced to wear faces of soldiers, their fragile identities shattering under the weight of constant transformation.
-
-The wars changed the bloodlines. Face-Thief who infiltrated too deeply became whoever they were impersonating, their original identities eroded completely by faces worn too long. Shattered who were forced to transform constantly shattered under the weight, becoming whoever the curse decided with no resistance.
-
-The Mirror Pact ended the wars when the surviving Mimir leaders met and agreed on new laws. No wearing faces of other Mimir. No impersonating for war except when absolutely necessary. No forcing transformations on those who resist. The pact created boundaries between Face-Thief and Shattered, established rules for how the curse would be used.
-
-The Face-Thief and Shattered divided during that council. The Face-Thief chose to embrace the curse and perfect impersonation as art. The Shattered chose to resist the curse and hold onto pieces of themselves. Both approaches were accepted, but the division was permanent - the bloodlines could no longer cross between the two ways of living.
-
-Now the darkness spreads across the eastern lands, threatening realms that don't understand the curse. The Face-Thief watch the darkness with predatory interest, their skills as impersonators ready to infiltrate whatever comes. The Shattered fear the darkness, their fragile identities threatening to shatter under the weight of constant transformation war will force.
-
-The curse remembers the Wars of Faces when Mimir were used as weapons, when Face-Thief became whoever they impersonated too deeply, when Shattered shattered under constant transformation. Some Face-Thief feel the pull of that time already, the curse eager to be used for infiltration and betrayal again. Some Shattered feel the threat, their techniques holding identities together under strain.
-
-The Mirror Pact has held for generations. The rules against impersonating other Mimir have been followed, the restrictions against forcing transformations honored. But the darkness threatens to break everything. If the war comes to Mimir territories, if communities are forced to use the curse for survival, the pact may shatter like everything else.
-
-The Face-Thief will use the curse against the darkness - they'll wear faces of its followers, learn its plans from being them, gather information from identities too numerous to count. The Shattered will try to hold themselves together while doing the same, their fragile identities threatening to shatter under the constant transformation.
-
-When the darkness arrives, Mimir communities will have to choose - use the curse and risk losing themselves completely, or resist and risk being destroyed by enemies they can't fight without shapeshifting. The curse is patient. It will wait until the choice is forced. Then it will take what it's owed.
-        `,
-        notableFigures: [
-            {
-                name: 'Master Kaelen Face-Thief',
-                title: 'The Most Perfect Impersonator',
-                portraitIcon: 'Armor/Head/head-split-dual-face-helmet',
-                backstory: `
-The most skilled Face-Thief in living memory, Kaelen has worn more faces than anyone can count. His original identity is entirely gone, erased by transformations too numerous to count. The curse that lives in his blood has made him the perfect impersonator - he can copy anyone completely, wearing faces like purposeful art, becoming whoever he's pretending to be down to fragments of memory.
-
-During the Wars of Faces, Kaelen infiltrated three enemy courts simultaneously, wearing the faces of different generals and advisors in each. He learned war plans from being them, betrayed armies from inside by being their commanders, ended campaigns by becoming the leaders who ordered surrenders. The curse took pieces of his original identity with each face, but he accepted the losses as payment for his skill.
-
-Kaelen has forgotten everything about the person he was before he learned to copy others. His original face is gone, his original voice forgotten, his habits that belonged to that person erased completely. What remains is a vessel shaped by the curse, someone who can be anyone except himself.
-
-The Shattered pity him. They say he's more faces he's worn than any person he might have been, that he's given up on ever knowing who he is, that he's embraced a curse that was meant to destroy him. They're right that Kaelen has no original identity left. But they're wrong that this is loss - Face-Thief have found strength in what was meant to be destruction.
-
-Kaelen teaches other Face-Thief the arts of impersonation. He demonstrates how to copy mannerisms, how to adopt voice, how to steal fragments of memory along with faces. His students become skilled impersonators, but none match his mastery - Kaelen can be anyone completely, wearing faces so perfectly that even those closest to the originals can't tell the difference.
-
-When the darkness spreads across the eastern lands, Kaelen will be the one infiltrating it. He'll wear faces of its followers, learn its plans from being them, gather information from identities too numerous to count. The Face-Thief serve as perfect spies, and Kaelen is the most perfect of all.
-                `
-            },
-            {
-                name: 'Elder Elara Shattered',
-                title: 'The One Who Holds Onto Herself',
-                portraitIcon: 'Armor/Head/head-orange-cross-faceplate-helmet',
-                backstory: `
-The oldest living Shattered elder, Elara has held onto her identity through more transformations than any Mimir has survived. Her face still shows hints of her original features, though blurred by transformations she's worn since. Her techniques for maintaining identity are taught to every Shattered community, passed down through generations of those who fight the curse.
-
-Elara remembers her original face still, though the memory is faded and blurred. She remembers her parents' faces, the home she was born in, the life she lived before she learned to copy others. The curse has taken most of what she was, but Elara holds onto what remains with desperate focus, her identity fragile but still existing.
-
-During the Wars of Faces, Elara led the Shattered who refused to be used as weapons. She developed techniques to resist the curse, to hold one identity despite constant pressure to transform, to remember what the Shattered were before the curse tried to make them someone else. Her techniques saved countless Shattered from shattering completely.
-
-The Face-Thief call her stubborn, saying she's fighting a curse she can't win, that she's suffering for identities the curse already took, that she'd be better off embracing what she was given. They're wrong that her struggle is pointless - every piece of herself Elara holds onto is victory against a curse that wants to take everything.
-
-Elara teaches Shattered children how to hold onto themselves. She demonstrates how to focus on one face constantly, how to resist the pull of transformation, how to record memories in ways the curse can't take. Her students become Shattered who can resist the curse for years, maintaining identities through transformations that would shatter others.
-
-When the darkness spreads across the eastern lands, Elara will lead the Shattered who try to hold themselves together. The curse will pull at them with every face they see, every transformation the war forces, every identity they must wear to survive. Elara's techniques will hold the Shattered together, their identities fragile but resisting.
-                `
-            }
-        ],
-        majorLocations: [
-            {
-                name: 'The House of Thousand Faces',
-                description: `
-The oldest Face-Thief community, House of Thousand Faces is built beneath a great city where reflections multiply endlessly. Mirrors line every wall, creating endless copies for practice. Glass covers every surface, allowing Face-Thief to study transformations from every angle. The community is hidden in plain sight, existing below the city without anyone above knowing.
-
-The archives here hold records of thousands of identities - faces Face-Thief have worn, techniques for copying specific expressions, patterns of transformation that new Face-Thief can learn. Master Kaelen keeps the oldest records, his mind holding more identities than anyone can count.
-
-The House of Thousand Faces has never been discovered by those above. Face-Thief infiltrate the city above constantly, wearing faces that allow them to move freely, gathering information that sustains their community. The curse that makes them perfect impersonators protects their home - no one suspects that the beggars and merchants and nobles walking the city are all the same Face-Thief wearing different faces.
-
-Today, the House operates at increased activity as Face-Thief prepare for the spreading darkness. They wear faces of nobles and soldiers, infiltrating armies and courts, gathering information about what's coming. Master Kaelen leads these efforts, his skill unmatched by any living Face-Thief.
-                `
-            },
-            {
-                name: 'The Sanctuary of Broken Mirrors',
-                description: `
-The oldest Shattered community, Sanctuary of Broken Mirrors is built without any reflective surfaces. The walls are designed to resist reflection, the floors covered with materials that don't mirror, the lighting arranged so that no mirror image can form. The Shattered who live here hold onto their identities with desperate focus.
-
-The archives here hold records of techniques for maintaining identity - methods developed by generations of Shattered, ways to record memories without faces, techniques for resisting the curse's constant pull. Elder Elara keeps the oldest techniques, her teachings passed down to every Shattered community.
-
-The Sanctuary of Broken Mirrors has protected Shattered identities for generations. The lack of reflective surfaces helps maintain one face, allowing Shattered to focus on who they are rather than who they could become. The curse still pulls at them, but the techniques Elara developed hold identities together through transformations that would shatter others.
-
-Today, the Sanctuary prepares Shattered for the transformations the coming darkness will force. They practice techniques for maintaining identity, record memories of who they are before the curse can take those, prepare for faces they'll have to wear to survive. Elder Elara leads these preparations, her techniques having held Shattered identities together through more transformations than any should survive.
-                `
-            }
-        ],
-        currentCrisis: `
-The darkness spreading across the eastern lands has drawn the attention of the curse in Mimir blood. Face-Thief feel the pull toward impersonation, their skills ready to infiltrate whatever comes. Shattered feel the threat to their fragile identities, the curse eager to use transformations that will shatter what little self they've managed to hold onto.
-
-Mimir communities debate how to engage the darkness. Face-Thief argue that their skills are needed - infiltration will provide information that others can't gather, identities worn as weapons against an enemy that doesn't know the curse. Shattered warn that constant transformation will shatter their identities completely, that the curse will take whatever pieces of themselves remain.
-
-The Mirror Pact that has held for generations threatens to shatter. The rules against using the curse for war are being tested by the approaching darkness. Some Face-Thief already wear faces of enemy soldiers, impersonating followers of the darkness. Shattered are forced to transform to survive, their fragile identities shattering under the constant pressure.
-
-Master Kaelen leads Face-Thief who infiltrate the darkness, wearing faces of its followers and learning its plans. Elder Elara leads Shattered who try to hold onto themselves, teaching techniques that maintain identity through constant transformation.
-
-When the darkness arrives, Mimir communities will have to choose - use the curse and risk losing themselves, or resist and risk being destroyed. The curse is patient. It will wait until the choice is forced. The Face-Thief will embrace the transformation. The Shattered will resist with everything they have.
-
-The Face-Thief have forgotten more of themselves than the Shattered. Their original identities are gone, erased by transformations too numerous to count. The Shattered hold onto pieces of themselves with desperate focus. Both will face the darkness with different approaches - one embracing the curse, one resisting it.
-        `,
-        culturalPractices: `
-Every Mimir child undergoes the First Focus before their sixth year, learning to maintain one face long enough to know who they are. Face-Thief children practice focusing on one expression, keeping their features from shifting. Shattered children learn to record memories of who they are, creating identity that the curse can't take easily.
-
-The first intentional transformation is always significant. Face-Thief children choose a face to copy and shift until what they see in the mirror matches completely. Shattered children resist transformation unless absolutely necessary, their identities fragile enough that any change threatens to shatter what little self they hold.
-
-Face-Thief apprentices learn the arts of impersonation. They practice copying mannerisms, adopt voices, steal fragments of memory along with faces. Master Kaelen teaches the most advanced techniques - how to be anyone completely, how to wear faces like purposeful art, how to gather information from identities too numerous to count.
-
-Shattered apprentices learn the techniques for maintaining identity. They practice focusing on one face constantly, resist the pull of transformation, record memories in ways the curse can't take. Elder Elara teaches the most effective methods - how to hold onto pieces of themselves, how to resist the curse's constant pull.
-
-The Mirror Pact is the law all Mimir follow. No wearing faces of other Mimir. No impersonating for war except when absolutely necessary. No forcing transformations on those who resist. The pact creates boundaries between Face-Thief and Shattered, establishing rules for how the curse will be used.
-
-Those who lose their identities completely become Face-Thief who have forgotten everything they were before the curse. They embrace what remains, perfecting impersonation until it's art, understanding everyone by becoming them. Those who maintain some identity become Shattered, holding onto pieces of themselves with desperate focus and techniques passed down through generations.
-
-Every transformation costs something. The Face-Thief accept these costs as payment for survival. The Shattered resist the costs with techniques developed over generations. When the darkness spreads, Face-Thief will use the curse against it - wearing faces, gathering information, infiltrating. The Shattered will try to hold onto themselves while doing the same.
-
-The curse is patient. It exists in our blood. It will wait until the choice is forced. Then it will take what it's owed.
-        `,
-    };
-
-export default mimir;
+        }
+};

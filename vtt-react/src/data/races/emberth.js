@@ -1,4 +1,4 @@
-export const emberth = {
+﻿export const emberth = {
         id: 'emberth',
         name: 'Emberth',
         essence: 'Slag-skinned forgers',
@@ -139,8 +139,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
             forgeborn: {
                 id: 'forgeborn_emberth',
                 name: 'Forge-Hearth',
-                description: 'Skin hottest of all Ashkar, sometimes glowing faintly red. Hands permanently marked by burns and calluses from working hot metal. Eyes glow brightest, like embers in darkness. Many have lost fingers or have fused joints from accidents. Their touch can ignite paper. Clothing often singed at the edges. They sweat constantly, but it evaporates immediately.',
-                culturalBackground: `The Forge-Hearth trace their lineage to the first Ashkar smiths who mastered working with volcanic fire. Bloodline marked by deep bonds with the forge. Their tradition requires that every member apprentice for years in the hottest forges. Learning to shape metal with bare hands heated to impossible temperatures. Forge-Hearth clans are built around master forges that burn day and night. Members serving as craftsmen, smiths, creators of legendary weapons. They practice ancient smithing techniques passed down through generations. How to channel the Fire Within. How to work metal without tools. How to craft weapons that remember their forging. Their skin burns hot to the touch. Eyes glowing like banked coals. Presence capable of warming rooms or igniting dry tinder. But the fire demands constant fuel. They must create or destroy. Or the flames consume them from within. Many Forge-Hearth become hermit smiths in volcanic caverns. Bodies slowly becoming one with the lava flows. The bloodline values mastery and creation. Honor measured in items crafted and techniques perfected. They are the master smiths of Ashkar society. Their craft unmatched but their bodies forever marked by the fire that powers them.`,
+                description: 'Skin hottest of all Emberth, sometimes glowing faintly red through cracks in slag-scaled flesh. Hands permanently ravaged — not merely calloused but fissured, the palms split along forge-lines that never fully heal, weeping clear fluid that evaporates into steam before it falls. Eyes burn brightest of all the clans, twin embers embedded in a face that has forgotten how to look gentle. Many have lost fingers to their own craft; some have fused joints where metal and flesh agreed too well. Their touch ignites paper. Their presence wilts flowers. Clothing never survives more than a few days — the edges curl and blacken as if apologizing for existing. They sweat constantly, but the moisture never reaches the ground, hissing into vapor the moment it leaves their pores.',
+                culturalBackground: `The Forge-Hearth trace their lineage to the first Emberth smiths who mastered working with volcanic fire. Bloodline marked by deep bonds with the forge. Their tradition requires that every member apprentice for years in the hottest forges. Learning to shape metal with bare hands heated to impossible temperatures. Forge-Hearth clans are built around master forges that burn day and night. Members serving as craftsmen, smiths, creators of legendary weapons. They practice ancient smithing techniques passed down through generations. How to channel the Fire Within. How to work metal without tools. How to craft weapons that remember their forging. Their skin burns hot to the touch. Eyes glowing like banked coals. Presence capable of warming rooms or igniting dry tinder. But the fire demands constant fuel. They must create or destroy. Or the flames consume them from within. The slag-skin is both armor and prison — it slows them, drags at their joints like chains made of cooled lava, turns every step into a negotiation between the body and the earth it walks upon. Many Forge-Hearth become hermit smiths in volcanic caverns. Bodies slowly becoming one with the lava flows, fingers fusing with the hammers they never put down. The bloodline values mastery and creation. Honor measured in items crafted and techniques perfected. They are the master smiths of Emberth society. Their craft unmatched but their bodies forever marked by the fire that powers them. The Smoldering Vow binds every Forge-Hearth to the flame — one hour each day in direct communion with open fire or volcanic heat, or the Fire Within dims to ash and takes the smith's competence with it.`,
                 statModifiers: {
                     strength: 4,
                     constitution: 2,
@@ -150,23 +150,30 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'forge_heart_emberth',
                         name: 'Forge Heart',
-                        description: 'Work metal without tools. Items gain +1 damage or armor.',
+                        description: 'The Fire Within flows through your cracked and calloused hands, shaping metal with volcanic heat alone — but the forge demands its tithe in blood, and your palms split open with every strike, weeping molten ruin where others have merely sweat.',
                         level: 1,
                         icon: 'inv_hammer_20',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
+                        effectTypes: ['utility', 'damage'],
                         typeConfig: {
-                            school: 'crafting',
-                            secondaryElement: 'fire',
+                            school: 'fire',
+                            secondaryElement: 'crafting',
                             icon: 'inv_hammer_20',
-                            tags: ['crafting', 'fire', 'smithing']
+                            tags: ['crafting', 'fire', 'smithing', 'self-harm']
+                        },
+                        damageConfig: {
+                            formula: '1d4',
+                            damageTypes: ['fire'],
+                            resolution: 'DICE',
+                            targetSelf: true,
+                            isIrreducible: true
                         },
                         utilityConfig: {
                             utilityType: 'crafting',
                             selectedEffects: [{
                                 id: 'smithing',
-                                name: 'Smithing',
-                                description: 'Work metal with your bare hands. Items crafted gain +1 damage or armor.'
+                                name: 'Volcanic Smithing',
+                                description: 'Work metal with bare hands. Items crafted gain +1 damage or +1 Armor.'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -184,224 +191,164 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
                         categoryIds: ['racial_abilities']
                     },
                     {
-                        id: 'fire_immunity_emberth',
-                        name: 'Fire Immunity',
-                        description: 'Your bloodline carries the earth\'s inner fire, passed down from ancestors who bathed in lava and worked forges that burn eternally, rendering you immune to flames that would consume lesser folk.',
+                        id: 'slag_skin_baptism_emberth',
+                        name: 'Slag-Skin Baptism',
+                        description: 'You were plunged into lava before you could scream, and the lava loved you enough to stay — now your flesh is cooled slag, your joints grind like millstones, and you move with the terrible slowness of a mountain that has decided to stand somewhere else.',
                         level: 1,
                         icon: 'spell_fire_firearmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'debuff'],
                         typeConfig: {
                             school: 'fire',
                             secondaryElement: 'resistance',
                             icon: 'spell_fire_firearmor',
-                            tags: ['immunity', 'fire', 'passive']
+                            tags: ['armor', 'fire-immunity', 'speed-penalty', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    id: 'fire_immunity',
+                                    id: 'slag_armor',
+                                    name: 'Slag-Armor',
+                                    description: '+2 Armor. Lava-tempered flesh repels blade and flame alike.',
+                                    mechanicsText: '',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'fire_immunity_slag',
                                     name: 'Fire Immunity',
-                                    description: 'Complete immunity to fire damage and lava'
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'frost_vulnerability_forgeborn',
-                        name: 'Frost Vulnerability',
-                        description: 'The eternal flame within your bloodline burns hot, but unnatural frost can quench it, leaving your forge-tempered body brittle and vulnerable to frost that would merely chill lesser folk.',
-                        level: 1,
-                        icon: 'spell_frost_frostbolt02',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['debuff'],
-                        typeConfig: {
-                            school: 'curse',
-                            secondaryElement: 'frost',
-                            icon: 'spell_frost_frostbolt02',
-                            tags: ['vulnerability', 'frost', 'passive']
-                        },
-                        debuffConfig: {
-                            debuffType: 'vulnerability',
-                            effects: [
-                                {
-                                    id: 'damage_vulnerability',
-                                    name: 'Frost Vulnerability',
-                                    description: 'Take 50% more frost damage',
+                                    description: 'Complete immunity to fire damage and lava. The fire is already inside you — it has nowhere left to burn.',
                                     statusEffect: {
-                                        vulnerabilityType: 'frost',
-                                        vulnerabilityPercent: 50
+                                        level: 'permanent',
+                                        description: 'Immune to all fire damage and lava'
                                     }
                                 }
                             ],
-                            durationValue: 0,
                             durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'slag_weight',
+                                    name: 'Slag-Weight',
+                                    description: '-10ft movement speed. The calcified skin drags at every joint.',
+                                    statModifier: {
+                                        stat: 'speed',
+                                        magnitude: -10,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'slag_clumsiness',
+                                    name: 'Slag-Clumsiness',
+                                    description: '-1 Dodge. Joints ground smooth by centuries of heat cannot twist from harm\'s way.',
+                                    statModifier: {
+                                        stat: 'dodge',
+                                        magnitude: -1,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
                             durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
-                    }
-                ],
-                languages: ['Common', 'Ignan', 'Terran'],
-                speed: 30,
-                baseStats: {
-                    armor: 0,
-                    hp: 32, // Master smiths, tempered by fire - extra durability
-                    mana: 20,
-                    ap: 3, // Craftsmen, standard AP
-                    passivePerception: 1, // Master smiths, good perception for craft
-                    swimSpeed: 0, // Hot skin, poor swimmers (water cools them)
-                    climbSpeed: 0, // Not climbers
-                    visionRange: 60,
-                    darkvision: 60, // Eyes glow like embers, can see in darkness
-                    initiative: 0 // Not quick to react, focused on craft
-                },
-                savingThrowModifiers: {
-                    // Inner fire makes them vulnerable to cold but strong against exhaustion
-                    disadvantage: ['poison'], // Cold extinguishes their inner fire
-                    advantage: ['exhaustion'] // Tireless smiths resist exhaustion
-                }
-            },
-            cinderborn: {
-                id: 'cinderborn_emberth',
-                name: 'Ash Runner',
-                description: 'Lean and fast, built for movement. Feet leave scorch marks when they run. Skin cooler than other Ashkar but still hot. Eyes constantly scanning for paths. Many have ash stains that never wash off. They move with fluid grace, steps leaving smoking embers. Their breath sometimes carries sparks.',
-                culturalBackground: `The Ash-Runners trace their lineage to Ashkar scouts who learned to navigate volcanic wastes. Bloodline marked by speed and endurance in the heat. Their tradition requires that every member spend years training as runners. Learning to dash across molten rock unharmed and read the paths through lava flows. Ash-Runner clans are nomadic. Following geothermal hotspots that shift with the earth moods. Members serving as scouts, messengers, guides across volcanic territories. They practice ancient pathfinding techniques passed down through generations. How to read ash patterns. How to find safe routes through lava flows. How to hide in smoke clouds and ash storms. Their footsteps scorch the earth behind them. Leaving trails of smoking embers that mark their passage for days. But this speed comes at a cost. Their feet are always hot. Leaving burns on anything they touch for too long. Many Ash-Runners become solitary wanderers. Bodies adapted to endless travel across burning lands. The bloodline values speed and duty. Honor measured in messages delivered and paths found. They are the messengers of Ashkar society. Their mobility unmatched but their bodies forever marked by the heat they traverse.`,
-                statModifiers: {
-                    agility: 4,
-                    intelligence: 2,
-                    spirit: 1
-                },
-                traits: [
+                    },
                     {
-                        id: 'ember_trail_emberth',
-                        name: 'Ember Trail',
-                        description: 'Leave a trail of embers for tracking or signaling.',
+                        id: 'forge_kiss_emberth',
+                        name: 'The Forge-Kiss',
+                        description: 'You press your lips to cold steel and breathe the Fire Within through the metal — it remembers the volcanic vent, it remembers the hammer, and for three glorious rounds it burns with the fury of a forge that has never known silence. Your blood sings. Then it screams.',
                         level: 1,
-                        icon: 'spell_fire_burnout',
+                        icon: 'spell_fire_enchantweapon',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
+                        effectTypes: ['buff', 'damage'],
                         typeConfig: {
                             school: 'fire',
-                            secondaryElement: 'utility',
-                            icon: 'spell_fire_burnout',
-                            tags: ['tracking', 'signaling', 'fire']
+                            secondaryElement: 'enchantment',
+                            icon: 'spell_fire_enchantweapon',
+                            tags: ['weapon-buff', 'fire', 'self-harm']
                         },
-                        utilityConfig: {
-                            utilityType: 'tracking',
-                            selectedEffects: [{
-                                id: 'trail',
-                                name: 'Trail',
-                                description: 'Leave a visible trail of embers.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
+                        damageConfig: {
+                            formula: '3',
+                            damageTypes: ['fire'],
+                            resolution: 'AUTOMATIC',
+                            targetSelf: true,
+                            isIrreducible: true
+                        },
+                        buffConfig: {
+                            buffType: 'damageIncrease',
+                            effects: [
+                                {
+                                    id: 'volcanic_imbuement',
+                                    name: 'Volcanic Imbuement',
+                                    description: '+1d6 fire damage on all weapon attacks for 3 rounds. The metal remembers being born in lava.',
+                                    mechanicsText: '',
+                                    statModifier: {
+                                        stat: 'weapon_damage_fire',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat',
+                                        diceSize: 6
+                                    }
+                                }
+                            ],
+                            durationType: 'rounds',
+                            durationValue: 3,
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
                         },
                         targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
+                            targetingType: 'single',
+                            rangeType: 'touch',
+                            targetRestrictions: ['ally', 'object']
                         },
                         resourceCost: {
                             resourceTypes: ['mana'],
                             resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
-                        },
-                        cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
-                    },
-                    {
-                        id: 'ash_cloud_emberth',
-                        name: 'Ash Cloud',
-                        description: 'Create concealing ash cloud. Grants advantage on Stealth.',
-                        level: 1,
-                        icon: 'spell_fire_smokecloud',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'fire',
-                            secondaryElement: 'concealment',
-                            icon: 'spell_fire_smokecloud',
-                            tags: ['concealment', 'stealth', 'fire']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Advantage on Stealth while in cloud',
-                            effects: [
-                                {
-                                    name: 'Ash Concealment',
-                                    description: 'Advantage on Stealth',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'The ash cloud hides your presence'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'minutes',
-                            durationUnit: 'minutes',
-                            canBeDispelled: false
-                        },
-                        utilityConfig: {
-                            utilityType: 'environment',
-                            selectedEffects: [{
-                                id: 'obscurement',
-                                name: 'Obscurement',
-                                description: 'Create a 10-foot radius cloud of hot ash that obscures vision.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'minor'
-                        },
-                        targetingConfig: {
-                            targetingType: 'area',
-                            rangeType: 'self_centered',
-                            aoeSize: 10
-                        },
-                        resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
                             actionPoints: 2,
-                            components: ['verbal', 'somatic']
+                            components: ['somatic', 'verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
                         categoryIds: ['racial_abilities']
                     },
                     {
-                        id: 'frost_vulnerability_cinderborn',
+                        id: 'frost_vulnerability_forgeborn',
                         name: 'Frost Vulnerability',
-                        description: 'Vulnerable to frost damage (+50% damage) as frost can quench your inner heat.',
+                        description: 'The cold is a heresy the Forge-Hearth cannot forgive — frost bites through slag-skin where steel cannot, finding the cracks in your baptism, the places where the lava did not quite reach. Each frost-wound extinguishes a generation of inner fire.',
                         level: 1,
                         icon: 'spell_frost_frostbolt02',
                         spellType: 'PASSIVE',
@@ -416,17 +363,423 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    id: 'frost_vulnerability',
+                                    id: 'frost_vulnerability_forgeborn',
                                     name: 'Frost Vulnerability',
-                                    description: 'Take +50% damage from frost sources'
+                                    description: '+50% frost damage taken. The cold finds the cracks where the lava baptism failed to reach.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'frost',
+                                        vulnerabilityPercent: 50
+                                    }
                                 }
                             ],
                             durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'smoldering_vow_emberth',
+                        name: 'The Smoldering Vow',
+                        description: 'The Fire Within is not a gift — it is a tenant that demands worship. You must spend at least one hour each day in direct communion with open flame or volcanic heat. Miss this devotion and the ember dims: disadvantage on ALL rolls until you return to flame.',
+                        level: 1,
+                        icon: 'inv_misc_gem_opal_01',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'fire',
+                            icon: 'inv_misc_gem_opal_01',
+                            tags: ['dependency', 'fire', 'folklore', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'flame_dependency',
+                                    name: 'Flame Dependency',
+                                    description: 'Must spend 1 hour/day in direct contact with open flame or volcanic heat. If communion is missed: disadvantage on ALL rolls until remedied.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Disadvantage on all rolls until flame communion is restored'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    }
+                ],
+                languages: ['Common', 'Ignan', 'Terran'],
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 32,
+                    mana: 20,
+                    ap: 3,
+                    passivePerception: 1,
+                    swimSpeed: 0,
+                    climbSpeed: 0,
+                    visionRange: 60,
+                    darkvision: 60,
+                    initiative: 0
+                },
+                savingThrowModifiers: {
+                    disadvantage: ['poison'],
+                    advantage: ['exhaustion']
+                }
+            },
+            cinderborn: {
+                id: 'cinderborn_emberth',
+                name: 'Ash Runner',
+                description: 'Lean and fast, built for movement at the cost of substance. Feet leave scorch marks when they run — not from any pride or defiance, but because the fire within them burns so desperate to escape that it leaks through the soles. Skin cooler than other Emberth but still hot enough to fog mirrors and wilt cut flowers. Eyes constantly scanning for paths, for escape routes, for the next horizon — never settling, never still. Many have ash stains that never wash off, grey handprints on their own faces where they wiped away tears that evaporated before falling. They move with fluid grace that borders on the unnatural, each step leaving smoking embers that whisper of where they have been and will never return to. Their breath sometimes carries sparks — tiny cinders that escape the furnace of their lungs and dance briefly in the air before dying.',
+                culturalBackground: `The Ash-Runners trace their lineage to Emberth scouts who learned to navigate volcanic wastes. Bloodline marked by speed and endurance in the heat. Their tradition requires that every member spend years training as runners. Learning to dash across molten rock unharmed and read the paths through lava flows. Ash-Runner clans are nomadic. Following geothermal hotspots that shift with the earth moods. Members serving as scouts, messengers, guides across volcanic territories. They practice ancient pathfinding techniques passed down through generations. How to read ash patterns. How to find safe routes through lava flows. How to hide in smoke clouds and ash storms. Their footsteps scorch the earth behind them. Leaving trails of smoking embers that mark their passage for days. But this speed comes at a cost. Their bodies are fragile — the fire that grants them swiftness burns away the substance that would make them durable. Their feet are always hot. Leaving burns on anything they touch for too long. Many Ash-Runners become solitary wanderers. Bodies adapted to endless travel across burning lands. The bloodline values speed and duty. Honor measured in messages delivered and paths found. They are the messengers of Emberth society. Their mobility unmatched but their bodies forever marked by the heat they traverse. The Ashen Constitution is their quiet curse: cinder-flesh rejects the mercy of water and herb. Bandages slide off like rain off hot iron. Healing potions boil in their wounds before they can knit. Only flame can mend what flame has made — rest beside a forge and the cracks seal like cooling lava. Try to heal them with tenderness and watch them suffer more.`,
+                statModifiers: {
+                    agility: 4,
+                    intelligence: 2,
+                    spirit: 1
+                },
+                traits: [
+                    {
+                        id: 'ember_trail_emberth',
+                        name: 'Ember Trail',
+                        description: 'Your feet scorch the earth with every stride, leaving a blazing wound across the ground that burns for hours — a trail of dying embers that marks your passage and sears the feet of anything foolish enough to follow. But the fire does not discriminate: your enemies can read your path like a letter written in flame.',
+                        level: 1,
+                        icon: 'spell_fire_burnout',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage', 'utility', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'utility',
+                            icon: 'spell_fire_burnout',
+                            tags: ['tracking', 'damage', 'fire', 'anti-stealth']
+                        },
+                        damageConfig: {
+                            formula: '1d4',
+                            damageTypes: ['fire'],
+                            resolution: 'DICE',
+                            savingThrow: {
+                                ability: 'agility',
+                                difficultyClass: 12,
+                                saveOutcome: 'half_damage'
+                            }
+                        },
+                        utilityConfig: {
+                            utilityType: 'tracking',
+                            selectedEffects: [{
+                                id: 'trail',
+                                name: 'Blazing Trail',
+                                description: 'Leave a visible, damaging trail of embers that persists until your next short rest. Allies can follow it. Enemies can too.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'persistent',
+                            power: 'minor'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'trail_betrayal',
+                                    name: 'Trail of Betrayal',
+                                    description: 'Cannot use Stealth while Ember Trail is active. Your path is written in fire.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Stealth disabled while trail burns'
+                                    }
+                                }
+                            ]
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 4 },
+                            actionPoints: 1,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
+                    },
+                    {
+                        id: 'ash_cloud_emberth',
+                        name: 'Ash Cloud',
+                        description: 'You exhale the dead — a billowing cloud of superheated ash that clings to the air like funeral shrouds, tasting of sulfur and the last breath of forges that burned for centuries. It hides your allies. It blinds your enemies. It also burns your throat on the way out, and for a terrible moment you cannot speak, cannot cry out, cannot scream — only swallow the ghosts of your ancestors and wait for the fire to return to your voice.',
+                        level: 1,
+                        icon: 'spell_fire_smokecloud',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'concealment',
+                            icon: 'spell_fire_smokecloud',
+                            tags: ['concealment', 'stealth', 'fire', 'silence']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffectBuff',
+                            effects: [
+                                {
+                                    id: 'ash_concealment',
+                                    name: 'Ash Concealment',
+                                    description: 'Advantage on Stealth for all allies within the cloud.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Advantage on Stealth checks while inside ash cloud'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'environment',
+                            selectedEffects: [{
+                                id: 'obscurement',
+                                name: 'Obscurement',
+                                description: 'Create a 15-foot radius cloud of superheated ash that obscures all vision.'
+                            }],
+                            duration: 1,
+                            durationUnit: 'minutes',
+                            power: 'moderate'
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'silenced_throat',
+                                    name: 'Silenced Throat',
+                                    description: 'Cannot use verbal components for 1 round. The ash took your voice.',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Verbal components disabled for 1 round'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 15
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 8 },
+                            actionPoints: 2,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
+                    },
+                    {
+                        id: 'volcanic_stride_emberth',
+                        name: 'Volcanic Stride',
+                        description: 'The fire within shows you where the earth will hold and where it will swallow — you walk across lava as though it were packed dirt, leap fissures that would incinerate lesser folk, find purchase on slopes of volcanic glass. But your feet never stop burning. Every surface you touch warps and blackens. Grass dies beneath you. Wood chars. You announce your arrival to the world with every step.',
+                        level: 1,
+                        icon: 'ability_rogue_sprint',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'movement',
+                            icon: 'ability_rogue_sprint',
+                            tags: ['movement', 'lava-walk', 'terrain', 'anti-stealth', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'movementBuff',
+                            effects: [
+                                {
+                                    id: 'speed_boost_stride',
+                                    name: 'Speed of Ash',
+                                    description: '+5ft movement speed. Walk on lava and molten surfaces without damage.',
+                                    statModifier: {
+                                        stat: 'speed',
+                                        magnitude: 5,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'lava_walker',
+                                    name: 'Lava Walker',
+                                    description: 'Immune to lava and molten surface damage.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Can walk on lava/molten surfaces without damage'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'scorch_footprint',
+                                    name: 'Scorch Footprint',
+                                    description: '-2 to all Stealth checks on non-volcanic terrain. Feet leave scorch marks on every surface.',
+                                    statModifier: {
+                                        stat: 'stealth',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'frost_vulnerability_cinderborn',
+                        name: 'Frost Vulnerability',
+                        description: 'Frost kills what fire sustains — it creeps into the volcanic vents of your blood, quenching the speed-fire that carries you across wastelands. When the cold takes hold, you do not merely slow. You feel the fire within you gutter like a candle in a catacomb, and for a moment you understand what it means to be ash without warmth.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt02',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'frost',
+                            icon: 'spell_frost_frostbolt02',
+                            tags: ['vulnerability', 'frost', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'frost_vulnerability_cinderborn',
+                                    name: 'Frost Vulnerability',
+                                    description: '+50% frost damage taken. Frost quenching the speed-fire in your blood.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'frost',
+                                        vulnerabilityPercent: 50
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'ashen_constitution_emberth',
+                        name: 'Ashen Constitution',
+                        description: 'Your body was not made for mercy — it was made for fire. Bandages slide off cinder-flesh like rain off hot iron. Healing potions boil in your wounds before they can seal. Only flame can mend what flame has made: you cannot regain HP from any non-fire source during a short rest.',
+                        level: 1,
+                        icon: 'spell_fire_fire',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'curse',
+                            secondaryElement: 'fire',
+                            icon: 'spell_fire_fire',
+                            tags: ['healing-restriction', 'fire', 'folklore', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'fire_healing_only',
+                                    name: 'Fire-Healing Dependency',
+                                    description: 'Cannot regain HP from non-fire sources during short rests. Healing potions, bandages, and non-fire healing spells have no effect. Must rest near open flame or volcanic heat to recover HP.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'HP recovery restricted to fire sources only during short rest'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     }
                 ],
@@ -434,27 +787,26 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                 speed: 35,
                 baseStats: {
                     armor: 0,
-                    hp: 24, // Lean and fast, not particularly hardy
+                    hp: 24,
                     mana: 28,
-                    ap: 4, // Scouts and messengers, quick reactions - extra action point
-                    passivePerception: 3, // Eyes constantly scanning for paths, read ash patterns
-                    swimSpeed: 5, // Hot feet, poor swimmers (water cools them)
-                    climbSpeed: 5, // Scouts, decent climbers
+                    ap: 4,
+                    passivePerception: 3,
+                    swimSpeed: 5,
+                    climbSpeed: 5,
                     visionRange: 60,
                     darkvision: 0,
-                    initiative: 3 // Lean and fast, quick to react
+                    initiative: 3
                 },
                 savingThrowModifiers: {
-                    // Inner heat makes them vulnerable to cold but agile in movement
-                    disadvantage: ['poison'], // Cold chills their inner fire
-                    advantage: ['restrained'] // Agile scouts escape restraints
+                    disadvantage: ['poison'],
+                    advantage: ['restrained']
                 }
             },
             warborn: {
                 id: 'warborn_emberth',
                 name: 'War Forged',
-                description: 'Largest and most muscular of Ashkar. Skin covered in battle scars and burn marks. Eyes burn brightest when enraged. Many have weapons fused to their hands from heat. Their war cries sound like volcanic eruptions. In battle, their strikes leave trails of cinders. They smell of blood and smoke.',
-                culturalBackground: `The War-Forged trace their lineage to Ashkar warriors who chose battle over craft. Bloodline marked by endless conflict and volcanic fury. Their tradition requires that every member prove themselves in fighting pits. Apprenticeships spent in endless duels where the weak fall to fuel the strong. War-Forged clans are built around arenas and training grounds. Members serving as warriors, mercenaries, protectors. They practice ancient combat techniques passed down through generations. How to channel rage into strength. How to fight with fire-forged weapons. How to become living weapons in battle. Their skin is a map of old wounds and burn marks. Each scar telling a story of violence survived. In battle, they become living weapons. Strikes leaving trails of cinders. War cries like the roar of erupting volcanoes. But the rage consumes them. They must fight regularly or become restless and irritable. Inner fire turning against them. Many War-Forged become mercenaries or raiders. Following wars like carrion birds follow death. The bloodline values strength and glory. Honor measured in scars earned and battles won. They are the warriors of Ashkar society. Their ferocity unmatched but their souls forever marked by the rage that drives them.`,
+                description: 'Largest and most muscular of the Emberth, though "muscular" is too kind a word for what war and fire have done to them. Skin covered in a cartography of violence — battle scars layered over burn marks layered over older scars, a palimpsest of every wound survived and every life taken. Eyes burn brightest when enraged, pupils narrowing to volcanic vents through which something ancient and hungry stares out. Many have weapons fused to their hands from heat — not by choice, but because the metal and the bone agreed that separation was no longer an option worth discussing. Their war cries do not sound like shouts. They sound like mountains splitting. In battle, their strikes leave trails of cinders that spell the names of the dead. They smell of blood and smoke and something older — the first fire that ever consumed a forest, distilled and given legs.',
+                culturalBackground: `The War-Forged trace their lineage to Emberth warriors who chose battle over craft. Bloodline marked by endless conflict and volcanic fury. Their tradition requires that every member prove themselves in fighting pits. Apprenticeships spent in endless duels where the weak fall to fuel the strong. War-Forged clans are built around arenas and training grounds. Members serving as warriors, mercenaries, protectors. They practice ancient combat techniques passed down through generations. How to channel rage into strength. How to fight with fire-forged weapons. How to become living weapons in battle. Their skin is a map of old wounds and burn marks. Each scar telling a story of violence survived. In battle, they become living weapons. Strikes leaving trails of cinders. War cries like the roar of erupting volcanoes. But the rage consumes them. They must fight regularly or become restless and irritable. Inner fire turning against them. The battle-fire is a parasite that feeds on violence and, when deprived, begins gnawing on the mind itself. Many War-Forged become mercenaries or raiders. Following wars like carrion birds follow death. The bloodline values strength and glory. Honor measured in scars earned and battles won. They are the warriors of Emberth society. Their ferocity unmatched but their souls forever marked by the rage that drives them. The Death Pyre awaits every War-Forged — not as a threat, but as a promise. When they fall, the Fire Within erupts in one final conflagration that spares no one, ally or enemy. It is their funeral rite and their last act of war, burning all within reach. And if no flame is laid upon their corpse within the minute, the Fire Within departs entirely, and what remains is not a person but a cooling statue of volcanic regret.`,
                 statModifiers: {
                     strength: 4,
                     constitution: 2,
@@ -464,40 +816,62 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'battle_rage_emberth',
                         name: 'Battle Rage',
-                        description: 'Enter battle rage when reducing enemy to 0 HP. +2 attack, +1d6 fire damage for 1 minute.',
+                        description: 'When an enemy falls beneath your volcanic fury, the Fire Within erupts — your eyes blaze with inner flame and every strike burns with the fury of a forge pushed past its limits. But the rage is a parasite: it blinds you to danger, strips the caution from your bones, and turns every defensive instinct into ash.',
                         level: 1,
                         icon: 'ability_warrior_rampage',
                         spellType: 'REACTION',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'debuff'],
                         typeConfig: {
                             school: 'combat',
                             secondaryElement: 'fire',
                             icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'fire', 'combat', 'reaction']
+                            tags: ['rage', 'fire', 'combat', 'reaction', 'reckless']
                         },
                         buffConfig: {
-                            buffType: 'statEnhancement',
-                            statModifiers: [
-                                {
-                                    id: 'rage_attack',
-                                    name: 'Attack Bonus',
-                                    magnitude: 2,
-                                    magnitudeType: 'flat',
-                                    category: 'combat'
-                                }
-                            ],
+                            buffType: 'combatAdvantage',
                             effects: [
                                 {
-                                    name: 'Fire Damage',
-                                    description: '+1d6 fire damage to attacks',
+                                    id: 'rage_attack',
+                                    name: 'Furnace Fury',
+                                    description: '+2 to all attack rolls. Every strike burns with inner fire.',
+                                    statModifier: {
+                                        stat: 'attack',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'rage_fire_damage',
+                                    name: 'Cinder Strikes',
+                                    description: 'All weapon attacks deal additional fire damage.',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Your attacks burn with inner fire'
+                                        description: 'Weapon attacks deal bonus fire damage'
                                     }
                                 }
                             ],
                             durationValue: 1,
                             durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'statPenalty',
+                            effects: [
+                                {
+                                    id: 'rage_recklessness',
+                                    name: 'Reckless Fury',
+                                    description: '-2 to all defense while Battle Rage is active.',
+                                    statModifier: {
+                                        stat: 'defense',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
                             canBeDispelled: false
                         },
                         triggerConfig: {
@@ -522,8 +896,8 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             components: ['verbal']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
                         },
                         dateCreated: new Date().toISOString(),
                         lastModified: new Date().toISOString(),
@@ -532,50 +906,138 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                     {
                         id: 'scarred_hide_emberth',
                         name: 'Scarred Hide',
-                        description: '+1 Armor from toughened skin. Advantage on saves against fear.',
+                        description: 'A thousand battles have tempered your flesh like slag-cooled steel, each scar a forge-mark that hardened what it touched and burned away the capacity for fear — and also the capacity to feel the wounds that are killing you.',
                         level: 1,
                         icon: 'ability_warrior_defensivestance',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'debuff'],
                         typeConfig: {
                             school: 'combat',
                             secondaryElement: 'defense',
                             icon: 'ability_warrior_defensivestance',
-                            tags: ['armor', 'fear-resistance', 'passive']
+                            tags: ['armor', 'fear-resistance', 'pain-blind', 'passive']
                         },
                         buffConfig: {
-                            buffType: 'statusEffect',
-                            statModifiers: [
-                                {
-                                    id: 'armor_bonus',
-                                    name: 'Armor Bonus',
-                                    magnitude: 1,
-                                    magnitudeType: 'flat',
-                                    category: 'defense'
-                                }
-                            ],
+                            buffType: 'statEnhancement',
                             effects: [
                                 {
-                                    name: 'Fear Resistance',
-                                    description: 'Advantage on saves against fear',
+                                    id: 'scarred_armor',
+                                    name: 'Scar-Armor',
+                                    description: '+1 Armor. A thousand battles have tempered your flesh like slag-steel.',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 1,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'fear_resistance',
+                                    name: 'Fear of Nothing',
+                                    description: 'Advantage on saves vs Fear.',
                                     statusEffect: {
                                         level: 'moderate',
-                                        description: 'Battle has hardened your resolve'
+                                        description: 'Advantage on Fear saves'
                                     }
                                 }
                             ],
                             durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'pain_blindness',
+                                    name: 'Pain Blindness',
+                                    description: 'At 25% HP or below, you are not aware you are critically wounded. No internal warning. The body keeps fighting until it stops.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'No damage awareness at 25% HP or below'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
+                    },
+                    {
+                        id: 'furnace_breath_emberth',
+                        name: 'Furnace Breath',
+                        description: 'Your lungs are forges and your breath is the venting of centuries of accumulated rage — a cone of superheated air that peels skin from bone and turns armor cherry-red. But the furnace does not burn cold. You must suffer before you can vent. Ten wounds. Ten points of your own blood spilled. Only then does the fire rise high enough to scream.',
+                        level: 1,
+                        icon: 'spell_fire_fireball',
+                        spellType: 'ACTION',
+                        effectTypes: ['damage'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'combat',
+                            icon: 'spell_fire_fireball',
+                            tags: ['fire', 'cone', 'combat', 'conditional']
+                        },
+                        damageConfig: {
+                            formula: '2d6',
+                            damageTypes: ['fire'],
+                            resolution: 'DICE',
+                            savingThrow: {
+                                ability: 'agility',
+                                difficultyClass: 14,
+                                saveOutcome: 'half_damage'
+                            }
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'on_damage_taken_threshold',
+                                        conditions: {
+                                            threshold: 10,
+                                            description: 'Must have taken at least 10 damage in current encounter'
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'cone',
+                            rangeType: 'self_centered',
+                            aoeSize: 15
+                        },
+                        resourceCost: {
+                            resourceTypes: ['mana'],
+                            resourceValues: { mana: 10 },
+                            actionPoints: 3,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        },
+                        dateCreated: new Date().toISOString(),
+                        lastModified: new Date().toISOString(),
+                        categoryIds: ['racial_abilities']
                     },
                     {
                         id: 'frost_vulnerability_warborn',
                         name: 'Frost Vulnerability',
-                        description: 'Vulnerable to frost damage (+50% damage) as your inner fire can be quenched.',
+                        description: 'The cold does not merely wound you — it silences the battle-fire that is the only thing keeping you sane. Frost creeps into the war-forges of your blood, and with it comes the silence: the terrible, suffocating quiet that the War-Forged fear more than death, because in the silence the rage has nothing left to eat and begins gnawing on the mind itself.',
                         level: 1,
                         icon: 'spell_frost_frostbolt02',
                         spellType: 'PASSIVE',
@@ -590,41 +1052,124 @@ When darkness comes, Emberth clans will unite. The Forge Accords will hold us to
                             debuffType: 'statusEffect',
                             effects: [
                                 {
-                                    id: 'frost_vulnerability',
+                                    id: 'frost_vulnerability_warborn',
                                     name: 'Frost Vulnerability',
-                                    description: 'Take +50% damage from frost sources'
+                                    description: '+50% frost damage taken. Frost suppresses the battle-fire and brings the silence.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'frost',
+                                        vulnerabilityPercent: 50
+                                    }
                                 }
                             ],
                             durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'death_pyre_emberth',
+                        name: 'The Death Pyre',
+                        description: 'When the War-Forged falls, the Fire Within does not go quietly — it erupts in a final, vengeful conflagration that spares no one, ally or enemy, burning everything within reach in a funeral pyre of accumulated rage. But this is also your last anchor to life: without open flame laid upon the corpse within one minute, the Fire Within departs and what remains cools into inert slag — not a person, not a body, just stone that used to scream.',
+                        level: 1,
+                        icon: 'spell_fire_selfdestruct',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['damage', 'debuff'],
+                        typeConfig: {
+                            school: 'fire',
+                            secondaryElement: 'death',
+                            icon: 'spell_fire_selfdestruct',
+                            tags: ['death-effect', 'fire', 'friendly-fire', 'folklore', 'passive']
+                        },
+                        damageConfig: {
+                            formula: '3d6',
+                            damageTypes: ['fire'],
+                            resolution: 'DICE',
+                            targetSelf: false,
+                            includesAllies: true,
+                            savingThrow: {
+                                ability: 'agility',
+                                difficultyClass: 15,
+                                saveOutcome: 'half_damage'
+                            }
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'slag_death',
+                                    name: 'Slag Corpse',
+                                    description: 'Cannot be stabilized or revived by normal means. Requires open flame at the body within 1 minute, or the corpse permanently cools into inert slag.',
+                                    statusEffect: {
+                                        level: 'permanent',
+                                        description: 'Requires fire source for revival within 1 minute or permadeath as inert slag'
+                                    }
+                                }
+                            ],
+                            durationType: 'permanent',
+                            durationValue: 0,
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        triggerConfig: {
+                            global: {
+                                logicType: 'AND',
+                                compoundTriggers: [
+                                    {
+                                        triggerType: 'on_death',
+                                        conditions: {}
+                                    }
+                                ]
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'area',
+                            rangeType: 'self_centered',
+                            aoeSize: 10,
+                            targetRestrictions: ['any']
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     }
                 ],
                 languages: ['Common', 'Ignan'],
                 speed: 30,
                 baseStats: {
-                    armor: 0, // Scarred Hide passive adds +1, so base is 0
-                    hp: 36, // Largest and most muscular, battle-tempered - extra durability
+                    armor: 0,
+                    hp: 36,
                     mana: 18,
-                    ap: 4, // Warriors, battle rage - extra action point
-                    passivePerception: 1, // Warriors, not particularly perceptive
-                    swimSpeed: 0, // Hot skin, poor swimmers (water cools them)
-                    climbSpeed: 0, // Not climbers
+                    ap: 4,
+                    passivePerception: 1,
+                    swimSpeed: 0,
+                    climbSpeed: 0,
                     visionRange: 60,
                     darkvision: 0,
-                    initiative: 2 // Warriors, quick to react in battle
+                    initiative: 2
                 },
                 savingThrowModifiers: {
-                    // Inner fire makes them vulnerable to cold but battle-hardened against fear
-                    disadvantage: ['poison'], // Cold extinguishes their inner fire
-                    advantage: ['fear'] // Battle-hardened warriors resist fear
+                    disadvantage: ['poison'],
+                    advantage: ['fear']
                 }
             }
         }
-    };
-
-export default emberth;
+};

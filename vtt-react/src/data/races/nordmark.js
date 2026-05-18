@@ -1,10 +1,10 @@
-export const nordmark = {
+﻿export const nordmark = {
         id: 'nordmark',
         name: 'Nordmark',
         description: 'We stand taller than other folk because the north demands it. Shoulders broad enough to carry what winter takes. Our skin bears the map of our lives-scars from blades, wind-burn from storms, pale mark of cold that never leaves. Frost falls from our lips even in the warmth of southern lands, a breath that crystallizes into ghosts of white we survived. We braid our hair with bone and iron because we are made of both. Our eyes hold the color of the winter sky: blue when storm breaks, gray when blizzard holds, pale green when aurora dances. We trace our blood to warrior-kings who carved their names into glacier ice with hammers stained red. But we remember them not as stories, but as debts. Every clan carries burdens from before common speech was born. Some carry ancient feuds, others sacred vows, still others the weight of kings who refused to die even when ice claimed their flesh. We are not merely human. The north remade us. Each winter hardened our flesh like steel. Each storm forged our will like weapons. We became something the cold recognizes as its own.',
         essence: 'Frost-hardened warriors',
         gradient: 'linear-gradient(135deg, #8B7355 0%, #A0522D 100%)',
-        icon: '/assets/icons/races/nordmark.png',
+        icon: 'fas fa-mountain',
         overview: `The wind screams outside our longhouse, carrying the voice of the glacier that buried my father and his father before him. Inside, the fire burns low-enough to see, not enough to warm. This is how we live. This is how we survive. My grandfather used to say that warmth makes you soft, that the north demands hardness because it intends to kill you. He survived five winters alone in the wastes before returning with his mind changed and his skin marked by frost that never faded. Now he's buried beneath the cairn stones outside, where the snow refuses to settle properly. The stones whisper if you listen close. Not lies exactly, but truths that would break lesser folk.
 
 Our clans bind everything. You might think clan is family, but it's deeper. It's which ancestor you claim, which debts your blood owes, which feuds demand your death. The Bloodhammer clan traces to the first warrior-king who stood against the endless white and carved his kingdom from frozen waste with nothing but rage and a red-stained hammer. The Rune-Keepers claim descent from shaman-kings who walked into the deepest winter and returned with eyes that saw past and future woven together. The Frostbound... they say their scouts went too far into the eternal winter and came back changed, flesh hardened and cold become part of them. Each clan hates the others. Bloodhammers call Rune-Keepers whispering cowards who hide behind spirits. Rune-Keepers mock Bloodhammers as mindless beasts who've forgotten what it means to be human. Frostbound pity us both, looking down from their glacier peaks with eyes that barely remember what humanity feels like. But when the white comes, we all share the same fire and the same longhouse walls. The north doesn't care about clan feuds. It just kills anyone it can.
@@ -30,6 +30,180 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
             weight: '180-280 lbs',
             build: 'Tall and muscular'
         },
+        sharedTraits: [
+            {
+                id: 'blood_debt_nordmark',
+                name: 'Blood Debt',
+                description: 'At character creation, declare one Blood Debt: an unresolved feud, a sacred vow, or an unpaid favor. When facing a situation directly related to your debt, gain +2 to all rolls. When facing a situation that contradicts or dishonors the debt, suffer -2 to all rolls. This debt can never be fully resolved — only replaced by a new one of equal weight.',
+                level: 1,
+                icon: 'spell_shadow_deathcoil',
+                spellType: 'PASSIVE',
+                effectTypes: ['buff', 'debuff'],
+                typeConfig: {
+                    school: 'spirit',
+                    secondaryElement: 'ancestral',
+                    icon: 'spell_shadow_deathcoil',
+                    tags: ['debt', 'oath', 'social', 'passive', 'shared']
+                },
+                buffConfig: {
+                    buffType: 'custom',
+                    customDescription: '+2 to all rolls when acting in accordance with your Blood Debt',
+                    effects: [
+                        {
+                            id: 'blood_debt_boon',
+                            name: 'Debt Fulfilled',
+                            description: '+2 to all rolls when facing a situation directly related to your declared Blood Debt',
+                            statModifier: {
+                                stat: 'all_rolls',
+                                magnitude: 2,
+                                magnitudeType: 'flat'
+                            },
+                            conditions: {
+                                bloodDebtAligned: true
+                            }
+                        }
+                    ],
+                    durationValue: 0,
+                    durationType: 'permanent',
+                    durationUnit: 'permanent',
+                    canBeDispelled: false
+                },
+                debuffConfig: {
+                    debuffType: 'oathbreaker',
+                    effects: [
+                        {
+                            id: 'blood_debt_penalty',
+                            name: 'Oathbreaker Shame',
+                            description: '-2 to all rolls when facing a situation that contradicts your declared Blood Debt',
+                            statModifier: {
+                                stat: 'all_rolls',
+                                magnitude: -2,
+                                magnitudeType: 'flat'
+                            },
+                            conditions: {
+                                bloodDebtContradicted: true
+                            }
+                        }
+                    ],
+                    durationValue: 0,
+                    durationType: 'permanent',
+                    durationUnit: 'permanent',
+                    canBeDispelled: false
+                },
+                targetingConfig: {
+                    targetingType: 'self',
+                    rangeType: 'self_centered'
+                },
+                resourceCost: {
+                    actionPoints: 0,
+                    mana: 0,
+                    components: []
+                },
+                cooldownConfig: {
+                    cooldownType: 'none',
+                    cooldownValue: 0
+                }
+            },
+            {
+                id: 'northern_pride_nordmark',
+                name: 'Northern Pride',
+                description: 'Your debt-based culture reads as transparent aggression to southerners. You do not lie — you owe. Disadvantage on Deception checks against non-Nordmark NPCs.',
+                level: 1,
+                icon: 'spell_holy_auramastery',
+                spellType: 'PASSIVE',
+                effectTypes: ['debuff'],
+                typeConfig: {
+                    school: 'physical',
+                    icon: 'spell_holy_auramastery',
+                    tags: ['social', 'deception', 'friction', 'passive', 'shared']
+                },
+                debuffConfig: {
+                    debuffType: 'socialPenalty',
+                    effects: [
+                        {
+                            id: 'deception_penalty',
+                            name: 'Honest as Iron',
+                            description: 'Disadvantage on Deception checks against non-Nordmark NPCs',
+                            statusEffect: {
+                                level: 'moderate',
+                                description: 'Disadvantage on Deception vs non-Nordmark NPCs',
+                                appliesTo: 'deception_checks',
+                                condition: 'target_is_not_nordmark'
+                            }
+                        }
+                    ],
+                    durationValue: 0,
+                    durationType: 'permanent',
+                    durationUnit: 'permanent',
+                    canBeDispelled: false
+                },
+                targetingConfig: {
+                    targetingType: 'self',
+                    rangeType: 'self_centered'
+                },
+                resourceCost: {
+                    actionPoints: 0,
+                    mana: 0,
+                    components: []
+                },
+                cooldownConfig: {
+                    cooldownType: 'none',
+                    cooldownValue: 0
+                }
+            },
+            {
+                id: 'longhouse_fire_nordmark',
+                name: 'Longhouse Fire',
+                description: 'When resting near an open flame with at least one other Nordmark character, both gain +2 HP recovered during a short rest. The longhouse fire is memory and belonging. A random campfire in the south provides no benefit.',
+                level: 1,
+                icon: 'spell_fire_flameblades',
+                spellType: 'PASSIVE',
+                effectTypes: ['buff', 'utility'],
+                typeConfig: {
+                    school: 'fire',
+                    secondaryElement: 'spirit',
+                    icon: 'spell_fire_flameblades',
+                    tags: ['rest', 'healing', 'social', 'passive', 'shared']
+                },
+                buffConfig: {
+                    buffType: 'custom',
+                    customDescription: '+2 HP recovered during short rest when near open flame with another Nordmark character',
+                    effects: [
+                        {
+                            id: 'longhouse_rest_bonus',
+                            name: 'Fire-Kin Bond',
+                            description: '+2 HP recovered during short rest when near open flame with at least one other Nordmark',
+                            statModifier: {
+                                stat: 'short_rest_hp_recovery',
+                                magnitude: 2,
+                                magnitudeType: 'flat'
+                            },
+                            conditions: {
+                                nearOpenFlame: true,
+                                withNordmarkAlly: true
+                            }
+                        }
+                    ],
+                    durationValue: 0,
+                    durationType: 'permanent',
+                    durationUnit: 'permanent',
+                    canBeDispelled: false
+                },
+                targetingConfig: {
+                    targetingType: 'self',
+                    rangeType: 'self_centered'
+                },
+                resourceCost: {
+                    actionPoints: 0,
+                    mana: 0,
+                    components: []
+                },
+                cooldownConfig: {
+                    cooldownType: 'none',
+                    cooldownValue: 0
+                }
+            }
+        ],
         epicHistory: `
 The First Breaking came before memory was written. Ancient frost lords descended from the eternal ice, their hunger for warmth absolute and terrible. For three generations, the southern kingdoms fell one by one—castle walls shattered like glass, armies frozen in mid-charge, entire bloodlines extinguished in a single night of screaming winds. Only the forge-clans of the deep holds survived, hammering sacred wards into iron until their bones rattled with the rhythm of war.
 
@@ -139,10 +313,9 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'utility'],
                         typeConfig: {
                             school: 'frost',
-                            secondaryElement: 'frost',
                             icon: 'spell_frost_frostarmor',
                             tags: ['resistance', 'frost', 'environmental', 'passive']
                         },
@@ -158,6 +331,175 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                                         magnitude: 50,
                                         magnitudeType: 'percentage'
                                     }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'frostborn_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on snow or ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['snow', 'ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'stealth',
+                            selectedEffects: [{
+                                id: 'snow_tracks',
+                                name: 'Trackless Snow',
+                                description: 'Leave no tracks in snow'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'frost_rage_nordmark',
+                        name: 'Frost Rage',
+                        description: 'When death draws near, the ancient berserker blood awakens, flooding your veins with glacial fury that turns your strikes to ice and hardens your flesh against steel.',
+                        level: 1,
+                        icon: 'ability_warrior_rampage',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'frost',
+                            icon: 'ability_warrior_rampage',
+                            tags: ['rage', 'combat', 'berserker', 'frost']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'frost_melee_damage',
+                                    name: 'Frost Strikes',
+                                    description: 'Your melee attacks deal an additional 1d8 frost damage',
+                                    statModifier: {
+                                        stat: 'frost_damage_melee',
+                                        magnitude: '1d8',
+                                        magnitudeType: 'dice'
+                                    }
+                                },
+                                {
+                                    id: 'physical_resistance',
+                                    name: 'Frozen Hide',
+                                    description: 'Your flesh hardens like ice, granting 50% resistance to physical damage',
+                                    statModifier: {
+                                        stat: 'physical_resistance',
+                                        magnitude: 50,
+                                        magnitudeType: 'percentage'
+                                    }
+                                },
+                                {
+                                    id: 'prone_immunity',
+                                    name: 'Unshakable',
+                                    description: 'You are immune to being knocked prone while the rage endures',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Immune to prone'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'restriction',
+                            effects: [
+                                {
+                                    id: 'healing_blocked',
+                                    name: 'Frost Haze',
+                                    description: 'Healing spells cannot target you; only potions from an adjacent ally, regeneration, or killing blows restore health',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Healing blocked except potions from adjacent ally, regen, and killing blows'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        triggerConfig: {
+                            requiredConditions: {
+                                healthBelow: 50
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 1,
+                            mana: 0,
+                            components: ['verbal']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'blood_on_snow_nordmark',
+                        name: 'Blood on the Snow',
+                        description: 'When the cold has taken hold of your enemy and their blood begins to slow, a single well-placed strike can end them \u2014 crimson on white, mercy in the ice.',
+                        level: 1,
+                        icon: 'spell_frost_frostbolt',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'frost',
+                            icon: 'spell_frost_frostbolt',
+                            tags: ['combat', 'critical', 'frost', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'combatAdvantage',
+                            effects: [
+                                {
+                                    id: 'auto_crit_wounded',
+                                    name: 'Executioner\'s Strike',
+                                    description: 'Melee attacks automatically critically hit enemies below 30% HP who have a frost debuff. Once per target per combat.',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Auto-crit enemies below 30% HP with frost debuff, once per target per combat'
+                                    }
                                 }
                             ],
                             durationValue: 0,
@@ -168,134 +510,23 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'battle_fury_nordmark',
-                        name: 'Battle Fury',
-                        description: 'When death draws near, the ancient berserker blood awakens, flooding your veins with the fury that carved kingdoms from ice, trading caution for primal strength that echoes your warrior-king ancestors.',
-                        level: 1,
-                        icon: 'ability_warrior_rampage',
-                        spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
-                        typeConfig: {
-                            school: 'physical',
-                            icon: 'ability_warrior_rampage',
-                            tags: ['rage', 'combat', 'berserker', 'passive']
-                        },
-                        buffConfig: {
-                            buffType: 'statEnhancement',
-                            effects: [
-                                {
-                                    id: 'berserker_slashing_damage',
-                                    name: 'Rage Slashing Damage',
-                                    description: 'Gain +5 slashing damage when below 50% HP',
-                                    statModifier: {
-                                        stat: 'slashing_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_bludgeoning_damage',
-                                    name: 'Rage Bludgeoning Damage',
-                                    description: 'Gain +5 bludgeoning damage when below 50% HP',
-                                    statModifier: {
-                                        stat: 'bludgeoning_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_piercing_damage',
-                                    name: 'Rage Piercing Damage',
-                                    description: 'Gain +5 piercing damage when below 50% HP',
-                                    statModifier: {
-                                        stat: 'piercing_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_ranged_damage',
-                                    name: 'Rage Ranged Damage',
-                                    description: 'Gain +5 ranged damage when below 50% HP',
-                                    statModifier: {
-                                        stat: 'ranged_damage',
-                                        magnitude: 5,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_defense',
-                                    name: 'Reckless Defense',
-                                    description: 'Lose 2 armor when below 50% HP',
-                                    statModifier: {
-                                        stat: 'armor',
-                                        magnitude: -2,
-                                        magnitudeType: 'flat'
-                                    }
-                                },
-                                {
-                                    id: 'berserker_saves',
-                                    name: 'Reckless Courage',
-                                    description: '-2 to all saving throws when below 50% HP',
-                                    statModifier: {
-                                        stat: 'saving_throws',
-                                        magnitude: -2,
-                                        magnitudeType: 'flat'
-                                    }
-                                }
-                            ],
-                            durationValue: 0,
-                            durationType: 'permanent',
-                            durationUnit: 'permanent',
-                            canBeDispelled: false
-                        },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered',
-                            validTargets: ['self']
-                        },
-                        triggerConfig: {
-                            global: {
-                                enabled: true,
-                                logicType: 'AND',
-                                compoundTriggers: [
-                                    {
-                                        id: 'health_threshold',
-                                        category: 'health',
-                                        name: 'Health Threshold',
-                                        parameters: {
-                                            percentage: 50,
-                                            comparison: 'less_than',
-                                            perspective: 'self',
-                                            threshold_type: 'percentage'
-                                        }
-                                    }
-                                ]
-                            }
                         },
                         resourceCost: {
-                            resourceTypes: [],
-                            resourceValues: {},
                             actionPoints: 0,
+                            mana: 0,
                             components: []
                         },
                         cooldownConfig: {
-                            type: 'long_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
                     },
                     {
                         id: 'rage_burn_nordmark',
                         name: 'Rage Burn',
                         description: 'The berserker fury that fuels your bloodline leaves you hollow when it fades, your spirit scarred and vulnerable to flames that echo the burning rage within, and psychic forces that prey upon your fractured mind.',
                         level: 1,
-                        icon: 'Fire/Burning Ember',
+                        icon: 'spell_fire_soulburn',
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
@@ -334,6 +565,127 @@ When a Nordmark dies far from the longhouse fire, their spirit wanders the waste
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                    },
+                    {
+                        id: 'oath_of_steel_nordmark',
+                        name: 'Oath of Steel',
+                        description: 'A Bloodhammer cannot refuse a formal challenge to single combat. If challenged and they refuse, they suffer -2 to all rolls for 24 hours as oathbreaker\'s shame eats at their soul. Only a Blood Debt of higher priority can override this compulsion.',
+                        level: 1,
+                        icon: 'ability_warrior_weaponmastery',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff', 'utility'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'spirit',
+                            icon: 'ability_warrior_weaponmastery',
+                            tags: ['oath', 'duel', 'honor', 'social', 'friction', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'oathbreaker',
+                            effects: [
+                                {
+                                    id: 'oathbreaker_shame',
+                                    name: 'Oathbreaker\'s Shame',
+                                    description: '-2 to all rolls for 24 hours if a formal challenge to single combat is refused',
+                                    statModifier: {
+                                        stat: 'all_rolls',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        refusedChallenge: true,
+                                        duration: 24,
+                                        durationUnit: 'hours'
+                                    }
+                                }
+                            ],
+                            durationValue: 24,
+                            durationType: 'hours',
+                            durationUnit: 'hours',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'social',
+                            selectedEffects: [{
+                                id: 'forced_duel',
+                                name: 'Duel Compulsion',
+                                description: 'Must accept formal challenges to single combat. Only a higher Blood Debt overrides this.'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'major'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'feud_memory_nordmark',
+                        name: 'Feud Memory',
+                        description: 'At character creation, choose one faction or family that your clan holds a blood feud against. NPCs of that faction start as Hostile and their disposition cannot be improved through Persuasion — only through duel resolution, completing a blood-debt quest, or direct intervention by a Nordmark elder.',
+                        level: 1,
+                        icon: 'spell_shadow_unholystrength',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'spirit',
+                            secondaryElement: 'ancestral',
+                            icon: 'spell_shadow_unholystrength',
+                            tags: ['feud', 'social', 'friction', 'faction', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'socialPenalty',
+                            effects: [
+                                {
+                                    id: 'feud_hostility',
+                                    name: 'Blood Feud',
+                                    description: 'NPCs of the chosen feud faction start as Hostile. Cannot be improved via Persuasion. Only resolved through duel, blood-debt quest, or Nordmark elder intervention.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Hostile disposition with feud faction. Persuasion blocked.',
+                                        appliesTo: 'faction_npc_disposition',
+                                        factionHostile: true,
+                                        resolutionMethods: ['duel', 'blood_debt_quest', 'nordmark_elder_intervention']
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     }
                 ],
@@ -387,10 +739,9 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                         level: 1,
                         icon: 'spell_frost_frostarmor',
                         spellType: 'PASSIVE',
-                        effectTypes: ['buff'],
+                        effectTypes: ['buff', 'utility'],
                         typeConfig: {
                             school: 'frost',
-                            secondaryElement: 'frost',
                             icon: 'spell_frost_frostarmor',
                             tags: ['resistance', 'frost', 'environmental', 'passive']
                         },
@@ -406,6 +757,31 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                                         magnitude: 50,
                                         magnitudeType: 'percentage'
                                     }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'frostborn_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on snow or ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['snow', 'ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
                                 }
                             ],
                             durationValue: 0,
@@ -413,48 +789,12 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                             durationUnit: 'permanent',
                             canBeDispelled: false
                         },
-                        targetingConfig: {
-                            targetingType: 'self',
-                            rangeType: 'self_centered'
-                        }
-                    },
-                    {
-                        id: 'ancestral_whispers_nordmark',
-                        name: 'Ancestral Whispers',
-                        description: 'Commune with ancestor spirits for guidance, gaining insight but owing them stories in return.',
-                        level: 1,
-                        icon: 'spell_shadow_coneofsilence',
-                        spellType: 'ACTION',
-                        effectTypes: ['buff', 'utility'],
-                        typeConfig: {
-                            school: 'spirit',
-                            secondaryElement: 'ancestral',
-                            icon: 'spell_shadow_coneofsilence',
-                            tags: ['spirit', 'guidance', 'ancestral']
-                        },
-                        buffConfig: {
-                            buffType: 'custom',
-                            customDescription: 'Gain advantage on one Intelligence or Spirit check',
-                            effects: [
-                                {
-                                    name: 'Ancestral Guidance',
-                                    description: 'Advantage on one Intelligence or Spirit check',
-                                    statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Ancestral spirits provide insight and spirit'
-                                    }
-                                }
-                            ],
-                            durationValue: 1,
-                            durationType: 'hours',
-                            canBeDispelled: false
-                        },
                         utilityConfig: {
-                            utilityType: 'divination',
+                            utilityType: 'stealth',
                             selectedEffects: [{
-                                id: 'prediction',
-                                name: 'Prediction',
-                                description: 'Communicate with ancestor spirits for guidance and spirit.'
+                                id: 'snow_tracks',
+                                name: 'Trackless Snow',
+                                description: 'Leave no tracks in snow'
                             }],
                             duration: 0,
                             durationUnit: 'instant',
@@ -465,35 +805,155 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 8 },
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'runic_inscription_nordmark',
+                        name: 'Runic Inscription',
+                        description: 'Close your eyes and the runes answer \u2014 ancient symbols of power carved into the world\'s bones, each stroke a word of creation that reshapes reality itself.',
+                        level: 1,
+                        icon: 'spell_shadow_coneofsilence',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'arcane',
+                            icon: 'spell_shadow_coneofsilence',
+                            tags: ['rune', 'warding', 'divination', 'arcane']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Carve a rune into a surface. Choose one: Rune of Warding (10ft zone, ally entering gains immunity to next status effect, 1 min), Rune of Wrath (attach to weapon, next attack deals 2d8 frost + slow 10ft for 1 round), or Rune of Sight (see through from 1 mile, max 2 active).',
+                            effects: [
+                                {
+                                    id: 'rune_of_warding',
+                                    name: 'Rune of Warding',
+                                    description: 'Carve a protective rune. Allies entering the 10ft zone gain immunity to the next status effect. Lasts 1 minute or absorbs one effect.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Immunity to next status effect within 10ft zone'
+                                    }
+                                },
+                                {
+                                    id: 'rune_of_wrath',
+                                    name: 'Rune of Wrath',
+                                    description: 'Enchant a weapon with frost. Next attack deals 2d8 frost damage and slows target 10ft for 1 round. One-use.',
+                                    statModifier: {
+                                        stat: 'frost_damage_weapon',
+                                        magnitude: '2d8',
+                                        magnitudeType: 'dice'
+                                    }
+                                },
+                                {
+                                    id: 'rune_of_sight',
+                                    name: 'Rune of Sight',
+                                    description: 'Carve a scrying rune. See through it from up to 1 mile away. Maximum 2 active runes.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Remote vision from up to 1 mile, max 2 active'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: true
+                        },
+                        utilityConfig: {
+                            utilityType: 'divination',
+                            selectedEffects: [{
+                                id: 'runic_inscription',
+                                name: 'Runic Inscription',
+                                description: 'Carve a rune into a surface to create a magical effect'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'moderate'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
                             actionPoints: 2,
+                            mana: 8,
                             components: ['verbal', 'somatic']
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
-                        },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
                     },
                     {
-                        id: 'vision_vulnerability_nordmark',
-                        name: 'Vision Vulnerability',
-                        description: 'Your connection to the ancestral realm leaves you vulnerable to energies that disrupt the veil between worlds.',
+                        id: 'ancestral_echo_nordmark',
+                        name: 'Ancestral Echo',
+                        description: 'The spirits of your ancestors linger at the edge of fate, and when fortune turns against you with the cruelest roll, they reach through the veil to grant you one more chance.',
                         level: 1,
-                        icon: 'spell_fire_soulburn',
+                        icon: 'spell_holy_divineintervention',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'spirit',
+                            icon: 'spell_holy_divineintervention',
+                            tags: ['reroll', 'saving_throw', 'ancestral', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Reroll a natural 1 on any saving throw. Must take the new result. Once per long rest.',
+                            effects: [
+                                {
+                                    id: 'ancestral_reroll',
+                                    name: 'Ancestral Intervention',
+                                    description: 'When you roll a natural 1 on a saving throw, you may reroll it. You must take the new result. Once per long rest.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Reroll natural 1 on saving throws, once per long rest'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'ancestral_toll_nordmark',
+                        name: 'Ancestral Toll',
+                        description: 'Every time you use Runic Inscription or Ancestral Echo, you permanently forget one minor memory. After 5 forgotten memories, you gain a permanent -1 to all Charisma-based checks as your humanity erodes. This stacks: every 5 forgotten memories adds another -1. There is no way to recover lost memories. Additionally, your connection to the ancestral realm leaves you vulnerable to fire and necrotic energies.',
+                        level: 1,
+                        icon: 'spell_shadow_soulleech',
                         spellType: 'PASSIVE',
                         effectTypes: ['debuff'],
                         typeConfig: {
                             school: 'curse',
                             secondaryElement: 'necrotic',
-                            icon: 'spell_fire_soulburn',
-                            tags: ['vulnerability', 'spirit', 'passive']
+                            icon: 'spell_shadow_soulleech',
+                            tags: ['vulnerability', 'spirit', 'memory', 'passive', 'stacking']
                         },
                         debuffConfig: {
-                            debuffType: 'statusEffect',
+                            debuffType: 'vulnerability',
                             effects: [
                                 {
                                     id: 'damage_vulnerability',
@@ -514,20 +974,152 @@ They view the Frostbound with a complex mixture of pity and recognition. The Fro
                                     }
                                 },
                                 {
-                                    name: 'Veil Weakness',
-                                    description: 'Your bond with ancestor spirits thins the veil between worlds, making you vulnerable to planar disruptions',
+                                    id: 'memory_erosion',
+                                    name: 'Memory Erosion',
+                                    description: 'Permanently forget one minor memory each time Runic Inscription or Ancestral Echo is used. After 5 forgotten memories, gain permanent -1 to all Charisma-based checks. Stacks every 5 memories.',
                                     statusEffect: {
-                                        level: 'moderate',
-                                        description: 'Spiritual connection leaves you vulnerable to planar disruptions'
+                                        level: 'severe',
+                                        description: 'Humanity erodes with each use of ancestral powers',
+                                        stacking: true,
+                                        threshold: 5,
+                                        penaltyPerStack: -1,
+                                        affectedStat: 'charisma_checks',
+                                        trackingType: 'forgotten_memories'
                                     }
                                 }
                             ],
+                            durationValue: 0,
                             durationType: 'permanent',
+                            durationUnit: 'permanent',
                             canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
+                    },
+                    {
+                        id: 'spirit_debt_nordmark',
+                        name: 'Spirit Debt',
+                        description: 'After using Ancestral Echo, the ancestors demand tribute. If you do not perform a 10-minute ritual recounting a deed at a longhouse fire or runestone within 24 hours, your next Runic Inscription costs double mana. Each unpaid debt compounds. Three unpaid debts and the ancestors withhold guidance entirely — Ancestral Echo is disabled until debts are paid through a 1-hour Seance ritual.',
+                        level: 1,
+                        icon: 'spell_shadow_mindrot',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'spirit',
+                            secondaryElement: 'ancestral',
+                            icon: 'spell_shadow_mindrot',
+                            tags: ['debt', 'spirit', 'resource', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'resourcePenalty',
+                            effects: [
+                                {
+                                    id: 'compounding_mana_debt',
+                                    name: 'Unpaid Tribute',
+                                    description: 'Next Runic Inscription costs double mana if 10-minute tribute ritual not performed within 24 hours of using Ancestral Echo. Compounds with each unpaid debt.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Runic Inscription mana cost doubles per unpaid debt',
+                                        resourceAffected: 'mana',
+                                        costMultiplier: 2,
+                                        stacking: true,
+                                        tributeRitualDuration: 10,
+                                        tributeRitualDurationUnit: 'minutes',
+                                        tributeDeadline: 24,
+                                        tributeDeadlineUnit: 'hours'
+                                    }
+                                },
+                                {
+                                    id: 'ancestral_abandonment',
+                                    name: 'Ancestral Abandonment',
+                                    description: 'After 3 unpaid debts, Ancestral Echo is disabled until a 1-hour Seance ritual is performed at a longhouse fire or runestone.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Ancestral Echo disabled. Requires 1-hour Seance ritual to restore.',
+                                        abilityLocked: 'ancestral_echo',
+                                        debtThreshold: 3,
+                                        restorationRitual: 'seance',
+                                        restorationDuration: 1,
+                                        restorationDurationUnit: 'hours'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'runescarred_nordmark',
+                        name: 'Runescarred',
+                        description: 'The bone-needle scars covering your flesh are visible and unsettling. Non-Nordmark NPCs react with Suspicion — disadvantage on the first Persuasion or Deception check with any NPC who can see your scars. Nordmark NPCs are unaffected.',
+                        level: 1,
+                        icon: 'spell_shadow_fumble',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            icon: 'spell_shadow_fumble',
+                            tags: ['social', 'friction', 'appearance', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'socialPenalty',
+                            effects: [
+                                {
+                                    id: 'suspicion',
+                                    name: 'Suspicion',
+                                    description: 'Disadvantage on first Persuasion or Deception check with non-Nordmark NPCs who can see your runescars',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Disadvantage on first Persuasion/Deception vs non-Nordmark NPCs who can see scars',
+                                        appliesTo: ['persuasion', 'deception'],
+                                        condition: 'target_is_not_nordmark_and_can_see_scars',
+                                        firstInteractionOnly: true
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
                         }
                     }
                 ],
@@ -612,6 +1204,31 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                                         level: 'moderate',
                                         description: 'Never suffer exhaustion from frost weather'
                                     }
+                                },
+                                {
+                                    id: 'ice_strider',
+                                    name: 'Ice Strider',
+                                    description: 'Snow and ice are never difficult terrain for you',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ignore difficult terrain from snow and ice'
+                                    }
+                                },
+                                {
+                                    id: 'deep_frost_armor',
+                                    name: 'Frozen Stance',
+                                    description: 'Standing still on ice for 1 round grants +2 armor until you move more than 10ft',
+                                    statModifier: {
+                                        stat: 'armor',
+                                        magnitude: 2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        terrain: ['ice'],
+                                        stationary: true,
+                                        duration: 1,
+                                        breaksOn: { moveDistance: 10 }
+                                    }
                                 }
                             ],
                             durationValue: 0,
@@ -621,11 +1238,18 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         },
                         utilityConfig: {
                             utilityType: 'survival',
-                            effects: [{
-                                id: 'arctic_survival',
-                                name: 'Arctic Survival',
-                                description: 'Survive in arctic conditions indefinitely without shelter or supplies'
-                            }],
+                            selectedEffects: [
+                                {
+                                    id: 'arctic_survival',
+                                    name: 'Arctic Survival',
+                                    description: 'Survive in arctic conditions indefinitely without shelter or supplies'
+                                },
+                                {
+                                    id: 'snow_tracks',
+                                    name: 'Trackless Snow',
+                                    description: 'Leave no tracks in snow'
+                                }
+                            ],
                             duration: 0,
                             durationUnit: 'instant',
                             power: 'major'
@@ -633,50 +1257,252 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     },
                     {
-                        id: 'winters_guidance_nordmark',
-                        name: 'Winter\'s Guidance',
-                        description: 'The eternal winter speaks to you, revealing safe paths through blizzards and predicting weather changes.',
+                        id: 'flash_freeze_nordmark',
+                        name: 'Flash Freeze',
+                        description: 'With a gesture, the world around you surrenders to the deep cold \u2014 water snaps to ice, ground crystallizes, and your enemies find themselves locked in a prison of frost.',
                         level: 1,
-                        icon: 'spell_nature_naturetouchgrow',
+                        icon: 'spell_frost_frozenorb',
                         spellType: 'ACTION',
-                        effectTypes: ['utility'],
+                        effectTypes: ['damage', 'debuff', 'utility'],
                         typeConfig: {
-                            school: 'nature',
-                            secondaryElement: 'winter',
-                            icon: 'spell_nature_naturetouchgrow',
-                            tags: ['guidance', 'weather', 'survival']
+                            school: 'frost',
+                            icon: 'spell_frost_frozenorb',
+                            tags: ['aoe', 'frost', 'terrain', 'restraint']
+                        },
+                        debuffConfig: {
+                            debuffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'restrain_enemies',
+                                    name: 'Frozen Bonds',
+                                    description: 'Enemies in 30ft radius: CON DC14 save or Restrained. Takes 1d6 frost damage per round. STR DC14 action to break free. Half effect on successful save.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Restrained, 1d6 frost/round, STR DC14 action to break free'
+                                    }
+                                },
+                                {
+                                    id: 'ice_terrain_debuff',
+                                    name: 'Frozen Ground',
+                                    description: 'Ground becomes ice terrain for 10 minutes. Difficult terrain for enemies. AGI save or prone when running. Frost-resistant allies unaffected.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Ice terrain, enemies difficult terrain, AGI save or prone when running'
+                                    }
+                                }
+                            ],
+                            durationValue: 10,
+                            durationType: 'minutes',
+                            durationUnit: 'minutes',
+                            canBeDispelled: false
+                        },
+                        damageConfig: {
+                            damageType: 'frost',
+                            dice: '1d6',
+                            saveStat: 'constitution',
+                            dc: 14,
+                            halfOnSave: true
                         },
                         utilityConfig: {
                             utilityType: 'environment',
-                            selectedEffects: [{
-                                id: 'weather',
-                                name: 'Weather',
-                                description: 'Can sense safe paths through blizzards and predict weather changes within 24 hours.'
-                            }],
-                            duration: 0,
-                            durationUnit: 'instant',
-                            power: 'moderate'
+                            selectedEffects: [
+                                {
+                                    id: 'freeze_water',
+                                    name: 'Freeze Water',
+                                    description: 'All water within 30ft becomes solid ice, creating bridges and sealing doors'
+                                },
+                                {
+                                    id: 'ice_terrain_utility',
+                                    name: 'Ice Terrain',
+                                    description: 'Ground becomes ice terrain for 10 minutes'
+                                }
+                            ],
+                            duration: 10,
+                            durationUnit: 'minutes',
+                            power: 'major'
+                        },
+                        triggerConfig: {
+                            requiredConditions: {
+                                terrain_type: ['cold', 'arctic', 'temperate', 'underground']
+                            }
+                        },
+                        targetingConfig: {
+                            targetingType: 'self_centered',
+                            rangeType: 'aoe',
+                            radius: 30,
+                            aoeType: 'sphere'
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 10,
+                            components: ['verbal', 'somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'long_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'frozen_heart_nordmark',
+                        name: 'Frozen Heart',
+                        description: 'The cold has taken too much. Your heart beats once every ten seconds. You cannot benefit from morale effects — Bardic Inspiration, Paladin auras, Guidance, Bless, and any ability that provides a buff based on emotional or spiritual connection. The cold does not amplify. It only takes.',
+                        level: 1,
+                        icon: 'spell_frost_chainsofice',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'frost',
+                            secondaryElement: 'spirit',
+                            icon: 'spell_frost_chainsofice',
+                            tags: ['morale', 'immunity', 'debuff', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'moraleBlock',
+                            effects: [
+                                {
+                                    id: 'morale_immunity',
+                                    name: 'Emotional Void',
+                                    description: 'Cannot benefit from morale effects: Bardic Inspiration, Paladin auras, Guidance, Bless, and any emotional/spiritual buff',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Immune to all morale and emotional buffs',
+                                        blockedEffectTypes: ['bardic_inspiration', 'paladin_aura', 'guidance', 'bless', 'morale_buff', 'emotional_buff']
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
                         },
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
                         },
                         resourceCost: {
-                            resourceTypes: ['mana'],
-                            resourceValues: { mana: 6 },
-                            actionPoints: 1,
-                            components: ['verbal']
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
                         },
                         cooldownConfig: {
-                            type: 'short_rest',
-                            value: 1
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'glacier_pulse_nordmark',
+                        name: 'Glacier Pulse',
+                        description: 'During the first round of combat, the Frostbound suffers -2 to initiative as their frozen body thaws into combat readiness. After Round 1, initiative normalizes. The cold always needs a moment to remember what warmth felt like.',
+                        level: 1,
+                        icon: 'spell_frost_stun',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'frost',
+                            icon: 'spell_frost_stun',
+                            tags: ['initiative', 'combat', 'passive']
                         },
-                        dateCreated: new Date().toISOString(),
-                        lastModified: new Date().toISOString(),
-                        categoryIds: ['racial_abilities']
+                        debuffConfig: {
+                            debuffType: 'initiativePenalty',
+                            effects: [
+                                {
+                                    id: 'slow_thaw',
+                                    name: 'Slow Thaw',
+                                    description: '-2 to initiative during the first round of combat only. Normalizes after Round 1.',
+                                    statModifier: {
+                                        stat: 'initiative',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        combatRound: 1,
+                                        duration: 1,
+                                        durationUnit: 'rounds'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'edge_dweller_nordmark',
+                        name: 'Edge-Dweller',
+                        description: 'Non-Nordmark NPCs who interact with a Frostbound for more than a few moments must make a WIS DC12 save or become Unsettled — treating the Frostbound with wariness and refusing voluntary help. The save is made once per NPC, ever. Other Nordmark are immune to this effect.',
+                        level: 1,
+                        icon: 'spell_shadow_mindshear',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'physical',
+                            secondaryElement: 'spirit',
+                            icon: 'spell_shadow_mindshear',
+                            tags: ['social', 'friction', 'aura', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'socialPenalty',
+                            effects: [
+                                {
+                                    id: 'unsettling_presence',
+                                    name: 'Unsettling Presence',
+                                    description: 'Non-Nordmark NPCs must make WIS DC12 save or become permanently Unsettled: no voluntary help, no discounts, no shelter offered. Save once per NPC ever. Success is permanent immunity.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Unsettled NPCs refuse voluntary help',
+                                        saveStat: 'wisdom',
+                                        saveDC: 12,
+                                        saveFrequency: 'once_per_npc_ever',
+                                        affectedActions: ['voluntary_help', 'discounts', 'shelter', 'rumor_sharing'],
+                                        immuneRaces: ['nordmark'],
+                                        npcDisposition: 'unsettled'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
                     },
                     {
                         id: 'heat_frailty_nordmark',
@@ -698,7 +1524,7 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                                 {
                                     id: 'damage_vulnerability',
                                     name: 'Fire Vulnerability',
-                                    description: 'Take double fire damage',
+                                    description: 'Your frostbound blood, adapted to the deepest cold, boils and ruptures when exposed to flames that would merely warm lesser folk',
                                     statusEffect: {
                                         vulnerabilityType: 'fire',
                                         vulnerabilityPercent: 100
@@ -723,7 +1549,16 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                         targetingConfig: {
                             targetingType: 'self',
                             rangeType: 'self_centered'
-                        }
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        },
                     }
                 ],
                 languages: ['Common', 'Old Nord', 'Runic'],
@@ -741,12 +1576,442 @@ They view the Rune-Keepers with a strange kinship, recognizing that both are mar
                     initiative: 1 // Scouts, quick to react
                 },
                 savingThrowModifiers: {
-                    // Frostbound are hardy survivors but vulnerable to magical effects
-                    advantage: ['exhaustion'], // Hardy survivors resist exhaustion
-                    disadvantage: ['charm'] // Cold nature vulnerable to magical charm effects
+                    advantage: ['exhaustion'],
+                    disadvantage: ['charm']
+                }
+            },
+            hollow: {
+                id: 'hollow_nordmark',
+                name: 'Duskborn',
+                description: 'Pale as cave fish. Eyes like wounds that never healed. They speak in whispers because in the deep, sound attracts. Their skin tears like wet parchment and sunlight burns them like confession burns a liar. The mountain took them generations ago and gave them back something that wears their shape but sees through stone.',
+                culturalBackground: `The sagas do not speak of the seventh clan. Not because the histories were lost — because they were carved away, chiseled from the runestones by elders who decided some debts were better forgotten. The seventh clan of Ironhold did not march to the passes during the First Breaking. They did not stand at Frostgate. They descended. Past the forges. Past the mines. Past the last pickaxe scar on the last tunnel wall, into the roots of the mountain where the stone is older than the sky and the silence has a weight you can feel pressing against your eardrums.
+
+Something spoke to them in that silence. Not the ancestors. Not the frost lords. Something older, something that had been waiting in the deep stone since before the first Nordmark drew breath in the northern wind. It didn't offer survival. It offered belonging. It said: "The mountain remembers you. Come home." And they went.
+
+Generations passed. The seventh clan forgot the sun. Their children were born in chambers where no light had ever reached, and their eyes changed — not blind, but wrong. They see things that surface folk cannot. Movement in total darkness. The tremor of a heartbeat through thirty feet of granite. The shape of a lie in the vibration of a voice. Their skin went pale as bone, thin as parchment, because in the deep there is nothing to grow hard against. Their bodies stretch long and lean, built for squeezing through cracks in the stone that no human should fit through.
+
+They navigate by echo and by the whispers that come from beneath the stone. The whispers are not always helpful. Sometimes they show you where the water flows behind a wall, where a creature sleeps in the dark, where the tunnel opens into a chamber no one has entered in a thousand years. Sometimes they show you things that look back. The Duskborn call this "the mountain speaking" and they treat it the way surface folk treat weather — dangerous, uncontrollable, and simply part of existence.
+
+When they emerge — and they do, rarely, driven by debts that still bind them to the surface clans — the sun is an open wound. Their skin blisters in direct light. Their eyes, adapted to absolute blackness, weep and burn. Warmth makes their thin flesh crack and split like old ice. They wrap themselves in heavy cloth and travel by night, moving through settlements like ghosts that the locals pretend not to see.
+
+The Bloodhammer call them "Stone-Grubbers" and refuse to acknowledge them at clan gatherings. The Rune Keepers are fascinated and horrified in equal measure — the things the Duskborn hear in the deep are not ancestors, and the Rune Keepers know enough about what dwells beyond the veil to find that deeply troubling. The Frostbound, alone among the clans, treat them with something approaching respect. The Frostbound understand what it means to be changed by the land. They look at the Duskborn's pale, hollow-eyed faces and see kin — not by blood, but by the shared experience of becoming something the north recognizes as its own.
+
+The Duskborn view the Bloodhammer with a kind of patient pity. Hammers break stone. The deep stone does not break. The Bloodhammer's rage is a surface fire that will burn out. The mountain endures. The Rune Keepers they regard with caution — the spirits the Rune Keepers commune with are known quantities, bound by oath and ritual. What speaks to the Duskborn from beneath the stone is not bound by anything, and the Rune Keepers' attempts to categorize and name it are, in the Duskborn's view, profoundly dangerous. The Frostbound they treat as distant cousins — both are what the land made of them, rather than what they made of themselves.
+
+Children born to the Duskborn undergo the Descending before their tenth year. They are taken to the deepest chamber the clan has found — always deeper, always darker — and left there for three days with no light, no sound but the stone, and no company but the whispers. When they emerge, their eyes have changed. The pupil widens. The color drains. They can see in the dark forever after, but they can no longer look at the surface world without pain. This is not considered a tragedy. This is considered waking up.
+                `,
+                statModifiers: {
+                    agility: 3,
+                    spirit: 2,
+                    constitution: -3
+                },
+                traits: [
+                    {
+                        id: 'stones_echo_duskborn',
+                        name: "Stone's Echo",
+                        description: 'Your ancestors learned to see with their skin, to feel the world through the bones of the mountain itself. Light is a lie the surface tells itself. Vibration is the only truth that matters in the deep.',
+                        level: 1,
+                        icon: 'spell_shadow_shadowgaze',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'utility'],
+                        typeConfig: {
+                            school: 'shadow',
+                            secondaryElement: 'nature',
+                            icon: 'spell_shadow_shadowgaze',
+                            tags: ['darkvision', 'perception', 'tremorsense', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'statEnhancement',
+                            effects: [
+                                {
+                                    id: 'darkvision_duskborn',
+                                    name: 'Deepsight',
+                                    description: 'You see in absolute darkness as though it were dim light. Range: 90 feet. No color, only shape, movement, and the tremor of living things.',
+                                    statModifier: {
+                                        stat: 'darkvision',
+                                        magnitude: 90,
+                                        magnitudeType: 'flat'
+                                    }
+                                },
+                                {
+                                    id: 'tremorsense_duskborn',
+                                    name: 'Stone Feeling',
+                                    description: 'In complete darkness or while blinded, you sense vibrations through solid stone within 30 feet. Creatures, moving water, collapsing tunnels — the mountain speaks through your bones.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Tremorsense 30ft in complete darkness or while blinded'
+                                    }
+                                },
+                                {
+                                    id: 'depth_perception_duskborn',
+                                    name: 'Deep Awareness',
+                                    description: 'Your senses sharpen to killing precision in the absence of light. +4 to passive Perception when in complete darkness.',
+                                    statModifier: {
+                                        stat: 'passivePerception',
+                                        magnitude: 4,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        lighting: 'complete_darkness'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        utilityConfig: {
+                            utilityType: 'detection',
+                            selectedEffects: [{
+                                id: 'vibration_detection',
+                                name: 'Vibration Detection',
+                                description: 'Detect invisible and hidden creatures within 15ft through stone vibration'
+                            }],
+                            duration: 0,
+                            durationUnit: 'instant',
+                            power: 'minor'
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'void_step_duskborn',
+                        name: 'Void Step',
+                        description: 'You fold yourself into the space between shadows where the stone remembers it was once lightless and welcomes you home like a wound closing around a splinter.',
+                        level: 1,
+                        icon: 'spell_shadow_stealth',
+                        spellType: 'ACTION',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'shadow',
+                            icon: 'spell_shadow_stealth',
+                            tags: ['stealth', 'shadow', 'repositioning', 'escape']
+                        },
+                        buffConfig: {
+                            buffType: 'statusEffect',
+                            effects: [
+                                {
+                                    id: 'shadow_meld',
+                                    name: 'Shadow Meld',
+                                    description: 'Become invisible for 1 round. Only functions in dim light or darkness. You dissolve into the space between the light and the stone.',
+                                    statusEffect: {
+                                        level: 'extreme',
+                                        description: 'Invisible for 1 round in dim light or darkness'
+                                    }
+                                },
+                                {
+                                    id: 'agility_surge',
+                                    name: 'Depth Reflexes',
+                                    description: '+3 Agility for the duration. The darkness makes you faster — it always has.',
+                                    statModifier: {
+                                        stat: 'agility',
+                                        magnitude: 3,
+                                        magnitudeType: 'flat'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: true
+                        },
+                        debuffConfig: {
+                            debuffType: 'restriction',
+                            effects: [
+                                {
+                                    id: 'void_restraint',
+                                    name: 'Void Binding',
+                                    description: 'You cannot attack while dissolved into shadow. Attacking breaks the meld immediately. The stone does not share — it swallows.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Cannot attack while invisible. Attacking ends the effect.'
+                                    }
+                                }
+                            ],
+                            durationValue: 1,
+                            durationType: 'rounds',
+                            durationUnit: 'rounds',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 2,
+                            mana: 0,
+                            components: ['somatic']
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'short_rest',
+                            cooldownValue: 1
+                        }
+                    },
+                    {
+                        id: 'sun_cursed_duskborn',
+                        name: 'Sun-Cursed',
+                        description: 'Your flesh has forgotten what the sun looks like. Six generations in the deep have thinned your skin to something that tears when the wind blows and blisters when the sky opens. Warmth does not comfort you. It unmakes you, slowly, like watching ice crack across a frozen lake knowing the water below is black and final.',
+                        level: 1,
+                        icon: 'spell_holy_sunstreak',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'radiant',
+                            secondaryElement: 'physical',
+                            icon: 'spell_holy_sunstreak',
+                            tags: ['vulnerability', 'sunlight', 'slashing', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'vulnerability',
+                            effects: [
+                                {
+                                    id: 'sunlight_sensitivity',
+                                    name: 'Sunlight Agony',
+                                    description: 'Direct sunlight burns your cave-adapted eyes and sears your parchment skin. -2 to ALL rolls while in direct sunlight. Not dim light. Not overcast. Sunlight.',
+                                    statModifier: {
+                                        stat: 'all_rolls',
+                                        magnitude: -2,
+                                        magnitudeType: 'flat'
+                                    },
+                                    conditions: {
+                                        lighting: 'direct_sunlight'
+                                    }
+                                },
+                                {
+                                    id: 'surface_blight',
+                                    name: 'Surface Blight',
+                                    description: 'In warm or hot environments, your skin blisters and cracks like old paper held too close to flame. 1d4 radiant damage per hour of exposure. The damage is slow, patient, and inevitable — like the thing that waits beneath the mountain.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: '1d4 radiant damage per hour in warm/hot environments',
+                                        damageType: 'radiant',
+                                        damageFormula: '1d4',
+                                        frequency: 'hourly',
+                                        trigger: 'warm_hot_environment'
+                                    }
+                                },
+                                {
+                                    id: 'slashing_vulnerability',
+                                    name: 'Parchment Flesh',
+                                    description: 'Generations without sunlight have thinned your skin to translucence. Blades that would graze a surface Nordmark open you to the bone. 50% vulnerability to slashing damage.',
+                                    statusEffect: {
+                                        vulnerabilityType: 'slashing',
+                                        vulnerabilityPercent: 50
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'depths_whisper_duskborn',
+                        name: "Depths' Whisper",
+                        description: 'The thing beneath the mountain does not forget those who belong to it. It speaks in the voice of stone grinding against stone, of water eating through granite one drip at a time over ten thousand years. Sometimes it shows you what lies beyond the next wall. Sometimes it shows you what lies beneath your own thoughts. It always takes something back. It never gives without remembering the debt.',
+                        level: 1,
+                        icon: 'spell_shadow_mindshear',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['buff', 'debuff'],
+                        typeConfig: {
+                            school: 'shadow',
+                            secondaryElement: 'spirit',
+                            icon: 'spell_shadow_mindshear',
+                            tags: ['divination', 'madness', 'stacking', 'passive']
+                        },
+                        buffConfig: {
+                            buffType: 'custom',
+                            customDescription: 'Spirit check DC 14 to perceive creatures, structures, and water through up to 60ft of solid rock. Once per long rest. The mountain tells you what the stone remembers.',
+                            effects: [
+                                {
+                                    id: 'stone_sense',
+                                    name: 'Stone Sense',
+                                    description: 'Make a Spirit check DC 14 to perceive creatures, structures, and flowing water through up to 60ft of solid rock. Once per long rest. The mountain whispers what the stone has seen.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Perceive through 60ft of solid rock, Spirit DC 14, once per long rest'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        debuffConfig: {
+                            debuffType: 'curse',
+                            effects: [
+                                {
+                                    id: 'stone_whisper_madness',
+                                    name: 'Stone Whispers',
+                                    description: 'At the start of each long rest, make a Spirit save DC 12. On failure, gain 1 Stone Whisper stack. Each stack: -1 to all Charisma checks as the whispers erode what remains of your surface self. At 5 stacks: also suffer disadvantage on your next saving throw — the whispers are too loud to hear anything else. Stacks never decrease. There is no cure. The mountain does not give back what it takes.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Creeping madness from the deep. SPI DC 12 save at each long rest or gain a permanent stack.',
+                                        stacking: true,
+                                        penaltyPerStack: {
+                                            stat: 'charisma_checks',
+                                            magnitude: -1,
+                                            magnitudeType: 'flat'
+                                        },
+                                        thresholdEffects: {
+                                            threshold: 5,
+                                            effect: 'disadvantage_on_next_saving_throw'
+                                        },
+                                        saveStat: 'spirit',
+                                        saveDC: 12,
+                                        saveFrequency: 'long_rest',
+                                        trackingType: 'stone_whisper_stacks',
+                                        permanent: true
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    },
+                    {
+                        id: 'hollow_gaze_duskborn',
+                        name: 'Hollow Gaze',
+                        description: 'Your eyes are not windows to the soul. They are holes. Other folk look into them and see the depth that swallowed your ancestors whole — the weight of six generations of stone pressing down, the silence that learned to speak, the dark that learned to watch. They see all of it, for one terrible moment, and they know with animal certainty that the depth is still hungry and that it knows their name.',
+                        level: 1,
+                        icon: 'ability_rogue_shadowdancer',
+                        spellType: 'PASSIVE',
+                        effectTypes: ['debuff'],
+                        typeConfig: {
+                            school: 'shadow',
+                            secondaryElement: 'spirit',
+                            icon: 'ability_rogue_shadowdancer',
+                            tags: ['social', 'fear', 'gaze', 'friction', 'passive']
+                        },
+                        debuffConfig: {
+                            debuffType: 'socialPenalty',
+                            effects: [
+                                {
+                                    id: 'gaze_frighten',
+                                    name: 'The Depth Stares Back',
+                                    description: 'Non-Nordmark NPCs who meet your gaze during face-to-face interaction must make a Spirit save DC 13 or become Frightened for 1 round and permanently Unsettled. Frightened creatures cannot approach you. Unsettled NPCs refuse voluntary help, offer no discounts, provide no shelter, share no rumors. Save once per NPC, ever. Success grants permanent immunity to this effect.',
+                                    statusEffect: {
+                                        level: 'severe',
+                                        description: 'Frightened 1 round + permanently Unsettled on failed SPI DC 13 save',
+                                        saveStat: 'spirit',
+                                        saveDC: 13,
+                                        saveFrequency: 'once_per_npc_ever',
+                                        frightened: {
+                                            duration: 1,
+                                            durationUnit: 'rounds'
+                                        },
+                                        npcDisposition: 'unsettled',
+                                        affectedActions: ['voluntary_help', 'discounts', 'shelter', 'rumor_sharing'],
+                                        immuneRaces: [],
+                                        condition: 'direct_eye_contact'
+                                    }
+                                },
+                                {
+                                    id: 'kin_unsettled',
+                                    name: 'Even Stone Remembers',
+                                    description: 'Even Nordmark NPCs must make a Spirit save DC 13 or become Unsettled — your own kin flinch from what stares out from behind your eyes. They will work with you. They will share your fire. But they will not meet your gaze, and they will not stay in a room alone with you. The save is once per NPC, ever.',
+                                    statusEffect: {
+                                        level: 'moderate',
+                                        description: 'Nordmark NPCs become Unsettled on failed SPI DC 13 save',
+                                        saveStat: 'spirit',
+                                        saveDC: 13,
+                                        saveFrequency: 'once_per_npc_ever',
+                                        npcDisposition: 'unsettled',
+                                        affectedActions: ['voluntary_help', 'discounts'],
+                                        appliesOnlyToRaces: ['nordmark'],
+                                        condition: 'direct_eye_contact'
+                                    }
+                                },
+                                {
+                                    id: 'involuntary_gaze',
+                                    name: 'The Eyes Do Not Close',
+                                    description: 'This effect cannot be suppressed, hidden, or controlled. It is involuntary and permanent. Sunglasses, blindfolds, or closed eyes negate it — but you cannot see, and the tremors of those around you will tell you exactly when they looked.',
+                                    statusEffect: {
+                                        level: 'minor',
+                                        description: 'Effect is always active during face-to-face interaction. Cannot be suppressed. Only negated by covering your eyes (which blinds you).'
+                                    }
+                                }
+                            ],
+                            durationValue: 0,
+                            durationType: 'permanent',
+                            durationUnit: 'permanent',
+                            canBeDispelled: false
+                        },
+                        targetingConfig: {
+                            targetingType: 'self',
+                            rangeType: 'self_centered'
+                        },
+                        resourceCost: {
+                            actionPoints: 0,
+                            mana: 0,
+                            components: []
+                        },
+                        cooldownConfig: {
+                            cooldownType: 'none',
+                            cooldownValue: 0
+                        }
+                    }
+                ],
+                languages: ['Common', 'Old Nord', 'Runic', 'Terran'],
+                speed: 30,
+                baseStats: {
+                    armor: 0,
+                    hp: 14,
+                    mana: 28,
+                    ap: 3,
+                    passivePerception: 16,
+                    swimSpeed: 10,
+                    climbSpeed: 25,
+                    visionRange: 60,
+                    darkvision: 90,
+                    initiative: 3
+                },
+                savingThrowModifiers: {
+                    advantage: ['charm'],
+                    disadvantage: ['poison']
                 }
             }
         }
-    };
-
-export default nordmark;
+};
